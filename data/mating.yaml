@@ -1,0 +1,36 @@
+compat_forme:  # Esempi — completare 16x16 nel design
+  ISTJ: {likes: [ISFJ, ESTJ, ENTJ, INTJ], neutrals: [ISTP, INTP, ESFJ], dislikes: [ENFP, ENTP], base_scores: {like: 4, neutral: 2, dislike: 1}}
+  ENFP: {likes: [ENFJ, ENTP, ISFP, ESFP], neutrals: [INTP, INFP, ESTP], dislikes: [ISTJ, ESTJ], base_scores: {like: 4, neutral: 2, dislike: 1}}
+compat_ennea:
+  Coordinatore(2): {likes: ["assist","shield_share","revive"], dislike: ["abandon_ally","selfish_loot"]}
+  Conquistatore(3): {likes: ["apex_kill","first_strike"], dislike: ["stall","retreat"]}
+  Esploratore(7):   {likes: ["new_biome_entry","optional_discovery"], dislike: ["camping"]}
+actions_appeal:
+  assist: +1
+  shield_share: +1
+  apex_kill: +2
+  first_strike: +1
+  optional_discovery: +1
+  honor_pact: +2
+  break_pact: -3
+  friendly_fire: -2
+  stall_turn: -1
+nest_standards:
+  dune_stalker:
+    env: {temp: "caldo", humidity: "secco", light: "bassa"}
+    structure: ["nicchia_sabbia","impalcato_roccia"]
+    security: 1
+    resources: ["carne_secca","minerali_ferrosi"]
+    privacy: true
+  echo_morph:
+    env: {temp: "medio", humidity: "umida", light: "bassa"}
+    structure: ["caverna_molle","vasca_risonante"]
+    security: 1
+    resources: ["gel_sonico","alghe_luminose"]
+    privacy: true
+hybrid_rules:
+  locomotion:
+    spring_legs + glide: "spring_glide"
+    tentacle + legs: "multi_stance"
+  senses:
+    echolocate + thermo: "echo_thermo"
