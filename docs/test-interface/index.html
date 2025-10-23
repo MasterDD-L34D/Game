@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Evo-Tactics · Interfaccia Test & Recap</title>
+    <meta name="data-branch" content="work" />
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <script defer src="app.js"></script>
@@ -16,12 +17,48 @@
       </p>
       <button id="reload-data" type="button">Ricarica dati YAML</button>
       <p class="hint">
-        Suggerimento: apri questa pagina tramite un piccolo server locale (<code>python3 -m http.server</code>)
-        per permettere il fetch dei file YAML.
+        La pagina rileva automaticamente la sorgente dati: funzionerà sia su GitHub Pages (fetch <code>raw</code>)
+        sia in locale con un semplice server.
       </p>
+      <p id="data-source" class="hint secondary">Sorgente dati: in rilevamento…</p>
     </header>
 
     <main>
+      <section id="control" class="panel">
+        <h2>Controllo dati &amp; Fetching</h2>
+        <div class="control-grid">
+          <article class="card control-card">
+            <h3>Test rapidi dei dataset</h3>
+            <p class="muted">
+              Esegui un controllo istantaneo dei pacchetti PI, telemetria e biomi per verificare che i dati caricati siano pronti per il playtest.
+            </p>
+            <button id="run-tests" type="button">Esegui test</button>
+            <ul id="test-results" class="test-results"></ul>
+          </article>
+          <article class="card control-card">
+            <h3>Fetching manuale</h3>
+            <p class="muted">
+              Inserisci l'URL di uno snapshot YAML/JSON (es. endpoint Drive/GitHub raw) per aggiornare rapidamente il database locale in sessione.
+            </p>
+            <form id="fetch-form" class="fetch-form">
+              <label for="fetch-url">Sorgente dati</label>
+              <input
+                id="fetch-url"
+                name="fetch-url"
+                type="url"
+                placeholder="https://example.com/packs.yaml"
+                autocomplete="off"
+              />
+              <div class="control-actions">
+                <button type="submit">Scarica &amp; applica</button>
+              </div>
+            </form>
+            <p id="fetch-status" class="status">In attesa di input…</p>
+            <pre id="fetch-preview" class="preview" aria-live="polite"></pre>
+          </article>
+        </div>
+      </section>
+
       <section id="overview" class="panel">
         <h2>Overview rapida</h2>
         <div class="stats-grid" id="overview-stats">
