@@ -1,61 +1,15 @@
 # Elenco delle fonti ChatGPT da sincronizzare automaticamente.
-# Copia questo file e personalizza URL, header e percorsi locali.
-# È possibile elencare più sorgenti (canvas, project, esport manuali).
+# Questa configurazione è personalizzata per l'ambiente di test.
 
 sources:
-  - name: "project-overview"
-    mode: "web"
-    namespace: "project"  # Verrà trasformato automaticamente in uno slug
-    label: "project"
-    url: "https://chatgpt.com/g/.../project"
-    method: "GET"
-    headers:
-      # Cookie: "__Secure-next-auth.session-token=..."
-      # User-Agent: "Mozilla/5.0 ..."
-    # body: "{}"
-
-  - name: "canvas-shared-68f97441"
-    mode: "web"
-    namespace: "canvas"
-    label: "canvas-68f97441"
-    url: "https://chatgpt.com/canvas/shared/68f974415ffc819197067147e9d6009e"
-    method: "GET"
-    headers:
-      # Cookie: "__Secure-next-auth.session-token=..."
-      # User-Agent: "Mozilla/5.0 ..."
-
-  - name: "canvas-shared-68f99565"
-    mode: "web"
-    namespace: "canvas"
-    label: "canvas-68f99565"
-    url: "https://chatgpt.com/canvas/shared/68f9956583848191b90cf13d97019904"
-    method: "GET"
-    headers:
-      # Cookie: "__Secure-next-auth.session-token=..."
-      # User-Agent: "Mozilla/5.0 ..."
-
-  - name: "canvas-shared-68f9957c"
-    mode: "web"
-    namespace: "canvas"
-    label: "canvas-68f9957c"
-    url: "https://chatgpt.com/canvas/shared/68f9957c20e8819195854b4fb88706c2"
-    method: "GET"
-    headers:
-      # Cookie: "__Secure-next-auth.session-token=..."
-      # User-Agent: "Mozilla/5.0 ..."
-
-  - name: "canvas-shared-68f99591"
-    mode: "web"
-    namespace: "canvas"
-    label: "canvas-68f99591"
-    url: "https://chatgpt.com/canvas/shared/68f99591e91481919c7948b0cf51091c"
-    method: "GET"
-    headers:
-      # Cookie: "__Secure-next-auth.session-token=..."
-      # User-Agent: "Mozilla/5.0 ..."
-
-  - name: "canvas-export"
+  - name: "local-export"
     mode: "export"
-    namespace: "canvas"
-    label: "canvas"
-    path: "exports/canvas-latest.json"
+    namespace: "local"
+    label: "local-export"
+    path: "exports/local-conversation.json"
+
+  - name: "local-notes"
+    mode: "export"
+    namespace: "notes"
+    label: "daily-notes"
+    path: "exports/notes-conversation.json"
