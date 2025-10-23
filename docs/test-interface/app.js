@@ -536,6 +536,42 @@ function runDataTests() {
       }
     },
     {
+      id: "mating",
+      label: "Compatibilità forma disponibili",
+      run: () => {
+        const forms = state.data.packs?.forms || {};
+        const compat = state.data.mating?.compat_forme;
+        const formCount = Object.keys(forms).length;
+        const compatCount = compat ? Object.keys(compat).length : 0;
+
+        if (!formCount) {
+          return {
+            passed: false,
+            message: "Nessuna forma configurata"
+          };
+        }
+
+        if (!compatCount) {
+          return {
+            passed: false,
+            message: "Nessuna tabella compatibilità caricata"
+          };
+        }
+
+        const missing = Object.keys(forms).filter((formId) => !compat?.[formId]);
+        const hasAll = missing.length === 0;
+        const truncatedMissing = missing.slice(0, 5).join(", ");
+        const suffix = missing.length > 5 ? "…" : "";
+
+        return {
+          passed: hasAll,
+          message: hasAll
+            ? "Compatibilità presenti per tutte le forme"
+            : `Mancano ${missing.length} forme: ${truncatedMissing}${suffix}`
+        };
+      }
+    },
+    {
       id: "randomTable",
       label: "Tabella random d20 valida",
       run: () => {
