@@ -33,13 +33,19 @@ python3 generate_encounter.py savana ../../data/biomes.yaml
 
 ## Interfaccia test & recap via web
 - [Apri la dashboard](docs/test-interface/index.html) per consultare rapidamente pacchetti PI,
-  telemetria VC, biomi e compatibilità delle forme (serve un piccolo server locale per il fetch).
-- Avvia un server locale dalla radice del progetto (`python3 -m http.server 8000`) e visita
-  `http://localhost:8000/docs/test-interface/` per caricare i dati YAML.
-- Premi "Ricarica dati YAML" dopo aver modificato i file in `data/` e usa "Esegui test" per i
+  telemetria VC, biomi e compatibilità delle forme (funziona sia in locale sia online).
+- **Online subito (GitHub Pages)**: abilita la pubblicazione da `Settings → Pages → Build and
+  deployment → Deploy from a branch`, scegli `work` (o il branch desiderato) e la cartella `/docs/`.
+  L'URL diventa `https://<tuo-utente>.github.io/<repo>/test-interface/`, con fetch automatico degli
+  YAML via `raw`.
+- **Uso locale**: avvia un server dalla radice (`python3 -m http.server 8000`) e visita
+  `http://localhost:8000/docs/test-interface/` per lavorare offline.
+- Premi "Ricarica dati YAML" dopo aver modificato i file in `data/`, quindi "Esegui test" per i
   controlli rapidi di integrità sui dataset caricati.
 - Per aggiornamenti al volo, incolla l'URL di uno snapshot YAML/JSON nel form "Fetching manuale" e
-  premi "Scarica & applica" per un merge immediato nel dataset di sessione.
+  premi "Scarica & applica" per un merge immediato nel dataset di sessione. In hosting remoto puoi
+  forzare sorgenti alternative con `?data-root=<url-assoluto-o-root-relative>` e cambiare branch `raw`
+  con `?ref=<branch>`.
 
 ## Pubblicazione su GitHub
 ```bash

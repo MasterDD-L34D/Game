@@ -1,17 +1,19 @@
 const DATA_SOURCES = [
-  { key: "packs", path: "../../data/packs.yaml" },
-  { key: "telemetry", path: "../../data/telemetry.yaml" },
-  { key: "biomes", path: "../../data/biomes.yaml" },
-  { key: "mating", path: "../../data/mating.yaml" }
+  { key: "packs", path: "data/packs.yaml" },
+  { key: "telemetry", path: "data/telemetry.yaml" },
+  { key: "biomes", path: "data/biomes.yaml" },
+  { key: "mating", path: "data/mating.yaml" }
 ];
 
 const state = {
   data: {},
-  loadedAt: null
+  loadedAt: null,
+  dataBase: null
 };
 
 const metricsElements = {};
 const controlElements = {};
+const infoElements = {};
 
 function setupDomReferences() {
   metricsElements.forms = document.querySelector('[data-metric="forms"]');
@@ -26,6 +28,8 @@ function setupDomReferences() {
   controlElements.fetchUrl = document.getElementById("fetch-url");
   controlElements.fetchStatus = document.getElementById("fetch-status");
   controlElements.fetchPreview = document.getElementById("fetch-preview");
+
+  infoElements.dataSource = document.getElementById("data-source");
 }
 
 async function loadYaml(path) {
@@ -38,22 +42,107 @@ async function loadYaml(path) {
 }
 
 async function loadAllData() {
+  if (!state.dataBase) {
+    state.dataBase = detectDataBase();
+    updateDataSourceHint();
+  }
+
   setTimestamp("Caricamento in corso…");
   try {
     const entries = await Promise.all(
       DATA_SOURCES.map(async (source) => {
-        const value = await loadYaml(source.path);
+        const url = resolveDataPath(source.path);
+        const value = await loadYaml(url);
         return [source.key, value];
       })
     );
     state.data = Object.fromEntries(entries);
     state.loadedAt = new Date();
     renderAll();
-    setTimestamp(`Ultimo aggiornamento: ${state.loadedAt.toLocaleString()}`);
+    const sourceLabel = state.dataBase ? ` · sorgente dati: ${state.dataBase}` : "";
+    setTimestamp(`Ultimo aggiornamento: ${state.loadedAt.toLocaleString()}${sourceLabel}`);
   } catch (error) {
     console.error(error);
     setTimestamp(`Errore nel caricamento: ${error.message}`);
   }
+}
+
+function ensureTrailingSlash(value) {
+  return value.endsWith("/") ? value : `${value}/`;
+}
+
+function normalizeBase(value) {
+  if (!value) return null;
+
+  try {
+    const absolute = new URL(value, window.location.href);
+    return ensureTrailingSlash(absolute.toString());
+  } catch (error) {
+    console.warn("Impossibile normalizzare la sorgente dati", value, error);
+    return ensureTrailingSlash(value);
+  }
+}
+
+function detectDataBase() {
+  const params = new URLSearchParams(window.location.search);
+  const override = params.get("data-root");
+  if (override) {
+    return normalizeBase(override);
+  }
+
+  const metaOverride = document
+    .querySelector('meta[name="data-root"]')
+    ?.getAttribute("content");
+  if (metaOverride) {
+    return normalizeBase(metaOverride);
+  }
+
+  if (window.location.hostname.endsWith("github.io")) {
+    const owner = window.location.hostname.split(".")[0];
+    const pathParts = window.location.pathname.split("/").filter(Boolean);
+    const repo = pathParts.length > 0 ? pathParts[0] : "";
+    const branch = params.get("ref") ||
+      document
+        .querySelector('meta[name="data-branch"]')
+        ?.getAttribute("content") ||
+      "main";
+
+    if (owner && repo) {
+      return ensureTrailingSlash(
+        `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/`
+      );
+    }
+  }
+
+  if (window.location.origin.startsWith("http")) {
+    return ensureTrailingSlash(`${window.location.origin}/`);
+  }
+
+  return null;
+}
+
+function resolveDataPath(path) {
+  if (!state.dataBase) {
+    state.dataBase = detectDataBase();
+    updateDataSourceHint();
+  }
+
+  if (!state.dataBase) {
+    return path;
+  }
+
+  return new URL(path, state.dataBase).toString();
+}
+
+function updateDataSourceHint() {
+  if (!infoElements.dataSource) return;
+
+  if (!state.dataBase) {
+    infoElements.dataSource.textContent = "Sorgente dati: in rilevamento…";
+    return;
+  }
+
+  infoElements.dataSource.textContent = `Sorgente dati: ${state.dataBase}`;
 }
 
 function renderAll() {
@@ -631,7 +720,10 @@ function applyFetchedData(payload) {
   if (updatedKeys.length > 0) {
     state.loadedAt = new Date();
     renderAll();
-    setTimestamp(`Ultimo aggiornamento: ${state.loadedAt.toLocaleString()} (fetch manuale)`);
+    const sourceLabel = state.dataBase ? ` · sorgente dati: ${state.dataBase}` : "";
+    setTimestamp(
+      `Ultimo aggiornamento: ${state.loadedAt.toLocaleString()}${sourceLabel} (fetch manuale)`
+    );
     if (controlElements.testResults && controlElements.testResults.childElementCount > 0) {
       runDataTests();
     }
