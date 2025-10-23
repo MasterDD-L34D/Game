@@ -48,3 +48,57 @@ python3 generate_encounter.py savana ../../data/biomes.yaml
     }
   ]
 }
+python3 roll_pack.py ENTP invoker ../../data/packs.yaml
+{
+  "d20": 13,
+  "pack": "H",
+  "combo": [
+    "PE",
+    "PE",
+    "PE",
+    "PE",
+    "PE",
+    "PE",
+    "PE"
+  ]
+}
+
+python3 generate_encounter.py savana ../../data/biomes.yaml
+{
+  "biome": "savana",
+  "TB": 23,
+  "groups": [
+    {
+      "power": 7,
+      "role": "front",
+      "affixes": [
+        "luminescente",
+        "termico"
+      ]
+    },
+    {
+      "power": 7,
+      "role": "front",
+      "affixes": [
+        "spore_diluite",
+        "luminescente"
+      ]
+    },
+    {
+      "power": 7,
+      "role": "skirm",
+      "affixes": [
+        "sabbia",
+        "spore_diluite"
+      ]
+    },
+    {
+      "power": 2,
+      "role": "support",
+      "affixes": [
+        "termico",
+        "luminescente"
+      ]
+    }
+  ]
+}
