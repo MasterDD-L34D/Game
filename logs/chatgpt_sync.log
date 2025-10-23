@@ -1,0 +1,79 @@
+2025-10-23 02:47:04,714 - INFO - Processo fonte configurata 'project-overview' (web)
+2025-10-23 02:47:04,715 - ERROR - Errore durante la sincronizzazione: Libreria 'requests' non installata. Eseguire 'pip install requests'.
+Traceback (most recent call last):
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 219, in fetch_from_web
+    import requests  # type: ignore
+    ^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'requests'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 648, in main
+    process_config(args.config, summary_file=args.summary_file, skip_diff=args.skip_diff)
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 606, in process_config
+    result = process_single_source(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 533, in process_single_source
+    text, extra_meta = fetch_from_web(
+                       ^^^^^^^^^^^^^^^
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 221, in fetch_from_web
+    raise RuntimeError(
+RuntimeError: Libreria 'requests' non installata. Eseguire 'pip install requests'.
+2025-10-23 02:47:18,383 - INFO - Processo fonte configurata 'project-overview' (web)
+2025-10-23 02:47:18,640 - ERROR - Errore durante la sincronizzazione: HTTPSConnectionPool(host='chatgpt.com', port=443): Max retries exceeded with url: /g/.../project (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+Traceback (most recent call last):
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/urllib3/connectionpool.py", line 773, in urlopen
+    self._prepare_proxy(conn)
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/urllib3/connectionpool.py", line 1042, in _prepare_proxy
+    conn.connect()
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/urllib3/connection.py", line 770, in connect
+    self._tunnel()
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/http/client.py", line 943, in _tunnel
+    raise OSError(f"Tunnel connection failed: {code} {message.strip()}")
+OSError: Tunnel connection failed: 403 Forbidden
+
+The above exception was the direct cause of the following exception:
+
+urllib3.exceptions.ProxyError: ('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='chatgpt.com', port=443): Max retries exceeded with url: /g/.../project (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 648, in main
+    process_config(args.config, summary_file=args.summary_file, skip_diff=args.skip_diff)
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 606, in process_config
+    result = process_single_source(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 533, in process_single_source
+    text, extra_meta = fetch_from_web(
+                       ^^^^^^^^^^^^^^^
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 225, in fetch_from_web
+    response = requests.request(
+               ^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.pyenv/versions/3.11.12/lib/python3.11/site-packages/requests/adapters.py", line 671, in send
+    raise ProxyError(e, request=request)
+requests.exceptions.ProxyError: HTTPSConnectionPool(host='chatgpt.com', port=443): Max retries exceeded with url: /g/.../project (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))

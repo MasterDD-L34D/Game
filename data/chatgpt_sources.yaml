@@ -14,6 +14,46 @@ sources:
       # User-Agent: "Mozilla/5.0 ..."
     # body: "{}"
 
+  - name: "canvas-shared-68f97441"
+    mode: "web"
+    namespace: "canvas"
+    label: "canvas-68f97441"
+    url: "https://chatgpt.com/canvas/shared/68f974415ffc819197067147e9d6009e"
+    method: "GET"
+    headers:
+      # Cookie: "__Secure-next-auth.session-token=..."
+      # User-Agent: "Mozilla/5.0 ..."
+
+  - name: "canvas-shared-68f99565"
+    mode: "web"
+    namespace: "canvas"
+    label: "canvas-68f99565"
+    url: "https://chatgpt.com/canvas/shared/68f9956583848191b90cf13d97019904"
+    method: "GET"
+    headers:
+      # Cookie: "__Secure-next-auth.session-token=..."
+      # User-Agent: "Mozilla/5.0 ..."
+
+  - name: "canvas-shared-68f9957c"
+    mode: "web"
+    namespace: "canvas"
+    label: "canvas-68f9957c"
+    url: "https://chatgpt.com/canvas/shared/68f9957c20e8819195854b4fb88706c2"
+    method: "GET"
+    headers:
+      # Cookie: "__Secure-next-auth.session-token=..."
+      # User-Agent: "Mozilla/5.0 ..."
+
+  - name: "canvas-shared-68f99591"
+    mode: "web"
+    namespace: "canvas"
+    label: "canvas-68f99591"
+    url: "https://chatgpt.com/canvas/shared/68f99591e91481919c7948b0cf51091c"
+    method: "GET"
+    headers:
+      # Cookie: "__Secure-next-auth.session-token=..."
+      # User-Agent: "Mozilla/5.0 ..."
+
   - name: "canvas-export"
     mode: "export"
     namespace: "canvas"
