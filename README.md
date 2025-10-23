@@ -32,6 +32,12 @@ python3 roll_pack.py ENTP invoker ../../data/packs.yaml
 python3 generate_encounter.py savana ../../data/biomes.yaml
 ```
 
+## Interfaccia test & recap via web
+- Avvia un server locale dalla radice del progetto (`python3 -m http.server 8000`).
+- Apri `http://localhost:8000/docs/test-interface/` per una dashboard che riassume pacchetti PI,
+  telemetria VC, biomi e compatibilità delle forme.
+- Premi "Ricarica dati YAML" per aggiornare i contenuti dopo aver modificato i file in `data/`.
+
 ## Pubblicazione su GitHub
 ```bash
 cd /path/alla/cartella/evo-tactics
