@@ -47,5 +47,12 @@ git push -u origin main
 - Carica lo **zip** generato da ChatGPT su Drive (o estrai e carica la cartella).
 - (Opzionale) Usa lo script `scripts/driveSync.gs` come **Apps Script** su una cartella Drive per trasformare alcuni YAML in Google Sheet.
 
+## Sincronizzazione contenuti ChatGPT
+- Configura le fonti da monitorare in `data/chatgpt_sources.yaml` (URL del progetto, canvas esportati, ecc.).
+- Installa le dipendenze Python richieste (`pip install requests pyyaml` se non già presenti).
+- Esegui `python3 scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml` per scaricare gli snapshot giornalieri.
+- Controlla i diff generati in `docs/chatgpt_changes/<namespace>/<data>/` e il riepilogo in `logs/chatgpt_sync_last.json`.
+- Aggiorna `docs/chatgpt_sync_status.md` con note operative e credenziali aggiornate.
+
 ## Licenza
 MIT — vedi `LICENSE`.

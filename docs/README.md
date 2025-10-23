@@ -13,5 +13,7 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 - `Canvas/` — Note rapide estratte dai canvas principali, più callout su nuove feature e regole aggiornate.
 - `piani/` — Roadmap sintetica e milestone evolutive, con riferimenti ai dataset YAML da aggiornare.
 - `checklist/` — Tracker stato avanzamento con caselle di controllo per le milestone chiave.
+- `chatgpt_changes/` — Diff e report generati automaticamente dagli snapshot giornalieri.
+- `chatgpt_sync_status.md` — Log operativo delle sincronizzazioni.
 
 Aggiorna queste sezioni quando importi nuovi estratti dai Canvas o modifichi i dataset di gioco.

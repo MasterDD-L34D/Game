@@ -1,0 +1,21 @@
+# Elenco delle fonti ChatGPT da sincronizzare automaticamente.
+# Copia questo file e personalizza URL, header e percorsi locali.
+# È possibile elencare più sorgenti (canvas, project, esport manuali).
+
+sources:
+  - name: "project-overview"
+    mode: "web"
+    namespace: "project"  # Verrà trasformato automaticamente in uno slug
+    label: "project"
+    url: "https://chatgpt.com/g/.../project"
+    method: "GET"
+    headers:
+      # Cookie: "__Secure-next-auth.session-token=..."
+      # User-Agent: "Mozilla/5.0 ..."
+    # body: "{}"
+
+  - name: "canvas-export"
+    mode: "export"
+    namespace: "canvas"
+    label: "canvas"
+    path: "exports/canvas-latest.json"

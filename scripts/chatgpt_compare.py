@@ -12,23 +12,51 @@ from typing import Iterable, List, Optional
 SNAPSHOT_ROOT = Path("data/chatgpt")
 
 
-def collect_snapshots(root: Path = SNAPSHOT_ROOT) -> List[Path]:
+def collect_snapshots(
+    root: Path = SNAPSHOT_ROOT, namespace: Optional[str] = None
+) -> List[Path]:
     """Restituisce la lista ordinata di tutti gli snapshot disponibili."""
+
+    if namespace:
+        root = root / namespace
 
     if not root.exists():
         return []
     snapshots: List[Path] = []
     for path in root.rglob("snapshot-*"):
-        if path.is_file():
+        if path.is_file() and not path.name.endswith("metadata.json"):
             snapshots.append(path)
-    return sorted(snapshots)
+    return sorted(snapshots, key=lambda candidate: str(candidate))
 
 
-def find_previous_snapshot(new_snapshot: Path, *, root: Path = SNAPSHOT_ROOT) -> Optional[Path]:
+def _detect_namespace(new_snapshot: Path, root: Path = SNAPSHOT_ROOT) -> Optional[str]:
+    try:
+        relative = new_snapshot.resolve().relative_to(root.resolve())
+    except ValueError:
+        return None
+
+    parts = relative.parts
+    if not parts:
+        return None
+    first = parts[0]
+    if len(first) == 10 and first[4] == first[7] == "-" and first.replace("-", "").isdigit():
+        return None
+    return first
+
+
+def find_previous_snapshot(
+    new_snapshot: Path,
+    *,
+    root: Path = SNAPSHOT_ROOT,
+    namespace: Optional[str] = None,
+) -> Optional[Path]:
     """Trova lo snapshot immediatamente precedente rispetto a ``new_snapshot``."""
 
     new_snapshot = new_snapshot.resolve()
-    snapshots = collect_snapshots(root)
+    if namespace is None:
+        namespace = _detect_namespace(new_snapshot, root=root)
+
+    snapshots = collect_snapshots(root, namespace)
     previous: Optional[Path] = None
     for candidate in snapshots:
         resolved = candidate.resolve()
@@ -90,6 +118,10 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
         help="Percorso dello snapshot precedente (facoltativo)",
     )
     parser.add_argument(
+        "--namespace",
+        help="Filtra gli snapshot per namespace (sottocartella di data/chatgpt)",
+    )
+    parser.add_argument(
         "--output",
         type=Path,
         help="File di destinazione per il diff (se assente, stampa su stdout)",
@@ -112,7 +144,9 @@ def main(argv: Optional[list[str]] = None) -> int:
     if args.previous:
         previous_snapshot = args.previous
     else:
-        previous_snapshot = find_previous_snapshot(new_snapshot)
+        previous_snapshot = find_previous_snapshot(
+            new_snapshot, namespace=args.namespace
+        )
 
     if previous_snapshot is None:
         raise SystemExit(
