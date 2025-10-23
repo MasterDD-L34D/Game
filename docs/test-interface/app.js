@@ -1,9 +1,30 @@
-const DATA_SOURCES = [
-  { key: "packs", path: "../../data/packs.yaml" },
-  { key: "telemetry", path: "../../data/telemetry.yaml" },
-  { key: "biomes", path: "../../data/biomes.yaml" },
-  { key: "mating", path: "../../data/mating.yaml" }
+const DATA_FILES = [
+  { key: "packs", file: "packs.yaml" },
+  { key: "telemetry", file: "telemetry.yaml" },
+  { key: "biomes", file: "biomes.yaml" },
+  { key: "mating", file: "mating.yaml" }
 ];
+
+function resolveDataPath(fileName) {
+  const { protocol, pathname, href } = window.location;
+
+  if (protocol === "file:") {
+    return new URL(`../../data/${fileName}`, href).toString();
+  }
+
+  const segments = pathname.split("/").filter(Boolean);
+  const testInterfaceIndex = segments.lastIndexOf("test-interface");
+  const isUnderDocs =
+    testInterfaceIndex > 0 && segments[testInterfaceIndex - 1] === "docs";
+
+  const relativeRoot = isUnderDocs ? "../../" : "../";
+  return `${relativeRoot}data/${fileName}`;
+}
+
+const DATA_SOURCES = DATA_FILES.map(({ key, file }) => ({
+  key,
+  path: resolveDataPath(file)
+}));
 
 const state = {
   data: {},
