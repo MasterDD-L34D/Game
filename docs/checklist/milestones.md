@@ -5,7 +5,7 @@
 - [x] Pubblicati script CLI per roll pack e encounter (`tools/ts`, `tools/py`).
 
 ## In corso
-- [ ] Espandere `compat_forme` per coprire tutte le 16 forme MBTI.【F:data/mating.yaml†L1-L12】
+- [x] Espandere `compat_forme` per coprire tutte le 16 forme MBTI.【F:data/mating.yaml†L1-L32】
 - [ ] Validare le formule di telemetria con dati di playtest reali.【F:data/telemetry.yaml†L1-L25】
 - [ ] Creare esempi di encounter documentati per ciascun bioma.【F:data/biomes.yaml†L1-L13】
 
