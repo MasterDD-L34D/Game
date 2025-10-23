@@ -11,6 +11,7 @@ const state = {
 };
 
 const metricsElements = {};
+const controlElements = {};
 
 function setupDomReferences() {
   metricsElements.forms = document.querySelector('[data-metric="forms"]');
@@ -18,6 +19,13 @@ function setupDomReferences() {
   metricsElements.indices = document.querySelector('[data-metric="indices"]');
   metricsElements.biomes = document.querySelector('[data-metric="biomes"]');
   metricsElements.timestamp = document.getElementById("last-updated");
+
+  controlElements.runTests = document.getElementById("run-tests");
+  controlElements.testResults = document.getElementById("test-results");
+  controlElements.fetchForm = document.getElementById("fetch-form");
+  controlElements.fetchUrl = document.getElementById("fetch-url");
+  controlElements.fetchStatus = document.getElementById("fetch-status");
+  controlElements.fetchPreview = document.getElementById("fetch-preview");
 }
 
 async function loadYaml(path) {
@@ -40,16 +48,20 @@ async function loadAllData() {
     );
     state.data = Object.fromEntries(entries);
     state.loadedAt = new Date();
-    updateOverview();
-    populateFormSelector();
-    renderRandomTable();
-    renderTelemetry();
-    renderBiomes();
+    renderAll();
     setTimestamp(`Ultimo aggiornamento: ${state.loadedAt.toLocaleString()}`);
   } catch (error) {
     console.error(error);
     setTimestamp(`Errore nel caricamento: ${error.message}`);
   }
+}
+
+function renderAll() {
+  updateOverview();
+  populateFormSelector();
+  renderRandomTable();
+  renderTelemetry();
+  renderBiomes();
 }
 
 function setTimestamp(text) {
@@ -92,9 +104,12 @@ function populateFormSelector() {
       selector.appendChild(option);
     });
 
-  selector.addEventListener("change", (event) => {
-    renderFormDetails(event.target.value);
-  });
+  if (!selector.dataset.listenerAttached) {
+    selector.addEventListener("change", (event) => {
+      renderFormDetails(event.target.value);
+    });
+    selector.dataset.listenerAttached = "true";
+  }
 }
 
 function renderFormDetails(formId) {
@@ -392,10 +407,261 @@ function renderListBlock(title, values) {
   `;
 }
 
+function setupControlPanel() {
+  if (controlElements.runTests) {
+    controlElements.runTests.addEventListener("click", runDataTests);
+  }
+
+  if (controlElements.fetchForm) {
+    controlElements.fetchForm.addEventListener("submit", handleFetchSubmit);
+  }
+}
+
+function runDataTests() {
+  if (!controlElements.testResults) return;
+
+  if (!state.loadedAt) {
+    renderTestResults([
+      {
+        passed: false,
+        label: "Dataset non caricati",
+        message: "Carica i dati prima di eseguire i test."
+      }
+    ]);
+    return;
+  }
+
+  const tests = [
+    {
+      id: "packs",
+      label: "Pacchetti PI caricati",
+      run: () => {
+        const packs = state.data.packs;
+        const formsCount = packs?.forms ? Object.keys(packs.forms).length : 0;
+        return {
+          passed: formsCount > 0,
+          message: formsCount
+            ? `${formsCount} forme disponibili`
+            : "Nessuna forma caricata"
+        };
+      }
+    },
+    {
+      id: "randomTable",
+      label: "Tabella random d20 valida",
+      run: () => {
+        const table = state.data.packs?.random_general_d20;
+        const isValid = Array.isArray(table) && table.every((row) => row.range && row.pack);
+        return {
+          passed: Boolean(isValid),
+          message: isValid
+            ? `${table.length} righe con range e pack`
+            : "Mancano range o pack nella tabella"
+        };
+      }
+    },
+    {
+      id: "telemetry",
+      label: "Indici VC presenti",
+      run: () => {
+        const indices = state.data.telemetry?.indices;
+        const count = indices ? Object.keys(indices).length : 0;
+        return {
+          passed: count > 0,
+          message: count
+            ? `${count} indici registrati`
+            : "Nessun indice configurato"
+        };
+      }
+    },
+    {
+      id: "biomes",
+      label: "Biomi definiti",
+      run: () => {
+        const biomes = state.data.biomes?.biomes;
+        const count = biomes ? Object.keys(biomes).length : 0;
+        return {
+          passed: count > 0,
+          message: count ? `${count} biomi disponibili` : "Nessun bioma trovato"
+        };
+      }
+    }
+  ];
+
+  const results = tests.map((test) => {
+    try {
+      return { ...test.run(), label: test.label };
+    } catch (error) {
+      return {
+        passed: false,
+        message: error.message,
+        label: test.label
+      };
+    }
+  });
+
+  renderTestResults(results);
+}
+
+function renderTestResults(results) {
+  const container = controlElements.testResults;
+  if (!container) return;
+
+  if (!results.length) {
+    container.innerHTML = "<li>Nessun test eseguito.</li>";
+    return;
+  }
+
+  container.innerHTML = results
+    .map((result) => {
+      const statusClass = result.passed ? "result-ok" : "result-ko";
+      const icon = result.passed ? "✅" : "⚠️";
+      return `
+        <li class="${statusClass}">
+          <span class="result-icon">${icon}</span>
+          <div>
+            <p class="result-label">${result.label}</p>
+            <p class="result-message">${result.message}</p>
+          </div>
+        </li>
+      `;
+    })
+    .join("");
+}
+
+async function handleFetchSubmit(event) {
+  event.preventDefault();
+  if (!controlElements.fetchUrl) return;
+
+  const url = controlElements.fetchUrl.value.trim();
+  if (!url) {
+    setFetchStatus("Specifica un URL da cui recuperare i dati.", "error");
+    return;
+  }
+
+  try {
+    setFetchStatus("Recupero in corso…", "loading");
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Richiesta fallita (${response.status})`);
+    }
+
+    const text = await response.text();
+    const payload = parseFetchedContent(url, text, response.headers.get("content-type"));
+    updateFetchPreview(payload);
+    const applied = applyFetchedData(payload);
+
+    if (applied.length > 0) {
+      setFetchStatus(
+        `Aggiornati i dataset: ${applied.join(", ")}.`,
+        "success"
+      );
+    } else {
+      setFetchStatus(
+        "Fetch riuscito ma nessun dataset riconosciuto da aggiornare.",
+        "warning"
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    setFetchStatus(`Errore durante il fetch: ${error.message}`, "error");
+  }
+}
+
+function parseFetchedContent(url, text, contentType = "") {
+  const normalizedType = (contentType || "").toLowerCase();
+  const looksLikeYaml =
+    normalizedType.includes("yaml") ||
+    normalizedType.includes("yml") ||
+    url.endsWith(".yaml") ||
+    url.endsWith(".yml");
+
+  if (looksLikeYaml) {
+    return jsyaml.load(text);
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    try {
+      return jsyaml.load(text);
+    } catch (yamlError) {
+      throw new Error("Impossibile interpretare la risposta come JSON o YAML valido.");
+    }
+  }
+}
+
+function updateFetchPreview(payload) {
+  if (!controlElements.fetchPreview) return;
+  if (payload === undefined || payload === null) {
+    controlElements.fetchPreview.textContent = "(nessun contenuto)";
+    return;
+  }
+
+  try {
+    const formatted = JSON.stringify(payload, null, 2);
+    controlElements.fetchPreview.textContent = formatted;
+  } catch (error) {
+    controlElements.fetchPreview.textContent = String(payload);
+  }
+}
+
+function applyFetchedData(payload) {
+  if (!payload || typeof payload !== "object") {
+    return [];
+  }
+
+  const updatedKeys = [];
+
+  DATA_SOURCES.forEach((source) => {
+    if (Object.prototype.hasOwnProperty.call(payload, source.key)) {
+      state.data[source.key] = payload[source.key];
+      updatedKeys.push(source.key);
+    }
+  });
+
+  if (updatedKeys.length === 0) {
+    const detectedKey = detectDataKey(payload);
+    if (detectedKey) {
+      state.data[detectedKey] = payload;
+      updatedKeys.push(detectedKey);
+    }
+  }
+
+  if (updatedKeys.length > 0) {
+    state.loadedAt = new Date();
+    renderAll();
+    setTimestamp(`Ultimo aggiornamento: ${state.loadedAt.toLocaleString()} (fetch manuale)`);
+    if (controlElements.testResults && controlElements.testResults.childElementCount > 0) {
+      runDataTests();
+    }
+  }
+
+  return updatedKeys;
+}
+
+function detectDataKey(payload) {
+  if (!payload || typeof payload !== "object") return null;
+
+  if (payload.forms || payload.random_general_d20) return "packs";
+  if (payload.telemetry || payload.indices || payload.mbti_axes) return "telemetry";
+  if (payload.biomes || payload.vc_adapt || payload.mutations) return "biomes";
+  if (payload.compat_forme || payload.base_scores) return "mating";
+
+  return null;
+}
+
+function setFetchStatus(message, variant) {
+  if (!controlElements.fetchStatus) return;
+  controlElements.fetchStatus.textContent = message;
+  controlElements.fetchStatus.dataset.status = variant || "info";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setupDomReferences();
   document
     .getElementById("reload-data")
     .addEventListener("click", () => loadAllData());
+  setupControlPanel();
   loadAllData();
 });

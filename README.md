@@ -33,10 +33,14 @@ python3 generate_encounter.py savana ../../data/biomes.yaml
 ```
 
 ## Interfaccia test & recap via web
-- Avvia un server locale dalla radice del progetto (`python3 -m http.server 8000`).
-- Apri `http://localhost:8000/docs/test-interface/` per una dashboard che riassume pacchetti PI,
-  telemetria VC, biomi e compatibilità delle forme.
-- Premi "Ricarica dati YAML" per aggiornare i contenuti dopo aver modificato i file in `data/`.
+- [Apri la dashboard](docs/test-interface/index.html) per consultare rapidamente pacchetti PI,
+  telemetria VC, biomi e compatibilità delle forme (serve un piccolo server locale per il fetch).
+- Avvia un server locale dalla radice del progetto (`python3 -m http.server 8000`) e visita
+  `http://localhost:8000/docs/test-interface/` per caricare i dati YAML.
+- Premi "Ricarica dati YAML" dopo aver modificato i file in `data/` e usa "Esegui test" per i
+  controlli rapidi di integrità sui dataset caricati.
+- Per aggiornamenti al volo, incolla l'URL di uno snapshot YAML/JSON nel form "Fetching manuale" e
+  premi "Scarica & applica" per un merge immediato nel dataset di sessione.
 
 ## Pubblicazione su GitHub
 ```bash
