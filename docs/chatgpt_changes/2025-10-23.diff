@@ -1,0 +1,13 @@
+--- data/chatgpt/2025-10-22/snapshot-20251022T180000Z.json
++++ data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json
+@@ -1,7 +1,7 @@
+ {
+-  "model": "gpt-4o-mini",
++  "model": "gpt-4.1",
+   "prompt": "Riassumi gli ultimi aggiornamenti di design",
+-  "response": "## Aggiornamenti 2025-10-22\n- Evento Echo Drifters: infiltrazione in grotte risonanti con obiettivi stealth.\n- Risorsa Resonance Shards: usata per potenziare moduli sonar e aprire porte sigillate.\n- Telemetria VC: introdotto indice StressWave per monitorare picchi di difficoltà co-op.\n- Nidi itineranti: i clan sabbiosi possono spostare l'avamposto ogni tre turni di campagna.\n",
++  "response": "## Aggiornamenti 2025-10-23\n- Missione Skydock Siege: incursione verticale con obiettivi multi-livello e timer di evacuazione.\n- Reattori Aeon: nuova risorsa leggendaria per sbloccare abilità temporali nelle forme Armoniche.\n- StressWave aggiornato: aggiunto filtro SquadSync per isolare picchi generati da mismatch di ruoli.\n- Nidi itineranti: ora richiedono ancoraggi Resonance Shards per stabilizzare il trasferimento.\n- Protocollo di soccorso: introdotte chiamate di rinforzo NPG basate su telemetria in tempo reale.\n",
+   "source": "api",
+-  "timestamp": "2025-10-22T18:00:00+00:00"
++  "timestamp": "2025-10-23T10:15:00+00:00"
+ }
