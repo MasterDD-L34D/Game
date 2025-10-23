@@ -7,9 +7,12 @@
 2. **Telemetria VC in game build**  
    - Integrare le finestre EMA (`ema_alpha`, `windows`) nel client per raccogliere dati reali.【F:data/telemetry.yaml†L1-L8】
    - Mappare gli indici VC ai trigger Enneagram per generare feedback contestuali.【F:data/telemetry.yaml†L9-L22】
-3. **Esperienze di Mating e Nido**  
+3. **Esperienze di Mating e Nido**
    - Estendere `compat_forme` alle restanti 14 forme e definire cross-formula per `base_scores`.【F:data/mating.yaml†L1-L12】
    - Prototipare ambienti interattivi per `dune_stalker` ed `echo_morph`, validando risorse e privacy.【F:data/mating.yaml†L13-L24】
+4. **Missioni verticali e supporto live**
+   - Preparare il playtest di "Skydock Siege" con obiettivi multilivello e timer di evacuazione.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+   - Collegare Reattori Aeon, filtro SquadSync e protocolli di soccorso alla pipeline telemetrica co-op.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
 
 ## Prossimi passi
 - Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】
