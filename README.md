@@ -32,6 +32,20 @@ python3 roll_pack.py ENTP invoker ../../data/packs.yaml
 python3 generate_encounter.py savana ../../data/biomes.yaml
 ```
 
+## Interfaccia test & recap via web
+- Avvia un server locale dalla radice del progetto (`python3 -m http.server 8000`).
+- Apri `http://localhost:8000/docs/test-interface/` per una dashboard che riassume pacchetti PI,
+  telemetria VC, biomi e compatibilità delle forme.
+- Premi "Ricarica dati YAML" per aggiornare i contenuti dopo aver modificato i file in `data/`.
+
+### Pubblicazione stabile via GitHub Pages
+1. Vai su **Settings → Pages** del repository e imposta **Source = GitHub Actions**.
+2. Al prossimo push su `main` (o eseguendo manualmente il workflow "Deploy test interface") verrà
+   pubblicato l'artefatto statico generato dalla cartella `docs/test-interface/` insieme ai dataset in `data/`.
+3. L'interfaccia sarà raggiungibile in modo stabile all'URL
+   `https://<tuo-utente>.github.io/<repo>/test-interface/` (sostituisci con l'organizzazione/utente e il nome repo corretti).
+4. I file YAML vengono copiati così come sono: aggiorna i dataset, fai commit/push e attendi pochi minuti per vedere i cambiamenti online.
+
 ## Pubblicazione su GitHub
 ```bash
 cd /path/alla/cartella/evo-tactics
