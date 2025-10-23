@@ -78,7 +78,11 @@ run_sync() {
       return 1
     fi
     log "Richiesta all'API OpenAI con il modello $MODEL"
-    python3 "$REPO_ROOT/scripts/chatgpt_sync.py" --source api --prompt "$PROMPT" --model "$MODEL" || return 1
+    if ! python3 "$REPO_ROOT/scripts/chatgpt_sync.py" --source api --prompt "$PROMPT" --model "$MODEL"; then
+      RESULT="failure"
+      MESSAGE="Errore durante la sincronizzazione tramite API."
+      return 1
+    fi
   elif [[ "$SOURCE" == "export" ]]; then
     if [[ -z "$EXPORT_FILE" ]]; then
       RESULT="skipped"
@@ -91,7 +95,11 @@ run_sync() {
       return 1
     fi
     log "Import del file di export $EXPORT_FILE"
-    python3 "$REPO_ROOT/scripts/chatgpt_sync.py" --source export --export-file "$EXPORT_FILE" || return 1
+    if ! python3 "$REPO_ROOT/scripts/chatgpt_sync.py" --source export --export-file "$EXPORT_FILE"; then
+      RESULT="failure"
+      MESSAGE="Errore durante l'import del file di export."
+      return 1
+    fi
   else
     fail "Sorgente non supportata: $SOURCE"
     return 1
