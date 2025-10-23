@@ -1,0 +1,38 @@
+{
+  "biome": "palude",
+  "TB": 24,
+  "groups": [
+    {
+      "power": 7,
+      "role": "front",
+      "affixes": [
+        "tossico",
+        "viti"
+      ]
+    },
+    {
+      "power": 7,
+      "role": "support",
+      "affixes": [
+        "fangoso",
+        "tossico"
+      ]
+    },
+    {
+      "power": 7,
+      "role": "front",
+      "affixes": [
+        "luminescente",
+        "tossico"
+      ]
+    },
+    {
+      "power": 3,
+      "role": "support",
+      "affixes": [
+        "viti",
+        "tossico"
+      ]
+    }
+  ]
+}
