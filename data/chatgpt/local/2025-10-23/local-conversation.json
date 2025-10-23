@@ -1,0 +1,12 @@
+{
+  "conversations": [
+    {
+      "id": "conv-001",
+      "title": "Aggiornamento progetto",
+      "messages": [
+        {"role": "user", "content": "Qual è lo stato attuale del progetto?"},
+        {"role": "assistant", "content": "Il progetto è in fase di test e la release è prevista per venerdì."}
+      ]
+    }
+  ]
+}
