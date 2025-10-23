@@ -56,5 +56,23 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [ ] Automatizzare i test (GitHub Actions o CI locale) quando le dipendenze e le credenziali sono stabili.
 - [ ] Archiviare in `docs/logs/` o `logs/` eventuali report di bug o sessioni di playtest.
 
+## 9. Quality assurance manuale
+- [ ] Preparare una lista di scenari di gioco critici (bilanciamento, progressione, eventi speciali).
+- [ ] Organizzare sessioni di playtest interne seguendo gli scenari e annotare problemi e suggerimenti.
+- [ ] Registrare i risultati in `docs/playtest/SESSION-<data>.md` con screenshot/log linkati dove utile.
+- [ ] Aprire ticket su tracker interno o GitHub per ogni bug confermato, collegando log e file YAML.
+
+## 10. Rilascio e comunicazione
+- [ ] Redigere un changelog in `docs/changelog.md` prima di ogni release o consegna intermedia.
+- [ ] Preparare materiali di comunicazione (slide, demo video, note) in `docs/presentations/`.
+- [ ] Coordinarsi con il team marketing/prodotto per pianificare annunci e raccolta feedback.
+- [ ] Creare un tag Git (`git tag vX.Y.Z && git push origin vX.Y.Z`) dopo la validazione finale.
+
+## 11. Knowledge sharing e onboarding
+- [ ] Aggiornare `docs/README.md` e le guide in `docs/piani/` con le nuove procedure adottate.
+- [ ] Documentare le decisioni architetturali in un ADR (`docs/adr/ADR-<numero>-<titolo>.md`) quando necessario.
+- [ ] Programmare sessioni di onboarding per nuovi membri e registrare le call per consultazione futura.
+- [ ] Creare FAQ interne su `docs/faq.md` con le domande più ricorrenti ricevute dal team.
+
 > Suggerimento: duplica questa checklist ad inizio sprint e spunta i punti completati, aggiungendo nuove
 > attività sotto la sezione corrispondente per mantenere una cronologia operativa chiara.
