@@ -7,13 +7,12 @@ Repository avviabile per il progetto: tattico co-op su TV/app con sistema d20, e
 ## Struttura
 ```
 evo-tactics/
-├─ docs/                 # Note progettuali (da Canvas A–D), checklist, piani
+├─ docs/                 # Note progettuali (Canvas, roadmap, checklist)
 ├─ data/                 # Dataset YAML (telemetria, pack PI, biomi, mutazioni, ecc.)
 ├─ tools/
 │  ├─ ts/                # CLI TypeScript (roll_pack)
 │  └─ py/                # CLI Python (roll_pack, generate_encounter)
-├─ .github/workflows/    # CI su push
-├─ scripts/              # Utility (Drive, pubblicazione)
+├─ scripts/              # Utility (Drive, sincronizzazioni)
 └─ README.md
 ```
 
@@ -57,11 +56,18 @@ git push -u origin main
 - Carica lo **zip** generato da ChatGPT su Drive (o estrai e carica la cartella).
 - (Opzionale) Usa lo script `scripts/driveSync.gs` come **Apps Script** su una cartella Drive per trasformare alcuni YAML in Google Sheet.
 
+## Checklist & TODO attivi
+- **Monitoraggio avanzamento** — Le milestone operative con stato aggiornato sono in [`docs/checklist/milestones.md`](docs/checklist/milestones.md). Le voci ancora aperte includono la validazione delle formule telemetriche con dati reali e la produzione di encounter di esempio per ogni bioma.【F:docs/checklist/milestones.md†L8-L16】
+- **Azioni prioritarie consolidate** — Il file [`docs/checklist/action-items.md`](docs/checklist/action-items.md) raccoglie gli step immediati da completare, incrociando roadmap, checklist e problemi emersi dai log di sincronizzazione.【F:docs/checklist/action-items.md†L1-L30】
+- **Checklist di avvio completo** — Usa [`docs/checklist/project-setup-todo.md`](docs/checklist/project-setup-todo.md) come sequenza passo-passo per configurare ambiente, dipendenze, test e sincronizzazioni fino al pieno funzionamento del progetto.【F:docs/checklist/project-setup-todo.md†L1-L64】
+- **Roadmap dettagliata** — Per il contesto strategico delle milestone (bilanciamento pacchetti PI, telemetria VC, esperienze di mating/nido e missioni verticali) consultare [`docs/piani/roadmap.md`](docs/piani/roadmap.md).【F:docs/piani/roadmap.md†L1-L24】
+
 ## Sincronizzazione contenuti ChatGPT
 - Configura le fonti da monitorare in `data/chatgpt_sources.yaml` (URL del progetto, canvas esportati, ecc.).
-- Installa le dipendenze Python richieste (`pip install requests pyyaml` se non già presenti).
+- Installa le dipendenze Python richieste (`pip install requests pyyaml`) prima di eseguire lo script.
+- Se incontri errori `ProxyError 403`, aggiorna le credenziali o esegui la sincronizzazione da una rete autorizzata: i dettagli dell'ultimo tentativo sono riportati in [`docs/chatgpt_sync_status.md`](docs/chatgpt_sync_status.md).【F:docs/chatgpt_sync_status.md†L1-L24】
 - Esegui `python3 scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml` per scaricare gli snapshot giornalieri.
-- Controlla i diff generati in `docs/chatgpt_changes/<namespace>/<data>/` e il riepilogo in `logs/chatgpt_sync_last.json`.
+- Controlla i diff generati in `docs/chatgpt_changes/<namespace>/<data>/` e il log in `logs/chatgpt_sync.log`.
 - Aggiorna `docs/chatgpt_sync_status.md` con note operative e credenziali aggiornate.
 
 ## Licenza
