@@ -1,13 +1,28 @@
-import fs from 'fs';
+import { readFileSync } from 'fs';
 import yaml from 'js-yaml';
 
 type Range = string; // "1-4" or "11"
 type PackCombo = string[];
+type FormPackKey = 'A' | 'B' | 'C';
+
+type RandomGeneralEntry = {
+  range: Range;
+  pack: string;
+  combo?: PackCombo;
+  notes?: string;
+};
+
+interface FormDefinition {
+  A: PackCombo;
+  B: PackCombo;
+  C: PackCombo;
+  bias_d12: Record<FormPackKey, Range>;
+}
 
 interface Data {
   pi_shop: any;
-  random_general_d20: { range: Range; pack: string; combo?: string[]; notes?: string }[];
-  forms: Record<string, { A: PackCombo; B: PackCombo; C: PackCombo; bias_d12: Record<string, Range> }>;
+  random_general_d20: RandomGeneralEntry[];
+  forms: Record<string, FormDefinition>;
 }
 
 function rollDie(sides: number): number { return 1 + Math.floor(Math.random() * sides); }
@@ -28,7 +43,7 @@ const costOf = (key: string, shop: any): number => {
 };
 
 export function roll_pack(form: string, job: string, dataPath='../../data/packs.yaml') {
-  const raw = fs.readFileSync(dataPath, 'utf8');
+  const raw = readFileSync(dataPath, 'utf8');
   const data = yaml.load(raw) as Data;
   const d20 = rollDie(20);
   const general = data.random_general_d20.find(x => inRange(d20, x.range));
@@ -40,7 +55,7 @@ export function roll_pack(form: string, job: string, dataPath='../../data/packs.
     const d12 = rollDie(12);
     const bias = data.forms[form]?.bias_d12;
     if (!bias) throw new Error('Forma sconosciuta: '+form);
-    const entry = Object.entries(bias).find(([pack, r]) => inRange(d12, r));
+    const entry = (Object.entries(bias) as [FormPackKey, Range][]).find(([_, r]) => inRange(d12, r));
     if (!entry) throw new Error('Bias d12 non copre il lancio: '+d12);
     const [packKey] = entry; // A|B|C
     pick = { pack: packKey, combo: data.forms[form][packKey] };
