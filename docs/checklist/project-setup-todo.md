@@ -6,35 +6,35 @@ ogni esecuzione importante, annotando data, esito e note operative.
 
 ## 1. Preparazione ambiente
 - [ ] Clonare o estrarre il repository sul sistema di lavoro (`git clone` oppure unzip da Drive).
-- [ ] Installare **Node.js 18+** e **npm** (verifica con `node --version`, `npm --version`).
-- [ ] Installare **Python 3.10+** e assicurarsi che `pip` sia disponibile (`python3 -m pip --version`).
+- [x] Installare **Node.js 18+** e **npm** (verifica con `node --version`, `npm --version`). _Node 22.19.0 / npm 11.4.2 verificati il 2025-10-24._
+- [x] Installare **Python 3.10+** e assicurarsi che `pip` sia disponibile (`python3 -m pip --version`). _Python 3.11.12 / pip 25.2 verificati il 2025-10-24._
 - [ ] Creare un virtual environment Python dedicato (`python3 -m venv .venv` e attivarlo).
 - [ ] Aggiornare gli strumenti base: `npm install -g npm@latest` e `python3 -m pip install --upgrade pip`.
 
 ## 2. Dipendenze progetto
-- [ ] Dalla radice, installare le dipendenze Node/TypeScript: `cd tools/ts && npm install`.
-- [ ] Compilare la CLI TypeScript: `npm run build` (verificare l'output in `tools/ts/dist`).
-- [ ] Installare le dipendenze Python richieste per gli script: `pip install -r tools/py/requirements.txt`
-      (se il file non è aggiornato, eseguire `pip install requests pyyaml` e trascrivere le versioni).
-- [ ] Registrare in `docs/chatgpt_sync_status.md` l'ambiente usato (OS, versioni Node/Python, proxy).
+- [x] Dalla radice, installare le dipendenze Node/TypeScript: `cd tools/ts && npm install`. _Eseguito `npm ci` il 2025-10-24._
+- [x] Compilare la CLI TypeScript: `npm run build` (verificare l'output in `tools/ts/dist`). _Ricompilazione completata il 2025-10-24._
+- [x] Installare le dipendenze Python richieste per gli script: `pip install -r tools/py/requirements.txt`
+      (se il file non è aggiornato, eseguire `pip install requests pyyaml` e trascrivere le versioni). _Reinstallazione `PyYAML` verificata il 2025-10-24._
+- [x] Registrare in `docs/chatgpt_sync_status.md` l'ambiente usato (OS, versioni Node/Python, proxy).
 
 ## 3. Validazione dataset
-- [ ] Lanciare `python tools/py/validate_datasets.py` e risolvere eventuali errori nei file YAML.
-- [ ] Eseguire `npm test` in `tools/ts` se sono presenti test unitari per la CLI.
-- [ ] Annotare gli esiti della validazione (OK/errori) in `docs/checklist/action-items.md` o in un log.
+- [x] Lanciare `python tools/py/validate_datasets.py` e risolvere eventuali errori nei file YAML. _Ultimo run 2025-10-24: esito OK._
+- [ ] Eseguire `npm test` in `tools/ts` se sono presenti test unitari per la CLI. _Non disponibile: nessun test definito._
+- [x] Annotare gli esiti della validazione (OK/errori) in `docs/checklist/action-items.md` o in un log. _Vedi aggiornamento `docs/tool_run_report.md`._
 
 ## 4. Verifica CLI
-- [ ] Eseguire `node dist/roll_pack.js <MBTI> <archetipo> ../../data/packs.yaml --seed demo` (sostituire `demo` con un seed a scelta per output replicabili).
-- [ ] Avviare `python roll_pack.py <MBTI> <archetipo> ../../data/packs.yaml --seed demo` e verificare che l'output (chiavi `pack`, `combo`, `total_cost`, ecc.) coincida con la CLI TypeScript.
+- [x] Eseguire `node dist/roll_pack.js <MBTI> <archetipo> ../../data/packs.yaml --seed demo` (sostituire `demo` con un seed a scelta per output replicabili). _Seed `demo` testato 2025-10-24._
+- [x] Avviare `python roll_pack.py <MBTI> <archetipo> ../../data/packs.yaml --seed demo` e verificare che l'output (chiavi `pack`, `combo`, `total_cost`, ecc.) coincida con la CLI TypeScript. _Esito coincidente con la CLI TS._
 - [ ] Generare encounter di prova: `python generate_encounter.py <bioma> ../../data/biomes.yaml` per
       ogni bioma disponibile, salvando gli output in `docs/examples/` o nella sezione encounter.
 - [ ] Documentare eventuali discrepanze CLI TS/Python e aprire issue se necessarie.
 
 ## 5. Interfaccia web di test
-- [ ] Avviare un server locale dalla radice: `python -m http.server 8000`.
-- [ ] Aprire `http://localhost:8000/docs/test-interface/` e verificare il caricamento dei dataset YAML.
-- [ ] Eseguire i test disponibili nell'interfaccia (“Ricarica dati YAML”, “Esegui test”).
-- [ ] Annotare eventuali errori del browser (console, rete) e aggiornare la documentazione se servono fix.
+- [x] Avviare un server locale dalla radice: `python -m http.server 8000`. _Verificato su porta 8000 con richiesta `curl`._
+- [x] Aprire `http://localhost:8000/docs/test-interface/` e verificare il caricamento dei dataset YAML. _Contenuto HTML ricevuto via `curl` il 2025-10-24._
+- [ ] Eseguire i test disponibili nell'interfaccia (“Ricarica dati YAML”, “Esegui test”). _Bloccato: ambiente headless privo di browser._
+- [ ] Annotare eventuali errori del browser (console, rete) e aggiornare la documentazione se servono fix. _In attesa di esecuzione manuale su ambiente con browser._
 
 ## 6. Sincronizzazione ChatGPT
 - [ ] Configurare `data/chatgpt_sources.yaml` con le fonti corrette (URL, canvas, note esterne).
