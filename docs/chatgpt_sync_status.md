@@ -15,6 +15,14 @@ problemi riscontrati) dopo ogni modifica sostanziale al flusso di sincronizzazio
 
 ## Cronologia esecuzioni recenti
 
+### 2025-10-24 02:10 UTC
+- **Esito**: riuscito.
+- **Ambiente**: Ubuntu container, Node.js 22.19.0, npm 11.4.2, Python 3.11.12 (venv disattivato), pip 25.2, `requests` 2.32.3, `PyYAML` 6.0.2.
+- **Fonti eseguite**:
+  - `local-export` → diff aggiornato in `docs/chatgpt_changes/local/2025-10-24/`.
+  - `local-notes` → diff aggiornato in `docs/chatgpt_changes/notes/2025-10-24/`.
+- **Note**: reinstallata la dipendenza `requests` tramite `tools/py/requirements.txt`; verificato che i percorsi export puntino alla cartella `data/exports/`. Nessun proxy richiesto per le fonti locali.【F:logs/chatgpt_sync_last.json†L1-L28】【F:docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021001Z-local-export.md†L1-L20】
+
 ### 2025-10-24 02:05 UTC
 - **Esito**: manutenzione ambiente completata.
 - **Ambiente**: Ubuntu container, Node.js 22.19.0, npm 11.4.2, Python 3.11.12 (global), pip 25.2.

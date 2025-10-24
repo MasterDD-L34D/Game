@@ -45,3 +45,9 @@ Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google 
 - Aggiornare la libreria js-yaml testando l'URL in un ambiente di staging prima di cambiare `DRIVE_SYNC_YAML_LIB_URL`.
 - Usare `removeAutoSyncTriggers()` prima di rigenerare i trigger con un nuovo intervallo.
 - Annotare gli Spreadsheet generati e i relativi link in [`docs/checklist/milestones.md`](checklist/milestones.md) per mantenere la tracciabilità delle sincronizzazioni.
+
+## Workflow consigliato per i log VC
+1. Eseguire i playtest e archiviare i log YAML in `logs/playtests/<data>/` (es. `logs/playtests/2025-10-24-vc/session-metrics.yaml`).【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】
+2. Caricare i file nella cartella Drive configurata (`CONFIG.folderId`).
+3. Lanciare `convertYamlToSheets()` per generare fogli come `[YAML] session-metrics` mantenendo le colonne `overcap_guard_events` introdotte dal nuovo tuning.
+4. Verificare che i fogli aggiornati alimentino dashboard o grafici condivisi (es. Canvas VC) prima di archiviare le versioni precedenti.
