@@ -147,3 +147,29 @@ requests.exceptions.ProxyError: HTTPSConnectionPool(host='example.com', port=443
 2025-10-23 17:48:52,598 - INFO - Snapshot salvato in data/chatgpt/notes/2025-10-23/snapshot-20251023T174852Z-daily-notes.json
 2025-10-23 17:48:52,598 - INFO - Nessuno snapshot precedente trovato per data/chatgpt/notes/2025-10-23/snapshot-20251023T174852Z-daily-notes.json: skip diff
 2025-10-23 17:48:52,599 - INFO - Riepilogo scritto in logs/chatgpt_sync_last.json
+2025-10-23 23:12:30,100 - INFO - Processo fonte configurata 'local-export' (export)
+2025-10-23 23:12:30,101 - ERROR - Errore durante la sincronizzazione: File di export non trovato: /workspace/Game/data/data/exports/local-conversation.json
+Traceback (most recent call last):
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 648, in main
+    process_config(args.config, summary_file=args.summary_file, skip_diff=args.skip_diff)
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 606, in process_config
+    result = process_single_source(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 517, in process_single_source
+    snapshot_info = import_export(export_file, namespace=namespace_slug)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 189, in import_export
+    copied_path = copy_export_file(export_file, namespace=namespace)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Game/scripts/chatgpt_sync.py", line 130, in copy_export_file
+    raise FileNotFoundError(f"File di export non trovato: {source}")
+FileNotFoundError: File di export non trovato: /workspace/Game/data/data/exports/local-conversation.json
+2025-10-23 23:12:41,804 - INFO - Processo fonte configurata 'local-export' (export)
+2025-10-23 23:12:41,806 - INFO - Export copiato in data/chatgpt/local/2025-10-23/local-conversation-2.json
+2025-10-23 23:12:41,808 - INFO - Snapshot salvato in data/chatgpt/local/2025-10-23/snapshot-20251023T231241Z-local-export.json
+2025-10-23 23:12:41,810 - INFO - Diff scritto in docs/chatgpt_changes/local/2025-10-23/snapshot-20251023T231241Z-local-export.diff
+2025-10-23 23:12:41,811 - INFO - Processo fonte configurata 'local-notes' (export)
+2025-10-23 23:12:41,812 - INFO - Export copiato in data/chatgpt/notes/2025-10-23/notes-conversation-1.json
+2025-10-23 23:12:41,813 - INFO - Snapshot salvato in data/chatgpt/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.json
+2025-10-23 23:12:41,815 - INFO - Diff scritto in docs/chatgpt_changes/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.diff
+2025-10-23 23:12:41,816 - INFO - Riepilogo scritto in logs/chatgpt_sync_last.json

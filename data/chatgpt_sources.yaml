@@ -7,9 +7,17 @@ sources:
     namespace: "local"
     label: "local-export"
     path: "exports/local-conversation.json"
+    credentials:
+      required: false
+    proxy:
+      required: false
 
   - name: "local-notes"
     mode: "export"
     namespace: "notes"
     label: "daily-notes"
     path: "exports/notes-conversation.json"
+    credentials:
+      required: false
+    proxy:
+      required: false

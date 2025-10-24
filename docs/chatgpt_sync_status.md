@@ -15,6 +15,15 @@ problemi riscontrati) dopo ogni modifica sostanziale al flusso di sincronizzazio
 
 ## Cronologia esecuzioni recenti
 
+### 2025-10-23 23:12 UTC
+- **Esito**: riuscito dopo correzione configurazione export.
+- **Ambiente**: Ubuntu container, Python 3.11.12 (global), pip 25.2, `requests` 2.32.5, `PyYAML` 6.0.3.
+- **Fonti eseguite**:
+  - `local-export` → diff aggiornato in `docs/chatgpt_changes/local/2025-10-23/`.
+  - `local-notes` → diff aggiornato in `docs/chatgpt_changes/notes/2025-10-23/`.
+- **Credenziali/Proxy**: non richiesti (fonti locali, nessuna variabile impostata).
+- **Note**: aggiornato `data/chatgpt_sources.yaml` per puntare a `data/exports/*`; installati `requests` e `PyYAML` per evitare errori di import; fallimento intermedio dovuto a percorso errato ora risolto.
+
 ### 2025-10-23 18:12 UTC
 - **Esito**: configurazione ambiente completata (nessuna sincronizzazione eseguita).
 - **Ambiente**: Ubuntu container, Node.js 22.19.0, npm 11.4.2, Python 3.11.12 (venv attivo), pip 25.2.
