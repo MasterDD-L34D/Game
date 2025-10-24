@@ -179,8 +179,10 @@ function updateResultStatus(key, status, message, details) {
     body.classList.toggle("muted", status !== "error");
   }
 
+  const previous = autoState.results.get(key) || {};
+
   autoState.results.set(key, {
-    ...autoState.results.get(key),
+    ...previous,
     status,
     message,
     ...details,
