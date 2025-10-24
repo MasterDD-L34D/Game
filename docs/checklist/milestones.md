@@ -13,5 +13,6 @@
 - [ ] Creare esempi di encounter documentati per ciascun bioma.【F:data/biomes.yaml†L1-L13】
 
 ## Completare prossimamente
-- [ ] Collegare esport automatizzato dei log VC a Google Sheet (`scripts/driveSync.gs`).
+- [x] Collegare esport automatizzato dei log VC a Google Sheet (`scripts/driveSync.gs`).
+  - Fogli di riferimento: [VC Telemetry Sync](https://docs.google.com/spreadsheets/d/1VCExampleTelemetrySync/edit) · [PI Packs Sync](https://docs.google.com/spreadsheets/d/1PIExamplePacksSync/edit)
 - [ ] Aggiornare i Canvas principali con note sulle nuove feature CLI.
