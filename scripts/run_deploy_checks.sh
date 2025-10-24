@@ -16,7 +16,7 @@ npm test
 popd >/dev/null
 
 log "Ensuring Python test dependencies are available"
-python3 -m pip install --quiet pytest
+python3 -m pip install --quiet -r "$ROOT_DIR/tools/py/requirements.txt"
 
 log "Running Python test suite"
 PYTHONPATH="$ROOT_DIR/tools/py" pytest
