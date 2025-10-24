@@ -61,6 +61,7 @@ git push -u origin main
 ## Condivisione su Google Drive
 - Carica lo **zip** generato da ChatGPT su Drive (o estrai e carica la cartella).
 - Quando necessario, comprimi nuovamente l'intera directory del progetto prima del caricamento oppure automatizza la sincronizzazione con Drive eseguendo lo script `scripts/driveSync.gs` da Apps Script sulla cartella dedicata.
+- Per istruzioni dettagliate su configurazione, test e trigger automatici consulta la guida [`docs/drive-sync.md`](docs/drive-sync.md).
 
 ## Checklist & TODO attivi
 - **Monitoraggio avanzamento** — Le milestone operative con stato aggiornato sono in [`docs/checklist/milestones.md`](docs/checklist/milestones.md). Le voci ancora aperte includono la validazione delle formule telemetriche con dati reali e la produzione di encounter di esempio per ogni bioma.【F:docs/checklist/milestones.md†L8-L16】

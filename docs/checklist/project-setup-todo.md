@@ -64,9 +64,10 @@ ogni esecuzione importante, annotando data, esito e note operative.
 
 ## 10. Rilascio e comunicazione
 - [ ] Redigere un changelog in `docs/changelog.md` prima di ogni release o consegna intermedia.
-- [ ] Preparare materiali di comunicazione (slide, demo video, note) in `docs/presentations/`.
+- [x] Preparare materiali di comunicazione (slide, demo video, note) in `docs/presentations/` — creato briefing VC con asset collegati a milestone e release.【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
 - [ ] Coordinarsi con il team marketing/prodotto per pianificare annunci e raccolta feedback.
 - [ ] Creare un tag Git (`git tag vX.Y.Z && git push origin vX.Y.Z`) dopo la validazione finale.
+- [ ] Aggiornare periodicamente i materiali con screenshot HUD e metriche risk/cohesion post-playtest.【F:docs/Canvas/feature-updates.md†L9-L20】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L33-L122】
 
 ## 11. Knowledge sharing e onboarding
 - [ ] Aggiornare `docs/README.md` e le guide in `docs/piani/` con le nuove procedure adottate.
