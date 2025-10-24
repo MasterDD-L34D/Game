@@ -1,4 +1,6 @@
-"""Generatore di pacchetti PI basato sui dataset YAML condivisi."""
+"""Generatore di pacchetti PI deterministici basato sui dataset YAML."""
+
+from __future__ import annotations
 
 import sys
 from pathlib import Path
