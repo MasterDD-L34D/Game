@@ -2,37 +2,255 @@
 <html lang="it">
   <head>
     <meta charset="utf-8" />
-    <title>Evo-Tactics · Dashboard test</title>
-    <meta http-equiv="refresh" content="0; url=test-interface/" />
-    <link rel="canonical" href="test-interface/" />
-    <style>
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        margin: 0;
-        background: #0d1117;
-        color: #f0f6fc;
-      }
-      main {
-        text-align: center;
-        max-width: 480px;
-      }
-      a {
-        color: #58a6ff;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Evo-Tactics · Support Hub</title>
+    <meta
+      name="description"
+      content="Centro di supporto per il progetto Evo-Tactics: stato aggiornamenti, test di simulazioni e link rapidi alla documentazione."
+    />
+    <link rel="stylesheet" href="site.css" />
+    <script type="module" src="site.js" defer></script>
   </head>
   <body>
-    <main>
-      <h1>Evo-Tactics · Interfaccia Test &amp; Recap</h1>
-      <p>Reindirizzamento automatico all'interfaccia di test…</p>
-      <p>
-        Se il browser non reindirizza automaticamente, clicca qui:
-        <a href="test-interface/">Apri l'interfaccia</a>.
-      </p>
+    <header class="hero">
+      <div class="hero__inner">
+        <div class="hero__content">
+          <p class="hero__tagline">Supporto produzione</p>
+          <h1>Centro di Controllo Evo-Tactics</h1>
+          <p class="hero__description">
+            Un'unica plancia per seguire lo sviluppo del sistema, monitorare gli aggiornamenti
+            GitHub e provare rapidamente le nuove feature caricate sui branch di lavoro.
+          </p>
+          <div class="hero__actions">
+            <button type="button" class="button" id="hero-open-simulator">Apri il simulatore</button>
+            <a class="button button--secondary" href="40-ROADMAP.md">Roadmap</a>
+            <a class="button button--ghost" href="00-INDEX.md">Indice documentazione</a>
+          </div>
+        </div>
+        <aside class="hero__meta" aria-live="polite">
+          <div class="meta-card">
+            <span class="meta-card__label">Ultimo aggiornamento</span>
+            <strong class="meta-card__value" id="last-activity">In caricamento…</strong>
+          </div>
+          <div class="meta-card">
+            <span class="meta-card__label">Branch monitorata</span>
+            <strong class="meta-card__value" id="active-branch">—</strong>
+          </div>
+          <div class="meta-card">
+            <span class="meta-card__label">Feed changelog</span>
+            <strong class="meta-card__value" id="changelog-status">In caricamento…</strong>
+          </div>
+        </aside>
+      </div>
+      <nav class="hero__nav" aria-label="Navigazione principale">
+        <a href="#overview">Panoramica</a>
+        <a href="#updates">Aggiornamenti</a>
+        <a href="#simulator">Simulazioni</a>
+        <a href="#dashboards">Dashboard</a>
+        <a href="#resources">Risorse</a>
+      </nav>
+    </header>
+    <main class="layout">
+      <section id="overview" class="section">
+        <div class="section__header">
+          <h2>Panoramica</h2>
+          <p>
+            Organizza attività e verifiche del progetto da un'unica schermata. Salva le impostazioni
+            preferite per il repository GitHub e apri il simulatore con la base dati corretta in
+            pochi click.
+          </p>
+        </div>
+        <div class="grid grid--quick">
+          <article class="card">
+            <h3>Monitoraggio continuo</h3>
+            <p>
+              Il feed degli ultimi commit si aggiorna automaticamente usando le API GitHub.
+              Imposta l'organizzazione e il branch da tenere sotto osservazione e resta sempre
+              allineato.
+            </p>
+            <ul>
+              <li>Storico in tempo reale degli ultimi push</li>
+              <li>Indicazione immediata del branch attivo</li>
+              <li>Segnalazione errori in caso di rate limit</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Gestione dati simulatore</h3>
+            <p>
+              Seleziona il branch o una base dati personalizzata per provare pack e tabelle
+              aggiornate all'ultimo commit. L'URL viene salvato e riutilizzato per caricamenti
+              successivi.
+            </p>
+            <ul>
+              <li>Compatibile con sorgenti <code>raw.githubusercontent.com</code></li>
+              <li>Anteprima del percorso attivo</li>
+              <li>Supporto parametri <code>ref</code> e <code>data-root</code></li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Documentazione integrata</h3>
+            <p>
+              Collegamenti rapidi ai documenti chiave: roadmap, checklist di produzione e log di
+              manutenzione restano sempre a portata di mano.
+            </p>
+            <ul>
+              <li>Accesso immediato al changelog</li>
+              <li>Indice completo dei capitoli di design</li>
+              <li>Riferimenti a procedure e tool interni</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+      <section id="updates" class="section section--split">
+        <div class="section__header">
+          <h2>Aggiornamenti</h2>
+          <p>
+            Consulta il changelog ufficiale e l'attività del repository per preparare review,
+            release e sessioni di playtest.
+          </p>
+        </div>
+        <div class="split">
+          <article class="card card--list" aria-live="polite">
+            <div class="card__header">
+              <h3>Changelog progetto</h3>
+              <button type="button" class="button button--ghost" id="refresh-changelog">Aggiorna</button>
+            </div>
+            <div id="changelog-feed" class="feed feed--changelog">
+              <p class="placeholder">Caricamento del changelog in corso…</p>
+            </div>
+          </article>
+          <article class="card card--list" aria-live="polite">
+            <div class="card__header">
+              <h3>Attività repository</h3>
+              <button type="button" class="button button--ghost" id="refresh-activity">Aggiorna</button>
+            </div>
+            <div id="activity-feed" class="feed feed--activity">
+              <p class="placeholder">Configura il repository per iniziare il monitoraggio.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section id="simulator" class="section">
+        <div class="section__header">
+          <h2>Simulazioni &amp; test</h2>
+          <p>
+            Avvia l'interfaccia di prova direttamente da qui. Personalizza la sorgente dati per
+            verificare feature in anteprima oppure usa la configurazione di default del branch.
+          </p>
+        </div>
+        <div class="grid grid--two">
+          <article class="card">
+            <h3>Configurazione sorgenti</h3>
+            <form id="config-form" class="form">
+              <label for="repo-input">Repository GitHub</label>
+              <input id="repo-input" name="repo" type="text" autocomplete="off" placeholder="organizzazione/progetto" />
+              <label for="branch-input">Branch o ref</label>
+              <input id="branch-input" name="branch" type="text" autocomplete="off" placeholder="main" />
+              <label for="data-root-input">Base dati personalizzata (opzionale)</label>
+              <input
+                id="data-root-input"
+                name="dataRoot"
+                type="url"
+                autocomplete="off"
+                placeholder="https://raw.githubusercontent.com/organizzazione/progetto/branch/docs/test-interface/"
+              />
+              <p class="form__hint">
+                Lascia vuoto per usare automaticamente il percorso raw del branch selezionato.
+              </p>
+              <button type="submit" class="button">Salva configurazione</button>
+            </form>
+            <div class="stack">
+              <div class="stack__row">
+                <span class="stack__label">Data root attiva:</span>
+                <a id="data-root-preview" href="test-interface/" target="_blank" rel="noreferrer">test-interface/</a>
+              </div>
+              <div class="stack__row">
+                <span class="stack__label">URL simulatore:</span>
+                <a id="simulator-link" href="test-interface/" target="_blank" rel="noreferrer">test-interface/</a>
+              </div>
+            </div>
+            <div class="form__actions">
+              <button type="button" class="button button--secondary" id="open-simulator">Apri in nuova scheda</button>
+              <button type="button" class="button button--ghost" id="reset-config">Ripristina automatico</button>
+            </div>
+          </article>
+          <article class="card card--frame">
+            <h3>Anteprima interfaccia</h3>
+            <iframe
+              id="simulator-frame"
+              title="Interfaccia di test Evo-Tactics"
+              src="test-interface/"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              sandbox="allow-scripts allow-same-origin allow-forms"
+            ></iframe>
+          </article>
+        </div>
+      </section>
+      <section id="dashboards" class="section">
+        <div class="section__header">
+          <h2>Dashboard dedicate</h2>
+          <p>
+            Accedi rapidamente alle plance esistenti nel repository per verificare dataset YAML,
+            monitorare i playtest e seguire gli snapshot storici del progetto.
+          </p>
+        </div>
+        <div class="grid grid--resources">
+          <article class="card card--link">
+            <h3>Interfaccia Test &amp; Recap</h3>
+            <p>
+              Dashboard principale con riepiloghi MBTI, telemetria VC, negozio PI e strumenti di
+              fetch manuale dei dataset.
+            </p>
+            <a href="test-interface/index.html" class="button button--ghost">Apri dashboard</a>
+          </article>
+          <article class="card card--link">
+            <h3>Fetch automatico YAML</h3>
+            <p>
+              Pannello dedicato che scarica e valida tutti i file YAML dalla cartella
+              <code>data/</code> in modo automatico, segnalando errori di parsing o HTTP.
+            </p>
+            <a href="test-interface/auto-fetch.html" class="button button--ghost">Avvia fetch</a>
+          </article>
+        </div>
+      </section>
+      <section id="resources" class="section">
+        <div class="section__header">
+          <h2>Risorse utili</h2>
+          <p>
+            Collegamenti rapidi ai documenti di progetto: linee guida, checklist operative e report
+            di manutenzione.
+          </p>
+        </div>
+        <div class="grid grid--resources">
+          <article class="card card--link">
+            <h3>Checklist produzione</h3>
+            <p>Verifica gli step da completare prima di ogni release.</p>
+            <a href="checklist/action-items.md" class="button button--ghost">Apri checklist</a>
+          </article>
+          <article class="card card--link">
+            <h3>Registro manutenzione tool</h3>
+            <p>Storico delle operazioni effettuate sugli strumenti interni.</p>
+            <a href="tool_run_report.md" class="button button--ghost">Visualizza log</a>
+          </article>
+          <article class="card card--link">
+            <h3>Telemetria &amp; metriche</h3>
+            <p>Analisi dettagliata in <code>24-TELEMETRIA_VC.md</code> e dataset correlati.</p>
+            <a href="24-TELEMETRIA_VC.md" class="button button--ghost">Apri documento</a>
+          </article>
+          <article class="card card--link">
+            <h3>Documentazione UI</h3>
+            <p>Specifiche dell'interfaccia televisiva e componenti di identità visiva.</p>
+            <a href="30-UI_TV_IDENTITA.md" class="button button--ghost">Consulta specifiche</a>
+          </article>
+        </div>
+      </section>
     </main>
+    <footer class="footer">
+      <p>
+        Evo-Tactics · Centro di controllo sperimentale. Per feedback o suggerimenti apri una issue
+        su GitHub dopo aver sincronizzato i dati da questa dashboard.
+      </p>
+    </footer>
   </body>
 </html>
