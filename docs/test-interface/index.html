@@ -120,7 +120,16 @@
               </div>
             </form>
             <p id="fetch-status" class="status">In attesa di input…</p>
-            <pre id="fetch-preview" class="preview" aria-live="polite"></pre>
+            <div id="fetch-preview" class="preview">
+              <p id="fetch-preview-empty" class="preview-empty" aria-live="polite">
+                (nessun contenuto)
+              </p>
+              <div id="fetch-preview-body" class="preview-body" hidden>
+                <div id="fetch-preview-tabs" class="preview-tabs" role="tablist" aria-label="Sezioni dataset"></div>
+                <pre id="fetch-preview-content" class="preview-content" aria-live="polite"></pre>
+                <div id="fetch-preview-pagination" class="preview-pagination"></div>
+              </div>
+            </div>
           </article>
         </div>
       </section>
