@@ -9,7 +9,7 @@
 - **Origine:** export
 - **Fonte configurazione:** local-export
 - **Namespace configurato:** local
-- **Export salvato:** /workspace/Game/data/chatgpt/local/2025-10-24/local-conversation-1.json
+- **Export salvato:** /workspace/Game/data/exports/local-conversation.json
 - **Export originale:** /workspace/Game/data/exports/local-conversation.json
 
 ## Estratto diff
@@ -21,8 +21,8 @@
        ],
        "original_path": "/workspace/Game/data/exports/local-conversation.json",
        "source": "export",
-    -  "stored_path": "/workspace/Game/data/chatgpt/local/2025-10-24/local-conversation.json",
+    -  "stored_path": "/workspace/Game/data/exports/local-conversation.json",
     -  "timestamp": "2025-10-24T02:10:01.975222+00:00"
-    +  "stored_path": "/workspace/Game/data/chatgpt/local/2025-10-24/local-conversation-1.json",
+    +  "stored_path": "/workspace/Game/data/exports/local-conversation.json",
     +  "timestamp": "2025-10-24T02:19:02.766567+00:00"
      }

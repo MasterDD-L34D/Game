@@ -10,7 +10,7 @@
         "namespace_requested": "local",
         "name": "local-export",
         "export_file": "/workspace/Game/data/exports/local-conversation.json",
-        "stored_path": "/workspace/Game/data/chatgpt/local/2025-10-24/local-conversation-1.json",
+        "stored_path": "/workspace/Game/data/exports/local-conversation.json",
         "original_export": "/workspace/Game/data/exports/local-conversation.json"
       },
       "diff": {
@@ -27,7 +27,7 @@
         "namespace_requested": "notes",
         "name": "local-notes",
         "export_file": "/workspace/Game/data/exports/notes-conversation.json",
-        "stored_path": "/workspace/Game/data/chatgpt/notes/2025-10-24/notes-conversation-1.json",
+        "stored_path": "/workspace/Game/data/exports/notes-conversation.json",
         "original_export": "/workspace/Game/data/exports/notes-conversation.json"
       },
       "diff": {
