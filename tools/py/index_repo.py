@@ -1,8 +1,4 @@
-"""Utility per indicizzare i contenuti del repository.
-
-Questo script attraversa l'albero dei file e produce un indice in formato JSON
-con dimensione, hash e percorso relativo di ciascun file.
-"""
+"""Utility per indicizzare l'albero dei file del repository in JSON."""
 
 from __future__ import annotations
 
