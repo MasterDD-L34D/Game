@@ -465,6 +465,172 @@ main {
   color: #fbbf24;
 }
 
+body[data-page="manual-fetch"] main {
+  max-width: 1100px;
+}
+
+.manual-overview-grid,
+.manual-research-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.manual-layout {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: start;
+}
+
+.manual-options-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.manual-options .toggle {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.manual-options .toggle input {
+  margin-top: 0.3rem;
+}
+
+.manual-options .sub-option {
+  padding-left: 1.75rem;
+}
+
+.metadata-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.metadata-grid div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.metadata-grid dt {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.metadata-grid dd {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.manual-metadata,
+.manual-diagnostics {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.manual-diagnostics-heading {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.manual-diagnostics-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.manual-diagnostics-list li {
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.manual-diagnostics-list .diag-warning {
+  border-color: rgba(249, 115, 22, 0.45);
+  background: rgba(249, 115, 22, 0.12);
+}
+
+.manual-diagnostics-list .diag-success {
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.manual-diagnostics-list .diag-info {
+  border-color: rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.manual-checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.manual-checklist label {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  color: var(--muted);
+}
+
+.manual-checklist input {
+  margin-top: 0.2rem;
+}
+
+#manual-research-notes {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.5);
+  color: var(--text);
+  font-family: inherit;
+  resize: vertical;
+}
+
+#manual-research-notes:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.code-snippet {
+  background: rgba(15, 23, 42, 0.6);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+.manual-pending-summary {
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px dashed var(--border);
+  background: rgba(15, 23, 42, 0.4);
+}
+
+body[data-page="manual-fetch"] .site-hero {
+  padding-bottom: 3rem;
+}
+
 .preview {
   margin-top: 1rem;
   max-height: 260px;
@@ -490,6 +656,26 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.preview-summary {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.preview-warnings {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: #f97316;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.preview-warnings li {
+  list-style: disc;
 }
 
 .preview-empty {

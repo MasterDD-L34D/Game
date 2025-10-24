@@ -19,6 +19,34 @@ const manualPreviewState = {
   sections: [],
   sectionIndex: 0,
   pageIndex: 0,
+  summary: "",
+  sourceLabel: "",
+  format: "",
+  warnings: [],
+};
+
+const MANUAL_SYNC_STORAGE_KEY = "et-manual-sync-payload";
+const MANUAL_SYNC_HISTORY_KEY = "et-manual-sync-history";
+const MANUAL_NOTES_STORAGE_KEY = "et-manual-research-notes";
+const MANUAL_FLAGS_STORAGE_KEY = "et-manual-flags";
+const MANUAL_CHECKLIST_STORAGE_KEY = "et-manual-checklist";
+
+const PAGE_MODES = {
+  DASHBOARD: "dashboard",
+  MANUAL_FETCH: "manual-fetch",
+};
+
+let pageMode = PAGE_MODES.DASHBOARD;
+
+const manualPageState = {
+  options: {
+    allowArchive: true,
+    runDiagnostics: true,
+    autoApply: true,
+    autoTests: true,
+    targetDataset: "",
+  },
+  lastResult: null,
 };
 
 const PREVIEW_PAGE_SIZE_DEFAULT = 20;
@@ -38,13 +66,15 @@ const PREVIEW_SECTION_LABELS = {
   telemetry: "Telemetria",
   biomes: "Biomi",
   mating: "Compatibilità",
-  items: "Elementi"
+  items: "Elementi",
+  estratti: "Contenuti estratti",
 };
 const PREVIEW_LABEL_COLLATOR = new Intl.Collator("it", { sensitivity: "base" });
 
 const metricsElements = {};
 const controlElements = {};
 const infoElements = {};
+const manualElements = {};
 
 function formatLabel(value) {
   if (!value) return "";
@@ -53,6 +83,56 @@ function formatLabel(value) {
     .filter(Boolean)
     .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
     .join(" ");
+}
+
+function formatFileSize(bytes) {
+  if (typeof bytes !== "number" || Number.isNaN(bytes)) {
+    return "";
+  }
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let value = bytes;
+  let unitIndex = 0;
+  while (value >= 1024 && unitIndex < units.length - 1) {
+    value /= 1024;
+    unitIndex += 1;
+  }
+  const formatted = unitIndex === 0 ? Math.round(value).toString() : value.toFixed(1);
+  return `${formatted} ${units[unitIndex]}`;
+}
+
+function detectPageMode() {
+  const mode = document.body?.dataset?.page;
+  if (mode === PAGE_MODES.MANUAL_FETCH) {
+    return PAGE_MODES.MANUAL_FETCH;
+  }
+  return PAGE_MODES.DASHBOARD;
+}
+
+function readJsonStorage(key) {
+  if (typeof window === "undefined" || !window.localStorage) return null;
+  try {
+    const raw = window.localStorage.getItem(key);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch (error) {
+    console.warn(`Impossibile leggere i dati da localStorage (${key})`, error);
+    return null;
+  }
+}
+
+function writeJsonStorage(key, value) {
+  if (typeof window === "undefined" || !window.localStorage) return false;
+  try {
+    if (value === null || value === undefined) {
+      window.localStorage.removeItem(key);
+    } else {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    }
+    return true;
+  } catch (error) {
+    console.warn(`Impossibile scrivere i dati in localStorage (${key})`, error);
+    return false;
+  }
 }
 
 function describeModuleEffects(effects) {
@@ -94,36 +174,59 @@ function formatSynergyRequirements(requirements) {
 }
 
 function setupDomReferences() {
-  metricsElements.forms = document.querySelector('[data-metric="forms"]');
-  metricsElements.random = document.querySelector('[data-metric="random"]');
-  metricsElements.indices = document.querySelector('[data-metric="indices"]');
-  metricsElements.biomes = document.querySelector('[data-metric="biomes"]');
-  metricsElements.speciesSlots = document.querySelector('[data-metric="species-slots"]');
-  metricsElements.speciesSynergies = document.querySelector('[data-metric="species-synergies"]');
-  metricsElements.timestamp = document.getElementById("last-updated");
-
-  controlElements.runTests = document.getElementById("run-tests");
-  controlElements.testResults = document.getElementById("test-results");
   controlElements.fetchForm = document.getElementById("fetch-form");
   controlElements.fetchUrl = document.getElementById("fetch-url");
+  controlElements.fetchFile = document.getElementById("fetch-file");
   controlElements.fetchStatus = document.getElementById("fetch-status");
   controlElements.fetchPreview = document.getElementById("fetch-preview");
   controlElements.fetchPreviewBody = document.getElementById("fetch-preview-body");
+  controlElements.fetchPreviewSummary = document.getElementById("fetch-preview-summary");
+  controlElements.fetchPreviewWarnings = document.getElementById("fetch-preview-warnings");
   controlElements.fetchPreviewTabs = document.getElementById("fetch-preview-tabs");
   controlElements.fetchPreviewContent = document.getElementById("fetch-preview-content");
   controlElements.fetchPreviewPagination = document.getElementById("fetch-preview-pagination");
   controlElements.fetchPreviewEmpty = document.getElementById("fetch-preview-empty");
-  controlElements.formSelector = document.getElementById("form-selector");
-  controlElements.formFilter = document.getElementById("form-filter");
-  controlElements.rollD20 = document.getElementById("roll-d20");
-  controlElements.rollBias = document.getElementById("roll-bias");
-  controlElements.rollD20Result = document.getElementById("roll-d20-result");
-  controlElements.biasResult = document.getElementById("bias-roll-result");
-  controlElements.encounterButton = document.getElementById("generate-encounter");
-  controlElements.encounterResult = document.getElementById("encounter-result");
 
-  infoElements.dataSource = document.getElementById("data-source");
-  infoElements.piShop = document.getElementById("pi-shop-content");
+  if (pageMode === PAGE_MODES.MANUAL_FETCH) {
+    manualElements.optionArchive = document.getElementById("manual-option-archive");
+    manualElements.optionDiagnostics = document.getElementById("manual-option-diagnostics");
+    manualElements.optionAutoApply = document.getElementById("manual-option-auto-apply");
+    manualElements.optionAutoTests = document.getElementById("manual-option-auto-tests");
+    manualElements.targetDataset = document.getElementById("manual-target");
+    manualElements.metadata = document.getElementById("manual-fetch-metadata");
+    manualElements.diagnostics = document.getElementById("manual-diagnostics");
+    manualElements.syncStatus = document.getElementById("manual-sync-status");
+    manualElements.syncHistory = document.getElementById("manual-sync-history");
+    manualElements.pendingSummary = document.getElementById("manual-pending-summary");
+    manualElements.notes = document.getElementById("manual-research-notes");
+    manualElements.checklistInputs = Array.from(
+      document.querySelectorAll('[data-manual-flag]') || []
+    );
+  } else {
+    metricsElements.forms = document.querySelector('[data-metric="forms"]');
+    metricsElements.random = document.querySelector('[data-metric="random"]');
+    metricsElements.indices = document.querySelector('[data-metric="indices"]');
+    metricsElements.biomes = document.querySelector('[data-metric="biomes"]');
+    metricsElements.speciesSlots = document.querySelector('[data-metric="species-slots"]');
+    metricsElements.speciesSynergies = document.querySelector('[data-metric="species-synergies"]');
+    metricsElements.timestamp = document.getElementById("last-updated");
+
+    controlElements.runTests = document.getElementById("run-tests");
+    controlElements.testResults = document.getElementById("test-results");
+    controlElements.formSelector = document.getElementById("form-selector");
+    controlElements.formFilter = document.getElementById("form-filter");
+    controlElements.rollD20 = document.getElementById("roll-d20");
+    controlElements.rollBias = document.getElementById("roll-bias");
+    controlElements.rollD20Result = document.getElementById("roll-d20-result");
+    controlElements.biasResult = document.getElementById("bias-roll-result");
+    controlElements.encounterButton = document.getElementById("generate-encounter");
+    controlElements.encounterResult = document.getElementById("encounter-result");
+    controlElements.manualSyncLast = document.getElementById("manual-sync-last");
+    controlElements.manualSyncSummary = document.getElementById("manual-sync-summary");
+
+    infoElements.dataSource = document.getElementById("data-source");
+    infoElements.piShop = document.getElementById("pi-shop-content");
+  }
 }
 
 async function loadYaml(path) {
@@ -155,6 +258,7 @@ async function loadAllData() {
     renderAll();
     const sourceLabel = state.dataBase ? ` · sorgente dati: ${state.dataBase}` : "";
     setTimestamp(`Ultimo aggiornamento: ${state.loadedAt.toLocaleString()}${sourceLabel}`);
+    consumePendingManualSync();
   } catch (error) {
     console.error(error);
     setTimestamp(`Errore nel caricamento: ${error.message}`);
@@ -1179,6 +1283,10 @@ function setupControlPanel() {
     controlElements.fetchForm.addEventListener("submit", handleFetchSubmit);
   }
 
+  if (controlElements.fetchFile) {
+    controlElements.fetchFile.addEventListener("change", handleFetchFileChange);
+  }
+
   if (controlElements.formSelector) {
     controlElements.formSelector.addEventListener("change", (event) => {
       renderFormDetails(event.target.value);
@@ -1397,38 +1505,68 @@ function renderTestResults(results) {
     .join("");
 }
 
+function handleFetchFileChange(event) {
+  const input = event.target;
+  if (!input || !input.files || input.files.length === 0) {
+    return;
+  }
+
+  const file = input.files[0];
+  if (controlElements.fetchUrl) {
+    controlElements.fetchUrl.value = "";
+  }
+
+  const sizeLabel = formatFileSize(file.size);
+  const message = sizeLabel
+    ? `Selezionato file ${file.name} (${sizeLabel}).`
+    : `Selezionato file ${file.name}.`;
+  setFetchStatus(message, "info");
+}
+
 async function handleFetchSubmit(event) {
   event.preventDefault();
-  if (!controlElements.fetchUrl) return;
 
-  const url = controlElements.fetchUrl.value.trim();
-  if (!url) {
-    setFetchStatus("Specifica un URL da cui recuperare i dati.", "error");
+  const url = controlElements.fetchUrl?.value?.trim() || "";
+  const file = controlElements.fetchFile?.files?.[0];
+
+  if (!url && !file) {
+    setFetchStatus("Specifica un URL oppure seleziona un file da analizzare.", "error");
     return;
   }
 
   try {
-    setFetchStatus("Recupero in corso…", "loading");
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Richiesta fallita (${response.status})`);
-    }
+    setFetchStatus("Elaborazione in corso…", "loading");
+    const parseOptions = {
+      allowArchive: pageMode !== PAGE_MODES.MANUAL_FETCH || manualPageState.options.allowArchive,
+    };
+    const result = file
+      ? await parseFetchedFile(file, parseOptions)
+      : await parseFetchedUrl(url, parseOptions);
 
-    const text = await response.text();
-    const payload = parseFetchedContent(url, text, response.headers.get("content-type"));
-    updateFetchPreview(payload);
-    const applied = applyFetchedData(payload);
+    updateFetchPreview(result);
 
-    if (applied.length > 0) {
-      setFetchStatus(
-        `Aggiornati i dataset: ${applied.join(", ")}.`,
-        "success"
-      );
+    if (pageMode === PAGE_MODES.MANUAL_FETCH) {
+      handleManualFetchResult(result);
     } else {
-      setFetchStatus(
-        "Fetch riuscito ma nessun dataset riconosciuto da aggiornare.",
-        "warning"
-      );
+      const applied = applyFetchedData(result.data);
+      const summaryMessage = result.summary || "Fetch completato.";
+
+      if (applied.length > 0) {
+        setFetchStatus(
+          `${summaryMessage} Dataset aggiornati: ${applied.join(", ")}.`,
+          "success"
+        );
+      } else if (result.data && typeof result.data === "object") {
+        setFetchStatus(
+          `${summaryMessage} Nessun dataset riconosciuto automaticamente.`,
+          "warning"
+        );
+      } else {
+        setFetchStatus(
+          `${summaryMessage} Anteprima disponibile nei riquadri sottostanti.`,
+          "info"
+        );
+      }
     }
   } catch (error) {
     console.error(error);
@@ -1436,34 +1574,1050 @@ async function handleFetchSubmit(event) {
   }
 }
 
-function parseFetchedContent(url, text, contentType = "") {
-  const normalizedType = (contentType || "").toLowerCase();
-  const looksLikeYaml =
-    normalizedType.includes("yaml") ||
-    normalizedType.includes("yml") ||
-    url.endsWith(".yaml") ||
-    url.endsWith(".yml");
+function handleManualFetchResult(result) {
+  manualPageState.lastResult = result || null;
 
-  if (looksLikeYaml) {
-    return jsyaml.load(text);
+  renderManualMetadata(result);
+
+  if (manualPageState.options.runDiagnostics) {
+    renderManualDiagnostics(runManualDiagnostics(result));
+  } else {
+    renderManualDiagnostics({ disabled: true });
   }
 
-  try {
-    return JSON.parse(text);
-  } catch (error) {
-    try {
-      return jsyaml.load(text);
-    } catch (yamlError) {
-      throw new Error("Impossibile interpretare la risposta come JSON o YAML valido.");
+  let statusVariant = "info";
+  let statusMessage = result?.summary || "Analisi completata.";
+  let stored = false;
+
+  if (manualPageState.options.autoApply) {
+    stored = storeManualSyncPayload(result);
+    if (stored) {
+      statusVariant = "success";
+      statusMessage = `${statusMessage} Sync programmata: apri la dashboard per applicarla.`;
+    } else if (result?.data && typeof result.data === "object") {
+      statusVariant = "warning";
+      statusMessage = `${statusMessage} Impossibile programmare la sync: verifica lo spazio disponibile nel browser.`;
+    } else {
+      statusVariant = "info";
+      statusMessage = `${statusMessage} Nessun dataset strutturato da sincronizzare automaticamente.`;
+    }
+  } else if (result?.data && typeof result.data === "object") {
+    statusMessage = `${statusMessage} Anteprima aggiornata. Abilita la sincronizzazione automatica per inviare i dati alla dashboard.`;
+  }
+
+  if (Array.isArray(result?.warnings) && result.warnings.length && statusVariant !== "success") {
+    statusVariant = "warning";
+  }
+
+  setFetchStatus(statusMessage, statusVariant);
+  renderManualSyncPanels();
+}
+
+async function parseFetchedUrl(url, options = {}) {
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Richiesta fallita (${response.status})`);
+  }
+
+  const arrayBuffer = await response.arrayBuffer();
+  const contentType = response.headers.get("content-type") || "";
+  return interpretFetchedPayload({
+    identifier: url,
+    arrayBuffer,
+    contentType,
+    sourceType: "url",
+    allowArchive: options.allowArchive !== false,
+  });
+}
+
+async function parseFetchedFile(file, options = {}) {
+  const arrayBuffer = await file.arrayBuffer();
+  return interpretFetchedPayload({
+    identifier: file.name,
+    arrayBuffer,
+    contentType: file.type,
+    sourceType: "file",
+    size: file.size,
+    allowArchive: options.allowArchive !== false,
+  });
+}
+
+async function interpretFetchedPayload({
+  identifier,
+  arrayBuffer,
+  contentType = "",
+  sourceType,
+  size,
+  allowArchive = true,
+}) {
+  const normalizedType = (contentType || "").toLowerCase();
+  const extension = getExtensionFromIdentifier(identifier);
+  let sourceLabel = identifier;
+  if (sourceType === "file") {
+    sourceLabel = `File: ${identifier}`;
+  } else if (sourceType === "url") {
+    sourceLabel = `URL: ${identifier}`;
+  } else if (sourceType === "archive") {
+    sourceLabel = `Archivio: ${identifier}`;
+  }
+
+  if (allowArchive && (normalizedType.includes("zip") || extension === "zip")) {
+    return parseZipArchive({
+      identifier,
+      arrayBuffer,
+      sourceLabel,
+    });
+  }
+
+  if (extension === "docx" || normalizedType.includes("officedocument")) {
+    return parseDocxDocument({ arrayBuffer, sourceLabel, identifier });
+  }
+
+  if (extension === "doc" && !normalizedType.includes("xml")) {
+    return {
+      data: null,
+      preview: null,
+      summary: "Documento DOC legacy: convertire in DOCX per l'anteprima.",
+      format: "doc",
+      sourceLabel,
+      warnings: [
+        "I file .doc non sono supportati direttamente. Convertire il documento in DOCX per analizzarlo.",
+      ],
+    };
+  }
+
+  if (normalizedType.includes("pdf") || extension === "pdf") {
+    return parsePdfDocument({ arrayBuffer, sourceLabel, identifier, size });
+  }
+
+  const text = decodeBufferToText(arrayBuffer);
+  return interpretTextPayload({
+    identifier,
+    text,
+    contentType,
+    sourceLabel,
+  });
+}
+
+function resolveManualDatasetKey(result) {
+  const forced = manualPageState.options.targetDataset;
+  if (forced) return forced;
+  if (result?.detectedKey) return result.detectedKey;
+
+  const data = result?.data;
+  if (!data || typeof data !== "object") {
+    return null;
+  }
+
+  const detected = detectDataKey(data);
+  if (detected) {
+    return detected;
+  }
+
+  const candidates = DATA_SOURCES.map((source) => source.key).filter((key) =>
+    Object.prototype.hasOwnProperty.call(data, key)
+  );
+
+  if (candidates.length === 1) {
+    return candidates[0];
+  }
+
+  return null;
+}
+
+function renderManualMetadata(result) {
+  const container = manualElements.metadata;
+  if (!container) return;
+
+  if (!result || (!result.summary && !result.format && !result.data)) {
+    container.innerHTML = '<p class="muted">Nessuna analisi ancora eseguita.</p>';
+    return;
+  }
+
+  const datasetKey = resolveManualDatasetKey(result);
+  const datasetLabel = datasetKey ? resolvePreviewLabel(datasetKey) : "Rilevamento automatico";
+  const attachmentsCount = Array.isArray(result.attachments) ? result.attachments.length : 0;
+  const warningsCount = Array.isArray(result.warnings) ? result.warnings.length : 0;
+
+  const rows = [];
+  rows.push({ label: "Sintesi", value: result.summary || "—" });
+  rows.push({ label: "Origine", value: result.sourceLabel || "—" });
+  rows.push({ label: "Formato", value: result.format ? result.format.toUpperCase() : "—" });
+  rows.push({ label: "Dataset stimato", value: datasetLabel });
+
+  if (attachmentsCount) {
+    rows.push({ label: "Allegati estratti", value: `${attachmentsCount}` });
+  }
+
+  if (warningsCount) {
+    rows.push({ label: "Avvisi", value: `${warningsCount}` });
+  }
+
+  container.innerHTML = `
+    <dl class="metadata-grid">
+      ${rows.map((row) => `<div><dt>${row.label}</dt><dd>${row.value}</dd></div>`).join("")}
+    </dl>
+  `;
+}
+
+function runManualDiagnostics(result) {
+  if (!result || !result.data || typeof result.data !== "object") {
+    return {
+      datasetKey: null,
+      datasetLabel: "Nessun dataset",
+      messages: [
+        {
+          level: "warning",
+          text: "Nessun dataset strutturato rilevato. Carica un file YAML/JSON o seleziona un override.",
+        },
+      ],
+      hasIssues: true,
+    };
+  }
+
+  const datasetKey = resolveManualDatasetKey(result);
+  let datasetPayload = result.data;
+  if (datasetKey && datasetPayload && Object.prototype.hasOwnProperty.call(datasetPayload, datasetKey)) {
+    datasetPayload = datasetPayload[datasetKey];
+  }
+
+  const messages = [];
+
+  switch (datasetKey) {
+    case "packs": {
+      const forms = datasetPayload?.forms || {};
+      if (!Object.keys(forms).length) {
+        messages.push({ level: "warning", text: "Mancano forme nel dataset (`forms`)." });
+      } else {
+        messages.push({ level: "info", text: `${Object.keys(forms).length} forme rilevate.` });
+      }
+      if (!Array.isArray(datasetPayload?.random_general_d20)) {
+        messages.push({ level: "warning", text: "Tabella `random_general_d20` assente o non valida." });
+      }
+      if (!datasetPayload?.pi_shop) {
+        messages.push({ level: "warning", text: "Negozio PI (`pi_shop`) non configurato." });
+      }
+      break;
+    }
+    case "telemetry": {
+      const indices = datasetPayload?.indices || {};
+      if (!Object.keys(indices).length) {
+        messages.push({ level: "warning", text: "Nessun indice VC (`indices`) rilevato." });
+      } else {
+        messages.push({ level: "info", text: `${Object.keys(indices).length} indici VC.` });
+      }
+      if (!datasetPayload?.mbti_axes) {
+        messages.push({ level: "warning", text: "Matrice MBTI (`mbti_axes`) mancante." });
+      }
+      break;
+    }
+    case "biomes": {
+      const biomes = datasetPayload?.biomes || {};
+      if (!Object.keys(biomes).length) {
+        messages.push({ level: "warning", text: "Lista biomi vuota o mancante." });
+      }
+      if (!datasetPayload?.mutations && !datasetPayload?.vc_adapt) {
+        messages.push({ level: "warning", text: "Nessuna mutazione/VC adattivo associata ai biomi." });
+      }
+      break;
+    }
+    case "mating": {
+      const compat = datasetPayload?.compat_forme || {};
+      if (!Object.keys(compat).length) {
+        messages.push({ level: "warning", text: "Tabella compatibilità (`compat_forme`) mancante." });
+      }
+      if (!datasetPayload?.base_scores) {
+        messages.push({ level: "warning", text: "Valori base (`base_scores`) non definiti." });
+      }
+      break;
+    }
+    case "species": {
+      const catalog = datasetPayload?.catalog || {};
+      const slots = catalog?.slots || {};
+      if (!Object.keys(slots).length) {
+        messages.push({ level: "warning", text: "Catalogo slot specie vuoto." });
+      } else {
+        messages.push({
+          level: "info",
+          text: `${Object.keys(slots).length} slot specie con ${Object.values(slots).reduce(
+            (sum, slotGroup) => sum + Object.keys(slotGroup || {}).length,
+            0
+          )} moduli totali.`,
+        });
+      }
+      if (!Array.isArray(catalog?.synergies) || !catalog.synergies.length) {
+        messages.push({ level: "warning", text: "Sinergie (`catalog.synergies`) non impostate." });
+      }
+      break;
+    }
+    default: {
+      if (!datasetKey) {
+        messages.push({
+          level: "warning",
+          text: "Nessun dataset riconosciuto automaticamente. Usa l'override per forzare la destinazione.",
+        });
+      }
+    }
+  }
+
+  if (Array.isArray(result.attachments) && result.attachments.length) {
+    messages.push({
+      level: "info",
+      text: `${result.attachments.length} allegati analizzati dal pacchetto/caricamento.`,
+    });
+  }
+
+  const hasWarnings = messages.some((item) => item.level === "warning");
+  if (!hasWarnings) {
+    messages.push({
+      level: "success",
+      text: "Nessuna criticità evidente: il dataset appare completo per la destinazione scelta.",
+    });
+  }
+
+  return {
+    datasetKey,
+    datasetLabel: datasetKey ? resolvePreviewLabel(datasetKey) : "Sorgente generica",
+    messages,
+    hasIssues: hasWarnings,
+  };
+}
+
+function renderManualDiagnostics(info) {
+  const container = manualElements.diagnostics;
+  if (!container) return;
+
+  if (!info) {
+    container.innerHTML = '<p class="muted">La diagnostica comparirà qui dopo il prossimo fetch.</p>';
+    return;
+  }
+
+  if (info.disabled) {
+    container.innerHTML = '<p class="muted">Diagnostica disattivata.</p>';
+    return;
+  }
+
+  const header = `<p class="manual-diagnostics-heading">Dataset analizzato: <strong>${info.datasetLabel || "—"}</strong></p>`;
+
+  if (!info.messages || !info.messages.length) {
+    container.innerHTML = `${header}<p class="status success">Nessuna diagnostica disponibile.</p>`;
+    return;
+  }
+
+  const items = info.messages
+    .map((item) => {
+      let className = "diag-info";
+      if (item.level === "warning") className = "diag-warning";
+      else if (item.level === "success") className = "diag-success";
+      return `<li class="${className}">${item.text}</li>`;
+    })
+    .join("");
+
+  container.innerHTML = `${header}<ul class="manual-diagnostics-list">${items}</ul>`;
+}
+
+function prepareManualPayloadData(result) {
+  if (!result || !result.data || typeof result.data !== "object") {
+    return null;
+  }
+
+  const target = manualPageState.options.targetDataset;
+  const payload = result.data;
+
+  if (!target) {
+    return payload;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(payload, target)) {
+    return { [target]: payload[target] };
+  }
+
+  return { [target]: payload };
+}
+
+function storeManualSyncPayload(result) {
+  if (!manualPageState.options.autoApply) {
+    return false;
+  }
+
+  const dataToStore = prepareManualPayloadData(result);
+  if (!dataToStore || typeof dataToStore !== "object") {
+    writeJsonStorage(MANUAL_SYNC_STORAGE_KEY, null);
+    return false;
+  }
+
+  const datasetKey = resolveManualDatasetKey(result);
+
+  const payload = {
+    timestamp: new Date().toISOString(),
+    data: dataToStore,
+    summary: result?.summary || null,
+    sourceLabel: result?.sourceLabel || null,
+    format: result?.format || null,
+    detectedKey: result?.detectedKey || datasetKey || null,
+    targetDataset: manualPageState.options.targetDataset || null,
+    runTests: manualPageState.options.autoTests && manualPageState.options.autoApply,
+  };
+
+  const success = writeJsonStorage(MANUAL_SYNC_STORAGE_KEY, payload);
+  return success;
+}
+
+function renderManualSyncPanels() {
+  if (pageMode !== PAGE_MODES.MANUAL_FETCH) return;
+
+  const statusElement = manualElements.syncStatus;
+  const historyElement = manualElements.syncHistory;
+  const pendingElement = manualElements.pendingSummary;
+
+  const history = readJsonStorage(MANUAL_SYNC_HISTORY_KEY);
+  const pending = readJsonStorage(MANUAL_SYNC_STORAGE_KEY);
+
+  if (statusElement) {
+    if (history) {
+      const timestamp = history.timestamp ? new Date(history.timestamp).toLocaleString() : "Data sconosciuta";
+      const dataset = Array.isArray(history.appliedKeys) && history.appliedKeys.length
+        ? history.appliedKeys.join(", ")
+        : "—";
+      statusElement.textContent = `Ultima applicazione: ${timestamp} · Dataset: ${dataset}`;
+    } else {
+      statusElement.textContent = "Nessuna sincronizzazione ancora registrata.";
+    }
+  }
+
+  if (historyElement) {
+    if (!history) {
+      historyElement.innerHTML = "";
+    } else {
+      const timestamp = history.timestamp ? new Date(history.timestamp).toLocaleString() : "Data sconosciuta";
+      const dataset = Array.isArray(history.appliedKeys) && history.appliedKeys.length
+        ? history.appliedKeys.join(", ")
+        : "—";
+      const summary = history.summary || "Nessun riepilogo disponibile.";
+      const source = history.sourceLabel
+        ? `<div><dt>Origine</dt><dd>${history.sourceLabel}</dd></div>`
+        : "";
+
+      historyElement.innerHTML = `
+        <div><dt>Timestamp</dt><dd>${timestamp}</dd></div>
+        <div><dt>Dataset</dt><dd>${dataset}</dd></div>
+        <div><dt>Dettaglio</dt><dd>${summary}</dd></div>
+        ${source}
+      `;
+    }
+  }
+
+  if (pendingElement) {
+    if (!pending || typeof pending !== "object") {
+      pendingElement.textContent = "Nessun payload in coda.";
+    } else {
+      const dataset = pending.targetDataset || pending.detectedKey || "auto";
+      const timestamp = pending.timestamp ? new Date(pending.timestamp).toLocaleString() : "pronto";
+      const summary = pending.summary || "Payload pronto per l'applicazione.";
+      pendingElement.textContent = `${summary} · Dataset: ${dataset} · ${timestamp}`;
     }
   }
 }
 
-function updateFetchPreview(payload) {
-  manualPreviewState.raw = payload ?? null;
-  manualPreviewState.sections = buildPreviewSections(payload);
+function loadManualOptionsFromStorage() {
+  const stored = readJsonStorage(MANUAL_FLAGS_STORAGE_KEY);
+  if (!stored || typeof stored !== "object") {
+    return;
+  }
+
+  manualPageState.options.allowArchive = stored.allowArchive !== false;
+  manualPageState.options.runDiagnostics = stored.runDiagnostics !== false;
+  manualPageState.options.autoApply = stored.autoApply !== false;
+  manualPageState.options.autoTests = stored.autoTests === true;
+  manualPageState.options.targetDataset = stored.targetDataset || "";
+
+  if (!manualPageState.options.autoApply) {
+    manualPageState.options.autoTests = false;
+  }
+}
+
+function persistManualOptions() {
+  writeJsonStorage(MANUAL_FLAGS_STORAGE_KEY, { ...manualPageState.options });
+}
+
+function syncManualOptionsUI() {
+  if (manualElements.optionArchive) {
+    manualElements.optionArchive.checked = manualPageState.options.allowArchive;
+  }
+  if (manualElements.optionDiagnostics) {
+    manualElements.optionDiagnostics.checked = manualPageState.options.runDiagnostics;
+  }
+  if (manualElements.optionAutoApply) {
+    manualElements.optionAutoApply.checked = manualPageState.options.autoApply;
+  }
+  if (manualElements.optionAutoTests) {
+    manualElements.optionAutoTests.checked = manualPageState.options.autoTests;
+    manualElements.optionAutoTests.disabled = !manualPageState.options.autoApply;
+  }
+  if (manualElements.targetDataset) {
+    manualElements.targetDataset.value = manualPageState.options.targetDataset || "";
+  }
+}
+
+function attachManualOptionHandlers() {
+  if (manualElements.optionArchive) {
+    manualElements.optionArchive.addEventListener("change", (event) => {
+      manualPageState.options.allowArchive = event.target.checked;
+      persistManualOptions();
+    });
+  }
+
+  if (manualElements.optionDiagnostics) {
+    manualElements.optionDiagnostics.addEventListener("change", (event) => {
+      manualPageState.options.runDiagnostics = event.target.checked;
+      persistManualOptions();
+      if (manualPageState.options.runDiagnostics) {
+        renderManualDiagnostics(runManualDiagnostics(manualPageState.lastResult));
+      } else {
+        renderManualDiagnostics({ disabled: true });
+      }
+    });
+  }
+
+  if (manualElements.optionAutoApply) {
+    manualElements.optionAutoApply.addEventListener("change", (event) => {
+      manualPageState.options.autoApply = event.target.checked;
+      if (!manualPageState.options.autoApply) {
+        manualPageState.options.autoTests = false;
+        if (manualElements.optionAutoTests) {
+          manualElements.optionAutoTests.checked = false;
+        }
+      }
+      persistManualOptions();
+      syncManualOptionsUI();
+      renderManualSyncPanels();
+    });
+  }
+
+  if (manualElements.optionAutoTests) {
+    manualElements.optionAutoTests.addEventListener("change", (event) => {
+      manualPageState.options.autoTests = event.target.checked;
+      persistManualOptions();
+    });
+  }
+
+  if (manualElements.targetDataset) {
+    manualElements.targetDataset.addEventListener("change", (event) => {
+      manualPageState.options.targetDataset = event.target.value || "";
+      persistManualOptions();
+      if (manualPageState.lastResult) {
+        renderManualMetadata(manualPageState.lastResult);
+        if (manualPageState.options.runDiagnostics) {
+          renderManualDiagnostics(runManualDiagnostics(manualPageState.lastResult));
+        }
+      }
+    });
+  }
+}
+
+function initManualNotes() {
+  if (!manualElements.notes) return;
+
+  let stored = "";
+  try {
+    stored = window.localStorage?.getItem(MANUAL_NOTES_STORAGE_KEY) || "";
+  } catch (error) {
+    console.warn("Impossibile leggere gli appunti di ricerca", error);
+  }
+
+  manualElements.notes.value = stored;
+  manualElements.notes.addEventListener("input", (event) => {
+    if (!window.localStorage) return;
+    try {
+      window.localStorage.setItem(MANUAL_NOTES_STORAGE_KEY, event.target.value);
+    } catch (error) {
+      console.warn("Impossibile salvare gli appunti di ricerca", error);
+    }
+  });
+}
+
+function initManualChecklist() {
+  if (!manualElements.checklistInputs || !manualElements.checklistInputs.length) {
+    return;
+  }
+
+  const stored = readJsonStorage(MANUAL_CHECKLIST_STORAGE_KEY) || {};
+
+  manualElements.checklistInputs.forEach((input) => {
+    const flag = input.dataset.manualFlag;
+    if (!flag) return;
+    input.checked = Boolean(stored[flag]);
+    input.addEventListener("change", () => {
+      stored[flag] = input.checked;
+      writeJsonStorage(MANUAL_CHECKLIST_STORAGE_KEY, stored);
+    });
+  });
+}
+
+function setupManualFetchPage() {
+  manualPageState.lastResult = null;
+  setupControlPanel();
+  loadManualOptionsFromStorage();
+  syncManualOptionsUI();
+  attachManualOptionHandlers();
+  initManualNotes();
+  initManualChecklist();
+  renderManualMetadata(null);
+  renderManualDiagnostics(null);
+  renderManualSyncPanels();
+
+  const pending = readJsonStorage(MANUAL_SYNC_STORAGE_KEY);
+  if (pending && controlElements.fetchStatus) {
+    const dataset = pending.targetDataset || pending.detectedKey || "auto";
+    setFetchStatus(
+      `Payload in coda (${dataset}). Verrà applicato automaticamente alla prossima apertura della dashboard principale.`,
+      "info"
+    );
+  }
+}
+
+function getExtensionFromIdentifier(identifier = "") {
+  if (!identifier) return "";
+  const sanitized = identifier.split(/[?#]/)[0] || "";
+  const parts = sanitized.split("/");
+  const lastSegment = parts[parts.length - 1] || "";
+  const match = /\.([^.]+)$/.exec(lastSegment);
+  return match ? match[1].toLowerCase() : "";
+}
+
+function decodeBufferToText(arrayBuffer) {
+  if (!arrayBuffer) return "";
+  try {
+    return new TextDecoder("utf-8", { fatal: false }).decode(arrayBuffer);
+  } catch (error) {
+    console.warn("Impossibile decodificare il buffer come testo UTF-8", error);
+    return "";
+  }
+}
+
+function summariseStructuredData(data, format) {
+  if (Array.isArray(data)) {
+    return `${format.toUpperCase()} con ${data.length} elementi`;
+  }
+  if (data && typeof data === "object") {
+    const keys = Object.keys(data);
+    const head = keys.slice(0, 6).join(", ");
+    const suffix = keys.length > 6 ? ", …" : "";
+    return `${format.toUpperCase()} con ${keys.length} chiavi (${head}${suffix})`;
+  }
+  if (data === null || data === undefined) {
+    return `${format.toUpperCase()} vuoto`;
+  }
+  return `${format.toUpperCase()} (${typeof data})`;
+}
+
+function summarisePlainText(text, label = "Contenuto testuale") {
+  const trimmed = (text || "").trim();
+  if (!trimmed) {
+    return {
+      summary: `${label} (vuoto)`,
+      preview: "(nessun contenuto)",
+    };
+  }
+
+  const lines = trimmed.split(/\r?\n/);
+  const summary = `${label} (${lines.length} righe, ${trimmed.length} caratteri)`;
+  const slice = trimmed.slice(0, 800);
+  const preview = slice + (trimmed.length > slice.length ? "\n…" : "");
+  return { summary, preview };
+}
+
+function summariseMarkdown(text) {
+  const trimmed = text || "";
+  const headingMatches = trimmed.match(/^#{1,6}\s+/gm) || [];
+  const words = (trimmed.match(/\w+/g) || []).length;
+  const { summary: baseSummary, preview } = summarisePlainText(trimmed, "Markdown");
+  const enrichedSummary = `${baseSummary} · ${headingMatches.length} heading · ${words} parole`;
+  return { summary: enrichedSummary, preview };
+}
+
+function summariseHtml(text, identifier) {
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, "text/html");
+    const title = doc.querySelector("title")?.textContent?.trim();
+    const description = doc.querySelector('meta[name="description"]')?.getAttribute("content")?.trim();
+    const bodyText = doc.body?.textContent?.replace(/\s+/g, " ")?.trim() || "";
+    const snippet = bodyText.slice(0, 800) + (bodyText.length > 800 ? "\n…" : "");
+    const summaryParts = ["Pagina HTML"];
+    if (title) {
+      summaryParts.push(`titolo: ${title}`);
+    }
+    if (description) {
+      summaryParts.push(description);
+    }
+    if (!title && !description && identifier) {
+      summaryParts.push(identifier);
+    }
+    return {
+      summary: summaryParts.join(" · "),
+      preview: snippet || "(nessun testo rilevato)",
+      text: bodyText,
+    };
+  } catch (error) {
+    console.warn("Impossibile interpretare il markup HTML", error);
+    return summarisePlainText(text, "HTML");
+  }
+}
+
+function interpretTextPayload({ identifier, text, contentType = "", sourceLabel }) {
+  const normalizedType = (contentType || "").toLowerCase();
+  const extension = getExtensionFromIdentifier(identifier);
+  const trimmed = text?.trim() || "";
+  const warnings = [];
+  if (!trimmed) {
+    warnings.push("Il contenuto recuperato è vuoto.");
+  }
+
+  const looksLikeJson =
+    normalizedType.includes("json") ||
+    extension === "json" ||
+    trimmed.startsWith("{") ||
+    trimmed.startsWith("[");
+  const looksLikeYaml =
+    normalizedType.includes("yaml") ||
+    normalizedType.includes("yml") ||
+    extension === "yaml" ||
+    extension === "yml";
+  const looksLikeMarkdown =
+    normalizedType.includes("markdown") || extension === "md" || extension === "markdown";
+  const looksLikeHtml =
+    normalizedType.includes("html") ||
+    extension === "html" ||
+    /^<!?(doctype html|html)/i.test(trimmed);
+
+  if (looksLikeJson) {
+    try {
+      const data = JSON.parse(text);
+      const summary = summariseStructuredData(data, "json");
+      return {
+        data,
+        preview: data,
+        summary,
+        format: "json",
+        sourceLabel,
+        warnings,
+        detectedKey: detectDataKey(data),
+      };
+    } catch (error) {
+      warnings.push(`JSON non valido: ${error.message}`);
+    }
+  }
+
+  if (looksLikeYaml) {
+    try {
+      const data = jsyaml.load(text) ?? {};
+      const summary = summariseStructuredData(data, "yaml");
+      return {
+        data,
+        preview: data,
+        summary,
+        format: "yaml",
+        sourceLabel,
+        warnings,
+        detectedKey: detectDataKey(data),
+      };
+    } catch (error) {
+      warnings.push(`YAML non valido: ${error.message}`);
+    }
+  }
+
+  if (!looksLikeJson && !looksLikeYaml) {
+    try {
+      const data = JSON.parse(text);
+      const summary = summariseStructuredData(data, "json");
+      return {
+        data,
+        preview: data,
+        summary,
+        format: "json",
+        sourceLabel,
+        warnings,
+        detectedKey: detectDataKey(data),
+      };
+    } catch (jsonError) {
+      try {
+        const data = jsyaml.load(text);
+        if (data !== undefined) {
+          const summary = summariseStructuredData(data, "yaml");
+          return {
+            data,
+            preview: data,
+            summary,
+            format: "yaml",
+            sourceLabel,
+            warnings,
+            detectedKey: detectDataKey(data),
+          };
+        }
+      } catch (yamlError) {
+        warnings.push("Contenuto non interpretabile come JSON/YAML.");
+      }
+    }
+  }
+
+  if (looksLikeHtml) {
+    const details = summariseHtml(text, identifier);
+    return {
+      data: null,
+      preview: details.preview,
+      summary: details.summary,
+      format: "html",
+      sourceLabel,
+      warnings,
+    };
+  }
+
+  if (looksLikeMarkdown) {
+    const details = summariseMarkdown(text);
+    return {
+      data: null,
+      preview: details.preview,
+      summary: details.summary,
+      format: "markdown",
+      sourceLabel,
+      warnings,
+    };
+  }
+
+  const details = summarisePlainText(text);
+  return {
+    data: null,
+    preview: details.preview,
+    summary: details.summary,
+    format: "text",
+    sourceLabel,
+    warnings,
+  };
+}
+
+function inferFormatFromExtension(name) {
+  const ext = getExtensionFromIdentifier(name);
+  if (!ext) return "sconosciuto";
+  return ext;
+}
+
+function mergeDatasetPayload(existing, incoming) {
+  if (!existing) {
+    return Array.isArray(incoming) ? [...incoming] : { ...incoming };
+  }
+
+  if (Array.isArray(existing) && Array.isArray(incoming)) {
+    return [...existing, ...incoming];
+  }
+
+  if (existing && typeof existing === "object" && incoming && typeof incoming === "object") {
+    return { ...existing, ...incoming };
+  }
+
+  return incoming;
+}
+
+async function parseZipArchive({ identifier, arrayBuffer, sourceLabel }) {
+  if (typeof JSZip === "undefined") {
+    throw new Error("Supporto ZIP non disponibile: libreria JSZip non caricata.");
+  }
+
+  let zip;
+  try {
+    zip = await JSZip.loadAsync(arrayBuffer);
+  } catch (error) {
+    throw new Error(`Archivio ZIP non valido: ${error.message}`);
+  }
+
+  const attachments = [];
+  const warnings = [];
+  const aggregated = {};
+  const structuredPayloads = [];
+
+  const files = Object.values(zip.files).filter((entry) => !entry.dir);
+  for (const entry of files) {
+    let buffer;
+    try {
+      buffer = await entry.async("arraybuffer");
+    } catch (error) {
+      attachments.push({
+        name: entry.name,
+        format: "errore",
+        summary: `Impossibile leggere il file: ${error.message}`,
+      });
+      warnings.push(`Errore durante la lettura di ${entry.name}: ${error.message}`);
+      continue;
+    }
+
+    let childResult;
+    try {
+      childResult = await interpretFetchedPayload({
+        identifier: entry.name,
+        arrayBuffer: buffer,
+        contentType: "",
+        sourceType: "archive",
+        allowArchive: false,
+      });
+    } catch (error) {
+      attachments.push({
+        name: entry.name,
+        format: "errore",
+        summary: error.message,
+      });
+      warnings.push(`Analisi fallita per ${entry.name}: ${error.message}`);
+      continue;
+    }
+
+    const datasetKey = childResult.detectedKey || (childResult.data ? detectDataKey(childResult.data) : null);
+    if (datasetKey && childResult.data && typeof childResult.data === "object") {
+      aggregated[datasetKey] = mergeDatasetPayload(aggregated[datasetKey], childResult.data);
+    }
+
+    if (childResult.data && typeof childResult.data === "object") {
+      structuredPayloads.push(childResult.data);
+    }
+
+    attachments.push({
+      name: entry.name,
+      format: childResult.format || inferFormatFromExtension(entry.name),
+      summary: childResult.summary || "Analisi completata",
+      dataset: datasetKey || undefined,
+    });
+  }
+
+  const datasetKeys = Object.keys(aggregated);
+  let data = null;
+  if (datasetKeys.length === 1) {
+    data = aggregated[datasetKeys[0]];
+  } else if (datasetKeys.length > 1) {
+    data = aggregated;
+  } else if (structuredPayloads.length === 1) {
+    data = structuredPayloads[0];
+  }
+
+  const summaryParts = [`Archivio ZIP con ${files.length} file`];
+  if (datasetKeys.length) {
+    summaryParts.push(`dataset rilevati: ${datasetKeys.join(", ")}`);
+  }
+  const summary = summaryParts.join(" · ");
+
+  return {
+    data,
+    preview: data ?? null,
+    summary,
+    format: "zip",
+    sourceLabel,
+    attachments,
+    warnings,
+  };
+}
+
+async function parseDocxDocument({ arrayBuffer, sourceLabel, identifier }) {
+  if (typeof JSZip === "undefined") {
+    throw new Error("Supporto DOCX non disponibile: libreria JSZip non caricata.");
+  }
+
+  let zip;
+  try {
+    zip = await JSZip.loadAsync(arrayBuffer);
+  } catch (error) {
+    throw new Error(`Documento DOCX non valido: ${error.message}`);
+  }
+
+  const documentFile = zip.file("word/document.xml");
+  if (!documentFile) {
+    return {
+      data: null,
+      preview: null,
+      summary: "Documento DOCX privo di contenuto testuale.",
+      format: "docx",
+      sourceLabel,
+      warnings: ["Impossibile trovare word/document.xml nel pacchetto DOCX."],
+    };
+  }
+
+  const xmlText = await documentFile.async("string");
+  const text = extractTextFromDocx(xmlText);
+  const { summary, preview } = summarisePlainText(text || "", "Documento DOCX");
+  return {
+    data: null,
+    preview,
+    summary,
+    format: "docx",
+    sourceLabel,
+    warnings: text ? [] : ["Nessun testo significativo rilevato nel documento."],
+  };
+}
+
+function extractTextFromDocx(xmlText) {
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlText, "application/xml");
+    const nodes = doc.getElementsByTagName("w:t");
+    const parts = [];
+    for (let i = 0; i < nodes.length; i += 1) {
+      const value = nodes[i].textContent;
+      if (value) {
+        parts.push(value);
+      }
+    }
+    return parts.join(" ").replace(/\s+/g, " ").trim();
+  } catch (error) {
+    console.warn("Impossibile estrarre il testo dal documento DOCX", error);
+    return xmlText.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  }
+}
+
+function parsePdfDocument({ arrayBuffer, sourceLabel, identifier, size }) {
+  const sizeLabel = typeof size === "number" ? formatFileSize(size) : null;
+  const summaryParts = ["Documento PDF"];
+  if (sizeLabel) {
+    summaryParts.push(sizeLabel);
+  } else if (arrayBuffer) {
+    summaryParts.push(`${arrayBuffer.byteLength} B`);
+  }
+  summaryParts.push(identifier);
+
+  return {
+    data: null,
+    preview: null,
+    summary: summaryParts.join(" · "),
+    format: "pdf",
+    sourceLabel,
+    warnings: [
+      "L'anteprima dei PDF non è disponibile nell'interfaccia web. Usa lo script di indagine per estrarre il testo.",
+    ],
+  };
+}
+
+function updateFetchPreview(result) {
+  const previewPayload = result?.preview ?? result?.data ?? null;
+  manualPreviewState.raw = previewPayload ?? null;
+  const sections = buildPreviewSections(previewPayload);
+
+  if (Array.isArray(result?.attachments) && result.attachments.length > 0) {
+    const attachmentItems = result.attachments.map((item) => ({
+      file: item.name,
+      formato: item.format,
+      dataset: item.dataset || "—",
+      dettagli: item.summary,
+    }));
+    const attachmentSection = createPreviewSection("estratti", attachmentItems);
+    if (attachmentSection) {
+      sections.push(attachmentSection);
+    }
+  }
+
+  manualPreviewState.sections = sections;
   manualPreviewState.sectionIndex = 0;
   manualPreviewState.pageIndex = 0;
+  manualPreviewState.summary = result?.summary || "";
+  manualPreviewState.sourceLabel = result?.sourceLabel || "";
+  manualPreviewState.format = result?.format || "";
+  manualPreviewState.warnings = Array.isArray(result?.warnings)
+    ? result.warnings.filter(Boolean)
+    : [];
   renderFetchPreview();
 }
 
@@ -1476,6 +2630,8 @@ function renderFetchPreview() {
   const content = controlElements.fetchPreviewContent;
   const pagination = controlElements.fetchPreviewPagination;
   const tabs = controlElements.fetchPreviewTabs;
+  const summaryElement = controlElements.fetchPreviewSummary;
+  const warningsElement = controlElements.fetchPreviewWarnings;
   const sections = manualPreviewState.sections;
 
   if (!body || !emptyState || !content || !pagination || !tabs) {
@@ -1486,14 +2642,55 @@ function renderFetchPreview() {
     return;
   }
 
+  const summaryParts = [];
+  if (manualPreviewState.summary) {
+    summaryParts.push(manualPreviewState.summary);
+  }
+  if (manualPreviewState.format) {
+    summaryParts.push(`Formato: ${manualPreviewState.format}`);
+  }
+  if (manualPreviewState.sourceLabel) {
+    summaryParts.push(manualPreviewState.sourceLabel);
+  }
+
+  if (summaryElement) {
+    if (summaryParts.length) {
+      summaryElement.textContent = summaryParts.join(" · ");
+      summaryElement.hidden = false;
+    } else {
+      summaryElement.textContent = "";
+      summaryElement.hidden = true;
+    }
+  }
+
+  if (warningsElement) {
+    if (manualPreviewState.warnings.length) {
+      warningsElement.innerHTML = manualPreviewState.warnings
+        .map((warning) => `<li>${warning}</li>`)
+        .join("");
+      warningsElement.hidden = false;
+    } else {
+      warningsElement.innerHTML = "";
+      warningsElement.hidden = true;
+    }
+  }
+
+  const showBody =
+    sections.length > 0 || summaryParts.length > 0 || manualPreviewState.warnings.length > 0;
+
+  body.hidden = !showBody;
+  emptyState.hidden = showBody;
+
   if (!sections.length) {
-    body.hidden = true;
-    emptyState.hidden = false;
-    emptyState.textContent = "(nessun contenuto)";
     tabs.innerHTML = "";
     content.textContent = "";
     pagination.innerHTML = "";
     pagination.hidden = true;
+    if (!showBody) {
+      emptyState.textContent = "(nessun contenuto)";
+    } else {
+      emptyState.textContent = "";
+    }
     return;
   }
 
@@ -1844,6 +3041,76 @@ function applyFetchedData(payload) {
   return updatedKeys;
 }
 
+function renderManualSyncInfo(history) {
+  if (!controlElements.manualSyncLast || !controlElements.manualSyncSummary) {
+    return;
+  }
+
+  if (!history) {
+    controlElements.manualSyncLast.textContent = "Mai eseguita";
+    controlElements.manualSyncSummary.textContent = "Nessuna sincronizzazione ricevuta.";
+    return;
+  }
+
+  const timestamp = history.timestamp ? new Date(history.timestamp) : null;
+  controlElements.manualSyncLast.textContent = timestamp
+    ? timestamp.toLocaleString()
+    : "Data sconosciuta";
+
+  const parts = [];
+  if (history.summary) {
+    parts.push(history.summary);
+  }
+  if (Array.isArray(history.appliedKeys) && history.appliedKeys.length) {
+    parts.push(`Dataset: ${history.appliedKeys.join(", ")}`);
+  }
+  if (history.sourceLabel) {
+    parts.push(history.sourceLabel);
+  }
+
+  controlElements.manualSyncSummary.textContent = parts.join(" · ") || "Sync completata.";
+}
+
+function consumePendingManualSync() {
+  if (pageMode !== PAGE_MODES.DASHBOARD) {
+    return;
+  }
+
+  const payload = readJsonStorage(MANUAL_SYNC_STORAGE_KEY);
+  if (!payload || typeof payload !== "object") {
+    const history = readJsonStorage(MANUAL_SYNC_HISTORY_KEY);
+    renderManualSyncInfo(history);
+    return;
+  }
+
+  if (!payload.data || typeof payload.data !== "object") {
+    console.warn("Payload di sincronizzazione manuale non valido", payload);
+    writeJsonStorage(MANUAL_SYNC_STORAGE_KEY, null);
+    renderManualSyncInfo(readJsonStorage(MANUAL_SYNC_HISTORY_KEY));
+    return;
+  }
+
+  writeJsonStorage(MANUAL_SYNC_STORAGE_KEY, null);
+
+  const appliedKeys = applyFetchedData(payload.data);
+
+  const history = {
+    timestamp: new Date().toISOString(),
+    summary: payload.summary || null,
+    sourceLabel: payload.sourceLabel || null,
+    format: payload.format || null,
+    appliedKeys,
+  };
+
+  writeJsonStorage(MANUAL_SYNC_HISTORY_KEY, history);
+
+  if (payload.runTests && controlElements.runTests) {
+    runDataTests();
+  }
+
+  renderManualSyncInfo(history);
+}
+
 function detectDataKey(payload) {
   if (!payload || typeof payload !== "object") return null;
 
@@ -1863,10 +3130,18 @@ function setFetchStatus(message, variant) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  pageMode = detectPageMode();
   setupDomReferences();
-  document
-    .getElementById("reload-data")
-    .addEventListener("click", () => loadAllData());
-  setupControlPanel();
-  loadAllData();
+
+  if (pageMode === PAGE_MODES.DASHBOARD) {
+    const reloadButton = document.getElementById("reload-data");
+    if (reloadButton) {
+      reloadButton.addEventListener("click", () => loadAllData());
+    }
+    setupControlPanel();
+    renderManualSyncInfo(readJsonStorage(MANUAL_SYNC_HISTORY_KEY));
+    loadAllData();
+  } else if (pageMode === PAGE_MODES.MANUAL_FETCH) {
+    setupManualFetchPage();
+  }
 });
