@@ -24,8 +24,8 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [ ] Annotare gli esiti della validazione (OK/errori) in `docs/checklist/action-items.md` o in un log.
 
 ## 4. Verifica CLI
-- [ ] Eseguire `node dist/roll_pack.js <MBTI> <archetipo> ../../data/packs.yaml` (es. `ENTP invoker`).
-- [ ] Avviare `python roll_pack.py <MBTI> <archetipo> ../../data/packs.yaml` e confrontare i risultati.
+- [ ] Eseguire `node dist/roll_pack.js <MBTI> <archetipo> ../../data/packs.yaml --seed demo` (sostituire `demo` con un seed a scelta per output replicabili).
+- [ ] Avviare `python roll_pack.py <MBTI> <archetipo> ../../data/packs.yaml --seed demo` e verificare che l'output (chiavi `pack`, `combo`, `total_cost`, ecc.) coincida con la CLI TypeScript.
 - [ ] Generare encounter di prova: `python generate_encounter.py <bioma> ../../data/biomes.yaml` per
       ogni bioma disponibile, salvando gli output in `docs/examples/` o nella sezione encounter.
 - [ ] Documentare eventuali discrepanze CLI TS/Python e aprire issue se necessarie.
