@@ -14,6 +14,34 @@ const state = {
   formFilter: ""
 };
 
+const manualPreviewState = {
+  raw: null,
+  sections: [],
+  sectionIndex: 0,
+  pageIndex: 0,
+};
+
+const PREVIEW_PAGE_SIZE_DEFAULT = 20;
+const PREVIEW_PAGE_SIZES = {
+  species: 8,
+  forms: 12,
+  derivatives: 12,
+  catalog: 10,
+};
+const PREVIEW_SECTION_PRIORITY = ["species", "forms", "derivatives"];
+const PREVIEW_SECTION_LABELS = {
+  species: "Specie",
+  forms: "Forme",
+  derivatives: "Derivati",
+  catalog: "Catalogo",
+  packs: "Pacchetti",
+  telemetry: "Telemetria",
+  biomes: "Biomi",
+  mating: "Compatibilità",
+  items: "Elementi"
+};
+const PREVIEW_LABEL_COLLATOR = new Intl.Collator("it", { sensitivity: "base" });
+
 const metricsElements = {};
 const controlElements = {};
 const infoElements = {};
@@ -80,6 +108,11 @@ function setupDomReferences() {
   controlElements.fetchUrl = document.getElementById("fetch-url");
   controlElements.fetchStatus = document.getElementById("fetch-status");
   controlElements.fetchPreview = document.getElementById("fetch-preview");
+  controlElements.fetchPreviewBody = document.getElementById("fetch-preview-body");
+  controlElements.fetchPreviewTabs = document.getElementById("fetch-preview-tabs");
+  controlElements.fetchPreviewContent = document.getElementById("fetch-preview-content");
+  controlElements.fetchPreviewPagination = document.getElementById("fetch-preview-pagination");
+  controlElements.fetchPreviewEmpty = document.getElementById("fetch-preview-empty");
   controlElements.formSelector = document.getElementById("form-selector");
   controlElements.formFilter = document.getElementById("form-filter");
   controlElements.rollD20 = document.getElementById("roll-d20");
@@ -1170,6 +1203,8 @@ function setupControlPanel() {
   if (controlElements.encounterButton) {
     controlElements.encounterButton.addEventListener("click", handleEncounterGenerate);
   }
+
+  renderFetchPreview();
 }
 
 function runDataTests() {
@@ -1425,17 +1460,350 @@ function parseFetchedContent(url, text, contentType = "") {
 }
 
 function updateFetchPreview(payload) {
-  if (!controlElements.fetchPreview) return;
-  if (payload === undefined || payload === null) {
-    controlElements.fetchPreview.textContent = "(nessun contenuto)";
+  manualPreviewState.raw = payload ?? null;
+  manualPreviewState.sections = buildPreviewSections(payload);
+  manualPreviewState.sectionIndex = 0;
+  manualPreviewState.pageIndex = 0;
+  renderFetchPreview();
+}
+
+function renderFetchPreview() {
+  const container = controlElements.fetchPreview;
+  if (!container) return;
+
+  const body = controlElements.fetchPreviewBody;
+  const emptyState = controlElements.fetchPreviewEmpty;
+  const content = controlElements.fetchPreviewContent;
+  const pagination = controlElements.fetchPreviewPagination;
+  const tabs = controlElements.fetchPreviewTabs;
+  const sections = manualPreviewState.sections;
+
+  if (!body || !emptyState || !content || !pagination || !tabs) {
+    const fallback = sections.length
+      ? sections[manualPreviewState.sectionIndex]?.pages?.[manualPreviewState.pageIndex || 0]?.data
+      : manualPreviewState.raw;
+    container.textContent = formatPreviewData(fallback);
     return;
   }
 
+  if (!sections.length) {
+    body.hidden = true;
+    emptyState.hidden = false;
+    emptyState.textContent = "(nessun contenuto)";
+    tabs.innerHTML = "";
+    content.textContent = "";
+    pagination.innerHTML = "";
+    pagination.hidden = true;
+    return;
+  }
+
+  body.hidden = false;
+  emptyState.hidden = true;
+
+  manualPreviewState.sectionIndex = Math.min(
+    manualPreviewState.sectionIndex,
+    sections.length - 1
+  );
+  const currentSection = sections[manualPreviewState.sectionIndex];
+  manualPreviewState.pageIndex = Math.min(
+    manualPreviewState.pageIndex,
+    Math.max(0, currentSection.pages.length - 1)
+  );
+  const currentPage =
+    currentSection.pages[manualPreviewState.pageIndex] || currentSection.pages[0];
+
+  renderPreviewTabs(sections);
+  content.textContent = formatPreviewData(currentPage?.data);
+  renderPreviewPagination(currentSection, currentPage);
+}
+
+function buildPreviewSections(payload) {
+  if (payload === undefined) {
+    return [];
+  }
+
+  if (Array.isArray(payload)) {
+    const sections = [];
+    const arraySection = createPreviewSection("items", payload);
+    if (arraySection) {
+      sections.push(arraySection);
+    }
+    const rawSection = createRawPreviewSection(payload);
+    if (rawSection) {
+      sections.push(rawSection);
+    }
+    return sections;
+  }
+
+  if (payload && typeof payload === "object") {
+    const sections = [];
+    const usedKeys = new Set();
+
+    PREVIEW_SECTION_PRIORITY.forEach((key) => {
+      if (Object.prototype.hasOwnProperty.call(payload, key)) {
+        const section = createPreviewSection(key, payload[key]);
+        if (section) {
+          sections.push(section);
+          usedKeys.add(key);
+        }
+      }
+    });
+
+    const remainingSections = Object.entries(payload)
+      .filter(([key]) => !usedKeys.has(key))
+      .map(([key, value]) => createPreviewSection(key, value))
+      .filter(Boolean)
+      .sort((a, b) => PREVIEW_LABEL_COLLATOR.compare(a.label, b.label));
+
+    sections.push(...remainingSections);
+
+    const rawSection = createRawPreviewSection(payload);
+    if (rawSection) {
+      sections.push(rawSection);
+    }
+
+    return sections;
+  }
+
+  const rawSection = createRawPreviewSection(payload);
+  return rawSection ? [rawSection] : [];
+}
+
+function createPreviewSection(key, value) {
+  if (value === undefined) {
+    return null;
+  }
+
+  if (Array.isArray(value)) {
+    const totalItems = value.length;
+    const pageSize = getPreviewPageSize(key, totalItems);
+    const pages = [];
+
+    if (!totalItems) {
+      pages.push({ index: 0, data: [], rangeLabel: "0 elementi" });
+    } else {
+      for (let start = 0; start < totalItems; start += pageSize) {
+        const end = Math.min(start + pageSize, totalItems);
+        pages.push({
+          index: pages.length,
+          data: value.slice(start, end),
+          rangeLabel: `Elementi ${start + 1}-${end} di ${totalItems}`,
+        });
+      }
+    }
+
+    return {
+      key,
+      label: resolvePreviewLabel(key),
+      type: "array",
+      totalItems,
+      pageSize,
+      pages,
+    };
+  }
+
+  if (value && typeof value === "object") {
+    const entries = Object.entries(value);
+    const totalItems = entries.length;
+    const pageSize = getPreviewPageSize(key, totalItems);
+    const pages = [];
+
+    if (!totalItems) {
+      pages.push({ index: 0, data: {}, rangeLabel: "0 voci" });
+    } else {
+      for (let start = 0; start < totalItems; start += pageSize) {
+        const end = Math.min(start + pageSize, totalItems);
+        const pageEntries = entries.slice(start, end);
+        pages.push({
+          index: pages.length,
+          data: Object.fromEntries(pageEntries),
+          rangeLabel: `Voci ${start + 1}-${end} di ${totalItems}`,
+        });
+      }
+    }
+
+    return {
+      key,
+      label: resolvePreviewLabel(key),
+      type: "object",
+      totalItems,
+      pageSize,
+      pages,
+    };
+  }
+
+  return {
+    key,
+    label: resolvePreviewLabel(key),
+    type: "primitive",
+    totalItems: value === null || value === "" ? 0 : 1,
+    pageSize: 1,
+    pages: [
+      {
+        index: 0,
+        data: value,
+        rangeLabel: null,
+      },
+    ],
+  };
+}
+
+function createRawPreviewSection(payload) {
+  if (payload === undefined) {
+    return null;
+  }
+
+  let totalItems = 0;
+  if (Array.isArray(payload)) {
+    totalItems = payload.length;
+  } else if (payload && typeof payload === "object") {
+    totalItems = Object.keys(payload).length;
+  } else if (payload !== null) {
+    totalItems = 1;
+  }
+
+  return {
+    key: "__raw__",
+    label: "Snapshot completo",
+    type: "raw",
+    totalItems,
+    pageSize: Number.MAX_SAFE_INTEGER,
+    pages: [
+      {
+        index: 0,
+        data: payload,
+        rangeLabel: null,
+      },
+    ],
+  };
+}
+
+function getPreviewPageSize(key, totalItems) {
+  const override = PREVIEW_PAGE_SIZES[key];
+  const base = typeof override === "number" && override > 0 ? override : PREVIEW_PAGE_SIZE_DEFAULT;
+  if (typeof totalItems === "number" && totalItems > 0) {
+    return Math.max(1, Math.min(base, totalItems));
+  }
+  return Math.max(1, base);
+}
+
+function resolvePreviewLabel(key) {
+  if (key === "__raw__") {
+    return "Snapshot completo";
+  }
+  return PREVIEW_SECTION_LABELS[key] || formatLabel(key);
+}
+
+function renderPreviewTabs(sections) {
+  const tabs = controlElements.fetchPreviewTabs;
+  if (!tabs) return;
+
+  tabs.innerHTML = "";
+
+  sections.forEach((section, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "preview-tab";
+    button.setAttribute("role", "tab");
+    if (index === manualPreviewState.sectionIndex) {
+      button.classList.add("active");
+      button.setAttribute("aria-selected", "true");
+    } else {
+      button.setAttribute("aria-selected", "false");
+    }
+
+    const labelSpan = document.createElement("span");
+    labelSpan.className = "preview-tab-label";
+    labelSpan.textContent = section.label;
+    button.appendChild(labelSpan);
+
+    if (
+      section.key !== "__raw__" &&
+      typeof section.totalItems === "number" &&
+      (section.type === "array" || section.type === "object")
+    ) {
+      const count = document.createElement("span");
+      count.className = "preview-tab-count";
+      count.textContent = section.totalItems;
+      button.appendChild(count);
+    }
+
+    button.addEventListener("click", () => {
+      if (manualPreviewState.sectionIndex === index) return;
+      manualPreviewState.sectionIndex = index;
+      manualPreviewState.pageIndex = 0;
+      renderFetchPreview();
+    });
+
+    tabs.appendChild(button);
+  });
+}
+
+function renderPreviewPagination(section, page) {
+  const pagination = controlElements.fetchPreviewPagination;
+  if (!pagination) return;
+
+  if (!section || section.pages.length <= 1) {
+    pagination.innerHTML = "";
+    pagination.hidden = true;
+    return;
+  }
+
+  pagination.hidden = false;
+  pagination.innerHTML = "";
+
+  const prevButton = document.createElement("button");
+  prevButton.type = "button";
+  prevButton.className = "preview-page-btn";
+  prevButton.textContent = "Precedente";
+  prevButton.disabled = manualPreviewState.pageIndex === 0;
+  prevButton.addEventListener("click", () => {
+    if (manualPreviewState.pageIndex === 0) return;
+    manualPreviewState.pageIndex -= 1;
+    renderFetchPreview();
+  });
+
+  const nextButton = document.createElement("button");
+  nextButton.type = "button";
+  nextButton.className = "preview-page-btn";
+  nextButton.textContent = "Successiva";
+  nextButton.disabled =
+    manualPreviewState.pageIndex >= section.pages.length - 1;
+  nextButton.addEventListener("click", () => {
+    if (manualPreviewState.pageIndex >= section.pages.length - 1) return;
+    manualPreviewState.pageIndex += 1;
+    renderFetchPreview();
+  });
+
+  const info = document.createElement("span");
+  info.className = "preview-page-info";
+  const parts = [`Pagina ${manualPreviewState.pageIndex + 1} di ${section.pages.length}`];
+  if (page?.rangeLabel) {
+    parts.push(page.rangeLabel);
+  }
+  info.textContent = parts.join(" · ");
+
+  pagination.append(prevButton, info, nextButton);
+}
+
+function formatPreviewData(value) {
+  if (value === undefined) {
+    return "(non disponibile)";
+  }
+  if (value === null) {
+    return "null";
+  }
+  if (typeof value === "string") {
+    return value;
+  }
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
   try {
-    const formatted = JSON.stringify(payload, null, 2);
-    controlElements.fetchPreview.textContent = formatted;
+    return JSON.stringify(value, null, 2);
   } catch (error) {
-    controlElements.fetchPreview.textContent = String(payload);
+    return String(value);
   }
 }
 
