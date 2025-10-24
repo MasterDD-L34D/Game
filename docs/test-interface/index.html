@@ -85,15 +85,33 @@
       <section id="forms" class="panel">
         <div class="panel-header">
           <h2>Pacchetti PI &amp; Compatibilità per Forma</h2>
-          <label class="selector">
-            <span>Seleziona forma:</span>
-            <select id="form-selector" aria-label="Forma MBTI">
-              <option value="" selected>Scegli…</option>
-            </select>
-          </label>
+          <div class="selectors">
+            <label class="selector">
+              <span>Seleziona forma:</span>
+              <select id="form-selector" aria-label="Forma MBTI">
+                <option value="" selected>Scegli…</option>
+              </select>
+            </label>
+            <label class="selector search">
+              <span>Filtra:</span>
+              <input
+                id="form-filter"
+                type="search"
+                placeholder="Cerca forma o job…"
+                autocomplete="off"
+              />
+            </label>
+          </div>
         </div>
         <div id="form-details" class="content-placeholder">
           <p>Seleziona una forma per visualizzare combinazioni A/B/C, bias d12 e hook di collaborazione.</p>
+        </div>
+      </section>
+
+      <section id="pi-shop" class="panel">
+        <h2>Negozio PI &amp; Caps sessione</h2>
+        <div id="pi-shop-content" class="content-placeholder">
+          <p>In attesa di dati…</p>
         </div>
       </section>
 
@@ -115,6 +133,36 @@
         <h2>Biomi &amp; Mutazioni</h2>
         <div id="biomes-grid" class="content-placeholder">
           <p>In attesa di dati…</p>
+        </div>
+      </section>
+
+      <section id="playtest-tools" class="panel">
+        <h2>Strumenti rapidi per il playtest</h2>
+        <div class="tools-grid">
+          <article class="card tool-card">
+            <h3>Roll tabella d20</h3>
+            <p class="muted">Simula un tiro per la tabella random general e ottieni il pack consigliato.</p>
+            <button id="roll-d20" type="button">Tira d20</button>
+            <div id="roll-d20-result" class="result-block">
+              <p class="muted">In attesa del primo tiro…</p>
+            </div>
+          </article>
+          <article class="card tool-card">
+            <h3>Bias d12 della forma</h3>
+            <p class="muted">Seleziona prima una forma nella sezione dedicata, poi tira per ottenere il pack A/B/C.</p>
+            <button id="roll-bias" type="button" disabled>Tira d12</button>
+            <div id="bias-roll-result" class="result-block">
+              <p class="muted">Nessuna forma selezionata.</p>
+            </div>
+          </article>
+          <article class="card tool-card">
+            <h3>Generatore incontro bioma</h3>
+            <p class="muted">Crea uno scenario veloce con bioma, mutazioni e adattamenti VC suggeriti.</p>
+            <button id="generate-encounter" type="button">Genera incontro</button>
+            <div id="encounter-result" class="result-block">
+              <p class="muted">Premi "Genera" per ottenere un setup.</p>
+            </div>
+          </article>
         </div>
       </section>
     </main>

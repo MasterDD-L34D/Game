@@ -104,6 +104,13 @@ main {
   margin-bottom: 1.5rem;
 }
 
+.selectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
 .selector {
   display: flex;
   gap: 0.75rem;
@@ -117,6 +124,27 @@ main {
   border: 1px solid var(--border);
   background: var(--bg-panel-light);
   color: var(--text);
+}
+
+.selector.search {
+  flex: 1 1 220px;
+}
+
+.selector.search span {
+  white-space: nowrap;
+}
+
+.selector.search input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: var(--bg-panel-light);
+  color: var(--text);
+}
+
+.selector.search input::placeholder {
+  color: rgba(148, 163, 184, 0.7);
 }
 
 .stats-grid {
@@ -168,6 +196,12 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+.pi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
 .card {
   background: var(--bg-panel-light);
   border-radius: 1.1rem;
@@ -183,7 +217,8 @@ main {
 }
 
 .control-card button,
-.control-actions button {
+.control-actions button,
+.tool-card button {
   background: var(--accent);
   border: none;
   color: #0f172a;
@@ -196,7 +231,8 @@ main {
 }
 
 .control-card button:hover,
-.control-actions button:hover {
+.control-actions button:hover,
+.tool-card button:hover {
   transform: translateY(-1px);
   box-shadow: 0 16px 35px rgba(56, 189, 248, 0.3);
 }
@@ -350,6 +386,60 @@ main {
   font-size: 0.85rem;
 }
 
+.tools-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.result-block {
+  margin-top: 1rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 42, 0.5);
+  padding: 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.result-block p {
+  margin: 0.25rem 0;
+}
+
+.result-block h4 {
+  margin: 0.75rem 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.result-block .pills {
+  margin-top: 0.5rem;
+}
+
+.result-block ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.result-block ul li {
+  margin-bottom: 0.3rem;
+}
+
+.dice-roll {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.dice-pack {
+  font-weight: 600;
+}
+
+.pi-hint {
+  margin-top: 1.25rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .pill-group {
   margin-bottom: 1rem;
 }
@@ -442,5 +532,19 @@ footer {
   .panel-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .selectors {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .selector.search {
+    width: 100%;
+  }
+
+  .selector.search input {
+    width: 100%;
   }
 }

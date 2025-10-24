@@ -8,7 +8,9 @@ const DATA_SOURCES = [
 const state = {
   data: {},
   loadedAt: null,
-  dataBase: null
+  dataBase: null,
+  selectedForm: "",
+  formFilter: ""
 };
 
 const metricsElements = {};
@@ -28,8 +30,17 @@ function setupDomReferences() {
   controlElements.fetchUrl = document.getElementById("fetch-url");
   controlElements.fetchStatus = document.getElementById("fetch-status");
   controlElements.fetchPreview = document.getElementById("fetch-preview");
+  controlElements.formSelector = document.getElementById("form-selector");
+  controlElements.formFilter = document.getElementById("form-filter");
+  controlElements.rollD20 = document.getElementById("roll-d20");
+  controlElements.rollBias = document.getElementById("roll-bias");
+  controlElements.rollD20Result = document.getElementById("roll-d20-result");
+  controlElements.biasResult = document.getElementById("bias-roll-result");
+  controlElements.encounterButton = document.getElementById("generate-encounter");
+  controlElements.encounterResult = document.getElementById("encounter-result");
 
   infoElements.dataSource = document.getElementById("data-source");
+  infoElements.piShop = document.getElementById("pi-shop-content");
 }
 
 async function loadYaml(path) {
@@ -148,9 +159,11 @@ function updateDataSourceHint() {
 function renderAll() {
   updateOverview();
   populateFormSelector();
+  renderPiShop();
   renderRandomTable();
   renderTelemetry();
   renderBiomes();
+  refreshPlaytestTools();
 }
 
 function setTimestamp(text) {
@@ -179,35 +192,56 @@ function updateOverview() {
 }
 
 function populateFormSelector() {
-  const selector = document.getElementById("form-selector");
+  const selector = controlElements.formSelector || document.getElementById("form-selector");
   if (!selector) return;
 
   const forms = state.data.packs?.forms ? Object.keys(state.data.packs.forms) : [];
-  selector.innerHTML = '<option value="">Scegli…</option>';
-  forms
-    .sort()
-    .forEach((formId) => {
-      const option = document.createElement("option");
-      option.value = formId;
-      option.textContent = formId;
-      selector.appendChild(option);
-    });
+  const filter = state.formFilter ? state.formFilter.toLowerCase() : "";
+  const filteredForms = forms
+    .sort((a, b) => a.localeCompare(b))
+    .filter((formId) => formMatchesFilter(formId, filter));
 
-  if (!selector.dataset.listenerAttached) {
-    selector.addEventListener("change", (event) => {
-      renderFormDetails(event.target.value);
-    });
-    selector.dataset.listenerAttached = "true";
+  selector.innerHTML = '<option value="">Scegli…</option>';
+
+  filteredForms.forEach((formId) => {
+    const option = document.createElement("option");
+    option.value = formId;
+    option.textContent = formId;
+    selector.appendChild(option);
+  });
+
+  if (!filteredForms.length) {
+    const placeholderOption = document.createElement("option");
+    placeholderOption.value = "";
+    placeholderOption.disabled = true;
+    placeholderOption.textContent = "Nessuna forma trovata";
+    selector.appendChild(placeholderOption);
   }
+
+  let nextSelection = "";
+  if (state.selectedForm && filteredForms.includes(state.selectedForm)) {
+    nextSelection = state.selectedForm;
+  } else if (filteredForms.length === 1 && filter) {
+    nextSelection = filteredForms[0];
+  }
+
+  selector.value = nextSelection;
+  if (controlElements.formFilter && controlElements.formFilter.value !== state.formFilter) {
+    controlElements.formFilter.value = state.formFilter;
+  }
+  renderFormDetails(nextSelection);
 }
 
 function renderFormDetails(formId) {
   const container = document.getElementById("form-details");
   if (!container) return;
 
+  state.selectedForm = formId || "";
+
   if (!formId) {
     container.innerHTML =
       "<p>Seleziona una forma per visualizzare combinazioni A/B/C, bias d12 e hook di collaborazione.</p>";
+    updateBiasTools("");
     return;
   }
 
@@ -274,6 +308,365 @@ function renderFormDetails(formId) {
       }
     </div>
   `;
+
+  updateBiasTools(formId);
+}
+
+function renderPiShop() {
+  const container = infoElements.piShop || document.getElementById("pi-shop-content");
+  if (!container) return;
+
+  const piShop = state.data.packs?.pi_shop;
+  if (!piShop) {
+    container.innerHTML = "<p class=\"muted\">Nessun dato del negozio PI disponibile.</p>";
+    return;
+  }
+
+  const costsHtml = renderKeyValueList(piShop.costs);
+  const capsHtml = renderKeyValueList(piShop.caps);
+
+  container.innerHTML = `
+    <div class="pi-grid">
+      <article class="card">
+        <h3>Costi PI</h3>
+        <ul>${costsHtml}</ul>
+      </article>
+      <article class="card">
+        <h3>Limiti e caps</h3>
+        <ul>${capsHtml}</ul>
+      </article>
+    </div>
+    <p class="pi-hint">Aggiorna <code>packs.yaml</code> per modificare costi e limiti disponibili nel negozio.</p>
+  `;
+}
+
+function renderKeyValueList(source) {
+  if (!source || typeof source !== "object" || !Object.keys(source).length) {
+    return "<li>—</li>";
+  }
+
+  return Object.entries(source)
+    .map(([key, value]) => `<li><strong>${key}</strong>: ${formatEntry(value)}</li>`)
+    .join("");
+}
+
+function formMatchesFilter(formId, filter) {
+  if (!filter) return true;
+
+  const normalizedFilter = filter.toLowerCase();
+  if (formId.toLowerCase().includes(normalizedFilter)) return true;
+
+  const formData = state.data.packs?.forms?.[formId];
+  if (!formData) return false;
+
+  return ["A", "B", "C"].some((slot) => {
+    const entries = Array.isArray(formData[slot]) ? formData[slot] : [];
+    return entries.some((entry) =>
+      searchableStringFromEntry(entry).includes(normalizedFilter)
+    );
+  });
+}
+
+function searchableStringFromEntry(entry) {
+  if (entry == null) return "";
+  if (typeof entry === "string") return entry.toLowerCase();
+  if (typeof entry === "number" || typeof entry === "boolean") {
+    return String(entry).toLowerCase();
+  }
+  if (Array.isArray(entry)) {
+    return entry.map((item) => searchableStringFromEntry(item)).join(" ");
+  }
+  if (typeof entry === "object") {
+    return Object.entries(entry)
+      .map(([key, value]) => `${key} ${searchableStringFromEntry(value)}`)
+      .join(" ")
+      .toLowerCase();
+  }
+  return String(entry).toLowerCase();
+}
+
+function refreshPlaytestTools() {
+  if (controlElements.rollD20) {
+    const table = state.data.packs?.random_general_d20;
+    const enabled = Array.isArray(table) && table.length > 0;
+    controlElements.rollD20.disabled = !enabled;
+    if (!enabled && controlElements.rollD20Result) {
+      controlElements.rollD20Result.innerHTML =
+        '<p class="muted">Carica i pacchetti per usare il tiro d20.</p>';
+      delete controlElements.rollD20Result.dataset.hasResult;
+    }
+  }
+
+  updateBiasTools(state.selectedForm);
+
+  if (controlElements.encounterButton) {
+    const biomes = state.data.biomes?.biomes;
+    const enabled = biomes && Object.keys(biomes).length > 0;
+    controlElements.encounterButton.disabled = !enabled;
+    if (!enabled && controlElements.encounterResult) {
+      controlElements.encounterResult.innerHTML =
+        '<p class="muted">Aggiungi biomi per generare incontri.</p>';
+      delete controlElements.encounterResult.dataset.hasResult;
+    }
+  }
+}
+
+function updateBiasTools(formId) {
+  const button = controlElements.rollBias;
+  const resultContainer = controlElements.biasResult;
+  if (!button) return;
+
+  if (resultContainer && resultContainer.dataset.currentForm !== formId) {
+    delete resultContainer.dataset.hasResult;
+    delete resultContainer.dataset.currentForm;
+  }
+
+  if (!formId) {
+    button.disabled = true;
+    if (resultContainer) {
+      resultContainer.innerHTML =
+        '<p class="muted">Seleziona una forma per tirare il d12.</p>';
+      delete resultContainer.dataset.hasResult;
+    }
+    return;
+  }
+
+  const bias = state.data.packs?.forms?.[formId]?.bias_d12;
+  const hasBias = bias && Object.keys(bias).length > 0;
+
+  button.disabled = !hasBias;
+  if (!hasBias) {
+    if (resultContainer) {
+      resultContainer.innerHTML = `
+        <p class="muted">La forma <strong>${formId}</strong> non ha bias d12 configurati.</p>
+      `;
+      delete resultContainer.dataset.hasResult;
+    }
+    return;
+  }
+
+  if (resultContainer && !resultContainer.dataset.hasResult) {
+    resultContainer.innerHTML = '<p class="muted">Pronto al tiro!</p>';
+  }
+}
+
+function handleRollD20() {
+  const table = state.data.packs?.random_general_d20;
+  if (!Array.isArray(table) || !table.length) {
+    if (controlElements.rollD20Result) {
+      controlElements.rollD20Result.innerHTML =
+        '<p class="muted">Nessuna tabella caricata.</p>';
+      delete controlElements.rollD20Result.dataset.hasResult;
+    }
+    return;
+  }
+
+  const roll = rollDie(20);
+  const entry = table.find((row) => rangeContains(row.range, roll));
+
+  if (!entry) {
+    if (controlElements.rollD20Result) {
+      controlElements.rollD20Result.innerHTML =
+        `<p class="muted">Nessuna riga corrisponde al risultato ${roll}.</p>`;
+      delete controlElements.rollD20Result.dataset.hasResult;
+    }
+    return;
+  }
+
+  const comboHtml = Array.isArray(entry.combo)
+    ? `<ul class="inline-list">${entry.combo
+        .map((item) => `<li>${formatEntry(item)}</li>`)
+        .join("")}</ul>`
+    : entry.combo
+    ? `<p>${formatEntry(entry.combo)}</p>`
+    : '<p class="muted">Nessuna combo specificata.</p>';
+
+  const notesHtml = entry.notes ? `<p>${entry.notes}</p>` : "";
+
+  if (controlElements.rollD20Result) {
+    controlElements.rollD20Result.innerHTML = `
+      <p class="dice-roll">🎲 Risultato: <strong>${roll}</strong></p>
+      <p class="dice-pack">Pack: <strong>${entry.pack || "—"}</strong></p>
+      ${comboHtml}
+      ${notesHtml}
+    `;
+    controlElements.rollD20Result.dataset.hasResult = "true";
+  }
+}
+
+function handleBiasRoll() {
+  const formId = state.selectedForm;
+  const packData = formId ? state.data.packs?.forms?.[formId] : null;
+  const bias = packData?.bias_d12;
+
+  if (!formId || !bias || Object.keys(bias).length === 0) {
+    updateBiasTools(formId || "");
+    return;
+  }
+
+  const roll = rollDie(12);
+  const matched = Object.entries(bias).find(([, range]) => rangeContains(range, roll));
+
+  const packKey = matched ? matched[0] : null;
+  const rangeLabel = matched ? matched[1] : null;
+  const combo = packKey ? packData[packKey] : null;
+  const comboHtml = Array.isArray(combo)
+    ? `<ul>${combo.map((entry) => `<li>${formatEntry(entry)}</li>`).join("")}</ul>`
+    : packKey
+    ? '<p class="muted">Nessuna combinazione collegata.</p>'
+    : "";
+
+  const rangeText = rangeLabel ? ` (range ${rangeLabel})` : "";
+  const extraNote = matched
+    ? ""
+    : `<p class="muted">Aggiorna la tabella bias per coprire tutti i risultati.</p>`;
+
+  if (controlElements.biasResult) {
+    controlElements.biasResult.innerHTML = `
+      <p class="dice-roll">🎲 d12: <strong>${roll}</strong>${rangeText}</p>
+      <p class="dice-pack">Pack selezionato: <strong>${packKey || "—"}</strong></p>
+      ${comboHtml}
+      ${extraNote}
+    `;
+    controlElements.biasResult.dataset.hasResult = "true";
+    controlElements.biasResult.dataset.currentForm = formId;
+  }
+}
+
+function handleEncounterGenerate() {
+  const biomes = state.data.biomes?.biomes;
+  if (!biomes || !Object.keys(biomes).length) {
+    if (controlElements.encounterResult) {
+      controlElements.encounterResult.innerHTML =
+        '<p class="muted">Nessun bioma disponibile per il generatore.</p>';
+      delete controlElements.encounterResult.dataset.hasResult;
+    }
+    return;
+  }
+
+  const biomeEntries = Object.entries(biomes);
+  const [selectedBiome] = pickRandom(biomeEntries, 1);
+  if (!selectedBiome) return;
+
+  const [biomeName, biomeDetails] = selectedBiome;
+  const affixes = Array.isArray(biomeDetails.affixes)
+    ? pickRandom(biomeDetails.affixes, Math.min(2, biomeDetails.affixes.length))
+    : [];
+
+  const mutations = state.data.biomes?.mutations || {};
+  const mutationT0 = Array.isArray(mutations.t0_table_d12)
+    ? pickRandom(mutations.t0_table_d12, 1)[0]
+    : null;
+  const mutationT1 = Array.isArray(mutations.t1_table_d8)
+    ? pickRandom(mutations.t1_table_d8, 1)[0]
+    : null;
+
+  const vcAdaptEntries = Object.entries(state.data.biomes?.vc_adapt || {});
+  const vcSuggestion = vcAdaptEntries.length ? pickRandom(vcAdaptEntries, 1)[0] : null;
+
+  const frequencyEntries = Object.entries(state.data.biomes?.frequencies || {});
+  const frequencyHtml = frequencyEntries
+    .map(([name, table]) => {
+      const pick = pickWeightedOption(table);
+      return `<li><strong>${name}</strong>: ${pick ?? "—"}</li>`;
+    })
+    .join("");
+
+  const affixPills = affixes.length
+    ? `<div class="pills">${affixes.map((affix) => `<span class="pill">${affix}</span>`).join("")}</div>`
+    : '<p class="muted">Nessun affisso suggerito.</p>';
+
+  const vcHtml = vcSuggestion
+    ? `<p><strong>${vcSuggestion[0]}</strong>: ${formatEntry(vcSuggestion[1])}</p>`
+    : '<p class="muted">Nessun adattamento suggerito.</p>';
+
+  const mutationSummary = `T0 → ${mutationT0 ?? "—"}, T1 → ${mutationT1 ?? "—"}`;
+
+  if (controlElements.encounterResult) {
+    controlElements.encounterResult.innerHTML = `
+      <p class="dice-roll">Bioma: <strong>${biomeName}</strong> · Diff base ${
+        biomeDetails.diff_base ?? "—"
+      } · Mod ${biomeDetails.mod_biome ?? "—"}</p>
+      <div>
+        <h4>Affissi consigliati</h4>
+        ${affixPills}
+      </div>
+      <p><strong>Mutazioni rapide:</strong> ${mutationSummary}</p>
+      <div>
+        <h4>Adattamento VC</h4>
+        ${vcHtml}
+      </div>
+      ${
+        frequencyHtml
+          ? `<div><h4>Frequenze evento</h4><ul>${frequencyHtml}</ul></div>`
+          : ""
+      }
+    `;
+    controlElements.encounterResult.dataset.hasResult = "true";
+  }
+}
+
+function rollDie(sides) {
+  return Math.floor(Math.random() * sides) + 1;
+}
+
+function rangeContains(rangeLabel, value) {
+  const range = parseRangeLabel(rangeLabel);
+  if (!range) return false;
+  return value >= range.min && value <= range.max;
+}
+
+function parseRangeLabel(label) {
+  if (!label) return null;
+  const normalized = String(label).replace(/[^0-9\-]/g, "");
+  if (!normalized) return null;
+  const parts = normalized.split("-").map((part) => parseInt(part, 10)).filter(Number.isFinite);
+  if (!parts.length) return null;
+  if (parts.length === 1) {
+    return { min: parts[0], max: parts[0] };
+  }
+  return { min: Math.min(parts[0], parts[1]), max: Math.max(parts[0], parts[1]) };
+}
+
+function pickRandom(items, count = 1, unique = true) {
+  if (!Array.isArray(items) || items.length === 0) return [];
+
+  if (!unique || count === 1) {
+    const index = Math.floor(Math.random() * items.length);
+    return [items[index]];
+  }
+
+  const pool = [...items];
+  const result = [];
+  const limit = Math.min(count, pool.length);
+  for (let i = 0; i < limit; i += 1) {
+    const index = Math.floor(Math.random() * pool.length);
+    result.push(pool.splice(index, 1)[0]);
+  }
+  return result;
+}
+
+function pickWeightedOption(options) {
+  if (!options || typeof options !== "object") return null;
+  const entries = Object.entries(options).filter(([, value]) => typeof value === "number");
+  if (!entries.length) return null;
+
+  const total = entries.reduce((sum, [, weight]) => sum + weight, 0);
+  if (total <= 0) {
+    const [first] = entries;
+    return first ? first[0] : null;
+  }
+
+  let threshold = Math.random() * total;
+  for (const [key, weight] of entries) {
+    threshold -= weight;
+    if (threshold <= 0) {
+      return key;
+    }
+  }
+
+  const [last] = entries.slice(-1);
+  return last ? last[0] : null;
 }
 
 function renderRandomTable() {
@@ -504,6 +897,31 @@ function setupControlPanel() {
   if (controlElements.fetchForm) {
     controlElements.fetchForm.addEventListener("submit", handleFetchSubmit);
   }
+
+  if (controlElements.formSelector) {
+    controlElements.formSelector.addEventListener("change", (event) => {
+      renderFormDetails(event.target.value);
+    });
+  }
+
+  if (controlElements.formFilter) {
+    controlElements.formFilter.addEventListener("input", (event) => {
+      state.formFilter = event.target.value.trim();
+      populateFormSelector();
+    });
+  }
+
+  if (controlElements.rollD20) {
+    controlElements.rollD20.addEventListener("click", handleRollD20);
+  }
+
+  if (controlElements.rollBias) {
+    controlElements.rollBias.addEventListener("click", handleBiasRoll);
+  }
+
+  if (controlElements.encounterButton) {
+    controlElements.encounterButton.addEventListener("click", handleEncounterGenerate);
+  }
 }
 
 function runDataTests() {
@@ -582,6 +1000,26 @@ function runDataTests() {
           message: isValid
             ? `${table.length} righe con range e pack`
             : "Mancano range o pack nella tabella"
+        };
+      }
+    },
+    {
+      id: "piShop",
+      label: "Negozio PI configurato",
+      run: () => {
+        const piShop = state.data.packs?.pi_shop;
+        const costs = piShop?.costs ? Object.keys(piShop.costs).length : 0;
+        const caps = piShop?.caps ? Object.keys(piShop.caps).length : 0;
+        const ready = costs > 0;
+        const parts = [];
+        if (costs) parts.push(`${costs} costi`);
+        if (caps) parts.push(`${caps} caps`);
+        const message = parts.length
+          ? `${parts.join(", ")} configurati`
+          : "Aggiungi costi e limiti al negozio PI";
+        return {
+          passed: ready,
+          message
         };
       }
     },
