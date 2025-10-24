@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "node dist/roll_pack.js ENTP invoker ../../data/packs.yaml",
-    "test": "npm run build --silent && node --test dist/tests/**/*.test.js",
+    "test": "npm run build --silent && node --test dist/tests/*.test.js",
     "validate:species": "npm run build && node dist/validate_species.js ../../data/species.yaml"
   },
   "dependencies": {
