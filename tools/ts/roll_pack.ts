@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
@@ -112,7 +112,7 @@ export function roll_pack(
   const normalizedForm = form.toUpperCase();
   const resolvedDataPath = dataPath
     ? path.resolve(dataPath)
-    : path.resolve(MODULE_DIR, '../../data/packs.yaml');
+    : findDefaultDataPath();
   const raw = readFileSync(resolvedDataPath, 'utf8');
   const data = yaml.load(raw) as Data;
 
@@ -180,6 +180,18 @@ export function roll_pack(
     rolls,
     selection: { table: general.pack, notes: general.notes ?? null },
   };
+}
+
+function findDefaultDataPath(): string {
+  let dir = MODULE_DIR;
+  for (let depth = 0; depth < 10; depth += 1) {
+    const candidate = path.resolve(dir, 'data/packs.yaml');
+    if (existsSync(candidate)) return candidate;
+    const parent = path.resolve(dir, '..');
+    if (parent === dir) break;
+    dir = parent;
+  }
+  throw new Error('Impossibile individuare data/packs.yaml predefinito');
 }
 
 // CLI
