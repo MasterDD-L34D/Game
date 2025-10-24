@@ -1,0 +1,50 @@
+python3 roll_pack.py ENTP invoker ../../data/packs.yaml
+{
+  "d20": 17,
+  "pack": "C",
+  "combo": [
+    "trait_T1:Pianificatore",
+    "guardia_situazionale",
+    "sigillo_forma"
+  ]
+}
+
+python3 generate_encounter.py savana ../../data/biomes.yaml
+{
+  "biome": "savana",
+  "TB": 23,
+  "groups": [
+    {
+      "power": 7,
+      "role": "control",
+      "affixes": [
+        "sabbia",
+        "luminescente"
+      ]
+    },
+    {
+      "power": 7,
+      "role": "support",
+      "affixes": [
+        "spore_diluite",
+        "termico"
+      ]
+    },
+    {
+      "power": 7,
+      "role": "objective",
+      "affixes": [
+        "spore_diluite",
+        "sabbia"
+      ]
+    },
+    {
+      "power": 2,
+      "role": "front",
+      "affixes": [
+        "sabbia",
+        "spore_diluite"
+      ]
+    }
+  ]
+}
