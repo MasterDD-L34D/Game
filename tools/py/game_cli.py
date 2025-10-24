@@ -4,9 +4,11 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 from typing import Any, Optional
 
 from generate_encounter import generate as generate_encounter
+from investigate_sources import collect_investigation, render_report
 from roll_pack import roll_pack
 from validate_datasets import main as validate_datasets_main
 
@@ -62,6 +64,32 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers.add_parser("validate-datasets", help="Esegue i controlli sui dataset YAML")
 
+    investigate_parser = subparsers.add_parser(
+        "investigate",
+        help="Analizza file JSON/Markdown/PDF/DOC/ZIP per decidere cosa integrare",
+    )
+    investigate_parser.add_argument(
+        "paths",
+        nargs="+",
+        help="File o directory da esaminare",
+    )
+    investigate_parser.add_argument(
+        "--recursive",
+        action="store_true",
+        help="Analizza ricorsivamente le directory specificate",
+    )
+    investigate_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Restituisce l'output in formato JSON",
+    )
+    investigate_parser.add_argument(
+        "--max-preview",
+        type=_positive_int,
+        default=400,
+        help="Numero massimo di caratteri mostrati nella preview",
+    )
+
     return parser
 
 
@@ -89,6 +117,17 @@ def command_validate_datasets(args: argparse.Namespace) -> int:
     return validate_datasets_main()
 
 
+def command_investigate(args: argparse.Namespace) -> int:
+    paths = [Path(path) for path in args.paths]
+    results = collect_investigation(
+        paths,
+        recursive=args.recursive,
+        max_preview=max(100, args.max_preview),
+    )
+    render_report(results, json_output=args.json, stream=sys.stdout)
+    return 0
+
+
 def main(argv: Optional[Any] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -100,6 +139,8 @@ def main(argv: Optional[Any] = None) -> int:
         exit_code = command_generate_encounter(args)
     elif args.command == "validate-datasets":
         exit_code = command_validate_datasets(args)
+    elif args.command == "investigate":
+        exit_code = command_investigate(args)
     else:  # pragma: no cover - dovrebbe essere inaccessibile
         parser.error(f"Comando sconosciuto: {args.command}")
 

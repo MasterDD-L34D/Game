@@ -27,6 +27,7 @@ def test_game_cli_exports_commands() -> None:
         "roll-pack",
         "generate-encounter",
         "validate-datasets",
+        "investigate",
     }
 
 

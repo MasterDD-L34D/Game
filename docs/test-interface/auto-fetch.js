@@ -1,9 +1,19 @@
-const DATA_SOURCES = [
-  { key: "packs", label: "Packs", path: "data/packs.yaml" },
-  { key: "telemetry", label: "Telemetry", path: "data/telemetry.yaml" },
-  { key: "biomes", label: "Biomi", path: "data/biomes.yaml" },
-  { key: "mating", label: "Mating", path: "data/mating.yaml" },
+const DEFAULT_SOURCES = [
+  { key: "packs", label: "Packs", path: "data/packs.yaml", format: "yaml" },
+  {
+    key: "telemetry",
+    label: "Telemetry",
+    path: "data/telemetry.yaml",
+    format: "yaml",
+  },
+  { key: "biomes", label: "Biomi", path: "data/biomes.yaml", format: "yaml" },
+  { key: "mating", label: "Mating", path: "data/mating.yaml", format: "yaml" },
 ];
+
+const EXTERNAL_MANIFEST_PATH = "data/auto_external_sources.yaml";
+let manifestLoaded = false;
+let dataSources = [...DEFAULT_SOURCES];
+const TEXT_PREVIEW_LIMIT = 1000;
 
 const autoState = {
   dataBase: null,
@@ -12,6 +22,81 @@ const autoState = {
 };
 
 const autoElements = {};
+
+function getDataSources() {
+  return dataSources;
+}
+
+function normalizeManifestEntry(entry) {
+  if (!entry || typeof entry !== "object") return null;
+
+  const key = entry.key || entry.name;
+  const path = entry.path || entry.url;
+  if (!key || !path) return null;
+
+  const normalized = {
+    key,
+    path,
+    label: entry.label || entry.title || key,
+    format: entry.format || entry.type || "auto",
+  };
+
+  if (entry.description) {
+    normalized.description = entry.description;
+  } else if (entry.notes) {
+    normalized.description = entry.notes;
+  }
+
+  return normalized;
+}
+
+async function ensureManifestLoaded() {
+  if (manifestLoaded) return;
+  manifestLoaded = true;
+
+  try {
+    const manifestPath = resolveDataPath(EXTERNAL_MANIFEST_PATH);
+    const response = await fetch(manifestPath, { cache: "no-store" });
+    if (!response.ok) {
+      if (response.status !== 404) {
+        console.warn(
+          "Manifest esterno non disponibile",
+          manifestPath,
+          response.status,
+          response.statusText
+        );
+      }
+      return;
+    }
+
+    const text = await response.text();
+    let manifest;
+    try {
+      manifest = jsyaml.load(text);
+    } catch (error) {
+      console.error("Impossibile interpretare il manifest esterno", error);
+      return;
+    }
+
+    const entries = Array.isArray(manifest)
+      ? manifest
+      : Array.isArray(manifest?.sources)
+      ? manifest.sources
+      : [];
+
+    entries
+      .map(normalizeManifestEntry)
+      .filter(Boolean)
+      .forEach((entry) => {
+        if (dataSources.some((source) => source.key === entry.key)) {
+          return;
+        }
+        dataSources.push(entry);
+      });
+  } catch (error) {
+    console.error("Errore durante il caricamento del manifest esterno", error);
+  }
+}
 
 function setupAutoDom() {
   autoElements.dataSource = document.getElementById("auto-data-source");
@@ -113,7 +198,10 @@ function createResultItem(source) {
   header.className = "data-result-header";
 
   const title = document.createElement("h3");
-  title.textContent = `${source.label} (${source.path})`;
+  const target = source.path || source.url || "";
+  title.textContent = target
+    ? `${source.label} (${target})`
+    : source.label;
   header.appendChild(title);
 
   const badge = document.createElement("span");
@@ -123,7 +211,11 @@ function createResultItem(source) {
 
   const body = document.createElement("p");
   body.className = "data-message muted";
-  body.textContent = "In attesa di fetch…";
+  const description = source.description || "In attesa di fetch…";
+  body.textContent = description;
+  if (source.description) {
+    body.classList.remove("muted");
+  }
 
   item.appendChild(header);
   item.appendChild(body);
@@ -139,7 +231,7 @@ function renderResultsShell() {
   if (!autoElements.results) return;
 
   autoElements.results.innerHTML = "";
-  DATA_SOURCES.forEach((source) => {
+  getDataSources().forEach((source) => {
     const item = createResultItem(source);
     autoElements.results.appendChild(item);
   });
@@ -217,54 +309,251 @@ function summariseData(value) {
 }
 
 function buildPreview(text, parsed) {
-  if (text && text.trim().length < 800) {
-    return text.trim();
+  if (text) {
+    const trimmed = text.trim();
+    if (trimmed.length <= TEXT_PREVIEW_LIMIT * 0.8) {
+      return trimmed;
+    }
   }
 
   try {
     const snippet = JSON.stringify(parsed, null, 2);
-    if (snippet.length <= 1000) {
+    if (snippet.length <= TEXT_PREVIEW_LIMIT) {
       return snippet;
     }
-    return `${snippet.slice(0, 1000)}\n…`;
+    return `${snippet.slice(0, TEXT_PREVIEW_LIMIT)}\n…`;
   } catch (error) {
-    return text ? `${text.slice(0, 1000)}\n…` : "";
+    return buildTextPreview(text || "");
   }
 }
 
-async function fetchSource(source) {
-  const url = resolveDataPath(source.path);
-  updateResultStatus(
-    source.key,
-    "loading",
-    `Download da ${url}`,
-    { preview: "Caricamento…" }
-  );
+function buildTextPreview(text, limit = TEXT_PREVIEW_LIMIT) {
+  if (!text) {
+    return "(contenuto vuoto)";
+  }
 
-  const response = await fetch(url, { cache: "no-store" });
+  const trimmed = text.trim();
+  if (trimmed.length <= limit) {
+    return trimmed;
+  }
+
+  return `${trimmed.slice(0, limit)}\n…`;
+}
+
+function detectSourceFormat(source, contentType, url) {
+  const declared = (source.format || "").toLowerCase();
+  if (declared && declared !== "auto") {
+    return declared;
+  }
+
+  const normalizedType = (contentType || "").toLowerCase();
+  if (normalizedType.includes("yaml") || normalizedType.includes("yml")) {
+    return "yaml";
+  }
+  if (normalizedType.includes("json")) {
+    return "json";
+  }
+  if (normalizedType.includes("html")) {
+    return "html";
+  }
+  if (normalizedType.includes("markdown") || normalizedType.includes("md")) {
+    return "markdown";
+  }
+  if (normalizedType.includes("text")) {
+    return "text";
+  }
+
+  const lowerUrl = url.toLowerCase();
+  if (lowerUrl.endsWith(".yaml") || lowerUrl.endsWith(".yml")) {
+    return "yaml";
+  }
+  if (lowerUrl.endsWith(".json")) {
+    return "json";
+  }
+  if (lowerUrl.endsWith(".md") || lowerUrl.endsWith(".markdown")) {
+    return "markdown";
+  }
+  if (lowerUrl.includes("wikipedia.org") || lowerUrl.includes("/canvas/")) {
+    return "html";
+  }
+
+  return "text";
+}
+
+function summarisePlainText(text, label = "Testo") {
+  const normalized = text || "";
+  const wordCount = normalized.trim() ? normalized.trim().split(/\s+/).length : 0;
+  const charCount = normalized.length;
+  return {
+    summary: `${label} (${wordCount} parole, ${charCount} caratteri)`,
+    preview: buildTextPreview(normalized),
+  };
+}
+
+function summariseMarkdown(text) {
+  const lines = text.split(/\r?\n/);
+  const headingCount = lines.filter((line) => /^#{1,6}\s+/.test(line)).length;
+  const plain = summarisePlainText(text, "Markdown");
+  const summary = `${plain.summary} · ${headingCount} heading`;
+  return { summary, preview: plain.preview };
+}
+
+function parseHtmlContent(html) {
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+    doc.querySelectorAll("script,style,noscript").forEach((node) => node.remove());
+
+    const title = doc.querySelector("title")?.textContent?.trim() || "";
+    const headings = Array.from(doc.querySelectorAll("h1, h2, h3"))
+      .map((node) => node.textContent?.trim())
+      .filter(Boolean);
+    const bodyText = doc.body?.textContent?.replace(/\s+/g, " ").trim() || "";
+
+    return { title, headings, text: bodyText };
+  } catch (error) {
+    console.warn("Errore durante il parsing HTML", error);
+    return { title: "", headings: [], text: html.slice(0, TEXT_PREVIEW_LIMIT) };
+  }
+}
+
+function summariseHtml(info, url) {
+  const segments = [];
+  if (info.title) {
+    segments.push(`“${info.title}”`);
+  }
+
+  const hostname = (() => {
+    try {
+      return new URL(url).hostname;
+    } catch (error) {
+      return null;
+    }
+  })();
+
+  const charCount = info.text?.length || 0;
+  const headingCount = info.headings?.length || 0;
+
+  let description = `Pagina HTML (${charCount} caratteri)`;
+  if (hostname) {
+    description = `${description} · ${hostname}`;
+  }
+  if (headingCount) {
+    description = `${description} · ${headingCount} heading`;
+  }
+
+  segments.push(description);
+  return { summary: segments.join(" · "), preview: buildTextPreview(info.text || ""), info };
+}
+
+function interpretSourcePayload({ source, text, contentType, url }) {
+  const format = detectSourceFormat(source, contentType, url);
+
+  if (format === "yaml") {
+    try {
+      const parsed = jsyaml.load(text);
+      return {
+        format,
+        parsed,
+        summary: summariseData(parsed),
+        preview: buildPreview(text, parsed),
+      };
+    } catch (error) {
+      throw new Error(`Errore parsing YAML: ${error.message}`);
+    }
+  }
+
+  if (format === "json") {
+    try {
+      const parsed = JSON.parse(text);
+      return {
+        format,
+        parsed,
+        summary: summariseData(parsed),
+        preview: buildPreview(text, parsed),
+      };
+    } catch (error) {
+      throw new Error(`Errore parsing JSON: ${error.message}`);
+    }
+  }
+
+  if (format === "markdown") {
+    const details = summariseMarkdown(text);
+    return { format, summary: details.summary, preview: details.preview, text };
+  }
+
+  if (format === "html") {
+    const info = parseHtmlContent(text);
+    const details = summariseHtml(info, url);
+    return {
+      format,
+      summary: details.summary,
+      preview: details.preview,
+      html: info,
+      text: info.text,
+    };
+  }
+
+  const details = summarisePlainText(text, "Contenuto testuale");
+  return { format: "text", summary: details.summary, preview: details.preview, text };
+}
+
+async function fetchSource(source) {
+  const target = source.path || source.url;
+  if (!target) {
+    throw new Error("Sorgente non valida: nessun path/url definito");
+  }
+
+  const url = resolveDataPath(target);
+  updateResultStatus(source.key, "loading", `Download da ${url}`, {
+    preview: "Caricamento…",
+  });
+
+  let response;
+  try {
+    response = await fetch(url, { cache: "no-store" });
+  } catch (networkError) {
+    throw new Error(`Richiesta fallita: ${networkError.message}`);
+  }
+
   if (!response.ok) {
     throw new Error(`HTTP ${response.status} ${response.statusText}`);
   }
 
+  const contentType = response.headers.get("content-type") || "";
   const text = await response.text();
-  let parsed;
-  try {
-    parsed = jsyaml.load(text);
-  } catch (error) {
-    throw new Error(`Errore parsing YAML: ${error.message}`);
-  }
 
-  const summary = summariseData(parsed);
-  const preview = buildPreview(text, parsed);
-
-  autoState.results.set(source.key, {
-    status: "success",
-    message: summary,
-    preview,
+  const interpreted = interpretSourcePayload({
+    source,
+    text,
+    contentType,
     url,
   });
 
-  updateResultStatus(source.key, "success", summary, { preview, url });
+  const resultPayload = {
+    status: "success",
+    message: interpreted.summary,
+    preview: interpreted.preview,
+    url,
+    format: interpreted.format,
+  };
+
+  if (interpreted.parsed !== undefined) {
+    resultPayload.parsed = interpreted.parsed;
+  }
+  if (interpreted.html) {
+    resultPayload.html = interpreted.html;
+  }
+  if (interpreted.text !== undefined) {
+    resultPayload.text = interpreted.text;
+  }
+
+  autoState.results.set(source.key, resultPayload);
+
+  updateResultStatus(source.key, "success", interpreted.summary, {
+    preview: interpreted.preview,
+    url,
+  });
 }
 
 async function runAutoFetch() {
@@ -272,19 +561,21 @@ async function runAutoFetch() {
 
   autoState.dataBase = detectDataBase();
   updateDataSourceHint();
+  await ensureManifestLoaded();
   autoState.results.clear();
   autoState.selectedKey = null;
   renderResultsShell();
 
-  updateGlobalStatus("loading", "Caricamento YAML in corso…");
+  updateGlobalStatus("loading", "Caricamento fonti in corso…");
 
   const outcomes = await Promise.allSettled(
-    DATA_SOURCES.map(async (source) => {
+    getDataSources().map(async (source) => {
       try {
         await fetchSource(source);
         return { key: source.key, status: "success" };
       } catch (error) {
-        console.error(`Errore nel fetch di ${source.path}`, error);
+        const identifier = source.path || source.url || source.key;
+        console.error(`Errore nel fetch di ${identifier}`, error);
         autoState.results.set(source.key, {
           status: "error",
           message: error.message,
@@ -298,7 +589,12 @@ async function runAutoFetch() {
     })
   );
 
-  const hasError = outcomes.some((outcome) => outcome.value?.status === "error");
+  const hasError = outcomes.some((outcome) => {
+    if (outcome.status === "rejected") {
+      return true;
+    }
+    return outcome.value?.status === "error";
+  });
   if (hasError) {
     updateGlobalStatus("error", "Caricamento completato con errori. Controlla i dettagli sopra.");
   } else {
@@ -306,7 +602,7 @@ async function runAutoFetch() {
   }
 
   if (!autoState.selectedKey && autoState.results.size > 0) {
-    const firstKey = DATA_SOURCES[0]?.key;
+    const firstKey = getDataSources()[0]?.key;
     if (firstKey) {
       selectResult(firstKey);
     }
@@ -321,9 +617,10 @@ function setupEventListeners() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   setupAutoDom();
   setupEventListeners();
+  await ensureManifestLoaded();
   renderResultsShell();
   runAutoFetch();
 });
