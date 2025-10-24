@@ -1,0 +1,12 @@
+{
+  "created_at": "2025-10-24T02:19:02.767010+00:00",
+  "namespace": "local",
+  "suffix": "json",
+  "snapshot_path": "/workspace/Game/data/chatgpt/local/2025-10-24/snapshot-20251024T021902Z-local-export.json",
+  "source": "export",
+  "namespace_requested": "local",
+  "name": "local-export",
+  "export_file": "/workspace/Game/data/exports/local-conversation.json",
+  "stored_path": "/workspace/Game/data/chatgpt/local/2025-10-24/local-conversation-1.json",
+  "original_export": "/workspace/Game/data/exports/local-conversation.json"
+}

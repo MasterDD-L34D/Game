@@ -15,6 +15,15 @@ problemi riscontrati) dopo ogni modifica sostanziale al flusso di sincronizzazio
 
 ## Cronologia esecuzioni recenti
 
+### 2025-10-24 02:19 UTC
+- **Esito**: riuscito.
+- **Ambiente**: Ubuntu container, Python 3.11.12 (global), pip 25.2, `requests` 2.32.5, `PyYAML` 6.0.3.
+- **Fonti eseguite**:
+  - `local-export` → diff aggiornato in `docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021902Z-local-export.*`.
+  - `local-notes` → diff aggiornato in `docs/chatgpt_changes/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.*`.
+- **Credenziali/Proxy**: non richiesti (fonti locali; nessuna variabile impostata).
+- **Note**: installati/aggiornati `requests` e `PyYAML` globalmente; log riepilogativo archiviato in `logs/chatgpt_sync_last.json`. Nessun follow-up aperto.
+
 ### 2025-10-24 02:10 UTC
 - **Esito**: riuscito.
 - **Ambiente**: Ubuntu container, Node.js 22.19.0, npm 11.4.2, Python 3.11.12 (venv disattivato), pip 25.2, `requests` 2.32.3, `PyYAML` 6.0.2.
