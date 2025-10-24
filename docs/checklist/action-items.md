@@ -13,5 +13,7 @@
 
 ## Step successivi
 - [ ] Collegare l'export automatizzato dei log VC a Google Sheet tramite `scripts/driveSync.gs`, includendo istruzioni aggiornate su trigger/permessi nel README o nella documentazione dedicata.【F:docs/checklist/milestones.md†L16-L18】【F:scripts/driveSync.gs†L1-L40】
-- [ ] Aggiornare i Canvas principali con le nuove feature CLI e con gli insight emersi dal bilanciamento PI e dalla telemetria, seguendo le priorità della roadmap.【F:docs/checklist/milestones.md†L18-L20】【F:docs/piani/roadmap.md†L1-L24】
+- [x] Aggiornare i Canvas principali con le nuove feature CLI e con gli insight emersi dal bilanciamento PI e dalla telemetria, seguendo le priorità della roadmap.【F:docs/checklist/milestones.md†L18-L20】【F:docs/Canvas/feature-updates.md†L9-L20】【F:docs/piani/roadmap.md†L1-L28】
 - [ ] Bilanciare i pacchetti PI rispetto alla curva PE (`pe_economy`) e integrare le finestre EMA nel client, verificando la coerenza con i dataset YAML coinvolti.【F:docs/piani/roadmap.md†L4-L14】【F:data/packs.yaml†L1-L88】【F:data/telemetry.yaml†L1-L29】
+- [ ] Implementare alert HUD automatici per il superamento del `risk.weighted_index` > 0.60 durante i vertical slice, notificando al team bilanciamento PI.【F:docs/piani/roadmap.md†L6-L13】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L61-L77】
+- [ ] Aggiornare i timer di evacuazione di "Skydock Siege" usando i trend `time_low_hp_turns` e mantenendo tilt < 0.50 nelle squadre testate.【F:docs/piani/roadmap.md†L21-L25】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L61-L121】

@@ -6,6 +6,13 @@
 - **Missione Skydock Siege** — Infiltrazione verticale con obiettivi multilivello, evacuazione cronometrata e coordinamento a quote diverse.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
 - **Reattori Aeon** — Risorsa leggendaria che abilita poteri temporali specifici per le Forme Armoniche.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
 
+## Revisione playtest VC (Canvas)
+![Dashboard VC](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==)
+
+- **Screenshot dashboard HUD** — Il nuovo pannello VC mostra risk band dinamiche e coesione aggregata per squadra, confermando le soglie di avviso sul client r2821.
+- **Metriche chiave** — Il playtest "Skydock Siege" ha evidenziato `risk.weighted_index` a 0.63 per Bravo (oltre la soglia 0.60) e coesione 0.78 per Charlie, validando le curve EMA con `debounced_events` ridotti.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L33-L77】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L78-L122】
+- **Cambiamenti strutturali** — Il bias `random_general_d20` ora reindirizza ai profili `bias_d12` delle Forme per bilanciare i pacchetti PI, mentre il filtro SquadSync è agganciato alla pipeline telemetrica per missioni verticali multi-fase.【F:data/packs.yaml†L1-L41】【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+
 ## Regole di gioco evidenziate
 - **Economia PI** — I costi e i massimali (`pi_shop.costs`/`caps`) definiscono la cadenza di progressione e i limiti per i pack iniziali.【F:data/packs.yaml†L1-L17】
 - **Bias per Forma** — Le tabelle `bias_d12` forniscono controllo sullo skew dei pacchetti in base al MBTI scelto, abilitando tuning mirato delle build iniziali.【F:data/packs.yaml†L18-L88】
