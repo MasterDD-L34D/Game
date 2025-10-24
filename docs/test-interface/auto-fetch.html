@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evo-Tactics · Fetch automatico YAML</title>
+    <meta name="data-branch" content="work" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script defer src="auto-fetch.js"></script>
+  </head>
+  <body class="auto-fetch">
+    <header>
+      <h1>Fetch automatico degli YAML</h1>
+      <p class="tagline">
+        Carica e verifica automaticamente tutti i dataset YAML pubblicati nella cartella <code>data/</code>,
+        con rilevamento della sorgente dati su GitHub Pages o server locale.
+      </p>
+      <nav class="utility-nav" aria-label="Navigazione secondaria">
+        <a href="index.html">⟵ Torna alla dashboard</a>
+      </nav>
+      <p id="auto-data-source" class="hint secondary">Sorgente dati: in rilevamento…</p>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Stato caricamento YAML</h2>
+          <button id="auto-reload" type="button">Ricarica ora</button>
+        </div>
+        <p id="auto-global-status" class="status" data-status="idle">In attesa di avvio…</p>
+        <ul id="auto-results" class="data-results" aria-live="polite"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Dettaglio ultimo caricamento</h2>
+        <article class="card">
+          <h3>Preview contenuti</h3>
+          <p class="muted">
+            Seleziona una voce dall'elenco per ispezionare la preview dell'ultimo fetch effettuato.
+          </p>
+          <div id="auto-preview" class="preview" aria-live="polite">Nessun dataset selezionato.</div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        La pagina avvia il download degli YAML automaticamente e notifica eventuali errori HTTP o di parsing.
+      </p>
+    </footer>
+  </body>
+</html>
