@@ -178,6 +178,7 @@ def validate_packs() -> List[str]:
 
     random_table = data.get("random_general_d20", [])
     ranges = []
+    available_packs: set = set()
     if not isinstance(random_table, list):
         errors.append(f"{path}: 'random_general_d20' deve essere una lista")
     else:
@@ -193,6 +194,9 @@ def validate_packs() -> List[str]:
                 ranges.append((idx, r, parse_range(r)))
             except ValueError as exc:
                 errors.append(f"{path}: random_general_d20[{idx}] {exc}")
+            pack_name = row.get("pack")
+            if isinstance(pack_name, str) and row.get("combo"):
+                available_packs.add(pack_name)
         errors.extend(validate_ranges(path, ranges))
 
     forms = data.get("forms", {})
@@ -211,6 +215,29 @@ def validate_packs() -> List[str]:
             bias = payload.get("bias_d12")
             if not isinstance(bias, dict):
                 errors.append(f"{path}: forms.{form}.bias_d12 deve essere mappa")
+
+    job_bias = data.get("job_bias")
+    if job_bias is not None:
+        if not isinstance(job_bias, dict):
+            errors.append(f"{path}: 'job_bias' deve essere una mappa se presente")
+        else:
+            if "default" not in job_bias:
+                errors.append(f"{path}: 'job_bias' deve includere la chiave 'default'")
+            for job, packs in job_bias.items():
+                if not isinstance(packs, list) or not packs:
+                    errors.append(
+                        f"{path}: job_bias.{job} deve essere una lista non vuota"
+                    )
+                    continue
+                for pack in packs:
+                    if not isinstance(pack, str) or not pack:
+                        errors.append(
+                            f"{path}: job_bias.{job} contiene valore non valido: {pack!r}"
+                        )
+                    elif pack not in available_packs:
+                        errors.append(
+                            f"{path}: job_bias.{job} fa riferimento a pack assente ({pack})"
+                        )
 
     return errors
 

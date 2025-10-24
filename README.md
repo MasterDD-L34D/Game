@@ -10,8 +10,12 @@ evo-tactics/
 ├─ docs/                 # Note progettuali (Canvas, roadmap, checklist)
 ├─ data/                 # Dataset YAML (telemetria, pack PI, biomi, mutazioni, ecc.)
 ├─ tools/
-│  ├─ ts/                # CLI TypeScript (roll_pack)
-│  └─ py/                # CLI Python (roll_pack, generate_encounter)
+│  ├─ ts/                # CLI TypeScript + test (roll_pack, Node test runner)
+│  └─ py/                # CLI Python unificata + helper condivisi
+│     ├─ game_cli.py     # Entry point con sottocomandi roll-pack/generate-encounter/validate-datasets
+│     ├─ game_utils/     # RNG deterministico, loader YAML e helper condivisi
+│     ├─ roll_pack.py    # Wrapper compatibile con lo script storico
+│     └─ generate_encounter.py
 ├─ scripts/              # Utility (Drive, sincronizzazioni)
 └─ README.md
 ```
@@ -21,15 +25,31 @@ evo-tactics/
 cd tools/ts
 npm install
 npm run build
-node dist/roll_pack.js ENTP invoker ../../data/packs.yaml
+# Esegue il CLI (dataset implicito da ../../data/packs.yaml)
+node dist/roll_pack.js ENTP invoker --seed demo
+
+# Varianti
+# ROLL_PACK_SEED=demo node dist/roll_pack.js ENTP invoker
+# node dist/roll_pack.js ENTP invoker /percorso/custom/packs.yaml
 ```
 
 ## Quick Start — Python
 ```bash
 cd tools/py
-python3 roll_pack.py ENTP invoker ../../data/packs.yaml
-python3 generate_encounter.py savana ../../data/biomes.yaml
+# CLI unificata con seed riproducibile e path opzionali
+python3 game_cli.py roll-pack entp invoker --seed demo
+python3 game_cli.py generate-encounter savana --party-power 18 --seed demo
+python3 game_cli.py validate-datasets
+
+# Wrapper legacy (reindirizzati al parser condiviso)
+python3 roll_pack.py ENTP invoker
+python3 generate_encounter.py savana
 ```
+
+> Suggerimento: lo script unificato `game_cli.py` espone sottocomandi coerenti
+> (`roll-pack`, `generate-encounter`, `validate-datasets`) e gestisce anche i
+> seed deterministici condivisi (`--seed`), così da allineare Python e
+> TypeScript sugli stessi dati YAML.
 
 ## Interfaccia test & recap via web
 - [Apri la dashboard](docs/test-interface/index.html) per consultare rapidamente pacchetti PI,
@@ -76,6 +96,17 @@ git push -u origin main
 - Esegui `python3 scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml` per scaricare gli snapshot giornalieri.
 - Controlla i diff generati in `docs/chatgpt_changes/<namespace>/<data>/` e il log in `logs/chatgpt_sync.log`.
 - Aggiorna `docs/chatgpt_sync_status.md` con note operative e credenziali aggiornate.
+
+## Suite di test automatizzati
+- **Python** — la suite copre gli helper RNG deterministici e può essere eseguita da root con:
+  ```bash
+  PYTHONPATH=tools/py pytest
+  ```
+- **TypeScript** — compila le sorgenti ESM e lancia gli unit test Node:
+  ```bash
+  cd tools/ts
+  npm test
+  ```
 
 ## Licenza
 MIT — vedi `LICENSE`.
