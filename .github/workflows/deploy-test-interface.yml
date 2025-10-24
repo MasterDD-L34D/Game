@@ -43,7 +43,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install Python test dependencies
-        run: pip install pytest
+        run: pip install -r tools/py/requirements.txt
 
       - name: Run Python tests
         run: PYTHONPATH=tools/py pytest
