@@ -15,6 +15,11 @@ problemi riscontrati) dopo ogni modifica sostanziale al flusso di sincronizzazio
 
 ## Cronologia esecuzioni recenti
 
+### 2025-10-24 02:05 UTC
+- **Esito**: manutenzione ambiente completata.
+- **Ambiente**: Ubuntu container, Node.js 22.19.0, npm 11.4.2, Python 3.11.12 (global), pip 25.2.
+- **Note**: reinstallate le dipendenze (`npm ci`, `pip install -r tools/py/requirements.txt`), ricompilata la CLI TypeScript e validati i dataset. Le CLI TS/Python producono ora output identici con seed `demo`. Test web manuali rinviati per assenza di browser nell'ambiente corrente.
+
 ### 2025-10-23 23:12 UTC
 - **Esito**: riuscito dopo correzione configurazione export.
 - **Ambiente**: Ubuntu container, Python 3.11.12 (global), pip 25.2, `requests` 2.32.5, `PyYAML` 6.0.3.
