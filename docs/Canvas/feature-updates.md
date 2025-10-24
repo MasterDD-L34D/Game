@@ -5,13 +5,14 @@
 - **Generatore Encounter Python** — `tools/py/generate_encounter.py` sfrutta `data/biomes.yaml` per derivare difficoltà, affissi dinamici e adattamenti VC, utile per playtest veloci.
 - **Missione Skydock Siege** — Infiltrazione verticale con obiettivi multilivello, evacuazione cronometrata e coordinamento a quote diverse.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
 - **Reattori Aeon** — Risorsa leggendaria che abilita poteri temporali specifici per le Forme Armoniche.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+- **Telemetry Risk Tuning 2025-10-24** — Nuovo metodo `ema_capped_minmax` con segnale `overcap_guard_events` e smoothing 0.2 per ridurre i falsi positivi nelle squadre Bravo/Delta.【F:data/telemetry.yaml†L2-L25】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L62】
 
 ## Revisione playtest VC (Canvas)
 ![Dashboard VC](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==)
 
 - **Screenshot dashboard HUD** — Il nuovo pannello VC mostra risk band dinamiche e coesione aggregata per squadra, confermando le soglie di avviso sul client r2821.
-- **Metriche chiave** — Il playtest "Skydock Siege" ha evidenziato `risk.weighted_index` a 0.63 per Bravo (oltre la soglia 0.60) e coesione 0.78 per Charlie, validando le curve EMA con `debounced_events` ridotti.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L33-L77】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L78-L122】
-- **Cambiamenti strutturali** — Il bias `random_general_d20` ora reindirizza ai profili `bias_d12` delle Forme per bilanciare i pacchetti PI, mentre il filtro SquadSync è agganciato alla pipeline telemetrica per missioni verticali multi-fase.【F:data/packs.yaml†L1-L41】【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+- **Metriche chiave** — Il playtest 2025-10-24 mostra `risk.weighted_index` stabile a 0.57 per Delta (sotto soglia) e un picco controllato a 0.61 per Echo durante l'evento Aeon Overclock; coesione 0.76 conferma il tuning support Actions.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】
+- **Cambiamenti strutturali** — Il bias `random_general_d20` ora reindirizza ai profili `bias_d12` delle Forme per bilanciare i pacchetti PI, mentre il filtro SquadSync è agganciato alla pipeline telemetrica per missioni verticali multi-fase; i log Delta/Echo alimentano le dashboard tramite Drive Sync.【F:data/packs.yaml†L1-L41】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】
 
 ## Regole di gioco evidenziate
 - **Economia PI** — I costi e i massimali (`pi_shop.costs`/`caps`) definiscono la cadenza di progressione e i limiti per i pack iniziali.【F:data/packs.yaml†L1-L17】

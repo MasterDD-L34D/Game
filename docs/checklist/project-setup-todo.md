@@ -37,11 +37,11 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [ ] Annotare eventuali errori del browser (console, rete) e aggiornare la documentazione se servono fix. _In attesa di esecuzione manuale su ambiente con browser._
 
 ## 6. Sincronizzazione ChatGPT
-- [ ] Configurare `data/chatgpt_sources.yaml` con le fonti corrette (URL, canvas, note esterne).
-- [ ] Installare/aggiornare le credenziali e la rete/proxy necessari all'accesso.
-- [ ] Eseguire `python scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml`.
-- [ ] Analizzare i diff generati in `docs/chatgpt_changes/` e il log `logs/chatgpt_sync.log`.
-- [ ] Aggiornare `docs/chatgpt_sync_status.md` con data, esito e follow-up richiesti.
+- [x] Configurare `data/chatgpt_sources.yaml` con le fonti corrette (URL, canvas, note esterne). _Fonti locali annotate con note operative il 2025-10-24._【F:data/chatgpt_sources.yaml†L1-L20】
+- [x] Installare/aggiornare le credenziali e la rete/proxy necessari all'accesso. _Dipendenze `PyYAML`/`requests` reinstallate; nessun proxy richiesto per gli export offline._【F:tools/py/requirements.txt†L1-L2】
+- [x] Eseguire `python scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml`. _Ultimo run 2025-10-24 02:10 UTC._【1b0562†L1-L9】
+- [x] Analizzare i diff generati in `docs/chatgpt_changes/` e il log `logs/chatgpt_sync.log`. _Diff aggiornati nelle cartelle `2025-10-24`._【F:docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021001Z-local-export.md†L1-L20】【F:logs/chatgpt_sync.log†L184-L214】
+- [x] Aggiornare `docs/chatgpt_sync_status.md` con data, esito e follow-up richiesti. _Voce aggiunta per l'esecuzione del 2025-10-24._【F:docs/chatgpt_sync_status.md†L19-L33】
 
 ## 7. Integrazione Drive e automazioni
 - [ ] Se richiesto, configurare `scripts/driveSync.gs` come Apps Script su Google Drive con i permessi

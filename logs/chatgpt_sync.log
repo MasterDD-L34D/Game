@@ -173,3 +173,12 @@ FileNotFoundError: File di export non trovato: /workspace/Game/data/data/exports
 2025-10-23 23:12:41,813 - INFO - Snapshot salvato in data/chatgpt/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.json
 2025-10-23 23:12:41,815 - INFO - Diff scritto in docs/chatgpt_changes/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.diff
 2025-10-23 23:12:41,816 - INFO - Riepilogo scritto in logs/chatgpt_sync_last.json
+2025-10-24 02:10:01,973 - INFO - Processo fonte configurata 'local-export' (export)
+2025-10-24 02:10:01,974 - INFO - Export copiato in data/chatgpt/local/2025-10-24/local-conversation.json
+2025-10-24 02:10:01,975 - INFO - Snapshot salvato in data/chatgpt/local/2025-10-24/snapshot-20251024T021001Z-local-export.json
+2025-10-24 02:10:01,978 - INFO - Diff scritto in docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021001Z-local-export.diff
+2025-10-24 02:10:01,978 - INFO - Processo fonte configurata 'local-notes' (export)
+2025-10-24 02:10:01,979 - INFO - Export copiato in data/chatgpt/notes/2025-10-24/notes-conversation.json
+2025-10-24 02:10:01,980 - INFO - Snapshot salvato in data/chatgpt/notes/2025-10-24/snapshot-20251024T021001Z-daily-notes.json
+2025-10-24 02:10:01,983 - INFO - Diff scritto in docs/chatgpt_changes/notes/2025-10-24/snapshot-20251024T021001Z-daily-notes.diff
+2025-10-24 02:10:01,984 - INFO - Riepilogo scritto in logs/chatgpt_sync_last.json
