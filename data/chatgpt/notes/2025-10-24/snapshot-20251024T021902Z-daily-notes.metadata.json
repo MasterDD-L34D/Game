@@ -1,0 +1,12 @@
+{
+  "created_at": "2025-10-24T02:19:02.770085+00:00",
+  "namespace": "notes",
+  "suffix": "json",
+  "snapshot_path": "/workspace/Game/data/chatgpt/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.json",
+  "source": "export",
+  "namespace_requested": "notes",
+  "name": "local-notes",
+  "export_file": "/workspace/Game/data/exports/notes-conversation.json",
+  "stored_path": "/workspace/Game/data/chatgpt/notes/2025-10-24/notes-conversation-1.json",
+  "original_export": "/workspace/Game/data/exports/notes-conversation.json"
+}
