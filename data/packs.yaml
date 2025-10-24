@@ -15,6 +15,14 @@ random_general_d20:
   - {range: "16-17", pack: "BIAS_FORMA", notes: "vedi tabella d12 della Forma"}
   - {range: "18-19", pack: "BIAS_JOB", notes: "Vang: B/D; Skir: C/E; Ward: E/G; Art: A/F; Inv: A/J; Harv: D/J"}
   - {range: "20",    pack: "SCELTA"}
+job_bias:
+  default: [A, B]
+  vanguard: [B, D]
+  skirmisher: [C, E]
+  warden: [E, G]
+  artificer: [A, F]
+  invoker: [A, J]
+  harvester: [D, J]
 forms:
   ISTJ:
     A: [trait_T1:Pianificatore, guardia_situazionale, sigillo_forma]

@@ -1,4 +1,6 @@
 import { readFileSync } from 'fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import yaml from 'js-yaml';
 
 type Range = string; // "1-4" or "11"
@@ -22,10 +24,14 @@ interface FormDefinition {
 interface Data {
   pi_shop: {
     costs: Record<string, number>;
+    caps?: Record<string, number>;
   };
   random_general_d20: RandomGeneralEntry[];
   forms: Record<string, FormDefinition>;
+  job_bias?: Record<string, string[]>;
 }
+
+const MODULE_DIR = path.dirname(fileURLToPath(import.meta.url));
 
 type RandomFn = () => number;
 
@@ -76,14 +82,21 @@ const resolveSeed = (seed?: string): string | undefined => {
 const rollDie = (rng: RandomFn, sides: number): number => 1 + Math.floor(rng() * sides);
 
 const costOf = (key: string, shop: Record<string, number>): number => {
-  if (key.startsWith('trait_T1')) return shop.trait_T1;
-  if (key.startsWith('job_ability')) return shop.job_ability;
-  if (key === 'cap_pt') return shop.cap_pt;
-  if (key === 'guardia_situazionale') return shop.guardia_situazionale;
-  if (key === 'starter_bioma') return shop.starter_bioma;
-  if (key === 'sigillo_forma') return shop.sigillo_forma;
-  if (key === 'PE') return 1;
-  throw new Error('Chiave sconosciuta: ' + key);
+  const base = key.split(':', 1)[0];
+  if (base === 'PE') return 1;
+  if (!(base in shop)) throw new Error('Chiave sconosciuta: ' + key);
+  return shop[base];
+};
+
+const pickFromTable = (
+  table: RandomGeneralEntry[],
+  packs: string[],
+  rng: RandomFn,
+): RandomGeneralEntry => {
+  const candidates = table.filter((row) => packs.includes(row.pack) && row.combo);
+  if (!candidates.length) throw new Error(`Nessun pacchetto valido per ${packs.join(',')}`);
+  const index = rollDie(rng, candidates.length) - 1;
+  return candidates[index];
 };
 
 type RollPackOptions = {
@@ -93,10 +106,14 @@ type RollPackOptions = {
 export function roll_pack(
   form: string,
   job: string,
-  dataPath = '../../data/packs.yaml',
+  dataPath?: string,
   seedOrOptions?: string | RollPackOptions,
 ) {
-  const raw = readFileSync(dataPath, 'utf8');
+  const normalizedForm = form.toUpperCase();
+  const resolvedDataPath = dataPath
+    ? path.resolve(dataPath)
+    : path.resolve(MODULE_DIR, '../../data/packs.yaml');
+  const raw = readFileSync(resolvedDataPath, 'utf8');
   const data = yaml.load(raw) as Data;
 
   const resolvedSeed = typeof seedOrOptions === 'string'
@@ -114,7 +131,7 @@ export function roll_pack(
 
   if (general.pack === 'BIAS_FORMA') {
     d12 = rollDie(rng, 12);
-    const formData = data.forms[form];
+    const formData = data.forms[normalizedForm];
     const bias = formData?.bias_d12;
     if (!bias) throw new Error('Forma sconosciuta: ' + form);
     const entry = (Object.entries(bias) as [FormPackKey, Range][])
@@ -123,24 +140,19 @@ export function roll_pack(
     const [packKey] = entry; // A|B|C
     pick = { pack: packKey, combo: formData[packKey] };
   } else if (general.pack === 'BIAS_JOB') {
-    const jobBias: Record<string, string[]> = {
-      vanguard: ['B', 'D'],
-      skirmisher: ['C', 'E'],
-      warden: ['E', 'G'],
-      artificer: ['A', 'F'],
-      invoker: ['A', 'J'],
-      harvester: ['D', 'J'],
-    };
-    const pref = jobBias[job.toLowerCase()] || ['A', 'B'];
-    const first = data.random_general_d20.find((x) => pref.includes(x.pack));
-    if (!first || !first.combo) {
-      throw new Error('Bias lavoro non ha trovato un pacchetto valido per: ' + job);
+    const biasRaw = data.job_bias ?? {};
+    const normalized = Object.fromEntries(
+      Object.entries(biasRaw).map(([key, value]) => [key.toLowerCase(), value]),
+    );
+    const pref = normalized[job.toLowerCase()] || normalized.default || ['A', 'B'];
+    if (!Array.isArray(pref) || !pref.length) {
+      throw new Error('Bias lavoro non configurato correttamente per: ' + job);
     }
-    pick = { pack: first.pack, combo: first.combo };
+    const entry = pickFromTable(data.random_general_d20, pref, rng);
+    pick = { pack: entry.pack, combo: entry.combo! };
   } else if (general.pack === 'SCELTA') {
-    const first = data.random_general_d20.find((x) => x.pack === 'A');
-    if (!first || !first.combo) throw new Error('Pacchetto A non trovato per scelta manuale');
-    pick = { pack: 'A', combo: first.combo };
+    const entry = pickFromTable(data.random_general_d20, ['A'], rng);
+    pick = { pack: entry.pack, combo: entry.combo! };
   } else {
     if (!general.combo) throw new Error('Combinazione mancante per il pacchetto ' + general.pack);
     pick = { pack: general.pack, combo: general.combo };
@@ -149,14 +161,18 @@ export function roll_pack(
   const breakdown = pick.combo.map((item) => ({ item, cost: costOf(item, data.pi_shop.costs) }));
   const total = breakdown.reduce((sum, entry) => sum + entry.cost, 0);
   if (total !== 7) throw new Error(`Pacchetto ${pick.pack} non somma a 7 (= ${total})`);
-  if (pick.combo.filter((x) => x === 'cap_pt').length > 1) throw new Error('Cap PT > 1');
-  if (pick.combo.filter((x) => x === 'starter_bioma').length > 1) throw new Error('Starter>1');
+  const caps = data.pi_shop.caps ?? {};
+  Object.entries(caps).forEach(([capKey, limit]) => {
+    const item = capKey.replace(/_max$/, '');
+    const count = pick.combo.filter((x) => x === item).length;
+    if (count > limit) throw new Error(`${item} supera il limite consentito (${limit})`);
+  });
 
   const rolls: { d20: number; d12?: number } = { d20 };
   if (typeof d12 === 'number') rolls.d12 = d12;
 
   return {
-    inputs: { form, job },
+    inputs: { form: normalizedForm, job },
     pack: pick.pack,
     combo: pick.combo,
     total_cost: total,
@@ -167,7 +183,17 @@ export function roll_pack(
 }
 
 // CLI
-if (process.argv[1] && process.argv[1].includes('roll_pack')) {
+const isDirectExecution = (): boolean => {
+  if (typeof process === 'undefined' || !process.argv || process.argv.length < 2) {
+    return false;
+  }
+  const executed = process.argv[1];
+  if (!executed) return false;
+  const entryPath = path.resolve(fileURLToPath(import.meta.url));
+  return path.resolve(executed) === entryPath;
+};
+
+if (isDirectExecution()) {
   const argv = process.argv.slice(2);
   let seed: string | undefined;
   const positional: string[] = [];
@@ -182,7 +208,7 @@ if (process.argv[1] && process.argv[1].includes('roll_pack')) {
       positional.push(arg);
     }
   }
-  const [form = 'ENTP', job = 'invoker', dataPath = '../../data/packs.yaml'] = positional;
+  const [form = 'ENTP', job = 'invoker', dataPath] = positional;
   const res = roll_pack(form, job, dataPath, seed);
   console.log(JSON.stringify(res, null, 2));
 }
