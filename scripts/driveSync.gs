@@ -1,16 +1,24 @@
 /**
  * Apps Script per sincronizzare YAML in Google Sheet.
  * 1) Crea un Apps Script collegato alla cartella Drive che contiene gli YAML.
- * 2) Imposta CONFIG.folderId con l'ID della cartella.
+ * 2) Imposta le Script Properties (DRIVE_SYNC_FOLDER_ID, ecc.) o modifica CONFIG di seguito.
  * 3) Esegui convertYamlToSheets().
+ * 4) (Opzionale) Lancia ensureAutoSyncTrigger() per programmare aggiornamenti automatici.
  *
  * Lo script scarica js-yaml da jsDelivr, converte ciascun file YAML in uno Spreadsheet
  * (una tab per ogni chiave di primo livello) e sposta lo Spreadsheet nella cartella sorgente.
  */
+const scriptProps = PropertiesService.getScriptProperties();
 const CONFIG = {
-  folderId: 'INSERISCI_FOLDER_ID',
-  yamlLibraryUrl: 'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js',
-  sheetNamePrefix: '[YAML] '
+  folderId: scriptProps.getProperty('DRIVE_SYNC_FOLDER_ID') || 'INSERISCI_FOLDER_ID',
+  yamlLibraryUrl:
+    scriptProps.getProperty('DRIVE_SYNC_YAML_LIB_URL') ||
+    'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js',
+  sheetNamePrefix: scriptProps.getProperty('DRIVE_SYNC_SHEET_PREFIX') || '[YAML] ',
+  autoSync: {
+    enabled: String(scriptProps.getProperty('DRIVE_SYNC_AUTOSYNC_ENABLED') || 'true') === 'true',
+    everyHours: Number(scriptProps.getProperty('DRIVE_SYNC_AUTOSYNC_EVERY_HOURS') || 6)
+  }
 };
 
 function convertYamlToSheets() {
@@ -202,4 +210,43 @@ function loadYamlLibrary_() {
   }
   this.__yamlLib = yamlLib;
   return this.__yamlLib;
+}
+
+function ensureAutoSyncTrigger() {
+  if (!CONFIG.autoSync || CONFIG.autoSync.enabled === false) {
+    throw new Error('CONFIG.autoSync deve essere abilitato per creare il trigger.');
+  }
+  const hours = Number(CONFIG.autoSync.everyHours || 6);
+  if (!Number.isFinite(hours) || hours < 1 || hours > 24) {
+    throw new Error('CONFIG.autoSync.everyHours deve essere un numero tra 1 e 24.');
+  }
+
+  const handlerName = 'convertYamlToSheets';
+  const authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL);
+  if (authInfo.getAuthorizationStatus() === ScriptApp.AuthorizationStatus.REQUIRED) {
+    throw new Error('Autorizzazione richiesta: apri ' + authInfo.getAuthorizationUrl('') + ' e riprova.');
+  }
+
+  const triggers = ScriptApp.getProjectTriggers();
+  if (triggers.length >= 20) {
+    throw new Error('Limite massimo di 20 trigger per progetto raggiunto. Rimuovi i trigger inutilizzati.');
+  }
+  const alreadyExists = triggers.some(trigger => trigger.getHandlerFunction() === handlerName);
+  if (alreadyExists) {
+    return;
+  }
+
+  const builder = ScriptApp.newTrigger(handlerName).timeBased();
+  if (hours >= 24) {
+    builder.everyDays(Math.max(1, Math.floor(hours / 24))).create();
+  } else {
+    builder.everyHours(Math.max(1, Math.min(23, Math.floor(hours)))).create();
+  }
+}
+
+function removeAutoSyncTriggers() {
+  const handlerName = 'convertYamlToSheets';
+  ScriptApp.getProjectTriggers()
+    .filter(trigger => trigger.getHandlerFunction() === handlerName)
+    .forEach(trigger => ScriptApp.deleteTrigger(trigger));
 }

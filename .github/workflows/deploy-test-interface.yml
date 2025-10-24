@@ -1,0 +1,60 @@
+name: Deploy test interface
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare static site
+        run: |
+          rm -rf dist
+          mkdir -p dist
+          cp -r docs/test-interface dist/test-interface
+          cp -r data dist/data
+          cp docs/test-interface/favicon.ico dist/ 2>/dev/null || true
+          cat <<'HTML' > dist/index.html
+          <!DOCTYPE html>
+          <html lang="it">
+            <head>
+              <meta charset="utf-8" />
+              <title>Test Interface Dashboard</title>
+              <meta http-equiv="refresh" content="0; url=test-interface/" />
+            </head>
+            <body>
+              <p>Redirecting to the <a href="test-interface/">test interface dashboard</a>…</p>
+            </body>
+          </html>
+          HTML
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
