@@ -7,6 +7,7 @@
     <meta name="data-branch" content="main" />
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script defer src="vendor/jszip.min.js"></script>
     <script defer src="app.js"></script>
   </head>
   <body>
@@ -21,6 +22,7 @@
         <div class="hero-actions">
           <button id="reload-data" type="button">Ricarica dati YAML</button>
           <a class="pill-link" href="auto-fetch.html">Fetch automatico</a>
+          <a class="pill-link" href="manual-fetch.html">Fetch manuale</a>
           <a class="pill-link" href="../01-VISIONE.md" target="_blank" rel="noopener">Visione del progetto</a>
         </div>
         <p class="hint">
@@ -102,33 +104,25 @@
             <ul id="test-results" class="test-results"></ul>
           </article>
           <article class="card control-card">
-            <h3>Fetching manuale</h3>
+            <h3>Fetching manuale avanzato</h3>
             <p class="muted">
-              Inserisci l'URL di uno snapshot YAML/JSON (es. endpoint Drive/GitHub raw) per aggiornare rapidamente il database locale in sessione.
+              Apri la plancia dedicata per indagare file esterni (zip, wiki, PDF, Canvas, JSON/YAML). Troverai opzioni di analisi, note rapide e sincronizzazione con questa dashboard.
             </p>
-            <form id="fetch-form" class="fetch-form">
-              <label for="fetch-url">Sorgente dati</label>
-              <input
-                id="fetch-url"
-                name="fetch-url"
-                type="url"
-                placeholder="https://example.com/packs.yaml"
-                autocomplete="off"
-              />
-              <div class="control-actions">
-                <button type="submit">Scarica &amp; applica</button>
-              </div>
-            </form>
-            <p id="fetch-status" class="status">In attesa di input…</p>
-            <div id="fetch-preview" class="preview">
-              <p id="fetch-preview-empty" class="preview-empty" aria-live="polite">
-                (nessun contenuto)
-              </p>
-              <div id="fetch-preview-body" class="preview-body" hidden>
-                <div id="fetch-preview-tabs" class="preview-tabs" role="tablist" aria-label="Sezioni dataset"></div>
-                <pre id="fetch-preview-content" class="preview-content" aria-live="polite"></pre>
-                <div id="fetch-preview-pagination" class="preview-pagination"></div>
-              </div>
+            <div class="control-actions">
+              <a class="pill-link" href="manual-fetch.html">Apri workspace manuale</a>
+            </div>
+            <div class="manual-sync-info" aria-live="polite">
+              <p class="muted">Stato sincronizzazione manuale</p>
+              <dl>
+                <div>
+                  <dt>Ultima applicazione</dt>
+                  <dd id="manual-sync-last">Mai eseguita</dd>
+                </div>
+                <div>
+                  <dt>Dettaglio</dt>
+                  <dd id="manual-sync-summary">Nessuna sincronizzazione ricevuta.</dd>
+                </div>
+              </dl>
             </div>
           </article>
         </div>
