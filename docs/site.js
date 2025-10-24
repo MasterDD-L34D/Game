@@ -82,10 +82,10 @@ function computeDataRoot(config = currentConfig) {
   }
   if (config.repo && config.branch) {
     return ensureTrailingSlash(
-      `https://raw.githubusercontent.com/${config.repo}/${config.branch}/docs/test-interface/`
+      `https://raw.githubusercontent.com/${config.repo}/${config.branch}/`
     );
   }
-  return "test-interface/";
+  return "";
 }
 
 function computeSimulatorUrl(config = currentConfig) {
