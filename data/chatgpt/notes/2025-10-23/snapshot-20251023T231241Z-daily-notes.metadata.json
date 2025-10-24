@@ -7,6 +7,6 @@
   "namespace_requested": "notes",
   "name": "local-notes",
   "export_file": "/workspace/Game/data/exports/notes-conversation.json",
-  "stored_path": "/workspace/Game/data/chatgpt/notes/2025-10-23/notes-conversation-1.json",
+  "stored_path": "/workspace/Game/data/exports/notes-conversation.json",
   "original_export": "/workspace/Game/data/exports/notes-conversation.json"
 }

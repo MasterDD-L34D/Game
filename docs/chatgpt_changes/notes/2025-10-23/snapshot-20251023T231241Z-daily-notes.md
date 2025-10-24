@@ -9,7 +9,7 @@
 - **Origine:** export
 - **Fonte configurazione:** local-notes
 - **Namespace configurato:** notes
-- **Export salvato:** /workspace/Game/data/chatgpt/notes/2025-10-23/notes-conversation-1.json
+- **Export salvato:** /workspace/Game/data/exports/notes-conversation.json
 - **Export originale:** /workspace/Game/data/exports/notes-conversation.json
 
 ## Estratto diff
@@ -21,8 +21,8 @@
        ],
        "original_path": "/workspace/Game/data/exports/notes-conversation.json",
        "source": "export",
-    -  "stored_path": "/workspace/Game/data/chatgpt/notes/2025-10-23/notes-conversation.json",
+    -  "stored_path": "/workspace/Game/data/exports/notes-conversation.json",
     -  "timestamp": "2025-10-23T17:48:52.598217+00:00"
-    +  "stored_path": "/workspace/Game/data/chatgpt/notes/2025-10-23/notes-conversation-1.json",
+    +  "stored_path": "/workspace/Game/data/exports/notes-conversation.json",
     +  "timestamp": "2025-10-23T23:12:41.812733+00:00"
      }

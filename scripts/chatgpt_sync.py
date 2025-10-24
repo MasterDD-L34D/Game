@@ -129,6 +129,23 @@ def copy_export_file(source: Path, *, namespace: Optional[str] = None) -> Path:
     if not source.exists():
         raise FileNotFoundError(f"File di export non trovato: {source}")
 
+    source_resolved = source.resolve()
+    exports_root = (Path("data/exports").resolve())
+
+    # Se il file proviene già dalla directory radice degli export, evitiamo di
+    # duplicarlo e riutilizziamo direttamente il percorso canonico. In questo
+    # modo manteniamo un'unica copia del file nel repository.
+    try:
+        source_resolved.relative_to(exports_root)
+    except ValueError:
+        pass
+    else:
+        logging.info(
+            "Export già presente in %s, utilizzo il percorso originale",
+            source_resolved,
+        )
+        return source_resolved
+
     snapshot_dir = ensure_snapshot_dir(namespace)
     destination = snapshot_dir / source.name
     counter = 1
