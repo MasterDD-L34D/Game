@@ -1,2 +1,4 @@
-PyYAML>=6.0
-requests>=2.32.0
+PyYAML>=6.0        # parsing dei dataset YAML condivisi
+requests>=2.32.0   # download HTTP per sincronizzazioni e fetch manuali
+openai>=1.0.0      # accesso API per scripts/chatgpt_sync.py
+pytest>=8.0.0      # suite di test deterministici in tools/py

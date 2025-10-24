@@ -91,7 +91,7 @@ git push -u origin main
 
 ## Sincronizzazione contenuti ChatGPT
 - Configura le fonti da monitorare in `data/chatgpt_sources.yaml` (URL del progetto, canvas esportati, ecc.).
-- Installa le dipendenze Python richieste (`pip install requests pyyaml`) prima di eseguire lo script.
+- Installa le dipendenze Python richieste (`pip install -r tools/py/requirements.txt`) prima di eseguire lo script: il file include `requests`, `PyYAML` e il client `openai` necessario per l'accesso API.
 - Se incontri errori `ProxyError 403`, aggiorna le credenziali o esegui la sincronizzazione da una rete autorizzata: i dettagli dell'ultimo tentativo sono riportati in [`docs/chatgpt_sync_status.md`](docs/chatgpt_sync_status.md).【F:docs/chatgpt_sync_status.md†L1-L24】
 - Esegui `python3 scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml` per scaricare gli snapshot giornalieri.
 - Controlla i diff generati in `docs/chatgpt_changes/<namespace>/<data>/` e il log in `logs/chatgpt_sync.log`.
@@ -102,6 +102,7 @@ git push -u origin main
   ```bash
   PYTHONPATH=tools/py pytest
   ```
+  Le dipendenze di test (`pytest`) sono incluse nello stesso `requirements.txt`.
 - **TypeScript** — compila le sorgenti ESM e lancia gli unit test Node:
   ```bash
   cd tools/ts
