@@ -336,6 +336,28 @@ compat_forme:  # Esempi — completare 16x16 nel design
       - Allineare i piani di crescita con i suoi obiettivi ambiziosi
       - Fornire indicatori di performance aggressivi
     base_scores: {like: 4, neutral: 2, dislike: 1}
+  NEUTRA:
+    archetype: "Forma modulare"
+    overview: >-
+      Profilo di default per i test: bilancia i pacchetti senza preferenze
+      marcate, utile come base neutra e come placeholder durante la
+      creazione di nuove forme o per sessioni introduttive.
+    likes: [ISTJ, ENTP, ENFP]
+    neutrals: [ISFJ, ESTJ, INTP, ENFJ]
+    dislikes: [ISTP, ESTP]
+    strengths:
+      - Adattabilità immediata ai pacchetti standard
+      - Facilità nel seguire istruzioni e protocolli condivisi
+      - Ottimo banco di prova per bilanciare nuovi moduli
+    stress_triggers:
+      - Sovraccarico di specializzazioni contrastanti
+      - Squadre che cambiano focus senza briefing
+      - Pressioni per assumere ruoli estremi
+    collaboration_hooks:
+      - Usarla per testare configurazioni non classificate
+      - Affidarle ruoli di supporto generico o di backup
+      - Condividerle metriche chiare per valutare le iterazioni
+    base_scores: {like: 3, neutral: 2, dislike: 1}
 compat_ennea:
   Coordinatore(2): {likes: ["assist","shield_share","revive"], dislike: ["abandon_ally","selfish_loot"]}
   Conquistatore(3): {likes: ["apex_kill","first_strike"], dislike: ["stall","retreat"]}

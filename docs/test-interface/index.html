@@ -10,23 +10,86 @@
     <script defer src="app.js"></script>
   </head>
   <body>
-    <header>
-      <h1>Evo-Tactics · Interfaccia Test &amp; Recap</h1>
-      <p class="tagline">
-        Dashboard rapida per ispezionare pacchetti PI, telemetria VC e accoppiamenti MBTI.
-      </p>
-      <nav class="utility-nav" aria-label="Navigazione secondaria">
-        <a href="auto-fetch.html">Apri il fetch automatico YAML</a>
+    <header class="site-hero">
+      <div class="hero-content">
+        <p class="hero-kicker">Mission Control · Evo-Tactics</p>
+        <h1>Interfaccia Test &amp; Recap per il progetto di gioco</h1>
+        <p class="tagline">
+          Un'unica plancia per seguire forme MBTI, telemetria VC, negozio PI e biomi mutanti durante il playtest.
+          Tutto è pensato per raccontare l'identità del progetto e accelerare le sessioni sul campo.
+        </p>
+        <div class="hero-actions">
+          <button id="reload-data" type="button">Ricarica dati YAML</button>
+          <a class="pill-link" href="auto-fetch.html">Fetch automatico</a>
+          <a class="pill-link" href="../01-VISIONE.md" target="_blank" rel="noopener">Visione del progetto</a>
+        </div>
+        <p class="hint">
+          La pagina rileva automaticamente la sorgente dati: funzionerà sia su GitHub Pages (fetch <code>raw</code>)
+          sia in locale con un semplice server.
+        </p>
+        <p id="data-source" class="hint secondary">Sorgente dati: in rilevamento…</p>
+      </div>
+      <nav class="primary-nav" aria-label="Navigazione principale">
+        <ul>
+          <li><a href="#control">Controllo dati</a></li>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#forms">Forme MBTI</a></li>
+          <li><a href="#pi-shop">Negozio PI</a></li>
+          <li><a href="#random-table">Tabella d20</a></li>
+          <li><a href="#telemetry">Telemetria</a></li>
+          <li><a href="#biomes">Biomi</a></li>
+          <li><a href="#species">Specie</a></li>
+          <li><a href="#playtest-tools">Playtest</a></li>
+        </ul>
       </nav>
-      <button id="reload-data" type="button">Ricarica dati YAML</button>
-      <p class="hint">
-        La pagina rileva automaticamente la sorgente dati: funzionerà sia su GitHub Pages (fetch <code>raw</code>)
-        sia in locale con un semplice server.
-      </p>
-      <p id="data-source" class="hint secondary">Sorgente dati: in rilevamento…</p>
     </header>
 
     <main>
+      <section id="project-overview" class="panel project-lore">
+        <div class="panel-header">
+          <h2>DNA del progetto</h2>
+          <p class="muted">Estratto da visione, pilastri e sistema tattico di Evo-Tactics.</p>
+        </div>
+        <div class="lore-grid">
+          <article class="lore-card">
+            <h3>Visione &amp; tono</h3>
+            <p>
+              Evo-Tactics racconta cellule di team specializzate che affrontano ecosistemi instabili con adattamenti
+              evolutivi. La plancia mette al centro lettura rapida, intelligenza collettiva e un tono techno-biologico.
+            </p>
+            <ul>
+              <li>Squadre ibride, half-scientist half-explorer.</li>
+              <li>Temi di adattamento ed evoluzione continua.</li>
+              <li>Playtest guidato da dati, telemetria e story beats.</li>
+            </ul>
+          </article>
+          <article class="lore-card">
+            <h3>Pilastri tattici</h3>
+            <p>
+              Dal <em>Sistema Tattico</em>: slot PI, hook collaborativi e bias di forma guidano ogni decisione durante la
+              sessione. Questa dashboard rende immediata la consultazione di pacchetti A/B/C e interazioni VC.
+            </p>
+            <ul>
+              <li>Gestione delle forme tramite pacchetti PI.</li>
+              <li>Caps e rarità sempre a portata di mano.</li>
+              <li>Integrazione con telemetria VC e random table.</li>
+            </ul>
+          </article>
+          <article class="lore-card">
+            <h3>Focus playtest</h3>
+            <p>
+              Ogni iterazione punta a stressare loop di missione, incontri bioma e compatibilità MBTI. Qui trovi strumenti
+              rapidi per roll, generazione incontri e monitoraggio dei dati caricati.
+            </p>
+            <ul>
+              <li>Controlli rapidi sui dataset YAML.</li>
+              <li>Riepilogo sinergie bioma e mutazioni.</li>
+              <li>Spotlight su specie e combinazioni slot.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section id="control" class="panel">
         <h2>Controllo dati &amp; Fetching</h2>
         <div class="control-grid">
@@ -80,6 +143,14 @@
           <article>
             <h3>Biomi attivi</h3>
             <p class="metric" data-metric="biomes">—</p>
+          </article>
+          <article>
+            <h3>Moduli specie catalogati</h3>
+            <p class="metric" data-metric="species-slots">—</p>
+          </article>
+          <article>
+            <h3>Trigger sinergici</h3>
+            <p class="metric" data-metric="species-synergies">—</p>
           </article>
         </div>
         <p class="timestamp" id="last-updated">Dati non caricati.</p>
@@ -135,6 +206,16 @@
       <section id="biomes" class="panel">
         <h2>Biomi &amp; Mutazioni</h2>
         <div id="biomes-grid" class="content-placeholder">
+          <p>In attesa di dati…</p>
+        </div>
+      </section>
+
+      <section id="species" class="panel">
+        <div class="panel-header">
+          <h2>Specie sintetiche &amp; sinergie slot</h2>
+          <p class="muted">Panoramica veloce su catalogo slot, moduli e trigger combinati dal file <code>species.yaml</code>.</p>
+        </div>
+        <div id="species-showcase" class="content-placeholder">
           <p>In attesa di dati…</p>
         </div>
       </section>

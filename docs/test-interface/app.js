@@ -2,7 +2,8 @@ const DATA_SOURCES = [
   { key: "packs", path: "data/packs.yaml" },
   { key: "telemetry", path: "data/telemetry.yaml" },
   { key: "biomes", path: "data/biomes.yaml" },
-  { key: "mating", path: "data/mating.yaml" }
+  { key: "mating", path: "data/mating.yaml" },
+  { key: "species", path: "data/species.yaml" }
 ];
 
 const state = {
@@ -17,11 +18,60 @@ const metricsElements = {};
 const controlElements = {};
 const infoElements = {};
 
+function formatLabel(value) {
+  if (!value) return "";
+  return String(value)
+    .split(/[._]/)
+    .filter(Boolean)
+    .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+    .join(" ");
+}
+
+function describeModuleEffects(effects) {
+  if (!effects || typeof effects !== "object") {
+    return "Effetti non definiti";
+  }
+
+  const details = [];
+  if (effects.resistances) {
+    const resEntries = Object.entries(effects.resistances || {})
+      .flatMap(([key, value]) => {
+        if (value && typeof value === "object") {
+          return Object.keys(value);
+        }
+        return key;
+      })
+      .filter(Boolean);
+    if (resEntries.length) {
+      details.push(`Resistenze: ${resEntries.map(formatLabel).join(", ")}`);
+    }
+  }
+
+  const otherKeys = Object.keys(effects).filter((key) => key !== "resistances");
+  if (otherKeys.length) {
+    details.push(otherKeys.map(formatLabel).join(" · "));
+  }
+
+  return details.length ? details.join(" · ") : "Nessun effetto specificato";
+}
+
+function formatSynergyRequirements(requirements) {
+  if (!Array.isArray(requirements) || !requirements.length) return "Trigger non definiti";
+  return requirements
+    .map((requirement) => {
+      const [slot, module] = String(requirement).split(".");
+      return module ? `${formatLabel(slot)} → ${formatLabel(module)}` : formatLabel(requirement);
+    })
+    .join(" · ");
+}
+
 function setupDomReferences() {
   metricsElements.forms = document.querySelector('[data-metric="forms"]');
   metricsElements.random = document.querySelector('[data-metric="random"]');
   metricsElements.indices = document.querySelector('[data-metric="indices"]');
   metricsElements.biomes = document.querySelector('[data-metric="biomes"]');
+  metricsElements.speciesSlots = document.querySelector('[data-metric="species-slots"]');
+  metricsElements.speciesSynergies = document.querySelector('[data-metric="species-synergies"]');
   metricsElements.timestamp = document.getElementById("last-updated");
 
   controlElements.runTests = document.getElementById("run-tests");
@@ -163,6 +213,7 @@ function renderAll() {
   renderRandomTable();
   renderTelemetry();
   renderBiomes();
+  renderSpeciesShowcase();
   refreshPlaytestTools();
 }
 
@@ -184,11 +235,25 @@ function updateOverview() {
   const biomeCount = state.data.biomes?.biomes
     ? Object.keys(state.data.biomes.biomes).length
     : 0;
+  const speciesSlots = state.data.species?.catalog?.slots || {};
+  const speciesModules = Object.values(speciesSlots).reduce(
+    (total, slotGroup) => total + Object.keys(slotGroup || {}).length,
+    0
+  );
+  const synergyCount = Array.isArray(state.data.species?.catalog?.synergies)
+    ? state.data.species.catalog.synergies.length
+    : 0;
 
   if (metricsElements.forms) metricsElements.forms.textContent = forms.length;
   if (metricsElements.random) metricsElements.random.textContent = randomTable;
   if (metricsElements.indices) metricsElements.indices.textContent = indices;
   if (metricsElements.biomes) metricsElements.biomes.textContent = biomeCount;
+  if (metricsElements.speciesSlots) {
+    metricsElements.speciesSlots.textContent = speciesModules || "—";
+  }
+  if (metricsElements.speciesSynergies) {
+    metricsElements.speciesSynergies.textContent = synergyCount || "—";
+  }
 }
 
 function populateFormSelector() {
@@ -572,6 +637,41 @@ function handleEncounterGenerate() {
     })
     .join("");
 
+  const speciesCatalog = state.data.species;
+  const synergyList = Array.isArray(speciesCatalog?.catalog?.synergies)
+    ? speciesCatalog.catalog.synergies
+    : [];
+  let synergyHighlight = "";
+  if (synergyList.length) {
+    const speciesEntries = Array.isArray(speciesCatalog?.species)
+      ? speciesCatalog.species
+      : [];
+    const [randomSpecies] = speciesEntries.length ? pickRandom(speciesEntries, 1, false) : [null];
+    const hints = Array.isArray(randomSpecies?.synergy_hints)
+      ? randomSpecies.synergy_hints
+      : [];
+    const hintedSynergy = hints
+      .map((hint) => synergyList.find((item) => item.id === hint))
+      .find(Boolean);
+    const fallbackSynergy = pickRandom(synergyList, 1, false)[0];
+    const selectedSynergy = hintedSynergy || fallbackSynergy;
+
+    if (selectedSynergy) {
+      const synergyName = selectedSynergy.name || formatLabel(selectedSynergy.id);
+      const triggerText = formatSynergyRequirements(selectedSynergy.when_all);
+      const speciesName = randomSpecies
+        ? randomSpecies.display_name || formatLabel(randomSpecies.id)
+        : "Catalogo specie";
+      synergyHighlight = `
+        <div>
+          <h4>Specie &amp; sinergie</h4>
+          <p><strong>${speciesName}</strong> → ${synergyName}</p>
+          <p class="muted">Trigger: ${triggerText}</p>
+        </div>
+      `;
+    }
+  }
+
   const affixPills = affixes.length
     ? `<div class="pills">${affixes.map((affix) => `<span class="pill">${affix}</span>`).join("")}</div>`
     : '<p class="muted">Nessun affisso suggerito.</p>';
@@ -601,6 +701,7 @@ function handleEncounterGenerate() {
           ? `<div><h4>Frequenze evento</h4><ul>${frequencyHtml}</ul></div>`
           : ""
       }
+      ${synergyHighlight}
     `;
     controlElements.encounterResult.dataset.hasResult = "true";
   }
@@ -854,6 +955,153 @@ function renderBiomes() {
   `;
 }
 
+function renderSpeciesShowcase() {
+  const container = document.getElementById("species-showcase");
+  if (!container) return;
+
+  const speciesData = state.data.species;
+  if (!speciesData || !speciesData.catalog) {
+    container.innerHTML =
+      '<div class="species-empty"><p>Carica <code>species.yaml</code> per sbloccare il catalogo di slot e sinergie.</p></div>';
+    return;
+  }
+
+  const slots = speciesData.catalog.slots || {};
+  const slotEntries = Object.entries(slots);
+  const synergies = Array.isArray(speciesData.catalog.synergies)
+    ? speciesData.catalog.synergies
+    : [];
+  const speciesList = Array.isArray(speciesData.species) ? speciesData.species : [];
+  const moduleTotal = slotEntries.reduce(
+    (sum, [, slotModules]) => sum + Object.keys(slotModules || {}).length,
+    0
+  );
+
+  const metricsHtml = `
+    <div class="species-overview">
+      <div class="species-metric">
+        <span class="label">Slot primari</span>
+        <span class="value">${slotEntries.length || "—"}</span>
+      </div>
+      <div class="species-metric">
+        <span class="label">Moduli disponibili</span>
+        <span class="value">${moduleTotal || "—"}</span>
+      </div>
+      <div class="species-metric">
+        <span class="label">Trigger sinergici</span>
+        <span class="value">${synergies.length || "—"}</span>
+      </div>
+      <div class="species-metric">
+        <span class="label">Specie prototipo</span>
+        <span class="value">${speciesList.length || "—"}</span>
+      </div>
+    </div>
+  `;
+
+  const slotCards = slotEntries
+    .map(([slotId, slotModules]) => {
+      const moduleEntries = Object.entries(slotModules || {});
+      const topModules = moduleEntries.slice(0, 4).map(([moduleId, details]) => {
+        const name = details?.name || formatLabel(moduleId);
+        const description = describeModuleEffects(details?.effects);
+        return `<li><strong>${name}</strong><span>${description}</span></li>`;
+      });
+
+      const extraCount = moduleEntries.length - topModules.length;
+      if (extraCount > 0) {
+        topModules.push(`<li class="muted">+${extraCount} moduli aggiuntivi</li>`);
+      }
+
+      return `
+        <article class="species-card">
+          <h3>${formatLabel(slotId)}</h3>
+          <p class="slot-meta">${moduleEntries.length} modulo${
+            moduleEntries.length === 1 ? "" : "i"
+          }</p>
+          <ul>${topModules.join("") || '<li class="muted">Nessun modulo configurato</li>'}</ul>
+        </article>
+      `;
+    })
+    .join("");
+
+  const globalRules = speciesData.global_rules || {};
+  const morphBudget = globalRules.morph_budget?.default_weight_budget;
+  const stackingCaps = globalRules.stacking_caps
+    ? Object.entries(globalRules.stacking_caps)
+        .map(([key, value]) => `${formatLabel(key)} → ${value}`)
+        .join(" · ")
+    : null;
+  const countersReference = Array.isArray(globalRules.counters_reference)
+    ? globalRules.counters_reference
+    : [];
+  const counterSummary = countersReference
+    .map((entry) => {
+      const counter = formatLabel(entry.counter);
+      const counters = Array.isArray(entry.counters)
+        ? entry.counters.map(formatLabel).join(", ")
+        : "—";
+      return `${counter}: ${counters}`;
+    })
+    .join(" · ");
+
+  const rulesBlock = morphBudget || stackingCaps || counterSummary
+    ? `
+        <article class="species-card species-rules">
+          <h3>Linee guida globali</h3>
+          <ul>
+            ${
+              morphBudget
+                ? `<li><strong>Budget morfologico</strong><span>${morphBudget} pt</span></li>`
+                : ""
+            }
+            ${
+              stackingCaps
+                ? `<li><strong>Stacking caps</strong><span>${stackingCaps}</span></li>`
+                : ""
+            }
+            ${
+              counterSummary
+                ? `<li><strong>Counter reference</strong><span>${counterSummary}</span></li>`
+                : ""
+            }
+          </ul>
+        </article>
+      `
+    : "";
+
+  const slotsSection = slotEntries.length
+    ? `<div class="species-grid">${slotCards}${rulesBlock}</div>`
+    : `
+        <div class="species-empty">
+          <p>Nessun modulo configurato negli slot specie.</p>
+        </div>
+      `;
+
+  const synergyPreview = synergies.slice(0, 4)
+    .map((synergy) => {
+      const name = synergy.name || formatLabel(synergy.id);
+      const triggers = formatSynergyRequirements(synergy.when_all);
+      return `<li><strong>${name}</strong><span class="trigger">${triggers}</span></li>`;
+    })
+    .join("");
+
+  const synergyExtra = synergies.length > 4
+    ? `<p class="muted">+${synergies.length - 4} sinergie aggiuntive nel catalogo.</p>`
+    : "";
+
+  const synergySection = synergies.length
+    ? `
+        <div class="species-synergies">
+          <h3>Trigger combinati</h3>
+          <ul>${synergyPreview}</ul>
+          ${synergyExtra}
+        </div>
+      `
+    : "";
+
+  container.innerHTML = `${metricsHtml}${slotsSection}${synergySection}`;
+}
+
 function formatEntry(entry) {
   if (entry == null) return "—";
   if (typeof entry === "string" || typeof entry === "number") return entry;
@@ -1000,6 +1248,28 @@ function runDataTests() {
           message: isValid
             ? `${table.length} righe con range e pack`
             : "Mancano range o pack nella tabella"
+        };
+      }
+    },
+    {
+      id: "species",
+      label: "Catalogo specie completo",
+      run: () => {
+        const slots = state.data.species?.catalog?.slots || {};
+        const synergies = Array.isArray(state.data.species?.catalog?.synergies)
+          ? state.data.species.catalog.synergies
+          : [];
+        const slotCount = Object.keys(slots).length;
+        const moduleCount = Object.values(slots).reduce(
+          (sum, slotGroup) => sum + Object.keys(slotGroup || {}).length,
+          0
+        );
+        const hasCatalog = slotCount > 0 && moduleCount > 0;
+        return {
+          passed: hasCatalog && synergies.length > 0,
+          message: hasCatalog
+            ? `${slotCount} slot · ${moduleCount} moduli · ${synergies.length} sinergie`
+            : "Catalogo specie incompleto"
         };
       }
     },
@@ -1213,6 +1483,7 @@ function detectDataKey(payload) {
   if (payload.telemetry || payload.indices || payload.mbti_axes) return "telemetry";
   if (payload.biomes || payload.vc_adapt || payload.mutations) return "biomes";
   if (payload.compat_forme || payload.base_scores) return "mating";
+  if (payload.catalog || payload.species || payload.global_rules) return "species";
 
   return null;
 }

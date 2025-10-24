@@ -54,10 +54,13 @@ python3 generate_encounter.py savana
 ## Interfaccia test & recap via web
 - [Apri la dashboard](docs/test-interface/index.html) per consultare rapidamente pacchetti PI,
   telemetria VC, biomi e compatibilità delle forme (funziona sia in locale sia online).
-- **Online subito (GitHub Pages)**: abilita la pubblicazione da `Settings → Pages → Build and
-  deployment → Deploy from a branch`, scegli `work` (o il branch desiderato) e la cartella `/docs/`.
-  L'URL diventa `https://<tuo-utente>.github.io/<repo>/test-interface/`, con fetch automatico degli
-  YAML via `raw`.
+- **Online automatico (GitHub Pages)**: il workflow [`deploy-test-interface`](.github/workflows/deploy-test-interface.yml)
+  pubblica in modo continuativo i contenuti della dashboard e i dataset YAML ad ogni push su `main`.
+  Dopo aver abilitato *una sola volta* GitHub Pages (`Settings → Pages → Build and deployment → GitHub Actions`),
+  il sito sarà sempre raggiungibile da `https://<tuo-utente>.github.io/<repo>/test-interface/` (o dal dominio
+  personalizzato) con fetch automatico degli YAML direttamente dal branch indicato. Prima del deploy il workflow
+  lancia le suite di test TypeScript (`npm test` in `tools/ts`) e Python (`PYTHONPATH=tools/py pytest`) per garantire
+  che la dashboard rifletta dati validi e CLI funzionanti.
 - **Uso locale**: avvia un server dalla radice (`python3 -m http.server 8000`) e visita
   `http://localhost:8000/docs/test-interface/` per lavorare offline.
 - Premi "Ricarica dati YAML" dopo aver modificato i file in `data/`, quindi "Esegui test" per i
