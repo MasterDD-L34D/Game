@@ -1,0 +1,7 @@
+classes:
+  - id: warden
+    base_hp: 10
+    proficiencies: [melee, shield]
+  - id: scribe
+    base_hp: 6
+    proficiencies: [ranged, focus]
