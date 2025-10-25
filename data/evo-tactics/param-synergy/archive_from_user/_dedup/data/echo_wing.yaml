@@ -1,0 +1,20 @@
+id: echo_wing
+version: 0.1.0
+type: mobility
+cost: 2
+prerequisites: []
+conflicts: [heavy_armor]
+effects:
+  speed_bonus: +1
+  glide: true
+  sonar_ping:
+    uses: 1/encounter
+    effect: "Rivela unità nascoste entro raggio 6 quadre"
+    notes: "Non attraversa pareti spesse (GM decide i materiali)"
+scaling:
+  - level: 5
+    sonar_ping: {uses: 2/encounter}
+  - level: 9
+    sonar_ping: {uses: 3/encounter, range: 8}
+notes:
+  - "Non compatibile con armature pesanti"
