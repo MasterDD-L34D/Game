@@ -133,6 +133,7 @@ const PACK_ROOT_CANDIDATES = candidatePackRoots();
 
 let resolvedPackRoot = null;
 let packDocsBase = null;
+let resolvedCatalogUrl = null;
 
 const elements = {
   form: document.getElementById("generator-form"),
@@ -438,7 +439,7 @@ function exportPayload(filters) {
     pick: state.pick,
     filters,
     source: {
-      catalog: CATALOG_URL,
+      catalog: resolvedCatalogUrl || resolvedPackRoot,
       generated_at: new Date().toISOString(),
     },
   };
@@ -580,6 +581,7 @@ async function loadData() {
 
       const json = await response.json();
       resolvedPackRoot = ensureTrailingSlash(base);
+      resolvedCatalogUrl = catalogUrl;
       try {
         packDocsBase = new URL("docs/catalog/", resolvedPackRoot);
       } catch (error) {
