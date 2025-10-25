@@ -12,45 +12,165 @@
     <script type="module" src="site.js" defer></script>
   </head>
   <body>
-    <header class="hero">
-      <div class="hero__inner">
-        <div class="hero__content">
-          <p class="hero__tagline">Supporto produzione</p>
-          <h1>Centro di Controllo Evo-Tactics</h1>
-          <p class="hero__description">
-            Un'unica plancia per seguire lo sviluppo del sistema, monitorare gli aggiornamenti
-            GitHub e provare rapidamente le nuove feature caricate sui branch di lavoro.
+    <header class="landing-hero" id="home">
+      <div class="landing-hero__inner">
+        <div class="landing-hero__content">
+          <p class="landing-hero__tagline">Gioco Intenti · Evo-Tactics</p>
+          <h1 id="landing-title">Benvenuti nel Centro Operativo di Intenti</h1>
+          <p class="landing-hero__description">
+            Evo-Tactics mette al centro squadre ibride impegnate a stabilizzare ecosistemi instabili. Questa pagina ti
+            guida dall'intenzione narrativa del progetto alle utility digitali che servono per preparare missioni,
+            generatori procedurali e strumenti di test.
           </p>
-          <div class="hero__actions">
-            <button type="button" class="button" id="hero-open-simulator">Apri il simulatore</button>
-            <a class="button button--secondary" href="40-ROADMAP.md">Roadmap</a>
-            <a class="button button--ghost" href="00-INDEX.md">Indice documentazione</a>
+          <div class="landing-hero__actions">
+            <a class="button" href="evo-tactics-pack/generator.html">Apri il generatore</a>
+            <a class="button button--secondary" href="#mission-control">Vai al Mission Control</a>
           </div>
         </div>
-        <aside class="hero__meta" aria-live="polite">
-          <div class="meta-card">
-            <span class="meta-card__label">Ultimo aggiornamento</span>
-            <strong class="meta-card__value" id="last-activity">In caricamento…</strong>
-          </div>
-          <div class="meta-card">
-            <span class="meta-card__label">Branch monitorata</span>
-            <strong class="meta-card__value" id="active-branch">—</strong>
-          </div>
-          <div class="meta-card">
-            <span class="meta-card__label">Feed changelog</span>
-            <strong class="meta-card__value" id="changelog-status">In caricamento…</strong>
-          </div>
+        <aside class="landing-hero__aside">
+          <h2 class="landing-hero__aside-title">Focus immediato</h2>
+          <ul class="landing-hero__highlights">
+            <li>Allinea l'intento del gioco con squadra, tono e pilastri tattici.</li>
+            <li>Scopri come si struttura una missione Evo-Tactics passo dopo passo.</li>
+            <li>Raggiungi con un click generatore, dashboard e strumenti di fetch dati.</li>
+          </ul>
         </aside>
       </div>
-      <nav class="hero__nav" aria-label="Navigazione principale">
-        <a href="#overview">Panoramica</a>
-        <a href="#updates">Aggiornamenti</a>
-        <a href="#simulator">Simulazioni</a>
-        <a href="#dashboards">Dashboard</a>
-        <a href="#resources">Risorse</a>
+      <nav class="landing-hero__menu" aria-label="Navigazione introduttiva">
+        <a href="#intent">Intento del gioco</a>
+        <a href="#flow">Come si svolge</a>
+        <a href="#structure">Mappa del sito</a>
+        <a href="#mission-control">Mission Control</a>
+        <a href="test-interface/index.html">Interfaccia Test</a>
+        <a href="evo-tactics-pack/generator.html">Generatore</a>
       </nav>
     </header>
-    <main class="layout">
+    <main class="landing-main" aria-labelledby="landing-title">
+      <section id="intent" class="landing-section">
+        <div class="landing-section__header">
+          <p class="landing-section__kicker">Intenti narrativi e tattici</p>
+          <h2>Perché esiste Evo-Tactics</h2>
+        </div>
+        <div class="landing-section__body">
+          <p>
+            Il gioco nasce per raccontare l'adattamento di cellule operative altamente specializzate. I giocatori sono
+            chiamati a leggere segnali biologici, rispondere alle crisi ambientali e costruire soluzioni collaborative
+            in tempo reale.
+          </p>
+          <ul class="landing-list">
+            <li>Tono techno-biologico con enfasi sull'evoluzione continua.</li>
+            <li>Squadre ibride tra ricerca, field ops e creatività tattica.</li>
+            <li>Loop di gioco basato su raccolta dati, decisioni rapide e mutazioni controllate.</li>
+          </ul>
+        </div>
+      </section>
+      <section id="flow" class="landing-section">
+        <div class="landing-section__header">
+          <p class="landing-section__kicker">Come si gioca</p>
+          <h2>Struttura di una missione</h2>
+        </div>
+        <div class="landing-section__body">
+          <ol class="landing-steps">
+            <li>
+              <strong>Briefing:</strong> scegli bioma, specie e telemetria critica usando il generatore o il catalogo del
+              pack.
+            </li>
+            <li>
+              <strong>Adattamento PI:</strong> assegna slot, forme MBTI e risorse tattiche consultando le dashboard di
+              Mission Control.
+            </li>
+            <li>
+              <strong>Playtest guidato:</strong> monitora loop, mutazioni e random table con gli strumenti di test,
+              registrando insight e nuove richieste di dati.
+            </li>
+            <li>
+              <strong>Debrief:</strong> sincronizza i risultati con la roadmap e aggiorna i dataset YAML per iterare.
+            </li>
+          </ol>
+          <p class="landing-section__note">
+            Ogni fase è supportata da una pagina dedicata: le trovi nella mappa del sito qui sotto e nella sezione Mission
+            Control.
+          </p>
+        </div>
+      </section>
+      <section id="structure" class="landing-section">
+        <div class="landing-section__header">
+          <p class="landing-section__kicker">Tutta la piattaforma</p>
+          <h2>Mappa rapida del sito</h2>
+        </div>
+        <div class="landing-grid">
+          <article class="card landing-card">
+            <h3>Mission Control</h3>
+            <p>
+              Dashboard principale per monitoraggio repository, configurazione del simulatore e accesso a changelog,
+              roadmap e documentazione.
+            </p>
+            <a class="button button--ghost" href="#mission-control">Vai al Mission Control</a>
+          </article>
+          <article class="card landing-card">
+            <h3>Generatore di ecosistemi</h3>
+            <p>
+              Tool procedurale per creare missioni, biomi e incontri. Collegato direttamente ai dataset YAML aggiornati.
+            </p>
+            <a class="button button--ghost" href="evo-tactics-pack/generator.html">Apri il generatore</a>
+          </article>
+          <article class="card landing-card">
+            <h3>Interfaccia Test &amp; Recap</h3>
+            <p>
+              Plancia di verifica rapida con overview MBTI, telemetria VC e strumenti di fetch manuale o automatico.
+            </p>
+            <a class="button button--ghost" href="test-interface/index.html">Apri l'interfaccia</a>
+          </article>
+          <article class="card landing-card">
+            <h3>Ecosystem Pack Hub</h3>
+            <p>
+              Raccolta completa di cataloghi, dataset e strumenti sperimentali per espandere l'universo Evo-Tactics.
+            </p>
+            <a class="button button--ghost" href="evo-tactics-pack/index.html">Esplora il pack</a>
+          </article>
+        </div>
+      </section>
+    </main>
+    <section id="mission-control" class="support-hub">
+      <header class="hero">
+        <div class="hero__inner">
+          <div class="hero__content">
+            <p class="hero__tagline">Supporto produzione</p>
+            <h1>Centro di Controllo Evo-Tactics</h1>
+            <p class="hero__description">
+              Un'unica plancia per seguire lo sviluppo del sistema, monitorare gli aggiornamenti
+              GitHub e provare rapidamente le nuove feature caricate sui branch di lavoro.
+            </p>
+            <div class="hero__actions">
+              <button type="button" class="button" id="hero-open-simulator">Apri il simulatore</button>
+              <a class="button button--secondary" href="40-ROADMAP.md">Roadmap</a>
+              <a class="button button--ghost" href="00-INDEX.md">Indice documentazione</a>
+            </div>
+          </div>
+          <aside class="hero__meta" aria-live="polite">
+            <div class="meta-card">
+              <span class="meta-card__label">Ultimo aggiornamento</span>
+              <strong class="meta-card__value" id="last-activity">In caricamento…</strong>
+            </div>
+            <div class="meta-card">
+              <span class="meta-card__label">Branch monitorata</span>
+              <strong class="meta-card__value" id="active-branch">—</strong>
+            </div>
+            <div class="meta-card">
+              <span class="meta-card__label">Feed changelog</span>
+              <strong class="meta-card__value" id="changelog-status">In caricamento…</strong>
+            </div>
+          </aside>
+        </div>
+        <nav class="hero__nav" aria-label="Navigazione principale">
+          <a href="#overview">Panoramica</a>
+          <a href="#updates">Aggiornamenti</a>
+          <a href="#simulator">Simulazioni</a>
+          <a href="#dashboards">Dashboard</a>
+          <a href="#resources">Risorse</a>
+        </nav>
+      </header>
+    <div class="layout">
       <section id="overview" class="section">
         <div class="section__header">
           <h2>Panoramica</h2>
@@ -211,6 +331,14 @@
             <a href="test-interface/index.html" class="button button--ghost">Apri dashboard</a>
           </article>
           <article class="card card--link">
+            <h3>Generatore di ecosistemi</h3>
+            <p>
+              Accesso diretto al tool procedurale per creare missioni, biomi e incontri pronti per il
+              playtest.
+            </p>
+            <a href="evo-tactics-pack/generator.html" class="button button--ghost">Apri generatore</a>
+          </article>
+          <article class="card card--link">
             <h3>Fetch automatico YAML</h3>
             <p>
               Pannello dedicato che scarica e valida tutti i file YAML dalla cartella
@@ -259,7 +387,8 @@
           </article>
         </div>
       </section>
-    </main>
+    </div>
+    </section>
     <footer class="footer">
       <p>
         Evo-Tactics · Centro di controllo sperimentale. Per feedback o suggerimenti apri una issue
