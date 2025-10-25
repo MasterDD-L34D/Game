@@ -1,9 +1,0 @@
-id: echolocate
-version: 0.1.0
-type: senses
-cost: 2
-effects:
-  blindsense: 3
-  echo_ping: true
-notes: >
-  Sensi eco‑attivi per leggere gli spazi al buio o nella foschia.

@@ -1,9 +1,0 @@
-id: glide_wings
-version: 0.1.0
-type: mobility
-cost: 2
-effects:
-  speed_bonus: +1
-  glide: true
-notes: >
-  Membrane che consentono planate controllate; no armature pesanti.

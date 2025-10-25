@@ -1,9 +1,0 @@
-id: aero_exchange
-version: 0.1.0
-type: metabolism
-cost: 1
-effects:
-  oxygen_recovery: true
-  dive_extension: +1
-notes: >
-  Micro‑scambio gassoso che migliora resistenza sott’acqua e in ambienti poveri d’ossigeno.

@@ -1,9 +1,0 @@
-id: ferrous_carapace
-version: 0.1.0
-type: defense
-cost: 3
-effects:
-  armor: +1
-  fire_vuln: true
-notes: >
-  Carapace ferroso riciclato: ottima resistenza fisica, vulnerabile al fuoco continuo.
