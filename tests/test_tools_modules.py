@@ -27,15 +27,16 @@ def test_game_cli_exports_commands() -> None:
         "roll-pack",
         "generate-encounter",
         "validate-datasets",
+        "validate-ecosystem-pack",
         "investigate",
     }
 
 
-def test_game_cli_normalizes_legacy_validate_command() -> None:
+def test_game_cli_normalizes_shorthand_ecosystem_command() -> None:
     module = _import("game_cli")
-    normalized = module._normalize_argv(["validate-ecosystem-pack", "--help"])
-    assert normalized[0] == "validate-datasets"
-    assert normalized[1:] == ["--help"]
+    normalized = module._normalize_argv(["validate-ecosystem", "--json-out", "report.json"])
+    assert normalized[0] == "validate-ecosystem-pack"
+    assert normalized[1:] == ["--json-out", "report.json"]
 
 
 def test_roll_pack_module_has_entrypoints() -> None:
