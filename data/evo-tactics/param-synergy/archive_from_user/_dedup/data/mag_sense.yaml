@@ -1,0 +1,8 @@
+id: mag_sense
+version: 0.1.0
+type: senses
+cost: 1
+effects:
+  detect_metal: 6
+notes: >
+  Rileva masse ferrose (raggio 6); utile in badlands e rovine.
