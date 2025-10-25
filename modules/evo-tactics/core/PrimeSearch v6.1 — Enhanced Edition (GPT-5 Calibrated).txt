@@ -1,0 +1,5 @@
+FINAL VERDICT
+v6.1 keeps the proven v6.0 core and adds:
+✅ SafeFallback Layer for low-confidence cases
+✅ TokenFlow Manager for smart budget use
+Result: stable delivery, clearer priorities, and consistent quality o

@@ -1,8 +1,0 @@
-version: 0.1.0
-unlock_rules:
-  vanguard: {min_level: 1}
-  skirmisher: {min_level: 1}
-  warden: {min_level: 1}
-  artificer: {min_level: 1}
-  invoker: {min_level: 1}
-  harvester: {min_level: 1}

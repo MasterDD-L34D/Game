@@ -1,8 +1,0 @@
-Patch Notes (estratto) — PT Public 3.5.5
-- Persona-Compatible toggles
-- Sigillaggi di integrità
-- Aggiornamenti gating
-
-Notes
-- Usare solo su build pubbliche
-- Vedi anche OneBlock AntiDrift Core v6
