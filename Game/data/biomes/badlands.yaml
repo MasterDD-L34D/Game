@@ -1,0 +1,140 @@
+biome_id: BADLANDS
+version: '0.4.0'
+label: "Brulle Terre Ferrose"
+ptpf:
+  version: "v1.0 · DriftLocked"
+  tags: [@VISION_CORE, @TACTICS_CORE, @FORM_ENGINE, @VC_TRACK, @BIOMA_ENGINE, @PLAYTEST_CORE]
+  VISION_CORE:
+    setting: "techno-biological, instabilità ecosistemica"
+    factions: "team ibridi: metà scienziati, metà esploratori"
+    keywords: [Adattamento, Evoluzione, Intelligenza, Mutazione]
+    user_feeling: [Smart, Fast, Systemic]
+    drift_policy: "niente tropi fantasy/steampunk/comico — solo bio-logico"
+  TACTICS_CORE:
+    dashboard_anchors: [PI_Slots, Hook_Patterns, Bias_Vectors]
+    outcomes: [A, B, C]
+    constraints:
+      pi_slots_are_form_caps: true
+      rarity_modifiers_visible: true
+    rehydration: "loadout collegato a telemetria"
+  FORM_ENGINE:
+    packet_types: [MutationPack_A, MutationPack_B, MutationPack_C]
+    shape_biasing: "form-balance per bioma"
+    visibility:
+      caps_per_round: true
+      vc_sync_table: true
+    drift_lock: "nessun mismatch di forma tra i round"
+  VC_TRACK:
+    input: [player_choice_logs, roll_trends]
+    output: [dynamic_encounter_shifts, vc_compat_tiers]
+    triggers: [form_inefficiency, underused_biome_synergy]
+    review_mode: "YAML dataset inspector"
+  BIOMA_ENGINE:
+    generator: "biome-roll (tabelle rapide)"
+    spotlight: "mutazioni vs ambiente + synergy matrix"
+    mbti_compat_table: "mission archetypes ↔ player profiles"
+    load: "encounter seeds auto-link ai PI caps"
+  PLAYTEST_CORE:
+    iteration_tracker: [loop_id, stress_level, mutation_stability]
+    routines: [yaml_snapshot_check, random_encounter_delta, synergy_pulse]
+  LINKING_TRACE:
+    anchor_map:
+      VISION_CORE: [TACTICS_CORE, FORM_ENGINE]
+      VC_TRACK: [BIOMA_ENGINE]
+      PLAYTEST_CORE: [VISION_CORE, TACTICS_CORE, FORM_ENGINE, VC_TRACK, BIOMA_ENGINE]
+    receipts:
+      trace_hash: "to-fill-by-hook"
+      files: ["rules/ECORULES_BADLANDS_IT.md"]
+  DRIFT_GUARDS:
+    tone_lock: true
+    structure_lock: "moduli sempre packetizzati"
+    telemetry_lock: "tutte le modifiche devono essere YAML-valide e receipt-tagged"
+
+abiotic:
+  luce: alta
+  temperatura_c: {min: 5, max: 45, escursione: alta}
+  acqua: scarsa_irregolare
+  suolo: {tessitura: "sabbia_ferrosa", pH: 7.8, CEC: medio_basso, humus: basso}
+  aria: secca_polverosa
+  nutrienti: {N: basso, P: medio_basso, K: medio}
+  salinita: variabile
+
+hazards:
+  - id: iron_shards
+    effect: "Schegge ferrose; chi corre senza protezione subisce 1 danno al termine del movimento (1/turno)."
+  - id: magnetic_patches
+    effect: "Campi magnetici irregolari: armi metalliche subiscono -1 al primo attacco della scena."
+  - id: heat_thermals
+    effect: "Termiche calde improvvise: test di stabilità per volanti quando effettuano Dash."
+
+preferences:
+  jobs:
+    artificer: {"likes": ["rottami","coperture improvvisate"], "dislikes": ["campi magnetici forti"]}
+    vanguard:  {"likes": ["sfondamenti su creste"], "dislikes": ["schegge in corsa"]}
+    skirmisher: {"likes": ["dune frastagliate","ombre di crepacci"], "dislikes": ["sabbia_vetrificata"]}
+    warden: {"likes": ["punti alti di controllo"], "dislikes": ["tempeste di polvere"]}
+
+modifiers:
+  cover_bonus: "+1 AC dietro relitti metallici"
+  surge_token: "Loot scena: +1 Surge Token casuale"
+
+services:
+  supporto: [formazione_suolo, cicli_nutrienti]
+  approvvigionamento: [rottami, minerali_ferrosi, resine_cactacee]
+  regolazione: [barriere_eoliche_improvvisate, cattura_polveri, stabilizzazione_dune]
+  culturali: [siti_di_scavo, piste_carovaniere]
+
+trophic_levels:
+  producers: [ferrospina_cactus, lichen_ferroso]
+  primary_consumers: [sand_burrower, rust_scavenger, verme_siliceo, skink_ferripelle]
+  secondary_consumers: [vipera_piezo, echo_wing, icnemodron_simbionte, corvo_ferromag]
+  tertiary_consumers: [dune_stalker, regina_vesparia_ferroemato]
+  decomposers: [fungo_scheletro, deco_microbi_suolo, fioritura_ferrosporo]
+
+functional_groups:
+  predatori: [dune_stalker, vipera_piezo, echo_wing, regina_vesparia_ferroemato]
+  prede: [sand_burrower, rust_scavenger, verme_siliceo, skink_ferripelle, corvo_ferromag]
+  erbivori: [sand_burrower, skink_ferripelle]
+  impollinatori: [falena_resinosa, cantore_polvere]
+  dispersori: [cantore_polvere, mirmec_ferro, scarabeo_carovaniere, corvo_ferromag]
+  simbionti: [cantore_polvere, regina_vesparia_ferroemato, icnemodron_simbionte, lichen_ferroso]
+  commensali: [epifiti_cactus, microfauna_relitti]
+  parassiti_parasitoidi: [icnemodron_simbionte]
+  detritivori: [sand_burrower, rust_scavenger, verme_siliceo]
+  decompositori: [fungo_scheletro, deco_microbi_suolo, fioritura_ferrosporo]
+  filtratori: [verme_siliceo, rust_scavenger, tasso_silicico]
+  ingegneri_ecosistema: [mirmec_ferro, verme_siliceo, tasso_silicico]
+  specie_chiave: [dune_stalker, regina_vesparia_ferroemato]
+  ombrello_indicatori: [echo_wing, lichen_ferroso, corvo_ferromag, skink_ferripelle]
+  invasive_alloctone: [locusta_ferricidio]
+  minaccia: [locusta_ferricidio]
+  evento: [fioritura_ferrosporo]
+  ponte: [scarabeo_carovaniere, corvo_ferromag]
+
+ecosystem_rules:
+  require_full_functional_coverage: true
+  require_sentient_min: 1
+  require_apex_min: 1
+  require_keystone_min: 1
+  require_threat_min: 1
+  require_event_min: 1
+  require_bridge_min: 1
+
+compliance:
+  functional_coverage: true
+  sentient_count: 3
+  apex_count: 2
+  keystone_count: 2
+  threat_count: 1
+  event_count: 1
+  bridge_count: 2
+
+vc_indices:
+  aggro: 0.62
+  risk: 0.68
+  cohesion: 0.43
+  setup: 0.56
+  explore: 0.72
+  tilt: 0.53
+
+last_updated: 2025-10-25
