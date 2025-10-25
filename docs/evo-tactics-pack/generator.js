@@ -51,57 +51,88 @@ function detectRepoBase() {
   }
 }
 
-function detectPackRoot() {
+function detectPackRootOverride() {
   const params = new URLSearchParams(window.location.search);
   const override =
     params.get("pack-root") ||
     document.querySelector('meta[name="pack-root"]')?.getAttribute("content");
-  const normalizedOverride = normalizeBase(override);
-  if (normalizedOverride) {
-    return normalizedOverride;
+  return normalizeBase(override);
+}
+
+function detectGitHubRawRoot() {
+  if (!window.location.hostname.endsWith("github.io")) {
+    return null;
   }
 
-  if (window.location.hostname.endsWith("github.io")) {
-    const owner = window.location.hostname.split(".")[0];
-    const pathParts = window.location.pathname.split("/").filter(Boolean);
-    const repo = pathParts[0] || "";
-    const branch =
-      params.get("ref") ||
-      document.querySelector('meta[name="data-branch"]')?.getAttribute("content") ||
-      DEFAULT_BRANCH;
+  const owner = document
+    .querySelector('meta[name="data-owner"]')
+    ?.getAttribute("content") || window.location.hostname.split(".")[0];
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const repo =
+    document.querySelector('meta[name="data-repo"]')?.getAttribute("content") ||
+    pathParts[0] ||
+    "";
+  const params = new URLSearchParams(window.location.search);
+  const branch =
+    params.get("ref") ||
+    document.querySelector('meta[name="data-branch"]')?.getAttribute("content") ||
+    DEFAULT_BRANCH;
 
-    if (owner && repo) {
-      return ensureTrailingSlash(
-        `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${PACK_PATH}`
-      );
-    }
+  if (!owner || !repo) {
+    return null;
+  }
+
+  return ensureTrailingSlash(
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${PACK_PATH}`
+  );
+}
+
+function candidatePackRoots() {
+  const candidates = [];
+
+  const override = detectPackRootOverride();
+  if (override) {
+    candidates.push(override);
+  }
+
+  const githubRaw = detectGitHubRawRoot();
+  if (githubRaw) {
+    candidates.push(githubRaw);
   }
 
   const repoBase = detectRepoBase();
   if (repoBase) {
     try {
-      return ensureTrailingSlash(new URL(PACK_PATH, repoBase).toString());
+      candidates.push(ensureTrailingSlash(new URL(PACK_PATH, repoBase).toString()));
     } catch (error) {
       console.warn("Impossibile costruire la base dati dal repository", error);
     }
   }
 
   try {
-    return ensureTrailingSlash(new URL(`../${PACK_PATH}`, window.location.href).toString());
+    candidates.push(
+      ensureTrailingSlash(new URL(`../${PACK_PATH}`, window.location.href).toString())
+    );
   } catch (error) {
-    console.warn("Impossibile calcolare la base dati, uso percorso relativo", error);
-    if (window.location.origin && window.location.origin !== "null") {
-      const origin = window.location.origin.endsWith("/")
-        ? window.location.origin
-        : `${window.location.origin}/`;
-      return ensureTrailingSlash(`${origin}${PACK_PATH}`);
-    }
-    return ensureTrailingSlash(PACK_PATH);
+    console.warn("Impossibile calcolare la base dati relativa", error);
   }
+
+  if (window.location.origin && window.location.origin !== "null") {
+    const origin = window.location.origin.endsWith("/")
+      ? window.location.origin
+      : `${window.location.origin}/`;
+    candidates.push(ensureTrailingSlash(`${origin}${PACK_PATH}`));
+  }
+
+  candidates.push(ensureTrailingSlash(PACK_PATH));
+
+  return Array.from(new Set(candidates.filter(Boolean)));
 }
 
-const DATA_ROOT = detectPackRoot();
-const CATALOG_URL = `${DATA_ROOT}docs/catalog/catalog_data.json`;
+const PACK_ROOT_CANDIDATES = candidatePackRoots();
+
+let resolvedPackRoot = null;
+let packDocsBase = null;
 
 const elements = {
   form: document.getElementById("generator-form"),
@@ -123,15 +154,6 @@ const state = {
     seeds: [],
   },
 };
-
-const packDocsBase = (() => {
-  try {
-    return new URL("docs/catalog/", DATA_ROOT);
-  } catch (error) {
-    console.warn("Impossibile preparare la base dei documenti del pack", error);
-    return null;
-  }
-})();
 
 function setStatus(message, tone = "info") {
   if (!elements.status) return;
@@ -213,10 +235,13 @@ function populateFilters(data) {
 
 function resolvePackHref(relativePath) {
   try {
-    if (!packDocsBase) {
-      return new URL(relativePath, DATA_ROOT).toString();
+    if (packDocsBase) {
+      return new URL(relativePath, packDocsBase).toString();
     }
-    return new URL(relativePath, packDocsBase).toString();
+    if (resolvedPackRoot) {
+      return new URL(relativePath, resolvedPackRoot).toString();
+    }
+    return relativePath;
   } catch (error) {
     console.error("Impossibile risolvere il percorso", relativePath, error);
     return relativePath;
@@ -543,19 +568,37 @@ function attachActions() {
 
 async function loadData() {
   setStatus("Caricamento catalogo in corso…");
-  try {
-    const response = await fetch(CATALOG_URL);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+  let lastError = null;
+
+  for (const base of PACK_ROOT_CANDIDATES) {
+    try {
+      const catalogUrl = new URL("docs/catalog/catalog_data.json", base).toString();
+      const response = await fetch(catalogUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const json = await response.json();
+      resolvedPackRoot = ensureTrailingSlash(base);
+      try {
+        packDocsBase = new URL("docs/catalog/", resolvedPackRoot);
+      } catch (error) {
+        console.warn("Impossibile definire la base documenti del pack", error);
+        packDocsBase = null;
+      }
+
+      state.data = json;
+      populateFilters(json);
+      setStatus("Catalogo pronto all'uso. Genera un ecosistema!");
+      return;
+    } catch (error) {
+      lastError = error;
+      console.warn("Tentativo di caricamento del catalogo fallito", base, error);
     }
-    const json = await response.json();
-    state.data = json;
-    populateFilters(json);
-    setStatus("Catalogo pronto all'uso. Genera un ecosistema!");
-  } catch (error) {
-    console.error("Impossibile caricare il catalogo", error);
-    setStatus("Errore durante il caricamento del catalogo. Controlla la console.", "error");
   }
+
+  console.error("Impossibile caricare il catalogo da alcuna sorgente", lastError);
+  setStatus("Errore durante il caricamento del catalogo. Controlla la console.", "error");
 }
 
 attachActions();
