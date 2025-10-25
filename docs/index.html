@@ -9,6 +9,7 @@
       content="Centro di supporto per il progetto Evo-Tactics: stato aggiornamenti, test di simulazioni e link rapidi alla documentazione."
     />
     <link rel="stylesheet" href="site.css" />
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js" defer></script>
     <script type="module" src="site.js" defer></script>
   </head>
   <body>
@@ -159,6 +160,44 @@
             <div class="meta-card">
               <span class="meta-card__label">Feed changelog</span>
               <strong class="meta-card__value" id="changelog-status">In caricamento…</strong>
+            </div>
+            <div class="meta-card meta-card--dataset" aria-live="polite">
+              <span class="meta-card__label">Stato dataset</span>
+              <strong class="meta-card__value" id="dataset-status">In rilevamento…</strong>
+              <dl class="meta-card__details" id="dataset-metrics">
+                <div>
+                  <dt>Forme MBTI</dt>
+                  <dd data-dataset-metric="forms">—</dd>
+                </div>
+                <div>
+                  <dt>Tabelle D20</dt>
+                  <dd data-dataset-metric="random">—</dd>
+                </div>
+                <div>
+                  <dt>Indici VC</dt>
+                  <dd data-dataset-metric="indices">—</dd>
+                </div>
+                <div>
+                  <dt>Biomi</dt>
+                  <dd data-dataset-metric="biomes">—</dd>
+                </div>
+                <div>
+                  <dt>Slot specie</dt>
+                  <dd data-dataset-metric="speciesSlots">—</dd>
+                </div>
+                <div>
+                  <dt>Sinergie</dt>
+                  <dd data-dataset-metric="speciesSynergies">—</dd>
+                </div>
+              </dl>
+              <p class="meta-card__hint" id="dataset-updated">Ultimo fetch: in attesa…</p>
+              <button
+                type="button"
+                class="button button--ghost meta-card__action"
+                id="refresh-datasets"
+              >
+                Aggiorna panoramica
+              </button>
             </div>
           </aside>
         </div>

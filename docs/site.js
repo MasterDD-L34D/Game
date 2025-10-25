@@ -18,7 +18,26 @@ const elements = {
   lastActivity: document.getElementById("last-activity"),
   activeBranch: document.getElementById("active-branch"),
   changelogStatus: document.getElementById("changelog-status"),
+  datasetStatus: document.getElementById("dataset-status"),
+  datasetUpdated: document.getElementById("dataset-updated"),
+  refreshDatasets: document.getElementById("refresh-datasets"),
 };
+
+const datasetMetricElements = {
+  forms: document.querySelector('[data-dataset-metric="forms"]'),
+  random: document.querySelector('[data-dataset-metric="random"]'),
+  indices: document.querySelector('[data-dataset-metric="indices"]'),
+  biomes: document.querySelector('[data-dataset-metric="biomes"]'),
+  speciesSlots: document.querySelector('[data-dataset-metric="speciesSlots"]'),
+  speciesSynergies: document.querySelector('[data-dataset-metric="speciesSynergies"]'),
+};
+
+const DATASET_SOURCES = [
+  { key: "packs", path: "data/packs.yaml", label: "Pack" },
+  { key: "telemetry", path: "data/telemetry.yaml", label: "Telemetria" },
+  { key: "biomes", path: "data/biomes.yaml", label: "Biomi" },
+  { key: "species", path: "data/species.yaml", label: "Specie" },
+];
 
 const defaultConfig = {
   repo: detectDefaultRepo(),
@@ -160,6 +179,236 @@ function formatDate(value) {
   } catch (error) {
     console.warn("Impossibile formattare la data", value, error);
     return value;
+  }
+}
+
+const REFRESH_DATASET_DEFAULT_LABEL =
+  elements.refreshDatasets?.textContent?.trim() || "Aggiorna panoramica";
+
+let datasetLoading = false;
+
+function getYamlParser() {
+  if (typeof window === "undefined") return null;
+  const parser = window.jsyaml;
+  if (!parser || typeof parser.load !== "function") {
+    return null;
+  }
+  return parser;
+}
+
+function formatMetricValue(value) {
+  if (value === null || value === undefined) {
+    return "—";
+  }
+  if (typeof value === "number") {
+    return value.toLocaleString("it-IT");
+  }
+  return String(value);
+}
+
+function clearDatasetMetrics() {
+  Object.values(datasetMetricElements).forEach((element) => {
+    if (element) {
+      element.textContent = "—";
+    }
+  });
+}
+
+function setDatasetStatus(text) {
+  if (elements.datasetStatus) {
+    elements.datasetStatus.textContent = text;
+  }
+}
+
+function setDatasetUpdated(text, source) {
+  if (!elements.datasetUpdated) return;
+  elements.datasetUpdated.textContent = text;
+  if (source) {
+    elements.datasetUpdated.title = `Sorgente dati: ${source}`;
+  } else {
+    elements.datasetUpdated.removeAttribute("title");
+  }
+}
+
+function resetDatasetOverview(message = "In rilevamento…") {
+  setDatasetStatus(message);
+  clearDatasetMetrics();
+  setDatasetUpdated("Ultimo fetch: —");
+}
+
+function setDatasetLoading(isLoading) {
+  datasetLoading = isLoading;
+  if (elements.refreshDatasets) {
+    elements.refreshDatasets.disabled = isLoading;
+    elements.refreshDatasets.textContent = isLoading
+      ? "Aggiornamento…"
+      : REFRESH_DATASET_DEFAULT_LABEL;
+  }
+}
+
+function updateDatasetMetrics(metrics) {
+  Object.entries(metrics).forEach(([key, value]) => {
+    const element = datasetMetricElements[key];
+    if (element) {
+      element.textContent = formatMetricValue(value);
+    }
+  });
+}
+
+function computeDatasetMetrics(datasets) {
+  const packs = datasets.packs;
+  const hasPacks = packs && typeof packs === "object";
+  const formsCount = hasPacks ? Object.keys(packs.forms || {}).length : null;
+  const randomCount = hasPacks
+    ? Array.isArray(packs.random_general_d20)
+      ? packs.random_general_d20.length
+      : 0
+    : null;
+
+  const telemetry = datasets.telemetry;
+  const hasTelemetry = telemetry && typeof telemetry === "object";
+  const indicesCount = hasTelemetry
+    ? telemetry.indices
+      ? Object.keys(telemetry.indices).length
+      : 0
+    : null;
+
+  const biomes = datasets.biomes;
+  const hasBiomes = biomes && typeof biomes === "object";
+  const biomeCount = hasBiomes
+    ? biomes.biomes
+      ? Object.keys(biomes.biomes).length
+      : 0
+    : null;
+
+  const species = datasets.species;
+  const hasSpecies = species && typeof species === "object";
+  let speciesSlotCount = null;
+  let synergyCount = null;
+  if (hasSpecies) {
+    const slots = species.catalog?.slots;
+    if (slots && typeof slots === "object") {
+      speciesSlotCount = Object.values(slots).reduce((total, slotGroup) => {
+        if (!slotGroup || typeof slotGroup !== "object") {
+          return total;
+        }
+        return total + Object.keys(slotGroup).length;
+      }, 0);
+    } else {
+      speciesSlotCount = 0;
+    }
+
+    if (Array.isArray(species.catalog?.synergies)) {
+      synergyCount = species.catalog.synergies.length;
+    } else {
+      synergyCount = 0;
+    }
+  }
+
+  return {
+    forms: formsCount,
+    random: randomCount,
+    indices: indicesCount,
+    biomes: biomeCount,
+    speciesSlots: speciesSlotCount,
+    speciesSynergies: synergyCount,
+  };
+}
+
+function resolveDatasetUrl(base, path) {
+  try {
+    return new URL(path, base).toString();
+  } catch (error) {
+    if (!base) {
+      throw error;
+    }
+    const separator = base.endsWith("/") ? "" : "/";
+    return `${base}${separator}${path}`;
+  }
+}
+
+async function fetchDatasetPayload(base, source) {
+  const url = resolveDatasetUrl(base, source.path);
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`(${source.label}) risposta ${response.status}`);
+  }
+  const text = await response.text();
+  const parser = getYamlParser();
+  if (!parser) {
+    throw new Error("Parser YAML non disponibile");
+  }
+  return parser.load(text) ?? {};
+}
+
+async function loadDatasetOverview() {
+  if (!elements.datasetStatus) return;
+  const base = computeDataRoot();
+  if (!base) {
+    resetDatasetOverview("Configura la sorgente dati");
+    return;
+  }
+
+  if (datasetLoading) {
+    return;
+  }
+
+  setDatasetLoading(true);
+  setDatasetStatus("Aggiornamento in corso…");
+  setDatasetUpdated("Ultimo fetch: in corso…", base);
+
+  try {
+    const results = await Promise.allSettled(
+      DATASET_SOURCES.map((source) => fetchDatasetPayload(base, source))
+    );
+
+    const datasets = {};
+    const missing = [];
+
+    results.forEach((result, index) => {
+      const source = DATASET_SOURCES[index];
+      if (result.status === "fulfilled") {
+        datasets[source.key] = result.value;
+      } else {
+        missing.push(source);
+        console.warn(`Impossibile caricare il dataset ${source.key}`, result.reason);
+      }
+    });
+
+    if (!Object.keys(datasets).length) {
+      throw new Error("Nessun dataset disponibile");
+    }
+
+    const metrics = computeDatasetMetrics(datasets);
+    updateDatasetMetrics(metrics);
+
+    const summaryParts = [];
+    if (metrics.forms !== null && metrics.forms !== undefined) {
+      summaryParts.push(`${formatMetricValue(metrics.forms)} forme`);
+    }
+    if (metrics.biomes !== null && metrics.biomes !== undefined) {
+      summaryParts.push(`${formatMetricValue(metrics.biomes)} biomi`);
+    }
+    if (metrics.speciesSlots !== null && metrics.speciesSlots !== undefined) {
+      summaryParts.push(`${formatMetricValue(metrics.speciesSlots)} slot specie`);
+    }
+
+    let statusText = summaryParts.length
+      ? summaryParts.join(" · ")
+      : "Dataset sincronizzati";
+
+    if (missing.length) {
+      const missingLabels = missing.map((entry) => entry.label).join(", ");
+      statusText = `${statusText} · Mancanti: ${missingLabels}`.trim();
+    }
+
+    setDatasetStatus(statusText);
+    setDatasetUpdated(`Ultimo fetch: ${formatDate(new Date().toISOString())}`, base);
+  } catch (error) {
+    console.error("Errore durante l'aggiornamento del riepilogo dataset", error);
+    resetDatasetOverview("Errore durante il caricamento");
+  } finally {
+    setDatasetLoading(false);
   }
 }
 
@@ -408,6 +657,7 @@ function applyConfig(config) {
   }
   saveConfig(currentConfig);
   loadActivity();
+  loadDatasetOverview();
 }
 
 function resetConfig() {
@@ -443,6 +693,10 @@ function setupEvents() {
   elements.refreshChangelog?.addEventListener("click", () => {
     loadChangelog();
   });
+
+  elements.refreshDatasets?.addEventListener("click", () => {
+    loadDatasetOverview();
+  });
 }
 
 function init() {
@@ -454,6 +708,7 @@ function init() {
   setupEvents();
   loadChangelog();
   loadActivity();
+  loadDatasetOverview();
 }
 
 init();

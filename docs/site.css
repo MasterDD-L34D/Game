@@ -388,6 +388,48 @@ a:focus-visible {
   font-weight: 600;
 }
 
+.meta-card__details {
+  margin: 12px 0 6px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.meta-card__details div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.meta-card__details dt,
+.meta-card__details dd {
+  margin: 0;
+}
+
+.meta-card__details dt {
+  font-weight: 500;
+}
+
+.meta-card__details dd {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.meta-card__hint {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.meta-card__action {
+  margin-top: 12px;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
 .hero__nav {
   position: relative;
   z-index: 1;
