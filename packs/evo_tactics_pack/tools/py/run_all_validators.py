@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Tuple
 
 PACK_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = PACK_ROOT.parents[1]
 DATA_DIR = PACK_ROOT / "data"
 CONFIG_DIR = PACK_ROOT / "tools" / "config"
 PY_TOOLS_DIR = PACK_ROOT / "tools" / "py"
@@ -30,7 +31,12 @@ SKIP_NAMES = {
 
 def try_run(cmd: List[str]) -> Dict[str, Any]:
     """Esegue un comando restituendo codice di uscita e log."""
-    completed = subprocess.run(cmd, capture_output=True, text=True)
+    completed = subprocess.run(
+        cmd,
+        capture_output=True,
+        text=True,
+        cwd=str(REPO_ROOT),
+    )
     return {
         "cmd": " ".join(cmd),
         "code": int(completed.returncode),
