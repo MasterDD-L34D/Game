@@ -1,3 +1,0 @@
-# GM Quickstart (Estratto)
-
-...
