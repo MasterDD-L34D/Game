@@ -2,38 +2,30 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import sys
-import importlib.util
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, List, Optional, Sequence
 
 from generate_encounter import generate as generate_encounter
 from investigate_sources import collect_investigation, render_report
 from roll_pack import roll_pack
-from validate_datasets import main as validate_datasets_main
+from validate_datasets import PACK_VALIDATOR, main as validate_datasets_main
 
 
 def _load_pack_validator():
-    pack_script = (
-        Path(__file__).resolve().parents[2]
-        / "packs"
-        / "evo_tactics_pack"
-        / "tools"
-        / "py"
-        / "run_all_validators.py"
-    )
-    if not pack_script.exists():
+    if not PACK_VALIDATOR.exists():
         return None
 
     module_name = "evo_tactics_pack.run_all_validators"
-    spec = importlib.util.spec_from_file_location(module_name, pack_script)
+    spec = importlib.util.spec_from_file_location(module_name, PACK_VALIDATOR)
     if spec is None or spec.loader is None:
         return None
     module = importlib.util.module_from_spec(spec)
     try:
         spec.loader.exec_module(module)  # type: ignore[union-attr]
-    except Exception:  # pragma: no cover - bubble up runtime errors later
+    except Exception:  # pragma: no cover - gli errori runtime verranno mostrati a video
         return None
     return module
 
@@ -184,9 +176,29 @@ def command_investigate(args: argparse.Namespace) -> int:
     return 0
 
 
+LEGACY_VALIDATE_ECOSYSTEM_COMMAND = "validate-ecosystem"
+
+
+def _normalize_argv(argv: Optional[Any]) -> List[str]:
+    if argv is None:
+        normalized = list(sys.argv[1:])
+    elif isinstance(argv, str):
+        normalized = [argv]
+    elif isinstance(argv, Sequence):
+        normalized = list(argv)
+    else:
+        normalized = list(argv)  # type: ignore[arg-type]
+
+    if normalized and normalized[0] == LEGACY_VALIDATE_ECOSYSTEM_COMMAND:
+        normalized[0] = "validate-ecosystem-pack"
+
+    return normalized
+
+
 def main(argv: Optional[Any] = None) -> int:
     parser = build_parser()
-    args = parser.parse_args(argv)
+    normalized_argv = _normalize_argv(argv)
+    args = parser.parse_args(normalized_argv)
 
     exit_code = 0
     if args.command == "roll-pack":
