@@ -1,2 +1,0 @@
-(estratto)
-Starter minimal per profilo Echo (v2.0). Non usare come system; solo riferimento.

@@ -1,5 +1,0 @@
-(estratto)
-Patch combinata Lyra + ImageGen v5.4 (Echo).
-- Correzioni di coerenza stilistica
-- Blocco vocabolario camera
-- Salvaguardie su drift

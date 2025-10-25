@@ -1,0 +1,10 @@
+id: burrow_claws
+version: 0.1.0
+type: locomotion
+cost: 3
+effects:
+  burrow: "Puoi muoverti sotto sabbia/terreno morbido a metà Move; emergere costa 1 casella extra."
+  ambush_bonus: "+1 a colpire se emergi adiacente al bersaglio (1/turno)."
+conflicts: ["glide_wings"]
+text: >
+  Unghioni e piastre palmari per scavare e spingere la sabbia con rapidità.

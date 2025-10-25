@@ -1,0 +1,9 @@
+id: rust_ingest
+version: 0.1.0
+type: metabolism
+cost: 1
+effects:
+  ingest_rust: true
+  recover_on_scrap: +1 hp per check riuscita
+notes: >
+  Metabolismo basato su ossidi metallici; sinergizza con "rust_scavenger".

@@ -1,2 +1,0 @@
-(estratto dal pacchetto FullRepo)
-Segnaposto diagnostico: non usare in produzione.

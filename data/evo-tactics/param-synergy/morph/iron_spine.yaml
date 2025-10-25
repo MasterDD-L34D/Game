@@ -1,0 +1,9 @@
+id: iron_spine
+version: 0.1.0
+type: offense
+cost: 2
+effects:
+  counter_thorns: true
+  damage_bonus: +1
+notes: >
+  Rachide di spine ferrose che puniscono chi colpisce a contatto.
