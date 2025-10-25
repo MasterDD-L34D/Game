@@ -56,3 +56,10 @@ jobs:
       - name: Run Python validation script
         working-directory: tools/py
         run: python roll_pack.py ENTP invoker ../../data/packs.yaml
+
+      - name: Validate base datasets (CLI)
+        working-directory: tools/py
+        run: python3 game_cli.py validate-datasets
+
+      - name: Validate Evo-Tactics ecosystem pack
+        run: python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json

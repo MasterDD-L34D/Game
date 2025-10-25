@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ecosystem Pack · Generatore</title>
+    <link rel="stylesheet" href="../site.css" />
+    <script type="module" src="generator.js" defer></script>
+  </head>
+  <body>
+    <header class="section">
+      <div class="section__header">
+        <p class="section__kicker">Ecosystem Pack</p>
+        <h1>Generatore di ecosistemi</h1>
+        <p>
+          Scegli il numero di biomi, applica filtri su flag, ruoli e tag funzionali, quindi
+          genera un set coerente di specie con seed d'incontro calcolati automaticamente.
+        </p>
+      </div>
+      <nav class="chip-list" aria-label="Navigazione secondaria">
+        <a class="chip" href="index.html">Panoramica</a>
+        <a class="chip chip--active" aria-current="page" href="generator.html">Generatore</a>
+        <a class="chip" href="catalog.html">Catalogo</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="section">
+        <article class="card card--highlight">
+          <form class="form" id="generator-form">
+            <h2 class="form__title">Parametri</h2>
+            <div class="grid grid--three">
+              <label class="form__field">
+                <span>Numero di biomi</span>
+                <input id="nBiomi" type="number" min="1" max="6" value="2" />
+              </label>
+              <label class="form__field">
+                <span>Flags richiesti</span>
+                <select id="flags" multiple size="5"></select>
+              </label>
+              <label class="form__field">
+                <span>Ruoli trofici</span>
+                <select id="roles" multiple size="5"></select>
+              </label>
+              <label class="form__field">
+                <span>Tag funzionali</span>
+                <select id="tags" multiple size="6"></select>
+              </label>
+            </div>
+            <div class="form__actions">
+              <button type="button" class="button" data-action="roll-ecos">🎲 Genera ecosistema</button>
+              <button type="button" class="button button--secondary" data-action="reroll-biomi">↻ Re-roll biomi</button>
+              <button type="button" class="button button--secondary" data-action="reroll-species">↻ Re-roll specie</button>
+              <button type="button" class="button button--ghost" data-action="reroll-seeds">↻ Re-roll encounter seed</button>
+              <button type="button" class="button button--ghost" data-action="export-json">⬇︎ JSON</button>
+              <button type="button" class="button button--ghost" data-action="export-yaml">⬇︎ YAML</button>
+            </div>
+          </form>
+          <p class="form__hint" id="generator-status" aria-live="polite"></p>
+        </article>
+      </section>
+
+      <section class="section">
+        <div class="section__header">
+          <h2>Biomi selezionati</h2>
+          <p>Ogni scheda mostra i link utili al YAML originale, foodweb e report HTML.</p>
+        </div>
+        <div id="biome-grid" class="grid grid--cards" aria-live="polite"></div>
+      </section>
+
+      <section class="section">
+        <div class="section__header">
+          <h2>Encounter seed generati</h2>
+          <p>Il budget di minaccia viene calcolato in base al tier delle specie estratte.</p>
+        </div>
+        <div id="seed-grid" class="grid grid--cards" aria-live="polite"></div>
+      </section>
+    </main>
+  </body>
+</html>

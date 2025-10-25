@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ecosystem Pack · Catalogo</title>
+    <link rel="stylesheet" href="../site.css" />
+    <script type="module" src="catalog.js" defer></script>
+  </head>
+  <body>
+    <header class="section">
+      <div class="section__header">
+        <p class="section__kicker">Ecosystem Pack</p>
+        <h1>Catalogo biomi &amp; specie</h1>
+        <p>
+          Visualizza la composizione del meta-ecosistema alpha, esplora i biomi inclusi nel pack e
+          raggiungi rapidamente i file YAML, le foodweb e i report di supporto al playtest.
+        </p>
+      </div>
+      <nav class="chip-list" aria-label="Navigazione secondaria">
+        <a class="chip" href="index.html">Panoramica</a>
+        <a class="chip" href="generator.html">Generatore</a>
+        <a class="chip chip--active" aria-current="page" href="catalog.html">Catalogo</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="section">
+        <article class="card card--highlight">
+          <header class="section__header">
+            <h2>Meta-ecosistema</h2>
+            <p id="ecosystem-summary" aria-live="polite"></p>
+          </header>
+          <div id="ecosystem-connections" class="grid grid--resources" aria-live="polite"></div>
+        </article>
+      </section>
+
+      <section class="section">
+        <div class="section__header">
+          <h2>Biomi del pack</h2>
+          <p>
+            Ogni card riassume manifest, collegamenti ai dataset e l'elenco delle specie con flag e
+            tag funzionali.
+          </p>
+        </div>
+        <div id="biome-cards" class="grid grid--cards" aria-live="polite"></div>
+      </section>
+    </main>
+  </body>
+</html>

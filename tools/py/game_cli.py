@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import importlib.util
 from pathlib import Path
 from typing import Any, Optional
 
@@ -11,6 +12,30 @@ from generate_encounter import generate as generate_encounter
 from investigate_sources import collect_investigation, render_report
 from roll_pack import roll_pack
 from validate_datasets import main as validate_datasets_main
+
+
+def _load_pack_validator():
+    pack_script = (
+        Path(__file__).resolve().parents[2]
+        / "packs"
+        / "evo_tactics_pack"
+        / "tools"
+        / "py"
+        / "run_all_validators.py"
+    )
+    if not pack_script.exists():
+        return None
+
+    module_name = "evo_tactics_pack.run_all_validators"
+    spec = importlib.util.spec_from_file_location(module_name, pack_script)
+    if spec is None or spec.loader is None:
+        return None
+    module = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(module)  # type: ignore[union-attr]
+    except Exception:  # pragma: no cover - bubble up runtime errors later
+        return None
+    return module
 
 
 def _positive_int(value: str) -> int:
@@ -63,6 +88,21 @@ def build_parser() -> argparse.ArgumentParser:
     encounter_parser.add_argument("--seed", help="Seed deterministico per la generazione")
 
     subparsers.add_parser("validate-datasets", help="Esegue i controlli sui dataset YAML")
+
+    pack_parser = subparsers.add_parser(
+        "validate-ecosystem-pack",
+        help="Esegue tutti i validator dedicati al pack ecosistemi",
+    )
+    pack_parser.add_argument(
+        "--json-out",
+        type=Path,
+        help="Percorso opzionale per salvare il report JSON",
+    )
+    pack_parser.add_argument(
+        "--html-out",
+        type=Path,
+        help="Percorso opzionale per salvare il report HTML",
+    )
 
     investigate_parser = subparsers.add_parser(
         "investigate",
@@ -117,6 +157,22 @@ def command_validate_datasets(args: argparse.Namespace) -> int:
     return validate_datasets_main()
 
 
+def command_validate_ecosystem_pack(args: argparse.Namespace) -> int:
+    module = _load_pack_validator()
+    if module is None or not hasattr(module, "run_validators"):
+        sys.stderr.write("Validator del pack non trovato.\n")
+        return 1
+
+    payload, has_failures = module.run_validators(  # type: ignore[attr-defined]
+        json_out=args.json_out,
+        html_out=args.html_out,
+        emit_stdout=True,
+    )
+    if not payload:
+        return 1
+    return 2 if has_failures else 0
+
+
 def command_investigate(args: argparse.Namespace) -> int:
     paths = [Path(path) for path in args.paths]
     results = collect_investigation(
@@ -139,6 +195,8 @@ def main(argv: Optional[Any] = None) -> int:
         exit_code = command_generate_encounter(args)
     elif args.command == "validate-datasets":
         exit_code = command_validate_datasets(args)
+    elif args.command == "validate-ecosystem-pack":
+        exit_code = command_validate_ecosystem_pack(args)
     elif args.command == "investigate":
         exit_code = command_investigate(args)
     else:  # pragma: no cover - dovrebbe essere inaccessibile

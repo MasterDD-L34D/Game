@@ -9,6 +9,8 @@ Repository avviabile per il progetto: tattico co-op su TV/app con sistema d20, e
 evo-tactics/
 ├─ docs/                 # Note progettuali (Canvas, roadmap, checklist)
 ├─ data/                 # Dataset YAML (telemetria, pack PI, biomi, mutazioni, ecc.)
+├─ packs/
+│  └─ evo_tactics_pack/  # Pacchetto ecosistemi/specie v1.7 con catalogo HTML e validator dedicati
 ├─ tools/
 │  ├─ ts/                # CLI TypeScript + test (roll_pack, Node test runner)
 │  └─ py/                # CLI Python unificata + helper condivisi
@@ -40,6 +42,9 @@ cd tools/py
 python3 game_cli.py roll-pack entp invoker --seed demo
 python3 game_cli.py generate-encounter savana --party-power 18 --seed demo
 python3 game_cli.py validate-datasets
+python3 game_cli.py validate-ecosystem-pack \
+  --json-out ../../packs/evo_tactics_pack/out/validation/last_report.json \
+  --html-out ../../packs/evo_tactics_pack/out/validation/last_report.html
 
 # Wrapper legacy (reindirizzati al parser condiviso)
 python3 roll_pack.py ENTP invoker
@@ -50,6 +55,21 @@ python3 generate_encounter.py savana
 > (`roll-pack`, `generate-encounter`, `validate-datasets`) e gestisce anche i
 > seed deterministici condivisi (`--seed`), così da allineare Python e
 > TypeScript sugli stessi dati YAML.
+
+## Come aggiornare l'ecosystem pack
+1. **Modifica i dataset** in `packs/evo_tactics_pack/data/` (biomi, ecosistemi, foodweb, specie) mantenendo i percorsi repo-relativi.
+2. **Rigenera i report** eseguendo dalla radice del progetto:
+   ```bash
+   python3 tools/py/game_cli.py validate-datasets
+   ```
+   Il comando esegue i controlli storici su `data/` **e** tutti i validator del pack, emettendo un riepilogo degli avvisi per facilitarne il review.
+3. **Ispeziona il dettaglio** con il comando dedicato, utile se desideri solo il pack o devi salvare i report HTML/JSON rigenerati:
+   ```bash
+   python3 tools/py/game_cli.py validate-ecosystem-pack \
+     --json-out packs/evo_tactics_pack/out/validation/last_report.json \
+     --html-out packs/evo_tactics_pack/out/validation/last_report.html
+   ```
+4. **Verifica la CI**: il workflow `.github/workflows/ci.yml` esegue entrambi i comandi ad ogni push/PR, quindi qualsiasi regressione sui dataset del pack verrà segnalata automaticamente.
 
 ## Interfaccia test & recap via web
 - [Apri la dashboard](docs/test-interface/index.html) per consultare rapidamente pacchetti PI,
@@ -69,6 +89,12 @@ python3 generate_encounter.py savana
   premi "Scarica & applica" per un merge immediato nel dataset di sessione. In hosting remoto puoi
   forzare sorgenti alternative con `?data-root=<url-assoluto-o-root-relative>` e cambiare branch `raw`
   con `?ref=<branch>`.
+
+## Pacchetto ecosistemi (Evo-Tactics Pack v1.7)
+- Contenuto in `packs/evo_tactics_pack/` con struttura autosufficiente (`data/`, `docs/`, `tools/`, `out/`).
+- Catalogo HTML pronto (`packs/evo_tactics_pack/docs/catalog/index.html`) e tool client-side (`.../docs/tools/generator.html`).
+- Validator Python dedicati richiamabili con i percorsi già aggiornati nel `README` del pack (`packs/evo_tactics_pack/README.md`).
+- Dataset YAML puntano ora a percorsi relativi al repository, così da funzionare sia in locale sia in CI senza rewrite manuali.
 
 ## Pubblicazione su GitHub
 ```bash

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ecosystem Pack · Strumenti e Catalogo</title>
+    <link rel="stylesheet" href="../site.css" />
+  </head>
+  <body>
+    <header class="section">
+      <div class="section__header">
+        <p class="section__kicker">Evo-Tactics · Ecosystem Pack</p>
+        <h1>Strumenti e Catalogo</h1>
+        <p>
+          Risorse pronte all'uso per esplorare il pacchetto di ecosistemi sperimentali:
+          generatori procedurali, cataloghi e collegamenti diretti ai dataset YAML.
+        </p>
+      </div>
+      <nav class="chip-list" aria-label="Navigazione secondaria">
+        <a class="chip" href="generator.html">Generatore di ecosistemi</a>
+        <a class="chip" href="catalog.html">Catalogo biomi &amp; specie</a>
+        <a class="chip" href="../../packs/evo_tactics_pack/README.md">README del pack</a>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="section">
+        <div class="grid grid--two">
+          <article class="card">
+            <h2>Generatore procedurale</h2>
+            <p>
+              Prova la selezione casuale controllata di biomi e specie con filtri su flag, ruoli
+              trofici e tag funzionali. I risultati includono seed d'incontro con budget minaccia
+              autocalcolato.
+            </p>
+            <ul>
+              <li>Caricamento diretto dei dati da <code>catalog_data.json</code></li>
+              <li>Esportazione in JSON o YAML con un click</li>
+              <li>Re-roll selettivo di biomi, specie e encounter seed</li>
+            </ul>
+            <a class="button" href="generator.html">Apri il generatore</a>
+          </article>
+          <article class="card">
+            <h2>Catalogo interattivo</h2>
+            <p>
+              Consulta la descrizione dei biomi del pack, scarica i relativi YAML e visualizza le
+              foodweb generate automaticamente per il playtest.
+            </p>
+            <ul>
+              <li>Panoramica del meta-ecosistema con connessioni</li>
+              <li>Card dettagliate per ogni bioma con specie e flag</li>
+              <li>Link diretti a YAML, foodweb e report HTML</li>
+            </ul>
+            <a class="button button--secondary" href="catalog.html">Apri il catalogo</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section--split">
+        <div class="section__header">
+          <h2>Integrazione con il repository</h2>
+          <p>
+            Gli strumenti riutilizzano gli stessi dataset versionati in
+            <code>packs/evo_tactics_pack/</code> per evitare duplicazioni. Aggiornare il pack
+            garantisce automaticamente contenuti aggiornati anche per il sito.
+          </p>
+        </div>
+        <div class="split">
+          <article class="card">
+            <h3>Pipeline di validazione</h3>
+            <p>
+              I workflow CI e la CLI condivisa eseguono i validatori del pack: eventuali errori
+              fermano la pubblicazione e mantengono sincronizzati dataset e report.
+            </p>
+            <a class="button button--ghost" href="../../README.md#come-aggiornare-il-pack-di-ecosistemi">Vedi la guida completa</a>
+          </article>
+          <article class="card">
+            <h3>Dataset condivisi</h3>
+            <p>
+              Le pagine qui pubblicate puntano direttamente ai file YAML nel repository. Per
+              distribuzioni esterne è sufficiente servire le stesse directory del pack o sostituire
+              gli URL con un endpoint CDN.
+            </p>
+            <a class="button button--ghost" href="../../packs/evo_tactics_pack/data/">Apri i dataset</a>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

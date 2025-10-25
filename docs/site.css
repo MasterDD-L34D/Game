@@ -222,6 +222,76 @@ a:focus-visible {
   line-height: 1.6;
 }
 
+.section__kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.chip-list--compact {
+  margin-top: 12px;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  background: rgba(88, 166, 255, 0.08);
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.chip:hover,
+.chip:focus-visible {
+  background: rgba(88, 166, 255, 0.2);
+  border-color: rgba(88, 166, 255, 0.6);
+  color: var(--text);
+}
+
+.chip--active {
+  background: rgba(88, 166, 255, 0.35);
+  border-color: rgba(88, 166, 255, 0.8);
+  color: var(--text);
+}
+
+.manifest-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.table th,
+.table td {
+  border: 1px solid rgba(88, 166, 255, 0.25);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table thead {
+  background: rgba(88, 166, 255, 0.12);
+}
+
 .grid {
   display: grid;
   gap: 24px;
@@ -240,6 +310,15 @@ a:focus-visible {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+.grid--three {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: start;
+}
+
+.grid--cards {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -250,6 +329,11 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.card--highlight {
+  background: rgba(15, 20, 28, 0.92);
+  border-color: rgba(88, 166, 255, 0.4);
 }
 
 .card h3 {
@@ -352,7 +436,14 @@ a:focus-visible {
   color: var(--text-muted);
 }
 
-.form input {
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form input,
+.form select {
   background: rgba(15, 20, 28, 0.85);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -362,16 +453,30 @@ a:focus-visible {
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-.form input:focus-visible {
+.form input:focus-visible,
+.form select:focus-visible {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+}
+
+.form__title {
+  margin: 0;
+  font-size: 1.4rem;
 }
 
 .form__hint {
   margin: -4px 0 0;
   font-size: 0.82rem;
   color: var(--text-muted);
+}
+
+.form__hint[data-tone="error"] {
+  color: #f87171;
+}
+
+.form__hint[data-tone="warn"] {
+  color: #fbbf24;
 }
 
 .form__actions {
