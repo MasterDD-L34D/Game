@@ -1,4 +1,106 @@
-const DATA_ROOT = "../../packs/evo_tactics_pack/";
+const PACK_PATH = "packs/evo_tactics_pack/";
+const DEFAULT_BRANCH = "main";
+
+function ensureTrailingSlash(value) {
+  if (!value) return value;
+  return value.endsWith("/") ? value : `${value}/`;
+}
+
+function normalizeBase(value) {
+  if (!value) return null;
+  try {
+    const absolute = new URL(value, window.location.href);
+    return ensureTrailingSlash(absolute.toString());
+  } catch (error) {
+    console.warn("Impossibile normalizzare la base dati", value, error);
+    return ensureTrailingSlash(value);
+  }
+}
+
+function detectRepoBase() {
+  try {
+    const origin = window.location.origin;
+    if (!origin || origin === "null") {
+      return null;
+    }
+
+    const segments = window.location.pathname.split("/").filter(Boolean);
+    const withoutFile = segments.slice(0, Math.max(segments.length - 1, 0));
+    let baseSegments = [];
+
+    if (window.location.hostname.endsWith("github.io")) {
+      if (withoutFile.length > 0) {
+        baseSegments = [withoutFile[0]];
+      }
+    } else {
+      const docsIndex = withoutFile.indexOf("docs");
+      if (docsIndex > 0) {
+        baseSegments = withoutFile.slice(0, docsIndex);
+      } else if (docsIndex === 0) {
+        baseSegments = [];
+      } else if (withoutFile.length > 1) {
+        baseSegments = withoutFile.slice(0, withoutFile.length - 1);
+      }
+    }
+
+    const basePath = baseSegments.length ? `/${baseSegments.join("/")}/` : "/";
+    return ensureTrailingSlash(`${origin}${basePath}`);
+  } catch (error) {
+    console.warn("Impossibile determinare la base del repository", error);
+    return null;
+  }
+}
+
+function detectPackRoot() {
+  const params = new URLSearchParams(window.location.search);
+  const override =
+    params.get("pack-root") ||
+    document.querySelector('meta[name="pack-root"]')?.getAttribute("content");
+  const normalizedOverride = normalizeBase(override);
+  if (normalizedOverride) {
+    return normalizedOverride;
+  }
+
+  if (window.location.hostname.endsWith("github.io")) {
+    const owner = window.location.hostname.split(".")[0];
+    const pathParts = window.location.pathname.split("/").filter(Boolean);
+    const repo = pathParts[0] || "";
+    const branch =
+      params.get("ref") ||
+      document.querySelector('meta[name="data-branch"]')?.getAttribute("content") ||
+      DEFAULT_BRANCH;
+
+    if (owner && repo) {
+      return ensureTrailingSlash(
+        `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${PACK_PATH}`
+      );
+    }
+  }
+
+  const repoBase = detectRepoBase();
+  if (repoBase) {
+    try {
+      return ensureTrailingSlash(new URL(PACK_PATH, repoBase).toString());
+    } catch (error) {
+      console.warn("Impossibile costruire la base dati dal repository", error);
+    }
+  }
+
+  try {
+    return ensureTrailingSlash(new URL(`../${PACK_PATH}`, window.location.href).toString());
+  } catch (error) {
+    console.warn("Impossibile calcolare la base dati, uso percorso relativo", error);
+    if (window.location.origin && window.location.origin !== "null") {
+      const origin = window.location.origin.endsWith("/")
+        ? window.location.origin
+        : `${window.location.origin}/`;
+      return ensureTrailingSlash(`${origin}${PACK_PATH}`);
+    }
+    return ensureTrailingSlash(PACK_PATH);
+  }
+}
+
+const DATA_ROOT = detectPackRoot();
 const CATALOG_URL = `${DATA_ROOT}docs/catalog/catalog_data.json`;
 
 const elements = {
@@ -22,7 +124,14 @@ const state = {
   },
 };
 
-const packDocsBase = new URL(`${DATA_ROOT}docs/catalog/`, window.location.href);
+const packDocsBase = (() => {
+  try {
+    return new URL("docs/catalog/", DATA_ROOT);
+  } catch (error) {
+    console.warn("Impossibile preparare la base dei documenti del pack", error);
+    return null;
+  }
+})();
 
 function setStatus(message, tone = "info") {
   if (!elements.status) return;
@@ -104,6 +213,9 @@ function populateFilters(data) {
 
 function resolvePackHref(relativePath) {
   try {
+    if (!packDocsBase) {
+      return new URL(relativePath, DATA_ROOT).toString();
+    }
     return new URL(relativePath, packDocsBase).toString();
   } catch (error) {
     console.error("Impossibile risolvere il percorso", relativePath, error);
