@@ -1,3 +1,0 @@
-nodes: [carcasse, detrito, produttori_base]
-edges: [{from: produttori_base, to: detrito, type: detritus}]
-notes: {mapping: {}}
