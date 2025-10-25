@@ -1,0 +1,36 @@
+schema_version: '1.0'
+hazards:
+  vento_forte:
+    requires_any_of:
+    - build_cover
+    - guard_stance
+  pioggia_torpida:
+    requires_any_of:
+    - ignore_fog_penalty
+    - reveal_hidden_radius
+  pendenze_instabili:
+    requires_any_of:
+    - jump_bonus
+    - pathing_bonus
+  whiteout:
+    requires_any_of:
+    - ignore_fog_penalty
+    - reveal_hidden_radius
+  ghiaccio_sottile:
+    requires_any_of:
+    - landing_on_ice
+    - jump_bonus
+  tempeste_sabbia:
+    requires_any_of:
+    - eye_protection
+    - ignore_fog_penalty
+  iron_shards:
+    requires_any_of:
+    - dr_impact_cap
+    - build_cover
+    effect: 'schegge ferrose: danno su corsa senza protezione'
+  magnetic_patches:
+    requires_any_of:
+    - non_metal_gear
+    - seal_vents
+    effect: 'campi magnetici irregolari: penalità a gear metallico'

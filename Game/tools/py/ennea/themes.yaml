@@ -1,0 +1,5 @@
+themes:
+- id: biome_coherence
+  desc: Stub theme for compat
+- id: telemetry_sync
+  desc: Stub theme for compat

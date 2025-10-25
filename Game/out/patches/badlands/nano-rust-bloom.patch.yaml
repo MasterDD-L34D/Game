@@ -1,0 +1,28 @@
+id: nano-rust-bloom
+environment_affinity:
+  biome_class: badlands
+  koppen:
+  - BSk
+  - BWk
+  climate_profile: null
+  hazards_expected:
+  - tempeste_sabbia
+  - collassi di scarpate
+  - tempesta_sabbia_magnetica
+  - iron_shards
+  - magnetic_patches
+derived_from_environment:
+  suggested_traits:
+  - cute_resistente_sali
+  - enzimi_chelanti
+  - pelli_anti_ustione
+  - pigmenti_termici
+  required_capabilities:
+  - build_cover
+  - dr_impact_cap
+  - non_metal_gear
+  - seal_vents
+  services_links: []
+  jobs_bias:
+  - Vanguard
+  - Warden
