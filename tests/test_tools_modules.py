@@ -31,6 +31,13 @@ def test_game_cli_exports_commands() -> None:
     }
 
 
+def test_game_cli_normalizes_legacy_validate_command() -> None:
+    module = _import("game_cli")
+    normalized = module._normalize_argv(["validate-ecosystem-pack", "--help"])
+    assert normalized[0] == "validate-datasets"
+    assert normalized[1:] == ["--help"]
+
+
 def test_roll_pack_module_has_entrypoints() -> None:
     module = _import("roll_pack")
     for attr in ["roll_pack", "cost_of", "pick_combo_from_table"]:
