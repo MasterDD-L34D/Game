@@ -1,0 +1,179 @@
+schema_version: 1.1
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+ecosistema:
+  metadati:
+    nome: deserto_caldo (scaffold)
+    localizzazione:
+      lat: null
+      lon: null
+      quota_m: null
+      area_km2: null
+    periodo_riferimento: 1991–2020
+    fonti: []
+  bioma:
+    classe_bioma: deserto_caldo
+    ecoregione: ''
+    koppen_zone:
+    - BWh
+    - BSh
+    npp_gC_m2_anno: null
+    note: ''
+  morfologia:
+    rilievo:
+      quota_min_max_m:
+      - null
+      - null
+      pendenza_media_gradi: null
+      rugosita_indice: null
+    forme_terreno: []
+    geologia_substrato: []
+    suolo_superficiale:
+      tessitura: ''
+      pH: null
+      sostanza_organica_%: null
+    idrografia:
+      corsi_acqua: []
+      zone_umide: []
+      falda: profonda
+    frammentazione_connettivita:
+      indice_frattura: null
+      corridoi_ecologici: []
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: null
+    tracce_ppm:
+      CH4: null
+      N2O: null
+      O3_troposferico: null
+    aerosol_inquinanti:
+      PM10: null
+      PM2_5: null
+      sali_marini: basso
+      polveri_sahariane: sporadiche
+    variazioni_stagionali_nota: ''
+    forzanti_locali: []
+  clima:
+    classificazione_koppen: BWh
+    temperatura_C:
+      media_annua: null
+      min_mese_piu_freddo: null
+      max_mese_piu_caldo: null
+      giorni_gelo_annui: null
+      giorni_ondata_calore_annui: null
+    precipitazioni_mm:
+      totale_annuo: null
+      indice_stagionalita: null
+      mesi_secchi: []
+      mesi_umidi: []
+    vento:
+      regime: ''
+      velocita_media_m_s: null
+    bilancio_idrico:
+      et0_mm: null
+      indice_aridita_P_su_ET0: null
+    estremi_e_rischi:
+      eventi: []
+    teleconnessioni: []
+  abiotico:
+    luce:
+      radiazione_media_MJ_m2_giorno: null
+      fotoperiodo: ''
+    nutrienti:
+      N: ''
+      P: ''
+      K: ''
+    salinita: dolce
+  trofico:
+    produttori: []
+    consumatori:
+      primari: []
+      secondari: []
+      terziari: []
+    decompositori: []
+    reti_note: []
+  gruppi_funzionali:
+    predatori: []
+    prede_erbivori: []
+    impollinatori: []
+    dispersori_semi: []
+    simbionti_mutualistici: []
+    parassiti_parasitoidi: []
+    detritivori: []
+    filtratori: []
+    ingegneri_ecosistema: []
+    specie_chiave_di_volta: []
+  suolo:
+    orizzonti:
+    - O
+    - A
+    - B
+    - C
+    processi:
+    - fissazione_N
+    - nitrificazione
+    - denitrificazione
+    - mineralizzazione
+    microbioma: []
+    fauna_edafica: []
+  acque:
+    comparti: []
+    processi: []
+    qualita:
+      DO_mgL: null
+      BOD_mgL: null
+      conducibilita_uScm: null
+  servizi_ecosistemici:
+    supporto: []
+    regolazione: []
+    approvvigionamento: []
+    culturali: []
+  pressioni_stato_risposte:
+    pressioni: []
+    indicatori_stato: []
+    risposte_gestione: []
+links:
+  biome_id: deserto_caldo
+  species_dir: packs/evo_tactics_pack/data/species/deserto_caldo
+  foodweb: packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml
+registries:
+  functional_groups: packs/evo_tactics_pack/tools/config/registries/functional_groups.yaml
+  trophic_roles: packs/evo_tactics_pack/tools/config/registries/trophic_roles.yaml
+  biome_classes: packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml
+  climate_profiles: packs/evo_tactics_pack/tools/config/registries/climate_profiles.yaml
+  morphotypes: packs/evo_tactics_pack/tools/config/registries/morphotypes.yaml
+  hazards: packs/evo_tactics_pack/tools/config/registries/hazards.yaml
+  env_to_traits: packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml
+rules:
+  at_least:
+    sentient: 1
+    apex: 1
+    keystone: 1
+    bridge: 1
+    threat: 1
+    event: 1
+manifest:
+  species_counts:
+    apex: 1
+    keystone: 1
+    bridge: 1
+    threat: 1
+    event: 1
+  functional_groups_present:
+  - detritivoro
+  - dispersore_semi
+  - impollinatore
+  - ingegneri_ecosistema
+  - patogeno
+  - predatore
+  - pulse_climatico
+  - specie_chiave
+  foodweb_links:
+    path: packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml
+    sink_detrito: true

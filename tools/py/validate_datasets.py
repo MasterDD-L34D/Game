@@ -2,6 +2,8 @@
 """Validator per i dataset YAML sotto data/."""
 from __future__ import annotations
 
+import importlib.util
+import json
 import re
 import sys
 from pathlib import Path
@@ -14,20 +16,34 @@ except ImportError:  # pragma: no cover
     sys.exit(2)
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+PACK_VALIDATOR = (
+    Path(__file__).resolve().parents[2]
+    / "packs"
+    / "evo_tactics_pack"
+    / "tools"
+    / "py"
+    / "run_all_validators.py"
+)
 
 FORMULA_ALLOWED_RE = re.compile(r"^[A-Za-z0-9_\s\-+*/().,:><=&|!'\"]+$")
 
 
 def main() -> int:
     errors: List[str] = []
+    info_messages: List[str] = []
+
     errors.extend(validate_biomes())
     errors.extend(validate_mating())
     errors.extend(validate_packs())
+    errors.extend(validate_ecosystem_pack(info_messages))
     errors.extend(validate_telemetry())
 
     if errors:
         sys.stderr.write("\n".join(errors) + "\n")
         return 1
+
+    for message in info_messages:
+        print(message)
     print("Tutti i dataset YAML sono validi.")
     return 0
 
@@ -238,6 +254,79 @@ def validate_packs() -> List[str]:
                         errors.append(
                             f"{path}: job_bias.{job} fa riferimento a pack assente ({pack})"
                         )
+
+    return errors
+
+
+def _load_pack_validator_module():
+    if not PACK_VALIDATOR.exists():
+        return None
+    spec = importlib.util.spec_from_file_location(
+        "evo_tactics_pack.run_all_validators", PACK_VALIDATOR
+    )
+    if spec is None or spec.loader is None:
+        return None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)  # type: ignore[union-attr]
+    return module
+
+
+def validate_ecosystem_pack(info_messages: List[str]) -> List[str]:
+    try:
+        module = _load_pack_validator_module()
+    except Exception as exc:  # pragma: no cover - propagato come errore runtime
+        return [
+            "packs/evo_tactics_pack: impossibile caricare il validator ecosistemi",
+            str(exc),
+        ]
+
+    if module is None or not hasattr(module, "run_validators"):
+        return []
+
+    try:
+        payload, has_failures = module.run_validators(  # type: ignore[attr-defined]
+            json_out=None,
+            html_out=None,
+            emit_stdout=False,
+        )
+    except Exception as exc:  # pragma: no cover - eventuali errori runtime vengono loggati
+        return [
+            "packs/evo_tactics_pack: esecuzione validator fallita",
+            str(exc),
+        ]
+
+    reports = payload.get("reports", []) if isinstance(payload, dict) else []
+    errors: List[str] = []
+    warning_count = 0
+
+    for report in reports:
+        stdout = report.get("stdout", "") if isinstance(report, dict) else ""
+        stderr = report.get("stderr", "") if isinstance(report, dict) else ""
+        cmd = report.get("cmd") if isinstance(report, dict) else ""
+        code = int(report.get("code", 0)) if isinstance(report, dict) else 0
+        warning_count += stdout.count("WARNING:")
+        if code != 0:
+            detail_parts = [stdout.strip(), stderr.strip()]
+            detail = "\n".join(part for part in detail_parts if part)
+            message = (
+                "packs/evo_tactics_pack: validator fallito "
+                f"({cmd}) [exit {code}]."
+            )
+            if detail:
+                message += f"\n{detail}"
+            errors.append(message)
+
+    if not errors and reports:
+        total = len(reports)
+        info_messages.append(
+            "packs/evo_tactics_pack: {total} controlli eseguiti — {warnings} avvisi.".format(
+                total=total,
+                warnings=warning_count,
+            )
+        )
+
+    if has_failures and not errors:
+        errors.append("packs/evo_tactics_pack: validator con errori non specificati")
 
     return errors
 
