@@ -16,10 +16,10 @@ morph_parts_required:
   senses: true
   metabolism: true
 suggested_parts:
-  locomotion: "burrow_claws"
-  offense: ["iron_spine"]
+  locomotion: "spring_legs"
+  offense: ["acid_gland"]
   defense: ["ferrous_carapace"]
   senses: ["mag_sense"]
-  metabolism: "burst_anaerobic"
-likes: ["ambush", "terreno soffice", "flanking"]
-dislikes: ["fuoco continuo", "dune vetrificate"]
+  metabolism: "rust_ingest"
+likes: ["rottami", "coperture improvvisate", "campi metallici deboli"]
+dislikes: ["campi magnetici forti", "acidi forti altrui"]
