@@ -82,10 +82,10 @@ function computeDataRoot(config = currentConfig) {
   }
   if (config.repo && config.branch) {
     return ensureTrailingSlash(
-      `https://raw.githubusercontent.com/${config.repo}/${config.branch}/docs/test-interface/`
+      `https://raw.githubusercontent.com/${config.repo}/${config.branch}/`
     );
   }
-  return "test-interface/";
+  return "";
 }
 
 function computeSimulatorUrl(config = currentConfig) {
@@ -116,8 +116,15 @@ function updateSimulatorPreview() {
   const simulatorUrl = computeSimulatorUrl();
 
   if (elements.dataRootPreview) {
-    elements.dataRootPreview.textContent = dataRoot;
-    elements.dataRootPreview.href = dataRoot.startsWith("http") ? dataRoot : simulatorUrl;
+    if (dataRoot) {
+      elements.dataRootPreview.textContent = dataRoot;
+      elements.dataRootPreview.href = dataRoot.startsWith("http")
+        ? dataRoot
+        : simulatorUrl;
+    } else {
+      elements.dataRootPreview.textContent = "Rilevamento automatico";
+      elements.dataRootPreview.href = simulatorUrl;
+    }
   }
 
   if (elements.simulatorLink) {
