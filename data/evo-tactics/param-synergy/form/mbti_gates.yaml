@@ -1,0 +1,22 @@
+version: 0.1.0
+job_gates:
+  vanguard:
+    mbti: {S_min: 0.50, T_min: 0.50}
+    ennea_recommended: [8, 3]
+  skirmisher:
+    mbti: {S_min: 0.50, P_min: 0.50}
+    ennea_recommended: [7, 8]
+  warden:
+    mbti: {N_min: 0.50, T_min: 0.50}
+    ennea_recommended: [1, 6]
+  artificer:
+    mbti: {T_min: 0.60, P_min: 0.40}
+    ennea_recommended: [5, 3]
+  invoker:
+    mbti: {T_min: 0.50}
+    ennea_recommended: [5, 4]
+  harvester:
+    mbti: {N_min: 0.40, P_min: 0.40}
+    ennea_recommended: [9, 2]
+notes: >
+  I gate riflettono l'orientamento caratteriale e non bloccano l'accesso; suggeriscono costi/bonus iniziali o un piccolo sovrapprezzo iniziale se "forzi" l'interpretazione.

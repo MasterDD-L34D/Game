@@ -1,0 +1,17 @@
+{
+  "version": "v8_alt",
+  "biomes": {
+    "desert": {
+      "jobs": ["skirmisher", "vanguard", "harvester"],
+      "species": ["dune_stalker", "sand_burrower", "echo_wing"]
+    },
+    "cavern": {
+      "jobs": ["warden", "invoker", "skirmisher"],
+      "species": ["echo_wing", "dune_stalker", "rust_scavenger"]
+    },
+    "badlands": {
+      "jobs": ["artificer", "harvester", "vanguard"],
+      "species": ["rust_scavenger", "sand_burrower", "dune_stalker"]
+    }
+  }
+}
