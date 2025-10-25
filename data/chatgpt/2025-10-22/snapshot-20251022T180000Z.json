@@ -1,7 +1,0 @@
-{
-  "source": "api",
-  "model": "gpt-4o-mini",
-  "prompt": "Riassumi gli ultimi aggiornamenti di design",
-  "response": "## Aggiornamenti 2025-10-22\n- Evento Echo Drifters: infiltrazione in grotte risonanti con obiettivi stealth.\n- Risorsa Resonance Shards: usata per potenziare moduli sonar e aprire porte sigillate.\n- Telemetria VC: introdotto indice StressWave per monitorare picchi di difficoltà co-op.\n- Nidi itineranti: i clan sabbiosi possono spostare l'avamposto ogni tre turni di campagna.\n",
-  "timestamp": "2025-10-22T18:00:00+00:00"
-}
