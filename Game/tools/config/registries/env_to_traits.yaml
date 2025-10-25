@@ -1,0 +1,129 @@
+schema_version: '1.0'
+rules:
+- when:
+    biome_class: foresta_temperata
+  suggest:
+    traits:
+    - peli_idrofobici
+    effects:
+      res_cold: '+1'
+    jobs_bias:
+    - Warden
+    - Skirmisher
+- when:
+    koppen_in:
+    - Cfb
+    - Cfa
+  suggest:
+    traits:
+    - pelli_fitte
+    effects:
+      guard_stance: true
+- when:
+    hazard_any:
+    - pendenze_instabili
+  require_capability_any:
+  - jump_bonus
+  - pathing_bonus
+- when:
+    morphotype: ingegnere_radicante
+  suggest:
+    services_links:
+    - regolazione:ritenzione_idrica
+    - supporto:stabilizzazione_suolo
+- when:
+    salinita_in:
+    - salina interna
+  suggest:
+    traits:
+    - cute_resistente_sali
+    effects:
+      res_salt: '+1'
+- when:
+    biome_class: badlands
+  suggest:
+    traits:
+    - pelli_anti_ustione
+    - pigmenti_termici
+    - cute_resistente_sali
+    effects:
+      res_fire: '+1'
+    jobs_bias:
+    - Vanguard
+    - Warden
+- when:
+    hazard_any:
+    - iron_shards
+  require_capability_any:
+  - dr_impact_cap
+  - build_cover
+- when:
+    hazard_any:
+    - magnetic_patches
+  suggest:
+    traits:
+    - enzimi_chelanti
+    effects:
+      trap_detect_ion: true
+  require_capability_any:
+  - non_metal_gear
+  - seal_vents
+- when:
+    biome_class: badlands
+  suggest:
+    traits:
+    - pelli_anti_ustione
+    - pigmenti_termici
+    - cute_resistente_sali
+    effects:
+      res_fire: '+1'
+    jobs_bias:
+    - Vanguard
+    - Warden
+- when:
+    hazard_any:
+    - iron_shards
+  require_capability_any:
+  - dr_impact_cap
+  - build_cover
+- when:
+    hazard_any:
+    - magnetic_patches
+  suggest:
+    traits:
+    - enzimi_chelanti
+    effects:
+      trap_detect_ion: true
+  require_capability_any:
+  - non_metal_gear
+  - seal_vents
+- when:
+    koppen_any:
+    - BWh
+    - BSh
+  suggest:
+    traits:
+    - cuticole_cerose
+    - reti_capillari_radici
+    - proteine_shock_termico
+    effects:
+      res_fire: '+1'
+      res_salt: '+1'
+    jobs_bias:
+    - Warden
+    - Skirmisher
+- when:
+    koppen_any:
+    - BSk
+    - Dfc
+  suggest:
+    traits:
+    - pelli_cave
+    - grassi_termici
+    - pigmenti_aurorali
+    effects:
+      res_cold: '+1'
+      ignore_fog_penalty: true
+    jobs_bias:
+    - Vanguard
+    - Warden

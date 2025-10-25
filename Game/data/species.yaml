@@ -1,0 +1,137 @@
+meta:
+  file: species.yaml
+  version: '0.41'
+  description: Catalogo Specie & Parti morfologiche per Evo Tactics (compatibilità
+    ext v1.5).
+  last_updated: '2025-10-25'
+global_rules:
+  morph_budget:
+    default_weight_budget: 12
+    ui_warn_threshold: 0.9
+  stacking_caps:
+    guardia_base_cap: 2
+    res_cap_per_type: 2
+    dr_cap_per_type: 1
+  vc_indices:
+  - aggro
+  - risk
+  - cohesion
+  - setup
+  - explore
+  - tilt
+catalog:
+  slots:
+    locomotion:
+      spring_legs:
+        morph_cost: 3
+        effects:
+          stats:
+            jump_bonus: 1
+            ignore_height: 1
+      glide_wings:
+        morph_cost: 3
+        effects:
+          tactics:
+            ignore_height: 2
+          economy:
+            dash_cost_mod: -1
+    offense:
+      acid_gland:
+        morph_cost: 3
+        effects:
+          attacks:
+            add_attack:
+              id: acid_spit
+              base_damage: 1d6
+              type: acid
+              tags:
+              - Tecnico
+              - Lungo
+              apply_condition:
+                id: corrosione
+                stacks: 1
+                stack_cap: 2
+                effect: -ARM
+      claw_finesse:
+        morph_cost: 2
+        effects:
+          attacks:
+            add_attack:
+              id: rake_claws
+              base_damage: 1d6
+              type: slash
+              tags:
+              - Tecnico
+          economy:
+            pt_bonus_on: crit
+    defense:
+      elastomer_skin:
+        morph_cost: 2
+        effects:
+          resistances:
+            dr:
+              impact: 1
+    senses:
+      echolocate:
+        morph_cost: 2
+        effects:
+          senses:
+            reveal_hidden_radius: 3
+    metabolism:
+      burst_anaerobic:
+        morph_cost: 2
+        effects:
+          economy:
+            dash_free_once: true
+  synergies:
+  - id: echo_backstab
+    when_all:
+    - senses.echolocate
+    - offense.claw_finesse
+    effect:
+      economy:
+        pt_bonus_on: first_backstab
+species:
+- id: lupus-temperatus
+  file: species/foresta_temperata/lupus-temperatus.yaml
+- id: sentinella-radice
+  file: species/foresta_temperata/sentinella-radice.yaml
+- id: blight-micotico
+  file: species/foresta_temperata/blight-micotico.yaml
+- id: evento-seme-uragano
+  file: species/foresta_temperata/evento-seme-uragano.yaml
+- id: dune-stalker
+  file: species/badlands/dune-stalker.yaml
+- id: rust-scavenger
+  file: species/badlands/rust-scavenger.yaml
+- id: echo-wing
+  file: species/badlands/echo-wing.yaml
+- id: sand-burrower
+  file: species/badlands/sand-burrower.yaml
+- id: ferrocolonia-magnetotattica
+  file: species/badlands/ferrocolonia-magnetotattica.yaml
+- id: nano-rust-bloom
+  file: species/badlands/nano-rust-bloom.yaml
+- id: evento-tempesta-ferrosa
+  file: species/badlands/evento-tempesta-ferrosa.yaml
+- id: thermo-raptor
+  file: species/deserto_caldo/thermo-raptor.yaml
+- id: cactus-weaver
+  file: species/deserto_caldo/cactus-weaver.yaml
+- id: noctule-termico
+  file: species/deserto_caldo/noctule-termico.yaml
+- id: silica-bloom
+  file: species/deserto_caldo/silica-bloom.yaml
+- id: evento-ondata-termica
+  file: species/deserto_caldo/evento-ondata-termica.yaml
+- id: cryo-lynx
+  file: species/cryosteppe/cryo-lynx.yaml
+- id: steppe-bison-mini
+  file: species/cryosteppe/steppe-bison-mini.yaml
+- id: aurora-gull
+  file: species/cryosteppe/aurora-gull.yaml
+- id: thaw-rot
+  file: species/cryosteppe/thaw-rot.yaml
+- id: evento-brinastorm
+  file: species/cryosteppe/evento-brinastorm.yaml
+schema_reference: {}

@@ -1,0 +1,22 @@
+id: cryo-lynx
+environment_affinity:
+  biome_class: cryosteppe
+  koppen:
+  - BSk
+  - Dfc
+  climate_profile: null
+  hazards_expected: []
+derived_from_environment:
+  suggested_traits:
+  - cuticole_cerose
+  - grassi_termici
+  - pelli_cave
+  - pigmenti_aurorali
+  - proteine_shock_termico
+  - reti_capillari_radici
+  required_capabilities: []
+  services_links: []
+  jobs_bias:
+  - Skirmisher
+  - Vanguard
+  - Warden

@@ -1,0 +1,61 @@
+schema_version: 1.5
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+id: blight-micotico
+display_name: Blight Micotico
+biomes:
+- foresta_temperata
+role_trofico: minaccia_microbica
+functional_tags:
+- patogeno
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+playable_unit: false
+vc:
+  aggro: 0.2
+  risk: 0.7
+  cohesion: 0.3
+  setup: 0.5
+  explore: 0.2
+  tilt: 0.6
+ecology:
+  trigger:
+  - umidità_prolungata
+  contromisure:
+  - bruciatura controllata
+  - barriere biologiche
+spawn_rules:
+  orario:
+  - continuo
+  meteo:
+  - whiteout
+  densita: high
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: boss
+environment_affinity:
+  biome_class: Foresta temperata umida
+  koppen:
+  - Cfb
+  hazards_expected:
+  - alluvioni lampo
+  - incendi sporadici
+derived_from_environment:
+  suggested_traits:
+  - pelli_fitte
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits: []
+mate_synergy: []
+jobs_synergy: []

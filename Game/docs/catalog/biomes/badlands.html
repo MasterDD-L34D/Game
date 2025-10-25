@@ -1,0 +1,68 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Report badlands</title>
+<style>
+body{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:24px;color:#222}
+h1,h2{margin:8px 0} .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:10px 0}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;background:#eef2ff;color:#3730a3;margin-right:6px;font-size:12px}
+.small{font-size:12px;color:#6b7280} .fw{width:100%;height:auto;border:1px dashed #e5e7eb;border-radius:10px;background:#fafafa;margin-top:8px}
+table{border-collapse:collapse;width:100%} td,th{border:1px solid #e5e7eb;padding:6px} th{background:#f8fafc}
+</style></head><body>
+<h1>Report Bioma — badlands</h1>
+<div class="grid">
+  <div class="card">
+    <h2>Manifest</h2>
+    <div>
+      <span class="badge">Apex: 1</span>
+      <span class="badge">Keystone: 2</span>
+      <span class="badge">Bridge: 1</span>
+      <span class="badge">Threat: 1</span>
+      <span class="badge">Event: 1</span>
+    </div>
+    <div class="small">Functional groups: ['detritivoro', 'dispersore_semi', 'impollinatore', 'patogeno', 'prede', 'pulse_climatico', 'regolazione_parassiti', 'regolazione_prede', 'simbionte', 'specie_chiave']</div>
+  </div>
+  <div class="card">
+    <h2>Foodweb</h2>
+    <div class="small">File: <a href="../../data/foodwebs/badlands_foodweb.yaml">data/foodwebs/badlands_foodweb.yaml</a> · <a href="../foodweb_png/badlands.png">PNG</a></div>
+    <svg viewBox='0 0 240 240' class='fw'>
+<line x1='210.0' y1='120.0' x2='120.0' y2='210.0' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='197.9' y1='165.0' x2='120.0' y2='210.0' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='120.0' y1='210.0' x2='42.1' y2='75.0' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='165.0' y1='42.1' x2='75.0' y2='197.9' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='75.0' y1='197.9' x2='30.0' y2='120.0' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='42.1' y1='165.0' x2='210.0' y2='120.0' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='75.0' y1='42.1' x2='75.0' y2='197.9' stroke='#555' stroke-width='2' opacity='0.85' />
+<line x1='197.9' y1='75.0' x2='75.0' y2='197.9' stroke='#555' stroke-width='2' opacity='0.85' />
+<circle cx='210.0' cy='120.0' r='6' fill='#2c3e50'/>
+<text x='218.0' y='124.0' font-size='9' fill='#2c3e50'>arbusti_xerofili</text>
+<circle cx='197.9' cy='165.0' r='6' fill='#2c3e50'/>
+<text x='205.9' y='169.0' font-size='9' fill='#2c3e50'>crostoni_criptofite</text>
+<circle cx='165.0' cy='197.9' r='6' fill='#2c3e50'/>
+<text x='173.0' y='201.9' font-size='9' fill='#2c3e50'>cianobatteri</text>
+<circle cx='120.0' cy='210.0' r='6' fill='#2c3e50'/>
+<text x='128.0' y='214.0' font-size='9' fill='#2c3e50'>sand-burrower</text>
+<circle cx='75.0' cy='197.9' r='6' fill='#2c3e50'/>
+<text x='83.0' y='201.9' font-size='9' fill='#2c3e50'>rust-scavenger</text>
+<circle cx='42.1' cy='165.0' r='6' fill='#2c3e50'/>
+<text x='50.1' y='169.0' font-size='9' fill='#2c3e50'>echo-wing</text>
+<circle cx='30.0' cy='120.0' r='6' fill='#2c3e50'/>
+<text x='38.0' y='124.0' font-size='9' fill='#2c3e50'>ferrocolonia-magnetotattica</text>
+<circle cx='42.1' cy='75.0' r='6' fill='#2c3e50'/>
+<text x='50.1' y='79.0' font-size='9' fill='#2c3e50'>dune-stalker</text>
+<circle cx='75.0' cy='42.1' r='6' fill='#2c3e50'/>
+<text x='83.0' y='46.1' font-size='9' fill='#2c3e50'>nano-rust-bloom</text>
+<circle cx='120.0' cy='30.0' r='6' fill='#2c3e50'/>
+<text x='128.0' y='34.0' font-size='9' fill='#2c3e50'>evento-tempesta-ferrosa</text>
+<circle cx='165.0' cy='42.1' r='6' fill='#2c3e50'/>
+<text x='173.0' y='46.1' font-size='9' fill='#2c3e50'>detrito</text>
+<circle cx='197.9' cy='75.0' r='6' fill='#2c3e50'/>
+<text x='205.9' y='79.0' font-size='9' fill='#2c3e50'>carcasse</text>
+</svg>
+  </div>
+</div>
+<div class="card">
+  <h2>Specie (7)</h2>
+  <table><tr><th>Nome</th><th>ID</th><th>Ruolo</th><th>Tag</th><th>Flags</th><th>File</th></tr>
+  <tr><td>Dune Stalker</td><td>dune-stalker</td><td>predatore_terziario_apex</td><td>specie_chiave, regolazione_prede</td><td>apex</td><td><a href='../../data/species/badlands/dune-stalker.yaml'>YAML</a></td></tr><tr><td>Echo Wing</td><td>echo-wing</td><td>dispersore_ponte</td><td>impollinatore, dispersore_semi</td><td>bridge</td><td><a href='../../data/species/badlands/echo-wing.yaml'>YAML</a></td></tr><tr><td>Evento: Tempesta Ferrosa</td><td>evento-tempesta-ferrosa</td><td>evento_ecologico</td><td>pulse_climatico</td><td>event</td><td><a href='../../data/species/badlands/evento-tempesta-ferrosa.yaml'>YAML</a></td></tr><tr><td>Ferrocolonia Magnetotattica</td><td>ferrocolonia-magnetotattica</td><td>predatore_regolatore_simbionte</td><td>simbionte, regolazione_parassiti</td><td>keystone, sentient, sapience_tier</td><td><a href='../../data/species/badlands/ferrocolonia-magnetotattica.yaml'>YAML</a></td></tr><tr><td>Nano Rust Bloom</td><td>nano-rust-bloom</td><td>minaccia_microbica</td><td>patogeno</td><td>threat</td><td><a href='../../data/species/badlands/nano-rust-bloom.yaml'>YAML</a></td></tr><tr><td>Rust Scavenger</td><td>rust-scavenger</td><td>ingegneri_ecosistema</td><td>specie_chiave, detritivoro</td><td>keystone</td><td><a href='../../data/species/badlands/rust-scavenger.yaml'>YAML</a></td></tr><tr><td>Sand Burrower</td><td>sand-burrower</td><td>erbivoro_primario</td><td>prede, detritivoro</td><td></td><td><a href='../../data/species/badlands/sand-burrower.yaml'>YAML</a></td></tr>
+  </table>
+</div>
+</body></html>

@@ -1,0 +1,72 @@
+id: evento-brinastorm
+display_name: 'Evento: Brina Tempestosa'
+biomes:
+- cryosteppe
+role_trofico: evento_ecologico
+functional_tags:
+- pulse_climatico
+morphotype: volatore_planatore
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: true
+playable_unit: false
+vc:
+  aggro: 0.1
+  risk: 0.97
+  cohesion: 0.2
+  setup: 0.85
+  explore: 0.1
+  tilt: 0.95
+ecology:
+  trigger:
+  - aria sovraraffreddata + nuclei ghiaccio
+  contromisure:
+  - rifugi neve compattata
+  - mantelli termici
+spawn_rules:
+  orario:
+  - notte
+  meteo:
+  - whiteout
+  - whiteout_ionico
+  densita: low
+balance:
+  rarity: R5
+  threat_tier: T4
+  encounter_role: boss
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+environment_affinity:
+  biome_class: cryosteppe
+  koppen:
+  - BSk
+  - Dfc
+derived_from_environment:
+  suggested_traits:
+  - cuticole_cerose
+  - grassi_termici
+  - pelli_cave
+  - pigmenti_aurorali
+  - proteine_shock_termico
+  - reti_capillari_radici
+  required_capabilities: []
+  services_links: []
+  jobs_bias:
+  - Skirmisher
+  - Vanguard
+  - Warden
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits: []
+mate_synergy: []
+jobs_synergy: []

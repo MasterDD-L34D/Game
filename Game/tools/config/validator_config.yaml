@@ -1,0 +1,287 @@
+schema_version: 1.6
+roles:
+- produttore
+- produttore_chemiotrofo
+- erbivoro_primario
+- grazing
+- filtratore_grazing
+- predatore_secondario
+- predatore_filtratore_secondario
+- predatore_regolatore_simbionte
+- predatore_terziario_apex
+- decompositore
+- impollinatore
+- impollinatore_notturno
+- commensale
+- commensale_opportunista
+- parassita
+- parassita_acquatico
+- detritivoro
+- ingegneri_ecosistema
+- onnivoro_invasivo
+- minaccia_microbica
+- evento_ecologico
+- dispersore_ponte
+jobs:
+- Warden
+- Vanguard
+- Skirmisher
+- Artificer
+- Invoker
+encounter_roles:
+- minion
+- elite
+- boss
+- ambient
+spawn:
+  orario:
+  - diurno
+  - notte
+  - crepuscolo
+  - continuo
+  meteo:
+  - sereno_freddo
+  - whiteout
+  - whiteout_ionico
+  - nebbia_ionica
+  - caldo_pulsato
+  - tempesta_sabbia_magnetica
+  - foschia_ferrosa
+budget_tiers:
+  default_max: 12
+  apex_or_keystone_max: 14
+  sentient_S2_plus_max: 13
+  enforce_mode: warn
+effects_registry:
+  scalar_keys:
+  - res_cold
+  - res_fire
+  - res_acid
+  - res_salt
+  - detect_heat
+  - reveal_hidden_radius
+  - push_bonus
+  - jump_bonus
+  - pathing_bonus
+  - ice_move_cost
+  - ally_cohesion
+  - guard_stance
+  bool_keys:
+  - dash_free_once
+  - amphibious
+  - ignore_fog_penalty
+  - trap_detect_ion
+  - first_strike
+  - build_cover
+  - seal_vents
+  - hazard_vent_ignore
+  - landing_on_ice
+  - non_metal_gear
+  object_keys:
+  - dr
+loot_registry:
+- croste_fotosintetiche
+- polisaccaridi_antigelo
+- gel_chemoattivo
+- pigmenti_ionici
+- tappeti_igroscopici
+- spore_brina
+- pelli_cave
+- grassi_termici
+- gusci_silicei
+- enzimi_chelanti
+- peli_crio
+- tendini_elastici
+- mantelli_spessi
+- corna_pale
+- piume_idrofobiche
+- ossicini_cavi
+- pelli_fitte
+- ghiandole_odorose
+- cute_resistente_sali
+- branchie_mod
+- gel_siliceo_attivo
+- cartilagini_idro
+- tendini_termici
+- pelli_anti_ustione
+- spore_crio
+- matrici_biofilm
+- penne_compatte
+- nettari_crio
+- membrane_termiche
+- piume_aurorali
+- propaguli_aderenti
+- velli_densi
+- semi_cachati
+- cisti_termiche
+- enzimi_anticoagulanti
+- humus_crio
+- secrezioni_lubrificanti
+- placche_silicee_fini
+- resina_silicea
+- dentina_dura
+- denti_ferrici
+- fili_rosicchiati
+- matrici_filamentose
+- biomassa_algale
+- pigmenti_termici
+mate_archetypes:
+- portatore
+- rompi_crosta
+- esca
+- scout_leggero
+- sfondatore
+- scudo_mobile
+- ricognitore
+- assassino_silenzioso
+- disturbatore
+- rubacibo
+- controllo_area
+- immobilizzatore
+- architetto
+- controllore_flussi
+- assalitore
+- finisher
+- ricognitore_notturno
+- corriere
+- sinergizzatore_team
+- sentinella
+- guida_trincee
+- vedetta
+- corriere_leggero
+- logoratore
+- netturbino
+- ingegnere
+- stabilizzatore
+- sabotatore
+- bonificatore
+- adattatore_rapido
+- sensore_linea
+biome_hazards:
+  foresta_temperata:
+  - id: vento_forte
+    requires_any_of:
+    - build_cover
+    - guard_stance
+  - id: pioggia_torpida
+    requires_any_of:
+    - ignore_fog_penalty
+    - reveal_hidden_radius
+  - id: pendenze_instabili
+    requires_any_of:
+    - jump_bonus
+    - pathing_bonus
+  badlands:
+  - id: iron_shards
+    requires_any_of:
+    - dr_impact_cap
+    - build_cover
+  - id: magnetic_patches
+    requires_any_of:
+    - non_metal_gear
+    - seal_vents
+parts_capabilities:
+  spring_legs:
+  - jump_bonus
+  glide_wings:
+  - landing_on_ice
+  - ignore_fog_penalty
+  elastomer_skin:
+  - dr_impact_cap
+  echolocate:
+  - echolocate_cap
+  - reveal_hidden_radius
+  burst_anaerobic:
+  - dash_free_once
+  claw_finesse: []
+jobs_pi_requirements:
+  Skirmisher:
+    require_any_capabilities:
+    - jump_bonus
+    - landing_on_ice
+    - dash_free_once
+  Vanguard:
+    require_any_slots:
+    - defense
+  Warden:
+    require_any_slots:
+    - senses
+    - defense
+  Artificer:
+    require_any_slots:
+    - senses
+  Invoker:
+    require_any_slots:
+    - senses
+telemetry_targets:
+  pick_rate_by_role:
+    minion:
+    - 0.1
+    - 0.3
+    elite:
+    - 0.05
+    - 0.15
+    boss:
+    - 0.01
+    - 0.05
+    ambient:
+    - 0.05
+    - 0.2
+  spawn_weight_by_rarity:
+    R1:
+    - 0.2
+    - 0.4
+    R2:
+    - 0.1
+    - 0.3
+    R3:
+    - 0.05
+    - 0.2
+    R4:
+    - 0.01
+    - 0.1
+    R5:
+    - 0.0
+    - 0.05
+social:
+  affinity_range:
+  - -2
+  - 2
+  trust_range:
+  - 0
+  - 5
+  recruit_min_affinity: 0
+  recruit_min_trust: 2
+  mating_min_trust: 3
+morph_cost_check:
+  enabled: true
+  mode: warn
+foodweb:
+  path: Game/data/foodwebs/{biome}_foodweb.yaml
+  allowed_edge_types:
+  - herbivory
+  - grazing
+  - predation
+  - mutualism
+  - engineering
+  - scavenging
+  - detritus
+  - dispersal
+  - suppression
+  - nutrient_pulse
+  special_nodes:
+  - carcasse
+  - detrito
+npg:
+  roles:
+  - vanguard
+  - skirmisher
+  - warden
+  - artificer
+  - invoker
+  - harvester
+  biome_enum:
+  - desert
+  - cavern
+  - badlands
+  - foresta_temperata

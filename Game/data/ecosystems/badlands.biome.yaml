@@ -1,0 +1,241 @@
+schema_version: 1.1
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+ecosistema:
+  metadati:
+    nome: Brulle Terre Ferrose (Badlands)
+    localizzazione:
+      lat: -3.5
+      lon: 142.2
+      quota_m: 450
+      area_km2: 820.0
+    periodo_riferimento: 1991–2020
+    fonti: []
+  bioma:
+    classe_bioma: badlands
+    ecoregione: Cold Desert / Eroded Plateaus
+    koppen_zone:
+    - BSk
+    - BWk
+    npp_gC_m2_anno: 220
+    note: Alte concentrazioni di ossidi ferrosi; magnetismo locale anomalo
+  morfologia:
+    rilievo:
+      quota_min_max_m:
+      - 120
+      - 980
+      pendenza_media_gradi: 18
+      rugosita_indice: 0.61
+    forme_terreno:
+    - calanchi
+    - butte
+    - mesas
+    - gole
+    geologia_substrato:
+    - arenarie ferruginose
+    - scisti
+    - marne
+    suolo_superficiale:
+      tessitura: sabbia-limo
+      pH: 7.8
+      sostanza_organica_%: 0.9
+    idrografia:
+      corsi_acqua:
+      - wadi effimeri
+      zone_umide:
+      - pozzanghere salmastre temporanee
+      falda: profonda
+    frammentazione_connettivita:
+      indice_frattura: 0.72
+      corridoi_ecologici:
+      - canali wadi
+      - gole ombreggiate
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: 0.045
+    tracce_ppm:
+      CH4: 1.7
+      N2O: 0.32
+      O3_troposferico: 0.05
+    aerosol_inquinanti:
+      PM10: 32
+      PM2_5: 18
+      sali_marini: basso
+      polveri_sahariane: stagionali
+    variazioni_stagionali_nota: Picchi polveri durante i dry-blowouts
+    forzanti_locali:
+    - tempeste di sabbia
+    - ossidi ferrosi volatili
+  clima:
+    classificazione_koppen: BSk
+    temperatura_C:
+      media_annua: 14.5
+      min_mese_piu_freddo: -8.0
+      max_mese_piu_caldo: 39.5
+      giorni_gelo_annui: 22
+      giorni_ondata_calore_annui: 18
+    precipitazioni_mm:
+      totale_annuo: 180
+      indice_stagionalita: estivo-debole
+      mesi_secchi:
+      - giugno
+      - luglio
+      - agosto
+      mesi_umidi:
+      - novembre
+    vento:
+      regime: foehn locali e jet di canyon
+      velocita_media_m_s: 4.5
+    bilancio_idrico:
+      et0_mm: 1200
+      indice_aridita_P_su_ET0: 0.15
+    estremi_e_rischi:
+      eventi:
+      - tempeste_sabbia
+      - collassi di scarpate
+      - tempesta_sabbia_magnetica
+      - iron_shards
+      - magnetic_patches
+    teleconnessioni:
+    - ENSO
+    - EA
+  abiotico:
+    luce:
+      radiazione_media_MJ_m2_giorno: 22.1
+      fotoperiodo: stagionale
+    nutrienti:
+      N: basso
+      P: medio
+      K: alto
+    salinita: salina interna
+  trofico:
+    produttori:
+    - arbusti_xerofili
+    - crostoni_criptofite
+    - cianobatteri
+    consumatori:
+      primari:
+      - erbivori
+      - detritivori
+      secondari:
+      - carnivori
+      - onnivori
+      terziari:
+      - predatori_apicali
+    decompositori:
+    - funghi_criptoendoliti
+    - batteri
+    reti_note:
+    - top-down episodiche da superpredatori nomadi
+    - bottom-up limitati da P,N
+    - catena del detrito dominante
+  gruppi_funzionali:
+    predatori: []
+    prede_erbivori: []
+    impollinatori: []
+    dispersori_semi: []
+    simbionti_mutualistici:
+    - licheni
+    - micorrize
+    parassiti_parasitoidi: []
+    detritivori: []
+    filtratori: []
+    ingegneri_ecosistema: []
+    specie_chiave_di_volta: []
+  suolo:
+    orizzonti:
+    - A
+    - Bk
+    - C
+    processi:
+    - fissazione_N
+    - nitrificazione
+    - denitrificazione
+    - mineralizzazione
+    microbioma:
+    - AMF
+    - batteri_nitrificanti
+    fauna_edafica:
+    - isopodi
+    - acarina_xero
+    - tenebrionidi
+  acque:
+    comparti:
+    - biofilm
+    - benthos_wadi
+    processi:
+    - eutrofizzazione episodica
+    - evaporazione rapida
+    qualita:
+      DO_mgL: 7.5
+      BOD_mgL: 3.2
+      conducibilita_uScm: 2200
+  servizi_ecosistemici:
+    supporto:
+    - cicli_nutrienti poveri ma stabili
+    regolazione:
+    - dissipazione polveri (crostoni)
+    approvvigionamento:
+    - minerali ferrosi
+    - biomassa detritica
+    culturali:
+    - navigazione canyon
+    - siti di studio geologico
+  pressioni_stato_risposte:
+    pressioni:
+    - erosione accelerata
+    - specie invasive
+    - over-scrapping
+    indicatori_stato:
+    - albedo_index
+    - copertura_crosta
+    risposte_gestione:
+    - stabilizzazione scarpate
+    - corridoi in ombra
+links:
+  biome_id: badlands
+  species_dir: /mnt/data/evo-tactics-pack-v1.7/Game/data/species/badlands
+  foodweb: /mnt/data/evo-tactics-pack-v1.7/Game/data/foodwebs/badlands_foodweb.yaml
+registries:
+  functional_groups: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/functional_groups.yaml
+  trophic_roles: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/trophic_roles.yaml
+  biome_classes: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/biome_classes.yaml
+  climate_profiles: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/climate_profiles.yaml
+  morphotypes: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/morphotypes.yaml
+  hazards: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/hazards.yaml
+  env_to_traits: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/env_to_traits.yaml
+rules:
+  at_least:
+    sentient: 1
+    apex: 1
+    keystone: 1
+    bridge: 1
+    threat: 1
+    event: 1
+manifest:
+  species_counts:
+    apex: 1
+    keystone: 2
+    bridge: 1
+    threat: 1
+    event: 1
+  functional_groups_present:
+  - detritivoro
+  - dispersore_semi
+  - impollinatore
+  - patogeno
+  - prede
+  - pulse_climatico
+  - regolazione_parassiti
+  - regolazione_prede
+  - simbionte
+  - specie_chiave
+  foodweb_links:
+    path: /mnt/data/evo-tactics-pack-v1.7/Game/data/foodwebs/badlands_foodweb.yaml
+    sink_detrito: true

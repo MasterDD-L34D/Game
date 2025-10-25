@@ -1,0 +1,219 @@
+schema_version: 1.1
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+ecosistema:
+  metadati:
+    nome: Foresta Temperata Demo
+    localizzazione:
+      lat: 45.0
+      lon: 10.0
+      quota_m: 600
+      area_km2: 120.5
+    periodo_riferimento: 1991–2020
+    fonti: []
+  bioma:
+    classe_bioma: Foresta temperata umida
+    ecoregione: Temperate Broadleaf & Mixed Forests
+    koppen_zone:
+    - Cfb
+    npp_gC_m2_anno: 900
+    note: ''
+  morfologia:
+    rilievo:
+      quota_min_max_m:
+      - 200
+      - 1200
+      pendenza_media_gradi: 12
+      rugosita_indice: 0.42
+    forme_terreno:
+    - valli alluvionali
+    - versanti collinari
+    geologia_substrato:
+    - calcari
+    - marne
+    suolo_superficiale:
+      tessitura: limo-argilla
+      pH: 6.2
+      sostanza_organica_%: 5.1
+    idrografia:
+      corsi_acqua:
+      - torrenti variabili
+      zone_umide:
+      - stagni temporanei
+      falda: superficiale
+    frammentazione_connettivita:
+      indice_frattura: 0.3
+      corridoi_ecologici:
+      - corridoio fluviale X
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: 0.041
+    tracce_ppm:
+      CH4: 1.9
+      N2O: 0.33
+      O3_troposferico: 0.04
+    aerosol_inquinanti:
+      PM10: 18
+      PM2_5: 12
+      sali_marini: basso
+      polveri_sahariane: sporadiche
+    variazioni_stagionali_nota: ''
+    forzanti_locali: []
+  clima:
+    classificazione_koppen: Cfb
+    temperatura_C:
+      media_annua: 11.2
+      min_mese_piu_freddo: -4.1
+      max_mese_piu_caldo: 27.5
+      giorni_gelo_annui: 35
+      giorni_ondata_calore_annui: 3
+    precipitazioni_mm:
+      totale_annuo: 950
+      indice_stagionalita: invernale
+      mesi_secchi:
+      - luglio
+      mesi_umidi:
+      - novembre
+    vento:
+      regime: brezza di valle/monte
+      velocita_media_m_s: 2.5
+    bilancio_idrico:
+      et0_mm: 750
+      indice_aridita_P_su_ET0: 1.27
+    estremi_e_rischi:
+      eventi:
+      - alluvioni lampo
+      - incendi sporadici
+    teleconnessioni:
+    - NAO
+  abiotico:
+    luce:
+      radiazione_media_MJ_m2_giorno: 14.5
+      fotoperiodo: stagionale
+    nutrienti:
+      N: medio
+      P: medio
+      K: medio
+    salinita: dolce
+  trofico:
+    produttori:
+    - piante_superiori
+    - alghe
+    - cianobatteri
+    consumatori:
+      primari:
+      - erbivori
+      - detritivori
+      secondari:
+      - carnivori
+      terziari:
+      - predatori_apicali
+    decompositori:
+    - funghi
+    - batteri
+    reti_note: []
+  gruppi_funzionali:
+    predatori: []
+    prede_erbivori: []
+    impollinatori: []
+    dispersori_semi: []
+    simbionti_mutualistici:
+    - micorrize
+    - rizobi
+    - licheni
+    parassiti_parasitoidi: []
+    detritivori: []
+    filtratori: []
+    ingegneri_ecosistema: []
+    specie_chiave_di_volta: []
+  suolo:
+    orizzonti:
+    - O
+    - A
+    - B
+    - C
+    processi:
+    - fissazione_N
+    - nitrificazione
+    - denitrificazione
+    - mineralizzazione
+    microbioma:
+    - AMF
+    - batteri_nitrificanti
+    - denitrificanti
+    fauna_edafica:
+    - lombrichi
+    - acari
+    - collemboli
+    - nematodi
+  acque:
+    comparti:
+    - fitoplancton
+    - zooplancton
+    - nekton
+    - benthos
+    - periphyton
+    processi:
+    - stratificazione
+    - rimescolamento
+    - eutrofizzazione
+    qualita:
+      DO_mgL: 9.5
+      BOD_mgL: 2.1
+      conducibilita_uScm: 350
+  servizi_ecosistemici:
+    supporto: []
+    regolazione: []
+    approvvigionamento: []
+    culturali: []
+  pressioni_stato_risposte:
+    pressioni:
+    - frammentazione
+    - specie invasive
+    indicatori_stato:
+    - NDVI
+    - IBE
+    risposte_gestione:
+    - corridoi
+    - ripristino radure
+links:
+  biome_id: foresta_temperata
+  species_dir: /mnt/data/evo-tactics-pack-v1.6/Game/data/species/foresta_temperata
+  foodweb: /mnt/data/evo-tactics-pack-v1.6/Game/data/foodwebs/foresta_temperata_foodweb.yaml
+  npg_dir: /mnt/data/evo-tactics-pack-v1.6/Game/data/npg
+rules:
+  at_least:
+    sentient: 1
+    apex: 1
+    keystone: 1
+    bridge: 1
+    threat: 1
+    event: 1
+registries:
+  functional_groups: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/functional_groups.yaml
+  trophic_roles: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/trophic_roles.yaml
+  biome_classes: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/biome_classes.yaml
+  climate_profiles: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/climate_profiles.yaml
+  morphotypes: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/morphotypes.yaml
+  hazards: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/hazards.yaml
+  env_to_traits: /mnt/data/evo-tactics-pack-v1.7/Game/tools/config/registries/env_to_traits.yaml
+manifest:
+  species_counts:
+    apex: 1
+    keystone: 2
+    bridge: 1
+    threat: 1
+    event: 1
+  functional_groups_present:
+  - patogeno
+  - pulse_climatico
+  - specie_chiave
+  foodweb_links:
+    path: /mnt/data/evo-tactics-pack-v1.7/Game/data/foodwebs/foresta_temperata_foodweb.yaml
+    sink_detrito: true

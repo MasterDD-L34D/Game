@@ -1,0 +1,83 @@
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+id: rust-scavenger
+display_name: Rust Scavenger
+biomes:
+- badlands
+role_trofico: ingegneri_ecosistema
+functional_tags:
+- specie_chiave
+- detritivoro
+morphotype: scavenger_corazzato
+flags:
+  apex: false
+  keystone: true
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: true
+pi_loadout:
+  weight_budget: 12
+  default_parts:
+    defense:
+    - elastomer_skin
+    senses:
+    - echolocate
+vc:
+  aggro: 0.3
+  risk: 0.3
+  cohesion: 0.7
+  setup: 0.5
+  explore: 0.4
+  tilt: 0.2
+services_links:
+- supporto:stabilizzazione_suolo
+- regolazione:riciclo_metalli
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - foschia_ferrosa
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+telemetry:
+  expected_pick_rate: 0.15
+  spawn_weight: 0.22
+jobs_synergy:
+- Warden
+- Artificer
+environment_affinity:
+  biome_class: badlands
+  koppen:
+  - BSk
+  - BWk
+  hazards_expected:
+  - tempeste_sabbia
+  - collassi di scarpate
+  - tempesta_sabbia_magnetica
+  - iron_shards
+  - magnetic_patches
+derived_from_environment:
+  suggested_traits:
+  - cute_resistente_sali
+  - enzimi_chelanti
+  - pelli_anti_ustione
+  - pigmenti_termici
+  required_capabilities:
+  - build_cover
+  - dr_impact_cap
+  - non_metal_gear
+  - seal_vents
+  jobs_bias:
+  - Vanguard
+  - Warden
+genetic_traits: []
+mate_synergy: []

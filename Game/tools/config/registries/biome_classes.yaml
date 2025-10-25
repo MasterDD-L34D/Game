@@ -1,0 +1,28 @@
+schema_version: '1.0'
+classes:
+- foresta_temperata
+- foresta_boreale
+- taiga
+- tundra
+- cryosteppe
+- deserto_caldo
+- deserto_freddo
+- savanna
+- prateria_temperata
+- macchia_mediterranea
+- palude
+- costa_rocciosa
+- reef
+- caverne
+- badlands
+koppen_examples:
+  foresta_temperata:
+  - Cfb
+  - Cfa
+  - Cfc
+  cryosteppe:
+  - BSk
+  - Dfc
+  badlands:
+  - BSk
+  - BWk

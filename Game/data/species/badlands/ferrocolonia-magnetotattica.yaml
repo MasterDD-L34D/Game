@@ -1,0 +1,104 @@
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+id: ferrocolonia-magnetotattica
+display_name: Ferrocolonia Magnetotattica
+biomes:
+- badlands
+role_trofico: predatore_regolatore_simbionte
+functional_tags:
+- simbionte
+- regolazione_parassiti
+morphotype: ingegnere_radicante
+flags:
+  apex: false
+  keystone: true
+  sentient: true
+  sapience_tier: S2
+  bridge: false
+  threat: false
+  event: false
+playable_unit: true
+pi_loadout:
+  weight_budget: 13
+  default_parts:
+    defense:
+    - elastomer_skin
+    senses:
+    - echolocate
+    metabolism: burst_anaerobic
+vc:
+  aggro: 0.4
+  risk: 0.3
+  cohesion: 0.9
+  setup: 0.6
+  explore: 0.5
+  tilt: 0.2
+services_links:
+- regolazione:parassiti
+- supporto:reticoli_biometallici
+spawn_rules:
+  orario:
+  - diurno
+  meteo:
+  - tempesta_sabbia_magnetica
+  densita: low
+balance:
+  rarity: R3
+  threat_tier: T2
+  encounter_role: elite
+telemetry:
+  expected_pick_rate: 0.1
+  spawn_weight: 0.12
+jobs_synergy:
+- Warden
+- Artificer
+mate_synergy:
+- sinergizzatore_team
+- architetto
+social:
+  affinity_base: 0.5
+  trust_base: 2.5
+mating:
+  enabled: true
+  rules:
+    recruit_min_affinity: 0
+    recruit_min_trust: 2
+    mating_min_trust: 3
+environment_affinity:
+  biome_class: badlands
+  koppen:
+  - BSk
+  - BWk
+  hazards_expected:
+  - tempeste_sabbia
+  - collassi di scarpate
+  - tempesta_sabbia_magnetica
+  - iron_shards
+  - magnetic_patches
+  multibiome:
+  - BADLANDS
+derived_from_environment:
+  suggested_traits:
+  - cute_resistente_sali
+  - enzimi_chelanti
+  - pelli_anti_ustione
+  - pigmenti_termici
+  required_capabilities:
+  - build_cover
+  - dr_impact_cap
+  - non_metal_gear
+  - seal_vents
+  services_links:
+  - regolazione:ritenzione_idrica
+  - supporto:stabilizzazione_suolo
+  jobs_bias:
+  - Vanguard
+  - Warden
+network_bridge_roles:
+- ingegnere_ecosistema
+- sentinella
+genetic_traits: []

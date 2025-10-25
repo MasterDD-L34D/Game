@@ -1,0 +1,11 @@
+nodes:
+  - produttori_base
+  - HERB_CERVO
+  - PRED_LUPO
+  - DECO_FUNGO
+  - carcasse
+  - detrito
+edges:
+  - {from: produttori_base, to: HERB_CERVO, type: herbivory}
+  - {from: HERB_CERVO, to: PRED_LUPO, type: predation}
+  - {from: detrito, to: DECO_FUNGO, type: detritus}
