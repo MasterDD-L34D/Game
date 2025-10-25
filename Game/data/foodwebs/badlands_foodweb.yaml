@@ -1,0 +1,82 @@
+foodweb_id: BADLANDS
+nodes:
+  - id: PROD_CACTUS
+  - id: PROD_LICHEN
+  - id: IMP_FALENA
+  - id: IMP_CANTORE
+  - id: BRIDGE_SCARAB
+  - id: BIRD_CORVO
+  - id: HERB_BURROWER
+  - id: HERB_SCARAB
+  - id: DET_VERME
+  - id: HERB_SKINK
+  - id: THR_LOCUSTA
+  - id: PAR_ICNEMO
+  - id: PRED_VIPERA
+  - id: PRED_ECHOWING
+  - id: PRED_DUNE_STALKER
+  - id: APEX_REGINA
+  - id: DECO_FUNGO
+  - id: DECO_MICROBI
+  - id: EVT_FERROSPORO
+edges:
+  - {from: PROD_CACTUS, to: IMP_FALENA,     type: mutualism,       weight: 0.80}
+  - {from: PROD_CACTUS, to: IMP_CANTORE,    type: mutualism,       weight: 0.75}
+  - {from: PROD_LICHEN, to: BRIDGE_SCARAB,  type: mutualism,       weight: 0.60}
+  - {from: PROD_LICHEN, to: BIRD_CORVO,     type: mutualism,       weight: 0.40}
+  - {from: PROD_CACTUS, to: HERB_BURROWER,  type: herbivory,       weight: 0.55}
+  - {from: PROD_LICHEN, to: HERB_SCARAB,    type: herbivory,       weight: 0.60}
+  - {from: PROD_CACTUS, to: HERB_SKINK,     type: herbivory,       weight: 0.50}
+  - {from: PROD_CACTUS, to: THR_LOCUSTA,    type: herbivory,       weight: 0.85}
+  - {from: HERB_BURROWER, to: PAR_ICNEMO,   type: parasitism,      weight: 0.50}
+  - {from: HERB_SCARAB,   to: PAR_ICNEMO,   type: parasitism,      weight: 0.60}
+  - {from: HERB_SKINK,    to: PRED_VIPERA,  type: predation,       weight: 0.40}
+  - {from: HERB_SKINK,    to: PRED_ECHOWING,type: predation,       weight: 0.30}
+  - {from: HERB_SCARAB,   to: PRED_ECHOWING,type: predation,       weight: 0.50}
+  - {from: BRIDGE_SCARAB, to: PRED_VIPERA,  type: predation,       weight: 0.30}
+  - {from: carcasse,      to: BIRD_CORVO,   type: scavenging,      weight: 0.70}
+  - {from: PRED_ECHOWING, to: APEX_REGINA,  type: predation,       weight: 0.20}
+  - {from: PRED_VIPERA,   to: APEX_REGINA,  type: predation,       weight: 0.25}
+  - {from: APEX_REGINA, to: PAR_ICNEMO,         type: control,     weight: 0.90}
+  - {from: PRED_DUNE_STALKER, to: PRED_VIPERA,  type: predation,   weight: 0.30}
+  - {from: PRED_DUNE_STALKER, to: THR_LOCUSTA,  type: predation,   weight: 0.35}
+  - {from: detriti, to: DECO_FUNGO,        type: detritus_flow,    weight: 0.80}
+  - {from: detriti, to: DECO_MICROBI,      type: detritus_flow,    weight: 0.85}
+  - {from: detriti, to: EVT_FERROSPORO,    type: detritus_flow,    weight: 0.95}
+  - {from: EVT_FERROSPORO, to: PROD_CACTUS, type: nutrient_pulse,  weight: 0.50}
+controls:
+  bottom_up: [nutrienti -> produttori -> primari -> secondari]
+  top_down: [apex -> secondari/parasitoidi -> primari -> produttori]
+  bridge_flow: [BRIDGE_SCARAB/BIRD_CORVO -> semi/microbi -> nuovi_patch_produttori]
+cascade_triggers:
+  - trigger: "caduta_APEX_REGINA"
+    effect: "boom_parassiti; collasso impollinazione coordinata; +tempeste_polvere"
+  - trigger: "collasso_CANTORE"
+    effect: "impollinazione in calo; regressione produttori; migrazione predatori secondari"
+  - trigger: "boom_THR_LOCUSTA"
+    effect: "defogliazione massiva; perdita coperture; erosione eolico in aumento; spawn predatori opportunisti"
+  - trigger: "bloom_EVT_FERROSPORO"
+    effect: "impulso nutrienti breve; picco detritivori; crash successivo; rischio malus respiratori"
+  - trigger: "assenza_BRIDGE"
+    effect: "connettività biomi in calo; frammentazione popolazioni; resilienza ecosistema in calo"
+notes:
+  mapping:
+    PROD_CACTUS: ferrospina_cactus
+    PROD_LICHEN: lichen_ferroso
+    IMP_FALENA: falena_resinosa
+    IMP_CANTORE: cantore_polvere
+    BRIDGE_SCARAB: scarabeo_carovaniere
+    BIRD_CORVO: corvo_ferromag
+    HERB_BURROWER: sand_burrower
+    HERB_SCARAB: rust_scavenger
+    DET_VERME: verme_siliceo
+    HERB_SKINK: skink_ferripelle
+    THR_LOCUSTA: locusta_ferricidio
+    PAR_ICNEMO: icnemodron_simbionte
+    PRED_VIPERA: vipera_piezo
+    PRED_ECHOWING: echo_wing
+    PRED_DUNE_STALKER: dune_stalker
+    APEX_REGINA: regina_vesparia_ferroemato
+    DECO_FUNGO: fungo_scheletro
+    DECO_MICROBI: deco_microbi_suolo
+    EVT_FERROSPORO: fioritura_ferrosporo
