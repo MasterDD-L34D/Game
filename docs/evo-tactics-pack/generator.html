@@ -12,6 +12,7 @@
     <meta name="data-branch" content="main" />
     <title>Ecosystem Pack · Generatore</title>
     <link rel="stylesheet" href="../site.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
     <script type="module" src="generator.js" defer></script>
   </head>
   <body>
@@ -175,6 +176,32 @@
               </p>
               <ul class="generator-pins" id="generator-pinned-list" aria-live="polite"></ul>
             </div>
+            <section
+              class="generator-compare"
+              id="generator-compare-panel"
+              aria-labelledby="generator-compare-title"
+            >
+              <div class="generator-compare__header">
+                <h4 class="generator-compare__title" id="generator-compare-title">
+                  Confronto specie
+                </h4>
+                <p class="generator-compare__hint">
+                  Seleziona fino a tre specie con il pulsante <span aria-hidden="true">📊</span>
+                  <span class="visually-hidden">Confronta</span> sulle card per visualizzare il grafico radar.
+                </p>
+              </div>
+              <p class="generator-compare__empty" id="generator-compare-empty">
+                Nessuna specie in confronto. Usa il pulsante 📊 sulle card per aggiungerle.
+              </p>
+              <ul class="generator-compare__list" id="generator-compare-list" aria-live="polite"></ul>
+              <div class="generator-compare__chart" id="generator-compare-chart" hidden>
+                <canvas id="generator-compare-canvas" aria-describedby="generator-compare-title"></canvas>
+                <p class="generator-compare__fallback" id="generator-compare-fallback" hidden>
+                  Impossibile caricare il grafico radar. Controlla la connessione o la console per
+                  ulteriori dettagli.
+                </p>
+              </div>
+            </section>
           </section>
         </article>
         </section>
