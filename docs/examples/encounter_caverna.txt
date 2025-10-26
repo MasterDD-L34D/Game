@@ -1,26 +1,27 @@
 {
   "biome": "caverna",
+  "tb": 25,
   "TB": 25,
   "groups": [
     {
       "power": 7,
-      "role": "skirm",
+      "role": "front",
       "affixes": [
         "fangoso",
-        "acque_nere"
-      ]
-    },
-    {
-      "power": 7,
-      "role": "objective",
-      "affixes": [
-        "cristallino",
         "eco"
       ]
     },
     {
       "power": 7,
-      "role": "skirm",
+      "role": "front",
+      "affixes": [
+        "acque_nere",
+        "cristallino"
+      ]
+    },
+    {
+      "power": 7,
+      "role": "control",
       "affixes": [
         "fangoso",
         "cristallino"
@@ -28,11 +29,19 @@
     },
     {
       "power": 4,
-      "role": "skirm",
+      "role": "objective",
       "affixes": [
-        "fangoso",
-        "cristallino"
+        "cristallino",
+        "fangoso"
       ]
     }
-  ]
+  ],
+  "party_vc": {
+    "aggro": "low",
+    "cohesion": "mid",
+    "setup": "mid",
+    "explore": "low",
+    "risk": "mid"
+  }
 }
+
