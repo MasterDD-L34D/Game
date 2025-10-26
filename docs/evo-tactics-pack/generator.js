@@ -32,6 +32,11 @@ const elements = {
   lastAction: document.getElementById("generator-last-action"),
   logList: document.getElementById("generator-log"),
   logEmpty: document.getElementById("generator-log-empty"),
+  activitySearch: document.getElementById("activity-search"),
+  activityTagFilter: document.getElementById("activity-tags"),
+  activityPinnedOnly: document.getElementById("activity-pinned-only"),
+  activityToneToggles: Array.from(document.querySelectorAll("[data-activity-tone]")),
+  activityReset: document.querySelector("[data-action=\"reset-activity-filters\"]"),
   exportMeta: document.getElementById("generator-export-meta"),
   exportList: document.getElementById("generator-export-list"),
   exportEmpty: document.getElementById("generator-export-empty"),
@@ -41,6 +46,11 @@ const elements = {
   exportPreviewYaml: document.getElementById("generator-preview-yaml"),
   exportPreviewJsonDetails: document.getElementById("generator-preview-json-details"),
   exportPreviewYamlDetails: document.getElementById("generator-preview-yaml-details"),
+  kpi: {
+    averageRoll: document.querySelector("[data-kpi=\"avg-roll\"]"),
+    rerollCount: document.querySelector("[data-kpi=\"reroll-count\"]"),
+    uniqueSpecies: document.querySelector("[data-kpi=\"unique-species\"]"),
+  },
 };
 
 const anchorUi = {
@@ -71,6 +81,17 @@ const STORAGE_KEYS = {
   activityLog: "evo-generator-activity-log",
 };
 
+const DEFAULT_ACTIVITY_TONES = ["info", "success", "warn", "error"];
+const MAX_ACTIVITY_EVENTS = 60;
+const TONE_LABELS = {
+  info: "Info",
+  success: "Successo",
+  warn: "Avviso",
+  error: "Errore",
+};
+const REROLL_ACTIONS = new Set(["reroll-biomi", "reroll-species", "reroll-seeds"]);
+const ROLL_ACTIONS = new Set(["roll-ecos", "reroll-biomi", "reroll-species", "reroll-seeds"]);
+
 const state = {
   data: null,
   traitRegistry: null,
@@ -80,6 +101,18 @@ const state = {
   hazardRegistry: null,
   hazardsIndex: new Map(),
   activityLog: [],
+  activityFilters: {
+    query: "",
+    tones: new Set(DEFAULT_ACTIVITY_TONES),
+    tags: new Set(),
+    pinnedOnly: false,
+  },
+  activityTagCounts: new Map(),
+  metrics: {
+    averageRollIntervalMs: null,
+    rerollCount: 0,
+    uniqueSpecies: 0,
+  },
   lastFilters: { flags: [], roles: [], tags: [] },
   pick: {
     ecosystem: {},
@@ -131,10 +164,20 @@ function calculatePickMetrics() {
     0
   );
   const seedCount = Array.isArray(seeds) ? seeds.length : 0;
-  return { biomeCount, speciesCount, seedCount };
+  const uniqueSpecies = new Set();
+  Object.values(speciesBuckets).forEach((list) => {
+    if (!Array.isArray(list)) return;
+    list.forEach((sp) => {
+      if (sp?.id) {
+        uniqueSpecies.add(sp.id);
+      }
+    });
+  });
+  const uniqueSpeciesCount = uniqueSpecies.size;
+  return { biomeCount, speciesCount, seedCount, uniqueSpeciesCount };
 }
 
-function setStatus(message, tone = "info") {
+function setStatus(message, tone = "info", options = {}) {
   const now = new Date();
   if (elements.status) {
     elements.status.textContent = message;
@@ -146,11 +189,11 @@ function setStatus(message, tone = "info") {
     elements.lastAction.dataset.tone = tone;
     elements.lastAction.title = now.toLocaleString("it-IT");
   }
-  recordActivity(message, tone, now);
+  recordActivity(message, tone, now, options);
 }
 
 function updateSummaryCounts() {
-  const { biomeCount, speciesCount, seedCount } = calculatePickMetrics();
+  const { biomeCount, speciesCount, seedCount, uniqueSpeciesCount } = calculatePickMetrics();
 
   elements.summaryCounts?.biomes?.textContent = biomeCount;
   elements.summaryCounts?.species?.textContent = speciesCount;
@@ -160,6 +203,9 @@ function updateSummaryCounts() {
     const hasResults = biomeCount + speciesCount + seedCount > 0;
     elements.summaryContainer.dataset.hasResults = hasResults ? "true" : "false";
   }
+
+  state.metrics.uniqueSpecies = uniqueSpeciesCount;
+  renderKpiSidebar();
 
   renderExportManifest();
   renderPinnedSummary();
@@ -186,14 +232,75 @@ function getActivityStorage() {
   return cachedStorage;
 }
 
+function normaliseTagId(value) {
+  return String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function createTagEntry(tag) {
+  if (tag && typeof tag === "object") {
+    const labelCandidate =
+      tag.label ?? tag.name ?? tag.title ?? tag.text ?? tag.value ?? tag.id ?? "";
+    const label = String(labelCandidate || "").trim();
+    if (!label) {
+      return null;
+    }
+    const idCandidate = tag.id ?? tag.value ?? normaliseTagId(label);
+    const id = normaliseTagId(idCandidate || label) || normaliseTagId(label) || randomId("tag");
+    return { id: id || randomId("tag"), label };
+  }
+  const label = String(tag ?? "").trim();
+  if (!label) {
+    return null;
+  }
+  const id = normaliseTagId(label) || randomId("tag");
+  return { id, label };
+}
+
+function trimActivityLog() {
+  if (!Array.isArray(state.activityLog)) {
+    state.activityLog = [];
+    return;
+  }
+  state.activityLog.sort((a, b) => {
+    const aTime = a.timestamp instanceof Date ? a.timestamp.getTime() : new Date(a.timestamp).getTime();
+    const bTime = b.timestamp instanceof Date ? b.timestamp.getTime() : new Date(b.timestamp).getTime();
+    return bTime - aTime;
+  });
+  if (state.activityLog.length <= MAX_ACTIVITY_EVENTS) {
+    return;
+  }
+  for (let i = state.activityLog.length - 1; i >= 0 && state.activityLog.length > MAX_ACTIVITY_EVENTS; i -= 1) {
+    const entry = state.activityLog[i];
+    if (!entry?.pinned) {
+      state.activityLog.splice(i, 1);
+    }
+  }
+  if (state.activityLog.length > MAX_ACTIVITY_EVENTS) {
+    state.activityLog = state.activityLog.slice(0, MAX_ACTIVITY_EVENTS);
+  }
+}
+
 function persistActivityLog() {
   const storage = getActivityStorage();
   if (!storage) return;
   try {
     const serialisable = state.activityLog.map((entry) => ({
+      id: entry.id,
       message: entry.message,
       tone: entry.tone,
       timestamp: entry.timestamp instanceof Date ? entry.timestamp.toISOString() : entry.timestamp,
+      tags: Array.isArray(entry.tags)
+        ? entry.tags.map((tag) => ({ id: tag.id, label: tag.label }))
+        : [],
+      action: entry.action ?? null,
+      pinned: Boolean(entry.pinned),
+      metadata: entry.metadata ?? null,
     }));
     storage.setItem(STORAGE_KEYS.activityLog, JSON.stringify(serialisable));
   } catch (error) {
@@ -209,34 +316,207 @@ function restoreActivityLog() {
     if (!raw) return;
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return;
-    state.activityLog = parsed
+    const restored = parsed
       .map((entry) => {
         if (!entry?.message) return null;
         const timestamp = entry.timestamp ? new Date(entry.timestamp) : new Date();
+        if (Number.isNaN(timestamp.getTime())) {
+          return null;
+        }
+        const tagEntries = Array.isArray(entry.tags)
+          ? entry.tags
+              .map((tag) => {
+                if (!tag) return null;
+                if (typeof tag === "object") {
+                  const label = tag.label ?? tag.name ?? tag.id ?? tag.value ?? "";
+                  return createTagEntry({ id: tag.id ?? tag.value, label });
+                }
+                return createTagEntry(tag);
+              })
+              .filter(Boolean)
+          : [];
+        const dedupedTags = [];
+        const seen = new Set();
+        tagEntries.forEach((tag) => {
+          if (!tag?.id || seen.has(tag.id)) return;
+          seen.add(tag.id);
+          dedupedTags.push(tag);
+        });
         return {
+          id: entry.id ?? randomId("event"),
           message: entry.message,
           tone: entry.tone ?? "info",
           timestamp,
+          tags: dedupedTags,
+          action: entry.action ?? null,
+          pinned: Boolean(entry.pinned),
+          metadata: entry.metadata ?? null,
         };
       })
-      .filter(Boolean)
-      .slice(0, 20);
+      .filter(Boolean);
+    state.activityLog = restored.sort((a, b) => b.timestamp - a.timestamp);
+    trimActivityLog();
+    updateActivityTagRegistry();
+    recalculateActivityMetrics();
   } catch (error) {
     console.warn("Impossibile ripristinare il registro attività", error);
   }
 }
 
-function recordActivity(message, tone = "info", timestamp = new Date()) {
+function activityFiltersActive() {
+  const filters = state.activityFilters ?? {};
+  if (filters.query?.trim()) return true;
+  if (filters.pinnedOnly) return true;
+  if (filters.tags instanceof Set && filters.tags.size) return true;
+  if (filters.tones instanceof Set && filters.tones.size !== DEFAULT_ACTIVITY_TONES.length) return true;
+  return false;
+}
+
+function renderActivityTagFilters() {
+  const select = elements.activityTagFilter;
+  if (!select) return;
+  const entries = Array.from(state.activityTagCounts.entries()).sort((a, b) =>
+    a[1].label.localeCompare(b[1].label, "it", { sensitivity: "base" })
+  );
+  const selected = state.activityFilters.tags ?? new Set();
+  select.innerHTML = "";
+  if (!entries.length) {
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Nessun tag registrato";
+    placeholder.disabled = true;
+    select.appendChild(placeholder);
+    select.disabled = true;
+    return;
+  }
+  select.disabled = false;
+  entries.forEach(([id, info]) => {
+    const option = document.createElement("option");
+    option.value = id;
+    option.textContent = info.count > 1 ? `${info.label} (${info.count})` : info.label;
+    option.selected = selected instanceof Set ? selected.has(id) : false;
+    select.appendChild(option);
+  });
+}
+
+function updateActivityTagRegistry() {
+  const registry = new Map();
+  (state.activityLog ?? []).forEach((entry) => {
+    (entry.tags ?? []).forEach((tag) => {
+      if (!tag?.id) return;
+      const existing = registry.get(tag.id) ?? { label: tag.label ?? tag.id, count: 0 };
+      existing.label = tag.label ?? existing.label;
+      existing.count += 1;
+      registry.set(tag.id, existing);
+    });
+  });
+  state.activityTagCounts = registry;
+  renderActivityTagFilters();
+  syncActivityControls();
+}
+
+function recordActivity(message, tone = "info", timestamp = new Date(), options = {}) {
   if (!message) return;
-  const entry = {
+  const ts = timestamp instanceof Date ? timestamp : new Date(timestamp);
+  const safeTimestamp = Number.isNaN(ts.getTime()) ? new Date() : ts;
+  const providedTags = Array.isArray(options.tags) ? options.tags : [];
+  const processedTags = [];
+  const seen = new Set();
+  providedTags.forEach((tag) => {
+    const entry = createTagEntry(tag);
+    if (!entry || !entry.id || seen.has(entry.id)) return;
+    seen.add(entry.id);
+    processedTags.push(entry);
+  });
+  const activityEntry = {
+    id: options.id ?? randomId("event"),
     message,
     tone,
-    timestamp: timestamp instanceof Date ? timestamp : new Date(timestamp),
+    timestamp: safeTimestamp,
+    tags: processedTags,
+    action: options.action ?? null,
+    pinned: Boolean(options.pinned),
+    metadata: options.metadata ?? null,
   };
-  state.activityLog.unshift(entry);
-  state.activityLog = state.activityLog.slice(0, 20);
+  state.activityLog.unshift(activityEntry);
+  trimActivityLog();
+  updateActivityTagRegistry();
+  recalculateActivityMetrics();
   persistActivityLog();
   renderActivityLog();
+}
+
+function recalculateActivityMetrics() {
+  const entries = Array.isArray(state.activityLog) ? state.activityLog : [];
+  const rollTimestamps = entries
+    .filter((entry) => (entry?.action ? ROLL_ACTIONS.has(entry.action) : false))
+    .map((entry) => {
+      const stamp = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
+      const value = stamp instanceof Date ? stamp.getTime() : Number.NaN;
+      return Number.isNaN(value) ? null : value;
+    })
+    .filter((value) => Number.isFinite(value))
+    .sort((a, b) => a - b);
+  if (rollTimestamps.length >= 2) {
+    let total = 0;
+    for (let i = 1; i < rollTimestamps.length; i += 1) {
+      total += rollTimestamps[i] - rollTimestamps[i - 1];
+    }
+    state.metrics.averageRollIntervalMs = total / (rollTimestamps.length - 1);
+  } else {
+    state.metrics.averageRollIntervalMs = null;
+  }
+
+  let rerollCount = 0;
+  entries.forEach((entry) => {
+    if (entry?.action && REROLL_ACTIONS.has(entry.action)) {
+      rerollCount += 1;
+    }
+  });
+  state.metrics.rerollCount = rerollCount;
+  renderKpiSidebar();
+}
+
+function formatAverageRollInterval(ms) {
+  if (!Number.isFinite(ms) || ms <= 0) {
+    return "—";
+  }
+  const totalSeconds = Math.round(ms / 1000);
+  if (totalSeconds < 60) {
+    return `${totalSeconds}s`;
+  }
+  const seconds = totalSeconds % 60;
+  const totalMinutes = Math.floor(totalSeconds / 60);
+  const minutes = totalMinutes % 60;
+  const hours = Math.floor(totalMinutes / 60);
+  const parts = [];
+  if (hours) {
+    parts.push(`${hours}h`);
+  }
+  if (minutes) {
+    parts.push(`${minutes}m`);
+  }
+  if (!hours && seconds) {
+    parts.push(`${seconds}s`);
+  }
+  if (!parts.length) {
+    return `${totalMinutes}m`;
+  }
+  return parts.join(" ");
+}
+
+function renderKpiSidebar() {
+  if (elements.kpi?.averageRoll) {
+    elements.kpi.averageRoll.textContent = formatAverageRollInterval(
+      state.metrics.averageRollIntervalMs
+    );
+  }
+  if (elements.kpi?.rerollCount) {
+    elements.kpi.rerollCount.textContent = String(state.metrics.rerollCount ?? 0);
+  }
+  if (elements.kpi?.uniqueSpecies) {
+    elements.kpi.uniqueSpecies.textContent = String(state.metrics.uniqueSpecies ?? 0);
+  }
 }
 
 function renderActivityLog() {
@@ -245,36 +525,257 @@ function renderActivityLog() {
   if (!list) return;
 
   list.innerHTML = "";
-  const entries = state.activityLog ?? [];
-  const hasEntries = entries.length > 0;
+  const entries = Array.isArray(state.activityLog) ? state.activityLog : [];
+  const filters = state.activityFilters ?? {};
+  const toneFilterActive = filters.tones instanceof Set;
+  const toneSet = toneFilterActive ? filters.tones : new Set(DEFAULT_ACTIVITY_TONES);
+  const tagSet = filters.tags instanceof Set ? filters.tags : new Set();
+  const query = String(filters.query ?? "").trim().toLowerCase();
+  const pinnedOnly = Boolean(filters.pinnedOnly);
+
+  const filtered = entries.filter((entry) => {
+    const tone = entry.tone ?? "info";
+    if (toneFilterActive) {
+      if (!toneSet.size) {
+        return false;
+      }
+      if (!toneSet.has(tone)) {
+        return false;
+      }
+    }
+    if (pinnedOnly && !entry.pinned) {
+      return false;
+    }
+    if (tagSet.size) {
+      const tagIds = (entry.tags ?? []).map((tag) => tag.id);
+      const hasTag = tagIds.some((id) => tagSet.has(id));
+      if (!hasTag) {
+        return false;
+      }
+    }
+    if (query) {
+      const haystackParts = [entry.message, entry.action];
+      (entry.tags ?? []).forEach((tag) => {
+        if (tag?.label) {
+          haystackParts.push(tag.label);
+        }
+      });
+      const haystack = haystackParts
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      if (!haystack.includes(query)) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  const hasEntries = filtered.length > 0;
   list.hidden = !hasEntries;
   if (empty) {
     empty.hidden = hasEntries;
+    empty.textContent = hasEntries || !activityFiltersActive()
+      ? "Nessuna attività registrata."
+      : "Nessun evento corrisponde ai filtri.";
   }
 
   if (!hasEntries) {
     return;
   }
 
-  entries.forEach((entry) => {
+  filtered.forEach((entry) => {
     const item = document.createElement("li");
-    item.className = "generator-log__item";
+    item.className = "generator-timeline__item";
     item.dataset.tone = entry.tone ?? "info";
+    item.dataset.pinned = entry.pinned ? "true" : "false";
 
-    const time = document.createElement("p");
-    time.className = "generator-log__time";
-    time.textContent = entry.timestamp.toLocaleTimeString("it-IT", {
+    const marker = document.createElement("div");
+    marker.className = "generator-timeline__marker";
+    marker.setAttribute("aria-hidden", "true");
+    item.appendChild(marker);
+
+    const content = document.createElement("div");
+    content.className = "generator-timeline__content";
+    item.appendChild(content);
+
+    const header = document.createElement("header");
+    header.className = "generator-timeline__header";
+    content.appendChild(header);
+
+    const time = document.createElement("time");
+    time.className = "generator-timeline__time";
+    const stamp = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
+    const safeStamp = Number.isNaN(stamp.getTime()) ? new Date() : stamp;
+    time.dateTime = safeStamp.toISOString();
+    time.textContent = safeStamp.toLocaleString("it-IT", {
       hour: "2-digit",
       minute: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
     });
+    time.title = safeStamp.toLocaleString("it-IT");
+    header.appendChild(time);
+
+    const controls = document.createElement("div");
+    controls.className = "generator-timeline__controls";
+    header.appendChild(controls);
+
+    const toneBadge = document.createElement("span");
+    toneBadge.className = `generator-timeline__tone generator-timeline__tone--${entry.tone ?? "info"}`;
+    toneBadge.textContent = TONE_LABELS[entry.tone ?? "info"] ?? titleCase(entry.tone ?? "info");
+    controls.appendChild(toneBadge);
+
+    const pinButton = document.createElement("button");
+    pinButton.type = "button";
+    pinButton.className = "generator-timeline__pin";
+    pinButton.dataset.action = "toggle-activity-pin";
+    pinButton.dataset.eventId = entry.id;
+    pinButton.setAttribute("aria-pressed", entry.pinned ? "true" : "false");
+    pinButton.title = entry.pinned ? "Rimuovi pin evento" : "Pin evento";
+    pinButton.textContent = entry.pinned ? "📌" : "📍";
+    controls.appendChild(pinButton);
+
+    if (entry.action) {
+      const meta = document.createElement("p");
+      meta.className = "generator-timeline__meta";
+      meta.textContent = titleCase(entry.action.replace(/[-_]/g, " "));
+      content.appendChild(meta);
+    }
 
     const messageText = document.createElement("p");
-    messageText.className = "generator-log__message";
+    messageText.className = "generator-timeline__message";
     messageText.textContent = entry.message;
+    content.appendChild(messageText);
 
-    item.append(time, messageText);
+    if (entry.tags?.length) {
+      const tagsContainer = document.createElement("div");
+      tagsContainer.className = "chip-list chip-list--compact generator-timeline__tags";
+      entry.tags.forEach((tag) => {
+        if (!tag?.label) return;
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.dataset.tagId = tag.id;
+        chip.textContent = tag.label;
+        tagsContainer.appendChild(chip);
+      });
+      if (tagsContainer.childElementCount) {
+        content.appendChild(tagsContainer);
+      }
+    }
+
     list.appendChild(item);
   });
+}
+
+function toggleActivityPin(eventId) {
+  if (!eventId) return;
+  const entry = state.activityLog.find((item) => item.id === eventId);
+  if (!entry) return;
+  entry.pinned = !entry.pinned;
+  trimActivityLog();
+  persistActivityLog();
+  renderActivityLog();
+}
+
+function resetActivityFilters() {
+  state.activityFilters.query = "";
+  state.activityFilters.pinnedOnly = false;
+  state.activityFilters.tags = new Set();
+  state.activityFilters.tones = new Set(DEFAULT_ACTIVITY_TONES);
+  syncActivityControls();
+  renderActivityLog();
+}
+
+function syncActivityControls() {
+  if (elements.activitySearch) {
+    elements.activitySearch.value = state.activityFilters.query ?? "";
+  }
+  if (elements.activityPinnedOnly) {
+    elements.activityPinnedOnly.checked = Boolean(state.activityFilters.pinnedOnly);
+  }
+  if (Array.isArray(elements.activityToneToggles)) {
+    elements.activityToneToggles.forEach((toggle) => {
+      if (!(toggle instanceof HTMLInputElement)) return;
+      const tone = toggle.value || toggle.dataset.activityTone;
+      if (!tone) return;
+      if (!(state.activityFilters.tones instanceof Set)) {
+        state.activityFilters.tones = new Set(DEFAULT_ACTIVITY_TONES);
+      }
+      toggle.checked = state.activityFilters.tones.has(tone);
+    });
+  }
+  if (elements.activityTagFilter) {
+    const selected = state.activityFilters.tags ?? new Set();
+    Array.from(elements.activityTagFilter.options).forEach((option) => {
+      option.selected = selected instanceof Set ? selected.has(option.value) : false;
+    });
+  }
+}
+
+function setupActivityControls() {
+  if (elements.activitySearch) {
+    elements.activitySearch.addEventListener("input", (event) => {
+      state.activityFilters.query = String(event.target.value ?? "");
+      renderActivityLog();
+    });
+  }
+
+  if (elements.activityTagFilter) {
+    elements.activityTagFilter.addEventListener("change", () => {
+      const values = new Set(getSelectedValues(elements.activityTagFilter));
+      state.activityFilters.tags = values;
+      renderActivityLog();
+    });
+  }
+
+  if (elements.activityPinnedOnly) {
+    elements.activityPinnedOnly.addEventListener("change", (event) => {
+      state.activityFilters.pinnedOnly = Boolean(event.target.checked);
+      renderActivityLog();
+    });
+  }
+
+  if (Array.isArray(elements.activityToneToggles)) {
+    elements.activityToneToggles.forEach((toggle) => {
+      if (!(toggle instanceof HTMLInputElement)) return;
+      toggle.addEventListener("change", (event) => {
+        const tone = event.target.value || event.target.dataset.activityTone;
+        if (!tone) return;
+        if (!(state.activityFilters.tones instanceof Set)) {
+          state.activityFilters.tones = new Set(DEFAULT_ACTIVITY_TONES);
+        }
+        if (event.target.checked) {
+          state.activityFilters.tones.add(tone);
+        } else {
+          state.activityFilters.tones.delete(tone);
+        }
+        renderActivityLog();
+      });
+    });
+  }
+
+  if (elements.activityReset) {
+    elements.activityReset.addEventListener("click", (event) => {
+      event.preventDefault();
+      resetActivityFilters();
+    });
+  }
+
+  if (elements.logList) {
+    elements.logList.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const button = target.closest("[data-action=\"toggle-activity-pin\"]");
+      if (!button) return;
+      event.preventDefault();
+      const { eventId } = button.dataset;
+      if (!eventId) return;
+      toggleActivityPin(eventId);
+    });
+  }
+
+  syncActivityControls();
 }
 
 function ensureExportSlug() {
@@ -2158,7 +2659,10 @@ function togglePinned(biome, species, { announce = true } = {}) {
   if (store.has(key)) {
     store.delete(key);
     if (announce) {
-      setStatus(`${displayName} rimosso dalle specie pinnate.`, "info");
+      setStatus(`${displayName} rimosso dalle specie pinnate.`, "info", {
+        tags: ["specie", "pin"],
+        action: "species-unpin",
+      });
     }
     updatePinButtonState(key, false);
     renderPinnedSummary();
@@ -2178,7 +2682,10 @@ function togglePinned(biome, species, { announce = true } = {}) {
     synthetic: Boolean(species?.synthetic || biome?.synthetic),
   });
   if (announce) {
-    setStatus(`${displayName} aggiunto alle specie pinnate.`, "success");
+    setStatus(`${displayName} aggiunto alle specie pinnate.`, "success", {
+      tags: ["specie", "pin"],
+      action: "species-pin",
+    });
   }
   updatePinButtonState(key, true);
   renderPinnedSummary();
@@ -2193,7 +2700,10 @@ function removeComparisonEntry(key, { announce = false, reRender = true } = {}) 
   updateCompareButtonState(key, false);
   if (announce) {
     const label = entry?.displayName ?? "Specie";
-    setStatus(`${label} rimossa dal confronto.`, "info");
+    setStatus(`${label} rimossa dal confronto.`, "info", {
+      tags: ["confronto"],
+      action: "compare-remove",
+    });
   }
   if (reRender) {
     renderComparisonPanel();
@@ -2209,7 +2719,10 @@ function toggleComparison(biome, species, { announce = true } = {}) {
   }
   if (store.size >= 3) {
     if (announce) {
-      setStatus("Puoi confrontare al massimo tre specie alla volta.", "warn");
+      setStatus("Puoi confrontare al massimo tre specie alla volta.", "warn", {
+        tags: ["confronto", "limite"],
+        action: "compare-limit",
+      });
     }
     return false;
   }
@@ -2218,7 +2731,10 @@ function toggleComparison(biome, species, { announce = true } = {}) {
   updateCompareButtonState(key, true);
   renderComparisonPanel();
   if (announce) {
-    setStatus(`${entry.displayName} aggiunta al confronto.`, "success");
+    setStatus(`${entry.displayName} aggiunta al confronto.`, "success", {
+      tags: ["confronto"],
+      action: "compare-add",
+    });
   }
   return true;
 }
@@ -2505,7 +3021,10 @@ function toggleSquad(biome, species) {
   const displayName = species?.display_name ?? species?.id ?? "Specie";
   if (store.has(key)) {
     store.delete(key);
-    setStatus(`${displayName} rimosso dalla squadra rapida.`, "info");
+    setStatus(`${displayName} rimosso dalla squadra rapida.`, "info", {
+      tags: ["squadra"],
+      action: "squad-remove",
+    });
     return false;
   }
   store.set(key, {
@@ -2515,7 +3034,10 @@ function toggleSquad(biome, species) {
     displayName,
     tier: tierOf(species),
   });
-  setStatus(`${displayName} aggiunto alla squadra rapida.`, "success");
+  setStatus(`${displayName} aggiunto alla squadra rapida.`, "success", {
+    tags: ["squadra"],
+    action: "squad-add",
+  });
   return true;
 }
 
@@ -2801,7 +3323,10 @@ function renderBiomes(filters) {
   const removed = syncComparisonStore();
   if (removed) {
     const label = removed === 1 ? "Una specie" : `${removed} specie`;
-    setStatus(`${label} rimosse dal confronto perché non più disponibili.`, "warn");
+    setStatus(`${label} rimosse dal confronto perché non più disponibili.`, "warn", {
+      tags: ["confronto", "sync"],
+      action: "compare-sync-remove",
+    });
   }
 
   if (!state.pick.biomes.length) {
@@ -3186,7 +3711,10 @@ function attachActions() {
     if (!action) return;
     event.preventDefault();
     if (!state.data) {
-      setStatus("Caricare i dati prima di utilizzare il generatore.", "error");
+      setStatus("Caricare i dati prima di utilizzare il generatore.", "error", {
+        tags: ["guardia", "catalogo"],
+        action: "guard-catalog",
+      });
       return;
     }
     const filters = currentFilters();
@@ -3208,13 +3736,18 @@ function attachActions() {
         renderBiomes(filters);
         renderSeeds();
         setStatus(
-          `Generati ${state.pick.biomes.length} biomi sintetici e ${state.pick.seeds.length} seed.`
+          `Generati ${state.pick.biomes.length} biomi sintetici e ${state.pick.seeds.length} seed.`,
+          "success",
+          { tags: ["roll", "ecosistema"], action: "roll-ecos" }
         );
         break;
       }
       case "reroll-biomi": {
         if (!state.pick.biomes.length) {
-          setStatus("Genera prima un ecosistema completo.", "warn");
+          setStatus("Genera prima un ecosistema completo.", "warn", {
+            tags: ["guardia", "reroll", "biomi"],
+            action: "guard-reroll-biomi",
+          });
           return;
         }
         const n = Math.max(1, Math.min(parseInt(elements.nBiomi.value, 10) || state.pick.biomes.length, 6));
@@ -3232,34 +3765,52 @@ function attachActions() {
         rerollSeeds(filters);
         renderBiomes(filters);
         renderSeeds();
-        setStatus("Biomi sintetici ricalcolati con i filtri correnti.");
+        setStatus("Biomi sintetici ricalcolati con i filtri correnti.", "success", {
+          tags: ["reroll", "biomi"],
+          action: "reroll-biomi",
+        });
         break;
       }
       case "reroll-species": {
         if (!state.pick.biomes.length) {
-          setStatus("Genera prima un ecosistema per estrarre le specie.", "warn");
+          setStatus("Genera prima un ecosistema per estrarre le specie.", "warn", {
+            tags: ["guardia", "reroll", "specie"],
+            action: "guard-reroll-species",
+          });
           return;
         }
         rerollSpecies(filters);
         renderBiomes(filters);
-        setStatus("Specie ricalcolate.");
+        setStatus("Specie ricalcolate.", "success", {
+          tags: ["reroll", "specie"],
+          action: "reroll-species",
+        });
         break;
       }
       case "reroll-seeds": {
         if (!state.pick.biomes.length) {
-          setStatus("Genera prima un ecosistema per creare gli encounter seed.", "warn");
+          setStatus("Genera prima un ecosistema per creare gli encounter seed.", "warn", {
+            tags: ["guardia", "reroll", "seed"],
+            action: "guard-reroll-seeds",
+          });
           return;
         }
         rerollSeeds(filters);
         renderSeeds();
-        setStatus("Seed rigenerati.");
+        setStatus("Seed rigenerati.", "success", {
+          tags: ["reroll", "seed"],
+          action: "reroll-seeds",
+        });
         break;
       }
       case "export-json": {
         const payload = exportPayload(filters);
         const slug = ensureExportSlug();
         downloadFile(`${slug}.json`, JSON.stringify(payload, null, 2), "application/json");
-        setStatus("Esportazione JSON completata.");
+        setStatus("Esportazione JSON completata.", "success", {
+          tags: ["export", "json"],
+          action: "export-json",
+        });
         break;
       }
       case "export-yaml": {
@@ -3267,7 +3818,10 @@ function attachActions() {
         const yaml = toYAML(payload);
         const slug = ensureExportSlug();
         downloadFile(`${slug}.yaml`, yaml, "text/yaml");
-        setStatus("Esportazione YAML completata.");
+        setStatus("Esportazione YAML completata.", "success", {
+          tags: ["export", "yaml"],
+          action: "export-yaml",
+        });
         break;
       }
       default:
@@ -3277,14 +3831,20 @@ function attachActions() {
 }
 
 async function loadData() {
-  setStatus("Caricamento catalogo in corso…");
+  setStatus("Caricamento catalogo in corso…", "info", {
+    tags: ["catalogo", "caricamento"],
+    action: "catalog-load-start",
+  });
   try {
     const { data, context } = await loadPackCatalog();
     applyCatalogContext(data, context);
     await loadTraitRegistry(context);
     await loadTraitReference(context);
     await loadHazardRegistry(context);
-    setStatus("Catalogo pronto all'uso. Genera un ecosistema!");
+    setStatus("Catalogo pronto all'uso. Genera un ecosistema!", "success", {
+      tags: ["catalogo", "ready"],
+      action: "catalog-load-ready",
+    });
     return;
   } catch (error) {
     console.warn("Caricamento catalogo tramite loader condiviso fallito", error);
@@ -3296,16 +3856,28 @@ async function loadData() {
     await loadTraitRegistry(context);
     await loadTraitReference(context);
     await loadHazardRegistry(context);
-    setStatus("Catalogo pronto all'uso dal fallback manuale. Genera un ecosistema!");
+    setStatus("Catalogo pronto all'uso dal fallback manuale. Genera un ecosistema!", "success", {
+      tags: ["catalogo", "ready", "fallback"],
+      action: "catalog-load-ready-fallback",
+    });
   } catch (error) {
     console.error("Impossibile caricare il catalogo da alcuna sorgente", error);
     await loadTraitRegistry(packContext);
     await loadTraitReference(packContext);
     await loadHazardRegistry(packContext);
-    setStatus("Errore durante il caricamento del catalogo. Controlla la console.", "error");
+    setStatus("Errore durante il caricamento del catalogo. Controlla la console.", "error", {
+      tags: ["catalogo", "errore"],
+      action: "catalog-load-error",
+    });
   }
 }
 
+restoreActivityLog();
+updateActivityTagRegistry();
+recalculateActivityMetrics();
+renderActivityLog();
+setupActivityControls();
+renderKpiSidebar();
 setupAnchorNavigation();
 setupCodexControls();
 renderTraitExpansions();
