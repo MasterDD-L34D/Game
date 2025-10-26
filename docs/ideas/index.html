@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="it">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evo Tactics — Ideas</title>
+<link rel="stylesheet" href="../../assets/style.css">
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h1>Idea Intake — Evo Tactics</h1>
+      <p class="desc">Inserisci un’idea. Se è configurato un backend, verrà salvata con report, PR/Issue e ricerca Drive. Altrimenti puoi scaricare il <em>Markdown</em> e metterlo in <code>ideas/</code>.</p>
+
+      <div id="idea-widget"></div>
+
+      <div class="note small">
+        <span class="badge">Consigli</span>
+        Usa categorie e tag coerenti: <kbd>Narrativa</kbd>, <kbd>Meccaniche</kbd>, <kbd>Tooling</kbd>, <kbd>Arte</kbd>, <kbd>VTT</kbd>, <kbd>Repo</kbd>, <kbd>Docs</kbd>,
+        <kbd>Personaggi</kbd>, <kbd>Divinità</kbd>, <kbd>Enneagramma</kbd>, <kbd>Sistema</kbd>, <kbd>Altro</kbd>.
+      </div>
+    </div>
+
+    <footer>
+      Idea Intake widget — v1.0 • Funziona anche offline (export .md)
+    </footer>
+  </div>
+
+  <script>
+    window.IDEA_WIDGET_CONFIG = {
+      apiBase: "",
+      apiToken: "",
+      defaultModule: "NR04-Fangwood",
+      defaultPriority: "P2"
+    };
+  </script>
+  <script src="../../public/embed.js"></script>
+  <script>
+    if (window.IdeaWidget) {
+      window.IdeaWidget.mount("#idea-widget", window.IDEA_WIDGET_CONFIG);
+    } else {
+      document.getElementById("idea-widget").innerHTML = "<p class='err'>Impossibile caricare il widget (manca <code>public/embed.js</code>).</p>";
+    }
+  </script>
+</body>
+</html>

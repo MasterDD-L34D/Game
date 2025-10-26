@@ -1,0 +1,35 @@
+
+:root { --gap: 12px; --radius: 10px; --shadow: 0 8px 28px rgba(0,0,0,.08); }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'; background:#0b0d10; color:#e8eaed; }
+.wrapper { max-width: 940px; margin: 40px auto; padding: 0 20px; }
+.card { background: #151922; border: 1px solid #1e2430; border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+h1,h2 { margin: 0 0 10px; }
+h1 { font-weight: 750; letter-spacing: .3px; }
+p.desc { color:#a7b1c2; margin-top: 6px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); margin-top: var(--gap); }
+.grid .full { grid-column: 1/-1; }
+label { display: block; font-size: 12px; color:#a7b1c2; margin-bottom: 6px; }
+input[type=text], textarea, select {
+  width: 100%; padding: 10px 12px; background: #0f1320; border: 1px solid #2a3242; color: #e8eaed;
+  border-radius: 8px; outline: none; transition: border .2s ease;
+}
+input::placeholder, textarea::placeholder { color:#65708a; }
+input:focus, textarea:focus, select:focus { border-color: #4f6bd1; }
+.actions { display:flex; gap: 10px; margin-top: 16px; }
+button {
+  appearance:none; border:0; padding:10px 14px; border-radius: 8px; font-weight:600; cursor:pointer;
+  color:#0b0d10; background:#88f; transition: transform .05s ease;
+}
+button:hover { transform: translateY(-1px); }
+button.secondary { background:#2a3242; color:#e8eaed; }
+.note { font-size: 12px; color:#8b96ad; margin-top: 8px; }
+.ok { color:#79f483; }
+.err { color:#ff7b7b; white-space: pre-wrap; }
+kbd { background:#0f1320; border:1px solid #283249; border-bottom-width:2px; border-radius:6px; padding:2px 6px; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; color:#a7b1c2;}
+pre.preview { background:#0f1320; border:1px solid #2a3242; border-radius:8px; padding:12px; overflow:auto; white-space:pre-wrap; color:#c5d1ff; }
+.small { font-size: 12px; }
+.badge { display:inline-block; background:#0f1320; border:1px solid #2a3242; padding:2px 8px; border-radius:99px; font-size:12px; color:#a7b1c2; }
+.linkish { color:#9ab4ff; text-decoration: none; }
+.linkish:hover { text-decoration: underline; }
+footer { margin: 30px 0 10px; color:#6f7a91; font-size: 12px; text-align:center; }
