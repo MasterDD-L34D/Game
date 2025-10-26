@@ -40,6 +40,8 @@ const elements = {
   compareFallback: document.getElementById("generator-compare-fallback"),
   pinnedList: document.getElementById("generator-pinned-list"),
   pinnedEmpty: document.getElementById("generator-pinned-empty"),
+  flowMapList: document.getElementById("generator-flow-map-list"),
+  flowNodes: Array.from(document.querySelectorAll("[data-flow-node]")),
   historyPanel: document.getElementById("generator-history"),
   historyList: document.getElementById("generator-history-list"),
   historyEmpty: document.getElementById("generator-history-empty"),
@@ -115,6 +117,42 @@ const TONE_LABELS = {
 };
 const REROLL_ACTIONS = new Set(["reroll-biomi", "reroll-species", "reroll-seeds"]);
 const ROLL_ACTIONS = new Set(["roll-ecos", "reroll-biomi", "reroll-species", "reroll-seeds"]);
+
+const FLOW_STATUS_LABELS = {
+  pending: "In attesa",
+  active: "In corso",
+  complete: "Completato",
+};
+
+const FLOW_STATUS_ICONS = {
+  pending: "○",
+  active: "◔",
+  complete: "●",
+};
+
+const USER_FLOWS = [
+  {
+    id: "onboarding",
+    label: "Onboarding form",
+    target: "#generator-parameters",
+    description:
+      "Configura vincoli, filtri e profili per ottenere un roll coerente prima della generazione.",
+  },
+  {
+    id: "summary",
+    label: "Riepilogo e narrativa",
+    target: "#generator-summary",
+    description:
+      "Monitora metriche, narrativa dinamica e pinnature per ottimizzare la sessione in corso.",
+  },
+  {
+    id: "history",
+    label: "Cronologia snapshot",
+    target: "#generator-history",
+    description:
+      "Raccogli snapshot e timeline per confrontare le estrazioni e condividere i risultati.",
+  },
+];
 
 const PROFILE_SLOT_COUNT = 5;
 const MAX_SPECIES_PER_BIOME = 3;
@@ -430,6 +468,7 @@ function applyCatalogContext(data, context) {
   packDocsBase = context?.docsBase ?? null;
   state.data = data;
   populateFilters(data);
+  renderFlowMap();
 }
 
 function calculatePickMetrics() {
@@ -491,6 +530,157 @@ function updateSummaryCounts() {
 
   renderExportManifest();
   renderPinnedSummary();
+}
+
+function formatAverageRollMetric(ms) {
+  if (!Number.isFinite(ms) || ms <= 0) {
+    return "—";
+  }
+  if (ms < 1000) {
+    return `${Math.round(ms)} ms`;
+  }
+  const seconds = ms / 1000;
+  if (seconds < 60) {
+    return `${seconds.toFixed(1)} s`;
+  }
+  const minutes = seconds / 60;
+  return `${minutes.toFixed(1)} min`;
+}
+
+function deriveFlowSnapshot() {
+  const metrics = calculatePickMetrics();
+  const hasCatalog = Boolean(state.data);
+  const hasResults = metrics.biomeCount > 0 || metrics.speciesCount > 0 || metrics.seedCount > 0;
+  const hasSeeds = metrics.seedCount > 0;
+  const hasHistory = Array.isArray(state.history) && state.history.length > 0;
+  const filtersSummary = summariseFilters(state.lastFilters ?? {});
+  const rerollCount = Number.isFinite(state.metrics?.rerollCount)
+    ? Math.max(0, state.metrics.rerollCount)
+    : 0;
+  const averageRoll = state.metrics?.averageRollIntervalMs ?? null;
+
+  return {
+    onboarding: {
+      status: hasResults ? "complete" : hasCatalog ? "active" : "pending",
+      details: [
+        `Biomi selezionati: ${metrics.biomeCount}`,
+        filtersSummary && filtersSummary !== "nessun filtro attivo"
+          ? `Filtri attivi: ${filtersSummary}`
+          : "Filtri attivi: nessuno",
+      ],
+    },
+    summary: {
+      status: hasResults ? (hasSeeds ? "complete" : "active") : hasCatalog ? "pending" : "pending",
+      details: [
+        `Specie totali: ${metrics.speciesCount}`,
+        `Seed generati: ${metrics.seedCount}`,
+        `Tempo medio roll: ${formatAverageRollMetric(averageRoll)}`,
+      ],
+    },
+    history: {
+      status: hasHistory ? "complete" : hasResults ? "active" : hasCatalog ? "pending" : "pending",
+      details: [
+        `Snapshot salvati: ${state.history?.length ?? 0}`,
+        `Click per roll: ${Math.max(1, rerollCount + 1)}`,
+      ],
+    },
+  };
+}
+
+function renderFlowMap() {
+  const list = elements.flowMapList;
+  if (!list) return;
+
+  const snapshot = deriveFlowSnapshot();
+  list.innerHTML = "";
+
+  USER_FLOWS.forEach((flow) => {
+    const entry = snapshot[flow.id] ?? { status: "pending", details: [] };
+    const status = entry.status;
+    const icon = FLOW_STATUS_ICONS[status] ?? FLOW_STATUS_ICONS.pending;
+    const label = FLOW_STATUS_LABELS[status] ?? FLOW_STATUS_LABELS.pending;
+
+    const item = document.createElement("li");
+    item.className = "generator-flow-map__item";
+    item.dataset.flowId = flow.id;
+    item.dataset.flowStatus = status;
+
+    const article = document.createElement("article");
+    article.className = "card generator-flow-map__card";
+
+    const header = document.createElement("div");
+    header.className = "generator-flow-map__header";
+
+    const statusLabel = document.createElement("p");
+    statusLabel.className = "generator-flow-map__status";
+    statusLabel.textContent = `${icon} ${label}`;
+    header.appendChild(statusLabel);
+
+    const title = document.createElement("h3");
+    title.className = "generator-flow-map__title";
+    title.textContent = flow.label;
+    header.appendChild(title);
+
+    article.appendChild(header);
+
+    const description = document.createElement("p");
+    description.className = "generator-flow-map__description";
+    description.textContent = flow.description;
+    article.appendChild(description);
+
+    if (Array.isArray(entry.details) && entry.details.length) {
+      const details = document.createElement("ul");
+      details.className = "generator-flow-map__details";
+      entry.details.forEach((detail) => {
+        const li = document.createElement("li");
+        li.textContent = detail;
+        details.appendChild(li);
+      });
+      article.appendChild(details);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "generator-flow-map__actions";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "button button--ghost generator-flow-map__action";
+    button.dataset.flowTarget = flow.target;
+    button.dataset.flowId = flow.id;
+    button.textContent = "Apri sezione";
+    button.setAttribute("aria-label", `Apri sezione ${flow.label}`);
+    actions.appendChild(button);
+    article.appendChild(actions);
+
+    item.appendChild(article);
+    list.appendChild(item);
+  });
+
+  if (Array.isArray(elements.flowNodes)) {
+    elements.flowNodes.forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      const flowId = node.dataset.flowNode;
+      if (!flowId) return;
+      const entry = snapshot[flowId];
+      node.dataset.flowStatus = entry?.status ?? "pending";
+    });
+  }
+}
+
+function setupFlowMapControls() {
+  const list = elements.flowMapList;
+  if (!list) return;
+  list.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const button = target.closest("[data-flow-target]");
+    if (!(button instanceof HTMLElement)) return;
+    const selector = button.dataset.flowTarget;
+    if (!selector) return;
+    const destination = document.querySelector(selector);
+    if (destination instanceof HTMLElement) {
+      destination.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
 }
 
 const RARE_TARGET_MAP = {
@@ -1354,7 +1544,10 @@ function renderHistoryPanel() {
   if (elements.summaryContainer) {
     elements.summaryContainer.dataset.hasHistory = hasEntries ? "true" : "false";
   }
-  if (!hasEntries) return;
+  if (!hasEntries) {
+    renderFlowMap();
+    return;
+  }
 
   const appendChips = (container, values, limit) => {
     const entries = Array.isArray(values) ? values : [];
@@ -1473,6 +1666,8 @@ function renderHistoryPanel() {
     item.appendChild(entryActions);
     list.appendChild(item);
   });
+
+  renderFlowMap();
 }
 
 function getHistoryEntry(historyId) {
@@ -5754,6 +5949,7 @@ function renderPinnedSummary() {
     elements.summaryContainer.dataset.hasPins = hasEntries ? "true" : "false";
   }
   if (!hasEntries) {
+    renderFlowMap();
     return;
   }
 
@@ -5819,6 +6015,8 @@ function renderPinnedSummary() {
 
     list.appendChild(item);
   });
+
+  renderFlowMap();
 }
 function renderSeeds() {
   updateSummaryCounts();
@@ -6503,6 +6701,7 @@ attachProfileHandlers();
 attachHistoryHandlers();
 attachComparisonHandlers();
 attachActions();
+setupFlowMapControls();
 loadData();
 
 if (typeof window !== "undefined") {
