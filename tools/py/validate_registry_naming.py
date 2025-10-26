@@ -56,7 +56,19 @@ def validate_env_rules(rules: list[dict], known_traits: set[str], errors: list[s
 
 
 def gather_hazard_ids(hazard_registry: dict) -> set[str]:
-    return set((hazard_registry.get("hazards") or {}).keys())
+    hazards = hazard_registry.get("hazards") or []
+    if isinstance(hazards, dict):
+        return set(hazards.keys())
+
+    found: set[str] = set()
+    for entry in hazards:
+        if isinstance(entry, dict):
+            hid = entry.get("id")
+            if hid:
+                found.add(str(hid))
+        elif isinstance(entry, str):
+            found.add(entry)
+    return found
 
 
 def gather_biome_classes(biome_registry: dict) -> set[str]:
