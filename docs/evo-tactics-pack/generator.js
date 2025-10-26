@@ -40,12 +40,16 @@ const elements = {
   exportMeta: document.getElementById("generator-export-meta"),
   exportList: document.getElementById("generator-export-list"),
   exportEmpty: document.getElementById("generator-export-empty"),
+  exportActions: document.getElementById("generator-export-actions"),
+  exportPreset: document.getElementById("generator-export-preset"),
   exportPreview: document.getElementById("generator-export-preview"),
   exportPreviewEmpty: document.getElementById("generator-preview-empty"),
   exportPreviewJson: document.getElementById("generator-preview-json"),
   exportPreviewYaml: document.getElementById("generator-preview-yaml"),
   exportPreviewJsonDetails: document.getElementById("generator-preview-json-details"),
   exportPreviewYamlDetails: document.getElementById("generator-preview-yaml-details"),
+  dossierPreview: document.getElementById("generator-dossier-preview"),
+  dossierEmpty: document.getElementById("generator-dossier-empty"),
   kpi: {
     averageRoll: document.querySelector("[data-kpi=\"avg-roll\"]"),
     rerollCount: document.querySelector("[data-kpi=\"reroll-count\"]"),
@@ -83,6 +87,7 @@ const STORAGE_KEYS = {
 
 const DEFAULT_ACTIVITY_TONES = ["info", "success", "warn", "error"];
 const MAX_ACTIVITY_EVENTS = 150;
+const DOSSIER_TEMPLATE_PATH = "../templates/dossier.html";
 const TONE_LABELS = {
   info: "Info",
   success: "Successo",
@@ -91,6 +96,85 @@ const TONE_LABELS = {
 };
 const REROLL_ACTIONS = new Set(["reroll-biomi", "reroll-species", "reroll-seeds"]);
 const ROLL_ACTIONS = new Set(["roll-ecos", "reroll-biomi", "reroll-species", "reroll-seeds"]);
+
+const MANIFEST_PRESETS = [
+  {
+    id: "playtest-bundle",
+    label: "Bundle playtest",
+    description:
+      "Pacchetto completo per sessioni di prova con dati serializzati e registro attività.",
+    zipSuffix: "playtest",
+    files: [
+      {
+        id: "ecosystem-json",
+        format: "JSON",
+        filename: (slug) => `${slug}.json`,
+        description: (context) =>
+          `Dump completo dell'ecosistema "${context.ecosystemLabel}" con ${context.metrics.biomeCount} biomi, ${context.metrics.speciesCount} specie e ${context.metrics.seedCount} seed generati.`,
+        builder: "ecosystem-json",
+      },
+      {
+        id: "ecosystem-yaml",
+        format: "YAML",
+        filename: (slug) => `${slug}.yaml`,
+        description: () =>
+          "Manifesto YAML utilizzabile per commit rapidi o pipeline di integrazione continua.",
+        builder: "ecosystem-yaml",
+      },
+      {
+        id: "activity-json",
+        format: "JSON",
+        filename: (slug) => `${slug}-log.json`,
+        description: () =>
+          "Registro attività in formato JSON con tutti gli eventi ordinati cronologicamente.",
+        builder: "activity-json",
+        optional: true,
+      },
+      {
+        id: "activity-csv",
+        format: "CSV",
+        filename: (slug) => `${slug}-log.csv`,
+        description: () =>
+          "Registro attività pronto per spreadsheet, pivot e annotazioni durante il playtest.",
+        builder: "activity-csv",
+        optional: true,
+      },
+    ],
+  },
+  {
+    id: "report-design",
+    label: "Report design",
+    description:
+      "Materiale di documentazione per pitch, hand-off designer e revisioni art direction.",
+    zipSuffix: "report",
+    files: [
+      {
+        id: "ecosystem-yaml",
+        format: "YAML",
+        filename: (slug) => `${slug}.yaml`,
+        description: () =>
+          "Manifesto YAML curato per alimentare design docs, report e versioning narrativo.",
+        builder: "ecosystem-yaml",
+      },
+      {
+        id: "dossier-html",
+        format: "HTML",
+        filename: (slug) => `${slug}-dossier.html`,
+        description: () =>
+          "Dossier HTML con panoramica visiva dei biomi, specie chiave e seed generati.",
+        builder: "dossier-html",
+      },
+      {
+        id: "dossier-pdf",
+        format: "PDF",
+        filename: (slug) => `${slug}-dossier.pdf`,
+        description: () =>
+          "Versione PDF del dossier, pronta per la condivisione con stakeholder esterni.",
+        builder: "dossier-pdf",
+      },
+    ],
+  },
+];
 
 const state = {
   data: null,
@@ -126,6 +210,11 @@ const state = {
     squad: new Map(),
     comparison: new Map(),
   },
+  exportState: {
+    presetId: MANIFEST_PRESETS[0]?.id ?? null,
+    checklist: new Map(),
+    dossierTemplate: null,
+  },
 };
 
 let packContext = null;
@@ -144,6 +233,85 @@ const TRAIT_CATEGORY_LABELS = {
   rete_connessa: "Rete connessa",
   avanzati_specializzati: "Cluster avanzati",
 };
+
+const MANIFEST_PRESETS = [
+  {
+    id: "playtest-bundle",
+    label: "Bundle playtest",
+    description:
+      "Pacchetto completo per sessioni di prova con dati serializzati e registro attività.",
+    zipSuffix: "playtest",
+    files: [
+      {
+        id: "ecosystem-json",
+        format: "JSON",
+        filename: (slug) => `${slug}.json`,
+        description: (context) =>
+          `Dump completo dell'ecosistema "${context.ecosystemLabel}" con ${context.metrics.biomeCount} biomi, ${context.metrics.speciesCount} specie e ${context.metrics.seedCount} seed generati.`,
+        builder: "ecosystem-json",
+      },
+      {
+        id: "ecosystem-yaml",
+        format: "YAML",
+        filename: (slug) => `${slug}.yaml`,
+        description: () =>
+          "Manifesto YAML utilizzabile per commit rapidi o pipeline di integrazione continua.",
+        builder: "ecosystem-yaml",
+      },
+      {
+        id: "activity-json",
+        format: "JSON",
+        filename: (slug) => `${slug}-log.json`,
+        description: () =>
+          "Registro attività in formato JSON con tutti gli eventi ordinati cronologicamente.",
+        builder: "activity-json",
+        optional: true,
+      },
+      {
+        id: "activity-csv",
+        format: "CSV",
+        filename: (slug) => `${slug}-log.csv`,
+        description: () =>
+          "Registro attività pronto per spreadsheet, pivot e annotazioni durante il playtest.",
+        builder: "activity-csv",
+        optional: true,
+      },
+    ],
+  },
+  {
+    id: "report-design",
+    label: "Report design",
+    description:
+      "Materiale di documentazione per pitch, hand-off designer e revisioni art direction.",
+    zipSuffix: "report",
+    files: [
+      {
+        id: "ecosystem-yaml",
+        format: "YAML",
+        filename: (slug) => `${slug}.yaml`,
+        description: () =>
+          "Manifesto YAML curato per alimentare design docs, report e versioning narrativo.",
+        builder: "ecosystem-yaml",
+      },
+      {
+        id: "dossier-html",
+        format: "HTML",
+        filename: (slug) => `${slug}-dossier.html`,
+        description: () =>
+          "Dossier HTML con panoramica visiva dei biomi, specie chiave e seed generati.",
+        builder: "dossier-html",
+      },
+      {
+        id: "dossier-pdf",
+        format: "PDF",
+        filename: (slug) => `${slug}-dossier.pdf`,
+        description: () =>
+          "Versione PDF del dossier, pronta per la condivisione con stakeholder esterni.",
+        builder: "dossier-pdf",
+      },
+    ],
+  },
+];
 
 function applyCatalogContext(data, context) {
   packContext = context ?? null;
@@ -893,85 +1061,664 @@ function renderExportPreview(payload) {
   if (yamlDetails) yamlDetails.open = yamlWasOpen;
 }
 
+function populateExportPresetOptions() {
+  const select = elements.exportPreset;
+  if (!select) return;
+  const wasFocused = document.activeElement === select;
+  select.innerHTML = "";
+  MANIFEST_PRESETS.forEach((preset) => {
+    const option = document.createElement("option");
+    option.value = preset.id;
+    option.textContent = preset.label;
+    select.appendChild(option);
+  });
+  if (!MANIFEST_PRESETS.length) {
+    select.disabled = true;
+    return;
+  }
+  const current = getCurrentPreset();
+  select.disabled = false;
+  if (current) {
+    select.value = current.id;
+  }
+  if (wasFocused) {
+    select.focus();
+  }
+}
+
+function getCurrentPreset() {
+  const desiredId = state.exportState.presetId;
+  if (desiredId) {
+    const match = MANIFEST_PRESETS.find((preset) => preset.id === desiredId);
+    if (match) {
+      return match;
+    }
+  }
+  const fallback = MANIFEST_PRESETS[0] ?? null;
+  if (fallback) {
+    state.exportState.presetId = fallback.id;
+  }
+  return fallback;
+}
+
+function getPresetChecklist(presetId) {
+  if (!presetId) return new Map();
+  if (!state.exportState.checklist.has(presetId)) {
+    state.exportState.checklist.set(presetId, new Map());
+  }
+  return state.exportState.checklist.get(presetId);
+}
+
+function markPresetItemsComplete(presetId, itemIds, checked = true) {
+  if (!presetId || !Array.isArray(itemIds)) return;
+  const checklist = getPresetChecklist(presetId);
+  itemIds.forEach((itemId) => {
+    if (!itemId) return;
+    checklist.set(itemId, checked);
+  });
+}
+
+function markCurrentPresetByBuilder(builderId) {
+  if (!builderId) return;
+  const preset = getCurrentPreset();
+  if (!preset) return;
+  const matches = preset.files
+    .filter((file) => file.builder === builderId)
+    .map((file) => file.id);
+  if (matches.length) {
+    markPresetItemsComplete(preset.id, matches, true);
+  }
+}
+
+function buildPresetContext(filters = state.lastFilters) {
+  const slug = ensureExportSlug();
+  const folder = EXPORT_BASE_FOLDER;
+  const metrics = calculatePickMetrics();
+  const filterSummary = summariseFilters(filters ?? {});
+  const ecosystemLabel = state.pick.ecosystem?.label ?? "Ecosistema sintetico";
+  const payload = exportPayload(filters);
+  const activityEntries = exportActivityLogEntries();
+  const biomes = Array.isArray(state.pick.biomes) ? state.pick.biomes : [];
+  const speciesBuckets = state.pick.species ?? {};
+  const seeds = Array.isArray(state.pick.seeds) ? state.pick.seeds : [];
+  return {
+    slug,
+    folder,
+    filters,
+    filterSummary,
+    ecosystemLabel,
+    metrics,
+    payload,
+    activityEntries,
+    biomes,
+    speciesBuckets,
+    seeds,
+    generatedAt: new Date(),
+  };
+}
+
+function describePresetFile(file, context) {
+  const name = typeof file.filename === "function" ? file.filename(context.slug) : file.filename;
+  const description =
+    typeof file.description === "function"
+      ? file.description(context)
+      : file.description ?? "";
+  let available = true;
+  let reason = "";
+  if (file.builder === "activity-json" || file.builder === "activity-csv") {
+    if (!context.activityEntries.length) {
+      available = false;
+      reason = "Il registro attività è vuoto.";
+    }
+  }
+  if (file.builder === "dossier-html" || file.builder === "dossier-pdf") {
+    const hasPayload =
+      context.metrics.biomeCount + context.metrics.speciesCount + context.metrics.seedCount > 0;
+    if (!hasPayload) {
+      available = false;
+      reason = "Genera prima un ecosistema completo.";
+    }
+  }
+  return {
+    id: file.id,
+    format: file.format,
+    name,
+    description,
+    path: `${context.folder}${name}`,
+    available,
+    reason,
+    optional: Boolean(file.optional),
+    builder: file.builder,
+  };
+}
+
 function renderExportManifest(filters = state.lastFilters) {
   const list = elements.exportList;
   const empty = elements.exportEmpty;
   const meta = elements.exportMeta;
+  const actions = elements.exportActions;
+  const presetSelect = elements.exportPreset;
   if (!list || !empty || !meta) return;
 
-  list.innerHTML = "";
+  populateExportPresetOptions();
 
   const { biomeCount, speciesCount, seedCount } = calculatePickMetrics();
   const hasContent = biomeCount + speciesCount + seedCount > 0;
+  const preset = getCurrentPreset();
 
-  list.hidden = !hasContent;
-  empty.hidden = hasContent;
+  if (presetSelect && preset) {
+    presetSelect.value = preset.id;
+  }
 
-  if (!hasContent) {
+  if (!hasContent || !preset) {
+    list.innerHTML = "";
+    list.hidden = true;
+    empty.hidden = false;
+    empty.textContent = "Nessun contenuto disponibile. Genera un ecosistema per sbloccare i preset.";
     meta.textContent = "Genera un ecosistema per preparare il manifest dei file.";
+    if (actions) actions.hidden = true;
     renderExportPreview(null);
+    refreshDossierPreview(null);
     return;
   }
 
-  const slug = ensureExportSlug();
-  const folder = EXPORT_BASE_FOLDER;
-  const filterSummary = summariseFilters(filters ?? state.lastFilters ?? {});
-  const ecosystemLabel = state.pick.ecosystem?.label ?? "Ecosistema sintetico";
+  const context = buildPresetContext(filters);
+  const descriptors = preset.files.map((file) => describePresetFile(file, context));
+  const checklist = getPresetChecklist(preset.id);
 
-  meta.innerHTML = `Cartella consigliata: <code>${folder}</code> · ${
-    filterSummary ? `Filtri: ${filterSummary}.` : "Nessun filtro attivo."
-  } · Anteprima disponibile qui sotto.`;
+  list.innerHTML = "";
 
-  const suggestions = [
-    {
-      name: `${slug}.json`,
-      format: "JSON",
-      description: `Dump completo dell'ecosistema "${ecosystemLabel}" con ${biomeCount} biomi, ${speciesCount} specie e ${seedCount} seed.`,
-    },
-    {
-      name: `${slug}.yaml`,
-      format: "YAML",
-      description: `Manifesto YAML pronto per commit in ${folder}, utile per revisioni manuali o pipeline esterne.`,
-    },
-    {
-      name: `${slug}-log.json`,
-      format: "JSON",
-      description:
-        "Registro attività della sessione con dettagli completi per audit, debugging o cronache di test.",
-    },
-    {
-      name: `${slug}-log.csv`,
-      format: "CSV",
-      description:
-        "Registro attività pronto per spreadsheet, filtri pivot e analisi rapide degli eventi registrati.",
-    },
-  ];
-
-  suggestions.forEach((suggestion) => {
+  descriptors.forEach((descriptor) => {
     const item = document.createElement("li");
-    item.className = "generator-export";
+    item.className = "generator-export__item";
+    if (!descriptor.available) {
+      item.classList.add("generator-export__item--disabled");
+    }
 
-    const title = document.createElement("h4");
-    title.className = "generator-export__title";
-    title.append(document.createTextNode(suggestion.name));
+    const label = document.createElement("label");
+    label.className = "generator-export__item-label";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = descriptor.id;
+    checkbox.dataset.manifestItem = descriptor.id;
+    checkbox.disabled = !descriptor.available;
+    checkbox.checked = descriptor.available && checklist.get(descriptor.id) === true;
+
+    const content = document.createElement("div");
+    content.className = "generator-export__item-content";
+
+    const header = document.createElement("div");
+    header.className = "generator-export__item-header";
+
+    const title = document.createElement("span");
+    title.className = "generator-export__item-title";
+    title.textContent = descriptor.name;
+
     const format = document.createElement("span");
-    format.className = "generator-export__format";
-    format.textContent = suggestion.format;
-    title.appendChild(format);
+    format.className = "generator-export__item-format";
+    format.textContent = descriptor.format;
+
+    header.append(title, format);
 
     const description = document.createElement("p");
-    description.className = "generator-export__description";
-    description.textContent = suggestion.description;
+    description.className = "generator-export__item-description";
+    description.textContent = descriptor.description;
 
     const path = document.createElement("p");
-    path.className = "generator-export__path";
-    path.textContent = `${folder}${suggestion.name}`;
+    path.className = "generator-export__item-path";
+    path.textContent = descriptor.path;
 
-    item.append(title, description, path);
+    content.append(header, description, path);
+
+    if (descriptor.optional) {
+      const badge = document.createElement("span");
+      badge.className = "generator-export__item-badge";
+      badge.textContent = "Opzionale";
+      header.appendChild(badge);
+    }
+
+    if (!descriptor.available && descriptor.reason) {
+      const hint = document.createElement("p");
+      hint.className = "generator-export__item-hint";
+      hint.textContent = descriptor.reason;
+      content.appendChild(hint);
+    }
+
+    label.append(checkbox, content);
+    item.appendChild(label);
     list.appendChild(item);
   });
 
-  renderExportPreview(exportPayload(filters));
+  list.hidden = !descriptors.length;
+  if (!descriptors.length) {
+    empty.hidden = false;
+    empty.textContent = "Il preset selezionato non ha elementi configurati.";
+  } else if (descriptors.some((descriptor) => descriptor.available)) {
+    empty.hidden = true;
+  } else {
+    empty.hidden = false;
+    empty.textContent = "Tutti gli elementi del preset sono temporaneamente non disponibili.";
+  }
+
+  meta.innerHTML = `Preset <strong>${preset.label}</strong>: ${preset.description} · Cartella consigliata: <code>${context.folder}</code> · ${
+    context.filterSummary ? `Filtri attivi: ${context.filterSummary}.` : "Nessun filtro attivo."
+  }`;
+
+  if (actions) {
+    actions.hidden = false;
+    const zipButton = actions.querySelector('[data-action="download-preset-zip"]');
+    if (zipButton) {
+      const hasZipSupport = typeof window !== "undefined" && window.JSZip;
+      const anyAvailable = descriptors.some((descriptor) => descriptor.available);
+      zipButton.disabled = !hasZipSupport || !anyAvailable;
+      zipButton.title = !hasZipSupport
+        ? "JSZip non disponibile. Verifica il caricamento della libreria."
+        : "";
+    }
+    const htmlButton = actions.querySelector('[data-action="download-dossier-html"]');
+    if (htmlButton) {
+      const htmlAvailable = descriptors.some(
+        (descriptor) => descriptor.builder === "dossier-html" && descriptor.available
+      );
+      htmlButton.disabled = !htmlAvailable;
+    }
+    const pdfButton = actions.querySelector('[data-action="download-dossier-pdf"]');
+    if (pdfButton) {
+      const pdfDescriptor = descriptors.find(
+        (descriptor) => descriptor.builder === "dossier-pdf" && descriptor.available
+      );
+      const hasPdfSupport = typeof window !== "undefined" && window.html2pdf;
+      pdfButton.disabled = !pdfDescriptor || !hasPdfSupport;
+      pdfButton.title = !hasPdfSupport
+        ? "html2pdf non disponibile. Controlla la connessione o ricarica la pagina."
+        : "";
+    }
+  }
+
+  renderExportPreview(context.payload);
+  refreshDossierPreview(context).catch((error) => {
+    console.warn("Impossibile aggiornare l'anteprima del dossier", error);
+  });
+}
+
+async function loadDossierTemplate() {
+  if (state.exportState.dossierTemplate) {
+    return state.exportState.dossierTemplate;
+  }
+  if (typeof fetch === "undefined") {
+    return null;
+  }
+  try {
+    const response = await fetch(DOSSIER_TEMPLATE_PATH, { cache: "no-cache" });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const template = await response.text();
+    state.exportState.dossierTemplate = template;
+    return template;
+  } catch (error) {
+    console.warn("Impossibile caricare il template del dossier", error);
+    state.exportState.dossierTemplate = null;
+    return null;
+  }
+}
+
+function flattenSpeciesBuckets(buckets) {
+  if (!buckets || typeof buckets !== "object") return [];
+  const species = Object.values(buckets)
+    .filter((list) => Array.isArray(list))
+    .flat();
+  return uniqueById(species);
+}
+
+function summariseSeedParty(seed) {
+  if (!Array.isArray(seed?.party) || !seed.party.length) {
+    return "Nessuna specie associata al seed con i filtri correnti.";
+  }
+  return seed.party
+    .map((entry) => {
+      const parts = [entry.display_name];
+      const meta = [];
+      if (entry.role) meta.push(entry.role);
+      if (typeof entry.tier === "number") meta.push(`T${entry.tier}`);
+      if (entry.count && entry.count > 1) meta.push(`x${entry.count}`);
+      if (meta.length) {
+        parts.push(`(${meta.join(" · ")})`);
+      }
+      return parts.join(" ");
+    })
+    .join("; ");
+}
+
+async function generateDossierDocument(context) {
+  const template = await loadDossierTemplate();
+  if (!template) return null;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(template, "text/html");
+  const setSlotText = (slot, value) => {
+    const target = doc.querySelector(`[data-slot="${slot}"]`);
+    if (target) {
+      target.textContent = value;
+    }
+  };
+
+  const preset = getCurrentPreset();
+  const generatedAt = context.generatedAt ?? new Date();
+  const locale = "it-IT";
+  const generatedLabel = generatedAt.toLocaleString(locale, {
+    hour12: false,
+  });
+
+  setSlotText("title", `${context.ecosystemLabel} · Dossier`);
+  setSlotText("heading", context.ecosystemLabel);
+  setSlotText("badge", preset ? `Preset · ${preset.label}` : "Ecosystem dossier");
+  setSlotText("meta", `Generato il ${generatedLabel}`);
+
+  const summaryParts = [
+    `${context.metrics.biomeCount} biomi`,
+    `${context.metrics.speciesCount} specie`,
+    `${context.metrics.seedCount} seed`,
+  ];
+  if (context.metrics.uniqueSpeciesCount) {
+    summaryParts.push(`${context.metrics.uniqueSpeciesCount} specie uniche`);
+  }
+  if (context.filterSummary) {
+    summaryParts.push(`Filtri: ${context.filterSummary}`);
+  }
+  setSlotText(
+    "summary",
+    `Pacchetto esportato con ${summaryParts.join(" · ")}.` ||
+      "Pacchetto esportato dal generatore di ecosistemi."
+  );
+
+  const metricsContainer = doc.querySelector('[data-slot="metrics"]');
+  if (metricsContainer) {
+    metricsContainer.innerHTML = "";
+    const metricEntries = [
+      { label: "Biomi", value: context.metrics.biomeCount },
+      { label: "Specie", value: context.metrics.speciesCount },
+      { label: "Seed", value: context.metrics.seedCount },
+      { label: "Specie uniche", value: context.metrics.uniqueSpeciesCount },
+    ];
+    metricEntries.forEach((metric) => {
+      const span = doc.createElement("span");
+      const strong = doc.createElement("strong");
+      strong.textContent = `${metric.label}:`;
+      span.append(strong, doc.createTextNode(` ${metric.value ?? 0}`));
+      metricsContainer.appendChild(span);
+    });
+  }
+
+  const biomesContainer = doc.querySelector('[data-slot="biomes"]');
+  if (biomesContainer) {
+    biomesContainer.innerHTML = "";
+    context.biomes.slice(0, 8).forEach((biome) => {
+      const item = doc.createElement("li");
+      item.className = "dossier__list-item";
+      const heading = doc.createElement("h3");
+      heading.textContent = biome.label ?? titleCase(biome.id ?? "Bioma");
+      const summary = doc.createElement("p");
+      const biomeSpeciesCount = Array.isArray(biome.species) ? biome.species.length : 0;
+      summary.textContent = `Specie disponibili: ${biomeSpeciesCount}.`;
+      item.append(heading, summary);
+
+      const groups = new Set(biome.manifest?.functional_groups_present ?? []);
+      if (Array.isArray(biome.species)) {
+        biome.species.forEach((sp) => {
+          (sp.functional_tags ?? []).forEach((tag) => groups.add(tag));
+        });
+      }
+      if (groups.size) {
+        const chipList = doc.createElement("div");
+        chipList.className = "dossier__chips";
+        Array.from(groups)
+          .slice(0, 8)
+          .forEach((tag) => {
+            const chip = doc.createElement("span");
+            chip.className = "dossier__chip";
+            chip.textContent = tag;
+            chipList.appendChild(chip);
+          });
+        item.appendChild(chipList);
+      }
+      biomesContainer.appendChild(item);
+    });
+  }
+
+  const speciesContainer = doc.querySelector('[data-slot="species"]');
+  if (speciesContainer) {
+    speciesContainer.innerHTML = "";
+    const speciesList = flattenSpeciesBuckets(context.speciesBuckets)
+      .slice(0, 12)
+      .sort((a, b) => a.display_name.localeCompare(b.display_name));
+    speciesList.forEach((species) => {
+      const item = doc.createElement("li");
+      item.className = "dossier__list-item";
+      const heading = doc.createElement("h3");
+      heading.textContent = species.display_name ?? species.id ?? "Specie";
+      const meta = doc.createElement("p");
+      const metaParts = [];
+      if (species.role_trofico) metaParts.push(species.role_trofico);
+      const tier = species.balance?.threat_tier ?? species.syntheticTier;
+      if (tier) metaParts.push(typeof tier === "number" ? `T${tier}` : tier);
+      if (species.biomes?.length) metaParts.push(`Biomi: ${species.biomes.join(", ")}`);
+      meta.textContent = metaParts.length ? metaParts.join(" · ") : "Dati sintetici";
+      item.append(heading, meta);
+
+      const tags = species.functional_tags ?? [];
+      if (tags.length) {
+        const chipList = doc.createElement("div");
+        chipList.className = "dossier__chips";
+        tags.slice(0, 8).forEach((tag) => {
+          const chip = doc.createElement("span");
+          chip.className = "dossier__chip";
+          chip.textContent = tag;
+          chipList.appendChild(chip);
+        });
+        item.appendChild(chipList);
+      }
+      speciesContainer.appendChild(item);
+    });
+  }
+
+  const seedsContainer = doc.querySelector('[data-slot="seeds"]');
+  if (seedsContainer) {
+    seedsContainer.innerHTML = "";
+    context.seeds.slice(0, 10).forEach((seed) => {
+      const item = doc.createElement("li");
+      item.className = "dossier__list-item";
+      const heading = doc.createElement("h3");
+      const headingParts = [seed.biome_id];
+      if (seed.label) headingParts.push(seed.label);
+      heading.textContent = headingParts.join(" · ");
+      const meta = doc.createElement("p");
+      meta.textContent = `Budget minaccia: T${seed.threat_budget ?? "?"}`;
+      const composition = doc.createElement("p");
+      composition.textContent = summariseSeedParty(seed);
+      item.append(heading, meta, composition);
+      seedsContainer.appendChild(item);
+    });
+  }
+
+  return doc;
+}
+
+async function generateDossierHtml(context = buildPresetContext(state.lastFilters)) {
+  const doc = await generateDossierDocument(context);
+  if (!doc) return null;
+  return `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
+}
+
+async function generateDossierPdfBlob(context) {
+  if (typeof window === "undefined" || typeof window.html2pdf === "undefined") {
+    throw new Error("html2pdf non disponibile");
+  }
+  const html = await generateDossierHtml(context);
+  if (!html) {
+    throw new Error("Impossibile generare il dossier HTML");
+  }
+  const worker = window
+    .html2pdf()
+    .set({
+      margin: 10,
+      filename: `${context.slug}-dossier.pdf`,
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    })
+    .from(html);
+  const blob = await worker.outputPdf("blob");
+  return blob;
+}
+
+async function refreshDossierPreview(context) {
+  const preview = elements.dossierPreview;
+  const hint = elements.dossierEmpty;
+  if (!preview || !hint) return;
+  if (!context) {
+    preview.innerHTML = "";
+    hint.hidden = false;
+    return;
+  }
+  const doc = await generateDossierDocument(context);
+  if (!doc) {
+    preview.innerHTML = "";
+    hint.hidden = false;
+    hint.textContent = "Impossibile caricare il template del dossier.";
+    return;
+  }
+  hint.hidden = true;
+  const body = doc.body ?? doc.querySelector("body");
+  preview.innerHTML = body ? body.innerHTML : "";
+}
+
+async function generatePresetFileContents(preset, filters) {
+  const context = buildPresetContext(filters);
+  const files = [];
+  for (const file of preset.files) {
+    const descriptor = describePresetFile(file, context);
+    if (!descriptor.available) continue;
+    try {
+      switch (file.builder) {
+        case "ecosystem-json":
+          files.push({
+            id: file.id,
+            name: descriptor.name,
+            mime: "application/json",
+            data: JSON.stringify(context.payload, null, 2),
+          });
+          break;
+        case "ecosystem-yaml":
+          files.push({
+            id: file.id,
+            name: descriptor.name,
+            mime: "text/yaml",
+            data: toYAML(context.payload),
+          });
+          break;
+        case "activity-json":
+          files.push({
+            id: file.id,
+            name: descriptor.name,
+            mime: "application/json",
+            data: JSON.stringify(context.activityEntries, null, 2),
+          });
+          break;
+        case "activity-csv":
+          files.push({
+            id: file.id,
+            name: descriptor.name,
+            mime: "text/csv",
+            data: activityLogToCsv(context.activityEntries),
+          });
+          break;
+        case "dossier-html":
+          {
+            const html = await generateDossierHtml(context);
+            if (html) {
+              files.push({
+                id: file.id,
+                name: descriptor.name,
+                mime: "text/html",
+                data: html,
+              });
+            }
+          }
+          break;
+        case "dossier-pdf":
+          {
+            const blob = await generateDossierPdfBlob(context);
+            if (blob) {
+              files.push({
+                id: file.id,
+                name: descriptor.name,
+                mime: "application/pdf",
+                data: blob,
+                binary: true,
+              });
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.warn(`Impossibile generare il file ${descriptor.name}`, error);
+    }
+  }
+  return { files, context };
+}
+
+async function downloadPresetZip(preset, filters) {
+  if (typeof window === "undefined" || typeof window.JSZip === "undefined") {
+    throw new Error("JSZip non disponibile");
+  }
+  const { files, context } = await generatePresetFileContents(preset, filters);
+  if (!files.length) {
+    throw new Error("Nessun file disponibile per il preset selezionato");
+  }
+  const zip = new window.JSZip();
+  files.forEach((file) => {
+    if (!file) return;
+    if (file.data instanceof Blob) {
+      zip.file(file.name, file.data);
+    } else {
+      zip.file(file.name, file.data, { binary: false });
+    }
+  });
+  const blob = await zip.generateAsync({ type: "blob" });
+  const zipName = `${context.slug}-${preset.zipSuffix ?? preset.id}.zip`;
+  downloadFile(zipName, blob, "application/zip");
+  markPresetItemsComplete(
+    preset.id,
+    files.map((file) => file.id),
+    true
+  );
+  return { zipName, fileCount: files.length };
+}
+
+function setupExportControls() {
+  populateExportPresetOptions();
+  if (elements.exportPreset) {
+    elements.exportPreset.addEventListener("change", (event) => {
+      const { value } = event.target;
+      state.exportState.presetId = value || MANIFEST_PRESETS[0]?.id ?? null;
+      renderExportManifest();
+    });
+  }
+  if (elements.exportList) {
+    elements.exportList.addEventListener("change", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      if (target.type !== "checkbox") return;
+      const { manifestItem } = target.dataset;
+      const preset = getCurrentPreset();
+      if (!preset || !manifestItem) return;
+      const checklist = getPresetChecklist(preset.id);
+      checklist.set(manifestItem, target.checked);
+    });
+  }
+  renderExportManifest();
 }
 
 function getSelectedValues(select) {
@@ -3823,7 +4570,10 @@ function activityLogToCsv(entries) {
 }
 
 function downloadFile(name, content, type) {
-  const blob = new Blob([content], { type });
+  const blob =
+    content instanceof Blob
+      ? content
+      : new Blob([content], { type: type ?? "application/octet-stream" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
@@ -4020,7 +4770,7 @@ async function loadHazardRegistry(context) {
 
 function attachActions() {
   if (!elements.form) return;
-  elements.form.addEventListener("click", (event) => {
+  elements.form.addEventListener("click", async (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
     const action = target.dataset.action;
@@ -4123,6 +4873,8 @@ function attachActions() {
         const payload = exportPayload(filters);
         const slug = ensureExportSlug();
         downloadFile(`${slug}.json`, JSON.stringify(payload, null, 2), "application/json");
+        markCurrentPresetByBuilder("ecosystem-json");
+        renderExportManifest(filters);
         setStatus("Esportazione JSON completata.", "success", {
           tags: ["export", "json"],
           action: "export-json",
@@ -4134,6 +4886,8 @@ function attachActions() {
         const yaml = toYAML(payload);
         const slug = ensureExportSlug();
         downloadFile(`${slug}.yaml`, yaml, "text/yaml");
+        markCurrentPresetByBuilder("ecosystem-yaml");
+        renderExportManifest(filters);
         setStatus("Esportazione YAML completata.", "success", {
           tags: ["export", "yaml"],
           action: "export-yaml",
@@ -4151,6 +4905,8 @@ function attachActions() {
         const entries = exportActivityLogEntries();
         const slug = ensureExportSlug();
         downloadFile(`${slug}-log.json`, JSON.stringify(entries, null, 2), "application/json");
+        markCurrentPresetByBuilder("activity-json");
+        renderExportManifest(filters);
         setStatus("Registro attività esportato in JSON.", "success", {
           tags: ["export", "log", "json"],
           action: "export-log-json",
@@ -4168,10 +4924,83 @@ function attachActions() {
         const entries = exportActivityLogEntries();
         const slug = ensureExportSlug();
         downloadFile(`${slug}-log.csv`, activityLogToCsv(entries), "text/csv");
+        markCurrentPresetByBuilder("activity-csv");
+        renderExportManifest(filters);
         setStatus("Registro attività esportato in CSV.", "success", {
           tags: ["export", "log", "csv"],
           action: "export-log-csv",
         });
+        break;
+      }
+      case "download-preset-zip": {
+        const preset = getCurrentPreset();
+        if (!preset) {
+          setStatus("Nessun preset selezionato.", "warn", {
+            tags: ["export", "zip"],
+            action: "export-zip-missing-preset",
+          });
+          break;
+        }
+        try {
+          const { zipName, fileCount } = await downloadPresetZip(preset, filters);
+          renderExportManifest(filters);
+          setStatus(`Bundle ZIP "${zipName}" generato (${fileCount} file).`, "success", {
+            tags: ["export", "zip"],
+            action: "export-zip",
+          });
+        } catch (error) {
+          console.error("Errore durante la generazione del bundle ZIP", error);
+          setStatus("Impossibile generare il bundle ZIP.", "error", {
+            tags: ["export", "zip", "errore"],
+            action: "export-zip-error",
+          });
+        }
+        break;
+      }
+      case "download-dossier-html": {
+        try {
+          const context = buildPresetContext(filters);
+          const html = await generateDossierHtml(context);
+          if (!html) {
+            throw new Error("HTML non disponibile");
+          }
+          const slug = ensureExportSlug();
+          const fileName = `${slug}-dossier.html`;
+          downloadFile(fileName, html, "text/html");
+          markCurrentPresetByBuilder("dossier-html");
+          renderExportManifest(filters);
+          setStatus("Dossier HTML esportato.", "success", {
+            tags: ["export", "dossier", "html"],
+            action: "export-dossier-html",
+          });
+        } catch (error) {
+          console.error("Errore durante l'esportazione del dossier HTML", error);
+          setStatus("Impossibile esportare il dossier HTML.", "error", {
+            tags: ["export", "dossier", "errore"],
+            action: "export-dossier-html-error",
+          });
+        }
+        break;
+      }
+      case "download-dossier-pdf": {
+        try {
+          const context = buildPresetContext(filters);
+          const blob = await generateDossierPdfBlob(context);
+          const slug = ensureExportSlug();
+          downloadFile(`${slug}-dossier.pdf`, blob, "application/pdf");
+          markCurrentPresetByBuilder("dossier-pdf");
+          renderExportManifest(filters);
+          setStatus("Dossier PDF esportato.", "success", {
+            tags: ["export", "dossier", "pdf"],
+            action: "export-dossier-pdf",
+          });
+        } catch (error) {
+          console.error("Errore durante l'esportazione del dossier PDF", error);
+          setStatus("Impossibile esportare il dossier PDF.", "error", {
+            tags: ["export", "dossier", "errore"],
+            action: "export-dossier-pdf-error",
+          });
+        }
         break;
       }
       default:
@@ -4231,6 +5060,7 @@ renderKpiSidebar();
 setupAnchorNavigation();
 setupCodexControls();
 renderTraitExpansions();
+setupExportControls();
 renderPinnedSummary();
 renderComparisonPanel();
 attachComparisonHandlers();

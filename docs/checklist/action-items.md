@@ -5,6 +5,11 @@
 - Le checklist e la roadmap evidenziano attività aperte su encounter aggiuntivi, automazione Google Sheet e miglioramenti HUD, ma i punti critici di telemetria sono stati riallineati.【F:docs/checklist/milestones.md†L8-L20】【F:docs/piani/roadmap.md†L1-L32】
 - La validazione dataset (`python tools/py/validate_datasets.py`) continua a passare; ora `npm test` in `tools/ts` verifica i 3 casi `roll_pack` (run 2025-10-26, tutti passed).【F:tools/py/validate_datasets.py†L1-L116】【1e2f1a†L1-L11】
 - I test interfaccia web sono stati completati su Chromium headless con sorgente locale `http://127.0.0.1:8000/`, confermando ricarica YAML e suite di controlli automatici 7/7 ✅.
+- Mission Control e Generatore hanno ricevuto aggiornamenti sostanziali (landing guidata, quick actions, Dataset Hub con validazione automatica, radar/specie comparate, pin persistente), come riportato nelle PR #68-#96.
+
+## Aggiornamenti giornalieri PR
+<!-- daily-pr-summary:start -->
+<!-- daily-pr-summary:end -->
 
 ## Task immediati
 - [x] Installare le dipendenze mancanti (`requests`, `pyyaml`) ed eseguire `scripts/chatgpt_sync.py` da un ambiente con accesso autorizzato, aggiornando poi `docs/chatgpt_sync_status.md` con esito e credenziali operative.【F:tools/py/requirements.txt†L1-L2】【F:docs/chatgpt_sync_status.md†L19-L33】

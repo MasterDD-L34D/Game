@@ -16,6 +16,7 @@ Dal ciclo VC-2025-10 in avanti utilizziamo un flusso documentale condiviso con S
 3. **Allineamento roadmap** — aggiorna `docs/piani/roadmap.md` dopo ogni sync e ping il canale `#vc-docs` con il diff principale.
 4. **Pubblicazione estratti** — inserisci highlight nel Canvas principale e allega screenshot HUD nel drive (`docs/presentations/`).
 5. **Retro settimanale Support/QA** — importa le domande aperte in `docs/faq.md` e tagga l’owner nel file.
+6. **Riepilogo PR giornaliero (nuovo)** — entro le 18:00 CET raccogli le PR merge del giorno (workflow `daily-pr-summary` oppure `python tools/py/daily_pr_report.py --repo <owner/repo> --date <YYYY-MM-DD>`), sintetizza in `docs/chatgpt_changes/`, aggiorna `docs/changelog.md`, roadmap, checklist e `docs/Canvas/feature-updates.md` con le novità rilevanti.
 
 Seguendo questi step possiamo mantenere aggiornati i Canvas e i dataset di gioco senza perdere le decisioni successive al refactor CLI.
 
