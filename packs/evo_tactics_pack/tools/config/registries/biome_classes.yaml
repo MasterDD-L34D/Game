@@ -15,6 +15,18 @@ classes:
 - reef
 - caverne
 - badlands
+- caldera_glaciale
+- foresta_acida
+- pianura_salina_iperarida
+- stratosfera_tempestosa
+- abisso_vulcanico
+- laguna_bioreattiva
+- mangrovieto_cinetico
+- reef_luminescente
+- dorsale_termale_tropicale
+- canopia_ionica
+- steppe_algoritmiche
+- caverna_risonante
 koppen_examples:
   foresta_temperata:
   - Cfb
@@ -26,3 +38,31 @@ koppen_examples:
   badlands:
   - BSk
   - BWk
+  caldera_glaciale:
+  - ET
+  - EF
+  foresta_acida:
+  - Af
+  - Am
+  pianura_salina_iperarida:
+  - BWh
+  - BWk
+  stratosfera_tempestosa:
+  - n/a
+  abisso_vulcanico:
+  - n/a
+  laguna_bioreattiva:
+  - Af
+  - Am
+  mangrovieto_cinetico:
+  - Am
+  reef_luminescente:
+  - Aw
+  dorsale_termale_tropicale:
+  - As
+  canopia_ionica:
+  - Cfb
+  steppe_algoritmiche:
+  - BSk
+  caverna_risonante:
+  - n/a

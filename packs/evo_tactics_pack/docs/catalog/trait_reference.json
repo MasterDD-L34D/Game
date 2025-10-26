@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "traits": {
+    "sonno_emisferico_alternato": {
+      "label": "Dormire con solo metà cervello alla volta",
+      "uso_funzione": "Vigilanza continua pur garantendo riposo.",
+      "famiglia_tipologia": "Nervoso/Omeostatico",
+      "mutazione_indotta": "Encefalizzazione asimmetrica o due lobi cerebrali separati.",
+      "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
+      "fattore_mantenimento_energetico": "Medio (Mantenimento attivo di metà cervello)",
+      "sinergie": ["occhi_infrarosso_composti"],
+      "conflitti": [],
+      "debolezza": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente."
+    },
+    "criostasi_adattiva": {
+      "label": "Criostasi",
+      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme.",
+      "famiglia_tipologia": "Metabolico/Difensivo",
+      "mutazione_indotta": "Sviluppo di enzimi crioprotettivi e tessuto adiposo isolante.",
+      "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
+      "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
+      "sinergie": [],
+      "conflitti": ["sangue_piroforico", "sacche_galleggianti_ascensoriali"],
+      "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi."
+    },
+    "struttura_elastica_amorfa": {
+      "label": "Struttura elastica, allungabile, amorfa, retrattile",
+      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse.",
+      "famiglia_tipologia": "Strutturale/Locomotorio",
+      "mutazione_indotta": "Tessuto con matrice di proteine elastiche iper-modificate.",
+      "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "sinergie": ["scheletro_idro_regolante"],
+      "conflitti": [],
+      "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione)."
+    },
+    "sacche_galleggianti_ascensoriali": {
+      "label": "Sacche galleggianti ascensoriali",
+      "uso_funzione": "Controllo preciso della profondità e del movimento verticale.",
+      "famiglia_tipologia": "Idrostatico/Locomotorio",
+      "mutazione_indotta": "Sacche ripiene di gas leggeri con pompe muscolari.",
+      "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
+      "fattore_mantenimento_energetico": "Medio (Per il controllo della pressione)",
+      "sinergie": ["struttura_elastica_amorfa"],
+      "conflitti": [],
+      "debolezza": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente."
+    },
+    "filamenti_digestivi_compattanti": {
+      "label": "Filamento materiali digeriti",
+      "uso_funzione": "Espulsione compatta e ordinata di scorie.",
+      "famiglia_tipologia": "Digestivo/Escretorio",
+      "mutazione_indotta": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
+      "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "sinergie": ["ventriglio_gastroliti"],
+      "conflitti": [],
+      "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'."
+    },
+    "ventriglio_gastroliti": {
+      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
+      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio.",
+      "famiglia_tipologia": "Digestivo/Alimentare",
+      "mutazione_indotta": "Sviluppo di un organo muscolare (ventriglio) con gastroliti.",
+      "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
+      "fattore_mantenimento_energetico": "Medio (Contrazione muscolare costante)",
+      "sinergie": ["filamenti_digestivi_compattanti"],
+      "conflitti": [],
+      "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci."
+    },
+    "nucleo_ovomotore_rotante": {
+      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
+      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento.",
+      "famiglia_tipologia": "Riproduttivo/Locomotorio",
+      "mutazione_indotta": "Massa globulare rigida con giunto sferico al centro del petto.",
+      "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
+      "fattore_mantenimento_energetico": "Alto (Rotolamento)",
+      "sinergie": [],
+      "conflitti": ["secrezione_rallentante_palmi"],
+      "debolezza": "Impossibilità di muoversi su superfici irregolari o in salita ripida."
+    },
+    "secrezione_rallentante_palmi": {
+      "label": "Mani secernano liquido rallentante",
+      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "mutazione_indotta": "Ghiandole mucose modificate sulle superfici prensili.",
+      "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
+      "fattore_mantenimento_energetico": "Medio (Produzione del liquido)",
+      "sinergie": [],
+      "conflitti": ["carapace_fase_variabile", "nucleo_ovomotore_rotante"],
+      "debolezza": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato."
+    },
+    "respiro_a_scoppio": {
+      "label": "Respiro a scoppio",
+      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente.",
+      "famiglia_tipologia": "Respiratorio/Propulsivo",
+      "mutazione_indotta": "Polmoni o sacche aeree ad alta pressione con valvole di rilascio rapide.",
+      "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
+      "fattore_mantenimento_energetico": "Alto (Richiede ricarica polmonare)",
+      "sinergie": ["sacche_galleggianti_ascensoriali"],
+      "conflitti": [],
+      "debolezza": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica)."
+    },
+    "sangue_piroforico": {
+      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
+      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria.",
+      "famiglia_tipologia": "Circolatorio/Difensivo",
+      "mutazione_indotta": "Presenza di composti piroforici nel sangue.",
+      "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
+      "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
+      "sinergie": [],
+      "conflitti": ["criostasi_adattiva", "scheletro_idro_regolante"],
+      "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno."
+    },
+    "artigli_sette_vie": {
+      "label": "Artigli a Sette Vie",
+      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli.",
+      "famiglia_tipologia": "Locomotorio/Prensile",
+      "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
+      "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "sinergie": ["struttura_elastica_amorfa"],
+      "conflitti": [],
+      "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia."
+    },
+    "carapace_fase_variabile": {
+      "label": "Carapace a Variazione di Fase",
+      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente.",
+      "famiglia_tipologia": "Strutturale/Difensivo",
+      "mutazione_indotta": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
+      "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
+      "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
+      "sinergie": [],
+      "conflitti": ["struttura_elastica_amorfa"],
+      "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza."
+    },
+    "olfatto_risonanza_magnetica": {
+      "label": "Olfatto di Risonanza Magnetica",
+      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici.",
+      "famiglia_tipologia": "Sensoriale/Nervoso",
+      "mutazione_indotta": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
+      "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
+      "fattore_mantenimento_energetico": "Medio (Elaborazione sensoriale costante)",
+      "sinergie": ["eco_interno_riflesso"],
+      "conflitti": [],
+      "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici)."
+    },
+    "occhi_infrarosso_composti": {
+      "label": "Occhi Composti ad Infrarosso",
+      "uso_funzione": "Vista specializzata che percepisce il calore corporeo.",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "mutazione_indotta": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
+      "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "sinergie": ["sonno_emisferico_alternato"],
+      "conflitti": [],
+      "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato."
+    },
+    "lingua_tattile_trama": {
+      "label": "Lingua Tattile Trama-Sensibile",
+      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture.",
+      "famiglia_tipologia": "Sensoriale/Alimentare",
+      "mutazione_indotta": "Lingua sottile con papille tattili e meccanocettori avanzati.",
+      "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "sinergie": ["olfatto_risonanza_magnetica"],
+      "conflitti": [],
+      "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi."
+    },
+    "spore_psichiche_silenziate": {
+      "label": "Spora Psichica Silenziosa",
+      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini.",
+      "famiglia_tipologia": "Escretorio/Psichico",
+      "mutazione_indotta": "Pori che rilasciano nano-particelle attive chimicamente o psichicamente.",
+      "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
+      "fattore_mantenimento_energetico": "Alto (Produzione e rilascio)",
+      "sinergie": [],
+      "conflitti": ["respiro_a_scoppio"],
+      "debolezza": "Funzionalità ridotta in presenza di vento forte o umidità elevata."
+    },
+    "mimetismo_cromatico_passivo": {
+      "label": "Ghiandole di Mimetismo Cromatico Passivo",
+      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "mutazione_indotta": "Cromatofori che richiedono un input tattile prolungato per la ricarica.",
+      "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
+      "fattore_mantenimento_energetico": "Basso (Fase passiva)",
+      "sinergie": ["struttura_elastica_amorfa"],
+      "conflitti": [],
+      "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato."
+    },
+    "scheletro_idro_regolante": {
+      "label": "Scheletro Idro-Regolante",
+      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso.",
+      "famiglia_tipologia": "Strutturale/Omeostatico",
+      "mutazione_indotta": "Struttura ossea porosa capace di scambio rapido di fluidi.",
+      "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
+      "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
+      "sinergie": ["sacche_galleggianti_ascensoriali"],
+      "conflitti": ["sangue_piroforico"],
+      "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio."
+    },
+    "coda_frusta_cinetica": {
+      "label": "Coda a Frusta Cinetica",
+      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente.",
+      "famiglia_tipologia": "Locomotorio/Difensivo",
+      "mutazione_indotta": "Muscolatura della coda densa con tendini e fibre che agiscono come molle.",
+      "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
+      "fattore_mantenimento_energetico": "Medio (Mantenimento dell'energia accumulata)",
+      "sinergie": ["artigli_sette_vie"],
+      "conflitti": [],
+      "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno."
+    },
+    "eco_interno_riflesso": {
+      "label": "Riflesso dell'Eco Interno",
+      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente.",
+      "famiglia_tipologia": "Sensoriale/Nervoso",
+      "mutazione_indotta": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
+      "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
+      "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
+      "sinergie": ["olfatto_risonanza_magnetica"],
+      "conflitti": [],
+      "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue."
+    }
+  }
+}
