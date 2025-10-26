@@ -177,6 +177,66 @@
               <ul class="generator-pins" id="generator-pinned-list" aria-live="polite"></ul>
             </div>
             <section
+              class="generator-activity"
+              id="generator-activity"
+              aria-labelledby="generator-activity-title"
+            >
+              <div class="generator-activity__header">
+                <h4 class="generator-summary__subtitle" id="generator-activity-title">
+                  Timeline attività
+                </h4>
+                <div class="generator-activity__controls">
+                  <label class="form__field generator-activity__search">
+                    <span class="visually-hidden">Cerca nella timeline</span>
+                    <input
+                      type="search"
+                      id="activity-search"
+                      placeholder="Cerca eventi nella timeline"
+                      autocomplete="off"
+                    />
+                  </label>
+                  <fieldset class="generator-activity__tones">
+                    <legend class="visually-hidden">Filtra per stato</legend>
+                    <label class="chip">
+                      <input type="checkbox" value="success" data-activity-tone checked />
+                      <span>Successo</span>
+                    </label>
+                    <label class="chip">
+                      <input type="checkbox" value="info" data-activity-tone checked />
+                      <span>Info</span>
+                    </label>
+                    <label class="chip">
+                      <input type="checkbox" value="warn" data-activity-tone checked />
+                      <span>Avvisi</span>
+                    </label>
+                    <label class="chip">
+                      <input type="checkbox" value="error" data-activity-tone checked />
+                      <span>Errori</span>
+                    </label>
+                  </fieldset>
+                  <label class="form__field generator-activity__tags">
+                    <span>Tag</span>
+                    <select id="activity-tags" multiple size="4"></select>
+                  </label>
+                  <label class="generator-activity__pinned">
+                    <input type="checkbox" id="activity-pinned-only" />
+                    <span>Solo eventi pinnati</span>
+                  </label>
+                  <button
+                    type="button"
+                    class="button button--ghost generator-activity__reset"
+                    data-action="reset-activity-filters"
+                  >
+                    Azzera filtri
+                  </button>
+                </div>
+              </div>
+              <p class="generator-summary__empty" id="generator-log-empty">
+                Nessuna attività registrata.
+              </p>
+              <ol class="generator-timeline" id="generator-log" aria-live="polite"></ol>
+            </section>
+            <section
               class="generator-compare"
               id="generator-compare-panel"
               aria-labelledby="generator-compare-title"
@@ -258,6 +318,23 @@
         <div class="codex-minimap" data-anchor-minimap>
           <p class="codex-minimap__title">Minimappa</p>
         </div>
+        <section class="generator-kpi" aria-labelledby="generator-kpi-title">
+          <h3 class="generator-summary__subtitle" id="generator-kpi-title">KPI sessione</h3>
+          <dl class="generator-summary__metrics generator-kpi__metrics">
+            <div class="generator-summary__metric">
+              <dt class="generator-summary__label">Tempo medio roll</dt>
+              <dd class="generator-summary__value" data-kpi="avg-roll">—</dd>
+            </div>
+            <div class="generator-summary__metric">
+              <dt class="generator-summary__label">Reroll eseguiti</dt>
+              <dd class="generator-summary__value" data-kpi="reroll-count">0</dd>
+            </div>
+            <div class="generator-summary__metric">
+              <dt class="generator-summary__label">Specie uniche</dt>
+              <dd class="generator-summary__value" data-kpi="unique-species">0</dd>
+            </div>
+          </dl>
+        </section>
       </aside>
     </main>
 
