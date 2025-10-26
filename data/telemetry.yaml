@@ -2,7 +2,7 @@ telemetry:
   ema_alpha: 0.3
   windows:
     turn: true
-    phase_weights: {early: 0.20, mid: 0.40, late: 0.40}
+    phase_weights: {early: 0.25, mid: 0.35, late: 0.40}
   hud_breakdown:
     roles:
       vanguard: {target: 0.22, tolerance: 0.04, alert: 0.30}
@@ -18,7 +18,7 @@ telemetry:
       R4: {target: 0.12, tolerance: 0.04, alert: 0.18}
       R5: {target: 0.04, tolerance: 0.02, alert: 0.08}
   debounce_ms: 200
-  idle_threshold_s: 8
+  idle_threshold_s: 10
   normalization: "ema_capped_minmax"
   normalization_params:
     floor: 0.15
