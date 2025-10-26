@@ -20,6 +20,7 @@ Passaggi principali del job `build-and-test`:
 10. Verifica CLI Python (`python roll_pack.py ENTP invoker ../../data/packs.yaml`).
 11. Validazione dataset base via CLI (`python3 game_cli.py validate-datasets`).
 12. Validazione pack ecosistema Evo-Tactics (`python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json`).
+13. Smoke test profili CLI (`./scripts/cli_smoke.sh`).
 
 ## Dipendenze e credenziali
 
@@ -48,6 +49,7 @@ python3 validate_species.py ../../data/species.yaml
 python roll_pack.py ENTP invoker ../../data/packs.yaml
 python3 game_cli.py validate-datasets
 python3 game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json
+./scripts/cli_smoke.sh
 ```
 
 Annotare gli esiti in `docs/tool_run_report.md` quando i test vengono eseguiti manualmente.

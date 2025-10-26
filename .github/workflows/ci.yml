@@ -63,3 +63,6 @@ jobs:
 
       - name: Validate Evo-Tactics ecosystem pack
         run: python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json
+
+      - name: Run CLI smoke profiles
+        run: ./scripts/cli_smoke.sh

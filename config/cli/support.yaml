@@ -1,0 +1,36 @@
+name: support
+owner: Support & QA Bridge
+description: >-
+  Profilo operativo per il supporto live, escalation deploy e recupero telemetria.
+env:
+  GAME_CLI_DEFAULT_SEED: support-smoke
+  GAME_CLI_LOG_LEVEL: DEBUG
+  GAME_CLI_EXPECTED_CHANNEL: "#support-ops"
+  GAME_CLI_ESCALATION_PLAYBOOK: docs/support/token-rotation.md
+smoke:
+  commands:
+    - validate-datasets
+    - roll-pack --seed support-smoke ENFJ sentinel
+    - validate-ecosystem-pack --json-out logs/cli/support-pack.json
+contacts:
+  slack: "#support-ops"
+  leads:
+    - nome: S. Leone
+      ruolo: QA Core Lead
+    - nome: G. Parodi
+      ruolo: Support Lead
+token_rotation:
+  cadence: weekly
+  window: Monday 08:00 CET
+  notification_channel: "#support-ops"
+  rotation_owners:
+    - Support Lead (G. Parodi)
+    - QA Core (S. Leone)
+  runbook: docs/support/token-rotation.md
+  credentials:
+    - name: ops_api_token
+      scope: deploy+telemetry-sync
+      rotation_window_hours: 12
+      expiry_days: 7
+  last_completed: 2025-11-10
+  next_window: 2025-11-17
