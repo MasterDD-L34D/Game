@@ -2,9 +2,9 @@ telemetry:
   ema_alpha: 0.3
   windows:
     turn: true
-    phase_weights: {early: 0.20, mid: 0.40, late: 0.40}
+    phase_weights: {early: 0.25, mid: 0.35, late: 0.40}
   debounce_ms: 200
-  idle_threshold_s: 8
+  idle_threshold_s: 10
   normalization: "ema_capped_minmax"
   normalization_params:
     floor: 0.15
@@ -33,6 +33,6 @@ pe_economy:
   style_bonus: {formula: "floor((sum_vc - 2.8)*3)", cap: 3}
   optional_objectives_cap: 2
   mission_cap: 10
-  costs: {trait_T1: 3, trait_T2: 6, trait_T3: 10, job_ability: 4, ultimate_slot: 6}
+  costs: {trait_T1: 3, trait_T2: 6, trait_T3: 10, job_ability: 4, ultimate_slot: 6, cap_pt: 2, guardia_situazionale: 2, starter_bioma: 1, sigillo_forma: 2}
   unlocks_per_mission_cap: 2
   dormancy_after_missions_without_trigger: 2
