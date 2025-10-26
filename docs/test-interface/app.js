@@ -526,6 +526,7 @@ function renderPiShop() {
 
   const costsHtml = renderKeyValueList(piShop.costs);
   const capsHtml = renderKeyValueList(piShop.caps);
+  const budgetHtml = renderKeyValueList(piShop.budget_curve);
 
   container.innerHTML = `
     <div class="pi-grid">
@@ -537,8 +538,12 @@ function renderPiShop() {
         <h3>Limiti e caps</h3>
         <ul>${capsHtml}</ul>
       </article>
+      <article class="card">
+        <h3>Curva budget</h3>
+        <ul class="nested-list">${budgetHtml}</ul>
+      </article>
     </div>
-    <p class="pi-hint">Aggiorna <code>packs.yaml</code> per modificare costi e limiti disponibili nel negozio.</p>
+    <p class="pi-hint">Aggiorna <code>packs.yaml</code> per modificare costi, limiti e curva budget disponibili nel negozio.</p>
   `;
 }
 
@@ -964,35 +969,24 @@ function renderTelemetry() {
 
   const telemetrySettings = telemetry.telemetry || {};
   const windows = telemetrySettings.windows || {};
+  const hudBreakdown = telemetrySettings.hud_breakdown || {};
   const indices = telemetry.indices || {};
   const axes = telemetry.mbti_axes || {};
   const ennea = telemetry.ennea_themes || [];
   const economy = telemetry.pe_economy || {};
+  const targets = telemetry.telemetry_targets || {};
 
-  const indicesHtml = Object.entries(indices)
-    .map(
-      ([name, weights]) => `
-        <li>
-          <strong>${name}</strong>
-          <ul>${Object.entries(weights)
-            .map(([metric, value]) => `<li>${metric}: <span>${value}</span></li>`)
-            .join("")}</ul>
-        </li>
-      `
-    )
-    .join("");
-
-  const axesHtml = Object.entries(axes)
-    .map(([axis, details]) => `<li><strong>${axis}</strong>: ${details.formula}</li>`)
-    .join("");
-
+  const indicesHtml = renderKeyValueList(indices);
+  const axesHtml = renderKeyValueList(axes);
   const enneaHtml = ennea
     .map((entry) => `<li><strong>${entry.id}</strong> — ${entry.when}</li>`)
     .join("");
-
-  const economyHtml = Object.entries(economy)
-    .map(([key, value]) => `<li><strong>${key}</strong>: ${formatEntry(value)}</li>`)
-    .join("");
+  const { curve: economyCurve, ...economyFlat } = economy;
+  const economyHtml = renderKeyValueList(economyFlat);
+  const economyCurveHtml = economyCurve ? renderKeyValueList(economyCurve) : "<li>—</li>";
+  const targetsHtml = renderKeyValueList(targets);
+  const hudBreakdownHtml = renderKeyValueList(hudBreakdown);
+  const windowsHtml = renderKeyValueList(windows);
 
   container.innerHTML = `
     <div class="telemetry-grid">
@@ -1003,9 +997,11 @@ function renderTelemetry() {
         <p><strong>Idle threshold:</strong> ${telemetrySettings.idle_threshold_s ?? "—"} s</p>
         <p><strong>Normalizzazione:</strong> ${telemetrySettings.normalization || "—"}</p>
         <h4>Windows</h4>
-        <ul>${Object.entries(windows)
-          .map(([key, value]) => `<li>${key}: ${formatEntry(value)}</li>`)
-          .join("")}</ul>
+        <ul class="nested-list">${windowsHtml}</ul>
+      </article>
+      <article class="card">
+        <h3>HUD Breakdown</h3>
+        <ul class="nested-list">${hudBreakdownHtml}</ul>
       </article>
       <article class="card">
         <h3>Indici VC</h3>
@@ -1013,7 +1009,7 @@ function renderTelemetry() {
       </article>
       <article class="card">
         <h3>Assi MBTI</h3>
-        <ul>${axesHtml}</ul>
+        <ul class="nested-list">${axesHtml}</ul>
       </article>
       <article class="card">
         <h3>Temi Enneagramma</h3>
@@ -1021,7 +1017,15 @@ function renderTelemetry() {
       </article>
       <article class="card">
         <h3>Economia PE</h3>
-        <ul>${economyHtml}</ul>
+        <ul class="nested-list">${economyHtml}</ul>
+      </article>
+      <article class="card">
+        <h3>Curva Economia PE</h3>
+        <ul class="nested-list">${economyCurveHtml}</ul>
+      </article>
+      <article class="card">
+        <h3>Target ruolo/rarità</h3>
+        <ul class="nested-list">${targetsHtml}</ul>
       </article>
     </div>
   `;
@@ -1241,14 +1245,19 @@ function renderSpeciesShowcase() {
 
 function formatEntry(entry) {
   if (entry == null) return "—";
-  if (typeof entry === "string" || typeof entry === "number") return entry;
+  if (typeof entry === "string" || typeof entry === "number" || typeof entry === "boolean") {
+    return String(entry);
+  }
   if (Array.isArray(entry)) {
+    if (entry.length === 0) return "—";
     return `<ul>${entry.map((item) => `<li>${formatEntry(item)}</li>`).join("")}</ul>`;
   }
   if (typeof entry === "object") {
-    return Object.entries(entry)
-      .map(([key, value]) => `${key}: ${value}`)
-      .join(", ");
+    const entries = Object.entries(entry);
+    if (!entries.length) return "—";
+    return `<ul>${entries
+      .map(([key, value]) => `<li><strong>${key}</strong>: ${formatEntry(value)}</li>`)
+      .join("")}</ul>`;
   }
   return String(entry);
 }

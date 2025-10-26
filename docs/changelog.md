@@ -9,9 +9,10 @@
 - Verbale test manuali 2025-10-26 per `docs/test-interface/` con esiti positivi su ricarica YAML e suite pulsanti automatici.
 - Documentazione hook EMA/HUD per trasmissione metriche e alert risk in `docs/hooks/ema-metrics.md`.
 - Dataset di tuning missione `data/missions/skydock_siege.yaml` con target `risk.time_low_hp_turns` e interventi condivisi con il team VC.
+- Target telemetrici ruolo/rarità e curva budget PI visibili nel test interface grazie all'estensione dei dataset `packs.yaml`/`telemetry.yaml` e dei relativi hook HUD.
 
 ### Changed
-- Aggiornate le finestre EMA (`phase_weights`, `idle_threshold_s`) e i costi PE (`cap_pt`, `guardia_situazionale`, `starter_bioma`, `sigillo_forma`) in `data/telemetry.yaml` per allineare i log VC e il negozio PI.
+- Allineate le finestre EMA (`phase_weights` 0.20/0.40/0.40, `idle_threshold_s` 8) e definite le nuove sezioni `hud_breakdown`, `telemetry_targets` e `pe_economy.curve` per sincronizzare i log Delta/Echo con la curva PE aggiornata.
 
 ### Fixed
 - Allineamento degli output `roll_pack` tra CLI TypeScript e Python utilizzando seed condiviso (`demo`).
