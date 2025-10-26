@@ -21,6 +21,6 @@ Il refactor della CLI di gestione pacchetti (script `tools/cli.py`) introdotto n
 - Abilitato monitoraggio più granulare sulle chiamate CLI, facilitando debug di encounter generati.
 
 ## Azioni di follow-up
-- [ ] Pubblicare guida CLI aggiornata in `docs/tools/` (nuovo file).
-- [ ] Aggiornare i workflow CI per includere `scripts/cli_smoke.sh`.
-- [ ] Confermare con Support/QA la rotazione dei token API per profilo `support`.
+- [x] Pubblicare guida CLI aggiornata in `docs/tools/` (nuovo file) → vedi `docs/tools/cli.md`.
+- [x] Aggiornare i workflow CI per includere `scripts/cli_smoke.sh`.
+- [x] Confermare con Support/QA la rotazione dei token API per profilo `support` (`docs/support/token-rotation.md`).

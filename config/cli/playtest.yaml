@@ -1,0 +1,18 @@
+name: playtest
+owner: Playtest Coordination
+description: >-
+  Profilo usato per i dry-run e le build serali dedicate al team playtest VC.
+env:
+  GAME_CLI_DEFAULT_SEED: playtest-smoke
+  GAME_CLI_LOG_LEVEL: INFO
+  GAME_CLI_EXPECTED_CHANNEL: "#vc-playtest"
+smoke:
+  commands:
+    - roll-pack --seed playtest-smoke ENTP invoker
+    - validate-datasets
+    - generate-encounter savana --party-power 18 --seed playtest-smoke
+contacts:
+  slack: "#vc-playtest"
+  leads:
+    - nome: C. Marin
+      ruolo: Playtest Producer

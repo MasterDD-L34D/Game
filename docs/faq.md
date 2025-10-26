@@ -8,13 +8,13 @@ Aggiornato al ciclo VC-2025-10. Nuove domande vengono raccolte dopo ogni retro s
 | ------- | ---------------- | ----- | ----- |
 | Come abilitiamo i log CLI giornalieri nel profilo `support`? | Usare `game-cli support init --logs daily` e verificare upload su bucket Drive Sync entro le 18:00 CET. | Support Lead | In corso (test 2025-11-07).
 | Qual è la procedura di escalation se `game-cli deploy` fallisce in produzione? | Aprire ticket `#vc-ops`, allegare log `logs/cli/<data>.log`, eseguire rollback con profilo `support`. | Support Lead | Attivo.
-| Quando ruotare i token API condivisi? | Ogni lunedì mattina seguendo il playbook `config/cli/support.yaml` > sezione `credentials`. | Security Liaison | Da pianificare post-onboarding.
+| Quando ruotare i token API condivisi? | Ogni lunedì 08:00 CET seguendo `docs/support/token-rotation.md` e aggiornando `config/cli/support.yaml`. | Security Liaison | Attivo (ultima rotazione 2025-11-10).
 
 ## QA
 
 | Domanda | Risposta rapida | Owner | Stato |
 | ------- | ---------------- | ----- | ----- |
-| Come eseguiamo gli smoke test CLI? | Run `scripts/cli_smoke.sh --profile playtest` e allega output nella cartella `logs/cli/qa/`. | QA Lead | Pianificato per 2025-11-08.
+| Come eseguiamo gli smoke test CLI? | Run `scripts/cli_smoke.sh` (default) o filtra con `--profile support`; archivia output in `logs/cli/qa/`. | QA Lead | Attivo (copre playtest/telemetry/support).
 | Dove registriamo gli esiti dei playtest VC? | Nel tracker `docs/checklist/playtest-status.md` + allegato `logs/playtests/<data>-vc/summary.yaml`. | QA Analyst | Continuo.
 | Chi conferma la copertura telemetria dopo ogni build? | QA Lead coordina con Telemetria usando il report `docs/chatgpt_changes/sync-<data>.md`. | Telemetria POC | In corso.
 

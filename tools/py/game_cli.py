@@ -4,14 +4,78 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 import sys
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Sequence
 
 from generate_encounter import generate as generate_encounter
 from investigate_sources import collect_investigation, render_report
 from roll_pack import roll_pack
 from validate_datasets import PACK_VALIDATOR, main as validate_datasets_main
+import yaml
+
+CLI_PROFILES_ENV_VAR = "GAME_CLI_PROFILES_DIR"
+CLI_PROFILES_DIR = Path(__file__).resolve().parents[2] / "config" / "cli"
+
+
+class ProfileError(RuntimeError):
+    """Errore durante il caricamento di un profilo CLI."""
+
+
+@dataclass(frozen=True)
+class ProfileConfig:
+    """Rappresenta un profilo CLI con variabili ambiente opzionali."""
+
+    name: str
+    path: Path
+    env: Dict[str, str]
+    metadata: Dict[str, Any]
+
+
+def _profiles_dir() -> Path:
+    override = os.environ.get(CLI_PROFILES_ENV_VAR)
+    if override:
+        return Path(override)
+    return CLI_PROFILES_DIR
+
+
+def load_profile(name: str) -> ProfileConfig:
+    """Carica la configurazione di un profilo CLI dal filesystem."""
+
+    profile_path = _profiles_dir() / f"{name}.yaml"
+    if not profile_path.exists():
+        raise ProfileError(f"Profilo CLI '{name}' non trovato ({profile_path})")
+
+    with profile_path.open("r", encoding="utf-8") as handle:
+        payload = yaml.safe_load(handle) or {}
+
+    if not isinstance(payload, dict):
+        raise ProfileError(
+            f"Il profilo CLI '{name}' deve essere un oggetto YAML a livello radice",
+        )
+
+    raw_env = payload.get("env", {})
+    if raw_env is None:
+        raw_env = {}
+    if not isinstance(raw_env, dict):
+        raise ProfileError(
+            f"La sezione 'env' del profilo '{name}' deve essere un mapping chiave/valore",
+        )
+
+    env: Dict[str, str] = {str(key): str(value) for key, value in raw_env.items()}
+
+    metadata = {key: value for key, value in payload.items() if key != "env"}
+
+    return ProfileConfig(name=name, path=profile_path, env=env, metadata=metadata)
+
+
+def apply_profile(profile: ProfileConfig) -> None:
+    """Applica le variabili ambiente di un profilo CLI."""
+
+    for key, value in profile.env.items():
+        os.environ[key] = value
 
 
 def _load_pack_validator():
@@ -44,6 +108,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Utility CLI per Evo-Tactics",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--profile",
+        help="Nome del profilo CLI definito in config/cli/<profilo>.yaml",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -199,6 +267,14 @@ def main(argv: Optional[Any] = None) -> int:
     parser = build_parser()
     normalized_argv = _normalize_argv(argv)
     args = parser.parse_args(normalized_argv)
+
+    if args.profile:
+        try:
+            profile_config = load_profile(args.profile)
+        except ProfileError as exc:
+            parser.error(str(exc))
+        apply_profile(profile_config)
+        setattr(args, "profile_config", profile_config)
 
     exit_code = 0
     if args.command == "roll-pack":
