@@ -71,10 +71,10 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [ ] Aggiornare periodicamente i materiali con screenshot HUD e metriche risk/cohesion post-playtest.【F:docs/Canvas/feature-updates.md†L9-L20】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L33-L122】 _Ultimo refresh 2025-10-24; prossimo aggiornamento richiesto dopo QA di novembre._
 
 ## 11. Knowledge sharing e onboarding
-- [ ] Aggiornare `docs/README.md` e le guide in `docs/piani/` con le nuove procedure adottate. _Assegnato 2025-10-26 al Technical Writer (F. Bianchi); scadenza 2025-11-10._ 
-- [ ] Documentare le decisioni architetturali in un ADR (`docs/adr/ADR-<numero>-<titolo>.md`) quando necessario. _Prossimo ADR pianificato dopo refactor CLI (owner: Lead Dev)._ 
-- [ ] Programmare sessioni di onboarding per nuovi membri e registrare le call per consultazione futura. _Batch onboarding Q4 calendarizzato per 2025-11-18; host: HR Ops._ 
-- [ ] Creare FAQ interne su `docs/faq.md` con le domande più ricorrenti ricevute dal team. _Revisione entro 2025-11-15 con input Support._
+- [x] Aggiornare `docs/README.md` e le guide in `docs/piani/` con le nuove procedure adottate. _Completato con il riepilogo post-ottobre 2025 e l'integrazione dei Canvas specializzati._【F:docs/README.md†L1-L38】【F:docs/piani/roadmap.md†L1-L60】
+- [ ] Documentare le decisioni architetturali in un ADR (`docs/adr/ADR-<numero>-<titolo>.md`) quando necessario. _Prossimo ADR pianificato dopo refactor CLI (owner: Lead Dev)._
+- [x] Programmare sessioni di onboarding per nuovi membri e registrare le call per consultazione futura. _Registrazioni archiviate in `docs/presentations/2025-11-onboarding-recordings.md`._【F:docs/presentations/2025-11-onboarding-recordings.md†L1-L9】
+- [x] Creare FAQ interne su `docs/faq.md` con le domande più ricorrenti ricevute dal team. _Sezione post-onboarding aggiornata con owner e follow-up._【F:docs/faq.md†L1-L80】
 
 > Suggerimento: duplica questa checklist ad inizio sprint e spunta i punti completati, aggiungendo nuove
 > attività sotto la sezione corrispondente per mantenere una cronologia operativa chiara.

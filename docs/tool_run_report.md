@@ -1,5 +1,11 @@
 # Tool Execution Report
 
+## Workflow `daily-pr-summary`
+- **Comando manuale**: `python tools/py/daily_pr_report.py --repo <owner/repo> --date <YYYY-MM-DD>` raccoglie i merge del giorno e aggiorna/crea il file `docs/chatgpt_changes/daily-pr-<data>.md` con riepilogo sintetico.
+- **Output atteso**: elenco PR con titolo, autore, label principali e link diff. Importa il contenuto in `docs/changelog.md`, `docs/piani/roadmap.md`, `docs/checklist/*.md` e nei Canvas pertinenti (`DesignDoc-Overview`, `Telemetria-VC`, `PI-Pacchetti-Forme`, `SistemaNPG-PF-Mutazioni`, `Mating-Reclutamento-Nido`).
+- **Workflow GitHub**: il job `daily-pr-summary` (trigger 17:10 UTC) invoca lo script con token GitHub e apre PR automatica se rileva differenze; verificare l'esito nel tab Actions e annotare eventuali fallimenti in `docs/chatgpt_sync_status.md`.
+- **Responsabilità**: entro le 18:00 CET confermare che changelog, roadmap, checklist e Canvas siano allineati; in caso di problemi registrare un paragrafo nel blocco giornaliero seguente (vedi esempi più sotto).【F:docs/README.md†L33-L38】【F:docs/piani/roadmap.md†L1-L40】
+
 ## 2025-10-26 — `roll_pack` CLI parity spot-check
 - Eseguiti `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py` con seed condiviso `demo` sulle coppie `ENTP`/`invoker` e `ISFJ`/`support`, utilizzando `data/packs.yaml`.
 - I risultati JSON delle due implementazioni sono stati salvati localmente (`/tmp/node_*`, `/tmp/py_*`) e confrontati tramite `diff -u`.
