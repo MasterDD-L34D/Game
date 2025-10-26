@@ -137,6 +137,27 @@ function normaliseEffects(effects: any[]): HookEffect[] {
   }));
 }
 
+function mergeCompatMetadata(source: any, stats: Set<string>, events: Set<string>) {
+  if (!source) return;
+
+  const metaStats = arrayify<string>(source.stats).map(resolveCompatStat);
+  metaStats.forEach((stat) => stats.add(stat));
+
+  const compatBlock = source.compatibility;
+  if (compatBlock) {
+    const compatStats = compatBlock.stats;
+    if (Array.isArray(compatStats)) {
+      compatStats.map((stat: string) => resolveCompatStat(stat)).forEach((stat) => stats.add(stat));
+    } else if (compatStats && typeof compatStats === 'object') {
+      Object.keys(compatStats).map((stat) => resolveCompatStat(stat)).forEach((stat) => stats.add(stat));
+    }
+
+    arrayify<string>(compatBlock.events)
+      .map(resolveCompatEvent)
+      .forEach((evt) => events.add(evt));
+  }
+}
+
 function buildHookEffects(themeHooks: HookEntry[]): { bindings: HookEffectBinding[]; stats: Set<string>; events: Set<string> } {
   const bindings: HookEffectBinding[] = [];
   const stats = new Set<string>();
@@ -162,6 +183,8 @@ function buildHookEffects(themeHooks: HookEntry[]): { bindings: HookEffectBindin
       });
     }
 
+    mergeCompatMetadata(hook, stats, events);
+
     const triggered = arrayify<TriggeredEffectEntry>((hook as any).triggered_effects);
     for (const entry of triggered) {
       const entryEvents = extractEvents(entry.trigger);
@@ -178,6 +201,8 @@ function buildHookEffects(themeHooks: HookEntry[]): { bindings: HookEffectBindin
         status: (entry as any).status,
         description: (entry as any).description,
       });
+
+      mergeCompatMetadata(entry, stats, events);
     }
 
     const linkStats = arrayify<string>((hook as any).links?.compat_stats).map(resolveCompatStat);
