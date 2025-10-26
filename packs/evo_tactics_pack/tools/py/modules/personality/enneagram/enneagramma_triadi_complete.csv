@@ -1,0 +1,13 @@
+triad_family,triad_name,types,focus_it,description
+Centri,Centro Istintivo,8|9|1,Rabbia,Agiscono per mantenere controllo e autonomia; reagiscono rapidamente alle minacce percepite.
+Centri,Centro Emotivo,2|3|4,Vergogna,Filtrano l'esperienza attraverso l'immagine e le relazioni; cercano valore e riconoscimento.
+Centri,Centro Mentale,5|6|7,Paura,Anticipano scenari e strategie per ottenere sicurezza; pianificazione costante.
+Hornevian,Assertivi,3|7|8,Avanzano,Ricercano impatto e indipendenza; sfidano gli ostacoli frontalmente.
+Hornevian,Obbedienti,1|2|6,Conformità,Cercano appartenenza rispettando regole e doveri; chiedono orientamento.
+Hornevian,Ritirati,4|5|9,Ritirata,Si distaccano per elaborare emozioni e idee; tempo privato necessario.
+Harmonic,Ottimisti,2|7|9,Sollievo,Mantengono tono positivo; minimizzano conflitti tramite speranza e possibilità future.
+Harmonic,Competenti,1|3|5,Soluzioni,Affrontano i problemi con logica e performance; puntano a risultati misurabili.
+Harmonic,Reattivi,4|6|8,Risposta emotiva,Gestiscono la tensione esternando frustrazione e cercando alleati fidati.
+Object Relations,Attaccamento,3|6|9,Legame,Stabiliscono sicurezza mantenendo connessioni e routine condivise.
+Object Relations,Frustrazione,1|4|7,Ideale ricercato,Inseguono un ideale e reagiscono con impazienza quando la realtà non lo supporta.
+Object Relations,Rifiuto,2|5|8,Protezione del sé,Evitano la dipendenza emotiva respingendo ciò che percepiscono come invadenza.
