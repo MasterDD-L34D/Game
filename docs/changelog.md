@@ -10,9 +10,12 @@
 - Documentazione hook EMA/HUD per trasmissione metriche e alert risk in `docs/hooks/ema-metrics.md`.
 - Dataset di tuning missione `data/missions/skydock_siege.yaml` con target `risk.time_low_hp_turns` e interventi condivisi con il team VC.
 - Target telemetrici ruolo/rarità e curva budget PI visibili nel test interface grazie all'estensione dei dataset `packs.yaml`/`telemetry.yaml` e dei relativi hook HUD.
+- Allineamento note di rilascio condivise con Marketing Ops e kit asset (HUD/Screens) aggiornato per la finestra di annuncio VC.
 
 ### Changed
 - Allineate le finestre EMA (`phase_weights` 0.20/0.40/0.40, `idle_threshold_s` 8) e definite le nuove sezioni `hud_breakdown`, `telemetry_targets` e `pe_economy.curve` per sincronizzare i log Delta/Echo con la curva PE aggiornata.
+- Consolidato il calendario comunicazioni con Marketing/Product definendo owner, cadenza (daily standup + sync settimanale) e canali condivisi per il piano feedback post-annuncio.
+- Registrato l'impegno congiunto Marketing/Product e QA per il checkpoint finale e per il rilascio del pacchetto asset aggiornato.
 
 ### Fixed
 - Allineamento degli output `roll_pack` tra CLI TypeScript e Python utilizzando seed condiviso (`demo`).
@@ -38,3 +41,4 @@
 ### Prossimi passi
 - Pubblicare il tag `v0.6.0-rc1` dopo conferma QA e distribuire note VC al team ampliato.
 - Aggiornare materiali marketing/Canvas con screenshot HUD e grafici risk/cohesion aggiornati al 2025-11-01.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L45】
+- Creare il tag Git ufficiale a chiusura QA, notificare Marketing Ops e Product con recap su asset HUD aggiornati e collegare la libreria screenshot revisionata.
