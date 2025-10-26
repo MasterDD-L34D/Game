@@ -13,6 +13,14 @@
     <title>Ecosystem Pack · Generatore</title>
     <link rel="stylesheet" href="../site.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" defer></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      integrity="sha512-vDKWohF82vNKiIvlCg9rvEKq7h1csVI9adV/V+Ld0nbwG6Foj5dPWEkUBDYDbK6R4HZoQLm3LFOLkU8V5DIhWg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
     <script type="module" src="generator.js" defer></script>
   </head>
   <body>
@@ -117,7 +125,7 @@
                     <select id="tags" multiple size="6"></select>
                   </label>
                 </div>
-              </div>
+            </div>
               <div class="form__actions generator-form__actions">
                 <button type="button" class="button" data-action="roll-ecos">
                   🎲 Genera ecosistema
@@ -139,6 +147,67 @@
                 </button>
               </div>
             </form>
+            <section
+              class="generator-export-panel"
+              id="generator-export"
+              aria-labelledby="generator-export-title"
+            >
+              <div class="generator-export-panel__header">
+                <h3 class="generator-export-panel__title" id="generator-export-title">
+                  Manifest export
+                </h3>
+                <label class="form__field generator-export-panel__preset">
+                  <span>Preset</span>
+                  <select id="generator-export-preset"></select>
+                </label>
+              </div>
+              <p class="generator-export__meta" id="generator-export-meta">
+                Genera un ecosistema per preparare il manifest dei file.
+              </p>
+              <p class="generator-export__empty" id="generator-export-empty">
+                Nessun contenuto disponibile. Genera un ecosistema per sbloccare i preset.
+              </p>
+              <ul
+                class="generator-export__list"
+                id="generator-export-list"
+                aria-live="polite"
+              ></ul>
+              <div class="generator-export__actions" id="generator-export-actions">
+                <button type="button" class="button button--ghost" data-action="download-preset-zip">
+                  ⬇︎ Bundle ZIP
+                </button>
+                <button type="button" class="button button--ghost" data-action="download-dossier-html">
+                  ⬇︎ Dossier HTML
+                </button>
+                <button type="button" class="button button--ghost" data-action="download-dossier-pdf">
+                  ⬇︎ Dossier PDF
+                </button>
+              </div>
+              <div class="generator-export__preview" id="generator-export-preview" hidden>
+                <details id="generator-preview-json-details">
+                  <summary>Anteprima JSON</summary>
+                  <pre id="generator-preview-json"></pre>
+                </details>
+                <details id="generator-preview-yaml-details">
+                  <summary>Anteprima YAML</summary>
+                  <pre id="generator-preview-yaml"></pre>
+                </details>
+                <section class="generator-dossier" aria-labelledby="generator-dossier-title">
+                  <header class="generator-dossier__header">
+                    <h4 class="generator-dossier__title" id="generator-dossier-title">
+                      Anteprima dossier
+                    </h4>
+                    <p class="generator-dossier__hint" id="generator-dossier-empty">
+                      Genera un ecosistema per abilitare il dossier.
+                    </p>
+                  </header>
+                  <div class="generator-dossier__preview" id="generator-dossier-preview"></div>
+                </section>
+              </div>
+              <p class="generator-export__empty" id="generator-preview-empty">
+                Genera un ecosistema per visualizzare le anteprime.
+              </p>
+            </section>
           <section
             class="generator-summary"
             id="generator-summary"
