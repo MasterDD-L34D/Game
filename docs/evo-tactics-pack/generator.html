@@ -168,6 +168,13 @@
               Carica il catalogo per iniziare.
             </p>
             <p class="generator-summary__note" id="generator-last-action">Ultimo aggiornamento: —</p>
+            <div class="generator-summary__pins">
+              <h4 class="generator-summary__subtitle">Specie pinnate</h4>
+              <p class="generator-summary__empty" id="generator-pinned-empty">
+                Nessuna specie pinnata. Usa il pulsante 📌 sulle card per aggiungerle.
+              </p>
+              <ul class="generator-pins" id="generator-pinned-list" aria-live="polite"></ul>
+            </div>
           </section>
         </article>
         </section>
@@ -188,7 +195,12 @@
             <h2>Biomi selezionati</h2>
             <p>Ogni scheda mostra i link utili al YAML originale, foodweb e report HTML.</p>
           </div>
-          <div id="biome-grid" class="grid grid--cards" aria-live="polite"></div>
+          <div
+            id="biome-grid"
+            class="generator-collection"
+            data-collection="biomes"
+            aria-live="polite"
+          ></div>
         </section>
 
         <section class="section" id="generator-seeds" data-panel="seeds">
@@ -196,7 +208,12 @@
             <h2>Encounter seed generati</h2>
             <p>Il budget di minaccia viene calcolato in base al tier delle specie estratte.</p>
           </div>
-          <div id="seed-grid" class="grid grid--cards" aria-live="polite"></div>
+          <div
+            id="seed-grid"
+            class="generator-collection generator-collection--compact"
+            data-collection="seeds"
+            aria-live="polite"
+          ></div>
         </section>
       </div>
 

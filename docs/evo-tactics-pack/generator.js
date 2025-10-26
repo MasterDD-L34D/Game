@@ -21,6 +21,8 @@ const elements = {
     species: document.querySelector("[data-summary=\"species\"]"),
     seeds: document.querySelector("[data-summary=\"seeds\"]"),
   },
+  pinnedList: document.getElementById("generator-pinned-list"),
+  pinnedEmpty: document.getElementById("generator-pinned-empty"),
   lastAction: document.getElementById("generator-last-action"),
   logList: document.getElementById("generator-log"),
   logEmpty: document.getElementById("generator-log-empty"),
@@ -79,6 +81,10 @@ const state = {
     species: {},
     seeds: [],
     exportSlug: null,
+  },
+  cardState: {
+    pinned: new Map(),
+    squad: new Map(),
   },
 };
 
@@ -145,6 +151,7 @@ function updateSummaryCounts() {
   }
 
   renderExportManifest();
+  renderPinnedSummary();
 }
 
 function getActivityStorage() {
@@ -1816,105 +1823,615 @@ function rerollSeeds(filters) {
   });
 }
 
+
+function createPinKey(biome, species) {
+  const biomeId = biome?.id ?? "biome";
+  const speciesId = species?.id ?? "species";
+  return `${biomeId}::${speciesId}`;
+}
+
+function queryPinButton(key) {
+  if (typeof document === "undefined") return null;
+  const safeKey =
+    typeof CSS !== "undefined" && typeof CSS.escape === "function"
+      ? CSS.escape(key)
+      : key.replace(/"/g, '\"');
+  return document.querySelector(`button[data-pin-key="${safeKey}"]`);
+}
+
+function applyQuickButtonState(button, isActive) {
+  if (!button) return;
+  button.classList.toggle("is-active", Boolean(isActive));
+  button.setAttribute("aria-pressed", isActive ? "true" : "false");
+}
+
+function updatePinButtonState(key, active) {
+  const button = queryPinButton(key);
+  if (!button) return;
+  applyQuickButtonState(button, active);
+  const card = button.closest(".species-card");
+  if (card) {
+    card.dataset.pinned = active ? "true" : "false";
+  }
+}
+
+function stringHash(value = "") {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = value.charCodeAt(i) + ((hash << 5) - hash);
+    hash &= hash;
+  }
+  return Math.abs(hash);
+}
+
+function gradientFromString(value = "") {
+  const hash = stringHash(value);
+  const hue = hash % 360;
+  const hueOffset = (hue + 36) % 360;
+  return `linear-gradient(135deg, hsl(${hue}, 68%, 26%), hsl(${hueOffset}, 70%, 38%))`;
+}
+
+function biomePlaceholderLabel(biome) {
+  if (biome?.emoji) return biome.emoji;
+  if (biome?.icon) return biome.icon;
+  const id = (biome?.id ?? "").toLowerCase();
+  if (/ghiaccio|cryosteppe|neve|tundra/.test(id)) return "❄️";
+  if (/foresta|bosco|giungla/.test(id)) return "🌲";
+  if (/deserto|sabbia|duna/.test(id)) return "🏜️";
+  if (/palude|swamp|marsh|laguna/.test(id)) return "🦎";
+  if (/mont|rupe|alp/.test(id)) return "⛰️";
+  if (/costa|reef|mare|oceano|litor/.test(id)) return "🌊";
+  if (/vulc|lava|fuoco/.test(id)) return "🌋";
+  const initials = (biome?.label ?? biome?.id ?? "??")
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((segment) => segment[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+  return initials || "🜨";
+}
+
+function speciesPlaceholderIcon(species) {
+  if (species?.emoji) return species.emoji;
+  if (species?.icon) return species.icon;
+  const role = (species?.role_trofico ?? "").toLowerCase();
+  if (/predatore_terziario|apex/.test(role)) return "🦈";
+  if (/predatore/.test(role)) return "🦖";
+  if (/erbivoro|prede|pastoral/.test(role)) return "🦌";
+  if (/impollin/.test(role)) return "🪲";
+  if (/detrit|saprof/.test(role)) return "🪱";
+  if (/evento|anomalia|hazard/.test(role)) return "⚡";
+  return "🧬";
+}
+
+function createBadgeElement(label, modifier) {
+  const badge = document.createElement("span");
+  badge.className = "badge";
+  if (modifier) {
+    badge.classList.add(`badge--${modifier}`);
+  }
+  badge.textContent = label;
+  return badge;
+}
+
+function rarityFromTier(tier) {
+  if (tier <= 1) return { label: "Comune", slug: "common" };
+  if (tier === 2) return { label: "Non comune", slug: "uncommon" };
+  if (tier === 3) return { label: "Raro", slug: "rare" };
+  if (tier === 4) return { label: "Epico", slug: "epic" };
+  return { label: "Leggendario", slug: "legendary" };
+}
+
+function extractFunctionalGroups(biome) {
+  const groups = new Set();
+  const manifestGroups = biome?.manifest?.functional_groups_present ?? [];
+  manifestGroups.forEach((group) => {
+    if (group) groups.add(group);
+  });
+  const functional = biome?.functional_groups ?? biome?.functionalGroups ?? [];
+  functional.forEach((group) => {
+    if (group) groups.add(group);
+  });
+  const tags = biome?.functional_tags ?? [];
+  tags.forEach((tag) => {
+    if (tag) groups.add(tag);
+  });
+  return groups;
+}
+
+function calculateSynergy(species, biome) {
+  const groups = extractFunctionalGroups(biome);
+  const tags = Array.isArray(species?.functional_tags) ? species.functional_tags : [];
+  const matches = tags.filter((tag) => groups.has(tag));
+  let percent;
+  if (groups.size && tags.length) {
+    percent = Math.round((matches.length / groups.size) * 100);
+  } else if (tags.length) {
+    percent = 55;
+  } else {
+    percent = 30;
+  }
+  const flags = species?.flags ?? {};
+  if (flags.keystone) percent += 12;
+  if (flags.apex) percent += 14;
+  if (flags.threat) percent += 8;
+  if (flags.bridge) percent += 6;
+  if (flags.event) percent -= 4;
+  if (species?.synthetic) percent += 4;
+  percent += Math.max(0, tierOf(species) - 2) * 4;
+  percent = Math.max(10, Math.min(100, percent));
+  const summary = matches.length
+    ? `Sinergie attive: ${matches.join(", ")}`
+    : tags.length
+    ? `Tag funzionali da connettere: ${tags.join(", ")}`
+    : "Nessun tag funzionale dichiarato.";
+  return {
+    percent,
+    matches,
+    tags,
+    groups: Array.from(groups),
+    summary,
+  };
+}
+
+function createSynergyMeter(info) {
+  const meter = document.createElement("div");
+  meter.className = "synergy-meter";
+  const labelRow = document.createElement("div");
+  labelRow.className = "synergy-meter__label";
+  const label = document.createElement("span");
+  label.textContent = "Sinergia ecosistema";
+  const value = document.createElement("span");
+  value.className = "synergy-meter__value";
+  value.textContent = `${info.percent}%`;
+  labelRow.append(label, value);
+  meter.appendChild(labelRow);
+  const track = document.createElement("div");
+  track.className = "synergy-meter__track";
+  const progress = document.createElement("div");
+  progress.className = "synergy-meter__progress";
+  progress.style.setProperty("--progress", `${info.percent}%`);
+  track.appendChild(progress);
+  meter.appendChild(track);
+  return meter;
+}
+
+function findBiomeById(biomeId) {
+  if (!biomeId) return null;
+  const fromPick = state.pick?.biomes?.find((biome) => biome.id === biomeId);
+  if (fromPick) return fromPick;
+  const fromCatalog = state.data?.biomi?.find((biome) => biome.id === biomeId);
+  if (fromCatalog) return fromCatalog;
+  return null;
+}
+
+function findSpeciesInPick(biomeId, speciesId) {
+  if (!biomeId || !speciesId) return null;
+  const bucket = state.pick?.species?.[biomeId];
+  if (!Array.isArray(bucket)) return null;
+  return bucket.find((sp) => sp.id === speciesId) ?? null;
+}
+
+function createQuickButton({ icon, label, className }) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = ["quick-button", className].filter(Boolean).join(" ");
+  button.innerHTML = `<span aria-hidden="true">${icon}</span><span class="visually-hidden">${label}</span>`;
+  button.setAttribute("aria-pressed", "false");
+  return button;
+}
+
+function togglePinned(biome, species, { announce = true } = {}) {
+  const key = createPinKey(biome, species);
+  const store = state.cardState.pinned;
+  const displayName = species?.display_name ?? species?.id ?? "Specie";
+  if (store.has(key)) {
+    store.delete(key);
+    if (announce) {
+      setStatus(`${displayName} rimosso dalle specie pinnate.`, "info");
+    }
+    updatePinButtonState(key, false);
+    renderPinnedSummary();
+    return false;
+  }
+  const tier = tierOf(species);
+  const rarity = rarityFromTier(tier);
+  store.set(key, {
+    key,
+    speciesId: species?.id ?? key,
+    biomeId: biome?.id ?? "biome",
+    displayName,
+    biomeLabel: biome?.label ?? titleCase(biome?.id ?? ""),
+    tier,
+    rarity: rarity.label,
+    slug: rarity.slug,
+    synthetic: Boolean(species?.synthetic || biome?.synthetic),
+  });
+  if (announce) {
+    setStatus(`${displayName} aggiunto alle specie pinnate.`, "success");
+  }
+  updatePinButtonState(key, true);
+  renderPinnedSummary();
+  return true;
+}
+
+function toggleSquad(biome, species) {
+  const key = createPinKey(biome, species);
+  const store = state.cardState.squad;
+  const displayName = species?.display_name ?? species?.id ?? "Specie";
+  if (store.has(key)) {
+    store.delete(key);
+    setStatus(`${displayName} rimosso dalla squadra rapida.`, "info");
+    return false;
+  }
+  store.set(key, {
+    key,
+    speciesId: species?.id ?? key,
+    biomeId: biome?.id ?? "biome",
+    displayName,
+    tier: tierOf(species),
+  });
+  setStatus(`${displayName} aggiunto alla squadra rapida.`, "success");
+  return true;
+}
+
+function createSpeciesCard(biome, species) {
+  const card = document.createElement("article");
+  card.className = "species-card";
+  const pinKey = createPinKey(biome, species);
+  if (state.cardState.pinned.has(pinKey)) {
+    card.dataset.pinned = "true";
+  }
+
+  const media = document.createElement("div");
+  media.className = "species-card__media";
+  media.textContent = speciesPlaceholderIcon(species);
+  card.appendChild(media);
+
+  const info = document.createElement("div");
+  info.className = "species-card__info";
+  card.appendChild(info);
+
+  const header = document.createElement("div");
+  header.className = "species-card__header";
+  info.appendChild(header);
+
+  const title = document.createElement("div");
+  title.className = "species-card__title";
+  header.appendChild(title);
+
+  const name = document.createElement("h4");
+  name.className = "species-card__name";
+  name.textContent = species.display_name ?? species.id ?? "Specie sconosciuta";
+  title.appendChild(name);
+
+  const id = document.createElement("p");
+  id.className = "species-card__id";
+  id.textContent = species.id ?? "—";
+  title.appendChild(id);
+
+  const controls = document.createElement("div");
+  controls.className = "species-card__controls";
+  header.appendChild(controls);
+
+  const badges = document.createElement("div");
+  badges.className = "species-card__badges";
+  const tier = tierOf(species);
+  const rarity = rarityFromTier(tier);
+  badges.appendChild(createBadgeElement(rarity.label, `rarity-${rarity.slug}`));
+  if (species.synthetic) {
+    badges.appendChild(createBadgeElement("Synth", "synth"));
+  }
+  controls.appendChild(badges);
+
+  const actions = document.createElement("div");
+  actions.className = "species-card__actions";
+  controls.appendChild(actions);
+
+  const squadButton = createQuickButton({
+    icon: "⚔️",
+    label: `Aggiungi ${name.textContent} alla squadra rapida`,
+    className: "quick-button--squad",
+  });
+  applyQuickButtonState(squadButton, state.cardState.squad.has(pinKey));
+  squadButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    const active = toggleSquad(biome, species);
+    applyQuickButtonState(squadButton, active);
+  });
+  actions.appendChild(squadButton);
+
+  const pinButton = createQuickButton({
+    icon: "📌",
+    label: `Pin ${name.textContent} nel riepilogo`,
+    className: "quick-button--pin",
+  });
+  pinButton.dataset.pinKey = pinKey;
+  applyQuickButtonState(pinButton, state.cardState.pinned.has(pinKey));
+  pinButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    const active = togglePinned(biome, species);
+    applyQuickButtonState(pinButton, active);
+    card.dataset.pinned = active ? "true" : "false";
+  });
+  actions.appendChild(pinButton);
+
+  const meta = document.createElement("div");
+  meta.className = "species-card__meta";
+  const role = species.role_trofico ? titleCase(species.role_trofico) : "Ruolo sconosciuto";
+  const roleSpan = document.createElement("span");
+  roleSpan.textContent = role;
+  meta.appendChild(roleSpan);
+  const tierSpan = document.createElement("span");
+  tierSpan.textContent = `Tier T${tier}`;
+  meta.appendChild(tierSpan);
+  const notableFlags = ["keystone", "apex", "bridge", "threat", "event"].filter((flag) => species.flags?.[flag]);
+  if (notableFlags.length) {
+    const flagSpan = document.createElement("span");
+    flagSpan.textContent = `Flag: ${notableFlags.map((flag) => titleCase(flag.replace(/_/g, " "))).join(", ")}`;
+    meta.appendChild(flagSpan);
+  }
+  info.appendChild(meta);
+
+  const tags = Array.isArray(species.functional_tags) ? species.functional_tags : [];
+  if (tags.length) {
+    const tagContainer = document.createElement("div");
+    tagContainer.className = "species-card__tags";
+    const maxVisible = 5;
+    tags.slice(0, maxVisible).forEach((tag) => {
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.textContent = tag;
+      tagContainer.appendChild(chip);
+    });
+    if (tags.length > maxVisible) {
+      const remainder = document.createElement("span");
+      remainder.className = "chip";
+      remainder.textContent = `+${tags.length - maxVisible}`;
+      tagContainer.appendChild(remainder);
+    }
+    info.appendChild(tagContainer);
+  }
+
+  const synergy = calculateSynergy(species, biome);
+  const meter = createSynergyMeter(synergy);
+  info.appendChild(meter);
+
+  if (synergy.summary) {
+    const summary = document.createElement("p");
+    summary.className = "species-card__summary";
+    summary.textContent = synergy.summary;
+    info.appendChild(summary);
+  }
+
+  return card;
+}
+
+function buildBiomeCard(biome, filters) {
+  const card = document.createElement("article");
+  card.className = "generator-card";
+  card.dataset.biomeId = biome.id;
+
+  const media = document.createElement("div");
+  media.className = "generator-card__media";
+  media.style.background = gradientFromString(biome.id ?? biome.label ?? "");
+  const mediaLabel = document.createElement("span");
+  mediaLabel.textContent = biomePlaceholderLabel(biome);
+  media.appendChild(mediaLabel);
+  card.appendChild(media);
+
+  const body = document.createElement("div");
+  body.className = "generator-card__body";
+  card.appendChild(body);
+
+  const header = document.createElement("div");
+  header.className = "generator-card__header";
+  body.appendChild(header);
+
+  const titleGroup = document.createElement("div");
+  titleGroup.className = "generator-card__title-group";
+  header.appendChild(titleGroup);
+
+  const title = document.createElement("h3");
+  title.className = "generator-card__title";
+  title.textContent = biome.synthetic ? biome.label ?? titleCase(biome.id ?? "") : titleCase(biome.id ?? "");
+  titleGroup.appendChild(title);
+
+  const subtitle = document.createElement("p");
+  subtitle.className = "generator-card__subtitle";
+  subtitle.textContent = `ID: ${biome.id}`;
+  titleGroup.appendChild(subtitle);
+
+  const badges = document.createElement("div");
+  badges.className = "generator-card__badges";
+  const speciesCount = (state.pick.species?.[biome.id] ?? []).length;
+  badges.appendChild(createBadgeElement(`${speciesCount} specie`, ""));
+  if (biome.synthetic) {
+    badges.appendChild(createBadgeElement("Synth", "synth"));
+  }
+  header.appendChild(badges);
+
+  const meta = document.createElement("p");
+  meta.className = "generator-card__meta";
+  if (biome.synthetic) {
+    const parents = (biome.parents ?? [])
+      .map((parent) => parent.label ?? titleCase(parent.id ?? ""))
+      .filter(Boolean);
+    meta.textContent = parents.length
+      ? `Origine sintetica da ${parents.join(" + ")}`
+      : "Origine sintetica procedurale.";
+  } else {
+    meta.textContent = biome.description ?? "Bioma del catalogo originale.";
+  }
+  body.appendChild(meta);
+
+  if (!biome.synthetic) {
+    const links = document.createElement("div");
+    links.className = "generator-card__links";
+    const biomeHref = resolvePackHref(biome.path);
+    if (biomeHref) {
+      const link = document.createElement("a");
+      link.href = biomeHref;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.textContent = "Bioma YAML";
+      links.appendChild(link);
+    }
+    const foodwebHref = biome.foodweb?.path ? resolvePackHref(biome.foodweb.path) : null;
+    if (foodwebHref) {
+      const link = document.createElement("a");
+      link.href = foodwebHref;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.textContent = "Foodweb";
+      links.appendChild(link);
+    }
+    try {
+      const reportHref = new URL(`catalog.html#bioma-${biome.id}`, window.location.href).toString();
+      const link = document.createElement("a");
+      link.href = reportHref;
+      link.textContent = "Report";
+      links.appendChild(link);
+    } catch (error) {
+      console.warn("Impossibile calcolare il link al report del bioma", biome.id, error);
+    }
+    if (links.childElementCount) {
+      body.appendChild(links);
+    }
+  }
+
+  const speciesContainer = document.createElement("div");
+  speciesContainer.className = "generator-card__species";
+  const picked = state.pick.species?.[biome.id] ?? [];
+  if (!picked.length) {
+    const empty = document.createElement("p");
+    empty.className = "generator-card__empty";
+    const filtersText = [];
+    if (filters.flags.length) filtersText.push(`flag: ${filters.flags.join(", ")}`);
+    if (filters.roles.length) filtersText.push(`ruoli: ${filters.roles.join(", ")}`);
+    if (filters.tags.length) filtersText.push(`tag: ${filters.tags.join(", ")}`);
+    empty.textContent = filtersText.length
+      ? `Nessuna specie soddisfa i filtri correnti (${filtersText.join(" · ")}).`
+      : "Nessuna specie estratta, effettua un nuovo re-roll.";
+    speciesContainer.appendChild(empty);
+  } else {
+    picked.forEach((sp) => {
+      speciesContainer.appendChild(createSpeciesCard(biome, sp));
+    });
+  }
+  body.appendChild(speciesContainer);
+
+  const traitInfo = gatherTraitInfoForBiome(biome);
+  const traitBlock = traitInfo ? buildTraitBlock(traitInfo, { synthetic: Boolean(biome.synthetic) }) : null;
+  if (traitBlock) {
+    body.appendChild(traitBlock);
+  }
+
+  return card;
+}
+
 function renderBiomes(filters) {
   updateSummaryCounts();
   const grid = elements.biomeGrid;
   if (!grid) return;
   grid.innerHTML = "";
-  
+
   if (!state.pick.biomes.length) {
     const placeholder = document.createElement("p");
     placeholder.className = "placeholder";
-    placeholder.textContent = "Nessun bioma selezionato. Genera un ecosistema per iniziare.";
+    placeholder.textContent = "Genera un ecosistema per iniziare.";
     grid.appendChild(placeholder);
     return;
   }
 
   state.pick.biomes.forEach((biome) => {
-    const card = document.createElement("article");
-    card.className = "card";
-
-    const title = document.createElement("h3");
-    title.textContent = biome.synthetic ? biome.label ?? biome.id : biome.id;
-
-    const meta = document.createElement("p");
-    meta.className = "form__hint";
-    if (biome.synthetic) {
-      const parentLinks = (biome.parents ?? []).map((parent) => {
-        const href = parent.path ? resolvePackHref(parent.path) : null;
-        if (href) {
-          return `<a href="${href}" target="_blank" rel="noreferrer">${parent.label}</a>`;
-        }
-        return parent.label;
-      });
-      const parentSummary = parentLinks.length ? parentLinks.join(" + ") : "—";
-      meta.innerHTML = `Origine: ${parentSummary} · <span>Sintetico</span>`;
-    } else {
-      const biomeHref = resolvePackHref(biome.path);
-      const foodwebHref = biome.foodweb?.path ? resolvePackHref(biome.foodweb.path) : null;
-      const reportHref = new URL(
-        `catalog.html#bioma-${biome.id}`,
-        window.location.href
-      ).toString();
-      const metaParts = [];
-      if (biomeHref) {
-        metaParts.push(
-          `<a href="${biomeHref}" target="_blank" rel="noreferrer">Bioma YAML</a>`
-        );
-      }
-      if (foodwebHref) {
-        metaParts.push(
-          `<a href="${foodwebHref}" target="_blank" rel="noreferrer">Foodweb</a>`
-        );
-      }
-      if (reportHref) {
-        metaParts.push(`<a href="${reportHref}">Report</a>`);
-      }
-      meta.innerHTML = metaParts.join(" · ") || "Bioma del catalogo";
-    }
-
-    const list = document.createElement("ul");
-    const picked = state.pick.species[biome.id] ?? [];
-    if (!picked.length) {
-      const empty = document.createElement("li");
-      empty.className = "placeholder";
-      const filtersText = [];
-      if (filters.flags.length) filtersText.push(`flag: ${filters.flags.join(", ")}`);
-      if (filters.roles.length) filtersText.push(`ruoli: ${filters.roles.join(", ")}`);
-      if (filters.tags.length) filtersText.push(`tag: ${filters.tags.join(", ")}`);
-      empty.textContent = filtersText.length
-        ? `Nessuna specie soddisfa i filtri (${filtersText.join(" · ")}).`
-        : "Nessuna specie estratta, riprova con un re-roll.";
-      list.appendChild(empty);
-    } else {
-      picked.forEach((sp) => {
-        const item = document.createElement("li");
-        const details = [sp.role_trofico ?? "—"];
-        if (sp.synthetic) {
-          details.push("Synth");
-        }
-        const tier = tierOf(sp);
-        details.push(`T${tier}`);
-        const detailSummary = details.join(" · ");
-        item.innerHTML = `<strong>${sp.display_name}</strong> <span class="form__hint">(${sp.id}) — ${detailSummary}</span>`;
-        list.appendChild(item);
-      });
-    }
-
-    const traitInfo = gatherTraitInfoForBiome(biome);
-    const traitBlock = traitInfo
-      ? buildTraitBlock(traitInfo, { synthetic: Boolean(biome.synthetic) })
-      : null;
-
-    card.append(title, meta, list);
-    if (traitBlock) {
-      card.appendChild(traitBlock);
-    }
-    grid.appendChild(card);
+    grid.appendChild(buildBiomeCard(biome, filters));
   });
-
 }
 
+function renderPinnedSummary() {
+  const list = elements.pinnedList;
+  const empty = elements.pinnedEmpty;
+  if (!list) return;
+
+  const entries = Array.from(state.cardState.pinned.values());
+  list.innerHTML = "";
+  const hasEntries = entries.length > 0;
+  list.hidden = !hasEntries;
+  if (empty) {
+    empty.hidden = hasEntries;
+  }
+  if (elements.summaryContainer) {
+    elements.summaryContainer.dataset.hasPins = hasEntries ? "true" : "false";
+  }
+  if (!hasEntries) {
+    return;
+  }
+
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    item.className = "generator-pins__item";
+    item.dataset.pinKey = entry.key;
+
+    const stillPresent = Boolean(findSpeciesInPick(entry.biomeId, entry.speciesId));
+    if (!stillPresent) {
+      item.dataset.state = "stale";
+    }
+
+    const header = document.createElement("div");
+    header.className = "generator-pins__header";
+
+    const name = document.createElement("span");
+    name.className = "generator-pins__name";
+    name.textContent = entry.displayName;
+    header.appendChild(name);
+
+    const controls = document.createElement("div");
+    controls.className = "generator-pins__controls";
+
+    const rarityBadge = createBadgeElement(entry.rarity, `rarity-${entry.slug}`);
+    rarityBadge.classList.add("generator-pins__badge");
+    controls.appendChild(rarityBadge);
+
+    const unpin = document.createElement("button");
+    unpin.type = "button";
+    unpin.className = "generator-pins__unpin";
+    unpin.textContent = "Rimuovi";
+    unpin.addEventListener("click", (event) => {
+      event.preventDefault();
+      const biome =
+        findBiomeById(entry.biomeId) ?? { id: entry.biomeId, label: entry.biomeLabel, synthetic: entry.synthetic };
+      const species =
+        findSpeciesInPick(entry.biomeId, entry.speciesId) ??
+        {
+          id: entry.speciesId,
+          display_name: entry.displayName,
+          balance: { threat_tier: `T${entry.tier}` },
+          synthetic: entry.synthetic,
+        };
+      togglePinned(biome, species);
+    });
+    controls.appendChild(unpin);
+
+    header.appendChild(controls);
+    item.appendChild(header);
+
+    const meta = document.createElement("span");
+    meta.className = "generator-pins__meta";
+    const metaParts = [entry.biomeLabel, `T${entry.tier}`];
+    if (entry.synthetic) {
+      metaParts.push("Synth");
+    }
+    if (!stillPresent) {
+      metaParts.push("fuori rotazione");
+    }
+    meta.textContent = metaParts.join(" · ");
+    item.appendChild(meta);
+
+    list.appendChild(item);
+  });
+}
 function renderSeeds() {
   updateSummaryCounts();
   const container = elements.seedGrid;
@@ -2323,6 +2840,7 @@ async function loadData() {
 setupAnchorNavigation();
 setupCodexControls();
 renderTraitExpansions();
+renderPinnedSummary();
 attachActions();
 loadData();
 
