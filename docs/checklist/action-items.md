@@ -5,6 +5,11 @@
 - Le checklist e la roadmap evidenziano attività aperte su encounter aggiuntivi, automazione Google Sheet e miglioramenti HUD, ma i punti critici di telemetria sono stati riallineati.【F:docs/checklist/milestones.md†L8-L20】【F:docs/piani/roadmap.md†L1-L32】
 - La validazione dataset (`python tools/py/validate_datasets.py`) continua a passare; ora `npm test` in `tools/ts` verifica i 3 casi `roll_pack` (run 2025-10-26, tutti passed).【F:tools/py/validate_datasets.py†L1-L116】【1e2f1a†L1-L11】
 - I test interfaccia web sono stati completati su Chromium headless con sorgente locale `http://127.0.0.1:8000/`, confermando ricarica YAML e suite di controlli automatici 7/7 ✅.
+- Mission Control e Generatore hanno ricevuto aggiornamenti sostanziali (landing guidata, quick actions, Dataset Hub con validazione automatica, radar/specie comparate, pin persistente), come riportato nelle PR #68-#96.
+
+## Aggiornamenti giornalieri PR
+<!-- daily-pr-summary:start -->
+<!-- daily-pr-summary:end -->
 
 ## Task immediati
 - [x] Installare le dipendenze mancanti (`requests`, `pyyaml`) ed eseguire `scripts/chatgpt_sync.py` da un ambiente con accesso autorizzato, aggiornando poi `docs/chatgpt_sync_status.md` con esito e credenziali operative.【F:tools/py/requirements.txt†L1-L2】【F:docs/chatgpt_sync_status.md†L19-L33】
@@ -19,3 +24,4 @@
 - [x] Bilanciare i pacchetti PI rispetto alla curva PE (`pe_economy`) e integrare le finestre EMA nel client, verificando la coerenza con i dataset YAML coinvolti. _Aggiornati costi/budget `pi_shop`, curva `pe_economy` e hook HUD per i breakdown ruolo/rarità._【F:docs/piani/roadmap.md†L4-L14】【F:data/packs.yaml†L1-L17】【F:data/telemetry.yaml†L1-L55】【F:docs/test-interface/app.js†L520-L579】
 - [x] Implementare alert HUD automatici per il superamento del `risk.weighted_index` > 0.60 durante i vertical slice, notificando al team bilanciamento PI.【F:docs/hooks/ema-metrics.md†L21-L43】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L64】 _client-r2823 emette `hud.alert.risk-high`, con ack PI entro tre turni e log in `hud_alert_log`._
 - [x] Aggiornare i timer di evacuazione di "Skydock Siege" usando i trend `time_low_hp_turns` e mantenendo tilt < 0.50 nelle squadre testate.【F:data/missions/skydock_siege.yaml†L1-L71】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L98】 _Timer evacuazione a 6 turni, cooldown relay/support a 3 → tilt 0.46 (Delta) e 0.44 (Echo)._ 
+- [x] Automatizzare il riepilogo giornaliero dei merge PR (raccolta note, aggiornamento `docs/changelog.md`, `docs/piani/roadmap.md`, checklist e Canvas) entro le 18:00 CET. _Workflow `daily-pr-summary` pianificato alle 17:10 UTC con script `tools/py/daily_pr_report.py` (report automatici in `docs/chatgpt_changes/`)._

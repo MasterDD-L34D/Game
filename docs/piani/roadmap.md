@@ -26,12 +26,17 @@
   - Timer evacuazione a 6 turni e cooldown relay/support a 3 mantengono `time_low_hp_turns` (7 su Tier 3, 5 in co-op) e tilt < 0.50 nel retest 2025-11-05; aggiornare continuamente `data/missions/skydock_siege.yaml` con i nuovi parametri. 【F:data/missions/skydock_siege.yaml†L1-L71】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L98】
 
 ## Prossimi passi
-- Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】
+- Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】 _In corso: radar/specie comparate disponibili nella dashboard generator._
 - Collegare i log Delta/Echo alla pipeline Google Sheet dopo la stabilizzazione del nuovo metodo `ema_capped_minmax` per assicurare reporting condiviso.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】【F:docs/drive-sync.md†L1-L52】
 - Creare script di migrazione per esportare `telemetry` su Google Sheet via `scripts/driveSync.gs`.
+- Automatizzare il riepilogo quotidiano delle PR: raccogliere i merge giornalieri, generare report in `docs/chatgpt_changes/` e aggiornare changelog/roadmap/checklist/Canvas entro le 18:00 CET. _Completato via workflow `daily-pr-summary` (report automatici e aggiornamento marker documentazione)._ 
 - Aggiornare i canvas principali con screenshot e note del playtest VC. **Completato** tramite pannello HUD e metriche annotate nel Canvas principale.【F:docs/Canvas/feature-updates.md†L9-L20】
 - Integrare esportazione client-side dei log VC (`session-metrics.yaml`) direttamente nella pipeline Drive una volta stabilizzato il tuning risk.
 - Formalizzare la pipeline di archiviazione presentazioni in `docs/presentations/` collegando milestone e release.【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
+
+## Riepilogo PR giornaliero
+<!-- daily-pr-summary:start -->
+<!-- daily-pr-summary:end -->
 
 ## Comunicazioni release VC novembre 2025
 - **Riunione cross-team (2025-11-06, 10:30 CET)** — Confermata sala VC Bridge + call Meet per telemetria/client/narrativa. Agenda: revisione metriche QA 2025-11-01, readiness tag `v0.6.0-rc1`, canali di annuncio e checklist supporto live.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L45】

@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 ### Added
+- Report sintetico sulle PR #68-#96 che introduce Mission Control navigabile, radar e confronto specie nel generatore, dataset hub con validazione automatica e strumenti playtest/QC aggiornati.
+- Workflow giornaliero `daily-pr-summary` con script `tools/py/daily_pr_report.py` per produrre report automatici delle PR fuse e aggiornare changelog, roadmap, checklist e Canvas.
 - Registro manutenzione 2025-10-24 con reinstallazione dipendenze `tools/ts` e `tools/py` documentato in `logs/tooling/2025-10-24-tooling.md`.
 - Nota di manutenzione in `docs/chatgpt_sync_status.md` per l'ambiente corrente (Node 22.19.0 / Python 3.11.12).
 - Verbale test manuali 2025-10-26 per `docs/test-interface/` con esiti positivi su ricarica YAML e suite pulsanti automatici.
@@ -18,6 +20,10 @@
 
 ### Known Issues
 - Nessuno segnalato.
+
+### Riepilogo PR giornalieri
+<!-- daily-pr-summary:start -->
+<!-- daily-pr-summary:end -->
 
 ## [2025-11] VC Patch Note (RC)
 ### Stato feature

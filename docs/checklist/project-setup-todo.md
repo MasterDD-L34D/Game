@@ -50,11 +50,12 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [x] Sincronizzare un primo batch di YAML → Sheet e verificare che i dati risultino coerenti. _Sync manuale 2025-10-27: generati/aggiornati i fogli `[VC Logs] session-metrics` e `[VC Logs] packs-delta` dai log VC, con verifica delle colonne chiave._【F:docs/drive-sync.md†L41-L57】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L23-L77】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
 
 ## 8. Manutenzione continua
-- [ ] Aggiornare regolarmente roadmap e checklist (milestone, action items, questa TODO) con progressi. _Checkpoint 2025-11-01 programmato; referente PM: S. Greco._
+- [ ] Aggiornare regolarmente roadmap e checklist (milestone, action items, questa TODO) con progressi. _Checkpoint 2025-11-01 programmato; referente PM: S. Greco. Dal 2025-11-02 attivare riepilogo giornaliero delle PR merge (finestra 09:00-18:00 CET) per alimentare changelog/roadmap/checklist/Canvas._
+- [x] Automatizzare il riepilogo giornaliero delle PR fuse con aggiornamento documentazione. _Workflow `daily-pr-summary` pianificato alle 17:10 UTC: usa `tools/py/daily_pr_report.py` per generare report e aggiornare changelog/roadmap/checklist/Canvas._
 - [x] Pianificare incontri di revisione (settimanali/quindicinali) per verificare stato dei pacchetti PI,
       telemetria VC e nuove feature. _Calendario pubblicato in `docs/24-TELEMETRIA_VC.md` (agg. 2025-10-27, owner: Team Design)._ 
-- [x] Automatizzare i test (GitHub Actions o CI locale) quando le dipendenze e le credenziali sono stabili. _Workflow `CI` attivo con build CLI TS e validazioni dataset Python/TS documentato in `docs/ci-pipeline.md` (2025-10-27, DevOps)._ 
-- [x] Archiviare in `docs/logs/` o `logs/` eventuali report di bug o sessioni di playtest. _Convenzione `logs/playtests/YYYY-MM-DD` formalizzata in `docs/playtest-log-guidelines.md` e applicativa dal ciclo 2025-11-04._
+- [x] Automatizzare i test (GitHub Actions o CI locale) quando le dipendenze e le credenziali sono stabili. _Workflow `CI` attivo con build CLI TS e validazioni dataset Python/TS documentato in `docs/ci-pipeline.md` (2025-10-27, DevOps)._
+- [x] Archiviare in `docs/logs/` o `logs/` eventuali report di bug o sessioni di playtest. _Convenzione `logs/playtests/YYYY-MM-DD` formalizzata in `docs/playtest-log-guidelines.md` e applicativa dal ciclo 2025-11-04._ 
 
 ## 9. Quality assurance manuale
 - [ ] Preparare una lista di scenari di gioco critici (bilanciamento, progressione, eventi speciali). _Deadline proposta: 2025-11-08 (referente QA: V. Romano)._ 
