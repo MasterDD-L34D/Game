@@ -6,6 +6,27 @@ comportamentali. Le soglie di attivazione sono derivate dai dataset YAML
 condivisi nel repository e alimentano sia i generatori Ennea sia i report
 telemetrici TV.
 
+## Stats & Eventi engine (v0.3)
+- **Statistiche supportate**: `ac`, `aura_radius`, `bond_aura`, `burst_damage`,
+  `charisma_checks`, `counter_chance`, `damage_taken`, `duel_bonus`,
+  `evasion`, `hp_max`, `initiative`, `initiative_adv`, `melee_damage`, `pe`,
+  `pp`, `ranged_damage`, `self_reliance`, `sg`, `skill_success`,
+  `stamina_regen`, `stealth`, `support_power`, `teamwork_bonus`.
+- **Trigger monitorati**: `on_adjacent_ally`, `on_ally_downed`,
+  `on_ambush_initiated`, `on_coordinate_action`,
+  `on_damage_taken_then_counter`, `on_finisher_hit`,
+  `on_first_blood_received`, `on_goal_blocked`, `on_initiative_win`,
+  `on_isolation`, `on_new_area_discovered`, `on_setback`,
+  `on_skill_check_under_pressure`, `on_stealth_start`.
+- **Alias namespaced**: le voci di compatibilità usano ora la forma
+  `<dominio>.<sottodominio>.<metrica>` (es. `combat.defense.ac`,
+  `events.team.coordinate_action`) per collegare direttamente gli identificativi
+  del motore agli hook tematici senza traduzioni ad hoc.
+- **Limiti confermati**: i gruppi esclusivi (`core_emotion`, `hornevian`,
+  `harmonic`, `object_rel`) rispettano 1–2 attivazioni per incontro e i passivi
+  mantengono `instincts_stack_with: none` con cap `add_pct` 0.2 e
+  `add_flat_initiative` 4.
+
 ## Biome Coherence (Tipo 1)
 - **Dataset & Hooks**: `themes.yaml` → `reformer_1`, `personality_module.v1.json` → `mechanics_registry.hooks["theme.reformer_1"].links`, `dataset.themes[reformer_1]`.
 - **Scopo**: mantenere coerenza tra biomi, affissi e mutazioni per ridurre

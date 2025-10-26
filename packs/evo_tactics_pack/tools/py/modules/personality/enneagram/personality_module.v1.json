@@ -2122,224 +2122,231 @@
     ]
   },
   "compatibility": {
-    "version": "0.2.0",
-    "updated_at": "2025-10-26T17:27:57.296199",
+    "version": "0.3.0",
+    "updated_at": "2025-10-26T22:41:51Z",
     "stats": {
       "ac": {
         "aliases": [
-          "armor_class",
-          "defense"
+          "combat.defense.ac",
+          "combat.defense.rating"
         ]
       },
       "aura_radius": {
         "aliases": [
-          "aura_range",
-          "team_aura_radius"
+          "support.aura.radius",
+          "support.aura.spread"
         ]
       },
       "bond_aura": {
         "aliases": [
-          "ally_bond",
-          "coordination_aura"
+          "support.bond.link_strength",
+          "support.bond.radius"
         ]
       },
       "burst_damage": {
         "aliases": [
-          "burst",
-          "alpha_damage"
+          "combat.damage.burst",
+          "combat.alpha_strike.damage"
         ]
       },
       "charisma_checks": {
         "aliases": [
-          "presence",
-          "influence_checks"
+          "social.charisma.check",
+          "skill.social.charisma"
         ]
       },
       "counter_chance": {
         "aliases": [
-          "riposte_rate",
-          "counter_rate"
+          "combat.counter.chance",
+          "combat.reaction.counter_rate"
         ]
       },
       "damage_taken": {
         "aliases": [
-          "incoming_damage",
-          "damage_received"
+          "combat.damage.taken",
+          "combat.incoming_damage"
         ]
       },
       "duel_bonus": {
         "aliases": [
-          "duelist_edge"
+          "combat.duel.bonus",
+          "combat.duelist.edge"
         ]
       },
       "evasion": {
         "aliases": [
-          "dodge",
-          "evasion_rate"
+          "combat.defense.evasion",
+          "combat.defense.dodge_rate"
         ]
       },
       "hp_max": {
         "aliases": [
-          "max_hp",
-          "health_max"
+          "resources.hp.max",
+          "vitals.health.max"
         ]
       },
       "initiative": {
         "aliases": [
-          "init",
-          "initiative_score"
+          "combat.initiative.base",
+          "combat.initiative.score"
         ]
       },
       "initiative_adv": {
         "aliases": [
-          "init_adv",
-          "initiative_advantage"
+          "combat.initiative.advantage",
+          "combat.initiative.bonus"
         ]
       },
       "melee_damage": {
         "aliases": [
-          "melee_dmg",
-          "atk_melee_damage"
+          "combat.melee.damage",
+          "combat.attack.melee"
         ]
       },
       "pe": {
         "aliases": [
-          "energy_points",
-          "stamina_points"
+          "resources.pe",
+          "economy.energy_points"
         ]
       },
       "pp": {
         "aliases": [
-          "power_points",
-          "pp_total"
+          "resources.pp",
+          "economy.power_points"
         ]
       },
       "ranged_damage": {
         "aliases": [
-          "ranged_dmg",
-          "atk_ranged_damage"
+          "combat.ranged.damage",
+          "combat.attack.ranged"
         ]
       },
       "self_reliance": {
         "aliases": [
-          "solo_bonus",
-          "independent_bonus"
+          "tactics.self_reliance",
+          "tactics.solo_bonus"
         ]
       },
       "sg": {
         "aliases": [
-          "shield_gauge",
-          "tilt_resistance"
+          "defense.shield.gauge",
+          "defense.tilt_resistance"
         ]
       },
       "skill_success": {
         "aliases": [
-          "skill_check_bonus",
-          "skill_success_rate"
+          "skills.check.success",
+          "skills.success_rate"
         ]
       },
       "stamina_regen": {
         "aliases": [
-          "stam_regen",
-          "endurance_regen"
+          "resources.stamina.regen",
+          "resources.endurance.regen"
         ]
       },
       "stealth": {
         "aliases": [
-          "stealth_score",
-          "concealment"
+          "skills.stealth",
+          "skills.concealment"
         ]
       },
       "support_power": {
         "aliases": [
-          "support",
-          "heal_power"
+          "support.power",
+          "support.healing.power"
         ]
       },
       "teamwork_bonus": {
         "aliases": [
-          "coordination_bonus"
+          "support.teamwork.bonus",
+          "support.coordination.bonus"
         ]
       }
     },
     "events": {
       "on_adjacent_ally": {
         "aliases": [
-          "on_ally_close",
-          "on_bond_range"
+          "events.tactical.ally_adjacent",
+          "events.team.bond_range"
         ]
       },
       "on_ally_downed": {
         "aliases": [
-          "on_ally_down",
-          "on_ally_ko"
+          "events.tactical.ally_downed",
+          "events.team.ally_ko"
         ]
       },
       "on_ambush_initiated": {
         "aliases": [
-          "on_ambush",
-          "on_surprise_round"
+          "events.tactical.ambush_started",
+          "events.tactical.surprise_round"
         ]
       },
       "on_coordinate_action": {
         "aliases": [
-          "on_team_action",
-          "on_help_action"
+          "events.team.coordinate_action",
+          "events.support.assist_performed"
         ]
       },
       "on_damage_taken_then_counter": {
         "aliases": [
-          "on_hit_then_counter"
+          "events.reaction.counter_after_hit",
+          "events.reaction.hit_then_counter"
         ]
       },
       "on_finisher_hit": {
         "aliases": [
-          "on_finisher_resolved"
+          "events.combat.finisher_hit",
+          "events.combat.finisher_resolved"
         ]
       },
       "on_first_blood_received": {
         "aliases": [
-          "on_first_blood",
-          "on_first_hit_taken"
+          "events.combat.first_blood_taken",
+          "events.combat.first_hit_taken"
         ]
       },
       "on_goal_blocked": {
         "aliases": [
-          "on_objective_denied",
-          "on_interrupt"
+          "events.objective.goal_blocked",
+          "events.objective.interrupt"
         ]
       },
       "on_initiative_win": {
         "aliases": [
-          "on_win_initiative"
+          "events.combat.initiative_win",
+          "events.combat.initiative_check_win"
         ]
       },
       "on_isolation": {
         "aliases": [
-          "on_no_ally_near",
-          "on_solo_state"
+          "events.state.isolation",
+          "events.team.solo_state"
         ]
       },
       "on_new_area_discovered": {
         "aliases": [
-          "on_area_reveal"
+          "events.exploration.new_area",
+          "events.exploration.area_reveal"
         ]
       },
       "on_setback": {
         "aliases": [
-          "on_fail_check",
-          "on_damage_spike"
+          "events.challenge.setback",
+          "events.challenge.fail_check"
         ]
       },
       "on_skill_check_under_pressure": {
         "aliases": [
-          "on_skill_clutch",
-          "on_skill_high_dc"
+          "events.challenge.skill_under_pressure",
+          "events.challenge.skill_high_dc"
         ]
       },
       "on_stealth_start": {
         "aliases": [
-          "on_enter_stealth"
+          "events.stealth.enter",
+          "events.stealth.started"
         ]
       }
     },
