@@ -261,6 +261,50 @@
               Carica il catalogo per iniziare.
             </p>
             <p class="generator-summary__note" id="generator-last-action">Ultimo aggiornamento: —</p>
+            <section
+              class="generator-narrative"
+              id="generator-narrative"
+              aria-labelledby="generator-narrative-title"
+              data-has-narrative="false"
+            >
+              <div class="generator-narrative__header">
+                <h4 class="generator-summary__subtitle" id="generator-narrative-title">
+                  Narrativa dinamica
+                </h4>
+                <div class="generator-audio-controls" id="generator-audio-controls">
+                  <button
+                    type="button"
+                    class="button button--ghost generator-audio-controls__mute"
+                    id="generator-audio-mute"
+                    aria-pressed="false"
+                  >
+                    🔈 Audio attivo
+                  </button>
+                  <label class="generator-audio-controls__volume" for="generator-audio-volume">
+                    <span class="visually-hidden">Volume effetti sonori</span>
+                    <input
+                      type="range"
+                      id="generator-audio-volume"
+                      min="0"
+                      max="100"
+                      value="75"
+                    />
+                  </label>
+                </div>
+              </div>
+              <article class="narrative-panel" id="generator-briefing-panel">
+                <h5 class="narrative-panel__title">Mission briefing</h5>
+                <p class="narrative-panel__body" data-narrative="briefing">
+                  Genera un ecosistema per ottenere il briefing operativo.
+                </p>
+              </article>
+              <article class="narrative-panel" id="generator-hook-panel">
+                <h5 class="narrative-panel__title">Hook narrativo</h5>
+                <p class="narrative-panel__body" data-narrative="hook">
+                  Gli hook narrativi compariranno dopo la prima generazione.
+                </p>
+              </article>
+            </section>
             <div class="generator-summary__pins">
               <h4 class="generator-summary__subtitle">Specie pinnate</h4>
               <p class="generator-summary__empty" id="generator-pinned-empty">
