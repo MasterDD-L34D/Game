@@ -282,12 +282,14 @@
             <h2>Biomi selezionati</h2>
             <p>Ogni scheda mostra i link utili al YAML originale, foodweb e report HTML.</p>
           </div>
-          <div
-            id="biome-grid"
-            class="generator-collection"
-            data-collection="biomes"
-            aria-live="polite"
-          ></div>
+          <div class="card-shelf" data-collection="biomes">
+            <div
+              id="biome-grid"
+              class="card-shelf__grid generator-collection"
+              role="list"
+              aria-live="polite"
+            ></div>
+          </div>
         </section>
 
         <section class="section" id="generator-seeds" data-panel="seeds">
@@ -295,12 +297,14 @@
             <h2>Encounter seed generati</h2>
             <p>Il budget di minaccia viene calcolato in base al tier delle specie estratte.</p>
           </div>
-          <div
-            id="seed-grid"
-            class="generator-collection generator-collection--compact"
-            data-collection="seeds"
-            aria-live="polite"
-          ></div>
+          <div class="card-shelf card-shelf--compact" data-collection="seeds">
+            <div
+              id="seed-grid"
+              class="card-shelf__grid generator-collection generator-collection--compact"
+              role="list"
+              aria-live="polite"
+            ></div>
+          </div>
         </section>
       </div>
 
