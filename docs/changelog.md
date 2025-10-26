@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 ### Added
+- Bundle demo pubblico con preset "demo-bundle", press kit markdown automatico
+  e documentazione di deploy in `docs/evo-tactics-pack/deploy.md`.
+- Modulo `packs/pack-data.js` con supporto a override locali/remoti e variabili
+  d'ambiente per pipeline CI.
 - Report sintetico sulle PR #68-#96 che introduce Mission Control navigabile, radar e confronto specie nel generatore, dataset hub con validazione automatica e strumenti playtest/QC aggiornati.
 - Workflow giornaliero `daily-pr-summary` con script `tools/py/daily_pr_report.py` per produrre report automatici delle PR fuse e aggiornare changelog, roadmap, checklist e Canvas.
 - Registro manutenzione 2025-10-24 con reinstallazione dipendenze `tools/ts` e `tools/py` documentato in `logs/tooling/2025-10-24-tooling.md`.
@@ -13,6 +17,8 @@
 - Allineamento note di rilascio condivise con Marketing Ops e kit asset (HUD/Screens) aggiornato per la finestra di annuncio VC.
 
 ### Changed
+- Il generatore seleziona di default il bundle demo per le esportazioni e
+  aggiorna il manifest con press kit e insight.
 - Allineate le finestre EMA (`phase_weights` 0.20/0.40/0.40, `idle_threshold_s` 8) e definite le nuove sezioni `hud_breakdown`, `telemetry_targets` e `pe_economy.curve` per sincronizzare i log Delta/Echo con la curva PE aggiornata.
 - Consolidato il calendario comunicazioni con Marketing/Product definendo owner, cadenza (daily standup + sync settimanale) e canali condivisi per il piano feedback post-annuncio.
 - Registrato l'impegno congiunto Marketing/Product e QA per il checkpoint finale e per il rilascio del pacchetto asset aggiornato.
