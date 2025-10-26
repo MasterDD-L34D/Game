@@ -6,10 +6,12 @@
 - Ogni retro Support/QA deve produrre una nota in `docs/faq.md` con owner e stato di follow-up.
 
 ## Milestone attive
-1. **Bilanciare pacchetti PI tra Forme**  
- - Validare il bias `random_general_d20` rispetto alle nuove combinazioni `bias_d12` per evitare inflazione di PE.【F:data/packs.yaml†L5-L88】
-  - Sincronizzare i costi `pi_shop` con la curva PE definita in `telemetry.pe_economy` (aggiunti i valori mancanti per `cap_pt`, `guardia_situazionale`, `starter_bioma`, `sigillo_forma`).【F:data/packs.yaml†L1-L4】【F:data/telemetry.yaml†L23-L31】
-  - Aggiornare il monitoraggio: `risk.weighted_index` si è stabilizzato a 0.57 nella sessione Delta dopo l'introduzione del segnale `overcap_guard`, ma resta da mitigare il picco 0.61 della sessione Echo.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L14-L62】
+> **Aggiornamento 2025-11-02** — Le PR #68-#96 hanno consolidato Mission Control (quick actions, landing guidata, Dataset Hub con validazione YAML) e il generatore (radar, confronto specie, pin persistente, tooltips hazard/ruoli). Restano aperti gli alert HUD automatici oltre soglia risk 0.60, l'automazione Drive Sync giornaliera e il rituning evacuazione Skydock Siege.
+
+1. **Bilanciare pacchetti PI tra Forme**
+   - Validare il bias `random_general_d20` rispetto alle nuove combinazioni `bias_d12` per evitare inflazione di PE.【F:data/packs.yaml†L5-L88】
+    - Sincronizzare i costi `pi_shop` con la curva PE definita in `telemetry.pe_economy` (aggiunti i valori mancanti per `cap_pt`, `guardia_situazionale`, `starter_bioma`, `sigillo_forma`).【F:data/packs.yaml†L1-L4】【F:data/telemetry.yaml†L23-L31】
+    - Aggiornare il monitoraggio: `risk.weighted_index` si è stabilizzato a 0.57 nella sessione Delta dopo l'introduzione del segnale `overcap_guard`, ma resta da mitigare il picco 0.61 della sessione Echo.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L14-L62】
   - Inserire alert HUD dedicati nella dashboard Canvas per segnalare automaticamente il superamento della soglia 0.60 durante i roll PI.【F:docs/Canvas/feature-updates.md†L9-L20】
 2. **Telemetria VC in game build**
    - Integrare le finestre EMA (`ema_alpha`, `windows`) nel client per raccogliere dati reali, documentando gli hook HUD/telemetria condivisi con il team client.【F:data/telemetry.yaml†L1-L8】【F:docs/hooks/ema-metrics.md†L1-L52】
@@ -22,16 +24,21 @@
 4. **Missioni verticali e supporto live**
  - Preparare il playtest di "Skydock Siege" con obiettivi multilivello e timer di evacuazione.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
   - Collegare Reattori Aeon, filtro SquadSync e protocolli di soccorso alla pipeline telemetrica co-op.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
-  - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】
-  - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; revisione 2025-02-15 documentata in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L61-L121】【F:data/missions/skydock_siege.yaml†L1-L52】
+  - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】 _Layout completato con radar/timeline aggiornati; resta attivazione alert automatici oltre soglia 0.60._
+  - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; revisione 2025-02-15 documentata in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L61-L121】【F:data/missions/skydock_siege.yaml†L1-L52】 _Attività riaperta dopo i test PR #92/96._
 
 ## Prossimi passi
-- Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】
+- Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】 _In corso: radar/specie comparate disponibili nella dashboard generator._
 - Collegare i log Delta/Echo alla pipeline Google Sheet dopo la stabilizzazione del nuovo metodo `ema_capped_minmax` per assicurare reporting condiviso.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】【F:docs/drive-sync.md†L1-L52】
 - Creare script di migrazione per esportare `telemetry` su Google Sheet via `scripts/driveSync.gs`.
+- Automatizzare il riepilogo quotidiano delle PR: raccogliere i merge giornalieri, generare report in `docs/chatgpt_changes/` e aggiornare changelog/roadmap/checklist/Canvas entro le 18:00 CET. _Completato via workflow `daily-pr-summary` (report automatici e aggiornamento marker documentazione)._ 
 - Aggiornare i canvas principali con screenshot e note del playtest VC. **Completato** tramite pannello HUD e metriche annotate nel Canvas principale.【F:docs/Canvas/feature-updates.md†L9-L20】
 - Integrare esportazione client-side dei log VC (`session-metrics.yaml`) direttamente nella pipeline Drive una volta stabilizzato il tuning risk.
 - Formalizzare la pipeline di archiviazione presentazioni in `docs/presentations/` collegando milestone e release.【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
+
+## Riepilogo PR giornaliero
+<!-- daily-pr-summary:start -->
+<!-- daily-pr-summary:end -->
 
 ## Comunicazioni release VC novembre 2025
 - **Riunione cross-team (2025-11-06, 10:30 CET)** — Confermata sala VC Bridge + call Meet per telemetria/client/narrativa. Agenda: revisione metriche QA 2025-11-01, readiness tag `v0.6.0-rc1`, canali di annuncio e checklist supporto live.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L45】
