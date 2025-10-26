@@ -4125,6 +4125,20 @@ function createChipElement(value) {
   if (info?.conflict?.length) {
     tooltip.push(`Conflitti: ${info.conflict.map((id) => traitLabel(id)).join(", ")}`);
   }
+  if (info?.tier) {
+    tooltip.push(`Tier: ${info.tier}`);
+  }
+  if (info?.slots?.length) {
+    tooltip.push(`Slot PI: ${info.slots.join(", ")}`);
+  }
+  if (info?.piSynergy?.combo_totale) {
+    const formList = Array.isArray(info.piSynergy.forme) ? info.piSynergy.forme : [];
+    const formsNote = formList.length ? ` · Forme: ${formList.join(", ")}` : "";
+    tooltip.push(`Combo PI: ${info.piSynergy.combo_totale}${formsNote}`);
+  }
+  if (info?.environmentRequirements?.length) {
+    tooltip.push(`Requisiti ambientali: ${info.environmentRequirements.length}`);
+  }
   if (tooltip.length) {
     chip.title = tooltip.join("\n");
   }
@@ -4254,6 +4268,16 @@ function indexTraitDetails(catalog) {
     const weakness = raw?.debolezza ?? raw?.weakness ?? null;
     const synergy = normalizeTraitList(raw?.sinergie ?? raw?.synergy);
     const conflict = normalizeTraitList(raw?.conflitti ?? raw?.conflict);
+    const tier = raw?.tier ?? null;
+    const slotList = Array.isArray(raw?.slot ?? raw?.slots)
+      ? (raw?.slot ?? raw?.slots).filter((item) => typeof item === "string" && item.length)
+      : [];
+    const piSynergy = raw?.sinergie_pi ?? raw?.pi_synergy ?? null;
+    const environmentRequirements = Array.isArray(raw?.requisiti_ambientali)
+      ? raw.requisiti_ambientali
+      : Array.isArray(raw?.environment_requirements)
+      ? raw.environment_requirements
+      : [];
     const entry = {
       id: traitId,
       label: raw?.label ?? titleCase(traitId),
@@ -4265,6 +4289,10 @@ function indexTraitDetails(catalog) {
       weakness,
       synergy,
       conflict,
+      tier,
+      slots: slotList,
+      piSynergy,
+      environmentRequirements,
     };
     map.set(traitId, entry);
   });
