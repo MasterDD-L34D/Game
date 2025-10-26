@@ -11,6 +11,7 @@ const elements = {
   tags: document.getElementById("tags"),
   nBiomi: document.getElementById("nBiomi"),
   biomeGrid: document.getElementById("biome-grid"),
+  traitGrid: document.getElementById("trait-grid"),
   seedGrid: document.getElementById("seed-grid"),
   status: document.getElementById("generator-status"),
 };
@@ -19,6 +20,12 @@ const PACK_ROOT_CANDIDATES = getPackRootCandidates();
 
 const state = {
   data: null,
+  traitRegistry: null,
+  traitReference: null,
+  traitsIndex: new Map(),
+  traitDetailsIndex: new Map(),
+  hazardRegistry: null,
+  hazardsIndex: new Map(),
   pick: {
     ecosystem: {},
     biomes: [],
@@ -31,6 +38,12 @@ let packContext = null;
 let resolvedCatalogUrl = null;
 let resolvedPackRoot = null;
 let packDocsBase = null;
+
+const TRAIT_CATEGORY_LABELS = {
+  biomi_estremi: "Biomi estremi",
+  rete_connessa: "Rete connessa",
+  avanzati_specializzati: "Cluster avanzati",
+};
 
 function applyCatalogContext(data, context) {
   packContext = context ?? null;
@@ -141,6 +154,49 @@ function combineTags(primary = [], secondary = []) {
   return Array.from(merged);
 }
 
+function getTraitDetails(traitId) {
+  if (!(state.traitDetailsIndex instanceof Map)) {
+    return null;
+  }
+  return state.traitDetailsIndex.get(traitId) ?? null;
+}
+
+function traitLabel(traitId) {
+  const info = getTraitDetails(traitId);
+  if (info?.label) {
+    return info.label;
+  }
+  if (typeof traitId === "string") {
+    return titleCase(traitId);
+  }
+  return traitId;
+}
+
+function createChipElement(value) {
+  const chip = document.createElement("span");
+  chip.className = "chip";
+  const info = getTraitDetails(value);
+  chip.textContent = info?.label ?? value;
+  chip.dataset.traitId = value;
+  const tooltip = [];
+  if (info?.usage) tooltip.push(`Uso: ${info.usage}`);
+  if (info?.family) tooltip.push(`Famiglia: ${info.family}`);
+  if (info?.mutation) tooltip.push(`Mutazione: ${info.mutation}`);
+  if (info?.selectiveDrive) tooltip.push(`Spinta: ${info.selectiveDrive}`);
+  if (info?.fme) tooltip.push(`FME: ${info.fme}`);
+  if (info?.weakness) tooltip.push(`Debolezza: ${info.weakness}`);
+  if (info?.synergy?.length) {
+    tooltip.push(`Sinergie: ${info.synergy.map((id) => traitLabel(id)).join(", ")}`);
+  }
+  if (info?.conflict?.length) {
+    tooltip.push(`Conflitti: ${info.conflict.map((id) => traitLabel(id)).join(", ")}`);
+  }
+  if (tooltip.length) {
+    chip.title = tooltip.join("\n");
+  }
+  return chip;
+}
+
 function inferThreatTierFromRole(role = "", flags = {}) {
   if (flags.apex) return 4;
   if (flags.threat) return 3;
@@ -209,6 +265,402 @@ function populateFilters(data) {
   collectTags(data).forEach((tag) => ensureOption(elements.tags, tag));
 }
 
+function indexTraitRegistry(registry) {
+  const map = new Map();
+  if (!registry?.rules?.length) {
+    return map;
+  }
+
+  registry.rules.forEach((rule) => {
+    const classId = rule.when?.biome_class;
+    if (!classId) return;
+    const entry = map.get(classId) || {
+      traits: new Set(),
+      effects: {},
+      jobs: new Set(),
+      meta: null,
+      rules: [],
+    };
+    (rule.suggest?.traits ?? []).forEach((trait) => entry.traits.add(trait));
+    Object.entries(rule.suggest?.effects ?? {}).forEach(([key, value]) => {
+      entry.effects[key] = value;
+    });
+    (rule.suggest?.jobs_bias ?? []).forEach((job) => entry.jobs.add(job));
+    entry.rules.push(rule);
+    if (rule.meta) {
+      entry.meta = { ...(entry.meta ?? {}), ...rule.meta };
+    }
+    map.set(classId, entry);
+  });
+
+  return map;
+}
+
+function normalizeTraitList(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value.filter((item) => typeof item === "string" && item.length);
+  }
+  return [];
+}
+
+function indexTraitDetails(catalog) {
+  const map = new Map();
+  if (!catalog?.traits) {
+    return map;
+  }
+
+  Object.entries(catalog.traits).forEach(([traitId, raw]) => {
+    if (!traitId) return;
+    const usage = raw?.uso_funzione ?? raw?.usage ?? null;
+    const family = raw?.famiglia_tipologia ?? raw?.family ?? null;
+    const mutation = raw?.mutazione_indotta ?? raw?.mutation ?? null;
+    const selectiveDrive = raw?.spinta_selettiva ?? raw?.selective_drive ?? null;
+    const fme = raw?.fattore_mantenimento_energetico ?? raw?.fme ?? null;
+    const weakness = raw?.debolezza ?? raw?.weakness ?? null;
+    const synergy = normalizeTraitList(raw?.sinergie ?? raw?.synergy);
+    const conflict = normalizeTraitList(raw?.conflitti ?? raw?.conflict);
+    const entry = {
+      id: traitId,
+      label: raw?.label ?? titleCase(traitId),
+      usage,
+      family,
+      mutation,
+      selectiveDrive,
+      fme,
+      weakness,
+      synergy,
+      conflict,
+    };
+    map.set(traitId, entry);
+  });
+
+  return map;
+}
+
+function formatEffects(effects = {}) {
+  const entries = Object.entries(effects);
+  if (!entries.length) return null;
+  return entries
+    .map(([key, value]) => `${key}: ${value}`)
+    .join(", ");
+}
+
+function setTraitRegistry(registry) {
+  state.traitRegistry = registry ?? null;
+  state.traitsIndex = indexTraitRegistry(registry);
+  renderTraitExpansions();
+}
+
+function setTraitReference(catalog) {
+  state.traitReference = catalog ?? null;
+  state.traitDetailsIndex = indexTraitDetails(catalog);
+  renderTraitExpansions();
+}
+
+function indexHazardRegistry(registry) {
+  const map = new Map();
+  if (!registry?.hazards) return map;
+
+  Object.entries(registry.hazards).forEach(([hazardId, info]) => {
+    map.set(hazardId, {
+      id: hazardId,
+      requires_any_of: Array.from(info?.requires_any_of ?? []),
+      effect: info?.effect ?? null,
+      label: info?.label ?? null,
+    });
+  });
+
+  return map;
+}
+
+function setHazardRegistry(registry) {
+  state.hazardRegistry = registry ?? null;
+  state.hazardsIndex = indexHazardRegistry(registry);
+  renderTraitExpansions();
+}
+
+function describeHazards(hazardIds = []) {
+  if (!hazardIds?.length) return null;
+
+  const summaryParts = [];
+  const detailParts = [];
+
+  hazardIds.forEach((hazardId) => {
+    const name = titleCase(hazardId);
+    const entry = state.hazardsIndex.get(hazardId);
+    if (!entry) {
+      summaryParts.push(`${name} (?)`);
+      detailParts.push(`${name}: definizione mancante nel registro hazard.`);
+      return;
+    }
+
+    summaryParts.push(name);
+    const notes = [];
+    if (entry.requires_any_of?.length) {
+      notes.push(`cap: ${entry.requires_any_of.join(" / ")}`);
+    }
+    if (entry.effect) {
+      notes.push(entry.effect);
+    }
+    if (notes.length) {
+      detailParts.push(`${name}: ${notes.join(" — ")}`);
+    }
+  });
+
+  return {
+    summary: summaryParts.join(", "),
+    details: detailParts.join(" · "),
+  };
+}
+
+function gatherTraitInfoForBiome(biome) {
+  if (!biome || !(state.traitsIndex instanceof Map)) {
+    return null;
+  }
+
+  const aggregate = (entry) => ({
+    traits: Array.from(entry?.traits ?? []).sort((a, b) => a.localeCompare(b)),
+    jobs: Array.from(entry?.jobs ?? []).sort((a, b) => a.localeCompare(b)),
+    effects: { ...(entry?.effects ?? {}) },
+    description: entry?.meta?.description ?? null,
+    meta: entry?.meta ?? null,
+  });
+
+  if (!biome.synthetic) {
+    const entry = state.traitsIndex.get(biome.id);
+    if (!entry) return null;
+    return aggregate(entry);
+  }
+
+  const traitSet = new Set();
+  const jobSet = new Set();
+  const effects = {};
+  const descriptions = [];
+
+  (biome.parents ?? []).forEach((parent) => {
+    const entry = state.traitsIndex.get(parent.id);
+    if (!entry) return;
+    entry.traits.forEach((trait) => traitSet.add(trait));
+    entry.jobs.forEach((job) => jobSet.add(job));
+    Object.assign(effects, entry.effects);
+    if (entry.meta?.description) {
+      descriptions.push(`${titleCase(parent.id)}: ${entry.meta.description}`);
+    }
+  });
+
+  if (!traitSet.size) return null;
+
+  return {
+    traits: Array.from(traitSet).sort((a, b) => a.localeCompare(b)),
+    jobs: Array.from(jobSet).sort((a, b) => a.localeCompare(b)),
+    effects,
+    description: descriptions.join(" · ") || null,
+    meta: null,
+  };
+}
+
+function buildTraitBlock(info, { synthetic = false } = {}) {
+  if (!info?.traits?.length) return null;
+  const details = document.createElement("details");
+  details.className = "trait-block";
+  details.open = false;
+
+  const summary = document.createElement("summary");
+  summary.textContent = synthetic
+    ? `Tratti ambientali ereditati (${info.traits.length})`
+    : `Tratti ambientali suggeriti (${info.traits.length})`;
+  details.appendChild(summary);
+
+  const chipList = document.createElement("div");
+  chipList.className = "chip-list chip-list--compact";
+  const sortedTraitsForChips = [...info.traits].sort((a, b) => traitLabel(a).localeCompare(traitLabel(b)));
+  sortedTraitsForChips.forEach((trait) => {
+    chipList.appendChild(createChipElement(trait));
+  });
+  details.appendChild(chipList);
+
+  if (info.meta?.expansion) {
+    const expansion = document.createElement("p");
+    expansion.className = "form__hint";
+    expansion.textContent = `Espansione: ${titleCase(info.meta.expansion)}`;
+    details.appendChild(expansion);
+  }
+
+  if (info.meta?.notes) {
+    const notes = document.createElement("p");
+    notes.className = "form__hint";
+    notes.textContent = info.meta.notes;
+    details.appendChild(notes);
+  }
+
+  if (info.description) {
+    const desc = document.createElement("p");
+    desc.className = "form__hint";
+    desc.textContent = info.description;
+    details.appendChild(desc);
+  }
+
+  const detailList = document.createElement("dl");
+  detailList.className = "trait-details";
+  const orderedTraits = [...info.traits].sort((a, b) => traitLabel(a).localeCompare(traitLabel(b)));
+  orderedTraits.forEach((trait) => {
+    const traitInfo = getTraitDetails(trait);
+    if (!traitInfo) return;
+    const pieces = [];
+    if (traitInfo.usage) pieces.push(`Uso: ${traitInfo.usage}`);
+    if (traitInfo.fme) pieces.push(`FME: ${traitInfo.fme}`);
+    if (traitInfo.family) pieces.push(`Famiglia: ${traitInfo.family}`);
+    if (traitInfo.selectiveDrive) pieces.push(`Spinta: ${traitInfo.selectiveDrive}`);
+    if (traitInfo.mutation) pieces.push(`Mutazione: ${traitInfo.mutation}`);
+    if (traitInfo.synergy?.length) {
+      pieces.push(`Sinergie: ${traitInfo.synergy.map((id) => traitLabel(id)).join(", ")}`);
+    }
+    if (traitInfo.conflict?.length) {
+      pieces.push(`Conflitti: ${traitInfo.conflict.map((id) => traitLabel(id)).join(", ")}`);
+    }
+    if (traitInfo.weakness) pieces.push(`Debolezza: ${traitInfo.weakness}`);
+    if (!pieces.length) return;
+    const term = document.createElement("dt");
+    term.className = "trait-details__term";
+    term.textContent = traitInfo.label ?? traitLabel(trait);
+    detailList.appendChild(term);
+    const desc = document.createElement("dd");
+    desc.className = "trait-details__desc";
+    desc.textContent = pieces.join(" · ");
+    detailList.appendChild(desc);
+  });
+  if (detailList.children.length) {
+    details.appendChild(detailList);
+  }
+
+  if (info.jobs?.length) {
+    const jobs = document.createElement("p");
+    jobs.className = "form__hint";
+    jobs.textContent = `Bias ruoli: ${info.jobs.join(", ")}`;
+    details.appendChild(jobs);
+  }
+
+  const effectsSummary = formatEffects(info.effects);
+  if (effectsSummary) {
+    const eff = document.createElement("p");
+    eff.className = "form__hint";
+    eff.textContent = `Effetti suggeriti: ${effectsSummary}`;
+    details.appendChild(eff);
+  }
+
+  return details;
+}
+
+function renderTraitExpansions() {
+  const container = elements.traitGrid;
+  if (!container) return;
+  container.innerHTML = "";
+
+  if (!(state.traitsIndex instanceof Map) || !state.traitsIndex.size) {
+    const placeholder = document.createElement("p");
+    placeholder.className = "placeholder";
+    placeholder.textContent = "Carica il catalogo per vedere i set di tratti ambientali.";
+    container.appendChild(placeholder);
+    return;
+  }
+
+  const orderedEntries = [];
+  const seen = new Set();
+  (state.traitRegistry?.rules ?? []).forEach((rule) => {
+    if (!rule.meta?.category) return;
+    const classId = rule.when?.biome_class;
+    if (!classId || seen.has(classId)) return;
+    const entry = state.traitsIndex.get(classId);
+    if (!entry) return;
+    orderedEntries.push({ classId, entry });
+    seen.add(classId);
+  });
+
+  if (!orderedEntries.length) {
+    const placeholder = document.createElement("p");
+    placeholder.className = "placeholder";
+    placeholder.textContent = "Nessun set di tratti ambientali avanzati registrato.";
+    container.appendChild(placeholder);
+    return;
+  }
+
+  orderedEntries.forEach(({ classId, entry }) => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const title = document.createElement("h3");
+    title.textContent = titleCase(classId ?? "Bioma sconosciuto");
+    card.appendChild(title);
+
+    const metaParts = [];
+    const category = TRAIT_CATEGORY_LABELS[entry.meta?.category] ?? entry.meta?.category;
+    if (category) metaParts.push(category);
+    if (entry.meta?.network) metaParts.push(`Ecosistema: ${entry.meta.network}`);
+    if (entry.meta?.cohort) metaParts.push(`Cluster: ${entry.meta.cohort}`);
+    if (entry.meta?.expansion) metaParts.push(`Espansione: ${titleCase(entry.meta.expansion)}`);
+    let hazardDetails = null;
+    const hazardInfo = describeHazards(entry.meta?.hazard_profile ?? []);
+    if (hazardInfo) {
+      metaParts.push(`Hazard: ${hazardInfo.summary}`);
+      hazardDetails = hazardInfo.details;
+    }
+    const meta = document.createElement("p");
+    meta.className = "form__hint";
+    meta.textContent = metaParts.join(" · ") || "Set di tratti ambientali";
+    card.appendChild(meta);
+
+    if (hazardDetails) {
+      const hazardNote = document.createElement("p");
+      hazardNote.className = "form__hint";
+      hazardNote.textContent = hazardDetails;
+      card.appendChild(hazardNote);
+    }
+
+    if (entry.meta?.notes) {
+      const note = document.createElement("p");
+      note.className = "form__hint";
+      note.textContent = entry.meta.notes;
+      card.appendChild(note);
+    }
+
+    if (entry.meta?.description) {
+      const desc = document.createElement("p");
+      desc.textContent = entry.meta.description;
+      card.appendChild(desc);
+    }
+
+    const traitList = document.createElement("div");
+    traitList.className = "chip-list chip-list--compact";
+    Array.from(entry.traits)
+      .sort((a, b) => traitLabel(a).localeCompare(traitLabel(b)))
+      .forEach((trait) => {
+        traitList.appendChild(createChipElement(trait));
+      });
+    card.appendChild(traitList);
+
+    const effectsSummary = formatEffects(entry.effects ?? {});
+    if (effectsSummary) {
+      const eff = document.createElement("p");
+      eff.className = "form__hint";
+      eff.textContent = `Effetti: ${effectsSummary}`;
+      card.appendChild(eff);
+    }
+
+    const jobBias = Array.from(entry.jobs ?? [])
+      .filter((job) => typeof job === "string")
+      .sort((a, b) => a.localeCompare(b));
+    if (jobBias.length) {
+      const jobsEl = document.createElement("p");
+      jobsEl.className = "form__hint";
+      jobsEl.textContent = `Bias ruoli: ${jobBias.join(", ")}`;
+      card.appendChild(jobsEl);
+    }
+
+    container.appendChild(card);
+  });
+}
+
 const CONNECTION_TYPES = ["corridor", "trophic_spillover", "seasonal_bridge"];
 const SEASONALITY = [
   "primavera",
@@ -217,6 +669,33 @@ const SEASONALITY = [
   "inverno",
   "episodico",
   "multistagionale",
+];
+
+const ENCOUNTER_BLUEPRINTS = [
+  {
+    id: "scout",
+    label: "Pattuglia rapida",
+    summary: "Piccolo gruppo mobile per ingaggi d'avanscoperta.",
+    minSize: 2,
+    targetSize: 3,
+    priorities: ["threat", "bridge"],
+  },
+  {
+    id: "strike",
+    label: "Assalto mirato",
+    summary: "Forza d'attacco centrata su predatori e specie chiave.",
+    minSize: 3,
+    targetSize: 4,
+    priorities: ["apex", "keystone", "threat"],
+  },
+  {
+    id: "gauntlet",
+    label: "Crisi apex",
+    summary: "Scenario culminante con il massimo della pressione ecologica.",
+    minSize: 4,
+    targetSize: 5,
+    priorities: ["apex", "keystone", "threat", "bridge"],
+  },
 ];
 
 function synthesiseBiome(parents) {
@@ -352,6 +831,20 @@ function currentFilters() {
   };
 }
 
+function summariseFilters(filters) {
+  const segments = [];
+  if (filters.flags?.length) {
+    segments.push(`flag ${filters.flags.join(", ")}`);
+  }
+  if (filters.roles?.length) {
+    segments.push(`ruoli ${filters.roles.join(", ")}`);
+  }
+  if (filters.tags?.length) {
+    segments.push(`tag ${filters.tags.join(", ")}`);
+  }
+  return segments.length ? segments.join(" · ") : "nessun filtro attivo";
+}
+
 function matchesFlags(species, requiredFlags) {
   if (!requiredFlags.length) return true;
   const flags = species.flags ?? {};
@@ -455,6 +948,153 @@ function generateHybridSpecies(biome, filters, desiredCount = 3) {
   return hybrids;
 }
 
+const ROLE_MATCHERS = {
+  apex: (sp) => sp.flags?.apex || tierOf(sp) >= 4,
+  keystone: (sp) => sp.flags?.keystone,
+  threat: (sp) =>
+    sp.flags?.threat ||
+    /predatore|incursore|menace|minaccia/i.test(sp.role_trofico ?? "") ||
+    tierOf(sp) >= 3,
+  bridge: (sp) =>
+    sp.flags?.bridge || sp.flags?.event || /supporto|ponte|trasferimento/i.test(sp.role_trofico ?? ""),
+};
+
+function buildCandidatePools(biome, filters) {
+  const generated = state.pick.species[biome.id] ?? [];
+  const filtered = filteredPool(biome, filters);
+  const nativePool = biome.species ?? [];
+  const preferGenerated = biome.synthetic && generated.length > 0;
+
+  const prioritized = preferGenerated
+    ? uniqueById([...generated, ...filtered])
+    : uniqueById([...filtered]);
+  const fallback = uniqueById([...filtered, ...nativePool]);
+  const full = preferGenerated
+    ? uniqueById([...generated, ...filtered, ...nativePool])
+    : uniqueById([...filtered, ...nativePool]);
+
+  const sorted = [...full].sort((a, b) => tierOf(b) - tierOf(a));
+
+  return {
+    preferGenerated,
+    prioritized,
+    fallback,
+    full,
+    sorted,
+  };
+}
+
+function selectFromPools(pools, used, predicate) {
+  if (!predicate) return null;
+  const sequences = [];
+  if (pools.prioritized.length) {
+    sequences.push(pools.prioritized);
+  }
+  if (pools.fallback.length) {
+    sequences.push(pools.fallback);
+  }
+  sequences.push(pools.full);
+
+  for (const seq of sequences) {
+    const candidate = seq.find((sp) => !used.has(sp.id) && predicate(sp));
+    if (candidate) {
+      return candidate;
+    }
+  }
+  return null;
+}
+
+function normalisePartyEntry(sp) {
+  return {
+    id: sp.id,
+    display_name: sp.display_name ?? sp.id,
+    role: sp.role_trofico ?? null,
+    tier: tierOf(sp),
+    count: 1,
+    sources: sp.sources ?? null,
+    synthetic: Boolean(sp.synthetic),
+  };
+}
+
+function ensureMinimumIndividuals(party, blueprint, fallback) {
+  if (!party.length && fallback) {
+    party.push(normalisePartyEntry(fallback));
+  }
+
+  if (!party.length) {
+    return;
+  }
+
+  const target = Math.max(blueprint.minSize ?? 1, 1);
+  let individuals = party.reduce((sum, entry) => sum + (entry.count ?? 1), 0);
+  while (individuals < target) {
+    const last = party[party.length - 1];
+    last.count = (last.count ?? 1) + 1;
+    individuals = party.reduce((sum, entry) => sum + (entry.count ?? 1), 0);
+  }
+}
+
+function describeSeedNotes(biome, blueprint, filters, preferGenerated) {
+  const filterSummary = summariseFilters(filters);
+  if (biome.synthetic) {
+    const sources = (biome.parents ?? [])
+      .map((parent) => parent.label ?? titleCase(parent.id ?? ""))
+      .filter(Boolean)
+      .join(" + ") || "fonti miste";
+    const origin = preferGenerated ? "specie ibride" : "catalogo originale";
+    return `${blueprint.label} sintetico (${filterSummary}). Origine: ${sources}. Sorgente: ${origin}.`;
+  }
+  return `${blueprint.label} dal catalogo (${filterSummary}).`;
+}
+
+function createSeedFromBlueprint(biome, filters, blueprint) {
+  const pools = buildCandidatePools(biome, filters);
+  const used = new Set();
+  const party = [];
+
+  const addToParty = (sp) => {
+    if (!sp || used.has(sp.id)) return;
+    used.add(sp.id);
+    party.push(normalisePartyEntry(sp));
+  };
+
+  blueprint.priorities.forEach((key) => {
+    const matcher = ROLE_MATCHERS[key];
+    const candidate = matcher ? selectFromPools(pools, used, matcher) : null;
+    if (candidate) {
+      addToParty(candidate);
+    }
+  });
+
+  for (const sp of pools.sorted) {
+    if (party.length >= (blueprint.targetSize ?? party.length + 1)) {
+      break;
+    }
+    if (used.has(sp.id)) continue;
+    addToParty(sp);
+  }
+
+  ensureMinimumIndividuals(party, blueprint, pools.sorted[0] ?? null);
+
+  if (!party.length) {
+    return null;
+  }
+
+  const budget = party.reduce((sum, entry) => sum + entry.tier * (entry.count ?? 1), 0);
+
+  return {
+    encounter_id: `auto_${blueprint.id}_${biome.id}_${Math.random().toString(36).slice(2, 8)}`,
+    biome_id: biome.id,
+    template: blueprint.id,
+    label: blueprint.label,
+    description: blueprint.summary,
+    party,
+    threat_budget: budget,
+    synthetic: biome.synthetic || undefined,
+    notes: describeSeedNotes(biome, blueprint, filters, pools.preferGenerated),
+  };
+}
+
 function rerollSpecies(filters) {
   state.pick.species = {};
   state.pick.biomes.forEach((biome) => {
@@ -466,59 +1106,24 @@ function rerollSpecies(filters) {
     }
 
     const pool = filteredPool(biome, filters);
-    const chosen = sample(pool) ?? sample(biome.species) ?? null;
-    state.pick.species[biome.id] = chosen ? [chosen] : [];
+    const nativePool = biome.species ?? [];
+    const working = pool.length ? pool : nativePool;
+    const picks = shuffle(working).slice(0, Math.min(3, working.length));
+    state.pick.species[biome.id] = picks;
+    if (biome.generatedSpecies) {
+      delete biome.generatedSpecies;
+    }
   });
 }
 
 function rerollSeeds(filters) {
   state.pick.seeds = [];
   state.pick.biomes.forEach((biome) => {
-    const generated = state.pick.species[biome.id] ?? [];
-    const pool = generated.length ? generated : filteredPool(biome, filters);
-    const fallback = generated.length ? generated : biome.species ?? [];
-    const workingPool = pool.length ? pool : fallback;
-    const apex = workingPool.find((sp) => sp.flags?.apex) ?? null;
-    const threat = workingPool.find((sp) => sp.flags?.threat) ?? null;
-    const keystone = workingPool.find((sp) => sp.flags?.keystone) ?? null;
-    const bridge = workingPool.find((sp) => sp.flags?.bridge) ?? null;
-
-    const usedIds = new Set([apex, threat, keystone, bridge].filter(Boolean).map((sp) => sp.id));
-    const fillers = shuffle(workingPool)
-      .filter((sp) => !usedIds.has(sp.id))
-      .slice(0, Math.max(0, 3 - usedIds.size));
-
-    const party = [];
-    [apex, threat, keystone, bridge].filter(Boolean).forEach((sp) => {
-      party.push({
-        id: sp.id,
-        display_name: sp.display_name,
-        role: sp.role_trofico,
-        tier: tierOf(sp),
-        count: 1,
-        sources: sp.sources ?? null,
-      });
-    });
-    fillers.forEach((sp) => {
-      party.push({
-        id: sp.id,
-        display_name: sp.display_name,
-        role: sp.role_trofico,
-        tier: tierOf(sp),
-        count: 1,
-        sources: sp.sources ?? null,
-      });
-    });
-
-    const budget = party.reduce((sum, entry) => sum + entry.tier, 0);
-    state.pick.seeds.push({
-      encounter_id: `auto_${biome.id}_${Date.now()}`,
-      biome_id: biome.id,
-      party,
-      threat_budget: budget,
-      notes: biome.synthetic
-        ? "Seed sintetico basato su specie ibride generate dal tool web"
-        : "Generato automaticamente dal tool web",
+    ENCOUNTER_BLUEPRINTS.forEach((blueprint) => {
+      const seed = createSeedFromBlueprint(biome, filters, blueprint);
+      if (seed) {
+        state.pick.seeds.push(seed);
+      }
     });
   });
 }
@@ -601,14 +1206,21 @@ function renderBiomes(filters) {
         }
         const tier = tierOf(sp);
         details.push(`T${tier}`);
-        item.innerHTML = `<strong>${sp.display_name}</strong> <span class="form__hint">(${sp.id}) — ${details.join(
-          " · "
-        )}</span>`;
+        const detailSummary = details.join(" · ");
+        item.innerHTML = `<strong>${sp.display_name}</strong> <span class="form__hint">(${sp.id}) — ${detailSummary}</span>`;
         list.appendChild(item);
       });
     }
 
+    const traitInfo = gatherTraitInfoForBiome(biome);
+    const traitBlock = traitInfo
+      ? buildTraitBlock(traitInfo, { synthetic: Boolean(biome.synthetic) })
+      : null;
+
     card.append(title, meta, list);
+    if (traitBlock) {
+      card.appendChild(traitBlock);
+    }
     grid.appendChild(card);
   });
 }
@@ -631,7 +1243,26 @@ function renderSeeds() {
     card.className = "card";
 
     const header = document.createElement("h3");
-    header.innerHTML = `${seed.biome_id} · <span class="form__hint">Budget T${seed.threat_budget}</span>`;
+    const headingParts = [seed.biome_id];
+    if (seed.label) {
+      headingParts.push(seed.label);
+    }
+    if (seed.synthetic) {
+      headingParts.push("Synth");
+    }
+    header.innerHTML = `${headingParts.join(" · ")} · <span class="form__hint">Budget T${seed.threat_budget}</span>`;
+
+    if (seed.description || seed.notes) {
+      const meta = document.createElement("p");
+      meta.className = "form__hint";
+      const metaParts = [];
+      if (seed.description) metaParts.push(seed.description);
+      if (seed.notes) metaParts.push(seed.notes);
+      meta.textContent = metaParts.join(" · ");
+      card.append(header, meta);
+    } else {
+      card.append(header);
+    }
 
     const list = document.createElement("ul");
     if (!seed.party.length) {
@@ -643,7 +1274,10 @@ function renderSeeds() {
       seed.party.forEach((entry) => {
         const item = document.createElement("li");
         const parts = [entry.id, entry.role ?? "—", `T${entry.tier}`];
-        if (entry.sources) {
+        if (entry.count && entry.count > 1) {
+          parts.push(`x${entry.count}`);
+        }
+        if (entry.sources || entry.synthetic) {
           parts.push("Synth");
         }
         item.innerHTML = `${entry.display_name} <span class="form__hint">(${parts.join(" · ")})</span>`;
@@ -651,7 +1285,7 @@ function renderSeeds() {
       });
     }
 
-    card.append(header, list);
+    card.append(list);
     container.appendChild(card);
   });
 }
@@ -706,6 +1340,163 @@ function toYAML(value, indent = 0) {
     return value;
   }
   return String(value);
+}
+
+async function tryFetchJson(url) {
+  if (!url) return null;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+  return response.json();
+}
+
+function localTraitFallbackUrl() {
+  try {
+    return new URL("./env-traits.json", import.meta.url).toString();
+  } catch (error) {
+    console.warn("Impossibile calcolare il percorso locale dei tratti", error);
+    return null;
+  }
+}
+
+async function loadTraitRegistry(context) {
+  const tried = new Set();
+  const candidates = [];
+  if (context?.resolveDocHref) {
+    try {
+      candidates.push(context.resolveDocHref("env_traits.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere env_traits.json tramite docsBase", error);
+    }
+  }
+  if (context?.resolvePackHref) {
+    try {
+      candidates.push(context.resolvePackHref("docs/catalog/env_traits.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere env_traits.json tramite packBase", error);
+    }
+  }
+  candidates.push(localTraitFallbackUrl());
+
+  for (const candidate of candidates) {
+    if (!candidate || tried.has(candidate)) continue;
+    tried.add(candidate);
+    try {
+      const registry = await tryFetchJson(candidate);
+      if (registry) {
+        setTraitRegistry(registry);
+        return;
+      }
+    } catch (error) {
+      console.warn("Caricamento registry tratti fallito", candidate, error);
+    }
+  }
+
+  console.warn("Nessuna sorgente valida per il registry tratti trovata.");
+  setTraitRegistry({ schema_version: "0", rules: [] });
+}
+
+function localTraitReferenceFallbackUrl() {
+  try {
+    return new URL("./trait-reference.json", import.meta.url).toString();
+  } catch (error) {
+    console.warn("Impossibile calcolare il percorso locale del reference tratti", error);
+    return null;
+  }
+}
+
+async function loadTraitReference(context) {
+  const tried = new Set();
+  const candidates = [];
+  if (context?.resolveDocHref) {
+    try {
+      candidates.push(context.resolveDocHref("trait_reference.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere trait_reference.json tramite docsBase", error);
+    }
+    try {
+      candidates.push(context.resolveDocHref("trait-reference.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere trait-reference.json tramite docsBase", error);
+    }
+  }
+  if (context?.resolvePackHref) {
+    try {
+      candidates.push(context.resolvePackHref("docs/catalog/trait_reference.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere trait_reference.json tramite packBase", error);
+    }
+    try {
+      candidates.push(context.resolvePackHref("docs/catalog/trait-reference.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere trait-reference.json tramite packBase", error);
+    }
+  }
+  candidates.push(localTraitReferenceFallbackUrl());
+
+  for (const candidate of candidates) {
+    if (!candidate || tried.has(candidate)) continue;
+    tried.add(candidate);
+    try {
+      const catalog = await tryFetchJson(candidate);
+      if (catalog) {
+        setTraitReference(catalog);
+        return;
+      }
+    } catch (error) {
+      console.warn("Caricamento reference tratti fallito", candidate, error);
+    }
+  }
+
+  console.warn("Nessuna sorgente valida per il reference tratti trovata.");
+  setTraitReference({ schema_version: "0", traits: {} });
+}
+
+function localHazardFallbackUrl() {
+  try {
+    return new URL("./hazards.json", import.meta.url).toString();
+  } catch (error) {
+    console.warn("Impossibile calcolare il percorso locale degli hazard", error);
+    return null;
+  }
+}
+
+async function loadHazardRegistry(context) {
+  const tried = new Set();
+  const candidates = [];
+  if (context?.resolveDocHref) {
+    try {
+      candidates.push(context.resolveDocHref("hazards.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere hazards.json tramite docsBase", error);
+    }
+  }
+  if (context?.resolvePackHref) {
+    try {
+      candidates.push(context.resolvePackHref("docs/catalog/hazards.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere hazards.json tramite packBase", error);
+    }
+  }
+  candidates.push(localHazardFallbackUrl());
+
+  for (const candidate of candidates) {
+    if (!candidate || tried.has(candidate)) continue;
+    tried.add(candidate);
+    try {
+      const registry = await tryFetchJson(candidate);
+      if (registry) {
+        setHazardRegistry(registry);
+        return;
+      }
+    } catch (error) {
+      console.warn("Caricamento registry hazard fallito", candidate, error);
+    }
+  }
+
+  console.warn("Nessuna sorgente valida per il registry hazard trovata.");
+  setHazardRegistry({ schema_version: "0", hazards: {} });
 }
 
 function attachActions() {
@@ -801,6 +1592,9 @@ async function loadData() {
   try {
     const { data, context } = await loadPackCatalog();
     applyCatalogContext(data, context);
+    await loadTraitRegistry(context);
+    await loadTraitReference(context);
+    await loadHazardRegistry(context);
     setStatus("Catalogo pronto all'uso. Genera un ecosistema!");
     return;
   } catch (error) {
@@ -810,13 +1604,20 @@ async function loadData() {
   try {
     const { data, context } = await manualLoadCatalog();
     applyCatalogContext(data, context);
+    await loadTraitRegistry(context);
+    await loadTraitReference(context);
+    await loadHazardRegistry(context);
     setStatus("Catalogo pronto all'uso dal fallback manuale. Genera un ecosistema!");
   } catch (error) {
     console.error("Impossibile caricare il catalogo da alcuna sorgente", error);
+    await loadTraitRegistry(packContext);
+    await loadTraitReference(packContext);
+    await loadHazardRegistry(packContext);
     setStatus("Errore durante il caricamento del catalogo. Controlla la console.", "error");
   }
 }
 
+renderTraitExpansions();
 attachActions();
 loadData();
 
@@ -827,6 +1628,10 @@ if (typeof window !== "undefined") {
     get state() {
       return state;
     },
+    get traitReference() {
+      return state.traitReference;
+    },
+    getTraitDetails,
     getResolvedCatalogUrl() {
       return resolvedCatalogUrl;
     },

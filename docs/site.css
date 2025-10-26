@@ -542,6 +542,60 @@ a:focus-visible {
   gap: 8px;
 }
 
+.trait-block {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.trait-block > summary {
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-right: 20px;
+}
+
+.trait-block > summary::-webkit-details-marker {
+  display: none;
+}
+
+.trait-block > summary::after {
+  content: "▾";
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: var(--text-muted);
+  transition: transform var(--transition);
+}
+
+.trait-block[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+.trait-block .chip-list {
+  margin-top: 10px;
+}
+
+.trait-details {
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.trait-details__term {
+  margin: 12px 0 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.trait-details__desc {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
