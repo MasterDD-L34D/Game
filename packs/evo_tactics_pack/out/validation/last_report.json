@@ -15,13 +15,13 @@
     {
       "cmd": "/root/.pyenv/versions/3.11.12/bin/python /workspace/Game/packs/evo_tactics_pack/tools/py/validate_bioma_v1_1.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
       "code": 0,
-      "stdout": "WARNING: hazard iron_shards for bioma badlands not found in registries\nWARNING: hazard magnetic_patches for bioma badlands not found in registries",
+      "stdout": "",
       "stderr": ""
     },
     {
       "cmd": "/root/.pyenv/versions/3.11.12/bin/python /workspace/Game/packs/evo_tactics_pack/tools/py/validate_bioma_v1_1.py /workspace/Game/packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/validator_config.yaml /workspace/Game/packs/evo_tactics_pack/tools/config/registries",
       "code": 0,
-      "stdout": "WARNING: hazard vento_forte for bioma foresta_temperata not found in registries\nWARNING: hazard pioggia_torpida for bioma foresta_temperata not found in registries\nWARNING: hazard pendenze_instabili for bioma foresta_temperata not found in registries",
+      "stdout": "",
       "stderr": ""
     },
     {
