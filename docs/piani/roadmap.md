@@ -1,5 +1,10 @@
 # Roadmap Operativa
 
+## Procedura post-ottobre 2025
+- Sincronizza le milestone VC-2025-10+ con il report settimanale (`docs/chatgpt_changes/`).
+- Chiudi o aggiorna le issue operative nel canale `#vc-docs` prima di spostare le attività in *Prossimi passi*.
+- Ogni retro Support/QA deve produrre una nota in `docs/faq.md` con owner e stato di follow-up.
+
 ## Milestone attive
 1. **Bilanciare pacchetti PI tra Forme**  
  - Validare il bias `random_general_d20` rispetto alle nuove combinazioni `bias_d12` per evitare inflazione di PE.【F:data/packs.yaml†L5-L88】

@@ -8,6 +8,17 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 - `SistemaNPG-PF-Mutazioni.md` — NPG reattivi, PF, mutazioni T0/T1/T2, fusioni (Canvas C).
 - `Mating-Reclutamento-Nido.md` — Attrazione, Affinità/Fiducia, standard di nido, eredità (Canvas D).
 
+## Procedure post-ottobre 2025
+Dal ciclo VC-2025-10 in avanti utilizziamo un flusso documentale condiviso con Support/QA e Telemetria.
+
+1. **Sync settimanale (martedì, 15:00 CET)** — raccogli log telemetrici e note playtest in `docs/chatgpt_changes/` (`sync-<AAAAMMGG>.md`).
+2. **Aggiornamento checklist** — segna in `docs/checklist/` lo stato milestone e collega la sessione Git (`logs/playtests/<data>-vc`).
+3. **Allineamento roadmap** — aggiorna `docs/piani/roadmap.md` dopo ogni sync e ping il canale `#vc-docs` con il diff principale.
+4. **Pubblicazione estratti** — inserisci highlight nel Canvas principale e allega screenshot HUD nel drive (`docs/presentations/`).
+5. **Retro settimanale Support/QA** — importa le domande aperte in `docs/faq.md` e tagga l’owner nel file.
+
+Seguendo questi step possiamo mantenere aggiornati i Canvas e i dataset di gioco senza perdere le decisioni successive al refactor CLI.
+
 ## Sottocartelle operative
 
 - `Canvas/` — Note rapide estratte dai canvas principali, più callout su nuove feature e regole aggiornate.
