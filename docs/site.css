@@ -1211,6 +1211,516 @@ body.codex-open {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
+.generator-summary {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  background: linear-gradient(150deg, rgba(12, 19, 40, 0.92), rgba(7, 12, 24, 0.88));
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.generator-summary__title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.generator-summary__metrics {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.generator-summary__metric {
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(88, 166, 255, 0.08);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  text-align: left;
+}
+
+.generator-summary__label {
+  margin: 0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(156, 215, 255, 0.8);
+}
+
+.generator-summary__value {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #e2f0ff;
+}
+
+.generator-summary__status {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.generator-summary__note {
+  margin: -6px 0 0;
+  font-size: 0.78rem;
+  color: rgba(156, 215, 255, 0.8);
+}
+
+.generator-summary__pins {
+  display: grid;
+  gap: 12px;
+}
+
+.generator-summary__subtitle {
+  margin: 0;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(226, 240, 255, 0.7);
+}
+
+.generator-summary__empty {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.generator-summary[data-has-pins="false"] .generator-summary__pins {
+  opacity: 0.7;
+}
+
+.generator-pins {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.generator-pins__item {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(88, 166, 255, 0.22);
+  background: rgba(6, 10, 22, 0.82);
+}
+
+.generator-pins__item[data-state="stale"] {
+  border-color: rgba(248, 113, 113, 0.4);
+  background: rgba(39, 15, 20, 0.75);
+}
+
+.generator-pins__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.generator-pins__name {
+  font-weight: 600;
+  color: #e2f0ff;
+  font-size: 0.95rem;
+}
+
+.generator-pins__meta {
+  font-size: 0.78rem;
+  color: rgba(156, 215, 255, 0.82);
+}
+
+.generator-pins__controls {
+  display: flex;
+  gap: 8px;
+}
+
+.generator-pins__unpin {
+  border: 1px solid rgba(248, 204, 21, 0.4);
+  background: rgba(248, 204, 21, 0.1);
+  color: #facc15;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.generator-pins__unpin:hover,
+.generator-pins__unpin:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(250, 204, 21, 0.3);
+}
+
+.generator-pins__badge {
+  font-size: 0.72rem;
+  color: rgba(226, 240, 255, 0.7);
+}
+
+.generator-collection {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.generator-collection--compact {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.generator-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(88, 166, 255, 0.28);
+  background: linear-gradient(170deg, rgba(9, 14, 30, 0.96), rgba(8, 14, 28, 0.82));
+  box-shadow: 0 22px 48px rgba(2, 6, 23, 0.6);
+}
+
+.generator-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at top right, rgba(88, 166, 255, 0.18), transparent 55%);
+  opacity: 0.9;
+}
+
+.generator-card__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(226, 240, 255, 0.85);
+  text-transform: uppercase;
+  background: linear-gradient(140deg, rgba(12, 19, 40, 0.95), rgba(25, 46, 78, 0.85));
+}
+
+.generator-card__media span {
+  position: relative;
+  z-index: 1;
+}
+
+.generator-card__body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+}
+
+.generator-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.generator-card__title-group {
+  display: grid;
+  gap: 4px;
+}
+
+.generator-card__title {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #f1f5ff;
+}
+
+.generator-card__subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(156, 215, 255, 0.75);
+}
+
+.generator-card__badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.generator-card__meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(200, 215, 255, 0.82);
+  line-height: 1.6;
+}
+
+.generator-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.82rem;
+}
+
+.generator-card__links a {
+  color: #9cd7ff;
+  font-weight: 600;
+}
+
+.generator-card__species {
+  display: grid;
+  gap: 16px;
+}
+
+.generator-card__empty {
+  margin: 0;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px dashed rgba(88, 166, 255, 0.3);
+  background: rgba(10, 15, 28, 0.82);
+  color: var(--text-muted);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid rgba(88, 166, 255, 0.3);
+  background: rgba(88, 166, 255, 0.16);
+  color: #9cd7ff;
+  font-weight: 600;
+}
+
+.badge--synth {
+  border-color: rgba(192, 132, 252, 0.45);
+  background: rgba(192, 132, 252, 0.16);
+  color: #c084fc;
+}
+
+.badge--rarity-common {
+  border-color: rgba(147, 197, 253, 0.45);
+  background: rgba(59, 130, 246, 0.18);
+  color: #bfdbfe;
+}
+
+.badge--rarity-uncommon {
+  border-color: rgba(110, 231, 183, 0.5);
+  background: rgba(34, 197, 94, 0.18);
+  color: #86efac;
+}
+
+.badge--rarity-rare {
+  border-color: rgba(129, 140, 248, 0.5);
+  background: rgba(129, 140, 248, 0.18);
+  color: #c7d2fe;
+}
+
+.badge--rarity-epic {
+  border-color: rgba(244, 114, 182, 0.5);
+  background: rgba(244, 114, 182, 0.18);
+  color: #fbcfe8;
+}
+
+.badge--rarity-legendary {
+  border-color: rgba(250, 204, 21, 0.55);
+  background: rgba(250, 204, 21, 0.22);
+  color: #facc15;
+}
+
+.species-card {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(88, 166, 255, 0.18);
+  background: rgba(4, 9, 22, 0.85);
+  box-shadow: inset 0 1px 0 rgba(226, 240, 255, 0.05);
+  position: relative;
+}
+
+.species-card[data-pinned="true"] {
+  border-color: rgba(250, 204, 21, 0.55);
+  box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.32), inset 0 1px 0 rgba(250, 204, 21, 0.2);
+}
+
+.species-card__media {
+  height: 64px;
+  width: 64px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  background: linear-gradient(160deg, rgba(25, 46, 78, 0.75), rgba(7, 12, 22, 0.85));
+  color: rgba(226, 240, 255, 0.85);
+  border: 1px solid rgba(88, 166, 255, 0.35);
+}
+
+.species-card__info {
+  display: grid;
+  gap: 10px;
+}
+
+.species-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.species-card__title {
+  display: grid;
+  gap: 4px;
+}
+
+.species-card__controls {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+  align-items: center;
+}
+
+.species-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.species-card__name {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #f1f5ff;
+  font-weight: 600;
+}
+
+.species-card__id {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(156, 215, 255, 0.75);
+}
+
+.species-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: rgba(200, 215, 255, 0.75);
+}
+
+.species-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.species-card__tags .chip {
+  background: rgba(88, 166, 255, 0.12);
+  border-color: rgba(88, 166, 255, 0.25);
+}
+
+.species-card__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.quick-button {
+  height: 36px;
+  width: 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  background: rgba(88, 166, 255, 0.1);
+  color: #9cd7ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition),
+    background var(--transition);
+}
+
+.quick-button:hover,
+.quick-button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(88, 166, 255, 0.25);
+}
+
+.quick-button--squad.is-active {
+  background: rgba(74, 222, 128, 0.18);
+  border-color: rgba(74, 222, 128, 0.5);
+  color: #4ade80;
+}
+
+.quick-button--pin.is-active {
+  background: rgba(250, 204, 21, 0.2);
+  border-color: rgba(250, 204, 21, 0.6);
+  color: #facc15;
+}
+
+.quick-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.4);
+}
+
+.synergy-meter {
+  display: grid;
+  gap: 6px;
+}
+
+.synergy-meter__label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: rgba(200, 215, 255, 0.75);
+}
+
+.synergy-meter__value {
+  color: #9cd7ff;
+  font-weight: 600;
+}
+
+.synergy-meter__track {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(88, 166, 255, 0.15);
+  overflow: hidden;
+}
+
+.synergy-meter__progress {
+  position: absolute;
+  inset: 0;
+  width: var(--progress, 0%);
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.9), rgba(45, 212, 191, 0.9));
+  box-shadow: 0 10px 24px rgba(56, 189, 248, 0.35);
+}
+
+.species-card__summary {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(156, 215, 255, 0.78);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .form label {
   font-size: 0.9rem;
   color: var(--text-muted);
