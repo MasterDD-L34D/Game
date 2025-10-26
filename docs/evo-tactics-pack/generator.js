@@ -66,7 +66,97 @@ function sample(array) {
   return array[index];
 }
 
+function pickMany(array, n) {
+  if (!array?.length || n <= 0) return [];
+  if (n >= array.length) return [...array];
+  const pool = shuffle(array);
+  return pool.slice(0, n);
+}
+
+function titleCase(value) {
+  return value
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function slugify(value) {
+  return String(value)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+}
+
+function uniqueById(items) {
+  const seen = new Map();
+  items.forEach((item) => {
+    if (!item?.id) return;
+    if (!seen.has(item.id)) {
+      seen.set(item.id, item);
+    }
+  });
+  return Array.from(seen.values());
+}
+
+function randomId(prefix = "synt") {
+  const suffix = Math.random().toString(36).slice(2, 8);
+  return `${prefix}-${suffix}`;
+}
+
+function combineNames(primaryName, secondaryName) {
+  const firstTokens = String(primaryName || "Alpha")
+    .split(/\s+/)
+    .filter(Boolean);
+  const secondTokens = String(secondaryName || "Beta")
+    .split(/\s+/)
+    .filter(Boolean);
+  const first = firstTokens[0] || "Neo";
+  const last = secondTokens.length ? secondTokens[secondTokens.length - 1] : "Synth";
+  return `${first} ${last}`;
+}
+
+function mixFlags(primary = {}, secondary = {}) {
+  const result = { ...primary };
+  Object.entries(secondary).forEach(([key, value]) => {
+    if (typeof value === "boolean") {
+      result[key] = Boolean(value || result[key]);
+    } else if (value && !result[key]) {
+      result[key] = value;
+    }
+  });
+  return result;
+}
+
+function combineTags(primary = [], secondary = []) {
+  const merged = new Set();
+  primary.forEach((tag) => merged.add(tag));
+  secondary.forEach((tag) => merged.add(tag));
+  if (!merged.size) {
+    merged.add("ibrido");
+  }
+  return Array.from(merged);
+}
+
+function inferThreatTierFromRole(role = "", flags = {}) {
+  if (flags.apex) return 4;
+  if (flags.threat) return 3;
+  if (flags.keystone) return 3;
+  if (/predatore_terziario/.test(role)) return 4;
+  if (/predatore/.test(role)) return 3;
+  if (/evento/.test(role)) return 2;
+  if (/minaccia/.test(role)) return 3;
+  if (/detritivoro|erbivoro|prede/.test(role)) return 1;
+  return 2;
+}
+
 function tierOf(species) {
+  if (species?.syntheticTier) {
+    return Math.max(1, Math.min(species.syntheticTier, 5));
+  }
   const raw = species?.balance?.threat_tier ?? "T1";
   const parsed = parseInt(String(raw).replace(/\D/g, ""), 10);
   if (Number.isNaN(parsed)) return 1;
@@ -117,6 +207,108 @@ function populateFilters(data) {
   collectFlags(data).forEach((flag) => ensureOption(elements.flags, flag));
   collectRoles(data).forEach((role) => ensureOption(elements.roles, role));
   collectTags(data).forEach((tag) => ensureOption(elements.tags, tag));
+}
+
+const CONNECTION_TYPES = ["corridor", "trophic_spillover", "seasonal_bridge"];
+const SEASONALITY = [
+  "primavera",
+  "estate",
+  "autunno",
+  "inverno",
+  "episodico",
+  "multistagionale",
+];
+
+function synthesiseBiome(parents) {
+  const parentIds = parents.map((parent) => parent.id);
+  const displayName = parents.map((parent) => titleCase(parent.id)).join(" / ");
+  const idBase = slugify(`${parentIds.join("-")}-${randomId("bio")}`);
+  const sourceSpecies = uniqueById(
+    parents.flatMap((parent) =>
+      (parent.species ?? []).map((sp) => ({ ...sp, source_biome: parent.id }))
+    )
+  );
+
+  const counts = sourceSpecies.reduce(
+    (acc, sp) => {
+      if (sp.flags?.apex) acc.apex += 1;
+      if (sp.flags?.keystone) acc.keystone += 1;
+      if (sp.flags?.bridge) acc.bridge += 1;
+      if (sp.flags?.threat) acc.threat += 1;
+      if (sp.flags?.event) acc.event += 1;
+      return acc;
+    },
+    { apex: 0, keystone: 0, bridge: 0, threat: 0, event: 0 }
+  );
+
+  const functionalGroups = new Set();
+  sourceSpecies.forEach((sp) => {
+    (sp.functional_tags ?? []).forEach((tag) => functionalGroups.add(tag));
+  });
+
+  return {
+    id: idBase || randomId("biome"),
+    label: `Bioma sintetico ${displayName}`,
+    synthetic: true,
+    parents: parents.map((parent) => ({
+      id: parent.id,
+      label: titleCase(parent.id),
+      path: parent.path ?? null,
+    })),
+    species: sourceSpecies,
+    manifest: {
+      species_counts: counts,
+      functional_groups_present: Array.from(functionalGroups),
+      sources: parentIds,
+    },
+  };
+}
+
+function generateSyntheticBiomes(baseBiomes, count) {
+  if (!baseBiomes?.length) return [];
+  const result = [];
+  for (let i = 0; i < count; i += 1) {
+    const parentCount = Math.min(3, Math.max(2, Math.floor(Math.random() * 3) + 2));
+    const parents = pickMany(baseBiomes, Math.min(parentCount, baseBiomes.length));
+    result.push(synthesiseBiome(parents));
+  }
+  return result;
+}
+
+function synthesiseConnections(biomes) {
+  if (!biomes.length) return [];
+  if (biomes.length === 1) {
+    return [
+      {
+        from: biomes[0].id.toUpperCase(),
+        to: biomes[0].id.toUpperCase(),
+        type: "nested_loop",
+        resistance: 0.5,
+        seasonality: "continuo",
+        notes: "Bioma autosufficiente generato proceduralmente.",
+      },
+    ];
+  }
+  const connections = [];
+  const shuffled = shuffle(biomes);
+  for (let i = 0; i < shuffled.length; i += 1) {
+    const current = shuffled[i];
+    const next = shuffled[(i + 1) % shuffled.length];
+    if (!next) continue;
+    const type = sample(CONNECTION_TYPES) ?? "corridor";
+    const seasonality = sample(SEASONALITY) ?? "episodico";
+    connections.push({
+      from: current.id.toUpperCase(),
+      to: next.id.toUpperCase(),
+      type,
+      resistance: Math.round((0.3 + Math.random() * 0.5) * 100) / 100,
+      seasonality,
+      notes: `Connessione sintetica derivata da ${
+        current.parents?.map((p) => p.id).join("+") ?? "sorgenti ignote"
+      } verso ${next.parents?.map((p) => p.id).join("+") ?? "target ignoto"}.`,
+    });
+  }
+  return connections;
 }
 
 function resolvePackHref(relativePath) {
@@ -184,9 +376,95 @@ function filteredPool(biome, filters) {
   );
 }
 
+function generateHybridSpecies(biome, filters, desiredCount = 3) {
+  const pool = filteredPool(biome, filters);
+  const basePool = pool.length ? pool : biome.species ?? [];
+  if (!basePool.length) return [];
+
+  const hybrids = [];
+  const maxAttempts = Math.max(desiredCount * 6, 12);
+  let attempts = 0;
+
+  while (hybrids.length < desiredCount && attempts < maxAttempts) {
+    attempts += 1;
+    const primary = sample(basePool);
+    if (!primary) break;
+    const secondaryCandidates = basePool.filter((sp) => sp.id !== primary.id);
+    const secondary = secondaryCandidates.length ? sample(secondaryCandidates) : null;
+
+    const combinedFlags = mixFlags(primary.flags, secondary?.flags);
+    const combinedTags = combineTags(primary.functional_tags, secondary?.functional_tags);
+    const roleOptions = [primary.role_trofico, secondary?.role_trofico].filter(Boolean);
+    const role = roleOptions.length ? sample(roleOptions) : primary.role_trofico ?? null;
+    const displayName = combineNames(primary.display_name, secondary?.display_name);
+    const baseId = slugify(displayName) || slugify(`${primary.id}-${secondary?.id ?? "solo"}`);
+    const tier = inferThreatTierFromRole(role ?? "", combinedFlags);
+
+    const hybrid = {
+      id: `${baseId}-${Math.random().toString(36).slice(2, 6)}`,
+      display_name: displayName,
+      role_trofico: role,
+      functional_tags: combinedTags,
+      flags: combinedFlags,
+      biomes: [biome.id],
+      synthetic: true,
+      syntheticTier: tier,
+      balance: { threat_tier: `T${tier}` },
+      sources: {
+        primary: {
+          id: primary.id,
+          biome: primary.source_biome ?? primary.biomes?.[0] ?? null,
+        },
+        secondary: secondary
+          ? {
+              id: secondary.id,
+              biome: secondary.source_biome ?? secondary.biomes?.[0] ?? null,
+            }
+          : null,
+      },
+    };
+
+    if (
+      matchesFlags(hybrid, filters.flags) &&
+      matchesRoles(hybrid, filters.roles) &&
+      matchesTags(hybrid, filters.tags)
+    ) {
+      hybrids.push(hybrid);
+    }
+  }
+
+  if (!hybrids.length) {
+    return basePool.slice(0, Math.min(desiredCount, basePool.length)).map((sp) => ({
+      ...sp,
+      id: `${slugify(sp.id || sp.display_name)}-${Math.random().toString(36).slice(2, 5)}`,
+      display_name: `${sp.display_name ?? sp.id} Neo-Variant`,
+      biomes: [biome.id],
+      synthetic: true,
+      syntheticTier: inferThreatTierFromRole(sp.role_trofico ?? "", sp.flags ?? {}),
+      balance: { threat_tier: `T${inferThreatTierFromRole(sp.role_trofico ?? "", sp.flags ?? {})}` },
+      sources: {
+        primary: {
+          id: sp.id,
+          biome: sp.source_biome ?? sp.biomes?.[0] ?? null,
+        },
+        secondary: null,
+      },
+    }));
+  }
+
+  return hybrids;
+}
+
 function rerollSpecies(filters) {
   state.pick.species = {};
   state.pick.biomes.forEach((biome) => {
+    if (biome.synthetic) {
+      const hybrids = generateHybridSpecies(biome, filters, 3);
+      state.pick.species[biome.id] = hybrids;
+      biome.generatedSpecies = hybrids;
+      return;
+    }
+
     const pool = filteredPool(biome, filters);
     const chosen = sample(pool) ?? sample(biome.species) ?? null;
     state.pick.species[biome.id] = chosen ? [chosen] : [];
@@ -196,14 +474,17 @@ function rerollSpecies(filters) {
 function rerollSeeds(filters) {
   state.pick.seeds = [];
   state.pick.biomes.forEach((biome) => {
-    const pool = filteredPool(biome, filters);
-    const apex = pool.find((sp) => sp.flags?.apex) ?? biome.species.find((sp) => sp.flags?.apex) ?? null;
-    const threat = pool.find((sp) => sp.flags?.threat) ?? null;
-    const keystone = pool.find((sp) => sp.flags?.keystone) ?? null;
-    const bridge = pool.find((sp) => sp.flags?.bridge) ?? null;
+    const generated = state.pick.species[biome.id] ?? [];
+    const pool = generated.length ? generated : filteredPool(biome, filters);
+    const fallback = generated.length ? generated : biome.species ?? [];
+    const workingPool = pool.length ? pool : fallback;
+    const apex = workingPool.find((sp) => sp.flags?.apex) ?? null;
+    const threat = workingPool.find((sp) => sp.flags?.threat) ?? null;
+    const keystone = workingPool.find((sp) => sp.flags?.keystone) ?? null;
+    const bridge = workingPool.find((sp) => sp.flags?.bridge) ?? null;
 
     const usedIds = new Set([apex, threat, keystone, bridge].filter(Boolean).map((sp) => sp.id));
-    const fillers = shuffle(pool)
+    const fillers = shuffle(workingPool)
       .filter((sp) => !usedIds.has(sp.id))
       .slice(0, Math.max(0, 3 - usedIds.size));
 
@@ -215,6 +496,7 @@ function rerollSeeds(filters) {
         role: sp.role_trofico,
         tier: tierOf(sp),
         count: 1,
+        sources: sp.sources ?? null,
       });
     });
     fillers.forEach((sp) => {
@@ -224,6 +506,7 @@ function rerollSeeds(filters) {
         role: sp.role_trofico,
         tier: tierOf(sp),
         count: 1,
+        sources: sp.sources ?? null,
       });
     });
 
@@ -233,7 +516,9 @@ function rerollSeeds(filters) {
       biome_id: biome.id,
       party,
       threat_budget: budget,
-      notes: "Generato automaticamente dal tool web",
+      notes: biome.synthetic
+        ? "Seed sintetico basato su specie ibride generate dal tool web"
+        : "Generato automaticamente dal tool web",
     });
   });
 }
@@ -256,17 +541,43 @@ function renderBiomes(filters) {
     card.className = "card";
 
     const title = document.createElement("h3");
-    title.textContent = biome.id;
+    title.textContent = biome.synthetic ? biome.label ?? biome.id : biome.id;
 
     const meta = document.createElement("p");
     meta.className = "form__hint";
-    const biomeHref = resolvePackHref(biome.path);
-    const foodwebHref = biome.foodweb?.path ? resolvePackHref(biome.foodweb.path) : null;
-    const reportHref = new URL(`catalog.html#bioma-${biome.id}`, window.location.href).toString();
-    meta.innerHTML = `
-      <a href="${biomeHref}" target="_blank" rel="noreferrer">Bioma YAML</a>
-      · ${foodwebHref ? `<a href="${foodwebHref}" target="_blank" rel="noreferrer">Foodweb</a> · ` : ""}
-      <a href="${reportHref}">Report</a>`;
+    if (biome.synthetic) {
+      const parentLinks = (biome.parents ?? []).map((parent) => {
+        const href = parent.path ? resolvePackHref(parent.path) : null;
+        if (href) {
+          return `<a href="${href}" target="_blank" rel="noreferrer">${parent.label}</a>`;
+        }
+        return parent.label;
+      });
+      const parentSummary = parentLinks.length ? parentLinks.join(" + ") : "—";
+      meta.innerHTML = `Origine: ${parentSummary} · <span>Sintetico</span>`;
+    } else {
+      const biomeHref = resolvePackHref(biome.path);
+      const foodwebHref = biome.foodweb?.path ? resolvePackHref(biome.foodweb.path) : null;
+      const reportHref = new URL(
+        `catalog.html#bioma-${biome.id}`,
+        window.location.href
+      ).toString();
+      const metaParts = [];
+      if (biomeHref) {
+        metaParts.push(
+          `<a href="${biomeHref}" target="_blank" rel="noreferrer">Bioma YAML</a>`
+        );
+      }
+      if (foodwebHref) {
+        metaParts.push(
+          `<a href="${foodwebHref}" target="_blank" rel="noreferrer">Foodweb</a>`
+        );
+      }
+      if (reportHref) {
+        metaParts.push(`<a href="${reportHref}">Report</a>`);
+      }
+      meta.innerHTML = metaParts.join(" · ") || "Bioma del catalogo";
+    }
 
     const list = document.createElement("ul");
     const picked = state.pick.species[biome.id] ?? [];
@@ -284,9 +595,15 @@ function renderBiomes(filters) {
     } else {
       picked.forEach((sp) => {
         const item = document.createElement("li");
-        item.innerHTML = `<strong>${sp.display_name}</strong> <span class="form__hint">(${sp.id}) — ${
-          sp.role_trofico ?? "—"
-        }</span>`;
+        const details = [sp.role_trofico ?? "—"];
+        if (sp.synthetic) {
+          details.push("Synth");
+        }
+        const tier = tierOf(sp);
+        details.push(`T${tier}`);
+        item.innerHTML = `<strong>${sp.display_name}</strong> <span class="form__hint">(${sp.id}) — ${details.join(
+          " · "
+        )}</span>`;
         list.appendChild(item);
       });
     }
@@ -325,9 +642,11 @@ function renderSeeds() {
     } else {
       seed.party.forEach((entry) => {
         const item = document.createElement("li");
-        item.innerHTML = `${entry.display_name} <span class="form__hint">(${entry.id} · ${
-          entry.role ?? "—"
-        } · T${entry.tier})</span>`;
+        const parts = [entry.id, entry.role ?? "—", `T${entry.tier}`];
+        if (entry.sources) {
+          parts.push("Synth");
+        }
+        item.innerHTML = `${entry.display_name} <span class="form__hint">(${parts.join(" · ")})</span>`;
         list.appendChild(item);
       });
     }
@@ -405,17 +724,22 @@ function attachActions() {
     switch (action) {
       case "roll-ecos": {
         const n = Math.max(1, Math.min(parseInt(elements.nBiomi.value, 10) || 2, 6));
-        const pool = shuffle(state.data.biomi);
+        const pool = generateSyntheticBiomes(state.data.biomi, n);
         state.pick.ecosystem = {
-          label: state.data.ecosistema.label,
-          connessioni: state.data.ecosistema.connessioni,
+          id: randomId("ecos"),
+          label: `Rete sintetica (${pool.length} biomi)`,
+          synthetic: true,
+          sources: state.data.ecosistema?.biomi?.map((b) => b.id) ?? [],
+          connessioni: synthesiseConnections(pool),
         };
-        state.pick.biomes = pool.slice(0, n);
+        state.pick.biomes = pool;
         rerollSpecies(filters);
         rerollSeeds(filters);
         renderBiomes(filters);
         renderSeeds();
-        setStatus(`Generati ${state.pick.biomes.length} biomi e ${state.pick.seeds.length} seed.`);
+        setStatus(
+          `Generati ${state.pick.biomes.length} biomi sintetici e ${state.pick.seeds.length} seed.`
+        );
         break;
       }
       case "reroll-biomi": {
@@ -424,13 +748,13 @@ function attachActions() {
           return;
         }
         const n = Math.max(1, Math.min(parseInt(elements.nBiomi.value, 10) || state.pick.biomes.length, 6));
-        const pool = shuffle(state.data.biomi);
-        state.pick.biomes = pool.slice(0, n);
+        const pool = generateSyntheticBiomes(state.data.biomi, n);
+        state.pick.biomes = pool;
         rerollSpecies(filters);
         rerollSeeds(filters);
         renderBiomes(filters);
         renderSeeds();
-        setStatus("Biomi ricalcolati con i filtri correnti.");
+        setStatus("Biomi sintetici ricalcolati con i filtri correnti.");
         break;
       }
       case "reroll-species": {
