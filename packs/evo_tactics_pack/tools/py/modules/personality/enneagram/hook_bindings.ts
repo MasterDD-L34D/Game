@@ -137,24 +137,46 @@ function normaliseEffects(effects: any[]): HookEffect[] {
   }));
 }
 
+function mergeCompatBlock(compatBlock: any, stats: Set<string>, events: Set<string>) {
+  if (!compatBlock) return;
+
+  const compatStats = compatBlock.stats;
+  if (Array.isArray(compatStats)) {
+    compatStats.map((stat: string) => resolveCompatStat(stat)).forEach((stat) => stats.add(stat));
+  } else if (compatStats && typeof compatStats === 'object') {
+    Object.keys(compatStats)
+      .map((stat) => resolveCompatStat(stat))
+      .forEach((stat) => stats.add(stat));
+  }
+
+  arrayify<string>(compatBlock.events)
+    .map(resolveCompatEvent)
+    .forEach((evt) => events.add(evt));
+}
+
 function mergeCompatMetadata(source: any, stats: Set<string>, events: Set<string>) {
   if (!source) return;
 
   const metaStats = arrayify<string>(source.stats).map(resolveCompatStat);
   metaStats.forEach((stat) => stats.add(stat));
 
-  const compatBlock = source.compatibility;
-  if (compatBlock) {
-    const compatStats = compatBlock.stats;
-    if (Array.isArray(compatStats)) {
-      compatStats.map((stat: string) => resolveCompatStat(stat)).forEach((stat) => stats.add(stat));
-    } else if (compatStats && typeof compatStats === 'object') {
-      Object.keys(compatStats).map((stat) => resolveCompatStat(stat)).forEach((stat) => stats.add(stat));
-    }
+  mergeCompatBlock(source.compatibility, stats, events);
+}
 
-    arrayify<string>(compatBlock.events)
-      .map(resolveCompatEvent)
-      .forEach((evt) => events.add(evt));
+function mergeTriggerMapMetadata(links: any, stats: Set<string>, events: Set<string>) {
+  const triggerMap = links?.trigger_map;
+  if (!triggerMap || typeof triggerMap !== 'object') return;
+
+  for (const entry of Object.values(triggerMap)) {
+    if (!entry || typeof entry !== 'object') continue;
+
+    const entryStats = arrayify<string>((entry as any).stats).map(resolveCompatStat);
+    entryStats.forEach((stat) => stats.add(stat));
+
+    const entryEvents = arrayify<string>((entry as any).events).map(resolveCompatEvent);
+    entryEvents.forEach((evt) => events.add(evt));
+
+    mergeCompatBlock((entry as any).compatibility, stats, events);
   }
 }
 
@@ -210,6 +232,8 @@ function buildHookEffects(themeHooks: HookEntry[]): { bindings: HookEffectBindin
 
     const linkEvents = arrayify<string>((hook as any).links?.compat_events).map(resolveCompatEvent);
     linkEvents.forEach((evt) => events.add(evt));
+
+    mergeTriggerMapMetadata((hook as any).links, stats, events);
   }
 
   return { bindings, stats, events };
