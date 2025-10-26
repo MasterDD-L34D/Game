@@ -1,1 +1,91 @@
-[INSERIRE QUI IL CANVAS C (NPG/BIOMI) COMPLETO — INCOLLO 1:1]
+---
+versione: "Canvas C — NPG & Biomi"
+ultima_revisione: "2025-10-23"
+fonte: "Export ChatGPT snapshot-20251023T101500Z (archivio interno)"
+note: |
+  Consolidato dopo i playtest VC-15/02/2025 con metriche su spawn adattivo.
+  Include aggiornamenti su protocolli di soccorso e affissi dinamici introdotti nel pack VC.
+---
+# Canvas C — NPG Reattivi, Biomi & Director
+
+## Obiettivi del sistema NPG
+- Generare incontri modulati su StressWave, reputazione fazioni e progressione squad.
+- Rendere reclutamento/ostilità dinamici tramite Affinità/Fiducia.
+- Offrire loop di missioni emergenti (soccorso, trade, escalation) legati al contesto bioma.
+
+## Struttura dati
+- `npg_id`, `biome`, `role`, `power_range`, `motivation`, `affinity_tags`, `reward_hooks`.
+- `spawn_profile`: min/max group_size, trigger (timer, obiettivo, soglia StressWave).
+- `director_flags`: `reinforce`, `retreat`, `convertible`, `legendary`.
+- `telemetry_hooks`: metriche su assist, danni ricevuti, eventi social.
+
+## Biomi principali
+1. **Canyons Risonanti**
+   - Affissi: `Echo Surge` (replica abilità sonore), `Shifting Winds` (modifica traiettorie).
+   - Hazard: cadute, tunnel sonori. StressWave +0.05 ogni turno scoperto.
+   - NPG Iconici: `Sibilant Wardens` (Sentinel/Support), `Echo Drifters` (Scout/Skirmish).
+2. **Foresta Miceliale**
+   - Affissi: `Spore Bloom` (veleno area), `Myco Link` (buff cooperazione NPG).
+   - Hazard: visibilità ridotta, radici bloccanti.
+   - NPG: `Verdant Shepherds` (Healer), `Fungal Titans` (Bruiser).
+3. **Atollo Obsidiana**
+   - Affissi: `Resonance Tide` (onde EMP), `Shard Storm` (danno perforante).
+   - Hazard: maree magnetiche, piattaforme mobili.
+   - NPG: `Aegis Corsairs` (Tank), `Gale Splicers` (Controller).
+4. **Mezzanotte Orbitale (Stazione)**
+   - Affissi: `Zero-G Flux`, `Alarm Cascade` (spawn rinforzi su fail check).
+   - Hazard: corridoi stretti, campi gravitazionali.
+   - NPG: `Skydock Sentinels`, `Aeon Engineers` (supporto Reattori).
+
+## Ruoli NPG
+- **Director**: regola spawn, escalate, drop. Gestito da AI.
+- **Fazioni**: Resistenti, Mercanti, Predatori, Colonie Nomadi.
+- **Archetipi**: Tank, Bruiser, Skirmish, Support, Control, Specialist, Mythic.
+- Ogni archetipo ha `behavior_tree`, `combo_hooks`, `loot_table`.
+
+## Comportamenti dinamici
+- **StressWave Hooks**: se >0.60 attiva `Protocollo di soccorso` (rinforzi alleati) o `Overrun` (ondate nemiche).
+- **Affinità/Fiducia**: valori -3..+3. Influenza reazioni a chiamate radio, disponibilità trade, rischio tradimento.
+- **Motivazioni**: `Proteggi`, `Recupera`, `Stabilizza`, `Sfrutta`.
+- **Focus Director**: modula priorità (escalation vs tregua) in base a KPI missione.
+
+## Tabelle spawn
+| Bioma | StressWave 0-0.3 | 0.31-0.6 | >0.6 |
+|-------|------------------|----------|------|
+| Canyons | Scout 2 + Support 1 | Bruiser 2 + Support 1 | Elite 1 + Reinforce timer |
+| Foresta | Shepherd 2 | Titan 1 + Shepherd 1 | Myco Hive + adds |
+| Atollo | Corsair 1 + Splicer 1 | Corsair 2 + Drone 1 | Legendary Tidecaller |
+| Orbitale | Sentinel 2 | Sentinel 1 + Engineer 1 | Director Command Squad |
+
+## Missioni emergenti NPG
+- **Soccorso**: attivato da telemetria `ally_down`. Richiede completare 2 clock per estrarre.
+- **Contratto di Trade**: se reputazione Mercanti ≥2, genera hub mobile (loot esotico).
+- **Vendetta**: se NPG alleato ucciso → spawn nemico con buff Hate.
+- **Fuga**: NPG neutrale cerca evacuazione, offre bonus se assistito.
+
+## Reclutamento rapido
+1. Identifica NPG `convertible`.
+2. Trigger narrazione (dialogo, supporto). Richiede check Affinità (d20, target 12).
+3. Se successo: si aggiunge alla Squad come `Ally Token` (slot limitati), sblocco missione legata.
+4. Fallimento critico: NPG segnala la squadra → StressWave +0.1.
+
+## Gestione Mutazioni NPG
+- Tabelle mutazioni T0/T1/T2 legate a bioma.
+- Affissi ereditati dal nido (per NPG reclutati) influenzano stats e abilità.
+- `Fusion Node`: consente combinare due NPG convertiti (richiede Reattori Aeon + Resonance Shards).
+
+## Interfacce & strumenti
+- Editor YAML `npg_pack.yaml` con validatore (`tools/py/.../validate_package.py`).
+- Dashboard Canvas: grafici spawn vs risk, timeline conversioni.
+- Log telemetria: `logs/playtests/<data>/session-metrics.yaml` registrano spawn, outcome, reward.
+
+## KPI e Telemetria
+- Tasso conversione NPG → alleati.
+- Durata media scontro per bioma.
+- Uso abilità mito (>Tier 3) per sessione.
+- Eventi `Protocollo di soccorso` attivati e outcome.
+
+## Stato 10/2025
+- Dataset `npg_pack.json` aggiornato con 48 profili.
+- Nuove carte Director per Resonance Siege e Skydock Siege.
+- Necessario bilanciamento `Myco Hive` (troppo punitivo in StressWave alto).
