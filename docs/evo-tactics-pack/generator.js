@@ -2631,41 +2631,91 @@ function splitRoleTokens(value) {
     .filter(Boolean);
 }
 
-function roleTokenCount(species) {
-  const tokens = new Set();
-  if (Array.isArray(species?.roles)) {
-    species.roles.forEach((role) => {
-      splitRoleTokens(role).forEach((token) => tokens.add(token.toLowerCase()));
+function collectRoleTokenDetails(species) {
+  const tokens = [];
+  const seen = new Set();
+  const consider = (value) => {
+    splitRoleTokens(value).forEach((token) => {
+      if (!token) return;
+      const normalized = token.toLowerCase();
+      if (seen.has(normalized)) return;
+      seen.add(normalized);
+      tokens.push(token);
     });
+  };
+  if (Array.isArray(species?.roles)) {
+    species.roles.forEach((role) => consider(role));
   }
-  splitRoleTokens(species?.role_trofico ?? "").forEach((token) => tokens.add(token.toLowerCase()));
-  return tokens.size;
+  consider(species?.role_trofico ?? "");
+  return tokens;
+}
+
+function roleTokenCount(species) {
+  return collectRoleTokenDetails(species).length;
+}
+
+function formatRoleTokenLabel(token) {
+  if (!token) return "";
+  return titleCase(token.replace(/[_-]+/g, " "));
+}
+
+function collectHazardIds(species) {
+  const hazardIds = new Set();
+  const add = (value) => {
+    if (!value) return;
+    if (Array.isArray(value)) {
+      value.forEach((item) => add(item));
+      return;
+    }
+    if (typeof value === "string") {
+      value
+        .split(/[\s,;]+/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .forEach((item) => hazardIds.add(item));
+      return;
+    }
+    if (typeof value === "object") {
+      Object.keys(value).forEach((key) => hazardIds.add(key));
+    }
+  };
+
+  add(species?.meta?.hazard_profile);
+  add(species?.hazard_profile);
+  add(species?.hazards_expected);
+  add(species?.hazardsExpected);
+
+  return Array.from(hazardIds);
+}
+
+function formatHazardLabel(hazardId) {
+  if (!hazardId) return "";
+  const entry = state.hazardsIndex.get(hazardId);
+  if (entry?.label) return entry.label;
+  return titleCase(String(hazardId));
+}
+
+function hazardSignalInfo(species) {
+  const hazardIds = collectHazardIds(species);
+  let hazardSignals = hazardIds.length;
+  const roleHint = species?.role_trofico ?? "";
+  if (species?.flags?.threat || /minaccia|hazard|evento/i.test(roleHint)) {
+    hazardSignals = Math.max(hazardSignals + 1, 2);
+  }
+  return { hazardSignals, hazardIds };
 }
 
 function hazardSignalCount(species) {
-  let hazardSignals = 0;
-  const candidates = [
-    species?.meta?.hazard_profile,
-    species?.hazard_profile,
-    species?.hazards_expected,
-    species?.hazardsExpected,
-  ];
-  candidates.forEach((list) => {
-    if (Array.isArray(list) && list.length > hazardSignals) {
-      hazardSignals = list.length;
-    }
-  });
-  if (species?.flags?.threat || /minaccia|hazard|evento/i.test(species?.role_trofico ?? "")) {
-    hazardSignals = Math.max(hazardSignals, 1);
-    hazardSignals += 1;
-  }
-  return hazardSignals;
+  return hazardSignalInfo(species).hazardSignals;
 }
 
 function calculateSpeciesMetrics(species) {
   const tier = Number.parseFloat(tierOf(species) ?? 0);
-  const hazardSignals = hazardSignalCount(species);
-  const roleTokens = roleTokenCount(species);
+  const { hazardSignals, hazardIds } = hazardSignalInfo(species);
+  const hazardNames = hazardIds.map((hazardId) => formatHazardLabel(hazardId));
+  const rawRoleTokens = collectRoleTokenDetails(species);
+  const roleTokenLabels = rawRoleTokens.map((token) => formatRoleTokenLabel(token));
+  const roleTokens = rawRoleTokens.length;
   return {
     tierAverage: clampScale(Number.isFinite(tier) ? tier : 0),
     hazardDensity: clampScale(hazardSignals),
@@ -2673,7 +2723,10 @@ function calculateSpeciesMetrics(species) {
     detail: {
       tier: Number.isFinite(tier) ? tier : 0,
       hazardSignals,
+      hazardIds,
+      hazardNames,
       roleTokens,
+      roleTokenList: roleTokenLabels,
     },
   };
 }
@@ -2902,14 +2955,28 @@ function ensureComparisonChart() {
                     ? detail.hazardSignals
                     : context.parsed.r;
                   const label = hazard === 1 ? "segnale" : "segnali";
-                  return `Densità hazard: ${hazard} ${label}`;
+                  const hazardNames = Array.isArray(detail.hazardNames)
+                    ? detail.hazardNames.filter(Boolean)
+                    : [];
+                  const maxDisplay = 3;
+                  const display = hazardNames.slice(0, maxDisplay);
+                  const more = hazardNames.length > display.length ? "…" : "";
+                  const hint = display.length ? ` (${display.join(", ")}${more})` : "";
+                  return `Densità hazard: ${hazard} ${label}${hint}`;
                 }
                 case 2: {
                   const roles = Number.isFinite(detail.roleTokens)
                     ? detail.roleTokens
                     : context.parsed.r;
                   const label = roles === 1 ? "archetipo" : "archetipi";
-                  return `Diversità ruoli: ${roles} ${label}`;
+                  const roleTokens = Array.isArray(detail.roleTokenList)
+                    ? detail.roleTokenList.filter(Boolean)
+                    : [];
+                  const maxDisplay = 4;
+                  const display = roleTokens.slice(0, maxDisplay);
+                  const more = roleTokens.length > display.length ? "…" : "";
+                  const hint = display.length ? ` (${display.join(", ")}${more})` : "";
+                  return `Diversità ruoli: ${roles} ${label}${hint}`;
                 }
                 default:
                   return `${context.label}: ${context.formattedValue}`;
@@ -2961,6 +3028,18 @@ function updateComparisonChart(entries) {
       metaDetails: entry.metrics.detail,
     };
   });
+  const maxValue = entries.reduce((acc, entry) => {
+    return Math.max(
+      acc,
+      entry.metrics.tierAverage,
+      entry.metrics.hazardDensity,
+      entry.metrics.roleDiversity
+    );
+  }, 0);
+  if (chart.options?.scales?.r) {
+    const buffer = maxValue >= 4 ? 1 : 0.5;
+    chart.options.scales.r.suggestedMax = Math.max(5, Math.ceil(maxValue + buffer));
+  }
   chart.update();
 }
 
@@ -3018,6 +3097,7 @@ function renderComparisonPanel() {
     tierMetric.innerHTML = `<span class="generator-compare__metric-label">Tier medio</span> ${formatTierValue(
       entry.metrics.detail.tier
     )}`;
+    tierMetric.title = `Tier stimato: ${formatTierValue(entry.metrics.detail.tier)}`;
     metrics.appendChild(tierMetric);
 
     const hazardMetric = document.createElement("span");
@@ -3027,6 +3107,9 @@ function renderComparisonPanel() {
       : 0;
     const hazardLabel = hazardSignals === 1 ? "segnale" : "segnali";
     hazardMetric.innerHTML = `<span class="generator-compare__metric-label">Densità hazard</span> ${hazardSignals} ${hazardLabel}`;
+    if (Array.isArray(entry.metrics.detail.hazardNames) && entry.metrics.detail.hazardNames.length) {
+      hazardMetric.title = entry.metrics.detail.hazardNames.join(", ");
+    }
     metrics.appendChild(hazardMetric);
 
     const roleMetric = document.createElement("span");
@@ -3036,6 +3119,9 @@ function renderComparisonPanel() {
       : 0;
     const roleLabel = roleTokens === 1 ? "archetipo" : "archetipi";
     roleMetric.innerHTML = `<span class="generator-compare__metric-label">Diversità ruoli</span> ${roleTokens} ${roleLabel}`;
+    if (Array.isArray(entry.metrics.detail.roleTokenList) && entry.metrics.detail.roleTokenList.length) {
+      roleMetric.title = entry.metrics.detail.roleTokenList.join(", ");
+    }
     metrics.appendChild(roleMetric);
 
     info.appendChild(metrics);
