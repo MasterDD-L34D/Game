@@ -18,7 +18,7 @@
    - L'oggetto `state.ema` espone `window` (turno) e frame `phase_weights` aggiornati.
    - `indices` include `risk.weighted_index` e `risk.time_low_hp_turns` per confronto diretto con i target del tuning.
 
-2. **Middleware VC (client)**
+2. **Middleware VC (client)** — implementato in `tools/ts/hud_alerts.ts` per gli scenari di test
    ```ts
    telemetryBus.on("ema.update", (payload) => {
      hudLayer.updateTrend("risk", payload.indices.risk);
@@ -32,12 +32,13 @@
            timeLowHp: payload.indices.risk.time_low_hp_turns,
          },
        });
-       commandBus.emit("pi.balance.alert", payload);
-     }
-   });
-   ```
-   - L'alert HUD usa colore giallo (warning) e si auto-disarma quando la media scende sotto 0.58 per due tick consecutivi.
-   - `commandBus.emit` notifica il canale PI balance per follow-up immediato.
+       commandBus.emit("pi.balance.alerts", payload);
+      }
+    });
+    ```
+    - L'alert HUD usa colore giallo (warning) e si auto-disarma quando la media scende sotto 0.58 per due tick consecutivi.
+    - `commandBus.emit` notifica il canale PI balance per follow-up immediato.
+    - Il recorder telemetrico archivia l'evento in `hud_alert_log` (vedi `logs/playtests/2025-11-05-vc/session-metrics.yaml`).
 
 3. **Persistenza & export**
    - In coda missione, il client salva un frammento YAML con l'ultima finestra EMA e i momenti di attivazione dell'alert.
@@ -48,7 +49,7 @@
 | --- | --- | --- | --- | --- |
 | `telemetry.ema.update` | Motore → Telemetria | Middleware VC | `{ missionId, turn, ema, indices }` | Frequenza: a fine turno (debounce 200 ms). |
 | `hud.alert.risk-high` | Middleware VC | HUD overlay | `{ id, severity, message, metadata }` | Soglia ingresso 0.60, uscita 0.58 (isteresi). |
-| `pi.balance.alert` | Middleware VC | Notifica PI | `{ missionId, roster, indices }` | Smista su Slack/Teams per revisione bilanciamento. |
+| `pi.balance.alerts` | Middleware VC | Notifica PI | `{ missionId, roster, indices }` | Smista su Slack/Teams per revisione bilanciamento. |
 
 ## Next steps condivisi con team client
 - Validare in staging la latenza dell'alert rispetto agli eventi `aeon_overload` (target: <250 ms post-evento).

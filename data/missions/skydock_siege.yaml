@@ -1,55 +1,91 @@
 skydock_siege:
-  revision: "2025-02-15-vc"
+  revision: "2025-11-05-vc"
   source_logs:
     - session: alpha
       tier: "Tier 2"
       risk:
         time_low_hp_turns: 6
         weighted_index: 0.58
+      tilt:
+        score: 0.52
     - session: bravo
       tier: "Tier 3"
       risk:
         time_low_hp_turns: 11
         weighted_index: 0.63
+      tilt:
+        score: 0.48
     - session: charlie
       tier: "Tier 3 (Co-op)"
       risk:
         time_low_hp_turns: 5
         weighted_index: 0.51
+      tilt:
+        score: 0.44
+    - session: delta
+      tier: "Tier 3 (retest)"
+      risk:
+        time_low_hp_turns: 7
+        weighted_index: 0.59
+      tilt:
+        score: 0.46
+      hud_alerts:
+        triggered_turn: 11
+        cleared_turn: 13
+        weighted_index_peak: 0.62
+        notification_channel: "pi.balance.alerts"
   targets:
     tier_2:
       time_low_hp_turns_max: 5
+      tilt_score_max: 0.50
     tier_3:
       time_low_hp_turns_max: 7
+      tilt_score_max: 0.48
     tier_3_coop:
       time_low_hp_turns_max: 5
+      tilt_score_max: 0.50
   adjustments:
     shared:
       - id: evacuation_timer_turns
-        from: 6
-        to: 7
-        rationale: "Turno extra per completare il ciclo di cure prima della spinta finale; riduce il tempo prolungato in HP critico registrato nelle sessioni Alpha/Bravo."
+        from: 7
+        to: 6
+        rationale: "Timer ridotto di un turno: l'alert HUD anticipa l'estrazione quando il rischio supera 0.60, mantenendo il tilt Delta/Bravo sotto 0.50."
+      - id: aeon_overload_warning_cooldown_turns
+        from: 5
+        to: 3
+        rationale: "Preavviso più frequente per preparare rotazioni di guardia: il retest Delta mostra picchi solo temporanei (0.62 → 0.57 in due turni)."
       - id: aeon_overload_damage_pct
         from: 0.28
         to: 0.24
         rationale: "I picchi di danno dell'overload hanno allineato Alpha e Bravo a finestre EMA >0.60; riduciamo il burst per restare nel range di rischio previsto."
     tier_3:
       - id: shield_relay_cooldown_turns
-        from: 5
-        to: 4
-        rationale: "Bravo ha accumulato 11 turni a HP critico; accelerare il relay consente rotazioni di guardia prima della successiva ondata d'assedio."
+        from: 4
+        to: 3
+        rationale: "Riduzione ulteriore: il trend `time_low_hp_turns` scende a 7 nel retest, ma restano picchi durante la finestra Overload."
       - id: medkit_drop_turns
-        from: [9]
-        to: [6, 12]
-        rationale: "Distribuzione doppia dei medkit per interrompere sequenze prolungate senza cure dopo l'overload dei droni."
+        from: [6, 12]
+        to: [5, 10]
+        rationale: "Medkit anticipato di un turno e finestra di follow-up più stretta per comprimere i periodi a HP critico nei turni 10-12 (Bravo/Delta)."
+      - id: pi_balance_handoff_window
+        from: 4
+        to: 3
+        rationale: "Allineare la finestra di intervento PI all'alert HUD → conferma ack canale `pi.balance.alerts` entro tre turni."
     tier_3_coop:
       - id: support_drone_priority
         from: "threat_highest"
         to: "hp_lowest"
         rationale: "In co-op Charlie resta sotto controllo ma beneficia di redirect immediato per proteggere il supporto Helix durante Aeon overload."
+      - id: support_drone_cooldown_turns
+        from: 4
+        to: 3
+        rationale: "Il playtest co-op mostra spikes brevi a rischio 0.58: riduciamo la finestra per mantenere tilt <0.50 anche con alert attivo."
   monitoring:
     - metric: risk.time_low_hp_turns
-      expected_trend: "Rivalutare dopo il prossimo VC: target <=7 su Tier 3."
+      expected_trend: "Retest Delta/Echo stabilizza il trend a 7 turni su Tier 3; mantenere <=5 in co-op."
     - metric: risk.weighted_index
       hud_alert_threshold: 0.60
       action: "Trigger avviso HUD (fascia gialla) e ping automatico al canale PI balance."
+      validation: "Alert attivato al turno 11 (0.62) e chiuso entro due tick quando l'EMA riscende a 0.57."
+    - metric: tilt.score
+      expected_trend: "Tilt medio 0.46 nel retest Delta; mantenere <0.50 sincronizzando timer evacuazione e cooldown supporto."
