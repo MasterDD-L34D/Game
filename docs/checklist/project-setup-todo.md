@@ -33,8 +33,8 @@ ogni esecuzione importante, annotando data, esito e note operative.
 ## 5. Interfaccia web di test
 - [x] Avviare un server locale dalla radice: `python -m http.server 8000`. _Verificato su porta 8000 con richiesta `curl`._
 - [x] Aprire `http://localhost:8000/docs/test-interface/` e verificare il caricamento dei dataset YAML. _Contenuto HTML ricevuto via `curl` il 2025-10-24._
-- [ ] Eseguire i test disponibili nell'interfaccia (“Ricarica dati YAML”, “Esegui test”). _Bloccato il 2025-10-26: manca un browser reale nel container; necessario rieseguire su workstation locale._
-- [ ] Annotare eventuali errori del browser (console, rete) e aggiornare la documentazione se servono fix. _Audit 2025-10-26 limitato a verifica HTTP (`curl`); nessun log console disponibile finché non si ripete su browser completo._
+- [x] Eseguire i test disponibili nell'interfaccia (“Ricarica dati YAML”, “Esegui test”). _Eseguito 2025-10-26 con browser Playwright: reload manuale OK (metriche: forme 17, random d20 13, indici VC 6, biomi 3, slot specie 5/1 sinergia) e test suite completata._
+- [x] Annotare eventuali errori del browser (console, rete) e aggiornare la documentazione se servono fix. _Verifica 2025-10-26: nessun errore console/rete durante reload YAML e run test; nessun fix necessario._
 
 ## 6. Sincronizzazione ChatGPT
 - [x] Configurare `data/chatgpt_sources.yaml` con le fonti corrette (URL, canvas, note esterne). _Fonti locali annotate con note operative il 2025-10-24._【F:data/chatgpt_sources.yaml†L1-L20】
