@@ -5,7 +5,7 @@ dalla configurazione dell'ambiente allo svolgimento dei test manuali e automatic
 ogni esecuzione importante, annotando data, esito e note operative.
 
 ## 1. Preparazione ambiente
-- [ ] Clonare o estrarre il repository sul sistema di lavoro (`git clone` oppure unzip da Drive).
+- [x] Clonare o estrarre il repository sul sistema di lavoro (`git clone` oppure unzip da Drive). _Repo estratto il 2025-10-26 su container Ops/ChatGPT (Ubuntu 22.04) nel percorso condiviso `/workspace/Game`._
 - [x] Installare **Node.js 18+** e **npm** (verifica con `node --version`, `npm --version`). _Node 22.19.0 / npm 11.6.2 verificati il 2025-10-26._
 - [x] Installare **Python 3.10+** e assicurarsi che `pip` sia disponibile (`python3 -m pip --version`). _Python 3.11.12 / pip 25.3 verificati il 2025-10-26._
 - [x] Creare un virtual environment Python dedicato (`python3 -m venv .venv` e attivarlo). _Creato `.venv` e attivato nel container il 2025-10-26 (responsabile: Ops/ChatGPT)._ 
