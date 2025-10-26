@@ -1,1 +1,107 @@
-[INSERIRE QUI IL CANVAS ORIGINALE COMPLETO — INCOLLO 1:1]
+---
+versione: "Canvas A — Originale"
+ultima_revisione: "2025-10-23"
+fonte: "Export ChatGPT snapshot-20251023T101500Z (archivio interno)"
+note: |
+  Versione approvata durante la review VC-10/2025. Integra le telemetrie StressWave,
+  l'introduzione dei Resonance Shards e i requisiti HUD aggiornati per i vertical slice.
+---
+# Evo Tactics — Canvas Principale
+
+## Visione
+Co-op tattico televisivo/app in cui cellule di resistenza guidano forme bio-meccanoidi
+in campagne generate, alternando pianificazione tabletop, incursioni in tempo semi-reale e
+fasi narrative a bivi. L'obiettivo è difendere habitat in mutazione costante, stabilizzare
+nidi itineranti e guidare la comunità verso l'equilibrio tra coesione emotiva e efficacia
+bellica.
+
+### Statement
+"Trasformare l'ansia da tiro di dado in un'intesa condivisa": ogni decisione deve
+visualizzare impatti immediati (risk/cohesion), proiettare conseguenze nel lungo periodo
+(stress, fiducia, reputazione) e restituire feedback audiovisivi sincronizzati tra TV e
+app compagne.
+
+### Esperienza target
+- Gruppi da 3-4 giocatori in salotto, supportati da companion app su smartphone/tablet.
+- Sessioni da 90 minuti suddivise in atti: Briefing → Missione → Debrief/Nido.
+- Inclusività: onboarding in <10 minuti tramite preset Forme + direttive AI.
+
+## Pilastri
+1. **Cooperazione situazionale** — Ruoli modulabili, poteri combinati, scoreboard
+   cooperativo StressWave.
+2. **Mutazione significativa** — Ogni Forma evolve con tratti e parti che riscrivono
+   pattern tattici e abilità narrative.
+3. **Telemetria visibile** — Dashboard condivisa (HUD Canvas) con risk/cohesion overlay,
+   timeline eventi e log esportabili `.yaml`.
+4. **Narrazione reattiva** — Regista (AI) modifica missioni, spawn e ricompense in base a
+   affinità, fiducia e scelte morali del gruppo.
+
+## Loop principale
+1. **Briefing** (TV): scelta missione, definizione obiettivo primario/secondario,
+   assegnazione risorse, ricognizione telemetrica (Heatmap minacce + trend StressWave).
+2. **Setup squad** (App): drafting Forme/Job, moduli, mod richiesti. Check sinergie.
+3. **Incursione**: turni misti `comando rapido` (timer 40s) + `risoluzione d20`.
+   - `Check`: tiri contestuali con modificatori PI, Stance, Affissi.
+   - `Combo`: attivazioni coordinate con limite di coesione.
+4. **Eventi dinamici**: NPG (alleati/nemici), affissi bioma, escalation.
+5. **Debriefing**: calcolo risk/cohesion finale, drop loot, aggiornamento telemetria.
+6. **Fase Nido**: investimenti infrastruttura, ricerca mutazioni, gestione comunità.
+
+## Progressione
+- **Livello Squadra** (1-10): sblocca slot PI, moduli sinergici, missioni avanzate.
+- **Prestigio Forma**: tracciato 5 tier; ogni tier concede tratti e mutazioni.
+- **Reputazione Fazioni**: influenza ricompense e missioni speciali.
+- **StressWave**: indice dinamico (0-1). >0.60 attiva allarmi HUD, modifica spawn e
+  curva minacce.
+
+## Struttura Missioni
+- **Template**: Assault, Extraction, Resonance Survey, Escort, Siege.
+- **Obiettivi secondari**: ridurre StressWave, salvare NPG chiave, attivare Reattori Aeon.
+- **Twist dinamici**: Resistive Gates (richiedono Resonance Shards), Nidi itineranti,
+  event-driven reinforcements.
+
+## Sistema Dadi & Risoluzione
+- Core `d20` con bande di successo: Critico 18+, Successo 11-17, Parziale 6-10,
+  Fallimento ≤5. Modificatori da PI, stance, condizioni.
+- `Stress Mod`: se StressWave > soglia scenario, sposta bande verso il fallimento.
+- `Check cooperativi`: media pesata + bonus coesione.
+- `Clock` (d6 segmenti) per eventi a tempo (evacuazione, anomalie).
+
+## Companion App
+- Draft Forme e Job con filtri per PI e sinergie.
+- Macro azioni rapide (Assist, Combo, Interrupt) con cooldown condivisi.
+- Chat contestuale con emote tattiche.
+- Upload telemetria (json/yaml) verso repository condiviso.
+
+## UI / HUD
+- Overlay risk/cohesion su timeline missione.
+- Log turni esportabile con tag (Forma, Job, Affisso, outcome).
+- Indicatori vertical slice: highlight mismatch ruoli, callout StressWave.
+- Supporto `second screen`: mappa tattica interattiva + indicatori nido.
+
+## Audio / Feedback
+- Layer musicale adattivo: modulazioni in base a StressWave.
+- Cue audio per combinazioni PI riuscite o fallite.
+- VO sintetica per Regista (tonalità modulata dalla fiducia squad).
+
+## Telemetria & Analitiche
+- KPI principali: risk delta, coesione media, durata turno, tasso completamento.
+- Export automatico `session-metrics.yaml` (vedi `logs/playtests/2025-02-15-vc`).
+- Trigger alert su mismatch ruoli >20% tra aspettativa e utilizzo reale.
+
+## Monetizzazione / Live Ops
+- Pacchetti espansione Forme & Biomi (DLC stagionali).
+- Pass narrativo: archi storyline, missioni leggendarie, skin.
+- Eventi community con leaderboard StressWave minima.
+
+## Tech Stack
+- TV app: Unity HDRP + input multi-device (Gamepad/Touch).
+- Companion: Flutter + WebSocket low-latency.
+- Backend: Supabase/Postgres per telemetria, Cloud Functions per analisi.
+- Tools: YAML dataset (packs), generatori Python, validatori CI.
+
+## Stato Attuale (10/2025)
+- Vertical slice VC completato con 3 missioni giocabili.
+- Telemetria StressWave integrata nei test con 12 squadre.
+- Companion app v0.9 (drafting + log turni) live su canale interno.
+- Prossimi passi: iterare su onboarding, bilanciamento PI, espansione Nido.
