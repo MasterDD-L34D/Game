@@ -6,11 +6,13 @@
 - Ogni retro Support/QA deve produrre una nota in `docs/faq.md` con owner e stato di follow-up.
 
 ## Milestone attive
-1. **Bilanciare pacchetti PI tra Forme**  
- - Validare il bias `random_general_d20` rispetto alle nuove combinazioni `bias_d12` per evitare inflazione di PE.【F:data/packs.yaml†L5-L88】
-  - Sincronizzare i costi `pi_shop` con la curva PE definita in `telemetry.pe_economy` (aggiunti i valori mancanti per `cap_pt`, `guardia_situazionale`, `starter_bioma`, `sigillo_forma`).【F:data/packs.yaml†L1-L4】【F:data/telemetry.yaml†L23-L31】
-  - Aggiornare il monitoraggio: `risk.weighted_index` resta sotto controllo (0.59) nel retest Delta, con alert HUD chiuso in due tick e notifiche PI archiviate in `hud_alert_log`.【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L64】
-  - Alert HUD attivo nel client (`hud.alert.risk-high`) con ack automatico PI entro tre turni e log condivisi su Canvas.【F:docs/hooks/ema-metrics.md†L21-L43】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L65-L89】
+> **Aggiornamento 2025-11-02** — Le PR #68-#96 hanno consolidato Mission Control (quick actions, landing guidata, Dataset Hub con validazione YAML) e il generatore (radar, confronto specie, pin persistente, tooltips hazard/ruoli). Restano aperti gli alert HUD automatici oltre soglia risk 0.60, l'automazione Drive Sync giornaliera e il rituning evacuazione Skydock Siege.
+
+1. **Bilanciare pacchetti PI tra Forme**
+   - Validare il bias `random_general_d20` rispetto alle nuove combinazioni `bias_d12` per evitare inflazione di PE.【F:data/packs.yaml†L5-L88】
+    - Sincronizzare i costi `pi_shop` con la curva PE definita in `telemetry.pe_economy` (aggiunti i valori mancanti per `cap_pt`, `guardia_situazionale`, `starter_bioma`, `sigillo_forma`).【F:data/packs.yaml†L1-L4】【F:data/telemetry.yaml†L23-L31】
+    - Aggiornare il monitoraggio: `risk.weighted_index` si è stabilizzato a 0.57 nella sessione Delta dopo l'introduzione del segnale `overcap_guard`, ma resta da mitigare il picco 0.61 della sessione Echo.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L14-L62】
+  - Inserire alert HUD dedicati nella dashboard Canvas per segnalare automaticamente il superamento della soglia 0.60 durante i roll PI.【F:docs/Canvas/feature-updates.md†L9-L20】
 2. **Telemetria VC in game build**
    - Integrare le finestre EMA (`ema_alpha`, `windows`) nel client per raccogliere dati reali, documentando gli hook HUD/telemetria condivisi con il team client.【F:data/telemetry.yaml†L1-L8】【F:docs/hooks/ema-metrics.md†L1-L52】
    - Mappare gli indici VC ai trigger Enneagram per generare feedback contestuali.【F:data/telemetry.yaml†L9-L22】
@@ -22,8 +24,8 @@
 4. **Missioni verticali e supporto live**
  - Preparare il playtest di "Skydock Siege" con obiettivi multilivello e timer di evacuazione.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
   - Collegare Reattori Aeon, filtro SquadSync e protocolli di soccorso alla pipeline telemetrica co-op.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
-  - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】
-  - Timer evacuazione a 6 turni e cooldown relay/support a 3 mantengono `time_low_hp_turns` (7 su Tier 3, 5 in co-op) e tilt < 0.50 nel retest 2025-11-05; aggiornare continuamente `data/missions/skydock_siege.yaml` con i nuovi parametri. 【F:data/missions/skydock_siege.yaml†L1-L71】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L98】
+  - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】 _Layout completato con radar/timeline aggiornati; resta attivazione alert automatici oltre soglia 0.60._
+  - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; revisione 2025-02-15 documentata in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L61-L121】【F:data/missions/skydock_siege.yaml†L1-L52】 _Attività riaperta dopo i test PR #92/96._
 
 ## Prossimi passi
 - Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】 _In corso: radar/specie comparate disponibili nella dashboard generator._

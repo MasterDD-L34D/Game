@@ -189,21 +189,59 @@ def build_highlight_line(prs: Sequence[PullRequest], target_date: dt.date) -> st
     return f"- **{date_str}** — {joined}. [Report]({report_path})"
 
 
-def update_marked_section(path: str, marker: str, content: str) -> bool:
+def _extract_entry_date(line: str) -> str | None:
+    match = re.match(r"^- \*\*(\d{4}-\d{2}-\d{2})\*\*", line.strip())
+    if match:
+        return match.group(1)
+    return None
+
+
+def update_marked_section(
+    path: str,
+    marker: str,
+    content: str,
+    target_date: dt.date,
+    max_entries: int = 14,
+) -> bool:
     start_marker = f"<!-- {marker}:start -->"
     end_marker = f"<!-- {marker}:end -->"
     with open(path, "r", encoding="utf-8") as fh:
         original = fh.read()
     if start_marker not in original or end_marker not in original:
         return False
+
     pattern = re.compile(
-        rf"{re.escape(start_marker)}.*?{re.escape(end_marker)}",
+        rf"{re.escape(start_marker)}\n?(?P<body>.*?){re.escape(end_marker)}",
         re.DOTALL,
     )
-    replacement = f"{start_marker}\n{content}\n{end_marker}"
-    updated = re.sub(pattern, replacement, original)
-    if updated == original:
+    match = pattern.search(original)
+    if not match:
         return False
+
+    body = match.group("body").strip("\n")
+    existing_lines = [line for line in body.splitlines() if line.strip()]
+
+    new_date = target_date.strftime(ISO_FORMAT)
+    deduped: List[str] = []
+    seen_dates = {new_date}
+    deduped.append(content)
+
+    for line in existing_lines:
+        entry_date = _extract_entry_date(line)
+        if entry_date and entry_date in seen_dates:
+            continue
+        if entry_date:
+            seen_dates.add(entry_date)
+        deduped.append(line)
+        if len(deduped) >= max_entries:
+            break
+
+    new_body = "\n".join(deduped)
+    if body == new_body:
+        return False
+
+    replacement = f"{start_marker}\n{new_body}\n{end_marker}"
+    updated = pattern.sub(replacement, original, count=1)
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(updated)
     return True
@@ -225,10 +263,6 @@ def ensure_marked_section(path: str, marker: str, heading: str) -> None:
 
 def update_documents(prs: Sequence[PullRequest], target_date: dt.date) -> List[str]:
     highlight_line = build_highlight_line(prs, target_date)
-    if not prs:
-        # Avoid touching the documents if there is nothing to record.
-        return []
-
     docs_to_update = {
         "docs/changelog.md": ("daily-pr-summary", "### Riepilogo PR giornalieri"),
         "docs/piani/roadmap.md": ("daily-pr-summary", "## Riepilogo PR giornaliero"),
@@ -238,7 +272,7 @@ def update_documents(prs: Sequence[PullRequest], target_date: dt.date) -> List[s
     touched: List[str] = []
     for path, (marker, heading) in docs_to_update.items():
         ensure_marked_section(path, marker, heading)
-        updated = update_marked_section(path, marker, highlight_line)
+        updated = update_marked_section(path, marker, highlight_line, target_date)
         if updated:
             touched.append(path)
     return touched
@@ -259,28 +293,24 @@ def main(argv: Sequence[str] | None = None) -> int:
         report_path = ""
 
         if not args.dry_run:
-            if prs:
-                ensure_directory(args.output_dir)
-                report_filename = f"daily-pr-summary-{args.target_date.strftime(ISO_FORMAT)}.md"
-                report_path = os.path.join(args.output_dir, report_filename)
-                write_report(report_path, report_content)
-                highlight_touches = update_documents(prs, args.target_date)
-            else:
-                # No PRs merged; nothing was written.
-                pass
+            ensure_directory(args.output_dir)
+            report_filename = f"daily-pr-summary-{args.target_date.strftime(ISO_FORMAT)}.md"
+            report_path = os.path.join(args.output_dir, report_filename)
+            write_report(report_path, report_content)
+            highlight_touches = update_documents(prs, args.target_date)
         else:
             print(report_content)
 
         if prs:
             print(f"Generated report for {len(prs)} merged PR(s) on {args.target_date}.")
-            if report_path:
-                print(f"Report written to: {report_path}")
-            if highlight_touches:
-                print("Updated highlight sections:")
-                for path in highlight_touches:
-                    print(f" - {path}")
         else:
             print(f"No merged pull requests found on {args.target_date}.")
+        if report_path:
+            print(f"Report written to: {report_path}")
+        if highlight_touches:
+            print("Updated highlight sections:")
+            for path in highlight_touches:
+                print(f" - {path}")
         return 0
     except DailySummaryError as exc:
         print(f"Error: {exc}", file=sys.stderr)

@@ -28,7 +28,7 @@ jobs:
         run: |
           python tools/py/daily_pr_report.py \
             --repo "${{ github.repository }}" \
-            --date "$(date -u +%Y-%m-%d)"
+            --date "$(date -u -d 'yesterday' +%Y-%m-%d)"
 
       - name: Commit changes
         run: |
