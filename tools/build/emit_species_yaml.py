@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+import yaml, sys
+from pathlib import Path
+BASE = Path('data/evo-tactics/param-synergy/species')
+OUT  = Path('data/species.yaml')
+
+if not BASE.exists():
+    sys.exit('Missing species dir: '+str(BASE))
+
+species = []
+for p in sorted(BASE.glob('*.yaml')):
+    with open(p, 'r', encoding='utf-8') as f:
+        doc = yaml.safe_load(f)
+        if isinstance(doc, dict):
+            doc.setdefault('id', p.stem)
+            species.append(doc)
+
+OUT.parent.mkdir(parents=True, exist_ok=True)
+with open(OUT, 'w', encoding='utf-8') as f:
+    yaml.safe_dump({'version':'generated','species': species}, f, allow_unicode=True, sort_keys=False)
+print('Wrote', OUT)
