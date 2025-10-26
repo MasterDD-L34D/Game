@@ -2,6 +2,7 @@ import {
   loadPackCatalog,
   manualLoadCatalog,
   getPackRootCandidates,
+  PACK_PATH,
 } from "./pack-data.js";
 
 const elements = {
@@ -14,6 +15,24 @@ const elements = {
   traitGrid: document.getElementById("trait-grid"),
   seedGrid: document.getElementById("seed-grid"),
   status: document.getElementById("generator-status"),
+  summaryContainer: document.getElementById("generator-summary"),
+  summaryCounts: {
+    biomes: document.querySelector("[data-summary=\"biomes\"]"),
+    species: document.querySelector("[data-summary=\"species\"]"),
+    seeds: document.querySelector("[data-summary=\"seeds\"]"),
+  },
+  lastAction: document.getElementById("generator-last-action"),
+  logList: document.getElementById("generator-log"),
+  logEmpty: document.getElementById("generator-log-empty"),
+  exportMeta: document.getElementById("generator-export-meta"),
+  exportList: document.getElementById("generator-export-list"),
+  exportEmpty: document.getElementById("generator-export-empty"),
+  exportPreview: document.getElementById("generator-export-preview"),
+  exportPreviewEmpty: document.getElementById("generator-preview-empty"),
+  exportPreviewJson: document.getElementById("generator-preview-json"),
+  exportPreviewYaml: document.getElementById("generator-preview-yaml"),
+  exportPreviewJsonDetails: document.getElementById("generator-preview-json-details"),
+  exportPreviewYamlDetails: document.getElementById("generator-preview-yaml-details"),
 };
 
 const anchorUi = {
@@ -39,6 +58,10 @@ const anchorState = {
 };
 
 const PACK_ROOT_CANDIDATES = getPackRootCandidates();
+const EXPORT_BASE_FOLDER = `${PACK_PATH}out/generator/`;
+const STORAGE_KEYS = {
+  activityLog: "evo-generator-activity-log",
+};
 
 const state = {
   data: null,
@@ -48,11 +71,14 @@ const state = {
   traitDetailsIndex: new Map(),
   hazardRegistry: null,
   hazardsIndex: new Map(),
+  activityLog: [],
+  lastFilters: { flags: [], roles: [], tags: [] },
   pick: {
     ecosystem: {},
     biomes: [],
     species: {},
     seeds: [],
+    exportSlug: null,
   },
 };
 
@@ -60,6 +86,8 @@ let packContext = null;
 let resolvedCatalogUrl = null;
 let resolvedPackRoot = null;
 let packDocsBase = null;
+let cachedStorage = null;
+let storageChecked = false;
 
 const TRAIT_CATEGORY_LABELS = {
   biomi_estremi: "Biomi estremi",
@@ -76,10 +104,272 @@ function applyCatalogContext(data, context) {
   populateFilters(data);
 }
 
+function calculatePickMetrics() {
+  const biomes = state.pick?.biomes ?? [];
+  const speciesBuckets = state.pick?.species ?? {};
+  const seeds = state.pick?.seeds ?? [];
+  const biomeCount = Array.isArray(biomes) ? biomes.length : 0;
+  const speciesCount = Object.values(speciesBuckets).reduce(
+    (sum, list) => sum + (Array.isArray(list) ? list.length : 0),
+    0
+  );
+  const seedCount = Array.isArray(seeds) ? seeds.length : 0;
+  return { biomeCount, speciesCount, seedCount };
+}
+
 function setStatus(message, tone = "info") {
-  if (!elements.status) return;
-  elements.status.textContent = message;
-  elements.status.dataset.tone = tone;
+  const now = new Date();
+  if (elements.status) {
+    elements.status.textContent = message;
+    elements.status.dataset.tone = tone;
+  }
+  if (elements.lastAction) {
+    const formatted = now.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+    elements.lastAction.textContent = `Ultimo aggiornamento: ${formatted}`;
+    elements.lastAction.dataset.tone = tone;
+    elements.lastAction.title = now.toLocaleString("it-IT");
+  }
+  recordActivity(message, tone, now);
+}
+
+function updateSummaryCounts() {
+  const { biomeCount, speciesCount, seedCount } = calculatePickMetrics();
+
+  elements.summaryCounts?.biomes?.textContent = biomeCount;
+  elements.summaryCounts?.species?.textContent = speciesCount;
+  elements.summaryCounts?.seeds?.textContent = seedCount;
+
+  if (elements.summaryContainer) {
+    const hasResults = biomeCount + speciesCount + seedCount > 0;
+    elements.summaryContainer.dataset.hasResults = hasResults ? "true" : "false";
+  }
+
+  renderExportManifest();
+}
+
+function getActivityStorage() {
+  if (storageChecked) {
+    return cachedStorage;
+  }
+  storageChecked = true;
+  try {
+    if (typeof window === "undefined" || !window.localStorage) {
+      cachedStorage = null;
+      return cachedStorage;
+    }
+    const testKey = "__generator_log_test__";
+    window.localStorage.setItem(testKey, "1");
+    window.localStorage.removeItem(testKey);
+    cachedStorage = window.localStorage;
+  } catch (error) {
+    console.warn("LocalStorage non disponibile per il monitor del generatore", error);
+    cachedStorage = null;
+  }
+  return cachedStorage;
+}
+
+function persistActivityLog() {
+  const storage = getActivityStorage();
+  if (!storage) return;
+  try {
+    const serialisable = state.activityLog.map((entry) => ({
+      message: entry.message,
+      tone: entry.tone,
+      timestamp: entry.timestamp instanceof Date ? entry.timestamp.toISOString() : entry.timestamp,
+    }));
+    storage.setItem(STORAGE_KEYS.activityLog, JSON.stringify(serialisable));
+  } catch (error) {
+    console.warn("Impossibile salvare il registro attività", error);
+  }
+}
+
+function restoreActivityLog() {
+  const storage = getActivityStorage();
+  if (!storage) return;
+  try {
+    const raw = storage.getItem(STORAGE_KEYS.activityLog);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return;
+    state.activityLog = parsed
+      .map((entry) => {
+        if (!entry?.message) return null;
+        const timestamp = entry.timestamp ? new Date(entry.timestamp) : new Date();
+        return {
+          message: entry.message,
+          tone: entry.tone ?? "info",
+          timestamp,
+        };
+      })
+      .filter(Boolean)
+      .slice(0, 20);
+  } catch (error) {
+    console.warn("Impossibile ripristinare il registro attività", error);
+  }
+}
+
+function recordActivity(message, tone = "info", timestamp = new Date()) {
+  if (!message) return;
+  const entry = {
+    message,
+    tone,
+    timestamp: timestamp instanceof Date ? timestamp : new Date(timestamp),
+  };
+  state.activityLog.unshift(entry);
+  state.activityLog = state.activityLog.slice(0, 20);
+  persistActivityLog();
+  renderActivityLog();
+}
+
+function renderActivityLog() {
+  const list = elements.logList;
+  const empty = elements.logEmpty;
+  if (!list) return;
+
+  list.innerHTML = "";
+  const entries = state.activityLog ?? [];
+  const hasEntries = entries.length > 0;
+  list.hidden = !hasEntries;
+  if (empty) {
+    empty.hidden = hasEntries;
+  }
+
+  if (!hasEntries) {
+    return;
+  }
+
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    item.className = "generator-log__item";
+    item.dataset.tone = entry.tone ?? "info";
+
+    const time = document.createElement("p");
+    time.className = "generator-log__time";
+    time.textContent = entry.timestamp.toLocaleTimeString("it-IT", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    const messageText = document.createElement("p");
+    messageText.className = "generator-log__message";
+    messageText.textContent = entry.message;
+
+    item.append(time, messageText);
+    list.appendChild(item);
+  });
+}
+
+function ensureExportSlug() {
+  if (state.pick.exportSlug) {
+    return state.pick.exportSlug;
+  }
+  const base = state.pick.ecosystem?.id || randomId("ecos");
+  const stamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const slug = slugify(`${base}-${stamp}`);
+  state.pick.exportSlug = slug || randomId("ecos");
+  return state.pick.exportSlug;
+}
+
+function renderExportPreview(payload) {
+  const container = elements.exportPreview;
+  const empty = elements.exportPreviewEmpty;
+  if (!container || !empty) return;
+
+  const hasPayload = Boolean(payload);
+  container.hidden = !hasPayload;
+  empty.hidden = hasPayload;
+
+  if (!hasPayload) {
+    if (elements.exportPreviewJson) elements.exportPreviewJson.textContent = "";
+    if (elements.exportPreviewYaml) elements.exportPreviewYaml.textContent = "";
+    if (elements.exportPreviewJsonDetails) elements.exportPreviewJsonDetails.open = false;
+    if (elements.exportPreviewYamlDetails) elements.exportPreviewYamlDetails.open = false;
+    return;
+  }
+
+  const jsonDetails = elements.exportPreviewJsonDetails;
+  const yamlDetails = elements.exportPreviewYamlDetails;
+  const jsonWasOpen = Boolean(jsonDetails?.open);
+  const yamlWasOpen = Boolean(yamlDetails?.open);
+
+  if (elements.exportPreviewJson) {
+    elements.exportPreviewJson.textContent = JSON.stringify(payload, null, 2);
+  }
+  if (elements.exportPreviewYaml) {
+    elements.exportPreviewYaml.textContent = toYAML(payload);
+  }
+
+  if (jsonDetails) jsonDetails.open = jsonWasOpen;
+  if (yamlDetails) yamlDetails.open = yamlWasOpen;
+}
+
+function renderExportManifest(filters = state.lastFilters) {
+  const list = elements.exportList;
+  const empty = elements.exportEmpty;
+  const meta = elements.exportMeta;
+  if (!list || !empty || !meta) return;
+
+  list.innerHTML = "";
+
+  const { biomeCount, speciesCount, seedCount } = calculatePickMetrics();
+  const hasContent = biomeCount + speciesCount + seedCount > 0;
+
+  list.hidden = !hasContent;
+  empty.hidden = hasContent;
+
+  if (!hasContent) {
+    meta.textContent = "Genera un ecosistema per preparare il manifest dei file.";
+    renderExportPreview(null);
+    return;
+  }
+
+  const slug = ensureExportSlug();
+  const folder = EXPORT_BASE_FOLDER;
+  const filterSummary = summariseFilters(filters ?? state.lastFilters ?? {});
+  const ecosystemLabel = state.pick.ecosystem?.label ?? "Ecosistema sintetico";
+
+  meta.innerHTML = `Cartella consigliata: <code>${folder}</code> · ${
+    filterSummary ? `Filtri: ${filterSummary}.` : "Nessun filtro attivo."
+  } · Anteprima disponibile qui sotto.`;
+
+  const suggestions = [
+    {
+      name: `${slug}.json`,
+      format: "JSON",
+      description: `Dump completo dell'ecosistema "${ecosystemLabel}" con ${biomeCount} biomi, ${speciesCount} specie e ${seedCount} seed.`,
+    },
+    {
+      name: `${slug}.yaml`,
+      format: "YAML",
+      description: `Manifesto YAML pronto per commit in ${folder}, utile per revisioni manuali o pipeline esterne.`,
+    },
+  ];
+
+  suggestions.forEach((suggestion) => {
+    const item = document.createElement("li");
+    item.className = "generator-export";
+
+    const title = document.createElement("h4");
+    title.className = "generator-export__title";
+    title.append(document.createTextNode(suggestion.name));
+    const format = document.createElement("span");
+    format.className = "generator-export__format";
+    format.textContent = suggestion.format;
+    title.appendChild(format);
+
+    const description = document.createElement("p");
+    description.className = "generator-export__description";
+    description.textContent = suggestion.description;
+
+    const path = document.createElement("p");
+    path.className = "generator-export__path";
+    path.textContent = `${folder}${suggestion.name}`;
+
+    item.append(title, description, path);
+    list.appendChild(item);
+  });
+
+  renderExportPreview(exportPayload(filters));
 }
 
 function getSelectedValues(select) {
@@ -1220,11 +1510,13 @@ function resolvePackHref(relativePath) {
 }
 
 function currentFilters() {
-  return {
+  const filters = {
     flags: getSelectedValues(elements.flags),
     roles: getSelectedValues(elements.roles),
     tags: getSelectedValues(elements.tags),
   };
+  state.lastFilters = filters;
+  return filters;
 }
 
 function summariseFilters(filters) {
@@ -1525,10 +1817,11 @@ function rerollSeeds(filters) {
 }
 
 function renderBiomes(filters) {
+  updateSummaryCounts();
   const grid = elements.biomeGrid;
   if (!grid) return;
   grid.innerHTML = "";
-
+  
   if (!state.pick.biomes.length) {
     const placeholder = document.createElement("p");
     placeholder.className = "placeholder";
@@ -1619,9 +1912,11 @@ function renderBiomes(filters) {
     }
     grid.appendChild(card);
   });
+
 }
 
 function renderSeeds() {
+  updateSummaryCounts();
   const container = elements.seedGrid;
   if (!container) return;
   container.innerHTML = "";
@@ -1684,6 +1979,7 @@ function renderSeeds() {
     card.append(list);
     container.appendChild(card);
   });
+
 }
 
 function exportPayload(filters) {
@@ -1920,6 +2216,7 @@ function attachActions() {
           connessioni: synthesiseConnections(pool),
         };
         state.pick.biomes = pool;
+        state.pick.exportSlug = null;
         rerollSpecies(filters);
         rerollSeeds(filters);
         renderBiomes(filters);
@@ -1937,6 +2234,14 @@ function attachActions() {
         const n = Math.max(1, Math.min(parseInt(elements.nBiomi.value, 10) || state.pick.biomes.length, 6));
         const pool = generateSyntheticBiomes(state.data.biomi, n);
         state.pick.biomes = pool;
+        state.pick.ecosystem = {
+          id: state.pick.ecosystem?.id || randomId("ecos"),
+          label: `Rete sintetica (${pool.length} biomi)`,
+          synthetic: true,
+          sources: state.data.ecosistema?.biomi?.map((b) => b.id) ?? [],
+          connessioni: synthesiseConnections(pool),
+        };
+        state.pick.exportSlug = null;
         rerollSpecies(filters);
         rerollSeeds(filters);
         renderBiomes(filters);
@@ -1966,14 +2271,16 @@ function attachActions() {
       }
       case "export-json": {
         const payload = exportPayload(filters);
-        downloadFile("ecosystem_pick.json", JSON.stringify(payload, null, 2), "application/json");
+        const slug = ensureExportSlug();
+        downloadFile(`${slug}.json`, JSON.stringify(payload, null, 2), "application/json");
         setStatus("Esportazione JSON completata.");
         break;
       }
       case "export-yaml": {
         const payload = exportPayload(filters);
         const yaml = toYAML(payload);
-        downloadFile("ecosystem_pick.yaml", yaml, "text/yaml");
+        const slug = ensureExportSlug();
+        downloadFile(`${slug}.yaml`, yaml, "text/yaml");
         setStatus("Esportazione YAML completata.");
         break;
       }

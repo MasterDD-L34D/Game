@@ -109,7 +109,33 @@
                 <select id="tags" multiple size="6"></select>
               </label>
             </div>
-            <div class="form__actions">
+            <div class="generator-form__section">
+              <h3 class="generator-form__legend">Vincoli principali</h3>
+              <div class="generator-form__grid">
+                <label class="form__field">
+                  <span>Numero di biomi</span>
+                  <input id="nBiomi" type="number" min="1" max="6" value="2" />
+                </label>
+              </div>
+            </div>
+            <div class="generator-form__section">
+              <h3 class="generator-form__legend">Filtra ecosistema</h3>
+              <div class="generator-form__grid generator-form__grid--filters">
+                <label class="form__field">
+                  <span>Flags richiesti</span>
+                  <select id="flags" multiple size="5"></select>
+                </label>
+                <label class="form__field">
+                  <span>Ruoli trofici</span>
+                  <select id="roles" multiple size="5"></select>
+                </label>
+                <label class="form__field">
+                  <span>Tag funzionali</span>
+                  <select id="tags" multiple size="6"></select>
+                </label>
+              </div>
+            </div>
+            <div class="form__actions generator-form__actions">
               <button type="button" class="button" data-action="roll-ecos">🎲 Genera ecosistema</button>
               <button type="button" class="button button--secondary" data-action="reroll-biomi">↻ Re-roll biomi</button>
               <button type="button" class="button button--secondary" data-action="reroll-species">↻ Re-roll specie</button>
@@ -118,7 +144,31 @@
               <button type="button" class="button button--ghost" data-action="export-yaml">⬇︎ YAML</button>
             </div>
           </form>
-          <p class="form__hint" id="generator-status" aria-live="polite"></p>
+          <section
+            class="generator-summary"
+            id="generator-summary"
+            aria-labelledby="generator-summary-title"
+          >
+            <h3 class="generator-summary__title" id="generator-summary-title">Riepilogo rapido</h3>
+            <dl class="generator-summary__metrics">
+              <div class="generator-summary__metric">
+                <dt class="generator-summary__label">Biomi</dt>
+                <dd class="generator-summary__value" data-summary="biomes">0</dd>
+              </div>
+              <div class="generator-summary__metric">
+                <dt class="generator-summary__label">Specie</dt>
+                <dd class="generator-summary__value" data-summary="species">0</dd>
+              </div>
+              <div class="generator-summary__metric">
+                <dt class="generator-summary__label">Seed</dt>
+                <dd class="generator-summary__value" data-summary="seeds">0</dd>
+              </div>
+            </dl>
+            <p class="generator-summary__status" id="generator-status" aria-live="polite">
+              Carica il catalogo per iniziare.
+            </p>
+            <p class="generator-summary__note" id="generator-last-action">Ultimo aggiornamento: —</p>
+          </section>
         </article>
         </section>
 
