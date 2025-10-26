@@ -1,0 +1,18 @@
+{
+  "weights": {
+    "evo tactics": 5.0,
+    "ecosystems": 3.0,
+    "biomes": 2.4
+  },
+  "path_bonuses": {
+    "packs/evo_tactics_pack/": 1.8,
+    "docs/evo-tactics-pack/": 1.2
+  },
+  "preferred_roots": [
+    "packs/evo_tactics_pack/",
+    "docs/evo-tactics-pack/"
+  ],
+  "ignore_patterns": [
+    "node_modules/", "dist/", "build/", ".git/"
+  ]
+}
