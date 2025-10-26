@@ -126,6 +126,35 @@
                   </label>
                 </div>
             </div>
+              <section
+                class="generator-profiles"
+                id="generator-profiles"
+                aria-labelledby="generator-profiles-title"
+              >
+                <div class="generator-profiles__header">
+                  <h3 class="generator-form__legend" id="generator-profiles-title">
+                    Profili filtro
+                  </h3>
+                  <button
+                    type="button"
+                    class="button button--ghost generator-profiles__reset"
+                    data-action="profile-clear-all"
+                  >
+                    Svuota profili
+                  </button>
+                </div>
+                <p class="generator-profiles__hint">
+                  Salva combinazioni di filtri per richiamarle rapidamente durante i re-roll.
+                </p>
+                <p class="generator-profiles__empty" id="generator-profile-empty">
+                  Nessun profilo salvato. Usa "Salva" su uno slot per crearne uno nuovo.
+                </p>
+                <ul
+                  class="generator-profiles__slots"
+                  id="generator-profile-slots"
+                  aria-live="polite"
+                ></ul>
+              </section>
               <div class="form__actions generator-form__actions">
                 <button type="button" class="button" data-action="roll-ecos">
                   🎲 Genera ecosistema
@@ -239,6 +268,28 @@
               </p>
               <ul class="generator-pins" id="generator-pinned-list" aria-live="polite"></ul>
             </div>
+            <section
+              class="generator-history"
+              id="generator-history"
+              aria-labelledby="generator-history-title"
+            >
+              <div class="generator-history__header">
+                <h4 class="generator-summary__subtitle" id="generator-history-title">
+                  Cronologia snapshot
+                </h4>
+                <button
+                  type="button"
+                  class="button button--ghost generator-history__clear"
+                  data-action="history-clear"
+                >
+                  Svuota cronologia
+                </button>
+              </div>
+              <p class="generator-summary__empty" id="generator-history-empty">
+                Nessuna cronologia salvata. Genera o ricalcola un ecosistema per creare snapshot.
+              </p>
+              <ol class="generator-history__list" id="generator-history-list" aria-live="polite"></ol>
+            </section>
             <section
               class="generator-activity"
               id="generator-activity"

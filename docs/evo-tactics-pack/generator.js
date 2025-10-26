@@ -21,6 +21,9 @@ const elements = {
     species: document.querySelector("[data-summary=\"species\"]"),
     seeds: document.querySelector("[data-summary=\"seeds\"]"),
   },
+  profilePanel: document.getElementById("generator-profiles"),
+  profileSlots: document.getElementById("generator-profile-slots"),
+  profileEmpty: document.getElementById("generator-profile-empty"),
   comparePanel: document.getElementById("generator-compare-panel"),
   compareList: document.getElementById("generator-compare-list"),
   compareEmpty: document.getElementById("generator-compare-empty"),
@@ -29,6 +32,9 @@ const elements = {
   compareFallback: document.getElementById("generator-compare-fallback"),
   pinnedList: document.getElementById("generator-pinned-list"),
   pinnedEmpty: document.getElementById("generator-pinned-empty"),
+  historyPanel: document.getElementById("generator-history"),
+  historyList: document.getElementById("generator-history-list"),
+  historyEmpty: document.getElementById("generator-history-empty"),
   lastAction: document.getElementById("generator-last-action"),
   logList: document.getElementById("generator-log"),
   logEmpty: document.getElementById("generator-log-empty"),
@@ -83,6 +89,10 @@ const PACK_ROOT_CANDIDATES = getPackRootCandidates();
 const EXPORT_BASE_FOLDER = `${PACK_PATH}out/generator/`;
 const STORAGE_KEYS = {
   activityLog: "evo-generator-activity-log",
+  filterProfiles: "evo-generator-filter-profiles",
+  history: "evo-generator-history",
+  pinned: "evo-generator-pinned",
+  locks: "evo-generator-locks",
 };
 
 const DEFAULT_ACTIVITY_TONES = ["info", "success", "warn", "error"];
@@ -97,6 +107,15 @@ const TONE_LABELS = {
 const REROLL_ACTIONS = new Set(["reroll-biomi", "reroll-species", "reroll-seeds"]);
 const ROLL_ACTIONS = new Set(["roll-ecos", "reroll-biomi", "reroll-species", "reroll-seeds"]);
 
+const PROFILE_SLOT_COUNT = 5;
+const MAX_SPECIES_PER_BIOME = 3;
+const MAX_HISTORY_ENTRIES = 12;
+const HISTORY_ACTION_LABELS = {
+  "roll-ecos": "Nuovo ecosistema",
+  "reroll-biomi": "Biomi aggiornati",
+  "reroll-species": "Specie aggiornate",
+  "reroll-seeds": "Seed rigenerati",
+};
 const MANIFEST_PRESETS = [
   {
     id: "playtest-bundle",
@@ -209,12 +228,18 @@ const state = {
     pinned: new Map(),
     squad: new Map(),
     comparison: new Map(),
+    locks: {
+      biomes: new Set(),
+      species: new Set(),
+    },
   },
   exportState: {
     presetId: MANIFEST_PRESETS[0]?.id ?? null,
     checklist: new Map(),
     dossierTemplate: null,
   },
+  filterProfiles: [],
+  history: [],
 };
 
 let packContext = null;
@@ -398,6 +423,714 @@ function getActivityStorage() {
     cachedStorage = null;
   }
   return cachedStorage;
+}
+
+function getPersistentStorage() {
+  return getActivityStorage();
+}
+
+function persistPinnedState() {
+  const storage = getPersistentStorage();
+  if (!storage) return;
+  try {
+    const serialisable = Array.from(state.cardState.pinned.values()).map((entry) => ({
+      key: entry.key,
+      speciesId: entry.speciesId,
+      biomeId: entry.biomeId,
+      displayName: entry.displayName,
+      biomeLabel: entry.biomeLabel,
+      tier: entry.tier,
+      rarity: entry.rarity,
+      slug: entry.slug,
+      synthetic: Boolean(entry.synthetic),
+    }));
+    storage.setItem(STORAGE_KEYS.pinned, JSON.stringify(serialisable));
+  } catch (error) {
+    console.warn("Impossibile salvare lo stato dei pin", error);
+  }
+}
+
+function restorePinnedState() {
+  const storage = getPersistentStorage();
+  if (!storage) return;
+  try {
+    const raw = storage.getItem(STORAGE_KEYS.pinned);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return;
+    const store = state.cardState.pinned;
+    store.clear();
+    parsed.forEach((entry) => {
+      if (!entry) return;
+      const key = entry.key || createPinKey({ id: entry.biomeId }, { id: entry.speciesId });
+      if (!key) return;
+      store.set(key, {
+        key,
+        speciesId: entry.speciesId,
+        biomeId: entry.biomeId,
+        displayName: entry.displayName ?? entry.speciesId ?? "Specie",
+        biomeLabel: entry.biomeLabel ?? entry.biomeId ?? "Bioma",
+        tier: entry.tier ?? 1,
+        rarity: entry.rarity ?? "Comune",
+        slug: entry.slug ?? "common",
+        synthetic: Boolean(entry.synthetic),
+      });
+    });
+  } catch (error) {
+    console.warn("Impossibile ripristinare lo stato dei pin", error);
+  }
+}
+
+function persistLockState() {
+  const storage = getPersistentStorage();
+  if (!storage) return;
+  try {
+    const payload = {
+      biomes: Array.from(state.cardState.locks.biomes.values()),
+      species: Array.from(state.cardState.locks.species.values()),
+    };
+    storage.setItem(STORAGE_KEYS.locks, JSON.stringify(payload));
+  } catch (error) {
+    console.warn("Impossibile salvare lo stato dei lock", error);
+  }
+}
+
+function restoreLockState() {
+  const storage = getPersistentStorage();
+  if (!storage) return;
+  try {
+    const raw = storage.getItem(STORAGE_KEYS.locks);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") return;
+    const biomeLocks = Array.isArray(parsed.biomes) ? parsed.biomes : [];
+    const speciesLocks = Array.isArray(parsed.species) ? parsed.species : [];
+    state.cardState.locks.biomes = new Set(biomeLocks);
+    state.cardState.locks.species = new Set(speciesLocks);
+  } catch (error) {
+    console.warn("Impossibile ripristinare lo stato dei lock", error);
+  }
+}
+
+function pruneLockState() {
+  const availableBiomes = new Set((state.pick.biomes ?? []).map((biome) => biome?.id).filter(Boolean));
+  state.cardState.locks.biomes = new Set(
+    Array.from(state.cardState.locks.biomes ?? []).filter((id) => availableBiomes.has(id))
+  );
+  const availableSpecies = new Set();
+  Object.entries(state.pick.species ?? {}).forEach(([biomeId, speciesList]) => {
+    if (!biomeId || !Array.isArray(speciesList)) return;
+    speciesList.forEach((sp) => {
+      const key = createPinKey({ id: biomeId }, sp);
+      availableSpecies.add(key);
+    });
+  });
+  state.cardState.locks.species = new Set(
+    Array.from(state.cardState.locks.species ?? []).filter((key) => availableSpecies.has(key))
+  );
+  persistLockState();
+}
+
+function ensureProfileState() {
+  if (!Array.isArray(state.filterProfiles)) {
+    state.filterProfiles = [];
+  }
+  if (state.filterProfiles.length > PROFILE_SLOT_COUNT) {
+    state.filterProfiles = state.filterProfiles.slice(0, PROFILE_SLOT_COUNT);
+  }
+  while (state.filterProfiles.length < PROFILE_SLOT_COUNT) {
+    state.filterProfiles.push(null);
+  }
+}
+
+function persistFilterProfiles() {
+  const storage = getPersistentStorage();
+  if (!storage) return;
+  ensureProfileState();
+  try {
+    const payload = state.filterProfiles.map((profile) => {
+      if (!profile) return null;
+      return {
+        name: profile.name ?? null,
+        filters: {
+          flags: Array.isArray(profile.filters?.flags) ? profile.filters.flags : [],
+          roles: Array.isArray(profile.filters?.roles) ? profile.filters.roles : [],
+          tags: Array.isArray(profile.filters?.tags) ? profile.filters.tags : [],
+        },
+        updatedAt: profile.updatedAt ?? null,
+      };
+    });
+    storage.setItem(STORAGE_KEYS.filterProfiles, JSON.stringify(payload));
+  } catch (error) {
+    console.warn("Impossibile salvare i profili filtro", error);
+  }
+}
+
+function restoreFilterProfiles() {
+  const storage = getPersistentStorage();
+  ensureProfileState();
+  if (!storage) return;
+  try {
+    const raw = storage.getItem(STORAGE_KEYS.filterProfiles);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return;
+    state.filterProfiles = parsed.slice(0, PROFILE_SLOT_COUNT).map((profile, index) => {
+      if (!profile) return null;
+      const filters = profile.filters ?? {};
+      return {
+        name: profile.name ?? `Slot ${index + 1}`,
+        filters: {
+          flags: Array.isArray(filters.flags) ? filters.flags : [],
+          roles: Array.isArray(filters.roles) ? filters.roles : [],
+          tags: Array.isArray(filters.tags) ? filters.tags : [],
+        },
+        updatedAt: profile.updatedAt ?? null,
+      };
+    });
+    ensureProfileState();
+  } catch (error) {
+    console.warn("Impossibile ripristinare i profili filtro", error);
+  }
+}
+
+function saveProfileSlot(index, filters) {
+  ensureProfileState();
+  if (index < 0 || index >= PROFILE_SLOT_COUNT) return;
+  const existing = state.filterProfiles[index] ?? {};
+  state.filterProfiles[index] = {
+    name: existing.name ?? `Slot ${index + 1}`,
+    filters: {
+      flags: Array.isArray(filters.flags) ? [...filters.flags] : [],
+      roles: Array.isArray(filters.roles) ? [...filters.roles] : [],
+      tags: Array.isArray(filters.tags) ? [...filters.tags] : [],
+    },
+    updatedAt: new Date().toISOString(),
+  };
+  persistFilterProfiles();
+}
+
+function renameProfileSlot(index, name) {
+  ensureProfileState();
+  if (index < 0 || index >= PROFILE_SLOT_COUNT) return;
+  const profile = state.filterProfiles[index];
+  if (!profile) {
+    state.filterProfiles[index] = {
+      name: name && name.trim() ? name.trim() : `Slot ${index + 1}`,
+      filters: { flags: [], roles: [], tags: [] },
+      updatedAt: null,
+    };
+  } else {
+    profile.name = name && name.trim() ? name.trim() : `Slot ${index + 1}`;
+  }
+  persistFilterProfiles();
+}
+
+function clearProfileSlot(index) {
+  ensureProfileState();
+  if (index < 0 || index >= PROFILE_SLOT_COUNT) return;
+  state.filterProfiles[index] = null;
+  persistFilterProfiles();
+}
+
+function persistHistoryEntries() {
+  const storage = getPersistentStorage();
+  if (!storage) return;
+  try {
+    const serialisable = state.history.map((entry) => ({
+      id: entry.id,
+      action: entry.action,
+      label: entry.label,
+      timestamp: entry.timestamp instanceof Date ? entry.timestamp.toISOString() : entry.timestamp,
+      counts: entry.counts,
+      filters: entry.filters,
+      preview: entry.preview,
+    }));
+    storage.setItem(STORAGE_KEYS.history, JSON.stringify(serialisable));
+  } catch (error) {
+    console.warn("Impossibile salvare la cronologia del generatore", error);
+  }
+}
+
+function restoreHistoryEntries() {
+  const storage = getPersistentStorage();
+  if (!storage) return;
+  try {
+    const raw = storage.getItem(STORAGE_KEYS.history);
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return;
+    state.history = parsed.slice(0, MAX_HISTORY_ENTRIES).map((entry) => {
+      if (!entry) return null;
+      let timestamp = entry.timestamp ? new Date(entry.timestamp) : new Date();
+      if (Number.isNaN(timestamp.getTime())) {
+        timestamp = new Date();
+      }
+      return {
+        id: entry.id ?? randomId("hist"),
+        action: entry.action ?? "roll-ecos",
+        label: entry.label ?? HISTORY_ACTION_LABELS[entry.action] ?? "Snapshot",
+        timestamp,
+        counts: entry.counts ?? { biomes: 0, species: 0, seeds: 0 },
+        filters: {
+          flags: Array.isArray(entry.filters?.flags) ? entry.filters.flags : [],
+          roles: Array.isArray(entry.filters?.roles) ? entry.filters.roles : [],
+          tags: Array.isArray(entry.filters?.tags) ? entry.filters.tags : [],
+        },
+        preview: {
+          biomes: Array.isArray(entry.preview?.biomes) ? entry.preview.biomes : [],
+          species: Array.isArray(entry.preview?.species) ? entry.preview.species : [],
+        },
+      };
+    }).filter(Boolean);
+  } catch (error) {
+    console.warn("Impossibile ripristinare la cronologia del generatore", error);
+  }
+}
+
+function summariseProfile(profile) {
+  if (!profile?.filters) {
+    return "Nessun filtro salvato";
+  }
+  return summariseFilters(profile.filters);
+}
+
+function renderProfileSlots() {
+  const list = elements.profileSlots;
+  if (!list) return;
+  ensureProfileState();
+  list.innerHTML = "";
+  const hasProfiles = state.filterProfiles.some((profile) => Boolean(profile));
+  if (elements.profileEmpty) {
+    elements.profileEmpty.hidden = hasProfiles;
+  }
+  list.hidden = !state.filterProfiles.length;
+  if (elements.profilePanel) {
+    elements.profilePanel.dataset.hasProfiles = hasProfiles ? "true" : "false";
+  }
+
+  state.filterProfiles.forEach((profile, index) => {
+    const item = document.createElement("li");
+    item.className = "generator-profiles__slot";
+    item.dataset.slotIndex = String(index);
+
+    const header = document.createElement("div");
+    header.className = "generator-profiles__slot-header";
+    const name = document.createElement("h4");
+    name.className = "generator-profiles__slot-name";
+    name.textContent = profile?.name ?? `Slot ${index + 1}`;
+    header.appendChild(name);
+
+    const actions = document.createElement("div");
+    actions.className = "generator-profiles__slot-actions";
+
+    const load = document.createElement("button");
+    load.type = "button";
+    load.className = "generator-profiles__action";
+    load.dataset.action = "profile-load";
+    load.dataset.slotIndex = String(index);
+    load.textContent = "Applica";
+    actions.appendChild(load);
+
+    const save = document.createElement("button");
+    save.type = "button";
+    save.className = "generator-profiles__action";
+    save.dataset.action = "profile-save";
+    save.dataset.slotIndex = String(index);
+    save.textContent = "Salva";
+    actions.appendChild(save);
+
+    const rename = document.createElement("button");
+    rename.type = "button";
+    rename.className = "generator-profiles__action";
+    rename.dataset.action = "profile-rename";
+    rename.dataset.slotIndex = String(index);
+    rename.textContent = "Rinomina";
+    actions.appendChild(rename);
+
+    const clear = document.createElement("button");
+    clear.type = "button";
+    clear.className = "generator-profiles__action";
+    clear.dataset.action = "profile-clear";
+    clear.dataset.slotIndex = String(index);
+    clear.textContent = "Svuota";
+    actions.appendChild(clear);
+
+    header.appendChild(actions);
+    item.appendChild(header);
+
+    const summary = document.createElement("p");
+    summary.className = "generator-profiles__summary";
+    summary.textContent = summariseProfile(profile);
+    item.appendChild(summary);
+
+    if (profile?.updatedAt) {
+      const time = document.createElement("time");
+      time.className = "generator-profiles__timestamp";
+      const ts = new Date(profile.updatedAt);
+      if (!Number.isNaN(ts.getTime())) {
+        time.dateTime = ts.toISOString();
+        time.textContent = ts.toLocaleString("it-IT", {
+          hour: "2-digit",
+          minute: "2-digit",
+          day: "2-digit",
+          month: "2-digit",
+        });
+      } else {
+        time.textContent = "Ultimo aggiornamento sconosciuto";
+      }
+      item.appendChild(time);
+    }
+
+    list.appendChild(item);
+  });
+}
+
+function attachProfileHandlers() {
+  const panel = elements.profilePanel;
+  if (!panel) return;
+  panel.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const button = target.closest("[data-action]");
+    if (!(button instanceof HTMLElement)) return;
+    const { action, slotIndex } = button.dataset;
+    if (!action) return;
+    if (action === "profile-clear-all") {
+      state.filterProfiles = new Array(PROFILE_SLOT_COUNT).fill(null);
+      persistFilterProfiles();
+      renderProfileSlots();
+      setStatus("Profili filtro azzerati.", "info", {
+        tags: ["profili", "reset"],
+        action: "profiles-reset",
+      });
+      return;
+    }
+    const index = Number.parseInt(slotIndex ?? "", 10);
+    if (!Number.isInteger(index) || index < 0 || index >= PROFILE_SLOT_COUNT) {
+      return;
+    }
+    switch (action) {
+      case "profile-save": {
+        const filters = currentFilters();
+        saveProfileSlot(index, filters);
+        renderProfileSlots();
+        setStatus(`Filtri salvati nel profilo ${index + 1}.`, "success", {
+          tags: ["profili", "salvataggio"],
+          action: "profile-save",
+        });
+        break;
+      }
+      case "profile-load": {
+        const profile = state.filterProfiles[index];
+        if (!profile) {
+          setStatus("Nessun profilo salvato in questo slot.", "warn", {
+            tags: ["profili", "vuoto"],
+            action: "profile-empty",
+          });
+          break;
+        }
+        applyFiltersToForm(profile.filters);
+        setStatus(`Filtri applicati dal profilo ${profile.name ?? index + 1}.`, "info", {
+          tags: ["profili", "applica"],
+          action: "profile-load",
+        });
+        break;
+      }
+      case "profile-rename": {
+        const currentName = state.filterProfiles[index]?.name ?? `Slot ${index + 1}`;
+        const name = typeof window !== "undefined" ? window.prompt("Nuovo nome profilo", currentName) : currentName;
+        if (name === null) {
+          break;
+        }
+        renameProfileSlot(index, name);
+        renderProfileSlots();
+        setStatus("Nome profilo aggiornato.", "success", {
+          tags: ["profili", "rinomina"],
+          action: "profile-rename",
+        });
+        break;
+      }
+      case "profile-clear": {
+        clearProfileSlot(index);
+        renderProfileSlots();
+        setStatus("Profilo liberato.", "info", {
+          tags: ["profili", "clear"],
+          action: "profile-clear",
+        });
+        break;
+      }
+      default:
+        break;
+    }
+  });
+}
+
+function formatHistoryTimestamp(date) {
+  const ts = date instanceof Date ? date : new Date(date);
+  if (Number.isNaN(ts.getTime())) {
+    return "Data sconosciuta";
+  }
+  return ts.toLocaleString("it-IT", {
+    hour: "2-digit",
+    minute: "2-digit",
+    day: "2-digit",
+    month: "2-digit",
+  });
+}
+
+function renderHistoryPanel() {
+  const list = elements.historyList;
+  if (!list) return;
+  const entries = state.history ?? [];
+  list.innerHTML = "";
+  const hasEntries = entries.length > 0;
+  list.hidden = !hasEntries;
+  if (elements.historyEmpty) {
+    elements.historyEmpty.hidden = hasEntries;
+  }
+  if (elements.historyPanel) {
+    elements.historyPanel.dataset.hasEntries = hasEntries ? "true" : "false";
+  }
+  if (elements.summaryContainer) {
+    elements.summaryContainer.dataset.hasHistory = hasEntries ? "true" : "false";
+  }
+  if (!hasEntries) return;
+
+  const appendChips = (container, values, limit) => {
+    const entries = Array.isArray(values) ? values : [];
+    if (!entries.length) {
+      const placeholder = document.createElement("span");
+      placeholder.className = "chip chip--compact";
+      placeholder.textContent = "—";
+      container.appendChild(placeholder);
+      return;
+    }
+    entries.slice(0, limit).forEach((label) => {
+      const chip = document.createElement("span");
+      chip.className = "chip chip--compact";
+      chip.textContent = label;
+      container.appendChild(chip);
+    });
+    if (entries.length > limit) {
+      const remainder = document.createElement("span");
+      remainder.className = "chip chip--compact";
+      remainder.textContent = `+${entries.length - limit}`;
+      container.appendChild(remainder);
+    }
+  };
+
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    item.className = "generator-history__entry";
+    item.dataset.historyId = entry.id;
+
+    const header = document.createElement("div");
+    header.className = "generator-history__entry-header";
+    const title = document.createElement("h4");
+    title.className = "generator-history__entry-title";
+    title.textContent = entry.label ?? HISTORY_ACTION_LABELS[entry.action] ?? "Snapshot";
+    header.appendChild(title);
+
+    if (entry.timestamp) {
+      const time = document.createElement("time");
+      time.className = "generator-history__entry-time";
+      const ts = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
+      if (!Number.isNaN(ts.getTime())) {
+        time.dateTime = ts.toISOString();
+        time.textContent = formatHistoryTimestamp(ts);
+      }
+      header.appendChild(time);
+    }
+
+    item.appendChild(header);
+
+    const metrics = document.createElement("dl");
+    metrics.className = "generator-history__metrics";
+    const metricEntries = [
+      { label: "Biomi", value: entry.counts?.biomes ?? 0 },
+      { label: "Specie", value: entry.counts?.species ?? 0 },
+      { label: "Seed", value: entry.counts?.seeds ?? 0 },
+    ];
+    metricEntries.forEach((metric) => {
+      const block = document.createElement("div");
+      block.className = "generator-history__metric";
+      const dt = document.createElement("dt");
+      dt.textContent = metric.label;
+      const dd = document.createElement("dd");
+      dd.textContent = String(metric.value ?? 0);
+      block.appendChild(dt);
+      block.appendChild(dd);
+      metrics.appendChild(block);
+    });
+    item.appendChild(metrics);
+
+    const preview = document.createElement("div");
+    preview.className = "generator-history__preview";
+    const biomePreview = document.createElement("div");
+    biomePreview.className = "generator-history__preview-group";
+    const biomeLabel = document.createElement("p");
+    biomeLabel.className = "generator-history__preview-label";
+    biomeLabel.textContent = "Biomi";
+    biomePreview.appendChild(biomeLabel);
+    const biomeChips = document.createElement("div");
+    biomeChips.className = "generator-history__chips";
+    appendChips(biomeChips, entry.preview?.biomes ?? [], 4);
+    biomePreview.appendChild(biomeChips);
+    preview.appendChild(biomePreview);
+
+    const speciesPreview = document.createElement("div");
+    speciesPreview.className = "generator-history__preview-group";
+    const speciesLabel = document.createElement("p");
+    speciesLabel.className = "generator-history__preview-label";
+    speciesLabel.textContent = "Specie";
+    speciesPreview.appendChild(speciesLabel);
+    const speciesChips = document.createElement("div");
+    speciesChips.className = "generator-history__chips";
+    appendChips(speciesChips, entry.preview?.species ?? [], 5);
+    speciesPreview.appendChild(speciesChips);
+    preview.appendChild(speciesPreview);
+
+    item.appendChild(preview);
+
+    const entryActions = document.createElement("div");
+    entryActions.className = "generator-history__entry-actions";
+    const applyButton = document.createElement("button");
+    applyButton.type = "button";
+    applyButton.className = "generator-history__action";
+    applyButton.dataset.action = "history-apply";
+    applyButton.dataset.historyId = entry.id;
+    applyButton.textContent = "Applica filtri";
+    entryActions.appendChild(applyButton);
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "generator-history__action";
+    removeButton.dataset.action = "history-remove";
+    removeButton.dataset.historyId = entry.id;
+    removeButton.textContent = "Rimuovi";
+    entryActions.appendChild(removeButton);
+
+    item.appendChild(entryActions);
+    list.appendChild(item);
+  });
+}
+
+function getHistoryEntry(historyId) {
+  return (state.history ?? []).find((entry) => entry.id === historyId) ?? null;
+}
+
+function applyHistoryEntry(historyId) {
+  const entry = getHistoryEntry(historyId);
+  if (!entry) {
+    setStatus("Nessuna voce di cronologia trovata.", "warn", {
+      tags: ["history", "missing"],
+      action: "history-missing",
+    });
+    return;
+  }
+  applyFiltersToForm(entry.filters);
+  setStatus(`Filtri applicati dalla cronologia (${entry.label}).`, "info", {
+    tags: ["history", "apply"],
+    action: "history-apply",
+  });
+}
+
+function removeHistoryEntry(historyId) {
+  const next = (state.history ?? []).filter((entry) => entry.id !== historyId);
+  if (next.length === state.history.length) {
+    return;
+  }
+  state.history = next;
+  persistHistoryEntries();
+  renderHistoryPanel();
+}
+
+function clearHistoryEntries() {
+  state.history = [];
+  persistHistoryEntries();
+  renderHistoryPanel();
+}
+
+function attachHistoryHandlers() {
+  const panel = elements.historyPanel;
+  if (!panel) return;
+  panel.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const button = target.closest("[data-action]");
+    if (!(button instanceof HTMLElement)) return;
+    const { action, historyId } = button.dataset;
+    if (!action) return;
+    switch (action) {
+      case "history-apply":
+        if (historyId) {
+          applyHistoryEntry(historyId);
+        }
+        break;
+      case "history-remove":
+        if (historyId) {
+          removeHistoryEntry(historyId);
+          setStatus("Voce di cronologia rimossa.", "info", {
+            tags: ["history", "remove"],
+            action: "history-remove",
+          });
+        }
+        break;
+      case "history-clear":
+        clearHistoryEntries();
+        setStatus("Cronologia del generatore svuotata.", "info", {
+          tags: ["history", "clear"],
+          action: "history-clear",
+        });
+        break;
+      default:
+        break;
+    }
+  });
+}
+
+function recordHistoryEntry(action, filters) {
+  if (!ROLL_ACTIONS.has(action)) {
+    return;
+  }
+  const counts = calculatePickMetrics();
+  if ((counts.biomeCount ?? 0) === 0 && (counts.speciesCount ?? 0) === 0 && (counts.seedCount ?? 0) === 0) {
+    return;
+  }
+  const timestamp = new Date();
+  const biomePreview = state.pick.biomes.slice(0, 4).map((biome) => biome?.label ?? titleCase(biome?.id ?? ""));
+  const speciesPreview = [];
+  state.pick.biomes.forEach((biome) => {
+    const speciesList = state.pick.species?.[biome.id] ?? [];
+    speciesList.forEach((sp) => {
+      if (speciesPreview.length >= 8) return;
+      speciesPreview.push(sp?.display_name ?? sp?.id ?? biome.id ?? "Specie");
+    });
+  });
+  const entry = {
+    id: randomId("hist"),
+    action,
+    label: HISTORY_ACTION_LABELS[action] ?? "Snapshot",
+    timestamp,
+    counts: {
+      biomes: counts.biomeCount ?? 0,
+      species: counts.speciesCount ?? 0,
+      seeds: counts.seedCount ?? 0,
+    },
+    filters: {
+      flags: Array.isArray(filters?.flags) ? [...filters.flags] : [],
+      roles: Array.isArray(filters?.roles) ? [...filters.roles] : [],
+      tags: Array.isArray(filters?.tags) ? [...filters.tags] : [],
+    },
+    preview: {
+      biomes: biomePreview,
+      species: speciesPreview,
+    },
+  };
+  state.history = [entry, ...state.history.filter((existing) => existing.id !== entry.id)].slice(0, MAX_HISTORY_ENTRIES);
+  persistHistoryEntries();
+  renderHistoryPanel();
 }
 
 function normaliseTagId(value) {
@@ -1723,6 +2456,25 @@ function setupExportControls() {
 
 function getSelectedValues(select) {
   return Array.from(select?.selectedOptions ?? []).map((opt) => opt.value);
+}
+
+function setSelectValues(select, values) {
+  if (!select) return;
+  const target = new Set(Array.isArray(values) ? values.map((value) => String(value)) : []);
+  Array.from(select.options ?? []).forEach((option) => {
+    option.selected = target.has(option.value);
+  });
+}
+
+function applyFiltersToForm(filters = {}) {
+  setSelectValues(elements.flags, filters.flags ?? []);
+  setSelectValues(elements.roles, filters.roles ?? []);
+  setSelectValues(elements.tags, filters.tags ?? []);
+  state.lastFilters = {
+    flags: Array.isArray(filters.flags) ? [...filters.flags] : [],
+    roles: Array.isArray(filters.roles) ? [...filters.roles] : [],
+    tags: Array.isArray(filters.tags) ? [...filters.tags] : [],
+  };
 }
 
 function shuffle(array) {
@@ -3133,36 +3885,93 @@ function createSeedFromBlueprint(biome, filters, blueprint) {
 }
 
 function rerollSpecies(filters) {
-  state.pick.species = {};
+  const previous = state.pick.species ?? {};
+  const lockedBiomes = state.cardState.locks.biomes;
+  const lockedSpecies = state.cardState.locks.species;
+  const next = {};
+
   state.pick.biomes.forEach((biome) => {
+    const biomeId = biome.id;
+    const wasLocked = lockedBiomes.has(biomeId);
+    const priorList = Array.isArray(previous[biomeId]) ? previous[biomeId] : [];
+    if (wasLocked) {
+      next[biomeId] = [...priorList];
+      if (biome.synthetic) {
+        biome.generatedSpecies = next[biomeId];
+      } else if (biome.generatedSpecies) {
+        delete biome.generatedSpecies;
+      }
+      return;
+    }
+
+    const preserved = priorList.filter((sp) => lockedSpecies.has(createPinKey(biome, sp)));
+    const preservedIds = new Set(preserved.map((sp) => sp?.id).filter(Boolean));
+    const picks = [...preserved];
+    const limit = Math.max(MAX_SPECIES_PER_BIOME, preserved.length);
+
     if (biome.synthetic) {
-      const hybrids = generateHybridSpecies(biome, filters, 3);
-      state.pick.species[biome.id] = hybrids;
-      biome.generatedSpecies = hybrids;
+      const hybrids = generateHybridSpecies(biome, filters, limit);
+      hybrids.forEach((sp) => {
+        const key = createPinKey(biome, sp);
+        if (lockedSpecies.has(key)) {
+          if (!preservedIds.has(sp?.id)) {
+            picks.push(sp);
+            preservedIds.add(sp?.id);
+          }
+          return;
+        }
+        if (picks.length >= limit) return;
+        if (preservedIds.has(sp?.id)) return;
+        picks.push(sp);
+        preservedIds.add(sp?.id);
+      });
+      const uniquePicks = uniqueById(picks);
+      next[biomeId] = uniquePicks.slice(0, limit);
+      biome.generatedSpecies = next[biomeId];
       return;
     }
 
     const pool = filteredPool(biome, filters);
     const nativePool = biome.species ?? [];
     const working = pool.length ? pool : nativePool;
-    const picks = shuffle(working).slice(0, Math.min(3, working.length));
-    state.pick.species[biome.id] = picks;
+    const shuffled = shuffle(working).filter((sp) => {
+      const key = createPinKey(biome, sp);
+      return !lockedSpecies.has(key) && !preservedIds.has(sp?.id);
+    });
+    for (const sp of shuffled) {
+      if (picks.length >= limit) break;
+      picks.push(sp);
+    }
+    const uniquePicks = uniqueById(picks);
+    next[biomeId] = uniquePicks.slice(0, limit);
     if (biome.generatedSpecies) {
       delete biome.generatedSpecies;
     }
   });
+
+  state.pick.species = next;
+  pruneLockState();
 }
 
 function rerollSeeds(filters) {
-  state.pick.seeds = [];
+  const previous = state.pick.seeds ?? [];
+  const lockedBiomes = state.cardState.locks.biomes;
+  const next = [];
   state.pick.biomes.forEach((biome) => {
+    if (lockedBiomes.has(biome.id)) {
+      previous
+        .filter((seed) => seed?.biome_id === biome.id)
+        .forEach((seed) => next.push(seed));
+      return;
+    }
     ENCOUNTER_BLUEPRINTS.forEach((blueprint) => {
       const seed = createSeedFromBlueprint(biome, filters, blueprint);
       if (seed) {
-        state.pick.seeds.push(seed);
+        next.push(seed);
       }
     });
   });
+  state.pick.seeds = next;
 }
 
 
@@ -3597,6 +4406,73 @@ function createQuickButton({ icon, label, className }) {
   return button;
 }
 
+function isBiomeLocked(biomeId) {
+  if (!biomeId) return false;
+  return state.cardState.locks.biomes.has(biomeId);
+}
+
+function toggleBiomeLock(biome, { announce = true } = {}) {
+  const id = biome?.id;
+  if (!id) return false;
+  const locks = state.cardState.locks.biomes;
+  const label = biome?.label ?? titleCase(id ?? "");
+  let locked;
+  if (locks.has(id)) {
+    locks.delete(id);
+    locked = false;
+    if (announce) {
+      setStatus(`${label} sbloccato.`, "info", {
+        tags: ["lock", "bioma"],
+        action: "biome-unlock",
+      });
+    }
+  } else {
+    locks.add(id);
+    locked = true;
+    if (announce) {
+      setStatus(`${label} bloccato per i prossimi re-roll.`, "success", {
+        tags: ["lock", "bioma"],
+        action: "biome-lock",
+      });
+    }
+  }
+  persistLockState();
+  return locked;
+}
+
+function isSpeciesLocked(biome, species) {
+  const key = createPinKey(biome, species);
+  return state.cardState.locks.species.has(key);
+}
+
+function toggleSpeciesLock(biome, species, { announce = true } = {}) {
+  const key = createPinKey(biome, species);
+  const locks = state.cardState.locks.species;
+  const displayName = species?.display_name ?? species?.id ?? "Specie";
+  let locked;
+  if (locks.has(key)) {
+    locks.delete(key);
+    locked = false;
+    if (announce) {
+      setStatus(`${displayName} sbloccata.`, "info", {
+        tags: ["lock", "specie"],
+        action: "species-unlock",
+      });
+    }
+  } else {
+    locks.add(key);
+    locked = true;
+    if (announce) {
+      setStatus(`${displayName} bloccata nei prossimi re-roll.`, "success", {
+        tags: ["lock", "specie"],
+        action: "species-lock",
+      });
+    }
+  }
+  persistLockState();
+  return locked;
+}
+
 function togglePinned(biome, species, { announce = true } = {}) {
   const key = createPinKey(biome, species);
   const store = state.cardState.pinned;
@@ -3611,6 +4487,7 @@ function togglePinned(biome, species, { announce = true } = {}) {
     }
     updatePinButtonState(key, false);
     renderPinnedSummary();
+    persistPinnedState();
     return false;
   }
   const tier = tierOf(species);
@@ -3634,6 +4511,7 @@ function togglePinned(biome, species, { announce = true } = {}) {
   }
   updatePinButtonState(key, true);
   renderPinnedSummary();
+  persistPinnedState();
   return true;
 }
 
@@ -4031,6 +4909,9 @@ function createSpeciesCard(biome, species) {
   if (state.cardState.comparison.has(pinKey)) {
     card.dataset.compare = "true";
   }
+  if (isSpeciesLocked(biome, species)) {
+    card.dataset.locked = "true";
+  }
 
   const tier = tierOf(species);
   const rarity = rarityFromTier(tier);
@@ -4099,6 +4980,26 @@ function createSpeciesCard(biome, species) {
     applyQuickButtonState(squadButton, active);
   });
   actions.appendChild(squadButton);
+
+  const lockActive = isSpeciesLocked(biome, species);
+  const lockButton = createQuickButton({
+    icon: lockActive ? "🔒" : "🔓",
+    label: `Blocca ${displayName} nei re-roll`,
+    className: "quick-button--lock",
+  });
+  applyQuickButtonState(lockButton, lockActive);
+  lockButton.dataset.lockKey = pinKey;
+  lockButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    const locked = toggleSpeciesLock(biome, species);
+    applyQuickButtonState(lockButton, locked);
+    const icon = lockButton.querySelector("span");
+    if (icon) {
+      icon.textContent = locked ? "🔒" : "🔓";
+    }
+    card.dataset.locked = locked ? "true" : "false";
+  });
+  actions.appendChild(lockButton);
 
   const pinButton = createQuickButton({
     icon: "📌",
@@ -4189,6 +5090,9 @@ function buildBiomeCard(biome, filters) {
   if (biome?.synthetic) {
     card.dataset.synthetic = "true";
   }
+  if (isBiomeLocked(biome.id)) {
+    card.dataset.locked = "true";
+  }
   card.setAttribute("role", "listitem");
 
   const titleText = biome.synthetic
@@ -4232,7 +5136,35 @@ function buildBiomeCard(biome, filters) {
   if (biome.synthetic) {
     badges.appendChild(createBadgeElement("Synth", "synth"));
   }
-  header.appendChild(badges);
+  const headerTools = document.createElement("div");
+  headerTools.className = "generator-card__header-tools";
+  headerTools.appendChild(badges);
+
+  const biomeLocked = isBiomeLocked(biome.id);
+  const lockButton = document.createElement("button");
+  lockButton.type = "button";
+  lockButton.className = "generator-card__lock";
+  lockButton.dataset.biomeId = biome.id;
+  const lockIcon = document.createElement("span");
+  lockIcon.className = "generator-card__lock-icon";
+  lockIcon.textContent = biomeLocked ? "🔒" : "🔓";
+  lockButton.appendChild(lockIcon);
+  const lockLabel = document.createElement("span");
+  lockLabel.className = "visually-hidden";
+  lockLabel.textContent = biomeLocked
+    ? `Sblocca ${titleText}`
+    : `Blocca ${titleText}`;
+  lockButton.appendChild(lockLabel);
+  lockButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    const locked = toggleBiomeLock(biome);
+    lockIcon.textContent = locked ? "🔒" : "🔓";
+    lockLabel.textContent = locked ? `Sblocca ${titleText}` : `Blocca ${titleText}`;
+    card.dataset.locked = locked ? "true" : "false";
+  });
+  headerTools.appendChild(lockButton);
+
+  header.appendChild(headerTools);
 
   const meta = document.createElement("p");
   meta.className = "generator-card__meta";
@@ -4786,16 +5718,23 @@ function attachActions() {
     const filters = currentFilters();
     switch (action) {
       case "roll-ecos": {
-        const n = Math.max(1, Math.min(parseInt(elements.nBiomi.value, 10) || 2, 6));
-        const pool = generateSyntheticBiomes(state.data.biomi, n);
+        const requested = Math.max(1, Math.min(parseInt(elements.nBiomi.value, 10) || 2, 6));
+        const lockedBiomes = state.pick.biomes.filter((biome) => isBiomeLocked(biome.id));
+        const targetCount = Math.max(requested, lockedBiomes.length || 0);
+        if (elements.nBiomi && targetCount !== requested) {
+          elements.nBiomi.value = String(targetCount);
+        }
+        const toGenerate = Math.max(0, targetCount - lockedBiomes.length);
+        const generated = generateSyntheticBiomes(state.data.biomi, toGenerate);
+        const combined = [...lockedBiomes.slice(0, targetCount), ...generated].slice(0, targetCount);
         state.pick.ecosystem = {
           id: randomId("ecos"),
-          label: `Rete sintetica (${pool.length} biomi)`,
+          label: `Rete sintetica (${combined.length} biomi)`,
           synthetic: true,
           sources: state.data.ecosistema?.biomi?.map((b) => b.id) ?? [],
-          connessioni: synthesiseConnections(pool),
+          connessioni: synthesiseConnections(combined),
         };
-        state.pick.biomes = pool;
+        state.pick.biomes = combined;
         state.pick.exportSlug = null;
         rerollSpecies(filters);
         rerollSeeds(filters);
@@ -4806,6 +5745,7 @@ function attachActions() {
           "success",
           { tags: ["roll", "ecosistema"], action: "roll-ecos" }
         );
+        recordHistoryEntry("roll-ecos", filters);
         break;
       }
       case "reroll-biomi": {
@@ -4816,15 +5756,25 @@ function attachActions() {
           });
           return;
         }
-        const n = Math.max(1, Math.min(parseInt(elements.nBiomi.value, 10) || state.pick.biomes.length, 6));
-        const pool = generateSyntheticBiomes(state.data.biomi, n);
-        state.pick.biomes = pool;
+        const requested = Math.max(
+          1,
+          Math.min(parseInt(elements.nBiomi.value, 10) || state.pick.biomes.length, 6)
+        );
+        const lockedBiomes = state.pick.biomes.filter((biome) => isBiomeLocked(biome.id));
+        const targetCount = Math.max(requested, lockedBiomes.length || 0);
+        if (elements.nBiomi && targetCount !== requested) {
+          elements.nBiomi.value = String(targetCount);
+        }
+        const toGenerate = Math.max(0, targetCount - lockedBiomes.length);
+        const regenerated = generateSyntheticBiomes(state.data.biomi, toGenerate);
+        const combined = [...lockedBiomes.slice(0, targetCount), ...regenerated].slice(0, targetCount);
+        state.pick.biomes = combined;
         state.pick.ecosystem = {
           id: state.pick.ecosystem?.id || randomId("ecos"),
-          label: `Rete sintetica (${pool.length} biomi)`,
+          label: `Rete sintetica (${combined.length} biomi)`,
           synthetic: true,
           sources: state.data.ecosistema?.biomi?.map((b) => b.id) ?? [],
-          connessioni: synthesiseConnections(pool),
+          connessioni: synthesiseConnections(combined),
         };
         state.pick.exportSlug = null;
         rerollSpecies(filters);
@@ -4835,6 +5785,7 @@ function attachActions() {
           tags: ["reroll", "biomi"],
           action: "reroll-biomi",
         });
+        recordHistoryEntry("reroll-biomi", filters);
         break;
       }
       case "reroll-species": {
@@ -4851,6 +5802,7 @@ function attachActions() {
           tags: ["reroll", "specie"],
           action: "reroll-species",
         });
+        recordHistoryEntry("reroll-species", filters);
         break;
       }
       case "reroll-seeds": {
@@ -4867,6 +5819,7 @@ function attachActions() {
           tags: ["reroll", "seed"],
           action: "reroll-seeds",
         });
+        recordHistoryEntry("reroll-seeds", filters);
         break;
       }
       case "export-json": {
@@ -5052,6 +6005,10 @@ async function loadData() {
 }
 
 restoreActivityLog();
+restorePinnedState();
+restoreLockState();
+restoreFilterProfiles();
+restoreHistoryEntries();
 updateActivityTagRegistry();
 recalculateActivityMetrics();
 renderActivityLog();
@@ -5061,8 +6018,12 @@ setupAnchorNavigation();
 setupCodexControls();
 renderTraitExpansions();
 setupExportControls();
+renderProfileSlots();
+renderHistoryPanel();
 renderPinnedSummary();
 renderComparisonPanel();
+attachProfileHandlers();
+attachHistoryHandlers();
 attachComparisonHandlers();
 attachActions();
 loadData();
