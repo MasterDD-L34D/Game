@@ -5,7 +5,7 @@ dalla configurazione dell'ambiente allo svolgimento dei test manuali e automatic
 ogni esecuzione importante, annotando data, esito e note operative.
 
 ## 1. Preparazione ambiente
-- [x] Clonare o estrarre il repository sul sistema di lavoro (`git clone` oppure unzip da Drive). _Repo estratto il 2025-10-26 su container Ops/ChatGPT (Ubuntu 22.04) nel percorso condiviso `/workspace/Game`._
+- [x] Clonare o estrarre il repository sul sistema di lavoro (`git clone` oppure unzip da Drive). _Repo estratto il 2025-10-26 su container Ops/ChatGPT (Ubuntu 22.04) nel percorso condiviso `/workspace/Game`; procedura formalizzata in `docs/checklist/clone-setup.md` con nota operativa aggiornata il 2025-11-12._
 - [x] Installare **Node.js 18+** e **npm** (verifica con `node --version`, `npm --version`). _Node 22.19.0 / npm 11.6.2 verificati il 2025-10-26._
 - [x] Installare **Python 3.10+** e assicurarsi che `pip` sia disponibile (`python3 -m pip --version`). _Python 3.11.12 / pip 25.3 verificati il 2025-10-26._
 - [x] Creare un virtual environment Python dedicato (`python3 -m venv .venv` e attivarlo). _Creato `.venv` e attivato nel container il 2025-10-26 (responsabile: Ops/ChatGPT)._ 
@@ -50,7 +50,7 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [x] Sincronizzare un primo batch di YAML → Sheet e verificare che i dati risultino coerenti. _Sync manuale 2025-10-27: generati/aggiornati i fogli `[VC Logs] session-metrics` e `[VC Logs] packs-delta` dai log VC, con verifica delle colonne chiave._【F:docs/drive-sync.md†L41-L57】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L23-L77】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
 
 ## 8. Manutenzione continua
-- [ ] Aggiornare regolarmente roadmap e checklist (milestone, action items, questa TODO) con progressi. _Checkpoint 2025-11-01 programmato; referente PM: S. Greco. Dal 2025-11-02 attivare riepilogo giornaliero delle PR merge (finestra 09:00-18:00 CET) per alimentare changelog/roadmap/checklist/Canvas._
+- [ ] Aggiornare regolarmente roadmap e checklist (milestone, action items, questa TODO) con progressi. _Checkpoint 2025-11-01 programmato; referente PM: S. Greco. Dal 2025-11-02 attivare riepilogo giornaliero delle PR merge (finestra 09:00-18:00 CET) per alimentare changelog/roadmap/checklist/Canvas. Revisione manutenzione: stand-up operativo ogni martedì alle 15:00 CET (consolidamento note operative in `docs/tool_run_report.md`)._
 - [x] Automatizzare il riepilogo giornaliero delle PR fuse con aggiornamento documentazione. _Workflow `daily-pr-summary` pianificato alle 17:10 UTC: usa `tools/py/daily_pr_report.py` per generare report e aggiornare changelog/roadmap/checklist/Canvas._
 - [x] Pianificare incontri di revisione (settimanali/quindicinali) per verificare stato dei pacchetti PI,
       telemetria VC e nuove feature. _Calendario pubblicato in `docs/24-TELEMETRIA_VC.md` (agg. 2025-10-27, owner: Team Design)._ 

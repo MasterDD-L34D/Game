@@ -1,5 +1,9 @@
 # Tool Execution Report
 
+## Note operative
+- Consolidare gli esiti tecnici durante lo **stand-up di manutenzione del martedì (15:00 CET)**,
+  riportando nel presente file eventuali anomalie o follow-up entro la stessa giornata.
+
 ## Workflow `daily-pr-summary`
 - **Comando manuale**: `python tools/py/daily_pr_report.py --repo <owner/repo> --date <YYYY-MM-DD>` raccoglie i merge del giorno e aggiorna/crea il file `docs/chatgpt_changes/daily-pr-<data>.md` con riepilogo sintetico.
 - **Output atteso**: elenco PR con titolo, autore, label principali e link diff. Importa il contenuto in `docs/changelog.md`, `docs/piani/roadmap.md`, `docs/checklist/*.md` e nei Canvas pertinenti (`DesignDoc-Overview`, `Telemetria-VC`, `PI-Pacchetti-Forme`, `SistemaNPG-PF-Mutazioni`, `Mating-Reclutamento-Nido`).
