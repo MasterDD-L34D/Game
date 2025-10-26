@@ -21,6 +21,12 @@ const elements = {
     species: document.querySelector("[data-summary=\"species\"]"),
     seeds: document.querySelector("[data-summary=\"seeds\"]"),
   },
+  comparePanel: document.getElementById("generator-compare-panel"),
+  compareList: document.getElementById("generator-compare-list"),
+  compareEmpty: document.getElementById("generator-compare-empty"),
+  compareChartContainer: document.getElementById("generator-compare-chart"),
+  compareCanvas: document.getElementById("generator-compare-canvas"),
+  compareFallback: document.getElementById("generator-compare-fallback"),
   pinnedList: document.getElementById("generator-pinned-list"),
   pinnedEmpty: document.getElementById("generator-pinned-empty"),
   lastAction: document.getElementById("generator-last-action"),
@@ -85,6 +91,7 @@ const state = {
   cardState: {
     pinned: new Map(),
     squad: new Map(),
+    comparison: new Map(),
   },
 };
 
@@ -94,6 +101,10 @@ let resolvedPackRoot = null;
 let packDocsBase = null;
 let cachedStorage = null;
 let storageChecked = false;
+let comparisonChart = null;
+let chartUnavailableNotified = false;
+
+const COMPARISON_LABELS = ["Tier medio", "Densità hazard", "Diversità ruoli"];
 
 const TRAIT_CATEGORY_LABELS = {
   biomi_estremi: "Biomi estremi",
@@ -1839,6 +1850,15 @@ function queryPinButton(key) {
   return document.querySelector(`button[data-pin-key="${safeKey}"]`);
 }
 
+function queryCompareButton(key) {
+  if (typeof document === "undefined") return null;
+  const safeKey =
+    typeof CSS !== "undefined" && typeof CSS.escape === "function"
+      ? CSS.escape(key)
+      : key.replace(/"/g, '\"');
+  return document.querySelector(`button[data-compare-key="${safeKey}"]`);
+}
+
 function applyQuickButtonState(button, isActive) {
   if (!button) return;
   button.classList.toggle("is-active", Boolean(isActive));
@@ -1852,6 +1872,16 @@ function updatePinButtonState(key, active) {
   const card = button.closest(".species-card");
   if (card) {
     card.dataset.pinned = active ? "true" : "false";
+  }
+}
+
+function updateCompareButtonState(key, active) {
+  const button = queryCompareButton(key);
+  if (!button) return;
+  applyQuickButtonState(button, active);
+  const card = button.closest(".species-card");
+  if (card) {
+    card.dataset.compare = active ? "true" : "false";
   }
 }
 
@@ -1869,6 +1899,23 @@ function gradientFromString(value = "") {
   const hue = hash % 360;
   const hueOffset = (hue + 36) % 360;
   return `linear-gradient(135deg, hsl(${hue}, 68%, 26%), hsl(${hueOffset}, 70%, 38%))`;
+}
+
+function colorPairFromString(value = "") {
+  const hash = stringHash(value);
+  const hue = hash % 360;
+  const saturation = 70;
+  const lightness = 58;
+  return {
+    border: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
+    fill: `hsla(${hue}, ${saturation}%, ${lightness}%, 0.2)`,
+  };
+}
+
+function clampScale(value, max = 5) {
+  if (!Number.isFinite(value)) return 0;
+  if (value < 0) return 0;
+  return Math.min(value, max);
 }
 
 function biomePlaceholderLabel(biome) {
@@ -2013,6 +2060,88 @@ function findSpeciesInPick(biomeId, speciesId) {
   return bucket.find((sp) => sp.id === speciesId) ?? null;
 }
 
+function splitRoleTokens(value) {
+  if (typeof value !== "string") return [];
+  return value
+    .split(/[^a-z0-9]+/i)
+    .map((token) => token.trim())
+    .filter(Boolean);
+}
+
+function roleTokenCount(species) {
+  const tokens = new Set();
+  if (Array.isArray(species?.roles)) {
+    species.roles.forEach((role) => {
+      splitRoleTokens(role).forEach((token) => tokens.add(token.toLowerCase()));
+    });
+  }
+  splitRoleTokens(species?.role_trofico ?? "").forEach((token) => tokens.add(token.toLowerCase()));
+  return tokens.size;
+}
+
+function hazardSignalCount(species) {
+  let hazardSignals = 0;
+  const candidates = [
+    species?.meta?.hazard_profile,
+    species?.hazard_profile,
+    species?.hazards_expected,
+    species?.hazardsExpected,
+  ];
+  candidates.forEach((list) => {
+    if (Array.isArray(list) && list.length > hazardSignals) {
+      hazardSignals = list.length;
+    }
+  });
+  if (species?.flags?.threat || /minaccia|hazard|evento/i.test(species?.role_trofico ?? "")) {
+    hazardSignals = Math.max(hazardSignals, 1);
+    hazardSignals += 1;
+  }
+  return hazardSignals;
+}
+
+function calculateSpeciesMetrics(species) {
+  const tier = Number.parseFloat(tierOf(species) ?? 0);
+  const hazardSignals = hazardSignalCount(species);
+  const roleTokens = roleTokenCount(species);
+  return {
+    tierAverage: clampScale(Number.isFinite(tier) ? tier : 0),
+    hazardDensity: clampScale(hazardSignals),
+    roleDiversity: clampScale(roleTokens),
+    detail: {
+      tier: Number.isFinite(tier) ? tier : 0,
+      hazardSignals,
+      roleTokens,
+    },
+  };
+}
+
+function roleDisplayName(species) {
+  if (!species?.role_trofico) {
+    return "Ruolo sconosciuto";
+  }
+  return titleCase(species.role_trofico.replace(/_/g, " "));
+}
+
+function formatTierValue(value) {
+  const parsed = Number.parseFloat(value ?? 0);
+  const safe = Number.isFinite(parsed) ? parsed : 0;
+  return `T${safe.toFixed(1)}`;
+}
+
+function createComparisonEntry(biome, species) {
+  const key = createPinKey(biome, species);
+  return {
+    key,
+    biomeId: biome?.id ?? "biome",
+    biomeLabel: biome?.label ?? titleCase(biome?.id ?? ""),
+    speciesId: species?.id ?? key,
+    displayName: species?.display_name ?? species?.id ?? "Specie",
+    roleName: roleDisplayName(species),
+    metrics: calculateSpeciesMetrics(species),
+    synthetic: Boolean(species?.synthetic || biome?.synthetic),
+  };
+}
+
 function createQuickButton({ icon, label, className }) {
   const button = document.createElement("button");
   button.type = "button";
@@ -2056,6 +2185,320 @@ function togglePinned(biome, species, { announce = true } = {}) {
   return true;
 }
 
+function removeComparisonEntry(key, { announce = false, reRender = true } = {}) {
+  const store = state.cardState.comparison;
+  if (!store?.has(key)) return;
+  const entry = store.get(key);
+  store.delete(key);
+  updateCompareButtonState(key, false);
+  if (announce) {
+    const label = entry?.displayName ?? "Specie";
+    setStatus(`${label} rimossa dal confronto.`, "info");
+  }
+  if (reRender) {
+    renderComparisonPanel();
+  }
+}
+
+function toggleComparison(biome, species, { announce = true } = {}) {
+  const key = createPinKey(biome, species);
+  const store = state.cardState.comparison;
+  if (store.has(key)) {
+    removeComparisonEntry(key, { announce, reRender: true });
+    return false;
+  }
+  if (store.size >= 3) {
+    if (announce) {
+      setStatus("Puoi confrontare al massimo tre specie alla volta.", "warn");
+    }
+    return false;
+  }
+  const entry = createComparisonEntry(biome, species);
+  store.set(key, entry);
+  updateCompareButtonState(key, true);
+  renderComparisonPanel();
+  if (announce) {
+    setStatus(`${entry.displayName} aggiunta al confronto.`, "success");
+  }
+  return true;
+}
+
+function syncComparisonStore() {
+  const store = state.cardState.comparison;
+  if (!store?.size) return 0;
+  const stale = [];
+  store.forEach((entry, key) => {
+    const species = findSpeciesInPick(entry.biomeId, entry.speciesId);
+    if (!species) {
+      stale.push(key);
+      return;
+    }
+    entry.displayName = species.display_name ?? species.id ?? entry.displayName;
+    entry.roleName = roleDisplayName(species);
+    entry.metrics = calculateSpeciesMetrics(species);
+    const biome = findBiomeById(entry.biomeId);
+    entry.biomeLabel = biome?.label ?? titleCase(biome?.id ?? entry.biomeId ?? "");
+    entry.synthetic = Boolean(species.synthetic || biome?.synthetic);
+  });
+  stale.forEach((key) => {
+    store.delete(key);
+    updateCompareButtonState(key, false);
+  });
+  return stale.length;
+}
+
+function ensureComparisonChart() {
+  if (!elements.compareCanvas) return null;
+  if (comparisonChart) return comparisonChart;
+  if (typeof Chart === "undefined") {
+    if (!chartUnavailableNotified) {
+      console.warn(
+        "Chart.js non disponibile: il confronto radar verrà mostrato solo come elenco."
+      );
+      chartUnavailableNotified = true;
+    }
+    if (elements.compareFallback) {
+      elements.compareFallback.hidden = false;
+    }
+    elements.compareCanvas.hidden = true;
+    return null;
+  }
+
+  elements.compareCanvas.hidden = false;
+  if (elements.compareFallback) {
+    elements.compareFallback.hidden = true;
+  }
+
+  const context = elements.compareCanvas.getContext("2d");
+  if (!context) return null;
+
+  comparisonChart = new Chart(context, {
+    type: "radar",
+    data: {
+      labels: COMPARISON_LABELS,
+      datasets: [],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          beginAtZero: true,
+          suggestedMax: 5,
+          angleLines: { color: "rgba(148, 196, 255, 0.18)" },
+          grid: { color: "rgba(148, 196, 255, 0.12)" },
+          ticks: {
+            stepSize: 1,
+            showLabelBackdrop: false,
+            color: "rgba(148, 196, 255, 0.65)",
+          },
+          pointLabels: {
+            color: "rgba(226, 240, 255, 0.82)",
+            font: { size: 12 },
+          },
+        },
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: "#e2f0ff",
+            font: { size: 12 },
+          },
+        },
+        tooltip: {
+          backgroundColor: "rgba(15, 23, 42, 0.92)",
+          titleColor: "#f8fafc",
+          bodyColor: "#f8fafc",
+          borderColor: "rgba(148, 196, 255, 0.35)",
+          borderWidth: 1,
+          callbacks: {
+            label(context) {
+              const detail = context.dataset?.metaDetails ?? {};
+              switch (context.dataIndex) {
+                case 0: {
+                  const tier = Number.isFinite(detail.tier) ? detail.tier : context.parsed.r;
+                  return `Tier medio: ${formatTierValue(tier)}`;
+                }
+                case 1: {
+                  const hazard = Number.isFinite(detail.hazardSignals)
+                    ? detail.hazardSignals
+                    : context.parsed.r;
+                  const label = hazard === 1 ? "segnale" : "segnali";
+                  return `Densità hazard: ${hazard} ${label}`;
+                }
+                case 2: {
+                  const roles = Number.isFinite(detail.roleTokens)
+                    ? detail.roleTokens
+                    : context.parsed.r;
+                  const label = roles === 1 ? "archetipo" : "archetipi";
+                  return `Diversità ruoli: ${roles} ${label}`;
+                }
+                default:
+                  return `${context.label}: ${context.formattedValue}`;
+              }
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return comparisonChart;
+}
+
+function updateComparisonChart(entries) {
+  if (!entries?.length) {
+    if (comparisonChart) {
+      comparisonChart.data.datasets = [];
+      comparisonChart.update();
+    }
+    return;
+  }
+
+  const chart = ensureComparisonChart();
+  if (!chart) {
+    if (elements.compareFallback) {
+      elements.compareFallback.hidden = false;
+    }
+    return;
+  }
+
+  chart.data.labels = COMPARISON_LABELS;
+  chart.data.datasets = entries.map((entry) => {
+    const colors = colorPairFromString(entry.key);
+    return {
+      label: entry.displayName,
+      data: [
+        entry.metrics.tierAverage,
+        entry.metrics.hazardDensity,
+        entry.metrics.roleDiversity,
+      ],
+      fill: true,
+      backgroundColor: colors.fill,
+      borderColor: colors.border,
+      pointBackgroundColor: colors.border,
+      pointBorderColor: "#0f172a",
+      pointHoverBackgroundColor: "#f8fafc",
+      pointHoverBorderColor: colors.border,
+      metaDetails: entry.metrics.detail,
+    };
+  });
+  chart.update();
+}
+
+function renderComparisonPanel() {
+  const list = elements.compareList;
+  if (!list) return;
+  const entries = Array.from(state.cardState.comparison.values());
+  list.innerHTML = "";
+  const hasEntries = entries.length > 0;
+  list.hidden = !hasEntries;
+  if (elements.compareEmpty) {
+    elements.compareEmpty.hidden = hasEntries;
+  }
+  if (elements.comparePanel) {
+    elements.comparePanel.dataset.state = hasEntries ? "filled" : "empty";
+  }
+  if (elements.summaryContainer) {
+    elements.summaryContainer.dataset.hasComparison = hasEntries ? "true" : "false";
+  }
+  if (elements.compareChartContainer) {
+    elements.compareChartContainer.hidden = !hasEntries;
+  }
+
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    item.className = "generator-compare__item";
+    item.dataset.compareKey = entry.key;
+
+    const info = document.createElement("div");
+    info.className = "generator-compare__info";
+    item.appendChild(info);
+
+    const name = document.createElement("p");
+    name.className = "generator-compare__name";
+    name.textContent = entry.displayName;
+    info.appendChild(name);
+
+    const meta = document.createElement("p");
+    meta.className = "generator-compare__meta";
+    const metaParts = [entry.biomeLabel];
+    if (entry.roleName) {
+      metaParts.push(entry.roleName);
+    }
+    if (entry.synthetic) {
+      metaParts.push("Synth");
+    }
+    meta.textContent = metaParts.filter(Boolean).join(" · ");
+    info.appendChild(meta);
+
+    const metrics = document.createElement("div");
+    metrics.className = "generator-compare__metrics";
+
+    const tierMetric = document.createElement("span");
+    tierMetric.className = "generator-compare__metric";
+    tierMetric.innerHTML = `<span class="generator-compare__metric-label">Tier medio</span> ${formatTierValue(
+      entry.metrics.detail.tier
+    )}`;
+    metrics.appendChild(tierMetric);
+
+    const hazardMetric = document.createElement("span");
+    hazardMetric.className = "generator-compare__metric";
+    const hazardSignals = Number.isFinite(entry.metrics.detail.hazardSignals)
+      ? entry.metrics.detail.hazardSignals
+      : 0;
+    const hazardLabel = hazardSignals === 1 ? "segnale" : "segnali";
+    hazardMetric.innerHTML = `<span class="generator-compare__metric-label">Densità hazard</span> ${hazardSignals} ${hazardLabel}`;
+    metrics.appendChild(hazardMetric);
+
+    const roleMetric = document.createElement("span");
+    roleMetric.className = "generator-compare__metric";
+    const roleTokens = Number.isFinite(entry.metrics.detail.roleTokens)
+      ? entry.metrics.detail.roleTokens
+      : 0;
+    const roleLabel = roleTokens === 1 ? "archetipo" : "archetipi";
+    roleMetric.innerHTML = `<span class="generator-compare__metric-label">Diversità ruoli</span> ${roleTokens} ${roleLabel}`;
+    metrics.appendChild(roleMetric);
+
+    info.appendChild(metrics);
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "generator-compare__remove";
+    remove.dataset.action = "remove-compare";
+    remove.dataset.compareKey = entry.key;
+    remove.innerHTML = "&times;";
+    item.appendChild(remove);
+
+    list.appendChild(item);
+  });
+
+  if (hasEntries) {
+    updateComparisonChart(entries);
+  } else if (elements.compareFallback) {
+    elements.compareFallback.hidden = true;
+    if (elements.compareCanvas) {
+      elements.compareCanvas.hidden = false;
+    }
+    updateComparisonChart([]);
+  }
+}
+
+function attachComparisonHandlers() {
+  const list = elements.compareList;
+  if (!list) return;
+  list.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const button = target.closest("[data-action=\"remove-compare\"]");
+    if (!button) return;
+    event.preventDefault();
+    const { compareKey } = button.dataset;
+    if (!compareKey) return;
+    removeComparisonEntry(compareKey, { announce: true });
+  });
+}
+
 function toggleSquad(biome, species) {
   const key = createPinKey(biome, species);
   const store = state.cardState.squad;
@@ -2082,6 +2525,9 @@ function createSpeciesCard(biome, species) {
   const pinKey = createPinKey(biome, species);
   if (state.cardState.pinned.has(pinKey)) {
     card.dataset.pinned = "true";
+  }
+  if (state.cardState.comparison.has(pinKey)) {
+    card.dataset.compare = "true";
   }
 
   const media = document.createElement("div");
@@ -2156,6 +2602,21 @@ function createSpeciesCard(biome, species) {
     card.dataset.pinned = active ? "true" : "false";
   });
   actions.appendChild(pinButton);
+
+  const compareButton = createQuickButton({
+    icon: "📊",
+    label: `Confronta ${name.textContent} nel radar`,
+    className: "quick-button--compare",
+  });
+  compareButton.dataset.compareKey = pinKey;
+  applyQuickButtonState(compareButton, state.cardState.comparison.has(pinKey));
+  compareButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    const active = toggleComparison(biome, species);
+    applyQuickButtonState(compareButton, active);
+    card.dataset.compare = active ? "true" : "false";
+  });
+  actions.appendChild(compareButton);
 
   const meta = document.createElement("div");
   meta.className = "species-card__meta";
@@ -2337,17 +2798,25 @@ function renderBiomes(filters) {
   if (!grid) return;
   grid.innerHTML = "";
 
+  const removed = syncComparisonStore();
+  if (removed) {
+    const label = removed === 1 ? "Una specie" : `${removed} specie`;
+    setStatus(`${label} rimosse dal confronto perché non più disponibili.`, "warn");
+  }
+
   if (!state.pick.biomes.length) {
     const placeholder = document.createElement("p");
     placeholder.className = "placeholder";
     placeholder.textContent = "Genera un ecosistema per iniziare.";
     grid.appendChild(placeholder);
+    renderComparisonPanel();
     return;
   }
 
   state.pick.biomes.forEach((biome) => {
     grid.appendChild(buildBiomeCard(biome, filters));
   });
+  renderComparisonPanel();
 }
 
 function renderPinnedSummary() {
@@ -2841,6 +3310,8 @@ setupAnchorNavigation();
 setupCodexControls();
 renderTraitExpansions();
 renderPinnedSummary();
+renderComparisonPanel();
+attachComparisonHandlers();
 attachActions();
 loadData();
 
