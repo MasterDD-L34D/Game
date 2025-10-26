@@ -91,6 +91,15 @@
                 Encounter seed
               </a>
             </li>
+            <li class="anchor-nav__item">
+              <a
+                class="anchor-nav__link"
+                href="#generator-insights"
+                data-anchor-target="insights"
+              >
+                Insight contestuali
+              </a>
+            </li>
           </ol>
         </div>
       </nav>
@@ -321,6 +330,13 @@
                   Gli hook narrativi compariranno dopo la prima generazione.
                 </p>
               </article>
+              <article class="narrative-panel" id="generator-insight-panel">
+                <h5 class="narrative-panel__title">Suggerimenti rapidi</h5>
+                <p class="narrative-panel__body" id="generator-insight-empty">
+                  Genera un ecosistema per sbloccare consigli contestuali.
+                </p>
+                <ul class="generator-insight__list" id="generator-insight-list" hidden></ul>
+              </article>
             </section>
             <div class="generator-summary__pins surface-panel surface-panel--tight">
               <h4 class="generator-summary__subtitle">Specie pinnate</h4>
@@ -499,6 +515,21 @@
             ></div>
           </div>
         </section>
+
+        <section class="section" id="generator-insights" data-panel="insights">
+          <div class="section__header">
+            <h2>Insight contestuali</h2>
+            <p>
+              Raccomandazioni dinamiche basate sul catalogo e sull'utilizzo recente del generatore.
+            </p>
+          </div>
+          <article class="surface-panel" id="generator-insights-panel">
+            <p class="generator-summary__empty" id="generator-insights-empty">
+              Genera un ecosistema e applica filtri per vedere i suggerimenti dedicati.
+            </p>
+            <ul class="generator-insights__list" id="generator-insights-list" hidden></ul>
+          </article>
+        </section>
       </div>
 
       <aside
@@ -529,6 +560,10 @@
             <div class="generator-summary__metric">
               <dt class="generator-summary__label">Specie uniche</dt>
               <dd class="generator-summary__value" data-kpi="unique-species">0</dd>
+            </div>
+            <div class="generator-summary__metric">
+              <dt class="generator-summary__label">Riusi profili filtro</dt>
+              <dd class="generator-summary__value" data-kpi="profile-reuse">0</dd>
             </div>
           </dl>
         </section>
