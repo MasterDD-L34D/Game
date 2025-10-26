@@ -25,6 +25,17 @@
 - **Target**: punteggio ≥ 4/5 in sondaggio rapido con team design (scala Likert) e 0 errori critici di comprensione.
 - **Verifica**: walkthrough guidato + checklist linguaggio chiaro, accompagnato da test contrasto (WCAG AA).
 
+### Riutilizzo profili filtro
+- **Definizione**: numero di applicazioni dei profili salvati tramite pannello Parametri durante una sessione.
+- **Target**: ≥ 2 riusi medi a sessione, con metrica tracciata nei KPI (`profile-reuse`).
+- **Verifica**: controllo rapido del contatore in dashboard e correlazione con evento `profile-load` nel registro attività.
+
+## Insight contestuali e suggerimenti
+
+- Il pannello "Insight contestuali" estende il riepilogo con suggerimenti basati su catalogo, connessioni bioma-bioma e azioni recenti.
+- I pulsanti di salto rapido sfruttano il sistema di ancore per aprire direttamente Parametri, Biomi o Seed.
+- Ogni navigazione viene registrata nel log (`insight-navigate`) per misurare l'adozione dei suggerimenti.
+
 ## Visione, stakeholder e checkpoint
 
 - **Stakeholder coinvolti**: Lead Design (vision), Narrative Lead (hook), Tech Lead (pipeline export), QA (metriche), PM (roadmap).

@@ -24,6 +24,9 @@ const elements = {
   narrativePanel: document.getElementById("generator-narrative"),
   narrativeBriefing: document.querySelector("[data-narrative=\"briefing\"]"),
   narrativeHook: document.querySelector("[data-narrative=\"hook\"]"),
+  narrativeInsightPanel: document.getElementById("generator-insight-panel"),
+  narrativeInsightEmpty: document.getElementById("generator-insight-empty"),
+  narrativeInsightList: document.getElementById("generator-insight-list"),
   briefingPanel: document.getElementById("generator-briefing-panel"),
   hookPanel: document.getElementById("generator-hook-panel"),
   audioControls: document.getElementById("generator-audio-controls"),
@@ -66,10 +69,14 @@ const elements = {
   exportPreviewYamlDetails: document.getElementById("generator-preview-yaml-details"),
   dossierPreview: document.getElementById("generator-dossier-preview"),
   dossierEmpty: document.getElementById("generator-dossier-empty"),
+  insightsPanel: document.getElementById("generator-insights-panel"),
+  insightsEmpty: document.getElementById("generator-insights-empty"),
+  insightsList: document.getElementById("generator-insights-list"),
   kpi: {
     averageRoll: document.querySelector("[data-kpi=\"avg-roll\"]"),
     rerollCount: document.querySelector("[data-kpi=\"reroll-count\"]"),
     uniqueSpecies: document.querySelector("[data-kpi=\"unique-species\"]"),
+    profileReuses: document.querySelector("[data-kpi=\"profile-reuse\"]"),
   },
 };
 
@@ -117,6 +124,28 @@ const TONE_LABELS = {
 };
 const REROLL_ACTIONS = new Set(["reroll-biomi", "reroll-species", "reroll-seeds"]);
 const ROLL_ACTIONS = new Set(["roll-ecos", "reroll-biomi", "reroll-species", "reroll-seeds"]);
+
+const SPECIES_ROLE_LABELS = {
+  apex: "Apex",
+  keystone: "Specie chiave",
+  bridge: "Specie ponte",
+  threat: "Minaccia",
+  event: "Evento dinamico",
+};
+
+const CONNECTION_TYPE_LABELS = {
+  corridor: "Corridoio stagionale",
+  trophic_spillover: "Spillover trofico",
+  seasonal_bridge: "Ponte stagionale",
+};
+
+const PANEL_LABELS = {
+  parameters: "Parametri",
+  traits: "Pacchetti ambientali",
+  biomes: "Biomi selezionati",
+  seeds: "Encounter seed",
+  insights: "Insight contestuali",
+};
 
 const FLOW_STATUS_LABELS = {
   pending: "In attesa",
@@ -328,6 +357,7 @@ const state = {
     averageRollIntervalMs: null,
     rerollCount: 0,
     uniqueSpecies: 0,
+    filterProfileReuses: 0,
   },
   lastFilters: { flags: [], roles: [], tags: [] },
   pick: {
@@ -362,6 +392,7 @@ const state = {
     narrativeHook: DEFAULT_HOOK_TEXT,
     rare: false,
     reason: null,
+    recommendations: [],
   },
 };
 
@@ -575,6 +606,7 @@ function deriveFlowSnapshot() {
         `Specie totali: ${metrics.speciesCount}`,
         `Seed generati: ${metrics.seedCount}`,
         `Tempo medio roll: ${formatAverageRollMetric(averageRoll)}`,
+        `Riusi profili: ${state.metrics.filterProfileReuses ?? 0}`,
       ],
     },
     history: {
@@ -740,6 +772,7 @@ function updateNarrativePrompts(filters = state.lastFilters) {
   state.narrative.narrativeHook = context.narrativeHook;
   state.narrative.rare = context.isHighThreat;
   state.narrative.reason = context.rareReason;
+  state.narrative.recommendations = context.recommendations ?? [];
 
   if (elements.narrativePanel) {
     elements.narrativePanel.dataset.hasNarrative = context.hasNarrative ? "true" : "false";
@@ -750,6 +783,8 @@ function updateNarrativePrompts(filters = state.lastFilters) {
   if (elements.narrativeHook) {
     elements.narrativeHook.textContent = context.narrativeHook;
   }
+
+  renderContextualInsights(state.narrative.recommendations);
 
   pulseElement(elements.briefingPanel);
   pulseElement(elements.hookPanel);
@@ -885,6 +920,14 @@ function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] 
     rareReason = "species";
   }
 
+  const recommendations = buildNarrativeRecommendations({
+    highlightBiome,
+    highlightLabel,
+    apex,
+    dangerousSeed,
+    filterSummary,
+  });
+
   return {
     missionBriefing: missionBriefing || DEFAULT_BRIEFING_TEXT,
     narrativeHook: narrativeHook || DEFAULT_HOOK_TEXT,
@@ -892,7 +935,284 @@ function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] 
     isHighThreat: Boolean(rareReason),
     rareReason,
     metrics,
+    recommendations,
   };
+}
+
+function buildNarrativeRecommendations({ highlightBiome, highlightLabel, apex, dangerousSeed, filterSummary }) {
+  const recommendations = [];
+  const biomeId = highlightBiome?.id ?? null;
+
+  if (biomeId) {
+    const catalogBiome = findCatalogBiome(biomeId);
+    const manifestCounts = catalogBiome?.manifest?.species_counts ?? null;
+    if (manifestCounts && typeof manifestCounts === "object") {
+      const entries = Object.entries(manifestCounts)
+        .map(([role, value]) => ({ role, value: Number(value) }))
+        .filter((entry) => Number.isFinite(entry.value) && entry.value > 0);
+      const total = entries.reduce((sum, entry) => sum + entry.value, 0);
+      if (entries.length && total > 0) {
+        entries.sort((a, b) => b.value - a.value);
+        const dominant = entries[0];
+        const roleLabel = SPECIES_ROLE_LABELS[dominant.role] ?? titleCase(dominant.role.replace(/_/g, " "));
+        const messageParts = [
+          `${highlightLabel} mette in risalto ${roleLabel.toLowerCase()}`,
+          `(${dominant.value}/${total} specie monitorate).`,
+          "Allinea i filtri ruoli per sfruttare il vantaggio.",
+        ];
+        recommendations.push({
+          id: `role-${biomeId}`,
+          tone: "info",
+          message: messageParts.join(" "),
+          targetPanel: "parameters",
+          targetLabel: getPanelLabel("parameters"),
+          tooltip: `Distribuzione ruoli dal catalogo per ${highlightLabel}.`,
+        });
+      }
+    }
+
+    const strongestConnection = pickStrongestConnection(biomeId);
+    if (strongestConnection) {
+      const typeLabel = CONNECTION_TYPE_LABELS[strongestConnection.type] ?? titleCase(strongestConnection.type ?? "connessione");
+      const connectedLabel =
+        findBiomeLabelByCode(strongestConnection.to) ??
+        titleCase((strongestConnection.to ?? "bioma").toLowerCase());
+      const resistanceLabel =
+        typeof strongestConnection.resistance === "number"
+          ? strongestConnection.resistance.toFixed(1)
+          : "—";
+      recommendations.push({
+        id: `connection-${biomeId}`,
+        tone: "info",
+        message: `${typeLabel} verso ${connectedLabel} (resistenza ${resistanceLabel}). Valuta sinergie cross-bioma.`,
+        targetPanel: "biomes",
+        targetLabel: getPanelLabel("biomes"),
+        tooltip: `Connessioni note per ${highlightLabel}.`,
+      });
+    }
+  }
+
+  if (dangerousSeed) {
+    const locationLabel = findBiomeLabelById(dangerousSeed.biome_id) ?? highlightLabel ?? "bioma bersaglio";
+    const threatLabel =
+      typeof dangerousSeed.threat_budget === "number" ? `T${dangerousSeed.threat_budget}` : null;
+    const parts = [`Seed ${dangerousSeed.label ?? "Encounter"} attivo su ${locationLabel}.`];
+    if (threatLabel) {
+      parts.push(`Budget minaccia ${threatLabel}.`);
+    }
+    if (apex?.name) {
+      parts.push(`Sincronizza la risposta con ${apex.name}.`);
+    } else {
+      parts.push("Prepara squadre di contenimento dedicate.");
+    }
+    recommendations.push({
+      id: `seed-${dangerousSeed.id ?? dangerousSeed.label ?? "primario"}`,
+      tone: (dangerousSeed.threat_budget ?? 0) >= 12 ? "warn" : "info",
+      message: parts.join(" "),
+      targetPanel: "seeds",
+      targetLabel: getPanelLabel("seeds"),
+      tooltip: "Consulta il pannello encounter seed per pianificare la risposta.",
+    });
+  }
+
+  const profileRecommendation = deriveProfileRecommendation({ filterSummary });
+  if (profileRecommendation) {
+    recommendations.push(profileRecommendation);
+  }
+
+  return recommendations;
+}
+
+function deriveProfileRecommendation({ filterSummary }) {
+  const entries = Array.isArray(state.activityLog) ? state.activityLog : [];
+  const lastLoad = entries.find((entry) => entry?.action === "profile-load");
+  if (lastLoad) {
+    const metadata = lastLoad.metadata ?? {};
+    const profileIndex = Number.isInteger(metadata.profileIndex) ? metadata.profileIndex : null;
+    const profileName = metadata.profileName ?? (profileIndex !== null ? `Slot ${profileIndex + 1}` : "Profilo");
+    const summary = metadata.filtersSummary ?? summariseFilters(metadata.filters ?? {});
+    const reuseCount = state.metrics.filterProfileReuses ?? 0;
+    const reuseLabel = reuseCount === 1 ? "1 riuso registrato" : `${reuseCount} riusi registrati`;
+    const detail = summary && summary !== "nessun filtro attivo" ? `Filtri applicati: ${summary}.` : "";
+    return {
+      id: `profile-reuse-${profileIndex ?? "latest"}`,
+      tone: "success",
+      message: `Profilo ${profileName} richiamato (${reuseLabel}). ${detail}Verifica i Parametri per salvare nuovi preset.`,
+      targetPanel: "parameters",
+      targetLabel: getPanelLabel("parameters"),
+      tooltip: "Apri Parametri per gestire i profili filtro.",
+    };
+  }
+
+  const profiles = Array.isArray(state.filterProfiles) ? state.filterProfiles : [];
+  const enriched = profiles
+    .map((profile, index) => {
+      if (!profile) return null;
+      return { profile, index };
+    })
+    .filter(Boolean);
+  if (!enriched.length) {
+    if (filterSummary && filterSummary !== "nessun filtro attivo") {
+      return {
+        id: "profile-suggestion",
+        tone: "info",
+        message: `Salva i filtri correnti (${filterSummary}) in un profilo per riutilizzarli rapidamente.`,
+        targetPanel: "parameters",
+        targetLabel: getPanelLabel("parameters"),
+        tooltip: "Usa il pannello Profili filtro per salvare la configurazione.",
+      };
+    }
+    return null;
+  }
+
+  enriched.sort((a, b) => {
+    const dateA = new Date(a.profile.updatedAt ?? 0).getTime();
+    const dateB = new Date(b.profile.updatedAt ?? 0).getTime();
+    return dateB - dateA;
+  });
+  const latest = enriched[0];
+  const updatedAt = formatIsoToLocale(latest.profile.updatedAt);
+  const updatedSuffix = updatedAt ? ` il ${updatedAt}` : "";
+  return {
+    id: `profile-reminder-${latest.index}`,
+    tone: "info",
+    message: `Profilo ${latest.profile.name ?? `Slot ${latest.index + 1}`} aggiornato${updatedSuffix}. Applicalo dai Parametri per accelerare il setup.`,
+    targetPanel: "parameters",
+    targetLabel: getPanelLabel("parameters"),
+    tooltip: "Apri il pannello Parametri per gestire il profilo salvato.",
+  };
+}
+
+function renderContextualInsights(recommendations = []) {
+  const entries = Array.isArray(recommendations)
+    ? recommendations.filter((entry) => entry && entry.message)
+    : [];
+  renderInsightList(elements.narrativeInsightList, elements.narrativeInsightEmpty, entries, { compact: true });
+  renderInsightList(elements.insightsList, elements.insightsEmpty, entries, { compact: false });
+}
+
+function renderInsightList(listElement, emptyElement, entries, { compact = false } = {}) {
+  if (!listElement || !emptyElement) return;
+  listElement.innerHTML = "";
+  if (!entries.length) {
+    listElement.hidden = true;
+    emptyElement.hidden = false;
+    return;
+  }
+  listElement.hidden = false;
+  emptyElement.hidden = true;
+
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    item.className = compact ? "generator-insight__item generator-insight__item--compact" : "generator-insight__item";
+    if (entry.tone) {
+      item.dataset.tone = entry.tone;
+    }
+
+    const text = document.createElement("p");
+    text.className = "generator-insight__copy";
+    text.textContent = entry.message;
+    if (entry.tooltip) {
+      text.title = entry.tooltip;
+    }
+    item.appendChild(text);
+
+    if (entry.targetPanel) {
+      const action = document.createElement("button");
+      action.type = "button";
+      action.className = "chip generator-insight__action";
+      action.dataset.action = "focus-panel";
+      action.dataset.panelId = entry.targetPanel;
+      if (entry.id) {
+        action.dataset.insightId = entry.id;
+      }
+      if (entry.targetLabel) {
+        action.dataset.panelLabel = entry.targetLabel;
+      }
+      action.textContent = entry.targetLabel ?? getPanelLabel(entry.targetPanel) ?? "Apri";
+      action.title = entry.tooltip || `Vai alla sezione ${entry.targetLabel ?? entry.targetPanel}`;
+      item.appendChild(action);
+    }
+
+    listElement.appendChild(item);
+  });
+}
+
+function normaliseBiomeId(value) {
+  return String(value ?? "").trim().toLowerCase();
+}
+
+function canonicalBiomeCode(value) {
+  const normalised = normaliseBiomeId(value).replace(/[^a-z0-9]+/g, "_");
+  return normalised ? normalised.toUpperCase() : "";
+}
+
+function findCatalogBiome(biomeId) {
+  const target = normaliseBiomeId(biomeId);
+  if (!target) return null;
+  const list = Array.isArray(state.data?.biomi) ? state.data.biomi : [];
+  return list.find((entry) => normaliseBiomeId(entry.id) === target) ?? null;
+}
+
+function findBiomeLabelById(biomeId) {
+  if (!biomeId) return null;
+  const fromPick = (state.pick?.biomes ?? []).find(
+    (biome) => normaliseBiomeId(biome?.id) === normaliseBiomeId(biomeId)
+  );
+  if (fromPick) {
+    return fromPick.label ?? titleCase(fromPick.id ?? "bioma");
+  }
+  const catalog = findCatalogBiome(biomeId);
+  if (catalog) {
+    return catalog.label ?? titleCase(catalog.id ?? "bioma");
+  }
+  return null;
+}
+
+function findBiomeLabelByCode(code) {
+  const canonical = canonicalBiomeCode(code);
+  if (!canonical) return null;
+  const list = Array.isArray(state.data?.biomi) ? state.data.biomi : [];
+  const match = list.find((entry) => canonicalBiomeCode(entry.id) === canonical);
+  if (match) {
+    return match.label ?? titleCase(match.id ?? "bioma");
+  }
+  return null;
+}
+
+function findCatalogConnections(biomeId) {
+  const canonical = canonicalBiomeCode(biomeId);
+  if (!canonical) return [];
+  const connections = Array.isArray(state.data?.ecosistema?.connessioni)
+    ? state.data.ecosistema.connessioni
+    : [];
+  return connections.filter((connection) => canonicalBiomeCode(connection?.from) === canonical);
+}
+
+function pickStrongestConnection(biomeId) {
+  const connections = findCatalogConnections(biomeId);
+  if (!connections.length) return null;
+  const sorted = connections.slice().sort((a, b) => {
+    const resA = typeof a.resistance === "number" ? a.resistance : Number.POSITIVE_INFINITY;
+    const resB = typeof b.resistance === "number" ? b.resistance : Number.POSITIVE_INFINITY;
+    return resA - resB;
+  });
+  return sorted[0] ?? null;
+}
+
+function getPanelLabel(panelId) {
+  if (!panelId) return null;
+  const key = String(panelId);
+  return PANEL_LABELS[key] ?? PANEL_LABELS[key.toLowerCase()] ?? null;
+}
+
+function formatIsoToLocale(value) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+  return date.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit" });
 }
 
 function getActivityStorage() {
@@ -1464,9 +1784,17 @@ function attachProfileHandlers() {
         const filters = currentFilters();
         saveProfileSlot(index, filters);
         renderProfileSlots();
+        const savedProfile = state.filterProfiles[index];
+        const summary = summariseFilters(savedProfile?.filters ?? filters ?? {});
         setStatus(`Filtri salvati nel profilo ${index + 1}.`, "success", {
           tags: ["profili", "salvataggio"],
           action: "profile-save",
+          metadata: {
+            profileIndex: index,
+            profileName: savedProfile?.name ?? `Slot ${index + 1}`,
+            filtersSummary: summary,
+            filters: savedProfile?.filters ?? filters,
+          },
         });
         break;
       }
@@ -1480,9 +1808,16 @@ function attachProfileHandlers() {
           break;
         }
         applyFiltersToForm(profile.filters);
+        const summary = summariseFilters(profile.filters ?? {});
         setStatus(`Filtri applicati dal profilo ${profile.name ?? index + 1}.`, "info", {
           tags: ["profili", "applica"],
           action: "profile-load",
+          metadata: {
+            profileIndex: index,
+            profileName: profile.name ?? `Slot ${index + 1}`,
+            filtersSummary: summary,
+            filters: profile.filters,
+          },
         });
         break;
       }
@@ -1497,6 +1832,10 @@ function attachProfileHandlers() {
         setStatus("Nome profilo aggiornato.", "success", {
           tags: ["profili", "rinomina"],
           action: "profile-rename",
+          metadata: {
+            profileIndex: index,
+            profileName: name,
+          },
         });
         break;
       }
@@ -1512,6 +1851,35 @@ function attachProfileHandlers() {
       default:
         break;
     }
+  });
+}
+
+function attachInsightHandlers() {
+  const panels = [elements.insightsPanel, elements.narrativeInsightPanel];
+  panels.forEach((panel) => {
+    if (!panel) return;
+    panel.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const button = target.closest("[data-action=\"focus-panel\"]");
+      if (!(button instanceof HTMLElement)) return;
+      event.preventDefault();
+      const panelId = button.dataset.panelId;
+      if (!panelId) return;
+      if (anchorState.descriptorsById.has(panelId)) {
+        setActiveSection(panelId, { updateHash: true });
+        scrollToPanel(panelId);
+      }
+      const label = button.dataset.panelLabel ?? getPanelLabel(panelId) ?? panelId;
+      setStatus(`Navigazione rapida: ${label}.`, "info", {
+        tags: ["insight", "navigazione"],
+        action: "insight-navigate",
+        metadata: {
+          panelId,
+          insightId: button.dataset.insightId ?? null,
+        },
+      });
+    });
   });
 }
 
@@ -2103,12 +2471,17 @@ function recalculateActivityMetrics() {
   }
 
   let rerollCount = 0;
+  let profileReuses = 0;
   entries.forEach((entry) => {
     if (entry?.action && REROLL_ACTIONS.has(entry.action)) {
       rerollCount += 1;
     }
+    if (entry?.action === "profile-load") {
+      profileReuses += 1;
+    }
   });
   state.metrics.rerollCount = rerollCount;
+  state.metrics.filterProfileReuses = profileReuses;
   renderKpiSidebar();
 }
 
@@ -2151,6 +2524,9 @@ function renderKpiSidebar() {
   }
   if (elements.kpi?.uniqueSpecies) {
     elements.kpi.uniqueSpecies.textContent = String(state.metrics.uniqueSpecies ?? 0);
+  }
+  if (elements.kpi?.profileReuses) {
+    elements.kpi.profileReuses.textContent = String(state.metrics.filterProfileReuses ?? 0);
   }
 }
 
@@ -6698,6 +7074,7 @@ renderPinnedSummary();
 renderComparisonPanel();
 updateNarrativePrompts();
 attachProfileHandlers();
+attachInsightHandlers();
 attachHistoryHandlers();
 attachComparisonHandlers();
 attachActions();
