@@ -96,7 +96,23 @@
       </nav>
 
       <div class="layout__content">
-        <section class="section" id="generator-parameters" data-panel="parameters">
+        <section class="section" id="generator-flows" aria-labelledby="generator-flows-title">
+          <div class="section__header">
+            <h2 id="generator-flows-title">Mappa flussi utente</h2>
+            <p>
+              Stato in tempo reale dei tre percorsi chiave del generatore: onboarding, riepilogo e
+              cronologia.
+            </p>
+          </div>
+          <ol class="generator-flow-map" id="generator-flow-map-list" aria-live="polite"></ol>
+        </section>
+
+        <section
+          class="section"
+          id="generator-parameters"
+          data-panel="parameters"
+          data-flow-node="onboarding"
+        >
           <article class="card card--highlight">
             <form class="form" id="generator-form">
               <h2 class="form__title">Parametri</h2>
@@ -241,6 +257,7 @@
             class="generator-summary"
             id="generator-summary"
             aria-labelledby="generator-summary-title"
+            data-flow-node="summary"
           >
             <h3 class="generator-summary__title" id="generator-summary-title">Riepilogo rapido</h3>
             <dl class="generator-summary__metrics">
@@ -316,6 +333,7 @@
               class="generator-history"
               id="generator-history"
               aria-labelledby="generator-history-title"
+              data-flow-node="history"
             >
               <div class="generator-history__header">
                 <h4 class="generator-summary__subtitle" id="generator-history-title">
