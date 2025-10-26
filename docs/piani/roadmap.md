@@ -27,3 +27,8 @@
 - Aggiornare i canvas principali con screenshot e note del playtest VC. **Completato** tramite pannello HUD e metriche annotate nel Canvas principale.【F:docs/Canvas/feature-updates.md†L9-L20】
 - Integrare esportazione client-side dei log VC (`session-metrics.yaml`) direttamente nella pipeline Drive una volta stabilizzato il tuning risk.
 - Formalizzare la pipeline di archiviazione presentazioni in `docs/presentations/` collegando milestone e release.【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
+
+## Comunicazioni release VC novembre 2025
+- **Riunione cross-team (2025-11-06, 10:30 CET)** — Confermata sala VC Bridge + call Meet per telemetria/client/narrativa. Agenda: revisione metriche QA 2025-11-01, readiness tag `v0.6.0-rc1`, canali di annuncio e checklist supporto live.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L45】
+- **Canali di annuncio** — Preparare messaggio principale in `#vc-launch` (Slack) alle 16:00 CET del 2025-11-07 con link a changelog e Canvas aggiornato; replicare su Drive/Briefing entro le 18:00 con estratto metriche e TODO follow-up.【F:docs/changelog.md†L21-L33】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L45】
+- **Timeline tag** — Dopo sign-off della riunione, creare il tag `v0.6.0-rc1`, allegare screenshot HUD aggiornati in Canvas e consegnare ai partner esterni entro il 2025-11-08.【F:docs/Canvas/feature-updates.md†L1-L60】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L45】

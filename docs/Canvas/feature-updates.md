@@ -7,6 +7,11 @@
 - **Reattori Aeon** — Risorsa leggendaria che abilita poteri temporali specifici per le Forme Armoniche.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
 - **Telemetry Risk Tuning 2025-10-24** — Nuovo metodo `ema_capped_minmax` con segnale `overcap_guard_events` e smoothing 0.2 per ridurre i falsi positivi nelle squadre Bravo/Delta.【F:data/telemetry.yaml†L2-L25】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L62】
 
+### Aggiornamento QA 2025-11-01
+- **Metriche Canvas aggiornate** — Il dashboard VC mostra risk medio 0.55 (Delta 0.55, Echo 0.58, Bravo 0.52) e coesione media 0.81 con varianza <0.10 sulle squadre QA finali.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L44】
+- **Visual HUD** — Inserire screenshot ricalcolato con gradienti risk rivisti e timeline SquadSync entro il pacchetto `v0.6.0-rc1`; allegare callout su picco Echo wave 3 risolto live.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L19-L44】
+- **Azioni successive** — Pubblicare grafici aggiornati in Canvas/Drive e collegare annuncio Slack programmato il 2025-11-07 ore 16:00 CET al changelog RC.【F:docs/changelog.md†L21-L33】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L45】
+
 ## Revisione playtest VC (Canvas)
 ![Dashboard VC](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==)
 
