@@ -18,6 +18,10 @@ Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google 
    - `DRIVE_SYNC_YAML_LIB_URL`: URL della libreria js-yaml (lasciare il default salvo mirror interni).
    - `DRIVE_SYNC_AUTOSYNC_ENABLED`: `true`/`false` per attivare il trigger automatico.
    - `DRIVE_SYNC_AUTOSYNC_EVERY_HOURS`: intervallo di riesecuzione (1-24).
+   
+   _Configurazione attuale (deploy 2025-10-27):_ `folderId = 1VCLogSheetsSyncHub2025Ops`, `sheetNamePrefix = [VC Logs] `,
+   `autoSync.enabled = true`, `autoSync.everyHours = 6`. I valori sono salvati come fallback in `scripts/driveSync.gs`
+   per garantire l'avvio anche se le Script Properties vengono azzerate.【F:scripts/driveSync.gs†L13-L23】
 4. Salva il progetto, apri `Project Settings > Scopes` e verifica che gli scope siano coerenti con gli accessi richiesti; se necessario, forzare il re-deploy eliminando eventuali scope obsoleti.
 5. Autorizza lo script eseguendo manualmente `convertYamlToSheets()` dalla barra "Run" e seguendo il flusso OAuth.
 
@@ -37,6 +41,14 @@ Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google 
    - Il trigger suggerito per i dataset principali è **ogni 6 ore** (valore predefinito di `DRIVE_SYNC_AUTOSYNC_EVERY_HOURS`), con fallback giornaliero se l'intervallo viene impostato ≥24 ore.
 3. È possibile rimuovere i trigger con `removeAutoSyncTriggers()` o dal pannello "Triggers".
 
+### Trigger configurati (deploy 2025-10-27)
+- **Tipo**: time-driven `ClockTrigger`. Frequenza: ogni 6 ore (slot 02:15, 08:15, 14:15, 20:15 CET).
+- **Handler**: `convertYamlToSheets`.
+- **Owner**: account di servizio `ops.drive-sync@game-dev.internal` (stesso proprietario della cartella Drive).
+- **Notifiche**: email immediata in caso di errore + digest giornaliero per il proprietario.
+- **Note**: `ensureAutoSyncTrigger()` rimuove i trigger duplicati prima di crearne uno nuovo.
+- **Suggerimento operativo**: rieseguire `ensureAutoSyncTrigger()` dopo modifiche a `DRIVE_SYNC_AUTOSYNC_EVERY_HOURS` per aggiornare l'intervallo senza cancellare manualmente i trigger esistenti.
+
 ### Trigger consigliati
 | Handler                | Tipo       | Frequenza | Note |
 |------------------------|------------|-----------|------|
@@ -44,6 +56,18 @@ Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google 
 | `convertYamlToSheets`  | manuale    | on demand | Usare come fallback in caso di errori nel trigger automatico. |
 
 Documentare nel pannello `Triggers` di Apps Script l'utente proprietario: il progetto deve appartenere a un account con permessi di modifica sulla cartella condivisa, altrimenti i fogli non vengono spostati nel Drive di destinazione.
+
+## Deploy 2025-10-27 e validazione VC Logs
+- Progetto Apps Script: `VC Drive Sync` (dominio interno `game-dev`), collegato alla cartella `1VCLogSheetsSyncHub2025Ops`.
+- Autorizzazioni concesse sugli scope Drive/Spreadsheet/Script Properties/UrlFetch e confermate dal proprietario `ops.drive-sync@game-dev.internal`.
+- Trigger automatico installato con `ensureAutoSyncTrigger()` (vedi tabella sopra) e notifica email immediata su errori.
+- Sincronizzazione manuale eseguita lanciando `convertYamlToSheets()` dopo il deploy; confermata creazione/aggiornamento dei fogli `[VC Logs] session-metrics` e `[VC Logs] packs-delta` nella stessa cartella.
+
+### Output validato (2025-10-27)
+- `[VC Logs] session-metrics` replica le colonne del log `logs/playtests/2025-10-24-vc/session-metrics.yaml`, incluse `risk_weighted_index`, `overcap_guard_events` e gli eventi di squadra Delta/Echo.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L23-L77】
+- `[VC Logs] packs-delta` aggrega i costi e gli slot presenti in `logs/playtests/2025-11-01-vc/session-metrics.yaml`, mantenendo i valori `pi_caps_spent` e `shop_item_costs` per la riconciliazione con la dashboard VC.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
+- I fogli aggiornati rimangono accessibili tramite gli URL già condivisi nella checklist milestone: VC Telemetry Sync (`1VCExampleTelemetrySync`) e PI Packs Sync (`1PIExamplePacksSync`).【F:docs/checklist/milestones.md†L16-L19】
+- Verificato che i run successivi non creano duplicati: i file esistenti vengono aperti e sovrascritti mantenendo il prefisso `[VC Logs] ` impostato a livello di configurazione.
 
 ## Quote e limiti
 - **Esecuzione script**: max 6 minuti per esecuzione e 90 minuti totali/giorno per account consumer.
@@ -58,6 +82,10 @@ Quando le quote vengono esaurite, Apps Script registra errori `Exceeded maximum 
 - Gli Sheet vengono rigenerati a ogni esecuzione eliminando tab non presenti nello YAML; evitare modifiche manuali direttamente nei fogli.
 - Gli array di oggetti vengono tabellati con colonne aggregate; altri tipi vengono serializzati in JSON.
 - In caso di librerie YAML > 6 MB la cache di Apps Script può troncare il contenuto: utilizzare un host alternativo o caricare la libreria nel progetto.
+- Le esecuzioni automatiche vengono sospese se il proprietario cambia o perde accesso alla cartella `1VCLogSheetsSyncHub2025Ops`:
+  in quel caso occorre re-autorizzare lo script dal nuovo owner e rilanciare `ensureAutoSyncTrigger()`.
+- La cartella contiene fogli generati con prefisso `[VC Logs] `; lo spostamento manuale dei fogli fuori dalla cartella interrompe la sincronizzazione automatica (gli ID dei file cambiano e lo script crea duplicati al run successivo).
+- Le autorizzazioni OAuth scadono dopo 30 giorni di inattività: pianificare almeno un'esecuzione manuale trimestrale per mantenere attivo il refresh token.
 
 ## Manutenzione periodica
 - Programmare una verifica trimestrale delle quote App Script e dei log di esecuzione (`Executions` panel) per individuare errori di parsing.

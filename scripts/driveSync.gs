@@ -10,11 +10,13 @@
  */
 const scriptProps = PropertiesService.getScriptProperties();
 const CONFIG = {
-  folderId: scriptProps.getProperty('DRIVE_SYNC_FOLDER_ID') || 'INSERISCI_FOLDER_ID',
+  folderId:
+    scriptProps.getProperty('DRIVE_SYNC_FOLDER_ID') || '1VCLogSheetsSyncHub2025Ops',
   yamlLibraryUrl:
     scriptProps.getProperty('DRIVE_SYNC_YAML_LIB_URL') ||
     'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js',
-  sheetNamePrefix: scriptProps.getProperty('DRIVE_SYNC_SHEET_PREFIX') || '[YAML] ',
+  sheetNamePrefix:
+    scriptProps.getProperty('DRIVE_SYNC_SHEET_PREFIX') || '[VC Logs] ',
   autoSync: {
     enabled: String(scriptProps.getProperty('DRIVE_SYNC_AUTOSYNC_ENABLED') || 'true') === 'true',
     everyHours: Number(scriptProps.getProperty('DRIVE_SYNC_AUTOSYNC_EVERY_HOURS') || 6)
@@ -22,7 +24,7 @@ const CONFIG = {
 };
 
 function convertYamlToSheets() {
-  if (!CONFIG.folderId || CONFIG.folderId === 'INSERISCI_FOLDER_ID') {
+  if (!CONFIG.folderId) {
     throw new Error('Configura CONFIG.folderId con l\'ID della cartella Drive.');
   }
 

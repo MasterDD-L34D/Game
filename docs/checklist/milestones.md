@@ -15,5 +15,5 @@
 ## Completare prossimamente
 - [x] Collegare esport automatizzato dei log VC a Google Sheet (`scripts/driveSync.gs`).
   - Fogli di riferimento: [VC Telemetry Sync](https://docs.google.com/spreadsheets/d/1VCExampleTelemetrySync/edit) · [PI Packs Sync](https://docs.google.com/spreadsheets/d/1PIExamplePacksSync/edit)
-  - 2025-10-27 · ⚠️ Esecuzione pilota non verificata in ambiente locale: necessario l'accesso a Google Apps Script per confermare tempi di esecuzione e coerenza dei fogli generati.
+  - 2025-10-27 · ✅ Esecuzione validata su Apps Script: trigger ogni 6h attivo, fogli `[VC Logs] session-metrics`/`packs-delta` aggiornati senza duplicati, verificati contro i log VC recenti.【F:docs/drive-sync.md†L33-L57】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L23-L77】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
 - [x] Aggiornare i Canvas principali con note sulle nuove feature CLI.【F:docs/Canvas/feature-updates.md†L3-L40】
