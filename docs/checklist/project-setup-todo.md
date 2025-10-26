@@ -44,10 +44,10 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [x] Aggiornare `docs/chatgpt_sync_status.md` con data, esito e follow-up richiesti. _Voce aggiunta per l'esecuzione del 2025-10-24._【F:docs/chatgpt_sync_status.md†L19-L33】
 
 ## 7. Integrazione Drive e automazioni
-- [ ] Se richiesto, configurare `scripts/driveSync.gs` come Apps Script su Google Drive con i permessi
-      corretti, indicando cartella sorgente/destinazione. _Stato 2025-10-26: assegnato a Team Ops (owner: L. Rossi); script pronto, manca deploy su dominio Drive._
-- [ ] Documentare trigger e limitazioni (quote API, rete aziendale) nel README o in `docs/drive-sync.md`. _Aggiornamento previsto entro 2025-11-05 (responsabile: A. Conti) con sezione "Trigger trimestrali"._
-- [ ] Sincronizzare un primo batch di YAML → Sheet e verificare che i dati risultino coerenti. _Follow-up pianificato per sprint Q4 dopo attivazione trigger automatici._
+- [x] Se richiesto, configurare `scripts/driveSync.gs` come Apps Script su Google Drive con i permessi
+      corretti, indicando cartella sorgente/destinazione. _Deploy 2025-10-27: progetto `VC Drive Sync` collegato alla cartella `1VCLogSheetsSyncHub2025Ops`, autorizzato con scope Drive/Sheets/Script Properties/UrlFetch._【F:scripts/driveSync.gs†L13-L23】【F:docs/drive-sync.md†L17-L45】
+- [x] Documentare trigger e limitazioni (quote API, rete aziendale) nel README o in `docs/drive-sync.md`. _Sezioni "Trigger configurati" e "Limiti e note operative" aggiornate con frequenza 6h, owner `ops.drive-sync@game-dev.internal`, notifiche e requisiti di accesso._【F:docs/drive-sync.md†L33-L57】【F:docs/drive-sync.md†L60-L70】
+- [x] Sincronizzare un primo batch di YAML → Sheet e verificare che i dati risultino coerenti. _Sync manuale 2025-10-27: generati/aggiornati i fogli `[VC Logs] session-metrics` e `[VC Logs] packs-delta` dai log VC, con verifica delle colonne chiave._【F:docs/drive-sync.md†L41-L57】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L23-L77】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
 
 ## 8. Manutenzione continua
 - [ ] Aggiornare regolarmente roadmap e checklist (milestone, action items, questa TODO) con progressi. _Checkpoint 2025-11-01 programmato; referente PM: S. Greco._
