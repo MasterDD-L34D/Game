@@ -5,27 +5,36 @@
 - Chiudi o aggiorna le issue operative nel canale `#vc-docs` prima di spostare le attività in *Prossimi passi*.
 - Ogni retro Support/QA deve produrre una nota in `docs/faq.md` con owner e stato di follow-up.
 
-## Milestone attive
-> **Aggiornamento 2025-11-02** — Le PR #68-#96 hanno consolidato Mission Control (quick actions, landing guidata, Dataset Hub con validazione YAML) e il generatore (radar, confronto specie, pin persistente, tooltips hazard/ruoli). Restano aperti gli alert HUD automatici oltre soglia risk 0.60, l'automazione Drive Sync giornaliera e il rituning evacuazione Skydock Siege.
+## Milestone completate (Ondata 1 — 2025-11-03)
+> **Aggiornamento 2025-11-03** — Prima ondata completata: la pipeline Drive Sync per i log VC è attiva, il bilanciamento PI/EMA è allineato con i dataset e gli alert HUD oltre soglia 0.60 guidano il nuovo tuning di "Skydock Siege".
 
-1. **Bilanciare pacchetti PI tra Forme**
-   - Validare il bias `random_general_d20` rispetto alle nuove combinazioni `bias_d12` per evitare inflazione di PE.【F:data/packs.yaml†L5-L88】
-    - Sincronizzare i costi `pi_shop` con la curva PE definita in `telemetry.pe_economy` (aggiunti i valori mancanti per `cap_pt`, `guardia_situazionale`, `starter_bioma`, `sigillo_forma`).【F:data/packs.yaml†L1-L4】【F:data/telemetry.yaml†L23-L31】
-    - Aggiornare il monitoraggio: `risk.weighted_index` si è stabilizzato a 0.57 nella sessione Delta dopo l'introduzione del segnale `overcap_guard`, ma resta da mitigare il picco 0.61 della sessione Echo.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L14-L62】
-  - Inserire alert HUD dedicati nella dashboard Canvas per segnalare automaticamente il superamento della soglia 0.60 durante i roll PI.【F:docs/Canvas/feature-updates.md†L9-L20】
-2. **Telemetria VC in game build**
-   - Integrare le finestre EMA (`ema_alpha`, `windows`) nel client per raccogliere dati reali, documentando gli hook HUD/telemetria condivisi con il team client.【F:data/telemetry.yaml†L1-L8】【F:docs/hooks/ema-metrics.md†L1-L52】
-   - Mappare gli indici VC ai trigger Enneagram per generare feedback contestuali.【F:data/telemetry.yaml†L9-L22】
-   - Risultati playtest 2025-10-24: Delta rientra nel range sicuro grazie al nuovo smoothing EMA (0.2), mentre Echo sfiora ancora la soglia 0.61 durante Aeon Overclock → pianificare timer di guardia condivisa.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L62】
-   - Prossimo step client: esporre pannello HUD con breakdown EMA per squadra e log raw esportabile (`.yaml`) a fine missione, includendo il campo `overcap_guard_events`.
+1. **Bilanciamento pacchetti PI e telemetria EMA**
+   - `telemetry.pe_economy` espone ora curva e costi completi, sincronizzati con `pi_shop` per tutte le opzioni acquistabili.【F:data/telemetry.yaml†L1-L72】【F:data/packs.yaml†L1-L88】
+   - Il middleware `tools/ts/hud_alerts.ts` consuma gli eventi `ema.update`, aggiorna l'HUD e notifica il canale `pi.balance.alerts`, con log missione aggiornati nel dossier di tuning.【F:tools/ts/hud_alerts.ts†L1-L206】【F:data/missions/skydock_siege.yaml†L1-L64】
+   - `docs/hooks/ema-metrics.md` descrive gli hook condivisi con il team client e i parametri di smoothing approvati per la build VC.【F:docs/hooks/ema-metrics.md†L1-L52】
+2. **Alert HUD Risk & rituning “Skydock Siege”**
+   - Il mission file registra i nuovi timer (evacuazione 6 turni, cooldown ridotti) e documenta l'attivazione dell'alert HUD >0.60 durante i retest Delta.【F:data/missions/skydock_siege.yaml†L1-L82】
+   - I log missione VC includono le finestre EMA e la cronologia degli alert per l'esportazione Drive.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
+3. **Automazione export telemetria VC → Drive**
+   - `docs/drive-sync.md` contiene ora la procedura autorizzativa e i trigger cron per Apps Script; i run 2025-10-24 e 2025-11-01 confermano la sincronizzazione fogli/log.【F:docs/drive-sync.md†L17-L57】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
+
+## Milestone attive
+> **Fase corrente (Ondata 2)** — Pianificare QA manuale, copertura comunicazione release e follow-up documentali post-playtest.
+
+1. **Preparazione QA manuale**
+   - Definire scenari critici e checklist sessioni, archiviandoli in `docs/playtest/` per il sign-off QA.【F:docs/checklist/action-items.md†L1-L47】
+   - Pianificare playtest interni, raccogliere report `SESSION-*.md` e aprire ticket per i bug confermati.【F:docs/checklist/action-items.md†L1-L47】
+2. **Rilascio e comunicazione**
+   - Redigere il changelog aggiornato, coordinare annunci marketing e preparare materiali HUD finali per il tag `v0.6.0-rc1`.【F:docs/changelog.md†L1-L40】
+   - Allineare roadmap e Canvas con le milestone di release, includendo gli screenshot post-QA.【F:docs/Canvas/feature-updates.md†L1-L40】
 3. **Esperienze di Mating e Nido**
    - Estendere `compat_forme` alle restanti 14 forme e definire cross-formula per `base_scores`.【F:data/mating.yaml†L1-L12】
    - Prototipare ambienti interattivi per `dune_stalker` ed `echo_morph`, validando risorse e privacy.【F:data/mating.yaml†L13-L24】
 4. **Missioni verticali e supporto live**
  - Preparare il playtest di "Skydock Siege" con obiettivi multilivello e timer di evacuazione.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
   - Collegare Reattori Aeon, filtro SquadSync e protocolli di soccorso alla pipeline telemetrica co-op.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
-  - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】 _Layout completato con radar/timeline aggiornati; resta attivazione alert automatici oltre soglia 0.60._
-  - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; revisione 2025-02-15 documentata in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L61-L121】【F:data/missions/skydock_siege.yaml†L1-L52】 _Attività riaperta dopo i test PR #92/96._
+  - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】 _Layout completato con radar/timeline aggiornati; alert automatici >0.60 attivi dal tuning del 2025-11-03._
+  - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; revisione 2025-11-05 documentata in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L19-L36】【F:data/missions/skydock_siege.yaml†L1-L82】 _Monitorare eventuali regressioni nei prossimi playtest QA._
 
 ## Prossimi passi
 - Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】 _In corso: radar/specie comparate disponibili nella dashboard generator._

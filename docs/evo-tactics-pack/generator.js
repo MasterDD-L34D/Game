@@ -21,6 +21,14 @@ const elements = {
     species: document.querySelector("[data-summary=\"species\"]"),
     seeds: document.querySelector("[data-summary=\"seeds\"]"),
   },
+  narrativePanel: document.getElementById("generator-narrative"),
+  narrativeBriefing: document.querySelector("[data-narrative=\"briefing\"]"),
+  narrativeHook: document.querySelector("[data-narrative=\"hook\"]"),
+  briefingPanel: document.getElementById("generator-briefing-panel"),
+  hookPanel: document.getElementById("generator-hook-panel"),
+  audioControls: document.getElementById("generator-audio-controls"),
+  audioMute: document.getElementById("generator-audio-mute"),
+  audioVolume: document.getElementById("generator-audio-volume"),
   profilePanel: document.getElementById("generator-profiles"),
   profileSlots: document.getElementById("generator-profile-slots"),
   profileEmpty: document.getElementById("generator-profile-empty"),
@@ -93,6 +101,7 @@ const STORAGE_KEYS = {
   history: "evo-generator-history",
   pinned: "evo-generator-pinned",
   locks: "evo-generator-locks",
+  preferences: "evo-generator-preferences",
 };
 
 const DEFAULT_ACTIVITY_TONES = ["info", "success", "warn", "error"];
@@ -195,6 +204,72 @@ const MANIFEST_PRESETS = [
   },
 ];
 
+const RARE_CUE_SOURCE = "data:audio/wav;base64,UklGRiYfAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YQIfAAAAALwL+hZBISMqQTFONhM5d" +
+  "DlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rH" +
+  "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" +
+  "Wug=";
+
+const AUDIO_CUES = {
+  rare: createAudioElement(RARE_CUE_SOURCE),
+};
+
+const DEFAULT_BRIEFING_TEXT = "Genera un ecosistema per ottenere il briefing operativo.";
+const DEFAULT_HOOK_TEXT = "Gli hook narrativi compariranno dopo la prima generazione.";
+
 const state = {
   data: null,
   traitRegistry: null,
@@ -240,6 +315,16 @@ const state = {
   },
   filterProfiles: [],
   history: [],
+  preferences: {
+    audioMuted: false,
+    volume: 0.75,
+  },
+  narrative: {
+    missionBriefing: DEFAULT_BRIEFING_TEXT,
+    narrativeHook: DEFAULT_HOOK_TEXT,
+    rare: false,
+    reason: null,
+  },
 };
 
 let packContext = null;
@@ -383,6 +468,10 @@ function setStatus(message, tone = "info", options = {}) {
     elements.lastAction.title = now.toLocaleString("it-IT");
   }
   recordActivity(message, tone, now, options);
+
+  if (options.rare) {
+    triggerRareEventFeedback({ target: options.rareTarget ?? state.narrative.reason ?? null });
+  }
 }
 
 function updateSummaryCounts() {
@@ -402,6 +491,218 @@ function updateSummaryCounts() {
 
   renderExportManifest();
   renderPinnedSummary();
+}
+
+const RARE_TARGET_MAP = {
+  seed: "hook",
+  species: "briefing",
+  both: "both",
+};
+
+let rareFeedbackTimer = null;
+
+function pulseElement(element, className = "is-animated", duration = 900) {
+  if (!element) return;
+  const timerKey = `__${className}Timer`;
+  if (element[timerKey]) {
+    clearTimeout(element[timerKey]);
+  }
+  element.classList.remove(className);
+  void element.offsetWidth;
+  element.classList.add(className);
+  if (typeof window !== "undefined") {
+    element[timerKey] = window.setTimeout(() => {
+      element.classList.remove(className);
+      element[timerKey] = null;
+    }, duration);
+  }
+}
+
+function triggerRareEventFeedback(context = {}) {
+  if (elements.summaryContainer) {
+    elements.summaryContainer.classList.remove("is-rare-event");
+    void elements.summaryContainer.offsetWidth;
+    elements.summaryContainer.classList.add("is-rare-event");
+    if (rareFeedbackTimer && typeof window !== "undefined") {
+      clearTimeout(rareFeedbackTimer);
+    }
+    if (typeof window !== "undefined") {
+      rareFeedbackTimer = window.setTimeout(() => {
+        elements.summaryContainer?.classList.remove("is-rare-event");
+      }, 1000);
+    }
+  }
+
+  const target = context.target ? RARE_TARGET_MAP[context.target] ?? context.target : null;
+  if (target === "hook" || target === "both") {
+    pulseElement(elements.hookPanel, "narrative-panel--rare", 900);
+  }
+  if (target === "briefing" || target === "both") {
+    pulseElement(elements.briefingPanel, "narrative-panel--rare", 900);
+  }
+
+  playAudioCue("rare");
+}
+
+function updateNarrativePrompts(filters = state.lastFilters) {
+  const context = buildNarrativePrompts(state.pick, filters ?? state.lastFilters ?? { flags: [], roles: [], tags: [] });
+  state.narrative.missionBriefing = context.missionBriefing;
+  state.narrative.narrativeHook = context.narrativeHook;
+  state.narrative.rare = context.isHighThreat;
+  state.narrative.reason = context.rareReason;
+
+  if (elements.narrativePanel) {
+    elements.narrativePanel.dataset.hasNarrative = context.hasNarrative ? "true" : "false";
+  }
+  if (elements.narrativeBriefing) {
+    elements.narrativeBriefing.textContent = context.missionBriefing;
+  }
+  if (elements.narrativeHook) {
+    elements.narrativeHook.textContent = context.narrativeHook;
+  }
+
+  pulseElement(elements.briefingPanel);
+  pulseElement(elements.hookPanel);
+
+  return context;
+}
+
+function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] }) {
+  const normalisedFilters = {
+    flags: Array.isArray(filters.flags) ? filters.flags : [],
+    roles: Array.isArray(filters.roles) ? filters.roles : [],
+    tags: Array.isArray(filters.tags) ? filters.tags : [],
+  };
+
+  const metrics = calculatePickMetrics();
+  const hasBiomes = metrics.biomeCount > 0;
+  const filterSummary = summariseFilters(normalisedFilters);
+  if (!hasBiomes) {
+    return {
+      missionBriefing: DEFAULT_BRIEFING_TEXT,
+      narrativeHook: DEFAULT_HOOK_TEXT,
+      hasNarrative: false,
+      isHighThreat: false,
+      rareReason: null,
+      metrics,
+    };
+  }
+
+  const biomes = Array.isArray(pick?.biomes) ? pick.biomes : [];
+  const speciesBuckets = pick?.species ?? {};
+  const seeds = Array.isArray(pick?.seeds) ? pick.seeds : [];
+
+  const highlightBiome = [...biomes].sort((a, b) => {
+    const syntheticDelta = (b.synthetic ? 1 : 0) - (a.synthetic ? 1 : 0);
+    if (syntheticDelta !== 0) return syntheticDelta;
+    const speciesA = Array.isArray(speciesBuckets[a.id]) ? speciesBuckets[a.id].length : 0;
+    const speciesB = Array.isArray(speciesBuckets[b.id]) ? speciesBuckets[b.id].length : 0;
+    if (speciesA !== speciesB) return speciesB - speciesA;
+    const labelA = a.label ?? a.id ?? "";
+    const labelB = b.label ?? b.id ?? "";
+    return labelA.localeCompare(labelB);
+  })[0] ?? null;
+
+  const speciesEntries = [];
+  biomes.forEach((biome) => {
+    const list = Array.isArray(speciesBuckets[biome.id]) ? speciesBuckets[biome.id] : [];
+    list.forEach((sp) => {
+      const tier = tierOf(sp);
+      speciesEntries.push({
+        name: sp.display_name ?? sp.id ?? "Specie",
+        tier,
+        biomeLabel: biome.label ?? titleCase(biome.id ?? "bioma"),
+        synthetic: Boolean(sp.synthetic || biome.synthetic),
+      });
+    });
+  });
+
+  speciesEntries.sort((a, b) => {
+    if (b.tier !== a.tier) return b.tier - a.tier;
+    return a.name.localeCompare(b.name);
+  });
+
+  const topSpecies = speciesEntries.slice(0, 3);
+  const apex = topSpecies[0] ?? null;
+  const speciesSummary = topSpecies.length
+    ? topSpecies
+        .map((entry) => {
+          const parts = [`${entry.name}`, `T${entry.tier}`];
+          parts.push(entry.biomeLabel);
+          if (entry.synthetic) {
+            parts.push("Synth");
+          }
+          return parts.join(" · ");
+        })
+        .join(" | ")
+    : "Nessuna specie prioritaria identificata";
+
+  const highlightLabel = highlightBiome
+    ? highlightBiome.label ?? titleCase(highlightBiome.id ?? "bioma")
+    : "rete";
+  const highlightDescriptor = highlightBiome?.synthetic ? `${highlightLabel} · Synth` : highlightLabel;
+
+  const hasFilters = Boolean(
+    filterSummary && filterSummary.length && filterSummary !== "nessun filtro attivo"
+  );
+
+  const missionBriefingParts = [
+    `Deploy su ${metrics.biomeCount} biomi con ${metrics.speciesCount} specie (${metrics.uniqueSpeciesCount} uniche).`,
+    highlightBiome ? `Priorità operativa: ${highlightDescriptor}.` : null,
+    topSpecies.length ? `Asset chiave: ${speciesSummary}.` : "Asset chiave: in attesa di estrazioni mirate.",
+    hasFilters ? `Filtri attivi: ${filterSummary}.` : "Filtri attivi: nessuno.",
+  ].filter(Boolean);
+
+  const missionBriefing = missionBriefingParts.join(" ");
+
+  const sortedSeeds = [...seeds].sort((a, b) => (b.threat_budget ?? 0) - (a.threat_budget ?? 0));
+  const dangerousSeed = sortedSeeds[0] ?? null;
+
+  const hookParts = [];
+  if (dangerousSeed) {
+    const seedLabel = dangerousSeed.label ?? "Encounter";
+    const origin = dangerousSeed.synthetic ? "sintetico" : "catalogo";
+    const biomeForSeed = biomes.find((biome) => biome.id === dangerousSeed.biome_id);
+    const location = biomeForSeed
+      ? biomeForSeed.label ?? titleCase(biomeForSeed.id ?? "bioma")
+      : dangerousSeed.biome_id ?? "bioma bersaglio";
+    hookParts.push(`${seedLabel} attivo su ${location} (${origin}).`);
+    if (dangerousSeed.threat_budget) {
+      hookParts.push(`Budget minaccia T${dangerousSeed.threat_budget}.`);
+    }
+    if (apex) {
+      hookParts.push(`Risposta consigliata: ${apex.name} (T${apex.tier}).`);
+    } else {
+      hookParts.push("Preparare asset di contenimento dedicati.");
+    }
+  } else if (apex) {
+    hookParts.push(`${apex.name} domina ${apex.biomeLabel}.`);
+    hookParts.push(`Minaccia stimata T${apex.tier}.`);
+  } else {
+    hookParts.push("Genera encounter seed per dettagli narrativi contestuali.");
+  }
+
+  const narrativeHook = hookParts.join(" ");
+
+  const highThreatFromSpecies = (apex?.tier ?? 0) >= 4;
+  const highThreatFromSeed = (dangerousSeed?.threat_budget ?? 0) >= 12;
+  let rareReason = null;
+  if (highThreatFromSpecies && highThreatFromSeed) {
+    rareReason = "both";
+  } else if (highThreatFromSeed) {
+    rareReason = "seed";
+  } else if (highThreatFromSpecies) {
+    rareReason = "species";
+  }
+
+  return {
+    missionBriefing: missionBriefing || DEFAULT_BRIEFING_TEXT,
+    narrativeHook: narrativeHook || DEFAULT_HOOK_TEXT,
+    hasNarrative: true,
+    isHighThreat: Boolean(rareReason),
+    rareReason,
+    metrics,
+  };
 }
 
 function getActivityStorage() {
@@ -427,6 +728,164 @@ function getActivityStorage() {
 
 function getPersistentStorage() {
   return getActivityStorage();
+}
+
+function clampVolume(value) {
+  if (!Number.isFinite(value)) return 0.5;
+  if (value < 0) return 0;
+  if (value > 1) return 1;
+  return value;
+}
+
+function createAudioElement(src) {
+  if (typeof Audio === "undefined") return null;
+  try {
+    const audio = new Audio(src);
+    audio.preload = "auto";
+    audio.volume = clampVolume(state.preferences.volume);
+    return audio;
+  } catch (error) {
+    console.warn("Impossibile inizializzare il cue audio", error);
+    return null;
+  }
+}
+
+function applyAudioPreferences() {
+  const muted = Boolean(state.preferences.audioMuted);
+  const volume = clampVolume(state.preferences.volume);
+
+  if (elements.audioMute) {
+    elements.audioMute.classList.toggle("is-muted", muted);
+    elements.audioMute.setAttribute("aria-pressed", muted ? "true" : "false");
+    elements.audioMute.textContent = muted ? "🔇 Audio disattivato" : "🔈 Audio attivo";
+  }
+
+  if (elements.audioVolume) {
+    const targetValue = String(Math.round(volume * 100));
+    if (elements.audioVolume.value !== targetValue) {
+      elements.audioVolume.value = targetValue;
+    }
+  }
+
+  Object.values(AUDIO_CUES).forEach((audio) => {
+    if (!audio) return;
+    audio.volume = muted ? 0 : volume;
+  });
+}
+
+function playAudioCue(key) {
+  const audio = AUDIO_CUES[key];
+  if (!audio) return;
+  const volume = clampVolume(state.preferences.volume);
+  if (state.preferences.audioMuted || volume <= 0) {
+    if (typeof audio.pause === "function") {
+      try {
+        audio.pause();
+      } catch (error) {
+        console.warn("Impossibile mettere in pausa il cue audio", error);
+      }
+    }
+    return;
+  }
+  try {
+    audio.currentTime = 0;
+    audio.volume = volume;
+    const playback = audio.play();
+    if (playback && typeof playback.catch === "function") {
+      playback.catch((error) => {
+        if (error && error.name !== "NotAllowedError") {
+          console.warn("Riproduzione audio non riuscita", error);
+        }
+      });
+    }
+  } catch (error) {
+    console.warn("Impossibile riprodurre il cue audio", key, error);
+  }
+}
+
+function persistPreferences() {
+  const storage = getPersistentStorage();
+  if (!storage) return;
+  try {
+    const payload = {
+      audioMuted: Boolean(state.preferences.audioMuted),
+      volume: clampVolume(Number(state.preferences.volume)),
+    };
+    storage.setItem(STORAGE_KEYS.preferences, JSON.stringify(payload));
+  } catch (error) {
+    console.warn("Impossibile salvare le preferenze audio", error);
+  }
+}
+
+function restorePreferences() {
+  const storage = getPersistentStorage();
+  if (!storage) {
+    applyAudioPreferences();
+    return;
+  }
+  try {
+    const raw = storage.getItem(STORAGE_KEYS.preferences);
+    if (!raw) {
+      applyAudioPreferences();
+      return;
+    }
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") {
+      if (typeof parsed.audioMuted === "boolean") {
+        state.preferences.audioMuted = parsed.audioMuted;
+      }
+      if (parsed.volume !== undefined) {
+        state.preferences.volume = clampVolume(Number(parsed.volume));
+      }
+    }
+  } catch (error) {
+    console.warn("Impossibile ripristinare le preferenze audio", error);
+  }
+  applyAudioPreferences();
+}
+
+function setupAudioControls() {
+  const supported = Boolean(AUDIO_CUES.rare);
+  if (!supported && elements.audioControls) {
+    elements.audioControls.hidden = true;
+    elements.audioControls.setAttribute("aria-hidden", "true");
+    return;
+  }
+
+  if (elements.audioMute) {
+    elements.audioMute.addEventListener("click", (event) => {
+      event.preventDefault();
+      const nextMuted = !state.preferences.audioMuted;
+      state.preferences.audioMuted = nextMuted;
+      if (!nextMuted && clampVolume(state.preferences.volume) <= 0) {
+        state.preferences.volume = 0.5;
+      }
+      applyAudioPreferences();
+      persistPreferences();
+    });
+  }
+
+  if (elements.audioVolume) {
+    const handleVolume = (value) => {
+      const numeric = clampVolume(Number(value) / 100);
+      state.preferences.volume = numeric;
+      if (numeric > 0 && state.preferences.audioMuted) {
+        state.preferences.audioMuted = false;
+      }
+      if (numeric === 0) {
+        state.preferences.audioMuted = true;
+      }
+      applyAudioPreferences();
+    };
+    elements.audioVolume.addEventListener("input", (event) => {
+      handleVolume(event.target.value);
+    });
+    elements.audioVolume.addEventListener("change", () => {
+      persistPreferences();
+    });
+  }
+
+  applyAudioPreferences();
 }
 
 function persistPinnedState() {
@@ -5740,10 +6199,16 @@ function attachActions() {
         rerollSeeds(filters);
         renderBiomes(filters);
         renderSeeds();
+        const narrativeContext = updateNarrativePrompts(filters);
         setStatus(
           `Generati ${state.pick.biomes.length} biomi sintetici e ${state.pick.seeds.length} seed.`,
           "success",
-          { tags: ["roll", "ecosistema"], action: "roll-ecos" }
+          {
+            tags: ["roll", "ecosistema"],
+            action: "roll-ecos",
+            rare: Boolean(narrativeContext?.isHighThreat),
+            rareTarget: narrativeContext?.rareReason ?? undefined,
+          }
         );
         recordHistoryEntry("roll-ecos", filters);
         break;
@@ -5781,9 +6246,12 @@ function attachActions() {
         rerollSeeds(filters);
         renderBiomes(filters);
         renderSeeds();
+        const narrativeContext = updateNarrativePrompts(filters);
         setStatus("Biomi sintetici ricalcolati con i filtri correnti.", "success", {
           tags: ["reroll", "biomi"],
           action: "reroll-biomi",
+          rare: Boolean(narrativeContext?.isHighThreat),
+          rareTarget: narrativeContext?.rareReason ?? undefined,
         });
         recordHistoryEntry("reroll-biomi", filters);
         break;
@@ -5798,9 +6266,12 @@ function attachActions() {
         }
         rerollSpecies(filters);
         renderBiomes(filters);
+        const narrativeContext = updateNarrativePrompts(filters);
         setStatus("Specie ricalcolate.", "success", {
           tags: ["reroll", "specie"],
           action: "reroll-species",
+          rare: Boolean(narrativeContext?.isHighThreat),
+          rareTarget: narrativeContext?.rareReason ?? undefined,
         });
         recordHistoryEntry("reroll-species", filters);
         break;
@@ -5815,9 +6286,12 @@ function attachActions() {
         }
         rerollSeeds(filters);
         renderSeeds();
+        const narrativeContext = updateNarrativePrompts(filters);
         setStatus("Seed rigenerati.", "success", {
           tags: ["reroll", "seed"],
           action: "reroll-seeds",
+          rare: Boolean(narrativeContext?.isHighThreat),
+          rareTarget: narrativeContext?.rareReason ?? undefined,
         });
         recordHistoryEntry("reroll-seeds", filters);
         break;
@@ -6007,12 +6481,14 @@ async function loadData() {
 restoreActivityLog();
 restorePinnedState();
 restoreLockState();
+restorePreferences();
 restoreFilterProfiles();
 restoreHistoryEntries();
 updateActivityTagRegistry();
 recalculateActivityMetrics();
 renderActivityLog();
 setupActivityControls();
+setupAudioControls();
 renderKpiSidebar();
 setupAnchorNavigation();
 setupCodexControls();
@@ -6022,6 +6498,7 @@ renderProfileSlots();
 renderHistoryPanel();
 renderPinnedSummary();
 renderComparisonPanel();
+updateNarrativePrompts();
 attachProfileHandlers();
 attachHistoryHandlers();
 attachComparisonHandlers();
