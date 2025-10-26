@@ -97,6 +97,85 @@ const TONE_LABELS = {
 const REROLL_ACTIONS = new Set(["reroll-biomi", "reroll-species", "reroll-seeds"]);
 const ROLL_ACTIONS = new Set(["roll-ecos", "reroll-biomi", "reroll-species", "reroll-seeds"]);
 
+const MANIFEST_PRESETS = [
+  {
+    id: "playtest-bundle",
+    label: "Bundle playtest",
+    description:
+      "Pacchetto completo per sessioni di prova con dati serializzati e registro attività.",
+    zipSuffix: "playtest",
+    files: [
+      {
+        id: "ecosystem-json",
+        format: "JSON",
+        filename: (slug) => `${slug}.json`,
+        description: (context) =>
+          `Dump completo dell'ecosistema "${context.ecosystemLabel}" con ${context.metrics.biomeCount} biomi, ${context.metrics.speciesCount} specie e ${context.metrics.seedCount} seed generati.`,
+        builder: "ecosystem-json",
+      },
+      {
+        id: "ecosystem-yaml",
+        format: "YAML",
+        filename: (slug) => `${slug}.yaml`,
+        description: () =>
+          "Manifesto YAML utilizzabile per commit rapidi o pipeline di integrazione continua.",
+        builder: "ecosystem-yaml",
+      },
+      {
+        id: "activity-json",
+        format: "JSON",
+        filename: (slug) => `${slug}-log.json`,
+        description: () =>
+          "Registro attività in formato JSON con tutti gli eventi ordinati cronologicamente.",
+        builder: "activity-json",
+        optional: true,
+      },
+      {
+        id: "activity-csv",
+        format: "CSV",
+        filename: (slug) => `${slug}-log.csv`,
+        description: () =>
+          "Registro attività pronto per spreadsheet, pivot e annotazioni durante il playtest.",
+        builder: "activity-csv",
+        optional: true,
+      },
+    ],
+  },
+  {
+    id: "report-design",
+    label: "Report design",
+    description:
+      "Materiale di documentazione per pitch, hand-off designer e revisioni art direction.",
+    zipSuffix: "report",
+    files: [
+      {
+        id: "ecosystem-yaml",
+        format: "YAML",
+        filename: (slug) => `${slug}.yaml`,
+        description: () =>
+          "Manifesto YAML curato per alimentare design docs, report e versioning narrativo.",
+        builder: "ecosystem-yaml",
+      },
+      {
+        id: "dossier-html",
+        format: "HTML",
+        filename: (slug) => `${slug}-dossier.html`,
+        description: () =>
+          "Dossier HTML con panoramica visiva dei biomi, specie chiave e seed generati.",
+        builder: "dossier-html",
+      },
+      {
+        id: "dossier-pdf",
+        format: "PDF",
+        filename: (slug) => `${slug}-dossier.pdf`,
+        description: () =>
+          "Versione PDF del dossier, pronta per la condivisione con stakeholder esterni.",
+        builder: "dossier-pdf",
+      },
+    ],
+  },
+];
+
 const state = {
   data: null,
   traitRegistry: null,
