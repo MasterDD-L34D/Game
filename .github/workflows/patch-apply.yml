@@ -1,0 +1,95 @@
+name: EvoTactics Patch Apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      param_zip_url:
+        description: URL to evo_tactics_param_synergy_v8_3.zip (Release asset)
+        required: true
+      core_zip_url:
+        description: URL to EvoTactics_FullRepo_v1.0.zip (Release asset)
+        required: true
+      dry_run:
+        description: Only run apply_patch.py with --dry-run (no write)
+        required: false
+        default: 'false'
+      commit_message:
+        description: Override commit message
+        required: false
+        default: 'ci(patch): apply Evo Tactics patch from release assets'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r tools/build/requirements.txt
+
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p .tmp
+          echo 'Downloading param zip...'
+          curl -fL -H "Authorization: token $GH_TOKEN" "${{ github.event.inputs.param_zip_url }}" -o .tmp/param.zip
+          echo 'Downloading core zip...'
+          curl -fL -H "Authorization: token $GH_TOKEN" "${{ github.event.inputs.core_zip_url }}" -o .tmp/core.zip
+          ls -lh .tmp
+
+      - name: Apply patch (dry-run or apply)
+        id: apply
+        run: |
+          set -e
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python tools/patches/evo_tactics_full_patch_2025-10-26/apply_patch.py --param-zip .tmp/param.zip --core-zip .tmp/core.zip --repo-root . --dry-run
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            python tools/patches/evo_tactics_full_patch_2025-10-26/apply_patch.py --param-zip .tmp/param.zip --core-zip .tmp/core.zip --repo-root .
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build monoliths
+        if: steps.apply.outputs.changed == 'true'
+        run: |
+          python tools/build/emit_species_yaml.py
+          python tools/build/emit_packs_yaml.py
+          python tools/build/emit_telemetry_yaml.py
+          python tools/build/emit_mating_yaml.py
+
+      - name: Validate YAML/JSON
+        if: steps.apply.outputs.changed == 'true'
+        run: |
+          python tools/validation/yaml_validator.py
+
+      - name: Commit & push changes
+        if: steps.apply.outputs.changed == 'true'
+        env:
+          GIT_AUTHOR_NAME: github-actions
+          GIT_AUTHOR_EMAIL: github-actions@github.com
+          GIT_COMMITTER_NAME: github-actions
+          GIT_COMMITTER_EMAIL: github-actions@github.com
+        run: |
+          set -e
+          if [ -n "$(git status --porcelain)" ]; then
+            msg="${{ github.event.inputs.commit_message }}"
+            git add -A
+            git commit -m "$msg"
+            git push
+          else
+            echo 'No changes to commit.'
+          fi
