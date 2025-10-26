@@ -1,5 +1,12 @@
 # Tool Execution Report
 
+## 2025-10-26 — `roll_pack` CLI parity spot-check
+- Eseguiti `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py` con seed condiviso `demo` sulle coppie `ENTP`/`invoker` e `ISFJ`/`support`, utilizzando `data/packs.yaml`.
+- I risultati JSON delle due implementazioni sono stati salvati localmente (`/tmp/node_*`, `/tmp/py_*`) e confrontati tramite `diff -u`.
+  - `diff -u /tmp/node_ENTP_invoker.json /tmp/py_ENTP_invoker.json` → _nessuna differenza (diff vuoto)._ 
+  - `diff -u /tmp/node_ISFJ_support.json /tmp/py_ISFJ_support.json` → _nessuna differenza (diff vuoto)._ 
+- Nessuna divergenza strutturale rilevata; non è stato aperto alcun issue di follow-up.
+
 ## 2025-10-26 — Environment refresh & QA follow-up
 - Creato e attivato `.venv` con upgrade pip 25.3 e verificato npm 11.6.2 dopo aggiornamento globale (`npm install -g npm@latest`).【db8dd8†L1-L2】【ff93dd†L1-L3】
 - Installate dipendenze Python (`pip install -r tools/py/requirements.txt`) per abilitare gli script encounter e sync.【7b71fe†L1-L3】
