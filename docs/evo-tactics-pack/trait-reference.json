@@ -1,225 +1,962 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "traits": {
-    "sonno_emisferico_alternato": {
-      "label": "Dormire con solo metà cervello alla volta",
-      "uso_funzione": "Vigilanza continua pur garantendo riposo.",
-      "famiglia_tipologia": "Nervoso/Omeostatico",
-      "mutazione_indotta": "Encefalizzazione asimmetrica o due lobi cerebrali separati.",
-      "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
-      "fattore_mantenimento_energetico": "Medio (Mantenimento attivo di metà cervello)",
-      "sinergie": ["occhi_infrarosso_composti"],
-      "conflitti": [],
-      "debolezza": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente."
-    },
-    "criostasi_adattiva": {
-      "label": "Criostasi",
-      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme.",
-      "famiglia_tipologia": "Metabolico/Difensivo",
-      "mutazione_indotta": "Sviluppo di enzimi crioprotettivi e tessuto adiposo isolante.",
-      "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
-      "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
-      "sinergie": [],
-      "conflitti": ["sangue_piroforico", "sacche_galleggianti_ascensoriali"],
-      "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi."
-    },
-    "struttura_elastica_amorfa": {
-      "label": "Struttura elastica, allungabile, amorfa, retrattile",
-      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse.",
-      "famiglia_tipologia": "Strutturale/Locomotorio",
-      "mutazione_indotta": "Tessuto con matrice di proteine elastiche iper-modificate.",
-      "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
-      "fattore_mantenimento_energetico": "Basso (Passivo)",
-      "sinergie": ["scheletro_idro_regolante"],
-      "conflitti": [],
-      "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione)."
-    },
-    "sacche_galleggianti_ascensoriali": {
-      "label": "Sacche galleggianti ascensoriali",
-      "uso_funzione": "Controllo preciso della profondità e del movimento verticale.",
-      "famiglia_tipologia": "Idrostatico/Locomotorio",
-      "mutazione_indotta": "Sacche ripiene di gas leggeri con pompe muscolari.",
-      "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
-      "fattore_mantenimento_energetico": "Medio (Per il controllo della pressione)",
-      "sinergie": ["struttura_elastica_amorfa"],
-      "conflitti": [],
-      "debolezza": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente."
-    },
-    "filamenti_digestivi_compattanti": {
-      "label": "Filamento materiali digeriti",
-      "uso_funzione": "Espulsione compatta e ordinata di scorie.",
-      "famiglia_tipologia": "Digestivo/Escretorio",
-      "mutazione_indotta": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
-      "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
-      "fattore_mantenimento_energetico": "Basso (Passivo)",
-      "sinergie": ["ventriglio_gastroliti"],
-      "conflitti": [],
-      "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'."
-    },
-    "ventriglio_gastroliti": {
-      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
-      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio.",
-      "famiglia_tipologia": "Digestivo/Alimentare",
-      "mutazione_indotta": "Sviluppo di un organo muscolare (ventriglio) con gastroliti.",
-      "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
-      "fattore_mantenimento_energetico": "Medio (Contrazione muscolare costante)",
-      "sinergie": ["filamenti_digestivi_compattanti"],
-      "conflitti": [],
-      "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci."
-    },
-    "nucleo_ovomotore_rotante": {
-      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
-      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento.",
-      "famiglia_tipologia": "Riproduttivo/Locomotorio",
-      "mutazione_indotta": "Massa globulare rigida con giunto sferico al centro del petto.",
-      "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
-      "fattore_mantenimento_energetico": "Alto (Rotolamento)",
-      "sinergie": [],
-      "conflitti": ["secrezione_rallentante_palmi"],
-      "debolezza": "Impossibilità di muoversi su superfici irregolari o in salita ripida."
-    },
-    "secrezione_rallentante_palmi": {
-      "label": "Mani secernano liquido rallentante",
-      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici.",
-      "famiglia_tipologia": "Tegumentario/Difensivo",
-      "mutazione_indotta": "Ghiandole mucose modificate sulle superfici prensili.",
-      "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
-      "fattore_mantenimento_energetico": "Medio (Produzione del liquido)",
-      "sinergie": [],
-      "conflitti": ["carapace_fase_variabile", "nucleo_ovomotore_rotante"],
-      "debolezza": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato."
-    },
-    "respiro_a_scoppio": {
-      "label": "Respiro a scoppio",
-      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente.",
-      "famiglia_tipologia": "Respiratorio/Propulsivo",
-      "mutazione_indotta": "Polmoni o sacche aeree ad alta pressione con valvole di rilascio rapide.",
-      "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
-      "fattore_mantenimento_energetico": "Alto (Richiede ricarica polmonare)",
-      "sinergie": ["sacche_galleggianti_ascensoriali"],
-      "conflitti": [],
-      "debolezza": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica)."
-    },
-    "sangue_piroforico": {
-      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
-      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria.",
-      "famiglia_tipologia": "Circolatorio/Difensivo",
-      "mutazione_indotta": "Presenza di composti piroforici nel sangue.",
-      "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
-      "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
-      "sinergie": [],
-      "conflitti": ["criostasi_adattiva", "scheletro_idro_regolante"],
-      "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno."
-    },
     "artigli_sette_vie": {
-      "label": "Artigli a Sette Vie",
-      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli.",
-      "famiglia_tipologia": "Locomotorio/Prensile",
-      "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
-      "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
-      "fattore_mantenimento_energetico": "Basso (Passivo)",
-      "sinergie": ["struttura_elastica_amorfa"],
       "conflitti": [],
-      "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia."
+      "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
+      "famiglia_tipologia": "Locomotorio/Prensile",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Artigli a Sette Vie",
+      "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
+      "tier": "T1",
+      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
     },
     "carapace_fase_variabile": {
-      "label": "Carapace a Variazione di Fase",
-      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente.",
+      "conflitti": [
+        "struttura_elastica_amorfa"
+      ],
+      "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza.",
       "famiglia_tipologia": "Strutturale/Difensivo",
-      "mutazione_indotta": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
-      "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
       "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
+      "label": "Carapace a Variazione di Fase",
+      "mutazione_indotta": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
       "sinergie": [],
-      "conflitti": ["struttura_elastica_amorfa"],
-      "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza."
-    },
-    "olfatto_risonanza_magnetica": {
-      "label": "Olfatto di Risonanza Magnetica",
-      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici.",
-      "famiglia_tipologia": "Sensoriale/Nervoso",
-      "mutazione_indotta": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
-      "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
-      "fattore_mantenimento_energetico": "Medio (Elaborazione sensoriale costante)",
-      "sinergie": ["eco_interno_riflesso"],
-      "conflitti": [],
-      "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici)."
-    },
-    "occhi_infrarosso_composti": {
-      "label": "Occhi Composti ad Infrarosso",
-      "uso_funzione": "Vista specializzata che percepisce il calore corporeo.",
-      "famiglia_tipologia": "Sensoriale/Visivo",
-      "mutazione_indotta": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
-      "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
-      "fattore_mantenimento_energetico": "Basso (Passivo)",
-      "sinergie": ["sonno_emisferico_alternato"],
-      "conflitti": [],
-      "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato."
-    },
-    "lingua_tattile_trama": {
-      "label": "Lingua Tattile Trama-Sensibile",
-      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture.",
-      "famiglia_tipologia": "Sensoriale/Alimentare",
-      "mutazione_indotta": "Lingua sottile con papille tattili e meccanocettori avanzati.",
-      "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
-      "fattore_mantenimento_energetico": "Basso (Passivo)",
-      "sinergie": ["olfatto_risonanza_magnetica"],
-      "conflitti": [],
-      "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi."
-    },
-    "spore_psichiche_silenziate": {
-      "label": "Spora Psichica Silenziosa",
-      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini.",
-      "famiglia_tipologia": "Escretorio/Psichico",
-      "mutazione_indotta": "Pori che rilasciano nano-particelle attive chimicamente o psichicamente.",
-      "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
-      "fattore_mantenimento_energetico": "Alto (Produzione e rilascio)",
-      "sinergie": [],
-      "conflitti": ["respiro_a_scoppio"],
-      "debolezza": "Funzionalità ridotta in presenza di vento forte o umidità elevata."
-    },
-    "mimetismo_cromatico_passivo": {
-      "label": "Ghiandole di Mimetismo Cromatico Passivo",
-      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto.",
-      "famiglia_tipologia": "Tegumentario/Difensivo",
-      "mutazione_indotta": "Cromatofori che richiedono un input tattile prolungato per la ricarica.",
-      "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
-      "fattore_mantenimento_energetico": "Basso (Fase passiva)",
-      "sinergie": ["struttura_elastica_amorfa"],
-      "conflitti": [],
-      "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato."
-    },
-    "scheletro_idro_regolante": {
-      "label": "Scheletro Idro-Regolante",
-      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso.",
-      "famiglia_tipologia": "Strutturale/Omeostatico",
-      "mutazione_indotta": "Struttura ossea porosa capace di scambio rapido di fluidi.",
-      "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
-      "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
-      "sinergie": ["sacche_galleggianti_ascensoriali"],
-      "conflitti": ["sangue_piroforico"],
-      "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio."
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
+      "tier": "T1",
+      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
     },
     "coda_frusta_cinetica": {
-      "label": "Coda a Frusta Cinetica",
-      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente.",
-      "famiglia_tipologia": "Locomotorio/Difensivo",
-      "mutazione_indotta": "Muscolatura della coda densa con tendini e fibre che agiscono come molle.",
-      "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
-      "fattore_mantenimento_energetico": "Medio (Mantenimento dell'energia accumulata)",
-      "sinergie": ["artigli_sette_vie"],
       "conflitti": [],
-      "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno."
+      "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno.",
+      "famiglia_tipologia": "Locomotorio/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Mantenimento dell'energia accumulata)",
+      "label": "Coda a Frusta Cinetica",
+      "mutazione_indotta": "Muscolatura della coda densa con tendini e fibre che agiscono come molle.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "artigli_sette_vie"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
+      "tier": "T1",
+      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
+    },
+    "criostasi_adattiva": {
+      "conflitti": [
+        "sangue_piroforico",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi.",
+      "famiglia_tipologia": "Metabolico/Difensivo",
+      "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
+      "label": "Criostasi",
+      "mutazione_indotta": "Sviluppo di enzimi crioprotettivi e tessuto adiposo isolante.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
+      "tier": "T1",
+      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
     },
     "eco_interno_riflesso": {
-      "label": "Riflesso dell'Eco Interno",
-      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente.",
-      "famiglia_tipologia": "Sensoriale/Nervoso",
-      "mutazione_indotta": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
-      "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
-      "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
-      "sinergie": ["olfatto_risonanza_magnetica"],
       "conflitti": [],
-      "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue."
+      "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue.",
+      "famiglia_tipologia": "Sensoriale/Nervoso",
+      "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
+      "label": "Riflesso dell'Eco Interno",
+      "mutazione_indotta": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
+      "tier": "T1",
+      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
+    },
+    "empatia_coordinativa": {
+      "conflitti": [],
+      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+      "famiglia_tipologia": "Supporto/Empatico",
+      "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
+      "label": "Empatia Coordinativa",
+      "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "job_ability:Warden/Scudo_di_Risonanza"
+        ],
+        "combo_totale": 1,
+        "forme": [
+          "INFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A"
+      ],
+      "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
+      "tier": "T1",
+      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
+    },
+    "filamenti_digestivi_compattanti": {
+      "conflitti": [],
+      "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'.",
+      "famiglia_tipologia": "Digestivo/Escretorio",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Filamento materiali digeriti",
+      "mutazione_indotta": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "ventriglio_gastroliti"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
+      "tier": "T1",
+      "uso_funzione": "Espulsione compatta e ordinata di scorie."
+    },
+    "focus_frazionato": {
+      "conflitti": [],
+      "debolezza": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD.",
+      "famiglia_tipologia": "Tattico/Controllo",
+      "fattore_mantenimento_energetico": "Medio (Dividere l'attenzione su più canali)",
+      "label": "Focus Frazionato",
+      "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "job_ability:Invoker/Sincronia",
+          "sigillo_forma",
+          "starter_bioma"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "ENTP",
+          "INFJ",
+          "INTP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "C"
+      ],
+      "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
+      "tier": "T1",
+      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
+    },
+    "ghiandola_caustica": {
+      "conflitti": [],
+      "debolezza": "Gestione accurata delle riserve per non calare sotto i budget PE previsto.",
+      "famiglia_tipologia": "Offensivo/Chimico",
+      "fattore_mantenimento_energetico": "Medio (Produzione reagenti)",
+      "label": "Ghiandola Caustica",
+      "mutazione_indotta": "Sintesi rapida di composti caustici nei moduli d'attacco.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "guardia_situazionale"
+        ],
+        "combo_totale": 1,
+        "forme": [
+          "ISTP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A"
+      ],
+      "spinta_selettiva": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
+      "tier": "T1",
+      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
+    },
+    "lingua_tattile_trama": {
+      "conflitti": [],
+      "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
+      "famiglia_tipologia": "Sensoriale/Alimentare",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Lingua Tattile Trama-Sensibile",
+      "mutazione_indotta": "Lingua sottile con papille tattili e meccanocettori avanzati.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
+      "tier": "T1",
+      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+    },
+    "mimetismo_cromatico_passivo": {
+      "conflitti": [],
+      "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Fase passiva)",
+      "label": "Ghiandole di Mimetismo Cromatico Passivo",
+      "mutazione_indotta": "Cromatofori che richiedono un input tattile prolungato per la ricarica.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
+      "tier": "T1",
+      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
+    },
+    "nucleo_ovomotore_rotante": {
+      "conflitti": [
+        "secrezione_rallentante_palmi"
+      ],
+      "debolezza": "Impossibilità di muoversi su superfici irregolari o in salita ripida.",
+      "famiglia_tipologia": "Riproduttivo/Locomotorio",
+      "fattore_mantenimento_energetico": "Alto (Rotolamento)",
+      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
+      "mutazione_indotta": "Massa globulare rigida con giunto sferico al centro del petto.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
+      "tier": "T1",
+      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento."
+    },
+    "occhi_infrarosso_composti": {
+      "conflitti": [],
+      "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato.",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Occhi Composti ad Infrarosso",
+      "mutazione_indotta": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "sonno_emisferico_alternato"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
+      "tier": "T1",
+      "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+    },
+    "olfatto_risonanza_magnetica": {
+      "conflitti": [],
+      "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici).",
+      "famiglia_tipologia": "Sensoriale/Nervoso",
+      "fattore_mantenimento_energetico": "Medio (Elaborazione sensoriale costante)",
+      "label": "Olfatto di Risonanza Magnetica",
+      "mutazione_indotta": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "eco_interno_riflesso"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
+      "tier": "T1",
+      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
+    },
+    "pathfinder": {
+      "conflitti": [],
+      "debolezza": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato.",
+      "famiglia_tipologia": "Esplorazione/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
+      "label": "Pathfinder",
+      "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "starter_bioma"
+        ],
+        "combo_totale": 1,
+        "forme": [
+          "ENFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A"
+      ],
+      "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+    },
+    "pianificatore": {
+      "conflitti": [],
+      "debolezza": "Rigidità tattica se gli input di telemetria arrivano in ritardo.",
+      "famiglia_tipologia": "Strategico/Comando",
+      "fattore_mantenimento_energetico": "Medio (Analisi continua di stato squadre)",
+      "label": "Pianificatore",
+      "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "guardia_situazionale",
+          "sigillo_forma",
+          "starter_bioma"
+        ],
+        "combo_totale": 6,
+        "forme": [
+          "ENTJ",
+          "ENTP",
+          "ESTJ",
+          "INTJ",
+          "ISTJ"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "C"
+      ],
+      "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
+      "tier": "T1",
+      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
+    },
+    "random": {
+      "conflitti": [],
+      "debolezza": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli.",
+      "famiglia_tipologia": "Flessibile/Generico",
+      "fattore_mantenimento_energetico": "Variabile (Dipende dal tratto estratto)",
+      "label": "Trait Random",
+      "mutazione_indotta": "Selezione casuale da pool controllata per esperimenti di build.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "cap_pt",
+          "guardia_situazionale",
+          "job_ability:Random"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "NEUTRA"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "B"
+      ],
+      "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
+      "tier": "T1",
+      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
+    },
+    "respiro_a_scoppio": {
+      "conflitti": [],
+      "debolezza": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica).",
+      "famiglia_tipologia": "Respiratorio/Propulsivo",
+      "fattore_mantenimento_energetico": "Alto (Richiede ricarica polmonare)",
+      "label": "Respiro a scoppio",
+      "mutazione_indotta": "Polmoni o sacche aeree ad alta pressione con valvole di rilascio rapide.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
+      "tier": "T1",
+      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente."
+    },
+    "risonanza_di_branco": {
+      "conflitti": [],
+      "debolezza": "Stress elevato se la coesione cala sotto i target di telemetria.",
+      "famiglia_tipologia": "Supporto/Armonico",
+      "fattore_mantenimento_energetico": "Basso (Richiede mantenimento empatico)",
+      "label": "Risonanza di Branco",
+      "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "guardia_situazionale",
+          "starter_bioma"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "ENFJ",
+          "INFP",
+          "ISFJ"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "B",
+        "C"
+      ],
+      "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
+    },
+    "sacche_galleggianti_ascensoriali": {
+      "conflitti": [],
+      "debolezza": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente.",
+      "famiglia_tipologia": "Idrostatico/Locomotorio",
+      "fattore_mantenimento_energetico": "Medio (Per il controllo della pressione)",
+      "label": "Sacche galleggianti ascensoriali",
+      "mutazione_indotta": "Sacche ripiene di gas leggeri con pompe muscolari.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
+      "tier": "T1",
+      "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+    },
+    "sangue_piroforico": {
+      "conflitti": [
+        "criostasi_adattiva",
+        "scheletro_idro_regolante"
+      ],
+      "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno.",
+      "famiglia_tipologia": "Circolatorio/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
+      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
+      "mutazione_indotta": "Presenza di composti piroforici nel sangue.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
+      "tier": "T1",
+      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria."
+    },
+    "scheletro_idro_regolante": {
+      "conflitti": [
+        "sangue_piroforico"
+      ],
+      "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio.",
+      "famiglia_tipologia": "Strutturale/Omeostatico",
+      "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
+      "label": "Scheletro Idro-Regolante",
+      "mutazione_indotta": "Struttura ossea porosa capace di scambio rapido di fluidi.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
+      "tier": "T1",
+      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso."
+    },
+    "secrezione_rallentante_palmi": {
+      "conflitti": [
+        "carapace_fase_variabile",
+        "nucleo_ovomotore_rotante"
+      ],
+      "debolezza": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Produzione del liquido)",
+      "label": "Mani secernano liquido rallentante",
+      "mutazione_indotta": "Ghiandole mucose modificate sulle superfici prensili.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
+      "tier": "T1",
+      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
+    },
+    "sonno_emisferico_alternato": {
+      "conflitti": [],
+      "debolezza": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente.",
+      "famiglia_tipologia": "Nervoso/Omeostatico",
+      "fattore_mantenimento_energetico": "Medio (Mantenimento attivo di metà cervello)",
+      "label": "Dormire con solo metà cervello alla volta",
+      "mutazione_indotta": "Encefalizzazione asimmetrica o due lobi cerebrali separati.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "occhi_infrarosso_composti"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
+      "tier": "T1",
+      "uso_funzione": "Vigilanza continua pur garantendo riposo."
+    },
+    "spore_psichiche_silenziate": {
+      "conflitti": [
+        "respiro_a_scoppio"
+      ],
+      "debolezza": "Funzionalità ridotta in presenza di vento forte o umidità elevata.",
+      "famiglia_tipologia": "Escretorio/Psichico",
+      "fattore_mantenimento_energetico": "Alto (Produzione e rilascio)",
+      "label": "Spora Psichica Silenziosa",
+      "mutazione_indotta": "Pori che rilasciano nano-particelle attive chimicamente o psichicamente.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
+      "tier": "T1",
+      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini."
+    },
+    "struttura_elastica_amorfa": {
+      "conflitti": [],
+      "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione).",
+      "famiglia_tipologia": "Strutturale/Locomotorio",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Struttura elastica, allungabile, amorfa, retrattile",
+      "mutazione_indotta": "Tessuto con matrice di proteine elastiche iper-modificate.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
+      "tier": "T1",
+      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse."
+    },
+    "tattiche_di_branco": {
+      "conflitti": [],
+      "debolezza": "Richiede formazione stabile; cala se la coesione precipita sotto il target.",
+      "famiglia_tipologia": "Strategico/Supporto",
+      "fattore_mantenimento_energetico": "Medio (Broadcast continuo di segnali)",
+      "label": "Tattiche di Branco",
+      "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "guardia_situazionale",
+          "sigillo_forma",
+          "starter_bioma"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "ESFJ",
+          "ESFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "B"
+      ],
+      "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
+      "tier": "T1",
+      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
+    },
+    "ventriglio_gastroliti": {
+      "conflitti": [],
+      "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci.",
+      "famiglia_tipologia": "Digestivo/Alimentare",
+      "fattore_mantenimento_energetico": "Medio (Contrazione muscolare costante)",
+      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
+      "mutazione_indotta": "Sviluppo di un organo muscolare (ventriglio) con gastroliti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "filamenti_digestivi_compattanti"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
+      "tier": "T1",
+      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio."
+    },
+    "zampe_a_molla": {
+      "conflitti": [],
+      "debolezza": "Perdita di valore su mappe con spazi stretti o controllo setup elevato.",
+      "famiglia_tipologia": "Mobilità/Cinetico",
+      "fattore_mantenimento_energetico": "Basso (Carica elastica a turni alterni)",
+      "label": "Zampe a Molla",
+      "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "cap_pt",
+          "guardia_situazionale",
+          "job_ability:Skirmisher/Dash_Cut"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "ESTP",
+          "ISFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "B"
+      ],
+      "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
+      "tier": "T1",
+      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
     }
   }
 }
