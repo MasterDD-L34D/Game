@@ -2,9 +2,23 @@ telemetry:
   ema_alpha: 0.3
   windows:
     turn: true
-    phase_weights: {early: 0.25, mid: 0.35, late: 0.40}
+    phase_weights: {early: 0.20, mid: 0.40, late: 0.40}
+  hud_breakdown:
+    roles:
+      vanguard: {target: 0.22, tolerance: 0.04, alert: 0.30}
+      skirmisher: {target: 0.18, tolerance: 0.04, alert: 0.28}
+      warden: {target: 0.20, tolerance: 0.05, alert: 0.30}
+      artificer: {target: 0.14, tolerance: 0.03, alert: 0.22}
+      invoker: {target: 0.16, tolerance: 0.04, alert: 0.24}
+      harvester: {target: 0.10, tolerance: 0.03, alert: 0.18}
+    rarities:
+      R1: {target: 0.36, tolerance: 0.08, alert: 0.45}
+      R2: {target: 0.28, tolerance: 0.07, alert: 0.36}
+      R3: {target: 0.20, tolerance: 0.06, alert: 0.28}
+      R4: {target: 0.12, tolerance: 0.04, alert: 0.18}
+      R5: {target: 0.04, tolerance: 0.02, alert: 0.08}
   debounce_ms: 200
-  idle_threshold_s: 10
+  idle_threshold_s: 8
   normalization: "ema_capped_minmax"
   normalization_params:
     floor: 0.15
@@ -17,6 +31,20 @@ indices:
   setup: {w_overwatch_turns: 0.35, w_trap_value: 0.35, w_cover_before_attack: 0.30}
   explore: {w_new_tiles: 0.45, w_time_in_fow: 0.25, w_optionals: 0.30}
   tilt: {baseline_window_turns: 6, post_event_window_turns: 4, ema_smoothing: 0.35}
+telemetry_targets:
+  pick_rate_by_role:
+    vanguard: {target: 0.22, min: 0.18, max: 0.26}
+    skirmisher: {target: 0.18, min: 0.14, max: 0.22}
+    warden: {target: 0.20, min: 0.16, max: 0.24}
+    artificer: {target: 0.14, min: 0.10, max: 0.18}
+    invoker: {target: 0.16, min: 0.12, max: 0.20}
+    harvester: {target: 0.10, min: 0.06, max: 0.14}
+  spawn_weight_by_rarity:
+    R1: {target: 0.36, min: 0.28, max: 0.42}
+    R2: {target: 0.28, min: 0.20, max: 0.34}
+    R3: {target: 0.20, min: 0.14, max: 0.26}
+    R4: {target: 0.12, min: 0.08, max: 0.16}
+    R5: {target: 0.04, min: 0.02, max: 0.06}
 mbti_axes:
   E_I: {formula: "1 - 0.6*cohesion - 0.2*assists - 0.2*formation_time"}
   S_N: {formula: "1 - 0.4*pattern_entropy - 0.3*cover_discipline + 0.3*pattern_break"}
@@ -32,7 +60,19 @@ pe_economy:
   mission_base: {win: 5, draw: 3, dignified_loss: 2}
   style_bonus: {formula: "floor((sum_vc - 2.8)*3)", cap: 3}
   optional_objectives_cap: 2
-  mission_cap: 10
-  costs: {trait_T1: 3, trait_T2: 6, trait_T3: 10, job_ability: 4, ultimate_slot: 6, cap_pt: 2, guardia_situazionale: 2, starter_bioma: 1, sigillo_forma: 2}
+  mission_cap: 12
+  costs: {trait_T1: 3, trait_T2: 6, trait_T3: 10, job_ability: 4, ultimate_slot: 6, cap_pt: 2, guardia_situazionale: 2, starter_bioma: 1, sigillo_forma: 2, modulo_tattico: 3}
+  curve:
+    pack_budget:
+      baseline: 7
+      veteran: 9
+      elite: 11
+    bonus_per_optional: 1
+    streak_bonus:
+      two_wins: 1
+      three_wins: 2
+    hud_projection:
+      expected_delta_per_mission: 6
+      soft_cap_after_backlog: 18
   unlocks_per_mission_cap: 2
   dormancy_after_missions_without_trigger: 2
