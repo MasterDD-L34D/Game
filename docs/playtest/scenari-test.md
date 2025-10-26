@@ -1,6 +1,6 @@
 # Elenco scenari di test
 
-Questo documento riassume gli scenari di playtest programmati per verificare bilanciamento, progressione e reazioni agli eventi speciali. Ogni scenario è progettato per essere eseguito in autonomia o all'interno di una sessione pilota più ampia.
+Questo documento riassume gli scenari di playtest programmati per verificare bilanciamento, progressione e reazioni agli eventi speciali. Ogni scenario è progettato per essere eseguito in autonomia o all'interno di una sessione pilota più ampia. Gli scenari che ricadono nel perimetro critico vengono tracciati con priorità e frequenza dedicate in `scenari-critici.md`.
 
 ## 1. Bilanciamento degli incontri
 
