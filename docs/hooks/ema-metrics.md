@@ -32,7 +32,7 @@
            timeLowHp: payload.indices.risk.time_low_hp_turns,
          },
        });
-       commandBus.emit("pi.balance.alert", payload);
+       commandBus.emit("pi.balance.alerts", payload);
       }
     });
     ```
@@ -49,7 +49,7 @@
 | --- | --- | --- | --- | --- |
 | `telemetry.ema.update` | Motore → Telemetria | Middleware VC | `{ missionId, turn, ema, indices }` | Frequenza: a fine turno (debounce 200 ms). |
 | `hud.alert.risk-high` | Middleware VC | HUD overlay | `{ id, severity, message, metadata }` | Soglia ingresso 0.60, uscita 0.58 (isteresi). |
-| `pi.balance.alert` | Middleware VC | Notifica PI | `{ missionId, roster, indices }` | Smista su Slack/Teams per revisione bilanciamento. |
+| `pi.balance.alerts` | Middleware VC | Notifica PI | `{ missionId, roster, indices }` | Smista su Slack/Teams per revisione bilanciamento. |
 
 ## Next steps condivisi con team client
 - Validare in staging la latenza dell'alert rispetto agli eventi `aeon_overload` (target: <250 ms post-evento).

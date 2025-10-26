@@ -70,6 +70,30 @@ interface RiskHudAlertState {
   belowCount: number;
 }
 
+function resolveStreamKey(payload: EmaUpdatePayload): string {
+  if (payload?.missionId) {
+    return `mission:${payload.missionId}`;
+  }
+
+  if (Array.isArray(payload?.roster) && payload.roster.length > 0) {
+    return `roster:${payload.roster.join('|')}`;
+  }
+
+  return 'global';
+}
+
+function resolveAlertId(payload: EmaUpdatePayload, streamKey: string): string {
+  if (payload?.missionId) {
+    return `risk-high:${payload.missionId}`;
+  }
+
+  if (streamKey !== 'global') {
+    return `risk-high:${streamKey.replace(/^(mission|roster):/, '')}`;
+  }
+
+  return 'risk-high';
+}
+
 function getWeightedIndex(payload: EmaUpdatePayload): number | null {
   const weighted = payload?.indices && typeof payload.indices === 'object'
     ? (payload.indices as RiskPayload)?.risk?.weighted_index
@@ -124,13 +148,19 @@ export function registerRiskHudAlertSystem({
   const consecutiveBelow = Math.max(1, Math.floor(options?.consecutiveBelowThreshold ?? 2));
   const telemetryEventName = options?.telemetryEventName ?? 'hud.alert.risk-high';
 
-  const state: RiskHudAlertState = {
-    active: false,
-    belowCount: 0,
-  };
+  const states = new Map<string, RiskHudAlertState>();
 
   const listener = (payload: EmaUpdatePayload) => {
     hudLayer.updateTrend?.('risk', payload.indices?.risk ?? null);
+
+    const streamKey = resolveStreamKey(payload);
+    let state = states.get(streamKey);
+    if (!state) {
+      state = { active: false, belowCount: 0 };
+      states.set(streamKey, state);
+    }
+
+    const alertId = resolveAlertId(payload, streamKey);
 
     const weightedIndex = getWeightedIndex(payload);
     if (weightedIndex === null) {
@@ -142,7 +172,7 @@ export function registerRiskHudAlertSystem({
       state.active = true;
       state.belowCount = 0;
       const alert: HudAlert = {
-        id: 'risk-high',
+        id: alertId,
         severity: 'warning',
         message: 'Risk EMA oltre soglia 0.60',
         metadata: {
@@ -156,7 +186,7 @@ export function registerRiskHudAlertSystem({
       hudLayer.raiseAlert?.(alert);
 
       if (typeof commandBus.emit === 'function') {
-        commandBus.emit('pi.balance.alert', {
+        commandBus.emit('pi.balance.alerts', {
           missionId: payload.missionId,
           roster: payload.roster,
           indices: payload.indices,
@@ -199,11 +229,11 @@ export function registerRiskHudAlertSystem({
         state.active = false;
         state.belowCount = 0;
 
-        hudLayer.clearAlert?.('risk-high');
+        hudLayer.clearAlert?.(alertId);
 
         if (telemetryRecorder) {
           telemetryRecorder.record({
-            alertId: 'risk-high',
+            alertId,
             status: 'cleared',
             missionId: payload.missionId,
             turn: payload.turn,

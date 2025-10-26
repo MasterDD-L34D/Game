@@ -22,7 +22,7 @@ test('risk HUD alert triggers once above threshold and notifies PI team', () => 
     },
   };
 
-  commandBus.on('pi.balance.alert', (payload) => {
+  commandBus.on('pi.balance.alerts', (payload) => {
     notified.push(payload);
   });
 
@@ -62,13 +62,13 @@ test('risk HUD alert triggers once above threshold and notifies PI team', () => 
   });
 
   assert.equal(raisedAlerts.length, 1);
-  assert.equal(raisedAlerts[0].id, 'risk-high');
+  assert.equal(raisedAlerts[0].id, 'risk-high:skydock_siege');
   assert.equal(notified.length, 1);
   assert.equal(notified[0].weightedIndex, 0.62);
   assert.equal(recorded.length, 1);
   assert.equal(recorded[0].status, 'raised');
   assert.equal(telemetryEvents.length, 1);
-  assert.equal(telemetryEvents[0].alert.id, 'risk-high');
+  assert.equal(telemetryEvents[0].alert.id, 'risk-high:skydock_siege');
 });
 
 test('risk HUD alert clears after two ticks below the clear threshold', () => {
@@ -131,8 +131,68 @@ test('risk HUD alert clears after two ticks below the clear threshold', () => {
   });
 
   assert.equal(clearCalls.length, 1);
-  assert.equal(clearCalls[0], 'risk-high');
+  assert.equal(clearCalls[0], 'risk-high:skydock_siege');
   assert.equal(recorded.length, 2);
   assert.equal(recorded[0].status, 'raised');
   assert.equal(recorded[1].status, 'cleared');
+});
+
+test('risk HUD alert maintains separate state per mission', () => {
+  const telemetryBus = new EventEmitter();
+  const commandBus = new EventEmitter();
+  const raisedAlerts: string[] = [];
+  const clearedAlerts: string[] = [];
+
+  const hudLayer = {
+    raiseAlert: (alert: any) => raisedAlerts.push(alert.id),
+    clearAlert: (id: string) => clearedAlerts.push(id),
+    updateTrend: () => {
+      /* noop */
+    },
+  };
+
+  registerRiskHudAlertSystem({ telemetryBus, hudLayer, commandBus });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'mission-alpha',
+    turn: 5,
+    indices: {
+      risk: {
+        weighted_index: 0.63,
+      },
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'mission-beta',
+    turn: 6,
+    indices: {
+      risk: {
+        weighted_index: 0.64,
+      },
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'mission-alpha',
+    turn: 7,
+    indices: {
+      risk: {
+        weighted_index: 0.57,
+      },
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'mission-alpha',
+    turn: 8,
+    indices: {
+      risk: {
+        weighted_index: 0.56,
+      },
+    },
+  });
+
+  assert.deepEqual(raisedAlerts, ['risk-high:mission-alpha', 'risk-high:mission-beta']);
+  assert.deepEqual(clearedAlerts, ['risk-high:mission-alpha']);
 });
