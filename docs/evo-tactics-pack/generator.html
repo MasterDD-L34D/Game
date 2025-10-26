@@ -32,30 +32,44 @@
       </nav>
     </header>
 
-    <main class="layout">
-      <section class="section">
-        <article class="card card--highlight">
-          <form class="form" id="generator-form">
-            <h2 class="form__title">Parametri</h2>
-            <div class="grid grid--three">
-              <label class="form__field">
-                <span>Numero di biomi</span>
-                <input id="nBiomi" type="number" min="1" max="6" value="2" />
-              </label>
-              <label class="form__field">
-                <span>Flags richiesti</span>
-                <select id="flags" multiple size="5"></select>
-              </label>
-              <label class="form__field">
-                <span>Ruoli trofici</span>
-                <select id="roles" multiple size="5"></select>
-              </label>
-              <label class="form__field">
-                <span>Tag funzionali</span>
-                <select id="tags" multiple size="6"></select>
-              </label>
+    <main class="layout layout--generator">
+      <aside class="generator-sidebar">
+        <article class="card card--highlight generator-card">
+          <form class="form generator-form" id="generator-form">
+            <div class="generator-form__header">
+              <h2 class="form__title">Parametri di generazione</h2>
+              <p class="generator-form__description">
+                Personalizza i vincoli prima di estrarre un ecosistema completo con biomi, specie
+                e seed dedicati.
+              </p>
             </div>
-            <div class="form__actions">
+            <div class="generator-form__section">
+              <h3 class="generator-form__legend">Vincoli principali</h3>
+              <div class="generator-form__grid">
+                <label class="form__field">
+                  <span>Numero di biomi</span>
+                  <input id="nBiomi" type="number" min="1" max="6" value="2" />
+                </label>
+              </div>
+            </div>
+            <div class="generator-form__section">
+              <h3 class="generator-form__legend">Filtra ecosistema</h3>
+              <div class="generator-form__grid generator-form__grid--filters">
+                <label class="form__field">
+                  <span>Flags richiesti</span>
+                  <select id="flags" multiple size="5"></select>
+                </label>
+                <label class="form__field">
+                  <span>Ruoli trofici</span>
+                  <select id="roles" multiple size="5"></select>
+                </label>
+                <label class="form__field">
+                  <span>Tag funzionali</span>
+                  <select id="tags" multiple size="6"></select>
+                </label>
+              </div>
+            </div>
+            <div class="form__actions generator-form__actions">
               <button type="button" class="button" data-action="roll-ecos">🎲 Genera ecosistema</button>
               <button type="button" class="button button--secondary" data-action="reroll-biomi">↻ Re-roll biomi</button>
               <button type="button" class="button button--secondary" data-action="reroll-species">↻ Re-roll specie</button>
@@ -64,35 +78,129 @@
               <button type="button" class="button button--ghost" data-action="export-yaml">⬇︎ YAML</button>
             </div>
           </form>
-          <p class="form__hint" id="generator-status" aria-live="polite"></p>
+          <section
+            class="generator-summary"
+            id="generator-summary"
+            aria-labelledby="generator-summary-title"
+          >
+            <h3 class="generator-summary__title" id="generator-summary-title">Riepilogo rapido</h3>
+            <dl class="generator-summary__metrics">
+              <div class="generator-summary__metric">
+                <dt class="generator-summary__label">Biomi</dt>
+                <dd class="generator-summary__value" data-summary="biomes">0</dd>
+              </div>
+              <div class="generator-summary__metric">
+                <dt class="generator-summary__label">Specie</dt>
+                <dd class="generator-summary__value" data-summary="species">0</dd>
+              </div>
+              <div class="generator-summary__metric">
+                <dt class="generator-summary__label">Seed</dt>
+                <dd class="generator-summary__value" data-summary="seeds">0</dd>
+              </div>
+            </dl>
+            <p class="generator-summary__status" id="generator-status" aria-live="polite">
+              Carica il catalogo per iniziare.
+            </p>
+            <p class="generator-summary__note" id="generator-last-action">Ultimo aggiornamento: —</p>
+          </section>
         </article>
-      </section>
+      </aside>
 
-      <section class="section">
-        <div class="section__header">
-          <h2>Pacchetti di tratti ambientali</h2>
-          <p>
-            Anteprima delle tavolozze di tratti per biomi estremi, reti connesse e cluster
-            avanzati da usare come riferimento durante la generazione.
-          </p>
-        </div>
-        <div id="trait-grid" class="grid grid--cards" aria-live="polite"></div>
-      </section>
+      <section class="generator-results">
+        <article class="card generator-panel" aria-labelledby="monitor-panel-title">
+          <header class="generator-panel__header">
+            <div>
+              <p class="section__kicker">Controllo produzione</p>
+              <h2 id="monitor-panel-title">Monitor del generatore</h2>
+            </div>
+            <p>
+              Osserva in tempo reale lo stato delle azioni e prepara i file esportabili
+              direttamente nella struttura del repository.
+            </p>
+          </header>
+          <div class="generator-monitor">
+            <section class="generator-monitor__stream" aria-live="polite">
+              <div class="generator-monitor__header">
+                <h3 class="generator-monitor__title">Attività recenti</h3>
+                <p class="generator-monitor__hint">
+                  Ultimi eventi generati dalle azioni sui pulsanti e sul caricamento dei
+                  dati.
+                </p>
+              </div>
+              <ol class="generator-log" id="generator-log"></ol>
+              <p class="placeholder" id="generator-log-empty">
+                Le azioni che esegui compariranno qui in ordine dal più recente.
+              </p>
+            </section>
+            <section class="generator-monitor__exports">
+              <div class="generator-monitor__header">
+                <h3 class="generator-monitor__title">File esportabili</h3>
+                <p class="generator-monitor__hint">
+                  Suggerimenti per salvare JSON e YAML nella cartella corretta del pack con
+                  una descrizione sintetica del contenuto.
+                </p>
+              </div>
+              <p class="generator-export__meta" id="generator-export-meta">
+                Genera un ecosistema per preparare il manifest dei file.
+              </p>
+              <ul class="generator-export-list" id="generator-export-list"></ul>
+              <p class="placeholder" id="generator-export-empty">
+                Non ci sono ancora file suggeriti: genera o ricalcola l'ecosistema per
+                popolare il manifest.
+              </p>
+              <div class="generator-export-preview" id="generator-export-preview" hidden>
+                <details class="export-preview" id="generator-preview-json-details">
+                  <summary class="export-preview__summary">Anteprima JSON</summary>
+                  <pre class="export-preview__content"><code id="generator-preview-json"></code></pre>
+                </details>
+                <details class="export-preview" id="generator-preview-yaml-details">
+                  <summary class="export-preview__summary">Anteprima YAML</summary>
+                  <pre class="export-preview__content"><code id="generator-preview-yaml"></code></pre>
+                </details>
+              </div>
+              <p class="placeholder" id="generator-preview-empty">
+                Quando l'ecosistema è pronto troverai qui l'anteprima JSON e YAML pronta da
+                copiare o salvare.
+              </p>
+            </section>
+          </div>
+        </article>
 
-      <section class="section">
-        <div class="section__header">
-          <h2>Biomi selezionati</h2>
-          <p>Ogni scheda mostra i link utili al YAML originale, foodweb e report HTML.</p>
-        </div>
-        <div id="biome-grid" class="grid grid--cards" aria-live="polite"></div>
-      </section>
+        <article class="card generator-panel" aria-labelledby="trait-panel-title">
+          <header class="generator-panel__header">
+            <div>
+              <p class="section__kicker">Tratti ambientali</p>
+              <h2 id="trait-panel-title">Pacchetti di tratti ambientali</h2>
+            </div>
+            <p>
+              Anteprima delle tavolozze di tratti per biomi estremi, reti connesse e cluster avanzati
+              da usare come riferimento durante la generazione.
+            </p>
+          </header>
+          <div id="trait-grid" class="grid grid--cards generator-grid" aria-live="polite"></div>
+        </article>
 
-      <section class="section">
-        <div class="section__header">
-          <h2>Encounter seed generati</h2>
-          <p>Il budget di minaccia viene calcolato in base al tier delle specie estratte.</p>
-        </div>
-        <div id="seed-grid" class="grid grid--cards" aria-live="polite"></div>
+        <article class="card generator-panel" aria-labelledby="biome-panel-title">
+          <header class="generator-panel__header">
+            <div>
+              <p class="section__kicker">Biomi sintetici</p>
+              <h2 id="biome-panel-title">Biomi selezionati</h2>
+            </div>
+            <p>Ogni scheda mostra i link utili al YAML originale, foodweb e report HTML.</p>
+          </header>
+          <div id="biome-grid" class="grid grid--cards generator-grid" aria-live="polite"></div>
+        </article>
+
+        <article class="card generator-panel" aria-labelledby="seed-panel-title">
+          <header class="generator-panel__header">
+            <div>
+              <p class="section__kicker">Encounter</p>
+              <h2 id="seed-panel-title">Encounter seed generati</h2>
+            </div>
+            <p>Il budget di minaccia viene calcolato in base al tier delle specie estratte.</p>
+          </header>
+          <div id="seed-grid" class="grid grid--cards generator-grid" aria-live="polite"></div>
+        </article>
       </section>
     </main>
   </body>
