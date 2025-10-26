@@ -35,6 +35,16 @@ const elements = {
   profilePanel: document.getElementById("generator-profiles"),
   profileSlots: document.getElementById("generator-profile-slots"),
   profileEmpty: document.getElementById("generator-profile-empty"),
+  composerPanel: document.getElementById("generator-composer"),
+  composerPresetList: document.getElementById("generator-composer-presets"),
+  composerPresetEmpty: document.getElementById("generator-composer-presets-empty"),
+  composerSuggestions: document.getElementById("generator-composer-suggestions"),
+  composerSuggestionsEmpty: document.getElementById("generator-composer-suggestions-empty"),
+  composerRoleToggles: document.getElementById("generator-composer-role-toggles"),
+  composerSynergySlider: document.getElementById("generator-composer-synergy"),
+  composerSynergyValue: document.getElementById("generator-composer-synergy-value"),
+  composerRadarCanvas: document.getElementById("generator-synergy-radar"),
+  composerHeatmap: document.getElementById("generator-role-heatmap"),
   comparePanel: document.getElementById("generator-compare-panel"),
   compareList: document.getElementById("generator-compare-list"),
   compareEmpty: document.getElementById("generator-compare-empty"),
@@ -144,6 +154,7 @@ const PANEL_LABELS = {
   traits: "Pacchetti ambientali",
   biomes: "Biomi selezionati",
   seeds: "Encounter seed",
+  composer: "Composizione avanzata",
   insights: "Insight contestuali",
 };
 
@@ -391,6 +402,7 @@ const state = {
     rerollCount: 0,
     uniqueSpecies: 0,
     filterProfileReuses: 0,
+    roleUsage: new Map(),
   },
   lastFilters: { flags: [], roles: [], tags: [] },
   pick: {
@@ -427,6 +439,19 @@ const state = {
     reason: null,
     recommendations: [],
   },
+  composer: {
+    constraints: {
+      minSynergy: 45,
+      preferredRoles: new Set(),
+    },
+    combinedPresets: [],
+    suggestions: [],
+    metrics: {
+      radar: [],
+      heatmap: [],
+    },
+    roleStats: new Map(),
+  },
 };
 
 let packContext = null;
@@ -437,8 +462,32 @@ let cachedStorage = null;
 let storageChecked = false;
 let comparisonChart = null;
 let chartUnavailableNotified = false;
+let composerRadarChart = null;
+let composerChartUnavailable = false;
 
 const COMPARISON_LABELS = ["Tier medio", "Densità hazard", "Diversità ruoli"];
+
+const ROLE_FLAGS = ["apex", "keystone", "bridge", "threat", "event"];
+
+const ROLE_FLAG_LABELS = {
+  apex: "Apex",
+  keystone: "Specie chiave",
+  bridge: "Specie ponte",
+  threat: "Minaccia",
+  event: "Evento dinamico",
+};
+
+const ROLE_FLAG_TOKENS = {
+  apex: "--color-accent-400",
+  keystone: "--color-success-400",
+  bridge: "--color-info-400",
+  threat: "--color-error-400",
+  event: "--color-warn-400",
+};
+
+const COMPOSER_RADAR_LABELS = ROLE_FLAGS.map(
+  (flag) => ROLE_FLAG_LABELS[flag] ?? titleCase(flag)
+);
 
 const TRAIT_CATEGORY_LABELS = {
   biomi_estremi: "Biomi estremi",
@@ -2848,6 +2897,55 @@ function markCurrentPresetByBuilder(builderId) {
   }
 }
 
+function buildComposerExportSnapshot() {
+  const constraints = state.composer?.constraints ?? {};
+  const preferred = ensurePreferredRoleSet();
+  const presets = Array.isArray(state.composer?.combinedPresets)
+    ? state.composer.combinedPresets
+    : [];
+  const metrics = state.composer?.metrics ?? { radar: [], heatmap: [] };
+  const radar = ROLE_FLAGS.map((flag, index) => {
+    const value = Array.isArray(metrics.radar) ? metrics.radar[index] : 0;
+    return {
+      flag,
+      label: ROLE_FLAG_LABELS[flag] ?? titleCase(flag),
+      average_synergy: Number.isFinite(value) ? Number(value) : 0,
+    };
+  });
+  const heatmap = Array.isArray(metrics.heatmap)
+    ? metrics.heatmap.map((row) => ({
+        biome_id: row.biomeId,
+        biome_label: row.label,
+        roles: Array.isArray(row.values)
+          ? row.values.map((cell) => ({
+              flag: cell.role,
+              label: ROLE_FLAG_LABELS[cell.role] ?? titleCase(cell.role),
+              count: cell.count ?? 0,
+              average_synergy: cell.average ?? 0,
+            }))
+          : [],
+      }))
+    : [];
+  return {
+    constraints: {
+      min_synergy: Number.isFinite(constraints.minSynergy)
+        ? constraints.minSynergy
+        : 0,
+      preferred_roles: Array.from(preferred),
+    },
+    presets: presets.map((preset) => ({
+      id: preset.id,
+      label: preset.label,
+      synergy: preset.synergy,
+      usage: preset.usage,
+      roles: Array.isArray(preset.filters?.roles) ? preset.filters.roles : [],
+      flags: Array.isArray(preset.filters?.flags) ? preset.filters.flags : [],
+      tags: Array.isArray(preset.highlightTags) ? preset.highlightTags : [],
+    })),
+    metrics: { radar, heatmap },
+  };
+}
+
 function buildPresetContext(filters = state.lastFilters) {
   const slug = ensureExportSlug();
   const folder = EXPORT_BASE_FOLDER;
@@ -2883,6 +2981,7 @@ function buildPresetContext(filters = state.lastFilters) {
     narrative,
     insights,
     generatedAt: new Date(),
+    composer: buildComposerExportSnapshot(),
   };
 }
 
@@ -3622,6 +3721,129 @@ function applyFiltersToForm(filters = {}) {
     roles: Array.isArray(filters.roles) ? [...filters.roles] : [],
     tags: Array.isArray(filters.tags) ? [...filters.tags] : [],
   };
+}
+
+function getCssVariableValue(name) {
+  if (typeof window === "undefined") return "";
+  try {
+    const root = document.documentElement;
+    const styles = window.getComputedStyle(root);
+    return styles.getPropertyValue(name)?.trim() ?? "";
+  } catch (error) {
+    console.warn("Impossibile leggere la variabile CSS", name, error);
+    return "";
+  }
+}
+
+function hexToRgba(hex, alpha = 1) {
+  if (typeof hex !== "string") return "";
+  const normalized = hex.replace(/^#/, "").trim();
+  if (!normalized) return "";
+  const expand = (value) => value.split("").map((char) => `${char}${char}`).join("");
+  let r;
+  let g;
+  let b;
+  if (normalized.length === 3) {
+    const expanded = expand(normalized);
+    r = parseInt(expanded.slice(0, 2), 16);
+    g = parseInt(expanded.slice(2, 4), 16);
+    b = parseInt(expanded.slice(4, 6), 16);
+  } else if (normalized.length === 6) {
+    r = parseInt(normalized.slice(0, 2), 16);
+    g = parseInt(normalized.slice(2, 4), 16);
+    b = parseInt(normalized.slice(4, 6), 16);
+  } else {
+    return "";
+  }
+  if ([r, g, b].some((component) => Number.isNaN(component))) {
+    return "";
+  }
+  const clampedAlpha = Math.min(1, Math.max(0, alpha));
+  return `rgba(${r}, ${g}, ${b}, ${clampedAlpha.toFixed(3)})`;
+}
+
+function parseRgbColor(value) {
+  if (typeof value !== "string") return null;
+  const match = value.match(/rgba?\(([^)]+)\)/i);
+  if (!match) return null;
+  const parts = match[1]
+    .split(",")
+    .map((segment) => Number.parseFloat(segment.trim()))
+    .filter((segment) => !Number.isNaN(segment));
+  if (parts.length < 3) return null;
+  return { r: Math.round(parts[0]), g: Math.round(parts[1]), b: Math.round(parts[2]) };
+}
+
+function resolveHeatmapColor(tokenName, intensity) {
+  const baseAlpha = 0.12 + Math.max(0, Math.min(1, intensity)) * 0.45;
+  const clampedAlpha = Math.max(0.08, Math.min(0.85, baseAlpha));
+  const raw = tokenName ? getCssVariableValue(tokenName) : "";
+  if (raw.startsWith("#")) {
+    const converted = hexToRgba(raw, clampedAlpha);
+    if (converted) return converted;
+  }
+  if (/^rgb/i.test(raw)) {
+    const rgb = parseRgbColor(raw);
+    if (rgb) {
+      return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${clampedAlpha.toFixed(3)})`;
+    }
+  }
+  return `rgba(88, 166, 255, ${clampedAlpha.toFixed(3)})`;
+}
+
+function ensurePreferredRoleSet() {
+  if (!state.composer) {
+    state.composer = {
+      constraints: { minSynergy: 45, preferredRoles: new Set() },
+      combinedPresets: [],
+      suggestions: [],
+      metrics: { radar: [], heatmap: [] },
+      roleStats: new Map(),
+    };
+  }
+  const constraints = state.composer.constraints ?? {};
+  if (!(constraints.preferredRoles instanceof Set)) {
+    const values = Array.isArray(constraints.preferredRoles)
+      ? constraints.preferredRoles
+      : [];
+    constraints.preferredRoles = new Set(values);
+  }
+  return constraints.preferredRoles;
+}
+
+function applyHeatmapColor(element, role, percent) {
+  if (!(element instanceof HTMLElement)) return;
+  const token = ROLE_FLAG_TOKENS[role] ?? "--color-accent-400";
+  const numericPercent = Number.isFinite(percent) ? percent : Number(percent) || 0;
+  const intensity = Math.max(0, Math.min(1, numericPercent / 100));
+  element.style.setProperty("--heat-intensity", intensity.toFixed(2));
+  element.style.setProperty("--heat-color-token", `var(${token})`);
+  const background = resolveHeatmapColor(token, intensity);
+  if (background) {
+    element.style.background = background;
+  }
+}
+
+function passesComposerConstraints(species, biome) {
+  if (!state.composer?.constraints) return true;
+  const constraints = state.composer.constraints;
+  const preferred = ensurePreferredRoleSet();
+  if (preferred.size) {
+    const roleKey = species?.role_trofico ?? "";
+    if (!preferred.has(roleKey)) {
+      return false;
+    }
+  }
+  const minSynergy = Number.isFinite(constraints.minSynergy)
+    ? constraints.minSynergy
+    : 0;
+  if (minSynergy > 0) {
+    const synergy = calculateSynergy(species, biome);
+    if ((synergy?.percent ?? 0) < minSynergy) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function shuffle(array) {
@@ -4829,7 +5051,11 @@ function matchesTags(species, requiredTags) {
 function filteredPool(biome, filters) {
   const { flags, roles, tags } = filters;
   return biome.species.filter(
-    (sp) => matchesFlags(sp, flags) && matchesRoles(sp, roles) && matchesTags(sp, tags)
+    (sp) =>
+      matchesFlags(sp, flags) &&
+      matchesRoles(sp, roles) &&
+      matchesTags(sp, tags) &&
+      passesComposerConstraints(sp, biome)
   );
 }
 
@@ -4884,14 +5110,16 @@ function generateHybridSpecies(biome, filters, desiredCount = 3) {
     if (
       matchesFlags(hybrid, filters.flags) &&
       matchesRoles(hybrid, filters.roles) &&
-      matchesTags(hybrid, filters.tags)
+      matchesTags(hybrid, filters.tags) &&
+      passesComposerConstraints(hybrid, biome)
     ) {
       hybrids.push(hybrid);
     }
   }
 
   if (!hybrids.length) {
-    return basePool.slice(0, Math.min(desiredCount, basePool.length)).map((sp) => ({
+    const fallbackPool = basePool.filter((sp) => passesComposerConstraints(sp, biome));
+    return fallbackPool.slice(0, Math.min(desiredCount, fallbackPool.length)).map((sp) => ({
       ...sp,
       id: `${slugify(sp.id || sp.display_name)}-${Math.random().toString(36).slice(2, 5)}`,
       display_name: `${sp.display_name ?? sp.id} Neo-Variant`,
@@ -6424,6 +6652,650 @@ function buildBiomeCard(biome, filters) {
   return card;
 }
 
+function buildCombinedRolePresets(roleStats) {
+  if (!(roleStats instanceof Map) || !roleStats.size) {
+    return [];
+  }
+
+  const entries = Array.from(roleStats.entries())
+    .map(([roleKey, info]) => {
+      const count = info?.count ?? 0;
+      if (!count) {
+        return null;
+      }
+      const totalSynergy = info?.synergy ?? 0;
+      const average = count ? Math.round(totalSynergy / count) : 0;
+      const label = roleKey
+        ? titleCase(String(roleKey).replace(/[_-]+/g, " "))
+        : "Ruolo indefinito";
+      const flags = info?.flags instanceof Set ? Array.from(info.flags) : [];
+      const tags = info?.tags instanceof Set ? Array.from(info.tags) : [];
+      return { role: roleKey, label, count, average, flags, tags };
+    })
+    .filter(Boolean)
+    .sort((a, b) => {
+      if (b.average === a.average) {
+        return b.count - a.count;
+      }
+      return b.average - a.average;
+    });
+
+  if (!entries.length) {
+    return [];
+  }
+
+  const presets = [];
+  const seen = new Set();
+
+  const registerPreset = (roleEntries) => {
+    if (!Array.isArray(roleEntries) || !roleEntries.length) return;
+    const key = roleEntries
+      .map((entry) => entry.role)
+      .filter(Boolean)
+      .sort()
+      .join("+");
+    if (!key || seen.has(key)) return;
+    const combinedFlags = new Set();
+    const combinedTags = new Set();
+    let weightedSum = 0;
+    let totalCount = 0;
+    roleEntries.forEach((entry) => {
+      entry.flags.forEach((flag) => combinedFlags.add(flag));
+      entry.tags.forEach((tag) => combinedTags.add(tag));
+      weightedSum += entry.average * entry.count;
+      totalCount += entry.count;
+    });
+    const average = totalCount
+      ? Math.round(weightedSum / totalCount)
+      : Math.round(
+          roleEntries.reduce((sum, entry) => sum + entry.average, 0) /
+            roleEntries.length
+        );
+    const usage = roleEntries.reduce((sum, entry) => sum + entry.count, 0);
+    const filters = {
+      flags: Array.from(combinedFlags),
+      roles: roleEntries.map((entry) => entry.role),
+      tags: Array.from(combinedTags).slice(0, 4),
+    };
+    const label = roleEntries.map((entry) => entry.label).join(" + ");
+    presets.push({
+      id: `composer-${slugify(key) || slugify(label) || randomId("preset")}`,
+      label,
+      filters,
+      synergy: average,
+      usage,
+      highlightTags: filters.tags.slice(0, 3),
+    });
+    seen.add(key);
+  };
+
+  registerPreset([entries[0]]);
+
+  for (let i = 0; i < entries.length && presets.length < 4; i += 1) {
+    for (let j = i + 1; j < entries.length && presets.length < 4; j += 1) {
+      registerPreset([entries[i], entries[j]]);
+    }
+  }
+
+  if (presets.length < 4 && entries.length > 1) {
+    registerPreset(entries.slice(0, Math.min(entries.length, 3)));
+  }
+
+  return presets;
+}
+
+function buildComposerSuggestions({ heatmap, combinedPresets, constraints, flagStats }) {
+  const suggestions = [];
+  const minSynergy = Number.isFinite(constraints?.minSynergy)
+    ? constraints.minSynergy
+    : 0;
+  const populatedRows = Array.isArray(heatmap)
+    ? heatmap.filter((row) =>
+        Array.isArray(row?.values) && row.values.some((cell) => cell.count > 0)
+      )
+    : [];
+
+  if (populatedRows.length) {
+    const lowCells = [];
+    populatedRows.forEach((row) => {
+      row.values
+        .filter((cell) => cell.count > 0)
+        .forEach((cell) => {
+          if (cell.average < minSynergy) {
+            lowCells.push({ row, cell });
+          }
+        });
+    });
+    if (lowCells.length) {
+      lowCells.sort((a, b) => a.cell.average - b.cell.average);
+      const critical = lowCells[0];
+      suggestions.push({
+        tone: "warn",
+        message: `${critical.row.label}: sinergia ${critical.cell.average}% su ${
+          ROLE_FLAG_LABELS[critical.cell.role] ?? critical.cell.role
+        }. Valuta un preset mirato o abbassa la soglia.`,
+      });
+    } else if (minSynergy > 0) {
+      suggestions.push({
+        tone: "success",
+        message: `Tutte le combinazioni rispettano la soglia minima di ${minSynergy}%.`,
+      });
+    }
+  }
+
+  if (Array.isArray(combinedPresets) && combinedPresets.length) {
+    const topPreset = combinedPresets[0];
+    suggestions.push({
+      tone: "info",
+      message: `Preset ${topPreset.label}: ${topPreset.synergy}% di sinergia media su ${topPreset.usage} occorrenze recenti.`,
+    });
+  }
+
+  if (flagStats instanceof Map) {
+    const missingRoles = ROLE_FLAGS.filter((flag) => {
+      const stat = flagStats.get(flag);
+      return !stat || !stat.count;
+    });
+    if (missingRoles.length) {
+      suggestions.push({
+        tone: "info",
+        message: `Nessuna specie con flag ${missingRoles
+          .map((flag) => ROLE_FLAG_LABELS[flag] ?? flag)
+          .join(", ")} nei roll correnti.`,
+      });
+    }
+  }
+
+  if (!suggestions.length) {
+    suggestions.push({
+      tone: "info",
+      message: "Genera un ecosistema per sbloccare raccomandazioni dinamiche.",
+    });
+  }
+
+  return suggestions;
+}
+
+function renderComposerHeatmap(rows) {
+  const container = elements.composerHeatmap;
+  if (!container) return;
+  container.innerHTML = "";
+  if (!Array.isArray(rows) || !rows.length) {
+    const placeholder = document.createElement("p");
+    placeholder.className = "generator-composer__empty";
+    placeholder.textContent = "Genera un ecosistema per popolare la heatmap.";
+    container.appendChild(placeholder);
+    return;
+  }
+
+  const headerRow = document.createElement("div");
+  headerRow.className = "generator-composer__heatmap-row generator-composer__heatmap-row--header";
+  const labelHeading = document.createElement("span");
+  labelHeading.className = "generator-composer__heatmap-heading";
+  labelHeading.textContent = "Bioma";
+  headerRow.appendChild(labelHeading);
+  ROLE_FLAGS.forEach((flag) => {
+    const heading = document.createElement("span");
+    heading.className = "generator-composer__heatmap-heading";
+    heading.textContent = ROLE_FLAG_LABELS[flag] ?? titleCase(flag);
+    headerRow.appendChild(heading);
+  });
+  container.appendChild(headerRow);
+
+  rows.forEach((row) => {
+    const rowElement = document.createElement("div");
+    rowElement.className = "generator-composer__heatmap-row";
+    const label = document.createElement("span");
+    label.className = "generator-composer__heatmap-label";
+    label.textContent = row.label ?? titleCase(row.biomeId ?? "Bioma");
+    rowElement.appendChild(label);
+    ROLE_FLAGS.forEach((flag) => {
+      const cell = Array.isArray(row.values)
+        ? row.values.find((entry) => entry.role === flag)
+        : null;
+      const cellElement = document.createElement("span");
+      cellElement.className = "generator-composer__heatmap-cell";
+      const count = cell?.count ?? 0;
+      const average = cell?.average ?? 0;
+      cellElement.dataset.role = flag;
+      cellElement.dataset.count = String(count);
+      cellElement.dataset.synergy = String(average);
+      cellElement.textContent = count ? `${average}%` : "—";
+      cellElement.title = count
+        ? `${count} specie · ${ROLE_FLAG_LABELS[flag] ?? flag} · sinergia ${average}%`
+        : `Nessuna specie con flag ${ROLE_FLAG_LABELS[flag] ?? flag}`;
+      applyHeatmapColor(cellElement, flag, average);
+      rowElement.appendChild(cellElement);
+    });
+    container.appendChild(rowElement);
+  });
+}
+
+function ensureComposerRadarChart() {
+  if (!elements.composerRadarCanvas) return null;
+  if (composerRadarChart) return composerRadarChart;
+  if (typeof Chart === "undefined") {
+    if (!composerChartUnavailable) {
+      console.warn(
+        "Chart.js non disponibile: il radar sinergie della composizione avanzata rimarrà nascosto."
+      );
+      composerChartUnavailable = true;
+    }
+    return null;
+  }
+  const context = elements.composerRadarCanvas.getContext("2d");
+  if (!context) return null;
+  composerRadarChart = new Chart(context, {
+    type: "radar",
+    data: {
+      labels: COMPOSER_RADAR_LABELS,
+      datasets: [],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          beginAtZero: true,
+          suggestedMax: 100,
+          ticks: {
+            stepSize: 20,
+            showLabelBackdrop: false,
+            color: "rgba(148, 196, 255, 0.65)",
+          },
+          angleLines: { color: "rgba(148, 196, 255, 0.2)" },
+          grid: { color: "rgba(148, 196, 255, 0.12)" },
+          pointLabels: {
+            color: "rgba(226, 240, 255, 0.82)",
+            font: { size: 11 },
+          },
+        },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "rgba(15, 23, 42, 0.92)",
+          borderColor: "rgba(148, 196, 255, 0.35)",
+          borderWidth: 1,
+        },
+      },
+    },
+  });
+  return composerRadarChart;
+}
+
+function updateComposerRadarChart(values) {
+  if (!elements.composerRadarCanvas) return;
+  const chart = ensureComposerRadarChart();
+  if (!chart) return;
+  const data = Array.isArray(values) && values.length ? values : ROLE_FLAGS.map(() => 0);
+  const hasData = data.some((value) => Number.isFinite(value) && value > 0);
+  chart.data.labels = COMPOSER_RADAR_LABELS;
+  if (hasData) {
+    chart.data.datasets = [
+      {
+        label: "Sinergia media",
+        data,
+        backgroundColor: "rgba(88, 166, 255, 0.25)",
+        borderColor: "rgba(88, 166, 255, 0.85)",
+        borderWidth: 2,
+        pointBackgroundColor: "rgba(88, 166, 255, 0.95)",
+        pointBorderColor: "rgba(4, 7, 14, 0.9)",
+        pointRadius: 3,
+        pointHoverRadius: 4,
+      },
+    ];
+  } else {
+    chart.data.datasets = [];
+  }
+  chart.update();
+}
+
+function renderComposerPanel() {
+  const panel = elements.composerPanel;
+  if (!panel) return;
+  const composerState = state.composer ?? {};
+  const constraints = composerState.constraints ?? {};
+  const preferred = ensurePreferredRoleSet();
+  const minValue = Number.isFinite(constraints.minSynergy)
+    ? constraints.minSynergy
+    : 0;
+
+  if (elements.composerSynergySlider) {
+    elements.composerSynergySlider.value = String(minValue);
+  }
+  if (elements.composerSynergyValue) {
+    elements.composerSynergyValue.textContent = `${minValue}%`;
+  }
+
+  const presets = Array.isArray(composerState.combinedPresets)
+    ? composerState.combinedPresets
+    : [];
+  const presetList = elements.composerPresetList;
+  if (presetList) {
+    presetList.innerHTML = "";
+    const hasPresets = presets.length > 0;
+    presetList.hidden = !hasPresets;
+    if (elements.composerPresetEmpty) {
+      elements.composerPresetEmpty.hidden = hasPresets;
+    }
+    if (hasPresets) {
+      presets.forEach((preset) => {
+        const item = document.createElement("li");
+        item.className = "generator-composer__list-item";
+        item.dataset.presetId = preset.id;
+
+        const heading = document.createElement("div");
+        heading.className = "generator-composer__list-heading";
+        const title = document.createElement("p");
+        title.className = "generator-composer__preset-title";
+        title.textContent = preset.label;
+        heading.appendChild(title);
+        const badge = document.createElement("span");
+        badge.className = "generator-composer__badge";
+        badge.textContent = `${preset.synergy}%`;
+        badge.title = "Sinergia media stimata";
+        heading.appendChild(badge);
+        item.appendChild(heading);
+
+        const metrics = document.createElement("div");
+        metrics.className = "generator-composer__metrics";
+        const roleMetric = document.createElement("span");
+        roleMetric.textContent = `Ruoli: ${preset.filters.roles
+          .map((role) => titleCase(String(role).replace(/[_-]+/g, " ")))
+          .join(", ")}`;
+        metrics.appendChild(roleMetric);
+        const usageMetric = document.createElement("span");
+        usageMetric.textContent = `Utilizzo: ${preset.usage}`;
+        metrics.appendChild(usageMetric);
+        if (preset.highlightTags?.length) {
+          const tagMetric = document.createElement("span");
+          tagMetric.textContent = `Tag: ${preset.highlightTags.join(", ")}`;
+          metrics.appendChild(tagMetric);
+        }
+        item.appendChild(metrics);
+
+        const applyButton = document.createElement("button");
+        applyButton.type = "button";
+        applyButton.className = "button button--ghost generator-composer__apply";
+        applyButton.dataset.action = "composer-apply-preset";
+        applyButton.dataset.presetId = preset.id;
+        applyButton.textContent = "Applica preset";
+        item.appendChild(applyButton);
+
+        presetList.appendChild(item);
+      });
+    }
+  }
+
+  const toggles = elements.composerRoleToggles;
+  if (toggles) {
+    toggles.innerHTML = "";
+    const roleStats = composerState.roleStats instanceof Map ? composerState.roleStats : new Map();
+    const roleEntries = Array.from(roleStats.entries())
+      .map(([roleKey, info]) => {
+        const count = info?.count ?? 0;
+        if (!count) return null;
+        const totalSynergy = info?.synergy ?? 0;
+        const average = count ? Math.round(totalSynergy / count) : 0;
+        return {
+          role: roleKey,
+          label: titleCase(String(roleKey).replace(/[_-]+/g, " ")),
+          count,
+          average,
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => {
+        if (b.count === a.count) {
+          return b.average - a.average;
+        }
+        return b.count - a.count;
+      });
+
+    if (!roleEntries.length) {
+      const empty = document.createElement("p");
+      empty.className = "generator-composer__empty";
+      empty.textContent = "Nessun ruolo analizzato nei roll correnti.";
+      toggles.appendChild(empty);
+    } else {
+      roleEntries.forEach((entry) => {
+        const label = document.createElement("label");
+        label.className = "generator-composer__role-toggle";
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.dataset.roleKey = entry.role;
+        input.checked = preferred.has(entry.role);
+        label.appendChild(input);
+        const text = document.createElement("span");
+        text.textContent = `${entry.label} (${entry.count})`;
+        label.appendChild(text);
+        toggles.appendChild(label);
+      });
+    }
+  }
+
+  const suggestionList = elements.composerSuggestions;
+  if (suggestionList) {
+    suggestionList.innerHTML = "";
+    const suggestions = Array.isArray(composerState.suggestions)
+      ? composerState.suggestions
+      : [];
+    const hasSuggestions = suggestions.length > 0;
+    suggestionList.hidden = !hasSuggestions;
+    if (elements.composerSuggestionsEmpty) {
+      elements.composerSuggestionsEmpty.hidden = hasSuggestions;
+    }
+    suggestions.forEach((entry) => {
+      const item = document.createElement("li");
+      const tone = entry?.tone ? String(entry.tone).toUpperCase() : null;
+      const message = entry?.message ?? "";
+      item.textContent = tone ? `[${tone}] ${message}` : message;
+      suggestionList.appendChild(item);
+    });
+  }
+
+  const radarValues = composerState.metrics?.radar ?? [];
+  updateComposerRadarChart(radarValues);
+  renderComposerHeatmap(composerState.metrics?.heatmap ?? []);
+}
+
+function updateComposerState(filters) {
+  if (!elements.composerPanel) return;
+  const roleStats = new Map();
+  const flagStats = new Map(
+    ROLE_FLAGS.map((flag) => [flag, { count: 0, synergy: 0 }])
+  );
+  const heatmapRows = [];
+
+  const biomes = Array.isArray(state.pick?.biomes) ? state.pick.biomes : [];
+  const speciesBuckets = state.pick?.species ?? {};
+
+  biomes.forEach((biome) => {
+    const bucket = Array.isArray(speciesBuckets[biome.id])
+      ? speciesBuckets[biome.id]
+      : [];
+    const row = {
+      biomeId: biome.id,
+      label: biome.label ?? titleCase(biome.id ?? "Bioma"),
+      values: ROLE_FLAGS.map((flag) => ({
+        role: flag,
+        count: 0,
+        synergy: 0,
+        average: 0,
+      })),
+    };
+    const valueMap = new Map(row.values.map((entry) => [entry.role, entry]));
+
+    bucket.forEach((species) => {
+      if (!species) return;
+      const synergy = calculateSynergy(species, biome);
+      const roleKey = species.role_trofico ?? "ruolo_indefinito";
+      let stats = roleStats.get(roleKey);
+      if (!stats) {
+        stats = {
+          role: roleKey,
+          count: 0,
+          synergy: 0,
+          flags: new Set(),
+          tags: new Set(),
+        };
+        roleStats.set(roleKey, stats);
+      }
+      stats.count += 1;
+      stats.synergy += synergy.percent;
+      (species.functional_tags ?? []).forEach((tag) => {
+        if (tag) stats.tags.add(tag);
+      });
+      ROLE_FLAGS.forEach((flag) => {
+        if (species.flags?.[flag]) {
+          stats.flags.add(flag);
+          const cell = valueMap.get(flag);
+          if (cell) {
+            cell.count += 1;
+            cell.synergy += synergy.percent;
+          }
+          const global = flagStats.get(flag);
+          if (global) {
+            global.count += 1;
+            global.synergy += synergy.percent;
+          }
+        }
+      });
+    });
+
+    row.values.forEach((cell) => {
+      cell.average = cell.count ? Math.round(cell.synergy / cell.count) : 0;
+    });
+    heatmapRows.push(row);
+  });
+
+  const radarValues = ROLE_FLAGS.map((flag) => {
+    const stat = flagStats.get(flag);
+    if (!stat || !stat.count) return 0;
+    return Math.round(stat.synergy / stat.count);
+  });
+
+  const combinedPresets = buildCombinedRolePresets(roleStats);
+  const suggestions = buildComposerSuggestions({
+    heatmap: heatmapRows,
+    combinedPresets,
+    constraints: state.composer?.constraints ?? {},
+    flagStats,
+  });
+
+  state.composer.metrics = { radar: radarValues, heatmap: heatmapRows };
+  state.composer.roleStats = roleStats;
+  state.composer.combinedPresets = combinedPresets;
+  state.composer.suggestions = suggestions;
+  state.metrics.roleUsage = roleStats;
+
+  renderComposerPanel();
+}
+
+function applyComposerPreset(preset) {
+  if (!preset) return;
+  const filters = {
+    flags: Array.isArray(preset.filters?.flags) ? preset.filters.flags : [],
+    roles: Array.isArray(preset.filters?.roles) ? preset.filters.roles : [],
+    tags: Array.isArray(preset.filters?.tags) ? preset.filters.tags : [],
+  };
+  applyFiltersToForm(filters);
+  const preferred = ensurePreferredRoleSet();
+  preferred.clear();
+  filters.roles.forEach((role) => {
+    if (role) preferred.add(role);
+  });
+  renderComposerPanel();
+  if (state.pick.biomes.length) {
+    const current = currentFilters();
+    rerollSpecies(current);
+    renderBiomes(current);
+    rerollSeeds(current);
+    renderSeeds();
+  }
+  setStatus(`Preset ${preset.label} applicato.`, "success", {
+    tags: ["composer", "preset"],
+    action: "composer-apply-preset",
+    metadata: {
+      presetId: preset.id,
+      synergy: preset.synergy,
+      usage: preset.usage,
+    },
+  });
+}
+
+function applyComposerConstraintUpdate({ announce = false } = {}) {
+  renderComposerPanel();
+  if (!state.pick.biomes.length) return;
+  const filters = currentFilters();
+  rerollSpecies(filters);
+  renderBiomes(filters);
+  rerollSeeds(filters);
+  renderSeeds();
+  if (announce) {
+    const value = Number.isFinite(state.composer?.constraints?.minSynergy)
+      ? state.composer.constraints.minSynergy
+      : 0;
+    setStatus(`Vincoli di sinergia aggiornati (≥ ${value}%).`, "info", {
+      tags: ["composer", "sinergia"],
+      action: "composer-constraints-update",
+    });
+  }
+}
+
+function attachComposerHandlers() {
+  const panel = elements.composerPanel;
+  if (!panel) return;
+  ensurePreferredRoleSet();
+  const slider = elements.composerSynergySlider;
+  if (slider) {
+    slider.addEventListener("input", (event) => {
+      const value = Number.parseInt(event.target.value, 10) || 0;
+      if (elements.composerSynergyValue) {
+        elements.composerSynergyValue.textContent = `${value}%`;
+      }
+    });
+    slider.addEventListener("change", (event) => {
+      const value = Number.parseInt(event.target.value, 10) || 0;
+      state.composer.constraints.minSynergy = Math.max(0, Math.min(100, value));
+      applyComposerConstraintUpdate({ announce: true });
+    });
+  }
+  const toggles = elements.composerRoleToggles;
+  if (toggles) {
+    toggles.addEventListener("change", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      if (target.type !== "checkbox") return;
+      const { roleKey } = target.dataset;
+      if (!roleKey) return;
+      const preferred = ensurePreferredRoleSet();
+      if (target.checked) {
+        preferred.add(roleKey);
+      } else {
+        preferred.delete(roleKey);
+      }
+      applyComposerConstraintUpdate({ announce: Boolean(state.pick.biomes.length) });
+    });
+  }
+
+  panel.addEventListener("click", (event) => {
+    const button = event.target instanceof HTMLElement ? event.target.closest("[data-action]") : null;
+    if (!(button instanceof HTMLElement)) return;
+    const { action } = button.dataset;
+    if (action === "composer-apply-preset") {
+      const { presetId } = button.dataset;
+      if (!presetId) return;
+      const preset = (state.composer?.combinedPresets ?? []).find(
+        (entry) => entry.id === presetId
+      );
+      if (!preset) return;
+      applyComposerPreset(preset);
+    }
+  });
+}
+
 function renderBiomes(filters) {
   updateSummaryCounts();
   const grid = elements.biomeGrid;
@@ -6445,12 +7317,14 @@ function renderBiomes(filters) {
     placeholder.textContent = "Genera un ecosistema per iniziare.";
     grid.appendChild(placeholder);
     renderComparisonPanel();
+    updateComposerState(filters);
     return;
   }
 
   state.pick.biomes.forEach((biome) => {
     grid.appendChild(buildBiomeCard(biome, filters));
   });
+  updateComposerState(filters);
   renderComparisonPanel();
 }
 
@@ -6617,6 +7491,7 @@ function exportPayload(filters) {
       catalog: catalogSource,
       generated_at: new Date().toISOString(),
     },
+    composer: buildComposerExportSnapshot(),
   };
 }
 
@@ -7222,6 +8097,8 @@ attachProfileHandlers();
 attachInsightHandlers();
 attachHistoryHandlers();
 attachComparisonHandlers();
+attachComposerHandlers();
+renderComposerPanel();
 attachActions();
 setupFlowMapControls();
 loadData();
