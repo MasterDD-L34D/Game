@@ -33,6 +33,7 @@ const anchorState = {
   sectionsById: new Map(),
   minimaps: new Map(),
   observer: null,
+  scrollHandler: null,
   activeId: null,
   lastToggle: null,
 };
@@ -256,11 +257,58 @@ function handleAnchorObserver(entries) {
   updateMinimapState();
 }
 
+function cleanupScrollFallback() {
+  if (!anchorState.scrollHandler || typeof window === "undefined") {
+    return;
+  }
+  window.removeEventListener("scroll", anchorState.scrollHandler);
+  window.removeEventListener("resize", anchorState.scrollHandler);
+  anchorState.scrollHandler = null;
+}
+
 function createAnchorObserver() {
   if (anchorState.observer) {
     anchorState.observer.disconnect();
   }
+  cleanupScrollFallback();
   if (!anchorUi.panels.length) return;
+
+  if (typeof IntersectionObserver === "undefined") {
+    if (typeof window === "undefined") {
+      return;
+    }
+    anchorState.scrollHandler = () => {
+      const viewportHeight =
+        window.innerHeight || document.documentElement?.clientHeight || 1;
+
+      anchorState.descriptors.forEach((descriptor) => {
+        const section = anchorState.sectionsById.get(descriptor.id);
+        const element = section?.element;
+        if (!element) return;
+
+        const rect = element.getBoundingClientRect();
+        const height = rect.height || element.offsetHeight || 1;
+        const visible = Math.max(0, Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0));
+        const ratio = Math.max(0, Math.min(1, visible / height));
+
+        descriptor.progress = Number.isFinite(ratio) ? ratio : 0;
+        descriptor.isIntersecting = rect.top < viewportHeight && rect.bottom > 0;
+        descriptor.top = rect.top;
+        descriptor.bottom = rect.bottom;
+      });
+
+      const nextActive = computeActiveSection();
+      if (nextActive) {
+        setActiveSection(nextActive, { silent: true });
+      }
+      updateMinimapState();
+    };
+
+    window.addEventListener("scroll", anchorState.scrollHandler, { passive: true });
+    window.addEventListener("resize", anchorState.scrollHandler);
+    anchorState.scrollHandler();
+    return;
+  }
 
   const thresholds = [];
   for (let value = 0; value <= 1; value += 0.25) {
