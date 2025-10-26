@@ -2413,6 +2413,68 @@ function colorPairFromString(value = "") {
   };
 }
 
+function initialsFromLabel(label) {
+  if (!label) return "??";
+  return label
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((segment) => segment[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+function createPlaceholderImage(label, { variant = "card", seed } = {}) {
+  const baseSeed = `${variant}:${seed ?? label ?? ""}`;
+  const width = variant === "species" ? 200 : 320;
+  const height = variant === "species" ? 200 : 180;
+  const hash = stringHash(baseSeed);
+  const hue = hash % 360;
+  const accent = (hue + 34) % 360;
+  const secondary = (hue + 210) % 360;
+  const initials = initialsFromLabel(label);
+  const gradientId = `grad-${hash.toString(16)}`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="Placeholder">
+    <defs>
+      <linearGradient id="${gradientId}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="hsl(${hue}, 65%, 48%)" stop-opacity="0.88" />
+        <stop offset="100%" stop-color="hsl(${accent}, 70%, 38%)" stop-opacity="0.85" />
+      </linearGradient>
+    </defs>
+    <rect width="${width}" height="${height}" fill="hsl(${secondary}, 68%, 14%)" />
+    <rect width="${width}" height="${height}" fill="url(#${gradientId})" opacity="0.82" />
+    <g fill="rgba(17,24,39,0.45)" transform="translate(${width / 2}, ${height / 2})">
+      <circle r="${Math.min(width, height) / 2.1}" />
+    </g>
+    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="'Segoe UI', 'Inter', sans-serif" font-weight="700" font-size="${Math.min(width, height) / 3}" fill="rgba(241,245,255,0.9)">${initials}</text>
+  </svg>`;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function createCardMedia({ label, variant = "card", icon, backgroundKey, alt }) {
+  const className = variant === "species" ? "species-card__media" : "generator-card__media";
+  const wrapper = document.createElement("div");
+  wrapper.className = className;
+  const seed = backgroundKey ?? label ?? "";
+  if (seed) {
+    wrapper.style.background = gradientFromString(seed);
+  }
+  const image = document.createElement("img");
+  image.loading = "lazy";
+  image.decoding = "async";
+  image.alt = alt ?? `Illustrazione segnaposto per ${label ?? "la carta"}`;
+  image.src = createPlaceholderImage(label, { variant, seed });
+  wrapper.appendChild(image);
+  if (icon) {
+    const glyphClass = variant === "species" ? "species-card__glyph" : "generator-card__media-glyph";
+    const glyph = document.createElement("span");
+    glyph.className = glyphClass;
+    glyph.textContent = icon;
+    wrapper.appendChild(glyph);
+  }
+  return wrapper;
+}
+
 function clampScale(value, max = 5) {
   if (!Number.isFinite(value)) return 0;
   if (value < 0) return 0;
@@ -3042,8 +3104,10 @@ function toggleSquad(biome, species) {
 }
 
 function createSpeciesCard(biome, species) {
+  const displayName = species?.display_name ?? species?.id ?? "Specie sconosciuta";
   const card = document.createElement("article");
   card.className = "species-card";
+  card.dataset.cardType = "species";
   const pinKey = createPinKey(biome, species);
   if (state.cardState.pinned.has(pinKey)) {
     card.dataset.pinned = "true";
@@ -3052,9 +3116,21 @@ function createSpeciesCard(biome, species) {
     card.dataset.compare = "true";
   }
 
-  const media = document.createElement("div");
-  media.className = "species-card__media";
-  media.textContent = speciesPlaceholderIcon(species);
+  const tier = tierOf(species);
+  const rarity = rarityFromTier(tier);
+  card.dataset.rarity = rarity.slug;
+  card.dataset.tier = `T${tier}`;
+  if (species?.synthetic || biome?.synthetic) {
+    card.dataset.synthetic = "true";
+  }
+
+  const media = createCardMedia({
+    label: displayName,
+    variant: "species",
+    icon: speciesPlaceholderIcon(species),
+    backgroundKey: species?.id ?? displayName,
+    alt: `Segnaposto per ${displayName}`,
+  });
   card.appendChild(media);
 
   const info = document.createElement("div");
@@ -3071,12 +3147,12 @@ function createSpeciesCard(biome, species) {
 
   const name = document.createElement("h4");
   name.className = "species-card__name";
-  name.textContent = species.display_name ?? species.id ?? "Specie sconosciuta";
+  name.textContent = displayName;
   title.appendChild(name);
 
   const id = document.createElement("p");
   id.className = "species-card__id";
-  id.textContent = species.id ?? "—";
+  id.textContent = species?.id ?? "—";
   title.appendChild(id);
 
   const controls = document.createElement("div");
@@ -3085,10 +3161,8 @@ function createSpeciesCard(biome, species) {
 
   const badges = document.createElement("div");
   badges.className = "species-card__badges";
-  const tier = tierOf(species);
-  const rarity = rarityFromTier(tier);
   badges.appendChild(createBadgeElement(rarity.label, `rarity-${rarity.slug}`));
-  if (species.synthetic) {
+  if (species?.synthetic || biome?.synthetic) {
     badges.appendChild(createBadgeElement("Synth", "synth"));
   }
   controls.appendChild(badges);
@@ -3099,7 +3173,7 @@ function createSpeciesCard(biome, species) {
 
   const squadButton = createQuickButton({
     icon: "⚔️",
-    label: `Aggiungi ${name.textContent} alla squadra rapida`,
+    label: `Aggiungi ${displayName} alla squadra rapida`,
     className: "quick-button--squad",
   });
   applyQuickButtonState(squadButton, state.cardState.squad.has(pinKey));
@@ -3112,7 +3186,7 @@ function createSpeciesCard(biome, species) {
 
   const pinButton = createQuickButton({
     icon: "📌",
-    label: `Pin ${name.textContent} nel riepilogo`,
+    label: `Pin ${displayName} nel riepilogo`,
     className: "quick-button--pin",
   });
   pinButton.dataset.pinKey = pinKey;
@@ -3127,7 +3201,7 @@ function createSpeciesCard(biome, species) {
 
   const compareButton = createQuickButton({
     icon: "📊",
-    label: `Confronta ${name.textContent} nel radar`,
+    label: `Confronta ${displayName} nel radar`,
     className: "quick-button--compare",
   });
   compareButton.dataset.compareKey = pinKey;
@@ -3142,7 +3216,7 @@ function createSpeciesCard(biome, species) {
 
   const meta = document.createElement("div");
   meta.className = "species-card__meta";
-  const role = species.role_trofico ? titleCase(species.role_trofico) : "Ruolo sconosciuto";
+  const role = species?.role_trofico ? titleCase(species.role_trofico) : "Ruolo sconosciuto";
   const roleSpan = document.createElement("span");
   roleSpan.textContent = role;
   meta.appendChild(roleSpan);
@@ -3195,13 +3269,22 @@ function buildBiomeCard(biome, filters) {
   const card = document.createElement("article");
   card.className = "generator-card";
   card.dataset.biomeId = biome.id;
+  card.dataset.cardType = "biome";
+  if (biome?.synthetic) {
+    card.dataset.synthetic = "true";
+  }
+  card.setAttribute("role", "listitem");
 
-  const media = document.createElement("div");
-  media.className = "generator-card__media";
-  media.style.background = gradientFromString(biome.id ?? biome.label ?? "");
-  const mediaLabel = document.createElement("span");
-  mediaLabel.textContent = biomePlaceholderLabel(biome);
-  media.appendChild(mediaLabel);
+  const titleText = biome.synthetic
+    ? biome.label ?? titleCase(biome.id ?? "")
+    : titleCase(biome.id ?? "");
+  const media = createCardMedia({
+    label: titleText,
+    variant: "biome",
+    icon: biomePlaceholderLabel(biome),
+    backgroundKey: biome.id ?? biome.label ?? titleText,
+    alt: `Segnaposto per il bioma ${titleText}`,
+  });
   card.appendChild(media);
 
   const body = document.createElement("div");
@@ -3218,7 +3301,7 @@ function buildBiomeCard(biome, filters) {
 
   const title = document.createElement("h3");
   title.className = "generator-card__title";
-  title.textContent = biome.synthetic ? biome.label ?? titleCase(biome.id ?? "") : titleCase(biome.id ?? "");
+  title.textContent = titleText;
   titleGroup.appendChild(title);
 
   const subtitle = document.createElement("p");
@@ -3284,11 +3367,12 @@ function buildBiomeCard(biome, filters) {
     }
   }
 
-  const speciesContainer = document.createElement("div");
+  const speciesContainer = document.createElement("ul");
   speciesContainer.className = "generator-card__species";
+  speciesContainer.setAttribute("role", "list");
   const picked = state.pick.species?.[biome.id] ?? [];
   if (!picked.length) {
-    const empty = document.createElement("p");
+    const empty = document.createElement("li");
     empty.className = "generator-card__empty";
     const filtersText = [];
     if (filters.flags.length) filtersText.push(`flag: ${filters.flags.join(", ")}`);
@@ -3300,7 +3384,10 @@ function buildBiomeCard(biome, filters) {
     speciesContainer.appendChild(empty);
   } else {
     picked.forEach((sp) => {
-      speciesContainer.appendChild(createSpeciesCard(biome, sp));
+      const item = document.createElement("li");
+      item.className = "generator-card__species-item";
+      item.appendChild(createSpeciesCard(biome, sp));
+      speciesContainer.appendChild(item);
     });
   }
   body.appendChild(speciesContainer);
@@ -3443,6 +3530,7 @@ function renderSeeds() {
   state.pick.seeds.forEach((seed) => {
     const card = document.createElement("article");
     card.className = "card";
+    card.setAttribute("role", "listitem");
 
     const header = document.createElement("h3");
     const headingParts = [seed.biome_id];
