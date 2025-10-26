@@ -37,6 +37,17 @@ python packs/evo_tactics_pack/tools/py/run_all_validators.py \
   --html-out packs/evo_tactics_pack/out/validation/last_report.html
 ```
 
+## Dataset NPG reattivi
+
+- L'array JSON principale è in `tools/py/vtt/npg_pack.json` e descrive bioma, ruolo, specie, loadout e ricompense di ogni NPG.
+- Lo schema di riferimento è `tools/py/schema/npg_schema.json` (replicato in `docs/npg_schema.json` per la consultazione rapida).
+
+Per verificare che il pacchetto rimanga coerente con lo schema, esegui:
+
+```bash
+python packs/evo_tactics_pack/tools/py/ext_v1_5/validate_package.py
+```
+
 ## Struttura del pack
 
 ```
