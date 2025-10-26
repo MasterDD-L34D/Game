@@ -1,0 +1,26 @@
+name: Idea Intake Index
+on:
+  push:
+    paths: ['ideas/**']
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ideas index
+        run: |
+          echo "# Ideas Index" > IDEAS_INDEX.md
+          echo "" >> IDEAS_INDEX.md
+          if ls ideas/*.md > /dev/null 2>&1; then
+            for f in ideas/*.md; do
+              [ -e "$f" ] || continue
+              title=$(head -n 1 "$f" | sed 's/#\s*//')
+              echo "- [$title]($f)" >> IDEAS_INDEX.md
+            done
+          else
+            echo "_(nessuna idea ancora)_" >> IDEAS_INDEX.md
+          fi
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(ideas): update IDEAS_INDEX.md"
