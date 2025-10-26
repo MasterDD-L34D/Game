@@ -47,11 +47,19 @@ def try_run(cmd: List[str]) -> Dict[str, Any]:
 
 def build_core_commands() -> List[List[str]]:
     network = DATA_DIR / "ecosystems" / "network" / "meta_network_alpha.yaml"
-    cfg = CONFIG_DIR / "validator_config.yaml"
-    return [
-        [PYTHON, str(PY_TOOLS_DIR / "validate_ecosistema_v2_0.py"), str(network)],
-        [PYTHON, str(PY_TOOLS_DIR / "validate_cross_foodweb_v1_0.py"), str(network)],
-    ]
+    commands: List[List[str]] = []
+
+    network_validator = PY_TOOLS_DIR / "validate_ecosystem_network_v2_0.py"
+    if network_validator.exists():
+        commands.append([PYTHON, str(network_validator), str(network)])
+
+    commands.append(
+        [PYTHON, str(PY_TOOLS_DIR / "validate_ecosistema_v2_0.py"), str(network)]
+    )
+    commands.append(
+        [PYTHON, str(PY_TOOLS_DIR / "validate_cross_foodweb_v1_0.py"), str(network)]
+    )
+    return commands
 
 
 def build_biome_commands() -> List[List[str]]:
