@@ -1,6 +1,10 @@
 pi_shop:
-  costs: {trait_T1: 3, job_ability: 4, cap_pt: 2, guardia_situazionale: 2, starter_bioma: 1, sigillo_forma: 2}
+  costs: {trait_T1: 3, trait_T2: 6, trait_T3: 10, job_ability: 4, ultimate_slot: 6, cap_pt: 2, guardia_situazionale: 2, starter_bioma: 1, sigillo_forma: 2, modulo_tattico: 3}
   caps: {cap_pt_max: 1, starter_bioma_max: 1}
+  budget_curve:
+    baseline: {budget: 7, source: "random_general_d20"}
+    veteran: {budget: 9, unlock: "2 optional completati"}
+    elite: {budget: 11, unlock: "style_bonus >= 2"}
 random_general_d20:
   - {range: "1-2",   pack: "A", combo: [job_ability, trait_T1]}
   - {range: "3-4",   pack: "B", combo: [trait_T1, guardia_situazionale, cap_pt]}
