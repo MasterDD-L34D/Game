@@ -41,6 +41,15 @@
    - Prototipare ambienti interattivi per `dune_stalker` ed `echo_morph`, validando risorse e privacy.【F:data/mating.yaml†L121-L180】
    - **Checkpoint:** riesaminare la priorità dopo la chiusura di Smart HUD per evitare conflitti di risorse con i playtest VC.
 
+## Milestone in coda
+> **Ripianificazione post-Smart HUD** — Gli elementi seguenti restano aperti ma vengono accodati fino al completamento delle priorità Smart HUD/SquadSync.【F:docs/playtest/INSIGHTS-2025-11.md†L3-L26】
+
+1. **Missioni verticali e supporto live** _(in coda)_
+   - Preparare il playtest di "Skydock Siege" con obiettivi multilivello e timer di evacuazione.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+   - Collegare Reattori Aeon, filtro SquadSync e protocolli di soccorso alla pipeline telemetrica co-op.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+   - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】 _Layout completato con radar/timeline aggiornati; alert automatici >0.60 attivi dal tuning del 2025-11-03._
+   - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; revisione 2025-11-05 documentata in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L19-L36】【F:data/missions/skydock_siege.yaml†L1-L82】 _Monitorare eventuali regressioni nei prossimi playtest QA._
+
 ## Allineamento stakeholder e checkpoint
 - **Retro settimanale VC (martedì 17:00 CET)** — PM, Analytics, QA: revisione alert HUD, aggiornamento metriche risk/cohesion e decisioni di follow-up smart feature.【F:docs/playtest/INSIGHTS-2025-11.md†L22-L26】
 - **Demo quindicinale (venerdì settimana dispari, 15:00 CET)** — Mostrare riduzione alert duration e stato export incrementale a Design Council + Tech Lead; registrare decisioni in `docs/tool_run_report.md`.【F:docs/playtest/INSIGHTS-2025-11.md†L22-L26】【F:docs/tool_run_report.md†L1-L40】
