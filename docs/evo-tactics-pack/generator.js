@@ -16,6 +16,27 @@ const elements = {
   status: document.getElementById("generator-status"),
 };
 
+const anchorUi = {
+  root: document.querySelector("[data-anchor-root]"),
+  anchors: Array.from(document.querySelectorAll("[data-anchor-target]")),
+  panels: Array.from(document.querySelectorAll("[data-panel]")),
+  breadcrumbTargets: Array.from(document.querySelectorAll("[data-anchor-breadcrumb]")),
+  minimapContainers: Array.from(document.querySelectorAll("[data-anchor-minimap]")),
+  overlay: document.querySelector("[data-codex-overlay]"),
+  codexToggles: Array.from(document.querySelectorAll("[data-codex-toggle]")),
+  codexClosers: Array.from(document.querySelectorAll("[data-codex-close]")),
+};
+
+const anchorState = {
+  descriptors: [],
+  descriptorsById: new Map(),
+  sectionsById: new Map(),
+  minimaps: new Map(),
+  observer: null,
+  activeId: null,
+  lastToggle: null,
+};
+
 const PACK_ROOT_CANDIDATES = getPackRootCandidates();
 
 const state = {
@@ -102,6 +123,333 @@ function slugify(value) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 60);
+}
+
+function getPanelIdFromHash() {
+  if (typeof window === "undefined") return null;
+  const hash = window.location.hash ?? "";
+  if (!hash) return null;
+  const id = hash.replace(/^#/, "");
+  if (!id) return null;
+  const target = document.getElementById(id);
+  if (!target) return null;
+  return target.dataset?.panel ?? null;
+}
+
+function scrollToPanel(panelId, { smooth = true } = {}) {
+  if (!panelId) return;
+  const entry = anchorState.sectionsById.get(panelId);
+  const panel = entry?.element;
+  if (!panel) return;
+  if (!panel.hasAttribute("tabindex")) {
+    panel.setAttribute("tabindex", "-1");
+  }
+  const behavior = smooth ? "smooth" : "auto";
+  panel.scrollIntoView({ behavior, block: "start" });
+  window.requestAnimationFrame(() => {
+    try {
+      panel.focus({ preventScroll: true });
+    } catch (error) {
+      panel.focus();
+    }
+  });
+}
+
+function updateBreadcrumbs(sectionId) {
+  const descriptor = anchorState.descriptorsById.get(sectionId);
+  const label = descriptor?.label ?? "";
+  anchorUi.breadcrumbTargets.forEach((target) => {
+    if (target) {
+      target.textContent = label;
+      target.dataset.activeAnchor = sectionId ?? "";
+    }
+  });
+}
+
+function updateMinimapState() {
+  anchorState.minimaps.forEach((map) => {
+    map.forEach(({ item, progress }, id) => {
+      const descriptor = anchorState.descriptorsById.get(id);
+      if (!descriptor) return;
+      const ratio = Math.max(0, Math.min(1, descriptor.progress ?? 0));
+      progress.style.setProperty("--progress", `${Math.round(ratio * 100)}%`);
+      if (anchorState.activeId === id) {
+        item.classList.add("is-active");
+      } else {
+        item.classList.remove("is-active");
+      }
+    });
+  });
+}
+
+function setActiveSection(sectionId, { updateHash = false, silent = false } = {}) {
+  if (!sectionId || !anchorState.descriptorsById.has(sectionId)) {
+    return;
+  }
+
+  const previous = anchorState.activeId;
+  anchorState.activeId = sectionId;
+
+  if (previous !== sectionId || !silent) {
+    anchorState.descriptors.forEach((descriptor) => {
+      if (descriptor.id === sectionId) {
+        descriptor.anchor.classList.add("is-active");
+        descriptor.anchor.setAttribute("aria-current", "location");
+      } else {
+        descriptor.anchor.classList.remove("is-active");
+        descriptor.anchor.removeAttribute("aria-current");
+      }
+    });
+    updateBreadcrumbs(sectionId);
+    updateMinimapState();
+  }
+
+  if (updateHash) {
+    const panel = anchorState.sectionsById.get(sectionId)?.element;
+    if (panel?.id && typeof window !== "undefined" && window.history?.replaceState) {
+      window.history.replaceState(null, "", `#${panel.id}`);
+    }
+  }
+}
+
+function computeActiveSection() {
+  if (!anchorState.descriptors.length) return null;
+  const visible = anchorState.descriptors.filter((descriptor) => descriptor.isIntersecting);
+  if (visible.length) {
+    visible.sort((a, b) => (a.top ?? 0) - (b.top ?? 0));
+    return visible[0].id;
+  }
+
+  let candidate = null;
+  let minTop = Infinity;
+  anchorState.descriptors.forEach((descriptor) => {
+    const section = anchorState.sectionsById.get(descriptor.id);
+    const element = section?.element;
+    if (!element) return;
+    const rect = element.getBoundingClientRect();
+    if (rect.top >= 0 && rect.top < minTop) {
+      minTop = rect.top;
+      candidate = descriptor.id;
+    }
+  });
+
+  if (candidate) return candidate;
+  return anchorState.descriptors[anchorState.descriptors.length - 1]?.id ?? null;
+}
+
+function handleAnchorObserver(entries) {
+  entries.forEach((entry) => {
+    const id = entry.target.dataset.panel;
+    if (!id) return;
+    const descriptor = anchorState.descriptorsById.get(id);
+    if (!descriptor) return;
+    descriptor.progress = entry.intersectionRatio ?? 0;
+    descriptor.isIntersecting = entry.isIntersecting;
+    descriptor.top = entry.boundingClientRect?.top ?? 0;
+    descriptor.bottom = entry.boundingClientRect?.bottom ?? 0;
+  });
+
+  const nextActive = computeActiveSection();
+  if (nextActive) {
+    setActiveSection(nextActive, { silent: true });
+  }
+  updateMinimapState();
+}
+
+function createAnchorObserver() {
+  if (anchorState.observer) {
+    anchorState.observer.disconnect();
+  }
+  if (!anchorUi.panels.length) return;
+
+  const thresholds = [];
+  for (let value = 0; value <= 1; value += 0.25) {
+    thresholds.push(Number(value.toFixed(2)));
+  }
+
+  anchorState.observer = new IntersectionObserver(handleAnchorObserver, {
+    rootMargin: "-40% 0px -40% 0px",
+    threshold: thresholds,
+  });
+
+  anchorState.sectionsById.forEach(({ element }) => {
+    if (element) {
+      anchorState.observer.observe(element);
+    }
+  });
+}
+
+function setupMinimaps() {
+  anchorState.minimaps = new Map();
+
+  anchorUi.minimapContainers.forEach((container) => {
+    if (!container) return;
+    const isOverlay = container.dataset.minimapMode === "overlay";
+    const existingTitle = container.querySelector(".codex-minimap__title");
+    const label = container.dataset.minimapLabel || existingTitle?.textContent?.trim() || "Minimappa";
+
+    container.innerHTML = "";
+
+    if (!isOverlay) {
+      const title = document.createElement("p");
+      title.className = "codex-minimap__title";
+      title.textContent = label;
+      container.appendChild(title);
+    }
+
+    const list = document.createElement("ol");
+    list.className = isOverlay ? "codex-overlay__list" : "codex-minimap__list";
+    const registry = new Map();
+
+    anchorState.descriptors.forEach((descriptor) => {
+      const item = document.createElement("li");
+      item.className = isOverlay ? "codex-overlay__item" : "codex-minimap__item";
+      item.dataset.minimapItem = descriptor.id;
+
+      const trigger = document.createElement("button");
+      trigger.type = "button";
+      trigger.className = isOverlay ? "codex-overlay__link" : "codex-minimap__link";
+      trigger.textContent = descriptor.label;
+      trigger.addEventListener("click", () => {
+        setActiveSection(descriptor.id, { updateHash: true });
+        scrollToPanel(descriptor.id);
+        if (isOverlay) {
+          closeCodex();
+        }
+      });
+
+      const progress = document.createElement("span");
+      progress.className = isOverlay ? "codex-overlay__progress" : "codex-minimap__progress";
+      progress.style.setProperty("--progress", "0%");
+
+      item.append(trigger, progress);
+      list.appendChild(item);
+      registry.set(descriptor.id, { item, progress });
+    });
+
+    container.appendChild(list);
+    anchorState.minimaps.set(container, registry);
+  });
+
+  updateMinimapState();
+}
+
+function closeCodex() {
+  if (!anchorUi.overlay || anchorUi.overlay.hidden) {
+    return;
+  }
+  anchorUi.overlay.hidden = true;
+  anchorUi.overlay.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("codex-open");
+  if (anchorState.lastToggle && typeof anchorState.lastToggle.focus === "function") {
+    anchorState.lastToggle.focus();
+  }
+  anchorState.lastToggle = null;
+}
+
+function setupAnchorNavigation() {
+  if (!anchorUi.anchors.length || !anchorUi.panels.length) {
+    return;
+  }
+
+  anchorState.sectionsById = new Map();
+  anchorUi.panels.forEach((panel) => {
+    const panelId = panel.dataset.panel;
+    if (!panelId) return;
+    anchorState.sectionsById.set(panelId, { element: panel });
+    if (!panel.hasAttribute("tabindex")) {
+      panel.setAttribute("tabindex", "-1");
+    }
+  });
+
+  anchorState.descriptors = anchorUi.anchors
+    .map((anchor) => {
+      const id = anchor.dataset.anchorTarget;
+      if (!id || !anchorState.sectionsById.has(id)) return null;
+      const label = anchor.textContent?.trim() || id;
+      return { id, label, anchor, progress: 0, isIntersecting: false, top: 0, bottom: 0 };
+    })
+    .filter(Boolean);
+
+  anchorState.descriptorsById = new Map(
+    anchorState.descriptors.map((descriptor) => [descriptor.id, descriptor])
+  );
+
+  if (!anchorState.descriptors.length) {
+    return;
+  }
+
+  anchorState.descriptors.forEach((descriptor) => {
+    descriptor.anchor.addEventListener("click", (event) => {
+      event.preventDefault();
+      setActiveSection(descriptor.id, { updateHash: true });
+      scrollToPanel(descriptor.id);
+      closeCodex();
+    });
+  });
+
+  setupMinimaps();
+  createAnchorObserver();
+
+  const initialId = getPanelIdFromHash();
+  if (initialId && anchorState.descriptorsById.has(initialId)) {
+    setActiveSection(initialId, { silent: true });
+  } else {
+    setActiveSection(anchorState.descriptors[0].id, { silent: true });
+  }
+
+  window.addEventListener("hashchange", () => {
+    const fromHash = getPanelIdFromHash();
+    if (fromHash && anchorState.descriptorsById.has(fromHash)) {
+      setActiveSection(fromHash, { silent: true });
+    }
+  });
+}
+
+function openCodex() {
+  if (!anchorUi.overlay) return;
+  if (!anchorState.minimaps.size) {
+    setupMinimaps();
+  }
+  anchorUi.overlay.hidden = false;
+  anchorUi.overlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("codex-open");
+  updateMinimapState();
+  const closeButton = anchorUi.overlay.querySelector("[data-codex-close]");
+  if (closeButton) {
+    closeButton.focus({ preventScroll: true });
+  }
+}
+
+function setupCodexControls() {
+  if (!anchorUi.overlay) return;
+
+  anchorUi.codexToggles.forEach((button) => {
+    if (!button) return;
+    button.addEventListener("click", () => {
+      anchorState.lastToggle = button;
+      openCodex();
+    });
+  });
+
+  anchorUi.codexClosers.forEach((button) => {
+    if (!button) return;
+    button.addEventListener("click", () => {
+      closeCodex();
+    });
+  });
+
+  anchorUi.overlay.addEventListener("click", (event) => {
+    if (event.target === anchorUi.overlay) {
+      closeCodex();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && document.body.classList.contains("codex-open")) {
+      closeCodex();
+    }
+  });
 }
 
 function uniqueById(items) {
@@ -1617,6 +1965,8 @@ async function loadData() {
   }
 }
 
+setupAnchorNavigation();
+setupCodexControls();
 renderTraitExpansions();
 attachActions();
 loadData();
