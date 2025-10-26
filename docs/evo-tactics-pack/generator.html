@@ -94,6 +94,15 @@
             <li class="anchor-nav__item">
               <a
                 class="anchor-nav__link"
+                href="#generator-composer"
+                data-anchor-target="composer"
+              >
+                Composizione avanzata
+              </a>
+            </li>
+            <li class="anchor-nav__item">
+              <a
+                class="anchor-nav__link"
                 href="#generator-insights"
                 data-anchor-target="insights"
               >
@@ -261,6 +270,125 @@
               <p class="generator-export__empty" id="generator-preview-empty">
                 Genera un ecosistema per visualizzare le anteprime.
               </p>
+            </section>
+            <section
+              class="generator-composer surface-panel surface-panel--overlay"
+              id="generator-composer"
+              aria-labelledby="generator-composer-title"
+              data-panel="composer"
+            >
+              <header class="generator-composer__header">
+                <div>
+                  <h3 class="generator-composer__title" id="generator-composer-title">
+                    Composizione avanzata
+                  </h3>
+                  <p class="generator-composer__description">
+                    Configura preset combinati e applica vincoli di sinergia basati sulle
+                    estrazioni correnti.
+                  </p>
+                </div>
+                <div class="generator-composer__constraints">
+                  <label class="generator-composer__slider" for="generator-composer-synergy">
+                    <span>Sinergia minima</span>
+                    <input
+                      type="range"
+                      id="generator-composer-synergy"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value="45"
+                    />
+                  </label>
+                  <output
+                    id="generator-composer-synergy-value"
+                    class="generator-composer__slider-output"
+                    for="generator-composer-synergy"
+                  >
+                    45%
+                  </output>
+                </div>
+              </header>
+              <div class="generator-composer__grid">
+                <article class="generator-composer__module" aria-labelledby="composer-presets-title">
+                  <header class="generator-composer__module-header">
+                    <h4 class="generator-composer__module-title" id="composer-presets-title">
+                      Preset combinati suggeriti
+                    </h4>
+                    <p class="generator-composer__module-hint">
+                      Basati su ruoli predominanti e punteggi di sinergia aggregati.
+                    </p>
+                  </header>
+                  <p class="generator-composer__empty" id="generator-composer-presets-empty">
+                    Genera un ecosistema per ottenere preset suggeriti.
+                  </p>
+                  <ul
+                    class="generator-composer__list"
+                    id="generator-composer-presets"
+                    aria-live="polite"
+                  ></ul>
+                </article>
+                <article class="generator-composer__module" aria-labelledby="composer-roles-title">
+                  <header class="generator-composer__module-header">
+                    <h4 class="generator-composer__module-title" id="composer-roles-title">
+                      Vincoli ruoli &amp; sinergie
+                    </h4>
+                    <p class="generator-composer__module-hint">
+                      Seleziona ruoli prioritari per guidare i prossimi re-roll.
+                    </p>
+                  </header>
+                  <div
+                    class="generator-composer__roles"
+                    id="generator-composer-role-toggles"
+                    role="group"
+                    aria-label="Ruoli prioritari"
+                  ></div>
+                  <section
+                    class="generator-composer__suggestions"
+                    aria-labelledby="composer-suggestions-title"
+                  >
+                    <h5 class="generator-composer__suggestions-title" id="composer-suggestions-title">
+                      Suggerimenti contestuali
+                    </h5>
+                    <p class="generator-composer__empty" id="generator-composer-suggestions-empty">
+                      Non appena generi un ecosistema compariranno raccomandazioni dinamiche.
+                    </p>
+                    <ul
+                      class="generator-composer__suggestion-list"
+                      id="generator-composer-suggestions"
+                      aria-live="polite"
+                    ></ul>
+                  </section>
+                </article>
+                <article class="generator-composer__module" aria-labelledby="composer-radar-title">
+                  <header class="generator-composer__module-header">
+                    <h4 class="generator-composer__module-title" id="composer-radar-title">
+                      Radar sinergie ruoli
+                    </h4>
+                    <p class="generator-composer__module-hint">
+                      Visualizza la sinergia media per flag chiave dell'ecosistema.
+                    </p>
+                  </header>
+                  <div class="generator-composer__radar" id="generator-composer-radar-container">
+                    <canvas id="generator-synergy-radar" aria-label="Radar sinergie"></canvas>
+                  </div>
+                </article>
+                <article class="generator-composer__module" aria-labelledby="composer-heatmap-title">
+                  <header class="generator-composer__module-header">
+                    <h4 class="generator-composer__module-title" id="composer-heatmap-title">
+                      Heatmap ruoli per bioma
+                    </h4>
+                    <p class="generator-composer__module-hint">
+                      Intensità calcolata sui punteggi di sinergia medi per flag.
+                    </p>
+                  </header>
+                  <div
+                    class="generator-composer__heatmap"
+                    id="generator-role-heatmap"
+                    role="table"
+                    aria-label="Matrice sinergie ruoli"
+                  ></div>
+                </article>
+              </div>
             </section>
           <section
             class="generator-summary"

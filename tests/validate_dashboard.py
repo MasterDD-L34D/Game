@@ -88,6 +88,8 @@ def validate_generator() -> None:
     page_path = REPO_ROOT / "docs" / "evo-tactics-pack" / "generator.html"
     assert_requirements("generator", page_path.exists(), "generator.html non trovato")
     snapshot = load_html_snapshot(page_path)
+    generator_path = REPO_ROOT / "docs" / "evo-tactics-pack" / "generator.js"
+    assert_requirements("generator", generator_path.exists(), "generator.js non trovato")
 
     required_ids = {
         "generator-form",
@@ -98,6 +100,11 @@ def validate_generator() -> None:
         "biome-grid",
         "seed-grid",
         "generator-status",
+        "generator-composer",
+        "generator-composer-presets",
+        "generator-composer-suggestions",
+        "generator-synergy-radar",
+        "generator-role-heatmap",
     }
     assert_requirements(
         "generator",
@@ -110,6 +117,13 @@ def validate_generator() -> None:
         "generator",
         nav_targets.issubset({href for href in snapshot.anchors if not href.startswith("#")}),
         f"Collegamenti del sottomenu mancanti: {sorted(nav_targets - set(snapshot.anchors))}",
+    )
+
+    composer_anchor = "#generator-composer"
+    assert_requirements(
+        "generator",
+        composer_anchor in snapshot.anchors,
+        "Anchor al pannello di composizione avanzata mancante",
     )
 
     catalog_path = REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "catalog_data.json"
@@ -125,6 +139,18 @@ def validate_generator() -> None:
         "generator",
         isinstance(catalog.get("biomi"), list) and catalog["biomi"],
         "Nessun bioma disponibile nel catalogo",
+    )
+
+    generator_source = generator_path.read_text(encoding="utf-8")
+    assert_requirements(
+        "generator",
+        "buildComposerExportSnapshot" in generator_source,
+        "Snapshot esportazione compositore non presente in generator.js",
+    )
+    assert_requirements(
+        "generator",
+        "composer: buildComposerExportSnapshot()" in generator_source,
+        "exportPayload non include i dati del compositore",
     )
 
 
