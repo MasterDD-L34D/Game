@@ -254,6 +254,49 @@ a:focus-visible {
   background: rgba(9, 14, 21, 0.85);
 }
 
+.landing-menu {
+  margin-top: 32px;
+  padding: 24px;
+  border-radius: 20px;
+  background: rgba(4, 7, 11, 0.85);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  display: grid;
+  gap: 12px;
+}
+
+.landing-menu__title {
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+
+.landing-menu__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.landing-menu__list a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(12, 18, 27, 0.9);
+  border: 1px solid rgba(88, 166, 255, 0.18);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.landing-menu__list a:hover,
+.landing-menu__list a:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(191, 90, 242, 0.5);
+  box-shadow: 0 8px 18px rgba(12, 18, 27, 0.55);
+}
+
 .support-hub {
   margin-top: 64px;
   border-top: 1px solid rgba(88, 166, 255, 0.16);

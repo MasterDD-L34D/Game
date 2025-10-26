@@ -1,144 +1,28 @@
-const PACK_PATH = "packs/evo_tactics_pack/";
-const DEFAULT_BRANCH = "main";
-
-function ensureTrailingSlash(value) {
-  if (!value) return value;
-  return value.endsWith("/") ? value : `${value}/`;
-}
-
-function normalizeBase(value) {
-  if (!value) return null;
-  try {
-    const absolute = new URL(value, window.location.href);
-    return ensureTrailingSlash(absolute.toString());
-  } catch (error) {
-    console.warn("Impossibile normalizzare la base dati", value, error);
-    return ensureTrailingSlash(value);
-  }
-}
-
-function detectRepoBase() {
-  try {
-    const origin = window.location.origin;
-    if (!origin || origin === "null") {
-      return null;
-    }
-
-    const segments = window.location.pathname.split("/").filter(Boolean);
-    const withoutFile = segments.slice(0, Math.max(segments.length - 1, 0));
-    let baseSegments = [];
-
-    if (window.location.hostname.endsWith("github.io")) {
-      if (withoutFile.length > 0) {
-        baseSegments = [withoutFile[0]];
-      }
-    } else {
-      const docsIndex = withoutFile.indexOf("docs");
-      if (docsIndex > 0) {
-        baseSegments = withoutFile.slice(0, docsIndex);
-      } else if (docsIndex === 0) {
-        baseSegments = [];
-      } else if (withoutFile.length > 1) {
-        baseSegments = withoutFile.slice(0, withoutFile.length - 1);
-      }
-    }
-
-    const basePath = baseSegments.length ? `/${baseSegments.join("/")}/` : "/";
-    return ensureTrailingSlash(`${origin}${basePath}`);
-  } catch (error) {
-    console.warn("Impossibile determinare la base del repository", error);
-    return null;
-  }
-}
-
-function detectPackRootOverride() {
-  const params = new URLSearchParams(window.location.search);
-  const override =
-    params.get("pack-root") ||
-    document.querySelector('meta[name="pack-root"]')?.getAttribute("content");
-  return normalizeBase(override);
-}
-
-function detectGitHubRawRoot() {
-  if (!window.location.hostname.endsWith("github.io")) {
-    return null;
-  }
-
-  const owner = document
-    .querySelector('meta[name="data-owner"]')
-    ?.getAttribute("content") || window.location.hostname.split(".")[0];
-  const pathParts = window.location.pathname.split("/").filter(Boolean);
-  const repo =
-    document.querySelector('meta[name="data-repo"]')?.getAttribute("content") ||
-    pathParts[0] ||
-    "";
-  const params = new URLSearchParams(window.location.search);
-  const branch =
-    params.get("ref") ||
-    document.querySelector('meta[name="data-branch"]')?.getAttribute("content") ||
-    DEFAULT_BRANCH;
-
-  if (!owner || !repo) {
-    return null;
-  }
-
-  return ensureTrailingSlash(
-    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${PACK_PATH}`
-  );
-}
-
-function candidatePackRoots() {
-  const candidates = [];
-
-  const override = detectPackRootOverride();
-  if (override) {
-    candidates.push(override);
-  }
-
-  const githubRaw = detectGitHubRawRoot();
-  if (githubRaw) {
-    candidates.push(githubRaw);
-  }
-
-  const repoBase = detectRepoBase();
-  if (repoBase) {
-    try {
-      candidates.push(ensureTrailingSlash(new URL(PACK_PATH, repoBase).toString()));
-    } catch (error) {
-      console.warn("Impossibile costruire la base dati dal repository", error);
-    }
-  }
-
-  try {
-    candidates.push(
-      ensureTrailingSlash(new URL(`../${PACK_PATH}`, window.location.href).toString())
-    );
-  } catch (error) {
-    console.warn("Impossibile calcolare la base dati relativa", error);
-  }
-
-  if (window.location.origin && window.location.origin !== "null") {
-    const origin = window.location.origin.endsWith("/")
-      ? window.location.origin
-      : `${window.location.origin}/`;
-    candidates.push(ensureTrailingSlash(`${origin}${PACK_PATH}`));
-  }
-
-  candidates.push(ensureTrailingSlash(PACK_PATH));
-
-  return Array.from(new Set(candidates.filter(Boolean)));
-}
-
-const PACK_ROOT_CANDIDATES = candidatePackRoots();
-
-let resolvedPackRoot = null;
-let packDocsBase = null;
+import {
+  loadPackCatalog,
+  manualLoadCatalog,
+  getPackRootCandidates,
+} from "./pack-data.js";
 
 const elements = {
   summary: document.getElementById("ecosystem-summary"),
   connections: document.getElementById("ecosystem-connections"),
   biomeCards: document.getElementById("biome-cards"),
 };
+
+let packContext = null;
+let resolvedCatalogUrl = null;
+let resolvedPackRoot = null;
+let packDocsBase = null;
+
+const PACK_ROOT_CANDIDATES = getPackRootCandidates();
+
+function applyCatalogContext(context) {
+  packContext = context ?? null;
+  resolvedCatalogUrl = context?.catalogUrl ?? null;
+  resolvedPackRoot = context?.resolvedBase ?? null;
+  packDocsBase = context?.docsBase ?? null;
+}
 
 function setSummary(message) {
   if (elements.summary) {
@@ -147,18 +31,36 @@ function setSummary(message) {
 }
 
 function resolvePackHref(relativePath) {
-  try {
-    if (packDocsBase) {
-      return new URL(relativePath, packDocsBase).toString();
+  if (!relativePath) return relativePath;
+  if (packContext?.resolveDocHref) {
+    try {
+      return packContext.resolveDocHref(relativePath);
+    } catch (error) {
+      console.warn("Impossibile risolvere il percorso tramite resolveDocHref", relativePath, error);
     }
-    if (resolvedPackRoot) {
-      return new URL(relativePath, resolvedPackRoot).toString();
-    }
-    return relativePath;
-  } catch (error) {
-    console.error("Impossibile risolvere il percorso", relativePath, error);
-    return relativePath;
   }
+  if (packDocsBase) {
+    try {
+      return new URL(relativePath, packDocsBase).toString();
+    } catch (error) {
+      console.warn("Impossibile risolvere il percorso tramite packDocsBase", relativePath, error);
+    }
+  }
+  if (packContext?.resolvePackHref) {
+    try {
+      return packContext.resolvePackHref(relativePath);
+    } catch (error) {
+      console.warn("Impossibile risolvere il percorso tramite resolvePackHref", relativePath, error);
+    }
+  }
+  if (resolvedPackRoot) {
+    try {
+      return new URL(relativePath, resolvedPackRoot).toString();
+    } catch (error) {
+      console.warn("Impossibile risolvere il percorso tramite resolvedPackRoot", relativePath, error);
+    }
+  }
+  return relativePath;
 }
 
 function formatConnectionType(type) {
@@ -185,14 +87,15 @@ function renderConnections(data) {
     title.textContent = `${conn.from} → ${conn.to}`;
 
     const meta = document.createElement("p");
-    meta.innerHTML = `<strong>${formatConnectionType(conn.type)}</strong> · resistenza ${conn.resistance ?? "—"} · ${
-      conn.seasonality || "stagionalità n/d"
-    }`;
+    meta.innerHTML = `<strong>${formatConnectionType(conn.type)}</strong> · resistenza ${
+      conn.resistance ?? "—"
+    } · ${conn.seasonality || "stagionalità n/d"}`;
 
     const notes = document.createElement("p");
     notes.textContent = conn.notes || "";
 
     card.append(title, meta, notes);
+
     elements.connections.appendChild(card);
   });
 }
@@ -278,10 +181,9 @@ function renderBiomeCard(biome) {
   const manifestYaml = biome.manifest?.path ? resolvePackHref(biome.manifest.path) : null;
   const foodwebYaml = biome.foodweb?.path ? resolvePackHref(biome.foodweb.path) : null;
   const foodwebPng = resolvePackHref(`foodweb_png/${biome.id}.png`);
-  const staticReport = resolvePackHref(`biomes/${biome.id}.html`);
-  const links = [
-    `<a href="${biomeYaml}" target="_blank" rel="noreferrer">Bioma YAML</a>`,
-  ];
+  const legacyReport = resolvePackHref(`biomes/${biome.id}.html`);
+  const webReport = `reports/biomes/${biome.id}.html`;
+  const links = [`<a href="${biomeYaml}" target="_blank" rel="noreferrer">Bioma YAML</a>`];
   if (manifestYaml) {
     links.push(`<a href="${manifestYaml}" target="_blank" rel="noreferrer">Manifest</a>`);
   }
@@ -289,7 +191,10 @@ function renderBiomeCard(biome) {
     links.push(`<a href="${foodwebYaml}" target="_blank" rel="noreferrer">Foodweb YAML</a>`);
     links.push(`<a href="${foodwebPng}" target="_blank" rel="noreferrer">Foodweb PNG</a>`);
   }
-  links.push(`<a href="${staticReport}" target="_blank" rel="noreferrer">Report originale</a>`);
+  links.push(`<a href="${webReport}">Report web</a>`);
+  links.push(
+    `<a href="${legacyReport}" target="_blank" rel="noreferrer">Report originale</a>`
+  );
   linkRow.innerHTML = links.join(" · ");
 
   const manifestBlock = renderManifest(biome.manifest);
@@ -301,48 +206,70 @@ function renderBiomeCard(biome) {
 
 async function loadCatalog() {
   setSummary("Caricamento del catalogo in corso…");
-  let lastError = null;
+  try {
+    const { data, context } = await loadPackCatalog();
+    applyCatalogContext(context);
 
-  for (const base of PACK_ROOT_CANDIDATES) {
-    try {
-      const catalogUrl = new URL("docs/catalog/catalog_data.json", base).toString();
-      const response = await fetch(catalogUrl);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
+    const biomeCount = data.biomi?.length ?? 0;
+    const connectionsCount = data.ecosistema?.connessioni?.length ?? 0;
+    setSummary(
+      `${data.ecosistema?.label ?? "Meta-ecosistema"} con ${biomeCount} biomi collegati e ${connectionsCount} connessioni.`
+    );
+    renderConnections(data.ecosistema ?? {});
 
-      const data = await response.json();
-      resolvedPackRoot = ensureTrailingSlash(base);
-      try {
-        packDocsBase = new URL("docs/catalog/", resolvedPackRoot);
-      } catch (error) {
-        console.warn("Impossibile definire la base documenti del pack", error);
-        packDocsBase = null;
-      }
-
-      const biomeCount = data.biomi?.length ?? 0;
-      const connectionsCount = data.ecosistema?.connessioni?.length ?? 0;
-      setSummary(
-        `${data.ecosistema?.label ?? "Meta-ecosistema"} con ${biomeCount} biomi collegati e ${connectionsCount} connessioni.`
-      );
-      renderConnections(data.ecosistema ?? {});
-
-      if (elements.biomeCards) {
-        elements.biomeCards.innerHTML = "";
-        data.biomi.forEach((biome) => {
-          elements.biomeCards.appendChild(renderBiomeCard(biome));
-        });
-      }
-
-      return;
-    } catch (error) {
-      lastError = error;
-      console.warn("Tentativo di caricamento del catalogo fallito", base, error);
+    if (elements.biomeCards) {
+      elements.biomeCards.innerHTML = "";
+      data.biomi.forEach((biome) => {
+        elements.biomeCards.appendChild(renderBiomeCard(biome));
+      });
     }
+    return;
+  } catch (error) {
+    console.warn("Caricamento catalogo tramite loader condiviso fallito", error);
   }
 
-  console.error("Impossibile caricare il catalogo da alcuna sorgente", lastError);
-  setSummary("Errore durante il caricamento del catalogo. Controlla la console per i dettagli.");
+  try {
+    const { data, context } = await manualLoadCatalog();
+    applyCatalogContext(context);
+
+    const biomeCount = data.biomi?.length ?? 0;
+    const connectionsCount = data.ecosistema?.connessioni?.length ?? 0;
+    setSummary(
+      `${data.ecosistema?.label ?? "Meta-ecosistema"} con ${biomeCount} biomi collegati e ${connectionsCount} connessioni (fallback).`
+    );
+    renderConnections(data.ecosistema ?? {});
+
+    if (elements.biomeCards) {
+      elements.biomeCards.innerHTML = "";
+      data.biomi.forEach((biome) => {
+        elements.biomeCards.appendChild(renderBiomeCard(biome));
+      });
+    }
+  } catch (error) {
+    console.error("Impossibile caricare il catalogo del pack", error);
+    setSummary("Errore durante il caricamento del catalogo. Controlla la console per i dettagli.");
+  }
 }
 
 loadCatalog();
+
+if (typeof window !== "undefined") {
+  window.EvoPack = window.EvoPack || {};
+  window.EvoPack.packRootCandidates = PACK_ROOT_CANDIDATES;
+  window.EvoPack.catalog = {
+    getResolvedCatalogUrl() {
+      return resolvedCatalogUrl;
+    },
+    getResolvedPackRoot() {
+      return resolvedPackRoot;
+    },
+    getPackDocsBase() {
+      return packDocsBase;
+    },
+    getContext() {
+      return packContext;
+    },
+    manualLoadCatalog,
+    loadPackCatalog,
+  };
+}

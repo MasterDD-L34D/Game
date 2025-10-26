@@ -1,4 +1,4 @@
-name: Deploy test interface
+name: Deploy site
 
 on:
   push:
@@ -57,22 +57,13 @@ jobs:
         run: |
           rm -rf dist
           mkdir -p dist
-          cp -r docs/test-interface dist/test-interface
+          rsync -av --delete \
+            --exclude '*.md' \
+            --exclude 'chatgpt_changes/' \
+            --exclude 'checklist/' \
+            --exclude 'Canvas/' \
+            docs/ dist/
           cp -r data dist/data
-          cp docs/test-interface/favicon.ico dist/ 2>/dev/null || true
-          cat <<'HTML' > dist/index.html
-          <!DOCTYPE html>
-          <html lang="it">
-            <head>
-              <meta charset="utf-8" />
-              <title>Test Interface Dashboard</title>
-              <meta http-equiv="refresh" content="0; url=test-interface/" />
-            </head>
-            <body>
-              <p>Redirecting to the <a href="test-interface/">test interface dashboard</a>…</p>
-            </body>
-          </html>
-          HTML
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
