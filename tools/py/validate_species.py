@@ -4,6 +4,16 @@ import json
 import yaml
 import argparse
 from collections import defaultdict
+from pathlib import Path
+
+
+def _maybe_load_yaml(path: Path | None):
+    if path is None:
+        return None
+    if not path.exists():
+        return None
+    with path.open("r", encoding="utf-8") as handle:
+        return yaml.safe_load(handle)
 
 
 def load_yaml(path):
@@ -86,16 +96,66 @@ def compute_known_counters(spec, chosen_set):
     return out
 
 
-def validate(path):
+def validate(path, baseline_path: Path | None = None, biomes_path: Path | None = None):
     spec = load_yaml(path)
     by_slot, synmap = collect_catalog(spec)
     res_cap, dr_cap = get_caps(spec)
+
+    baseline_data = _maybe_load_yaml(baseline_path)
+    biomes_data = _maybe_load_yaml(biomes_path)
+
+    baseline_traits = {}
+    trait_biomes = {}
+    if isinstance(baseline_data, dict):
+        baseline_traits = baseline_data.get("traits", {})
+        trait_biomes = {
+            trait_id: set((entry.get("biomi") or {}).keys()) for trait_id, entry in baseline_traits.items()
+        }
+
+    known_biomes = set()
+    if isinstance(biomes_data, dict):
+        known_biomes = set((biomes_data.get("biomes") or {}).keys())
 
     report = {"file": path, "species": [], "errors": 0, "warnings": 0}
     for sp in spec.get("species", []):
         sid = sp["id"]
         dp = sp.get("default_parts", {})
         errors, warnings = [], []
+
+        biome_affinity = sp.get("biome_affinity")
+        if biome_affinity and known_biomes and biome_affinity not in known_biomes:
+            errors.append(f"biome_affinity '{biome_affinity}' non definito in biomes dataset")
+
+        trait_plan = sp.get("trait_plan") or {}
+        if trait_plan:
+            for key in ["core", "optional", "synergies"]:
+                values = trait_plan.get(key) or []
+                if not isinstance(values, list):
+                    errors.append(f"trait_plan.{key} deve essere una lista")
+                    continue
+                if baseline_traits:
+                    missing = [tid for tid in values if tid not in baseline_traits]
+                    if missing:
+                        errors.append(f"tratti {missing} non presenti nel trait baseline")
+                if key == "core" and len(values) < 2:
+                    warnings.append("trait_plan.core dovrebbe contenere almeno 2 tratti")
+                if key == "optional" and len(values) < 2:
+                    warnings.append("trait_plan.optional dovrebbe contenere almeno 2 tratti")
+                if key == "synergies" and len(values) < 1:
+                    warnings.append("trait_plan.synergies dovrebbe contenere almeno 1 tratto")
+
+            env_focus = trait_plan.get("environment_focus") or {}
+            biome_class = env_focus.get("biome_class")
+            if biome_class and trait_biomes:
+                available_traits = [
+                    tid
+                    for tid in (trait_plan.get("core") or []) + (trait_plan.get("optional") or [])
+                    if biome_class in trait_biomes.get(tid, set())
+                ]
+                if not available_traits:
+                    warnings.append(
+                        f"nessun tratto del piano supporta biome_class '{biome_class}'"
+                    )
 
         est = sp.get("estimated_weight", 0)
         bud = sp.get("weight_budget", spec["global_rules"]["morph_budget"]["default_weight_budget"])
@@ -140,6 +200,7 @@ def validate(path):
                 "res_summary": res_sum,
                 "vuln_summary": vuln_sum,
                 "dr_summary": dr_sum,
+                "trait_plan": trait_plan,
                 "warnings": warnings,
                 "errors": errors,
             }
@@ -167,5 +228,17 @@ def validate(path):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("path", nargs="?", default="data/species.yaml")
+    ap.add_argument(
+        "--baseline",
+        type=Path,
+        default=Path("data/analysis/trait_baseline.yaml"),
+        help="Percorso al dataset del trait baseline",
+    )
+    ap.add_argument(
+        "--biomes",
+        type=Path,
+        default=Path("data/biomes.yaml"),
+        help="Dataset biomi per validare le affinità specie",
+    )
     args = ap.parse_args()
-    sys.exit(validate(args.path))
+    sys.exit(validate(args.path, baseline_path=args.baseline, biomes_path=args.biomes))
