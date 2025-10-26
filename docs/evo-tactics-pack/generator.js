@@ -269,6 +269,39 @@ const MANIFEST_PRESETS = [
       },
     ],
   },
+  {
+    id: "demo-bundle",
+    label: "Bundle demo pubblico",
+    description:
+      "Kit leggero per distribuzioni pubbliche con manifesto, dossier e press kit narrativo.",
+    zipSuffix: "demo",
+    files: [
+      {
+        id: "ecosystem-yaml",
+        format: "YAML",
+        filename: (slug) => `${slug}.yaml`,
+        description: () =>
+          "Manifesto YAML allineato al bundle demo, pronto per deploy statici o CDN.",
+        builder: "ecosystem-yaml",
+      },
+      {
+        id: "dossier-html",
+        format: "HTML",
+        filename: (slug) => `${slug}-dossier.html`,
+        description: () =>
+          "Dossier HTML riassuntivo con biomi, specie in evidenza e seed narrativi per la demo.",
+        builder: "dossier-html",
+      },
+      {
+        id: "press-kit-md",
+        format: "Markdown",
+        filename: (slug) => `${slug}-press-kit.md`,
+        description: () =>
+          "Press kit markdown con punti chiave, highlight e call-to-action per il lancio pubblico.",
+        builder: "press-kit-md",
+      },
+    ],
+  },
 ];
 
 const RARE_CUE_SOURCE = "data:audio/wav;base64,UklGRiYfAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YQIfAAAAALwL+hZBISMqQTFONhM5d" +
@@ -413,84 +446,6 @@ const TRAIT_CATEGORY_LABELS = {
   avanzati_specializzati: "Cluster avanzati",
 };
 
-const MANIFEST_PRESETS = [
-  {
-    id: "playtest-bundle",
-    label: "Bundle playtest",
-    description:
-      "Pacchetto completo per sessioni di prova con dati serializzati e registro attività.",
-    zipSuffix: "playtest",
-    files: [
-      {
-        id: "ecosystem-json",
-        format: "JSON",
-        filename: (slug) => `${slug}.json`,
-        description: (context) =>
-          `Dump completo dell'ecosistema "${context.ecosystemLabel}" con ${context.metrics.biomeCount} biomi, ${context.metrics.speciesCount} specie e ${context.metrics.seedCount} seed generati.`,
-        builder: "ecosystem-json",
-      },
-      {
-        id: "ecosystem-yaml",
-        format: "YAML",
-        filename: (slug) => `${slug}.yaml`,
-        description: () =>
-          "Manifesto YAML utilizzabile per commit rapidi o pipeline di integrazione continua.",
-        builder: "ecosystem-yaml",
-      },
-      {
-        id: "activity-json",
-        format: "JSON",
-        filename: (slug) => `${slug}-log.json`,
-        description: () =>
-          "Registro attività in formato JSON con tutti gli eventi ordinati cronologicamente.",
-        builder: "activity-json",
-        optional: true,
-      },
-      {
-        id: "activity-csv",
-        format: "CSV",
-        filename: (slug) => `${slug}-log.csv`,
-        description: () =>
-          "Registro attività pronto per spreadsheet, pivot e annotazioni durante il playtest.",
-        builder: "activity-csv",
-        optional: true,
-      },
-    ],
-  },
-  {
-    id: "report-design",
-    label: "Report design",
-    description:
-      "Materiale di documentazione per pitch, hand-off designer e revisioni art direction.",
-    zipSuffix: "report",
-    files: [
-      {
-        id: "ecosystem-yaml",
-        format: "YAML",
-        filename: (slug) => `${slug}.yaml`,
-        description: () =>
-          "Manifesto YAML curato per alimentare design docs, report e versioning narrativo.",
-        builder: "ecosystem-yaml",
-      },
-      {
-        id: "dossier-html",
-        format: "HTML",
-        filename: (slug) => `${slug}-dossier.html`,
-        description: () =>
-          "Dossier HTML con panoramica visiva dei biomi, specie chiave e seed generati.",
-        builder: "dossier-html",
-      },
-      {
-        id: "dossier-pdf",
-        format: "PDF",
-        filename: (slug) => `${slug}-dossier.pdf`,
-        description: () =>
-          "Versione PDF del dossier, pronta per la condivisione con stakeholder esterni.",
-        builder: "dossier-pdf",
-      },
-    ],
-  },
-];
 
 function applyCatalogContext(data, context) {
   packContext = context ?? null;
@@ -2904,6 +2859,14 @@ function buildPresetContext(filters = state.lastFilters) {
   const biomes = Array.isArray(state.pick.biomes) ? state.pick.biomes : [];
   const speciesBuckets = state.pick.species ?? {};
   const seeds = Array.isArray(state.pick.seeds) ? state.pick.seeds : [];
+  const pinnedEntries =
+    state.cardState?.pinned instanceof Map
+      ? Array.from(state.cardState.pinned.values())
+      : [];
+  const narrative = { ...(state.narrative ?? {}) };
+  const insights = Array.isArray(narrative.recommendations)
+    ? narrative.recommendations
+    : [];
   return {
     slug,
     folder,
@@ -2916,6 +2879,9 @@ function buildPresetContext(filters = state.lastFilters) {
     biomes,
     speciesBuckets,
     seeds,
+    pinnedEntries,
+    narrative,
+    insights,
     generatedAt: new Date(),
   };
 }
@@ -2934,7 +2900,7 @@ function describePresetFile(file, context) {
       reason = "Il registro attività è vuoto.";
     }
   }
-  if (file.builder === "dossier-html" || file.builder === "dossier-pdf") {
+  if (file.builder === "dossier-html" || file.builder === "dossier-pdf" || file.builder === "press-kit-md") {
     const hasPayload =
       context.metrics.biomeCount + context.metrics.speciesCount + context.metrics.seedCount > 0;
     if (!hasPayload) {
@@ -3355,6 +3321,146 @@ async function refreshDossierPreview(context) {
   preview.innerHTML = body ? body.innerHTML : "";
 }
 
+function flattenSpeciesBuckets(speciesBuckets = {}) {
+  const unique = new Map();
+  Object.values(speciesBuckets).forEach((list) => {
+    if (!Array.isArray(list)) return;
+    list.forEach((species) => {
+      if (!species) return;
+      const key = species.id || species.display_name || null;
+      if (!key || unique.has(key)) return;
+      unique.set(key, species);
+    });
+  });
+  return Array.from(unique.values());
+}
+
+function formatSpotlightLine(entry) {
+  if (!entry) return null;
+  const name = entry.displayName || entry.display_name || entry.speciesId || entry.id;
+  if (!name) return null;
+  const biomeLabel = entry.biomeLabel || entry.biome_id || entry.biome || null;
+  const tierLabel = entry.tier ? `T${entry.tier}` : null;
+  const synthLabel = entry.synthetic ? "Synth" : null;
+  const tags = [biomeLabel, tierLabel, synthLabel].filter(Boolean).join(" · ");
+  return tags ? `- ${name} (${tags})` : `- ${name}`;
+}
+
+function formatSpeciesFallbackLine(species) {
+  if (!species) return null;
+  const name = species.display_name || species.id || "Specie";
+  const biomeCode = species.biome_id || species.biome || species.habitat_code || null;
+  const biomeLabel = biomeCode ? findBiomeLabelById(biomeCode) || biomeCode : null;
+  const roleCode = species.role_trofico || species.role || null;
+  const roleLabel = roleCode ? SPECIES_ROLE_LABELS[roleCode] || titleCase(roleCode.replace(/_/g, " ")) : null;
+  const tags = [biomeLabel, roleLabel].filter(Boolean).join(" · ");
+  return tags ? `- ${name} (${tags})` : `- ${name}`;
+}
+
+function formatSeedSummary(seed) {
+  if (!seed) return null;
+  const label = seed.label || seed.id || "Seed";
+  const biomeCode = seed.biome_id || seed.biome || null;
+  const biomeLabel = biomeCode ? findBiomeLabelById(biomeCode) || biomeCode : null;
+  const threat = typeof seed.threat_budget === "number" ? `Budget T${seed.threat_budget}` : null;
+  const synth = seed.synthetic ? "Synth" : null;
+  const segments = [label, biomeLabel, threat, synth].filter(Boolean).join(" · ");
+  return `- ${segments}`;
+}
+
+function buildPressKitMarkdown(context) {
+  const metrics = context.metrics || {
+    biomeCount: 0,
+    speciesCount: 0,
+    uniqueSpeciesCount: 0,
+    seedCount: 0,
+  };
+  const generatedAt =
+    context.generatedAt instanceof Date
+      ? context.generatedAt
+      : new Date(context.generatedAt || Date.now());
+
+  const lines = [];
+  lines.push(`# ${context.ecosystemLabel} — Demo pubblico`);
+  lines.push("");
+  lines.push(
+    `Generato il ${generatedAt.toLocaleString("it-IT", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    })} con ${metrics.biomeCount} biomi, ${metrics.speciesCount} specie (${metrics.uniqueSpeciesCount} uniche) e ${metrics.seedCount} seed narrativi.`
+  );
+  lines.push(`Filtri attivi: ${context.filterSummary}.`);
+  lines.push("");
+
+  lines.push("## Metriche chiave");
+  lines.push("");
+  lines.push(`- Biomi selezionati: ${metrics.biomeCount}`);
+  lines.push(`- Specie totali: ${metrics.speciesCount} (${metrics.uniqueSpeciesCount} uniche)`);
+  lines.push(`- Seed narrativi: ${metrics.seedCount}`);
+  const highlightBiome = Array.isArray(context.biomes) && context.biomes.length ? context.biomes[0] : null;
+  if (highlightBiome) {
+    const highlightLabel = highlightBiome.label || highlightBiome.id || "Bioma";
+    lines.push(`- Bioma in evidenza: ${highlightLabel}`);
+  }
+  lines.push("");
+
+  const pinnedLines = Array.isArray(context.pinnedEntries)
+    ? context.pinnedEntries.map(formatSpotlightLine).filter(Boolean)
+    : [];
+  let spotlightLines = pinnedLines.slice(0, 3);
+  if (!spotlightLines.length) {
+    spotlightLines = flattenSpeciesBuckets(context.speciesBuckets ?? {})
+      .map(formatSpeciesFallbackLine)
+      .filter(Boolean)
+      .slice(0, 3);
+  }
+  if (spotlightLines.length) {
+    lines.push("## Specie spotlight");
+    lines.push("");
+    spotlightLines.forEach((line) => lines.push(line));
+    lines.push("");
+  }
+
+  const seedLines = Array.isArray(context.seeds)
+    ? context.seeds.map(formatSeedSummary).filter(Boolean).slice(0, 4)
+    : [];
+  if (seedLines.length) {
+    lines.push("## Seed narrativi in evidenza");
+    lines.push("");
+    seedLines.forEach((line) => lines.push(line));
+    lines.push("");
+  }
+
+  const recommendations = Array.isArray(context.insights) ? context.insights : [];
+  if (recommendations.length) {
+    lines.push("## Insight operativi");
+    lines.push("");
+    recommendations.slice(0, 4).forEach((rec) => {
+      if (!rec?.message) return;
+      const tone = rec.tone ? rec.tone.toUpperCase() : null;
+      const prefix = tone ? `[${tone}] ` : "";
+      lines.push(`- ${prefix}${rec.message}`);
+    });
+    lines.push("");
+  }
+
+  if (context.narrative?.narrativeHook) {
+    lines.push("## Hook narrativo");
+    lines.push("");
+    lines.push(context.narrative.narrativeHook);
+    lines.push("");
+  }
+
+  lines.push("## Call to action");
+  lines.push("");
+  lines.push("- Condividi il dossier HTML con Marketing/Comms per asset visivi aggiornati.");
+  lines.push("- Usa il manifesto YAML per predisporre il deploy statico o la CDN demo.");
+  lines.push("- Integra il press kit nelle note di rilascio e nella newsletter della demo.");
+  lines.push("");
+
+  return lines.join("\n").replace(/\n{3,}/g, "\n\n");
+}
+
 async function generatePresetFileContents(preset, filters) {
   const context = buildPresetContext(filters);
   const files = [];
@@ -3420,6 +3526,17 @@ async function generatePresetFileContents(preset, filters) {
                 binary: true,
               });
             }
+          }
+          break;
+        case "press-kit-md":
+          {
+            const markdown = buildPressKitMarkdown(context);
+            files.push({
+              id: file.id,
+              name: descriptor.name,
+              mime: "text/markdown",
+              data: markdown,
+            });
           }
           break;
         default:

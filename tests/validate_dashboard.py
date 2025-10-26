@@ -128,9 +128,39 @@ def validate_generator() -> None:
     )
 
 
+def validate_demo_bundle() -> None:
+    generator_path = REPO_ROOT / "docs" / "evo-tactics-pack" / "generator.js"
+    assert_requirements("generator-demo", generator_path.exists(), "generator.js non trovato")
+    source = generator_path.read_text(encoding="utf-8")
+    assert_requirements(
+        "generator-demo",
+        'id: "demo-bundle"' in source,
+        "Preset demo-bundle non trovato in generator.js",
+    )
+    assert_requirements(
+        "generator-demo",
+        'builder: "press-kit-md"' in source,
+        "Builder press-kit-md mancante per il bundle demo",
+    )
+
+    pack_data_path = REPO_ROOT / "packs" / "pack-data.js"
+    assert_requirements("pack-data", pack_data_path.exists(), "packs/pack-data.js non trovato")
+    pack_source = pack_data_path.read_text(encoding="utf-8")
+    for token in ("EVO_PACK_ROOT", "candidatePackRoots", "loadPackCatalog"):
+        assert_requirements(
+            "pack-data",
+            token in pack_source,
+            f"Token '{token}' mancante in packs/pack-data.js",
+        )
+
+    deploy_doc = REPO_ROOT / "docs" / "evo-tactics-pack" / "deploy.md"
+    assert_requirements("deploy-doc", deploy_doc.exists(), "Documentazione deploy demo mancante")
+
+
 def main() -> None:
     validate_dashboard()
     validate_generator()
+    validate_demo_bundle()
     print("Tutti i controlli sulla dashboard e sul generatore sono passati.")
 
 
