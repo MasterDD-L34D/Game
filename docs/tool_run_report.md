@@ -1,5 +1,12 @@
 # Tool Execution Report
 
+## 2025-10-26 — Environment refresh & QA follow-up
+- Creato e attivato `.venv` con upgrade pip 25.3 e verificato npm 11.6.2 dopo aggiornamento globale (`npm install -g npm@latest`).【db8dd8†L1-L2】【ff93dd†L1-L3】
+- Installate dipendenze Python (`pip install -r tools/py/requirements.txt`) per abilitare gli script encounter e sync.【7b71fe†L1-L3】
+- Eseguiti i test unitari CLI `npm test` (3 casi `roll_pack` passed) e registrato l'esito in checklist/action items.【1e2f1a†L1-L11】
+- Rigenerati gli encounter demo per savana/caverna/palude con seed `demo`, aggiornando gli esempi condivisi.【2d223a†L1-L39】【b12b40†L1-L39】【b948a5†L1-L39】【F:docs/examples/encounter_savana.txt†L1-L47】【F:docs/examples/encounter_caverna.txt†L1-L47】【F:docs/examples/encounter_palude.txt†L1-L47】
+- Audit web limitato: server statico `python -m http.server 8000` raggiungibile via `curl`, ma resta necessario testare la UI con browser reale per azionare i pulsanti automatizzati.【2bc46d†L1-L7】
+
 # 2025-10-24 — ChatGPT Sync & Telemetry Validation
 - Eseguito `python scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml` dopo aver reinstallato `requests`; generati diff aggiornati per `local-export` e `local-notes`.【1b0562†L1-L9】
 - Ricompilata la CLI TypeScript con `npm run build` per assicurare che gli esempi roll_pack riflettano l'ultima logica condivisa.【d30fc0†L1-L6】

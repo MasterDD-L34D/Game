@@ -1,38 +1,47 @@
 {
   "biome": "savana",
+  "tb": 23,
   "TB": 23,
   "groups": [
     {
       "power": 7,
-      "role": "skirm",
+      "role": "front",
       "affixes": [
         "spore_diluite",
-        "sabbia"
+        "termico"
       ]
     },
     {
       "power": 7,
-      "role": "support",
+      "role": "front",
       "affixes": [
-        "termico",
-        "spore_diluite"
+        "sabbia",
+        "luminescente"
       ]
     },
     {
       "power": 7,
       "role": "control",
       "affixes": [
-        "termico",
-        "sabbia"
+        "spore_diluite",
+        "luminescente"
       ]
     },
     {
       "power": 2,
-      "role": "front",
+      "role": "objective",
       "affixes": [
         "luminescente",
         "spore_diluite"
       ]
     }
-  ]
+  ],
+  "party_vc": {
+    "aggro": "low",
+    "cohesion": "mid",
+    "setup": "mid",
+    "explore": "low",
+    "risk": "mid"
+  }
 }
+
