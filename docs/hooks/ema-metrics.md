@@ -18,7 +18,7 @@
    - L'oggetto `state.ema` espone `window` (turno) e frame `phase_weights` aggiornati.
    - `indices` include `risk.weighted_index` e `risk.time_low_hp_turns` per confronto diretto con i target del tuning.
 
-2. **Middleware VC (client)**
+2. **Middleware VC (client)** — implementato in `tools/ts/hud_alerts.ts` per gli scenari di test
    ```ts
    telemetryBus.on("ema.update", (payload) => {
      hudLayer.updateTrend("risk", payload.indices.risk);
@@ -33,11 +33,12 @@
          },
        });
        commandBus.emit("pi.balance.alert", payload);
-     }
-   });
-   ```
-   - L'alert HUD usa colore giallo (warning) e si auto-disarma quando la media scende sotto 0.58 per due tick consecutivi.
-   - `commandBus.emit` notifica il canale PI balance per follow-up immediato.
+      }
+    });
+    ```
+    - L'alert HUD usa colore giallo (warning) e si auto-disarma quando la media scende sotto 0.58 per due tick consecutivi.
+    - `commandBus.emit` notifica il canale PI balance per follow-up immediato.
+    - Il recorder telemetrico archivia l'evento in `hud_alert_log` (vedi `logs/playtests/2025-11-05-vc/session-metrics.yaml`).
 
 3. **Persistenza & export**
    - In coda missione, il client salva un frammento YAML con l'ultima finestra EMA e i momenti di attivazione dell'alert.
