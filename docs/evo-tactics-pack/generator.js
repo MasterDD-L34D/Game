@@ -82,7 +82,7 @@ const STORAGE_KEYS = {
 };
 
 const DEFAULT_ACTIVITY_TONES = ["info", "success", "warn", "error"];
-const MAX_ACTIVITY_EVENTS = 60;
+const MAX_ACTIVITY_EVENTS = 150;
 const TONE_LABELS = {
   info: "Info",
   success: "Successo",
@@ -262,6 +262,54 @@ function createTagEntry(tag) {
   return { id, label };
 }
 
+function toIsoTimestamp(value) {
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+  if (value === null || value === undefined || value === "") {
+    return new Date().toISOString();
+  }
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return new Date().toISOString();
+  }
+  return date.toISOString();
+}
+
+function serialiseActivityLogEntry(entry) {
+  if (!entry) return null;
+  const tags = Array.isArray(entry.tags)
+    ? entry.tags
+        .map((tag) => {
+          if (!tag) return null;
+          if (typeof tag === "object") {
+            const id = tag.id ?? tag.value ?? null;
+            const label = tag.label ?? tag.name ?? tag.value ?? tag.id ?? null;
+            if (!id && !label) return null;
+            return {
+              id: id ?? (label ? normaliseTagId(label) || null : null),
+              label: label ?? (id ? String(id) : ""),
+            };
+          }
+          const label = String(tag ?? "").trim();
+          if (!label) return null;
+          return { id: normaliseTagId(label) || null, label };
+        })
+        .filter(Boolean)
+    : [];
+
+  return {
+    id: entry.id ?? null,
+    message: entry.message ?? "",
+    tone: entry.tone ?? "info",
+    timestamp: toIsoTimestamp(entry.timestamp),
+    tags,
+    action: entry.action ?? null,
+    pinned: Boolean(entry.pinned),
+    metadata: entry.metadata ?? null,
+  };
+}
+
 function trimActivityLog() {
   if (!Array.isArray(state.activityLog)) {
     state.activityLog = [];
@@ -290,18 +338,13 @@ function persistActivityLog() {
   const storage = getActivityStorage();
   if (!storage) return;
   try {
-    const serialisable = state.activityLog.map((entry) => ({
-      id: entry.id,
-      message: entry.message,
-      tone: entry.tone,
-      timestamp: entry.timestamp instanceof Date ? entry.timestamp.toISOString() : entry.timestamp,
-      tags: Array.isArray(entry.tags)
-        ? entry.tags.map((tag) => ({ id: tag.id, label: tag.label }))
-        : [],
-      action: entry.action ?? null,
-      pinned: Boolean(entry.pinned),
-      metadata: entry.metadata ?? null,
-    }));
+    const serialisable = state.activityLog
+      .map(serialiseActivityLogEntry)
+      .filter(Boolean)
+      .map((entry) => ({
+        ...entry,
+        timestamp: entry.timestamp,
+      }));
     storage.setItem(STORAGE_KEYS.activityLog, JSON.stringify(serialisable));
   } catch (error) {
     console.warn("Impossibile salvare il registro attività", error);
@@ -397,6 +440,43 @@ function renderActivityTagFilters() {
     option.selected = selected instanceof Set ? selected.has(id) : false;
     select.appendChild(option);
   });
+}
+
+function buildActivityHaystack(entry) {
+  const parts = [entry.message, entry.action];
+
+  (entry.tags ?? []).forEach((tag) => {
+    if (tag?.label) {
+      parts.push(tag.label);
+    }
+  });
+
+  const metadata = entry.metadata;
+  if (metadata !== null && metadata !== undefined) {
+    collectMetadataText(metadata, parts);
+  }
+
+  return parts
+    .filter((value) => value !== null && value !== undefined && value !== "")
+    .join(" ")
+    .toLowerCase();
+}
+
+function collectMetadataText(source, parts) {
+  if (source === null || source === undefined) {
+    return;
+  }
+  if (typeof source === "string" || typeof source === "number" || typeof source === "boolean") {
+    parts.push(String(source));
+    return;
+  }
+  if (Array.isArray(source)) {
+    source.forEach((item) => collectMetadataText(item, parts));
+    return;
+  }
+  if (typeof source === "object") {
+    Object.values(source).forEach((value) => collectMetadataText(value, parts));
+  }
 }
 
 function updateActivityTagRegistry() {
@@ -554,16 +634,7 @@ function renderActivityLog() {
       }
     }
     if (query) {
-      const haystackParts = [entry.message, entry.action];
-      (entry.tags ?? []).forEach((tag) => {
-        if (tag?.label) {
-          haystackParts.push(tag.label);
-        }
-      });
-      const haystack = haystackParts
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+      const haystack = buildActivityHaystack(entry);
       if (!haystack.includes(query)) {
         return false;
       }
@@ -861,6 +932,18 @@ function renderExportManifest(filters = state.lastFilters) {
       name: `${slug}.yaml`,
       format: "YAML",
       description: `Manifesto YAML pronto per commit in ${folder}, utile per revisioni manuali o pipeline esterne.`,
+    },
+    {
+      name: `${slug}-log.json`,
+      format: "JSON",
+      description:
+        "Registro attività della sessione con dettagli completi per audit, debugging o cronache di test.",
+    },
+    {
+      name: `${slug}-log.csv`,
+      format: "CSV",
+      description:
+        "Registro attività pronto per spreadsheet, filtri pivot e analisi rapide degli eventi registrati.",
     },
   ];
 
@@ -3680,6 +3763,65 @@ function exportPayload(filters) {
   };
 }
 
+function exportActivityLogEntries() {
+  if (!Array.isArray(state.activityLog) || !state.activityLog.length) {
+    return [];
+  }
+  return state.activityLog
+    .map(serialiseActivityLogEntry)
+    .filter(Boolean)
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+}
+
+function activityLogToCsv(entries) {
+  const columns = ["id", "timestamp", "tone", "message", "tags", "action", "pinned", "metadata"];
+  const escape = (value) => {
+    if (value === null || value === undefined) return "";
+    const stringValue = String(value);
+    if (/[",\n]/.test(stringValue)) {
+      return `"${stringValue.replace(/"/g, '""')}"`;
+    }
+    return stringValue;
+  };
+
+  const header = columns.join(",");
+  if (!entries.length) {
+    return `${header}\n`;
+  }
+
+  const rows = entries.map((entry) => {
+    const tags = Array.isArray(entry.tags)
+      ? entry.tags
+          .map((tag) => {
+            if (!tag) return null;
+            const label = tag.label ?? tag.id ?? "";
+            return label ? String(label) : null;
+          })
+          .filter(Boolean)
+          .join("|")
+      : "";
+    const metadata =
+      entry.metadata === null || entry.metadata === undefined
+        ? ""
+        : typeof entry.metadata === "string"
+        ? entry.metadata
+        : JSON.stringify(entry.metadata);
+    const record = {
+      id: entry.id ?? "",
+      timestamp: entry.timestamp ?? "",
+      tone: entry.tone ?? "",
+      message: entry.message ?? "",
+      tags,
+      action: entry.action ?? "",
+      pinned: entry.pinned ? "true" : "false",
+      metadata,
+    };
+    return columns.map((column) => escape(record[column])).join(",");
+  });
+
+  return [header, ...rows].join("\n");
+}
+
 function downloadFile(name, content, type) {
   const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
@@ -3995,6 +4137,40 @@ function attachActions() {
         setStatus("Esportazione YAML completata.", "success", {
           tags: ["export", "yaml"],
           action: "export-yaml",
+        });
+        break;
+      }
+      case "export-log-json": {
+        if (!state.activityLog.length) {
+          setStatus("Il registro attività è vuoto, nulla da esportare.", "warn", {
+            tags: ["export", "log", "vuoto"],
+            action: "export-log-empty",
+          });
+          break;
+        }
+        const entries = exportActivityLogEntries();
+        const slug = ensureExportSlug();
+        downloadFile(`${slug}-log.json`, JSON.stringify(entries, null, 2), "application/json");
+        setStatus("Registro attività esportato in JSON.", "success", {
+          tags: ["export", "log", "json"],
+          action: "export-log-json",
+        });
+        break;
+      }
+      case "export-log-csv": {
+        if (!state.activityLog.length) {
+          setStatus("Il registro attività è vuoto, nulla da esportare.", "warn", {
+            tags: ["export", "log", "vuoto"],
+            action: "export-log-empty",
+          });
+          break;
+        }
+        const entries = exportActivityLogEntries();
+        const slug = ensureExportSlug();
+        downloadFile(`${slug}-log.csv`, activityLogToCsv(entries), "text/csv");
+        setStatus("Registro attività esportato in CSV.", "success", {
+          tags: ["export", "log", "csv"],
+          action: "export-log-csv",
         });
         break;
       }

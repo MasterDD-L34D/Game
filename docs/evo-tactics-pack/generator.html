@@ -91,60 +91,54 @@
         <section class="section" id="generator-parameters" data-panel="parameters">
           <article class="card card--highlight">
             <form class="form" id="generator-form">
-            <h2 class="form__title">Parametri</h2>
-            <div class="grid grid--three">
-              <label class="form__field">
-                <span>Numero di biomi</span>
-                <input id="nBiomi" type="number" min="1" max="6" value="2" />
-              </label>
-              <label class="form__field">
-                <span>Flags richiesti</span>
-                <select id="flags" multiple size="5"></select>
-              </label>
-              <label class="form__field">
-                <span>Ruoli trofici</span>
-                <select id="roles" multiple size="5"></select>
-              </label>
-              <label class="form__field">
-                <span>Tag funzionali</span>
-                <select id="tags" multiple size="6"></select>
-              </label>
-            </div>
-            <div class="generator-form__section">
-              <h3 class="generator-form__legend">Vincoli principali</h3>
-              <div class="generator-form__grid">
-                <label class="form__field">
-                  <span>Numero di biomi</span>
-                  <input id="nBiomi" type="number" min="1" max="6" value="2" />
-                </label>
+              <h2 class="form__title">Parametri</h2>
+              <div class="generator-form__section">
+                <h3 class="generator-form__legend">Vincoli principali</h3>
+                <div class="generator-form__grid">
+                  <label class="form__field">
+                    <span>Numero di biomi</span>
+                    <input id="nBiomi" type="number" min="1" max="6" value="2" />
+                  </label>
+                </div>
               </div>
-            </div>
-            <div class="generator-form__section">
-              <h3 class="generator-form__legend">Filtra ecosistema</h3>
-              <div class="generator-form__grid generator-form__grid--filters">
-                <label class="form__field">
-                  <span>Flags richiesti</span>
-                  <select id="flags" multiple size="5"></select>
-                </label>
-                <label class="form__field">
-                  <span>Ruoli trofici</span>
-                  <select id="roles" multiple size="5"></select>
-                </label>
-                <label class="form__field">
-                  <span>Tag funzionali</span>
-                  <select id="tags" multiple size="6"></select>
-                </label>
+              <div class="generator-form__section">
+                <h3 class="generator-form__legend">Filtra ecosistema</h3>
+                <div class="generator-form__grid generator-form__grid--filters">
+                  <label class="form__field">
+                    <span>Flags richiesti</span>
+                    <select id="flags" multiple size="5"></select>
+                  </label>
+                  <label class="form__field">
+                    <span>Ruoli trofici</span>
+                    <select id="roles" multiple size="5"></select>
+                  </label>
+                  <label class="form__field">
+                    <span>Tag funzionali</span>
+                    <select id="tags" multiple size="6"></select>
+                  </label>
+                </div>
               </div>
-            </div>
-            <div class="form__actions generator-form__actions">
-              <button type="button" class="button" data-action="roll-ecos">🎲 Genera ecosistema</button>
-              <button type="button" class="button button--secondary" data-action="reroll-biomi">↻ Re-roll biomi</button>
-              <button type="button" class="button button--secondary" data-action="reroll-species">↻ Re-roll specie</button>
-              <button type="button" class="button button--ghost" data-action="reroll-seeds">↻ Re-roll encounter seed</button>
-              <button type="button" class="button button--ghost" data-action="export-json">⬇︎ JSON</button>
-              <button type="button" class="button button--ghost" data-action="export-yaml">⬇︎ YAML</button>
-            </div>
-          </form>
+              <div class="form__actions generator-form__actions">
+                <button type="button" class="button" data-action="roll-ecos">
+                  🎲 Genera ecosistema
+                </button>
+                <button type="button" class="button button--secondary" data-action="reroll-biomi">
+                  ↻ Re-roll biomi
+                </button>
+                <button type="button" class="button button--secondary" data-action="reroll-species">
+                  ↻ Re-roll specie
+                </button>
+                <button type="button" class="button button--ghost" data-action="reroll-seeds">
+                  ↻ Re-roll encounter seed
+                </button>
+                <button type="button" class="button button--ghost" data-action="export-json">
+                  ⬇︎ JSON
+                </button>
+                <button type="button" class="button button--ghost" data-action="export-yaml">
+                  ⬇︎ YAML
+                </button>
+              </div>
+            </form>
           <section
             class="generator-summary"
             id="generator-summary"
@@ -222,6 +216,22 @@
                     <input type="checkbox" id="activity-pinned-only" />
                     <span>Solo eventi pinnati</span>
                   </label>
+                  <div class="generator-activity__export">
+                    <button
+                      type="button"
+                      class="button button--ghost"
+                      data-action="export-log-json"
+                    >
+                      ⬇︎ Log JSON
+                    </button>
+                    <button
+                      type="button"
+                      class="button button--ghost"
+                      data-action="export-log-csv"
+                    >
+                      ⬇︎ Log CSV
+                    </button>
+                  </div>
                   <button
                     type="button"
                     class="button button--ghost generator-activity__reset"
