@@ -17,3 +17,17 @@
 
 ### Known Issues
 - Nessuno segnalato.
+
+## [2025-11] VC Patch Note (RC)
+### Stato feature
+- **HUD Risk/Cohesion Overlay** — Pronto per release; metriche QA 2025-11-01 confermano risk medio 0.55 e coesione 0.81 dopo il tuning EMA 0.2.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L45】
+- **Protocollo SquadSync Playbook** — Deployato con successo nelle squadre Echo/Bravo; resta monitoraggio su picchi risk >0.60 durante wave prolungate.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L19-L44】
+- **Missione Skydock Siege (vertical slice)** — Contenuti narrativi e timer evacuazione completi; mantenere focus su supporto Aeon Overclock con guardie condivise.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L31-L36】
+
+### Issue note
+- **Picco risk Echo wave 3** — Evento isolato (0.62) risolto con swap supporti; verificare alert in tempo reale nel rollout finale.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L24-L33】
+- **Allineamento annunci** — Coordinare il calendario cross-team e gli aggiornamenti Canvas prima del tag `v0.6.0-rc1`.
+
+### Prossimi passi
+- Pubblicare il tag `v0.6.0-rc1` dopo conferma QA e distribuire note VC al team ampliato.
+- Aggiornare materiali marketing/Canvas con screenshot HUD e grafici risk/cohesion aggiornati al 2025-11-01.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L45】
