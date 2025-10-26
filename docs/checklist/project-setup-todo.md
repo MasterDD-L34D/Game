@@ -51,10 +51,10 @@ ogni esecuzione importante, annotando data, esito e note operative.
 
 ## 8. Manutenzione continua
 - [ ] Aggiornare regolarmente roadmap e checklist (milestone, action items, questa TODO) con progressi. _Checkpoint 2025-11-01 programmato; referente PM: S. Greco._
-- [ ] Pianificare incontri di revisione (settimanali/quindicinali) per verificare stato dei pacchetti PI,
-      telemetria VC e nuove feature. _Serie meeting VC riparte il 2025-11-04 (owner: Team Design)._ 
-- [ ] Automatizzare i test (GitHub Actions o CI locale) quando le dipendenze e le credenziali sono stabili. _Pipeline GitHub Actions da definire post-stabilizzazione credenziali ChatGPT — responsabile DevOps: M. Ferretti._ 
-- [ ] Archiviare in `docs/logs/` o `logs/` eventuali report di bug o sessioni di playtest. _Promemoria operativo 2025-10-26: usare naming `logs/playtests/YYYY-MM-DD` e allegare seed utilizzati._
+- [x] Pianificare incontri di revisione (settimanali/quindicinali) per verificare stato dei pacchetti PI,
+      telemetria VC e nuove feature. _Calendario pubblicato in `docs/24-TELEMETRIA_VC.md` (agg. 2025-10-27, owner: Team Design)._ 
+- [x] Automatizzare i test (GitHub Actions o CI locale) quando le dipendenze e le credenziali sono stabili. _Workflow `CI` attivo con build CLI TS e validazioni dataset Python/TS documentato in `docs/ci-pipeline.md` (2025-10-27, DevOps)._ 
+- [x] Archiviare in `docs/logs/` o `logs/` eventuali report di bug o sessioni di playtest. _Convenzione `logs/playtests/YYYY-MM-DD` formalizzata in `docs/playtest-log-guidelines.md` e applicativa dal ciclo 2025-11-04._
 
 ## 9. Quality assurance manuale
 - [ ] Preparare una lista di scenari di gioco critici (bilanciamento, progressione, eventi speciali). _Deadline proposta: 2025-11-08 (referente QA: V. Romano)._ 
