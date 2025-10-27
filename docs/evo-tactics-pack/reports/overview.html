@@ -55,6 +55,17 @@
 
       <section class="section">
         <div class="section__header">
+          <h2>Pipeline &amp; validazioni</h2>
+          <p>Esiti più recenti degli stage CI/QA per l'export del pack.</p>
+        </div>
+        <div class="card card--list">
+          <div id="pipeline-list" class="feed" aria-live="polite"></div>
+        </div>
+        <p id="pipeline-error" class="form__hint" data-tone="warn" hidden></p>
+      </section>
+
+      <section class="section">
+        <div class="section__header">
           <h2>Connessioni tra biomi</h2>
           <p>Bridge, corridor e spillover registrati nel meta-ecosistema.</p>
         </div>
@@ -70,6 +81,17 @@
         </div>
         <div class="card">
           <ul id="overview-datasets"></ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section__header">
+          <h2>Specie chiave &amp; ponti</h2>
+          <p>Flag strategici e specie multi-bioma utili alla pianificazione degli stage successivi.</p>
+        </div>
+        <div class="card card--list">
+          <div id="flag-metrics" class="chip-list chip-list--compact" aria-live="polite"></div>
+          <table id="bridge-table" class="table" aria-live="polite"></table>
         </div>
       </section>
 
