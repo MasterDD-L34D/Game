@@ -20,7 +20,15 @@
 - Accessi temporanei per ambienti di test (`support` profile) validi fino al 2025-11-25.
 - Template FAQ (`docs/faq.md`) con sezione Support e QA.
 
+### Checklist pre-sessione
+- Verificare che i profili in `config/cli/` abbiano hash commit aggiornato alla build `game-cli` pubblicata il 2025-11-08.
+- Pubblicare nel canale `#vc-docs` il link alla registrazione demo CLI e il file `logs/cli/pre-onboarding-2025-11-08.log`.
+- Creare un branch di esempio (`feature/onboarding-cli-demo`) con PR di prova per illustrare il workflow `daily-pr-summary`.
+- Aggiornare `docs/chatgpt_sync_status.md` se cambiano i token temporanei forniti a Support/QA.
+
 ## Azioni post-sessione
 - Raccolta feedback tramite form Google (deadline 2025-11-19).
 - Consolidare le domande in `docs/faq.md` e assegnare owner.
 - Registrare la sessione e allegare il link in `docs/presentations/assets/`.
+- Verificare che tutti i partecipanti abbiano eseguito `scripts/cli_smoke.sh --profile support` e caricato l'output in `logs/cli/qa/2025-11-18/`.
+- Inserire nel deck finale un riepilogo delle modifiche CLI (modularizzazione, profili, logging) con riferimento all'ADR `ADR-2025-11-18`.
