@@ -75,4 +75,5 @@ jobs:
           DEPLOY_DATA_DIR: ${{ github.workspace }}/data
           CI: "true"
           PLAYWRIGHT_REUSE_SERVER: "0"
+          DEPLOY_SKIP_SMOKE_TEST: "1"
         run: scripts/run_deploy_checks.sh

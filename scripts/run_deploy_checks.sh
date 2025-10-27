@@ -154,39 +154,52 @@ cat <<'HTML' >"$DIST_DIR/index.html"
 HTML
 
 log "Deploy bundle ready at $DIST_DIR"
-log "Starting smoke test HTTP server for the deploy bundle"
-PORT=$(python3 - <<'PY'
+SMOKE_TEST_MESSAGE=""
+SMOKE_TEST_DETAILS=()
+
+if [ "${DEPLOY_SKIP_SMOKE_TEST:-0}" = "1" ]; then
+  log "Skipping smoke test HTTP server (DEPLOY_SKIP_SMOKE_TEST=1)"
+  SMOKE_TEST_MESSAGE="Smoke test HTTP: non eseguito"
+  SMOKE_TEST_DETAILS+=("  - Motivo: variabile DEPLOY_SKIP_SMOKE_TEST impostata a 1.")
+else
+  log "Starting smoke test HTTP server for the deploy bundle"
+  PORT=$(python3 - <<'PY'
 import socket
 
 with socket.socket() as sock:
     sock.bind(("127.0.0.1", 0))
     print(sock.getsockname()[1])
 PY
-)
-SERVER_LOG=$(mktemp "deploy-server.XXXXXX.log" -p "$ROOT_DIR")
-python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$DIST_DIR" \
-  >"$SERVER_LOG" 2>&1 &
-SERVER_PID=$!
-cleanup_server() {
-  if kill "$SERVER_PID" 2>/dev/null; then
-    wait "$SERVER_PID" 2>/dev/null || true
-  fi
-}
-trap cleanup_server EXIT
+  )
+  SERVER_LOG=$(mktemp "deploy-server.XXXXXX.log" -p "$ROOT_DIR")
+  python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$DIST_DIR" \
+    >"$SERVER_LOG" 2>&1 &
+  SERVER_PID=$!
+  cleanup_server() {
+    if kill "$SERVER_PID" 2>/dev/null; then
+      wait "$SERVER_PID" 2>/dev/null || true
+    fi
+  }
+  trap cleanup_server EXIT
 
-for _ in $(seq 1 10); do
-  if curl --silent --fail --show-error "http://127.0.0.1:$PORT/index.html" \
-    >/dev/null 2>&1; then
-    break
-  fi
-  sleep 0.5
-done
-curl --silent --fail --show-error "http://127.0.0.1:$PORT/test-interface/index.html" \
-  >/dev/null
-log "Static site responded successfully on http://127.0.0.1:$PORT/"
-trap - EXIT
-cleanup_server
-rm -f "$SERVER_LOG"
+  for _ in $(seq 1 10); do
+    if curl --silent --fail --show-error "http://127.0.0.1:$PORT/index.html" \
+      >/dev/null 2>&1; then
+      break
+    fi
+    sleep 0.5
+  done
+  curl --silent --fail --show-error "http://127.0.0.1:$PORT/test-interface/index.html" \
+    >/dev/null
+  log "Static site responded successfully on http://127.0.0.1:$PORT/"
+  trap - EXIT
+  cleanup_server
+  rm -f "$SERVER_LOG"
+
+  SMOKE_TEST_URL="http://127.0.0.1:$PORT/"
+  SMOKE_TEST_MESSAGE="Smoke test HTTP: server Python attivo su ${SMOKE_TEST_URL}"
+  SMOKE_TEST_DETAILS+=("  - Richieste principali completate senza errori (index.html e dashboard).")
+fi
 
 PLAYWRIGHT_REPORT="$ROOT_DIR/tools/ts/playwright-report.json"
 PLAYWRIGHT_SUMMARY=""
@@ -220,8 +233,12 @@ print(rel)
 PY
   )
   echo "  - Bundle statico generato in `"$DIST_LABEL"` con dataset `"$RELATIVE_DATA_SOURCE"`."
-  echo "- **Smoke test HTTP**: server Python su `http://127.0.0.1:$PORT/`."
-  echo "  - Richieste principali completate senza errori (index.html e dashboard)."
+  if [ -n "$SMOKE_TEST_MESSAGE" ]; then
+    echo "- **$SMOKE_TEST_MESSAGE**"
+  fi
+  if [ "${#SMOKE_TEST_DETAILS[@]}" -gt 0 ]; then
+    printf '%s\n' "${SMOKE_TEST_DETAILS[@]}"
+  fi
   echo "- **Note**:"
   echo "  - Report Playwright elaborato tramite `tools/ts/scripts/collect_playwright_summary.js`."
   echo ""

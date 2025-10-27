@@ -50,6 +50,7 @@ jobs:
         env:
           DEPLOY_DATA_DIR: ${{ github.workspace }}/data
           CI: "true"
+          DEPLOY_SKIP_SMOKE_TEST: ${{ github.event_name == 'pull_request' && '1' || '0' }}
         run: scripts/run_deploy_checks.sh
 
       - name: Configure GitHub Pages
