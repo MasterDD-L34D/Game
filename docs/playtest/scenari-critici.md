@@ -9,7 +9,7 @@ Questa lista evidenzia gli scenari che devono essere eseguiti a ogni ciclo di va
 | BAL-02 | Boss intermedio | Alta | Picchi di difficoltà non controllati e consumo eccessivo di risorse. | QA Lead (M. Serra) | Ogni build milestone | 2025-02-26 | Richiesti nuovi log di combattimento per confermare tuning stamina. |
 | BAL-03 | Horde mode | Alta | Instabilità AI e degrado prestazionale con spawn massivi. | Tech QA (L. Rinaldi) | Ogni release candidata | 2025-02-26 | Presente bug #143 su pathfinding bloccato oltre 35 unità. |
 | PROG-03 | Gestione risorse hub | Media | Possibile deadlock economico nel quartier generale. | Prod. Assoc. (G. Parodi) | Ogni ciclo bisettimanale | 2025-02-26 | Necessario verificare aggiornamento fogli calcolo auto-sync. |
-| EVT-01 | Tempesta dimensionale | Alta | Comunicazioni confuse e glitch particellari durante evento. | Design QA (S. Neri) | Ogni patch contenuti evento | 2025-02-26 | VFX fix parziale, monitorare bug #144 su shader. |
+| EVT-01 | Tempesta dimensionale | Alta | Comunicazioni confuse e glitch particellari durante evento. | Design QA (S. Neri) | Ogni patch contenuti evento | 2025-02-27 | Patch DimensionalStorm 2025-02-27 validata: flash eliminato, monitorare bloom build console (#144). |
 | EVT-02 | Alleanza inattesa | Media | Ramificazioni narrative incoerenti e flag errati. | Narrative QA (A. Conti) | Ogni sprint narrativa | 2025-02-20 | Scenario non eseguito nella sessione corrente, mantenere follow-up. |
 
 ## Criteri di aggiornamento
