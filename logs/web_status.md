@@ -24,5 +24,11 @@ successiva e registrare eventuali task di follow-up in roadmap.
 ## Registro stato
 
 <!-- web_log:start -->
-Nessuna esecuzione registrata.
+## 2025-10-27T10:49:20Z · run_deploy_checks.sh
+- **Esito script**: ❌ `scripts/run_deploy_checks.sh`
+  - `npm ci` (tools/ts) completato con dataset `data/mock/prod_snapshot`.
+  - Installazione browser Playwright bloccata: errore HTTP 403 dal mirror `https://playwright.azureedge.net/builds/chromium/1194/chromium-linux.zip`; suite TypeScript/Playwright e `pytest` non eseguite.
+- **Smoke test HTTP**: non avviato (script interrotto durante setup Playwright).
+- **Note**:
+  - Ambiente privo di accesso al mirror Playwright; necessario mirror alternativo o cache artefatti per sbloccare la pipeline.
 <!-- web_log:end -->
