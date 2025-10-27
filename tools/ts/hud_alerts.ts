@@ -76,7 +76,8 @@ function resolveStreamKey(payload: EmaUpdatePayload): string {
   }
 
   if (Array.isArray(payload?.roster) && payload.roster.length > 0) {
-    return `roster:${payload.roster.join('|')}`;
+    const rosterKey = [...payload.roster].sort().join('|');
+    return `roster:${rosterKey}`;
   }
 
   return 'global';
