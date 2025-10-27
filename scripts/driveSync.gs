@@ -22,33 +22,347 @@ const CONFIG = {
     everyHours: Number(scriptProps.getProperty('DRIVE_SYNC_AUTOSYNC_EVERY_HOURS') || 6)
   }
 };
+CONFIG.sources = getConfiguredSources_();
+
+let currentSheetNamePrefix_ = '';
 
 function convertYamlToSheets() {
-  if (!CONFIG.folderId) {
-    throw new Error('Configura CONFIG.folderId con l\'ID della cartella Drive.');
+  const yamlLib = loadYamlLibrary_();
+  const sources = CONFIG.sources && CONFIG.sources.length ? CONFIG.sources : getFallbackSources_();
+
+  sources.forEach(source => {
+    processSource_(source, yamlLib, false);
+  });
+}
+
+function convertYamlToSheetsDryRun() {
+  const yamlLib = loadYamlLibrary_();
+  const sources = CONFIG.sources && CONFIG.sources.length ? CONFIG.sources : getFallbackSources_();
+  const summaries = sources.map(source => processSource_(source, yamlLib, true));
+  Logger.log(JSON.stringify(summaries, null, 2));
+  return summaries;
+}
+
+function processSource_(source, yamlLib, dryRun) {
+  const normalizedSource = normalizeSourceConfig_(source, {
+    folderId: CONFIG.folderId,
+    destinationFolderId: CONFIG.folderId,
+    sheetNamePrefix: CONFIG.sheetNamePrefix
+  });
+  if (!normalizedSource.folderId) {
+    throw new Error('Configura una folderId valida per l\'origine della sincronizzazione.');
   }
 
-  const folder = DriveApp.getFolderById(CONFIG.folderId);
+  const folder = DriveApp.getFolderById(normalizedSource.folderId);
+  const destinationFolder = normalizedSource.destinationFolderId
+    ? DriveApp.getFolderById(normalizedSource.destinationFolderId)
+    : folder;
+
+  applySheetNamePrefix_(normalizedSource.sheetNamePrefix);
+
   const files = folder.getFilesByType(MimeType.PLAIN_TEXT);
-  const yamlLib = loadYamlLibrary_();
+  const processedEntries = [];
 
   while (files.hasNext()) {
     const file = files.next();
-    if (!/\.ya?ml$/i.test(file.getName())) {
+    const fileName = file.getName();
+    if (!isYamlCandidate_(fileName, normalizedSource)) {
       continue;
     }
 
-    const yamlText = file.getBlob().getDataAsString();
-    const parsed = yamlLib.load(yamlText);
-    const baseName = file.getName().replace(/\.ya?ml$/i, '');
+    const baseName = fileName.replace(/\.ya?ml$/i, '');
+    try {
+      const yamlText = file.getBlob().getDataAsString();
+      const parsed = yamlLib.load(yamlText);
+      const topLevelEntries = buildTopLevelEntries_(parsed);
+      const filterResult = shouldSkipDataset_(parsed, normalizedSource);
 
-    const spreadsheet = getOrCreateSpreadsheet_(folder, baseName);
-    populateSpreadsheet_(spreadsheet, parsed);
+      if (filterResult.shouldSkip) {
+        processedEntries.push({
+          fileName,
+          skipped: true,
+          reason: filterResult.reason,
+          detectedCycle: filterResult.detectedCycle
+        });
+        continue;
+      }
+
+      if (dryRun) {
+        processedEntries.push({
+          fileName,
+          skipped: false,
+          detectedCycle: filterResult.detectedCycle,
+          targetSpreadsheet: buildSpreadsheetName_(baseName),
+          sheets: topLevelEntries.map(entry => entry.sheetName)
+        });
+        continue;
+      }
+
+      const spreadsheet = getOrCreateSpreadsheet_(destinationFolder, baseName);
+      populateSpreadsheet_(spreadsheet, parsed, topLevelEntries);
+    } catch (error) {
+      if (dryRun) {
+        processedEntries.push({
+          fileName,
+          skipped: true,
+          error: error && error.message ? error.message : String(error)
+        });
+        continue;
+      }
+      throw error;
+    }
+  }
+
+  if (dryRun) {
+    return {
+      sourceId: normalizedSource.id || null,
+      folderId: normalizedSource.folderId,
+      destinationFolderId: normalizedSource.destinationFolderId,
+      sheetNamePrefix: stripTrailingSpace_(currentSheetNamePrefix_),
+      processedFiles: processedEntries
+    };
+  }
+  return null;
+}
+
+function getConfiguredSources_() {
+  const raw = scriptProps.getProperty('DRIVE_SYNC_SOURCES');
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) {
+        return parsed
+          .map(entry => normalizeSourceConfig_(entry, {
+            folderId: CONFIG.folderId,
+            destinationFolderId: CONFIG.folderId,
+            sheetNamePrefix: CONFIG.sheetNamePrefix
+          }))
+          .filter(Boolean);
+      }
+    } catch (error) {
+      Logger.log('Impossibile leggere DRIVE_SYNC_SOURCES: ' + error);
+    }
+  }
+
+  const defaults = buildDefaultSources_();
+  return defaults.length ? defaults : getFallbackSources_();
+}
+
+function buildDefaultSources_() {
+  const baseSource = normalizeSourceConfig_(
+    {
+      id: 'vc-logs',
+      folderId: scriptProps.getProperty('DRIVE_SYNC_FOLDER_ID'),
+      destinationFolderId: scriptProps.getProperty('DRIVE_SYNC_DEST_FOLDER_ID'),
+      sheetNamePrefix: scriptProps.getProperty('DRIVE_SYNC_SHEET_PREFIX')
+    },
+    {
+      folderId: CONFIG.folderId,
+      destinationFolderId: CONFIG.folderId,
+      sheetNamePrefix: CONFIG.sheetNamePrefix
+    }
+  );
+
+  const sources = [baseSource];
+
+  const hubEnabled = String(
+    scriptProps.getProperty('DRIVE_SYNC_ENABLE_HUB_SOURCE') || 'true'
+  ).toLowerCase() !== 'false';
+
+  if (hubEnabled) {
+    const hubSource = normalizeSourceConfig_(
+      {
+        id: 'hub-ops',
+        folderId: scriptProps.getProperty('DRIVE_SYNC_HUB_FOLDER_ID'),
+        destinationFolderId: scriptProps.getProperty('DRIVE_SYNC_HUB_DEST_FOLDER_ID'),
+        sheetNamePrefix: scriptProps.getProperty('DRIVE_SYNC_HUB_SHEET_PREFIX') || '[Hub Ops] ',
+        includeFilePattern:
+          scriptProps.getProperty('DRIVE_SYNC_HUB_INCLUDE_REGEX') || 'hub-(ops|cycle)',
+        minCycle: Number(scriptProps.getProperty('DRIVE_SYNC_HUB_MIN_CYCLE') || 2)
+      },
+      {
+        folderId: CONFIG.folderId,
+        destinationFolderId: CONFIG.folderId,
+        sheetNamePrefix: '[Hub Ops] ',
+        minCycle: 2
+      }
+    );
+
+    if (hubSource.includePattern) {
+      baseSource.excludePattern = hubSource.includePattern;
+    }
+
+    sources.push(hubSource);
+  }
+
+  return sources.filter(Boolean);
+}
+
+function getFallbackSources_() {
+  return [
+    normalizeSourceConfig_(
+      {
+        id: 'fallback',
+        folderId: CONFIG.folderId,
+        destinationFolderId: CONFIG.folderId,
+        sheetNamePrefix: CONFIG.sheetNamePrefix
+      },
+      {
+        folderId: CONFIG.folderId,
+        destinationFolderId: CONFIG.folderId,
+        sheetNamePrefix: CONFIG.sheetNamePrefix
+      }
+    )
+  ];
+}
+
+function normalizeSourceConfig_(source, fallback) {
+  const safeSource = source || {};
+  const safeFallback = fallback || {};
+  const folderId = safeSource.folderId || safeFallback.folderId || CONFIG.folderId;
+  const destinationFolderId =
+    safeSource.destinationFolderId || safeSource.folderId || safeFallback.destinationFolderId || folderId;
+  const sheetNamePrefix =
+    safeSource.sheetNamePrefix !== undefined
+      ? safeSource.sheetNamePrefix
+      : safeFallback.sheetNamePrefix !== undefined
+      ? safeFallback.sheetNamePrefix
+      : CONFIG.sheetNamePrefix;
+
+  const normalized = {
+    id: safeSource.id || safeSource.name || null,
+    folderId,
+    destinationFolderId,
+    sheetNamePrefix,
+    minCycle:
+      typeof safeSource.minCycle === 'number' && isFinite(safeSource.minCycle)
+        ? safeSource.minCycle
+        : typeof safeFallback.minCycle === 'number' && isFinite(safeFallback.minCycle)
+        ? safeFallback.minCycle
+        : null,
+    includePattern: buildPattern_(safeSource.includePattern || safeSource.includeFilePattern),
+    excludePattern: buildPattern_(safeSource.excludePattern || safeSource.excludeFilePattern)
+  };
+
+  return normalized;
+}
+
+function buildPattern_(patternLike) {
+  if (!patternLike) {
+    return null;
+  }
+  if (patternLike instanceof RegExp) {
+    return patternLike;
+  }
+  try {
+    return new RegExp(patternLike, 'i');
+  } catch (error) {
+    Logger.log('Regex pattern non valido ignorato: ' + patternLike);
+    return null;
   }
 }
 
+function applySheetNamePrefix_(prefix) {
+  currentSheetNamePrefix_ = normalizeSheetPrefix_(
+    prefix !== undefined && prefix !== null ? String(prefix) : CONFIG.sheetNamePrefix
+  );
+}
+
+function normalizeSheetPrefix_(value) {
+  const trimmed = String(value || '').trim();
+  return trimmed ? trimmed + ' ' : '';
+}
+
+function stripTrailingSpace_(value) {
+  if (!value) {
+    return '';
+  }
+  return value.replace(/\s+$/, '');
+}
+
+function buildSpreadsheetName_(baseName) {
+  const cleanedBase = String(baseName || '').trim() || 'Sheet';
+  return `${currentSheetNamePrefix_}${cleanedBase}`;
+}
+
+function isYamlCandidate_(fileName, source) {
+  if (!/\.ya?ml$/i.test(fileName)) {
+    return false;
+  }
+  if (source && source.includePattern && !source.includePattern.test(fileName)) {
+    return false;
+  }
+  if (source && source.excludePattern && source.excludePattern.test(fileName)) {
+    return false;
+  }
+  return true;
+}
+
+function shouldSkipDataset_(data, source) {
+  const result = {
+    shouldSkip: false,
+    reason: '',
+    detectedCycle: null
+  };
+
+  if (!source || typeof source.minCycle !== 'number' || !isFinite(source.minCycle)) {
+    return result;
+  }
+
+  const detectedCycle = extractCycleFromData_(data);
+  result.detectedCycle = detectedCycle;
+
+  if (detectedCycle !== null && Number(detectedCycle) <= source.minCycle) {
+    result.shouldSkip = true;
+    result.reason = `cycle ${detectedCycle} <= soglia ${source.minCycle}`;
+  }
+
+  return result;
+}
+
+function extractCycleFromData_(value) {
+  if (!value) {
+    return null;
+  }
+
+  if (typeof value === 'object' && !Array.isArray(value)) {
+    if (isFinite(value.cycle)) {
+      return Number(value.cycle);
+    }
+    if (value.meta) {
+      const nested = extractCycleFromData_(value.meta);
+      if (nested !== null) {
+        return nested;
+      }
+    }
+    const keysToCheck = ['sessions', 'entries', 'runs', 'cycles'];
+    for (let i = 0; i < keysToCheck.length; i++) {
+      const key = keysToCheck[i];
+      if (Array.isArray(value[key])) {
+        for (let j = 0; j < value[key].length; j++) {
+          const nested = extractCycleFromData_(value[key][j]);
+          if (nested !== null) {
+            return nested;
+          }
+        }
+      }
+    }
+  }
+
+  if (Array.isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      const nested = extractCycleFromData_(value[i]);
+      if (nested !== null) {
+        return nested;
+      }
+    }
+  }
+
+  return null;
+}
+
 function getOrCreateSpreadsheet_(folder, baseName) {
-  const targetName = `${CONFIG.sheetNamePrefix}${baseName}`;
+  const targetName = buildSpreadsheetName_(baseName);
   const existing = folder.getFilesByName(targetName);
   while (existing.hasNext()) {
     const candidate = existing.next();
@@ -68,9 +382,9 @@ function getOrCreateSpreadsheet_(folder, baseName) {
   return spreadsheet;
 }
 
-function populateSpreadsheet_(spreadsheet, data) {
-  const topLevelEntries = buildTopLevelEntries_(data);
-  const desiredNames = new Set(topLevelEntries.map(entry => entry.sheetName));
+function populateSpreadsheet_(spreadsheet, data, topLevelEntries) {
+  const entries = topLevelEntries || buildTopLevelEntries_(data);
+  const desiredNames = new Set(entries.map(entry => entry.sheetName));
 
   spreadsheet.getSheets().forEach(sheet => {
     if (!desiredNames.has(sheet.getName())) {
@@ -78,7 +392,7 @@ function populateSpreadsheet_(spreadsheet, data) {
     }
   });
 
-  topLevelEntries.forEach(entry => {
+  entries.forEach(entry => {
     const sheet = getOrCreateSheet_(spreadsheet, entry.sheetName);
     writeTableToSheet_(sheet, entry.table);
   });
@@ -177,7 +491,7 @@ function sanitizeSheetName_(rawName) {
     .replace(/[\\?/\*\[\]]/g, ' ')
     .trim()
     .substring(0, 90);
-  const prefix = CONFIG.sheetNamePrefix ? CONFIG.sheetNamePrefix.trim() + ' ' : '';
+  const prefix = currentSheetNamePrefix_;
   return prefix + (cleaned || 'Sheet');
 }
 

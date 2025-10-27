@@ -10,6 +10,10 @@
 - **Workflow GitHub**: il job `daily-pr-summary` (trigger 17:10 UTC) invoca lo script con token GitHub e apre PR automatica se rileva differenze; verificare l'esito nel tab Actions e annotare eventuali fallimenti in `docs/chatgpt_sync_status.md`.
 - **Responsabilità**: entro le 18:00 CET confermare che changelog, roadmap, checklist e Canvas siano allineati; in caso di problemi registrare un paragrafo nel blocco giornaliero seguente (vedi esempi più sotto).【F:docs/README.md†L33-L38】【F:docs/piani/roadmap.md†L1-L40】
 
+## 2025-11-07 — Drive Sync Hub Ops dry-run
+- Eseguito controllo locale sui log YAML con lo script Python ad-hoc per rilevare la presenza del metadato `cycle` prima di attivare il filtro `minCycle` del nuovo flusso Hub Ops (`scripts/driveSync.gs`). Tutti i file attuali restituiscono `detected_cycle: null`, confermando che l'estensione includerà automaticamente i dataset dei cicli successivi non appena il campo verrà popolato.【5e2837†L1-L33】
+- Annotata la disponibilità della funzione Apps Script `convertYamlToSheetsDryRun()` per allegare ai report il riepilogo delle operazioni senza toccare i fogli reali.【F:scripts/driveSync.gs†L82-L210】
+
 ## 2025-10-26 — `roll_pack` CLI parity spot-check
 - Eseguiti `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py` con seed condiviso `demo` sulle coppie `ENTP`/`invoker` e `ISFJ`/`support`, utilizzando `data/packs.yaml`.
 - I risultati JSON delle due implementazioni sono stati salvati localmente (`/tmp/node_*`, `/tmp/py_*`) e confrontati tramite `diff -u`.

@@ -17,9 +17,14 @@ Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google 
    - `DRIVE_SYNC_SHEET_PREFIX`: prefisso facoltativo da anteporre al nome dei fogli (default `[YAML]`).
    - `DRIVE_SYNC_YAML_LIB_URL`: URL della libreria js-yaml (lasciare il default salvo mirror interni).
    - `DRIVE_SYNC_AUTOSYNC_ENABLED`: `true`/`false` per attivare il trigger automatico.
-   - `DRIVE_SYNC_AUTOSYNC_EVERY_HOURS`: intervallo di riesecuzione (1-24).
-   
-   _Configurazione attuale (deploy 2025-10-27):_ `folderId = 1VCLogSheetsSyncHub2025Ops`, `sheetNamePrefix = [VC Logs] `,
+    - `DRIVE_SYNC_AUTOSYNC_EVERY_HOURS`: intervallo di riesecuzione (1-24).
+    - `DRIVE_SYNC_SOURCES`: opzionale JSON di override completo delle sorgenti/destinazioni per gestire mapping avanzati senza
+      toccare il codice Apps Script.【F:scripts/driveSync.gs†L82-L210】
+    - `DRIVE_SYNC_ENABLE_HUB_SOURCE`, `DRIVE_SYNC_HUB_FOLDER_ID`, `DRIVE_SYNC_HUB_DEST_FOLDER_ID`,
+      `DRIVE_SYNC_HUB_SHEET_PREFIX`, `DRIVE_SYNC_HUB_INCLUDE_REGEX`, `DRIVE_SYNC_HUB_MIN_CYCLE`: proprietà dedicate alla
+      sincronizzazione Hub Ops; con la configurazione di fallback minCycle=2 vengono importati solo i file con `cycle` >2.【F:scripts/driveSync.gs†L82-L210】【F:scripts/driveSync.gs†L211-L321】
+
+    _Configurazione attuale (deploy 2025-10-27):_ `folderId = 1VCLogSheetsSyncHub2025Ops`, `sheetNamePrefix = [VC Logs] `,
    `autoSync.enabled = true`, `autoSync.everyHours = 6`. I valori sono salvati come fallback in `scripts/driveSync.gs`
    per garantire l'avvio anche se le Script Properties vengono azzerate.【F:scripts/driveSync.gs†L13-L23】
 4. Salva il progetto, apri `Project Settings > Scopes` e verifica che gli scope siano coerenti con gli accessi richiesti; se necessario, forzare il re-deploy eliminando eventuali scope obsoleti.
@@ -56,6 +61,19 @@ Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google 
 | `convertYamlToSheets`  | manuale    | on demand | Usare come fallback in caso di errori nel trigger automatico. |
 
 Documentare nel pannello `Triggers` di Apps Script l'utente proprietario: il progetto deve appartenere a un account con permessi di modifica sulla cartella condivisa, altrimenti i fogli non vengono spostati nel Drive di destinazione.
+
+## Estensione Hub Ops (cicli >2)
+- La nuova sorgente `hub-ops` è attiva di default e, salvo override, punta alla stessa cartella Drive dei log VC: applica il prefisso `[Hub Ops]` e, quando configurato `DRIVE_SYNC_HUB_DEST_FOLDER_ID`, sposta gli Spreadsheet generati nella cartella di destinazione dedicata.【F:scripts/driveSync.gs†L82-L210】
+- Il filtro `minCycle=2` assicura che vengano importati automaticamente solo i file che dichiarano un `cycle` (o `meta.cycle`) superiore a 2; quando il campo manca il dataset viene considerato valido e sincronizzato dal flusso standard.【F:scripts/driveSync.gs†L211-L321】【5e2837†L1-L33】
+- I file che corrispondono alla regex `hub-(ops|cycle)` vengono esclusi dalla sorgente principale e gestiti soltanto dalla pipeline Hub Ops, evitando duplicazioni dei fogli `[VC Logs]` già esistenti.【F:scripts/driveSync.gs†L82-L210】
+
+### Dataset Hub precedentemente manuali
+- **Registro risorse Hub (PROG-03)** — durante la sessione del 2025-02-26 è emerso che oltre il primo/secondo ciclo il sync dei fogli hub era ancora manuale; con l'estensione Hub Ops l'obiettivo è portare nel flusso automatico il ledger economico e le relative check-integration successive.【F:docs/playtest/SESSION-2025-02-26.md†L15-L27】【F:logs/playtests/2025-02-26/session-metrics.yaml†L24-L33】
+- **Notebook bilanciamento Hub** — l'allegato CSV della stessa sessione riporta la "manual sync requirement" per PROG-03, evidenziando che il tracciamento risorse oltre il ciclo 2 non rientrava ancora nella pipeline automatizzata.【F:docs/playtest/SESSION-2025-02-26/notebook-balancing.csv†L1-L4】
+
+## Dry-run e validazione
+- La funzione `convertYamlToSheetsDryRun()` permette di verificare quali file verrebbero sincronizzati e con quali tab senza creare/modificare Spreadsheet, restituendo un JSON utile da allegare ai report di manutenzione.【F:scripts/driveSync.gs†L82-L210】
+- Il dry-run locale sui log YAML attuali mostra che nessun file dichiara ancora un valore `cycle`: i dataset Hub Ops verranno quindi importati appena il metadato verrà aggiunto ai nuovi YAML dei cicli successivi.【5e2837†L1-L33】
 
 ## Deploy 2025-10-27 e validazione VC Logs
 - Progetto Apps Script: `VC Drive Sync` (dominio interno `game-dev`), collegato alla cartella `1VCLogSheetsSyncHub2025Ops`.
