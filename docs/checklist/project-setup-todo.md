@@ -28,7 +28,7 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [x] Avviare `python roll_pack.py <MBTI> <archetipo> ../../data/packs.yaml --seed demo` e verificare che l'output (chiavi `pack`, `combo`, `total_cost`, ecc.) coincida con la CLI TypeScript. _Esito coincidente con la CLI TS._
 - [x] Generare encounter di prova: `python generate_encounter.py <bioma> ../../data/biomes.yaml` per
       ogni bioma disponibile, salvando gli output in `docs/examples/` o nella sezione encounter. _Output aggiornati per savana/caverna/palude (seed `demo`) in `docs/examples/` il 2025-10-26._
-- [ ] Documentare eventuali discrepanze CLI TS/Python e aprire issue se necessarie.
+- [x] Documentare eventuali discrepanze CLI TS/Python e aprire issue se necessarie. _Verifica 2025-10-27: seed `demo` (ENTP/invoker) e `alpha42` (ISFJ/support) → diff nullo tra `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py`; log salvati in `logs/tooling/2025-10-27-roll_pack/`._
 
 ## 5. Interfaccia web di test
 - [x] Avviare un server locale dalla radice: `python -m http.server 8000`. _Verificato su porta 8000 con richiesta `curl`._
