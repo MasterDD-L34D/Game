@@ -1,0 +1,760 @@
+{
+  "events": {
+    "evento-brinastorm": {
+      "archetypes": [
+        "evento_ecologico"
+      ],
+      "biomes": [
+        "cryosteppe"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Evento: Brina Tempestosa",
+      "environment_focus": {
+        "biome_class": "cryosteppe"
+      },
+      "id": "evento-brinastorm",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "evento_ecologico",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "evento-ondata-termica": {
+      "archetypes": [
+        "evento_ecologico"
+      ],
+      "biomes": [
+        "deserto_caldo"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Evento: Ondata Termica Ionica",
+      "environment_focus": {
+        "biome_class": "deserto_caldo"
+      },
+      "id": "evento-ondata-termica",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "evento_ecologico",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "evento-seme-uragano": {
+      "archetypes": [
+        "evento_ecologico"
+      ],
+      "biomes": [
+        "foresta_temperata"
+      ],
+      "core_traits": [
+        "pelli_fitte"
+      ],
+      "display_name": "Evento: Seme d'Uragano",
+      "environment_focus": {
+        "biome_class": "Foresta temperata umida"
+      },
+      "id": "evento-seme-uragano",
+      "morphotype": null,
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "evento_ecologico",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "evento-tempesta-ferrosa": {
+      "archetypes": [
+        "evento_ecologico"
+      ],
+      "biomes": [
+        "badlands"
+      ],
+      "core_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
+      "display_name": "Evento: Tempesta Ferrosa",
+      "environment_focus": {
+        "biome_class": "badlands"
+      },
+      "id": "evento-tempesta-ferrosa",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [
+        "build_cover",
+        "dr_impact_cap",
+        "non_metal_gear",
+        "seal_vents"
+      ],
+      "role": "evento_ecologico",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    }
+  },
+  "schema_version": "1.0",
+  "sources": {
+    "species": [
+      "data/species.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
+    ]
+  },
+  "species": {
+    "aurora-gull": {
+      "archetypes": [
+        "Invoker",
+        "Skirmisher"
+      ],
+      "biomes": [
+        "cryosteppe"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Gabbiano d’Aurora",
+      "environment_focus": {
+        "biome_class": "cryosteppe"
+      },
+      "form_threshold": {
+        "weight_budget": 12
+      },
+      "id": "aurora-gull",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [],
+      "playable_unit": true,
+      "required_capabilities": [],
+      "role": "dispersore_ponte",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "blight-micotico": {
+      "archetypes": [
+        "minaccia_microbica"
+      ],
+      "biomes": [
+        "foresta_temperata"
+      ],
+      "core_traits": [
+        "pelli_fitte"
+      ],
+      "display_name": "Blight Micotico",
+      "environment_focus": {
+        "biome_class": "Foresta temperata umida"
+      },
+      "id": "blight-micotico",
+      "morphotype": null,
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "minaccia_microbica",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "cactus-weaver": {
+      "archetypes": [
+        "Artificer",
+        "Warden"
+      ],
+      "biomes": [
+        "deserto_caldo"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Cactus Weaver",
+      "environment_focus": {
+        "biome_class": "deserto_caldo"
+      },
+      "form_threshold": {
+        "weight_budget": 12
+      },
+      "id": "cactus-weaver",
+      "morphotype": "ingegnere_radicante",
+      "optional_traits": [],
+      "playable_unit": true,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "cryo-lynx": {
+      "archetypes": [
+        "predatore_terziario_apex"
+      ],
+      "biomes": [
+        "cryosteppe"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Cryo Lynx",
+      "environment_focus": {
+        "biome_class": "cryosteppe"
+      },
+      "id": "cryo-lynx",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "predatore_terziario_apex",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "dune-stalker": {
+      "archetypes": [
+        "predatore_terziario_apex"
+      ],
+      "biomes": [
+        "badlands"
+      ],
+      "core_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
+      "display_name": "Dune Stalker",
+      "environment_focus": {
+        "biome_class": "badlands"
+      },
+      "id": "dune-stalker",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [
+        "build_cover",
+        "dr_impact_cap",
+        "non_metal_gear",
+        "seal_vents"
+      ],
+      "role": "predatore_terziario_apex",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "dune_stalker": {
+      "archetypes": [],
+      "biomes": [
+        "caverna_risonante",
+        "savana"
+      ],
+      "core_traits": [
+        "artigli_sette_vie",
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Dune Stalker",
+      "environment_focus": {
+        "biome_class": "caverna_risonante",
+        "rationale": "Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline in cui si rifugia il branco durante le tempeste desertiche."
+      },
+      "form_threshold": {
+        "estimated_weight": 11,
+        "weight_budget": 12
+      },
+      "id": "dune_stalker",
+      "morphotype": null,
+      "optional_traits": [
+        "coda_frusta_cinetica",
+        "criostasi_adattiva",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "required_capabilities": [],
+      "role": null,
+      "source_files": [
+        "data/species.yaml"
+      ],
+      "synergy_hints": [
+        "echo_backstab"
+      ],
+      "synergy_traits": [
+        "focus_frazionato",
+        "risonanza_di_branco",
+        "tattiche_di_branco"
+      ]
+    },
+    "echo-wing": {
+      "archetypes": [
+        "Invoker",
+        "Skirmisher"
+      ],
+      "biomes": [
+        "CRYOSTEPPE",
+        "DESERTO_CALDO",
+        "FORESTA_TEMPERATA",
+        "badlands"
+      ],
+      "core_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
+      "display_name": "Echo Wing",
+      "environment_focus": {
+        "biome_class": "badlands"
+      },
+      "form_threshold": {
+        "weight_budget": 12
+      },
+      "id": "echo-wing",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [],
+      "playable_unit": true,
+      "required_capabilities": [
+        "build_cover",
+        "dr_impact_cap",
+        "non_metal_gear",
+        "seal_vents"
+      ],
+      "role": "dispersore_ponte",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "ferrocolonia-magnetotattica": {
+      "archetypes": [
+        "Artificer",
+        "Warden"
+      ],
+      "biomes": [
+        "badlands"
+      ],
+      "core_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
+      "display_name": "Ferrocolonia Magnetotattica",
+      "environment_focus": {
+        "biome_class": "badlands"
+      },
+      "form_threshold": {
+        "weight_budget": 13
+      },
+      "id": "ferrocolonia-magnetotattica",
+      "morphotype": "ingegnere_radicante",
+      "optional_traits": [],
+      "playable_unit": true,
+      "required_capabilities": [
+        "build_cover",
+        "dr_impact_cap",
+        "non_metal_gear",
+        "seal_vents"
+      ],
+      "role": "predatore_regolatore_simbionte",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "lupus-temperatus": {
+      "archetypes": [
+        "predatore_terziario_apex"
+      ],
+      "biomes": [
+        "foresta_temperata"
+      ],
+      "core_traits": [
+        "pelli_fitte"
+      ],
+      "display_name": "Lupo della Foresta",
+      "environment_focus": {
+        "biome_class": "Foresta temperata umida"
+      },
+      "id": "lupus-temperatus",
+      "morphotype": null,
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "predatore_terziario_apex",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "nano-rust-bloom": {
+      "archetypes": [
+        "minaccia_microbica"
+      ],
+      "biomes": [
+        "badlands"
+      ],
+      "core_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
+      "display_name": "Nano Rust Bloom",
+      "environment_focus": {
+        "biome_class": "badlands"
+      },
+      "id": "nano-rust-bloom",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [
+        "build_cover",
+        "dr_impact_cap",
+        "non_metal_gear",
+        "seal_vents"
+      ],
+      "role": "minaccia_microbica",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "noctule-termico": {
+      "archetypes": [
+        "Invoker",
+        "Skirmisher"
+      ],
+      "biomes": [
+        "deserto_caldo"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Noctule Termico",
+      "environment_focus": {
+        "biome_class": "deserto_caldo"
+      },
+      "form_threshold": {
+        "weight_budget": 12
+      },
+      "id": "noctule-termico",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [],
+      "playable_unit": true,
+      "required_capabilities": [],
+      "role": "dispersore_ponte",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "rust-scavenger": {
+      "archetypes": [
+        "Artificer",
+        "Warden"
+      ],
+      "biomes": [
+        "badlands"
+      ],
+      "core_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
+      "display_name": "Rust Scavenger",
+      "environment_focus": {
+        "biome_class": "badlands"
+      },
+      "form_threshold": {
+        "weight_budget": 12
+      },
+      "id": "rust-scavenger",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [],
+      "playable_unit": true,
+      "required_capabilities": [
+        "build_cover",
+        "dr_impact_cap",
+        "non_metal_gear",
+        "seal_vents"
+      ],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "sand-burrower": {
+      "archetypes": [
+        "erbivoro_primario"
+      ],
+      "biomes": [
+        "badlands"
+      ],
+      "core_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
+      "display_name": "Sand Burrower",
+      "environment_focus": {
+        "biome_class": "badlands"
+      },
+      "id": "sand-burrower",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [
+        "build_cover",
+        "dr_impact_cap",
+        "non_metal_gear",
+        "seal_vents"
+      ],
+      "role": "erbivoro_primario",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "sentinella-radice": {
+      "archetypes": [
+        "ingegneri_ecosistema"
+      ],
+      "biomes": [
+        "foresta_temperata"
+      ],
+      "core_traits": [
+        "pelli_fitte"
+      ],
+      "display_name": "Sentinella Radice",
+      "environment_focus": {
+        "biome_class": "Foresta temperata umida"
+      },
+      "form_threshold": {
+        "weight_budget": 12
+      },
+      "id": "sentinella-radice",
+      "morphotype": null,
+      "optional_traits": [],
+      "playable_unit": true,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "silica-bloom": {
+      "archetypes": [
+        "minaccia_microbica"
+      ],
+      "biomes": [
+        "deserto_caldo"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Silica Bloom",
+      "environment_focus": {
+        "biome_class": "deserto_caldo"
+      },
+      "id": "silica-bloom",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "minaccia_microbica",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "steppe-bison-mini": {
+      "archetypes": [
+        "Vanguard",
+        "Warden"
+      ],
+      "biomes": [
+        "cryosteppe"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Bisonte Nano della Steppa",
+      "environment_focus": {
+        "biome_class": "cryosteppe"
+      },
+      "form_threshold": {
+        "weight_budget": 12
+      },
+      "id": "steppe-bison-mini",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [],
+      "playable_unit": true,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "thaw-rot": {
+      "archetypes": [
+        "minaccia_microbica"
+      ],
+      "biomes": [
+        "cryosteppe"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Thaw Rot",
+      "environment_focus": {
+        "biome_class": "cryosteppe"
+      },
+      "id": "thaw-rot",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "minaccia_microbica",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "thermo-raptor": {
+      "archetypes": [
+        "predatore_terziario_apex"
+      ],
+      "biomes": [
+        "deserto_caldo"
+      ],
+      "core_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Thermo Raptor",
+      "environment_focus": {
+        "biome_class": "deserto_caldo"
+      },
+      "id": "thermo-raptor",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "predatore_terziario_apex",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    }
+  }
+}
