@@ -303,6 +303,8 @@ export function registerRiskHudAlertSystem({
     const timeLowHpTurns = getTimeLowHpTurns(payload);
     const missionTag = resolveMissionTag(payload, options?.missionTags, options?.missionTagger);
 
+    const meetsThreshold = weightedIndex !== null && weightedIndex >= threshold;
+
     for (const filter of filters) {
       let passes = true;
       try {
@@ -312,25 +314,27 @@ export function registerRiskHudAlertSystem({
       }
 
       if (!passes) {
-        const nameCandidate = (filter as { displayName?: string }).displayName;
-        const filterName = nameCandidate ?? filter.name ?? 'anonymous';
-        const currentCount = (filterCounts.get(filterName) ?? 0) + 1;
-        filterCounts.set(filterName, currentCount);
+        if (meetsThreshold) {
+          const nameCandidate = (filter as { displayName?: string }).displayName;
+          const filterName = nameCandidate ?? filter.name ?? 'anonymous';
+          const currentCount = (filterCounts.get(filterName) ?? 0) + 1;
+          filterCounts.set(filterName, currentCount);
 
-        if (telemetryRecorder) {
-          telemetryRecorder.record({
-            alertId,
-            status: 'filtered',
-            missionId: payload.missionId,
-            missionTag,
-            turn: payload.turn,
-            weightedIndex: weightedIndex ?? undefined,
-            timeLowHpTurns,
-            roster: payload.roster,
-            timestamp: toIsoTimestamp(),
-            filterName,
-            filterCount: currentCount,
-          });
+          if (telemetryRecorder) {
+            telemetryRecorder.record({
+              alertId,
+              status: 'filtered',
+              missionId: payload.missionId,
+              missionTag,
+              turn: payload.turn,
+              weightedIndex: weightedIndex ?? undefined,
+              timeLowHpTurns,
+              roster: payload.roster,
+              timestamp: toIsoTimestamp(),
+              filterName,
+              filterCount: currentCount,
+            });
+          }
         }
 
         return;

@@ -344,3 +344,50 @@ test('risk HUD alert records filter drops with counters for QA visibility', () =
   const raisedEntry = recorded.find((entry) => entry.status === 'raised');
   assert.ok(raisedEntry, "L'evento successivo deve superare i filtri");
 });
+
+test('risk HUD alert non registra drop dei filtri sotto soglia', () => {
+  const telemetryBus = new EventEmitter();
+  const commandBus = new EventEmitter();
+  const recorded: any[] = [];
+
+  const hudLayer = {
+    raiseAlert: () => {
+      /* noop */
+    },
+    clearAlert: () => {
+      /* noop */
+    },
+    updateTrend: () => {
+      /* noop */
+    },
+  };
+
+  registerRiskHudAlertSystem({
+    telemetryBus,
+    hudLayer,
+    commandBus,
+    telemetryRecorder: {
+      record: (entry) => recorded.push(entry),
+    },
+    options: {
+      filters: [
+        () => false,
+      ],
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'mission-beta',
+    turn: 2,
+    indices: {
+      risk: {
+        weighted_index: 0.42,
+        time_low_hp_turns: 1,
+      },
+    },
+  });
+
+  const filteredEntry = recorded.find((entry) => entry.status === 'filtered');
+  assert.equal(filteredEntry, undefined, 'Eventi sotto soglia non devono generare log di filtro');
+  assert.equal(recorded.length, 0);
+});
