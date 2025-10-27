@@ -221,9 +221,16 @@
                 </h3>
                 <label class="form__field generator-export-panel__preset">
                   <span>Preset</span>
-                  <select id="generator-export-preset"></select>
+                  <select id="generator-export-preset" aria-describedby="generator-export-preset-status"></select>
                 </label>
               </div>
+              <p
+                class="form__hint generator-export__preset-hint"
+                id="generator-export-preset-status"
+                role="status"
+                aria-live="polite"
+                hidden
+              ></p>
               <p class="generator-export__meta" id="generator-export-meta">
                 Genera un ecosistema per preparare il manifest dei file.
               </p>
