@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Any
 
 TOOLS_DIR = Path(__file__).resolve().parents[1] / "tools" / "py"
 
 
-def _load_tool_main() -> Callable[[], int]:
-    """Carica la funzione ``main`` dal tool vero e proprio.
+def _load_tool_module() -> Any:
+    """Carica il modulo reale del tool mantenendo compatibilità con il wrapper.
 
     Il modulo del tool risiede in ``tools/py`` con lo stesso nome di questo
     wrapper. Importarlo direttamente causerebbe quindi un conflitto: Python
@@ -30,16 +30,26 @@ def _load_tool_main() -> Callable[[], int]:
     module = module_from_spec(spec)
     sys.modules.setdefault("tools.py.investigate_sources", module)
     spec.loader.exec_module(module)
+    return module
 
+
+_TOOL_MODULE = _load_tool_module()
+
+
+def _load_tool_callable(name: str) -> Callable[..., Any]:
     try:
-        main_callable = getattr(module, "main")
+        return getattr(_TOOL_MODULE, name)
     except AttributeError as error:  # pragma: no cover - protegge da modifiche inattese
-        raise ImportError("Il modulo tools.py.investigate_sources non espone 'main'") from error
-
-    return main_callable
+        raise ImportError(f"Il modulo tools.py.investigate_sources non espone '{name}'") from error
 
 
-investigate_main = _load_tool_main()
+investigate_main = _load_tool_callable("main")
+
+
+collect_investigation = _load_tool_callable("collect_investigation")
+
+
+render_report = _load_tool_callable("render_report")
 
 
 def main() -> int:
