@@ -78,6 +78,131 @@ const metricsElements = {};
 const controlElements = {};
 const infoElements = {};
 const manualElements = {};
+const sectionElements = {};
+
+const htmlCache = new WeakMap();
+const deferredRenderTasks = new Map();
+
+const idleQueue = (() => {
+  if (typeof window === "undefined") {
+    return {
+      schedule(callback) {
+        callback({ didTimeout: false, timeRemaining: () => 0 });
+        return null;
+      },
+      cancel() {},
+    };
+  }
+
+  if (typeof window.requestIdleCallback === "function") {
+    return {
+      schedule(callback) {
+        return window.requestIdleCallback(callback, { timeout: 120 });
+      },
+      cancel(handle) {
+        if (typeof window.cancelIdleCallback === "function" && handle != null) {
+          window.cancelIdleCallback(handle);
+        }
+      },
+    };
+  }
+
+  if (typeof window.requestAnimationFrame === "function") {
+    return {
+      schedule(callback) {
+        const start = now();
+        return window.requestAnimationFrame(() =>
+          callback({
+            didTimeout: false,
+            timeRemaining: () => Math.max(0, 16 - (now() - start)),
+          })
+        );
+      },
+      cancel(handle) {
+        if (typeof window.cancelAnimationFrame === "function" && handle != null) {
+          window.cancelAnimationFrame(handle);
+        }
+      },
+    };
+  }
+
+  return {
+    schedule(callback) {
+      const start = now();
+      return setTimeout(
+        () =>
+          callback({
+            didTimeout: true,
+            timeRemaining: () => Math.max(0, 16 - (now() - start)),
+          }),
+        16
+      );
+    },
+    cancel(handle) {
+      if (handle != null) {
+        clearTimeout(handle);
+      }
+    },
+  };
+})();
+
+function commitInnerHTML(element, html) {
+  if (!element) return;
+  const previous = htmlCache.get(element);
+  if (previous === html) {
+    return;
+  }
+  element.innerHTML = html;
+  htmlCache.set(element, html);
+}
+
+function markSectionBusy(element, isBusy) {
+  if (!element) return;
+  if (isBusy) {
+    element.setAttribute("aria-busy", "true");
+    element.dataset.loading = "true";
+  } else {
+    element.setAttribute("aria-busy", "false");
+    delete element.dataset.loading;
+  }
+}
+
+function scheduleDeferredRender(key, label, callback, detailsFactory, options = {}) {
+  const { element = null, warningThreshold } = options;
+  const previousHandle = deferredRenderTasks.get(key);
+  if (previousHandle) {
+    idleQueue.cancel(previousHandle);
+    deferredRenderTasks.delete(key);
+  }
+
+  if (element) {
+    markSectionBusy(element, true);
+  }
+
+  const runner = (deadline) => {
+    deferredRenderTasks.delete(key);
+    const start = now();
+    try {
+      callback(deadline);
+    } finally {
+      if (element) {
+        markSectionBusy(element, false);
+      }
+      const details = typeof detailsFactory === "function" ? detailsFactory() : detailsFactory;
+      performanceMonitor.push({
+        label,
+        duration: now() - start,
+        details: details || null,
+        warningThreshold,
+      });
+    }
+  };
+
+  const handle = idleQueue.schedule(runner);
+  if (handle != null) {
+    deferredRenderTasks.set(key, handle);
+  }
+}
 
 const now =
   typeof performance !== "undefined" && typeof performance.now === "function"
@@ -464,6 +589,10 @@ function setupDomReferences() {
     if (manualElements.syncStatus) {
       prepareStatusElement(manualElements.syncStatus, "idle");
     }
+    sectionElements.telemetry = null;
+    sectionElements.biomes = null;
+    sectionElements.species = null;
+    sectionElements.random = null;
   } else {
     metricsElements.forms = document.querySelector('[data-metric="forms"]');
     metricsElements.random = document.querySelector('[data-metric="random"]');
@@ -493,6 +622,11 @@ function setupDomReferences() {
 
     infoElements.dataSource = document.getElementById("data-source");
     infoElements.piShop = document.getElementById("pi-shop-content");
+
+    sectionElements.telemetry = document.getElementById("telemetry-content");
+    sectionElements.biomes = document.getElementById("biomes-grid");
+    sectionElements.species = document.getElementById("species-showcase");
+    sectionElements.random = document.getElementById("random-list");
   }
 }
 
@@ -708,25 +842,30 @@ function renderAll() {
           filter: state.formFilter || null,
         })
       );
-      measureStep("renderPiShop", () => renderPiShop());
+      measureStep("renderPiShop", () => renderPiShop(infoElements.piShop));
       measureStep(
         "renderRandomTable",
-        () => renderRandomTable(),
+        () => renderRandomTable(sectionElements.random),
         () => ({ randomEntries: footprint.randomEntries })
       );
-      measureStep(
+      scheduleDeferredRender(
         "renderTelemetry",
-        () => renderTelemetry(),
-        () => ({ telemetryIndices: footprint.telemetryIndices })
+        "renderTelemetry",
+        () => renderTelemetry(sectionElements.telemetry),
+        () => ({ telemetryIndices: footprint.telemetryIndices }),
+        { element: sectionElements.telemetry }
       );
-      measureStep(
+      scheduleDeferredRender(
         "renderBiomes",
-        () => renderBiomes(),
-        () => ({ biomes: footprint.biomes })
+        "renderBiomes",
+        () => renderBiomes(sectionElements.biomes),
+        () => ({ biomes: footprint.biomes }),
+        { element: sectionElements.biomes }
       );
-      measureStep(
+      scheduleDeferredRender(
         "renderSpeciesShowcase",
-        () => renderSpeciesShowcase(),
+        "renderSpeciesShowcase",
+        () => renderSpeciesShowcase(sectionElements.species),
         () => ({
           species: footprint.species,
           slotGroups: footprint.slotGroups,
@@ -734,6 +873,7 @@ function renderAll() {
           synergies: footprint.synergies,
         }),
         {
+          element: sectionElements.species,
           warningThreshold: footprint.estimatedNodes > 600 ? 80 : undefined,
         }
       );
@@ -1008,13 +1148,16 @@ function renderFormDetails(formId) {
   updateBiasTools(formId);
 }
 
-function renderPiShop() {
-  const container = infoElements.piShop || document.getElementById("pi-shop-content");
+function renderPiShop(targetContainer = infoElements.piShop || document.getElementById("pi-shop-content")) {
+  const container = targetContainer;
   if (!container) return;
 
   const piShop = state.data.packs?.pi_shop;
   if (!piShop) {
-    container.innerHTML = "<p class=\"muted\">Nessun dato del negozio PI disponibile.</p>";
+    commitInnerHTML(
+      container,
+      "<p class=\"muted\">Nessun dato del negozio PI disponibile.</p>"
+    );
     return;
   }
 
@@ -1022,7 +1165,9 @@ function renderPiShop() {
   const capsHtml = renderKeyValueList(piShop.caps);
   const budgetHtml = renderKeyValueList(piShop.budget_curve);
 
-  container.innerHTML = `
+  commitInnerHTML(
+    container,
+    `
     <div class="pi-grid">
       <article class="card">
         <h3>Costi PI</h3>
@@ -1038,7 +1183,8 @@ function renderPiShop() {
       </article>
     </div>
     <p class="pi-hint">Aggiorna <code>packs.yaml</code> per modificare costi, limiti e curva budget disponibili nel negozio.</p>
-  `;
+  `
+  );
 }
 
 function renderKeyValueList(source) {
@@ -1406,13 +1552,13 @@ function pickWeightedOption(options) {
   return last ? last[0] : null;
 }
 
-function renderRandomTable() {
-  const container = document.getElementById("random-list");
+function renderRandomTable(targetContainer = sectionElements.random || document.getElementById("random-list")) {
+  const container = targetContainer;
   if (!container) return;
 
   const table = state.data.packs?.random_general_d20;
   if (!Array.isArray(table) || table.length === 0) {
-    container.innerHTML = "<p>Nessuna combinazione trovata.</p>";
+    commitInnerHTML(container, "<p>Nessuna combinazione trovata.</p>");
     return;
   }
 
@@ -1434,7 +1580,9 @@ function renderRandomTable() {
     })
     .join("");
 
-  container.innerHTML = `
+  commitInnerHTML(
+    container,
+    `
     <div class="table-wrapper">
       <table>
         <thead>
@@ -1448,16 +1596,17 @@ function renderRandomTable() {
         <tbody>${rows}</tbody>
       </table>
     </div>
-  `;
+  `
+  );
 }
 
-function renderTelemetry() {
-  const container = document.getElementById("telemetry-content");
+function renderTelemetry(targetContainer = sectionElements.telemetry || document.getElementById("telemetry-content")) {
+  const container = targetContainer;
   if (!container) return;
 
   const telemetry = state.data.telemetry;
   if (!telemetry) {
-    container.innerHTML = "<p>Nessun dato disponibile.</p>";
+    commitInnerHTML(container, "<p>Nessun dato disponibile.</p>");
     return;
   }
 
@@ -1482,7 +1631,9 @@ function renderTelemetry() {
   const hudBreakdownHtml = renderKeyValueList(hudBreakdown);
   const windowsHtml = renderKeyValueList(windows);
 
-  container.innerHTML = `
+  commitInnerHTML(
+    container,
+    `
     <div class="telemetry-grid">
       <article class="card">
         <h3>Finestra EMA</h3>
@@ -1522,16 +1673,17 @@ function renderTelemetry() {
         <ul class="nested-list">${targetsHtml}</ul>
       </article>
     </div>
-  `;
+  `
+  );
 }
 
-function renderBiomes() {
-  const container = document.getElementById("biomes-grid");
+function renderBiomes(targetContainer = sectionElements.biomes || document.getElementById("biomes-grid")) {
+  const container = targetContainer;
   if (!container) return;
 
   const biomesData = state.data.biomes;
   if (!biomesData) {
-    container.innerHTML = "<p>Nessun dato disponibile.</p>";
+    commitInnerHTML(container, "<p>Nessun dato disponibile.</p>");
     return;
   }
 
@@ -1742,17 +1894,20 @@ function renderBiomes() {
         <ul class="nested-list">${freqHtml}</ul>
       </article>
     </div>
-  `;
+  `
+  );
 }
 
-function renderSpeciesShowcase() {
-  const container = document.getElementById("species-showcase");
+function renderSpeciesShowcase(targetContainer = sectionElements.species || document.getElementById("species-showcase")) {
+  const container = targetContainer;
   if (!container) return;
 
   const speciesData = state.data.species;
   if (!speciesData || !speciesData.catalog) {
-    container.innerHTML =
-      '<div class="species-empty"><p>Carica <code>species.yaml</code> per sbloccare il catalogo di slot e sinergie.</p></div>';
+    commitInnerHTML(
+      container,
+      '<div class="species-empty"><p>Carica <code>species.yaml</code> per sbloccare il catalogo di slot e sinergie.</p></div>'
+    );
     return;
   }
 
@@ -1867,7 +2022,8 @@ function renderSpeciesShowcase() {
         </div>
       `;
 
-  const synergyPreview = synergies.slice(0, 4)
+  const MAX_SYNERGIES_PREVIEW = 6;
+  const synergyPreview = synergies.slice(0, MAX_SYNERGIES_PREVIEW)
     .map((synergy) => {
       const name = synergy.name || formatLabel(synergy.id);
       const triggers = formatSynergyRequirements(synergy.when_all);
@@ -1875,8 +2031,8 @@ function renderSpeciesShowcase() {
     })
     .join("");
 
-  const synergyExtra = synergies.length > 4
-    ? `<p class="muted">+${synergies.length - 4} sinergie aggiuntive nel catalogo.</p>`
+  const synergyExtra = synergies.length > MAX_SYNERGIES_PREVIEW
+    ? `<p class="muted">+${synergies.length - MAX_SYNERGIES_PREVIEW} sinergie aggiuntive nel catalogo.</p>`
     : "";
 
   const synergySection = synergies.length
@@ -1889,7 +2045,7 @@ function renderSpeciesShowcase() {
       `
     : "";
 
-  container.innerHTML = `${metricsHtml}${slotsSection}${synergySection}`;
+  commitInnerHTML(container, `${metricsHtml}${slotsSection}${synergySection}`);
 }
 
 function formatEntry(entry) {

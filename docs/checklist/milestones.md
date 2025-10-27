@@ -24,3 +24,5 @@
   - ⏳ Ripetere la validazione dopo aver predisposto mirror/caching Playwright o pacchetto offline in artefatti CI.
   - [ ] Ampliare smoke test includendo asset statici (`styles.css`, `vendor/jszip.min.js`, `app.js`, pagine fetch) per copertura completa.
   - [x] Strumentare la dashboard con metriche di rendering leggere (console + report JSON) e fissare soglia < 60 ms sui dataset baseline, con avvisi oltre 80 ms su footprint >700 nodi.
+- [x] Convalidare smoke test Playwright sul dataset minimale (`npm --prefix tools/ts run test:web`).【F:logs/web_status.md†L27-L34】
+- [x] Raggiungere i KPI Lighthouse per il bundle `docs/test-interface` (Performance ≥80, Accessibilità 100).【F:logs/web_status.md†L35-L38】
