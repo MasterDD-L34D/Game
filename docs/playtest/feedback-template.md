@@ -1,6 +1,8 @@
 # Template raccolta feedback playtest
 
-Compilare un documento per partecipante al termine della sessione (o durante pause concordate). Le domande aperte possono essere integrate con note dell'osservatore.
+Compilare un documento per partecipante al termine della sessione (o durante pause concordate).
+Le domande aperte possono essere integrate con note dell'osservatore.
+Indicare sempre l'ID scenario (es. `BAL-01`) per facilitare il collegamento con i ticket di bug.
 
 ## Dati generali
 - **Sessione:** `SESSION-YYYY-MM-DD`
@@ -26,7 +28,7 @@ Compilare un documento per partecipante al termine della sessione (o durante pau
 2. Hai riscontrato bug visivi o narrativi durante l'evento?
 
 ## Problemi tecnici
-- Lista di bug riscontrati (con passi di riproduzione e severità).
+- Lista di bug riscontrati (con passi di riproduzione, severità e indicazione se richiede etichetta `encounter-balance`).
 - Note su prestazioni, input o stabilità.
 
 ## Suggerimenti aggiuntivi

@@ -24,6 +24,7 @@
 ## Bug e ticket
 | ID issue | Titolo | Stato | Etichette | Link |
 | --- | --- | --- | --- | --- |
+| | | | `encounter-balance` / ... | |
 
 ## Materiali archiviati
 - Log: `logs/SESSION-YYYY-MM-DD/`
