@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import base64
 import json
+import math
 import zlib
 from typing import Any, Dict, Mapping, MutableMapping, Sequence
 
@@ -25,12 +26,50 @@ def _ensure_string(value: Any, field: str) -> str:
   return value.strip()
 
 
+def _normalize_json_value(value: Any, field: str) -> Any:
+  if value is None or isinstance(value, (bool, int)):
+    return value
+
+  if isinstance(value, float):
+    if not math.isfinite(value):
+      raise AlertContextSchemaError(
+        f"{field} contiene un valore numerico non finito, impossibile serializzare",
+      )
+    return value
+
+  if isinstance(value, str):
+    return value
+
+  if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+    return [
+      _normalize_json_value(item, f"{field}[{index}]")
+      for index, item in enumerate(value)
+    ]
+
+  if isinstance(value, Mapping):
+    normalized: Dict[str, Any] = {}
+    for key, item in value.items():
+      key_str = str(key)
+      normalized[key_str] = _normalize_json_value(item, f"{field}.{key_str}")
+    return normalized
+
+  raise AlertContextSchemaError(
+    f"{field} contiene un valore non serializzabile in JSON",
+  )
+
+
 def _validate_metadata(metadata: Any) -> Dict[str, Any]:
   if metadata is None:
     return {}
   if not isinstance(metadata, Mapping):
     raise AlertContextSchemaError("metadata deve essere un mapping")
-  return {str(key): value for key, value in metadata.items()}
+
+  normalized: Dict[str, Any] = {}
+  for key, value in metadata.items():
+    key_str = str(key)
+    normalized[key_str] = _normalize_json_value(value, f"metadata.{key_str}")
+
+  return normalized
 
 
 def _validate_alerts(alerts: Any) -> Sequence[Mapping[str, Any]]:

@@ -1,3 +1,4 @@
+import datetime as dt
 import json
 import sys
 from pathlib import Path
@@ -76,3 +77,22 @@ def test_validate_alert_context_errors(payload, expected_error):
   with pytest.raises(AlertContextSchemaError) as excinfo:
     validate_alert_context(payload)
   assert expected_error in str(excinfo.value)
+
+
+def test_validate_alert_context_rejects_non_json_metadata():
+  payload = {
+    "mission_id": "alpha-03",
+    "alerts": [
+      {
+        "id": "risk-high:alpha-03",
+        "severity": "warning",
+        "message": "Risk EMA over threshold",
+        "metadata": {"timestamp": dt.datetime.utcnow()},
+      },
+    ],
+  }
+
+  with pytest.raises(AlertContextSchemaError) as excinfo:
+    validate_alert_context(payload)
+
+  assert "metadata.timestamp" in str(excinfo.value)
