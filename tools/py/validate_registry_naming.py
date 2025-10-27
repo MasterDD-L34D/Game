@@ -14,6 +14,7 @@ from typing import Iterable
 import yaml
 
 SLUG_PATTERN = re.compile(r"^[a-z0-9_]+$")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def load_json(path: Path):
@@ -294,7 +295,12 @@ def main(argv: list[str] | None = None) -> int:
     trait_glossary: Mapping[str, Mapping] = {}
 
     if glossary_hint:
-        glossary_path = resolve_path(glossary_hint, args.project_index.parent)
+        glossary_path = resolve_path(
+            glossary_hint,
+            args.project_index.parent,
+            Path.cwd(),
+            PROJECT_ROOT,
+        )
         if glossary_path and glossary_path.exists():
             try:
                 glossary_data = load_structured(glossary_path)
