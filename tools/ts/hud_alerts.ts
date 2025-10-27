@@ -156,7 +156,7 @@ export function registerRiskHudAlertSystem({
       hudLayer.raiseAlert?.(alert);
 
       if (typeof commandBus.emit === 'function') {
-        commandBus.emit('pi.balance.alert', {
+        commandBus.emit('pi.balance.alerts', {
           missionId: payload.missionId,
           roster: payload.roster,
           indices: payload.indices,
