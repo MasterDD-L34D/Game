@@ -105,13 +105,7 @@ fi
 
 TIMESTAMP=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
 DIST_LABEL=$(basename "$DIST_DIR")
-LOG_FILE="$ROOT_DIR/logs/web_status.md"
-mkdir -p "$(dirname "$LOG_FILE")"
-{
-  echo "## $TIMESTAMP · run_deploy_checks.sh"
-  echo "- **Esito script**: ✅ `scripts/run_deploy_checks.sh`"
-  echo "  - Artefatti TypeScript già presenti in \`tools/ts/dist\`."
-  RELATIVE_DATA_SOURCE=$(python3 - <<'PY'
+RELATIVE_DATA_SOURCE=$(python3 - <<'PY'
 import os
 root = os.environ.get('ROOT_DIR')
 source = os.environ.get('DATA_SOURCE_DIR')
@@ -123,8 +117,14 @@ except ValueError:
     rel = source
 print(rel)
 PY
-  )
-  echo "  - Bundle statico generato in `"$DIST_LABEL"` con dataset `"$RELATIVE_DATA_SOURCE"`."
+)
+LOG_FILE="$ROOT_DIR/logs/web_status.md"
+mkdir -p "$(dirname "$LOG_FILE")"
+{
+  echo "## $TIMESTAMP · run_deploy_checks.sh"
+  echo "- **Esito script**: ✅ \`scripts/run_deploy_checks.sh\`"
+  echo "  - Artefatti TypeScript già presenti in \`tools/ts/dist\`."
+  echo "  - Bundle statico generato in \`$DIST_LABEL\` con dataset \`$RELATIVE_DATA_SOURCE\`."
   if [ -n "$SMOKE_TEST_MESSAGE" ]; then
     echo "- **$SMOKE_TEST_MESSAGE**"
   fi
