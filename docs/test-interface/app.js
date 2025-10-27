@@ -84,6 +84,12 @@ const now =
     ? () => performance.now()
     : () => Date.now();
 
+const DEFAULT_VC_ADAPT_HINTS = Object.freeze({
+  high: ["risk_high", "aggro_high"],
+  medium: ["cohesion_high", "setup_high"],
+  low: ["explore_high"],
+});
+
 const performanceMonitor = {
   history: [],
   maxEntries: 40,
@@ -463,6 +469,11 @@ function setupDomReferences() {
     metricsElements.random = document.querySelector('[data-metric="random"]');
     metricsElements.indices = document.querySelector('[data-metric="indices"]');
     metricsElements.biomes = document.querySelector('[data-metric="biomes"]');
+    metricsElements.biomeHazards = document.querySelector('[data-metric="biomes-hazard"]');
+    metricsElements.biomeArchetypes = document.querySelector(
+      '[data-metric="biomes-archetypes"]'
+    );
+    metricsElements.biomeHooks = document.querySelector('[data-metric="biomes-hooks"]');
     metricsElements.speciesSlots = document.querySelector('[data-metric="species-slots"]');
     metricsElements.speciesSynergies = document.querySelector('[data-metric="species-synergies"]');
     metricsElements.timestamp = document.getElementById("last-updated");
@@ -748,6 +759,85 @@ function setTimestamp(text) {
   }
 }
 
+function applyMetricState(element, ratio) {
+  if (!element) return;
+  if (typeof ratio !== "number" || Number.isNaN(ratio)) {
+    element.dataset.state = "idle";
+    return;
+  }
+
+  if (ratio >= 0.95) {
+    element.dataset.state = "complete";
+  } else if (ratio >= 0.7) {
+    element.dataset.state = "warning";
+  } else {
+    element.dataset.state = "alert";
+  }
+}
+
+function setCoverageMetric(element, completed, total, options = {}) {
+  if (!element) return;
+  if (!total) {
+    element.textContent = "—";
+    element.dataset.state = "idle";
+    if (element.hasAttribute("title")) {
+      element.removeAttribute("title");
+    }
+    return;
+  }
+
+  const ratio = completed / total;
+  const percent = Math.round(ratio * 100);
+  const text = options.textFormatter
+    ? options.textFormatter({ completed, total, percent })
+    : `${completed}/${total} (${percent}%)`;
+
+  element.textContent = text;
+  applyMetricState(element, ratio);
+
+  if (options.title) {
+    element.title = options.title;
+  } else if (element.hasAttribute("title")) {
+    element.removeAttribute("title");
+  }
+}
+
+function hasHazardPackage(details) {
+  const hazard = details?.hazard || {};
+  const modifiers = hazard.stress_modifiers || {};
+  return Boolean(hazard.description && hazard.severity && Object.keys(modifiers).length);
+}
+
+function hasArchetypePackage(details) {
+  const archetypes = details?.npc_archetypes || {};
+  const primary = Array.isArray(archetypes.primary) ? archetypes.primary.length : 0;
+  const support = Array.isArray(archetypes.support) ? archetypes.support.length : 0;
+  return primary > 0 && support > 0;
+}
+
+function hasNarrativeHooks(details) {
+  return Array.isArray(details?.narrative?.hooks) && details.narrative.hooks.length > 0;
+}
+
+function buildVcLinks(details, vcAdapt) {
+  const explicit = Array.isArray(details?.vc_adapt_refs)
+    ? details.vc_adapt_refs.filter(Boolean)
+    : [];
+  const severity = String(details?.hazard?.severity || "").toLowerCase();
+  const fallback = DEFAULT_VC_ADAPT_HINTS[severity] || [];
+  const references = (explicit.length ? explicit : fallback).filter((key) => key && vcAdapt[key]);
+
+  const links = references.map(
+    (key) => `<a class="vc-link" href="#vc-adapt-${key}">${formatLabel(key)}</a>`
+  );
+
+  if (!links.length) {
+    links.push('<a class="vc-link" href="#vc-adapt-overview">Catalogo VC</a>');
+  }
+
+  return links.join("");
+}
+
 function updateOverview() {
   const packs = state.data.packs || {};
   const forms = packs.forms ? Object.keys(packs.forms) : [];
@@ -760,6 +850,14 @@ function updateOverview() {
   const biomeCount = state.data.biomes?.biomes
     ? Object.keys(state.data.biomes.biomes).length
     : 0;
+  const biomeEntries = Object.values(state.data.biomes?.biomes || {});
+  const hazardCompleted = biomeEntries.filter((details) => hasHazardPackage(details)).length;
+  const archetypeCompleted = biomeEntries.filter((details) => hasArchetypePackage(details)).length;
+  const hooksCompleted = biomeEntries.filter((details) => hasNarrativeHooks(details)).length;
+  const hooksTotal = biomeEntries.reduce((sum, details) => {
+    if (!Array.isArray(details?.narrative?.hooks)) return sum;
+    return sum + details.narrative.hooks.length;
+  }, 0);
   const speciesSlots = state.data.species?.catalog?.slots || {};
   const speciesModules = Object.values(speciesSlots).reduce(
     (total, slotGroup) => total + Object.keys(slotGroup || {}).length,
@@ -773,6 +871,14 @@ function updateOverview() {
   if (metricsElements.random) metricsElements.random.textContent = randomTable;
   if (metricsElements.indices) metricsElements.indices.textContent = indices;
   if (metricsElements.biomes) metricsElements.biomes.textContent = biomeCount;
+  setCoverageMetric(metricsElements.biomeHazards, hazardCompleted, biomeEntries.length);
+  setCoverageMetric(metricsElements.biomeArchetypes, archetypeCompleted, biomeEntries.length);
+  setCoverageMetric(metricsElements.biomeHooks, hooksCompleted, biomeEntries.length, {
+    title:
+      hooksTotal > 0
+        ? `${hooksTotal} stress hook${hooksTotal === 1 ? "" : "s"} totali`
+        : undefined,
+  });
   if (metricsElements.speciesSlots) {
     metricsElements.speciesSlots.textContent = speciesModules || "—";
   }
@@ -1429,56 +1535,211 @@ function renderBiomes() {
     return;
   }
 
+  const vcAdapt = biomesData.vc_adapt || {};
   const biomes = biomesData.biomes || {};
-  const biomeCards = Object.entries(biomes)
+  const biomeEntries = Object.entries(biomes);
+
+  if (!biomeEntries.length) {
+    container.innerHTML = "<p>Nessun bioma configurato.</p>";
+    return;
+  }
+
+  const hazardCompleted = biomeEntries.filter(([, details]) => hasHazardPackage(details)).length;
+  const archetypeCompleted = biomeEntries.filter(([, details]) => hasArchetypePackage(details)).length;
+  const hooksCompleted = biomeEntries.filter(([, details]) => hasNarrativeHooks(details)).length;
+  const hooksTotal = biomeEntries.reduce((sum, [, details]) => {
+    if (!Array.isArray(details?.narrative?.hooks)) return sum;
+    return sum + details.narrative.hooks.length;
+  }, 0);
+
+  const overviewHtml = `
+    <div class="biome-overview-bar">
+      <div class="overview-chip">
+        <span>Biomi mappati</span>
+        <strong>${biomeEntries.length}</strong>
+      </div>
+      <div class="overview-chip">
+        <span>Hazard completi</span>
+        <strong>${hazardCompleted}/${biomeEntries.length}</strong>
+      </div>
+      <div class="overview-chip">
+        <span>Archetipi validati</span>
+        <strong>${archetypeCompleted}/${biomeEntries.length}</strong>
+      </div>
+      <div class="overview-chip">
+        <span>Stress hooks</span>
+        <strong>${hooksCompleted}/${biomeEntries.length}</strong>
+        <small class="muted">${hooksTotal} totali</small>
+      </div>
+    </div>
+  `;
+
+  const biomeCards = biomeEntries
     .map(([name, details]) => {
+      const label = details.label || formatLabel(name);
+      const summary = details.summary || "";
+      const hazard = details.hazard || {};
+      const severity = (hazard.severity || "").toLowerCase();
+      const hazardLabel = hazard.severity ? formatLabel(hazard.severity) : "N.D.";
+      const hazardModifiers = Object.entries(hazard.stress_modifiers || {});
+      const hazardModifiersHtml = hazardModifiers.length
+        ? hazardModifiers
+            .map(
+              ([key, value]) =>
+                `<li><strong>${formatLabel(key)}</strong>: ${typeof value === "number" ? value : value ?? "—"}</li>`
+            )
+            .join("")
+        : '<li class="muted">Nessun modificatore registrato.</li>';
+
+      const archetypes = details.npc_archetypes || {};
+      const archetypeColumn = (title, values) => {
+        const listItems = Array.isArray(values) && values.length
+          ? values.map((item) => `<li>${formatLabel(item)}</li>`)
+          : ['<li class="muted">—</li>'];
+        return `
+          <div>
+            <h5>${title}</h5>
+            <ul>${listItems.join("")}</ul>
+          </div>
+        `;
+      };
+
+      const stresswave = details.stresswave || {};
+      const stresswaveHighlights = [];
+      if (typeof stresswave.baseline === "number") {
+        stresswaveHighlights.push(`Baseline ${stresswave.baseline}`);
+      }
+      if (typeof stresswave.escalation_rate === "number") {
+        stresswaveHighlights.push(`Escalation +${stresswave.escalation_rate}`);
+      }
+      const stresswaveThresholds = Object.entries(stresswave.event_thresholds || {});
+
+      const stresswaveSection =
+        stresswaveHighlights.length || stresswaveThresholds.length
+          ? `
+              <div class="biome-section">
+                <h4>StressWave</h4>
+                ${
+                  stresswaveHighlights.length
+                    ? `<p class="muted">${stresswaveHighlights.join(" · ")}</p>`
+                    : ""
+                }
+                ${
+                  stresswaveThresholds.length
+                    ? `<ul>${stresswaveThresholds
+                        .map(
+                          ([key, value]) =>
+                            `<li><strong>${formatLabel(key)}</strong>: ${value ?? "—"}</li>`
+                        )
+                        .join("")}</ul>`
+                    : '<p class="muted">Nessuna soglia definita.</p>'
+                }
+              </div>
+            `
+          : "";
+
+      const hooks = Array.isArray(details.narrative?.hooks)
+        ? details.narrative.hooks
+        : [];
+      const hooksSection = `
+        <div class="biome-section">
+          <h4>Stress hooks</h4>
+          ${details.narrative?.tone ? `<p class="muted">${details.narrative.tone}</p>` : ""}
+          ${
+            hooks.length
+              ? `<ul>${hooks.map((hook) => `<li>${hook}</li>`).join("")}</ul>`
+              : '<p class="muted">Nessun hook registrato.</p>'
+          }
+        </div>
+      `;
+
+      const affixes = Array.isArray(details.affixes) ? details.affixes : [];
+      const affixHtml = affixes.length
+        ? `<div class="biome-pills">${affixes
+            .map((affix) => `<span class="biome-pill">${formatLabel(affix)}</span>`)
+            .join("")}</div>`
+        : '<p class="muted">Nessun affisso configurato.</p>';
+
+      const stressLinks = buildVcLinks(details, vcAdapt);
+
+      const metaTokens = [
+        details.diff_base != null ? `<li><span>Diff base ${details.diff_base}</span></li>` : "",
+        details.mod_biome != null ? `<li><span>Mod ${details.mod_biome}</span></li>` : "",
+        typeof stresswave.baseline === "number"
+          ? `<li><span>Stress ${stresswave.baseline}</span></li>`
+          : "",
+      ].filter(Boolean);
+
       return `
-        <article class="card biome-card">
-          <h3>${name}</h3>
-          <p><strong>Diff. base:</strong> ${details.diff_base ?? "—"}</p>
-          <p><strong>Mod. bioma:</strong> ${details.mod_biome ?? "—"}</p>
-          <h4>Affissi</h4>
-          <ul>${Array.isArray(details.affixes)
-            ? details.affixes.map((affix) => `<li>${affix}</li>`).join("")
-            : "<li>—</li>"}</ul>
+        <article class="card biome-card" data-biome="${name}">
+          <div class="biome-card__header">
+            <div>
+              <h3>${label}</h3>
+              ${summary ? `<p class="biome-summary">${summary}</p>` : ""}
+            </div>
+            <span class="hazard-badge" data-level="${severity || "unknown"}">${hazardLabel}</span>
+          </div>
+          ${metaTokens.length ? `<ul class="biome-meta">${metaTokens.join("")}</ul>` : ""}
+          <div class="biome-section">
+            <h4>Hazard</h4>
+            ${hazard.description ? `<p>${hazard.description}</p>` : '<p class="muted">Descrizione non disponibile.</p>'}
+            <ul class="biome-inline-list">${hazardModifiersHtml}</ul>
+          </div>
+          <div class="biome-section">
+            <h4>Archetipi</h4>
+            <div class="biome-archetypes">
+              ${archetypeColumn("Primari", archetypes.primary)}
+              ${archetypeColumn("Supporto", archetypes.support)}
+            </div>
+          </div>
+          ${stresswaveSection}
+          ${hooksSection}
+          <div class="biome-section">
+            <h4>Affissi</h4>
+            ${affixHtml}
+          </div>
+          <div class="biome-links">
+            ${stressLinks}
+          </div>
         </article>
       `;
     })
     .join("");
 
-  const vcAdapt = biomesData.vc_adapt || {};
   const vcHtml = Object.entries(vcAdapt)
     .map(
-      ([key, value]) => `<li><strong>${key}</strong>: ${formatEntry(value)}</li>`
+      ([key, value]) =>
+        `<li id="vc-adapt-${key}"><strong>${formatLabel(key)}</strong>: ${formatEntry(value)}</li>`
     )
-    .join("");
+    .join("") || '<li class="muted">Nessun adattamento VC configurato.</li>';
 
   const mutations = biomesData.mutations || {};
   const mutationHtml = Object.entries(mutations)
-    .map(([key, value]) => `<li><strong>${key}</strong>: ${formatEntry(value)}</li>`)
-    .join("");
+    .map(([key, value]) => `<li><strong>${formatLabel(key)}</strong>: ${formatEntry(value)}</li>`)
+    .join("") || '<li class="muted">Nessuna mutazione definita.</li>';
 
   const frequencies = biomesData.frequencies || {};
   const freqHtml = Object.entries(frequencies)
-    .map(([key, value]) => `<li><strong>${key}</strong>: ${formatEntry(value)}</li>`)
-    .join("");
+    .map(([key, value]) => `<li><strong>${formatLabel(key)}</strong>: ${formatEntry(value)}</li>`)
+    .join("") || '<li class="muted">Nessuna frequenza definita.</li>';
 
   container.innerHTML = `
+    ${overviewHtml}
     <div class="biome-grid">
       ${biomeCards}
     </div>
     <div class="cards biome-details">
-      <article class="card">
+      <article class="card" id="vc-adapt-overview">
         <h3>VC Adapt</h3>
-        <ul>${vcHtml}</ul>
+        <ul class="nested-list">${vcHtml}</ul>
       </article>
       <article class="card">
         <h3>Mutazioni</h3>
-        <ul>${mutationHtml}</ul>
+        <ul class="nested-list">${mutationHtml}</ul>
       </article>
       <article class="card">
         <h3>Frequenze</h3>
-        <ul>${freqHtml}</ul>
+        <ul class="nested-list">${freqHtml}</ul>
       </article>
     </div>
   `;
@@ -3628,14 +3889,16 @@ function setFetchStatus(message, variant) {
   updateStatusElement(controlElements.fetchStatus, message, variant || "info");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function initializeTestInterface() {
   pageMode = detectPageMode();
   setupDomReferences();
 
   if (pageMode === PAGE_MODES.DASHBOARD) {
     const reloadButton = document.getElementById("reload-data");
     if (reloadButton) {
-      reloadButton.addEventListener("click", () => loadAllData());
+      reloadButton.addEventListener("click", () => {
+        loadAllData();
+      });
     }
     setupControlPanel();
     const historySnapshot = getStorageSnapshot(MANUAL_SYNC_HISTORY_KEY, { fallback: null });
@@ -3644,4 +3907,10 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if (pageMode === PAGE_MODES.MANUAL_FETCH) {
     setupManualFetchPage();
   }
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeTestInterface, { once: true });
+} else {
+  initializeTestInterface();
+}
