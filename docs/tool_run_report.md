@@ -14,6 +14,13 @@
 - Eseguito controllo locale sui log YAML con lo script Python ad-hoc per rilevare la presenza del metadato `cycle` prima di attivare il filtro `minCycle` del nuovo flusso Hub Ops (`scripts/driveSync.gs`). Tutti i file attuali restituiscono `detected_cycle: null`, confermando che l'estensione includerà automaticamente i dataset dei cicli successivi non appena il campo verrà popolato.【5e2837†L1-L33】
 - Annotata la disponibilità della funzione Apps Script `convertYamlToSheetsDryRun()` per allegare ai report il riepilogo delle operazioni senza toccare i fogli reali.【F:scripts/driveSync.gs†L82-L210】
 
+## 2025-10-27 — `roll_pack` CLI parity audit
+- Eseguiti i comandi della checklist per confrontare TypeScript/Python: `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py` contro `data/packs.yaml`.
+  - Coppia `ENTP`/`invoker` con seed `demo`.
+  - Coppia `ISFJ`/`support` con seed `alpha42`.
+- Gli output JSON sono stati salvati in `logs/tooling/2025-10-27-roll_pack/` e confrontati con `diff -u`; non sono emerse differenze (diff vuoto in entrambi i confronti).【F:logs/tooling/2025-10-27-roll_pack/node_ENTP_invoker_seed_demo.json†L1-L19】【F:logs/tooling/2025-10-27-roll_pack/python_ENTP_invoker_seed_demo.json†L1-L19】【F:logs/tooling/2025-10-27-roll_pack/node_ISFJ_support_seed_alpha42.json†L1-L19】【F:logs/tooling/2025-10-27-roll_pack/python_ISFJ_support_seed_alpha42.json†L1-L19】
+- Nessun issue aperto: la parità tra implementazioni è confermata ai seed testati; la checklist viene aggiornata con riferimento ai log odierni.
+
 ## 2025-10-26 — `roll_pack` CLI parity spot-check
 - Eseguiti `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py` con seed condiviso `demo` sulle coppie `ENTP`/`invoker` e `ISFJ`/`support`, utilizzando `data/packs.yaml`.
 - I risultati JSON delle due implementazioni sono stati salvati localmente (`/tmp/node_*`, `/tmp/py_*`) e confrontati tramite `diff -u`.
