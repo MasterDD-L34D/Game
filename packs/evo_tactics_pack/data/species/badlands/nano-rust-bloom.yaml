@@ -7,10 +7,10 @@ receipt:
 id: nano-rust-bloom
 display_name: Nano Rust Bloom
 biomes:
-- badlands
+  - canyons_risonanti
 role_trofico: minaccia_microbica
 functional_tags:
-- patogeno
+  - patogeno
 morphotype: scavenger_corazzato
 flags:
   apex: false
@@ -29,48 +29,48 @@ vc:
   tilt: 0.8
 ecology:
   trigger:
-  - umidità episodica + sali
+    - umidità episodica + sali
   contromisure:
-  - chelanti
-  - taglio flussi magnetici
+    - chelanti
+    - taglio flussi magnetici
 spawn_rules:
   orario:
-  - continuo
+    - continuo
   meteo:
-  - foschia_ferrosa
+    - foschia_ferrosa
   densita: mid
 balance:
   rarity: R3
   threat_tier: T3
   encounter_role: boss
 environment_affinity:
-  biome_class: badlands
+  biome_class: canyons_risonanti
   koppen:
-  - BSk
-  - BWk
+    - BSk
+    - BWk
   hazards_expected:
-  - tempeste_sabbia
-  - collassi di scarpate
-  - tempesta_sabbia_magnetica
-  - iron_shards
-  - magnetic_patches
+    - tempeste_sabbia
+    - collassi di scarpate
+    - tempesta_sabbia_magnetica
+    - iron_shards
+    - magnetic_patches
 derived_from_environment:
   suggested_traits:
-  - cute_resistente_sali
-  - enzimi_chelanti
-  - pelli_anti_ustione
-  - pigmenti_termici
+    - cute_resistente_sali
+    - enzimi_chelanti
+    - pelli_anti_ustione
+    - pigmenti_termici
   required_capabilities:
-  - build_cover
-  - dr_impact_cap
-  - non_metal_gear
-  - seal_vents
+    - build_cover
+    - dr_impact_cap
+    - non_metal_gear
+    - seal_vents
   jobs_bias:
-  - Vanguard
-  - Warden
+    - Vanguard
+    - Warden
 telemetry:
-  expected_pick_rate: null
-  spawn_weight: null
+  expected_pick_rate:
+  spawn_weight:
 services_links: []
 genetic_traits: []
 mate_synergy: []

@@ -1,0 +1,19 @@
+# Mapping legacy biome identifiers to new canonical biomes.
+# Each alias entry must resolve to a key present in data/biomes.yaml.
+aliases:
+  badlands:
+    canonical: canyons_risonanti
+    notes: "Badlands magnetiche integrate nel profilo dei Canyons Risonanti."
+  deserto_caldo:
+    canonical: savana
+    notes: "Deserto caldo aurorale migrato nella Savana Ionizzata."
+  foresta_temperata:
+    canonical: foresta_miceliale
+    notes: "Le foreste temperate legacy confluiscono nella Foresta Miceliale."
+  cryosteppe:
+    canonical: mezzanotte_orbitale
+    status: transitional
+    notes: "Specie cryosteppe in attesa di rework: collocate provvisoriamente nel teatro Mezzanotte Orbitale."
+  caverna_risonante:
+    canonical: caverna
+    notes: "Alias storico per la Caverna Risonante."

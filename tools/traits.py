@@ -25,6 +25,8 @@ DEFAULT_SPECIES_HINTS = [
     PROJECT_ROOT / "packs/evo_tactics_pack/data/species",
 ]
 DEFAULT_EVENTS_HINTS = [PROJECT_ROOT / "data/events"]
+BIOME_INDEX_PATH = PROJECT_ROOT / "data/biomes.yaml"
+BIOME_ALIASES_PATH = PROJECT_ROOT / "data/biome_aliases.yaml"
 
 
 def _ensure_list(value: Any) -> list[str]:
@@ -50,6 +52,72 @@ def _rel_path(path: Path) -> str:
         return str(path.resolve().relative_to(PROJECT_ROOT))
     except ValueError:
         return str(path)
+
+
+def _register_alias_entry(
+    alias_map: dict[str, str],
+    alias_meta: dict[str, dict[str, str]],
+    raw_alias: str,
+    canonical: str,
+    metadata: dict[str, Any] | None,
+) -> None:
+    alias_key = raw_alias.casefold()
+    entry: dict[str, str] = {"alias": raw_alias, "canonical": canonical}
+    if metadata:
+        status = metadata.get("status")
+        notes = metadata.get("notes")
+        if status:
+            entry["status"] = str(status)
+        if notes:
+            entry["notes"] = str(notes)
+    alias_map[alias_key] = canonical
+    alias_meta[alias_key] = entry
+
+
+def _load_biome_registry() -> tuple[set[str], dict[str, str], dict[str, str], dict[str, dict[str, str]]]:
+    canonical: set[str] = set()
+    canonical_casefold: dict[str, str] = {}
+    alias_map: dict[str, str] = {}
+    alias_meta: dict[str, dict[str, str]] = {}
+
+    if BIOME_INDEX_PATH.exists():
+        data = _load_yaml(BIOME_INDEX_PATH)
+        biomes = data.get("biomes") if isinstance(data, dict) else {}
+        if isinstance(biomes, dict):
+            canonical = {str(key) for key in biomes.keys()}
+    for biome_id in canonical:
+        variants = {biome_id, biome_id.replace("-", "_")}
+        for variant in variants:
+            canonical_casefold[variant.casefold()] = biome_id
+
+    if BIOME_ALIASES_PATH.exists():
+        aliases_payload = _load_yaml(BIOME_ALIASES_PATH)
+        alias_entries = aliases_payload.get("aliases") if isinstance(aliases_payload, dict) else {}
+        for alias, value in (alias_entries or {}).items():
+            canonical_id: str | None
+            metadata: dict[str, Any] | None
+            if isinstance(value, dict):
+                canonical_id = value.get("canonical")
+                metadata = value
+            else:
+                canonical_id = value
+                metadata = None
+            if not canonical_id:
+                continue
+            canonical_id = str(canonical_id)
+            if canonical and canonical_id not in canonical:
+                print(
+                    f"[WARN] Alias bioma '{alias}' mappa a identificatore non canonico '{canonical_id}'",
+                    file=sys.stderr,
+                )
+                continue
+            for variant in {alias, alias.replace("-", "_")}:
+                _register_alias_entry(alias_map, alias_meta, variant, canonical_id, metadata)
+
+    return canonical, canonical_casefold, alias_map, alias_meta
+
+
+CANONICAL_BIOMES, BIOME_CASEFOLD, BIOME_ALIAS_MAP, BIOME_ALIAS_META = _load_biome_registry()
 
 
 def _iter_species_entries(path: Path) -> Iterable[tuple[dict[str, Any], Path]]:
@@ -185,6 +253,102 @@ def _extract_biomes(entry: dict[str, Any]) -> list[str]:
     return _unique_sorted(biomes)
 
 
+def _resolve_biome_token(token: str) -> tuple[str | None, dict[str, str] | None]:
+    slug = str(token).strip()
+    if not slug:
+        return None, None
+    variants = [slug, slug.replace("-", "_")]
+    for variant in variants:
+        key = variant.casefold()
+        if key in BIOME_CASEFOLD:
+            canonical = BIOME_CASEFOLD[key]
+            if canonical != slug:
+                return canonical, {"alias": slug, "canonical": canonical}
+            return canonical, None
+    for variant in variants:
+        key = variant.casefold()
+        if key in BIOME_ALIAS_MAP:
+            canonical = BIOME_ALIAS_MAP[key]
+            metadata = BIOME_ALIAS_META.get(key, {}).copy()
+            if not metadata:
+                metadata = {"alias": slug, "canonical": canonical}
+            else:
+                metadata.setdefault("alias", slug)
+                metadata.setdefault("canonical", canonical)
+            return canonical, metadata
+    return None, None
+
+
+def _merge_alias_records(*records: Iterable[dict[str, Any]]) -> list[dict[str, str]]:
+    merged: list[dict[str, str]] = []
+    registry: dict[tuple[str | None, str | None], dict[str, str]] = {}
+    for collection in records:
+        for record in collection or []:
+            if not isinstance(record, dict):
+                continue
+            alias = record.get("alias")
+            canonical = record.get("canonical")
+            key = (str(alias) if alias is not None else None, str(canonical) if canonical is not None else None)
+            target = registry.get(key)
+            if target is None:
+                target = {}
+                if alias is not None:
+                    target["alias"] = str(alias)
+                if canonical is not None:
+                    target["canonical"] = str(canonical)
+                registry[key] = target
+                merged.append(target)
+            for field in ("status", "notes"):
+                value = record.get(field)
+                if value:
+                    target[field] = str(value)
+    merged.sort(key=lambda item: (item.get("alias") or "", item.get("canonical") or ""))
+    return merged
+
+
+def _normalize_biome_list(
+    biomes: Iterable[str],
+    entry_id: str,
+    source: Path,
+) -> tuple[list[str], list[dict[str, str]]]:
+    normalized: list[str] = []
+    alias_records: list[dict[str, str]] = []
+    reported: set[tuple[str, str]] = set()
+    for raw in biomes:
+        canonical, metadata = _resolve_biome_token(raw)
+        if not canonical:
+            rel = _rel_path(source)
+            raise ValueError(f"Bioma '{raw}' non riconosciuto per {entry_id} in {rel}")
+        normalized.append(canonical)
+        if metadata or canonical != raw:
+            record = {"alias": str(raw), "canonical": canonical}
+            if metadata:
+                for field in ("status", "notes"):
+                    value = metadata.get(field)
+                    if value:
+                        record[field] = str(value)
+            alias_records.append(record)
+            log_key = (str(raw), canonical)
+            if log_key not in reported:
+                extras: list[str] = []
+                if metadata:
+                    status = metadata.get("status")
+                    notes = metadata.get("notes")
+                    if status:
+                        extras.append(f"status={status}")
+                    if notes:
+                        extras.append(notes)
+                suffix = f" ({', '.join(extras)})" if extras else ""
+                print(
+                    f"[INFO] Normalizzato bioma '{raw}' -> '{canonical}' per {entry_id} ({_rel_path(source)}){suffix}",
+                    file=sys.stderr,
+                )
+                reported.add(log_key)
+    normalized = _unique_sorted(normalized)
+    alias_records = _merge_alias_records(alias_records)
+    return normalized, alias_records
+
+
 def build_entry_payload(entry: dict[str, Any], source: Path) -> dict[str, Any]:
     identifier = entry.get("id")
     if not identifier:
@@ -192,10 +356,13 @@ def build_entry_payload(entry: dict[str, Any], source: Path) -> dict[str, Any]:
     display = entry.get("display_name")
     archetypes = _extract_archetypes(entry)
     core_traits, optional_traits, synergy_traits = _extract_traits(entry)
+    raw_biomes = _extract_biomes(entry)
+    normalized_biomes, biome_aliases = _normalize_biome_list(raw_biomes, str(identifier), source)
+
     payload: dict[str, Any] = {
         "id": str(identifier),
         "display_name": str(display) if display else str(identifier),
-        "biomes": _extract_biomes(entry),
+        "biomes": normalized_biomes,
         "morphotype": entry.get("morphotype"),
         "role": entry.get("role_trofico"),
         "archetypes": archetypes,
@@ -221,6 +388,8 @@ def build_entry_payload(entry: dict[str, Any], source: Path) -> dict[str, Any]:
         payload.pop("form_threshold")
     if not payload["environment_focus"]:
         payload.pop("environment_focus")
+    if biome_aliases:
+        payload["biome_aliases"] = biome_aliases
     return payload
 
 
@@ -262,6 +431,12 @@ def collect_species_and_events(
                     existing["environment_focus"] = payload["environment_focus"]
                 if payload.get("biomes"):
                     existing["biomes"] = _unique_sorted(existing.get("biomes", []) + payload["biomes"])
+                if payload.get("biome_aliases"):
+                    merged_aliases = _merge_alias_records(
+                        existing.get("biome_aliases", []), payload.get("biome_aliases", [])
+                    )
+                    if merged_aliases:
+                        existing["biome_aliases"] = merged_aliases
                 continue
             target[identifier] = payload
             sources.extend(payload["source_files"])

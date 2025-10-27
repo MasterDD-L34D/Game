@@ -1,12 +1,12 @@
 id: steppe-bison-mini
 display_name: Bisonte Nano della Steppa
 biomes:
-- cryosteppe
+  - mezzanotte_orbitale
 role_trofico: ingegneri_ecosistema
 functional_tags:
-- ingegneri_ecosistema
-- specie_chiave
-- prede
+  - ingegneri_ecosistema
+  - specie_chiave
+  - prede
 morphotype: cursoriale_quadrupede
 flags:
   apex: false
@@ -20,7 +20,7 @@ pi_loadout:
   weight_budget: 12
   default_parts:
     defense:
-    - elastomer_skin
+      - elastomer_skin
     metabolism: burst_anaerobic
 vc:
   aggro: 0.3
@@ -30,14 +30,14 @@ vc:
   explore: 0.4
   tilt: 0.2
 services_links:
-- supporto:aree_brina_compatta
-- regolazione:riciclo_nutrienti_neve
+  - supporto:aree_brina_compatta
+  - regolazione:riciclo_nutrienti_neve
 spawn_rules:
   orario:
-  - diurno
+    - diurno
   meteo:
-  - sereno_freddo
-  - whiteout
+    - sereno_freddo
+    - whiteout
   densita: mid
 balance:
   rarity: R2
@@ -47,8 +47,8 @@ telemetry:
   expected_pick_rate: 0.15
   spawn_weight: 0.22
 jobs_synergy:
-- Warden
-- Vanguard
+  - Warden
+  - Vanguard
 schema_version: 1.7
 receipt:
   source: PTPF.v1.0
@@ -56,23 +56,23 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: cryosteppe
+  biome_class: mezzanotte_orbitale
   koppen:
-  - BSk
-  - Dfc
+    - BSk
+    - Dfc
 derived_from_environment:
   suggested_traits:
-  - cuticole_cerose
-  - grassi_termici
-  - pelli_cave
-  - pigmenti_aurorali
-  - proteine_shock_termico
-  - reti_capillari_radici
+    - cuticole_cerose
+    - grassi_termici
+    - pelli_cave
+    - pigmenti_aurorali
+    - proteine_shock_termico
+    - reti_capillari_radici
   required_capabilities: []
   services_links: []
   jobs_bias:
-  - Skirmisher
-  - Vanguard
-  - Warden
+    - Skirmisher
+    - Vanguard
+    - Warden
 genetic_traits: []
 mate_synergy: []
