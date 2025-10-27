@@ -11,7 +11,10 @@ log "Installing Node.js dependencies via npm ci"
 pushd "$ROOT_DIR/tools/ts" >/dev/null
 npm ci
 
-log "Running TypeScript test suite"
+log "Installing Playwright browsers"
+npx playwright install --with-deps chromium
+
+log "Running TypeScript and web regression test suite"
 npm test
 popd >/dev/null
 
@@ -76,5 +79,31 @@ log "Static site responded successfully on http://127.0.0.1:$PORT/"
 trap - EXIT
 cleanup_server
 rm -f "$SERVER_LOG"
+
+PLAYWRIGHT_REPORT="$ROOT_DIR/tools/ts/playwright-report.json"
+PLAYWRIGHT_SUMMARY=""
+if [ -f "$PLAYWRIGHT_REPORT" ]; then
+  PLAYWRIGHT_SUMMARY=$(node "$ROOT_DIR/tools/ts/scripts/collect_playwright_summary.js" "$PLAYWRIGHT_REPORT")
+  rm -f "$PLAYWRIGHT_REPORT"
+fi
+
+TIMESTAMP=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
+DIST_LABEL=$(basename "$DIST_DIR")
+LOG_FILE="$ROOT_DIR/logs/web_status.md"
+{
+  echo "## $TIMESTAMP · run_deploy_checks.sh"
+  echo "- **Esito script**: ✅ `scripts/run_deploy_checks.sh`"
+  echo "  - `npm test` (tools/ts) · suite TypeScript + Playwright completata."
+  if [ -n "$PLAYWRIGHT_SUMMARY" ]; then
+    echo "$PLAYWRIGHT_SUMMARY" | sed 's/^/    /'
+  fi
+  echo "  - `pytest` (tools/py) · test suite completata."
+  echo "  - Bundle statico generato in `"$DIST_LABEL"` con fixture `data/test-fixtures/minimal`."
+  echo "- **Smoke test HTTP**: server Python su `http://127.0.0.1:$PORT/`."
+  echo "  - Richieste principali completate senza errori (index.html e dashboard)."
+  echo "- **Note**:"
+  echo "  - Report Playwright elaborato tramite `tools/ts/scripts/collect_playwright_summary.js`."
+  echo ""
+} >>"$LOG_FILE"
 
 log "Run 'rm -rf "$DIST_DIR"' when finished inspecting the artifact."
