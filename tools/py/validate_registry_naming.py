@@ -39,12 +39,27 @@ def resolve_path(value: str | Path | None, *anchors: Path) -> Path | None:
     if candidate.is_absolute():
         return candidate
 
+    search_roots: list[Path] = []
     for anchor in anchors:
-        resolved = (anchor / candidate).resolve()
+        if anchor is not None:
+            search_roots.append(Path(anchor))
+
+    cwd = Path.cwd()
+    if not any(cwd == root for root in search_roots):
+        search_roots.append(cwd)
+
+    if not any(PROJECT_ROOT == root for root in search_roots):
+        search_roots.append(PROJECT_ROOT)
+
+    for root in search_roots:
+        resolved = (root / candidate).resolve()
         if resolved.exists():
             return resolved
 
-    return (anchors[0] / candidate).resolve() if anchors else candidate.resolve()
+    if search_roots:
+        return (search_roots[0] / candidate).resolve()
+
+    return (PROJECT_ROOT / candidate).resolve()
 
 
 def check_slug(value: str, context: str, errors: list[str]) -> None:
@@ -297,9 +312,7 @@ def main(argv: list[str] | None = None) -> int:
     if glossary_hint:
         glossary_path = resolve_path(
             glossary_hint,
-            args.project_index.parent,
-            Path.cwd(),
-            PROJECT_ROOT,
+            args.project_index.resolve().parent,
         )
         if glossary_path and glossary_path.exists():
             try:
