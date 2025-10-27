@@ -7053,6 +7053,13 @@ function renderComposerPanel() {
         return b.count - a.count;
       });
 
+    const availableRoles = new Set(roleEntries.map((entry) => entry.role));
+    preferred.forEach((role) => {
+      if (!availableRoles.has(role)) {
+        preferred.delete(role);
+      }
+    });
+
     if (!roleEntries.length) {
       const empty = document.createElement("p");
       empty.className = "generator-composer__empty";
