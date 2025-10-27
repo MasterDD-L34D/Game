@@ -3277,12 +3277,25 @@ async function loadDossierTemplate() {
   }
 }
 
-function flattenSpeciesBuckets(buckets) {
+function flattenSpeciesBuckets(buckets = {}) {
   if (!buckets || typeof buckets !== "object") return [];
-  const species = Object.values(buckets)
+  const seen = new Map();
+  Object.values(buckets)
     .filter((list) => Array.isArray(list))
-    .flat();
-  return uniqueById(species);
+    .forEach((list) => {
+      list.forEach((species) => {
+        if (!species) return;
+        const key =
+          species.id ||
+          species.display_name ||
+          species.displayName ||
+          species.speciesId ||
+          null;
+        if (!key || seen.has(key)) return;
+        seen.set(key, species);
+      });
+    });
+  return Array.from(seen.values());
 }
 
 function summariseSeedParty(seed) {
@@ -3503,20 +3516,6 @@ async function refreshDossierPreview(context) {
   hint.hidden = true;
   const body = doc.body ?? doc.querySelector("body");
   preview.innerHTML = body ? body.innerHTML : "";
-}
-
-function flattenSpeciesBuckets(speciesBuckets = {}) {
-  const unique = new Map();
-  Object.values(speciesBuckets).forEach((list) => {
-    if (!Array.isArray(list)) return;
-    list.forEach((species) => {
-      if (!species) return;
-      const key = species.id || species.display_name || null;
-      if (!key || unique.has(key)) return;
-      unique.set(key, species);
-    });
-  });
-  return Array.from(unique.values());
 }
 
 function formatSpotlightLine(entry) {
@@ -3766,7 +3765,8 @@ function setupExportControls() {
   if (elements.exportPreset) {
     elements.exportPreset.addEventListener("change", (event) => {
       const { value } = event.target;
-      state.exportState.presetId = value || MANIFEST_PRESETS[0]?.id ?? null;
+      const fallbackPresetId = MANIFEST_PRESETS[0]?.id ?? null;
+      state.exportState.presetId = value || fallbackPresetId;
       renderExportManifest();
     });
   }
