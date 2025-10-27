@@ -37,15 +37,15 @@
 
 ## [2025-11] VC Patch Note (RC)
 ### Stato feature
-- **HUD Risk/Cohesion Overlay** — Pronto per release; metriche QA 2025-11-01 confermano risk medio 0.55 e coesione 0.81 dopo il tuning EMA 0.2.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L45】
-- **Protocollo SquadSync Playbook** — Deployato con successo nelle squadre Echo/Bravo; resta monitoraggio su picchi risk >0.60 durante wave prolungate.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L19-L44】
-- **Missione Skydock Siege (vertical slice)** — Contenuti narrativi e timer evacuazione completi; mantenere focus su supporto Aeon Overclock con guardie condivise.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L31-L36】
+- **HUD Risk/Cohesion Overlay** — Pronto per release; metriche QA 2025-11-05 confermano risk medio 0.57 (Delta 0.59, Echo 0.54) e coesione 0.76/0.80 con alert HUD mitigati entro 2 turni.【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L88】
+- **Protocollo SquadSync Playbook** — Deploy confermato su Echo/Delta con cooldown supporti ottimizzato; mantenere monitoraggio su picchi risk 0.62 per eventi Aeon Overclock e ack PI automatici.【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L9-L83】
+- **Missione Skydock Siege (vertical slice)** — Contenuti narrativi e timer evacuazione completi; tuning Tier 3 stabile con tilt <0.46 e timer evacuazione a 6 turni.【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L102】
 
 ### Issue note
-- **Picco risk Echo wave 3** — Evento isolato (0.62) risolto con swap supporti; verificare alert in tempo reale nel rollout finale.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L24-L33】
-- **Allineamento annunci** — Coordinare il calendario cross-team e gli aggiornamenti Canvas prima del tag `v0.6.0-rc1`.
+- **Alert risk Delta turno 11** — Picco 0.62 mitigato entro due turni con ack PI e cooldown relay; verificare replicabilità nel prossimo smoke test.【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L19-L83】
+- **Allineamento annunci** — Confermare agenda riunione cross-team 2025-11-06 (10:30 CET) e invio comunicazioni Slack/Drive post tag `v0.6.0-rc1` alle 16:00/18:00 CET del 2025-11-07.【F:docs/piani/roadmap.md†L72-L85】
 
 ### Prossimi passi
-- Pubblicare il tag `v0.6.0-rc1` dopo conferma QA e distribuire note VC al team ampliato.
-- Aggiornare materiali marketing/Canvas con screenshot HUD e grafici risk/cohesion aggiornati al 2025-11-01.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L45】
+- Pubblicare il tag `v0.6.0-rc1` dopo conferma QA 2025-11-05 e distribuire note VC al team ampliato.
+- Aggiornare materiali marketing/Canvas con screenshot HUD e grafici risk/cohesion aggiornati al playtest 2025-11-05 (Delta/Echo).【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L88】【F:docs/Canvas/feature-updates.md†L17-L27】
 - Creare il tag Git ufficiale a chiusura QA, notificare Marketing Ops e Product con recap su asset HUD aggiornati e collegare la libreria screenshot revisionata.

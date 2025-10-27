@@ -32,8 +32,8 @@
 
 ## Revisioni Programmate
 - Review telemetria settimanali (martedì 10:00 CET, giovedì 16:00 CET) e retro quindicinale coordinata da Design/Tech Lead con materiali raccolti entro le 18:00 CET nella cartella `telemetria/reports`. Tutte le sessioni sono registrate sul calendario `Evo-Tactics / VC Reviews` e l'owner pubblica riepilogo in `docs/tool_run_report.md` o ADR dedicati.【F:docs/24-TELEMETRIA_VC.md†L14-L29】
-- KPI monitorati: tasso conversione NPG, durata scontri per bioma, attivazioni Protocollo di soccorso, StressWave medio per squadra, coesione aggregata (Delta/Echo).【F:appendici/C-CANVAS_NPG_BIOMI.txt†L83-L132】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L79】
+- KPI monitorati: tasso conversione NPG, durata scontri per bioma, attivazioni Protocollo di soccorso, StressWave medio per squadra, coesione aggregata (Delta/Echo).【F:appendici/C-CANVAS_NPG_BIOMI.txt†L83-L132】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L102】
 
 ## Stato Attuale
 - Metodo `ema_capped_minmax` introdotto il 2025-10-24 riduce falsi positivi su squadre Bravo/Delta; monitorare smoothing 0.2 durante playtest successivi.【F:docs/Canvas/feature-updates.md†L11-L24】【F:data/telemetry.yaml†L17-L25】
-- Dashboard VC aggiornata 2025-11-01 mostra risk medio 0.55 e coesione 0.81, con timeline HUD da allegare al tag `v0.6.0-rc1`. Coordinare annunci Slack programmati 2025-11-07 16:00 CET con changelog RC.【F:docs/Canvas/feature-updates.md†L24-L38】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L45】【F:docs/changelog.md†L21-L33】
+- Dashboard VC aggiornata 2025-11-05 mostra risk medio 0.57 (Delta 0.59, Echo 0.54) e coesione 0.72/0.80, con timeline HUD e alert risk turno 11 da allegare al tag `v0.6.0-rc1`. Coordinare annunci Slack programmati 2025-11-07 16:00 CET con changelog RC e briefing Drive 18:00 CET.【F:docs/Canvas/feature-updates.md†L17-L27】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L88】【F:docs/changelog.md†L66-L79】【F:docs/piani/roadmap.md†L72-L85】

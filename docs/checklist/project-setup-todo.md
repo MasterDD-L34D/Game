@@ -66,9 +66,9 @@ ogni esecuzione importante, annotando data, esito e note operative.
 ## 10. Rilascio e comunicazione
 - [ ] Redigere un changelog in `docs/changelog.md` prima di ogni release o consegna intermedia. _Next milestone: patch note VC novembre 2025 — owner Marketing Ops._ 
 - [x] Preparare materiali di comunicazione (slide, demo video, note) in `docs/presentations/` — creato briefing VC con asset collegati a milestone e release.【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
-- [ ] Coordinarsi con il team marketing/prodotto per pianificare annunci e raccolta feedback. _Riunione cross-team fissata per 2025-11-06 (product lead: C. Neri)._ 
+- [ ] Coordinarsi con il team marketing/prodotto per pianificare annunci e raccolta feedback. _Riunione cross-team fissata per 2025-11-06 (product lead: C. Neri) con recap Slack `#vc-launch` ore 16:00 CET e briefing Drive ore 18:00 CET post tag `v0.6.0-rc1`._
 - [ ] Creare un tag Git (`git tag vX.Y.Z && git push origin vX.Y.Z`) dopo la validazione finale. _Promemoria: tag `v0.6.0-rc1` dopo completamento QA._
-- [ ] Aggiornare periodicamente i materiali con screenshot HUD e metriche risk/cohesion post-playtest.【F:docs/Canvas/feature-updates.md†L9-L20】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L33-L122】 _Ultimo refresh 2025-10-24; prossimo aggiornamento richiesto dopo QA di novembre._
+- [ ] Aggiornare periodicamente i materiali con screenshot HUD e metriche risk/cohesion post-playtest.【F:docs/Canvas/feature-updates.md†L1-L40】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L102】 _Ultimo refresh 2025-11-05 con dati Delta/Echo r2823; verificare allegati prima del tag `v0.6.0-rc1`._
 
 ## 11. Knowledge sharing e onboarding
 - [x] Aggiornare `docs/README.md` e le guide in `docs/piani/` con le nuove procedure adottate. _Completato con il riepilogo post-ottobre 2025 e l'integrazione dei Canvas specializzati._【F:docs/README.md†L1-L38】【F:docs/piani/roadmap.md†L1-L60】
