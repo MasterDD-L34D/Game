@@ -1,0 +1,78 @@
+# Gruppi destinatari per sincronizzazione Drive/telemetria
+timezone: Europe/Rome
+updated_at: 2025-11-07T08:30:00Z
+notes: >-
+  Configurazione centralizzata delle liste di distribuzione per export telemetria/QA.
+  Ogni gruppo include i canali di recapito primari e le finestre di copertura programmate.
+  I giorni usano abbreviazioni ISO (mon-sun).
+groups:
+  - id: hud_ops
+    label: "HUD Ops · Copertura critica"
+    description: "Team bilanciamento HUD e guard shift PI per alert critici risk/aggro."
+    recipients:
+      - HUD
+      - pi.balance.alerts
+    channels:
+      slack: "#hud-alerts"
+      email: "hud-ops@game-dev.internal"
+    schedule:
+      - label: "Turno mattino (feriali)"
+        days: [mon, tue, wed, thu, fri]
+        start: "08:00"
+        end: "14:00"
+      - label: "Turno pomeridiano (feriali)"
+        days: [mon, tue, wed, thu, fri]
+        start: "14:00"
+        end: "20:00"
+      - label: "Guardia ridotta weekend"
+        days: [sat]
+        start: "10:00"
+        end: "14:00"
+  - id: qa_leads
+    label: "QA Leads"
+    description: "Responsabili triage export e handoff verso support."
+    recipients:
+      - qa.lead
+      - qa.shift
+    channels:
+      slack: "#vc-telemetry"
+      email: "qa-team@game-dev.internal"
+    schedule:
+      - label: "Triage quotidiano"
+        days: [mon, tue, wed, thu, fri]
+        start: "07:30"
+        end: "18:00"
+      - label: "Controllo retro"
+        days: [thu]
+        start: "18:00"
+        end: "20:00"
+  - id: support_ops_night
+    label: "Support Ops · Notte"
+    description: "Reperibilità per incidenti export dopo le 20:00 CET."
+    recipients:
+      - support.ops
+      - oncall.ops
+    channels:
+      slack: "#support-ops"
+      phone: "+39-02-555-0199"
+    schedule:
+      - label: "Copertura serale"
+        days: [mon, tue, wed, thu, fri]
+        start: "20:00"
+        end: "23:00"
+      - label: "Notte (chiusura turni)"
+        days: [mon, tue, wed, thu, fri]
+        start: "23:00"
+        end: "23:59"
+      - label: "Handoff mattutino"
+        days: [tue, wed, thu, fri, sat]
+        start: "00:00"
+        end: "02:00"
+      - label: "Weekend esteso"
+        days: [sat, sun]
+        start: "18:00"
+        end: "23:00"
+      - label: "Weekend early-check"
+        days: [sun]
+        start: "07:00"
+        end: "09:00"

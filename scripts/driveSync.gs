@@ -17,6 +17,24 @@ const CONFIG = {
     'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js',
   sheetNamePrefix:
     scriptProps.getProperty('DRIVE_SYNC_SHEET_PREFIX') || '[VC Logs] ',
+  filters: {
+    allowedRecipients: parseList_(
+      scriptProps.getProperty('DRIVE_SYNC_FILTER_RECIPIENTS') || ''
+    ),
+    blockedRecipients: parseList_(
+      scriptProps.getProperty('DRIVE_SYNC_FILTER_BLOCKED_RECIPIENTS') || ''
+    ),
+    allowedStatuses: parseList_(
+      scriptProps.getProperty('DRIVE_SYNC_FILTER_STATUSES') || ''
+    ),
+    blockedStatuses: parseList_(
+      scriptProps.getProperty('DRIVE_SYNC_FILTER_BLOCKED_STATUSES') || ''
+    ),
+    recipientsMode:
+      scriptProps.getProperty('DRIVE_SYNC_FILTER_RECIPIENT_MODE') || 'any'
+  },
+  logLevel:
+    (scriptProps.getProperty('DRIVE_SYNC_LOG_LEVEL') || 'info').toLowerCase(),
   autoSync: {
     enabled: String(scriptProps.getProperty('DRIVE_SYNC_AUTOSYNC_ENABLED') || 'true') === 'true',
     everyHours: Number(scriptProps.getProperty('DRIVE_SYNC_AUTOSYNC_EVERY_HOURS') || 6)
@@ -74,7 +92,6 @@ function processSource_(source, yamlLib, dryRun) {
     try {
       const yamlText = file.getBlob().getDataAsString();
       const parsed = yamlLib.load(yamlText);
-      const topLevelEntries = buildTopLevelEntries_(parsed);
       const filterResult = shouldSkipDataset_(parsed, normalizedSource);
 
       if (filterResult.shouldSkip) {
@@ -87,19 +104,31 @@ function processSource_(source, yamlLib, dryRun) {
         continue;
       }
 
+      const filteredPayload = applyDatasetFilters_(
+        parsed,
+        normalizedSource,
+        fileName
+      );
+      const topLevelEntries = buildTopLevelEntries_(filteredPayload.data);
+      const filterSummary = filteredPayload.summary;
+      const filterLogs = filteredPayload.logs;
+
       if (dryRun) {
         processedEntries.push({
           fileName,
           skipped: false,
           detectedCycle: filterResult.detectedCycle,
           targetSpreadsheet: buildSpreadsheetName_(baseName),
-          sheets: topLevelEntries.map(entry => entry.sheetName)
+          sheets: topLevelEntries.map(entry => entry.sheetName),
+          filterSummary
         });
+        dispatchLogs_(normalizedSource.logLevel, filterLogs);
         continue;
       }
 
       const spreadsheet = getOrCreateSpreadsheet_(destinationFolder, baseName);
-      populateSpreadsheet_(spreadsheet, parsed, topLevelEntries);
+      populateSpreadsheet_(spreadsheet, filteredPayload.data, topLevelEntries);
+      dispatchLogs_(normalizedSource.logLevel, filterLogs);
     } catch (error) {
       if (dryRun) {
         processedEntries.push({
@@ -234,6 +263,9 @@ function normalizeSourceConfig_(source, fallback) {
     folderId,
     destinationFolderId,
     sheetNamePrefix,
+    logLevel: normalizeLogLevel_(
+      safeSource.logLevel || safeFallback.logLevel || CONFIG.logLevel
+    ),
     minCycle:
       typeof safeSource.minCycle === 'number' && isFinite(safeSource.minCycle)
         ? safeSource.minCycle
@@ -241,7 +273,12 @@ function normalizeSourceConfig_(source, fallback) {
         ? safeFallback.minCycle
         : null,
     includePattern: buildPattern_(safeSource.includePattern || safeSource.includeFilePattern),
-    excludePattern: buildPattern_(safeSource.excludePattern || safeSource.excludeFilePattern)
+    excludePattern: buildPattern_(safeSource.excludePattern || safeSource.excludeFilePattern),
+    filters: normalizeFilters_(
+      safeSource,
+      safeFallback,
+      CONFIG.filters
+    )
   };
 
   return normalized;
@@ -278,6 +315,27 @@ function stripTrailingSpace_(value) {
     return '';
   }
   return value.replace(/\s+$/, '');
+}
+
+function parseList_(value) {
+  if (!value) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value.filter(item => item !== null && item !== undefined && String(item).trim() !== '');
+  }
+  return String(value)
+    .split(',')
+    .map(entry => entry.trim())
+    .filter(Boolean);
+}
+
+function normalizeLogLevel_(value) {
+  const normalized = String(value || '').toLowerCase();
+  if (normalized === 'debug' || normalized === 'none') {
+    return normalized;
+  }
+  return 'info';
 }
 
 function buildSpreadsheetName_(baseName) {
@@ -565,4 +623,233 @@ function removeAutoSyncTriggers() {
   ScriptApp.getProjectTriggers()
     .filter(trigger => trigger.getHandlerFunction() === handlerName)
     .forEach(trigger => ScriptApp.deleteTrigger(trigger));
+}
+
+function normalizeFilters_(source, fallback, defaults) {
+  const base = {
+    allowedRecipients: [],
+    blockedRecipients: [],
+    allowedStatuses: [],
+    blockedStatuses: [],
+    recipientsMode: 'any'
+  };
+
+  const defaultFilters = extractFilterFields_(defaults || {});
+  const fallbackFilters = extractFilterFields_(fallback || {});
+  const sourceFilters = extractFilterFields_(source || {});
+
+  const merged = {
+    allowedRecipients: []
+      .concat(defaultFilters.allowedRecipients, fallbackFilters.allowedRecipients, sourceFilters.allowedRecipients)
+      .filter(Boolean),
+    blockedRecipients: []
+      .concat(defaultFilters.blockedRecipients, fallbackFilters.blockedRecipients, sourceFilters.blockedRecipients)
+      .filter(Boolean),
+    allowedStatuses: []
+      .concat(defaultFilters.allowedStatuses, fallbackFilters.allowedStatuses, sourceFilters.allowedStatuses)
+      .filter(Boolean),
+    blockedStatuses: []
+      .concat(defaultFilters.blockedStatuses, fallbackFilters.blockedStatuses, sourceFilters.blockedStatuses)
+      .filter(Boolean),
+    recipientsMode:
+      sourceFilters.recipientsMode || fallbackFilters.recipientsMode || defaultFilters.recipientsMode || 'any'
+  };
+
+  base.allowedRecipients = normalizeStringArray_(merged.allowedRecipients, true);
+  base.blockedRecipients = normalizeStringArray_(merged.blockedRecipients, true);
+  base.allowedStatuses = normalizeStringArray_(merged.allowedStatuses, true);
+  base.blockedStatuses = normalizeStringArray_(merged.blockedStatuses, true);
+
+  const mode = String(merged.recipientsMode || 'any').toLowerCase();
+  base.recipientsMode = mode === 'all' ? 'all' : 'any';
+
+  return base;
+}
+
+function extractFilterFields_(input) {
+  if (!input) {
+    return {
+      allowedRecipients: [],
+      blockedRecipients: [],
+      allowedStatuses: [],
+      blockedStatuses: [],
+      recipientsMode: 'any'
+    };
+  }
+
+  const filters = input.filters || {};
+  return {
+    allowedRecipients: parseList_(
+      filters.allowedRecipients || input.allowedRecipients || input.includeRecipients || []
+    ),
+    blockedRecipients: parseList_(
+      filters.blockedRecipients || input.blockedRecipients || input.excludeRecipients || []
+    ),
+    allowedStatuses: parseList_(filters.allowedStatuses || input.allowedStatuses || []),
+    blockedStatuses: parseList_(filters.blockedStatuses || input.blockedStatuses || []),
+    recipientsMode: filters.recipientsMode || input.recipientsMode || input.recipientMode || input.filterRecipientsMode
+  };
+}
+
+function normalizeStringArray_(items, lowercase) {
+  const seen = new Set();
+  const result = [];
+  (items || []).forEach(item => {
+    const value = lowercase ? String(item || '').toLowerCase().trim() : String(item || '').trim();
+    if (!value) {
+      return;
+    }
+    if (!seen.has(value)) {
+      seen.add(value);
+      result.push(value);
+    }
+  });
+  return result;
+}
+
+function applyDatasetFilters_(data, source, fileName) {
+  if (!source || !source.filters) {
+    return { data, summary: {}, logs: [] };
+  }
+
+  const filters = source.filters;
+  const requiresFiltering =
+    filters.allowedRecipients.length ||
+    filters.blockedRecipients.length ||
+    filters.allowedStatuses.length ||
+    filters.blockedStatuses.length;
+
+  if (!requiresFiltering) {
+    return { data, summary: {}, logs: [] };
+  }
+
+  const clone = cloneValue_(data);
+  const summary = {};
+  const logs = [];
+
+  if (Array.isArray(clone && clone.hud_alert_log)) {
+    const beforeCount = clone.hud_alert_log.length;
+    const keptEntries = [];
+    clone.hud_alert_log.forEach(entry => {
+      const match = matchHudAlertFilters_(entry, filters);
+      if (match.keep) {
+        keptEntries.push(entry);
+        if (match.reason) {
+          logs.push({
+            level: 'debug',
+            message: `[driveSync] hud_alert_log entry mantenuto`,
+            meta: { fileName, reason: match.reason }
+          });
+        }
+      } else {
+        logs.push({
+          level: 'debug',
+          message: `[driveSync] filtro hud_alert_log → rimosso`,
+          meta: { fileName, reason: match.reason || 'non corrisponde ai filtri' }
+        });
+      }
+    });
+    clone.hud_alert_log = keptEntries;
+    const removed = beforeCount - keptEntries.length;
+    summary.hud_alert_log = {
+      removed,
+      kept: keptEntries.length,
+      total: beforeCount
+    };
+    if (removed > 0) {
+      logs.push({
+        level: 'info',
+        message: `[driveSync] Applicati filtri hud_alert_log (${removed}/${beforeCount} rimossi)`,
+        meta: {
+          fileName,
+          removed,
+          kept: keptEntries.length,
+          allowedRecipients: filters.allowedRecipients,
+          allowedStatuses: filters.allowedStatuses
+        }
+      });
+    }
+  }
+
+  return { data: clone, summary, logs };
+}
+
+function matchHudAlertFilters_(entry, filters) {
+  const recipients = Array.isArray(entry && entry.recipients)
+    ? entry.recipients.map(item => String(item || '').toLowerCase())
+    : [];
+  const status = entry && entry.status ? String(entry.status).toLowerCase() : '';
+
+  if (filters.allowedRecipients.length) {
+    const matches =
+      filters.recipientsMode === 'all'
+        ? filters.allowedRecipients.every(value => recipients.indexOf(value.toLowerCase()) !== -1)
+        : recipients.some(value => filters.allowedRecipients.indexOf(value.toLowerCase()) !== -1);
+    if (!matches) {
+      return { keep: false, reason: 'recipients non ammessi' };
+    }
+  }
+
+  if (filters.blockedRecipients.length) {
+    const hasBlocked = recipients.some(value => filters.blockedRecipients.indexOf(value.toLowerCase()) !== -1);
+    if (hasBlocked) {
+      return { keep: false, reason: 'recipients bloccati' };
+    }
+  }
+
+  if (filters.allowedStatuses.length && (!status || filters.allowedStatuses.indexOf(status) === -1)) {
+    return { keep: false, reason: 'status non ammesso' };
+  }
+
+  if (filters.blockedStatuses.length && status && filters.blockedStatuses.indexOf(status) !== -1) {
+    return { keep: false, reason: 'status bloccato' };
+  }
+
+  return { keep: true, reason: null };
+}
+
+function cloneValue_(value) {
+  if (value === null || value === undefined) {
+    return value;
+  }
+  if (value instanceof Date) {
+    return new Date(value.getTime());
+  }
+  if (Array.isArray(value) || typeof value === 'object') {
+    return JSON.parse(JSON.stringify(value));
+  }
+  return value;
+}
+
+function dispatchLogs_(level, entries) {
+  if (!entries || !entries.length) {
+    return;
+  }
+  const normalized = normalizeLogLevel_(level);
+  if (normalized === 'none') {
+    return;
+  }
+
+  entries.forEach(entry => {
+    if (!entry) {
+      return;
+    }
+    if (normalized === 'info' && entry.level === 'debug') {
+      return;
+    }
+    Logger.log(formatLogEntry_(entry));
+  });
+}
+
+function formatLogEntry_(entry) {
+  const message = entry && entry.message ? String(entry.message) : '';
+  if (!entry || !entry.meta) {
+    return message;
+  }
+  try {
+    const serialized = JSON.stringify(entry.meta);
+    return serialized ? `${message} ${serialized}` : message;
+  } catch (err) {
+    return message;
+  }
 }
