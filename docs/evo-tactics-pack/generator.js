@@ -3811,6 +3811,42 @@ function ensurePreferredRoleSet() {
   return constraints.preferredRoles;
 }
 
+function syncPreferredRolesWithAvailability() {
+  const preferred = ensurePreferredRoleSet();
+  if (!preferred.size) return [];
+
+  const availableRoles = new Set();
+  const collectRoles = (list) => {
+    if (!Array.isArray(list)) return;
+    list.forEach((entry) => {
+      const roleKey = entry?.role_trofico;
+      if (roleKey) {
+        availableRoles.add(roleKey);
+      }
+    });
+  };
+
+  const biomes = Array.isArray(state.pick?.biomes) ? state.pick.biomes : [];
+  biomes.forEach((biome) => {
+    if (!biome) return;
+    collectRoles(biome.species);
+    collectRoles(biome.generatedSpecies);
+  });
+
+  const selectedSpecies = state.pick?.species ?? {};
+  Object.values(selectedSpecies).forEach((list) => collectRoles(list));
+
+  const removed = [];
+  preferred.forEach((roleKey) => {
+    if (!availableRoles.has(roleKey)) {
+      preferred.delete(roleKey);
+      removed.push(roleKey);
+    }
+  });
+
+  return removed;
+}
+
 function applyHeatmapColor(element, role, percent) {
   if (!(element instanceof HTMLElement)) return;
   const token = ROLE_FLAG_TOKENS[role] ?? "--color-accent-400";
@@ -5288,6 +5324,26 @@ function createSeedFromBlueprint(biome, filters, blueprint) {
 }
 
 function rerollSpecies(filters) {
+  const removedPreferredRoles = syncPreferredRolesWithAvailability();
+  const hasActiveBiomes = Array.isArray(state.pick?.biomes) && state.pick.biomes.length > 0;
+  if (removedPreferredRoles.length && hasActiveBiomes) {
+    const labels = removedPreferredRoles
+      .map((role) => titleCase(String(role).replace(/[_-]+/g, " ")))
+      .join(", ");
+    const plural = removedPreferredRoles.length > 1;
+    setStatus(
+      plural
+        ? `Ruoli preferiti rimossi perché non più disponibili: ${labels}.`
+        : `Ruolo preferito rimosso perché non più disponibile: ${labels}.`,
+      "info",
+      {
+        tags: ["composer", "ruoli"],
+        action: "composer-preferred-pruned",
+        metadata: { roles: removedPreferredRoles },
+      }
+    );
+  }
+
   const previous = state.pick.species ?? {};
   const lockedBiomes = state.cardState.locks.biomes;
   const lockedSpecies = state.cardState.locks.species;
