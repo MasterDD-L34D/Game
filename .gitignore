@@ -1,6 +1,7 @@
 .venv/
 dist/
 dist.*
+docs/presentations/showcase/dist/
 logs/qa/
 logs/visual_runs/
 logs/visual_baseline/
