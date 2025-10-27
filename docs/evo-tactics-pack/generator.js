@@ -1412,7 +1412,9 @@ async function generateDossierDocument(context) {
     speciesContainer.innerHTML = "";
     const speciesList = flattenSpeciesBuckets(context.speciesBuckets)
       .slice(0, 12)
-      .sort((a, b) => a.display_name.localeCompare(b.display_name));
+      .sort((a, b) =>
+        (a.display_name ?? a.id ?? "").localeCompare(b.display_name ?? b.id ?? "")
+      );
     speciesList.forEach((species) => {
       const item = doc.createElement("li");
       item.className = "dossier__list-item";
