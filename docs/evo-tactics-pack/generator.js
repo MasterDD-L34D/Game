@@ -71,6 +71,7 @@ const elements = {
   exportEmpty: document.getElementById("generator-export-empty"),
   exportActions: document.getElementById("generator-export-actions"),
   exportPreset: document.getElementById("generator-export-preset"),
+  exportPresetStatus: document.getElementById("generator-export-preset-status"),
   exportPreview: document.getElementById("generator-export-preview"),
   exportPreviewEmpty: document.getElementById("generator-preview-empty"),
   exportPreviewJson: document.getElementById("generator-preview-json"),
@@ -469,6 +470,7 @@ let comparisonChart = null;
 let chartUnavailableNotified = false;
 let composerRadarChart = null;
 let composerChartUnavailable = false;
+const fetchFailureNotices = new Set();
 
 const COMPARISON_LABELS = ["Tier medio", "Densità hazard", "Diversità ruoli"];
 
@@ -2859,6 +2861,20 @@ function renderExportPreview(payload) {
   if (yamlDetails) yamlDetails.open = yamlWasOpen;
 }
 
+function updateExportPresetStatus(message = "", tone = "info") {
+  const hint = elements.exportPresetStatus;
+  if (!hint) return;
+  if (message) {
+    hint.textContent = message;
+    hint.dataset.tone = tone;
+    hint.hidden = false;
+  } else {
+    hint.textContent = "";
+    hint.hidden = true;
+    delete hint.dataset.tone;
+  }
+}
+
 function populateExportPresetOptions() {
   const select = elements.exportPreset;
   if (!select) return;
@@ -2871,14 +2887,27 @@ function populateExportPresetOptions() {
     select.appendChild(option);
   });
   if (!MANIFEST_PRESETS.length) {
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Nessun preset disponibile";
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    select.appendChild(placeholder);
     select.disabled = true;
+    select.setAttribute("aria-disabled", "true");
+    updateExportPresetStatus(
+      "Nessun preset manifest configurato. Verifica il pacchetto o carica manualmente i preset.",
+      "warn"
+    );
     return;
   }
   const current = getCurrentPreset();
   select.disabled = false;
+  select.removeAttribute("aria-disabled");
   if (current) {
     select.value = current.id;
   }
+  updateExportPresetStatus();
   if (wasFocused) {
     select.focus();
   }
@@ -3062,6 +3091,18 @@ function renderExportManifest(filters = state.lastFilters) {
   populateExportPresetOptions();
 
   const pdfSupported = refreshExportSupportTelemetry();
+
+  if (!MANIFEST_PRESETS.length) {
+    list.innerHTML = "";
+    list.hidden = true;
+    empty.hidden = false;
+    empty.textContent = "Nessun manifest di esportazione disponibile.";
+    meta.textContent = "Carica un preset per abilitare il manifest dei file.";
+    if (actions) actions.hidden = true;
+    renderExportPreview(null);
+    refreshDossierPreview(null);
+    return;
+  }
 
   const { biomeCount, speciesCount, seedCount } = calculatePickMetrics();
   const hasContent = biomeCount + speciesCount + seedCount > 0;
@@ -7726,11 +7767,38 @@ function toYAML(value, indent = 0) {
 
 async function tryFetchJson(url) {
   if (!url) return null;
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`);
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.warn("Caricamento JSON fallito", url, error);
+    if (!fetchFailureNotices.has(url)) {
+      fetchFailureNotices.add(url);
+      const reason = error instanceof Error ? error.message : String(error);
+      const resourceName = (() => {
+        try {
+          const base = typeof window !== "undefined" ? window.location.href : "http://localhost";
+          const parsed = new URL(url, base);
+          return parsed.pathname.split("/").filter(Boolean).slice(-1)[0] ?? parsed.pathname;
+        } catch (parseError) {
+          console.warn("Impossibile derivare il nome risorsa da", url, parseError);
+          return url;
+        }
+      })();
+      const tags = ["fetch", "catalog"];
+      if (/trait/i.test(url)) tags.push("traits");
+      if (/hazard/i.test(url)) tags.push("hazard");
+      if (/glossary/i.test(url)) tags.push("glossary");
+      setStatus(`Impossibile caricare ${resourceName}: ${reason}.`, "error", {
+        tags,
+        metadata: { url, reason },
+      });
+    }
+    throw error;
   }
-  return response.json();
 }
 
 function localTraitFallbackUrl() {
