@@ -3885,8 +3885,25 @@ function detectDataKey(payload) {
   return null;
 }
 
+function resolveFetchStatusElement() {
+  if (controlElements.fetchStatus) {
+    return controlElements.fetchStatus;
+  }
+
+  const element = typeof document !== "undefined" ? document.getElementById("fetch-status") : null;
+  if (element) {
+    controlElements.fetchStatus = element;
+    if (!element.dataset.status) {
+      prepareStatusElement(element, "info");
+    }
+  }
+
+  return element;
+}
+
 function setFetchStatus(message, variant) {
-  updateStatusElement(controlElements.fetchStatus, message, variant || "info");
+  const statusElement = resolveFetchStatusElement();
+  updateStatusElement(statusElement, message, variant || "info");
 }
 
 function initializeTestInterface() {
