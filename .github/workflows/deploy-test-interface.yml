@@ -54,16 +54,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Prepare static site
-        run: |
-          rm -rf dist
-          mkdir -p dist
-          rsync -av --delete \
-            --exclude '*.md' \
-            --exclude 'chatgpt_changes/' \
-            --exclude 'checklist/' \
-            --exclude 'Canvas/' \
-            docs/ dist/
-          cp -r data dist/data
+        run: python scripts/prepare_static_site.py
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
