@@ -17,15 +17,15 @@ PLAYWRIGHT_ENV=()
 PLAYWRIGHT_MIRROR=${PLAYWRIGHT_DOWNLOAD_HOST:-}
 if [ -n "$PLAYWRIGHT_MIRROR" ]; then
   log "Using custom Playwright mirror at $PLAYWRIGHT_MIRROR"
-  PLAYWRIGHT_ENV=("PLAYWRIGHT_DOWNLOAD_HOST=$PLAYWRIGHT_MIRROR")
+  PLAYWRIGHT_ENV=(PLAYWRIGHT_DOWNLOAD_HOST="$PLAYWRIGHT_MIRROR")
 fi
-if ! "${PLAYWRIGHT_ENV[@]}" npx playwright install chromium; then
+if ! ${PLAYWRIGHT_ENV[@]} npx playwright install chromium; then
   if [ -n "$PLAYWRIGHT_MIRROR" ]; then
     log "Playwright download failed via $PLAYWRIGHT_MIRROR; retrying with --with-deps"
   else
     log "Playwright download failed; retrying with --with-deps"
   fi
-  "${PLAYWRIGHT_ENV[@]}" npx playwright install --with-deps chromium
+  ${PLAYWRIGHT_ENV[@]} npx playwright install --with-deps chromium
 fi
 
 log "Running TypeScript and web regression test suite"
@@ -40,12 +40,29 @@ PYTHONPATH="$ROOT_DIR/tools/py" pytest
 
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")
-DATA_SOURCE_DIR="${DEPLOY_DATA_DIR:-$ROOT_DIR/data}"
+DATA_SOURCE_DIR=$(python3 - "$ROOT_DIR" "${DEPLOY_DATA_DIR:-}" <<'PY'
+import os
+import sys
+
+root_dir, override = sys.argv[1:3]
+
+if override:
+    expanded = os.path.expanduser(override)
+    if not os.path.isabs(expanded):
+        expanded = os.path.join(root_dir, expanded)
+else:
+    expanded = os.path.join(root_dir, "data")
+
+print(os.path.normpath(expanded))
+PY
+)
+log "Dataset directory risolto in $DATA_SOURCE_DIR"
 if [ ! -d "$DATA_SOURCE_DIR" ]; then
-  log "Dataset directory '$DATA_SOURCE_DIR' non trovato"
+  log "Dataset directory '$DATA_SOURCE_DIR' non trovato; imposta DEPLOY_DATA_DIR per sovrascrivere"
   exit 1
 fi
 export DATA_SOURCE_DIR
+log "Copiando dataset in bundle statico"
 cp -r "$ROOT_DIR/docs/test-interface" "$DIST_DIR/test-interface"
 cp -r "$DATA_SOURCE_DIR" "$DIST_DIR/data"
 if [ -f "$ROOT_DIR/docs/test-interface/favicon.ico" ]; then
