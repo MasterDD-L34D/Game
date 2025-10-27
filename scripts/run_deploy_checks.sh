@@ -40,13 +40,22 @@ PYTHONPATH="$ROOT_DIR/tools/py" pytest
 
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")
-DATA_SOURCE_DIR="${DEPLOY_DATA_DIR:-$ROOT_DIR/data}"
-case "$DATA_SOURCE_DIR" in
-  /*) ;;
-  *)
-    DATA_SOURCE_DIR="$ROOT_DIR/$DATA_SOURCE_DIR"
-    ;;
-esac
+DATA_SOURCE_DIR=$(python3 - "$ROOT_DIR" "${DEPLOY_DATA_DIR:-}" <<'PY'
+import os
+import sys
+
+root_dir, override = sys.argv[1:3]
+
+if override:
+    expanded = os.path.expanduser(override)
+    if not os.path.isabs(expanded):
+        expanded = os.path.join(root_dir, expanded)
+else:
+    expanded = os.path.join(root_dir, "data")
+
+print(os.path.normpath(expanded))
+PY
+)
 if [ ! -d "$DATA_SOURCE_DIR" ]; then
   log "Dataset directory '$DATA_SOURCE_DIR' not found; set DEPLOY_DATA_DIR to override"
   exit 1
