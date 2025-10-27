@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 type UISpecies = {
   id: string;
@@ -10,16 +10,47 @@ type UISpecies = {
   warnings: string[];
 };
 
-export function SpeciesSummaryCard({ s }: { s: UISpecies }) {
-  const warnings = Array.isArray(s.warnings) ? s.warnings : [];
+type SpeciesSummaryCardProps = { s: UISpecies };
+
+function normalizeStringList(values: unknown): string[] {
+  if (!Array.isArray(values)) {
+    return [];
+  }
+
+  const seen = new Set<string>();
+  const normalized: string[] = [];
+  for (const entry of values) {
+    if (typeof entry !== "string") continue;
+    const trimmed = entry.trim();
+    if (!trimmed || seen.has(trimmed)) continue;
+    seen.add(trimmed);
+    normalized.push(trimmed);
+  }
+  return normalized;
+}
+
+function areStringListsEqual(a: unknown, b: unknown): boolean {
+  const listA = normalizeStringList(a);
+  const listB = normalizeStringList(b);
+  if (listA.length !== listB.length) {
+    return false;
+  }
+  return listA.every((value, index) => value === listB[index]);
+}
+
+function SpeciesSummaryCardComponent({ s }: SpeciesSummaryCardProps) {
+  const activeSynergies = useMemo(() => normalizeStringList(s.active_synergies), [s.active_synergies]);
+  const knownCounters = useMemo(() => normalizeStringList(s.known_counters), [s.known_counters]);
+  const warnings = useMemo(() => normalizeStringList(s.warnings), [s.warnings]);
   const hasWarnings = warnings.length > 0;
+  const overBudget = Boolean(s.over_budget);
 
   return (
     <article
       className={`card species-summary-card${
-        s.over_budget ? " species-summary-card--danger" : ""
+        overBudget ? " species-summary-card--danger" : ""
       }`}
-      data-budget-state={s.over_budget ? "over" : "within"}
+      data-budget-state={overBudget ? "over" : "within"}
     >
       <header className="species-summary-card__header">
         <h3 className="species-summary-card__title">{s.name}</h3>
@@ -27,14 +58,12 @@ export function SpeciesSummaryCard({ s }: { s: UISpecies }) {
           <span className="pill" data-variant="neutral">
             Budget: {s.budget}
           </span>
-          {s.over_budget ? (
+          {overBudget ? (
             <span className="pill" data-variant="critical" aria-live="polite">
               Fuori budget
             </span>
           ) : (
-            <span className="pill" data-variant="success">
-              Budget OK
-            </span>
+            <span className="pill" data-variant="success">Budget OK</span>
           )}
         </div>
       </header>
@@ -43,9 +72,9 @@ export function SpeciesSummaryCard({ s }: { s: UISpecies }) {
         <section className="species-summary-card__section">
           <h4>Sinergie attive</h4>
           <ul className="species-summary-card__list">
-            {s.active_synergies.length ? (
-              s.active_synergies.map((value) => (
-                <li key={value} className="species-summary-card__item">
+            {activeSynergies.length ? (
+              activeSynergies.map((value, index) => (
+                <li key={`${value}-${index}`} className="species-summary-card__item">
                   {value}
                 </li>
               ))
@@ -60,9 +89,9 @@ export function SpeciesSummaryCard({ s }: { s: UISpecies }) {
         <section className="species-summary-card__section">
           <h4>Counter noti</h4>
           <ul className="species-summary-card__list">
-            {s.known_counters.length ? (
-              s.known_counters.map((value) => (
-                <li key={value} className="species-summary-card__item">
+            {knownCounters.length ? (
+              knownCounters.map((value, index) => (
+                <li key={`${value}-${index}`} className="species-summary-card__item">
                   {value}
                 </li>
               ))
@@ -94,8 +123,8 @@ export function SpeciesSummaryCard({ s }: { s: UISpecies }) {
         <button
           type="button"
           className="species-summary-card__action"
-          disabled={s.over_budget}
-          title={s.over_budget ? "Rientra nel budget per salvare" : "Salva"}
+          disabled={overBudget}
+          title={overBudget ? "Rientra nel budget per salvare" : "Salva"}
         >
           Salva specie
         </button>
@@ -103,5 +132,25 @@ export function SpeciesSummaryCard({ s }: { s: UISpecies }) {
     </article>
   );
 }
+
+function areSpeciesPropsEqual(prev: SpeciesSummaryCardProps, next: SpeciesSummaryCardProps): boolean {
+  if (prev.s === next.s) {
+    return true;
+  }
+
+  return (
+    prev.s.id === next.s.id &&
+    prev.s.name === next.s.name &&
+    prev.s.budget === next.s.budget &&
+    Boolean(prev.s.over_budget) === Boolean(next.s.over_budget) &&
+    areStringListsEqual(prev.s.active_synergies, next.s.active_synergies) &&
+    areStringListsEqual(prev.s.known_counters, next.s.known_counters) &&
+    areStringListsEqual(prev.s.warnings, next.s.warnings)
+  );
+}
+
+const SpeciesSummaryCard = React.memo(SpeciesSummaryCardComponent, areSpeciesPropsEqual);
+
+export { SpeciesSummaryCard };
 
 export type { UISpecies };

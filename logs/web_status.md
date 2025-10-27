@@ -31,4 +31,14 @@ successiva e registrare eventuali task di follow-up in roadmap.
 - **Smoke test HTTP**: non avviato (script interrotto durante setup Playwright).
 - **Note**:
   - Ambiente privo di accesso al mirror Playwright; necessario mirror alternativo o cache artefatti per sbloccare la pipeline.
+## 2025-10-27T11:35:40Z · lighthouse:test-interface & test:web
+- **Esito tool**: ✅ `npm --prefix tools/ts run test:web`
+  - Suite Playwright completata (2 test) contro dataset `data/test-fixtures/minimal`.
+  - Nessuna regressione di caricamento rilevata: warnings di storage attesi ma non bloccanti.
+- **Audit Lighthouse**: ✅ `npm --prefix tools/ts run lighthouse:test-interface`
+  - Performance 82 · Accessibilità 100 · Best Practices 92 · SEO 100.
+  - Report generati: `logs/tooling/lighthouse-test-interface-2025-10-27T11-35-32-994Z.(html|json)`.
+- **Note**:
+  - App.js ottimizzato con render differito/caching HTML; card specie memoizzata per ridurre repaint.
+  - CSS responsive aggiornato: controlli focus visibili, layout hero fluido ≤480 px, preferenze `prefers-reduced-motion` rispettate.
 <!-- web_log:end -->
