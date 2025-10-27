@@ -1,0 +1,6 @@
+Scenario,Metric,Value,Note
+BAL-02,Tentativi,2,"Vittoria al secondo tentativo; stamina boss borderline"
+BAL-02,Danno medio subito,420,"Verificare tuning stamina"
+BAL-03,Stato,Interrotto,"Pathfinding bloccato su scala cargo (35 unità)"
+PROG-03,Surplus risorse %,5,"Auto-sync genera richieste chiarimento"
+EVT-01,Tempo risposta medio (s),18,"VFX ancora rumorosi"

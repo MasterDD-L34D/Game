@@ -1,0 +1,70 @@
+session_id: SESSION-2025-02-26
+build: client-r2821
+date: 2025-02-26
+facilitator: Marta Serra
+participants:
+  - Luca Rinaldi
+  - Sara Neri
+  - Giulia Parodi
+  - Andrea Conti
+scenarios:
+  - id: BAL-02
+    description: Boss intermedio
+    attempts: 2
+    outcome: completed
+    completion_time: "00:09:32"
+    average_damage_taken: 420
+    notes:
+      - stamina boss borderline; monitor tuning
+  - id: BAL-03
+    description: Horde mode
+    attempts: 1
+    outcome: interrupted
+    failure_point: wave_4
+    active_units: 35
+    notes:
+      - pathfinding blocked near cargo stairs
+  - id: PROG-03
+    description: Gestione risorse hub
+    attempts: 1
+    outcome: completed
+    resources_delta_percent: 5
+    notes:
+      - auto-sync raised two clarification requests
+  - id: EVT-01
+    description: Tempesta dimensionale
+    attempts: 1
+    outcome: completed
+    response_time_seconds: 18
+    glitch_reports: 3
+    notes:
+      - communications improved; VFX noise persists
+metrics:
+  boss_victory_rate: 0.5
+  boss_average_damage_taken: 420
+  boss_time_seconds: 572
+  progression_completion_rate: 1.0
+  progression_resource_surplus_percent: 5
+  event_coop_confirmation: true
+  event_response_time_seconds: 18
+  event_glitch_count: 3
+issues:
+  - id: 143
+    title: Horde mode: unità bloccate scala cargo ondata 4
+    status: open
+    labels: [bug, ai, encounter-balance]
+    tracker: https://tracker.local/bugs/143
+  - id: 144
+    title: Tempesta dimensionale: shader flash bianco
+    status: open
+    labels: [bug, vfx, event-special]
+    tracker: https://tracker.local/bugs/144
+  - id: 145
+    title: Gestione hub: sync fogli manuale oltre ciclo 2
+    status: open
+    labels: [bug, progression, automation]
+    tracker: https://tracker.local/bugs/145
+notes:
+  - Introduce audio cue per preavviso ondata 4.
+  - Valutare aumento drop energia boss di 10%.
+  - Automatizzare check integrazione fogli hub.
