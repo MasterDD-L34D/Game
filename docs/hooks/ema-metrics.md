@@ -13,6 +13,7 @@
      turn: state.turn,
      ema: state.ema, // alpha 0.3, pesi fase 0.25/0.35/0.40
      indices: state.indices,
+     idleThreshold: 10,
    });
    ```
    - L'oggetto `state.ema` espone `window` (turno) e frame `phase_weights` aggiornati.
@@ -37,6 +38,7 @@
     });
     ```
     - L'alert HUD usa colore giallo (warning) e si auto-disarma quando la media scende sotto 0.58 per due tick consecutivi.
+    - La finestra `idleThreshold` aggiornata (10 s) assicura coerenza tra dataset e log VC 2025-02-15.
     - `commandBus.emit` notifica il canale PI balance per follow-up immediato.
     - Il recorder telemetrico archivia l'evento in `hud_alert_log` (vedi `logs/playtests/2025-11-05-vc/session-metrics.yaml`).
 
