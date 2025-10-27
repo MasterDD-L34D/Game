@@ -50,17 +50,17 @@ metrics:
   event_glitch_count: 3
 issues:
   - id: 143
-    title: Horde mode: unità bloccate scala cargo ondata 4
+    title: "Horde mode: unità bloccate scala cargo ondata 4"
     status: open
     labels: [bug, ai, encounter-balance]
     tracker: https://tracker.local/bugs/143
   - id: 144
-    title: Tempesta dimensionale: shader flash bianco
+    title: "Tempesta dimensionale: shader flash bianco"
     status: open
     labels: [bug, vfx, event-special]
     tracker: https://tracker.local/bugs/144
   - id: 145
-    title: Gestione hub: sync fogli manuale oltre ciclo 2
+    title: "Gestione hub: sync fogli manuale oltre ciclo 2"
     status: open
     labels: [bug, progression, automation]
     tracker: https://tracker.local/bugs/145
