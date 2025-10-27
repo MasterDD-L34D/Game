@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -48,15 +49,19 @@ jobs:
       - name: Run deploy validation checks
         env:
           DEPLOY_DATA_DIR: ${{ github.workspace }}/data
+          CI: "true"
         run: scripts/run_deploy_checks.sh
 
       - name: Configure GitHub Pages
+        if: github.event_name == 'push'
         uses: actions/configure-pages@v5
 
       - name: Prepare static site
+        if: github.event_name == 'push'
         run: python scripts/prepare_static_site.py
 
       - name: Upload artifact
+        if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -67,6 +72,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    if: github.event_name == 'push'
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
