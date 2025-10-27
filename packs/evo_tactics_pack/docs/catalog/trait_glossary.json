@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2025-10-26T23:33:05Z",
+  "sources": {
+    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json"
+  },
+  "traits": {
+    "artigli_sette_vie": {
+      "label_en": "Seven-Way Talons",
+      "label_it": "Artigli a Sette Vie"
+    },
+    "carapace_fase_variabile": {
+      "label_en": "Phase-Shifting Carapace",
+      "label_it": "Carapace a Variazione di Fase"
+    },
+    "coda_frusta_cinetica": {
+      "label_en": "Kinetic Lash Tail",
+      "label_it": "Coda a Frusta Cinetica"
+    },
+    "criostasi_adattiva": {
+      "label_en": "Adaptive Cryostasis",
+      "label_it": "Criostasi"
+    },
+    "eco_interno_riflesso": {
+      "label_en": "Internal Echo Reflex",
+      "label_it": "Riflesso dell'Eco Interno"
+    },
+    "empatia_coordinativa": {
+      "label_en": "Coordinated Empathy",
+      "label_it": "Empatia Coordinativa"
+    },
+    "filamenti_digestivi_compattanti": {
+      "label_en": "Digestive Compaction Filaments",
+      "label_it": "Filamento materiali digeriti"
+    },
+    "focus_frazionato": {
+      "label_en": "Fractional Focus",
+      "label_it": "Focus Frazionato"
+    },
+    "ghiandola_caustica": {
+      "label_en": "Caustic Gland",
+      "label_it": "Ghiandola Caustica"
+    },
+    "lingua_tattile_trama": {
+      "label_en": "Texture-Sensing Tongue",
+      "label_it": "Lingua Tattile Trama-Sensibile"
+    },
+    "mimetismo_cromatico_passivo": {
+      "label_en": "Passive Chromatic Mimicry",
+      "label_it": "Ghiandole di Mimetismo Cromatico Passivo"
+    },
+    "nucleo_ovomotore_rotante": {
+      "label_en": "Rotating Ovomotor Core",
+      "label_it": "Uovo rotaia, uovo grande e uova piccole dentro..."
+    },
+    "occhi_infrarosso_composti": {
+      "label_en": "Infrared Compound Eyes",
+      "label_it": "Occhi Composti ad Infrarosso"
+    },
+    "olfatto_risonanza_magnetica": {
+      "label_en": "Magnetic Resonance Scent",
+      "label_it": "Olfatto di Risonanza Magnetica"
+    },
+    "pathfinder": {
+      "label_en": "Pathfinder",
+      "label_it": "Pathfinder"
+    },
+    "pianificatore": {
+      "label_en": "Strategic Planner",
+      "label_it": "Pianificatore"
+    },
+    "random": {
+      "label_en": "Trait Random",
+      "label_it": "Trait Random"
+    },
+    "respiro_a_scoppio": {
+      "label_en": "Burst Breath Propulsion",
+      "label_it": "Respiro a scoppio"
+    },
+    "risonanza_di_branco": {
+      "label_en": "Pack Resonance",
+      "label_it": "Risonanza di Branco"
+    },
+    "sacche_galleggianti_ascensoriali": {
+      "label_en": "Elevating Buoyancy Sacs",
+      "label_it": "Sacche galleggianti ascensoriali"
+    },
+    "sangue_piroforico": {
+      "label_en": "Pyrophoric Blood",
+      "label_it": "Sangue che prende fuoco a contatto con l'ossigeno"
+    },
+    "scheletro_idro_regolante": {
+      "label_en": "Hydro-Regulating Skeleton",
+      "label_it": "Scheletro Idro-Regolante"
+    },
+    "secrezione_rallentante_palmi": {
+      "label_en": "Retarding Palm Secretions",
+      "label_it": "Mani secernano liquido rallentante"
+    },
+    "sonno_emisferico_alternato": {
+      "label_en": "Unihemispheric Sleep",
+      "label_it": "Dormire con solo metà cervello alla volta"
+    },
+    "spore_psichiche_silenziate": {
+      "label_en": "Silent Psychic Spores",
+      "label_it": "Spora Psichica Silenziosa"
+    },
+    "struttura_elastica_amorfa": {
+      "label_en": "Elastic Amorphous Frame",
+      "label_it": "Struttura elastica, allungabile, amorfa, retrattile"
+    },
+    "tattiche_di_branco": {
+      "label_en": "Pack Tactics",
+      "label_it": "Tattiche di Branco"
+    },
+    "ventriglio_gastroliti": {
+      "label_en": "Gastrolith Grinding Gizzard",
+      "label_it": "Denti sonci (ciottoli/sassi), ti nutri di tutto"
+    },
+    "zampe_a_molla": {
+      "label_en": "Spring-Loaded Limbs",
+      "label_it": "Zampe a Molla"
+    }
+  }
+}

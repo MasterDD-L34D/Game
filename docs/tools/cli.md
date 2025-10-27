@@ -85,6 +85,12 @@ CLI_PROFILES="playtest support" ./scripts/cli_smoke.sh  # filtro personalizzato
 Lo script termina con il primo exit code non-zero e raggruppa i log con le
 annotazioni `::group::` per i workflow GitHub Actions.
 
+## Tooling tratti
+
+- `python tools/py/build_trait_baseline.py <env_traits> <trait_reference> --trait-glossary data/traits/glossary.json` — rigenera la baseline dei tratti includendo label dal glossario centrale e annota il percorso nelle metadati del report YAML.【F:tools/py/build_trait_baseline.py†L1-L46】【F:data/analysis/trait_baseline.yaml†L1-L24】
+- `python tools/py/report_trait_coverage.py --out-json data/analysis/trait_coverage_report.json --out-csv data/analysis/trait_coverage_matrix.csv` — produce le matrici trait↔bioma↔morphotype e il diff tra regole ambientali e specie; accetta `--trait-glossary` per forzare path custom.【F:tools/py/report_trait_coverage.py†L1-L85】【F:tools/py/game_utils/trait_coverage.py†L1-L249】
+- `python tools/py/validate_registry_naming.py --trait-glossary data/traits/glossary.json` — verifica slug e traduzioni utilizzando il glossario centralizzato referenziato in `config/project_index.json`.【F:tools/py/validate_registry_naming.py†L1-L270】【F:config/project_index.json†L1-L91】
+
 ## Integrazione CI
 
 La pipeline di Continuous Integration (`.github/workflows/ci.yml`) invoca

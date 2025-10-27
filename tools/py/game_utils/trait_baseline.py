@@ -3,17 +3,43 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from collections.abc import Iterable, Mapping, MutableMapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Mapping, MutableMapping
 
 import json
 import unicodedata
+
+try:  # pragma: no cover - fallback se PyYAML non è disponibile
+    import yaml
+except ModuleNotFoundError:  # pragma: no cover - compatibilità ambienti minimi
+    yaml = None
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
 def _load_json(path: Path) -> Mapping:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def _load_structured(path: Path) -> Mapping:
+    """Carica file JSON o YAML restituendo un mapping."""
+
+    suffix = path.suffix.lower()
+    if suffix in {".yaml", ".yml"}:
+        if yaml is None:
+            raise RuntimeError(
+                f"Impossibile caricare {path}: PyYAML non è disponibile nell'ambiente."
+            )
+        with path.open("r", encoding="utf-8") as handle:
+            data = yaml.safe_load(handle) or {}
+    else:
+        data = _load_json(path)
+    if not isinstance(data, Mapping):
+        raise ValueError(f"Il file {path} non contiene un mapping JSON/YAML valido")
+    return data
 
 
 def _ensure_list(value: Iterable | None) -> list:
@@ -72,6 +98,7 @@ class TraitEntry:
     occurrences: int
     archetype: str
     label: str | None
+    label_en: str | None
     tier: str | None
     famiglia_tipologia: str | None
     fattore_mantenimento: str | None
@@ -83,6 +110,7 @@ class TraitEntry:
     def to_payload(self) -> dict:
         return {
             "label": self.label,
+            "label_en": self.label_en,
             "tier": self.tier,
             "archetype": self.archetype,
             "occurrences": self.occurrences,
@@ -95,14 +123,71 @@ class TraitEntry:
         }
 
 
+def _resolve_glossary_path(
+    hint: str | Path | None,
+    env_traits_path: Path,
+    trait_reference_path: Path,
+) -> Path | None:
+    if not hint:
+        return None
+
+    candidate = Path(hint)
+    if candidate.is_absolute() and candidate.exists():
+        return candidate
+
+    anchors = [
+        env_traits_path.parent,
+        trait_reference_path.parent,
+        PROJECT_ROOT,
+    ]
+    for anchor in anchors:
+        resolved = (anchor / candidate).resolve()
+        if resolved.exists():
+            return resolved
+
+    return candidate.resolve()
+
+
 def derive_trait_baseline(
     env_traits_path: Path,
     trait_reference_path: Path,
+    trait_glossary_path: Path | None = None,
 ) -> dict:
     """Costruisce il dataset base dei tratti a partire dalle regole ambientali."""
 
-    env_rules = _load_json(env_traits_path).get("rules", [])
-    trait_reference = _load_json(trait_reference_path).get("traits", {})
+    if trait_glossary_path and not isinstance(trait_glossary_path, Path):
+        trait_glossary_path = Path(trait_glossary_path)
+
+    env_data = _load_json(env_traits_path)
+    trait_data = _load_json(trait_reference_path)
+
+    if trait_glossary_path is None:
+        trait_glossary_path = _resolve_glossary_path(
+            env_data.get("trait_glossary")
+            or trait_data.get("trait_glossary"),
+            env_traits_path,
+            trait_reference_path,
+        )
+
+    glossary: Mapping[str, Mapping] = {}
+    if trait_glossary_path:
+        resolved_glossary = trait_glossary_path if trait_glossary_path.exists() else None
+        if resolved_glossary is None:
+            candidate = _resolve_glossary_path(
+                trait_glossary_path,
+                env_traits_path,
+                trait_reference_path,
+            )
+            if candidate and candidate.exists():
+                resolved_glossary = candidate
+        if resolved_glossary and resolved_glossary.exists():
+            glossary = _load_structured(resolved_glossary).get("traits", {})
+            trait_glossary_path = resolved_glossary
+        else:
+            trait_glossary_path = None
+
+    env_rules = env_data.get("rules", [])
+    trait_reference = trait_data.get("traits", {})
 
     occurrences: Counter[str] = Counter()
     biome_counts: MutableMapping[str, Counter[str]] = defaultdict(Counter)
@@ -133,11 +218,15 @@ def derive_trait_baseline(
         sinergie = tuple(sorted(_ensure_list(reference.get("sinergie") if isinstance(reference, dict) else [])))
         conflitti = tuple(sorted(_ensure_list(reference.get("conflitti") if isinstance(reference, dict) else [])))
         biomes = dict(biome_counts.get(trait_id, Counter()))
+        glossary_entry = glossary.get(trait_id) or {}
+        label_en = glossary_entry.get("label_en") if isinstance(glossary_entry, Mapping) else None
+        label = label or (glossary_entry.get("label_it") if isinstance(glossary_entry, Mapping) else None)
         entry = TraitEntry(
             id=trait_id,
             occurrences=count,
             archetype=archetype,
             label=label,
+            label_en=label_en,
             tier=tier,
             famiglia_tipologia=famiglia_tipologia,
             fattore_mantenimento=fattore_mantenimento,
@@ -162,6 +251,7 @@ def derive_trait_baseline(
         "source": {
             "env_traits": str(env_traits_path),
             "trait_reference": str(trait_reference_path),
+            "trait_glossary": str(trait_glossary_path) if trait_glossary_path else None,
         },
         "summary": {
             "total_traits": len(entries),
