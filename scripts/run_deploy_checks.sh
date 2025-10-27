@@ -41,8 +41,14 @@ PYTHONPATH="$ROOT_DIR/tools/py" pytest
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")
 DATA_SOURCE_DIR="${DEPLOY_DATA_DIR:-$ROOT_DIR/data}"
+case "$DATA_SOURCE_DIR" in
+  /*) ;;
+  *)
+    DATA_SOURCE_DIR="$ROOT_DIR/$DATA_SOURCE_DIR"
+    ;;
+esac
 if [ ! -d "$DATA_SOURCE_DIR" ]; then
-  log "Dataset directory '$DATA_SOURCE_DIR' non trovato"
+  log "Dataset directory '$DATA_SOURCE_DIR' not found; set DEPLOY_DATA_DIR to override"
   exit 1
 fi
 export DATA_SOURCE_DIR
