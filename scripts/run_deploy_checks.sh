@@ -13,19 +13,24 @@ pushd "$ROOT_DIR/tools/ts" >/dev/null
 npm ci
 
 log "Installing Playwright browsers"
-PLAYWRIGHT_ENV=()
 PLAYWRIGHT_MIRROR=${PLAYWRIGHT_DOWNLOAD_HOST:-}
 if [ -n "$PLAYWRIGHT_MIRROR" ]; then
   log "Using custom Playwright mirror at $PLAYWRIGHT_MIRROR"
-  PLAYWRIGHT_ENV=(PLAYWRIGHT_DOWNLOAD_HOST="$PLAYWRIGHT_MIRROR")
 fi
-if ! ${PLAYWRIGHT_ENV[@]} npx playwright install chromium; then
+run_playwright_cmd() {
+  if [ -n "$PLAYWRIGHT_MIRROR" ]; then
+    PLAYWRIGHT_DOWNLOAD_HOST="$PLAYWRIGHT_MIRROR" "$@"
+  else
+    "$@"
+  fi
+}
+if ! run_playwright_cmd npx playwright install chromium; then
   if [ -n "$PLAYWRIGHT_MIRROR" ]; then
     log "Playwright download failed via $PLAYWRIGHT_MIRROR; retrying with --with-deps"
   else
     log "Playwright download failed; retrying with --with-deps"
   fi
-  ${PLAYWRIGHT_ENV[@]} npx playwright install --with-deps chromium
+  run_playwright_cmd npx playwright install --with-deps chromium
 fi
 
 log "Running TypeScript and web regression test suite"
