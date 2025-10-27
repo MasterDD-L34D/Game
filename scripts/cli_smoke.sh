@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export ROOT_DIR
 CLI_ENTRYPOINT="${ROOT_DIR}/tools/py/game_cli.py"
 CONFIG_DIR="${ROOT_DIR}/config/cli"
 LOG_DIR="${ROOT_DIR}/logs/cli"
@@ -10,6 +11,7 @@ DEFAULT_PROFILES=()
 verify_biome_fields() {
   python3 - <<'PY'
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -21,7 +23,12 @@ except ImportError as exc:
     )
     sys.exit(1)
 
-root = Path(__file__).resolve().parents[1]
+try:
+    root = Path(os.environ["ROOT_DIR"])
+except KeyError:
+    sys.stderr.write("Variabile ROOT_DIR non definita nel contesto della verifica biomi.\n")
+    sys.exit(1)
+
 biome_path = root / "data" / "biomes.yaml"
 
 if not biome_path.exists():
