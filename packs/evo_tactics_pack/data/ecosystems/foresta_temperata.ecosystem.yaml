@@ -7,7 +7,7 @@ receipt:
 ecosistema:
   id: FORESTA_TEMPERATA
   label: Foresta Temperata Demo
-  biome_id: foresta_temperata
+  biome_id: foresta_miceliale
   clima:
     temperatura_C:
       media_annua: 11.2
@@ -30,21 +30,22 @@ ecosistema:
       K: medio
   trofico:
     produttori:
-    - piante_superiori
-    - alghe
-    - cianobatteri
+      - piante_superiori
+      - alghe
+      - cianobatteri
     consumatori:
       primari:
-      - cervidi_erborivori
-      - impollinatori_misti
+        - cervidi_erborivori
+        - impollinatori_misti
       secondari:
-      - lupus-temperatus
+        - lupus-temperatus
       terziari:
-      - sentinella-radice
+        - sentinella-radice
     decompositori:
-    - funghi_micotici
-    - biofilm_detritico
-  note: Ecosistema temperato montano con corridoi fluviali e cicli detritici marcati.
+      - funghi_micotici
+      - biofilm_detritico
+  note: Ecosistema temperato montano con corridoi fluviali e cicli detritici 
+    marcati.
 links:
   species_dir: packs/evo_tactics_pack/data/species/foresta_temperata
   foodweb: packs/evo_tactics_pack/data/foodwebs/foresta_temperata_foodweb.yaml

@@ -7,11 +7,11 @@ receipt:
 id: sand-burrower
 display_name: Sand Burrower
 biomes:
-- badlands
+  - canyons_risonanti
 role_trofico: erbivoro_primario
 functional_tags:
-- prede
-- detritivoro
+  - prede
+  - detritivoro
 morphotype: cursoriale_quadrupede
 flags:
   apex: false
@@ -30,42 +30,42 @@ vc:
   tilt: 0.3
 spawn_rules:
   orario:
-  - notte
+    - notte
   meteo:
-  - sereno_freddo
+    - sereno_freddo
   densita: high
 balance:
   rarity: R1
   threat_tier: T1
   encounter_role: minion
 environment_affinity:
-  biome_class: badlands
+  biome_class: canyons_risonanti
   koppen:
-  - BSk
-  - BWk
+    - BSk
+    - BWk
   hazards_expected:
-  - tempeste_sabbia
-  - collassi di scarpate
-  - tempesta_sabbia_magnetica
-  - iron_shards
-  - magnetic_patches
+    - tempeste_sabbia
+    - collassi di scarpate
+    - tempesta_sabbia_magnetica
+    - iron_shards
+    - magnetic_patches
 derived_from_environment:
   suggested_traits:
-  - cute_resistente_sali
-  - enzimi_chelanti
-  - pelli_anti_ustione
-  - pigmenti_termici
+    - cute_resistente_sali
+    - enzimi_chelanti
+    - pelli_anti_ustione
+    - pigmenti_termici
   required_capabilities:
-  - build_cover
-  - dr_impact_cap
-  - non_metal_gear
-  - seal_vents
+    - build_cover
+    - dr_impact_cap
+    - non_metal_gear
+    - seal_vents
   jobs_bias:
-  - Vanguard
-  - Warden
+    - Vanguard
+    - Warden
 telemetry:
-  expected_pick_rate: null
-  spawn_weight: null
+  expected_pick_rate:
+  spawn_weight:
 services_links: []
 genetic_traits: []
 mate_synergy: []

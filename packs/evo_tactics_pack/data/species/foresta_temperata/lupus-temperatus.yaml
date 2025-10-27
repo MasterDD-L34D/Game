@@ -7,10 +7,10 @@ receipt:
 id: lupus-temperatus
 display_name: Lupo della Foresta
 biomes:
-- foresta_temperata
+  - foresta_miceliale
 role_trofico: predatore_terziario_apex
 functional_tags:
-- specie_chiave
+  - specie_chiave
 flags:
   apex: true
   keystone: true
@@ -28,10 +28,10 @@ vc:
   tilt: 0.3
 spawn_rules:
   orario:
-  - crepuscolo
-  - notte
+    - crepuscolo
+    - notte
   meteo:
-  - sereno_freddo
+    - sereno_freddo
   densita: mid
 balance:
   rarity: R2
@@ -40,16 +40,16 @@ balance:
 environment_affinity:
   biome_class: Foresta temperata umida
   koppen:
-  - Cfb
+    - Cfb
   hazards_expected:
-  - alluvioni lampo
-  - incendi sporadici
+    - alluvioni lampo
+    - incendi sporadici
 derived_from_environment:
   suggested_traits:
-  - pelli_fitte
+    - pelli_fitte
 telemetry:
-  expected_pick_rate: null
-  spawn_weight: null
+  expected_pick_rate:
+  spawn_weight:
 services_links: []
 genetic_traits: []
 mate_synergy: []

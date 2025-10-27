@@ -7,10 +7,10 @@ receipt:
 id: sentinella-radice
 display_name: Sentinella Radice
 biomes:
-- foresta_temperata
+  - foresta_miceliale
 role_trofico: ingegneri_ecosistema
 functional_tags:
-- specie_chiave
+  - specie_chiave
 flags:
   apex: false
   keystone: true
@@ -24,9 +24,9 @@ pi_loadout:
   weight_budget: 12
   default_parts:
     senses:
-    - echolocate
+      - echolocate
     defense:
-    - elastomer_skin
+      - elastomer_skin
 vc:
   aggro: 0.3
   risk: 0.2
@@ -35,13 +35,13 @@ vc:
   explore: 0.4
   tilt: 0.2
 services_links:
-- supporto:formazione_suolo
-- regolazione:ritenzione_idrica
+  - supporto:formazione_suolo
+  - regolazione:ritenzione_idrica
 spawn_rules:
   orario:
-  - diurno
+    - diurno
   meteo:
-  - nebbia_ionica
+    - nebbia_ionica
   densita: low
 balance:
   rarity: R3
@@ -53,13 +53,13 @@ telemetry:
 environment_affinity:
   biome_class: Foresta temperata umida
   koppen:
-  - Cfb
+    - Cfb
   hazards_expected:
-  - alluvioni lampo
-  - incendi sporadici
+    - alluvioni lampo
+    - incendi sporadici
 derived_from_environment:
   suggested_traits:
-  - pelli_fitte
+    - pelli_fitte
 genetic_traits: []
 mate_synergy: []
 jobs_synergy: []

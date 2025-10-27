@@ -7,11 +7,11 @@ receipt:
 id: rust-scavenger
 display_name: Rust Scavenger
 biomes:
-- badlands
+  - canyons_risonanti
 role_trofico: ingegneri_ecosistema
 functional_tags:
-- specie_chiave
-- detritivoro
+  - specie_chiave
+  - detritivoro
 morphotype: scavenger_corazzato
 flags:
   apex: false
@@ -25,9 +25,9 @@ pi_loadout:
   weight_budget: 12
   default_parts:
     defense:
-    - elastomer_skin
+      - elastomer_skin
     senses:
-    - echolocate
+      - echolocate
 vc:
   aggro: 0.3
   risk: 0.3
@@ -36,13 +36,13 @@ vc:
   explore: 0.4
   tilt: 0.2
 services_links:
-- supporto:stabilizzazione_suolo
-- regolazione:riciclo_metalli
+  - supporto:stabilizzazione_suolo
+  - regolazione:riciclo_metalli
 spawn_rules:
   orario:
-  - diurno
+    - diurno
   meteo:
-  - foschia_ferrosa
+    - foschia_ferrosa
   densita: mid
 balance:
   rarity: R2
@@ -52,32 +52,32 @@ telemetry:
   expected_pick_rate: 0.15
   spawn_weight: 0.22
 jobs_synergy:
-- Warden
-- Artificer
+  - Warden
+  - Artificer
 environment_affinity:
-  biome_class: badlands
+  biome_class: canyons_risonanti
   koppen:
-  - BSk
-  - BWk
+    - BSk
+    - BWk
   hazards_expected:
-  - tempeste_sabbia
-  - collassi di scarpate
-  - tempesta_sabbia_magnetica
-  - iron_shards
-  - magnetic_patches
+    - tempeste_sabbia
+    - collassi di scarpate
+    - tempesta_sabbia_magnetica
+    - iron_shards
+    - magnetic_patches
 derived_from_environment:
   suggested_traits:
-  - cute_resistente_sali
-  - enzimi_chelanti
-  - pelli_anti_ustione
-  - pigmenti_termici
+    - cute_resistente_sali
+    - enzimi_chelanti
+    - pelli_anti_ustione
+    - pigmenti_termici
   required_capabilities:
-  - build_cover
-  - dr_impact_cap
-  - non_metal_gear
-  - seal_vents
+    - build_cover
+    - dr_impact_cap
+    - non_metal_gear
+    - seal_vents
   jobs_bias:
-  - Vanguard
-  - Warden
+    - Vanguard
+    - Warden
 genetic_traits: []
 mate_synergy: []

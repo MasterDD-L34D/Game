@@ -1,10 +1,10 @@
 id: evento-ondata-termica
 display_name: 'Evento: Ondata Termica Ionica'
 biomes:
-- deserto_caldo
+  - savana
 role_trofico: evento_ecologico
 functional_tags:
-- pulse_climatico
+  - pulse_climatico
 morphotype: volatore_planatore
 flags:
   apex: false
@@ -23,15 +23,15 @@ vc:
   tilt: 0.95
 ecology:
   trigger:
-  - anticiclone + carica ionica
+    - anticiclone + carica ionica
   contromisure:
-  - rifugi sotterranei
-  - rottura del contatto termico
+    - rifugi sotterranei
+    - rottura del contatto termico
 spawn_rules:
   orario:
-  - diurno
+    - diurno
   meteo:
-  - caldo_pulsato
+    - caldo_pulsato
   densita: low
 balance:
   rarity: R5
@@ -44,27 +44,27 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: deserto_caldo
+  biome_class: savana
   koppen:
-  - BWh
-  - BSh
+    - BWh
+    - BSh
 derived_from_environment:
   suggested_traits:
-  - cuticole_cerose
-  - grassi_termici
-  - pelli_cave
-  - pigmenti_aurorali
-  - proteine_shock_termico
-  - reti_capillari_radici
+    - cuticole_cerose
+    - grassi_termici
+    - pelli_cave
+    - pigmenti_aurorali
+    - proteine_shock_termico
+    - reti_capillari_radici
   required_capabilities: []
   services_links: []
   jobs_bias:
-  - Skirmisher
-  - Vanguard
-  - Warden
+    - Skirmisher
+    - Vanguard
+    - Warden
 telemetry:
-  expected_pick_rate: null
-  spawn_weight: null
+  expected_pick_rate:
+  spawn_weight:
 services_links: []
 genetic_traits: []
 mate_synergy: []

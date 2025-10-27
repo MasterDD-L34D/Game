@@ -7,10 +7,10 @@ receipt:
 id: evento-seme-uragano
 display_name: 'Evento: Seme d''Uragano'
 biomes:
-- foresta_temperata
+  - foresta_miceliale
 role_trofico: evento_ecologico
 functional_tags:
-- pulse_climatico
+  - pulse_climatico
 flags:
   apex: false
   keystone: false
@@ -28,15 +28,15 @@ vc:
   tilt: 0.9
 ecology:
   trigger:
-  - ciclone_extra-tropicale
+    - ciclone_extra-tropicale
   contromisure:
-  - rifugi
-  - piani_emergenza
+    - rifugi
+    - piani_emergenza
 spawn_rules:
   orario:
-  - crepuscolo
+    - crepuscolo
   meteo:
-  - whiteout_ionico
+    - whiteout_ionico
   densita: low
 balance:
   rarity: R5
@@ -45,16 +45,16 @@ balance:
 environment_affinity:
   biome_class: Foresta temperata umida
   koppen:
-  - Cfb
+    - Cfb
   hazards_expected:
-  - alluvioni lampo
-  - incendi sporadici
+    - alluvioni lampo
+    - incendi sporadici
 derived_from_environment:
   suggested_traits:
-  - pelli_fitte
+    - pelli_fitte
 telemetry:
-  expected_pick_rate: null
-  spawn_weight: null
+  expected_pick_rate:
+  spawn_weight:
 services_links: []
 genetic_traits: []
 mate_synergy: []

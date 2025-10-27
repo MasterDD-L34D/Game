@@ -7,10 +7,10 @@ receipt:
 id: evento-tempesta-ferrosa
 display_name: 'Evento: Tempesta Ferrosa'
 biomes:
-- badlands
+  - canyons_risonanti
 role_trofico: evento_ecologico
 functional_tags:
-- pulse_climatico
+  - pulse_climatico
 morphotype: volatore_planatore
 flags:
   apex: false
@@ -29,48 +29,48 @@ vc:
   tilt: 0.95
 ecology:
   trigger:
-  - gradienti magnetici + fronti vento
+    - gradienti magnetici + fronti vento
   contromisure:
-  - rifugi
-  - route in ombra
+    - rifugi
+    - route in ombra
 spawn_rules:
   orario:
-  - crepuscolo
+    - crepuscolo
   meteo:
-  - tempesta_sabbia_magnetica
+    - tempesta_sabbia_magnetica
   densita: low
 balance:
   rarity: R5
   threat_tier: T4
   encounter_role: boss
 environment_affinity:
-  biome_class: badlands
+  biome_class: canyons_risonanti
   koppen:
-  - BSk
-  - BWk
+    - BSk
+    - BWk
   hazards_expected:
-  - tempeste_sabbia
-  - collassi di scarpate
-  - tempesta_sabbia_magnetica
-  - iron_shards
-  - magnetic_patches
+    - tempeste_sabbia
+    - collassi di scarpate
+    - tempesta_sabbia_magnetica
+    - iron_shards
+    - magnetic_patches
 derived_from_environment:
   suggested_traits:
-  - cute_resistente_sali
-  - enzimi_chelanti
-  - pelli_anti_ustione
-  - pigmenti_termici
+    - cute_resistente_sali
+    - enzimi_chelanti
+    - pelli_anti_ustione
+    - pigmenti_termici
   required_capabilities:
-  - build_cover
-  - dr_impact_cap
-  - non_metal_gear
-  - seal_vents
+    - build_cover
+    - dr_impact_cap
+    - non_metal_gear
+    - seal_vents
   jobs_bias:
-  - Vanguard
-  - Warden
+    - Vanguard
+    - Warden
 telemetry:
-  expected_pick_rate: null
-  spawn_weight: null
+  expected_pick_rate:
+  spawn_weight:
 services_links: []
 genetic_traits: []
 mate_synergy: []

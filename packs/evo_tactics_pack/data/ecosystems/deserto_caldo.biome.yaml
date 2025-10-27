@@ -8,53 +8,53 @@ ecosistema:
   metadati:
     nome: deserto_caldo (scaffold)
     localizzazione:
-      lat: null
-      lon: null
-      quota_m: null
-      area_km2: null
+      lat:
+      lon:
+      quota_m:
+      area_km2:
     periodo_riferimento: 1991–2020
     fonti: []
   bioma:
-    classe_bioma: deserto_caldo
+    classe_bioma: savana
     ecoregione: ''
     koppen_zone:
-    - BWh
-    - BSh
-    npp_gC_m2_anno: null
+      - BWh
+      - BSh
+    npp_gC_m2_anno:
     note: ''
   morfologia:
     rilievo:
       quota_min_max_m:
-      - null
-      - null
-      pendenza_media_gradi: null
-      rugosita_indice: null
+        - 
+        - 
+      pendenza_media_gradi:
+      rugosita_indice:
     forme_terreno: []
     geologia_substrato: []
     suolo_superficiale:
       tessitura: ''
-      pH: null
-      sostanza_organica_%: null
+      pH:
+      sostanza_organica_%:
     idrografia:
       corsi_acqua: []
       zone_umide: []
       falda: profonda
     frammentazione_connettivita:
-      indice_frattura: null
+      indice_frattura:
       corridoi_ecologici: []
   composizione_aria:
     gas_maggiori_percento:
       N2: 78.08
       O2: 20.95
       Ar: 0.93
-      CO2: null
+      CO2:
     tracce_ppm:
-      CH4: null
-      N2O: null
-      O3_troposferico: null
+      CH4:
+      N2O:
+      O3_troposferico:
     aerosol_inquinanti:
-      PM10: null
-      PM2_5: null
+      PM10:
+      PM2_5:
       sali_marini: basso
       polveri_sahariane: sporadiche
     variazioni_stagionali_nota: ''
@@ -62,28 +62,28 @@ ecosistema:
   clima:
     classificazione_koppen: BWh
     temperatura_C:
-      media_annua: null
-      min_mese_piu_freddo: null
-      max_mese_piu_caldo: null
-      giorni_gelo_annui: null
-      giorni_ondata_calore_annui: null
+      media_annua:
+      min_mese_piu_freddo:
+      max_mese_piu_caldo:
+      giorni_gelo_annui:
+      giorni_ondata_calore_annui:
     precipitazioni_mm:
-      totale_annuo: null
-      indice_stagionalita: null
+      totale_annuo:
+      indice_stagionalita:
       mesi_secchi: []
       mesi_umidi: []
     vento:
       regime: ''
-      velocita_media_m_s: null
+      velocita_media_m_s:
     bilancio_idrico:
-      et0_mm: null
-      indice_aridita_P_su_ET0: null
+      et0_mm:
+      indice_aridita_P_su_ET0:
     estremi_e_rischi:
       eventi: []
     teleconnessioni: []
   abiotico:
     luce:
-      radiazione_media_MJ_m2_giorno: null
+      radiazione_media_MJ_m2_giorno:
       fotoperiodo: ''
     nutrienti:
       N: ''
@@ -111,24 +111,24 @@ ecosistema:
     specie_chiave_di_volta: []
   suolo:
     orizzonti:
-    - O
-    - A
-    - B
-    - C
+      - O
+      - A
+      - B
+      - C
     processi:
-    - fissazione_N
-    - nitrificazione
-    - denitrificazione
-    - mineralizzazione
+      - fissazione_N
+      - nitrificazione
+      - denitrificazione
+      - mineralizzazione
     microbioma: []
     fauna_edafica: []
   acque:
     comparti: []
     processi: []
     qualita:
-      DO_mgL: null
-      BOD_mgL: null
-      conducibilita_uScm: null
+      DO_mgL:
+      BOD_mgL:
+      conducibilita_uScm:
   servizi_ecosistemici:
     supporto: []
     regolazione: []
@@ -139,17 +139,22 @@ ecosistema:
     indicatori_stato: []
     risposte_gestione: []
 links:
-  biome_id: deserto_caldo
+  biome_id: savana
   species_dir: packs/evo_tactics_pack/data/species/deserto_caldo
   foodweb: packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml
 registries:
-  functional_groups: packs/evo_tactics_pack/tools/config/registries/functional_groups.yaml
-  trophic_roles: packs/evo_tactics_pack/tools/config/registries/trophic_roles.yaml
-  biome_classes: packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml
-  climate_profiles: packs/evo_tactics_pack/tools/config/registries/climate_profiles.yaml
+  functional_groups: 
+    packs/evo_tactics_pack/tools/config/registries/functional_groups.yaml
+  trophic_roles: 
+    packs/evo_tactics_pack/tools/config/registries/trophic_roles.yaml
+  biome_classes: 
+    packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml
+  climate_profiles: 
+    packs/evo_tactics_pack/tools/config/registries/climate_profiles.yaml
   morphotypes: packs/evo_tactics_pack/tools/config/registries/morphotypes.yaml
   hazards: packs/evo_tactics_pack/tools/config/registries/hazards.yaml
-  env_to_traits: packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml
+  env_to_traits: 
+    packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml
 rules:
   at_least:
     sentient: 1
@@ -166,14 +171,14 @@ manifest:
     threat: 1
     event: 1
   functional_groups_present:
-  - detritivoro
-  - dispersore_semi
-  - impollinatore
-  - ingegneri_ecosistema
-  - patogeno
-  - predatore
-  - pulse_climatico
-  - specie_chiave
+    - detritivoro
+    - dispersore_semi
+    - impollinatore
+    - ingegneri_ecosistema
+    - patogeno
+    - predatore
+    - pulse_climatico
+    - specie_chiave
   foodweb_links:
     path: packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml
     sink_detrito: true

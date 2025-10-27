@@ -7,7 +7,7 @@ receipt:
 ecosistema:
   id: CRYOSTEPPE
   label: Cryosteppe Magnetica
-  biome_id: cryosteppe
+  biome_id: mezzanotte_orbitale
   clima:
     temperatura_C:
       media_annua: -5.5
@@ -30,19 +30,20 @@ ecosistema:
       K: alto
   trofico:
     produttori:
-    - licheni_termocromici
-    - muschi_permafrost
-    - alghe_cryofile
+      - licheni_termocromici
+      - muschi_permafrost
+      - alghe_cryofile
     consumatori:
       primari:
-      - steppe-bison-mini
-      - aurora-gull
+        - steppe-bison-mini
+        - aurora-gull
       secondari:
-      - cryo-lynx
+        - cryo-lynx
     decompositori:
-    - thaw-rot
-    - biofilm_criogenico
-  note: Steppe criogenica con gradienti termici magnetici e ponti stagionali di ghiaccio.
+      - thaw-rot
+      - biofilm_criogenico
+  note: Steppe criogenica con gradienti termici magnetici e ponti stagionali di 
+    ghiaccio.
 links:
   species_dir: packs/evo_tactics_pack/data/species/cryosteppe
   foodweb: packs/evo_tactics_pack/data/foodwebs/cryosteppe_foodweb.yaml

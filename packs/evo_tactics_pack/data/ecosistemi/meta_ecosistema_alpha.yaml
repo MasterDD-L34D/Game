@@ -6,77 +6,77 @@ receipt:
   trace_hash: to-fill
 links:
   biomi:
-  - packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml
-  - packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml
-  - packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml
-  - packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml
+    - packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml
+    - packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml
+    - packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml
+    - packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml
 ecosistema:
   id: ET_NET_ALPHA
   label: Evo-Tactics Meta‑Ecosystem Alpha
   biomi:
-  - id: BADLANDS
-    biome_id: badlands
-    path: packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml
-    weight: 0.45
-  - id: FORESTA_TEMPERATA
-    biome_id: foresta_temperata
-    path: packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml
-    weight: 0.55
-  - id: DESERTO_CALDO
-    biome_id: deserto_caldo
-    path: packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml
-    weight: 0.4
-  - id: CRYOSTEPPE
-    biome_id: cryosteppe
-    path: packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml
-    weight: 0.4
+    - id: BADLANDS
+      biome_id: canyons_risonanti
+      path: packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml
+      weight: 0.45
+    - id: FORESTA_TEMPERATA
+      biome_id: foresta_miceliale
+      path: packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml
+      weight: 0.55
+    - id: DESERTO_CALDO
+      biome_id: savana
+      path: packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml
+      weight: 0.4
+    - id: CRYOSTEPPE
+      biome_id: mezzanotte_orbitale
+      path: packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml
+      weight: 0.4
   connessioni:
-  - from: BADLANDS
-    to: FORESTA_TEMPERATA
-    type: corridor
-    resistance: 0.6
-    seasonality: primavera/autunno
-    notes: gole ombreggiate e canyon → valichi boscosi
-  - from: FORESTA_TEMPERATA
-    to: BADLANDS
-    type: trophic_spillover
-    resistance: 0.4
-    seasonality: episodico
-    notes: boom detrito → pulse detritivoro in badlands
-  - from: BADLANDS
-    to: DESERTO_CALDO
-    type: corridor
-    resistance: 0.5
-    seasonality: estate
-    notes: canali wadi → dune mobili
-  - from: FORESTA_TEMPERATA
-    to: CRYOSTEPPE
-    type: seasonal_bridge
-    resistance: 0.6
-    seasonality: inverno
-    notes: valichi nevosi con copertura forestale rada
-  - from: CRYOSTEPPE
-    to: BADLANDS
-    type: trophic_spillover
-    resistance: 0.5
-    seasonality: episodico
-    notes: pulse detrito post disgelo
+    - from: BADLANDS
+      to: FORESTA_TEMPERATA
+      type: corridor
+      resistance: 0.6
+      seasonality: primavera/autunno
+      notes: gole ombreggiate e canyon → valichi boscosi
+    - from: FORESTA_TEMPERATA
+      to: BADLANDS
+      type: trophic_spillover
+      resistance: 0.4
+      seasonality: episodico
+      notes: boom detrito → pulse detritivoro in badlands
+    - from: BADLANDS
+      to: DESERTO_CALDO
+      type: corridor
+      resistance: 0.5
+      seasonality: estate
+      notes: canali wadi → dune mobili
+    - from: FORESTA_TEMPERATA
+      to: CRYOSTEPPE
+      type: seasonal_bridge
+      resistance: 0.6
+      seasonality: inverno
+      notes: valichi nevosi con copertura forestale rada
+    - from: CRYOSTEPPE
+      to: BADLANDS
+      type: trophic_spillover
+      resistance: 0.5
+      seasonality: episodico
+      notes: pulse detrito post disgelo
   bridge_species_map:
-  - species_id: echo-wing
-    roles:
-    - dispersore_ponte
-    - impollinatore
-    present_in_nodes:
-    - BADLANDS
-    - CRYOSTEPPE
-    - DESERTO_CALDO
-    - FORESTA_TEMPERATA
-  - species_id: ferrocolonia-magnetotattica
-    roles:
-    - sentinella
-    - ingegnere_ecosistema
-    present_in_nodes:
-    - BADLANDS
+    - species_id: echo-wing
+      roles:
+        - dispersore_ponte
+        - impollinatore
+      present_in_nodes:
+        - canyons_risonanti
+        - mezzanotte_orbitale
+        - savana
+        - foresta_miceliale
+    - species_id: ferrocolonia-magnetotattica
+      roles:
+        - sentinella
+        - ingegnere_ecosistema
+      present_in_nodes:
+        - canyons_risonanti
   rules:
     at_least:
       sentient: 1
