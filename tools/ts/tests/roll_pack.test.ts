@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
@@ -7,7 +8,15 @@ import test from 'node:test';
 import { roll_pack } from '../roll_pack.js';
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
-const DATA_PATH = path.resolve(TEST_DIR, '../../../../data/packs.yaml');
+const resolveDataPath = (): string => {
+  const legacy = path.resolve(TEST_DIR, '../../../../data/packs.yaml');
+  if (fs.existsSync(legacy)) return legacy;
+  const nested = path.resolve(TEST_DIR, '../../../../../data/packs.yaml');
+  if (fs.existsSync(nested)) return nested;
+  throw new Error('Impossibile trovare data/packs.yaml');
+};
+
+const DATA_PATH = resolveDataPath();
 const CLI_ENTRY = path.resolve(TEST_DIR, '../roll_pack.js');
 
 const EXPECTED_COMBO = ['job_ability', 'trait_T1'];
