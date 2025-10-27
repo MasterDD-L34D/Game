@@ -17,7 +17,7 @@ PLAYWRIGHT_ENV=()
 PLAYWRIGHT_MIRROR=${PLAYWRIGHT_DOWNLOAD_HOST:-}
 if [ -n "$PLAYWRIGHT_MIRROR" ]; then
   log "Using custom Playwright mirror at $PLAYWRIGHT_MIRROR"
-  PLAYWRIGHT_ENV=("PLAYWRIGHT_DOWNLOAD_HOST=$PLAYWRIGHT_MIRROR")
+  PLAYWRIGHT_ENV=(PLAYWRIGHT_DOWNLOAD_HOST="$PLAYWRIGHT_MIRROR")
 fi
 if ! ${PLAYWRIGHT_ENV[@]} npx playwright install chromium; then
   if [ -n "$PLAYWRIGHT_MIRROR" ]; then
@@ -56,11 +56,13 @@ else:
 print(os.path.normpath(expanded))
 PY
 )
+log "Dataset directory risolto in $DATA_SOURCE_DIR"
 if [ ! -d "$DATA_SOURCE_DIR" ]; then
-  log "Dataset directory '$DATA_SOURCE_DIR' not found; set DEPLOY_DATA_DIR to override"
+  log "Dataset directory '$DATA_SOURCE_DIR' non trovato; imposta DEPLOY_DATA_DIR per sovrascrivere"
   exit 1
 fi
 export DATA_SOURCE_DIR
+log "Copiando dataset in bundle statico"
 cp -r "$ROOT_DIR/docs/test-interface" "$DIST_DIR/test-interface"
 cp -r "$DATA_SOURCE_DIR" "$DIST_DIR/data"
 if [ -f "$ROOT_DIR/docs/test-interface/favicon.ico" ]; then
