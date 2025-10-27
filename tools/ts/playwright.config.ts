@@ -28,7 +28,7 @@ export default defineConfig({
   webServer: {
     command: `python3 -m http.server ${defaultPort} --bind 127.0.0.1 --directory ${JSON.stringify(repoRoot)}`,
     url: `${baseURL}/docs/test-interface/index.html`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: process.env.PLAYWRIGHT_REUSE_SERVER === "1",
     stdout: "pipe",
     stderr: "pipe",
     timeout: 30_000,
