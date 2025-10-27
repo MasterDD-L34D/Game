@@ -24,8 +24,16 @@ Questa lista evidenzia gli scenari che devono essere eseguiti a ogni ciclo di va
 | Scenario ID | Nome scenario | Priorità | Rischio principale | Owner | Frequenza minima | Ultima esecuzione | Note |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | EVT-01 | Tempesta dimensionale | Alta | Comunicazioni confuse e glitch particellari durante evento. | Design QA (S. Neri) | Ogni patch contenuti evento | 2025-02-27 | Patch DimensionalStorm 2025-02-27 validata: flash eliminato, monitorare bloom build console (#144). |
-| EVT-02 | Alleanza inattesa | Media | Ramificazioni narrative incoerenti e flag errati. | Narrative QA (A. Conti) | Ogni sprint narrativa | 2025-02-20 | Scenario non eseguito nella sessione corrente, mantenere follow-up. |
+| EVT-02 | Alleanza inattesa | Media | Ramificazioni narrative incoerenti e flag errati. | Narrative QA (A. Conti) | Ogni sprint narrativa | Pianificata 2025-03-05 | Slot dedicato 2025-03-05 15:00-17:00 CET con A. Conti + writer support (G. Parodi); riferimenti checklist pre-sessione. |
 | EVT-03 | Eclissi di frontiera | Alta | Trigger cinematico non sincronizzato e timer evento non resetta. | Event Owner (D. Bellini) | Ogni sessione con build evento | Pianificata 2025-11-12 | Richiede acquisizione video + log particellari (`effects-trace.log`). |
+
+### Checklist pre-sessione EVT-02 (Alleanza inattesa)
+
+- [ ] Confermare build narrativa `branching-v3` aggiornata con le patch dialoghi dedicate a EVT-02.
+- [ ] Allineare savegame `story-branch-ev02` al nodo "Accordo provvisorio" con flag cooperativo impostato.
+- [ ] Verificare presenza in sala/Teams di A. Conti (Narrative QA lead) e G. Parodi (writer support) + 2 tester co-op.
+- [ ] Aggiornare il piano operativo in `docs/playtest/EVT-02-session-plan.md` includendo punti di controllo storyline e log flag.
+- [ ] Predisporre cartella `logs/playtests/2025-03-05-evt02/` con sottocartelle `media/` e `flags/` per esport live.
 
 ## Criteri di aggiornamento
 - **Inserimento**: quando uno scenario produce bug critici ripetuti o copre metriche VC essenziali.
