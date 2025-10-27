@@ -8,7 +8,7 @@ Questo documento riassume gli scenari di playtest programmati per verificare bil
 | --- | --- | --- | --- | --- |
 | BAL-01 | "Campo di battaglia iniziale" | Verificare la difficoltà percepita del primo incontro multi-unità. | Tasso di vittoria, danno medio subito, tempo per completare lo scontro. | Build `alpha-balancing` con configurazioni standard dei personaggi livello 1. |
 | BAL-02 | "Boss intermedio" | Validare la curva di difficoltà al passaggio dalla mid-campaign. | Numero di tentativi prima della vittoria, consumo risorse, feedback qualitativo sul pattern del boss. | Savegame capitolo 4, equipaggiamento livello 12, accesso a log di combattimento. |
-| BAL-03 | "Horde mode" | Stress test della gestione spawn massivi e prestazioni AI. | Frame rate minimo, tempo di risoluzione turno, segnalazioni di comportamenti erratici. | Modalità horde attiva da configurazione `configs/horde_balancing.json`. |
+| BAL-03 | "Horde mode" | Stress test della gestione spawn massivi e prestazioni AI. | Frame rate minimo, tempo di risoluzione turno, segnalazioni di comportamenti erratici. | Modalità horde attiva da configurazione `config/horde_balancing.json`. |
 
 ## 2. Progressione
 
