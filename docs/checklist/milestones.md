@@ -17,3 +17,9 @@
   - Fogli di riferimento: [VC Telemetry Sync](https://docs.google.com/spreadsheets/d/1VCExampleTelemetrySync/edit) · [PI Packs Sync](https://docs.google.com/spreadsheets/d/1PIExamplePacksSync/edit)
   - 2025-10-27 · ✅ Esecuzione validata su Apps Script: trigger ogni 6h attivo, fogli `[VC Logs] session-metrics`/`packs-delta` aggiornati senza duplicati, verificati contro i log VC recenti.【F:docs/drive-sync.md†L33-L57】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L23-L77】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
 - [x] Aggiornare i Canvas principali con note sulle nuove feature CLI.【F:docs/Canvas/feature-updates.md†L3-L40】
+
+## Milestone Web
+- [x] Eseguire `scripts/run_deploy_checks.sh` per validare bundle statico (docs/test-interface, data) · 2025-10-27.
+  - ✅ Tests TypeScript/Python passati senza errori; bundle generato in `dist.40aPFD`.
+  - ✅ Smoke test HTTP: richieste `GET /index.html` e `/test-interface/index.html` → 200 OK, nessun asset mancante rilevato.
+  - [ ] Ampliare smoke test includendo asset statici (`styles.css`, `vendor/jszip.min.js`, `app.js`, pagine fetch) per copertura completa.
