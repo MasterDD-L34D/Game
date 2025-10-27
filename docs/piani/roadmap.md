@@ -8,6 +8,19 @@
 5. **Retro Support/QA (martedì 17:00 CET)** — Porta le domande aperte in `docs/faq.md`, assegna owner/stato, collega le registrazioni onboarding e pianifica follow-up sulle configurazioni CLI condivise.【F:docs/README.md†L30-L34】【F:docs/faq.md†L1-L120】
 6. **Pubblicazione estratti** — Deposita screenshot HUD e asset nella cartella Drive (`docs/presentations/`), citando build CLI e commit di riferimento, quindi cross-link nei Canvas aggiornati.【F:docs/README.md†L28-L32】【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
 7. **Riepilogo PR giornaliero (entro 18:00 CET)** — Esegui `python tools/py/daily_pr_report.py --repo <owner/repo> --date <YYYY-MM-DD>` oppure verifica il workflow `daily-pr-summary`; salva l'output in `docs/chatgpt_changes/` e aggiorna changelog, roadmap, checklist e Canvas includendo le modifiche al refactor CLI.【F:docs/README.md†L32-L38】【F:docs/tool_run_report.md†L1-L40】
+8. **Review roadmap & comunicazione** — Ogni martedì 16:30-17:15 CET consolidare gli esiti della review settimanale: aggiornare questa pagina con stato milestone (`RM-*`), elencare bug chiusi o riassegnati e pubblicare riepilogo nel canale `#vc-docs`/Drive per l'allineamento stakeholder.【F:docs/process/qa_reporting_schema.md†L138-L164】
+
+## Mappatura milestone → componenti/feature
+
+| ID | Milestone | Componenti / feature principali (`component_tag`) | Note ticketing |
+| --- | --- | --- | --- |
+| RM-1 | Smart HUD & SquadSync | `hud`, `squadsync`, `telemetry-alerts`, `hud-notifications` | I ticket devono collegare screenshot HUD e log `hud_alert_log`; usare `roadmap_milestone = "RM-1 Smart HUD & SquadSync"`. |
+| RM-2 | Export telemetria incrementale | `drive-export`, `telemetry-sync`, `schema-validation` | Allegare esiti script `driveSync.gs` e report conformità; i bug bloccanti vanno segnalati anche in `#support-ops`. |
+| RM-3 | Rilascio e comunicazione | `release-ops`, `marketing-assets`, `visual-regression` | Collegare diff grafici e materiali marketing; aggiornare checklist comunicazione e pianificare annunci Slack/Drive. |
+| RM-4 | Esperienze di Mating e Nido | `nido-experience`, `romance-systems`, `biome-interactions` | Per bug multi-bioma aprire sotto-task dedicati mantenendo `roadmap_milestone` principale. |
+| RM-5 | Missioni verticali e supporto live | `mission-design`, `evac-timers`, `squadsync-support` | Associare log missione e note playtest; i timer evacuazione usano anche `component_tag = mission-design`. |
+| RM-0 | Bilanciamento pacchetti PI e telemetria EMA _(completata)_ | `pi-balance`, `ema-metrics`, `hud-alerts` | Ticket storici rimangono consultabili per regressioni; usare `status = closed` se riaperti come riferimento storico. |
+| RM-0b | Automazione export telemetria VC → Drive _(completata)_ | `drive-export`, `automation` | Mantenere collegamento per audit in caso di regressioni o nuove richieste di compliance. |
 
 ## Milestone completate (Ondata 1 — 2025-11-03)
 > **Aggiornamento 2025-11-03** — Prima ondata completata: la pipeline Drive Sync per i log VC è attiva, il bilanciamento PI/EMA è allineato con i dataset e gli alert HUD oltre soglia 0.60 guidano il nuovo tuning di "Skydock Siege".
@@ -55,6 +68,7 @@
 - **Retro settimanale VC (martedì 17:00 CET)** — PM, Analytics, QA: revisione alert HUD, aggiornamento metriche risk/cohesion e decisioni di follow-up smart feature.【F:docs/playtest/INSIGHTS-2025-11.md†L22-L26】
 - **Demo quindicinale (venerdì settimana dispari, 15:00 CET)** — Mostrare riduzione alert duration e stato export incrementale a Design Council + Tech Lead; registrare decisioni in `docs/tool_run_report.md`.【F:docs/playtest/INSIGHTS-2025-11.md†L22-L26】【F:docs/tool_run_report.md†L1-L40】
 - **Checkpoint roadmap mensile** — Aggiornare questa pagina e `docs/Canvas/feature-updates.md` dopo ogni ciclo di demo per confermare priorità e criteri di uscita.【F:docs/Canvas/feature-updates.md†L1-L40】
+- **Review settimanale roadmap & quality (martedì 16:30 CET)** — Consolidare esiti della review: aggiornare tabella mappatura milestone, chiudere o riassegnare bug nel tracker con `roadmap_milestone` coerente e comunicare highlight in `#vc-docs`.【F:docs/process/qa_reporting_schema.md†L138-L164】
 
 ## Prossimi passi
 - Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】 _In corso: radar/specie comparate disponibili nella dashboard generator._
@@ -64,6 +78,7 @@
 - Aggiornare i canvas principali con screenshot e note del playtest VC. **Completato** tramite pannello HUD e metriche annotate nel Canvas principale.【F:docs/Canvas/feature-updates.md†L9-L20】
 - Integrare esportazione client-side dei log VC (`session-metrics.yaml`) direttamente nella pipeline Drive una volta stabilizzato il tuning risk.
 - Formalizzare la pipeline di archiviazione presentazioni in `docs/presentations/` collegando milestone e release.【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
+- Pubblicare entro le 18:00 CET il riepilogo della review settimanale con link ai ticket chiusi/riassegnati e sezione "Delta roadmap" per il team cross-funzionale (Slack `#vc-docs`, cartella Drive `reports/roadmap/`).【F:docs/process/qa_reporting_schema.md†L138-L164】
 
 ## Riepilogo PR giornaliero
 <!-- daily-pr-summary:start -->
