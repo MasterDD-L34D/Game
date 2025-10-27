@@ -12,17 +12,23 @@ Questa procedura definisce il percorso end-to-end per promuovere la web experien
 
 > Suggerimento: usare un ambiente clean (es. container locale o runner GitHub) per replicare al meglio le condizioni di deploy.
 
-1. **CLI smoke**
+1. **Installare le dipendenze Python**
+   ```bash
+   python3 -m pip install --upgrade pip
+   python3 -m pip install --requirement tools/py/requirements.txt
+   ```
+   Assicura che i gate Python (CLI, audit tratti, pytest) dispongano delle librerie `yaml`, `requests` e degli altri moduli richiesti sul runner/staging.
+2. **CLI smoke**
    ```bash
    ./scripts/cli_smoke.sh
    ```
    Verifica la sanità di profili HUD, playtest, support e telemetry, con validazioni YAML e generazione encounter.
-2. **Audit tratti**
+3. **Audit tratti**
    ```bash
    python3 scripts/trait_audit.py --check
    ```
    Garantisce che il catalogo tratti sia coerente con dataset e regole correnti.
-3. **Deploy checks**
+4. **Deploy checks**
    ```bash
    DEPLOY_DATA_DIR="$(pwd)/data" scripts/run_deploy_checks.sh
    ```
