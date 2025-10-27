@@ -2,32 +2,20 @@
 
 ## [Unreleased]
 ### Added
-- Bundle demo pubblico con preset "demo-bundle", press kit markdown automatico
-  e documentazione di deploy in `docs/evo-tactics-pack/deploy.md`.
-- Modulo `packs/pack-data.js` con supporto a override locali/remoti e variabili
-  d'ambiente per pipeline CI.
-- Report sintetico sulle PR #68-#96 che introduce Mission Control navigabile, radar e confronto specie nel generatore, dataset hub con validazione automatica e strumenti playtest/QC aggiornati.
-- Workflow giornaliero `daily-pr-summary` con script `tools/py/daily_pr_report.py` per produrre report automatici delle PR fuse e aggiornare changelog, roadmap, checklist e Canvas.
-- Registro manutenzione 2025-10-24 con reinstallazione dipendenze `tools/ts` e `tools/py` documentato in `logs/tooling/2025-10-24-tooling.md`.
-- Nota di manutenzione in `docs/chatgpt_sync_status.md` per l'ambiente corrente (Node 22.19.0 / Python 3.11.12).
-- Verbale test manuali 2025-10-26 per `docs/test-interface/` con esiti positivi su ricarica YAML e suite pulsanti automatici.
-- Documentazione hook EMA/HUD per trasmissione metriche e alert risk in `docs/hooks/ema-metrics.md`.
-- Dataset di tuning missione `data/missions/skydock_siege.yaml` con target `risk.time_low_hp_turns` e interventi condivisi con il team VC.
-- Target telemetrici ruolo/rarità e curva budget PI visibili nel test interface grazie all'estensione dei dataset `packs.yaml`/`telemetry.yaml` e dei relativi hook HUD.
-- Allineamento note di rilascio condivise con Marketing Ops e kit asset (HUD/Screens) aggiornato per la finestra di annuncio VC.
+- Generatore VC potenziato con sintesi biomi procedurale, salvataggio filtri avanzati, timeline attività persistente e pannelli insight contestuali per condividere rapidamente i setup QA. Le esportazioni includono ora anteprime JSON/YAML e azioni rapide per dossier/ZIP.
+- Instrumentazione HUD risk alert consolidata: pipeline EMA → HUD → canale `pi.balance.alerts` con log dedicato e metriche risk/cohesion pronte per il pacchetto comunicazione `v0.6.0-rc1` (nuovi asset Canvas HUD inclusi).
+- Automazione operativa alimentata dai report PR giornalieri: workflow `daily-pr-summary`, guida CLI/Smoke aggiornata, checklist marketing/prodotto sincronizzata e note Canvas/roadmap derivate automaticamente.
+- Aggiornamenti dati e documentazione: allineamento trait PI ↔ environment registry, curva budget PI/telemetry ribilanciata e nuova documentazione playtest/roadmap per il RC di novembre 2025.
 
 ### Changed
-- Il generatore seleziona di default il bundle demo per le esportazioni e
-  aggiorna il manifest con press kit e insight.
-- Allineate le finestre EMA (`phase_weights` 0.25/0.35/0.40, `idle_threshold_s` 10) e definite le nuove sezioni `hud_breakdown`, `telemetry_targets` e `pe_economy.curve` per sincronizzare i log VC con la curva PE aggiornata.
-- Hotfix missione "Skydock Siege" (build VC 2025-02-15): scudi potenziati, medkit anticipati e ack PI in 2 turni per riportare `risk.time_low_hp_turns` entro il target Tier 3 (<=6).
-- Consolidato il calendario comunicazioni con Marketing/Product definendo owner, cadenza (daily standup + sync settimanale) e canali condivisi per il piano feedback post-annuncio.
-- Registrato l'impegno congiunto Marketing/Product e QA per il checkpoint finale e per il rilascio del pacchetto asset aggiornato.
+- Generatore e documentazione UI rifiniti: layout carte responsive, overlay radar e timeline filtrabili garantiscono lettura coerente su desktop/mobile, con preset manifest storici ripristinati accanto al bundle demo.
+- Pipeline CI completa ristabilita (build/test + Pages) e helper catalog condivisi esposti agli strumenti browser/CLI per ridurre duplicazioni.
+- Bilanciamento VC aggiornato: tuning missione Skydock Siege, curva PI e hazard registry normalizzati per mantenere rischio/coesione nei target RC.
+- Calendario comunicazioni release raffinato con agenda cross-team confermata e allegati HUD/metriche distribuiti su Slack/Drive.
 
 ### Fixed
-- Allineamento degli output `roll_pack` tra CLI TypeScript e Python utilizzando seed condiviso (`demo`).
-- Checklist progetto aggiornata con esito ultimo run `validate_datasets.py` e verifica CLI.
-- Ripristinata la pipeline export PDF del generatore aggiornando l'SRI di `html2pdf` e tracciando il fallback nel manifest (ticket `EVO-421`).
+- Ripristinate le API helper dello scanner tratti ambientali e l'ordine di inizializzazione del manifest per evitare preset mancanti nel generatore.
+- Documentazione CLI/playtest aggiornata con esiti verificati, inclusi log test interfaccia e parità `roll_pack` tra stack TS/Python.
 
 ### Known Issues
 - Nessuno segnalato.
