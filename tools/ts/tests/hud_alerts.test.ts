@@ -22,7 +22,7 @@ test('risk HUD alert triggers once above threshold and notifies PI team', () => 
     },
   };
 
-  commandBus.on('pi.balance.alert', (payload) => {
+  commandBus.on('pi.balance.alerts', (payload) => {
     notified.push(payload);
   });
 
