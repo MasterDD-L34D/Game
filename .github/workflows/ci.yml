@@ -66,3 +66,6 @@ jobs:
 
       - name: Run CLI smoke profiles
         run: ./scripts/cli_smoke.sh
+
+      - name: Audit trait catalog consistency
+        run: python3 scripts/trait_audit.py --check
