@@ -22,6 +22,11 @@ Passaggi principali del job `build-and-test`:
 12. Validazione dataset base via CLI (`python3 game_cli.py validate-datasets`).
 13. Validazione pack ecosistema Evo-Tactics (`python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json`).
 14. Smoke test profili CLI (`./scripts/cli_smoke.sh`).
+15. Preparazione del bundle statico per la dashboard tramite `scripts/run_deploy_checks.sh` (riusa gli artefatti già prodotti e, in CI, salta lo smoke test HTTP).
+
+### `scripts/run_deploy_checks.sh`
+
+Lo script non re-esegue più i test: si limita a verificare che `tools/ts/dist` sia presente, copia la dashboard (`docs/test-interface`) e il dataset selezionato in una cartella temporanea e, se non viene richiesto diversamente, avvia un breve smoke test HTTP per assicurarsi che il pacchetto statico risponda. I dettagli vengono salvati in `logs/web_status.md` per consultazioni successive.
 
 ## Dipendenze e credenziali
 
@@ -52,6 +57,10 @@ python roll_pack.py ENTP invoker ../../data/packs.yaml
 python3 game_cli.py validate-datasets
 python3 game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json
 ./scripts/cli_smoke.sh
+
+# Bundle statico (dopo che i passaggi precedenti hanno già generato `tools/ts/dist`)
+cd ..
+scripts/run_deploy_checks.sh
 ```
 
 Annotare gli esiti in `docs/tool_run_report.md` quando i test vengono eseguiti manualmente.
