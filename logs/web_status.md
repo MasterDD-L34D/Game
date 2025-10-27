@@ -1,27 +1,28 @@
-# Stato verifica bundle web
+# Programmazione riesami sito web
 
-## 2025-10-27 · run_deploy_checks.sh
-- **Esito script**: ✅ `scripts/run_deploy_checks.sh`
-  - `npm test` (tools/ts) · 6 test superati.
-  - `pytest` (tools/py) · 20 test superati.
-  - Bundle statico generato in `dist.40aPFD` con mirror di `docs/test-interface` e `data/`.
-- **Smoke test HTTP**: server Python su `http://127.0.0.1:50505/`.
-  - Log richieste:
-    - `GET /index.html` → 200 OK.
-    - `GET /test-interface/index.html` → 200 OK.
-  - Nessun asset mancante o errore 4xx/5xx rilevato.
-- **Note**:
-  - Validare anche asset referenziati (`styles.css`, `vendor/jszip.min.js`, `app.js`, viste fetch) in una run successiva per copertura completa.
+I riesami del sito avvengono settimanalmente (lunedì, ore 10:00 CET) con la
+partecipazione di referente design, QA e devops. Durante il riesame si
+analizzano:
 
-## 2025-10-27T02:16:24Z · run_deploy_checks.sh
-- **Esito script**: ✅ `scripts/run_deploy_checks.sh`
-  - `npm test` (tools/ts) · suite TypeScript + Playwright completata.
-    - Playwright · 2 test totali, 2 passati, 0 falliti.
-      - ✅ tests/web/interface.spec.ts › dashboard carica il dataset minimo senza errori
-      - ✅ tests/web/interface.spec.ts › workspace manuale mette in coda il payload da packs.yaml
-  - `pytest` (tools/py) · 20 test superati.
-  - Bundle statico generato in `dist.AFU8Fq` con fixture `data/test-fixtures/minimal`.
-- **Smoke test HTTP**: server Python su `http://127.0.0.1:34623/`.
-  - Richieste principali completate senza errori (index.html e dashboard).
-- **Note**:
-  - Report Playwright elaborato tramite `tools/ts/scripts/collect_playwright_summary.js`.
+- lo stato dell'ultima pipeline CI/staging;
+- le regressioni aperte e le mitigazioni pianificate;
+- la copertura funzionale rispetto ai target (≥80%);
+- i feedback qualitativi raccolti da marketing/supporto.
+
+Al termine del riesame, aggiornare gli obiettivi prioritari per la settimana
+successiva e registrare eventuali task di follow-up in roadmap.
+
+## Azioni periodiche
+
+- [ ] Eseguire `python tools/py/update_web_checklist.py` entro il giorno del
+      riesame per garantire dati aggiornati.
+- [ ] Pianificare i test manuali cross-device e allegare gli esiti nel channel
+      `#web-status`.
+- [ ] Riesaminare i ticket aperti in `docs/process/qa_reporting_schema.md` e
+      aggiornare stato/owner.
+
+## Registro stato
+
+<!-- web_log:start -->
+Nessuna esecuzione registrata.
+<!-- web_log:end -->
