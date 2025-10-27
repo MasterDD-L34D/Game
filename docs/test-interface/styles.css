@@ -9,6 +9,9 @@
   --accent-soft: rgba(56, 189, 248, 0.2);
   --border: rgba(148, 163, 184, 0.32);
   --muted: #94a3b8;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
   --glow: rgba(56, 189, 248, 0.35);
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -413,6 +416,18 @@ main {
   font-weight: 700;
 }
 
+.metric[data-state="complete"] {
+  color: var(--success);
+}
+
+.metric[data-state="warning"] {
+  color: var(--warning);
+}
+
+.metric[data-state="alert"] {
+  color: var(--danger);
+}
+
 .timestamp {
   margin-top: 1.5rem;
   color: var(--muted);
@@ -440,6 +455,203 @@ main {
 
 .biome-details {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.biome-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: relative;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.65);
+  box-shadow: 0 12px 28px rgba(8, 15, 30, 0.45);
+}
+
+.biome-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.biome-card__header h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.3;
+}
+
+.hazard-badge {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.hazard-badge[data-level="high"] {
+  background: rgba(248, 113, 113, 0.2);
+  color: var(--danger);
+}
+
+.hazard-badge[data-level="medium"] {
+  background: rgba(251, 191, 36, 0.18);
+  color: var(--warning);
+}
+
+.hazard-badge[data-level="low"] {
+  background: rgba(52, 211, 153, 0.18);
+  color: var(--success);
+}
+
+.biome-summary {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.biome-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+}
+
+.biome-meta span {
+  background: rgba(148, 163, 184, 0.15);
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+}
+
+.biome-section {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.biome-section h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.95);
+}
+
+.biome-section p {
+  margin: 0;
+}
+
+.biome-inline-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.biome-archetypes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.biome-archetypes h5 {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.biome-archetypes ul,
+.biome-section ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.biome-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.vc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.16);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.vc-link::after {
+  content: "↗";
+  font-size: 0.8rem;
+}
+
+.vc-link:hover {
+  transform: translateY(-1px);
+  background: rgba(56, 189, 248, 0.28);
+}
+
+.biome-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.biome-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.biome-overview-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.biome-overview-bar .overview-chip {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 0.85rem;
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.overview-chip span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+.overview-chip strong {
+  font-size: 1.1rem;
+}
+
+.overview-chip small {
+  color: var(--muted);
 }
 
 .pi-grid {
