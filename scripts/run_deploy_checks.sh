@@ -8,123 +8,17 @@ log() {
   printf '\n[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1"
 }
 
-ensure_playwright_system_deps() {
-  if ! command -v dpkg >/dev/null 2>&1; then
-    log "Skipping Playwright system dependency check (dpkg not available)"
-    return
-  fi
+# The CI workflow already runs the full TypeScript and Python test suites.
+# This script now assumes the build artifacts produced there are available so
+# that we only need to assemble the static bundle (plus an optional smoke test).
 
-  local packages=(
-    libatk1.0-0
-    libatk-bridge2.0-0
-    libcups2
-    libxkbcommon0
-    libxcomposite1
-    libxdamage1
-    libxfixes3
-    libxrandr2
-    libxi6
-    libxtst6
-    libnss3
-    libdrm2
-    libgbm1
-    libasound2
-  )
-
-  declare -A package_alternatives=(
-    [libatk1.0-0]="libatk1.0-0 libatk1.0-0t64"
-    [libatk-bridge2.0-0]="libatk-bridge2.0-0 libatk-bridge2.0-0t64"
-    [libcups2]="libcups2 libcups2t64"
-    [libxkbcommon0]="libxkbcommon0"
-    [libxcomposite1]="libxcomposite1"
-    [libxdamage1]="libxdamage1"
-    [libxfixes3]="libxfixes3"
-    [libxrandr2]="libxrandr2"
-    [libxi6]="libxi6"
-    [libxtst6]="libxtst6"
-    [libnss3]="libnss3"
-    [libdrm2]="libdrm2"
-    [libgbm1]="libgbm1"
-    [libasound2]="libasound2t64 libasound2"
-  )
-
-  local missing=()
-  for package in "${packages[@]}"; do
-    local found=false
-    for alternative in ${package_alternatives[$package]}; do
-      if dpkg -s "$alternative" >/dev/null 2>&1; then
-        found=true
-        break
-      fi
-    done
-    if [ "$found" = false ]; then
-      missing+=("$package")
-    fi
-  done
-
-  if [ "${#missing[@]}" -eq 0 ]; then
-    log "Playwright system dependencies already present"
-    return
-  fi
-
-  if [ "$(id -u)" -ne 0 ]; then
-    log "Missing Playwright system dependencies detected: ${missing[*]}"
-    log "Re-run the script with sudo/root privileges or install the packages manually"
-    return
-  fi
-
-  local install_list=()
-  for package in "${missing[@]}"; do
-    local selected=""
-    for alternative in ${package_alternatives[$package]}; do
-      if apt-cache show "$alternative" >/dev/null 2>&1; then
-        selected="$alternative"
-        break
-      fi
-    done
-    if [ -z "$selected" ]; then
-      selected="$package"
-    fi
-    install_list+=("$selected")
-  done
-
-  log "Installing Playwright system dependencies: ${install_list[*]}"
-  export DEBIAN_FRONTEND=noninteractive
-  apt-get update -y
-  apt-get install -y --no-install-recommends "${install_list[@]}"
-}
-
-ensure_playwright_system_deps
-
-log "Installing Node.js dependencies via npm ci"
-pushd "$ROOT_DIR/tools/ts" >/dev/null
-npm ci
-
-log "Installing Playwright browsers"
-PLAYWRIGHT_ENV=()
-PLAYWRIGHT_MIRROR=${PLAYWRIGHT_DOWNLOAD_HOST:-}
-if [ -n "$PLAYWRIGHT_MIRROR" ]; then
-  log "Using custom Playwright mirror at $PLAYWRIGHT_MIRROR"
-  PLAYWRIGHT_ENV=("PLAYWRIGHT_DOWNLOAD_HOST=$PLAYWRIGHT_MIRROR")
+log "Verifying TypeScript build artifacts (tools/ts/dist)"
+TS_DIST_DIR="$ROOT_DIR/tools/ts/dist"
+if [ ! -d "$TS_DIST_DIR" ]; then
+  log "Missing TypeScript build output in $TS_DIST_DIR"
+  log "Run 'npm run build' (or 'npm test') from tools/ts before invoking this script."
+  exit 1
 fi
-if ! "${PLAYWRIGHT_ENV[@]}" npx playwright install chromium; then
-  if [ -n "$PLAYWRIGHT_MIRROR" ]; then
-    log "Playwright download failed via $PLAYWRIGHT_MIRROR; retrying with --with-deps"
-  else
-    log "Playwright download failed; retrying with --with-deps"
-  fi
-  "${PLAYWRIGHT_ENV[@]}" npx playwright install --with-deps chromium
-fi
-
-log "Running TypeScript and web regression test suite"
-npm test
-popd >/dev/null
-
-log "Ensuring Python test dependencies are available"
-python3 -m pip install --quiet -r "$ROOT_DIR/tools/py/requirements.txt"
-
-log "Running Python test suite"
-PYTHONPATH="$ROOT_DIR/tools/py" pytest
 
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")
@@ -154,59 +48,64 @@ cat <<'HTML' >"$DIST_DIR/index.html"
 HTML
 
 log "Deploy bundle ready at $DIST_DIR"
-log "Starting smoke test HTTP server for the deploy bundle"
-PORT=$(python3 - <<'PY'
+SMOKE_TEST_MESSAGE=""
+SMOKE_TEST_DETAILS=()
+
+DATA_FILE_TOTAL=$(find "$DIST_DIR/data" -type f | wc -l | tr -d ' ')
+SMOKE_TEST_DETAILS+=("  - Dataset copiato con ${DATA_FILE_TOTAL} file totali.")
+
+if [ "${DEPLOY_SKIP_SMOKE_TEST:-0}" = "1" ]; then
+  log "Skipping smoke test HTTP server (DEPLOY_SKIP_SMOKE_TEST=1)"
+  SMOKE_TEST_MESSAGE="Smoke test HTTP: non eseguito"
+  SMOKE_TEST_DETAILS+=("  - Motivo: variabile DEPLOY_SKIP_SMOKE_TEST impostata a 1.")
+else
+  log "Starting smoke test HTTP server for the deploy bundle"
+  PORT=$(python3 - <<'PY'
 import socket
 
 with socket.socket() as sock:
     sock.bind(("127.0.0.1", 0))
     print(sock.getsockname()[1])
 PY
-)
-SERVER_LOG=$(mktemp "deploy-server.XXXXXX.log" -p "$ROOT_DIR")
-python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$DIST_DIR" \
-  >"$SERVER_LOG" 2>&1 &
-SERVER_PID=$!
-cleanup_server() {
-  if kill "$SERVER_PID" 2>/dev/null; then
-    wait "$SERVER_PID" 2>/dev/null || true
-  fi
-}
-trap cleanup_server EXIT
+  )
+  SERVER_LOG=$(mktemp "deploy-server.XXXXXX.log" -p "$ROOT_DIR")
+  python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$DIST_DIR" \
+    >"$SERVER_LOG" 2>&1 &
+  SERVER_PID=$!
+  cleanup_server() {
+    if kill "$SERVER_PID" 2>/dev/null; then
+      wait "$SERVER_PID" 2>/dev/null || true
+    fi
+  }
+  trap cleanup_server EXIT
 
-for _ in $(seq 1 10); do
-  if curl --silent --fail --show-error "http://127.0.0.1:$PORT/index.html" \
-    >/dev/null 2>&1; then
-    break
-  fi
-  sleep 0.5
-done
-curl --silent --fail --show-error "http://127.0.0.1:$PORT/test-interface/index.html" \
-  >/dev/null
-log "Static site responded successfully on http://127.0.0.1:$PORT/"
-trap - EXIT
-cleanup_server
-rm -f "$SERVER_LOG"
+  for _ in $(seq 1 10); do
+    if curl --silent --fail --show-error "http://127.0.0.1:$PORT/index.html" \
+      >/dev/null 2>&1; then
+      break
+    fi
+    sleep 0.5
+  done
+  curl --silent --fail --show-error "http://127.0.0.1:$PORT/test-interface/index.html" \
+    >/dev/null
+  log "Static site responded successfully on http://127.0.0.1:$PORT/"
+  trap - EXIT
+  cleanup_server
+  rm -f "$SERVER_LOG"
+
+  SMOKE_TEST_URL="http://127.0.0.1:$PORT/"
+  SMOKE_TEST_MESSAGE="Smoke test HTTP: server Python attivo su ${SMOKE_TEST_URL}"
+  SMOKE_TEST_DETAILS+=("  - Richieste principali completate senza errori (index.html e dashboard).")
+fi
 
 PLAYWRIGHT_REPORT="$ROOT_DIR/tools/ts/playwright-report.json"
-PLAYWRIGHT_SUMMARY=""
 if [ -f "$PLAYWRIGHT_REPORT" ]; then
-  PLAYWRIGHT_SUMMARY=$(node "$ROOT_DIR/tools/ts/scripts/collect_playwright_summary.js" "$PLAYWRIGHT_REPORT")
   rm -f "$PLAYWRIGHT_REPORT"
 fi
 
 TIMESTAMP=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
 DIST_LABEL=$(basename "$DIST_DIR")
-LOG_FILE="$ROOT_DIR/logs/web_status.md"
-{
-  echo "## $TIMESTAMP · run_deploy_checks.sh"
-  echo "- **Esito script**: ✅ `scripts/run_deploy_checks.sh`"
-  echo "  - `npm test` (tools/ts) · suite TypeScript + Playwright completata."
-  if [ -n "$PLAYWRIGHT_SUMMARY" ]; then
-    echo "$PLAYWRIGHT_SUMMARY" | sed 's/^/    /'
-  fi
-  echo "  - `pytest` (tools/py) · test suite completata."
-  RELATIVE_DATA_SOURCE=$(python3 - <<'PY'
+RELATIVE_DATA_SOURCE=$(python3 - <<'PY'
 import os
 root = os.environ.get('ROOT_DIR')
 source = os.environ.get('DATA_SOURCE_DIR')
@@ -218,13 +117,23 @@ except ValueError:
     rel = source
 print(rel)
 PY
-  )
-  echo "  - Bundle statico generato in `"$DIST_LABEL"` con dataset `"$RELATIVE_DATA_SOURCE"`."
-  echo "- **Smoke test HTTP**: server Python su `http://127.0.0.1:$PORT/`."
-  echo "  - Richieste principali completate senza errori (index.html e dashboard)."
+)
+LOG_FILE="$ROOT_DIR/logs/web_status.md"
+mkdir -p "$(dirname "$LOG_FILE")"
+{
+  echo "## $TIMESTAMP · run_deploy_checks.sh"
+  echo "- **Esito script**: ✅ \`scripts/run_deploy_checks.sh\`"
+  echo "  - Artefatti TypeScript già presenti in \`tools/ts/dist\`."
+  echo "  - Bundle statico generato in \`$DIST_LABEL\` con dataset \`$RELATIVE_DATA_SOURCE\`."
+  if [ -n "$SMOKE_TEST_MESSAGE" ]; then
+    echo "- **$SMOKE_TEST_MESSAGE**"
+  fi
+  if [ "${#SMOKE_TEST_DETAILS[@]}" -gt 0 ]; then
+    printf '%s\n' "${SMOKE_TEST_DETAILS[@]}"
+  fi
   echo "- **Note**:"
-  echo "  - Report Playwright elaborato tramite `tools/ts/scripts/collect_playwright_summary.js`."
+  echo "  - Lo script non esegue più test; utilizza gli artefatti generati dai passaggi CI precedenti."
   echo ""
 } >>"$LOG_FILE"
 
-log "Run 'rm -rf "$DIST_DIR"' when finished inspecting the artifact."
+log "Run 'rm -rf $DIST_DIR' when finished inspecting the artifact."
