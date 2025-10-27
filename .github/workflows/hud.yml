@@ -1,0 +1,62 @@
+name: HUD Canary
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/ts/hud_alerts.ts'
+      - 'tests/hud_alerts.spec.ts'
+      - 'scripts/api/telemetry_alerts.py'
+      - 'tests/api/test_telemetry_alerts.py'
+      - 'data/hud/**'
+      - 'public/hud/**'
+      - 'config/cli/hud.yaml'
+      - '.github/workflows/hud.yml'
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Risolvi flag smart alerts
+        id: flags
+        run: |
+          value=$(python - <<'PY'
+from pathlib import Path
+
+content = Path('config/cli/hud.yaml').read_text(encoding='utf-8')
+enabled = False
+for line in content.splitlines():
+    stripped = line.strip()
+    if stripped.startswith('default:'):
+        enabled = stripped.split(':', 1)[1].strip().lower() in {'true', 'yes', '1', 'on'}
+        break
+print(f"enabled={'true' if enabled else 'false'}")
+PY
+          )
+          echo "$value" >> "$GITHUB_OUTPUT"
+
+      - name: Imposta Node.js
+        if: steps.flags.outputs.enabled == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build HUD overlay (canary)
+        if: steps.flags.outputs.enabled == 'true'
+        run: |
+          if [ -f tools/ts/package.json ]; then
+            pushd tools/ts >/dev/null
+            npm ci
+            npm run build --if-present
+            popd >/dev/null
+          else
+            echo "Nessun progetto Node.js rilevato in tools/ts"
+          fi
+
+      - name: Skip canary build (flag disabilitato)
+        if: steps.flags.outputs.enabled != 'true'
+        run: echo 'Smart alerts disabilitati, build canary saltata'

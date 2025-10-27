@@ -21,23 +21,32 @@
 
 2. **Middleware VC (client)** — implementato in `tools/ts/hud_alerts.ts` per gli scenari di test
    ```ts
-   telemetryBus.on("ema.update", (payload) => {
-     hudLayer.updateTrend("risk", payload.indices.risk);
-     if (payload.indices.risk.weighted_index >= 0.60) {
-       hudLayer.raiseAlert({
-         id: "risk-high",
-         severity: "warning",
-         message: "Risk EMA oltre soglia 0.60",
-         metadata: {
-           weightedIndex: payload.indices.risk.weighted_index,
-           timeLowHp: payload.indices.risk.time_low_hp_turns,
-         },
-       });
-       commandBus.emit("pi.balance.alerts", payload);
-      }
-    });
+   registerRiskHudAlertSystem({
+     telemetryBus,
+     hudLayer,
+     commandBus,
+     telemetryRecorder,
+     options: {
+       threshold: 0.60,
+       clearThreshold: 0.58,
+       consecutiveBelowThreshold: 2,
+       filters: [
+         (payload) => payload.missionId !== 'training-ground',
+         (payload) => payload.indices?.risk?.weighted_index != null,
+       ],
+       missionTags: {
+         'alpha-01': 'deep-watch',
+         'bravo-02': 'gamma-net',
+       },
+     },
+   });
     ```
-    - L'alert HUD usa colore giallo (warning) e si auto-disarma quando la media scende sotto 0.58 per due tick consecutivi.
+    - I filtri permettono di escludere stream di telemetria non validi o missioni training; `missionTags` sincronizza l'etichetta
+      missione nel metadata degli alert e nei log telemetrici.
+    - L'alert HUD resta warning (giallo) e si auto-disarma quando la media scende sotto 0.58 per due tick consecutivi grazie al
+      contatore `consecutiveBelowThreshold`.
+    - L'endpoint `telemetry.alert_context` (`scripts/api/telemetry_alerts.py`) riceve il metadata arricchito e lo serializza in
+      forma compressa per la dashboard canary.
     - La finestra `idleThreshold` aggiornata (10 s) assicura coerenza tra dataset e log VC 2025-02-15.
     - `commandBus.emit` notifica il canale PI balance per follow-up immediato.
     - Il recorder telemetrico archivia l'evento in `hud_alert_log` (vedi `logs/playtests/2025-11-05-vc/session-metrics.yaml`).
