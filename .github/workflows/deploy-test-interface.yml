@@ -34,17 +34,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Python dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -r tools/py/requirements.txt
-
-      - name: Run CLI smoke suite
-        run: ./scripts/cli_smoke.sh
-
-      - name: Audit trait catalog consistency
-        run: python3 scripts/trait_audit.py --check
-
       - name: Run deploy validation checks
         env:
           DEPLOY_DATA_DIR: ${{ github.workspace }}/data

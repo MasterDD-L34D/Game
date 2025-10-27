@@ -26,6 +26,12 @@ popd >/dev/null
 log "Ensuring Python test dependencies are available"
 python3 -m pip install --quiet -r "$ROOT_DIR/tools/py/requirements.txt"
 
+log "Running CLI smoke suite"
+"$ROOT_DIR/scripts/cli_smoke.sh"
+
+log "Auditing trait catalog consistency"
+python3 "$ROOT_DIR/scripts/trait_audit.py" --check
+
 log "Running Python test suite"
 PYTHONPATH="$ROOT_DIR/tools/py" pytest
 
