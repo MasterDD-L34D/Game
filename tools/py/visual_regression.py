@@ -96,7 +96,7 @@ def _capture_with_wkhtml(page_name: str, target: Path, output_path: Path) -> Non
         )
 
 
-def _capture(page_name: str, target: Path, output_path: Path, engine: str) -> None:
+def _capture(page_name: str, target: Path, output_path: Path, engine: str) -> str:
     if not target.exists():
         raise FileNotFoundError(f"Pagina '{page_name}' non trovata: {target}")
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -107,7 +107,7 @@ def _capture(page_name: str, target: Path, output_path: Path, engine: str) -> No
 
     if selected_engine == "wkhtml":
         _capture_with_wkhtml(page_name, target, output_path)
-        return
+        return "wkhtml"
 
     if sync_playwright is None:
         raise RuntimeError("Playwright non disponibile: installare i browser con 'playwright install' o usare --engine wkhtml")
@@ -122,6 +122,7 @@ def _capture(page_name: str, target: Path, output_path: Path, engine: str) -> No
             page.screenshot(path=output_path, full_page=True)
             context.close()
             browser.close()
+        return "playwright"
     except Exception as exc:  # pylint: disable=broad-except
         if engine == "playwright":
             raise RuntimeError(
@@ -129,6 +130,7 @@ def _capture(page_name: str, target: Path, output_path: Path, engine: str) -> No
             ) from exc
         print(f"Playwright non disponibile ({exc}); fallback su wkhtmltoimage per '{page_name}'.")
         _capture_with_wkhtml(page_name, target, output_path)
+        return "wkhtml"
 
 
 def _difference_hash(image: Image.Image) -> str:
@@ -203,11 +205,11 @@ def record_baseline(pages: Iterable[str] | None, engine: str) -> None:
     timestamp = datetime.now(tz=timezone.utc).isoformat()
     for name, target in _select_pages(pages).items():
         output_path = BASELINE_SNAPSHOT_DIR / f"{name}.png"
-        _capture(name, target, output_path, engine)
+        actual_engine = _capture(name, target, output_path, engine)
         signature = _compute_signature(output_path)
         store[name] = {
             **signature.to_dict(),
-            "engine": engine,
+            "engine": actual_engine,
             "updated_at": timestamp,
         }
         # Conserva una miniatura base64 testuale per contesti senza file binari.
@@ -229,19 +231,28 @@ def compare_snapshots(pages: Iterable[str] | None, tolerance: float, engine: str
     timestamp = datetime.now(tz=timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     run_dir = RUN_ROOT / timestamp
     results: list[SnapshotResult] = []
+    valid_engines = {"playwright", "wkhtml"}
     for name, target in _select_pages(pages).items():
         if name not in store:
             raise FileNotFoundError(f"Baseline mancante per '{name}'. Eseguire 'record-baseline'.")
         baseline_entry = store[name]
         baseline_engine = str(baseline_entry.get("engine", DEFAULT_ENGINE))
+        if baseline_engine not in valid_engines:
+            raise RuntimeError(
+                "La baseline salvata utilizza un motore sconosciuto o ambiguo. "
+                "Rigenerare le baseline con 'record-baseline' per catturare il motore effettivo."
+            )
+
         capture_engine = engine
         if engine == "auto":
-            capture_engine = baseline_engine if baseline_engine in {"playwright", "wkhtml"} else DEFAULT_ENGINE
+            capture_engine = baseline_engine
         elif engine != baseline_engine:
             raise RuntimeError(
                 f"La baseline di '{name}' è stata registrata con il motore '{baseline_engine}',"
                 f" ma il confronto richiede '{engine}'. Rigenerare la baseline o usare --engine {baseline_engine}."
             )
+        if capture_engine not in valid_engines:
+            raise RuntimeError(f"Motore di cattura non supportato: '{capture_engine}'.")
         output_path = run_dir / f"{name}.png"
         _capture(name, target, output_path, capture_engine)
         signature = _compute_signature(output_path)
