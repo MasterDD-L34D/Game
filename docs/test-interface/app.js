@@ -4041,18 +4041,37 @@ function detectDataKey(payload) {
   return null;
 }
 
-function setFetchStatus(message, variant) {
-  updateStatusElement(controlElements.fetchStatus, message, variant || "info");
+function resolveFetchStatusElement() {
+  if (controlElements.fetchStatus) {
+    return controlElements.fetchStatus;
+  }
+
+  const element = typeof document !== "undefined" ? document.getElementById("fetch-status") : null;
+  if (element) {
+    controlElements.fetchStatus = element;
+    if (!element.dataset.status) {
+      prepareStatusElement(element, "info");
+    }
+  }
+
+  return element;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function setFetchStatus(message, variant) {
+  const statusElement = resolveFetchStatusElement();
+  updateStatusElement(statusElement, message, variant || "info");
+}
+
+function initializeTestInterface() {
   pageMode = detectPageMode();
   setupDomReferences();
 
   if (pageMode === PAGE_MODES.DASHBOARD) {
     const reloadButton = document.getElementById("reload-data");
     if (reloadButton) {
-      reloadButton.addEventListener("click", () => loadAllData());
+      reloadButton.addEventListener("click", () => {
+        loadAllData();
+      });
     }
     setupControlPanel();
     const historySnapshot = getStorageSnapshot(MANUAL_SYNC_HISTORY_KEY, { fallback: null });
@@ -4061,4 +4080,10 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if (pageMode === PAGE_MODES.MANUAL_FETCH) {
     setupManualFetchPage();
   }
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeTestInterface, { once: true });
+} else {
+  initializeTestInterface();
+}
