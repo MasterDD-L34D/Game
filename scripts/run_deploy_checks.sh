@@ -8,6 +8,94 @@ log() {
   printf '\n[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1"
 }
 
+ensure_playwright_system_deps() {
+  if ! command -v dpkg >/dev/null 2>&1; then
+    log "Skipping Playwright system dependency check (dpkg not available)"
+    return
+  fi
+
+  local packages=(
+    libatk1.0-0
+    libatk-bridge2.0-0
+    libcups2
+    libxkbcommon0
+    libxcomposite1
+    libxdamage1
+    libxfixes3
+    libxrandr2
+    libxi6
+    libxtst6
+    libnss3
+    libdrm2
+    libgbm1
+    libasound2
+  )
+
+  declare -A package_alternatives=(
+    [libatk1.0-0]="libatk1.0-0 libatk1.0-0t64"
+    [libatk-bridge2.0-0]="libatk-bridge2.0-0 libatk-bridge2.0-0t64"
+    [libcups2]="libcups2 libcups2t64"
+    [libxkbcommon0]="libxkbcommon0"
+    [libxcomposite1]="libxcomposite1"
+    [libxdamage1]="libxdamage1"
+    [libxfixes3]="libxfixes3"
+    [libxrandr2]="libxrandr2"
+    [libxi6]="libxi6"
+    [libxtst6]="libxtst6"
+    [libnss3]="libnss3"
+    [libdrm2]="libdrm2"
+    [libgbm1]="libgbm1"
+    [libasound2]="libasound2t64 libasound2"
+  )
+
+  local missing=()
+  for package in "${packages[@]}"; do
+    local found=false
+    for alternative in ${package_alternatives[$package]}; do
+      if dpkg -s "$alternative" >/dev/null 2>&1; then
+        found=true
+        break
+      fi
+    done
+    if [ "$found" = false ]; then
+      missing+=("$package")
+    fi
+  done
+
+  if [ "${#missing[@]}" -eq 0 ]; then
+    log "Playwright system dependencies already present"
+    return
+  fi
+
+  if [ "$(id -u)" -ne 0 ]; then
+    log "Missing Playwright system dependencies detected: ${missing[*]}"
+    log "Re-run the script with sudo/root privileges or install the packages manually"
+    return
+  fi
+
+  local install_list=()
+  for package in "${missing[@]}"; do
+    local selected=""
+    for alternative in ${package_alternatives[$package]}; do
+      if apt-cache show "$alternative" >/dev/null 2>&1; then
+        selected="$alternative"
+        break
+      fi
+    done
+    if [ -z "$selected" ]; then
+      selected="$package"
+    fi
+    install_list+=("$selected")
+  done
+
+  log "Installing Playwright system dependencies: ${install_list[*]}"
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update -y
+  apt-get install -y --no-install-recommends "${install_list[@]}"
+}
+
+ensure_playwright_system_deps
+
 log "Installing Node.js dependencies via npm ci"
 pushd "$ROOT_DIR/tools/ts" >/dev/null
 npm ci
