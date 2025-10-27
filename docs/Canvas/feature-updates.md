@@ -10,11 +10,13 @@
 - **Reattori Aeon** — Risorsa leggendaria che abilita poteri temporali specifici per le Forme Armoniche.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
 - **Telemetry Risk Tuning 2025-10-24** — Nuovo metodo `ema_capped_minmax` con segnale `overcap_guard_events` e smoothing 0.2 per ridurre i falsi positivi nelle squadre Bravo/Delta.【F:data/telemetry.yaml†L2-L25】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L62】
 - **HUD Smart Alerts Canary** — Layout `data/hud/layout.yaml` con tagging missione gestito da `public/hud/Overlay.tsx` e flag `hud.smart_alerts` per abilitare filtri di rischio parametrizzabili nel canale canary.【F:data/hud/layout.yaml†L1-L30】【F:public/hud/Overlay.tsx†L1-L151】【F:config/cli/hud.yaml†L1-L7】
+- **Analytics SquadSync canary** — ETL `scripts/analytics/etl_squadsync.py`, schema/resolver GraphQL e pagina `/analytics/squadsync/` offrono trend engagement+deployments filtrabili con cron canary e flag dedicato.【F:scripts/analytics/etl_squadsync.py†L1-L220】【F:tools/graphql/resolvers/squadsync.ts†L1-L154】【F:public/analytics/squadsync/index.tsx†L1-L196】【F:config/jobs/etl.yaml†L1-L12】【F:config/feature_flags.yaml†L1-L16】
 
 ### Aggiornamento QA 2025-11-05
 - **Metriche Canvas aggiornate** — Il dashboard VC mostra risk medio 0.57 (Delta 0.59, Echo 0.54) e coesione 0.72/0.80 con tilt <0.46 dopo il retest client r2823.【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L83】
 - **Visual HUD** — Aggiornare lo screenshot con alert risk turno 11 (Delta) e note ack PI automatico; includere grafico coesione con support actions 12/18 per Delta/Echo nel pacchetto `v0.6.0-rc1`.【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L83】
 - **Azioni successive** — Pubblicare grafici aggiornati in Canvas/Drive e collegare annuncio Slack programmato il 2025-11-07 ore 16:00 CET al changelog RC; includere estratto metriche nel briefing Drive entro le 18:00 CET.【F:docs/changelog.md†L66-L79】【F:docs/piani/roadmap.md†L72-L85】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L88】 Coordinare il nuovo riepilogo quotidiano delle PR per mantenere Mission Control e Canvas sincronizzati.
+  ![Mock QA SquadSync canary](../assets/analytics/squadsync_mock.svg)
 
 ## Riepilogo quotidiano PR
 <!-- daily-pr-summary:start -->
