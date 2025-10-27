@@ -25,6 +25,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Percorso al reference genetico dei tratti",
     )
     parser.add_argument(
+        "--trait-glossary",
+        type=Path,
+        default=None,
+        help="Percorso opzionale al glossario centrale dei tratti",
+    )
+    parser.add_argument(
         "--out",
         type=Path,
         default=Path("data/analysis/trait_baseline.yaml"),
@@ -37,7 +43,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
 
-    payload = derive_trait_baseline(args.env_traits, args.trait_reference)
+    payload = derive_trait_baseline(
+        args.env_traits,
+        args.trait_reference,
+        args.trait_glossary,
+    )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(
         yaml.safe_dump(payload, sort_keys=False, allow_unicode=True),

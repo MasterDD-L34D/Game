@@ -385,8 +385,10 @@ const state = {
   data: null,
   traitRegistry: null,
   traitReference: null,
+  traitGlossary: null,
   traitsIndex: new Map(),
   traitDetailsIndex: new Map(),
+  traitGlossaryIndex: new Map(),
   hazardRegistry: null,
   hazardsIndex: new Map(),
   activityLog: [],
@@ -4358,6 +4360,17 @@ function traitLabel(traitId) {
   if (info?.label) {
     return info.label;
   }
+  if (state.traitGlossaryIndex instanceof Map) {
+    const glossaryEntry = state.traitGlossaryIndex.get(traitId);
+    if (glossaryEntry) {
+      if (glossaryEntry.label_it) {
+        return glossaryEntry.label_it;
+      }
+      if (glossaryEntry.label_en) {
+        return glossaryEntry.label_en;
+      }
+    }
+  }
   if (typeof traitId === "string") {
     return titleCase(traitId);
   }
@@ -4502,6 +4515,25 @@ function indexTraitRegistry(registry) {
   return map;
 }
 
+function indexTraitGlossary(glossary) {
+  const map = new Map();
+  const entries = glossary?.traits;
+  if (!entries || typeof entries !== "object") {
+    return map;
+  }
+
+  Object.entries(entries).forEach(([traitId, info]) => {
+    if (!traitId) return;
+    if (!info || typeof info !== "object") {
+      map.set(traitId, {});
+      return;
+    }
+    map.set(traitId, { ...info });
+  });
+
+  return map;
+}
+
 function normalizeTraitList(value) {
   if (!value) return [];
   if (Array.isArray(value)) {
@@ -4575,6 +4607,12 @@ function setTraitRegistry(registry) {
 function setTraitReference(catalog) {
   state.traitReference = catalog ?? null;
   state.traitDetailsIndex = indexTraitDetails(catalog);
+  renderTraitExpansions();
+}
+
+function setTraitGlossary(glossary) {
+  state.traitGlossary = glossary ?? null;
+  state.traitGlossaryIndex = indexTraitGlossary(glossary);
   renderTraitExpansions();
 }
 
@@ -7716,6 +7754,64 @@ function localTraitReferenceFallbackUrl() {
   }
 }
 
+function localTraitGlossaryFallbackUrl() {
+  try {
+    return new URL("./trait-glossary.json", import.meta.url).toString();
+  } catch (error) {
+    console.warn("Impossibile calcolare il percorso locale del glossario tratti", error);
+    return null;
+  }
+}
+
+async function loadTraitGlossary(context, hint) {
+  const tried = new Set();
+  const candidates = [];
+  const normalizedHint = typeof hint === "string" ? hint.trim() : "";
+
+  const potential = [
+    normalizedHint,
+    "trait_glossary.json",
+    "trait-glossary.json",
+    "data/traits/glossary.json",
+  ].filter(Boolean);
+
+  for (const name of potential) {
+    if (context?.resolveDocHref) {
+      try {
+        candidates.push(context.resolveDocHref(name));
+      } catch (error) {
+        console.warn("Impossibile risolvere", name, "tramite docsBase", error);
+      }
+    }
+    if (context?.resolvePackHref) {
+      try {
+        candidates.push(context.resolvePackHref(name.startsWith("docs/") ? name : `docs/catalog/${name}`));
+      } catch (error) {
+        console.warn("Impossibile risolvere", name, "tramite packBase", error);
+      }
+    }
+  }
+
+  candidates.push(localTraitGlossaryFallbackUrl());
+
+  for (const candidate of candidates) {
+    if (!candidate || tried.has(candidate)) continue;
+    tried.add(candidate);
+    try {
+      const glossary = await tryFetchJson(candidate);
+      if (glossary) {
+        setTraitGlossary(glossary);
+        return;
+      }
+    } catch (error) {
+      console.warn("Caricamento glossario tratti fallito", candidate, error);
+    }
+  }
+
+  console.warn("Nessuna sorgente valida per il glossario tratti trovata.");
+  setTraitGlossary(null);
+}
+
 async function loadTraitReference(context) {
   const tried = new Set();
   const candidates = [];
@@ -7752,6 +7848,7 @@ async function loadTraitReference(context) {
       const catalog = await tryFetchJson(candidate);
       if (catalog) {
         setTraitReference(catalog);
+        await loadTraitGlossary(context, catalog?.trait_glossary);
         return;
       }
     } catch (error) {

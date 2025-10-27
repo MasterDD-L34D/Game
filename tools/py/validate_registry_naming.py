@@ -7,12 +7,14 @@ import argparse
 import json
 import re
 import sys
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Iterable
 
 import yaml
 
 SLUG_PATTERN = re.compile(r"^[a-z0-9_]+$")
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def load_json(path: Path):
@@ -21,6 +23,28 @@ def load_json(path: Path):
 
 def load_yaml(path: Path):
     return yaml.safe_load(path.read_text(encoding="utf-8"))
+
+
+def load_structured(path: Path):
+    if path.suffix.lower() in {".yaml", ".yml"}:
+        return load_yaml(path)
+    return load_json(path)
+
+
+def resolve_path(value: str | Path | None, *anchors: Path) -> Path | None:
+    if not value:
+        return None
+
+    candidate = Path(value)
+    if candidate.is_absolute():
+        return candidate
+
+    for anchor in anchors:
+        resolved = (anchor / candidate).resolve()
+        if resolved.exists():
+            return resolved
+
+    return (anchors[0] / candidate).resolve() if anchors else candidate.resolve()
 
 
 def check_slug(value: str, context: str, errors: list[str]) -> None:
@@ -101,6 +125,8 @@ def validate_project_index(
     morphotypes: set[str],
     salinity_values: set[str],
     koppen_codes: set[str],
+    trait_glossary: Mapping[str, Mapping],
+    glossary_path: Path | None,
     errors: list[str],
 ) -> None:
     weights = project_index.get("weights", {})
@@ -161,15 +187,48 @@ def validate_project_index(
             + ", ".join(sorted(missing_koppen))
         )
 
-    trait_map = mappings.get("traits", {})
-    for key, label in trait_map.items():
-        if key not in traits:
+    trait_map = mappings.get("traits")
+    if isinstance(trait_map, dict):
+        for key, label in trait_map.items():
+            if key not in traits:
+                errors.append(
+                    f"config/project_index.json: mapping per tratto sconosciuto '{key}'"
+                )
+            elif not str(label).strip():
+                errors.append(
+                    f"config/project_index.json: traduzione mancante per tratto '{key}'"
+                )
+
+    if not trait_glossary:
+        target = str(glossary_path) if glossary_path else "data/traits/glossary.json"
+        errors.append(f"{target}: glossario tratti mancante o vuoto")
+        return
+
+    unknown_entries = sorted(set(trait_glossary.keys()) - traits)
+    if unknown_entries:
+        target = str(glossary_path) if glossary_path else "glossario tratti"
+        errors.append(
+            f"{target}: entry per tratti non presenti nel reference: "
+            + ", ".join(unknown_entries)
+        )
+
+    missing_entries = sorted(traits - set(trait_glossary.keys()))
+    if missing_entries:
+        target = str(glossary_path) if glossary_path else "glossario tratti"
+        errors.append(
+            f"{target}: mancano le entry per i tratti " + ", ".join(missing_entries)
+        )
+
+    for trait_id in sorted(traits):
+        entry = trait_glossary.get(trait_id) or {}
+        if not isinstance(entry, Mapping):
+            entry = {}
+        label_it = str(entry.get("label_it", "")).strip()
+        label_en = str(entry.get("label_en", "")).strip()
+        if not label_it and not label_en:
+            target = str(glossary_path) if glossary_path else "glossario tratti"
             errors.append(
-                f"config/project_index.json: mapping per tratto sconosciuto '{key}'"
-            )
-        elif not str(label).strip():
-            errors.append(
-                f"config/project_index.json: traduzione mancante per tratto '{key}'"
+                f"{target}: tratto '{trait_id}' privo di label_it/label_en"
             )
 
 
@@ -211,6 +270,12 @@ def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
         default=Path("packs/evo_tactics_pack/data/species"),
         help="Directory radice contenente le specie per estrarre i morphotype",
     )
+    parser.add_argument(
+        "--trait-glossary",
+        type=Path,
+        default=None,
+        help="Percorso del glossario tratti centralizzato (override)",
+    )
     return parser.parse_args(argv)
 
 
@@ -224,6 +289,38 @@ def main(argv: list[str] | None = None) -> int:
     project_index = load_json(args.project_index)
 
     errors: list[str] = []
+
+    glossary_hint = args.trait_glossary or (project_index.get("glossaries", {}) or {}).get("traits")
+    glossary_path: Path | None = None
+    trait_glossary: Mapping[str, Mapping] = {}
+
+    if glossary_hint:
+        glossary_path = resolve_path(
+            glossary_hint,
+            args.project_index.parent,
+            Path.cwd(),
+            PROJECT_ROOT,
+        )
+        if glossary_path and glossary_path.exists():
+            try:
+                glossary_data = load_structured(glossary_path)
+            except Exception as exc:  # pragma: no cover - errore IO
+                errors.append(f"{glossary_path}: errore caricamento glossario ({exc})")
+            else:
+                entries = glossary_data.get("traits") if isinstance(glossary_data, Mapping) else None
+                if isinstance(entries, Mapping):
+                    trait_glossary = {
+                        str(trait_id): value if isinstance(value, Mapping) else {}
+                        for trait_id, value in entries.items()
+                    }
+                else:
+                    errors.append(f"{glossary_path}: sezione 'traits' mancante o non valida")
+        else:
+            errors.append(f"{glossary_hint}: glossario tratti non trovato")
+    else:
+        errors.append(
+            "config/project_index.json: manca glossaries.traits o parametro --trait-glossary"
+        )
 
     trait_ids = validate_trait_reference(trait_reference, errors)
     validate_env_rules(env_rules, trait_ids, errors)
@@ -242,6 +339,8 @@ def main(argv: list[str] | None = None) -> int:
         morphotypes,
         salinity_values,
         koppen_codes,
+        trait_glossary,
+        glossary_path,
         errors,
     )
 

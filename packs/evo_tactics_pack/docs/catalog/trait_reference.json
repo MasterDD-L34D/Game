@@ -1,5 +1,6 @@
 {
   "schema_version": "2.0",
+  "trait_glossary": "data/traits/glossary.json",
   "traits": {
     "artigli_sette_vie": {
       "conflitti": [],

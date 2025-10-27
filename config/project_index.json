@@ -9,28 +9,6 @@
     "naming_validation": 0.05
   },
   "mappings": {
-    "traits": {
-      "sonno_emisferico_alternato": "Unihemispheric Sleep",
-      "criostasi_adattiva": "Adaptive Cryostasis",
-      "struttura_elastica_amorfa": "Elastic Amorphous Frame",
-      "sacche_galleggianti_ascensoriali": "Elevating Buoyancy Sacs",
-      "filamenti_digestivi_compattanti": "Digestive Compaction Filaments",
-      "ventriglio_gastroliti": "Gastrolith Grinding Gizzard",
-      "nucleo_ovomotore_rotante": "Rotating Ovomotor Core",
-      "secrezione_rallentante_palmi": "Retarding Palm Secretions",
-      "respiro_a_scoppio": "Burst Breath Propulsion",
-      "sangue_piroforico": "Pyrophoric Blood",
-      "artigli_sette_vie": "Seven-Way Talons",
-      "carapace_fase_variabile": "Phase-Shifting Carapace",
-      "olfatto_risonanza_magnetica": "Magnetic Resonance Scent",
-      "occhi_infrarosso_composti": "Infrared Compound Eyes",
-      "lingua_tattile_trama": "Texture-Sensing Tongue",
-      "spore_psichiche_silenziate": "Silent Psychic Spores",
-      "mimetismo_cromatico_passivo": "Passive Chromatic Mimicry",
-      "scheletro_idro_regolante": "Hydro-Regulating Skeleton",
-      "coda_frusta_cinetica": "Kinetic Lash Tail",
-      "eco_interno_riflesso": "Internal Echo Reflex"
-    },
     "biome_classes": {
       "foresta_temperata": "Temperate Forest",
       "foresta_boreale": "Boreal Forest",
@@ -109,5 +87,8 @@
       "BSh": "Hot Semi-Arid (BSh)",
       "n/a": "Not Applicable"
     }
+  },
+  "glossaries": {
+    "traits": "data/traits/glossary.json"
   }
 }

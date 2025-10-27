@@ -22,7 +22,13 @@ def test_derive_trait_baseline_structure(baseline_module):
     env_traits = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "env_traits.json"
     trait_reference = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
 
-    payload = baseline_module.derive_trait_baseline(env_traits, trait_reference)
+    trait_glossary = PROJECT_ROOT / "data" / "traits" / "glossary.json"
+
+    payload = baseline_module.derive_trait_baseline(
+        env_traits,
+        trait_reference,
+        trait_glossary,
+    )
 
     assert payload["summary"]["total_traits"] >= 29
     traits = payload["traits"]
@@ -30,9 +36,11 @@ def test_derive_trait_baseline_structure(baseline_module):
     artigli = traits["artigli_sette_vie"]
     assert artigli["archetype"] == "locomozione"
     assert artigli["biomi"]["caverna_risonante"] == 1
+    assert artigli["label_en"] == "Seven-Way Talons"
 
     zampe = traits["zampe_a_molla"]
     assert zampe["archetype"] == "locomozione"
     assert zampe["occurrences"] == 0
+    assert zampe["label_en"] == "Spring-Loaded Limbs"
 
     assert "locomozione" in payload["archetypes"]
