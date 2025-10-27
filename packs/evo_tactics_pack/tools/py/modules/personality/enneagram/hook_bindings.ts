@@ -137,19 +137,21 @@ function normaliseEffects(effects: any[]): HookEffect[] {
   }));
 }
 
+function normaliseCompatValues(value: any): string[] {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.map((entry) => `${entry}`);
+  if (typeof value === 'object') return Object.keys(value).map((entry) => `${entry}`);
+  return [`${value}`];
+}
+
 function mergeCompatBlock(compatBlock: any, stats: Set<string>, events: Set<string>) {
   if (!compatBlock) return;
 
-  const compatStats = compatBlock.stats;
-  if (Array.isArray(compatStats)) {
-    compatStats.map((stat: string) => resolveCompatStat(stat)).forEach((stat) => stats.add(stat));
-  } else if (compatStats && typeof compatStats === 'object') {
-    Object.keys(compatStats)
-      .map((stat) => resolveCompatStat(stat))
-      .forEach((stat) => stats.add(stat));
-  }
+  normaliseCompatValues(compatBlock.stats)
+    .map(resolveCompatStat)
+    .forEach((stat) => stats.add(stat));
 
-  arrayify<string>(compatBlock.events)
+  normaliseCompatValues(compatBlock.events)
     .map(resolveCompatEvent)
     .forEach((evt) => events.add(evt));
 }
