@@ -13,10 +13,10 @@
 
 1. **Bilanciamento pacchetti PI e telemetria EMA**
    - `telemetry.pe_economy` espone ora curva e costi completi, sincronizzati con `pi_shop` per tutte le opzioni acquistabili.【F:data/telemetry.yaml†L1-L72】【F:data/packs.yaml†L1-L88】
-   - Il middleware `tools/ts/hud_alerts.ts` consuma gli eventi `ema.update`, aggiorna l'HUD e notifica il canale `pi.balance.alerts`, con log missione aggiornati nel dossier di tuning.【F:tools/ts/hud_alerts.ts†L1-L206】【F:data/missions/skydock_siege.yaml†L1-L64】
-   - `docs/hooks/ema-metrics.md` descrive gli hook condivisi con il team client e i parametri di smoothing approvati per la build VC.【F:docs/hooks/ema-metrics.md†L1-L52】
+   - Il middleware `tools/ts/hud_alerts.ts` consuma gli eventi `ema.update`, aggiorna l'HUD e notifica il canale `pi.balance.alerts`, con log missione aggiornati nel dossier di tuning.【F:tools/ts/hud_alerts.ts†L1-L206】【F:data/missions/skydock_siege.yaml†L1-L84】
+   - `docs/hooks/ema-metrics.md` descrive gli hook condivisi con il team client, con le finestre EMA aggiornate (0.25/0.35/0.40) e l'idle threshold da 10 s approvato per la build VC.【F:docs/hooks/ema-metrics.md†L1-L52】
 2. **Alert HUD Risk & rituning “Skydock Siege”**
-   - Il mission file registra i nuovi timer (evacuazione 6 turni, cooldown ridotti) e documenta l'attivazione dell'alert HUD >0.60 durante i retest Delta.【F:data/missions/skydock_siege.yaml†L1-L82】
+   - Il mission file registra il tuning hotfix VC 15/02 (scudi potenziati, medkit anticipati, ack PI in 2 turni) per abbassare `time_low_hp_turns` di Bravo da 11 a <=6.【F:data/missions/skydock_siege.yaml†L1-L86】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L58】
    - I log missione VC includono le finestre EMA e la cronologia degli alert per l'esportazione Drive.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
 3. **Automazione export telemetria VC → Drive**
    - `docs/drive-sync.md` contiene ora la procedura autorizzativa e i trigger cron per Apps Script; i run 2025-10-24 e 2025-11-01 confermano la sincronizzazione fogli/log.【F:docs/drive-sync.md†L17-L57】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
@@ -25,7 +25,7 @@
 > **Priorità riviste (Ondata 2)** — Alla luce dei dati di novembre 2025, le smart feature (HUD + SquadSync) precedono l'estensione export; la roadmap integra checkpoint di validazione continui.【F:docs/playtest/INSIGHTS-2025-11.md†L3-L26】
 
 1. **Smart HUD & SquadSync** _(priorità alta)_
-   - Consolidare gli acknowledgment automatici degli alert risk >0.60 e validare che rientrino entro 2 turni medi su due sessioni consecutive (`delta`, `echo`).【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L35-L91】【F:docs/playtest/INSIGHTS-2025-11.md†L4-L19】
+   - Consolidare gli acknowledgment automatici degli alert risk >0.60 e validare che rientrino entro 2 turni medi su due sessioni consecutive (`alpha`, `bravo`).【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L58】【F:docs/playtest/INSIGHTS-2025-11.md†L4-L19】
    - Integrare messaggi contestuali HUD e aggiornare il Canvas dedicato con screenshot e dati di coesione ≥0.78 post-playtest QA.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L9-L37】【F:docs/Canvas/feature-updates.md†L9-L40】
    - **Criteri di uscita:** risk index medio ≤0.58 su roster co-op, durata alert ≤1.5 turni e tilt score <0.50 per due build consecutive.【F:docs/playtest/INSIGHTS-2025-11.md†L8-L19】
 2. **Export telemetria incrementale** _(priorità media)_
@@ -48,7 +48,7 @@
    - Preparare il playtest di "Skydock Siege" con obiettivi multilivello e timer di evacuazione.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
    - Collegare Reattori Aeon, filtro SquadSync e protocolli di soccorso alla pipeline telemetrica co-op.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
    - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】 _Layout completato con radar/timeline aggiornati; alert automatici >0.60 attivi dal tuning del 2025-11-03._
-   - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; revisione 2025-11-05 documentata in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L19-L36】【F:data/missions/skydock_siege.yaml†L1-L82】 _Monitorare eventuali regressioni nei prossimi playtest QA._
+    - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; hotfix VC 15/02 documentato in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L94】【F:data/missions/skydock_siege.yaml†L1-L91】 _Monitorare eventuali regressioni nei prossimi playtest QA._
 
 ## Allineamento stakeholder e checkpoint
 - **Retro settimanale VC (martedì 17:00 CET)** — PM, Analytics, QA: revisione alert HUD, aggiornamento metriche risk/cohesion e decisioni di follow-up smart feature.【F:docs/playtest/INSIGHTS-2025-11.md†L22-L26】

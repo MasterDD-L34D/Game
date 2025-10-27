@@ -19,7 +19,8 @@
 ### Changed
 - Il generatore seleziona di default il bundle demo per le esportazioni e
   aggiorna il manifest con press kit e insight.
-- Allineate le finestre EMA (`phase_weights` 0.20/0.40/0.40, `idle_threshold_s` 8) e definite le nuove sezioni `hud_breakdown`, `telemetry_targets` e `pe_economy.curve` per sincronizzare i log Delta/Echo con la curva PE aggiornata.
+- Allineate le finestre EMA (`phase_weights` 0.25/0.35/0.40, `idle_threshold_s` 10) e definite le nuove sezioni `hud_breakdown`, `telemetry_targets` e `pe_economy.curve` per sincronizzare i log VC con la curva PE aggiornata.
+- Hotfix missione "Skydock Siege" (build VC 2025-02-15): scudi potenziati, medkit anticipati e ack PI in 2 turni per riportare `risk.time_low_hp_turns` entro il target Tier 3 (<=6).
 - Consolidato il calendario comunicazioni con Marketing/Product definendo owner, cadenza (daily standup + sync settimanale) e canali condivisi per il piano feedback post-annuncio.
 - Registrato l'impegno congiunto Marketing/Product e QA per il checkpoint finale e per il rilascio del pacchetto asset aggiornato.
 

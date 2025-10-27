@@ -1,0 +1,3962 @@
+schema_version: '1.0'
+source:
+  env_traits: packs/evo_tactics_pack/docs/catalog/env_traits.json
+  trait_reference: packs/evo_tactics_pack/docs/catalog/trait_reference.json
+summary:
+  total_traits: 281
+  missing_metadata: 252
+traits:
+  ali_fulminee:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  ali_ioniche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  ali_membrana_sonica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  antenne_dustsense:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  antenne_eco_turbina:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  antenne_flusso_mareale:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  antenne_microonde_cavernose:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  antenne_reagenti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  antenne_tesla:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  antenne_waveguide:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  antenne_wideband:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  appendici_risonanti_marea:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  appendici_thermotattiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  artigli_acidofagi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  artigli_induzione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  artigli_radice:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  artigli_scivolo_silente:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  artigli_sette_vie:
+    label: Artigli a Sette Vie
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Locomotorio/Prensile
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - struttura_elastica_amorfa
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  artigli_vetrificati:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  baffi_mareomotori:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  barbigli_sensori_plasma:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  barriere_miasma_glaciale:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  batteri_endosimbionti_chemio:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  batteri_termofili_endosimbiosi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  biochip_memoria:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  biofilm_glow:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  biofilm_iperarido:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  branchie_dual_mode:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  branchie_eoliche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  branchie_metalloidi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  branchie_microfiltri:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  branchie_solfatiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  branchie_turbina:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  camere_anticorrosione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  camere_mirage:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  camere_nutrienti_vent:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  capillari_criogenici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  capillari_fluoridici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  capillari_fotovoltaici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  capsule_paracadute:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  carapace_fase_variabile:
+    label: Carapace a Variazione di Fase
+    tier: T1
+    archetype: struttura
+    occurrences: 1
+    famiglia_tipologia: Strutturale/Difensivo
+    fattore_mantenimento_energetico: Alto (Richiede energia per il cambio di fase)
+    sinergie: []
+    conflitti:
+    - struttura_elastica_amorfa
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  carapace_segmenti_logici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  carapaci_ferruginosi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  cartilagini_biofibre:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  cartilagini_desertiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  cartilagini_flessoacustiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  cartilagini_pseudometalliche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  cervelletto_equilibrio_statico:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  chemiorecettori_bromuro:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  circolazione_bifasica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  circolazione_cooling_loop:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  circolazione_doppia:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  circolazione_supercritica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  ciste_riduttive:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  ciste_salmastre:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  cisti_iperbariche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  coda_balanciere:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  coda_contrappeso:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  coda_coppia_retroattiva:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  coda_frusta_cinetica:
+    label: Coda a Frusta Cinetica
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Locomotorio/Difensivo
+    fattore_mantenimento_energetico: Medio (Mantenimento dell'energia accumulata)
+    sinergie:
+    - artigli_sette_vie
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  coda_stabilizzatrice_filo:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  coda_stabilizzatrice_geiser:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  coda_stabilizzatrice_vortex:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  colonne_vibromagnetiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  coralli_partner:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  criostasi_adattiva:
+    label: Criostasi
+    tier: T1
+    archetype: metabolismo
+    occurrences: 1
+    famiglia_tipologia: Metabolico/Difensivo
+    fattore_mantenimento_energetico: Alto (Fase di risveglio/inizio) / Basso (Fase
+      Criostasi).
+    sinergie: []
+    conflitti:
+    - sacche_galleggianti_ascensoriali
+    - sangue_piroforico
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  cromofori_alert_acido:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  cuore_multicamera_bassa_pressione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  cuscinetti_elettrostatici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  cute_resistente_sali:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 2
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      badlands: 1
+    missing_metadata: true
+  cuticole_cerose:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: true
+  cuticole_neutralizzanti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  denti_chelatanti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  denti_ossidoferro:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  denti_silice_termici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  denti_tuning_fork:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  echi_risonanti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  eco_interno_riflesso:
+    label: Riflesso dell'Eco Interno
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Sensoriale/Nervoso
+    fattore_mantenimento_energetico: Medio (Emissioni e ricezione continua)
+    sinergie:
+    - olfatto_risonanza_magnetica
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  empatia_coordinativa:
+    label: Empatia Coordinativa
+    tier: T1
+    archetype: supporto
+    occurrences: 0
+    famiglia_tipologia: Supporto/Empatico
+    fattore_mantenimento_energetico: Medio (Feedback costante dai compagni)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  enzimi_antifase_termica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  enzimi_antipredatori_algali:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  enzimi_chelanti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: true
+  enzimi_chelatori_rapidi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  enzimi_metanoossidanti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  epidermide_dielettrica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  epitelio_fosforescente:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  filamenti_digestivi_compattanti:
+    label: Filamento materiali digeriti
+    tier: T1
+    archetype: metabolismo
+    occurrences: 1
+    famiglia_tipologia: Digestivo/Escretorio
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - ventriglio_gastroliti
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  filamenti_magnetotrofi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  filamenti_superconduttivi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  filamenti_termoconduzione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  filtri_planctonici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  flagelli_ancoranti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  focus_frazionato:
+    label: Focus Frazionato
+    tier: T1
+    archetype: controllo
+    occurrences: 0
+    famiglia_tipologia: Tattico/Controllo
+    fattore_mantenimento_energetico: Medio (Dividere l'attenzione su più canali)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  foliage_fotocatodico:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  foliaggio_spugna:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  ghiaccio_piezoelettrico:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  ghiandola_caustica:
+    label: Ghiandola Caustica
+    tier: T1
+    archetype: offensiva
+    occurrences: 0
+    famiglia_tipologia: Offensivo/Chimico
+    fattore_mantenimento_energetico: Medio (Produzione reagenti)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  ghiandole_cambio_salino:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  ghiandole_condensa_ozono:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  ghiandole_eco_mappanti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  ghiandole_fango_calde:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  ghiandole_fango_coesivo:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  ghiandole_grafene:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  ghiandole_inchiostro_luce:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  ghiandole_iodoattive:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  ghiandole_minerali:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  ghiandole_nebbia_acida:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  ghiandole_nebbia_ionica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  ghiandole_resina_conduttiva:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  ghiandole_ventosa:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  giunti_antitorsione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  grassi_termici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: true
+  gusci_criovetro:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  gusci_magnesio:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  lamelle_shear:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  lamelle_sincroniche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  lamine_filtranti_aeree:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  lamine_scudo_silice:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  linfa_tampone:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  lingua_cristallina:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  lingua_tattile_trama:
+    label: Lingua Tattile Trama-Sensibile
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Sensoriale/Alimentare
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - olfatto_risonanza_magnetica
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  luminescenza_aurorale:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  luminescenza_hydrotermica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  mantelli_geotermici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  membrane_captura_rugiada:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  membrane_planata_vectored:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  membrane_pneumatofori:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  midollo_antivibrazione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  mimetismo_cromatico_passivo:
+    label: Ghiandole di Mimetismo Cromatico Passivo
+    tier: T1
+    archetype: difesa
+    occurrences: 1
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Fase passiva)
+    sinergie:
+    - struttura_elastica_amorfa
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  mucose_aderenza_sonica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  mucose_barofile:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  muscoli_controvento:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  muscoli_fasici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  muscoli_isotermici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  muscoli_pettine:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  navigatore_magnetico:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  nervature_fotoniche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  nodi_miovibranti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  nodi_sincronizzazione_branchiale:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  nuclei_termoriflettenti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  nucleo_ovomotore_rotante:
+    label: Uovo rotaia, uovo grande e uova piccole dentro...
+    tier: T1
+    archetype: supporto
+    occurrences: 1
+    famiglia_tipologia: Riproduttivo/Locomotorio
+    fattore_mantenimento_energetico: Alto (Rotolamento)
+    sinergie: []
+    conflitti:
+    - secrezione_rallentante_palmi
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  occhi_calcolo_predittivo:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  occhi_ecoscuro:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  occhi_fotofobi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  occhi_infrarosso_composti:
+    label: Occhi Composti ad Infrarosso
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Sensoriale/Visivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - sonno_emisferico_alternato
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  ocelli_lumospot:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  oculari_ionosferici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  oculari_sulfurei:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  olfatto_risonanza_magnetica:
+    label: Olfatto di Risonanza Magnetica
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Sensoriale/Nervoso
+    fattore_mantenimento_energetico: Medio (Elaborazione sensoriale costante)
+    sinergie:
+    - eco_interno_riflesso
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  orecchi_fasici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  ossa_capillari_saline:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  ossa_cavi_resonanti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  ossa_spugna:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  ossatura_liana_composta:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  osseina_crescita_adattiva:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  osseina_igroscopica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  ossigenatori_simbiotici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  pathfinder:
+    label: Pathfinder
+    tier: T1
+    archetype: esplorazione
+    occurrences: 0
+    famiglia_tipologia: Esplorazione/Tattico
+    fattore_mantenimento_energetico: Basso (Sincronizzazione con HUD di esplorazione)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  peli_fumarolici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  peli_idrofobici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_temperata: 1
+    missing_metadata: true
+  peli_prossimita_lidar:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  pelle_anticavitazione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  pelle_carbonata:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  pelle_microantenna:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  pelle_osmoattiva:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  pelle_piroclastica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  pelli_anti_ustione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      badlands: 1
+    missing_metadata: true
+  pelli_antifouling:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  pelli_antiossidanti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  pelli_cave:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: true
+  pelli_fitte:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: true
+  pelli_solfurose:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  pelli_stratopausa:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  pelliccia_fonomodulante:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  pelliccia_microbolle:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  pellicola_antiablativa:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  pellicola_bioreattiva:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  pellicole_flogistiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  pianificatore:
+    label: Pianificatore
+    tier: T1
+    archetype: strategia
+    occurrences: 0
+    famiglia_tipologia: Strategico/Comando
+    fattore_mantenimento_energetico: Medio (Analisi continua di stato squadre)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  piedi_aderenza_speleologica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  piedi_grip_canopy:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  piedi_grip_magnetico:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  piedi_micropori:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  piedi_stabilizzatori_fango:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  pigmenti_assorbi_suono:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  pigmenti_aurorali:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: true
+  pigmenti_biolumina:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  pigmenti_cromofase:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  pigmenti_cronoresponsivi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  pigmenti_signal:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  pigmenti_tannino:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  pigmenti_termici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      badlands: 1
+    missing_metadata: true
+  pigmenti_termofasici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  pigmenti_ultravioletto:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  pinne_trazione_vortice:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  piume_antistatiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  piume_plasma:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  placche_basiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  placche_calcaree_flessibili:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  placche_scudo_abissale:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  plastron_vapori_caldi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  polmoni_ramificati:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  pori_osmotici_regolati:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  proteine_shock_termico:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: true
+  radici_filtro_solfati:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  random:
+    label: Trait Random
+    tier: T1
+    archetype: adattivo
+    occurrences: 0
+    famiglia_tipologia: Flessibile/Generico
+    fattore_mantenimento_energetico: Variabile (Dipende dal tratto estratto)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  respiratori_modulari:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  respiro_a_scoppio:
+    label: Respiro a scoppio
+    tier: T1
+    archetype: sopravvivenza
+    occurrences: 1
+    famiglia_tipologia: Respiratorio/Propulsivo
+    fattore_mantenimento_energetico: Alto (Richiede ricarica polmonare)
+    sinergie:
+    - sacche_galleggianti_ascensoriali
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  rete_ionoscambio:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  rete_neurofitonica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  rete_neuroplancton:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  rete_neuroqubit:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  rete_neurosonar:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  rete_osmotica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  rete_parafulmine:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  rete_vascolare_thermo:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  reti_capillari_radici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: true
+  retine_sussultorie:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  risonanza_di_branco:
+    label: Risonanza di Branco
+    tier: T1
+    archetype: supporto
+    occurrences: 0
+    famiglia_tipologia: Supporto/Armonico
+    fattore_mantenimento_energetico: Basso (Richiede mantenimento empatico)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  sacche_brina_notturna:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  sacche_buoyoniche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  sacche_calcaree:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  sacche_galleggianti_ascensoriali:
+    label: Sacche galleggianti ascensoriali
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Idrostatico/Locomotorio
+    fattore_mantenimento_energetico: Medio (Per il controllo della pressione)
+    sinergie:
+    - struttura_elastica_amorfa
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  sacche_pressurizzate:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  sacche_riserva_plancton:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  sacche_risonanza:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  sacche_scarica_pilota:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  sangue_piroforico:
+    label: Sangue che prende fuoco a contatto con l'ossigeno
+    tier: T1
+    archetype: sopravvivenza
+    occurrences: 1
+    famiglia_tipologia: Circolatorio/Difensivo
+    fattore_mantenimento_energetico: Medio (Sintesi dei composti)
+    sinergie: []
+    conflitti:
+    - criostasi_adattiva
+    - scheletro_idro_regolante
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  scaglie_bisolfuro:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  scaglie_speculari:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  scheletro_idro_regolante:
+    label: Scheletro Idro-Regolante
+    tier: T1
+    archetype: struttura
+    occurrences: 1
+    famiglia_tipologia: Strutturale/Omeostatico
+    fattore_mantenimento_energetico: Medio (Scambio rapido di fluidi)
+    sinergie:
+    - sacche_galleggianti_ascensoriali
+    conflitti:
+    - sangue_piroforico
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  secrezione_rallentante_palmi:
+    label: Mani secernano liquido rallentante
+    tier: T1
+    archetype: difesa
+    occurrences: 1
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Medio (Produzione del liquido)
+    sinergie: []
+    conflitti:
+    - carapace_fase_variabile
+    - nucleo_ovomotore_rotante
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  sensori_corrente_micros:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  sensori_differenziale_pressione:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  sensori_drillici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  sensori_elettroflora:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  sensori_gradiente_geotermico:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  sensori_lampo_precoce:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  sensori_limo:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  sensori_ph_marea:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  sensori_solfuri:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  sensori_spettro_profondo:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  sensori_termobiforcuti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  sensori_termoclino:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  simbionti_batteri_metano:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  simbionti_detox:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  simbionti_luciferasi:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  simbionti_metabolizzatori_azoto:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  sinapsi_risonanza_storm:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  sistema_biofeedback_rete:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  sistema_sedimento_attivo:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  sistema_sospensione_coriolis:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  sonno_emisferico_alternato:
+    label: Dormire con solo metà cervello alla volta
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Nervoso/Omeostatico
+    fattore_mantenimento_energetico: Medio (Mantenimento attivo di metà cervello)
+    sinergie:
+    - occhi_infrarosso_composti
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  spine_dati:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  spore_acidostatiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  spore_psichiche_silenziate:
+    label: Spora Psichica Silenziosa
+    tier: T1
+    archetype: metabolismo
+    occurrences: 1
+    famiglia_tipologia: Escretorio/Psichico
+    fattore_mantenimento_energetico: Alto (Produzione e rilascio)
+    sinergie: []
+    conflitti:
+    - respiro_a_scoppio
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  struttura_elastica_amorfa:
+    label: Struttura elastica, allungabile, amorfa, retrattile
+    tier: T1
+    archetype: struttura
+    occurrences: 1
+    famiglia_tipologia: Strutturale/Locomotorio
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  tattiche_di_branco:
+    label: Tattiche di Branco
+    tier: T1
+    archetype: strategia
+    occurrences: 0
+    famiglia_tipologia: Strategico/Supporto
+    fattore_mantenimento_energetico: Medio (Broadcast continuo di segnali)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  tendini_attuatori:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  tendini_cristallini:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: true
+  tendini_elastomagnetici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: true
+  tendini_flessioni_rapide:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  tentacoli_sensori_sismici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  tessuti_autorigeneranti_calore:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  tessuti_piezobiotici:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: true
+  valvole_aerofragili:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  valvole_efficienza_moto:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+  valvole_flusso_bidirezionali:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: true
+  valvole_pressione_caverna:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: true
+  valvole_pressione_dinamiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  ventose_geotermiche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: true
+  ventose_tessitura:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: true
+  ventriglio_gastroliti:
+    label: Denti sonci (ciottoli/sassi), ti nutri di tutto
+    tier: T1
+    archetype: metabolismo
+    occurrences: 1
+    famiglia_tipologia: Digestivo/Alimentare
+    fattore_mantenimento_energetico: Medio (Contrazione muscolare costante)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  vesciche_sospensive:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  vescicole_assorbenti:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  vibrisse_salimetriche:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: true
+  vista_multispettro:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: true
+  zampe_a_molla:
+    label: Zampe a Molla
+    tier: T1
+    archetype: locomozione
+    occurrences: 0
+    famiglia_tipologia: Mobilità/Cinetico
+    fattore_mantenimento_energetico: Basso (Carica elastica a turni alterni)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  zampe_cerniera:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: true
+  zoccoli_resina_ionica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: true
+  zoccoli_stabilita_dinamica:
+    label: null
+    tier: null
+    archetype: non_classificato
+    occurrences: 1
+    famiglia_tipologia: null
+    fattore_mantenimento_energetico: null
+    sinergie: []
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: true
+archetypes:
+  adattivo:
+    total: 1
+    traits:
+    - random
+  controllo:
+    total: 1
+    traits:
+    - focus_frazionato
+  difesa:
+    total: 2
+    traits:
+    - mimetismo_cromatico_passivo
+    - secrezione_rallentante_palmi
+  esplorazione:
+    total: 1
+    traits:
+    - pathfinder
+  locomozione:
+    total: 4
+    traits:
+    - artigli_sette_vie
+    - coda_frusta_cinetica
+    - sacche_galleggianti_ascensoriali
+    - zampe_a_molla
+  metabolismo:
+    total: 4
+    traits:
+    - criostasi_adattiva
+    - filamenti_digestivi_compattanti
+    - spore_psichiche_silenziate
+    - ventriglio_gastroliti
+  non_classificato:
+    total: 252
+    traits:
+    - ali_fulminee
+    - ali_ioniche
+    - ali_membrana_sonica
+    - antenne_dustsense
+    - antenne_eco_turbina
+    - antenne_flusso_mareale
+    - antenne_microonde_cavernose
+    - antenne_reagenti
+    - antenne_tesla
+    - antenne_waveguide
+    - antenne_wideband
+    - appendici_risonanti_marea
+    - appendici_thermotattiche
+    - artigli_acidofagi
+    - artigli_induzione
+    - artigli_radice
+    - artigli_scivolo_silente
+    - artigli_vetrificati
+    - baffi_mareomotori
+    - barbigli_sensori_plasma
+    - barriere_miasma_glaciale
+    - batteri_endosimbionti_chemio
+    - batteri_termofili_endosimbiosi
+    - biochip_memoria
+    - biofilm_glow
+    - biofilm_iperarido
+    - branchie_dual_mode
+    - branchie_eoliche
+    - branchie_metalloidi
+    - branchie_microfiltri
+    - branchie_solfatiche
+    - branchie_turbina
+    - camere_anticorrosione
+    - camere_mirage
+    - camere_nutrienti_vent
+    - capillari_criogenici
+    - capillari_fluoridici
+    - capillari_fotovoltaici
+    - capsule_paracadute
+    - carapace_segmenti_logici
+    - carapaci_ferruginosi
+    - cartilagini_biofibre
+    - cartilagini_desertiche
+    - cartilagini_flessoacustiche
+    - cartilagini_pseudometalliche
+    - cervelletto_equilibrio_statico
+    - chemiorecettori_bromuro
+    - circolazione_bifasica
+    - circolazione_cooling_loop
+    - circolazione_doppia
+    - circolazione_supercritica
+    - ciste_riduttive
+    - ciste_salmastre
+    - cisti_iperbariche
+    - coda_balanciere
+    - coda_contrappeso
+    - coda_coppia_retroattiva
+    - coda_stabilizzatrice_filo
+    - coda_stabilizzatrice_geiser
+    - coda_stabilizzatrice_vortex
+    - colonne_vibromagnetiche
+    - coralli_partner
+    - cromofori_alert_acido
+    - cuore_multicamera_bassa_pressione
+    - cuscinetti_elettrostatici
+    - cute_resistente_sali
+    - cuticole_cerose
+    - cuticole_neutralizzanti
+    - denti_chelatanti
+    - denti_ossidoferro
+    - denti_silice_termici
+    - denti_tuning_fork
+    - echi_risonanti
+    - enzimi_antifase_termica
+    - enzimi_antipredatori_algali
+    - enzimi_chelanti
+    - enzimi_chelatori_rapidi
+    - enzimi_metanoossidanti
+    - epidermide_dielettrica
+    - epitelio_fosforescente
+    - filamenti_magnetotrofi
+    - filamenti_superconduttivi
+    - filamenti_termoconduzione
+    - filtri_planctonici
+    - flagelli_ancoranti
+    - foliage_fotocatodico
+    - foliaggio_spugna
+    - ghiaccio_piezoelettrico
+    - ghiandole_cambio_salino
+    - ghiandole_condensa_ozono
+    - ghiandole_eco_mappanti
+    - ghiandole_fango_calde
+    - ghiandole_fango_coesivo
+    - ghiandole_grafene
+    - ghiandole_inchiostro_luce
+    - ghiandole_iodoattive
+    - ghiandole_minerali
+    - ghiandole_nebbia_acida
+    - ghiandole_nebbia_ionica
+    - ghiandole_resina_conduttiva
+    - ghiandole_ventosa
+    - giunti_antitorsione
+    - grassi_termici
+    - gusci_criovetro
+    - gusci_magnesio
+    - lamelle_shear
+    - lamelle_sincroniche
+    - lamine_filtranti_aeree
+    - lamine_scudo_silice
+    - linfa_tampone
+    - lingua_cristallina
+    - luminescenza_aurorale
+    - luminescenza_hydrotermica
+    - mantelli_geotermici
+    - membrane_captura_rugiada
+    - membrane_planata_vectored
+    - membrane_pneumatofori
+    - midollo_antivibrazione
+    - mucose_aderenza_sonica
+    - mucose_barofile
+    - muscoli_controvento
+    - muscoli_fasici
+    - muscoli_isotermici
+    - muscoli_pettine
+    - navigatore_magnetico
+    - nervature_fotoniche
+    - nodi_miovibranti
+    - nodi_sincronizzazione_branchiale
+    - nuclei_termoriflettenti
+    - occhi_calcolo_predittivo
+    - occhi_ecoscuro
+    - occhi_fotofobi
+    - ocelli_lumospot
+    - oculari_ionosferici
+    - oculari_sulfurei
+    - orecchi_fasici
+    - ossa_capillari_saline
+    - ossa_cavi_resonanti
+    - ossa_spugna
+    - ossatura_liana_composta
+    - osseina_crescita_adattiva
+    - osseina_igroscopica
+    - ossigenatori_simbiotici
+    - peli_fumarolici
+    - peli_idrofobici
+    - peli_prossimita_lidar
+    - pelle_anticavitazione
+    - pelle_carbonata
+    - pelle_microantenna
+    - pelle_osmoattiva
+    - pelle_piroclastica
+    - pelli_anti_ustione
+    - pelli_antifouling
+    - pelli_antiossidanti
+    - pelli_cave
+    - pelli_fitte
+    - pelli_solfurose
+    - pelli_stratopausa
+    - pelliccia_fonomodulante
+    - pelliccia_microbolle
+    - pellicola_antiablativa
+    - pellicola_bioreattiva
+    - pellicole_flogistiche
+    - piedi_aderenza_speleologica
+    - piedi_grip_canopy
+    - piedi_grip_magnetico
+    - piedi_micropori
+    - piedi_stabilizzatori_fango
+    - pigmenti_assorbi_suono
+    - pigmenti_aurorali
+    - pigmenti_biolumina
+    - pigmenti_cromofase
+    - pigmenti_cronoresponsivi
+    - pigmenti_signal
+    - pigmenti_tannino
+    - pigmenti_termici
+    - pigmenti_termofasici
+    - pigmenti_ultravioletto
+    - pinne_trazione_vortice
+    - piume_antistatiche
+    - piume_plasma
+    - placche_basiche
+    - placche_calcaree_flessibili
+    - placche_scudo_abissale
+    - plastron_vapori_caldi
+    - polmoni_ramificati
+    - pori_osmotici_regolati
+    - proteine_shock_termico
+    - radici_filtro_solfati
+    - respiratori_modulari
+    - rete_ionoscambio
+    - rete_neurofitonica
+    - rete_neuroplancton
+    - rete_neuroqubit
+    - rete_neurosonar
+    - rete_osmotica
+    - rete_parafulmine
+    - rete_vascolare_thermo
+    - reti_capillari_radici
+    - retine_sussultorie
+    - sacche_brina_notturna
+    - sacche_buoyoniche
+    - sacche_calcaree
+    - sacche_pressurizzate
+    - sacche_riserva_plancton
+    - sacche_risonanza
+    - sacche_scarica_pilota
+    - scaglie_bisolfuro
+    - scaglie_speculari
+    - sensori_corrente_micros
+    - sensori_differenziale_pressione
+    - sensori_drillici
+    - sensori_elettroflora
+    - sensori_gradiente_geotermico
+    - sensori_lampo_precoce
+    - sensori_limo
+    - sensori_ph_marea
+    - sensori_solfuri
+    - sensori_spettro_profondo
+    - sensori_termobiforcuti
+    - sensori_termoclino
+    - simbionti_batteri_metano
+    - simbionti_detox
+    - simbionti_luciferasi
+    - simbionti_metabolizzatori_azoto
+    - sinapsi_risonanza_storm
+    - sistema_biofeedback_rete
+    - sistema_sedimento_attivo
+    - sistema_sospensione_coriolis
+    - spine_dati
+    - spore_acidostatiche
+    - tendini_attuatori
+    - tendini_cristallini
+    - tendini_elastomagnetici
+    - tendini_flessioni_rapide
+    - tentacoli_sensori_sismici
+    - tessuti_autorigeneranti_calore
+    - tessuti_piezobiotici
+    - valvole_aerofragili
+    - valvole_efficienza_moto
+    - valvole_flusso_bidirezionali
+    - valvole_pressione_caverna
+    - valvole_pressione_dinamiche
+    - ventose_geotermiche
+    - ventose_tessitura
+    - vesciche_sospensive
+    - vescicole_assorbenti
+    - vibrisse_salimetriche
+    - vista_multispettro
+    - zampe_cerniera
+    - zoccoli_resina_ionica
+    - zoccoli_stabilita_dinamica
+  offensiva:
+    total: 1
+    traits:
+    - ghiandola_caustica
+  sensoriale:
+    total: 5
+    traits:
+    - eco_interno_riflesso
+    - lingua_tattile_trama
+    - occhi_infrarosso_composti
+    - olfatto_risonanza_magnetica
+    - sonno_emisferico_alternato
+  sopravvivenza:
+    total: 2
+    traits:
+    - respiro_a_scoppio
+    - sangue_piroforico
+  strategia:
+    total: 2
+    traits:
+    - pianificatore
+    - tattiche_di_branco
+  struttura:
+    total: 3
+    traits:
+    - carapace_fase_variabile
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
+  supporto:
+    total: 3
+    traits:
+    - empatia_coordinativa
+    - nucleo_ovomotore_rotante
+    - risonanza_di_branco
+missing_metadata:
+- ali_fulminee
+- ali_ioniche
+- ali_membrana_sonica
+- antenne_dustsense
+- antenne_eco_turbina
+- antenne_flusso_mareale
+- antenne_microonde_cavernose
+- antenne_reagenti
+- antenne_tesla
+- antenne_waveguide
+- antenne_wideband
+- appendici_risonanti_marea
+- appendici_thermotattiche
+- artigli_acidofagi
+- artigli_induzione
+- artigli_radice
+- artigli_scivolo_silente
+- artigli_vetrificati
+- baffi_mareomotori
+- barbigli_sensori_plasma
+- barriere_miasma_glaciale
+- batteri_endosimbionti_chemio
+- batteri_termofili_endosimbiosi
+- biochip_memoria
+- biofilm_glow
+- biofilm_iperarido
+- branchie_dual_mode
+- branchie_eoliche
+- branchie_metalloidi
+- branchie_microfiltri
+- branchie_solfatiche
+- branchie_turbina
+- camere_anticorrosione
+- camere_mirage
+- camere_nutrienti_vent
+- capillari_criogenici
+- capillari_fluoridici
+- capillari_fotovoltaici
+- capsule_paracadute
+- carapace_segmenti_logici
+- carapaci_ferruginosi
+- cartilagini_biofibre
+- cartilagini_desertiche
+- cartilagini_flessoacustiche
+- cartilagini_pseudometalliche
+- cervelletto_equilibrio_statico
+- chemiorecettori_bromuro
+- circolazione_bifasica
+- circolazione_cooling_loop
+- circolazione_doppia
+- circolazione_supercritica
+- ciste_riduttive
+- ciste_salmastre
+- cisti_iperbariche
+- coda_balanciere
+- coda_contrappeso
+- coda_coppia_retroattiva
+- coda_stabilizzatrice_filo
+- coda_stabilizzatrice_geiser
+- coda_stabilizzatrice_vortex
+- colonne_vibromagnetiche
+- coralli_partner
+- cromofori_alert_acido
+- cuore_multicamera_bassa_pressione
+- cuscinetti_elettrostatici
+- cute_resistente_sali
+- cuticole_cerose
+- cuticole_neutralizzanti
+- denti_chelatanti
+- denti_ossidoferro
+- denti_silice_termici
+- denti_tuning_fork
+- echi_risonanti
+- enzimi_antifase_termica
+- enzimi_antipredatori_algali
+- enzimi_chelanti
+- enzimi_chelatori_rapidi
+- enzimi_metanoossidanti
+- epidermide_dielettrica
+- epitelio_fosforescente
+- filamenti_magnetotrofi
+- filamenti_superconduttivi
+- filamenti_termoconduzione
+- filtri_planctonici
+- flagelli_ancoranti
+- foliage_fotocatodico
+- foliaggio_spugna
+- ghiaccio_piezoelettrico
+- ghiandole_cambio_salino
+- ghiandole_condensa_ozono
+- ghiandole_eco_mappanti
+- ghiandole_fango_calde
+- ghiandole_fango_coesivo
+- ghiandole_grafene
+- ghiandole_inchiostro_luce
+- ghiandole_iodoattive
+- ghiandole_minerali
+- ghiandole_nebbia_acida
+- ghiandole_nebbia_ionica
+- ghiandole_resina_conduttiva
+- ghiandole_ventosa
+- giunti_antitorsione
+- grassi_termici
+- gusci_criovetro
+- gusci_magnesio
+- lamelle_shear
+- lamelle_sincroniche
+- lamine_filtranti_aeree
+- lamine_scudo_silice
+- linfa_tampone
+- lingua_cristallina
+- luminescenza_aurorale
+- luminescenza_hydrotermica
+- mantelli_geotermici
+- membrane_captura_rugiada
+- membrane_planata_vectored
+- membrane_pneumatofori
+- midollo_antivibrazione
+- mucose_aderenza_sonica
+- mucose_barofile
+- muscoli_controvento
+- muscoli_fasici
+- muscoli_isotermici
+- muscoli_pettine
+- navigatore_magnetico
+- nervature_fotoniche
+- nodi_miovibranti
+- nodi_sincronizzazione_branchiale
+- nuclei_termoriflettenti
+- occhi_calcolo_predittivo
+- occhi_ecoscuro
+- occhi_fotofobi
+- ocelli_lumospot
+- oculari_ionosferici
+- oculari_sulfurei
+- orecchi_fasici
+- ossa_capillari_saline
+- ossa_cavi_resonanti
+- ossa_spugna
+- ossatura_liana_composta
+- osseina_crescita_adattiva
+- osseina_igroscopica
+- ossigenatori_simbiotici
+- peli_fumarolici
+- peli_idrofobici
+- peli_prossimita_lidar
+- pelle_anticavitazione
+- pelle_carbonata
+- pelle_microantenna
+- pelle_osmoattiva
+- pelle_piroclastica
+- pelli_anti_ustione
+- pelli_antifouling
+- pelli_antiossidanti
+- pelli_cave
+- pelli_fitte
+- pelli_solfurose
+- pelli_stratopausa
+- pelliccia_fonomodulante
+- pelliccia_microbolle
+- pellicola_antiablativa
+- pellicola_bioreattiva
+- pellicole_flogistiche
+- piedi_aderenza_speleologica
+- piedi_grip_canopy
+- piedi_grip_magnetico
+- piedi_micropori
+- piedi_stabilizzatori_fango
+- pigmenti_assorbi_suono
+- pigmenti_aurorali
+- pigmenti_biolumina
+- pigmenti_cromofase
+- pigmenti_cronoresponsivi
+- pigmenti_signal
+- pigmenti_tannino
+- pigmenti_termici
+- pigmenti_termofasici
+- pigmenti_ultravioletto
+- pinne_trazione_vortice
+- piume_antistatiche
+- piume_plasma
+- placche_basiche
+- placche_calcaree_flessibili
+- placche_scudo_abissale
+- plastron_vapori_caldi
+- polmoni_ramificati
+- pori_osmotici_regolati
+- proteine_shock_termico
+- radici_filtro_solfati
+- respiratori_modulari
+- rete_ionoscambio
+- rete_neurofitonica
+- rete_neuroplancton
+- rete_neuroqubit
+- rete_neurosonar
+- rete_osmotica
+- rete_parafulmine
+- rete_vascolare_thermo
+- reti_capillari_radici
+- retine_sussultorie
+- sacche_brina_notturna
+- sacche_buoyoniche
+- sacche_calcaree
+- sacche_pressurizzate
+- sacche_riserva_plancton
+- sacche_risonanza
+- sacche_scarica_pilota
+- scaglie_bisolfuro
+- scaglie_speculari
+- sensori_corrente_micros
+- sensori_differenziale_pressione
+- sensori_drillici
+- sensori_elettroflora
+- sensori_gradiente_geotermico
+- sensori_lampo_precoce
+- sensori_limo
+- sensori_ph_marea
+- sensori_solfuri
+- sensori_spettro_profondo
+- sensori_termobiforcuti
+- sensori_termoclino
+- simbionti_batteri_metano
+- simbionti_detox
+- simbionti_luciferasi
+- simbionti_metabolizzatori_azoto
+- sinapsi_risonanza_storm
+- sistema_biofeedback_rete
+- sistema_sedimento_attivo
+- sistema_sospensione_coriolis
+- spine_dati
+- spore_acidostatiche
+- tendini_attuatori
+- tendini_cristallini
+- tendini_elastomagnetici
+- tendini_flessioni_rapide
+- tentacoli_sensori_sismici
+- tessuti_autorigeneranti_calore
+- tessuti_piezobiotici
+- valvole_aerofragili
+- valvole_efficienza_moto
+- valvole_flusso_bidirezionali
+- valvole_pressione_caverna
+- valvole_pressione_dinamiche
+- ventose_geotermiche
+- ventose_tessitura
+- vesciche_sospensive
+- vescicole_assorbenti
+- vibrisse_salimetriche
+- vista_multispettro
+- zampe_cerniera
+- zoccoli_resina_ionica
+- zoccoli_stabilita_dinamica

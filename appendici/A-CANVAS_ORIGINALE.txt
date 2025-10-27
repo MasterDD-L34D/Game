@@ -54,6 +54,20 @@ app compagne.
 - **StressWave**: indice dinamico (0-1). >0.60 attiva allarmi HUD, modifica spawn e
   curva minacce.
 
+### Evoluzione Tratti Base — Dune Stalker
+- **Core Tier 1**: Artigli a Sette Vie + Struttura Elastica Amorfa + Scheletro Idro-Regolante.
+  Mantengono mobilità verticale nelle cavità iper-saline e garantiscono difesa strutturale
+  quando la squadra opera su terreni granulari instabili.
+- **Opzionali Tier 2**: Coda a Frusta Cinetica, Sacche Galleggianti Ascensoriali e Criostasi.
+  Consentono burst di controllo (frusta), mobilità verticale in ambienti caverna e cicli di
+  ibernazione rapida durante tempeste prolungate.
+- **Sinergie Tier 3**: Focus Frazionato, Risonanza di Branco e Tattiche di Branco. Queste
+  abilità di coordinamento amplificano i core slot, aprendo combo di supporto psionico e
+  difesa cooperativa; richiedono la presenza di almeno due membri con slot PI sinergici.
+- **Vincolo Ambientale**: Piano calibrato per biome_class `caverna_risonante`; le uscite
+  sabbiose del Dune Stalker sfruttano rifugi sotterranei per dissipare StressWave tra
+  missioni e ricaricare le sacche ascensoriali.
+
 ## Struttura Missioni
 - **Template**: Assault, Extraction, Resonance Survey, Escort, Siege.
 - **Obiettivi secondari**: ridurre StressWave, salvare NPG chiave, attivare Reattori Aeon.

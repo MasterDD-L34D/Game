@@ -55,6 +55,7 @@ species:
     display_name: Dune Stalker
     estimated_weight: 11
     weight_budget: 12
+    biome_affinity: savana
     default_parts:
       locomotion: burrower
       metabolism: sand_digest
@@ -62,3 +63,21 @@ species:
       defense: [heat_scales]
       senses: [echolocation]
     synergy_hints: [echo_backstab]
+    trait_plan:
+      core:
+        - artigli_sette_vie
+        - struttura_elastica_amorfa
+        - scheletro_idro_regolante
+      optional:
+        - coda_frusta_cinetica
+        - sacche_galleggianti_ascensoriali
+        - criostasi_adattiva
+      synergies:
+        - focus_frazionato
+        - risonanza_di_branco
+        - tattiche_di_branco
+      environment_focus:
+        biome_class: caverna_risonante
+        rationale: >-
+          Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline
+          in cui si rifugia il branco durante le tempeste desertiche.
