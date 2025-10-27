@@ -1,7 +1,229 @@
 biomes:
-  savana: {diff_base: 2, mod_biome: 1, affixes: ["termico","luminescente","spore_diluite","sabbia"]}
-  caverna: {diff_base: 3, mod_biome: 2, affixes: ["eco","cristallino","fangoso","acque_nere"]}
-  palude: {diff_base: 3, mod_biome: 1, affixes: ["fangoso","tossico","luminescente","viti"]}
+  savana:
+    label: "Savana Ionizzata"
+    summary: "Dune fotoniche con branchi adattivi e rovine sepolte."
+    diff_base: 2
+    mod_biome: 1
+    affixes:
+      - termico
+      - luminescente
+      - spore_diluite
+      - sabbia
+    hazard:
+      description: "Tempeste ioniche e sabbia vetrificata che erodono equipaggiamento."
+      severity: medium
+      stress_modifiers:
+        exposure: 0.03
+        sandstorm: 0.06
+    npc_archetypes:
+      primary:
+        - predoni_nomadi
+        - guardiani_delle_dune
+      support:
+        - cartografi_erranti
+    stresswave:
+      baseline: 0.28
+      escalation_rate: 0.04
+      event_thresholds:
+        support: 0.5
+        overrun: 0.7
+    narrative:
+      tone: "Western sci-fi e sopravvivenza carovaniera."
+      hooks:
+        - "Recuperare convogli cristallizzati e nodi di risonanza sepolti."
+        - "Mediare tregue tra clan itineranti e guardiani della tempesta."
+  caverna:
+    label: "Caverna Risonante"
+    summary: "Gallerie cristalline dove eco e pressioni invertite modellano la fauna."
+    diff_base: 3
+    mod_biome: 2
+    affixes:
+      - eco
+      - cristallino
+      - fangoso
+      - acque_nere
+    hazard:
+      description: "Risonanze amplificate, crolli spontanei e pozze acide."
+      severity: high
+      stress_modifiers:
+        echo_feedback: 0.05
+        collapse: 0.08
+    npc_archetypes:
+      primary:
+        - guardiani_risonanza
+        - bracconieri_echomantici
+      support:
+        - cartografi_subsonici
+    stresswave:
+      baseline: 0.32
+      escalation_rate: 0.05
+      event_thresholds:
+        support: 0.55
+        overrun: 0.75
+    narrative:
+      tone: "Esplorazione claustrofobica guidata da acustica e luce riflessa."
+      hooks:
+        - "Disinnescare camere di eco instabile prima del collasso."
+        - "Estrarre cristalli risonanti senza allertare i custodi del nido."
+    aliases:
+      - caverna_risonante
+  palude:
+    label: "Palude Tossica"
+    summary: "Acque stagnanti bio-luminescenti con fauna mutagena."
+    diff_base: 3
+    mod_biome: 1
+    affixes:
+      - fangoso
+      - tossico
+      - luminescente
+      - viti
+    hazard:
+      description: "Miasmi corrosivi e radici che intrappolano i movimenti."
+      severity: medium
+      stress_modifiers:
+        miasma: 0.04
+        entanglement: 0.06
+    npc_archetypes:
+      primary:
+        - custodi_miasmatici
+        - druidi_sporeguard
+      support:
+        - raccoglitori_di_fluoro
+    stresswave:
+      baseline: 0.3
+      escalation_rate: 0.04
+      event_thresholds:
+        support: 0.52
+        overrun: 0.72
+    narrative:
+      tone: "Survival horror organico e diplomazia con culti simbiotici."
+      hooks:
+        - "Recuperare reagenti bio-luminescenti per le squadre mediche."
+        - "Placare le colonie simbiotiche prima che scatenino la nube tossica."
+  canyons_risonanti:
+    label: "Canyons Risonanti"
+    summary: "Labirinto ventoso di gole armoniche alimentate da risonanza."
+    diff_base: 4
+    mod_biome: 2
+    affixes:
+      - echo_surge
+      - shifting_winds
+    hazard:
+      description: "Cadute rovinose e tunnel sonori che amplificano StressWave (+0.05 scoperti)."
+      severity: high
+      stress_modifiers:
+        open_ground: 0.05
+        collapse: 0.07
+    npc_archetypes:
+      primary:
+        - sibilant_wardens
+        - echo_drifters
+      support:
+        - risonatori_nomadi
+    stresswave:
+      baseline: 0.3
+      escalation_rate: 0.05
+      event_thresholds:
+        rescue: 0.6
+        overrun: 0.8
+    narrative:
+      tone: "Duelli sonori e trattative con tribù eco-sintonizzate."
+      hooks:
+        - "Stabilizzare ponti risonanti prima delle tempeste di vento."
+        - "Seguire tracce sonore per rintracciare nidi dispersivi."
+  foresta_miceliale:
+    label: "Foresta Miceliale"
+    summary: "Canopia micotica bioluminescente dove la rete fungina coordina la fauna."
+    diff_base: 3
+    mod_biome: 2
+    affixes:
+      - spore_bloom
+      - myco_link
+    hazard:
+      description: "Visibilità ridotta, radici bloccanti e spore neuroreattive."
+      severity: medium
+      stress_modifiers:
+        spores: 0.04
+        entanglement: 0.06
+    npc_archetypes:
+      primary:
+        - verdant_shepherds
+        - fungal_titans
+      support:
+        - myco_empath
+    stresswave:
+      baseline: 0.27
+      escalation_rate: 0.04
+      event_thresholds:
+        hive_alert: 0.58
+        overrun: 0.76
+    narrative:
+      tone: "Fantasia bioluminescente con rischio di simbiosi forzata."
+      hooks:
+        - "Mappare nodi miceliali per isolare la rete neurale."
+        - "Convincere i guardiani a condividere antidoti spora."
+  atollo_obsidiana:
+    label: "Atollo Obsidiana"
+    summary: "Arcipelago magnetico con maree EMP e piattaforme mobili."
+    diff_base: 4
+    mod_biome: 3
+    affixes:
+      - resonance_tide
+      - shard_storm
+    hazard:
+      description: "Maree magnetiche, correnti EMP e schegge taglienti."
+      severity: high
+      stress_modifiers:
+        tidal_surge: 0.06
+        emp_flash: 0.07
+    npc_archetypes:
+      primary:
+        - aegis_corsairs
+        - gale_splicers
+      support:
+        - ingegneri_falena
+    stresswave:
+      baseline: 0.33
+      escalation_rate: 0.05
+      event_thresholds:
+        support: 0.57
+        overrun: 0.78
+    narrative:
+      tone: "Pirateria magnetica e assedi anfibi high-tech."
+      hooks:
+        - "Proteggere i reattori a risonanza dagli attacchi delle maree."
+        - "Recuperare shard ossidiani prima dell'arrivo della tempesta."
+  mezzanotte_orbitale:
+    label: "Mezzanotte Orbitale"
+    summary: "Stazione orbitale in decadimento con gravità variabile."
+    diff_base: 4
+    mod_biome: 3
+    affixes:
+      - zero_g_flux
+      - alarm_cascade
+    hazard:
+      description: "Zero-G intermittente, allarmi a cascata e compartimenti depressurizzati."
+      severity: high
+      stress_modifiers:
+        zero_g: 0.05
+        lockdown: 0.08
+    npc_archetypes:
+      primary:
+        - skydock_sentinels
+        - aeon_engineers
+      support:
+        - droni_manutentori
+    stresswave:
+      baseline: 0.35
+      escalation_rate: 0.06
+      event_thresholds:
+        rescue: 0.6
+        lockdown: 0.82
+    narrative:
+      tone: "Thriller techno con evacuazioni di emergenza e sabotaggi."
+      hooks:
+        - "Ripristinare i reattori Aeon prima del blackout totale."
+        - "Neutralizzare l'allarme a cascata per evitare l'arrivo dei rinforzi."
 vc_adapt:
   aggro_high: {add_control: 1, add_guardia: 1}
   cohesion_high: {add_knockback: 1}
@@ -10,8 +232,28 @@ vc_adapt:
   risk_high: {add_burst: 1, reduce_armor: 1}
 mutations:
   SG_max: 3
-  t0_table_d12: [Adrenalina, Fasici, Spine, Cromatofori, Tendini, EcoFlash, SangueGelido, Chelazione, MicroDroni, RisonanzaMentale, ZanneSottili, Immunoscossa]
-  t1_table_d8: [LamelleAcide, Cartilagine, SensiTermici, FibreCorte, GhiandolaFeroce, OmbraRadente, PlaccaCristallina, EcoBranco]
+  t0_table_d12:
+    - Adrenalina
+    - Fasici
+    - Spine
+    - Cromatofori
+    - Tendini
+    - EcoFlash
+    - SangueGelido
+    - Chelazione
+    - MicroDroni
+    - RisonanzaMentale
+    - ZanneSottili
+    - Immunoscossa
+  t1_table_d8:
+    - LamelleAcide
+    - Cartilagine
+    - SensiTermici
+    - FibreCorte
+    - GhiandolaFeroce
+    - OmbraRadente
+    - PlaccaCristallina
+    - EcoBranco
 frequencies:
   trap_trigger: {t0: 0.6, t1: 0.2, none: 0.2}
   crit_event: {t0: 0.4, t1: 0.1, none: 0.5}

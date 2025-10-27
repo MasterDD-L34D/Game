@@ -79,6 +79,77 @@ def validate_biomes() -> List[str]:
             if "affixes" in payload and not isinstance(payload["affixes"], list):
                 errors.append(f"{path}: biome '{biome}' -> 'affixes' deve essere lista")
 
+            hazard = payload.get("hazard")
+            if not isinstance(hazard, dict):
+                errors.append(f"{path}: biome '{biome}' -> 'hazard' deve essere una mappa")
+            else:
+                if not hazard.get("description"):
+                    errors.append(f"{path}: biome '{biome}' -> 'hazard.description' obbligatoria")
+                if "severity" not in hazard:
+                    errors.append(f"{path}: biome '{biome}' -> 'hazard.severity' mancante")
+                stress_mod = hazard.get("stress_modifiers")
+                if stress_mod is not None and not isinstance(stress_mod, dict):
+                    errors.append(
+                        f"{path}: biome '{biome}' -> 'hazard.stress_modifiers' deve essere una mappa"
+                    )
+
+            npc_archetypes = payload.get("npc_archetypes")
+            if not isinstance(npc_archetypes, dict):
+                errors.append(
+                    f"{path}: biome '{biome}' -> 'npc_archetypes' deve essere una mappa"
+                )
+            else:
+                for key in ("primary", "support"):
+                    if key not in npc_archetypes:
+                        errors.append(
+                            f"{path}: biome '{biome}' -> 'npc_archetypes.{key}' mancante"
+                        )
+                    elif not isinstance(npc_archetypes.get(key), list):
+                        errors.append(
+                            f"{path}: biome '{biome}' -> 'npc_archetypes.{key}' deve essere lista"
+                        )
+
+            stresswave = payload.get("stresswave")
+            if not isinstance(stresswave, dict):
+                errors.append(f"{path}: biome '{biome}' -> 'stresswave' deve essere una mappa")
+            else:
+                for key in ("baseline", "escalation_rate"):
+                    if key not in stresswave:
+                        errors.append(
+                            f"{path}: biome '{biome}' -> 'stresswave.{key}' mancante"
+                        )
+                    else:
+                        value = stresswave.get(key)
+                        if not isinstance(value, (int, float)):
+                            errors.append(
+                                f"{path}: biome '{biome}' -> 'stresswave.{key}' deve essere numerico"
+                            )
+                thresholds = stresswave.get("event_thresholds")
+                if not isinstance(thresholds, dict) or not thresholds:
+                    errors.append(
+                        f"{path}: biome '{biome}' -> 'stresswave.event_thresholds' deve essere mappa non vuota"
+                    )
+                else:
+                    for name, value in thresholds.items():
+                        if not isinstance(value, (int, float)):
+                            errors.append(
+                                f"{path}: biome '{biome}' -> 'stresswave.event_thresholds.{name}' deve essere numerico"
+                            )
+
+            narrative = payload.get("narrative")
+            if not isinstance(narrative, dict):
+                errors.append(f"{path}: biome '{biome}' -> 'narrative' deve essere una mappa")
+            else:
+                if not narrative.get("tone"):
+                    errors.append(
+                        f"{path}: biome '{biome}' -> 'narrative.tone' obbligatoria"
+                    )
+                hooks = narrative.get("hooks")
+                if not isinstance(hooks, list) or not hooks:
+                    errors.append(
+                        f"{path}: biome '{biome}' -> 'narrative.hooks' deve essere lista non vuota"
+                    )
+
     mutations = data.get("mutations", {})
     if not isinstance(mutations, dict):
         errors.append(f"{path}: 'mutations' deve essere una mappa")

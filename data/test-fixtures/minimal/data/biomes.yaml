@@ -6,3 +6,28 @@ biomes:
     features:
       - "Foliage luminescente"
       - "Campi magnetici stabili"
+    diff_base: 1
+    mod_biome: 0
+    affixes: []
+    hazard:
+      description: "TODO: definire hazard specifico per la fixture."
+      severity: low
+      stress_modifiers:
+        exposure: 0.0
+    npc_archetypes:
+      primary: []
+      support: []
+    stresswave:
+      baseline: 0.2
+      escalation_rate: 0.03
+      event_thresholds:
+        support: 0.4
+        overrun: 0.6
+    narrative:
+      tone: "TBD"
+      hooks:
+        - "TODO: gancio narrativo di esempio per la fixture."
+vc_adapt:
+  demo: {}
+mutations: {}
+frequencies: {}
