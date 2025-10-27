@@ -23,3 +23,4 @@
   - ✅ Tests TypeScript/Python passati senza errori; bundle generato in `dist.40aPFD`.
   - ✅ Smoke test HTTP: richieste `GET /index.html` e `/test-interface/index.html` → 200 OK, nessun asset mancante rilevato.
   - [ ] Ampliare smoke test includendo asset statici (`styles.css`, `vendor/jszip.min.js`, `app.js`, pagine fetch) per copertura completa.
+  - [x] Strumentare la dashboard con metriche di rendering leggere (console + report JSON) e fissare soglia < 60 ms sui dataset baseline, con avvisi oltre 80 ms su footprint >700 nodi.
