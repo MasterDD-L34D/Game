@@ -10,6 +10,7 @@ const elements = {
   flags: document.getElementById("flags"),
   roles: document.getElementById("roles"),
   tags: document.getElementById("tags"),
+  filtersHint: document.getElementById("generator-filters-hint"),
   nBiomi: document.getElementById("nBiomi"),
   biomeGrid: document.getElementById("biome-grid"),
   traitGrid: document.getElementById("trait-grid"),
@@ -377,7 +378,7 @@ const RARE_CUE_SOURCE = "data:audio/wav;base64,UklGRiYfAABXQVZFZm10IBAAAAABAAEAI
   "Wug=";
 
 const AUDIO_CUES = {
-  rare: createAudioElement(RARE_CUE_SOURCE),
+  rare: null,
 };
 
 const DEFAULT_BRIEFING_TEXT = "Genera un ecosistema per ottenere il briefing operativo.";
@@ -460,6 +461,8 @@ const state = {
   },
 };
 
+let summaryFocusTimer = null;
+
 let packContext = null;
 let resolvedCatalogUrl = null;
 let resolvedPackRoot = null;
@@ -534,6 +537,36 @@ function calculatePickMetrics() {
   });
   const uniqueSpeciesCount = uniqueSpecies.size;
   return { biomeCount, speciesCount, seedCount, uniqueSpeciesCount };
+}
+
+function focusSummaryPanel() {
+  if (!elements.summaryContainer) return;
+  if (!elements.summaryContainer.hasAttribute("tabindex")) {
+    elements.summaryContainer.setAttribute("tabindex", "-1");
+  }
+  if (typeof elements.summaryContainer.focus === "function") {
+    try {
+      elements.summaryContainer.focus({ preventScroll: true });
+    } catch (error) {
+      console.warn("Impossibile portare il focus sul riepilogo", error);
+    }
+  }
+  if (typeof elements.summaryContainer.scrollIntoView === "function") {
+    try {
+      elements.summaryContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (error) {
+      console.warn("Impossibile scorrere verso il riepilogo", error);
+    }
+  }
+  elements.summaryContainer.classList.add("is-focused");
+  if (typeof window !== "undefined") {
+    if (summaryFocusTimer) {
+      window.clearTimeout(summaryFocusTimer);
+    }
+    summaryFocusTimer = window.setTimeout(() => {
+      elements.summaryContainer.classList.remove("is-focused");
+    }, 1400);
+  }
 }
 
 function setStatus(message, tone = "info", options = {}) {
@@ -614,9 +647,7 @@ function deriveFlowSnapshot() {
       status: hasResults ? "complete" : hasCatalog ? "active" : "pending",
       details: [
         `Biomi selezionati: ${metrics.biomeCount}`,
-        filtersSummary && filtersSummary !== "nessun filtro attivo"
-          ? `Filtri attivi: ${filtersSummary}`
-          : "Filtri attivi: nessuno",
+        filtersSummary ? `Filtri attivi: ${filtersSummary}` : "Filtri attivi: nessuno",
       ],
     },
     summary: {
@@ -886,9 +917,7 @@ function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] 
     : "rete";
   const highlightDescriptor = highlightBiome?.synthetic ? `${highlightLabel} · Synth` : highlightLabel;
 
-  const hasFilters = Boolean(
-    filterSummary && filterSummary.length && filterSummary !== "nessun filtro attivo"
-  );
+  const hasFilters = Boolean(filterSummary && filterSummary.length);
 
   const missionBriefingParts = [
     `Deploy su ${metrics.biomeCount} biomi con ${metrics.speciesCount} specie (${metrics.uniqueSpeciesCount} uniche).`,
@@ -1052,7 +1081,7 @@ function deriveProfileRecommendation({ filterSummary }) {
     const summary = metadata.filtersSummary ?? summariseFilters(metadata.filters ?? {});
     const reuseCount = state.metrics.filterProfileReuses ?? 0;
     const reuseLabel = reuseCount === 1 ? "1 riuso registrato" : `${reuseCount} riusi registrati`;
-    const detail = summary && summary !== "nessun filtro attivo" ? `Filtri applicati: ${summary}.` : "";
+    const detail = summary ? `Filtri applicati: ${summary}. ` : "";
     return {
       id: `profile-reuse-${profileIndex ?? "latest"}`,
       tone: "success",
@@ -1071,7 +1100,7 @@ function deriveProfileRecommendation({ filterSummary }) {
     })
     .filter(Boolean);
   if (!enriched.length) {
-    if (filterSummary && filterSummary !== "nessun filtro attivo") {
+    if (filterSummary) {
       return {
         id: "profile-suggestion",
         tone: "info",
@@ -1266,6 +1295,22 @@ function clampVolume(value) {
   return value;
 }
 
+function ensureAudioCue(key) {
+  if (!key) return null;
+  const existing = AUDIO_CUES[key];
+  if (existing) {
+    return existing;
+  }
+
+  switch (key) {
+    case "rare":
+      AUDIO_CUES.rare = createAudioElement(RARE_CUE_SOURCE);
+      return AUDIO_CUES.rare;
+    default:
+      return existing ?? null;
+  }
+}
+
 function createAudioElement(src) {
   if (typeof Audio === "undefined") return null;
   try {
@@ -1296,14 +1341,15 @@ function applyAudioPreferences() {
     }
   }
 
-  Object.values(AUDIO_CUES).forEach((audio) => {
+  Object.keys(AUDIO_CUES).forEach((key) => {
+    const audio = ensureAudioCue(key);
     if (!audio) return;
     audio.volume = muted ? 0 : volume;
   });
 }
 
 function playAudioCue(key) {
-  const audio = AUDIO_CUES[key];
+  const audio = ensureAudioCue(key);
   if (!audio) return;
   const volume = clampVolume(state.preferences.volume);
   if (state.preferences.audioMuted || volume <= 0) {
@@ -1374,7 +1420,7 @@ function restorePreferences() {
 }
 
 function setupAudioControls() {
-  const supported = Boolean(AUDIO_CUES.rare);
+  const supported = Boolean(ensureAudioCue("rare"));
   if (!supported && elements.audioControls) {
     elements.audioControls.hidden = true;
     elements.audioControls.setAttribute("aria-hidden", "true");
@@ -3277,12 +3323,25 @@ async function loadDossierTemplate() {
   }
 }
 
-function flattenSpeciesBuckets(buckets) {
+function flattenSpeciesBuckets(buckets = {}) {
   if (!buckets || typeof buckets !== "object") return [];
-  const species = Object.values(buckets)
+  const seen = new Map();
+  Object.values(buckets)
     .filter((list) => Array.isArray(list))
-    .flat();
-  return uniqueById(species);
+    .forEach((list) => {
+      list.forEach((species) => {
+        if (!species) return;
+        const key =
+          species.id ||
+          species.display_name ||
+          species.displayName ||
+          species.speciesId ||
+          null;
+        if (!key || seen.has(key)) return;
+        seen.set(key, species);
+      });
+    });
+  return Array.from(seen.values());
 }
 
 function summariseSeedParty(seed) {
@@ -3503,20 +3562,6 @@ async function refreshDossierPreview(context) {
   hint.hidden = true;
   const body = doc.body ?? doc.querySelector("body");
   preview.innerHTML = body ? body.innerHTML : "";
-}
-
-function flattenSpeciesBuckets(speciesBuckets = {}) {
-  const unique = new Map();
-  Object.values(speciesBuckets).forEach((list) => {
-    if (!Array.isArray(list)) return;
-    list.forEach((species) => {
-      if (!species) return;
-      const key = species.id || species.display_name || null;
-      if (!key || unique.has(key)) return;
-      unique.set(key, species);
-    });
-  });
-  return Array.from(unique.values());
 }
 
 function formatSpotlightLine(entry) {
@@ -3766,7 +3811,8 @@ function setupExportControls() {
   if (elements.exportPreset) {
     elements.exportPreset.addEventListener("change", (event) => {
       const { value } = event.target;
-      state.exportState.presetId = value || MANIFEST_PRESETS[0]?.id ?? null;
+      const fallbackPresetId = MANIFEST_PRESETS[0]?.id ?? null;
+      state.exportState.presetId = value || fallbackPresetId;
       renderExportManifest();
     });
   }
@@ -3786,15 +3832,35 @@ function setupExportControls() {
 }
 
 function getSelectedValues(select) {
-  return Array.from(select?.selectedOptions ?? []).map((opt) => opt.value);
+  if (!select) return [];
+  if (isSelectElement(select)) {
+    return Array.from(select?.selectedOptions ?? []).map((opt) => opt.value);
+  }
+  return Array.from(select.querySelectorAll(`${MULTISELECT_OPTION_SELECTOR}[aria-pressed="true"]`))
+    .map((button) => button.dataset.value)
+    .filter((value) => typeof value === "string" && value.length);
 }
 
 function setSelectValues(select, values) {
   if (!select) return;
   const target = new Set(Array.isArray(values) ? values.map((value) => String(value)) : []);
-  Array.from(select.options ?? []).forEach((option) => {
-    option.selected = target.has(option.value);
+  if (isSelectElement(select)) {
+    Array.from(select.options ?? []).forEach((option) => {
+      option.selected = target.has(option.value);
+    });
+    return;
+  }
+
+  let hasOptions = false;
+  Array.from(select.querySelectorAll(MULTISELECT_OPTION_SELECTOR)).forEach((button) => {
+    hasOptions = true;
+    const pressed = target.has(button.dataset.value);
+    toggleMultiselectOption(button, pressed);
   });
+  if (!hasOptions) {
+    renderMultiselectPlaceholder(select);
+  }
+  notifyMultiselectChange(select);
 }
 
 function applyFiltersToForm(filters = {}) {
@@ -3806,6 +3872,7 @@ function applyFiltersToForm(filters = {}) {
     roles: Array.isArray(filters.roles) ? [...filters.roles] : [],
     tags: Array.isArray(filters.tags) ? [...filters.tags] : [],
   };
+  updateFilterSummaryHint(state.lastFilters);
 }
 
 function getCssVariableValue(name) {
@@ -4521,12 +4588,67 @@ function tierOf(species) {
   return Math.max(1, Math.min(parsed, 5));
 }
 
-function ensureOption(select, value, label = value) {
+const MULTISELECT_OPTION_SELECTOR = "[data-multiselect-option]";
+
+function isSelectElement(element) {
+  return typeof HTMLSelectElement !== "undefined" && element instanceof HTMLSelectElement;
+}
+
+function renderMultiselectPlaceholder(container, message) {
+  if (!container || isSelectElement(container)) return;
+  Array.from(container.querySelectorAll(".chip-multiselect__empty")).forEach((node) =>
+    node.remove()
+  );
+  const empty = document.createElement("p");
+  empty.className = "chip-multiselect__empty";
+  empty.textContent = message || container.dataset.emptyLabel || "Nessuna opzione disponibile";
+  container.appendChild(empty);
+}
+
+function toggleMultiselectOption(button, pressed) {
+  if (!button) return;
+  const next = typeof pressed === "boolean" ? pressed : button.getAttribute("aria-pressed") !== "true";
+  button.setAttribute("aria-pressed", next ? "true" : "false");
+  button.classList.toggle("chip--active", next);
+}
+
+function notifyMultiselectChange(container) {
+  if (!container || isSelectElement(container)) return;
+  const event = new CustomEvent("multiselect-change", {
+    bubbles: false,
+    detail: { values: getSelectedValues(container) },
+  });
+  container.dispatchEvent(event);
+}
+
+function ensureOption(select, value, label = value, options = {}) {
   if (!select) return;
-  const option = document.createElement("option");
-  option.value = value;
-  option.textContent = label;
-  select.appendChild(option);
+  if (isSelectElement(select)) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    select.appendChild(option);
+    return;
+  }
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "chip chip-multiselect__option";
+  button.dataset.multiselectOption = "true";
+  button.dataset.value = String(value);
+  button.setAttribute("aria-pressed", "false");
+  button.textContent = label;
+  const tooltip = options?.description
+    ? `${label} · ${options.description}`
+    : label === value
+    ? label
+    : `${label} · ${value}`;
+  button.title = tooltip;
+  button.addEventListener("click", () => {
+    toggleMultiselectOption(button);
+    notifyMultiselectChange(select);
+  });
+  select.appendChild(button);
 }
 
 function collectFlags(data) {
@@ -4562,9 +4684,43 @@ function populateFilters(data) {
   elements.roles.innerHTML = "";
   elements.tags.innerHTML = "";
 
-  collectFlags(data).forEach((flag) => ensureOption(elements.flags, flag));
-  collectRoles(data).forEach((role) => ensureOption(elements.roles, role));
-  collectTags(data).forEach((tag) => ensureOption(elements.tags, tag));
+  const flags = collectFlags(data);
+  if (flags.length) {
+    flags.forEach((flag) =>
+      ensureOption(elements.flags, flag, formatFlagLabel(flag), {
+        description: SPECIES_ROLE_LABELS[flag] ?? undefined,
+      })
+    );
+  } else {
+    renderMultiselectPlaceholder(elements.flags);
+  }
+
+  const roles = collectRoles(data);
+  if (roles.length) {
+    roles.forEach((role) => ensureOption(elements.roles, role, formatRoleTokenLabel(role)));
+  } else {
+    renderMultiselectPlaceholder(elements.roles);
+  }
+
+  const tags = collectTags(data);
+  if (tags.length) {
+    tags.forEach((tag) => ensureOption(elements.tags, tag, formatTagLabel(tag)));
+  } else {
+    renderMultiselectPlaceholder(elements.tags);
+  }
+
+  updateFilterSummaryHint(state.lastFilters ?? { flags: [], roles: [], tags: [] });
+}
+
+function setupFilterChangeHandlers() {
+  const groups = [elements.flags, elements.roles, elements.tags];
+  groups.forEach((group) => {
+    if (!group || group.dataset.multiselectListener === "true") return;
+    group.dataset.multiselectListener = "true";
+    group.addEventListener("multiselect-change", () => {
+      currentFilters();
+    });
+  });
 }
 
 function indexTraitRegistry(registry) {
@@ -5171,21 +5327,43 @@ function currentFilters() {
     tags: getSelectedValues(elements.tags),
   };
   state.lastFilters = filters;
+  updateFilterSummaryHint(filters);
   return filters;
 }
 
-function summariseFilters(filters) {
+function formatFlagLabel(flag) {
+  if (!flag) return "";
+  return ROLE_FLAG_LABELS[flag] ?? titleCase(String(flag).replace(/[_-]+/g, " "));
+}
+
+function formatTagLabel(tag) {
+  if (!tag) return "";
+  return titleCase(String(tag).replace(/[_-]+/g, " "));
+}
+
+function summariseFilters(filters = {}) {
   const segments = [];
   if (filters.flags?.length) {
-    segments.push(`flag ${filters.flags.join(", ")}`);
+    segments.push(`Flag: ${filters.flags.map(formatFlagLabel).join(", ")}`);
   }
   if (filters.roles?.length) {
-    segments.push(`ruoli ${filters.roles.join(", ")}`);
+    segments.push(`Ruoli: ${filters.roles.map((role) => formatRoleTokenLabel(role)).join(", ")}`);
   }
   if (filters.tags?.length) {
-    segments.push(`tag ${filters.tags.join(", ")}`);
+    segments.push(`Tag: ${filters.tags.map(formatTagLabel).join(", ")}`);
   }
-  return segments.length ? segments.join(" · ") : "nessun filtro attivo";
+  return segments.join(" · ");
+}
+
+function updateFilterSummaryHint(filters = {}) {
+  if (!elements.filtersHint) return;
+  const summary = summariseFilters(filters);
+  if (summary) {
+    elements.filtersHint.textContent = `Filtri attivi → ${summary}.`;
+  } else {
+    elements.filtersHint.textContent =
+      "Nessun filtro attivo. Tocca le capsule per attivare vincoli specifici.";
+  }
 }
 
 function matchesFlags(species, requiredFlags) {
@@ -7773,7 +7951,7 @@ function toYAML(value, indent = 0) {
   return String(value);
 }
 
-async function tryFetchJson(url) {
+async function tryFetchJson(url, { silent = false } = {}) {
   if (!url) return null;
   try {
     const response = await fetch(url);
@@ -7783,7 +7961,7 @@ async function tryFetchJson(url) {
     return await response.json();
   } catch (error) {
     console.warn("Caricamento JSON fallito", url, error);
-    if (!fetchFailureNotices.has(url)) {
+    if (!silent && !fetchFailureNotices.has(url)) {
       fetchFailureNotices.add(url);
       const reason = error instanceof Error ? error.message : String(error);
       const resourceName = (() => {
@@ -7821,6 +7999,7 @@ function localTraitFallbackUrl() {
 async function loadTraitRegistry(context) {
   const tried = new Set();
   const candidates = [];
+  const fallback = localTraitFallbackUrl();
   if (context?.resolveDocHref) {
     try {
       candidates.push(context.resolveDocHref("env_traits.json"));
@@ -7835,24 +8014,41 @@ async function loadTraitRegistry(context) {
       console.warn("Impossibile risolvere env_traits.json tramite packBase", error);
     }
   }
-  candidates.push(localTraitFallbackUrl());
+  if (fallback) {
+    candidates.push(fallback);
+  }
 
+  let lastError = null;
   for (const candidate of candidates) {
     if (!candidate || tried.has(candidate)) continue;
+    const hadPreviousAttempts = tried.size > 0;
     tried.add(candidate);
     try {
-      const registry = await tryFetchJson(candidate);
+      const registry = await tryFetchJson(candidate, { silent: true });
       if (registry) {
         setTraitRegistry(registry);
+        if (candidate === fallback && hadPreviousAttempts) {
+          setStatus("Registro tratti caricato dal fallback locale.", "info", {
+            tags: ["catalogo", "traits", "fallback"],
+            action: "traits-registry-fallback",
+            metadata: { url: candidate },
+          });
+        }
         return;
       }
     } catch (error) {
+      lastError = error;
       console.warn("Caricamento registry tratti fallito", candidate, error);
     }
   }
 
   console.warn("Nessuna sorgente valida per il registry tratti trovata.");
   setTraitRegistry({ schema_version: "0", rules: [] });
+  setStatus("Impossibile caricare il registro dei tratti.", "error", {
+    tags: ["catalogo", "traits", "errore"],
+    action: "traits-registry-error",
+    metadata: { reason: lastError instanceof Error ? lastError.message : String(lastError ?? "") || undefined },
+  });
 }
 
 function localTraitReferenceFallbackUrl() {
@@ -7902,29 +8098,48 @@ async function loadTraitGlossary(context, hint) {
     }
   }
 
-  candidates.push(localTraitGlossaryFallbackUrl());
+  const fallback = localTraitGlossaryFallbackUrl();
+  if (fallback) {
+    candidates.push(fallback);
+  }
 
+  let lastError = null;
   for (const candidate of candidates) {
     if (!candidate || tried.has(candidate)) continue;
+    const hadPreviousAttempts = tried.size > 0;
     tried.add(candidate);
     try {
-      const glossary = await tryFetchJson(candidate);
+      const glossary = await tryFetchJson(candidate, { silent: true });
       if (glossary) {
         setTraitGlossary(glossary);
+        if (candidate === fallback && hadPreviousAttempts) {
+          setStatus("Glossario tratti caricato dal fallback locale.", "info", {
+            tags: ["catalogo", "traits", "fallback"],
+            action: "traits-glossary-fallback",
+            metadata: { url: candidate },
+          });
+        }
         return;
       }
     } catch (error) {
+      lastError = error;
       console.warn("Caricamento glossario tratti fallito", candidate, error);
     }
   }
 
   console.warn("Nessuna sorgente valida per il glossario tratti trovata.");
   setTraitGlossary(null);
+  setStatus("Impossibile caricare il glossario dei tratti.", "error", {
+    tags: ["catalogo", "traits", "errore"],
+    action: "traits-glossary-error",
+    metadata: { reason: lastError instanceof Error ? lastError.message : String(lastError ?? "") || undefined },
+  });
 }
 
 async function loadTraitReference(context) {
   const tried = new Set();
   const candidates = [];
+  const fallback = localTraitReferenceFallbackUrl();
   if (context?.resolveDocHref) {
     try {
       candidates.push(context.resolveDocHref("trait_reference.json"));
@@ -7949,25 +8164,42 @@ async function loadTraitReference(context) {
       console.warn("Impossibile risolvere trait-reference.json tramite packBase", error);
     }
   }
-  candidates.push(localTraitReferenceFallbackUrl());
+  if (fallback) {
+    candidates.push(fallback);
+  }
 
+  let lastError = null;
   for (const candidate of candidates) {
     if (!candidate || tried.has(candidate)) continue;
+    const hadPreviousAttempts = tried.size > 0;
     tried.add(candidate);
     try {
-      const catalog = await tryFetchJson(candidate);
+      const catalog = await tryFetchJson(candidate, { silent: true });
       if (catalog) {
         setTraitReference(catalog);
+        if (candidate === fallback && hadPreviousAttempts) {
+          setStatus("Reference tratti caricato dal fallback locale.", "info", {
+            tags: ["catalogo", "traits", "fallback"],
+            action: "traits-reference-fallback",
+            metadata: { url: candidate },
+          });
+        }
         await loadTraitGlossary(context, catalog?.trait_glossary);
         return;
       }
     } catch (error) {
+      lastError = error;
       console.warn("Caricamento reference tratti fallito", candidate, error);
     }
   }
 
   console.warn("Nessuna sorgente valida per il reference tratti trovata.");
   setTraitReference({ schema_version: "0", traits: {} });
+  setStatus("Impossibile caricare il reference dei tratti.", "error", {
+    tags: ["catalogo", "traits", "errore"],
+    action: "traits-reference-error",
+    metadata: { reason: lastError instanceof Error ? lastError.message : String(lastError ?? "") || undefined },
+  });
 }
 
 function localHazardFallbackUrl() {
@@ -7982,6 +8214,7 @@ function localHazardFallbackUrl() {
 async function loadHazardRegistry(context) {
   const tried = new Set();
   const candidates = [];
+  const fallback = localHazardFallbackUrl();
   if (context?.resolveDocHref) {
     try {
       candidates.push(context.resolveDocHref("hazards.json"));
@@ -7996,24 +8229,41 @@ async function loadHazardRegistry(context) {
       console.warn("Impossibile risolvere hazards.json tramite packBase", error);
     }
   }
-  candidates.push(localHazardFallbackUrl());
+  if (fallback) {
+    candidates.push(fallback);
+  }
 
+  let lastError = null;
   for (const candidate of candidates) {
     if (!candidate || tried.has(candidate)) continue;
+    const hadPreviousAttempts = tried.size > 0;
     tried.add(candidate);
     try {
-      const registry = await tryFetchJson(candidate);
+      const registry = await tryFetchJson(candidate, { silent: true });
       if (registry) {
         setHazardRegistry(registry);
+        if (candidate === fallback && hadPreviousAttempts) {
+          setStatus("Registro hazard caricato dal fallback locale.", "info", {
+            tags: ["catalogo", "hazard", "fallback"],
+            action: "hazard-registry-fallback",
+            metadata: { url: candidate },
+          });
+        }
         return;
       }
     } catch (error) {
+      lastError = error;
       console.warn("Caricamento registry hazard fallito", candidate, error);
     }
   }
 
   console.warn("Nessuna sorgente valida per il registry hazard trovata.");
   setHazardRegistry({ schema_version: "0", hazards: {} });
+  setStatus("Impossibile caricare il registro degli hazard.", "error", {
+    tags: ["catalogo", "hazard", "errore"],
+    action: "hazard-registry-error",
+    metadata: { reason: lastError instanceof Error ? lastError.message : String(lastError ?? "") || undefined },
+  });
 }
 
 function attachActions() {
@@ -8056,6 +8306,7 @@ function attachActions() {
         rerollSeeds(filters);
         renderBiomes(filters);
         renderSeeds();
+        focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
         setStatus(
           `Generati ${state.pick.biomes.length} biomi sintetici e ${state.pick.seeds.length} seed.`,
@@ -8103,6 +8354,7 @@ function attachActions() {
         rerollSeeds(filters);
         renderBiomes(filters);
         renderSeeds();
+        focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
         setStatus("Biomi sintetici ricalcolati con i filtri correnti.", "success", {
           tags: ["reroll", "biomi"],
@@ -8123,6 +8375,7 @@ function attachActions() {
         }
         rerollSpecies(filters);
         renderBiomes(filters);
+        focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
         setStatus("Specie ricalcolate.", "success", {
           tags: ["reroll", "specie"],
@@ -8143,6 +8396,7 @@ function attachActions() {
         }
         rerollSeeds(filters);
         renderSeeds();
+        focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
         setStatus("Seed rigenerati.", "success", {
           tags: ["reroll", "seed"],
@@ -8364,6 +8618,7 @@ attachComposerHandlers();
 renderComposerPanel();
 attachActions();
 setupFlowMapControls();
+setupFilterChangeHandlers();
 loadData();
 
 if (typeof window !== "undefined") {
