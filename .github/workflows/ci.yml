@@ -71,4 +71,8 @@ jobs:
         run: python3 scripts/trait_audit.py --check
 
       - name: Run deploy validation checks
+        env:
+          DEPLOY_DATA_DIR: ${{ github.workspace }}/data
+          CI: "true"
+          PLAYWRIGHT_REUSE_SERVER: "0"
         run: scripts/run_deploy_checks.sh
