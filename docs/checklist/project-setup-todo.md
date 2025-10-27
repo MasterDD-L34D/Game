@@ -58,9 +58,19 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [x] Archiviare in `docs/logs/` o `logs/` eventuali report di bug o sessioni di playtest. _Convenzione `logs/playtests/YYYY-MM-DD` formalizzata in `docs/playtest-log-guidelines.md` e applicativa dal ciclo 2025-11-04._ 
 
 ## 9. Quality assurance manuale
-- [x] Preparare una lista di scenari di gioco critici (bilanciamento, progressione, eventi speciali). _Aggiornata il 2025-11-01 in `docs/playtest/scenari-critici.md` con nuove priorità e note telemetria._
+- [x] Preparare una lista di scenari di gioco critici (bilanciamento, progressione, eventi speciali). _Aggiornata il 2025-11-01, riallineata il 2025-11-05 in `docs/playtest/scenari-critici.md` con priorità e metriche di successo condivise._
+  | Scenario ID | Priorità | Metrica di successo | Fonte |
+  | --- | --- | --- | --- |
+  | BAL-02 | Alta | Tasso vittoria ≥80%, HP residui medi ≥35%, uso pozioni ≤2 a run. | `docs/playtest/scenari-critici.md` |
+  | BAL-03 | Alta | Frame rate medio ≥55 fps, nessun blocco AI oltre 35 unità, completamento ≥70%. | `docs/playtest/scenari-critici.md` |
+  | BAL-05 | Media | Tempo ≤12 min, vittorie consecutive ≥2, DPS ondate 3-5 entro ±10% target. | `docs/playtest/scenari-critici.md` |
+  | PROG-03 | Media | Saldo risorse finale ≥20% target, tempo ciclo ≤15 min, zero code bloccate. | `docs/playtest/scenari-critici.md` |
+  | PROG-04 | Alta | XP entro ±5% curva, 3 moduli sbloccati ≤25 min, nessun gate secondario. | `docs/playtest/scenari-critici.md` |
+  | EVT-01 | Alta | Zero glitch particellari, latenza trigger <1.5 s, prompt vocali riprodotti al 100%. | `docs/playtest/scenari-critici.md` |
+  | EVT-02 | Media | Flag narrativi coerenti al 100%, tre rami documentati, nessun dialogo fuori ordine. | `docs/playtest/scenari-critici.md` |
+  | EVT-03 | Alta | Trigger cinematico <2 s, timer reset 3/3, zero crash/glitch luminosi. | `docs/playtest/scenari-critici.md` |
 - [x] Organizzare sessioni di playtest interne seguendo gli scenari e annotare problemi e suggerimenti. _Sessione pilota programmata per il 2025-11-12; dettagli operativi in `docs/playtest/SESSION-2025-11-12.md`._
-- [ ] Registrare i risultati in `docs/playtest/SESSION-<data>.md` con screenshot/log linkati dove utile. _Da completare post-sessione pilota 2025-11-12 (template già predisposto)._
+- [ ] Registrare i risultati in `docs/playtest/SESSION-<data>.md` con screenshot/log linkati dove utile. _Da completare post-sessione pilota 2025-11-12; raccogliere asset in `logs/pilot-2025-11-12/` e consolidare nel report `docs/playtest/SESSION-2025-11-12.md`._
 - [x] Aprire ticket su tracker interno o GitHub per ogni bug confermato, collegando log e file YAML. _Procedura ticket → issue documentata in `docs/playtest/SESSION-2025-11-12.md` con etichetta obbligatoria `encounter-balance`._
 ## 10. Rilascio e comunicazione
 - [ ] Redigere un changelog in `docs/changelog.md` prima di ogni release o consegna intermedia. _Next milestone: patch note VC novembre 2025 — owner Marketing Ops._ 
