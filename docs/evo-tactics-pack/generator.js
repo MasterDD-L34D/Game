@@ -126,6 +126,7 @@ const STORAGE_KEYS = {
 const DEFAULT_ACTIVITY_TONES = ["info", "success", "warn", "error"];
 const MAX_ACTIVITY_EVENTS = 150;
 const DOSSIER_TEMPLATE_PATH = "../templates/dossier.html";
+const initialPdfSupport = typeof window !== "undefined" && typeof window.html2pdf !== "undefined";
 const TONE_LABELS = {
   info: "Info",
   success: "Successo",
@@ -427,6 +428,8 @@ const state = {
     presetId: MANIFEST_PRESETS[0]?.id ?? null,
     checklist: new Map(),
     dossierTemplate: null,
+    pdfSupported: initialPdfSupport,
+    pdfSupportNotified: false,
   },
   filterProfiles: [],
   history: [],
@@ -2786,6 +2789,32 @@ function setupActivityControls() {
   syncActivityControls();
 }
 
+function refreshExportSupportTelemetry() {
+  const hasPdfSupport = typeof window !== "undefined" && typeof window.html2pdf !== "undefined";
+  const wasNotified = state.exportState.pdfSupportNotified;
+  state.exportState.pdfSupported = hasPdfSupport;
+
+  if (!hasPdfSupport) {
+    if (!wasNotified) {
+      console.warn("html2pdf non è disponibile: esportazione PDF disabilitata.");
+      recordActivity(
+        "Libreria html2pdf non caricata: esportazione PDF disabilitata.",
+        "warn",
+        new Date(),
+        {
+          tags: ["export", "dossier", "pdf", "missing"],
+          action: "export-pdf-missing",
+        }
+      );
+      state.exportState.pdfSupportNotified = true;
+    }
+  } else if (wasNotified) {
+    state.exportState.pdfSupportNotified = false;
+  }
+
+  return hasPdfSupport;
+}
+
 function ensureExportSlug() {
   if (state.pick.exportSlug) {
     return state.pick.exportSlug;
@@ -3032,6 +3061,8 @@ function renderExportManifest(filters = state.lastFilters) {
 
   populateExportPresetOptions();
 
+  const pdfSupported = refreshExportSupportTelemetry();
+
   const { biomeCount, speciesCount, seedCount } = calculatePickMetrics();
   const hasContent = biomeCount + speciesCount + seedCount > 0;
   const preset = getCurrentPreset();
@@ -3131,9 +3162,13 @@ function renderExportManifest(filters = state.lastFilters) {
     empty.textContent = "Tutti gli elementi del preset sono temporaneamente non disponibili.";
   }
 
+  const pdfNotice = pdfSupported
+    ? ""
+    : " · <strong>Avviso:</strong> esportazione PDF disabilitata (html2pdf non caricato).";
+  meta.dataset.pdfSupported = pdfSupported ? "true" : "false";
   meta.innerHTML = `Preset <strong>${preset.label}</strong>: ${preset.description} · Cartella consigliata: <code>${context.folder}</code> · ${
     context.filterSummary ? `Filtri attivi: ${context.filterSummary}.` : "Nessun filtro attivo."
-  }`;
+  }${pdfNotice}`;
 
   if (actions) {
     actions.hidden = false;
@@ -3158,9 +3193,8 @@ function renderExportManifest(filters = state.lastFilters) {
       const pdfDescriptor = descriptors.find(
         (descriptor) => descriptor.builder === "dossier-pdf" && descriptor.available
       );
-      const hasPdfSupport = typeof window !== "undefined" && window.html2pdf;
-      pdfButton.disabled = !pdfDescriptor || !hasPdfSupport;
-      pdfButton.title = !hasPdfSupport
+      pdfButton.disabled = !pdfDescriptor || !pdfSupported;
+      pdfButton.title = !pdfSupported
         ? "html2pdf non disponibile. Controlla la connessione o ricarica la pagina."
         : "";
     }
