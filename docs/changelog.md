@@ -27,6 +27,7 @@
 ### Fixed
 - Allineamento degli output `roll_pack` tra CLI TypeScript e Python utilizzando seed condiviso (`demo`).
 - Checklist progetto aggiornata con esito ultimo run `validate_datasets.py` e verifica CLI.
+- Ripristinata la pipeline export PDF del generatore aggiornando l'SRI di `html2pdf` e tracciando il fallback nel manifest (ticket `EVO-421`).
 
 ### Known Issues
 - Nessuno segnalato.
