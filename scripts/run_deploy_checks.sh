@@ -12,7 +12,10 @@ pushd "$ROOT_DIR/tools/ts" >/dev/null
 npm ci
 
 log "Installing Playwright browsers"
-npx playwright install --with-deps chromium
+if ! npx playwright install --with-deps chromium; then
+  log "Playwright --with-deps install failed; retrying without OS dependencies"
+  npx playwright install chromium
+fi
 
 log "Running TypeScript and web regression test suite"
 npm test
