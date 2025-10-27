@@ -69,6 +69,6 @@
 <!-- daily-pr-summary:end -->
 
 ## Comunicazioni release VC novembre 2025
-- **Riunione cross-team (2025-11-06, 10:30 CET)** — Confermata sala VC Bridge + call Meet per telemetria/client/narrativa. Agenda: revisione metriche QA 2025-11-01, readiness tag `v0.6.0-rc1`, canali di annuncio e checklist supporto live.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L1-L45】
-- **Canali di annuncio** — Preparare messaggio principale in `#vc-launch` (Slack) alle 16:00 CET del 2025-11-07 con link a changelog e Canvas aggiornato; replicare su Drive/Briefing entro le 18:00 con estratto metriche e TODO follow-up.【F:docs/changelog.md†L21-L33】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L45】
-- **Timeline tag** — Dopo sign-off della riunione, creare il tag `v0.6.0-rc1`, allegare screenshot HUD aggiornati in Canvas e consegnare ai partner esterni entro il 2025-11-08.【F:docs/Canvas/feature-updates.md†L1-L60】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L45】
+- **Riunione cross-team (2025-11-06, 10:30 CET)** — Confermata sala VC Bridge + call Meet per telemetria/client/narrativa. Agenda: revisione metriche QA 2025-11-05, readiness tag `v0.6.0-rc1`, canali di annuncio e checklist supporto live.【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L102】
+- **Canali di annuncio** — Preparare messaggio principale in `#vc-launch` (Slack) alle 16:00 CET del 2025-11-07 con link a changelog e Canvas aggiornato; replicare su Drive/Briefing entro le 18:00 con estratto metriche (risk Delta 0.59, Echo 0.54; coesione 0.72/0.80) e TODO follow-up.【F:docs/changelog.md†L66-L79】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L88】
+- **Timeline tag** — Dopo sign-off della riunione, creare il tag `v0.6.0-rc1`, allegare screenshot HUD aggiornati in Canvas e consegnare ai partner esterni entro il 2025-11-08.【F:docs/Canvas/feature-updates.md†L1-L60】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L102】
