@@ -32,6 +32,12 @@ attività di coordinamento cross-team.
 - [ ] Condividere il bundle con QA per review rapida (focus su dossier HTML e
       press kit).
 
+## Review finale (UI · Performance · Export)
+
+- [ ] **UI** — confronto visivo con `public/showcase-dossier.svg` e verifica token (`--color-accent-400`, superfici soft) su landing e generator.
+- [ ] **Performance** — profiling rapido del generatore (preset demo) con DevTools: mantenere TTI < 2.5s e nessun warning console.
+- [ ] **Export** — aprire dossier HTML, decodificare il Base64 del PDF (`docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64`) e validare il press kit Markdown confermando coerenza dati e link; rigenerare tutto via `python tools/py/build_showcase_materials.py`.
+
 ## Comunicazione e marketing
 
 - [ ] Inviare il press kit Markdown al team Marketing/Comms con note sul target
@@ -53,6 +59,7 @@ attività di coordinamento cross-team.
       feedback marketing.
 - [ ] Pianificare eventuali aggiornamenti del bundle demo per il successivo
       ciclo promozionale.
+- [ ] Calendarizzare retro post-demo (entro 72h) coinvolgendo Marketing, QA e Live Ops; allegare note in `docs/presentations/demo-walkthrough-script.md`.
 
 ## Monitoraggio continuo
 

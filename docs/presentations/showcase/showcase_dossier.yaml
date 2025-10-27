@@ -1,0 +1,124 @@
+meta:
+  title: "Evo-Tactics — Showcase Demo"
+  badge: "Preset · Bundle demo pubblico"
+  heading: "Meta-ecosistema Alpha"
+  summary: "Estratto ad alto impatto dal generatore Evo-Tactics con preset demo pubblico: ottimizzato per pitch, livestream e deck di vendita."
+  note: "Build generator.js 2025-10 · dataset pack v1.7"
+  updated_at: "2025-10-25"
+metrics:
+  - label: "Biomi attivi"
+    value: "4"
+    detail: "Badlands, Foresta temperata, Deserto caldo, Cryosteppe"
+  - label: "Specie protagoniste"
+    value: "6"
+    detail: "Bridge, apex e supporti tattici in rotazione live"
+  - label: "Seed narrativi"
+    value: "3"
+    detail: "Tempesta ferrosa, Nodo sinfonico, Carovana drifter"
+  - label: "Target squadre"
+    value: "3-4"
+    detail: "Operatrici con onboarding <10 minuti"
+biomes:
+  - name: "Brulle Terre Ferrose"
+    subtitle: "Badlands magnetiche"
+    summary: "Calanchi ferrosi e wadi effimeri generano corridoi magnetici che sfidano il posizionamento tattico."
+    highlights:
+      - "Magnetismo residuo usabile come puzzle ambientale"
+      - "Corridori wadi che abilitano flanking rapidi"
+    chips:
+      - "BSk/BWk"
+      - "Aridità 0.15"
+      - "Tempeste sabbia magnetica"
+  - name: "Foresta Temperata Riflessa"
+    subtitle: "Hub di biodiversità"
+    summary: "Canopy stratificato con nidi verticali, favorisce assetto stealth e produzione di biomassa tattica."
+    highlights:
+      - "Ponti di licheni per missioni verticali"
+      - "Pulse di luce filtrata per segnali diegetici"
+    chips:
+      - "Cfb"
+      - "Produttività 620 gC/m²"
+      - "Licheni-sensori"
+  - name: "Dune Aurorali"
+    subtitle: "Deserto caldo dinamico"
+    summary: "Dune mobili attraversate da aurora particellare: scenario ideale per inseguimenti e controllo risorse."
+    highlights:
+      - "Venti ionizzati che alimentano field modifiers"
+      - "Oasi intermittenti per recupero risk-reward"
+    chips:
+      - "BWh"
+      - "Correnti ioniche"
+      - "Oasi intermittenti"
+  - name: "Cryosteppe Resonanti"
+    subtitle: "Permafrost corale"
+    summary: "Steppe ghiacciate con cristalli risonanti: modulano audio-cue e limitano mobilità pesante."
+    highlights:
+      - "Cristalli che amplificano sonar Echo Wing"
+      - "Crepacci dinamici da mappare live"
+    chips:
+      - "Dfc"
+      - "Permafrost"
+      - "Risonanze acustiche"
+species:
+  - name: "Echo Wing"
+    role: "Bridge sentiente"
+    summary: "Sciami sonar modulano campi magnetici, tracciano traiettorie e aprono corridoi cross-bioma."
+    cues:
+      - "Sentient"
+      - "Bridge"
+      - "Support"
+    hooks:
+      - "Permette fast travel sonoro tra nodi magnetici"
+      - "Rende udibili gli alert telemetrici per i viewer"
+  - name: "Ferrocolonia Magnetotattica"
+    role: "Ingegnere ecosistema"
+    summary: "Formicaio modulare che costruisce torri coil; gestisce field shield e sincronizza i pack difensivi."
+    cues:
+      - "Keystone"
+      - "Engineer"
+      - "Defense"
+    hooks:
+      - "Stabilizza HUD e indicatori di throughput"
+      - "Genera micro-missioni di protezione"
+  - name: "Sand Burrower"
+    role: "Predatore apex"
+    summary: "Predatore da imboscata che scava traiettorie a spirale: perfetto per mettere in mostra il combat verticale."
+    cues:
+      - "Apex"
+      - "Ambush"
+      - "Mobility"
+    hooks:
+      - "Triggera slow-motion quando emerge dalle dune"
+      - "Evidenzia i contrasti tra terreno soffice e scudi magnetici"
+seeds:
+  - name: "Tempesta Ferrosa"
+    intensity: "Set-piece reattivo"
+    summary: "Storm front magnetico che riscrive la plancia e attiva torri coil della ferrocolonia."
+    beats:
+      - "Attivare parafulmini con Echo Wing per deflettere shard"
+      - "Difendere le torri coil durante le onde di detrito"
+    chips:
+      - "Evento dinamico"
+      - "Threat S+"
+  - name: "Nodo Sinfonico"
+    intensity: "Mission beat collaborativo"
+    summary: "Anello di cristalli cryosteppe sincronizzato a campo sonar: richiede pattern musicale co-op."
+    beats:
+      - "Coordinare sequenze sonore per mantenere il campo aperto"
+      - "Gestire l'ondata di Sand Burrower attratti dalle vibrazioni"
+    chips:
+      - "Puzzle co-op"
+      - "Bridge boost"
+  - name: "Carovana Drifter"
+    intensity: "Opzionale high reward"
+    summary: "Convoglio di rifugiati techno-nomadi tra badlands e foresta: trade route dinamica da proteggere."
+    beats:
+      - "Scortare il convoglio lungo i corridoi wadi"
+      - "Negoziare potenziamenti temporanei dalle officine mobili"
+    chips:
+      - "Missione dinamica"
+      - "Resource surge"
+call_to_action:
+  - "Distribuire il dossier HTML su landing e press kit entro 24h."
+  - "Integrare il PDF nel media kit e nei pitch per investitori."
+  - "Agganciare la demo livestream alla sezione Encounter Seed per highlight interattivi."

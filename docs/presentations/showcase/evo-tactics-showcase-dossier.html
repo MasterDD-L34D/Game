@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <title data-slot="title">Evo-Tactics — Showcase Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --font-family-sans: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --font-size-xs: 0.75rem;
+        --font-size-sm: 0.88rem;
+        --font-size-md: 1rem;
+        --font-size-lg: 1.3rem;
+        --line-height-tight: 1.25;
+        --line-height-regular: 1.5;
+        --line-height-relaxed: 1.7;
+        --color-canvas: #f5f7fb;
+        --color-surface-base: #ffffff;
+        --color-surface-muted: #f2f6ff;
+        --color-border-subtle: #dbe3f4;
+        --color-border-strong: #c5cee0;
+        --color-text-primary: #1b1d21;
+        --color-text-secondary: #40495b;
+        --color-text-muted: #5b6475;
+        --color-accent-400: #3b82f6;
+        --color-accent-soft: rgba(59, 130, 246, 0.12);
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-pill: 999px;
+        --shadow-md: 0 10px 25px rgba(16, 23, 36, 0.08);
+      }
+      body {
+        margin: 0;
+        padding: 2.4rem;
+        font-family: var(--font-family-sans);
+        font-size: var(--font-size-sm);
+        line-height: var(--line-height-regular);
+        color: var(--color-text-primary);
+        background: var(--color-canvas);
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin-top: 0;
+      }
+      h1 {
+        font-size: 2.1rem;
+        margin-bottom: 0.4rem;
+      }
+      h2 {
+        font-size: 1.4rem;
+        margin-bottom: 0.2rem;
+      }
+      h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.2rem;
+      }
+      p {
+        margin-top: 0;
+        margin-bottom: 0.8rem;
+        color: var(--color-text-secondary);
+      }
+      .dossier__meta {
+        font-size: var(--font-size-xs);
+        color: var(--color-text-muted);
+      }
+      .dossier__layout {
+        display: grid;
+        gap: 1.6rem;
+      }
+      .dossier__section {
+        background: var(--color-surface-base);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border-subtle);
+        padding: 1.6rem;
+        box-shadow: var(--shadow-md);
+      }
+      .dossier__grid {
+        display: grid;
+        gap: 1rem;
+      }
+      .dossier__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: var(--radius-pill);
+        background: var(--color-accent-soft);
+        color: var(--color-accent-400);
+        padding: 0.25rem 0.85rem;
+        font-size: var(--font-size-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .dossier__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.8rem;
+      }
+      .dossier__list-item {
+        border: 1px solid var(--color-border-subtle);
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        background: var(--color-surface-muted);
+      }
+      .dossier__list-item h3 {
+        margin-bottom: 0.4rem;
+      }
+      .dossier__list-item p {
+        margin-bottom: 0.4rem;
+      }
+      .dossier__chips {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .dossier__chip {
+        display: inline-flex;
+        align-items: center;
+        border-radius: var(--radius-pill);
+        background: var(--color-accent-soft);
+        color: var(--color-accent-400);
+        font-size: var(--font-size-xs);
+        padding: 0.2rem 0.6rem;
+      }
+      .dossier__pair {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem 1.2rem;
+        font-size: var(--font-size-sm);
+        color: var(--color-text-secondary);
+      }
+      .dossier__pair span {
+        white-space: nowrap;
+      }
+      .icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="dossier__header">
+      <span class="dossier__badge" data-slot="badge">Preset · Bundle demo pubblico</span>
+      <h1 data-slot="heading">Meta-ecosistema Alpha</h1>
+      <p class="dossier__meta" data-slot="meta">Aggiornato 2025-10-25 · Build generator.js 2025-10 · dataset pack v1.7</p>
+      <p data-slot="summary">Estratto ad alto impatto dal generatore Evo-Tactics con preset demo pubblico: ottimizzato per pitch, livestream e deck di vendita.<br /><strong>Azioni rapide:</strong> Distribuire il dossier HTML su landing e press kit entro 24h. · Integrare il PDF nel media kit e nei pitch per investitori. · Agganciare la demo livestream alla sezione Encounter Seed per highlight interattivi.</p>
+    </header>
+    <main class="dossier__layout">
+      <section class="dossier__section">
+        <h2>Metriche principali</h2>
+        <div class="dossier__pair" data-slot="metrics"><span style="display:flex;flex-direction:column;gap:0.2rem;min-width:10rem;"><strong style="font-size:1.2rem;">4</strong><span>Biomi attivi</span><span style="color:#5b6475; font-size:0.78rem; display:block;">Badlands, Foresta temperata, Deserto caldo, Cryosteppe</span></span><span style="display:flex;flex-direction:column;gap:0.2rem;min-width:10rem;"><strong style="font-size:1.2rem;">6</strong><span>Specie protagoniste</span><span style="color:#5b6475; font-size:0.78rem; display:block;">Bridge, apex e supporti tattici in rotazione live</span></span><span style="display:flex;flex-direction:column;gap:0.2rem;min-width:10rem;"><strong style="font-size:1.2rem;">3</strong><span>Seed narrativi</span><span style="color:#5b6475; font-size:0.78rem; display:block;">Tempesta ferrosa, Nodo sinfonico, Carovana drifter</span></span><span style="display:flex;flex-direction:column;gap:0.2rem;min-width:10rem;"><strong style="font-size:1.2rem;">3-4</strong><span>Target squadre</span><span style="color:#5b6475; font-size:0.78rem; display:block;">Operatrici con onboarding &lt;10 minuti</span></span></div>
+      </section>
+      <section class="dossier__section">
+        <h2>Biomi selezionati</h2>
+        <ul class="dossier__list" data-slot="biomes"><li class="dossier__list-item"><h3>Brulle Terre Ferrose</h3><p style="margin-bottom:0.3rem; color:#40495b;"><strong>Badlands magnetiche</strong></p><p style="margin-bottom:0.5rem;">Calanchi ferrosi e wadi effimeri generano corridoi magnetici che sfidano il posizionamento tattico.</p><p style="margin:0 0 0.3rem;">• Magnetismo residuo usabile come puzzle ambientale</p><p style="margin:0 0 0.3rem;">• Corridori wadi che abilitano flanking rapidi</p><div class="dossier__chips"><span class="dossier__chip">BSk/BWk</span><span class="dossier__chip">Aridità 0.15</span><span class="dossier__chip">Tempeste sabbia magnetica</span></div></li><li class="dossier__list-item"><h3>Foresta Temperata Riflessa</h3><p style="margin-bottom:0.3rem; color:#40495b;"><strong>Hub di biodiversità</strong></p><p style="margin-bottom:0.5rem;">Canopy stratificato con nidi verticali, favorisce assetto stealth e produzione di biomassa tattica.</p><p style="margin:0 0 0.3rem;">• Ponti di licheni per missioni verticali</p><p style="margin:0 0 0.3rem;">• Pulse di luce filtrata per segnali diegetici</p><div class="dossier__chips"><span class="dossier__chip">Cfb</span><span class="dossier__chip">Produttività 620 gC/m²</span><span class="dossier__chip">Licheni-sensori</span></div></li><li class="dossier__list-item"><h3>Dune Aurorali</h3><p style="margin-bottom:0.3rem; color:#40495b;"><strong>Deserto caldo dinamico</strong></p><p style="margin-bottom:0.5rem;">Dune mobili attraversate da aurora particellare: scenario ideale per inseguimenti e controllo risorse.</p><p style="margin:0 0 0.3rem;">• Venti ionizzati che alimentano field modifiers</p><p style="margin:0 0 0.3rem;">• Oasi intermittenti per recupero risk-reward</p><div class="dossier__chips"><span class="dossier__chip">BWh</span><span class="dossier__chip">Correnti ioniche</span><span class="dossier__chip">Oasi intermittenti</span></div></li><li class="dossier__list-item"><h3>Cryosteppe Resonanti</h3><p style="margin-bottom:0.3rem; color:#40495b;"><strong>Permafrost corale</strong></p><p style="margin-bottom:0.5rem;">Steppe ghiacciate con cristalli risonanti: modulano audio-cue e limitano mobilità pesante.</p><p style="margin:0 0 0.3rem;">• Cristalli che amplificano sonar Echo Wing</p><p style="margin:0 0 0.3rem;">• Crepacci dinamici da mappare live</p><div class="dossier__chips"><span class="dossier__chip">Dfc</span><span class="dossier__chip">Permafrost</span><span class="dossier__chip">Risonanze acustiche</span></div></li></ul>
+      </section>
+      <section class="dossier__section">
+        <h2>Specie protagoniste</h2>
+        <ul class="dossier__list" data-slot="species"><li class="dossier__list-item"><h3>Echo Wing</h3><p style="margin-bottom:0.3rem; color:#40495b;"><strong>Bridge sentiente</strong></p><p style="margin-bottom:0.5rem;">Sciami sonar modulano campi magnetici, tracciano traiettorie e aprono corridoi cross-bioma.</p><p style="margin:0 0 0.3rem;">• Permette fast travel sonoro tra nodi magnetici</p><p style="margin:0 0 0.3rem;">• Rende udibili gli alert telemetrici per i viewer</p><div class="dossier__chips"><span class="dossier__chip">Sentient</span><span class="dossier__chip">Bridge</span><span class="dossier__chip">Support</span></div></li><li class="dossier__list-item"><h3>Ferrocolonia Magnetotattica</h3><p style="margin-bottom:0.3rem; color:#40495b;"><strong>Ingegnere ecosistema</strong></p><p style="margin-bottom:0.5rem;">Formicaio modulare che costruisce torri coil; gestisce field shield e sincronizza i pack difensivi.</p><p style="margin:0 0 0.3rem;">• Stabilizza HUD e indicatori di throughput</p><p style="margin:0 0 0.3rem;">• Genera micro-missioni di protezione</p><div class="dossier__chips"><span class="dossier__chip">Keystone</span><span class="dossier__chip">Engineer</span><span class="dossier__chip">Defense</span></div></li><li class="dossier__list-item"><h3>Sand Burrower</h3><p style="margin-bottom:0.3rem; color:#40495b;"><strong>Predatore apex</strong></p><p style="margin-bottom:0.5rem;">Predatore da imboscata che scava traiettorie a spirale: perfetto per mettere in mostra il combat verticale.</p><p style="margin:0 0 0.3rem;">• Triggera slow-motion quando emerge dalle dune</p><p style="margin:0 0 0.3rem;">• Evidenzia i contrasti tra terreno soffice e scudi magnetici</p><div class="dossier__chips"><span class="dossier__chip">Apex</span><span class="dossier__chip">Ambush</span><span class="dossier__chip">Mobility</span></div></li></ul>
+      </section>
+      <section class="dossier__section">
+        <h2>Encounter seed</h2>
+        <ul class="dossier__list" data-slot="seeds"><li class="dossier__list-item"><h3>Tempesta Ferrosa</h3><p style="margin-bottom:0.5rem;">Storm front magnetico che riscrive la plancia e attiva torri coil della ferrocolonia.</p><p style="margin:0 0 0.3rem;">• Attivare parafulmini con Echo Wing per deflettere shard</p><p style="margin:0 0 0.3rem;">• Difendere le torri coil durante le onde di detrito</p><div class="dossier__chips"><span class="dossier__chip">Evento dinamico</span><span class="dossier__chip">Threat S+</span></div></li><li class="dossier__list-item"><h3>Nodo Sinfonico</h3><p style="margin-bottom:0.5rem;">Anello di cristalli cryosteppe sincronizzato a campo sonar: richiede pattern musicale co-op.</p><p style="margin:0 0 0.3rem;">• Coordinare sequenze sonore per mantenere il campo aperto</p><p style="margin:0 0 0.3rem;">• Gestire l&#x27;ondata di Sand Burrower attratti dalle vibrazioni</p><div class="dossier__chips"><span class="dossier__chip">Puzzle co-op</span><span class="dossier__chip">Bridge boost</span></div></li><li class="dossier__list-item"><h3>Carovana Drifter</h3><p style="margin-bottom:0.5rem;">Convoglio di rifugiati techno-nomadi tra badlands e foresta: trade route dinamica da proteggere.</p><p style="margin:0 0 0.3rem;">• Scortare il convoglio lungo i corridoi wadi</p><p style="margin:0 0 0.3rem;">• Negoziare potenziamenti temporanei dalle officine mobili</p><div class="dossier__chips"><span class="dossier__chip">Missione dinamica</span><span class="dossier__chip">Resource surge</span></div></li></ul>
+      </section>
+    </main>
+  </body>
+</html>
