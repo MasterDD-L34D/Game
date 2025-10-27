@@ -2,22 +2,33 @@
 <title>Ecosystem Generator</title>
 <style>
 body{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:24px;color:#222}
-h1,h2{margin:8px 0} .row{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0}
+h1,h2{margin:8px 0}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0}
 select,input,button{padding:6px 8px;border:1px solid #e5e7eb;border-radius:8px}
-.card{border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:10px 0}
+button:disabled{opacity:.6;cursor:not-allowed}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
+.card{border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:10px 0}
 .small{font-size:12px;color:#6b7280}
 .badge{display:inline-block;padding:2px 8px;border-radius:10px;background:#eef2ff;color:#3730a3;margin-right:6px;font-size:12px}
+.status{margin:8px 0;color:#4c1d95;font-weight:500}
+.empty{padding:24px;border:1px dashed #cbd5f5;border-radius:12px;text-align:center;color:#6366f1;background:#eef2ff}
+.section{margin:16px 0;padding:0 0 16px 0;border-bottom:1px solid #e5e7eb}
+.section:last-of-type{border-bottom:none}
+.section-actions{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 0 0}
+.seed-entry{padding:12px 0;border-bottom:1px solid #e5e7eb}
+.seed-entry:last-child{border-bottom:none}
+.seed-entry ul{margin:6px 0 0 0;padding-left:18px}
 pre{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;overflow:auto}
 </style></head><body>
 <h1>Ecosystem Random Generator</h1>
 <p class="small">Client-side · usa <code>catalog_data.json</code> · re-roll selettivi su ecosistema, biomi e specie · export JSON/YAML · seeds autogenerati.</p>
 
-<div class="card">
-  <h2>Parametri</h2>
+<section class="section" aria-labelledby="parameters-heading">
+  <h2 id="parameters-heading">Parametri</h2>
+  <p id="statusMsg" class="status" role="status">Caricamento dataset…</p>
   <div class="row">
     <label>N. Biomi <input id="nBiomi" type="number" min="1" max="6" value="2"></label>
-    <label>Richiedi flags (multi): 
+    <label>Richiedi flags (multi):
       <select id="flags" multiple size="5">
         <option value="apex">apex</option>
         <option value="keystone">keystone</option>
@@ -26,32 +37,57 @@ pre{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;o
         <option value="event">event</option>
       </select>
     </label>
-    <label>Include solo ruoli: 
-      <select id="roles" multiple size="5"></select>
+    <label>Include solo ruoli:
+      <select id="roles" multiple size="5" aria-label="Ruoli trofici disponibili"></select>
     </label>
     <label>Tag funzionali richiesti:
-      <select id="tags" multiple size="6"></select>
+      <select id="tags" multiple size="6" aria-label="Tag funzionali disponibili"></select>
     </label>
   </div>
-  <div class="row">
-    <button id="rollEcos">🎲 Roll Ecosistema</button>
-    <button id="rerollBiomi">↻ Re-roll Biomi</button>
-    <button id="rerollSpecie">↻ Re-roll Specie</button>
-    <button id="rerollSeeds">↻ Re-roll Encounter Seeds</button>
-    <button id="exportJSON">⬇︎ Esporta JSON</button>
-    <button id="exportYAML">⬇︎ Esporta YAML</button>
+  <div class="section-actions" role="group" aria-label="Azioni generatore">
+    <button id="rollEcos" disabled>🎲 Roll Ecosistema</button>
+    <button id="rerollBiomi" disabled>↻ Re-roll Biomi</button>
+    <button id="rerollSpecie" disabled>↻ Re-roll Specie</button>
+    <button id="rerollSeeds" disabled>↻ Re-roll Encounter Seeds</button>
+    <button id="exportJSON" disabled>⬇︎ Esporta JSON</button>
+    <button id="exportYAML" disabled>⬇︎ Esporta YAML</button>
   </div>
-</div>
+</section>
 
-<div id="out"></div>
+<div id="out" aria-live="polite"></div>
+<div id="emptyResults" class="empty" hidden>Premi "Roll Ecosistema" per generare i biomi selezionati.</div>
 
-<div class="card">
-  <h2>Encounter Seeds (auto)</h2>
+<section class="section" aria-labelledby="seeds-heading">
+  <h2 id="seeds-heading">Encounter Seeds (auto)</h2>
   <div id="seeds"></div>
-</div>
+</section>
 
 <script>
-let data, pick={ecos:{}, biomi:[], specie:{}, seeds:[]};
+let data=null;
+const pick={ecos:{}, biomi:[], specie:{}, seeds:[]};
+const actionButtons=['rollEcos','rerollBiomi','rerollSpecie','rerollSeeds','exportJSON','exportYAML'];
+
+function setActionsEnabled(enabled){
+  actionButtons.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.disabled=!enabled;
+  });
+}
+
+function setStatus(msg, isError=false){
+  const status=document.getElementById('statusMsg');
+  if(!status) return;
+  status.textContent=msg;
+  status.style.color=isError?'#b91c1c':'#4c1d95';
+}
+
+function ensureDataReady(){
+  if(!data){
+    setStatus('Dataset non disponibile. Controlla la connessione o ricarica la pagina.', true);
+    return false;
+  }
+  return true;
+}
 
 function randi(n){ return Math.floor(Math.random()*n); }
 function sample(arr){ return arr.length? arr[randi(arr.length)] : null; }
@@ -63,15 +99,29 @@ function tagsOf(data){ return [...new Set(data.species.flatMap(s=>s.functional_t
 function tierOf(sp){ const t=((sp.balance||{}).threat_tier||'T1'); const n=parseInt(String(t).replace(/\D/g,''))||1; return Math.max(1,Math.min(n,5)); }
 
 async function load(){
-  const res=await fetch('../catalog/catalog_data.json'); data=await res.json();
-  // fill roles/tags
-  const r=rolesOf(data), t=tagsOf(data);
-  const rsel=document.getElementById('roles'); r.forEach(x=>{ const o=document.createElement('option'); o.value=x;o.textContent=x;rsel.appendChild(o); });
-  const tsel=document.getElementById('tags'); t.forEach(x=>{ const o=document.createElement('option'); o.value=x;o.textContent=x;tsel.appendChild(o); });
+  try{
+    setActionsEnabled(false);
+    setStatus('Caricamento dataset…');
+    const res=await fetch('../catalog/catalog_data.json');
+    if(!res.ok){ throw new Error(`HTTP ${res.status}`); }
+    data=await res.json();
+    const r=rolesOf(data), t=tagsOf(data);
+    const rsel=document.getElementById('roles');
+    r.forEach(x=>{ const o=document.createElement('option'); o.value=x;o.textContent=x;rsel.appendChild(o); });
+    const tsel=document.getElementById('tags');
+    t.forEach(x=>{ const o=document.createElement('option'); o.value=x;o.textContent=x;tsel.appendChild(o); });
+    setStatus('Dataset caricato. Premi "Roll Ecosistema" per generare una proposta.');
+    setActionsEnabled(true);
+    rollEcosistema();
+  }catch(err){
+    console.error('Errore caricamento dataset', err);
+    setStatus('Errore durante il caricamento del dataset. Riprova più tardi.', true);
+  }
 }
 function getSelMulti(id){ return Array.from(document.getElementById(id).selectedOptions).map(o=>o.value); }
 
 function rollEcosistema(){
+  if(!ensureDataReady()) return;
   const n=parseInt(document.getElementById('nBiomi').value,10)||2;
   pick.ecos={ label: data.ecosistema.label, conn: data.ecosistema.connessioni };
   const pool=[...data.biomi]; shuffle(pool);
@@ -82,6 +132,7 @@ function rollEcosistema(){
   render();
 }
 function rerollBiomi(){
+  if(!ensureDataReady()) return;
   const n=parseInt(document.getElementById('nBiomi').value,10)||2;
   const pool=[...data.biomi]; shuffle(pool);
   pick.biomi=pool.slice(0,n);
@@ -94,6 +145,7 @@ function filteredPool(b){
   return b.species.filter(s=> (!needRoles.length || needRoles.includes(s.role_trofico||'')) && hasFlags(s,needFlags) && hasTags(s,needTags));
 }
 function rerollSpecie(){
+  if(!ensureDataReady()) return;
   pick.specie={};
   for(const b of pick.biomi){
     const pool=filteredPool(b);
@@ -102,6 +154,7 @@ function rerollSpecie(){
   }
 }
 function rerollSeeds(){
+  if(!ensureDataReady()) return;
   pick.seeds=[];
   for(const b of pick.biomi){
     const pool=filteredPool(b);
@@ -120,7 +173,14 @@ function rerollSeeds(){
   renderSeeds();
 }
 function render(){
-  const out=document.getElementById('out'); out.innerHTML='';
+  const out=document.getElementById('out');
+  const empty=document.getElementById('emptyResults');
+  out.innerHTML='';
+  if(!pick.biomi.length){
+    empty.hidden=false;
+    return;
+  }
+  empty.hidden=true;
   const wrap=document.createElement('div'); wrap.className='grid';
   for(const b of pick.biomi){
     const card=document.createElement('div'); card.className='card';
@@ -138,11 +198,11 @@ function renderSeeds(){
   const box=document.getElementById('seeds'); box.innerHTML='';
   if(!pick.seeds.length){ box.textContent='Nessun seed.'; return; }
   for(const s of pick.seeds){
-    const div=document.createElement('div'); div.className='card';
+    const entry=document.createElement('article'); entry.className='seed-entry';
     const rows = s.party.map(p=>`<li>${p.display_name} <span class="small">(${p.id}, ${p.role||'-'}, T${p.tier})</span></li>`).join('');
-    div.innerHTML = `<div><strong>${s.biome_id}</strong> — budget: <span class="badge">T${s.threat_budget}</span></div>
+    entry.innerHTML = `<div><strong>${s.biome_id}</strong> — budget: <span class="badge">T${s.threat_budget}</span></div>
     <ul>${rows}</ul>`;
-    box.appendChild(div);
+    box.appendChild(entry);
   }
 }
 
@@ -183,20 +243,24 @@ function exportPayload(){
   return payload;
 }
 
-document.getElementById('rollEcos').onclick=rollEcosistema;
-document.getElementById('rerollBiomi').onclick=rerollBiomi;
+document.getElementById('rollEcos').onclick=()=>{ rollEcosistema(); };
+document.getElementById('rerollBiomi').onclick=()=>{ rerollBiomi(); };
 document.getElementById('rerollSpecie').onclick=()=>{ rerollSpecie(); render(); };
 document.getElementById('rerollSeeds').onclick=()=>{ rerollSeeds(); };
 document.getElementById('exportJSON').onclick=()=>{
+  if(!ensureDataReady()) return;
   const payload=exportPayload();
   download('ecosystem_pick.json', JSON.stringify(payload, null, 2), 'application/json');
 };
 document.getElementById('exportYAML').onclick=()=>{
+  if(!ensureDataReady()) return;
   const payload=exportPayload();
   const y=toYAML(payload,0);
   download('ecosystem_pick.yaml', y, 'text/yaml');
 };
 
+render();
+renderSeeds();
 // init
 load();
 </script>
