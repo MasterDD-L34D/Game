@@ -28,3 +28,9 @@ logs/
 4. Quando un processo automatizzato produce log aggiuntivi, allegare nel README la pipeline o il comando utilizzato.
 
 Questa convenzione è considerata attiva a partire dal ciclo di playtest 2025-11-04.
+
+## Allineamento checklist
+
+- Dopo ogni sessione registrata, segnare in `docs/checklist/action-items.md` che il deposito `logs/playtests/YYYY-MM-DD` è aggiornato,
+  linkando la cartella più recente per consentire al PM di verificarne la completezza durante le riunioni di revisione telemetria.
+- Se la struttura non viene rispettata, aprire un task di follow-up nella stessa checklist e correggere i log entro 24 ore.
