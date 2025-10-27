@@ -40,3 +40,32 @@ seguendo step incrementali che coprono revisione design, QA e telemetria.
       tratto e il gate di qualità superato.
 - [ ] Preparare la nota di rilascio o l'aggiornamento del canvas con i link a
       report, matrici e telemetria.
+
+## 5. Verifica sito e promozione pipeline web
+
+### Stato corrente
+
+<!-- web_status:start -->
+_Nessuna esecuzione registrata. Eseguire `python tools/py/update_web_checklist.py` per aggiornare lo stato._
+<!-- web_status:end -->
+
+### Percorso di verifica
+
+1. **Trigger di build CI**
+   - Il branch principale avvia la pipeline `ci-pipeline.md#web` a ogni push o PR.
+   - Il branch di staging avvia la pipeline notturna che esegue smoke test e audit accessibilità (`npm run test:web`, `npm run lint:web`, `npm run audit:web`).
+2. **Trigger manuali**
+   - Per hotfix o campagne marketing, eseguire `scripts/deploy_web_preview.sh` per il deploy su ambiente di preview.
+   - Lanciare `python tools/py/update_web_checklist.py --tests-command "npm run test:web" --coverage 85.0 --regressions "nessuna"` per registrare l'esito.
+3. **Criteri di promozione**
+   - Nessuna regressione critica aperta nel report QA (`logs/web_status.md`).
+   - Copertura funzionale ≥ 80% per componenti core (`coverage/lcov-report/index.html`).
+   - Smoke test su dispositivi desktop/mobile completati e firmati dal referente design.
+   - Accessibilità AA confermata da audit automatico (`npm run audit:web`) e validazione manuale.
+
+### Checklist pre-promozione
+
+- [ ] Verificare che l'ultima pipeline CI sia verde su staging.
+- [ ] Validare l'URL di preview con marketing e supporto.
+- [ ] Aggiornare `logs/web_status.md` con note di revisione e prossimo checkpoint.
+- [ ] Inviare il riepilogo su #web-status e allegare screenshot del diff principale.
