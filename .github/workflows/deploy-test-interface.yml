@@ -62,15 +62,15 @@ jobs:
         run: scripts/run_deploy_checks.sh
 
       - name: Configure GitHub Pages
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
 
       - name: Prepare static site
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         run: python scripts/prepare_static_site.py
 
       - name: Upload artifact
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
@@ -81,7 +81,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    if: github.event_name == 'push'
+    if: github.event_name != 'pull_request'
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
