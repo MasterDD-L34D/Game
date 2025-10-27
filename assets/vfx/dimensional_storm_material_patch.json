@@ -1,0 +1,42 @@
+{
+  "material": "DimensionalStorm",
+  "version": "2025-02-27-vfx",
+  "author": "Team VFX",
+  "description": "Riduce l'intensità del flash bianco in chiusura evento EVT-01 e allinea il bloom alla palette comunicata nel playtest.",
+  "changes": {
+    "emissiveIntensity": {
+      "previous": 6.5,
+      "updated": 3.1,
+      "rationale": "Clamp emissive per evitare saturazione oltre 210 nits registrata nel log 2025-02-26."
+    },
+    "bloomThreshold": {
+      "previous": 0.35,
+      "updated": 0.52,
+      "rationale": "Aumenta la soglia di attivazione riducendo l'effetto bloom sulle superfici metalliche dello Skydock."
+    },
+    "colorGrading": {
+      "previous": [1.08, 1.06, 1.00],
+      "updated": [0.92, 0.98, 1.05],
+      "rationale": "Bilancia i canali RGB spostando il picco dal bianco puro verso il blu/viola previsto dal concept."
+    },
+    "fadeOutCurve": {
+      "previous": {
+        "type": "exponential",
+        "power": 1.2
+      },
+      "updated": {
+        "type": "exponential",
+        "power": 2.0
+      },
+      "rationale": "Allunga la coda di dissolvenza su 1.4s per evitare chiusura brusca registrata nei video." 
+    }
+  },
+  "validation": {
+    "qa_build": "client-r2821a",
+    "test_scene": "Skydock_Siege/Events/DimensionalStorm_Close",
+    "notes": [
+      "Patch fornita da L. Rinaldi (VFX) su branch `vfx/dimensional-storm-clamp`.",
+      "Confermata compatibilità con preset low/medium tramite automation lab."
+    ]
+  }
+}
