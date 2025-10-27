@@ -1,0 +1,44 @@
+name: telemetry-export
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/telemetry-export.yml'
+      - 'config/drive/**'
+      - 'data/exports/**'
+      - 'docs/drive-sync.md'
+      - 'docs/process/qa_reporting_schema.md'
+      - 'public/analytics/export/**'
+      - 'tools/py/validate_export.py'
+      - 'tools/ts/package.json'
+      - 'tools/ts/package-lock.json'
+      - 'tools/ts/tests/export-modal.test.tsx'
+
+jobs:
+  validate-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: pip install PyYAML
+
+      - name: Validate telemetry export schema
+        run: python tools/py/validate_export.py --export data/exports/qa-telemetry-export.json --recipients config/drive/recipients.yaml
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install UI test deps
+        run: npm install --prefix tools/ts
+
+      - name: Run export modal UI tests
+        run: npx --prefix tools/ts tsx tools/ts/tests/export-modal.test.tsx
