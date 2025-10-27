@@ -50,12 +50,24 @@ network:
       resistance: 0.5
       seasonality: estate
       notes: canali wadi → dune mobili
+    - from: DESERTO_CALDO
+      to: BADLANDS
+      type: corridor
+      resistance: 0.55
+      seasonality: estate
+      notes: ritorno di corridoi aeolici verso canyon ombrosi
     - from: FORESTA_TEMPERATA
       to: CRYOSTEPPE
       type: seasonal_bridge
       resistance: 0.6
       seasonality: inverno
       notes: valichi nevosi con copertura forestale rada
+    - from: CRYOSTEPPE
+      to: FORESTA_TEMPERATA
+      type: seasonal_bridge
+      resistance: 0.65
+      seasonality: inverno
+      notes: discese glaciali verso vallate temperate tramite gallerie di ghiaccio
     - from: CRYOSTEPPE
       to: BADLANDS
       type: trophic_spillover
