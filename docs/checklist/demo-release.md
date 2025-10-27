@@ -18,6 +18,15 @@ attività di coordinamento cross-team.
 
 - [ ] Eseguire `python tests/validate_dashboard.py` e allegare l'esito al
       changelog.
+- [ ] Salvare le metriche della dashboard con
+      `python tests/validate_dashboard.py --metrics-output logs/qa/run-<data>.json`
+      (il file JSON viene anche aggiunto in append a `logs/qa/dashboard_metrics.jsonl`).
+- [ ] Rigenerare o confrontare gli snapshot visivi con
+      `python tools/py/visual_regression.py compare --engine auto`
+      (per aggiornare la baseline hash salvata in `config/visual_baseline.json`
+      usare il comando `record-baseline`). Gli screenshot generati restano in
+      `logs/visual_runs/` o `logs/visual_baseline/` e vanno allegati al pacchetto
+      QA solo se servono confronti manuali.
 - [ ] Effettuare smoke test manuale del generatore (biomi, specie, seed) usando
       l'ecosistema demo.
 - [ ] Condividere il bundle con QA per review rapida (focus su dossier HTML e
@@ -44,4 +53,12 @@ attività di coordinamento cross-team.
       feedback marketing.
 - [ ] Pianificare eventuali aggiornamenti del bundle demo per il successivo
       ciclo promozionale.
+
+## Monitoraggio continuo
+
+- [ ] Al primo giorno del mese eseguire il workflow `QA KPI & Visual Monitor`
+      (GitHub Actions) o avviare manualmente i comandi sopra per verificare
+      deviazioni dei KPI strutturali.
+- [ ] Annotare nel changelog di prodotto l'esito della review mensile e le
+      eventuali azioni correttive pianificate.
 
