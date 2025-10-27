@@ -1,0 +1,19 @@
+{
+  "mode": "horde",
+  "description": "Configurazione di riferimento per i playtest su spawn massivi.",
+  "version": "2024-10-01",
+  "waves": [
+    { "id": 1, "enemy_groups": ["grunt", "grenadier"], "spawn_interval_seconds": 12, "max_concurrent_enemies": 18 },
+    { "id": 2, "enemy_groups": ["grunt", "grenadier", "support"], "spawn_interval_seconds": 10, "max_concurrent_enemies": 22 },
+    { "id": 3, "enemy_groups": ["grunt", "brute", "support"], "spawn_interval_seconds": 9, "max_concurrent_enemies": 26 }
+  ],
+  "boss_wave": {
+    "spawn_time_seconds": 420,
+    "enemy_type": "siege_titan",
+    "adds_refresh_seconds": 30
+  },
+  "performance_budget": {
+    "target_frame_time_ms": 33,
+    "max_ai_think_time_ms": 12
+  }
+}
