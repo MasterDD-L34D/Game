@@ -1087,6 +1087,28 @@ body.codex-open {
   color: var(--text);
 }
 
+.chip[data-status="ok"] {
+  border-color: var(--tone-success-border);
+  background: var(--tone-success-surface);
+  color: var(--tone-success-foreground);
+}
+
+.chip[data-status="warn"] {
+  border-color: var(--tone-warn-border);
+  background: var(--tone-warn-surface);
+  color: var(--tone-warn-foreground);
+}
+
+.chip[data-status="error"] {
+  border-color: var(--tone-error-border);
+  background: var(--tone-error-surface);
+  color: var(--tone-error-foreground);
+}
+
+#flag-metrics {
+  margin-bottom: 16px;
+}
+
 .manifest-block {
   display: flex;
   flex-direction: column;
