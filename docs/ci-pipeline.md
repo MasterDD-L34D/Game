@@ -22,10 +22,26 @@ Passaggi principali del job `build-and-test`:
 12. Validazione pack ecosistema Evo-Tactics (`python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json`).
 13. Smoke test profili CLI (`./scripts/cli_smoke.sh`).
 
+## Workflow `ci-minimal`
+
+Per i branch di lavoro che hanno bisogno soltanto di un guardrail rapido, il workflow `.github/workflows/ci-minimal.yml` esegue
+le suite di test principali senza build aggiuntive.
+
+Passaggi del job `smoke`:
+
+1. Checkout del repository.
+2. Setup di Node.js 20 con cache basata su `tools/ts/package-lock.json`.
+3. Installazione delle dipendenze TypeScript (`npm ci` in `tools/ts`).
+4. Esecuzione dei test TypeScript (`npm test` in `tools/ts`).
+5. Setup di Python 3.11 con cache pip.
+6. Installazione delle dipendenze Python (`pip install -r tools/py/requirements.txt`).
+7. Esecuzione della suite `pytest` dalla radice del progetto (`pytest`).
+
 ## Dipendenze e credenziali
 
 - Le dipendenze Node devono rimanere centralizzate in `tools/ts/package.json`; quelle Python in `tools/py/requirements.txt`.
-- Non sono necessarie credenziali o secret: gli script lavorano su file locali.
+- I workflow `CI` e `ci-minimal` non richiedono credenziali aggiuntive: sfruttano il `GITHUB_TOKEN` fornito automaticamente da GitHub
+  Actions per i checkout e operano unicamente su file locali.
 - Se in futuro serviranno API key (es. per telemetria), registrare i secret GitHub necessari e richiamarli nel workflow tramite `env:`.
 
 ## Debug locale
