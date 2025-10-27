@@ -3417,12 +3417,17 @@ async function generateDossierDocument(context) {
     speciesContainer.innerHTML = "";
     const speciesList = flattenSpeciesBuckets(context.speciesBuckets)
       .slice(0, 12)
-      .sort((a, b) => a.display_name.localeCompare(b.display_name));
+      .sort((a, b) => {
+        const nameA = a.display_name ?? a.displayName ?? a.id ?? "";
+        const nameB = b.display_name ?? b.displayName ?? b.id ?? "";
+        return nameA.localeCompare(nameB);
+      });
     speciesList.forEach((species) => {
       const item = doc.createElement("li");
       item.className = "dossier__list-item";
       const heading = doc.createElement("h3");
-      heading.textContent = species.display_name ?? species.id ?? "Specie";
+      heading.textContent =
+        species.display_name ?? species.displayName ?? species.id ?? "Specie";
       const meta = doc.createElement("p");
       const metaParts = [];
       if (species.role_trofico) metaParts.push(species.role_trofico);
