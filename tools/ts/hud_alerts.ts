@@ -51,6 +51,7 @@ export interface RiskHudAlertLog {
   alertId: string;
   status: RiskHudAlertStatus;
   missionId?: string;
+  missionTag?: string;
   turn?: number;
   weightedIndex?: number;
   timeLowHpTurns?: number | null;
@@ -63,12 +64,19 @@ export interface RiskHudAlertOptions {
   clearThreshold?: number;
   consecutiveBelowThreshold?: number;
   telemetryEventName?: string;
+  filters?: RiskHudAlertFilter[];
+  missionTags?: Record<string, string>;
+  missionTagger?: MissionTagResolver;
 }
 
 interface RiskHudAlertState {
   active: boolean;
   belowCount: number;
 }
+
+export type RiskHudAlertFilter = (payload: EmaUpdatePayload) => boolean;
+
+export type MissionTagResolver = (payload: EmaUpdatePayload) => string | undefined;
 
 function resolveStreamKey(payload: EmaUpdatePayload): string {
   if (payload?.missionId) {
@@ -114,6 +122,26 @@ function getTimeLowHpTurns(payload: EmaUpdatePayload): number | null {
   return value;
 }
 
+function resolveMissionTag(
+  payload: EmaUpdatePayload,
+  missionTags?: Record<string, string>,
+  missionTagger?: MissionTagResolver,
+): string | undefined {
+  const missionId = payload?.missionId;
+  if (missionId && missionTags && missionTags[missionId]) {
+    return missionTags[missionId];
+  }
+
+  if (missionTagger) {
+    const resolved = missionTagger(payload);
+    if (resolved) {
+      return resolved;
+    }
+  }
+
+  return undefined;
+}
+
 function toIsoTimestamp(): string {
   return new Date().toISOString();
 }
@@ -147,10 +175,17 @@ export function registerRiskHudAlertSystem({
   const clearThreshold = options?.clearThreshold ?? 0.58;
   const consecutiveBelow = Math.max(1, Math.floor(options?.consecutiveBelowThreshold ?? 2));
   const telemetryEventName = options?.telemetryEventName ?? 'hud.alert.risk-high';
+  const filters = Array.isArray(options?.filters)
+    ? options.filters.filter((candidate): candidate is RiskHudAlertFilter => typeof candidate === 'function')
+    : [];
 
   const states = new Map<string, RiskHudAlertState>();
 
   const listener = (payload: EmaUpdatePayload) => {
+    if (filters.some((filter) => filter(payload) === false)) {
+      return;
+    }
+
     hudLayer.updateTrend?.('risk', payload.indices?.risk ?? null);
 
     const streamKey = resolveStreamKey(payload);
@@ -168,6 +203,9 @@ export function registerRiskHudAlertSystem({
       return;
     }
 
+    const timeLowHpTurns = getTimeLowHpTurns(payload);
+    const missionTag = resolveMissionTag(payload, options?.missionTags, options?.missionTagger);
+
     if (!state.active && weightedIndex >= threshold) {
       state.active = true;
       state.belowCount = 0;
@@ -177,9 +215,10 @@ export function registerRiskHudAlertSystem({
         message: 'Risk EMA oltre soglia 0.60',
         metadata: {
           missionId: payload.missionId,
+          missionTag,
           turn: payload.turn,
           weightedIndex,
-          timeLowHpTurns: getTimeLowHpTurns(payload),
+          timeLowHpTurns,
         },
       };
 
@@ -192,6 +231,7 @@ export function registerRiskHudAlertSystem({
           indices: payload.indices,
           turn: payload.turn,
           weightedIndex,
+          missionTag,
         });
       }
 
@@ -200,9 +240,10 @@ export function registerRiskHudAlertSystem({
           alertId: alert.id,
           status: 'raised',
           missionId: payload.missionId,
+          missionTag,
           turn: payload.turn,
           weightedIndex,
-          timeLowHpTurns: getTimeLowHpTurns(payload),
+          timeLowHpTurns,
           roster: payload.roster,
           timestamp: toIsoTimestamp(),
         });
@@ -212,7 +253,8 @@ export function registerRiskHudAlertSystem({
         telemetryBus.emit(telemetryEventName, {
           missionId: payload.missionId,
           turn: payload.turn,
-          alert: alert,
+          alert,
+          missionTag,
         });
       }
       return;
@@ -236,9 +278,10 @@ export function registerRiskHudAlertSystem({
             alertId,
             status: 'cleared',
             missionId: payload.missionId,
+            missionTag,
             turn: payload.turn,
             weightedIndex,
-            timeLowHpTurns: getTimeLowHpTurns(payload),
+            timeLowHpTurns,
             roster: payload.roster,
             timestamp: toIsoTimestamp(),
           });

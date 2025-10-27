@@ -1,0 +1,10 @@
+# Configurazione CLI per HUD smart alerts.
+version: 1
+flags:
+  hud:
+    smart_alerts:
+      default: true
+      description: Abilita l'overlay Smart Risk Alerts nel canale canary.
+      rollout:
+        stage: canary
+        notes: "Attiva layout dinamico e mission tagging per le squadre di test."
