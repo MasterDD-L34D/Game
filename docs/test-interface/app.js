@@ -79,6 +79,115 @@ const controlElements = {};
 const infoElements = {};
 const manualElements = {};
 
+const now =
+  typeof performance !== "undefined" && typeof performance.now === "function"
+    ? () => performance.now()
+    : () => Date.now();
+
+const performanceMonitor = {
+  history: [],
+  maxEntries: 40,
+  threshold: 48,
+  last: null,
+  push(entry) {
+    const durationValue = typeof entry.duration === "number" ? entry.duration : 0;
+    const normalizedDuration = Math.round(durationValue * 100) / 100;
+    const details =
+      entry.details && typeof entry.details === "object" && !Array.isArray(entry.details)
+        ? { ...entry.details }
+        : entry.details ?? null;
+    const record = {
+      label: entry.label,
+      duration: normalizedDuration,
+      timestamp: new Date().toISOString(),
+      details,
+    };
+
+    this.history.push(record);
+    if (this.history.length > this.maxEntries) {
+      this.history.shift();
+    }
+    this.last = record;
+
+    const threshold =
+      typeof entry.warningThreshold === "number"
+        ? entry.warningThreshold
+        : this.threshold;
+    const logMethod =
+      record.duration > threshold
+        ? typeof console.warn === "function"
+          ? console.warn
+          : console.log
+        : typeof console.debug === "function"
+        ? console.debug
+        : console.log;
+    const message = `[ET][perf] ${record.label}: ${record.duration}ms`;
+
+    if (
+      record.details &&
+      record.details.estimatedNodes &&
+      record.details.estimatedNodes > 700 &&
+      record.duration > threshold
+    ) {
+      console.info?.(
+        `[ET][perf] dataset footprint: ${record.details.estimatedNodes} nodi`,
+        record.details
+      );
+    }
+
+    if (record.details && Object.keys(record.details || {}).length > 0) {
+      logMethod(message, record.details);
+    } else {
+      logMethod(message);
+    }
+  },
+  createReport() {
+    const sampleSize = this.history.length;
+    const average =
+      this.history.reduce((sum, item) => sum + item.duration, 0) / (sampleSize || 1);
+    return {
+      generatedAt: new Date().toISOString(),
+      sampleSize,
+      averageDuration: Math.round(average * 100) / 100,
+      entries: this.history.slice(),
+    };
+  },
+};
+
+if (typeof window !== "undefined") {
+  window.__etRenderMetrics = performanceMonitor;
+}
+
+function measureStep(label, callback, detailsFactory, options = {}) {
+  const start = now();
+  let result;
+  try {
+    result = callback();
+  } finally {
+    const duration = now() - start;
+    const details =
+      typeof detailsFactory === "function" ? detailsFactory() : detailsFactory;
+    let warningThreshold = performanceMonitor.threshold;
+    if (typeof options.warningThreshold === "number") {
+      warningThreshold = options.warningThreshold;
+    } else if (typeof options.getWarningThreshold === "function") {
+      const dynamicThreshold = options.getWarningThreshold(details);
+      if (typeof dynamicThreshold === "number") {
+        warningThreshold = dynamicThreshold;
+      }
+    }
+
+    performanceMonitor.push({
+      label,
+      duration,
+      details: details || null,
+      warningThreshold,
+    });
+  }
+
+  return result;
+}
+
 function formatLabel(value) {
   if (!value) return "";
   return String(value)
@@ -205,6 +314,26 @@ function recordEntryStatus(entryId, status, details = {}) {
   }
 }
 
+function prepareStatusElement(element, variant = "info") {
+  if (!element) return;
+  if (!element.classList.contains("status")) {
+    element.classList.add("status");
+  }
+  element.dataset.status = variant;
+  if (!element.hasAttribute("role")) {
+    element.setAttribute("role", "status");
+  }
+  element.setAttribute("aria-live", variant === "error" ? "assertive" : "polite");
+}
+
+function updateStatusElement(element, message, variant = "info") {
+  if (!element) return;
+  prepareStatusElement(element, variant);
+  element.dataset.status = variant;
+  element.textContent = message;
+  element.setAttribute("aria-live", variant === "error" ? "assertive" : "polite");
+}
+
 function getStorageSnapshot(key, { fallback = null, reader = readJsonStorage, variant = "json" } = {}) {
   let value = null;
   try {
@@ -306,6 +435,10 @@ function setupDomReferences() {
   controlElements.fetchPreviewPagination = document.getElementById("fetch-preview-pagination");
   controlElements.fetchPreviewEmpty = document.getElementById("fetch-preview-empty");
 
+  if (controlElements.fetchStatus) {
+    prepareStatusElement(controlElements.fetchStatus, "idle");
+  }
+
   if (pageMode === PAGE_MODES.MANUAL_FETCH) {
     manualElements.optionArchive = document.getElementById("manual-option-archive");
     manualElements.optionDiagnostics = document.getElementById("manual-option-diagnostics");
@@ -321,6 +454,10 @@ function setupDomReferences() {
     manualElements.checklistInputs = Array.from(
       document.querySelectorAll('[data-manual-flag]') || []
     );
+
+    if (manualElements.syncStatus) {
+      prepareStatusElement(manualElements.syncStatus, "idle");
+    }
   } else {
     metricsElements.forms = document.querySelector('[data-metric="forms"]');
     metricsElements.random = document.querySelector('[data-metric="random"]');
@@ -498,15 +635,111 @@ function updateDataSourceHint() {
   infoElements.dataSource.textContent = `Sorgente dati: ${state.dataBase}`;
 }
 
+function computeDatasetFootprint() {
+  const packs = state.data.packs || {};
+  const forms = packs.forms ? Object.keys(packs.forms).length : 0;
+  const randomEntries = Array.isArray(packs.random_general_d20)
+    ? packs.random_general_d20.length
+    : 0;
+  const telemetryIndices = state.data.telemetry?.indices
+    ? Object.keys(state.data.telemetry.indices).length
+    : 0;
+  const biomes = state.data.biomes?.biomes
+    ? Object.keys(state.data.biomes.biomes).length
+    : 0;
+  const slotGroupsMap = state.data.species?.catalog?.slots || {};
+  const slotGroups = Object.keys(slotGroupsMap).length;
+  const modules = Object.values(slotGroupsMap).reduce(
+    (total, group) => total + Object.keys(group || {}).length,
+    0
+  );
+  const synergies = Array.isArray(state.data.species?.catalog?.synergies)
+    ? state.data.species.catalog.synergies.length
+    : 0;
+  const species = Array.isArray(state.data.species?.species)
+    ? state.data.species.species.length
+    : 0;
+  const estimatedNodes =
+    forms + randomEntries + telemetryIndices + biomes + modules + synergies + species;
+
+  return {
+    forms,
+    randomEntries,
+    telemetryIndices,
+    biomes,
+    slotGroups,
+    modules,
+    synergies,
+    species,
+    estimatedNodes,
+  };
+}
+
 function renderAll() {
-  updateOverview();
-  populateFormSelector();
-  renderPiShop();
-  renderRandomTable();
-  renderTelemetry();
-  renderBiomes();
-  renderSpeciesShowcase();
-  refreshPlaytestTools();
+  const footprint = computeDatasetFootprint();
+  measureStep(
+    "renderAll",
+    () => {
+      measureStep(
+        "updateOverview",
+        () => updateOverview(),
+        () => ({
+          forms: footprint.forms,
+          randomEntries: footprint.randomEntries,
+          telemetryIndices: footprint.telemetryIndices,
+        })
+      );
+      measureStep(
+        "populateFormSelector",
+        () => populateFormSelector(),
+        () => ({
+          forms: footprint.forms,
+          filter: state.formFilter || null,
+        })
+      );
+      measureStep("renderPiShop", () => renderPiShop());
+      measureStep(
+        "renderRandomTable",
+        () => renderRandomTable(),
+        () => ({ randomEntries: footprint.randomEntries })
+      );
+      measureStep(
+        "renderTelemetry",
+        () => renderTelemetry(),
+        () => ({ telemetryIndices: footprint.telemetryIndices })
+      );
+      measureStep(
+        "renderBiomes",
+        () => renderBiomes(),
+        () => ({ biomes: footprint.biomes })
+      );
+      measureStep(
+        "renderSpeciesShowcase",
+        () => renderSpeciesShowcase(),
+        () => ({
+          species: footprint.species,
+          slotGroups: footprint.slotGroups,
+          modules: footprint.modules,
+          synergies: footprint.synergies,
+        }),
+        {
+          warningThreshold: footprint.estimatedNodes > 600 ? 80 : undefined,
+        }
+      );
+      measureStep("refreshPlaytestTools", () => refreshPlaytestTools());
+    },
+    () => ({ ...footprint }),
+    {
+      getWarningThreshold(details) {
+        if (!details || typeof details.estimatedNodes !== "number") {
+          return performanceMonitor.threshold;
+        }
+        if (details.estimatedNodes > 800) return 90;
+        if (details.estimatedNodes > 400) return 60;
+        return 45;
+      },
+    }
+  );
 }
 
 function setTimestamp(text) {
@@ -2166,9 +2399,22 @@ function renderManualSyncPanels() {
       const dataset = Array.isArray(history.appliedKeys) && history.appliedKeys.length
         ? history.appliedKeys.join(", ")
         : "—";
-      statusElement.textContent = `Ultima applicazione: ${timestamp} · Dataset: ${dataset}`;
+      const variant = historySnapshot.fromFallback ? "warning" : "success";
+      updateStatusElement(
+        statusElement,
+        `Ultima applicazione: ${timestamp} · Dataset: ${dataset}`,
+        variant
+      );
     } else {
-      statusElement.textContent = "Nessuna sincronizzazione ancora registrata.";
+      const pendingVariant = pending
+        ? "warning"
+        : pendingSnapshot.fromFallback
+        ? "warning"
+        : "idle";
+      const message = pending
+        ? "Payload in coda: verrà sincronizzato alla prossima apertura della dashboard."
+        : "Nessuna sincronizzazione ancora registrata.";
+      updateStatusElement(statusElement, message, pendingVariant);
     }
   }
 
@@ -3379,9 +3625,7 @@ function detectDataKey(payload) {
 }
 
 function setFetchStatus(message, variant) {
-  if (!controlElements.fetchStatus) return;
-  controlElements.fetchStatus.textContent = message;
-  controlElements.fetchStatus.dataset.status = variant || "info";
+  updateStatusElement(controlElements.fetchStatus, message, variant || "info");
 }
 
 document.addEventListener("DOMContentLoaded", () => {

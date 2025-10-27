@@ -407,6 +407,136 @@ main {
   min-height: 120px;
 }
 
+.species-summary-card {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.species-summary-card--danger,
+.species-summary-card[data-budget-state="over"] {
+  border-color: rgba(248, 113, 113, 0.45);
+  box-shadow: 0 10px 30px rgba(248, 113, 113, 0.18);
+}
+
+.species-summary-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+
+.species-summary-card__title {
+  margin: 0;
+  font-size: 1.2rem;
+  flex: 1 1 220px;
+}
+
+.species-summary-card__badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.species-summary-card__content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.1rem;
+}
+
+.species-summary-card__section h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.95);
+}
+
+.species-summary-card__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.species-summary-card__item {
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.85rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  color: rgba(226, 232, 240, 0.95);
+  font-size: 0.9rem;
+}
+
+.species-summary-card__item--empty {
+  color: rgba(148, 163, 184, 0.75);
+  text-align: center;
+  font-style: italic;
+}
+
+.species-summary-card__warnings {
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.species-summary-card__warnings h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(255, 247, 237, 0.95);
+}
+
+.species-summary-card__warnings ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.species-summary-card__warnings li {
+  color: rgba(255, 237, 213, 0.95);
+  font-size: 0.9rem;
+}
+
+.species-summary-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.species-summary-card__action {
+  background: var(--accent);
+  border: none;
+  color: #0f172a;
+  font-weight: 600;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 12px 25px rgba(56, 189, 248, 0.25);
+}
+
+.species-summary-card__action:hover:not([disabled]) {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 35px rgba(56, 189, 248, 0.3);
+}
+
+.species-summary-card__action[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 .control-grid {
   display: grid;
   gap: 1.5rem;
@@ -461,34 +591,114 @@ main {
 .control-actions {
   display: flex;
   gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .status {
-  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
   padding: 0.75rem 1rem;
   border-radius: 0.85rem;
   font-size: 0.9rem;
+  font-weight: 500;
+  background: rgba(148, 163, 184, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  color: var(--muted);
+  width: 100%;
+}
+
+.status::before {
+  content: "";
+  display: inline-flex;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.65);
+  box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.15);
+}
+
+.status[data-status="idle"] {
   background: rgba(148, 163, 184, 0.12);
   color: var(--muted);
 }
 
+.status[data-status="idle"]::before {
+  background: rgba(148, 163, 184, 0.55);
+}
+
+.status[data-status="info"] {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.28);
+  color: rgba(191, 219, 254, 0.95);
+}
+
+.status[data-status="info"]::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+}
+
 .status[data-status="loading"] {
-  color: var(--accent);
+  background: rgba(56, 189, 248, 0.18);
+  border-color: rgba(56, 189, 248, 0.35);
+  color: rgba(224, 242, 254, 0.95);
+}
+
+.status[data-status="loading"]::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+  animation: status-pulse 1.2s ease-in-out infinite;
 }
 
 .status[data-status="success"] {
-  background: rgba(74, 222, 128, 0.12);
+  background: rgba(74, 222, 128, 0.15);
+  border-color: rgba(74, 222, 128, 0.32);
   color: #4ade80;
 }
 
+.status[data-status="success"]::before {
+  background: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.25);
+}
+
 .status[data-status="error"] {
-  background: rgba(248, 113, 113, 0.12);
-  color: #f87171;
+  background: rgba(248, 113, 113, 0.14);
+  border-color: rgba(248, 113, 113, 0.38);
+  color: #fca5a5;
+}
+
+.status[data-status="error"]::before {
+  background: #f87171;
+  box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.25);
 }
 
 .status[data-status="warning"] {
-  background: rgba(251, 191, 36, 0.12);
+  background: rgba(251, 191, 36, 0.16);
+  border-color: rgba(251, 191, 36, 0.36);
   color: #fbbf24;
+}
+
+.status[data-status="warning"]::before {
+  background: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.25);
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.manual-status .status {
+  margin-top: 0.75rem;
 }
 
 body[data-page="manual-fetch"] main {
@@ -1105,6 +1315,31 @@ body[data-page="manual-fetch"] .site-hero {
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
   font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.pill[data-variant="neutral"] {
+  background: rgba(148, 163, 184, 0.16);
+  border-color: rgba(148, 163, 184, 0.3);
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.pill[data-variant="success"] {
+  background: rgba(74, 222, 128, 0.16);
+  border-color: rgba(74, 222, 128, 0.35);
+  color: #4ade80;
+}
+
+.pill[data-variant="warning"] {
+  background: rgba(251, 191, 36, 0.18);
+  border-color: rgba(251, 191, 36, 0.38);
+  color: #fbbf24;
+}
+
+.pill[data-variant="critical"] {
+  background: rgba(248, 113, 113, 0.18);
+  border-color: rgba(248, 113, 113, 0.45);
+  color: #fca5a5;
 }
 
 .list-block ul {
@@ -1194,6 +1429,19 @@ footer {
   }
 
   .selector.search input {
+    width: 100%;
+  }
+
+  .species-summary-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .species-summary-card__actions {
+    justify-content: stretch;
+  }
+
+  .species-summary-card__action {
     width: 100%;
   }
 }
