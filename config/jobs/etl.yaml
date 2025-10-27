@@ -1,0 +1,18 @@
+jobs:
+  - id: analytics-squadsync-canary
+    description: "Rigenera il report SquadSync utilizzando il dataset giornaliero canary."
+    schedule: "20 06 * * *"
+    command: >-
+      python scripts/analytics/etl_squadsync.py
+      data/analytics/squadsync_canary.csv
+      data/analysis/squadsync_report.json
+      --start 2023-10-24
+      --end 2023-11-05
+    canary: true
+    feature_flag: analytics.squadsync_view
+    notifications:
+      - analytics-oncall
+      - squad-leads
+    notes:
+      - "Usa dataset mock fino al completamento integrazione con data lake."
+      - "Verifica engagement medio > 0.55 prima di pubblicare alert Slack."
