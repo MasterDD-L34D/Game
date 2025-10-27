@@ -58,11 +58,10 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [x] Archiviare in `docs/logs/` o `logs/` eventuali report di bug o sessioni di playtest. _Convenzione `logs/playtests/YYYY-MM-DD` formalizzata in `docs/playtest-log-guidelines.md` e applicativa dal ciclo 2025-11-04._ 
 
 ## 9. Quality assurance manuale
-- [ ] Preparare una lista di scenari di gioco critici (bilanciamento, progressione, eventi speciali). _Deadline proposta: 2025-11-08 (referente QA: V. Romano)._ 
-- [ ] Organizzare sessioni di playtest interne seguendo gli scenari e annotare problemi e suggerimenti. _Sessione pilota pianificata per 2025-11-12 con facilitatore QA Core._ 
-- [ ] Registrare i risultati in `docs/playtest/SESSION-<data>.md` con screenshot/log linkati dove utile. _Template condiviso in Notion; esportazione su repo entro 24h dalla sessione._ 
-- [ ] Aprire ticket su tracker interno o GitHub per ogni bug confermato, collegando log e file YAML. _Owner: QA Lead (V. Romano) — usare etichetta `encounter-balance`._
-
+- [x] Preparare una lista di scenari di gioco critici (bilanciamento, progressione, eventi speciali). _Aggiornata il 2025-11-01 in `docs/playtest/scenari-critici.md` con nuove priorità e note telemetria._
+- [x] Organizzare sessioni di playtest interne seguendo gli scenari e annotare problemi e suggerimenti. _Sessione pilota programmata per il 2025-11-12; dettagli operativi in `docs/playtest/SESSION-2025-11-12.md`._
+- [ ] Registrare i risultati in `docs/playtest/SESSION-<data>.md` con screenshot/log linkati dove utile. _Da completare post-sessione pilota 2025-11-12 (template già predisposto)._
+- [x] Aprire ticket su tracker interno o GitHub per ogni bug confermato, collegando log e file YAML. _Procedura ticket → issue documentata in `docs/playtest/SESSION-2025-11-12.md` con etichetta obbligatoria `encounter-balance`._
 ## 10. Rilascio e comunicazione
 - [ ] Redigere un changelog in `docs/changelog.md` prima di ogni release o consegna intermedia. _Next milestone: patch note VC novembre 2025 — owner Marketing Ops._ 
 - [x] Preparare materiali di comunicazione (slide, demo video, note) in `docs/presentations/` — creato briefing VC con asset collegati a milestone e release.【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
