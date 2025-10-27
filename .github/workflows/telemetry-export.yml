@@ -41,4 +41,4 @@ jobs:
         run: npm install --prefix tools/ts
 
       - name: Run export modal UI tests
-        run: npx --prefix tools/ts tsx tests/export-modal.test.tsx
+        run: npx --prefix tools/ts tsx tools/ts/tests/export-modal.test.tsx
