@@ -29,26 +29,26 @@ jobs:
           cache: "npm"
           cache-dependency-path: tools/ts/package-lock.json
 
-      - name: Install Node.js dependencies
-        working-directory: tools/ts
-        run: npm ci
-
-      - name: Run TypeScript tests
-        working-directory: tools/ts
-        run: npm test
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install Python test dependencies
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r tools/py/requirements.txt
 
-      - name: Run Python tests
-        run: PYTHONPATH=tools/py pytest
+      - name: Run CLI smoke suite
+        run: ./scripts/cli_smoke.sh
+
+      - name: Audit trait catalog consistency
+        run: python3 scripts/trait_audit.py --check
+
+      - name: Run deploy validation checks
+        env:
+          DEPLOY_DATA_DIR: ${{ github.workspace }}/data
+        run: scripts/run_deploy_checks.sh
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
