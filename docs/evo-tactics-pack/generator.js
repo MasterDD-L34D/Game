@@ -558,9 +558,17 @@ function setStatus(message, tone = "info", options = {}) {
 function updateSummaryCounts() {
   const { biomeCount, speciesCount, seedCount, uniqueSpeciesCount } = calculatePickMetrics();
 
-  elements.summaryCounts?.biomes?.textContent = biomeCount;
-  elements.summaryCounts?.species?.textContent = speciesCount;
-  elements.summaryCounts?.seeds?.textContent = seedCount;
+  if (elements.summaryCounts) {
+    if (elements.summaryCounts.biomes) {
+      elements.summaryCounts.biomes.textContent = String(biomeCount);
+    }
+    if (elements.summaryCounts.species) {
+      elements.summaryCounts.species.textContent = String(speciesCount);
+    }
+    if (elements.summaryCounts.seeds) {
+      elements.summaryCounts.seeds.textContent = String(seedCount);
+    }
+  }
 
   if (elements.summaryContainer) {
     const hasResults = biomeCount + speciesCount + seedCount > 0;
