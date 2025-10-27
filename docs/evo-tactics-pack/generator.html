@@ -219,17 +219,41 @@
                 <div class="generator-form__grid generator-form__grid--filters">
                   <label class="form__field">
                     <span>Flags richiesti</span>
-                    <select id="flags" multiple size="5"></select>
+                    <div
+                      id="flags"
+                      class="chip-multiselect"
+                      data-multiselect
+                      data-empty-label="Nessun flag disponibile"
+                      role="group"
+                      aria-label="Seleziona uno o più flag ecosistemici"
+                    ></div>
                   </label>
                   <label class="form__field">
                     <span>Ruoli trofici</span>
-                    <select id="roles" multiple size="5"></select>
+                    <div
+                      id="roles"
+                      class="chip-multiselect"
+                      data-multiselect
+                      data-empty-label="Nessun ruolo disponibile"
+                      role="group"
+                      aria-label="Seleziona uno o più ruoli trofici"
+                    ></div>
                   </label>
                   <label class="form__field">
                     <span>Tag funzionali</span>
-                    <select id="tags" multiple size="6"></select>
+                    <div
+                      id="tags"
+                      class="chip-multiselect"
+                      data-multiselect
+                      data-empty-label="Nessun tag funzionale disponibile"
+                      role="group"
+                      aria-label="Seleziona uno o più tag funzionali"
+                    ></div>
                   </label>
                 </div>
+                <p class="form__hint" id="generator-filters-hint">
+                  Nessun filtro attivo. Tocca le capsule per attivare vincoli specifici.
+                </p>
             </div>
               <section
                 class="generator-profiles surface-panel surface-panel--overlay"
@@ -280,6 +304,10 @@
                   ⬇︎ YAML
                 </button>
               </div>
+              <p class="form__hint generator-form__result-hint">
+                Dopo la generazione i risultati vengono mostrati nel riepilogo sottostante e
+                nelle sezioni "Biomi selezionati" e "Encounter seed".
+              </p>
             </form>
             <section
               class="generator-export-panel surface-panel surface-panel--overlay"
