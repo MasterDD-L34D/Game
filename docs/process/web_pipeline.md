@@ -15,7 +15,7 @@ Questa procedura definisce il percorso end-to-end per promuovere la web experien
 1. **Installare le dipendenze Python**
    ```bash
    python3 -m pip install --upgrade pip
-   python3 -m pip install --requirement tools/py/requirements.txt
+   python3 -m pip install -r tools/py/requirements.txt
    ```
    Assicura che i gate Python (CLI, audit tratti, pytest) dispongano delle librerie `yaml`, `requests` e degli altri moduli richiesti sul runner/staging.
 2. **CLI smoke**
