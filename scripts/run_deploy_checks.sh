@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+export ROOT_DIR
 
 log() {
   printf '\n[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1"
@@ -30,8 +31,14 @@ PYTHONPATH="$ROOT_DIR/tools/py" pytest
 
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")
+DATA_SOURCE_DIR="${DEPLOY_DATA_DIR:-$ROOT_DIR/data}"
+if [ ! -d "$DATA_SOURCE_DIR" ]; then
+  log "Dataset directory '$DATA_SOURCE_DIR' non trovato"
+  exit 1
+fi
+export DATA_SOURCE_DIR
 cp -r "$ROOT_DIR/docs/test-interface" "$DIST_DIR/test-interface"
-cp -r "$ROOT_DIR/data" "$DIST_DIR/data"
+cp -r "$DATA_SOURCE_DIR" "$DIST_DIR/data"
 if [ -f "$ROOT_DIR/docs/test-interface/favicon.ico" ]; then
   cp "$ROOT_DIR/docs/test-interface/favicon.ico" "$DIST_DIR/"
 fi
@@ -102,7 +109,20 @@ LOG_FILE="$ROOT_DIR/logs/web_status.md"
     echo "$PLAYWRIGHT_SUMMARY" | sed 's/^/    /'
   fi
   echo "  - `pytest` (tools/py) · test suite completata."
-  echo "  - Bundle statico generato in `"$DIST_LABEL"` con fixture `data/test-fixtures/minimal`."
+  RELATIVE_DATA_SOURCE=$(python3 - <<'PY'
+import os
+root = os.environ.get('ROOT_DIR')
+source = os.environ.get('DATA_SOURCE_DIR')
+if not source:
+    raise SystemExit("")
+try:
+    rel = os.path.relpath(source, root)
+except ValueError:
+    rel = source
+print(rel)
+PY
+  )
+  echo "  - Bundle statico generato in `"$DIST_LABEL"` con dataset `"$RELATIVE_DATA_SOURCE"`."
   echo "- **Smoke test HTTP**: server Python su `http://127.0.0.1:$PORT/`."
   echo "  - Richieste principali completate senza errori (index.html e dashboard)."
   echo "- **Note**:"

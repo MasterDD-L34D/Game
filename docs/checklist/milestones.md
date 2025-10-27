@@ -19,8 +19,8 @@
 - [x] Aggiornare i Canvas principali con note sulle nuove feature CLI.【F:docs/Canvas/feature-updates.md†L3-L40】
 
 ## Milestone Web
-- [x] Eseguire `scripts/run_deploy_checks.sh` per validare bundle statico (docs/test-interface, data) · 2025-10-27.
-  - ✅ Tests TypeScript/Python passati senza errori; bundle generato in `dist.40aPFD`.
-  - ✅ Smoke test HTTP: richieste `GET /index.html` e `/test-interface/index.html` → 200 OK, nessun asset mancante rilevato.
+- [ ] Eseguire `scripts/run_deploy_checks.sh` per validare bundle statico (docs/test-interface, data) · 2025-10-27 fallito (HTTP 403 download Chromium Playwright dal mirror AzureEdge, dataset `data/mock/prod_snapshot`).
+  - ❌ Installazione browser Playwright bloccata da `Domain forbidden` durante `npx playwright install chromium` (retry con `--with-deps` incluso) → suite TypeScript/Playwright e `pytest` non avviate.
+  - ⏳ Ripetere la validazione dopo aver predisposto mirror/caching Playwright o pacchetto offline in artefatti CI.
   - [ ] Ampliare smoke test includendo asset statici (`styles.css`, `vendor/jszip.min.js`, `app.js`, pagine fetch) per copertura completa.
   - [x] Strumentare la dashboard con metriche di rendering leggere (console + report JSON) e fissare soglia < 60 ms sui dataset baseline, con avvisi oltre 80 ms su footprint >700 nodi.
