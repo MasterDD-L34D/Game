@@ -11,8 +11,17 @@ const state = {
   loadedAt: null,
   dataBase: null,
   selectedForm: "",
-  formFilter: ""
+  formFilter: "",
+  entryStatus: {},
 };
+
+const MANUAL_OPTIONS_DEFAULTS = Object.freeze({
+  allowArchive: true,
+  runDiagnostics: true,
+  autoApply: true,
+  autoTests: true,
+  targetDataset: "",
+});
 
 const manualPreviewState = {
   raw: null,
@@ -39,13 +48,7 @@ const PAGE_MODES = {
 let pageMode = PAGE_MODES.DASHBOARD;
 
 const manualPageState = {
-  options: {
-    allowArchive: true,
-    runDiagnostics: true,
-    autoApply: true,
-    autoTests: true,
-    targetDataset: "",
-  },
+  options: { ...MANUAL_OPTIONS_DEFAULTS },
   lastResult: null,
 };
 
@@ -133,6 +136,122 @@ function writeJsonStorage(key, value) {
     console.warn(`Impossibile scrivere i dati in localStorage (${key})`, error);
     return false;
   }
+}
+
+function readPlainStorage(key) {
+  if (typeof window === "undefined" || !window.localStorage) return null;
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw === null ? null : raw;
+  } catch (error) {
+    console.warn(`Impossibile leggere il valore da localStorage (${key})`, error);
+    return null;
+  }
+}
+
+function writePlainStorage(key, value) {
+  if (typeof window === "undefined" || !window.localStorage) return false;
+  try {
+    if (value === null || value === undefined) {
+      window.localStorage.removeItem(key);
+    } else {
+      window.localStorage.setItem(key, String(value));
+    }
+    return true;
+  } catch (error) {
+    console.warn(`Impossibile scrivere il valore in localStorage (${key})`, error);
+    return false;
+  }
+}
+
+function cloneValue(value) {
+  if (typeof structuredClone === "function") {
+    try {
+      return structuredClone(value);
+    } catch (error) {
+      console.debug("structuredClone non disponibile per il valore corrente", error);
+    }
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => cloneValue(item));
+  }
+  if (value && typeof value === "object") {
+    return Object.keys(value).reduce((accumulator, key) => {
+      accumulator[key] = cloneValue(value[key]);
+      return accumulator;
+    }, {});
+  }
+
+  return value;
+}
+
+function recordEntryStatus(entryId, status, details = {}) {
+  const previous = state.entryStatus[entryId];
+  state.entryStatus[entryId] = {
+    status,
+    details,
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (previous && previous.status === status) {
+    return;
+  }
+
+  if (status === "error") {
+    console.error(`[data-entry:${entryId}]`, details);
+  } else if (status === "fallback") {
+    console.warn(`[data-entry:${entryId}]`, details);
+  }
+}
+
+function getStorageSnapshot(key, { fallback = null, reader = readJsonStorage, variant = "json" } = {}) {
+  let value = null;
+  try {
+    value = reader(key);
+  } catch (error) {
+    recordEntryStatus(`storage:${key}`, "error", {
+      variant,
+      operation: "read",
+      reason: error.message,
+    });
+    value = null;
+  }
+
+  if (value === null || value === undefined) {
+    const fallbackValue = typeof fallback === "function" ? fallback() : cloneValue(fallback);
+    recordEntryStatus(`storage:${key}`, "fallback", {
+      variant,
+      operation: "read",
+    });
+    return { value: fallbackValue, fromFallback: true };
+  }
+
+  recordEntryStatus(`storage:${key}`, "success", {
+    variant,
+    operation: "read",
+  });
+  return { value, fromFallback: false };
+}
+
+function persistStorageValue(key, value, { writer = writeJsonStorage, variant = "json" } = {}) {
+  let success = false;
+  try {
+    success = writer(key, value);
+  } catch (error) {
+    recordEntryStatus(`storage:${key}`, "error", {
+      variant,
+      operation: "write",
+      reason: error.message,
+    });
+    return false;
+  }
+
+  recordEntryStatus(`storage:${key}`, success ? "success" : "error", {
+    variant,
+    operation: "write",
+  });
+  return success;
 }
 
 function describeModuleEffects(effects) {
@@ -245,24 +364,60 @@ async function loadAllData() {
   }
 
   setTimestamp("Caricamento in corso…");
-  try {
-    const entries = await Promise.all(
-      DATA_SOURCES.map(async (source) => {
-        const url = resolveDataPath(source.path);
+
+  const previousData = { ...state.data };
+  const results = await Promise.all(
+    DATA_SOURCES.map(async (source) => {
+      const url = resolveDataPath(source.path);
+      recordEntryStatus(`remote:${source.key}`, "loading", { path: source.path, url });
+      try {
         const value = await loadYaml(url);
-        return [source.key, value];
-      })
-    );
-    state.data = Object.fromEntries(entries);
-    state.loadedAt = new Date();
-    renderAll();
-    const sourceLabel = state.dataBase ? ` · sorgente dati: ${state.dataBase}` : "";
-    setTimestamp(`Ultimo aggiornamento: ${state.loadedAt.toLocaleString()}${sourceLabel}`);
-    consumePendingManualSync();
-  } catch (error) {
-    console.error(error);
-    setTimestamp(`Errore nel caricamento: ${error.message}`);
+        return { status: "success", source, url, value };
+      } catch (error) {
+        return { status: "error", source, url, error };
+      }
+    })
+  );
+
+  const nextData = { ...state.data };
+  const fallbackKeys = [];
+  const errors = [];
+
+  results.forEach((result) => {
+    const { source, url } = result;
+    if (result.status === "success") {
+      nextData[source.key] = result.value ?? null;
+      recordEntryStatus(`remote:${source.key}`, "success", { path: source.path, url });
+    } else {
+      const fallbackValue = Object.prototype.hasOwnProperty.call(previousData, source.key)
+        ? previousData[source.key]
+        : null;
+      nextData[source.key] = fallbackValue;
+      const reason = result.error instanceof Error ? result.error.message : String(result.error);
+      fallbackKeys.push(source.key);
+      errors.push({ key: source.key, message: reason });
+      recordEntryStatus(`remote:${source.key}`, "fallback", {
+        path: source.path,
+        url,
+        reason,
+        fallback: fallbackValue === null || fallbackValue === undefined ? "vuoto" : "cache",
+      });
+    }
+  });
+
+  state.data = nextData;
+  state.loadedAt = new Date();
+  renderAll();
+
+  const sourceLabel = state.dataBase ? ` · sorgente dati: ${state.dataBase}` : "";
+  const fallbackLabel = fallbackKeys.length ? ` · fallback attivo: ${fallbackKeys.join(", ")}` : "";
+  setTimestamp(`Ultimo aggiornamento: ${state.loadedAt.toLocaleString()}${sourceLabel}${fallbackLabel}`);
+
+  if (errors.length) {
+    console.warn("Alcune sorgenti dati non sono state aggiornate correttamente", errors);
   }
+
+  consumePendingManualSync();
 }
 
 function ensureTrailingSlash(value) {
@@ -1951,7 +2106,12 @@ function storeManualSyncPayload(result) {
 
   const dataToStore = prepareManualPayloadData(result);
   if (!dataToStore || typeof dataToStore !== "object") {
-    writeJsonStorage(MANUAL_SYNC_STORAGE_KEY, null);
+    persistStorageValue(MANUAL_SYNC_STORAGE_KEY, null);
+    recordEntryStatus(
+      "manual:pending-sync",
+      "fallback",
+      { operation: "write", reason: "invalid-data" }
+    );
     return false;
   }
 
@@ -1968,7 +2128,12 @@ function storeManualSyncPayload(result) {
     runTests: manualPageState.options.autoTests && manualPageState.options.autoApply,
   };
 
-  const success = writeJsonStorage(MANUAL_SYNC_STORAGE_KEY, payload);
+  const success = persistStorageValue(MANUAL_SYNC_STORAGE_KEY, payload);
+  recordEntryStatus(
+    "manual:pending-sync",
+    success ? "success" : "error",
+    { operation: "write" }
+  );
   return success;
 }
 
@@ -1979,8 +2144,21 @@ function renderManualSyncPanels() {
   const historyElement = manualElements.syncHistory;
   const pendingElement = manualElements.pendingSummary;
 
-  const history = readJsonStorage(MANUAL_SYNC_HISTORY_KEY);
-  const pending = readJsonStorage(MANUAL_SYNC_STORAGE_KEY);
+  const historySnapshot = getStorageSnapshot(MANUAL_SYNC_HISTORY_KEY, { fallback: null });
+  const pendingSnapshot = getStorageSnapshot(MANUAL_SYNC_STORAGE_KEY, { fallback: null });
+  const history = historySnapshot.value;
+  const pending = pendingSnapshot.value;
+
+  recordEntryStatus(
+    "manual:last-sync",
+    historySnapshot.fromFallback ? "fallback" : "success",
+    { operation: "read" }
+  );
+  recordEntryStatus(
+    "manual:pending-sync",
+    pendingSnapshot.fromFallback ? "fallback" : "success",
+    { operation: "read" }
+  );
 
   if (statusElement) {
     if (history) {
@@ -2029,10 +2207,13 @@ function renderManualSyncPanels() {
 }
 
 function loadManualOptionsFromStorage() {
-  const stored = readJsonStorage(MANUAL_FLAGS_STORAGE_KEY);
-  if (!stored || typeof stored !== "object") {
-    return;
-  }
+  const snapshot = getStorageSnapshot(MANUAL_FLAGS_STORAGE_KEY, {
+    fallback: () => ({ ...MANUAL_OPTIONS_DEFAULTS }),
+  });
+
+  const stored = snapshot.value && typeof snapshot.value === "object"
+    ? snapshot.value
+    : { ...MANUAL_OPTIONS_DEFAULTS };
 
   manualPageState.options.allowArchive = stored.allowArchive !== false;
   manualPageState.options.runDiagnostics = stored.runDiagnostics !== false;
@@ -2043,10 +2224,21 @@ function loadManualOptionsFromStorage() {
   if (!manualPageState.options.autoApply) {
     manualPageState.options.autoTests = false;
   }
+
+  recordEntryStatus(
+    "manual:options",
+    snapshot.fromFallback ? "fallback" : "success",
+    { operation: "read" }
+  );
 }
 
 function persistManualOptions() {
-  writeJsonStorage(MANUAL_FLAGS_STORAGE_KEY, { ...manualPageState.options });
+  const success = persistStorageValue(MANUAL_FLAGS_STORAGE_KEY, { ...manualPageState.options });
+  recordEntryStatus(
+    "manual:options",
+    success ? "success" : "error",
+    { operation: "write" }
+  );
 }
 
 function syncManualOptionsUI() {
@@ -2127,21 +2319,31 @@ function attachManualOptionHandlers() {
 function initManualNotes() {
   if (!manualElements.notes) return;
 
-  let stored = "";
-  try {
-    stored = window.localStorage?.getItem(MANUAL_NOTES_STORAGE_KEY) || "";
-  } catch (error) {
-    console.warn("Impossibile leggere gli appunti di ricerca", error);
-  }
+  const snapshot = getStorageSnapshot(MANUAL_NOTES_STORAGE_KEY, {
+    fallback: "",
+    reader: readPlainStorage,
+    variant: "text",
+  });
 
-  manualElements.notes.value = stored;
+  manualElements.notes.value = snapshot.value || "";
+
+  recordEntryStatus(
+    "manual:notes",
+    snapshot.fromFallback ? "fallback" : "success",
+    { operation: "read" }
+  );
+
   manualElements.notes.addEventListener("input", (event) => {
-    if (!window.localStorage) return;
-    try {
-      window.localStorage.setItem(MANUAL_NOTES_STORAGE_KEY, event.target.value);
-    } catch (error) {
-      console.warn("Impossibile salvare gli appunti di ricerca", error);
-    }
+    const success = persistStorageValue(
+      MANUAL_NOTES_STORAGE_KEY,
+      event.target.value,
+      { writer: writePlainStorage, variant: "text" }
+    );
+    recordEntryStatus(
+      "manual:notes",
+      success ? "success" : "error",
+      { operation: "write" }
+    );
   });
 }
 
@@ -2150,7 +2352,16 @@ function initManualChecklist() {
     return;
   }
 
-  const stored = readJsonStorage(MANUAL_CHECKLIST_STORAGE_KEY) || {};
+  const snapshot = getStorageSnapshot(MANUAL_CHECKLIST_STORAGE_KEY, {
+    fallback: () => ({}),
+  });
+  const stored = snapshot.value && typeof snapshot.value === "object" ? snapshot.value : {};
+
+  recordEntryStatus(
+    "manual:checklist",
+    snapshot.fromFallback ? "fallback" : "success",
+    { operation: "read" }
+  );
 
   manualElements.checklistInputs.forEach((input) => {
     const flag = input.dataset.manualFlag;
@@ -2158,7 +2369,12 @@ function initManualChecklist() {
     input.checked = Boolean(stored[flag]);
     input.addEventListener("change", () => {
       stored[flag] = input.checked;
-      writeJsonStorage(MANUAL_CHECKLIST_STORAGE_KEY, stored);
+      const success = persistStorageValue(MANUAL_CHECKLIST_STORAGE_KEY, stored);
+      recordEntryStatus(
+        "manual:checklist",
+        success ? "success" : "error",
+        { operation: "write" }
+      );
     });
   });
 }
@@ -2175,7 +2391,13 @@ function setupManualFetchPage() {
   renderManualDiagnostics(null);
   renderManualSyncPanels();
 
-  const pending = readJsonStorage(MANUAL_SYNC_STORAGE_KEY);
+  const pendingSnapshot = getStorageSnapshot(MANUAL_SYNC_STORAGE_KEY, { fallback: null });
+  const pending = pendingSnapshot.value;
+  recordEntryStatus(
+    "manual:pending-sync",
+    pendingSnapshot.fromFallback ? "fallback" : "success",
+    { operation: "read", context: "manual-fetch-init" }
+  );
   if (pending && controlElements.fetchStatus) {
     const dataset = pending.targetDataset || pending.detectedKey || "auto";
     setFetchStatus(
@@ -3055,7 +3277,14 @@ function renderManualSyncInfo(history) {
     return;
   }
 
-  if (!history) {
+  const isValidHistory = history && typeof history === "object";
+  recordEntryStatus(
+    "manual:last-sync",
+    isValidHistory ? "success" : "fallback",
+    { operation: "render" }
+  );
+
+  if (!isValidHistory) {
     controlElements.manualSyncLast.textContent = "Mai eseguita";
     controlElements.manualSyncSummary.textContent = "Nessuna sincronizzazione ricevuta.";
     return;
@@ -3085,21 +3314,33 @@ function consumePendingManualSync() {
     return;
   }
 
-  const payload = readJsonStorage(MANUAL_SYNC_STORAGE_KEY);
+  const payloadSnapshot = getStorageSnapshot(MANUAL_SYNC_STORAGE_KEY, { fallback: null });
+  const payload = payloadSnapshot.value;
   if (!payload || typeof payload !== "object") {
-    const history = readJsonStorage(MANUAL_SYNC_HISTORY_KEY);
-    renderManualSyncInfo(history);
+    const historySnapshot = getStorageSnapshot(MANUAL_SYNC_HISTORY_KEY, { fallback: null });
+    renderManualSyncInfo(historySnapshot.value);
     return;
   }
 
   if (!payload.data || typeof payload.data !== "object") {
     console.warn("Payload di sincronizzazione manuale non valido", payload);
-    writeJsonStorage(MANUAL_SYNC_STORAGE_KEY, null);
-    renderManualSyncInfo(readJsonStorage(MANUAL_SYNC_HISTORY_KEY));
+    persistStorageValue(MANUAL_SYNC_STORAGE_KEY, null);
+    recordEntryStatus(
+      "manual:pending-sync",
+      "fallback",
+      { operation: "write", reason: "invalid-payload" }
+    );
+    const historySnapshot = getStorageSnapshot(MANUAL_SYNC_HISTORY_KEY, { fallback: null });
+    renderManualSyncInfo(historySnapshot.value);
     return;
   }
 
-  writeJsonStorage(MANUAL_SYNC_STORAGE_KEY, null);
+  persistStorageValue(MANUAL_SYNC_STORAGE_KEY, null);
+  recordEntryStatus(
+    "manual:pending-sync",
+    "fallback",
+    { operation: "write", reason: "consumed" }
+  );
 
   const appliedKeys = applyFetchedData(payload.data);
 
@@ -3111,7 +3352,12 @@ function consumePendingManualSync() {
     appliedKeys,
   };
 
-  writeJsonStorage(MANUAL_SYNC_HISTORY_KEY, history);
+  persistStorageValue(MANUAL_SYNC_HISTORY_KEY, history);
+  recordEntryStatus(
+    "manual:last-sync",
+    "success",
+    { operation: "write" }
+  );
 
   if (payload.runTests && controlElements.runTests) {
     runDataTests();
@@ -3148,7 +3394,8 @@ document.addEventListener("DOMContentLoaded", () => {
       reloadButton.addEventListener("click", () => loadAllData());
     }
     setupControlPanel();
-    renderManualSyncInfo(readJsonStorage(MANUAL_SYNC_HISTORY_KEY));
+    const historySnapshot = getStorageSnapshot(MANUAL_SYNC_HISTORY_KEY, { fallback: null });
+    renderManualSyncInfo(historySnapshot.value);
     loadAllData();
   } else if (pageMode === PAGE_MODES.MANUAL_FETCH) {
     setupManualFetchPage();
