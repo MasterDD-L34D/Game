@@ -5,3 +5,5 @@ docs/presentations/showcase/dist/
 logs/qa/
 logs/visual_runs/
 logs/visual_baseline/
+node_modules/
+data/idea_engine.db
