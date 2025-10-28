@@ -24,8 +24,11 @@ test("permette export markdown offline", async ({ page }) => {
   await page.fill("#title", "Idea offline Playwright");
   await page.fill("#summary", "Verifica del flusso di export in modalità offline.");
   await page.fill("#tags", "#playwright #offline");
-  await page.fill("#module", "NR-Test");
-  await page.fill("#entities", "Alpha, Beta");
+  await page.fill("#biomes", "foresta_temperata");
+  await page.fill("#ecosystems", "ecosistema_alpha");
+  await page.fill("#species", "cervo_bianco");
+  await page.fill("#traits", "muta_respiratoria");
+  await page.fill("#game_functions", "telemetria_vc");
   await page.fill("#actions_next", "- [ ] valida export\n- [ ] sincronizza reminder");
 
   await page.getByRole("button", { name: "Anteprima / Export .md" }).click();
@@ -33,9 +36,12 @@ test("permette export markdown offline", async ({ page }) => {
   const preview = page.locator("#result pre.preview");
   await expect(preview).toContainText("IDEA: Idea offline Playwright");
   await expect(preview).toContainText("## Suggested Next Actions");
+  await expect(preview).toContainText("- **Biomi:** foresta_temperata");
 
   const reminder = page.locator("#result pre.preview");
   await expect(reminder).toContainText("TAGS: #playwright #offline");
+  await expect(reminder).toContainText("BIOMI: foresta_temperata");
+  await expect(reminder).toContainText("ECOSISTEMI: ecosistema_alpha");
 
   const note = page.locator("#result .note.small");
   await expect(note).toContainText("Metti il file in  /ideas");
