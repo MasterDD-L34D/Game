@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-10-27T10:47:13Z",
+  "generated_at": "2025-10-28T19:51:30Z",
   "resources": [
     {
       "path": "data/analysis/trait_baseline.yaml",
@@ -38,6 +38,12 @@
       "notes": "Prototipo catalogo specie con trait_plan manuale per dune_stalker."
     },
     {
+      "path": "data/telemetry.yaml",
+      "type": "reference",
+      "state": "core",
+      "notes": "Telemetria costi con riferimenti a trait_T1/T2/T3 e slot correlati."
+    },
+    {
       "path": "data/traits/glossary.json",
       "type": "reference",
       "state": "core",
@@ -48,6 +54,42 @@
       "type": "reference",
       "state": "core",
       "notes": "Matrice specie/eventi con 4 eventi e 18 specie correlate ai trait."
+    },
+    {
+      "path": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+      "type": "reference",
+      "state": "core",
+      "notes": "Regole ambientali con 23 suggerimenti di trait."
+    },
+    {
+      "path": "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+      "type": "reference",
+      "state": "core",
+      "notes": "Glossario pack con 29 etichette bilingui."
+    },
+    {
+      "path": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+      "type": "reference",
+      "state": "core",
+      "notes": "Catalogo principale con 29 tratti dettagliati e fonti env_to_traits."
+    },
+    {
+      "path": "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+      "type": "reference",
+      "state": "core",
+      "notes": "Registro ambienti→tratti per generatore con 20 blocchi principali."
+    },
+    {
+      "path": "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+      "type": "reference",
+      "state": "mock",
+      "notes": "Schema JSON mock del pack generator con definizioni di traits."
+    },
+    {
+      "path": "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json",
+      "type": "reference",
+      "state": "mock",
+      "notes": "Prototipo export VTT con liste di trait per ruoli narrativi."
     },
     {
       "path": "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
@@ -155,49 +197,25 @@
       "path": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
       "type": "specie",
       "state": "core",
-      "notes": "Blight Micotico con 1 trait suggeriti e biome foresta_temperata."
+      "notes": "Blight Micotico con 1 trait suggerito e biome foresta_temperata."
     },
     {
       "path": "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
       "type": "evento",
       "state": "core",
-      "notes": "Evento: Seme d'Uragano con 1 trait suggeriti e biome foresta_temperata."
+      "notes": "Evento: Seme d'Uragano con 1 trait suggerito e biome foresta_temperata."
     },
     {
       "path": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
       "type": "specie",
       "state": "core",
-      "notes": "Lupo della Foresta con 1 trait suggeriti e biome foresta_temperata."
+      "notes": "Lupo della Foresta con 1 trait suggerito e biome foresta_temperata."
     },
     {
       "path": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
       "type": "specie",
       "state": "core",
-      "notes": "Sentinella Radice con 1 trait suggeriti e biome foresta_temperata."
-    },
-    {
-      "path": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
-      "type": "reference",
-      "state": "core",
-      "notes": "Regole ambientali con 23 suggerimenti di trait."
-    },
-    {
-      "path": "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-      "type": "reference",
-      "state": "core",
-      "notes": "Glossario pack con 29 etichette bilingui."
-    },
-    {
-      "path": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
-      "type": "reference",
-      "state": "core",
-      "notes": "Catalogo principale con 29 tratti dettagliati e fonti env_to_traits."
-    },
-    {
-      "path": "packs/evo_tactics_pack/out/patches",
-      "type": "evento",
-      "state": "mock",
-      "notes": "Patch generator output con 23 file .patch.yaml e blocco suggested_traits minimal."
+      "notes": "Sentinella Radice con 1 trait suggerito e biome foresta_temperata."
     }
   ]
 }
