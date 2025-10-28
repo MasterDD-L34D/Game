@@ -1,7 +1,7 @@
 id: thermo-raptor
 display_name: Thermo Raptor
 biomes:
-  - deserto_caldo
+  - abisso_vulcanico
 role_trofico: predatore_terziario_apex
 functional_tags:
   - predatore
@@ -40,7 +40,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: deserto_caldo
+  biome_class: abisso_vulcanico
   koppen:
     - BWh
     - BSh

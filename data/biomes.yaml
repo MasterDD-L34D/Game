@@ -628,7 +628,7 @@ biomes:
       - thunder_bloom
     hazard:
       description: "Fulmini continui, shear supersonico e cadute verso pozze di plasma."
-      severity: extreme
+      severity: high
       stress_modifiers:
         lightning_chain: 0.07
         shear_winds: 0.06

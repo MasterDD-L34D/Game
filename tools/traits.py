@@ -443,6 +443,57 @@ def collect_species_and_events(
     return species, events, _unique_sorted(sources)
 
 
+def _format_alias_details(records: Iterable[dict[str, Any]]) -> str:
+    chunks: list[str] = []
+    for record in records or []:
+        alias = record.get("alias") or "?"
+        canonical = record.get("canonical") or "?"
+        extras: list[str] = []
+        status = record.get("status")
+        notes = record.get("notes")
+        if status:
+            extras.append(f"status={status}")
+        if notes:
+            extras.append(notes)
+        suffix = f" ({'; '.join(extras)})" if extras else ""
+        chunks.append(f"{alias}→{canonical}{suffix}")
+    return ", ".join(chunks)
+
+
+def lint_datasets(
+    species_hints: Iterable[Path] | None = None,
+    events_hints: Iterable[Path] | None = None,
+) -> int:
+    species_paths = species_hints or DEFAULT_SPECIES_HINTS
+    events_paths = events_hints or DEFAULT_EVENTS_HINTS
+    species, events, _ = collect_species_and_events(species_paths, events_paths)
+
+    issues = 0
+    for catalog_name, entries in (("species", species), ("events", events)):
+        for identifier, payload in sorted(entries.items()):
+            aliases = payload.get("biome_aliases", [])
+            if aliases:
+                issues += 1
+                print(
+                    f"[WARN] {catalog_name} '{identifier}' usa alias bioma: {_format_alias_details(aliases)}",
+                    file=sys.stderr,
+                )
+            for biome in payload.get("biomes", []):
+                if biome not in CANONICAL_BIOMES:
+                    issues += 1
+                    print(
+                        f"[ERROR] {catalog_name} '{identifier}' punta a bioma non canonico '{biome}'",
+                        file=sys.stderr,
+                    )
+
+    if issues:
+        print(f"Rilevate {issues} incongruenze bioma.")
+        return 1
+
+    print("Biomi canonici OK su specie ed eventi.")
+    return 0
+
+
 def generate_matrix(
     species_hints: Iterable[Path] | None = None,
     events_hints: Iterable[Path] | None = None,
@@ -539,6 +590,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="Percorso aggiuntivo da cui leggere gli eventi",
     )
 
+    lint_parser = subparsers.add_parser(
+        "lint", help="Valida che specie ed eventi usino biomi canonici"
+    )
+    lint_parser.add_argument(
+        "--species-path",
+        type=Path,
+        action="append",
+        help="Percorso aggiuntivo da cui leggere le specie",
+    )
+    lint_parser.add_argument(
+        "--events-path",
+        type=Path,
+        action="append",
+        help="Percorso aggiuntivo da cui leggere gli eventi",
+    )
+
     return parser
 
 
@@ -558,6 +625,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "validate":
         expected = generate_matrix(species_paths, events_paths)
         return validate_matrix(args.matrix, expected)
+
+    if args.command == "lint":
+        return lint_datasets(species_paths, events_paths)
 
     parser.error(f"Comando non riconosciuto: {args.command}")
     return 3

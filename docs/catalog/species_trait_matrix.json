@@ -5,7 +5,7 @@
         "evento_ecologico"
       ],
       "biomes": [
-        "cryosteppe"
+        "mezzanotte_orbitale"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -17,7 +17,7 @@
       ],
       "display_name": "Evento: Brina Tempestosa",
       "environment_focus": {
-        "biome_class": "cryosteppe"
+        "biome_class": "mezzanotte_orbitale"
       },
       "id": "evento-brinastorm",
       "morphotype": "volatore_planatore",
@@ -36,7 +36,7 @@
         "evento_ecologico"
       ],
       "biomes": [
-        "deserto_caldo"
+        "abisso_vulcanico"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -48,7 +48,7 @@
       ],
       "display_name": "Evento: Ondata Termica Ionica",
       "environment_focus": {
-        "biome_class": "deserto_caldo"
+        "biome_class": "abisso_vulcanico"
       },
       "id": "evento-ondata-termica",
       "morphotype": "volatore_planatore",
@@ -67,14 +67,14 @@
         "evento_ecologico"
       ],
       "biomes": [
-        "foresta_temperata"
+        "foresta_miceliale"
       ],
       "core_traits": [
         "pelli_fitte"
       ],
       "display_name": "Evento: Seme d'Uragano",
       "environment_focus": {
-        "biome_class": "foresta_temperata"
+        "biome_class": "foresta_miceliale"
       },
       "id": "evento-seme-uragano",
       "morphotype": null,
@@ -93,7 +93,7 @@
         "evento_ecologico"
       ],
       "biomes": [
-        "badlands"
+        "dorsale_termale_tropicale"
       ],
       "core_traits": [
         "cute_resistente_sali",
@@ -103,7 +103,7 @@
       ],
       "display_name": "Evento: Tempesta Ferrosa",
       "environment_focus": {
-        "biome_class": "badlands"
+        "biome_class": "dorsale_termale_tropicale"
       },
       "id": "evento-tempesta-ferrosa",
       "morphotype": "volatore_planatore",
@@ -157,7 +157,7 @@
         "Skirmisher"
       ],
       "biomes": [
-        "cryosteppe"
+        "mezzanotte_orbitale"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -169,7 +169,7 @@
       ],
       "display_name": "Gabbiano d’Aurora",
       "environment_focus": {
-        "biome_class": "cryosteppe"
+        "biome_class": "mezzanotte_orbitale"
       },
       "form_threshold": {
         "weight_budget": 12
@@ -191,14 +191,14 @@
         "minaccia_microbica"
       ],
       "biomes": [
-        "foresta_temperata"
+        "foresta_miceliale"
       ],
       "core_traits": [
         "pelli_fitte"
       ],
       "display_name": "Blight Micotico",
       "environment_focus": {
-        "biome_class": "foresta_temperata"
+        "biome_class": "foresta_miceliale"
       },
       "id": "blight-micotico",
       "morphotype": null,
@@ -218,7 +218,7 @@
         "Warden"
       ],
       "biomes": [
-        "deserto_caldo"
+        "abisso_vulcanico"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -230,7 +230,7 @@
       ],
       "display_name": "Cactus Weaver",
       "environment_focus": {
-        "biome_class": "deserto_caldo"
+        "biome_class": "abisso_vulcanico"
       },
       "form_threshold": {
         "weight_budget": 12
@@ -252,7 +252,7 @@
         "predatore_terziario_apex"
       ],
       "biomes": [
-        "cryosteppe"
+        "mezzanotte_orbitale"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -264,7 +264,7 @@
       ],
       "display_name": "Cryo Lynx",
       "environment_focus": {
-        "biome_class": "cryosteppe"
+        "biome_class": "mezzanotte_orbitale"
       },
       "id": "cryo-lynx",
       "morphotype": "cursoriale_quadrupede",
@@ -283,7 +283,7 @@
         "predatore_terziario_apex"
       ],
       "biomes": [
-        "badlands"
+        "dorsale_termale_tropicale"
       ],
       "core_traits": [
         "cute_resistente_sali",
@@ -293,7 +293,7 @@
       ],
       "display_name": "Dune Stalker",
       "environment_focus": {
-        "biome_class": "badlands"
+        "biome_class": "dorsale_termale_tropicale"
       },
       "id": "dune-stalker",
       "morphotype": "cursoriale_quadrupede",
@@ -314,13 +314,6 @@
     },
     "dune_stalker": {
       "archetypes": [],
-      "biome_aliases": [
-        {
-          "alias": "caverna_risonante",
-          "canonical": "caverna",
-          "notes": "Alias storico per la Caverna Risonante."
-        }
-      ],
       "biomes": [
         "caverna",
         "savana"
@@ -332,7 +325,7 @@
       ],
       "display_name": "Dune Stalker",
       "environment_focus": {
-        "biome_class": "caverna_risonante",
+        "biome_class": "caverna",
         "rationale": "Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline in cui si rifugia il branco durante le tempeste desertiche."
       },
       "form_threshold": {
@@ -366,7 +359,7 @@
         "Skirmisher"
       ],
       "biomes": [
-        "badlands"
+        "dorsale_termale_tropicale"
       ],
       "core_traits": [
         "cute_resistente_sali",
@@ -376,7 +369,7 @@
       ],
       "display_name": "Echo Wing",
       "environment_focus": {
-        "biome_class": "badlands"
+        "biome_class": "dorsale_termale_tropicale"
       },
       "form_threshold": {
         "weight_budget": 12
@@ -404,7 +397,7 @@
         "Warden"
       ],
       "biomes": [
-        "badlands"
+        "dorsale_termale_tropicale"
       ],
       "core_traits": [
         "cute_resistente_sali",
@@ -414,7 +407,7 @@
       ],
       "display_name": "Ferrocolonia Magnetotattica",
       "environment_focus": {
-        "biome_class": "badlands"
+        "biome_class": "dorsale_termale_tropicale"
       },
       "form_threshold": {
         "weight_budget": 13
@@ -441,14 +434,14 @@
         "predatore_terziario_apex"
       ],
       "biomes": [
-        "foresta_temperata"
+        "foresta_miceliale"
       ],
       "core_traits": [
         "pelli_fitte"
       ],
       "display_name": "Lupo della Foresta",
       "environment_focus": {
-        "biome_class": "foresta_temperata"
+        "biome_class": "foresta_miceliale"
       },
       "id": "lupus-temperatus",
       "morphotype": null,
@@ -467,7 +460,7 @@
         "minaccia_microbica"
       ],
       "biomes": [
-        "badlands"
+        "dorsale_termale_tropicale"
       ],
       "core_traits": [
         "cute_resistente_sali",
@@ -477,7 +470,7 @@
       ],
       "display_name": "Nano Rust Bloom",
       "environment_focus": {
-        "biome_class": "badlands"
+        "biome_class": "dorsale_termale_tropicale"
       },
       "id": "nano-rust-bloom",
       "morphotype": "scavenger_corazzato",
@@ -502,7 +495,7 @@
         "Skirmisher"
       ],
       "biomes": [
-        "deserto_caldo"
+        "abisso_vulcanico"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -514,7 +507,7 @@
       ],
       "display_name": "Noctule Termico",
       "environment_focus": {
-        "biome_class": "deserto_caldo"
+        "biome_class": "abisso_vulcanico"
       },
       "form_threshold": {
         "weight_budget": 12
@@ -537,7 +530,7 @@
         "Warden"
       ],
       "biomes": [
-        "badlands"
+        "dorsale_termale_tropicale"
       ],
       "core_traits": [
         "cute_resistente_sali",
@@ -547,7 +540,7 @@
       ],
       "display_name": "Rust Scavenger",
       "environment_focus": {
-        "biome_class": "badlands"
+        "biome_class": "dorsale_termale_tropicale"
       },
       "form_threshold": {
         "weight_budget": 12
@@ -574,7 +567,7 @@
         "erbivoro_primario"
       ],
       "biomes": [
-        "badlands"
+        "dorsale_termale_tropicale"
       ],
       "core_traits": [
         "cute_resistente_sali",
@@ -584,7 +577,7 @@
       ],
       "display_name": "Sand Burrower",
       "environment_focus": {
-        "biome_class": "badlands"
+        "biome_class": "dorsale_termale_tropicale"
       },
       "id": "sand-burrower",
       "morphotype": "cursoriale_quadrupede",
@@ -608,14 +601,14 @@
         "ingegneri_ecosistema"
       ],
       "biomes": [
-        "foresta_temperata"
+        "foresta_miceliale"
       ],
       "core_traits": [
         "pelli_fitte"
       ],
       "display_name": "Sentinella Radice",
       "environment_focus": {
-        "biome_class": "foresta_temperata"
+        "biome_class": "foresta_miceliale"
       },
       "form_threshold": {
         "weight_budget": 12
@@ -637,7 +630,7 @@
         "minaccia_microbica"
       ],
       "biomes": [
-        "deserto_caldo"
+        "abisso_vulcanico"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -649,7 +642,7 @@
       ],
       "display_name": "Silica Bloom",
       "environment_focus": {
-        "biome_class": "deserto_caldo"
+        "biome_class": "abisso_vulcanico"
       },
       "id": "silica-bloom",
       "morphotype": "scavenger_corazzato",
@@ -669,7 +662,7 @@
         "Warden"
       ],
       "biomes": [
-        "cryosteppe"
+        "mezzanotte_orbitale"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -681,7 +674,7 @@
       ],
       "display_name": "Bisonte Nano della Steppa",
       "environment_focus": {
-        "biome_class": "cryosteppe"
+        "biome_class": "mezzanotte_orbitale"
       },
       "form_threshold": {
         "weight_budget": 12
@@ -703,7 +696,7 @@
         "minaccia_microbica"
       ],
       "biomes": [
-        "cryosteppe"
+        "mezzanotte_orbitale"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -715,7 +708,7 @@
       ],
       "display_name": "Thaw Rot",
       "environment_focus": {
-        "biome_class": "cryosteppe"
+        "biome_class": "mezzanotte_orbitale"
       },
       "id": "thaw-rot",
       "morphotype": "scavenger_corazzato",
@@ -734,7 +727,7 @@
         "predatore_terziario_apex"
       ],
       "biomes": [
-        "deserto_caldo"
+        "abisso_vulcanico"
       ],
       "core_traits": [
         "cuticole_cerose",
@@ -746,7 +739,7 @@
       ],
       "display_name": "Thermo Raptor",
       "environment_focus": {
-        "biome_class": "deserto_caldo"
+        "biome_class": "abisso_vulcanico"
       },
       "id": "thermo-raptor",
       "morphotype": "cursoriale_quadrupede",
