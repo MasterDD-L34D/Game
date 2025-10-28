@@ -1,7 +1,7 @@
 id: noctule-termico
 display_name: Noctule Termico
 biomes:
-  - savana
+  - deserto_caldo
 role_trofico: dispersore_ponte
 functional_tags:
   - impollinatore
@@ -52,7 +52,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: savana
+  biome_class: deserto_caldo
   koppen:
     - BWh
     - BSh

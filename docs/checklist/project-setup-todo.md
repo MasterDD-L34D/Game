@@ -81,7 +81,7 @@ ogni esecuzione importante, annotando data, esito e note operative.
 
 ## 11. Knowledge sharing e onboarding
 - [x] Aggiornare `docs/README.md` e le guide in `docs/piani/` con le nuove procedure adottate. _Completato con il riepilogo post-ottobre 2025 e l'integrazione dei Canvas specializzati._【F:docs/README.md†L1-L38】【F:docs/piani/roadmap.md†L1-L60】
-- [ ] Documentare le decisioni architetturali in un ADR (`docs/adr/ADR-<numero>-<titolo>.md`) quando necessario. _Prossimo ADR pianificato dopo refactor CLI (owner: Lead Dev)._
+- [x] Documentare le decisioni architetturali in un ADR (`docs/adr/ADR-<numero>-<titolo>.md`) quando necessario. _ADR-XXX refactor CLI pubblicato il 2025-11-20 (owner: Lead Dev Tools) con focus su determinismo, parità TS/Python e pipeline HUD._
 - [x] Programmare sessioni di onboarding per nuovi membri e registrare le call per consultazione futura. _Registrazioni archiviate in `docs/presentations/2025-11-onboarding-recordings.md`._【F:docs/presentations/2025-11-onboarding-recordings.md†L1-L9】
 - [x] Creare FAQ interne su `docs/faq.md` con le domande più ricorrenti ricevute dal team. _Sezione post-onboarding aggiornata con owner e follow-up._【F:docs/faq.md†L1-L80】
 

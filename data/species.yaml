@@ -77,7 +77,7 @@ species:
         - risonanza_di_branco
         - tattiche_di_branco
       environment_focus:
-        biome_class: caverna_risonante
+        biome_class: caverna
         rationale: >-
           Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline
           in cui si rifugia il branco durante le tempeste desertiche.

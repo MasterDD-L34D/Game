@@ -1,7 +1,7 @@
 id: thermo-raptor
 display_name: Thermo Raptor
 biomes:
-  - savana
+  - deserto_caldo
 role_trofico: predatore_terziario_apex
 functional_tags:
   - predatore
@@ -40,7 +40,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: savana
+  biome_class: deserto_caldo
   koppen:
     - BWh
     - BSh
@@ -59,8 +59,8 @@ derived_from_environment:
     - Vanguard
     - Warden
 telemetry:
-  expected_pick_rate:
-  spawn_weight:
+  expected_pick_rate: null
+  spawn_weight: null
 services_links: []
 genetic_traits: []
 mate_synergy: []
