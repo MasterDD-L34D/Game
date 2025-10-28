@@ -29,3 +29,9 @@
 - `data/analysis/trait_baseline.yaml` e `trait_env_mapping.json` restano generati automaticamente: richiedono revisione designer per diventare core.
 - Nessuna fonte in `appendici/` contiene ancora riferimenti a trait: valutare se aggiungere appendici di design dedicate.
 - Output patch (`out/patches`) hanno solo suggerimenti generici: integrare parametri encounter completi o rimuoverli se obsoleti.
+
+## 2025-10-28T20:49:51Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 36 (core: 29/29, mock: 7/7)
+- Nessun avviso registrato.
+- ✅ Nessun errore critico.
