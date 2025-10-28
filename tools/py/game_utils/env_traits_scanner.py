@@ -110,9 +110,40 @@ def load_rules(registries_dir: Path) -> Sequence[Mapping]:
 
 
 def iter_species_files(species_dir: Path) -> Iterator[Path]:
-    """Restituisce i file delle specie in ordine deterministico."""
+    """Restituisce i file delle specie in ordine deterministico.
 
-    yield from sorted(path for path in species_dir.glob("*.yaml") if path.is_file())
+    Supporta directory annidate e file singoli; effettua inoltre il fallback su
+    pattern `.yaml` e `.yml` per retrocompatibilità con gli snapshot legacy.
+    """
+
+    if species_dir.is_file():
+        yield species_dir
+        return
+
+    if not species_dir.exists():
+        return
+
+    patterns = ("*.yaml", "*.yml")
+    candidates: set[Path] = set()
+
+    for pattern in patterns:
+        candidates.update(path for path in species_dir.rglob(pattern) if path.is_file())
+
+    if not candidates:
+        # Fallback per directory che non supportano rglob (es. link o permessi
+        # limitati) – manteniamo l'iterazione superficiale originale.
+        for pattern in patterns:
+            candidates.update(path for path in species_dir.glob(pattern) if path.is_file())
+
+    def _sort_key(path: Path) -> tuple[str, str]:
+        try:
+            relative = path.relative_to(species_dir)
+        except ValueError:
+            relative = path
+        return (relative.as_posix(), path.name)
+
+    for path in sorted(candidates, key=_sort_key):
+        yield path
 
 
 def build_patch(
