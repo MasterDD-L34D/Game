@@ -4,6 +4,16 @@
   "scripts": {
     "test:web": "npm --prefix tools/ts run test:web --",
     "build": "npm --prefix tools/ts run build --",
-    "test": "npm --prefix tools/ts run test --"
+    "test": "npm run test:api && npm --prefix tools/ts run test --",
+    "test:api": "node --test tests/api/*.test.js",
+    "start:api": "node server/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "nedb-promises": "^6.2.3"
+  },
+  "devDependencies": {
+    "supertest": "^6.3.4"
   }
 }

@@ -15,8 +15,21 @@ Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee.
    ```
 3. Pubblica GitHub Pages (branch `main`, cartella `/docs`).
 
+## Backend API (Node)
+- Installa le dipendenze del repository se non lo hai già fatto: `npm install`.
+- Avvia il servizio Idea Engine locale: `npm run start:api` (porta predefinita `3333`).
+- Il servizio usa un database persistente (`data/idea_engine.db`) basato su NeDB per catalogare tutte le idee.
+- Endpoints principali:
+  - `GET /api/health` per verificare lo stato del servizio.
+  - `POST /api/ideas` salva una nuova idea e restituisce il piano Codex GPT.
+  - `GET /api/ideas` e `GET /api/ideas/:id` per consultare l'archivio.
+  - `GET /api/ideas/:id/report` rigenera il brief incrementale per GPT.
+
 ## Uso
-- Se `apiBase` è configurato verso il tuo backend Idea Intake (Node/Express), il form invia a `/api/ideas`.
+- Apri la pagina **Idea Engine** dal Support Hub (`docs/ideas/index.html`) per utilizzare il form con lo stesso stile del
+  sito pubblico.
+- Con `apiBase` configurato verso il servizio Node, il tasto **Invia al backend** registra l'idea nel database e mostra il
+  report "Codex GPT Integration Brief" completo di pulsanti per copia e download.
 - Se non hai backend, clicca **Anteprima / Export .md**: scarica un file già formattato da mettere in `ideas/`.
 - Il workflow `.github/workflows/idea-intake-index.yml` aggiorna `IDEAS_INDEX.md` ad ogni commit in `ideas/`.
 
