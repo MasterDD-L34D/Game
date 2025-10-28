@@ -7,10 +7,7 @@ receipt:
 id: echo-wing
 display_name: Echo Wing
 biomes:
-  - canyons_risonanti
-  - foresta_miceliale
-  - savana
-  - mezzanotte_orbitale
+  - badlands
 role_trofico: dispersore_ponte
 functional_tags:
   - impollinatore
@@ -55,7 +52,7 @@ jobs_synergy:
   - Skirmisher
   - Invoker
 environment_affinity:
-  biome_class: canyons_risonanti
+  biome_class: badlands
   koppen:
     - BSk
     - BWk

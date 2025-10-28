@@ -1,7 +1,7 @@
 id: steppe-bison-mini
 display_name: Bisonte Nano della Steppa
 biomes:
-  - mezzanotte_orbitale
+  - cryosteppe
 role_trofico: ingegneri_ecosistema
 functional_tags:
   - ingegneri_ecosistema
@@ -56,7 +56,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: mezzanotte_orbitale
+  biome_class: cryosteppe
   koppen:
     - BSk
     - Dfc

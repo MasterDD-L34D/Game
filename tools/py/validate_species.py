@@ -16,6 +16,57 @@ def _maybe_load_yaml(path: Path | None):
         return yaml.safe_load(handle)
 
 
+def _build_biome_resolver(biomes_data, aliases_data):
+    canonical = set()
+    if isinstance(biomes_data, dict):
+        biomes_section = biomes_data.get("biomes") or {}
+        if isinstance(biomes_section, dict):
+            canonical = {str(key) for key in biomes_section.keys()}
+
+    resolver: dict[str, str] = {}
+    alias_tokens: set[str] = set()
+
+    def _register(token: str, canonical_id: str, is_alias: bool = False) -> None:
+        key = token.casefold()
+        resolver[key] = canonical_id
+        if is_alias:
+            alias_tokens.add(key)
+
+    def _variants(token: str) -> set[str]:
+        variants = {
+            token,
+            token.replace("-", "_"),
+            token.replace("_", "-"),
+            token.replace(" ", "_"),
+            token.replace(" ", "-"),
+        }
+        return {variant for variant in variants if variant}
+
+    for canonical_id in canonical:
+        for variant in _variants(canonical_id):
+            _register(variant, canonical_id)
+
+    alias_entries = {}
+    if isinstance(aliases_data, dict):
+        alias_entries = aliases_data.get("aliases") or {}
+
+    for alias, payload in (alias_entries or {}).items():
+        if isinstance(payload, dict):
+            canonical_id = payload.get("canonical")
+        else:
+            canonical_id = payload
+        if not canonical_id:
+            continue
+        canonical_id = str(canonical_id)
+        if canonical and canonical_id not in canonical:
+            continue
+        alias_str = str(alias)
+        for variant in _variants(alias_str):
+            _register(variant, canonical_id, is_alias=True)
+
+    return canonical, resolver, alias_tokens
+
+
 def load_yaml(path):
     with open(path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
@@ -96,25 +147,49 @@ def compute_known_counters(spec, chosen_set):
     return out
 
 
-def validate(path, baseline_path: Path | None = None, biomes_path: Path | None = None):
+def validate(
+    path,
+    baseline_path: Path | None = None,
+    biomes_path: Path | None = None,
+    biome_aliases_path: Path | None = None,
+):
     spec = load_yaml(path)
     by_slot, synmap = collect_catalog(spec)
     res_cap, dr_cap = get_caps(spec)
 
     baseline_data = _maybe_load_yaml(baseline_path)
     biomes_data = _maybe_load_yaml(biomes_path)
+    biome_aliases = _maybe_load_yaml(biome_aliases_path)
+
+    canonical_biomes, biome_resolver, alias_tokens = _build_biome_resolver(
+        biomes_data, biome_aliases
+    )
+
+    def _resolve_biome(token: str | None) -> tuple[str | None, bool]:
+        if not isinstance(token, str):
+            return None, False
+        key = token.casefold()
+        resolved = biome_resolver.get(key)
+        return resolved, key in alias_tokens
+
+    def _normalize_biome_set(values):
+        normalized = set()
+        for value in values:
+            resolved, _ = _resolve_biome(value)
+            if resolved:
+                normalized.add(resolved)
+            elif isinstance(value, str):
+                normalized.add(value)
+        return normalized
 
     baseline_traits = {}
     trait_biomes = {}
     if isinstance(baseline_data, dict):
         baseline_traits = baseline_data.get("traits", {})
         trait_biomes = {
-            trait_id: set((entry.get("biomi") or {}).keys()) for trait_id, entry in baseline_traits.items()
+            trait_id: _normalize_biome_set((entry.get("biomi") or {}).keys())
+            for trait_id, entry in baseline_traits.items()
         }
-
-    known_biomes = set()
-    if isinstance(biomes_data, dict):
-        known_biomes = set((biomes_data.get("biomes") or {}).keys())
 
     report = {"file": path, "species": [], "errors": 0, "warnings": 0}
     for sp in spec.get("species", []):
@@ -123,8 +198,16 @@ def validate(path, baseline_path: Path | None = None, biomes_path: Path | None =
         errors, warnings = [], []
 
         biome_affinity = sp.get("biome_affinity")
-        if biome_affinity and known_biomes and biome_affinity not in known_biomes:
-            errors.append(f"biome_affinity '{biome_affinity}' non definito in biomes dataset")
+        if biome_affinity and canonical_biomes:
+            resolved, used_alias = _resolve_biome(biome_affinity)
+            if not resolved:
+                errors.append(
+                    f"biome_affinity '{biome_affinity}' non definito in biomes dataset"
+                )
+            elif used_alias:
+                warnings.append(
+                    f"biome_affinity '{biome_affinity}' utilizza un alias, usare '{resolved}'"
+                )
 
         trait_plan = sp.get("trait_plan") or {}
         if trait_plan:
@@ -147,15 +230,25 @@ def validate(path, baseline_path: Path | None = None, biomes_path: Path | None =
             env_focus = trait_plan.get("environment_focus") or {}
             biome_class = env_focus.get("biome_class")
             if biome_class and trait_biomes:
+                resolved_biome, alias_used = _resolve_biome(biome_class)
+                lookup_biome = resolved_biome or biome_class
                 available_traits = [
                     tid
                     for tid in (trait_plan.get("core") or []) + (trait_plan.get("optional") or [])
-                    if biome_class in trait_biomes.get(tid, set())
+                    if lookup_biome in trait_biomes.get(tid, set())
                 ]
                 if not available_traits:
                     warnings.append(
                         f"nessun tratto del piano supporta biome_class '{biome_class}'"
                     )
+                if resolved_biome and alias_used:
+                    warnings.append(
+                        f"environment_focus.biome_class '{biome_class}' utilizza un alias, usare '{resolved_biome}'"
+                    )
+            elif biome_class and canonical_biomes and not _resolve_biome(biome_class)[0]:
+                warnings.append(
+                    f"environment_focus.biome_class '{biome_class}' non è un bioma noto"
+                )
 
         est = sp.get("estimated_weight", 0)
         bud = sp.get("weight_budget", spec["global_rules"]["morph_budget"]["default_weight_budget"])
@@ -240,5 +333,18 @@ if __name__ == "__main__":
         default=Path("data/biomes.yaml"),
         help="Dataset biomi per validare le affinità specie",
     )
+    ap.add_argument(
+        "--biome-aliases",
+        type=Path,
+        default=Path("data/biome_aliases.yaml"),
+        help="Mappa YAML degli alias dei biomi",
+    )
     args = ap.parse_args()
-    sys.exit(validate(args.path, baseline_path=args.baseline, biomes_path=args.biomes))
+    sys.exit(
+        validate(
+            args.path,
+            baseline_path=args.baseline,
+            biomes_path=args.biomes,
+            biome_aliases_path=args.biome_aliases,
+        )
+    )
