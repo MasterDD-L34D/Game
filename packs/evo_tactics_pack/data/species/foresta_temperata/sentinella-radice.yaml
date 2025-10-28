@@ -59,7 +59,12 @@ environment_affinity:
     - incendi sporadici
 derived_from_environment:
   suggested_traits:
-    - pelli_fitte
+    - focus_frazionato
+    - pathfinder
+    - pianificatore
+  optional_traits:
+    - random
+    - empatia_coordinativa
 genetic_traits: []
 mate_synergy: []
 jobs_synergy: []

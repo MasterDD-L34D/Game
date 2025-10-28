@@ -46,7 +46,12 @@ environment_affinity:
     - incendi sporadici
 derived_from_environment:
   suggested_traits:
-    - pelli_fitte
+    - empatia_coordinativa
+    - tattiche_di_branco
+    - risonanza_di_branco
+  optional_traits:
+    - focus_frazionato
+    - occhi_infrarosso_composti
 telemetry:
   expected_pick_rate: null
   spawn_weight: null

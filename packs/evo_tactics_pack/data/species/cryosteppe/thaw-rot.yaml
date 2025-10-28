@@ -51,12 +51,12 @@ environment_affinity:
     - Dfc
 derived_from_environment:
   suggested_traits:
-    - cuticole_cerose
-    - grassi_termici
-    - pelli_cave
-    - pigmenti_aurorali
-    - proteine_shock_termico
-    - reti_capillari_radici
+    - filamenti_digestivi_compattanti
+    - spore_psichiche_silenziate
+    - sangue_piroforico
+  optional_traits:
+    - secrezione_rallentante_palmi
+    - eco_interno_riflesso
   required_capabilities: []
   services_links: []
   jobs_bias:

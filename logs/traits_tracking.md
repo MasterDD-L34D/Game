@@ -1,5 +1,13 @@
 # Monitoraggio inventario trait
 
+## 2025-10-29 — Trait ↔ Specie rollout prioritario
+
+- Rigenerata la matrice di copertura (`python tools/py/report_trait_coverage.py --species-root packs/evo_tactics_pack/data/species --out-csv data/analysis/trait_coverage_matrix.csv`), con esito `traits_with_species = 27/29` e `rules_missing_species_total = 0`.
+- Batch Badlands: verificato `dune-stalker` su dorsale termale tropicale (smoke test CLI `validate-ecosystem-pack`) confermando la sinergia tra `artigli_sette_vie`/`struttura_elastica_amorfa` e gli encounter Elite.
+- Batch Foresta miceliale: validato `lupus-temperatus` con focus su `tattiche_di_branco`/`empatia_coordinativa`, nessun warning nei log del validator.
+- Batch Cryosteppe: validato `aurora-gull` verificando `criostasi_adattiva` e `sonno_emisferico_alternato` nei profili di spawn; il bilanciamento VC resta entro i limiti previsti.
+- Quicklook aggiornato: `docs/catalog/species_trait_quicklook.csv` funge da indice rapido per i pairing core/opzionali dei biomi prioritari.
+
 ## 2025-10-28
 
 ### Checklist inventario

@@ -52,10 +52,13 @@ environment_affinity:
     - magnetic_patches
 derived_from_environment:
   suggested_traits:
-    - cute_resistente_sali
-    - enzimi_chelanti
-    - pelli_anti_ustione
-    - pigmenti_termici
+    - artigli_sette_vie
+    - coda_frusta_cinetica
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
+  optional_traits:
+    - olfatto_risonanza_magnetica
+    - respiro_a_scoppio
   required_capabilities:
     - build_cover
     - dr_impact_cap

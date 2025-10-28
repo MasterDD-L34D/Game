@@ -693,34 +693,191 @@
     },
     {
       "when": {
-        "biome_class": "caverna_risonante"
+        "biome_class": "dorsale_termale_tropicale",
+        "morphotype": "cursoriale_quadrupede"
       },
       "meta": {
-        "expansion": "controllo_psionico",
-        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+        "category": "biomi_prioritari",
+        "description": "Dorsale termale tropicale con correnti ferro-magnetiche e sabbie conduttive.",
+        "cohort": "badlands_magnetiche"
       },
       "suggest": {
         "traits": [
-          "sonno_emisferico_alternato",
-          "criostasi_adattiva",
-          "struttura_elastica_amorfa",
-          "sacche_galleggianti_ascensoriali",
-          "filamenti_digestivi_compattanti",
-          "ventriglio_gastroliti",
+          "artigli_sette_vie",
+          "coda_frusta_cinetica",
           "nucleo_ovomotore_rotante",
-          "secrezione_rallentante_palmi",
-          "respiro_a_scoppio",
+          "sacche_galleggianti_ascensoriali",
+          "scheletro_idro_regolante",
+          "struttura_elastica_amorfa"
+        ],
+        "jobs_bias": [
+          "Vanguard",
+          "Skirmisher"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "dorsale_termale_tropicale",
+        "morphotype": "ingegnere_radicante"
+      },
+      "meta": {
+        "category": "biomi_prioritari",
+        "description": "Dorsale termale tropicale con correnti ferro-magnetiche e sabbie conduttive.",
+        "cohort": "badlands_magnetiche"
+      },
+      "suggest": {
+        "traits": [
+          "mimetismo_cromatico_passivo",
           "sangue_piroforico",
+          "secrezione_rallentante_palmi"
+        ],
+        "jobs_bias": [
+          "Warden",
+          "Support"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "dorsale_termale_tropicale",
+        "morphotype": "scavenger_corazzato"
+      },
+      "meta": {
+        "category": "biomi_prioritari",
+        "description": "Dorsale termale tropicale con correnti ferro-magnetiche e sabbie conduttive.",
+        "cohort": "badlands_magnetiche"
+      },
+      "suggest": {
+        "traits": [
+          "filamenti_digestivi_compattanti",
+          "respiro_a_scoppio",
+          "scheletro_idro_regolante",
+          "spore_psichiche_silenziate",
+          "ventriglio_gastroliti"
+        ],
+        "jobs_bias": [
+          "Vanguard",
+          "Warden"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "dorsale_termale_tropicale",
+        "morphotype": "volatore_planatore"
+      },
+      "meta": {
+        "category": "biomi_prioritari",
+        "description": "Dorsale termale tropicale con correnti ferro-magnetiche e sabbie conduttive.",
+        "cohort": "badlands_magnetiche"
+      },
+      "suggest": {
+        "traits": [
+          "eco_interno_riflesso",
+          "occhi_infrarosso_composti",
+          "sonno_emisferico_alternato"
+        ],
+        "jobs_bias": [
+          "Invoker",
+          "Skirmisher"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "foresta_miceliale"
+      },
+      "meta": {
+        "category": "biomi_prioritari",
+        "description": "Rete arborea miceliale con canopy umida e interconnessioni sinaptiche.",
+        "cohort": "foresta_tattica"
+      },
+      "suggest": {
+        "traits": [
+          "empatia_coordinativa",
+          "focus_frazionato",
+          "ghiandola_caustica",
+          "lingua_tattile_trama",
+          "pathfinder",
+          "pianificatore",
+          "risonanza_di_branco",
+          "spore_psichiche_silenziate",
+          "tattiche_di_branco"
+        ],
+        "jobs_bias": [
+          "Warden",
+          "Support",
+          "Invoker"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "mezzanotte_orbitale",
+        "morphotype": "cursoriale_quadrupede"
+      },
+      "meta": {
+        "category": "biomi_prioritari",
+        "description": "Stazione criostatica a orbita bassa con gradienti di buio aurorale.",
+        "cohort": "cryosteppe_mobili"
+      },
+      "suggest": {
+        "traits": [
           "artigli_sette_vie",
           "carapace_fase_variabile",
           "olfatto_risonanza_magnetica",
-          "occhi_infrarosso_composti",
-          "lingua_tattile_trama",
-          "spore_psichiche_silenziate",
-          "mimetismo_cromatico_passivo",
+          "respiro_a_scoppio",
           "scheletro_idro_regolante",
-          "coda_frusta_cinetica",
-          "eco_interno_riflesso"
+          "ventriglio_gastroliti"
+        ],
+        "jobs_bias": [
+          "Vanguard",
+          "Skirmisher"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "mezzanotte_orbitale",
+        "morphotype": "scavenger_corazzato"
+      },
+      "meta": {
+        "category": "biomi_prioritari",
+        "description": "Stazione criostatica a orbita bassa con gradienti di buio aurorale.",
+        "cohort": "cryosteppe_mobili"
+      },
+      "suggest": {
+        "traits": [
+          "filamenti_digestivi_compattanti",
+          "sangue_piroforico",
+          "spore_psichiche_silenziate"
+        ],
+        "jobs_bias": [
+          "Warden",
+          "Support"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "mezzanotte_orbitale",
+        "morphotype": "volatore_planatore"
+      },
+      "meta": {
+        "category": "biomi_prioritari",
+        "description": "Stazione criostatica a orbita bassa con gradienti di buio aurorale.",
+        "cohort": "cryosteppe_mobili"
+      },
+      "suggest": {
+        "traits": [
+          "criostasi_adattiva",
+          "eco_interno_riflesso",
+          "sonno_emisferico_alternato"
+        ],
+        "jobs_bias": [
+          "Invoker",
+          "Skirmisher"
         ]
       }
     }

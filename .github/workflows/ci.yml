@@ -71,6 +71,32 @@ jobs:
       - name: Audit trait catalog consistency
         run: python3 scripts/trait_audit.py --check
 
+      - name: Enforce trait coverage baseline
+        run: |
+          python3 tools/py/report_trait_coverage.py --species-root packs/evo_tactics_pack/data/species --out-csv data/analysis/trait_coverage_matrix.csv
+          python3 - <<'PY'
+          import json, sys
+
+          with open('data/analysis/trait_coverage_report.json', encoding='utf-8') as handle:
+              summary = json.load(handle).get('summary', {})
+
+          min_traits = 27
+          max_missing = 0
+
+          traits_with_species = summary.get('traits_with_species')
+          rules_missing = summary.get('rules_missing_species_total')
+
+          errors: list[str] = []
+          if traits_with_species is None or traits_with_species < min_traits:
+              errors.append(f"traits_with_species={traits_with_species!r} sotto la soglia {min_traits}")
+          if rules_missing is None or rules_missing > max_missing:
+              errors.append(f"rules_missing_species_total={rules_missing!r} eccede il massimo consentito {max_missing}")
+
+          if errors:
+              print("\n".join(errors))
+              sys.exit(1)
+          PY
+
       - name: Run deploy validation checks
         env:
           DEPLOY_DATA_DIR: ${{ github.workspace }}/data

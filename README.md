@@ -79,6 +79,11 @@ python3 generate_encounter.py savana
    ```
 4. **Verifica la CI**: il workflow `.github/workflows/ci.yml` esegue entrambi i comandi ad ogni push/PR, quindi qualsiasi regressione sui dataset del pack verrà segnalata automaticamente.
 
+## Aggiornamenti Trait ↔ Specie
+- **Copertura aggiornata** — Dopo la riallineatura dei dataset `packs/evo_tactics_pack/data/species/**` la matrice `python tools/py/report_trait_coverage.py` riporta `traits_with_species = 27/29` e nessuna combinazione regola↔specie mancante (`rules_missing_species_total = 0`). Consulta il report JSON rigenerato in [`data/analysis/trait_coverage_report.json`](data/analysis/trait_coverage_report.json) e il CSV corrispondente per i dettagli per tratto.
+- **Specie prioritarie per bioma** — La tabella di appoggio [`docs/catalog/species_trait_quicklook.csv`](docs/catalog/species_trait_quicklook.csv) elenca gli accoppiamenti `core/optional_traits` estratti da `docs/catalog/species_trait_matrix.json` per i biomi prioritari (Badlands/dorsale termale tropicale, Foresta miceliale, Cryosteppe). Utilizzala come riferimento rapido durante le sessioni di bilanciamento.
+- **Verifica sul campo** — Le specie campione `dune-stalker` (badlands), `lupus-temperatus` (foresta miceliale) e `aurora-gull` (cryosteppe) sono state validate manualmente nei rispettivi ambienti con smoke test rapidi (documentati in [`logs/traits_tracking.md`](logs/traits_tracking.md)) per confermare l'aderenza dei nuovi trait al ruolo tattico previsto.
+
 ## Interfaccia test & recap via web
 - [Apri la dashboard](docs/test-interface/index.html) per consultare rapidamente pacchetti PI,
   telemetria VC, biomi e compatibilità delle forme (funziona sia in locale sia online).

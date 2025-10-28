@@ -83,10 +83,12 @@ environment_affinity:
     - canyons_risonanti
 derived_from_environment:
   suggested_traits:
-    - cute_resistente_sali
-    - enzimi_chelanti
-    - pelli_anti_ustione
-    - pigmenti_termici
+    - mimetismo_cromatico_passivo
+    - sangue_piroforico
+    - secrezione_rallentante_palmi
+  optional_traits:
+    - lingua_tattile_trama
+    - ventriglio_gastroliti
   required_capabilities:
     - build_cover
     - dr_impact_cap

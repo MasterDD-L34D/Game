@@ -58,12 +58,12 @@ environment_affinity:
     - Dfc
 derived_from_environment:
   suggested_traits:
-    - cuticole_cerose
-    - grassi_termici
-    - pelli_cave
-    - pigmenti_aurorali
-    - proteine_shock_termico
-    - reti_capillari_radici
+    - criostasi_adattiva
+    - eco_interno_riflesso
+    - sonno_emisferico_alternato
+  optional_traits:
+    - sacche_galleggianti_ascensoriali
+    - occhi_infrarosso_composti
   required_capabilities: []
   services_links: []
   jobs_bias:
