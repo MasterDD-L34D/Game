@@ -8,6 +8,9 @@ log() {
   printf '\n[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1"
 }
 
+log "Validating trait inventory (docs/catalog/traits_inventory.json)"
+python3 "$ROOT_DIR/tools/py/traits_validator.py"
+
 # The CI workflow already runs the full TypeScript and Python test suites.
 # This script now assumes the build artifacts produced there are available so
 # that we only need to assemble the static bundle (plus an optional smoke test).
