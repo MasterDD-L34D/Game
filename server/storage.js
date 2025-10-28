@@ -16,6 +16,20 @@ function normaliseTags(input) {
   return [];
 }
 
+function normaliseList(input) {
+  if (!input) return [];
+  if (Array.isArray(input)) {
+    return input.map((item) => String(item).trim()).filter(Boolean);
+  }
+  if (typeof input === 'string') {
+    return input
+      .split(/[\n,;]+/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
 function timestamp() {
   return new Date().toISOString();
 }
@@ -47,8 +61,11 @@ class IdeaRepository {
       summary: doc.summary || '',
       category: doc.category,
       tags: Array.isArray(doc.tags) ? doc.tags : [],
-      module: doc.module || '',
-      entities: doc.entities || '',
+      biomes: Array.isArray(doc.biomes) ? doc.biomes : [],
+      ecosystems: Array.isArray(doc.ecosystems) ? doc.ecosystems : [],
+      species: Array.isArray(doc.species) ? doc.species : [],
+      traits: Array.isArray(doc.traits) ? doc.traits : [],
+      game_functions: Array.isArray(doc.game_functions) ? doc.game_functions : [],
       priority: doc.priority || '',
       actions_next: doc.actions_next || '',
       link_drive: doc.link_drive || '',
@@ -79,8 +96,11 @@ class IdeaRepository {
       summary: String(payload.summary || '').trim(),
       category: String(payload.category || '').trim(),
       tags: normaliseTags(payload.tags),
-      module: String(payload.module || '').trim(),
-      entities: String(payload.entities || '').trim(),
+      biomes: normaliseList(payload.biomes),
+      ecosystems: normaliseList(payload.ecosystems),
+      species: normaliseList(payload.species),
+      traits: normaliseList(payload.traits),
+      game_functions: normaliseList(payload.game_functions),
       priority: String(payload.priority || '').trim() || 'P2',
       actions_next: String(payload.actions_next || '').trim(),
       link_drive: String(payload.link_drive || '').trim(),
@@ -111,4 +131,5 @@ class IdeaRepository {
 module.exports = {
   IdeaRepository,
   normaliseTags,
+  normaliseList,
 };

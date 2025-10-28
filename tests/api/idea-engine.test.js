@@ -22,14 +22,17 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
   const payload = {
     title: 'Nuova idea Playtest',
     summary: 'Dungeon modulare con telemetria',
-    category: 'Meccaniche',
+    category: 'Biomi',
     tags: ['#playtest', 'telemetria'],
-    module: 'NR04 Fangwood',
-    entities: 'Cervo Bianco',
+    biomes: ['foresta_temperata'],
+    ecosystems: ['ecosistema_alpha'],
+    species: ['cervo_bianco'],
+    traits: ['muta_respiratoria'],
+    game_functions: ['telemetria_vc'],
     priority: 'P1',
     actions_next: '- [ ] Stendere schema incontri',
     link_drive: 'https://drive.google.com/test',
-    github: 'docs/modules/fangwood.md',
+    github: 'docs/biomes/foresta_temperata.md',
     note: 'Richiede confronto con bilanciamento VTT',
   };
 
@@ -39,7 +42,10 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
     .expect(201);
 
   assert.ok(response.body.idea.id, 'l\'idea deve avere un id');
-  assert.equal(response.body.idea.category, 'Meccaniche');
+  assert.equal(response.body.idea.category, 'Biomi');
+  assert.deepEqual(response.body.idea.biomes, ['foresta_temperata']);
+  assert.deepEqual(response.body.idea.ecosystems, ['ecosistema_alpha']);
+  assert.deepEqual(response.body.idea.game_functions, ['telemetria_vc']);
   assert.equal(response.body.idea.tags.length, 2);
   assert.ok(response.body.report.includes('Codex GPT Integration Brief'));
 
@@ -47,6 +53,9 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
   assert.ok(stored, 'l\'idea deve essere salvata nel database');
   assert.equal(stored.summary, payload.summary);
   assert.equal(stored.priority, 'P1');
+  assert.deepEqual(stored.biomes, payload.biomes);
+  assert.deepEqual(stored.species, payload.species);
+  assert.deepEqual(stored.traits, payload.traits);
 });
 
 test('GET /api/ideas/:id/report restituisce il report salvato', async (t) => {

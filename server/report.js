@@ -5,6 +5,11 @@ function formatTags(tags) {
     .join(' ');
 }
 
+function formatList(items) {
+  if (!items || !items.length) return '-';
+  return items.join(', ');
+}
+
 function formatChecklist(actions) {
   if (!actions) return '-';
   const rows = actions
@@ -27,8 +32,11 @@ function reminderBlock(idea) {
     ['SOMMARIO', idea.summary],
     ['CATEGORIA', idea.category],
     ['TAGS', formatTags(idea.tags)],
-    ['MODULE', idea.module],
-    ['ENTITÀ', idea.entities],
+    ['BIOMI', formatList(idea.biomes)],
+    ['ECOSISTEMI', formatList(idea.ecosystems)],
+    ['SPECIE', formatList(idea.species)],
+    ['TRATTI', formatList(idea.traits)],
+    ['FUNZIONI_GIOCO', formatList(idea.game_functions)],
     ['PRIORITÀ', idea.priority],
     ['AZIONI_NEXT', idea.actions_next],
     ['LINK_DRIVE', idea.link_drive],
@@ -45,15 +53,22 @@ function repoTouchpoints(idea) {
   if (idea.github) {
     paths.push(`- Existing reference: ${idea.github}`);
   }
-  if (idea.module) {
-    const moduleSlug = idea.module.replace(/\s+/g, '-').toLowerCase();
-    const ideaFile = idea.id ? `${moduleSlug}-${String(idea.id).padStart(3, '0')}.md` : `${moduleSlug}-idea.md`;
-    paths.push(`- Module focus: ${idea.module}`);
-    paths.push(`- Suggested doc stub: docs/modules/${moduleSlug}/README.md`);
-    paths.push(`- Suggested idea file: ideas/${ideaFile}`);
-  } else {
-    paths.push('- Suggested idea file: ideas/new-idea.md');
+  if (idea.biomes && idea.biomes.length) {
+    paths.push(`- Biomi da aggiornare: ${idea.biomes.join(', ')} (data/biomes.yaml, docs/evo-tactics-pack/)`);
   }
+  if (idea.ecosystems && idea.ecosystems.length) {
+    paths.push(`- Ecosistemi/metanodi: ${idea.ecosystems.join(', ')} (docs/evo-tactics-pack/)`);
+  }
+  if (idea.species && idea.species.length) {
+    paths.push(`- Specie coinvolte: ${idea.species.join(', ')} (data/species.yaml, docs/catalog/)`);
+  }
+  if (idea.traits && idea.traits.length) {
+    paths.push(`- Tratti/Morph: ${idea.traits.join(', ')} (data/traits/, docs/catalog/species_trait_matrix.json)`);
+  }
+  if (idea.game_functions && idea.game_functions.length) {
+    paths.push(`- Funzioni di gioco: ${idea.game_functions.join(', ')} (docs/telemetria, packs/, tools/)`);
+  }
+  paths.push('- Suggested idea file: ideas/new-idea.md');
   paths.push('- Sync index: README_IDEAS.md and IDEAS_INDEX.md');
   return paths.join('\n');
 }
@@ -65,10 +80,12 @@ function buildIncrementalPlan(idea) {
     '- Audit existing lore and mechanics impacted by the idea.',
     '- Confirm assets and references listed below are reachable.',
     '- Align keywords with `/config/project_index.json` taxonomy.',
+    '- Verifica che biomi/ecosistemi siano presenti in `data/biomes.yaml` e negli export `docs/evo-tactics-pack/`.',
+    '- Allinea specie e tratti con `data/species.yaml`, `data/traits/` e `docs/catalog/species_trait_matrix.json`.',
     '',
     '### Phase 2 · Implementation Draft',
     '- Implement gameplay changes incrementally in dedicated branches.',
-    '- Update rules text and supporting data in `/packs` or `/appendici` as needed.',
+    '- Update rules text and supporting data in `/packs`, `/docs`, `/data` as needed.',
     '- Produce playtest hooks or sample encounters under `/data/playtests`.',
     '',
     '### Phase 3 · Playtest & Integration',
@@ -76,6 +93,9 @@ function buildIncrementalPlan(idea) {
     '- Capture adjustments in `/logs/design-journal`. ',
     '- Merge once documentation and checklists below are satisfied.',
   ];
+  if (idea.game_functions && idea.game_functions.length) {
+    plan.splice(6, 0, `- Coordina le funzioni di gioco (${formatList(idea.game_functions)}) con docs/telemetria, tools/ e packs/ pertinenti.`);
+  }
   if (checklist !== '-') {
     plan.push('', '### Next Actions (from intake)', checklist);
   }
@@ -96,8 +116,11 @@ function buildCodexReport(idea) {
     `- **Category:** ${idea.category}`,
     `- **Priority:** ${idea.priority || 'P2'}`,
     `- **Tags:** ${formatTags(idea.tags)}`,
-    `- **Module / Arc:** ${idea.module || '-'}`,
-    `- **Key Entities:** ${idea.entities || '-'}`,
+    `- **Biomi:** ${formatList(idea.biomes)}`,
+    `- **Ecosistemi:** ${formatList(idea.ecosystems)}`,
+    `- **Specie:** ${formatList(idea.species)}`,
+    `- **Tratti:** ${formatList(idea.traits)}`,
+    `- **Funzioni di gioco:** ${formatList(idea.game_functions)}`,
     '',
     '## Repository Touchpoints',
     repoTouchpoints(idea),

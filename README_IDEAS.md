@@ -36,10 +36,13 @@ Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee.
 ## Campi del Reminder
 IDEA: <titolo breve>
 SOMMARIO: <2-4 righe secche>
-CATEGORIA: Narrativa | Meccaniche | Tooling | Arte | VTT | Repo | Docs | Personaggi | Divinità | Enneagramma | Sistema | Altro
+CATEGORIA: Biomi | Ecosistemi | Specie | Tratti & Mutazioni | Missioni & Stage | Telemetria & HUD | Tooling & Pipeline | Documentazione & Lore | Progressione & Economia | Altro
 TAGS: #tag1 #tag2 #tag3
-MODULE: <es. NR04, Fangwood, Torneo Cremesi, Master DD core>
-ENTITÀ: <PG/NPC/divinità/luoghi/oggetti separati da virgola>
+BIOMI: <lista ID da data/biomes.yaml>
+ECOSISTEMI: <meta-nodi o pack collegati>
+SPECIE: <slug specie da data/species.yaml>
+TRATTI: <mutazioni/trait da data/traits/>
+FUNZIONI_GIOCO: <telemetria_vc, mating_nido, progressione_pe…>
 PRIORITÀ: P0 | P1 | P2 | P3
 AZIONI_NEXT: - [ ] azione 1  - [ ] azione 2
 LINK_DRIVE: <URL se esiste>
