@@ -1894,8 +1894,7 @@ function renderBiomes(targetContainer = sectionElements.biomes || document.getEl
         <ul class="nested-list">${freqHtml}</ul>
       </article>
     </div>
-  `
-  );
+  `;
 }
 
 function renderSpeciesShowcase(targetContainer = sectionElements.species || document.getElementById("species-showcase")) {

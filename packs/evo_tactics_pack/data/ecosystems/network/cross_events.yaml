@@ -24,7 +24,7 @@ events:
       - CRYOSTEPPE
     propagate_via:
       - seasonal_bridge
-      - corridor
+      - trophic_spillover
     to_nodes:
       - FORESTA_TEMPERATA
       - BADLANDS
