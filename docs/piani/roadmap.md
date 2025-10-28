@@ -39,6 +39,7 @@
 > **Priorità riviste (Ondata 2)** — Alla luce dei dati di novembre 2025, le smart feature (HUD + SquadSync) precedono l'estensione export; la roadmap integra checkpoint di validazione continui.【F:docs/playtest/INSIGHTS-2025-11.md†L3-L26】
 
 1. **Smart HUD & SquadSync** _(priorità alta)_
+   - Playtest pilota 2025-11-12 completato: log HUD/telemetria e media archiviati in `logs/pilot-2025-11-12/` con verifica digest SHA-256 e sintesi pubblicata in `docs/playtest/SESSION-2025-11-12.md` (riepilogo condiviso in `#qa-playtest`).
    - Consolidare gli acknowledgment automatici degli alert risk >0.60 e validare che rientrino entro 2 turni medi su due sessioni consecutive (`alpha`, `bravo`).【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L58】【F:docs/playtest/INSIGHTS-2025-11.md†L4-L19】
    - Integrare messaggi contestuali HUD e aggiornare il Canvas dedicato con screenshot e dati di coesione ≥0.78 post-playtest QA.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L9-L37】【F:docs/Canvas/feature-updates.md†L9-L40】
    - **Criteri di uscita:** risk index medio ≤0.58 su roster co-op, durata alert ≤1.5 turni e tilt score <0.50 per due build consecutive.【F:docs/playtest/INSIGHTS-2025-11.md†L8-L19】

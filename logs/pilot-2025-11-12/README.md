@@ -9,8 +9,9 @@ Seguire la struttura sottostante per garantire tracciabilità con `docs/playtest
   - `progression-metrics.csv`
   - `effects-trace.log`
 - `media/`
-  - Screenshot (`hud-*.png`, `event-*.png`)
-  - Video (`event-<scenario>-<timestamp>.mp4`)
+  - Screenshot (`hud-*.png`, `event-*.png`) codificati in Base64 (`*.png.b64`)
+  - Video (`event-<scenario>-<timestamp>.mp4`) codificati in Base64 (`*.mp4.b64`)
+  - `checksums.sha256` per verificare l'integrità dopo la decodifica
 - `feedback/`
   - Scansioni o note dei moduli completati tramite `docs/playtest/feedback-template.md`
 - `evt-02/flags/`

@@ -10,6 +10,7 @@
   - [x] Pianificate ed eseguite sessioni Alpha/Bravo/Charlie con logging coerente con gli indici VC definiti.【F:docs/checklist/vc_playtest_plan.md†L1-L33】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L1-L125】
   - [x] Confrontati gli indici con le soglie EMA: Bravo supera risk 0.60, richiesta revisione timer scudi; Alpha vicino al limite Enneagram Conquistatore.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L58】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L59-L94】
   - [x] Aggiornate le formule di normalizzazione (`ema_capped_minmax`) e introdotti eventi `overcap_guard` per attenuare i picchi multipli, verificando i risultati nelle sessioni Delta/Echo.【F:data/telemetry.yaml†L2-L25】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】
+  - [x] Sessione pilota 2025-11-12 chiusa: screenshot/video e telemetria verificati con digest SHA-256, feedback consolidato e riepilogo notificato in `#qa-playtest`.【F:logs/pilot-2025-11-12/telemetry/damage.json†L1-L19】【F:docs/playtest/SESSION-2025-11-12.md†L16-L54】
 - [x] Creare esempi di encounter documentati per ciascun bioma.【F:data/biomes.yaml†L1-L13】 _Aggiornati file in `docs/examples/encounter_*.txt` con seed `demo` (2025-10-26)._ 
 
 ## Completare prossimamente
