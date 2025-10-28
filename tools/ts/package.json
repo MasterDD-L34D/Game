@@ -5,11 +5,11 @@
   "private": true,
   "scripts": {
     "playwright:install": "npx playwright install chromium || npx playwright install --with-deps chromium",
-    "pretest": "npm run playwright:install --silent",
+    "pretest": "node ./scripts/prepare_playwright.mjs",
     "build": "tsc -p tsconfig.json && node ./scripts/postbuild.mjs",
     "start": "node dist/roll_pack.js ENTP invoker ../../data/packs.yaml",
-    "test": "npm run build --silent && node --test dist/ts/tests/*.test.js && npm run test:web --silent",
-    "test:web": "playwright test",
+    "test": "npm run build --silent && node --test dist/ts/tests/*.test.js dist/graphql/tests/*.js && npm run test:web --silent",
+    "test:web": "node ./scripts/run_playwright.mjs",
     "test:ui": "tsx tests/export-modal.test.tsx",
     "validate:species": "npm run build && node dist/validate_species.js ../../data/species.yaml",
     "lighthouse:test-interface": "node ./scripts/run_lighthouse.mjs"
