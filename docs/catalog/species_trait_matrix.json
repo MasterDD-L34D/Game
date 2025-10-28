@@ -147,7 +147,13 @@
       "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
       "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
       "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
+      "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
     ]
   },
   "species": {
@@ -752,6 +758,272 @@
       ],
       "synergy_hints": [],
       "synergy_traits": []
+    },
+    "magneto-ridge-hunter": {
+      "archetypes": [
+        "predatore_terziario_apex"
+      ],
+      "biomes": [
+        "dorsale_termale_tropicale"
+      ],
+      "core_traits": [
+        "coda_frusta_cinetica",
+        "scheletro_idro_regolante",
+        "artigli_sette_vie"
+      ],
+      "display_name": "Magneto Ridge Hunter",
+      "environment_focus": {
+        "biome_class": "dorsale_termale_tropicale",
+        "rationale": "Assalitore magnetotattico addestrabile per presidiare i colli di bottiglia della dorsale."
+      },
+      "id": "magneto-ridge-hunter",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "olfatto_risonanza_magnetica",
+        "respiro_a_scoppio"
+      ],
+      "playable_unit": true,
+      "required_capabilities": [
+        "build_cover",
+        "dr_impact_cap",
+        "non_metal_gear",
+        "seal_vents"
+      ],
+      "role": "predatore_terziario_apex",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": [
+        "tattiche_di_branco",
+        "struttura_elastica_amorfa"
+      ]
+    },
+    "slag-veil-ambusher": {
+      "archetypes": [
+        "predatore_terziario_apex"
+      ],
+      "biomes": [
+        "dorsale_termale_tropicale"
+      ],
+      "core_traits": [
+        "coda_frusta_cinetica",
+        "struttura_elastica_amorfa",
+        "olfatto_risonanza_magnetica"
+      ],
+      "display_name": "Slag Veil Ambusher",
+      "environment_focus": {
+        "biome_class": "dorsale_termale_tropicale",
+        "rationale": "Fauna d'agguato che sfrutta il particolato ferroso per schermare gli assalti contro i branchi di prede corazzate."
+      },
+      "id": "slag-veil-ambusher",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "ghiandola_caustica",
+        "respiro_a_scoppio"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [
+        "dr_impact_cap",
+        "non_metal_gear"
+      ],
+      "role": "predatore_terziario_apex",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": [
+        "tattiche_di_branco",
+        "scheletro_idro_regolante"
+      ]
+    },
+    "myco-spire-warden": {
+      "archetypes": [
+        "ingegneri_ecosistema"
+      ],
+      "biomes": [
+        "foresta_miceliale"
+      ],
+      "core_traits": [
+        "filamenti_digestivi_compattanti",
+        "empatia_coordinativa",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Myco Spire Warden",
+      "environment_focus": {
+        "biome_class": "foresta_miceliale",
+        "rationale": "Custode giocabile che scolpisce condotti miceliali per supportare squadre e fauna simbiotica."
+      },
+      "id": "myco-spire-warden",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [
+        "focus_frazionato",
+        "spore_psichiche_silenziate"
+      ],
+      "playable_unit": true,
+      "required_capabilities": [
+        "seal_vents",
+        "deploy_support_field"
+      ],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": [
+        "pathfinder",
+        "pianificatore"
+      ]
+    },
+    "glowcap-weaver": {
+      "archetypes": [
+        "ingegneri_ecosistema"
+      ],
+      "biomes": [
+        "foresta_miceliale"
+      ],
+      "core_traits": [
+        "filamenti_digestivi_compattanti",
+        "empatia_coordinativa",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Glowcap Weaver",
+      "environment_focus": {
+        "biome_class": "foresta_miceliale",
+        "rationale": "Fauna ambientale che tesse bio-lanterne per segnalare percorsi sicuri e mantenere la circolazione di spore."
+      },
+      "id": "glowcap-weaver",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [
+        "focus_frazionato",
+        "lingua_tattile_trama"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [
+        "deploy_support_field"
+      ],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": [
+        "pathfinder",
+        "pianificatore"
+      ]
+    },
+    "aurora-bridge-runner": {
+      "archetypes": [
+        "dispersore_ponte"
+      ],
+      "biomes": [
+        "mezzanotte_orbitale"
+      ],
+      "core_traits": [
+        "sacche_galleggianti_ascensoriali",
+        "mimetismo_cromatico_passivo",
+        "eco_interno_riflesso"
+      ],
+      "display_name": "Aurora Bridge Runner",
+      "environment_focus": {
+        "biome_class": "mezzanotte_orbitale",
+        "rationale": "Navigator giocabile che intreccia ponti aurorali e guida il traffico su piattaforme sospese."
+      },
+      "id": "aurora-bridge-runner",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [
+        "lingua_tattile_trama",
+        "occhi_infrarosso_composti"
+      ],
+      "playable_unit": true,
+      "required_capabilities": [
+        "deploy_support_field",
+        "long_range_scan"
+      ],
+      "role": "dispersore_ponte",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": [
+        "risonanza_di_branco",
+        "empatia_coordinativa"
+      ]
+    },
+    "zephyr-spore-courier": {
+      "archetypes": [
+        "dispersore_ponte"
+      ],
+      "biomes": [
+        "mezzanotte_orbitale"
+      ],
+      "core_traits": [
+        "sacche_galleggianti_ascensoriali",
+        "mimetismo_cromatico_passivo",
+        "eco_interno_riflesso"
+      ],
+      "display_name": "Zephyr Spore Courier",
+      "environment_focus": {
+        "biome_class": "mezzanotte_orbitale",
+        "rationale": "Stormo ambientale che disperde spore luminose per segnare corridoi d'aria e alimentare il ponte ecologico."
+      },
+      "id": "zephyr-spore-courier",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [
+        "lingua_tattile_trama",
+        "occhi_infrarosso_composti"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [
+        "long_range_scan"
+      ],
+      "role": "dispersore_ponte",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": [
+        "risonanza_di_branco",
+        "empatia_coordinativa"
+      ]
     }
-  }
+  },
+  "trophic_taxonomy": [
+    {
+      "role": "predatore_terziario_apex",
+      "biome_class": "dorsale_termale_tropicale",
+      "concept_pitch": "Predatori magnetotattici che presidiano le creste termali, alternando assalti rapidi e controllo del calore per mantenere il gradiente energetico del bioma.",
+      "signature_traits": [
+        "coda_frusta_cinetica",
+        "scheletro_idro_regolante",
+        "artigli_sette_vie"
+      ],
+      "playable_species": "magneto-ridge-hunter",
+      "ambient_species": "slag-veil-ambusher"
+    },
+    {
+      "role": "ingegneri_ecosistema",
+      "biome_class": "foresta_miceliale",
+      "concept_pitch": "Custodi simbiotici che modellano guglie e ponti micotici, convertendo biomassa in corridoi sicuri per squadre e fauna.",
+      "signature_traits": [
+        "filamenti_digestivi_compattanti",
+        "empatia_coordinativa",
+        "struttura_elastica_amorfa"
+      ],
+      "playable_species": "myco-spire-warden",
+      "ambient_species": "glowcap-weaver"
+    },
+    {
+      "role": "dispersore_ponte",
+      "biome_class": "mezzanotte_orbitale",
+      "concept_pitch": "Navigatori aerostatici che intrecciano ponti di luce e spore luminescenti per collegare piattaforme in microgravità.",
+      "signature_traits": [
+        "sacche_galleggianti_ascensoriali",
+        "mimetismo_cromatico_passivo",
+        "eco_interno_riflesso"
+      ],
+      "playable_species": "aurora-bridge-runner",
+      "ambient_species": "zephyr-spore-courier"
+    }
+  ]
 }

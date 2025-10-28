@@ -1,0 +1,50 @@
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-11-05'
+  trace_hash: to-fill
+id: glowcap-weaver
+display_name: Glowcap Weaver
+biomes:
+  - foresta_miceliale
+role_trofico: ingegneri_ecosistema
+functional_tags:
+  - terraformazione
+  - bio_illuminazione
+morphotype: scavenger_corazzato
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: false
+environment_affinity:
+  biome_class: foresta_miceliale
+  hazards_expected:
+    - spore_caustiche
+  rationale: "Coltivatore ambientale che tesse bio-lanterne e stabilizza i ponti miceliali."
+derived_from_environment:
+  suggested_traits:
+    - filamenti_digestivi_compattanti
+    - empatia_coordinativa
+    - struttura_elastica_amorfa
+  optional_traits:
+    - focus_frazionato
+    - lingua_tattile_trama
+  synergy_traits:
+    - pathfinder
+    - pianificatore
+  required_capabilities:
+    - deploy_support_field
+jobs_bias:
+  - Support
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: 0.10
+services_links: []
+genetic_traits: []
+mate_synergy: []
+jobs_synergy: []

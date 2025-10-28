@@ -1,22 +1,26 @@
 trait_id,label_it,label_en,biome,morphotype,rules_count,species_count
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,caverna_risonante,,1,1
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,caverna_risonante,cursoriale_quadrupede,0,1
-artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
+artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,dorsale_termale_tropicale,cursoriale_quadrupede,1,2
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,mezzanotte_orbitale,cursoriale_quadrupede,1,1
 carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,mezzanotte_orbitale,cursoriale_quadrupede,1,1
-coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
+coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,dorsale_termale_tropicale,cursoriale_quadrupede,1,3
 criostasi_adattiva,Criostasi,Adaptive Cryostasis,mezzanotte_orbitale,volatore_planatore,1,1
 eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,dorsale_termale_tropicale,volatore_planatore,1,1
-eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,mezzanotte_orbitale,volatore_planatore,1,1
-empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_miceliale,,1,1
+eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,mezzanotte_orbitale,volatore_planatore,1,3
+empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_miceliale,,1,3
+empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_miceliale,scavenger_corazzato,0,2
 filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,dorsale_termale_tropicale,scavenger_corazzato,1,2
+filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,foresta_miceliale,scavenger_corazzato,0,2
 filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,mezzanotte_orbitale,scavenger_corazzato,1,1
 focus_frazionato,Focus Frazionato,Fractional Focus,foresta_miceliale,,1,1
 ghiandola_caustica,Ghiandola Caustica,Caustic Gland,foresta_miceliale,,1,1
 lingua_tattile_trama,Lingua Tattile Trama-Sensibile,Texture-Sensing Tongue,foresta_miceliale,,1,1
 mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,dorsale_termale_tropicale,ingegnere_radicante,1,1
+mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,mezzanotte_orbitale,volatore_planatore,0,2
 nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
 occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,dorsale_termale_tropicale,volatore_planatore,1,1
+olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,dorsale_termale_tropicale,cursoriale_quadrupede,0,1
 olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,mezzanotte_orbitale,cursoriale_quadrupede,1,1
 pathfinder,Pathfinder,Pathfinder,foresta_miceliale,,1,1
 pianificatore,Pianificatore,Strategic Planner,foresta_miceliale,,1,1
@@ -24,9 +28,10 @@ respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,dorsale_termale_trop
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,mezzanotte_orbitale,cursoriale_quadrupede,1,1
 risonanza_di_branco,Risonanza di Branco,Pack Resonance,foresta_miceliale,,1,1
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
+sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,mezzanotte_orbitale,volatore_planatore,0,2
 sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,dorsale_termale_tropicale,ingegnere_radicante,1,1
 sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,mezzanotte_orbitale,scavenger_corazzato,1,1
-scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,dorsale_termale_tropicale,cursoriale_quadrupede,1,2
+scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,dorsale_termale_tropicale,cursoriale_quadrupede,1,3
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,dorsale_termale_tropicale,scavenger_corazzato,1,1
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,mezzanotte_orbitale,cursoriale_quadrupede,1,1
 secrezione_rallentante_palmi,Mani secernano liquido rallentante,Retarding Palm Secretions,dorsale_termale_tropicale,ingegnere_radicante,1,1
@@ -35,7 +40,8 @@ sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemisph
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,dorsale_termale_tropicale,scavenger_corazzato,1,1
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,foresta_miceliale,,1,1
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,mezzanotte_orbitale,scavenger_corazzato,1,1
-struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,dorsale_termale_tropicale,cursoriale_quadrupede,1,2
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,foresta_miceliale,scavenger_corazzato,0,2
 tattiche_di_branco,Tattiche di Branco,Pack Tactics,foresta_miceliale,,1,1
 ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,dorsale_termale_tropicale,scavenger_corazzato,1,1
 ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,mezzanotte_orbitale,cursoriale_quadrupede,1,1

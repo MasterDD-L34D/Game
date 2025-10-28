@@ -141,6 +141,10 @@ def generate_trait_coverage(
                 continue
             rule_matrix[trait_id][(biome, morph)] += 1
 
+    foodweb_roles: dict[str, dict[str, list[dict[str, Any]]]] = defaultdict(
+        lambda: defaultdict(list)
+    )
+
     for species_path in _gather_species_paths(species_root):
         data = _load_yaml(species_path)
         if not isinstance(data, Mapping):
@@ -157,6 +161,18 @@ def generate_trait_coverage(
             (data.get("derived_from_environment") or {}).get("suggested_traits")
         )
         traits = [trait for trait in suggested if trait in target_traits]
+        trophic_role = data.get("role_trofico") or data.get("role")
+        playable = bool(data.get("playable_unit"))
+        if trophic_role and biomes:
+            signature_traits = traits[:3]
+            for biome in biomes:
+                entry = {
+                    "id": species_id,
+                    "playable_unit": playable,
+                    "core_traits": signature_traits,
+                    "source": str(species_path),
+                }
+                foodweb_roles[trophic_role][biome].append(entry)
         if not traits:
             continue
         combos = []
@@ -263,6 +279,32 @@ def generate_trait_coverage(
     summary["traits_missing_species"] = traits_missing_species
     summary["traits_missing_rules"] = traits_missing_rules
 
+    foodweb_threshold = 2
+    foodweb_report: dict[str, Any] = {
+        "schema_version": "1.0",
+        "thresholds": {"species_per_role_biome": foodweb_threshold},
+        "roles": {},
+    }
+    for role, biome_map in sorted(foodweb_roles.items()):
+        role_entry: dict[str, Any] = {"total_species": 0, "biomes": {}}
+        missing_threshold: list[str] = []
+        for biome, species_list in sorted(biome_map.items()):
+            sorted_species = sorted(species_list, key=lambda item: item["id"])
+            playable_count = sum(1 for item in sorted_species if item["playable_unit"])
+            count = len(sorted_species)
+            meets = count >= foodweb_threshold
+            if not meets:
+                missing_threshold.append(biome)
+            role_entry["biomes"][biome] = {
+                "count": count,
+                "playable_count": playable_count,
+                "meets_threshold": meets,
+                "species": sorted_species,
+            }
+            role_entry["total_species"] += count
+        role_entry["biomes_missing_threshold"] = missing_threshold
+        foodweb_report["roles"][role] = role_entry
+
     report = {
         "schema_version": "1.0",
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -274,6 +316,7 @@ def generate_trait_coverage(
         },
         "summary": summary,
         "traits": report_traits,
+        "foodweb_coverage": foodweb_report,
     }
 
     return report
