@@ -54,8 +54,8 @@ network:
       to: BADLANDS
       type: corridor
       resistance: 0.55
-      seasonality: estate
-      notes: ritorno di corridoi aeolici verso canyon ombrosi
+      seasonality: estate/notte
+      notes: carovane notturne sfruttano i canali raffreddati
     - from: FORESTA_TEMPERATA
       to: CRYOSTEPPE
       type: seasonal_bridge
@@ -66,30 +66,36 @@ network:
       to: FORESTA_TEMPERATA
       type: seasonal_bridge
       resistance: 0.65
-      seasonality: inverno
-      notes: discese glaciali verso vallate temperate tramite gallerie di ghiaccio
+      seasonality: inverno profondo
+      notes: coltri di ghiaccio creano corridoi di transito sotto chioma
     - from: CRYOSTEPPE
       to: BADLANDS
       type: trophic_spillover
       resistance: 0.5
       seasonality: episodico
       notes: pulse detrito post disgelo
+    - from: CRYOSTEPPE
+      to: BADLANDS
+      type: corridor
+      resistance: 0.7
+      seasonality: tarda_inverno
+      notes: gole ghiacciate convogliano tempeste di brina verso le gole ferrose
   bridge_species_map:
     - species_id: echo-wing
       roles:
         - dispersore_ponte
         - impollinatore
       present_in_nodes:
-        - canyons_risonanti
-        - mezzanotte_orbitale
-        - savana
-        - foresta_miceliale
+        - BADLANDS
+        - FORESTA_TEMPERATA
+        - DESERTO_CALDO
+        - CRYOSTEPPE
     - species_id: ferrocolonia-magnetotattica
       roles:
         - sentinella
         - ingegnere_ecosistema
       present_in_nodes:
-        - canyons_risonanti
+        - BADLANDS
   rules:
     at_least:
       sentient: 1

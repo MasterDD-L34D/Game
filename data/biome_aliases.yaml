@@ -1,19 +1,39 @@
 # Mapping legacy biome identifiers to new canonical biomes.
 # Each alias entry must resolve to a key present in data/biomes.yaml.
 aliases:
-  badlands:
-    canonical: canyons_risonanti
-    notes: "Badlands magnetiche integrate nel profilo dei Canyons Risonanti."
-  deserto_caldo:
-    canonical: savana
-    notes: "Deserto caldo aurorale migrato nella Savana Ionizzata."
+  "Foresta temperata umida":
+    canonical: foresta_temperata
+    status: legacy
+    notes: "Classe climatica legacy delle specie VC, ora puntata al profilo Foresta Temperata Umida."
+  foresta_temperata_umida:
+    canonical: foresta_temperata
+    status: legacy
+    notes: "Variante snake_case della foresta temperata umida utilizzata nei patch pack."
   foresta_temperata:
-    canonical: foresta_miceliale
-    notes: "Le foreste temperate legacy confluiscono nella Foresta Miceliale."
-  cryosteppe:
-    canonical: mezzanotte_orbitale
-    status: transitional
-    notes: "Specie cryosteppe in attesa di rework: collocate provvisoriamente nel teatro Mezzanotte Orbitale."
+    canonical: foresta_temperata
+    status: legacy
+    notes: "Chiave generica dai registri packs riallineata al profilo ufficiale."
+  savanna:
+    canonical: savana
+    notes: "Forma inglese mantenuta per retro-compatibilità con canvas storici."
   caverna_risonante:
     canonical: caverna
     notes: "Alias storico per la Caverna Risonante."
+  "Foresta Temperata":
+    canonical: foresta_temperata
+    status: legacy
+    notes: "Variante capitalizzata apparsa nei dossier showcase."
+  "Badlands":
+    canonical: badlands
+    status: legacy
+    notes: "Nome con iniziale maiuscola utilizzato nei materiali marketing."
+  deserto_caldo:
+    canonical: deserto_caldo
+    notes: "Mantiene riferimenti precedenti senza modificare i dataset esistenti."
+  "Deserto Caldo":
+    canonical: deserto_caldo
+    status: legacy
+    notes: "Formato con spazi dai dossier e dalle patch storiche."
+  cryosteppe:
+    canonical: cryosteppe
+    notes: "Stesso identificatore portato nel dataset canonico Cryosteppe Risonanti."

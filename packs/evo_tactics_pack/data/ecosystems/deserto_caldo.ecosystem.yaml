@@ -7,7 +7,7 @@ receipt:
 ecosistema:
   id: DESERTO_CALDO
   label: Deserto Caldo Vetrificato
-  biome_id: savana
+  biome_id: deserto_caldo
   clima:
     temperatura_C:
       media_annua: 32.0
@@ -21,7 +21,7 @@ ecosistema:
       N2: 78.08
       O2: 20.95
       Ar: 0.93
-      CO2: 0.030
+      CO2: 0.03
   abiotico:
     salinita: salina interna
     nutrienti:
@@ -30,22 +30,22 @@ ecosistema:
       K: medio
   trofico:
     produttori:
-      - cactus-weaver
-      - cianobatteri_dune
-      - arbusti_pioneer
+    - cactus-weaver
+    - cianobatteri_dune
+    - arbusti_pioneer
     consumatori:
       primari:
-        - silica-bloom
-        - arbusti_pioneer_detritivori
+      - silica-bloom
+      - arbusti_pioneer_detritivori
       secondari:
-        - noctule-termico
+      - noctule-termico
       terziari:
-        - thermo-raptor
+      - thermo-raptor
     decompositori:
-      - evento-ondata-termica
-      - biofilm_termico
-  note: Deserto iper-arido con lenti magnetiche sotterranee e trasporto di 
-    polveri ionizzate.
+    - evento-ondata-termica
+    - biofilm_termico
+  note: Deserto iper-arido con lenti magnetiche sotterranee e trasporto di polveri
+    ionizzate.
 links:
   species_dir: packs/evo_tactics_pack/data/species/deserto_caldo
   foodweb: packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml

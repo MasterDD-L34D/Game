@@ -1,7 +1,7 @@
 id: aurora-gull
 display_name: Gabbiano d’Aurora
 biomes:
-  - mezzanotte_orbitale
+  - cryosteppe
 role_trofico: dispersore_ponte
 functional_tags:
   - impollinatore
@@ -52,7 +52,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: mezzanotte_orbitale
+  biome_class: cryosteppe
   koppen:
     - BSk
     - Dfc

@@ -1,7 +1,7 @@
 id: cactus-weaver
 display_name: Cactus Weaver
 biomes:
-  - savana
+  - deserto_caldo
 role_trofico: ingegneri_ecosistema
 functional_tags:
   - ingegneri_ecosistema
@@ -56,7 +56,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: savana
+  biome_class: deserto_caldo
   koppen:
     - BWh
     - BSh

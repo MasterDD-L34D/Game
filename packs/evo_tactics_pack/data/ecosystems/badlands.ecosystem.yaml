@@ -7,7 +7,7 @@ receipt:
 ecosistema:
   id: BADLANDS
   label: Brulle Terre Ferrose
-  biome_id: canyons_risonanti
+  biome_id: badlands
   clima:
     temperatura_C:
       media_annua: 14.5
@@ -30,21 +30,21 @@ ecosistema:
       K: alto
   trofico:
     produttori:
-      - arbusti_xerofili
-      - crostoni_criptofite
-      - cianobatteri
+    - arbusti_xerofili
+    - crostoni_criptofite
+    - cianobatteri
     consumatori:
       primari:
-        - sand-burrower
-        - rust-scavenger
+      - sand-burrower
+      - rust-scavenger
       secondari:
-        - ferrocolonia-magnetotattica
-        - echo-wing
+      - ferrocolonia-magnetotattica
+      - echo-wing
       terziari:
-        - dune-stalker
+      - dune-stalker
     decompositori:
-      - nano-rust-bloom
-      - evento-tempesta-ferrosa
+    - nano-rust-bloom
+    - evento-tempesta-ferrosa
   note: Ecosistema desertico magnetizzato con pulse detritici stagionali.
 links:
   species_dir: packs/evo_tactics_pack/data/species/badlands
