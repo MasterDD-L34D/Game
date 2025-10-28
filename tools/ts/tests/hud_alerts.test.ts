@@ -196,3 +196,151 @@ test('risk HUD alert maintains separate state per mission', () => {
   assert.deepEqual(raisedAlerts, ['risk-high:mission-alpha', 'risk-high:mission-beta']);
   assert.deepEqual(clearedAlerts, ['risk-high:mission-alpha']);
 });
+
+test('risk HUD alert tracks acknowledgement events and exposes them in telemetry', () => {
+  const telemetryBus = new EventEmitter();
+  const commandBus = new EventEmitter();
+  const recorded: any[] = [];
+
+  const hudLayer = {
+    raiseAlert: () => {
+      /* noop */
+    },
+    clearAlert: () => {
+      /* noop */
+    },
+    updateTrend: () => {
+      /* noop */
+    },
+  };
+
+  registerRiskHudAlertSystem({
+    telemetryBus,
+    hudLayer,
+    commandBus,
+    telemetryRecorder: {
+      record: (entry) => recorded.push(entry),
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'skydock_siege',
+    roster: ['Sentinel', 'Vesper'],
+    turn: 11,
+    indices: {
+      risk: {
+        weighted_index: 0.65,
+        time_low_hp_turns: 6,
+      },
+    },
+  });
+
+  commandBus.emit('hud.alert.ack', {
+    alertId: 'risk-high:skydock_siege',
+    missionId: 'skydock_siege',
+    recipient: 'pi.balance.alerts',
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'skydock_siege',
+    turn: 12,
+    indices: {
+      risk: {
+        weighted_index: 0.57,
+        time_low_hp_turns: 5,
+      },
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'skydock_siege',
+    turn: 13,
+    indices: {
+      risk: {
+        weighted_index: 0.55,
+        time_low_hp_turns: 4,
+      },
+    },
+  });
+
+  const statuses = recorded.map((entry) => entry.status);
+  assert.deepEqual(statuses, ['raised', 'acknowledged', 'cleared']);
+
+  const ackEntry = recorded.find((entry) => entry.status === 'acknowledged');
+  assert.equal(ackEntry?.ackRecipient, 'pi.balance.alerts');
+  assert.equal(ackEntry?.ackCount, 1);
+
+  const cleared = recorded.find((entry) => entry.status === 'cleared');
+  assert.equal(cleared?.ackCount, 1);
+  assert.deepEqual(cleared?.ackRecipients, ['pi.balance.alerts']);
+});
+
+test('risk HUD alert records filter drops with counters for QA visibility', () => {
+  const telemetryBus = new EventEmitter();
+  const commandBus = new EventEmitter();
+  const recorded: any[] = [];
+  let rejectFirst = true;
+
+  const hudLayer = {
+    raiseAlert: () => {
+      /* noop */
+    },
+    clearAlert: () => {
+      /* noop */
+    },
+    updateTrend: () => {
+      /* noop */
+    },
+  };
+
+  registerRiskHudAlertSystem({
+    telemetryBus,
+    hudLayer,
+    commandBus,
+    telemetryRecorder: {
+      record: (entry) => recorded.push(entry),
+    },
+    options: {
+      filters: [
+        function blockFirst() {
+          if (rejectFirst) {
+            rejectFirst = false;
+            return false;
+          }
+
+          return true;
+        },
+      ],
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'mission-alpha',
+    turn: 3,
+    indices: {
+      risk: {
+        weighted_index: 0.64,
+        time_low_hp_turns: 3,
+      },
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'mission-alpha',
+    turn: 4,
+    indices: {
+      risk: {
+        weighted_index: 0.66,
+        time_low_hp_turns: 4,
+      },
+    },
+  });
+
+  const filteredEntry = recorded.find((entry) => entry.status === 'filtered');
+  assert.ok(filteredEntry, 'Un evento filtrato deve essere registrato');
+  assert.equal(filteredEntry.filterCount, 1);
+  assert.equal(filteredEntry.filterName, 'blockFirst');
+
+  const raisedEntry = recorded.find((entry) => entry.status === 'raised');
+  assert.ok(raisedEntry, "L'evento successivo deve superare i filtri");
+});
