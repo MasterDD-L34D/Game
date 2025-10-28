@@ -5,9 +5,12 @@ biomes:
     diff_base: 5
     mod_biome: 3
     affixes:
-      - magma_vents
-      - pressure_rifts
-      - ash_bloom
+      - termico
+      - luminescente
+      - spore_diluite
+      - sabbia
+    aliases:
+      - deserto_caldo
     hazard:
       description: "Sfiati di magma, shock termici e colate improvvise che deformano la topografia."
       severity: high
@@ -198,6 +201,8 @@ biomes:
       - cristallino
       - fangoso
       - acque_nere
+    aliases:
+      - caverna_risonante
     hazard:
       description: "Risonanze amplificate, crolli spontanei e pozze acide."
       severity: high
@@ -221,43 +226,9 @@ biomes:
       hooks:
         - "Disinnescare camere di eco instabile prima del collasso."
         - "Estrarre cristalli risonanti senza allertare i custodi del nido."
-    aliases:
-      - caverna_risonante
-  cryosteppe:
-    label: "Cryosteppe Risonanti"
-    summary: "Steppe ghiacciate con cristalli cantori e corridoi di permafrost cavo."
-    diff_base: 4
-    mod_biome: 2
-    affixes:
-      - aurora_flux
-      - permafrost
-      - echo_crystal
-    hazard:
-      description: "Whiteout improvvisi e crepacci risonanti che distorcono percezioni e traiettorie."
-      severity: high
-      stress_modifiers:
-        whiteout: 0.05
-        frostbite: 0.07
-    npc_archetypes:
-      primary:
-        - echo_pathfinders
-        - frostbound_titans
-      support:
-        - aurora_cartographers
-    stresswave:
-      baseline: 0.31
-      escalation_rate: 0.05
-      event_thresholds:
-        rescue: 0.56
-        overrun: 0.78
-    narrative:
-      tone: "Assalti tattici e sopravvivenza in permafrost risonante e aurora instabile."
-      hooks:
-        - "Stabilire balise foniche per tracciare le onde di risonanza nei canyon ghiacciati."
-        - "Scortare convogli biotech attraverso crepacci in migrazione."
-  deserto_caldo:
-    label: "Deserto Caldo Aurorale"
-    summary: "Dune fotoniche e fiumi di silice liquida animati da aurora termica."
+  palude:
+    label: "Palude Tossica"
+    summary: "Acque stagnanti bio-luminescenti con fauna mutagena."
     diff_base: 3
     mod_biome: 2
     affixes:
@@ -293,8 +264,10 @@ biomes:
     diff_base: 4
     mod_biome: 3
     affixes:
-      - thermal_updraft
-      - biolum_plume
+      - echo_surge
+      - shifting_winds
+    aliases:
+      - badlands
     hazard:
       description: "Correnti ascendenti, shock termici e micro-eruzioni sottomarine."
       severity: high
@@ -358,6 +331,8 @@ biomes:
     affixes:
       - spore_bloom
       - myco_link
+    aliases:
+      - foresta_temperata
     hazard:
       description: "Visibilità ridotta, radici bloccanti e spore neuroreattive."
       severity: medium
@@ -411,73 +386,43 @@ biomes:
     narrative:
       tone: "Ricognizioni stealth tra nebbie radiose e comunità arboree."
       hooks:
-        - "Stabilire drenaggi controllati prima della piena torrentizia."
-        - "Mediare tregue tra branchi territoriali nelle radure sacre."
+        - "Proteggere i reattori a risonanza dagli attacchi delle maree."
+        - "Recuperare shard ossidiani prima dell'arrivo della tempesta."
+  stratosfera_tempestosa:
+    label: "Stratosfera Tempestosa"
+    summary: "Piattaforme aerostatiche sospese tra bande ioniche e vortici plasmatici."
+    diff_base: 5
+    mod_biome: 4
+    affixes:
+      - ion_shear
+      - storm_current
+      - low_grav
+      - lightning_veils
     aliases:
-      - "Foresta temperata umida"
-      - foresta_temperata_umida
-  laguna_bioreattiva:
-    label: "Laguna Bioreattiva"
-    summary: "Lagune tropicali bioingegnerizzate con reagenti instabili e fauna luminosa."
-    diff_base: 3
-    mod_biome: 2
-    affixes:
-      - reactive_tide
-      - enzyme_bloom
+      - stratosfera
     hazard:
-      description: "Onde chimiche e maree che rimescolano reagenti catalitici."
-      severity: medium
+      description: "Turbolenze fulminanti e tagli di vento che destabilizzano equipaggio e strumenti."
+      severity: high
       stress_modifiers:
-        enzyme_surge: 0.05
-        algal_flash: 0.04
+        turbulence: 0.07
+        ion_surge: 0.08
     npc_archetypes:
       primary:
-        - lagoon_custodians
-        - enzyme_raiders
+        - skyward_lancers
+        - ion_tamers
       support:
-        - reagent_brokers
+        - aerostat_engineers
     stresswave:
-      baseline: 0.29
-      escalation_rate: 0.04
+      baseline: 0.38
+      escalation_rate: 0.07
       event_thresholds:
-        rescue: 0.53
-        overrun: 0.74
+        support: 0.62
+        overrun: 0.85
     narrative:
-      tone: "Operazioni anfibie tra rifugi biotech e flussi catalitici instabili."
+      tone: "Operazioni a gravità variabile tra correnti ioniche imprevedibili."
       hooks:
-        - "Stabilizzare i catalizzatori prima della reazione a catena."
-        - "Scortare i convogli di reagenti verso i laboratori costieri."
-  mangrovieto_cinetico:
-    label: "Mangrovieto Cinetico"
-    summary: "Radici mobili e maree sincronizzate da motori bio-meccanici."
-    diff_base: 3
-    mod_biome: 2
-    affixes:
-      - root_migration
-      - tidal_overclock
-    hazard:
-      description: "Radici mobili, correnti inversive e zone di risucchio magnetotattiche."
-      severity: medium
-      stress_modifiers:
-        root_whip: 0.05
-        reverse_tide: 0.05
-    npc_archetypes:
-      primary:
-        - tide_harvesters
-        - mangrove_marshals
-      support:
-        - flow_engineers
-    stresswave:
-      baseline: 0.28
-      escalation_rate: 0.04
-      event_thresholds:
-        rescue: 0.52
-        overrun: 0.73
-    narrative:
-      tone: "Spedizioni anfibie e contratti logistici con cooperative tidal-tech."
-      hooks:
-        - "Ricalibrare i motori radice per proteggere gli insediamenti costieri."
-        - "Recuperare nuclei cinetici dispersi nelle secche."
+        - "Stabilizzare i tether dei ponti aerostatici prima del collasso."
+        - "Intercettare navi pirata che sfruttano i canali di tempesta per infiltrarsi."
   mezzanotte_orbitale:
     label: "Mezzanotte Orbitale"
     summary: "Stazione orbitale in decadimento con gravità variabile."
@@ -486,6 +431,8 @@ biomes:
     affixes:
       - zero_g_flux
       - alarm_cascade
+    aliases:
+      - cryosteppe
     hazard:
       description: "Zero-G intermittente, allarmi a cascata e compartimenti depressurizzati."
       severity: high

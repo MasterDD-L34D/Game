@@ -19,21 +19,6 @@ aliases:
   caverna_risonante:
     canonical: caverna
     notes: "Alias storico per la Caverna Risonante."
-  "Foresta Temperata":
-    canonical: foresta_temperata
-    status: legacy
-    notes: "Variante capitalizzata apparsa nei dossier showcase."
-  "Badlands":
-    canonical: badlands
-    status: legacy
-    notes: "Nome con iniziale maiuscola utilizzato nei materiali marketing."
-  deserto_caldo:
-    canonical: deserto_caldo
-    notes: "Mantiene riferimenti precedenti senza modificare i dataset esistenti."
-  "Deserto Caldo":
-    canonical: deserto_caldo
-    status: legacy
-    notes: "Formato con spazi dai dossier e dalle patch storiche."
-  cryosteppe:
-    canonical: cryosteppe
-    notes: "Stesso identificatore portato nel dataset canonico Cryosteppe Risonanti."
+  stratosfera:
+    canonical: stratosfera_tempestosa
+    notes: "Slug abbreviato usato negli snapshot precedenti della stratosfera."
