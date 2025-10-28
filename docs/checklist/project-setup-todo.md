@@ -29,6 +29,7 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [x] Generare encounter di prova: `python generate_encounter.py <bioma> ../../data/biomes.yaml` per
       ogni bioma disponibile, salvando gli output in `docs/examples/` o nella sezione encounter. _Output aggiornati per savana/caverna/palude (seed `demo`) in `docs/examples/` il 2025-10-26._
 - [x] Documentare eventuali discrepanze CLI TS/Python e aprire issue se necessarie. _Verifica 2025-10-27: seed `demo` (ENTP/invoker) e `alpha42` (ISFJ/support) → diff nullo tra `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py`; log salvati in `logs/tooling/2025-10-27-roll_pack/`._
+- [x] Eseguire lo smoke test CLI `scripts/cli_smoke.sh` (profili `hud`, `playtest`, `support`, `telemetry`) per validare dataset/pack e generare encounter seed `smoke-<profilo>`. _Run 2025-11-07: 22/22 biomi completi, 14 controlli pack senza avvisi, encounter savana VC conforme._
 
 ## 5. Interfaccia web di test
 - [x] Avviare un server locale dalla radice: `python -m http.server 8000`. _Verificato su porta 8000 con richiesta `curl`._
@@ -70,7 +71,7 @@ ogni esecuzione importante, annotando data, esito e note operative.
   | EVT-02 | Media | Flag narrativi coerenti al 100%, tre rami documentati, nessun dialogo fuori ordine. | `docs/playtest/scenari-critici.md` |
   | EVT-03 | Alta | Trigger cinematico <2 s, timer reset 3/3, zero crash/glitch luminosi. | `docs/playtest/scenari-critici.md` |
 - [x] Organizzare sessioni di playtest interne seguendo gli scenari e annotare problemi e suggerimenti. _Sessione pilota programmata per il 2025-11-12; dettagli operativi in `docs/playtest/SESSION-2025-11-12.md`._
-- [ ] Registrare i risultati in `docs/playtest/SESSION-<data>.md` con screenshot/log linkati dove utile. _Da completare post-sessione pilota 2025-11-12; raccogliere asset in `logs/pilot-2025-11-12/` e consolidare nel report `docs/playtest/SESSION-2025-11-12.md`._
+- [x] Registrare i risultati in `docs/playtest/SESSION-<data>.md` con screenshot/log linkati dove utile. _Completato il 2025-11-07: report `docs/playtest/SESSION-2025-11-12.md` aggiornato con log, media e ticket collegati; follow-up tracciati in changelog/roadmap/Canvas._【F:docs/playtest/SESSION-2025-11-12.md†L16-L76】【F:docs/changelog.md†L5-L25】【F:docs/piani/roadmap.md†L72-L109】
 - [x] Aprire ticket su tracker interno o GitHub per ogni bug confermato, collegando log e file YAML. _Procedura ticket → issue documentata in `docs/playtest/SESSION-2025-11-12.md` con etichetta obbligatoria `encounter-balance`._
 ## 10. Rilascio e comunicazione
 - [x] Redigere un changelog in `docs/changelog.md` prima di ogni release o consegna intermedia. _Aggiornato il 2025-11-05 con note RC generate dai report PR automatici (owner: Marketing Ops)._ 
