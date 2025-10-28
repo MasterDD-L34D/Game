@@ -11,7 +11,8 @@
     "test": "npm run build --silent && node --test dist/ts/tests/*.test.js && npm run test:web --silent",
     "test:web": "node ./scripts/run_playwright_tests.mjs",
     "test:ui": "tsx tests/export-modal.test.tsx",
-    "validate:species": "npm run build && node dist/validate_species.js ../../data/species.yaml"
+    "validate:species": "npm run build && node dist/validate_species.js ../../data/species.yaml",
+    "lighthouse:test-interface": "node ./scripts/run_lighthouse.mjs"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",

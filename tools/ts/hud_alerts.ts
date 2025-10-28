@@ -32,6 +32,10 @@ export interface HudLayerLike {
 
 export interface CommandBusLike {
   emit?(event: string, payload: unknown): void;
+  on?(event: string, listener: (payload: unknown) => void): void;
+  addListener?(event: string, listener: (payload: unknown) => void): void;
+  off?(event: string, listener: (payload: unknown) => void): void;
+  removeListener?(event: string, listener: (payload: unknown) => void): void;
 }
 
 export interface TelemetryBusLike {
@@ -45,7 +49,7 @@ export interface TelemetryRecorder {
   record(event: RiskHudAlertLog): void;
 }
 
-export type RiskHudAlertStatus = 'raised' | 'cleared';
+export type RiskHudAlertStatus = 'raised' | 'cleared' | 'filtered' | 'acknowledged';
 
 export interface RiskHudAlertLog {
   alertId: string;
@@ -57,6 +61,12 @@ export interface RiskHudAlertLog {
   timeLowHpTurns?: number | null;
   roster?: string[];
   timestamp?: string;
+  ackRecipient?: string;
+  ackRecipients?: string[];
+  ackCount?: number;
+  lastAckTimestamp?: string;
+  filterName?: string;
+  filterCount?: number;
 }
 
 export interface RiskHudAlertOptions {
@@ -77,6 +87,18 @@ interface RiskHudAlertState {
 export type RiskHudAlertFilter = (payload: EmaUpdatePayload) => boolean;
 
 export type MissionTagResolver = (payload: EmaUpdatePayload) => string | undefined;
+
+export interface HudAlertAckPayload {
+  alertId: string;
+  missionId?: string;
+  missionTag?: string;
+  turn?: number;
+  recipient?: string;
+  weightedIndex?: number;
+  timeLowHpTurns?: number | null;
+  roster?: string[];
+  timestamp?: string;
+}
 
 function resolveStreamKey(payload: EmaUpdatePayload): string {
   if (payload?.missionId) {
@@ -156,6 +178,17 @@ function detachListener(bus: TelemetryBusLike, listener: (payload: EmaUpdatePayl
   }
 }
 
+function detachCommandListener(bus: CommandBusLike, listener: (payload: unknown) => void) {
+  if (typeof bus.off === 'function') {
+    bus.off('hud.alert.ack', listener);
+    return;
+  }
+
+  if (typeof bus.removeListener === 'function') {
+    bus.removeListener('hud.alert.ack', listener);
+  }
+}
+
 export interface RegisterRiskHudAlertDeps {
   telemetryBus: TelemetryBusLike;
   hudLayer: HudLayerLike;
@@ -180,12 +213,82 @@ export function registerRiskHudAlertSystem({
     : [];
 
   const states = new Map<string, RiskHudAlertState>();
+  const filterCounts = new Map<string, number>();
+  type AckMetrics = {
+    count: number;
+    recipients: Set<string>;
+    lastTimestamp?: string;
+    missionId?: string;
+    missionTag?: string;
+    roster?: string[];
+    weightedIndex?: number;
+    timeLowHpTurns?: number | null;
+  };
+  const ackMetrics = new Map<string, AckMetrics>();
 
-  const listener = (payload: EmaUpdatePayload) => {
-    if (filters.some((filter) => filter(payload) === false)) {
+  const ackListener = (rawPayload: unknown) => {
+    if (!rawPayload || typeof rawPayload !== 'object') {
       return;
     }
 
+    const payload = rawPayload as HudAlertAckPayload;
+    if (!payload.alertId) {
+      return;
+    }
+
+    const current = ackMetrics.get(payload.alertId) ?? {
+      count: 0,
+      recipients: new Set<string>(),
+      missionId: payload.missionId,
+      missionTag: payload.missionTag,
+      roster: payload.roster,
+      weightedIndex: payload.weightedIndex,
+      timeLowHpTurns: payload.timeLowHpTurns ?? null,
+    };
+
+    current.count += 1;
+    if (payload.recipient) {
+      current.recipients.add(payload.recipient);
+    }
+
+    current.missionId = payload.missionId ?? current.missionId;
+    current.missionTag = payload.missionTag ?? current.missionTag;
+    current.roster = payload.roster ?? current.roster;
+    current.weightedIndex = payload.weightedIndex ?? current.weightedIndex;
+    current.timeLowHpTurns =
+      typeof payload.timeLowHpTurns === 'number' ? payload.timeLowHpTurns : current.timeLowHpTurns ?? null;
+
+    const timestamp = payload.timestamp ?? toIsoTimestamp();
+    current.lastTimestamp = timestamp;
+
+    ackMetrics.set(payload.alertId, current);
+
+    if (telemetryRecorder) {
+      telemetryRecorder.record({
+        alertId: payload.alertId,
+        status: 'acknowledged',
+        missionId: current.missionId,
+        missionTag: current.missionTag,
+        turn: payload.turn,
+        weightedIndex: current.weightedIndex,
+        timeLowHpTurns: current.timeLowHpTurns ?? null,
+        roster: current.roster,
+        timestamp,
+        ackRecipient: payload.recipient,
+        ackRecipients: Array.from(current.recipients),
+        ackCount: current.count,
+        lastAckTimestamp: current.lastTimestamp,
+      });
+    }
+  };
+
+  if (typeof commandBus.on === 'function') {
+    commandBus.on('hud.alert.ack', ackListener);
+  } else if (typeof commandBus.addListener === 'function') {
+    commandBus.addListener('hud.alert.ack', ackListener);
+  }
+
+  const listener = (payload: EmaUpdatePayload) => {
     hudLayer.updateTrend?.('risk', payload.indices?.risk ?? null);
 
     const streamKey = resolveStreamKey(payload);
@@ -196,19 +299,61 @@ export function registerRiskHudAlertSystem({
     }
 
     const alertId = resolveAlertId(payload, streamKey);
-
     const weightedIndex = getWeightedIndex(payload);
+    const timeLowHpTurns = getTimeLowHpTurns(payload);
+    const missionTag = resolveMissionTag(payload, options?.missionTags, options?.missionTagger);
+
+    for (const filter of filters) {
+      let passes = true;
+      try {
+        passes = filter(payload) !== false;
+      } catch (error) {
+        passes = false;
+      }
+
+      if (!passes) {
+        const nameCandidate = (filter as { displayName?: string }).displayName;
+        const filterName = nameCandidate ?? filter.name ?? 'anonymous';
+        const currentCount = (filterCounts.get(filterName) ?? 0) + 1;
+        filterCounts.set(filterName, currentCount);
+
+        if (telemetryRecorder) {
+          telemetryRecorder.record({
+            alertId,
+            status: 'filtered',
+            missionId: payload.missionId,
+            missionTag,
+            turn: payload.turn,
+            weightedIndex: weightedIndex ?? undefined,
+            timeLowHpTurns,
+            roster: payload.roster,
+            timestamp: toIsoTimestamp(),
+            filterName,
+            filterCount: currentCount,
+          });
+        }
+
+        return;
+      }
+    }
+
     if (weightedIndex === null) {
       state.belowCount = 0;
       return;
     }
 
-    const timeLowHpTurns = getTimeLowHpTurns(payload);
-    const missionTag = resolveMissionTag(payload, options?.missionTags, options?.missionTagger);
-
     if (!state.active && weightedIndex >= threshold) {
       state.active = true;
       state.belowCount = 0;
+      ackMetrics.set(alertId, {
+        count: 0,
+        recipients: new Set<string>(),
+        missionId: payload.missionId,
+        missionTag,
+        roster: payload.roster,
+        weightedIndex,
+        timeLowHpTurns,
+      });
       const alert: HudAlert = {
         id: alertId,
         severity: 'warning',
@@ -246,6 +391,8 @@ export function registerRiskHudAlertSystem({
           timeLowHpTurns,
           roster: payload.roster,
           timestamp: toIsoTimestamp(),
+          ackCount: 0,
+          ackRecipients: [],
         });
       }
 
@@ -274,6 +421,7 @@ export function registerRiskHudAlertSystem({
         hudLayer.clearAlert?.(alertId);
 
         if (telemetryRecorder) {
+          const ackInfo = ackMetrics.get(alertId);
           telemetryRecorder.record({
             alertId,
             status: 'cleared',
@@ -284,6 +432,9 @@ export function registerRiskHudAlertSystem({
             timeLowHpTurns,
             roster: payload.roster,
             timestamp: toIsoTimestamp(),
+            ackCount: ackInfo?.count,
+            ackRecipients: ackInfo ? Array.from(ackInfo.recipients) : undefined,
+            lastAckTimestamp: ackInfo?.lastTimestamp,
           });
         }
       }
@@ -292,5 +443,8 @@ export function registerRiskHudAlertSystem({
 
   telemetryBus.on('ema.update', listener);
 
-  return () => detachListener(telemetryBus, listener);
+  return () => {
+    detachListener(telemetryBus, listener);
+    detachCommandListener(commandBus, ackListener);
+  };
 }

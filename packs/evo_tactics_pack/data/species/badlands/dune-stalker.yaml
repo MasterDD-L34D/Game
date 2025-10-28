@@ -7,7 +7,7 @@ receipt:
 id: dune-stalker
 display_name: Dune Stalker
 biomes:
-  - canyons_risonanti
+  - badlands
 role_trofico: predatore_terziario_apex
 functional_tags:
   - specie_chiave
@@ -40,7 +40,7 @@ balance:
   threat_tier: T3
   encounter_role: elite
 environment_affinity:
-  biome_class: canyons_risonanti
+  biome_class: badlands
   koppen:
     - BSk
     - BWk
@@ -65,8 +65,8 @@ derived_from_environment:
     - Vanguard
     - Warden
 telemetry:
-  expected_pick_rate:
-  spawn_weight:
+  expected_pick_rate: null
+  spawn_weight: null
 services_links: []
 genetic_traits: []
 mate_synergy: []

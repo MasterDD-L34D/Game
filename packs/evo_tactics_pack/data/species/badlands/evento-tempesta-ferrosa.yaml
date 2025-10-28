@@ -7,7 +7,7 @@ receipt:
 id: evento-tempesta-ferrosa
 display_name: 'Evento: Tempesta Ferrosa'
 biomes:
-  - canyons_risonanti
+  - badlands
 role_trofico: evento_ecologico
 functional_tags:
   - pulse_climatico
@@ -44,7 +44,7 @@ balance:
   threat_tier: T4
   encounter_role: boss
 environment_affinity:
-  biome_class: canyons_risonanti
+  biome_class: badlands
   koppen:
     - BSk
     - BWk
@@ -69,8 +69,8 @@ derived_from_environment:
     - Vanguard
     - Warden
 telemetry:
-  expected_pick_rate:
-  spawn_weight:
+  expected_pick_rate: null
+  spawn_weight: null
 services_links: []
 genetic_traits: []
 mate_synergy: []

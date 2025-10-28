@@ -7,7 +7,7 @@ receipt:
 id: ferrocolonia-magnetotattica
 display_name: Ferrocolonia Magnetotattica
 biomes:
-  - canyons_risonanti
+  - badlands
 role_trofico: predatore_regolatore_simbionte
 functional_tags:
   - simbionte
@@ -69,7 +69,7 @@ mating:
     recruit_min_trust: 2
     mating_min_trust: 3
 environment_affinity:
-  biome_class: canyons_risonanti
+  biome_class: badlands
   koppen:
     - BSk
     - BWk

@@ -11,8 +11,10 @@ def load_foodweb(path):
 def run(net_path):
     ok=True; warns=0
     N=Y(net_path); root=N.get('ecosistema') or N.get('network') or {}; net=root
+    nodes = net.get('nodes') or net.get('biomi') or []
+    edges = net.get('edges') or net.get('connessioni') or []
     # map node -> ecosystem & species_dir
-    node_ecos={ n['id']: Y(n['path']) for n in (net.get('nodes') or []) }
+    node_ecos={ n['id']: Y(n['path']) for n in nodes }
     node_species_dir={ nid: (E.get('links',{}).get('species_dir')) for nid,E in node_ecos.items() }
     node_foodweb_path={ nid: (E.get('links',{}).get('foodweb')) for nid,E in node_ecos.items() }
     # load local foodweb edges/nodes
@@ -26,14 +28,14 @@ def run(net_path):
                 return True
         return False
     # 1) trophic_spillover -> destination needs detritus sink or detritivores
-    for e in (net.get('edges') or []):
+    for e in edges:
         if e.get('type')=='trophic_spillover':
             dest=e.get('to')
             if not has_detritus_sink(dest):
                 print(f"WARNING: {dest} non mostra sink di detrito per spillover {e.get('from')}→{dest}"); warns+=1
     # 2) corridors/seasonal_bridge need at least one bridge species present in both nodes
     bridges = net.get('bridge_species_map') or []
-    for e in (net.get('edges') or []):
+    for e in edges:
         if e.get('type') in ('corridor','seasonal_bridge'):
             a,b = e.get('from'), e.get('to')
             if not any( (a in (bsp.get('present_in_nodes') or [])) and (b in (bsp.get('present_in_nodes') or [])) for bsp in bridges ):
@@ -52,12 +54,10 @@ def run(net_path):
         except Exception:
             pass
         if has_event:
-            for e in (net.get('edges') or []):
+            for e in edges:
                 if e.get('from')==nid and e.get('type') in ('corridor','seasonal_bridge'):
                     print(f"INFO: evento in {nid} può propagare verso {e.get('to')} tramite {e.get('type')} ({e.get('seasonality')})")
     return 0 if ok else 2
-if __name__=='__main__':
-    sys.exit(run(sys.argv[1]))
 
 # CROSS_EVENTS
 def check_cross_events(net_path):
@@ -69,7 +69,7 @@ def check_cross_events(net_path):
         return
     CE = Y(str(ce_path)) or {}
     events = CE.get('events') or []
-    edges = net.get('edges') or []
+    edges = net.get('edges') or net.get('connessioni') or []
     for ev in events:
         froms = ev.get('from_nodes') or []
         tos = ev.get('to_nodes') or []
@@ -81,7 +81,6 @@ def check_cross_events(net_path):
                     print(f"WARNING: cross_event {ev.get('species_id')} non trova edge {a}→{b} con type in {sorted(list(modes))}")
     return
 if __name__=='__main__':
-    # if called as script, run previous run() and then cross-events
-    import sys
     code = run(sys.argv[1])
     check_cross_events(sys.argv[1])
+    sys.exit(code)

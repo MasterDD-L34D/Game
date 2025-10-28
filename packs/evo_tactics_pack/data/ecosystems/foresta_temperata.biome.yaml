@@ -15,39 +15,39 @@ ecosistema:
     periodo_riferimento: 1991–2020
     fonti: []
   bioma:
-    classe_bioma: Foresta temperata umida
+    classe_bioma: foresta_temperata
     ecoregione: Temperate Broadleaf & Mixed Forests
     koppen_zone:
-      - Cfb
+    - Cfb
     npp_gC_m2_anno: 900
     note: ''
   morfologia:
     rilievo:
       quota_min_max_m:
-        - 200
-        - 1200
+      - 200
+      - 1200
       pendenza_media_gradi: 12
       rugosita_indice: 0.42
     forme_terreno:
-      - valli alluvionali
-      - versanti collinari
+    - valli alluvionali
+    - versanti collinari
     geologia_substrato:
-      - calcari
-      - marne
+    - calcari
+    - marne
     suolo_superficiale:
       tessitura: limo-argilla
       pH: 6.2
       sostanza_organica_%: 5.1
     idrografia:
       corsi_acqua:
-        - torrenti variabili
+      - torrenti variabili
       zone_umide:
-        - stagni temporanei
+      - stagni temporanei
       falda: superficiale
     frammentazione_connettivita:
       indice_frattura: 0.3
       corridoi_ecologici:
-        - corridoio fluviale X
+      - corridoio fluviale X
   composizione_aria:
     gas_maggiori_percento:
       N2: 78.08
@@ -77,9 +77,9 @@ ecosistema:
       totale_annuo: 950
       indice_stagionalita: invernale
       mesi_secchi:
-        - luglio
+      - luglio
       mesi_umidi:
-        - novembre
+      - novembre
     vento:
       regime: brezza di valle/monte
       velocita_media_m_s: 2.5
@@ -88,10 +88,10 @@ ecosistema:
       indice_aridita_P_su_ET0: 1.27
     estremi_e_rischi:
       eventi:
-        - alluvioni lampo
-        - incendi sporadici
+      - alluvioni lampo
+      - incendi sporadici
     teleconnessioni:
-      - NAO
+    - NAO
   abiotico:
     luce:
       radiazione_media_MJ_m2_giorno: 14.5
@@ -103,20 +103,20 @@ ecosistema:
     salinita: dolce
   trofico:
     produttori:
-      - piante_superiori
-      - alghe
-      - cianobatteri
+    - piante_superiori
+    - alghe
+    - cianobatteri
     consumatori:
       primari:
-        - erbivori
-        - detritivori
+      - erbivori
+      - detritivori
       secondari:
-        - carnivori
+      - carnivori
       terziari:
-        - predatori_apicali
+      - predatori_apicali
     decompositori:
-      - funghi
-      - batteri
+    - funghi
+    - batteri
     reti_note: []
   gruppi_funzionali:
     predatori: []
@@ -124,9 +124,9 @@ ecosistema:
     impollinatori: []
     dispersori_semi: []
     simbionti_mutualistici:
-      - micorrize
-      - rizobi
-      - licheni
+    - micorrize
+    - rizobi
+    - licheni
     parassiti_parasitoidi: []
     detritivori: []
     filtratori: []
@@ -134,35 +134,35 @@ ecosistema:
     specie_chiave_di_volta: []
   suolo:
     orizzonti:
-      - O
-      - A
-      - B
-      - C
+    - O
+    - A
+    - B
+    - C
     processi:
-      - fissazione_N
-      - nitrificazione
-      - denitrificazione
-      - mineralizzazione
+    - fissazione_N
+    - nitrificazione
+    - denitrificazione
+    - mineralizzazione
     microbioma:
-      - AMF
-      - batteri_nitrificanti
-      - denitrificanti
+    - AMF
+    - batteri_nitrificanti
+    - denitrificanti
     fauna_edafica:
-      - lombrichi
-      - acari
-      - collemboli
-      - nematodi
+    - lombrichi
+    - acari
+    - collemboli
+    - nematodi
   acque:
     comparti:
-      - fitoplancton
-      - zooplancton
-      - nekton
-      - benthos
-      - periphyton
+    - fitoplancton
+    - zooplancton
+    - nekton
+    - benthos
+    - periphyton
     processi:
-      - stratificazione
-      - rimescolamento
-      - eutrofizzazione
+    - stratificazione
+    - rimescolamento
+    - eutrofizzazione
     qualita:
       DO_mgL: 9.5
       BOD_mgL: 2.1
@@ -174,14 +174,14 @@ ecosistema:
     culturali: []
   pressioni_stato_risposte:
     pressioni:
-      - frammentazione
-      - specie invasive
+    - frammentazione
+    - specie invasive
     indicatori_stato:
-      - NDVI
-      - IBE
+    - NDVI
+    - IBE
     risposte_gestione:
-      - corridoi
-      - ripristino radure
+    - corridoi
+    - ripristino radure
 links:
   biome_id: foresta_miceliale
   species_dir: packs/evo_tactics_pack/data/species/foresta_temperata
@@ -196,18 +196,13 @@ rules:
     threat: 1
     event: 1
 registries:
-  functional_groups: 
-    packs/evo_tactics_pack/tools/config/registries/functional_groups.yaml
-  trophic_roles: 
-    packs/evo_tactics_pack/tools/config/registries/trophic_roles.yaml
-  biome_classes: 
-    packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml
-  climate_profiles: 
-    packs/evo_tactics_pack/tools/config/registries/climate_profiles.yaml
+  functional_groups: packs/evo_tactics_pack/tools/config/registries/functional_groups.yaml
+  trophic_roles: packs/evo_tactics_pack/tools/config/registries/trophic_roles.yaml
+  biome_classes: packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml
+  climate_profiles: packs/evo_tactics_pack/tools/config/registries/climate_profiles.yaml
   morphotypes: packs/evo_tactics_pack/tools/config/registries/morphotypes.yaml
   hazards: packs/evo_tactics_pack/tools/config/registries/hazards.yaml
-  env_to_traits: 
-    packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml
+  env_to_traits: packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml
 manifest:
   species_counts:
     apex: 1
@@ -216,9 +211,9 @@ manifest:
     threat: 1
     event: 1
   functional_groups_present:
-    - patogeno
-    - pulse_climatico
-    - specie_chiave
+  - patogeno
+  - pulse_climatico
+  - specie_chiave
   foodweb_links:
     path: packs/evo_tactics_pack/data/foodwebs/foresta_temperata_foodweb.yaml
     sink_detrito: true

@@ -1,9 +1,9 @@
 biomes:
-  savana:
-    label: "Savana Ionizzata"
-    summary: "Dune fotoniche con branchi adattivi e rovine sepolte."
-    diff_base: 2
-    mod_biome: 1
+  abisso_vulcanico:
+    label: "Abisso Vulcanico"
+    summary: "Camini abissali con lava pressurizzata e fauna bio-termica." 
+    diff_base: 5
+    mod_biome: 3
     affixes:
       - termico
       - luminescente
@@ -12,28 +12,185 @@ biomes:
     aliases:
       - deserto_caldo
     hazard:
-      description: "Tempeste ioniche e sabbia vetrificata che erodono equipaggiamento."
-      severity: medium
+      description: "Sfiati di magma, shock termici e colate improvvise che deformano la topografia."
+      severity: high
       stress_modifiers:
-        exposure: 0.03
-        sandstorm: 0.06
+        magma_surge: 0.07
+        thermal_shock: 0.06
     npc_archetypes:
       primary:
-        - predoni_nomadi
-        - guardiani_delle_dune
+        - abyssal_forgers
+        - magma_wardens
       support:
-        - cartografi_erranti
+        - geode_listeners
+    stresswave:
+      baseline: 0.36
+      escalation_rate: 0.06
+      event_thresholds:
+        rescue: 0.58
+        overrun: 0.82
+    narrative:
+      tone: "Assalti verticali e estrazioni ad alto rischio tra geyser incandescenti."
+      hooks:
+        - "Stabilire condotti di raffreddamento attorno alle fucine naturali." 
+        - "Recuperare artefatti termici prima dell'eruzione cataclismica."
+  atollo_obsidiana:
+    label: "Atollo Obsidiana"
+    summary: "Arcipelago magnetico con maree EMP e piattaforme mobili."
+    diff_base: 4
+    mod_biome: 3
+    affixes:
+      - resonance_tide
+      - shard_storm
+    hazard:
+      description: "Maree magnetiche, correnti EMP e schegge taglienti."
+      severity: high
+      stress_modifiers:
+        tidal_surge: 0.06
+        emp_flash: 0.07
+    npc_archetypes:
+      primary:
+        - aegis_corsairs
+        - gale_splicers
+      support:
+        - ingegneri_falena
+    stresswave:
+      baseline: 0.33
+      escalation_rate: 0.05
+      event_thresholds:
+        support: 0.57
+        overrun: 0.78
+    narrative:
+      tone: "Pirateria magnetica e assedi anfibi high-tech."
+      hooks:
+        - "Proteggere i reattori a risonanza dagli attacchi delle maree."
+        - "Recuperare shard ossidiani prima dell'arrivo della tempesta."
+  badlands:
+    label: "Badlands Ferro-Magnetiche"
+    summary: "Altipiani arrugginiti con tempeste ferrose e rovine sepolte."
+    diff_base: 4
+    mod_biome: 2
+    affixes:
+      - ferrous_spike
+      - dust_storm
+      - scrap_bloom
+    hazard:
+      description: "Tempeste di limatura magnetica e fulmini che polarizzano equipaggiamenti."
+      severity: high
+      stress_modifiers:
+        ferrostorm: 0.05
+        debris_field: 0.06
+    npc_archetypes:
+      primary:
+        - rust_scavengers
+        - ferroclad_brutes
+      support:
+        - scrap_oracles
+    stresswave:
+      baseline: 0.31
+      escalation_rate: 0.05
+      event_thresholds:
+        salvage: 0.55
+        overrun: 0.77
+    narrative:
+      tone: "Scorrerie magnetiche e guerre di logoramento tra clan di recupero."
+      hooks:
+        - "Recuperare relè Aeon arrugginiti prima che vengano fusi."
+        - "Convincere i clan magnetotattici a cooperare contro le tempeste." 
+  caldera_glaciale:
+    label: "Caldera Glaciale"
+    summary: "Crateri glaciali con geyser criogenici e pareti ricoperte di ghiaccio vivo."
+    diff_base: 4
+    mod_biome: 2
+    affixes:
+      - frost_vents
+      - glacial_resonance
+      - ice_slick
+    hazard:
+      description: "Geyser criogenici e crepacci mascherati da cristalli luminosi."
+      severity: high
+      stress_modifiers:
+        frostburst: 0.05
+        collapse: 0.07
+    npc_archetypes:
+      primary:
+        - cryo_wardens
+        - glacial_sentinels
+      support:
+        - resonance_mappers
+    stresswave:
+      baseline: 0.3
+      escalation_rate: 0.05
+      event_thresholds:
+        rescue: 0.56
+        overrun: 0.78
+    narrative:
+      tone: "Esplorazioni verticali e gestione di geyser imprevedibili."
+      hooks:
+        - "Stabilire ponti termici per attraversare crepacci dinamici."
+        - "Proteggere gli estrattori di ghiaccio vivo durante le eruzioni." 
+  canopia_ionica:
+    label: "Canopia Ionica"
+    summary: "Foresta verticale sospesa da campi elettrostatici e rampicanti conduttivi."
+    diff_base: 3
+    mod_biome: 2
+    affixes:
+      - static_vines
+      - ion_lattice
+    hazard:
+      description: "Scariche elettrostatiche e cadute da piattaforme sospese."
+      severity: medium
+      stress_modifiers:
+        ion_surge: 0.04
+        vertigo: 0.05
+    npc_archetypes:
+      primary:
+        - canopy_sentinels
+        - lattice_stalkers
+      support:
+        - charge_weavers
     stresswave:
       baseline: 0.28
       escalation_rate: 0.04
       event_thresholds:
-        support: 0.5
-        overrun: 0.7
+        rescue: 0.52
+        overrun: 0.72
     narrative:
-      tone: "Western sci-fi e sopravvivenza carovaniera."
+      tone: "Missioni acrobatiche tra passerelle elettrostatiche e reti sospese."
       hooks:
-        - "Recuperare convogli cristallizzati e nodi di risonanza sepolti."
-        - "Mediare tregue tra clan itineranti e guardiani della tempesta."
+        - "Sincronizzare la rete ionica per aprire corridoi sicuri."
+        - "Recuperare semi conduttivi custoditi dai guardiani della canopia."
+  canyons_risonanti:
+    label: "Canyons Risonanti"
+    summary: "Labirinto ventoso di gole armoniche alimentate da risonanza."
+    diff_base: 4
+    mod_biome: 2
+    affixes:
+      - echo_surge
+      - shifting_winds
+    hazard:
+      description: "Cadute rovinose e tunnel sonori che amplificano StressWave (+0.05 scoperti)."
+      severity: high
+      stress_modifiers:
+        open_ground: 0.05
+        collapse: 0.07
+    npc_archetypes:
+      primary:
+        - sibilant_wardens
+        - echo_drifters
+      support:
+        - risonatori_nomadi
+    stresswave:
+      baseline: 0.3
+      escalation_rate: 0.05
+      event_thresholds:
+        rescue: 0.6
+        overrun: 0.8
+    narrative:
+      tone: "Duelli sonori e trattative con tribù eco-sintonizzate."
+      hooks:
+        - "Stabilizzare ponti risonanti prima delle tempeste di vento."
+        - "Seguire tracce sonore per rintracciare nidi dispersivi."
   caverna:
     label: "Caverna Risonante"
     summary: "Gallerie cristalline dove eco e pressioni invertite modellano la fauna."
@@ -73,68 +230,99 @@ biomes:
     label: "Palude Tossica"
     summary: "Acque stagnanti bio-luminescenti con fauna mutagena."
     diff_base: 3
-    mod_biome: 1
+    mod_biome: 2
     affixes:
-      - fangoso
-      - tossico
-      - luminescente
-      - viti
+      - termico
+      - mirage_field
+      - silica_bloom
     hazard:
-      description: "Miasmi corrosivi e radici che intrappolano i movimenti."
-      severity: medium
+      description: "Tempeste di calore radiante, miraggi destabilizzanti e sabbia vetrificata."
+      severity: high
       stress_modifiers:
-        miasma: 0.04
-        entanglement: 0.06
+        heat_bloom: 0.06
+        mirage_drift: 0.04
     npc_archetypes:
       primary:
-        - custodi_miasmatici
-        - druidi_sporeguard
+        - dune_raiders
+        - silica_sentinels
       support:
-        - raccoglitori_di_fluoro
+        - caravan_medics
     stresswave:
-      baseline: 0.3
-      escalation_rate: 0.04
+      baseline: 0.29
+      escalation_rate: 0.05
       event_thresholds:
-        support: 0.52
-        overrun: 0.72
+        support: 0.54
+        overrun: 0.76
     narrative:
-      tone: "Survival horror organico e diplomazia con culti simbiotici."
+      tone: "Convogli carovanieri e schermaglie per controllo di oasi risonanti."
       hooks:
-        - "Recuperare reagenti bio-luminescenti per le squadre mediche."
-        - "Placare le colonie simbiotiche prima che scatenino la nube tossica."
-  canyons_risonanti:
-    label: "Canyons Risonanti"
-    summary: "Labirinto ventoso di gole armoniche alimentate da risonanza."
+        - "Guidare i convogli Aeon attraverso corridoi di sabbia viva."
+        - "Recuperare condensatori mirage dalle tempeste in arrivo."
+  dorsale_termale_tropicale:
+    label: "Dorsale Termale Tropicale"
+    summary: "Catena montuosa sommersa con fumarole calde e fauna simbiotica."
     diff_base: 4
-    mod_biome: 2
+    mod_biome: 3
     affixes:
       - echo_surge
       - shifting_winds
     aliases:
       - badlands
     hazard:
-      description: "Cadute rovinose e tunnel sonori che amplificano StressWave (+0.05 scoperti)."
+      description: "Correnti ascendenti, shock termici e micro-eruzioni sottomarine."
       severity: high
       stress_modifiers:
-        open_ground: 0.05
-        collapse: 0.07
+        thermal_plume: 0.06
+        pressure_wave: 0.05
     npc_archetypes:
       primary:
-        - sibilant_wardens
-        - echo_drifters
+        - ridge_sentinels
+        - plume_harvesters
       support:
-        - risonatori_nomadi
+        - thermal_diviners
     stresswave:
-      baseline: 0.3
+      baseline: 0.32
       escalation_rate: 0.05
       event_thresholds:
-        rescue: 0.6
+        rescue: 0.58
         overrun: 0.8
     narrative:
-      tone: "Duelli sonori e trattative con tribù eco-sintonizzate."
+      tone: "Operazioni anfibie tra fumarole luminescenti e correnti instabili."
       hooks:
-        - "Stabilizzare ponti risonanti prima delle tempeste di vento."
-        - "Seguire tracce sonore per rintracciare nidi dispersivi."
+        - "Sigillare sfiati per proteggere gli avamposti sommersi."
+        - "Scortare i droni estrattori attraverso vortici bioluminescenti."
+  foresta_acida:
+    label: "Foresta Acida"
+    summary: "Bacini tropicali saturi di piogge corrosive e flora predatoria."
+    diff_base: 4
+    mod_biome: 2
+    affixes:
+      - acid_rain
+      - corrosive_bloom
+      - predator_vines
+    hazard:
+      description: "Piogge acide, foschia tossica e spore corrosive che erodono protezioni."
+      severity: high
+      stress_modifiers:
+        acid_fall: 0.05
+        corrosive_mist: 0.06
+    npc_archetypes:
+      primary:
+        - caustic_hunters
+        - ph_balance_enforcers
+      support:
+        - antidote_scribes
+    stresswave:
+      baseline: 0.33
+      escalation_rate: 0.05
+      event_thresholds:
+        rescue: 0.55
+        overrun: 0.79
+    narrative:
+      tone: "Sopravvivenza biochimica e negoziazioni con culti simbiotici acidi."
+      hooks:
+        - "Neutralizzare bacini corrotti prima della tempesta acida." 
+        - "Raccogliere reagenti rari dai guardiani fototropici." 
   foresta_miceliale:
     label: "Foresta Miceliale"
     summary: "Canopia micotica bioluminescente dove la rete fungina coordina la fauna."
@@ -168,37 +356,103 @@ biomes:
       hooks:
         - "Mappare nodi miceliali per isolare la rete neurale."
         - "Convincere i guardiani a condividere antidoti spora."
-  atollo_obsidiana:
-    label: "Atollo Obsidiana"
-    summary: "Arcipelago magnetico con maree EMP e piattaforme mobili."
-    diff_base: 4
-    mod_biome: 3
+  foresta_temperata:
+    label: "Foresta Temperata Umida"
+    summary: "Boschi piovosi con canopy densa, nebbie calde e radure bioenergetiche."
+    diff_base: 3
+    mod_biome: 1
     affixes:
-      - resonance_tide
-      - shard_storm
+      - rainshade
+      - canopy_web
+      - floodpulse
     hazard:
-      description: "Maree magnetiche, correnti EMP e schegge taglienti."
-      severity: high
+      description: "Piogge improvvise, frane saturate d'acqua e muffe reattive."
+      severity: medium
       stress_modifiers:
-        tidal_surge: 0.06
-        emp_flash: 0.07
+        mudslide: 0.04
+        humidity_shock: 0.05
     npc_archetypes:
       primary:
-        - aegis_corsairs
-        - gale_splicers
+        - wardens_pluviali
+        - temperate_stalkers
       support:
-        - ingegneri_falena
+        - druids_pluviometrici
     stresswave:
-      baseline: 0.33
-      escalation_rate: 0.05
+      baseline: 0.26
+      escalation_rate: 0.04
       event_thresholds:
-        support: 0.57
-        overrun: 0.78
+        rescue: 0.5
+        overrun: 0.7
     narrative:
-      tone: "Pirateria magnetica e assedi anfibi high-tech."
+      tone: "Ricognizioni stealth tra nebbie radiose e comunità arboree."
       hooks:
-        - "Proteggere i reattori a risonanza dagli attacchi delle maree."
-        - "Recuperare shard ossidiani prima dell'arrivo della tempesta."
+        - "Stabilire drenaggi controllati prima della piena torrentizia."
+        - "Mediare tregue tra branchi territoriali nelle radure sacre."
+    aliases:
+      - "Foresta temperata umida"
+      - foresta_temperata_umida
+  laguna_bioreattiva:
+    label: "Laguna Bioreattiva"
+    summary: "Lagune tropicali bioingegnerizzate con reagenti instabili e fauna luminosa."
+    diff_base: 3
+    mod_biome: 2
+    affixes:
+      - reactive_tide
+      - enzyme_bloom
+    hazard:
+      description: "Onde chimiche e maree che rimescolano reagenti catalitici."
+      severity: medium
+      stress_modifiers:
+        enzyme_surge: 0.05
+        algal_flash: 0.04
+    npc_archetypes:
+      primary:
+        - lagoon_custodians
+        - enzyme_raiders
+      support:
+        - reagent_brokers
+    stresswave:
+      baseline: 0.29
+      escalation_rate: 0.04
+      event_thresholds:
+        rescue: 0.53
+        overrun: 0.74
+    narrative:
+      tone: "Operazioni anfibie tra rifugi biotech e flussi catalitici instabili."
+      hooks:
+        - "Stabilizzare i catalizzatori prima della reazione a catena."
+        - "Scortare i convogli di reagenti verso i laboratori costieri."
+  mangrovieto_cinetico:
+    label: "Mangrovieto Cinetico"
+    summary: "Radici mobili e maree sincronizzate da motori bio-meccanici."
+    diff_base: 3
+    mod_biome: 2
+    affixes:
+      - root_migration
+      - tidal_overclock
+    hazard:
+      description: "Radici mobili, correnti inversive e zone di risucchio magnetotattiche."
+      severity: medium
+      stress_modifiers:
+        root_whip: 0.05
+        reverse_tide: 0.05
+    npc_archetypes:
+      primary:
+        - tide_harvesters
+        - mangrove_marshals
+      support:
+        - flow_engineers
+    stresswave:
+      baseline: 0.28
+      escalation_rate: 0.04
+      event_thresholds:
+        rescue: 0.52
+        overrun: 0.73
+    narrative:
+      tone: "Spedizioni anfibie e contratti logistici con cooperative tidal-tech."
+      hooks:
+        - "Ricalibrare i motori radice per proteggere gli insediamenti costieri."
+        - "Recuperare nuclei cinetici dispersi nelle secche."
   mezzanotte_orbitale:
     label: "Mezzanotte Orbitale"
     summary: "Stazione orbitale in decadimento con gravità variabile."
@@ -232,6 +486,199 @@ biomes:
       hooks:
         - "Ripristinare i reattori Aeon prima del blackout totale."
         - "Neutralizzare l'allarme a cascata per evitare l'arrivo dei rinforzi."
+  palude:
+    label: "Palude Tossica"
+    summary: "Acque stagnanti bio-luminescenti con fauna mutagena."
+    diff_base: 3
+    mod_biome: 1
+    affixes:
+      - fangoso
+      - tossico
+      - luminescente
+      - viti
+    hazard:
+      description: "Miasmi corrosivi e radici che intrappolano i movimenti."
+      severity: medium
+      stress_modifiers:
+        miasma: 0.04
+        entanglement: 0.06
+    npc_archetypes:
+      primary:
+        - custodi_miasmatici
+        - druidi_sporeguard
+      support:
+        - raccoglitori_di_fluoro
+    stresswave:
+      baseline: 0.3
+      escalation_rate: 0.04
+      event_thresholds:
+        support: 0.52
+        overrun: 0.72
+    narrative:
+      tone: "Survival horror organico e diplomazia con culti simbiotici."
+      hooks:
+        - "Recuperare reagenti bio-luminescenti per le squadre mediche."
+        - "Placare le colonie simbiotiche prima che scatenino la nube tossica."
+  pianura_salina_iperarida:
+    label: "Pianura Salina Iperarida"
+    summary: "Distese saline ciclotroniche che riflettono radiazione e drenano umidità."
+    diff_base: 4
+    mod_biome: 2
+    affixes:
+      - salt_mirage
+      - resonance_pan
+    hazard:
+      description: "Radiazione riflessa, sinkhole cristallini e tempeste di sale tagliente."
+      severity: high
+      stress_modifiers:
+        saltstorm: 0.06
+        dehydration: 0.05
+    npc_archetypes:
+      primary:
+        - salt_nomads
+        - prismatic_riders
+      support:
+        - aquifer_surveyors
+    stresswave:
+      baseline: 0.3
+      escalation_rate: 0.05
+      event_thresholds:
+        rescue: 0.55
+        overrun: 0.77
+    narrative:
+      tone: "Convogli di sopravvivenza e cacce a miraggi con specchi risonanti."
+      hooks:
+        - "Stabilire torri condensatrici per sostenere gli avamposti."
+        - "Recuperare cristalli prismatici senza attirare predatori desertici."
+  reef_luminescente:
+    label: "Reef Luminescente"
+    summary: "Barriere coralline sintetiche con correnti luminescenti e fauna sensibile alla risonanza."
+    diff_base: 3
+    mod_biome: 2
+    affixes:
+      - light_current
+      - coral_spire
+    hazard:
+      description: "Correnti imprevedibili e creature simbiotiche sensibili ai disturbi."
+      severity: medium
+      stress_modifiers:
+        current_pull: 0.05
+        glare: 0.04
+    npc_archetypes:
+      primary:
+        - reef_wardens
+        - luminescent_harriers
+      support:
+        - tide_callers
+    stresswave:
+      baseline: 0.28
+      escalation_rate: 0.04
+      event_thresholds:
+        rescue: 0.5
+        overrun: 0.71
+    narrative:
+      tone: "Operazioni stealth subacquee tra colonne fotoniche e alveari acquatici."
+      hooks:
+        - "Proteggere le colonie coralline da razzie di risonanza."
+        - "Convincere i custodi del reef a condividere i filtri luminescenti."
+  savana:
+    label: "Savana Ionizzata"
+    summary: "Dune fotoniche con branchi adattivi e rovine sepolte."
+    diff_base: 2
+    mod_biome: 1
+    affixes:
+      - termico
+      - luminescente
+      - spore_diluite
+      - sabbia
+    hazard:
+      description: "Tempeste ioniche e sabbia vetrificata che erodono equipaggiamento."
+      severity: medium
+      stress_modifiers:
+        exposure: 0.03
+        sandstorm: 0.06
+    npc_archetypes:
+      primary:
+        - predoni_nomadi
+        - guardiani_delle_dune
+      support:
+        - cartografi_erranti
+    stresswave:
+      baseline: 0.28
+      escalation_rate: 0.04
+      event_thresholds:
+        support: 0.5
+        overrun: 0.7
+    narrative:
+      tone: "Western sci-fi e sopravvivenza carovaniera."
+      hooks:
+        - "Recuperare convogli cristallizzati e nodi di risonanza sepolti."
+        - "Mediare tregue tra clan itineranti e guardiani della tempesta."
+    aliases:
+      - savanna
+  steppe_algoritmiche:
+    label: "Steppe Algoritmiche"
+    summary: "Pianure modulari controllate da IA agricole con pattern mutevoli."
+    diff_base: 3
+    mod_biome: 2
+    affixes:
+      - sync_fields
+      - drone_grazers
+    hazard:
+      description: "Picchi di controllo IA, blackout locali e sciami di droni pastori."
+      severity: medium
+      stress_modifiers:
+        sync_spike: 0.05
+        drone_stampede: 0.04
+    npc_archetypes:
+      primary:
+        - protocol_shepherds
+        - logic_riders
+      support:
+        - calibration_mediators
+    stresswave:
+      baseline: 0.29
+      escalation_rate: 0.04
+      event_thresholds:
+        rescue: 0.52
+        overrun: 0.73
+    narrative:
+      tone: "Conflitti tra IA agricole e tribù adattate alla rete."
+      hooks:
+        - "Ripristinare i nodi sincroni per evitare la tempesta algoritmica."
+        - "Tracciare branchi dronici deviati prima della fusione." 
+  stratosfera_tempestosa:
+    label: "Stratosfera Tempestosa"
+    summary: "Piattaforme aerostatiche tra nubi di tempesta, fulmini e venti supersonici."
+    diff_base: 5
+    mod_biome: 3
+    affixes:
+      - stormfront
+      - jetstream
+      - thunder_bloom
+    hazard:
+      description: "Fulmini continui, shear supersonico e cadute verso pozze di plasma."
+      severity: extreme
+      stress_modifiers:
+        lightning_chain: 0.07
+        shear_winds: 0.06
+    npc_archetypes:
+      primary:
+        - storm_paladins
+        - jetstream_outriders
+      support:
+        - sky_anchor_techs
+    stresswave:
+      baseline: 0.37
+      escalation_rate: 0.06
+      event_thresholds:
+        rescue: 0.6
+        overrun: 0.84
+    narrative:
+      tone: "Assalti aerei tra piattaforme volanti e tempeste iper-ionizzate."
+      hooks:
+        - "Stabilizzare gli ancoraggi stratosferici prima del collasso." 
+        - "Recuperare celle di energia trasportate da fulmini guidati."
 vc_adapt:
   aggro_high: {add_control: 1, add_guardia: 1}
   cohesion_high: {add_knockback: 1}

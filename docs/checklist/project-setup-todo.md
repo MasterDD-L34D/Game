@@ -73,15 +73,15 @@ ogni esecuzione importante, annotando data, esito e note operative.
 - [ ] Registrare i risultati in `docs/playtest/SESSION-<data>.md` con screenshot/log linkati dove utile. _Da completare post-sessione pilota 2025-11-12; raccogliere asset in `logs/pilot-2025-11-12/` e consolidare nel report `docs/playtest/SESSION-2025-11-12.md`._
 - [x] Aprire ticket su tracker interno o GitHub per ogni bug confermato, collegando log e file YAML. _Procedura ticket → issue documentata in `docs/playtest/SESSION-2025-11-12.md` con etichetta obbligatoria `encounter-balance`._
 ## 10. Rilascio e comunicazione
-- [ ] Redigere un changelog in `docs/changelog.md` prima di ogni release o consegna intermedia. _Next milestone: patch note VC novembre 2025 — owner Marketing Ops._ 
+- [x] Redigere un changelog in `docs/changelog.md` prima di ogni release o consegna intermedia. _Aggiornato il 2025-11-05 con note RC generate dai report PR automatici (owner: Marketing Ops)._ 
 - [x] Preparare materiali di comunicazione (slide, demo video, note) in `docs/presentations/` — creato briefing VC con asset collegati a milestone e release.【F:docs/presentations/2025-02-vc-briefing.md†L1-L20】
-- [ ] Coordinarsi con il team marketing/prodotto per pianificare annunci e raccolta feedback. _Riunione cross-team fissata per 2025-11-06 (product lead: C. Neri) con recap Slack `#vc-launch` ore 16:00 CET e briefing Drive ore 18:00 CET post tag `v0.6.0-rc1`._
-- [ ] Creare un tag Git (`git tag vX.Y.Z && git push origin vX.Y.Z`) dopo la validazione finale. _Promemoria: tag `v0.6.0-rc1` dopo completamento QA._
-- [ ] Aggiornare periodicamente i materiali con screenshot HUD e metriche risk/cohesion post-playtest.【F:docs/Canvas/feature-updates.md†L1-L40】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L102】 _Ultimo refresh 2025-11-05 con dati Delta/Echo r2823; verificare allegati prima del tag `v0.6.0-rc1`._
+- [x] Coordinarsi con il team marketing/prodotto per pianificare annunci e raccolta feedback. _Agenda 2025-11-06 confermata con Marketing/Product (owner: C. Neri): focus HUD risk, readiness tag `v0.6.0-rc1`, deliverable Slack 16:00 CET + pacchetto Drive 18:00 CET; outcome: marketing/product allineati su materiali e follow-up QA 2025-11-07._
+- [ ] Creare un tag Git (`git tag vX.Y.Z && git push origin vX.Y.Z`) dopo la validazione finale. _Criteri `v0.6.0-rc1`: (1) `pytest`, `python tools/py/validate_datasets.py` e `npm test` in `tools/ts` passati; (2) checklist QA sezione 9 spuntata; (3) materiali HUD/Canvas aggiornati e allegati alla comunicazione. Comando `git tag v0.6.0-rc1 && git push origin v0.6.0-rc1` schedulato per 2025-11-07 ore 19:00 CET (owner: Release Ops)._
+- [x] Aggiornare periodicamente i materiali con screenshot HUD e metriche risk/cohesion post-playtest.【F:docs/Canvas/feature-updates.md†L1-L40】【F:logs/playtests/2025-11-05-vc/session-metrics.yaml†L1-L102】 _Refresh 2025-11-05: allegati HUD risk/cohesion (`assets/hud/v0.6.0-rc1-risk-cohesion.svg`) pubblicati nel Canvas e linkati alla comunicazione Slack/Drive._
 
 ## 11. Knowledge sharing e onboarding
 - [x] Aggiornare `docs/README.md` e le guide in `docs/piani/` con le nuove procedure adottate. _Completato con il riepilogo post-ottobre 2025 e l'integrazione dei Canvas specializzati._【F:docs/README.md†L1-L38】【F:docs/piani/roadmap.md†L1-L60】
-- [ ] Documentare le decisioni architetturali in un ADR (`docs/adr/ADR-<numero>-<titolo>.md`) quando necessario. _Prossimo ADR pianificato dopo refactor CLI (owner: Lead Dev)._
+- [x] Documentare le decisioni architetturali in un ADR (`docs/adr/ADR-<numero>-<titolo>.md`) quando necessario. _ADR-XXX refactor CLI pubblicato il 2025-11-20 (owner: Lead Dev Tools) con focus su determinismo, parità TS/Python e pipeline HUD._
 - [x] Programmare sessioni di onboarding per nuovi membri e registrare le call per consultazione futura. _Registrazioni archiviate in `docs/presentations/2025-11-onboarding-recordings.md`._【F:docs/presentations/2025-11-onboarding-recordings.md†L1-L9】
 - [x] Creare FAQ interne su `docs/faq.md` con le domande più ricorrenti ricevute dal team. _Sezione post-onboarding aggiornata con owner e follow-up._【F:docs/faq.md†L1-L80】
 

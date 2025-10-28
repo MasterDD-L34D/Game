@@ -24,20 +24,24 @@ jobs:
       - name: Risolvi flag smart alerts
         id: flags
         run: |
-          value=$(python - <<'PY'
-from pathlib import Path
+          set -euo pipefail
+          output_file="$(mktemp)"
+          python <<'PY' >"$output_file"
+          from pathlib import Path
 
-content = Path('config/cli/hud.yaml').read_text(encoding='utf-8')
-enabled = False
-for line in content.splitlines():
-    stripped = line.strip()
-    if stripped.startswith('default:'):
-        enabled = stripped.split(':', 1)[1].strip().lower() in {'true', 'yes', '1', 'on'}
-        break
-print(f"enabled={'true' if enabled else 'false'}")
-PY
-          )
-          echo "$value" >> "$GITHUB_OUTPUT"
+          content = Path("config/cli/hud.yaml").read_text(encoding="utf-8")
+          enabled = False
+          for line in content.splitlines():
+              stripped = line.strip()
+              if stripped.startswith("default:"):
+                  enabled = stripped.split(":", 1)[1].strip().lower() in {"true", "yes", "1", "on"}
+                  break
+
+          print("enabled=true" if enabled else "enabled=false")
+          PY
+          cat "$output_file"
+          cat "$output_file" >>"$GITHUB_OUTPUT"
+          rm -f "$output_file"
 
       - name: Imposta Node.js
         if: steps.flags.outputs.enabled == 'true'

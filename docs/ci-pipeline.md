@@ -11,37 +11,27 @@ Passaggi principali del job `build-and-test`:
 1. Checkout del repository.
 2. Setup di Node.js 20 con cache su `tools/ts/package-lock.json`.
 3. Installazione delle dipendenze TypeScript (`npm ci`).
-4. Build della CLI TypeScript (`npm run build`).
+4. Esecuzione delle suite TypeScript (build + unit + Playwright) tramite `npm test`.
 5. Esecuzione della CLI compilata per generare un pack di esempio (`node dist/roll_pack.js ENTP invoker ../../data/packs.yaml`).
-6. Validazione dataset specie lato TypeScript (`npm run validate:species`).
+6. Validazione dataset specie lato TypeScript (`node dist/validate_species.js ../../data/species.yaml`).
 7. Setup di Python 3.11.
 8. Installazione delle dipendenze Python da `tools/py/requirements.txt`.
-9. Validazione specie lato Python (`python3 validate_species.py ../../data/species.yaml`).
-10. Verifica CLI Python (`python roll_pack.py ENTP invoker ../../data/packs.yaml`).
-11. Validazione dataset base via CLI (`python3 game_cli.py validate-datasets`).
-12. Validazione pack ecosistema Evo-Tactics (`python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json`).
-13. Smoke test profili CLI (`./scripts/cli_smoke.sh`).
+9. Esecuzione della suite `pytest` dalla radice del progetto.
+10. Validazione specie lato Python (`python3 validate_species.py ../../data/species.yaml`).
+11. Verifica CLI Python (`python roll_pack.py ENTP invoker ../../data/packs.yaml`).
+12. Validazione dataset base via CLI (`python3 game_cli.py validate-datasets`).
+13. Validazione pack ecosistema Evo-Tactics (`python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json`).
+14. Smoke test profili CLI (`./scripts/cli_smoke.sh`).
+15. Preparazione del bundle statico per la dashboard tramite `scripts/run_deploy_checks.sh` (riusa gli artefatti già prodotti e, in CI, salta lo smoke test HTTP).
 
-## Workflow `ci-minimal`
+### `scripts/run_deploy_checks.sh`
 
-Per i branch di lavoro che hanno bisogno soltanto di un guardrail rapido, il workflow `.github/workflows/ci-minimal.yml` esegue
-le suite di test principali senza build aggiuntive.
-
-Passaggi del job `smoke`:
-
-1. Checkout del repository.
-2. Setup di Node.js 20 con cache basata su `tools/ts/package-lock.json`.
-3. Installazione delle dipendenze TypeScript (`npm ci` in `tools/ts`).
-4. Esecuzione dei test TypeScript (`npm test` in `tools/ts`).
-5. Setup di Python 3.11 con cache pip.
-6. Installazione delle dipendenze Python (`pip install -r tools/py/requirements.txt`).
-7. Esecuzione della suite `pytest` dalla radice del progetto (`pytest`).
+Lo script non re-esegue più i test: si limita a verificare che `tools/ts/dist` sia presente, copia la dashboard (`docs/test-interface`) e il dataset selezionato in una cartella temporanea e, se non viene richiesto diversamente, avvia un breve smoke test HTTP per assicurarsi che il pacchetto statico risponda. I dettagli vengono salvati in `logs/web_status.md` per consultazioni successive.
 
 ## Dipendenze e credenziali
 
 - Le dipendenze Node devono rimanere centralizzate in `tools/ts/package.json`; quelle Python in `tools/py/requirements.txt`.
-- I workflow `CI` e `ci-minimal` non richiedono credenziali aggiuntive: sfruttano il `GITHUB_TOKEN` fornito automaticamente da GitHub
-  Actions per i checkout e operano unicamente su file locali.
+- Il workflow `CI` non richiede credenziali aggiuntive: sfrutta il `GITHUB_TOKEN` fornito automaticamente da GitHub Actions per i checkout e opera unicamente su file locali.
 - Se in futuro serviranno API key (es. per telemetria), registrare i secret GitHub necessari e richiamarli nel workflow tramite `env:`.
 
 ## Debug locale
@@ -52,20 +42,25 @@ Per replicare i passaggi in locale:
 # TypeScript
 cd tools/ts
 npm ci
-npm run build
+npm test
 node dist/roll_pack.js ENTP invoker ../../data/packs.yaml
-npm run validate:species
+node dist/validate_species.js ../../data/species.yaml
 
 # Python
 cd ../py
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+pytest
 python3 validate_species.py ../../data/species.yaml
 python roll_pack.py ENTP invoker ../../data/packs.yaml
 python3 game_cli.py validate-datasets
 python3 game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json
 ./scripts/cli_smoke.sh
+
+# Bundle statico (dopo che i passaggi precedenti hanno già generato `tools/ts/dist`)
+cd ..
+scripts/run_deploy_checks.sh
 ```
 
 Annotare gli esiti in `docs/tool_run_report.md` quando i test vengono eseguiti manualmente.
