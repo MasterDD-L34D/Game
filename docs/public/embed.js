@@ -2,8 +2,32 @@
 // Evo Tactics — Idea Intake Widget
 // Nota: mantenere sincronizzato con docs/public/embed.js (GitHub Pages).
 (function(){
-  const CATEGORIES = ["Narrativa","Meccaniche","Tooling","Arte","VTT","Repo","Docs","Personaggi","Divinità","Enneagramma","Sistema","Altro"];
+  const CATEGORIES = [
+    "Biomi",
+    "Ecosistemi",
+    "Specie",
+    "Tratti & Mutazioni",
+    "Missioni & Stage",
+    "Telemetria & HUD",
+    "Tooling & Pipeline",
+    "Documentazione & Lore",
+    "Progressione & Economia",
+    "Altro"
+  ];
   const PRIORITIES = ["P0","P1","P2","P3"];
+
+  function formatList(items) {
+    if (!items || !items.length) return "-";
+    return items.join(", ");
+  }
+
+  function splitList(value) {
+    if (!value) return [];
+    return value
+      .split(/[\n,;]+/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
 
   function el(tag, attrs={}, children=[]) {
     const e = document.createElement(tag);
@@ -30,7 +54,11 @@
 
   function buildForm(container, opts) {
     const state = { apiBase: (opts.apiBase||"").trim(), apiToken: (opts.apiToken||"").trim() };
-    const defaultModule = opts.defaultModule || "";
+    const defaultBiomes = splitList(opts.defaultBiomes || opts.defaultModule || "");
+    const defaultEcosystems = splitList(opts.defaultEcosystems || "");
+    const defaultSpecies = splitList(opts.defaultSpecies || "");
+    const defaultTraits = splitList(opts.defaultTraits || "");
+    const defaultFunctions = splitList(opts.defaultFunctions || "");
     const defaultPriority = opts.defaultPriority || "P2";
 
     const formActions = [];
@@ -44,9 +72,12 @@
           CATEGORIES.forEach(c => sel.appendChild(el("option", { value: c }, c)));
           return sel;
         })()),
-        wrap("Tags (spazio separati)", el("input", { type:"text", id:"tags", placeholder:"#ideazione #arco #bioma" })),
-        wrap("Module", el("input", { type:"text", id:"module", placeholder:"es. NR04, Fangwood, Torneo Cremesi, Master DD core", value: defaultModule })),
-        wrap("Entità (PG/NPC/divinità/luoghi/oggetti separati da virgola)", el("input", { type:"text", id:"entities", placeholder:"Jezelda, Cervo Bianco, Fangwood Keep" })),
+        wrap("Tags (spazio separati)", el("input", { type:"text", id:"tags", placeholder:"#ideazione #bioma #specie" })),
+        wrap("Biomi coinvolti", el("textarea", { id:"biomes", rows:"2", placeholder:"foresta_temperata, reef_luminescente", value: defaultBiomes.join(", ") }), "full"),
+        wrap("Ecosistemi / Meta-nodi", el("textarea", { id:"ecosystems", rows:"2", placeholder:"ecosistema_alpha, nexus_fangwood", value: defaultEcosystems.join(", ") }), "full"),
+        wrap("Specie coinvolte", el("textarea", { id:"species", rows:"2", placeholder:"vespertilio_sigma, cervo_bianco", value: defaultSpecies.join(", ") }), "full"),
+        wrap("Tratti o mutazioni", el("textarea", { id:"traits", rows:"2", placeholder:"muta_respiratoria, camo_fotoluminescente", value: defaultTraits.join(", ") }), "full"),
+        wrap("Funzioni di gioco / sistemi", el("textarea", { id:"game_functions", rows:"2", placeholder:"telemetria_vc, mating_nido, progressione_pe", value: defaultFunctions.join(", ") }), "full"),
         wrap("Priorità", (function(){
           const sel = el("select", { id:"priority" });
           PRIORITIES.forEach(p => sel.appendChild(el("option", { value: p, selected: p===defaultPriority? "selected": undefined }, p)));
@@ -187,15 +218,19 @@
   }
 
   function readPayload(f) {
-    const val = id => (f.querySelector("#"+id).value || "").trim();
+    const val = (id) => (f.querySelector("#" + id).value || "").trim();
+    const list = (id) => splitList(val(id));
     const tags = (val("tags") || "").split(/\s+/).filter(Boolean);
     return {
       title: val("title"),
       summary: val("summary"),
       category: f.querySelector("#category").value,
       tags: tags,
-      module: val("module"),
-      entities: val("entities"),
+      biomes: list("biomes"),
+      ecosystems: list("ecosystems"),
+      species: list("species"),
+      traits: list("traits"),
+      game_functions: list("game_functions"),
       priority: f.querySelector("#priority").value,
       actions_next: val("actions_next"),
       link_drive: val("link_drive"),
@@ -218,8 +253,11 @@
       "SOMMARIO: " + (p.summary || ""),
       "CATEGORIA: " + p.category,
       "TAGS: " + tagInline,
-      "MODULE: " + (p.module || ""),
-      "ENTITÀ: " + (p.entities || ""),
+      "BIOMI: " + formatList(p.biomes),
+      "ECOSISTEMI: " + formatList(p.ecosystems),
+      "SPECIE: " + formatList(p.species),
+      "TRATTI: " + formatList(p.traits),
+      "FUNZIONI_GIOCO: " + formatList(p.game_functions),
       "PRIORITÀ: " + (p.priority || ""),
       "AZIONI_NEXT: " + (p.actions_next || ""),
       "LINK_DRIVE: " + (p.link_drive || ""),
@@ -230,7 +268,7 @@
 
   function buildMarkdown(p) {
     const reminder = reminderBlock(p);
-    const today = new Date().toISOString().slice(0,10);
+    const today = new Date().toISOString().slice(0, 10);
     return [
       "# " + p.title,
       "",
@@ -239,6 +277,13 @@
       "## Summary",
       p.summary || "-",
       "",
+      "## Ecosystem Scope",
+      "- **Biomi:** " + formatList(p.biomes),
+      "- **Ecosistemi:** " + formatList(p.ecosystems),
+      "- **Specie:** " + formatList(p.species),
+      "- **Tratti:** " + formatList(p.traits),
+      "- **Funzioni di gioco:** " + formatList(p.game_functions),
+      "",
       "## Cross-References (GitHub ranked)",
       "- (verranno proposti dal backend; offline qui solo placeholder)",
       "",
@@ -246,9 +291,9 @@
       "- (risultati mostrati se backend configurato)",
       "",
       "## Suggested Next Actions",
-      "- [ ] Valida TAGS e MODULE contro le convenzioni del repo /config/project_index.json",
-      "- [ ] Se mancano file, crea stub/notes e apri un Issue",
-      "- [ ] Linka questa idea nel README/INDEX più vicino",
+      "- [ ] Valida TAGS, BIOMI e SPECIE con le convenzioni in /config/project_index.json",
+      "- [ ] Aggiorna o crea i dataset YAML in data/biomes.yaml, data/species.yaml e data/traits/ se mancano riferimenti",
+      "- [ ] Collega la proposta al catalogo ecosistemi (docs/evo-tactics-pack) o al README pertinente",
       "- [ ] (Opzionale) Copia un Google Doc da template e incolla il Reminder nell’header",
       "- [ ] (Opzionale) Esporta questa idea in `/ideas` del repo tramite PR automatica",
       "",

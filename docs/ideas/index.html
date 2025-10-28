@@ -40,11 +40,11 @@
       <ul class="idea-intake__steps">
         <li>
           <span class="idea-intake__step-label">1.</span>
-          Prepara i tag e scegli la categoria più adatta (Narrativa, Meccaniche, Tooling…).
+          Prepara i tag e scegli la categoria coerente con il repository (Biomi, Ecosistemi, Specie, Tratti, Funzioni…).
         </li>
         <li>
           <span class="idea-intake__step-label">2.</span>
-          Inserisci modulo, entità collegate e priorità così il reminder resta coerente con la roadmap.
+          Mappa biomi, ecosistemi, specie, tratti e funzioni di gioco: il reminder resterà allineato con i dataset del repo.
         </li>
         <li>
           <span class="idea-intake__step-label">3.</span>
@@ -74,15 +74,27 @@
           <dl>
             <div>
               <dt>Categoria</dt>
-              <dd>Narrativa · Meccaniche · Tooling · Arte · VTT · Repo · Docs · Personaggi · Divinità · Enneagramma · Sistema · Altro</dd>
+              <dd>Biomi · Ecosistemi · Specie · Tratti &amp; Mutazioni · Missioni &amp; Stage · Telemetria &amp; HUD · Tooling &amp; Pipeline · Documentazione &amp; Lore · Progressione &amp; Economia · Altro</dd>
             </div>
             <div>
               <dt>Tags</dt>
               <dd>Usa <code>#</code> davanti alle keyword. Esempio: <code>#mission</code> <code>#telemetria</code></dd>
             </div>
             <div>
-              <dt>Module</dt>
-              <dd>Identifica pacchetto o arco: <em>NR04, Fangwood, Torneo Cremesi…</em></dd>
+              <dt>Biomi</dt>
+              <dd>Elenca gli ID ufficiali da <code>data/biomes.yaml</code>. Usa virgole o nuove righe.</dd>
+            </div>
+            <div>
+              <dt>Ecosistemi</dt>
+              <dd>Meta-nodi o pack: <em>ecosistema_alpha</em>, <em>fangwood_cluster</em>, ecc.</dd>
+            </div>
+            <div>
+              <dt>Specie &amp; Tratti</dt>
+              <dd>Specie da <code>data/species.yaml</code> e tratti/mutazioni da <code>data/traits/</code>.</dd>
+            </div>
+            <div>
+              <dt>Funzioni di gioco</dt>
+              <dd>Telemetria, mating, progressione, HUD… usa slug coerenti con <code>docs/</code> e <code>packs/</code>.</dd>
             </div>
             <div>
               <dt>Priorità</dt>
@@ -104,7 +116,7 @@
           </p>
           <ul>
             <li>Inserisci <code>?apiBase=https://server</code> e <code>?apiToken=XXX</code> nell'URL per override rapido.</li>
-            <li>Imposta il <em>default module</em> con <code>?module=NR04-Fangwood</code> e la priorità con <code>?priority=P1</code>.</li>
+            <li>Prefiltra i campi con <code>?biomes=foresta_temperata</code>, <code>?ecosystems=ecosistema_alpha</code>, <code>?species=cervo_bianco</code> o <code>?traits=muta_respiratoria</code>; la priorità resta configurabile con <code>?priority=P1</code>.</li>
             <li>Salva il file Markdown esportato in <code>ideas/</code>: il workflow aggiorna <code>IDEAS_INDEX.md</code>.</li>
           </ul>
         </article>
@@ -112,14 +124,19 @@
     </main>
 
     <footer class="idea-intake__footer">
-      Idea Intake widget — v1.2 · Compatibile con export offline e backend Node/Express con catalogo persistente.
+      Idea Intake widget — v2.0 · Allineato ai dataset biomi/ecosistemi/specie e compatibile con export offline o backend Node/Express.
     </footer>
 
     <script>
       window.IDEA_WIDGET_CONFIG = {
         apiBase: "",
         apiToken: "",
-        defaultModule: "NR04-Fangwood",
+        defaultModule: "",
+        defaultBiomes: "",
+        defaultEcosystems: "",
+        defaultSpecies: "",
+        defaultTraits: "",
+        defaultFunctions: "",
         defaultPriority: "P2",
       };
 
@@ -132,7 +149,16 @@
           const params = new URLSearchParams(window.location.search);
           if (params.has("apiBase")) window.IDEA_WIDGET_CONFIG.apiBase = params.get("apiBase") || "";
           if (params.has("apiToken")) window.IDEA_WIDGET_CONFIG.apiToken = params.get("apiToken") || "";
-          if (params.has("module")) window.IDEA_WIDGET_CONFIG.defaultModule = params.get("module") || "";
+          if (params.has("module")) {
+            const value = params.get("module") || "";
+            window.IDEA_WIDGET_CONFIG.defaultModule = value;
+            window.IDEA_WIDGET_CONFIG.defaultEcosystems = value;
+          }
+          if (params.has("biomes")) window.IDEA_WIDGET_CONFIG.defaultBiomes = params.get("biomes") || "";
+          if (params.has("ecosystems")) window.IDEA_WIDGET_CONFIG.defaultEcosystems = params.get("ecosystems") || "";
+          if (params.has("species")) window.IDEA_WIDGET_CONFIG.defaultSpecies = params.get("species") || "";
+          if (params.has("traits")) window.IDEA_WIDGET_CONFIG.defaultTraits = params.get("traits") || "";
+          if (params.has("functions")) window.IDEA_WIDGET_CONFIG.defaultFunctions = params.get("functions") || "";
           if (params.has("priority")) window.IDEA_WIDGET_CONFIG.defaultPriority = params.get("priority") || "P2";
         } catch (error) {
           console.warn("Impossibile applicare gli override del widget", error);
