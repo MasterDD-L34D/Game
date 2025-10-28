@@ -10,6 +10,8 @@ seguendo step incrementali che coprono revisione design, QA e telemetria.
       requisiti ambientali, includendo eventuali note di bilanciamento.
 - [ ] Aggiornare `docs/catalog/species_trait_matrix.json` con le nuove
       associazioni Forma↔bioma e indicare l'owner del tratto nelle note.
+- [ ] Registrare l'asset nell'inventario `docs/catalog/traits_inventory.json`
+      specificando stato (`core/mock`), owner e fonti di riferimento.
 
 ## 2. Revisione e QA automatizzato
 - [ ] Eseguire `python tools/traits.py validate --matrix docs/catalog/species_trait_matrix.json`
@@ -18,6 +20,9 @@ seguendo step incrementali che coprono revisione design, QA e telemetria.
       `report_trait_coverage.py`) per aggiornare `data/analysis/*.yaml|csv`.
 - [ ] Lanciare `python tools/py/validate_registry_naming.py` per verificare
       coerenza slug e traduzioni condivise.
+- [ ] Eseguire `python tools/py/traits_validator.py --inventory
+      docs/catalog/traits_inventory.json` (opzionale `--no-log` in locale)
+      per verificare che tutte le risorse citate siano presenti e aggiornate.
 - [ ] Eseguire `scripts/cli_smoke.sh` filtrando il profilo rilevante
       (`CLI_PROFILES="playtest telemetry"`) e annotare eventuali regressioni.
 
@@ -41,7 +46,26 @@ seguendo step incrementali che coprono revisione design, QA e telemetria.
 - [ ] Preparare la nota di rilascio o l'aggiornamento del canvas con i link a
       report, matrici e telemetria.
 
-## 5. Verifica sito e promozione pipeline web
+## 5. Manutenzione file trait & integrazione CI
+
+- [ ] Quando si crea un nuovo file specie/evento in `packs/evo_tactics_pack/data/species/**`,
+      rigenerare la matrice con `python tools/traits.py matrix --out
+      docs/catalog/species_trait_matrix.json` per importare i nuovi trait nel
+      generator e prevenire regressioni sugli ID.
+- [ ] Aggiornare l'inventario `docs/catalog/traits_inventory.json` con il nuovo path,
+      eseguendo `python tools/py/traits_validator.py` per registrare il run in
+      `logs/traits_tracking.md`.
+- [ ] Verificare che `scripts/run_deploy_checks.sh` passi senza errori: lo script
+      viene richiamato sia da CI sia dal workflow `deploy-test-interface.yml` e
+      blocca la pubblicazione se l'inventario o i registri del generatore non sono
+      coerenti.
+- [ ] Collegare il nuovo file alle procedure di audit lanciando `python
+      tools/py/validate_registry_naming.py --trait-glossary data/traits/glossary.json`
+      e archiviare gli output nella cartella `logs/traits/` (se assente, crearla).
+- [ ] Annotare nelle note del PR i gate superati (validator inventario, naming,
+      `scripts/trait_audit.py --check`) per rendere tracciabile il ciclo di QA.
+
+## 6. Verifica sito e promozione pipeline web
 
 ### Stato corrente
 

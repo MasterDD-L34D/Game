@@ -32,7 +32,7 @@
 
 ## Job & Trait di base
 - **Famiglie Job**: Vanguard, Skirmisher, Warden, Artificer, Invoker, Harvester — ciascuna con bias di pack (`job_bias`) e abilità signature documentate in `data/packs.yaml`.【F:data/packs.yaml†L21-L90】
-- **Tratti**: `trait_T1`/`T2`/`T3` alimentano combo PI, sinergie e costi `pi_shop`; i validatori assicurano coerenza tra dataset e CLI (`tools/py` e `tools/ts`).【F:data/packs.yaml†L1-L20】【F:docs/20-SPECIE_E_PARTI.md†L5-L10】
+- **Tratti**: `trait_T1`/`T2`/`T3` alimentano combo PI, sinergie e costi `pi_shop`; i validatori assicurano coerenza tra dataset e CLI (`tools/py` e `tools/ts`) e dipendono dall'inventario centralizzato (`docs/catalog/traits_inventory.json`) che viene aggiornato ad ogni commit.【F:data/packs.yaml†L1-L20】【F:docs/20-SPECIE_E_PARTI.md†L5-L10】【F:docs/catalog/traits_inventory.json†L1-L120】
 - **Prestigio/Mutazioni**: progressioni Forma sbloccano nuove combinazioni di parti e tratti, con telemetria MBTI/Ennea a supporto del seed temperamentale.【F:data/telemetry.yaml†L41-L73】【F:docs/22-FORME_BASE_16.md†L1-L6】
 
 ## Workflow tratti end-to-end
@@ -43,6 +43,8 @@
 5. **Validare naming** — usa `python tools/py/validate_registry_naming.py --trait-glossary data/traits/glossary.json` per controllare slug, mapping biomi/hazard/morphotype e coerenza del glossario referenziato in `config/project_index.json`.【F:tools/py/validate_registry_naming.py†L1-L270】【F:config/project_index.json†L1-L91】
 6. **Copertura & diff** — genera il report matriciale con `python tools/py/report_trait_coverage.py --out-json data/analysis/trait_coverage_report.json --out-csv data/analysis/trait_coverage_matrix.csv` per confrontare biomi↔forme mappati dalle regole con quelli realmente assegnati alle specie.【F:tools/py/report_trait_coverage.py†L1-L85】【F:tools/py/game_utils/trait_coverage.py†L1-L249】
 7. **QA interattivo** — ricarica il catalogo nel generator (`docs/evo-tactics-pack/generator.js`) per ottenere label dal glossario centralizzato e visualizzare i nuovi suggerimenti in UI senza duplicare stringhe.【F:docs/evo-tactics-pack/generator.js†L360-L449】【F:docs/evo-tactics-pack/generator.js†L666-L760】
+8. **Inventario & log** — aggiungi o aggiorna l'entry dedicata in `docs/catalog/traits_inventory.json` e lancia `python tools/py/traits_validator.py` per registrare il run in `logs/traits_tracking.md`, garantendo che baseline e specie citate rimangano sincronizzate.【F:docs/catalog/traits_inventory.json†L1-L120】【F:tools/py/traits_validator.py†L1-L200】【F:logs/traits_tracking.md†L1-L40】
+9. **Gate CI & deploy** — conferma che `scripts/run_deploy_checks.sh` e il workflow `deploy-test-interface.yml` ereditino gli stessi controlli (inventario, registri generatore, audit) prima della pubblicazione web, così da mantenere allineati generator, dataset e bundle pubblico.【F:scripts/run_deploy_checks.sh†L1-L80】【F:.github/workflows/deploy-test-interface.yml†L1-L200】
 
 ## Quality Gates
 - **Audit tratti ↔ ambienti** — consulta `docs/reports/trait-env-alignment.md` per verificare coperture, lacune e note di bilanciamento tra tratti PI e regole ambientali; usalo prima dei playtest per pianificare i pick consigliati e dopo per registrare gap emersi.【F:docs/reports/trait-env-alignment.md†L1-L80】
