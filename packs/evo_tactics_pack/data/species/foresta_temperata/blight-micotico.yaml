@@ -51,7 +51,12 @@ environment_affinity:
     - incendi sporadici
 derived_from_environment:
   suggested_traits:
-    - pelli_fitte
+    - spore_psichiche_silenziate
+    - lingua_tattile_trama
+    - ghiandola_caustica
+  optional_traits:
+    - mimetismo_cromatico_passivo
+    - filamenti_digestivi_compattanti
 telemetry:
   expected_pick_rate: null
   spawn_weight: null

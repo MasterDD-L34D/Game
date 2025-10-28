@@ -69,10 +69,12 @@ environment_affinity:
     - foresta_miceliale
 derived_from_environment:
   suggested_traits:
-    - cute_resistente_sali
-    - enzimi_chelanti
-    - pelli_anti_ustione
-    - pigmenti_termici
+    - eco_interno_riflesso
+    - occhi_infrarosso_composti
+    - sonno_emisferico_alternato
+  optional_traits:
+    - sacche_galleggianti_ascensoriali
+    - lingua_tattile_trama
   required_capabilities:
     - build_cover
     - dr_impact_cap

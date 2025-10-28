@@ -165,9 +165,20 @@ def generate_trait_coverage(
         else:
             combos = [(None, morph)]
         for trait_id in traits:
+            rule_counter = rule_matrix.get(trait_id, Counter())
             for combo in combos:
                 species_matrix[trait_id][combo] += 1
                 species_examples[trait_id][combo].add(species_id)
+
+                biome, morph_combo = combo
+                if (
+                    morph_combo is not None
+                    and rule_counter
+                    and (biome, None) in rule_counter
+                ):
+                    wildcard_combo = (biome, None)
+                    species_matrix[trait_id][wildcard_combo] += 1
+                    species_examples[trait_id][wildcard_combo].add(species_id)
 
     summary = {
         "traits_total": len(target_traits),
@@ -201,8 +212,26 @@ def generate_trait_coverage(
 
         rule_keys = set(rule_counter.keys())
         species_keys = set(species_counter.keys())
-        missing_in_species = [_format_combo_key(combo) for combo in sorted(rule_keys - species_keys, key=_combo_sort_key)]
-        missing_in_rules = [_format_combo_key(combo) for combo in sorted(species_keys - rule_keys, key=_combo_sort_key)]
+
+        missing_in_species: list[dict[str, str | None]] = []
+        for combo in sorted(rule_keys, key=_combo_sort_key):
+            biome, morph = combo
+            if morph is None:
+                if not any(biome == species_biome for species_biome, _ in species_keys):
+                    missing_in_species.append(_format_combo_key(combo))
+            else:
+                if combo not in species_keys and (biome, None) not in species_keys:
+                    missing_in_species.append(_format_combo_key(combo))
+
+        missing_in_rules: list[dict[str, str | None]] = []
+        for combo in sorted(species_keys, key=_combo_sort_key):
+            biome, morph = combo
+            if morph is None:
+                if not any(biome == rule_biome for rule_biome, _ in rule_keys):
+                    missing_in_rules.append(_format_combo_key(combo))
+            else:
+                if combo not in rule_keys and (biome, None) not in rule_keys:
+                    missing_in_rules.append(_format_combo_key(combo))
 
         summary["rules_missing_species_total"] += len(missing_in_species)
         if missing_in_species and rule_counter:

@@ -4,13 +4,13 @@ receipt:
   author: designer
   date: '2025-10-25'
   trace_hash: to-fill
-id: dune-stalker
-display_name: Dune Stalker
+id: resonant-claw-hunter
+display_name: Resonant Claw Hunter
 biomes:
-  - dorsale_termale_tropicale
+  - caverna_risonante
 role_trofico: predatore_terziario_apex
 functional_tags:
-  - specie_chiave
+  - predatore
   - regolazione_prede
 morphotype: cursoriale_quadrupede
 flags:
@@ -18,55 +18,53 @@ flags:
   keystone: false
   sentient: false
   bridge: false
-  threat: false
+  threat: true
   event: false
 playable_unit: false
 vc:
-  aggro: 0.7
-  risk: 0.6
-  cohesion: 0.4
+  aggro: 0.6
+  risk: 0.5
+  cohesion: 0.3
   setup: 0.5
-  explore: 0.6
-  tilt: 0.4
+  explore: 0.4
+  tilt: 0.5
 spawn_rules:
   orario:
     - notte
     - crepuscolo
   meteo:
-    - tempesta_sabbia_magnetica
+    - pioggia_di_geode
+    - nebbia_risonante
   densita: low
 balance:
   rarity: R3
   threat_tier: T3
   encounter_role: elite
 environment_affinity:
-  biome_class: dorsale_termale_tropicale
+  biome_class: caverna_risonante
   koppen:
-    - BSk
-    - BWk
+    - ET
   hazards_expected:
-    - tempeste_sabbia
-    - collassi di scarpate
-    - tempesta_sabbia_magnetica
-    - iron_shards
-    - magnetic_patches
+    - fronti_pressione_vibrazionale
+    - distorsioni_soniche
+    - crolli_localizzati
 derived_from_environment:
   suggested_traits:
     - artigli_sette_vie
-    - coda_frusta_cinetica
-    - scheletro_idro_regolante
-    - struttura_elastica_amorfa
   optional_traits:
-    - olfatto_risonanza_magnetica
-    - respiro_a_scoppio
+    - eco_interno_riflesso
+    - occhi_infrarosso_composti
+    - mimetismo_cromatico_passivo
+    - cartilagini_flessoacustiche
+    - midollo_antivibrazione
+    - lingua_tattile_trama
   required_capabilities:
-    - build_cover
-    - dr_impact_cap
-    - non_metal_gear
-    - seal_vents
+    - break_guard
+    - track_resonance
+    - counter_burrow
   jobs_bias:
     - Vanguard
-    - Warden
+    - Invoker
 telemetry:
   expected_pick_rate: null
   spawn_weight: null
