@@ -13,6 +13,8 @@
 ## 2025-11-07 — Drive Sync Hub Ops dry-run
 - Eseguito controllo locale sui log YAML con lo script Python ad-hoc per rilevare la presenza del metadato `cycle` prima di attivare il filtro `minCycle` del nuovo flusso Hub Ops (`scripts/driveSync.gs`). Tutti i file attuali restituiscono `detected_cycle: null`, confermando che l'estensione includerà automaticamente i dataset dei cicli successivi non appena il campo verrà popolato.【5e2837†L1-L33】
 - Annotata la disponibilità della funzione Apps Script `convertYamlToSheetsDryRun()` per allegare ai report il riepilogo delle operazioni senza toccare i fogli reali.【F:scripts/driveSync.gs†L82-L210】
+- Allineamento 2025-11-07: workflow `daily-pr-summary` senza merge; follow-up HUD overlay telemetrico (UI Systems — F. Conti), XP Cipher PROG-04 (Progression Design — L. Serra) e contrasto EVT-03 (VFX/Lighting — G. Leone) sincronizzati con changelog, roadmap e Canvas basati sul report playtest 2025-11-12.【F:docs/chatgpt_changes/daily-pr-summary-2025-11-07.md†L1-L15】【F:docs/playtest/SESSION-2025-11-12.md†L24-L54】【F:docs/piani/roadmap.md†L72-L109】【F:docs/Canvas/feature-updates.md†L33-L42】
+- Smoke test CLI (`scripts/cli_smoke.sh`) eseguito sui profili `hud`, `playtest`, `support` e `telemetry`: validazione biomi 22/22 campi completi, 14 controlli pack senza avvisi e generazione JSON (`validate-ecosystem-pack`, `generate-encounter`) conclusa senza errori. Output controllato localmente prima di eliminare i log temporanei.
 
 ## 2025-10-27 — `roll_pack` CLI parity audit
 - Eseguiti i comandi della checklist per confrontare TypeScript/Python: `node tools/ts/dist/roll_pack.js` e `python tools/py/roll_pack.py` contro `data/packs.yaml`.
