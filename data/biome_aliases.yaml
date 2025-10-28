@@ -17,3 +17,6 @@ aliases:
   caverna_risonante:
     canonical: caverna
     notes: "Alias storico per la Caverna Risonante."
+  stratosfera:
+    canonical: stratosfera_tempestosa
+    notes: "Slug abbreviato usato negli snapshot precedenti della stratosfera."

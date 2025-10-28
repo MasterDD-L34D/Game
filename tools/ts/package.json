@@ -4,12 +4,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "playwright:install": "PLAYWRIGHT_DOWNLOAD_HOST=https://playwright.azureedge.net npx playwright install chromium || PLAYWRIGHT_DOWNLOAD_HOST=https://playwright.azureedge.net npx playwright install --with-deps chromium",
+    "playwright:install": "node ./scripts/ensure_chromium.mjs",
     "pretest": "npm run playwright:install --silent",
     "build": "tsc -p tsconfig.json && node ./scripts/postbuild.mjs",
     "start": "node dist/roll_pack.js ENTP invoker ../../data/packs.yaml",
     "test": "npm run build --silent && node --test dist/ts/tests/*.test.js && npm run test:web --silent",
-    "test:web": "playwright test",
+    "test:web": "node ./scripts/run_playwright_tests.mjs",
     "test:ui": "tsx tests/export-modal.test.tsx",
     "validate:species": "npm run build && node dist/validate_species.js ../../data/species.yaml"
   },
@@ -26,6 +26,7 @@
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "jsdom": "^24.1.0",
+    "puppeteer": "^24.5.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.3"
   }
