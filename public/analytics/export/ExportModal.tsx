@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 export type RecipientScheduleWindow = {
   label: string;
@@ -35,6 +35,104 @@ const STATUS_OPTIONS = ['open', 'triaged', 'in_progress', 'blocked', 'resolved',
 
 function normalizeIds(values: string[]): string[] {
   return Array.from(new Set(values.map(value => value.trim()).filter(Boolean)));
+}
+
+function sortNormalizedIds(values: string[]): string[] {
+  return [...values].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+}
+
+function buildTelemetryFilters(
+  recipientGroups: string[],
+  statuses: string[],
+  onlyWithinSchedule: boolean
+): ExportFilters {
+  return {
+    recipientGroups: sortNormalizedIds(normalizeIds(recipientGroups)),
+    statuses: sortNormalizedIds(normalizeIds(statuses)),
+    onlyWithinSchedule
+  };
+}
+
+type TelemetryClient = {
+  record?: (event: string, payload: unknown) => void;
+  track?: (event: string, payload: unknown) => void;
+};
+
+declare global {
+  interface Window {
+    __ANALYTICS_TELEMETRY__?: TelemetryClient;
+  }
+}
+
+function emitTelemetryEvent(event: string, filters: ExportFilters, meta: Record<string, unknown>) {
+  const timestamp = new Date().toISOString();
+  const payload = {
+    event,
+    source: 'analytics.export_modal',
+    timestamp,
+    filters,
+    context: meta
+  };
+
+  if (typeof window !== 'undefined') {
+    const client = window.__ANALYTICS_TELEMETRY__;
+    const handler = client?.record ?? client?.track;
+    if (typeof handler === 'function') {
+      try {
+        handler.call(client, event, payload);
+      } catch (error) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn('[Telemetry] errore invio handler personalizzato', error);
+        }
+      }
+    }
+
+    const serialized = JSON.stringify(payload);
+    const endpointPath = '/api/analytics/telemetry';
+    let endpoint: string | null = null;
+    if (typeof window.location === 'object' && typeof window.location.origin === 'string') {
+      const origin = window.location.origin;
+      if (origin && origin !== 'null') {
+        try {
+          endpoint = new URL(endpointPath, origin).toString();
+        } catch (error) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.warn('[Telemetry] URL non valida, skip invio', error);
+          }
+        }
+      }
+    }
+    if (!endpoint && typeof window !== 'undefined' && typeof window.location === 'undefined') {
+      endpoint = endpointPath;
+    }
+    if (endpoint) {
+      try {
+        if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+          const blob = new Blob([serialized], { type: 'application/json' });
+          navigator.sendBeacon(endpoint, blob);
+        } else if (typeof fetch === 'function') {
+          void fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: serialized,
+            keepalive: true
+          }).catch(error => {
+            if (process.env.NODE_ENV !== 'production') {
+              console.warn('[Telemetry] errore fetch', error);
+            }
+          });
+        }
+      } catch (error) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn('[Telemetry] errore invio network', error);
+        }
+      }
+    }
+  }
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.debug(`[Telemetry] ${event}`, payload);
+  }
 }
 
 function computeDefaultFilters(
@@ -75,6 +173,24 @@ const ExportModal: React.FC<ExportModalProps> = ({
     defaultFilters.onlyWithinSchedule
   );
 
+  const logFiltersTelemetry = useCallback(
+    (
+      eventName: string,
+      groups: string[],
+      statuses: string[],
+      withinSchedule: boolean,
+      meta: Record<string, unknown>
+    ) => {
+      const filters = buildTelemetryFilters(groups, statuses, withinSchedule);
+      emitTelemetryEvent(eventName, filters, {
+        availableRecipientGroups: recipientGroups.length,
+        availableStatuses: STATUS_OPTIONS.length,
+        ...meta
+      });
+    },
+    [recipientGroups.length]
+  );
+
   useEffect(() => {
     if (!visible) {
       return;
@@ -82,7 +198,14 @@ const ExportModal: React.FC<ExportModalProps> = ({
     setSelectedGroups(defaultFilters.recipientGroups);
     setSelectedStatuses(defaultFilters.statuses);
     setOnlyWithinSchedule(defaultFilters.onlyWithinSchedule);
-  }, [visible, defaultFilters]);
+    logFiltersTelemetry(
+      'analytics.export.modal_opened',
+      defaultFilters.recipientGroups,
+      defaultFilters.statuses,
+      defaultFilters.onlyWithinSchedule,
+      { preset: initialFilters ? 'custom' : 'default' }
+    );
+  }, [visible, defaultFilters, initialFilters, logFiltersTelemetry]);
 
   if (!visible) {
     return null;
@@ -90,19 +213,25 @@ const ExportModal: React.FC<ExportModalProps> = ({
 
   const toggleGroup = (groupId: string) => {
     setSelectedGroups(current => {
-      if (current.includes(groupId)) {
-        return current.filter(item => item !== groupId);
-      }
-      return [...current, groupId];
+      const exists = current.includes(groupId);
+      const next = exists ? current.filter(item => item !== groupId) : [...current, groupId];
+      logFiltersTelemetry('analytics.export.recipient_toggle', next, selectedStatuses, onlyWithinSchedule, {
+        groupId,
+        action: exists ? 'removed' : 'added'
+      });
+      return next;
     });
   };
 
   const toggleStatus = (status: string) => {
     setSelectedStatuses(current => {
-      if (current.includes(status)) {
-        return current.filter(item => item !== status);
-      }
-      return [...current, status];
+      const exists = current.includes(status);
+      const next = exists ? current.filter(item => item !== status) : [...current, status];
+      logFiltersTelemetry('analytics.export.status_toggle', selectedGroups, next, onlyWithinSchedule, {
+        status,
+        action: exists ? 'removed' : 'added'
+      });
+      return next;
     });
   };
 
@@ -110,13 +239,32 @@ const ExportModal: React.FC<ExportModalProps> = ({
     setSelectedGroups(defaultFilters.recipientGroups);
     setSelectedStatuses(defaultFilters.statuses);
     setOnlyWithinSchedule(defaultFilters.onlyWithinSchedule);
+    logFiltersTelemetry(
+      'analytics.export.filters_reset',
+      defaultFilters.recipientGroups,
+      defaultFilters.statuses,
+      defaultFilters.onlyWithinSchedule,
+      { reason: 'user_action' }
+    );
   };
 
   const handleApply = () => {
-    onApply({
+    const filters = {
       recipientGroups: normalizeIds(selectedGroups),
       statuses: normalizeIds(selectedStatuses),
       onlyWithinSchedule
+    };
+    logFiltersTelemetry('analytics.export.filters_applied', filters.recipientGroups, filters.statuses, filters.onlyWithinSchedule, {
+      selectedRecipientCount: filters.recipientGroups.length,
+      selectedStatusCount: filters.statuses.length
+    });
+    onApply(filters);
+  };
+
+  const handleScheduleToggle = (checked: boolean) => {
+    setOnlyWithinSchedule(checked);
+    logFiltersTelemetry('analytics.export.schedule_toggle', selectedGroups, selectedStatuses, checked, {
+      action: checked ? 'enabled' : 'disabled'
     });
   };
 
@@ -217,7 +365,7 @@ const ExportModal: React.FC<ExportModalProps> = ({
                 <input
                   type="checkbox"
                   checked={onlyWithinSchedule}
-                  onChange={event => setOnlyWithinSchedule(event.target.checked)}
+                  onChange={event => handleScheduleToggle(event.target.checked)}
                   aria-label="Limita agli slot di copertura attivi"
                 />
                 <span className="export-modal__label">
