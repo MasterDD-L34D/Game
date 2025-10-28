@@ -10,6 +10,7 @@
   - [x] Pianificate ed eseguite sessioni Alpha/Bravo/Charlie con logging coerente con gli indici VC definiti.【F:docs/checklist/vc_playtest_plan.md†L1-L33】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L1-L125】
   - [x] Confrontati gli indici con le soglie EMA: Bravo supera risk 0.60, richiesta revisione timer scudi; Alpha vicino al limite Enneagram Conquistatore.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L58】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L59-L94】
   - [x] Aggiornate le formule di normalizzazione (`ema_capped_minmax`) e introdotti eventi `overcap_guard` per attenuare i picchi multipli, verificando i risultati nelle sessioni Delta/Echo.【F:data/telemetry.yaml†L2-L25】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】
+  - [x] Sessione pilota 2025-11-12 chiusa: screenshot/video e telemetria verificati con digest SHA-256, feedback consolidato e riepilogo notificato in `#qa-playtest`.【F:logs/pilot-2025-11-12/telemetry/damage.json†L1-L19】【F:docs/playtest/SESSION-2025-11-12.md†L16-L54】
 - [x] Creare esempi di encounter documentati per ciascun bioma.【F:data/biomes.yaml†L1-L13】 _Aggiornati file in `docs/examples/encounter_*.txt` con seed `demo` (2025-10-26)._ 
 
 ## Completare prossimamente
@@ -24,3 +25,5 @@
   - ⏳ Ripetere la validazione dopo aver predisposto mirror/caching Playwright o pacchetto offline in artefatti CI.
   - [ ] Ampliare smoke test includendo asset statici (`styles.css`, `vendor/jszip.min.js`, `app.js`, pagine fetch) per copertura completa.
   - [x] Strumentare la dashboard con metriche di rendering leggere (console + report JSON) e fissare soglia < 60 ms sui dataset baseline, con avvisi oltre 80 ms su footprint >700 nodi.
+- [x] Convalidare smoke test Playwright sul dataset minimale (`npm --prefix tools/ts run test:web`).【F:logs/web_status.md†L27-L34】
+- [x] Raggiungere i KPI Lighthouse per il bundle `docs/test-interface` (Performance ≥80, Accessibilità 100).【F:logs/web_status.md†L35-L38】

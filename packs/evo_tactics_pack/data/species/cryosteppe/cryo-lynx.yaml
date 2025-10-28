@@ -1,7 +1,7 @@
 id: cryo-lynx
 display_name: Cryo Lynx
 biomes:
-  - mezzanotte_orbitale
+  - cryosteppe
 role_trofico: predatore_terziario_apex
 functional_tags:
   - predatore
@@ -41,7 +41,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: mezzanotte_orbitale
+  biome_class: cryosteppe
   koppen:
     - BSk
     - Dfc
@@ -60,8 +60,8 @@ derived_from_environment:
     - Vanguard
     - Warden
 telemetry:
-  expected_pick_rate:
-  spawn_weight:
+  expected_pick_rate: null
+  spawn_weight: null
 services_links: []
 genetic_traits: []
 mate_synergy: []

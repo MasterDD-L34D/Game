@@ -8,53 +8,53 @@ ecosistema:
   metadati:
     nome: cryosteppe (scaffold)
     localizzazione:
-      lat:
-      lon:
-      quota_m:
-      area_km2:
+      lat: null
+      lon: null
+      quota_m: null
+      area_km2: null
     periodo_riferimento: 1991–2020
     fonti: []
   bioma:
-    classe_bioma: mezzanotte_orbitale
+    classe_bioma: cryosteppe
     ecoregione: ''
     koppen_zone:
-      - BSk
-      - Dfc
-    npp_gC_m2_anno:
+    - BSk
+    - Dfc
+    npp_gC_m2_anno: null
     note: ''
   morfologia:
     rilievo:
       quota_min_max_m:
-        - 
-        - 
-      pendenza_media_gradi:
-      rugosita_indice:
+      - null
+      - null
+      pendenza_media_gradi: null
+      rugosita_indice: null
     forme_terreno: []
     geologia_substrato: []
     suolo_superficiale:
       tessitura: ''
-      pH:
-      sostanza_organica_%:
+      pH: null
+      sostanza_organica_%: null
     idrografia:
       corsi_acqua: []
       zone_umide: []
       falda: profonda
     frammentazione_connettivita:
-      indice_frattura:
+      indice_frattura: null
       corridoi_ecologici: []
   composizione_aria:
     gas_maggiori_percento:
       N2: 78.08
       O2: 20.95
       Ar: 0.93
-      CO2:
+      CO2: null
     tracce_ppm:
-      CH4:
-      N2O:
-      O3_troposferico:
+      CH4: null
+      N2O: null
+      O3_troposferico: null
     aerosol_inquinanti:
-      PM10:
-      PM2_5:
+      PM10: null
+      PM2_5: null
       sali_marini: basso
       polveri_sahariane: sporadiche
     variazioni_stagionali_nota: ''
@@ -62,28 +62,28 @@ ecosistema:
   clima:
     classificazione_koppen: BSk
     temperatura_C:
-      media_annua:
-      min_mese_piu_freddo:
-      max_mese_piu_caldo:
-      giorni_gelo_annui:
-      giorni_ondata_calore_annui:
+      media_annua: null
+      min_mese_piu_freddo: null
+      max_mese_piu_caldo: null
+      giorni_gelo_annui: null
+      giorni_ondata_calore_annui: null
     precipitazioni_mm:
-      totale_annuo:
-      indice_stagionalita:
+      totale_annuo: null
+      indice_stagionalita: null
       mesi_secchi: []
       mesi_umidi: []
     vento:
       regime: ''
-      velocita_media_m_s:
+      velocita_media_m_s: null
     bilancio_idrico:
-      et0_mm:
-      indice_aridita_P_su_ET0:
+      et0_mm: null
+      indice_aridita_P_su_ET0: null
     estremi_e_rischi:
       eventi: []
     teleconnessioni: []
   abiotico:
     luce:
-      radiazione_media_MJ_m2_giorno:
+      radiazione_media_MJ_m2_giorno: null
       fotoperiodo: ''
     nutrienti:
       N: ''
@@ -111,24 +111,24 @@ ecosistema:
     specie_chiave_di_volta: []
   suolo:
     orizzonti:
-      - O
-      - A
-      - B
-      - C
+    - O
+    - A
+    - B
+    - C
     processi:
-      - fissazione_N
-      - nitrificazione
-      - denitrificazione
-      - mineralizzazione
+    - fissazione_N
+    - nitrificazione
+    - denitrificazione
+    - mineralizzazione
     microbioma: []
     fauna_edafica: []
   acque:
     comparti: []
     processi: []
     qualita:
-      DO_mgL:
-      BOD_mgL:
-      conducibilita_uScm:
+      DO_mgL: null
+      BOD_mgL: null
+      conducibilita_uScm: null
   servizi_ecosistemici:
     supporto: []
     regolazione: []
@@ -143,18 +143,13 @@ links:
   species_dir: packs/evo_tactics_pack/data/species/cryosteppe
   foodweb: packs/evo_tactics_pack/data/foodwebs/cryosteppe_foodweb.yaml
 registries:
-  functional_groups: 
-    packs/evo_tactics_pack/tools/config/registries/functional_groups.yaml
-  trophic_roles: 
-    packs/evo_tactics_pack/tools/config/registries/trophic_roles.yaml
-  biome_classes: 
-    packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml
-  climate_profiles: 
-    packs/evo_tactics_pack/tools/config/registries/climate_profiles.yaml
+  functional_groups: packs/evo_tactics_pack/tools/config/registries/functional_groups.yaml
+  trophic_roles: packs/evo_tactics_pack/tools/config/registries/trophic_roles.yaml
+  biome_classes: packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml
+  climate_profiles: packs/evo_tactics_pack/tools/config/registries/climate_profiles.yaml
   morphotypes: packs/evo_tactics_pack/tools/config/registries/morphotypes.yaml
   hazards: packs/evo_tactics_pack/tools/config/registries/hazards.yaml
-  env_to_traits: 
-    packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml
+  env_to_traits: packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml
 rules:
   at_least:
     sentient: 1
@@ -171,14 +166,14 @@ manifest:
     threat: 1
     event: 1
   functional_groups_present:
-    - dispersore_semi
-    - impollinatore
-    - ingegneri_ecosistema
-    - patogeno
-    - predatore
-    - prede
-    - pulse_climatico
-    - specie_chiave
+  - dispersore_semi
+  - impollinatore
+  - ingegneri_ecosistema
+  - patogeno
+  - predatore
+  - prede
+  - pulse_climatico
+  - specie_chiave
   foodweb_links:
     path: packs/evo_tactics_pack/data/foodwebs/cryosteppe_foodweb.yaml
     sink_detrito: true
