@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, "..", "..");
 const defaultPort = Number(process.env.PLAYWRIGHT_WEB_PORT || 4173);
 const baseURL = process.env.PLAYWRIGHT_BASE_URL || `http://127.0.0.1:${defaultPort}`;
+const chromiumExecutable = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
 
 export default defineConfig({
   testDir: path.join(__dirname, "tests", "web"),
@@ -24,6 +25,11 @@ export default defineConfig({
   use: {
     baseURL,
     trace: process.env.CI ? "on-first-retry" : "retain-on-failure",
+    launchOptions: chromiumExecutable
+      ? {
+          executablePath: chromiumExecutable,
+        }
+      : undefined,
   },
   webServer: {
     command: `python3 -m http.server ${defaultPort} --bind 127.0.0.1 --directory ${JSON.stringify(repoRoot)}`,
