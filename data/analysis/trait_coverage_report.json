@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-10-28T22:40:52+00:00",
+  "generated_at": "2025-10-28T22:51:09+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
@@ -12,11 +12,9 @@
     "traits_with_rules": 27,
     "traits_with_species": 27,
     "rule_combos_total": 39,
-    "species_combos_total": 38,
-    "rules_missing_species_total": 1,
-    "traits_missing_species": [
-      "artigli_sette_vie"
-    ],
+    "species_combos_total": 40,
+    "rules_missing_species_total": 0,
+    "traits_missing_species": [],
     "traits_missing_rules": []
   },
   "traits": {
@@ -44,8 +42,24 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 4,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "resonant-claw-hunter"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "resonant-claw-hunter"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
@@ -65,12 +79,7 @@
         ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": "caverna_risonante",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
