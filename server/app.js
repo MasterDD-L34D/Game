@@ -3,6 +3,9 @@ const cors = require('cors');
 const path = require('node:path');
 const { IdeaRepository } = require('./storage');
 const { buildCodexReport } = require('./report');
+const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
+
+const IDEA_CATEGORIES = new Set((ideaTaxonomy && Array.isArray(ideaTaxonomy.categories)) ? ideaTaxonomy.categories : []);
 
 function validateIdeaPayload(payload) {
   if (!payload || typeof payload !== 'object') {
@@ -14,6 +17,11 @@ function validateIdeaPayload(payload) {
   if (!payload.category || !payload.category.trim()) {
     return 'Categoria richiesta';
   }
+  const normalizedCategory = payload.category.trim();
+  if (IDEA_CATEGORIES.size > 0 && !IDEA_CATEGORIES.has(normalizedCategory)) {
+    return 'Categoria non valida';
+  }
+  payload.category = normalizedCategory;
   return '';
 }
 

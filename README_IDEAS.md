@@ -36,7 +36,7 @@ Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee.
 ## Campi del Reminder
 IDEA: <titolo breve>
 SOMMARIO: <2-4 righe secche>
-CATEGORIA: Biomi | Ecosistemi | Specie | Tratti & Mutazioni | Missioni & Stage | Telemetria & HUD | Tooling & Pipeline | Documentazione & Lore | Progressione & Economia | Altro
+CATEGORIA: vedi `config/idea_engine_taxonomy.json`
 TAGS: #tag1 #tag2 #tag3
 BIOMI: <lista ID da data/biomes.yaml>
 ECOSISTEMI: <meta-nodi o pack collegati>
@@ -48,3 +48,8 @@ AZIONI_NEXT: - [ ] azione 1  - [ ] azione 2
 LINK_DRIVE: <URL se esiste>
 GITHUB: <repo/percorso o URL se esiste>
 NOTE: <altro>
+
+## Tassonomia categorie Idea Engine
+- La lista ufficiale delle categorie è definita in [`config/idea_engine_taxonomy.json`](config/idea_engine_taxonomy.json) e viene caricata sia dal backend Node (`server/app.js`) sia dal widget (`docs/public/embed.js`).
+- Quando aggiorni la tassonomia modifica il file JSON (mantieni la struttura `{ "categories": [] }`) e fai commit.
+- Per la versione pubblicata su GitHub Pages imposta `window.IDEA_WIDGET_CONFIG.categoriesUrl` verso l'asset JSON servito (esempio: `https://raw.githubusercontent.com/<org>/<repo>/main/config/idea_engine_taxonomy.json`). In locale puoi lasciare il valore di default `../config/idea_engine_taxonomy.json`.
