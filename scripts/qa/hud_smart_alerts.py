@@ -56,6 +56,25 @@ def load_log(path: Path) -> Sequence[dict]:
     return data
 
 
+def _to_int(value: object, *, default: int = 0) -> int:
+    try:
+        if value is None:
+            return default
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _normalise_recipients(value: object) -> List[str]:
+    if isinstance(value, str):
+        return [value] if value else []
+
+    if isinstance(value, list):
+        return [item for item in value if isinstance(item, str) and item]
+
+    return []
+
+
 def analyse_log(path: Path) -> LogMetrics:
     entries = load_log(path)
     metrics = LogMetrics(path=path)
@@ -72,15 +91,29 @@ def analyse_log(path: Path) -> LogMetrics:
             metrics.total_raised += 1
         elif status == "acknowledged":
             metrics.ack_events += 1
+            recipients = _normalise_recipients(entry.get("ackRecipients"))
             alert_id = entry.get("alertId")
             if alert_id:
-                ack_counts[alert_id] = max(ack_counts.get(alert_id, 0), int(entry.get("ackCount") or 0))
-            if not entry.get("ackRecipient"):
+                fallback_from_recipients = len(recipients)
+                fallback_from_recipient = 1 if entry.get("ackRecipient") else 0
+                ack_counts[alert_id] = max(
+                    ack_counts.get(alert_id, 0),
+                    _to_int(entry.get("ackCount")),
+                    fallback_from_recipients,
+                    fallback_from_recipient,
+                )
+            if not entry.get("ackRecipient") and not recipients:
                 metrics.issues.append("Evento di ack senza `ackRecipient`")
         elif status == "cleared":
             alert_id = entry.get("alertId")
-            if alert_id and "ackCount" in entry:
-                ack_counts[alert_id] = max(ack_counts.get(alert_id, 0), int(entry.get("ackCount") or 0))
+            if alert_id:
+                recipients = _normalise_recipients(entry.get("ackRecipients"))
+                fallback_from_recipients = len(recipients)
+                ack_counts[alert_id] = max(
+                    ack_counts.get(alert_id, 0),
+                    _to_int(entry.get("ackCount")),
+                    fallback_from_recipients,
+                )
         elif status == "filtered":
             metrics.filter_events += 1
             if not entry.get("filterName"):
