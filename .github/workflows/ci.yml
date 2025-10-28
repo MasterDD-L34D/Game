@@ -19,53 +19,25 @@ jobs:
           cache: npm
           cache-dependency-path: tools/ts/package-lock.json
 
-      - name: Install Node.js dependencies
-        working-directory: tools/ts
-        run: npm ci
-
-      - name: Build TypeScript project
-        working-directory: tools/ts
-        run: npm run build
-
-      - name: Run TypeScript CLI
-        working-directory: tools/ts
-        run: node dist/roll_pack.js ENTP invoker ../../data/packs.yaml
-
-      - name: Validate Species (TS)
-        working-directory: tools/ts
-        run: |
-          npm ci
-          npm run validate:species
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install Python dependencies
-        working-directory: tools/py
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --requirement requirements.txt
+      - name: Install test dependencies (Python + Node)
+        run: scripts/install_test_dependencies.sh
 
-      - name: Validate Species (Python)
-        working-directory: tools/py
-        run: |
-          python3 validate_species.py ../../data/species.yaml
+      - name: Run validation suite
+        run: scripts/run_validation_suite.sh
+
+      - name: Run automated test suite
+        run: scripts/run_test_suite.sh
+
+      - name: Run TypeScript CLI
+        working-directory: tools/ts
+        run: node dist/roll_pack.js ENTP invoker ../../data/packs.yaml
 
       - name: Run Python validation script
         working-directory: tools/py
         run: python roll_pack.py ENTP invoker ../../data/packs.yaml
 
-      - name: Validate base datasets (CLI)
-        working-directory: tools/py
-        run: python3 game_cli.py validate-datasets
-
-      - name: Validate Evo-Tactics ecosystem pack
-        run: python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json
-
-      - name: Run CLI smoke profiles
-        run: ./scripts/cli_smoke.sh
-
-      - name: Audit trait catalog consistency
-        run: python3 scripts/trait_audit.py --check

@@ -29,26 +29,25 @@ jobs:
           cache: "npm"
           cache-dependency-path: tools/ts/package-lock.json
 
-      - name: Install Node.js dependencies
-        working-directory: tools/ts
-        run: npm ci
-
-      - name: Run TypeScript tests
-        working-directory: tools/ts
-        run: npm test
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install Python test dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r tools/py/requirements.txt
+      - name: Install test dependencies (Python + Node)
+        run: scripts/install_test_dependencies.sh
 
-      - name: Run Python tests
-        run: PYTHONPATH=tools/py pytest
+      - name: Run validation suite
+        run: scripts/run_validation_suite.sh
+
+      - name: Run automated test suite
+        run: scripts/run_test_suite.sh
+
+      - name: Run deploy validation checks
+        env:
+          DEPLOY_DATA_DIR: ${{ github.workspace }}/data
+          RUN_FULL_VALIDATION: "0"
+        run: scripts/run_deploy_checks.sh
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

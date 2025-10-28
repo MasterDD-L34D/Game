@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "playwright:install": "PLAYWRIGHT_DOWNLOAD_HOST=https://playwright.azureedge.net npx playwright install chromium || PLAYWRIGHT_DOWNLOAD_HOST=https://playwright.azureedge.net npx playwright install --with-deps chromium",
+    "playwright:install": "node ./scripts/ensure_playwright_browser.mjs",
     "pretest": "npm run playwright:install --silent",
     "build": "tsc -p tsconfig.json && node ./scripts/postbuild.mjs",
     "start": "node dist/roll_pack.js ENTP invoker ../../data/packs.yaml",

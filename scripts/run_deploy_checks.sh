@@ -8,26 +8,34 @@ log() {
   printf '\n[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1"
 }
 
-log "Installing Node.js dependencies via npm ci"
-pushd "$ROOT_DIR/tools/ts" >/dev/null
-npm ci
+require_dependency() {
+  local check_cmd="$1"
+  local hint="$2"
+  if ! bash -c "$check_cmd" >/dev/null 2>&1; then
+    log "$hint"
+    exit 1
+  fi
+}
 
-log "Installing Playwright browsers"
-PLAYWRIGHT_DOWNLOAD_HOST="https://playwright.azureedge.net"
-if ! PLAYWRIGHT_DOWNLOAD_HOST="$PLAYWRIGHT_DOWNLOAD_HOST" npx playwright install chromium; then
-  log "Playwright download failed via $PLAYWRIGHT_DOWNLOAD_HOST; retrying with --with-deps"
-  PLAYWRIGHT_DOWNLOAD_HOST="$PLAYWRIGHT_DOWNLOAD_HOST" npx playwright install --with-deps chromium
+require_dependency "python3 -c 'import yaml, requests'" \
+  "Dipendenze Python mancanti: eseguire scripts/install_test_dependencies.sh prima di run_deploy_checks.sh."
+
+require_dependency "[ -d '${ROOT_DIR}/tools/ts/node_modules' ]" \
+  "Dipendenze Node.js mancanti: eseguire scripts/install_test_dependencies.sh prima di run_deploy_checks.sh."
+
+require_dependency "cd '${ROOT_DIR}/tools/ts' && node -e 'require(\"playwright-core\");'" \
+  "Playwright non risulta installato: eseguire scripts/install_test_dependencies.sh prima di run_deploy_checks.sh."
+
+RUN_FULL_VALIDATION=${RUN_FULL_VALIDATION:-1}
+if [[ "$RUN_FULL_VALIDATION" == "1" ]]; then
+  log "Running validation suite"
+  "$ROOT_DIR/scripts/run_validation_suite.sh"
+
+  log "Running test suite"
+  "$ROOT_DIR/scripts/run_test_suite.sh"
+else
+  log "Skipping validation/test execution (RUN_FULL_VALIDATION=$RUN_FULL_VALIDATION)"
 fi
-
-log "Running TypeScript and web regression test suite"
-npm test
-popd >/dev/null
-
-log "Ensuring Python test dependencies are available"
-python3 -m pip install --quiet -r "$ROOT_DIR/tools/py/requirements.txt"
-
-log "Running Python test suite"
-PYTHONPATH="$ROOT_DIR/tools/py" pytest
 
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")

@@ -24,6 +24,12 @@ export default defineConfig({
   use: {
     baseURL,
     trace: process.env.CI ? "on-first-retry" : "retain-on-failure",
+    launchOptions:
+      process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+        ? {
+            executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
+          }
+        : undefined,
   },
   webServer: {
     command: `python3 -m http.server ${defaultPort} --bind 127.0.0.1 --directory ${JSON.stringify(repoRoot)}`,
