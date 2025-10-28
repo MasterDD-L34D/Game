@@ -24,6 +24,23 @@ successiva e registrare eventuali task di follow-up in roadmap.
 ## Registro stato
 
 <!-- web_log:start -->
+## 2025-11-05T09:20:00Z · foodweb coverage QA
+- **Esito tool**: ✅ `python tools/py/report_trait_coverage.py`
+  - Sezione `foodweb_coverage` aggiornata con soglia `species_per_role_biome = 2`.
+  - Ruoli target OK: `predatore_terziario_apex` (dorsale), `ingegneri_ecosistema`
+    (foresta), `dispersore_ponte` (mezzanotte).
+- **Feedback playtest**:
+  - Squadra Apex segnala picchi di danno magnetico troppo rapidi quando i due
+    predatori spawnano simultaneamente; bilanciamento suggerito: ridurre il
+    moltiplicatore iniziale del tratto `coda_frusta_cinetica` del 10%.
+  - Nei biomi orbitali il pick rate giocabile è stabile (0.48) ma i corridoi
+    di spore risultano difficili da leggere: proporre glow-intensity toggle
+    lato UI.
+- **Azioni**:
+  - Monitorare nelle prossime sessioni se il conteggio `playable_count`
+    rimane ≥1 per ruolo in ogni bioma sorvegliato.
+  - Condividere il mock-up `docs/catalog/mockups/foodweb_roles.yaml` con il
+    team UI per validare etichette e badge “foodweb ready”.
 ## 2025-10-27T10:49:20Z · run_deploy_checks.sh
 - **Esito script**: ❌ `scripts/run_deploy_checks.sh`
   - `npm ci` (tools/ts) completato con dataset `data/mock/prod_snapshot`.
