@@ -68,16 +68,16 @@ network:
         - dispersore_ponte
         - impollinatore
       present_in_nodes:
-        - canyons_risonanti
-        - mezzanotte_orbitale
-        - savana
-        - foresta_miceliale
+        - BADLANDS
+        - FORESTA_TEMPERATA
+        - DESERTO_CALDO
+        - CRYOSTEPPE
     - species_id: ferrocolonia-magnetotattica
       roles:
         - sentinella
         - ingegnere_ecosistema
       present_in_nodes:
-        - canyons_risonanti
+        - BADLANDS
   rules:
     at_least:
       sentient: 1
