@@ -1,7 +1,7 @@
 id: silica-bloom
 display_name: Silica Bloom
 biomes:
-  - deserto_caldo
+  - abisso_vulcanico
 role_trofico: minaccia_microbica
 functional_tags:
   - patogeno
@@ -45,7 +45,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: deserto_caldo
+  biome_class: abisso_vulcanico
   koppen:
     - BWh
     - BSh
