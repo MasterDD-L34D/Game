@@ -5,12 +5,11 @@ const { IdeaRepository } = require('./storage');
 const { buildCodexReport } = require('./report');
 
 function sanitizeTextField(value) {
-  if (value === undefined || value === null) {
+  if (typeof value !== 'string') {
     return { sanitized: '', isValid: false };
   }
 
-  const coerced = typeof value === 'string' ? value : String(value);
-  const sanitized = coerced.trim();
+  const sanitized = value.trim();
 
   return { sanitized, isValid: sanitized.length > 0 };
 }
