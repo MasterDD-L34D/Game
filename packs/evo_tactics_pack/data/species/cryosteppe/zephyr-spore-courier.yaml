@@ -21,6 +21,25 @@ flags:
   threat: false
   event: false
 playable_unit: false
+vc:
+  aggro: 0.1
+  risk: 0.2
+  cohesion: 0.7
+  setup: 0.4
+  explore: 0.8
+  tilt: 0.3
+spawn_rules:
+  orario:
+    - diurno
+    - crepuscolo
+  meteo:
+    - aurore_attive
+    - sereno_freddo
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
 environment_affinity:
   biome_class: mezzanotte_orbitale
   hazards_expected:

@@ -21,6 +21,25 @@ flags:
   threat: false
   event: false
 playable_unit: false
+vc:
+  aggro: 0.2
+  risk: 0.3
+  cohesion: 0.7
+  setup: 0.6
+  explore: 0.5
+  tilt: 0.3
+spawn_rules:
+  orario:
+    - notte
+    - crepuscolo
+  meteo:
+    - nebbia_spore
+    - pioggia_leggera
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
 environment_affinity:
   biome_class: foresta_miceliale
   hazards_expected:

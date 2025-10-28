@@ -21,6 +21,13 @@ flags:
   threat: false
   event: false
 playable_unit: true
+pi_loadout:
+  weight_budget: 14
+  default_parts:
+    locomotion:
+      - aurora_wings
+    utility:
+      - bridge_node_emitters
 vc:
   aggro: 0.3
   risk: 0.2
@@ -28,6 +35,18 @@ vc:
   setup: 0.7
   explore: 0.9
   tilt: 0.5
+spawn_rules:
+  orario:
+    - crepuscolo
+    - notte
+  meteo:
+    - aurore_attive
+    - sereno_freddo
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
 environment_affinity:
   biome_class: mezzanotte_orbitale
   hazards_expected:

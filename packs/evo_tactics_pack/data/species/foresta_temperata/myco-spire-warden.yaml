@@ -21,6 +21,32 @@ flags:
   threat: false
   event: false
 playable_unit: true
+pi_loadout:
+  weight_budget: 18
+  default_parts:
+    utility:
+      - sporefield_emitters
+    defense:
+      - fungal_carapace
+vc:
+  aggro: 0.4
+  risk: 0.3
+  cohesion: 0.9
+  setup: 0.8
+  explore: 0.5
+  tilt: 0.4
+spawn_rules:
+  orario:
+    - crepuscolo
+    - notte
+  meteo:
+    - nebbia_spore
+    - pioggia_leggera
+  densita: low
+balance:
+  rarity: R3
+  threat_tier: T2
+  encounter_role: elite
 environment_affinity:
   biome_class: foresta_miceliale
   hazards_expected:
