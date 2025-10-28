@@ -1,0 +1,9 @@
+{
+  "name": "game-monorepo-shim",
+  "private": true,
+  "scripts": {
+    "test:web": "npm --prefix tools/ts run test:web --",
+    "build": "npm --prefix tools/ts run build --",
+    "test": "npm --prefix tools/ts run test --"
+  }
+}
