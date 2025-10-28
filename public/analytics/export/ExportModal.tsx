@@ -212,28 +212,42 @@ const ExportModal: React.FC<ExportModalProps> = ({
   }
 
   const toggleGroup = (groupId: string) => {
-    const exists = selectedGroups.includes(groupId);
-    const nextGroups = exists
-      ? selectedGroups.filter(item => item !== groupId)
-      : [...selectedGroups, groupId];
+    let nextGroups: string[] = selectedGroups;
+    let action: 'added' | 'removed' = 'added';
 
-    setSelectedGroups(nextGroups);
+    setSelectedGroups(current => {
+      const exists = current.includes(groupId);
+      action = exists ? 'removed' : 'added';
+      nextGroups = exists
+        ? current.filter(item => item !== groupId)
+        : [...current, groupId];
+
+      return nextGroups;
+    });
+
     logFiltersTelemetry('analytics.export.recipient_toggle', nextGroups, selectedStatuses, onlyWithinSchedule, {
       groupId,
-      action: exists ? 'removed' : 'added'
+      action
     });
   };
 
   const toggleStatus = (status: string) => {
-    const exists = selectedStatuses.includes(status);
-    const nextStatuses = exists
-      ? selectedStatuses.filter(item => item !== status)
-      : [...selectedStatuses, status];
+    let nextStatuses: string[] = selectedStatuses;
+    let action: 'added' | 'removed' = 'added';
 
-    setSelectedStatuses(nextStatuses);
+    setSelectedStatuses(current => {
+      const exists = current.includes(status);
+      action = exists ? 'removed' : 'added';
+      nextStatuses = exists
+        ? current.filter(item => item !== status)
+        : [...current, status];
+
+      return nextStatuses;
+    });
+
     logFiltersTelemetry('analytics.export.status_toggle', selectedGroups, nextStatuses, onlyWithinSchedule, {
       status,
-      action: exists ? 'removed' : 'added'
+      action
     });
   };
 
