@@ -24,3 +24,9 @@
 2. **Export telemetria** — Limitare l'estensione export ai log già normalizzati (`session-metrics.yaml`) finché non si completa la checklist smart feature; pianificare un incremento successivo (milestone separata).
 3. **Monitoraggio continuo** — Integrare nel prossimo playtest (settimana 47) un controllo puntuale su `risk.time_low_hp_turns` per assicurare che il drone supporto resti efficace con roster variati.
 4. **Follow-up QA** — Mantenere retro settimanale con stakeholder analytics/QA e demo quindicinale focalizzata su HUD per mostrare riduzione alert duration.
+
+## Raccolta feedback & workflow
+- **Survey centralizzata:** tutte le sessioni novembre 2025 usano il modulo Google Form `https://forms.gle/vc-demo-feedback`. Inserire il link nella mail di follow-up entro 2 ore dalla demo, archiviando l'export CSV in `docs/playtest/tickets/feedback-survey.csv`.
+- **Sintesi `INSIGHTS-*`:** ogni file `docs/playtest/INSIGHTS-<YYYY-MM>.md` deve includere un blocco `### Feedback utenti` con: punteggi medi (soddisfazione, chiarezza HUD, chiarezza SquadSync), top 3 citazioni, ticket aperti. Per novembre la sezione va aggiornata al martedì entro le 12:00 CET.
+- **Instradamento ticket:** le risposte con punteggio HUD ≤3 generano issue `hud-feedback` assegnate al team UI Systems; quelle su SquadSync ≤3 creano ticket `analytics-squadsync`. Annotare gli ID nel CSV e cross-linkare nella sezione `### Feedback utenti`.
+- **Calendario review:** importare il calendario `vc-demo-feedback` (evento ricorrente lunedì 17:30 CET) per discutere survey + log. Durante la review compilare la checklist `docs/playtest/feedback-template.md` e aggiornare roadmap.
