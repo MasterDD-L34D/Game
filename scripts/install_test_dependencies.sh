@@ -8,6 +8,12 @@ log() {
   printf '\n[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1"
 }
 
+if [[ $(id -u) -ne 0 ]]; then
+  SUDO="sudo"
+else
+  SUDO=""
+fi
+
 log "Aggiornamento pip e installazione dipendenze Python"
 python3 -m pip install --quiet --upgrade pip
 python3 -m pip install --quiet --requirement "$ROOT_DIR/tools/py/requirements.txt"
@@ -41,12 +47,17 @@ install_playwright_browser() {
 
   log "Installo pacchetto Google Chrome via apt"
   export DEBIAN_FRONTEND=noninteractive
-  if ! apt-get update; then
+  APT_TIMEOUT_CMD=(timeout 60)
+  if [[ -n "$SUDO" ]]; then
+    APT_TIMEOUT_CMD=($SUDO "timeout" 60)
+  fi
+
+  if ! "${APT_TIMEOUT_CMD[@]}" apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=15 update; then
     log "apt-get update fallito: verificare connettività verso mirror Ubuntu"
   fi
-  if ! apt-get install --yes --no-install-recommends "$chrome_pkg"; then
+  if ! ${SUDO} apt-get install --yes --no-install-recommends "$chrome_pkg"; then
     log "Installazione Google Chrome fallita. Provo a completare le dipendenze con --fix-broken"
-    apt-get install --yes --no-install-recommends -f
+    ${SUDO} apt-get install --yes --no-install-recommends -f
   fi
   rm -f "$chrome_pkg"
 
