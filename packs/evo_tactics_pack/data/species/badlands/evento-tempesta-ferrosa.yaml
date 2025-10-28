@@ -7,7 +7,7 @@ receipt:
 id: evento-tempesta-ferrosa
 display_name: 'Evento: Tempesta Ferrosa'
 biomes:
-  - badlands
+  - dorsale_termale_tropicale
 role_trofico: evento_ecologico
 functional_tags:
   - pulse_climatico
@@ -44,7 +44,7 @@ balance:
   threat_tier: T4
   encounter_role: boss
 environment_affinity:
-  biome_class: badlands
+  biome_class: dorsale_termale_tropicale
   koppen:
     - BSk
     - BWk

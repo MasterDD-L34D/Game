@@ -1,7 +1,7 @@
 id: cryo-lynx
 display_name: Cryo Lynx
 biomes:
-  - cryosteppe
+  - mezzanotte_orbitale
 role_trofico: predatore_terziario_apex
 functional_tags:
   - predatore
@@ -41,7 +41,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: cryosteppe
+  biome_class: mezzanotte_orbitale
   koppen:
     - BSk
     - Dfc

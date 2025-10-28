@@ -1,7 +1,7 @@
 id: evento-ondata-termica
 display_name: 'Evento: Ondata Termica Ionica'
 biomes:
-  - deserto_caldo
+  - abisso_vulcanico
 role_trofico: evento_ecologico
 functional_tags:
   - pulse_climatico
@@ -44,7 +44,7 @@ receipt:
   date: '2025-10-25'
   trace_hash: to-fill
 environment_affinity:
-  biome_class: deserto_caldo
+  biome_class: abisso_vulcanico
   koppen:
     - BWh
     - BSh

@@ -7,7 +7,7 @@ receipt:
 id: blight-micotico
 display_name: Blight Micotico
 biomes:
-  - foresta_temperata
+  - foresta_miceliale
 role_trofico: minaccia_microbica
 functional_tags:
   - patogeno
@@ -43,7 +43,7 @@ balance:
   threat_tier: T3
   encounter_role: boss
 environment_affinity:
-  biome_class: foresta_temperata
+  biome_class: foresta_miceliale
   koppen:
     - Cfb
   hazards_expected:

@@ -7,7 +7,7 @@ receipt:
 id: rust-scavenger
 display_name: Rust Scavenger
 biomes:
-  - badlands
+  - dorsale_termale_tropicale
 role_trofico: ingegneri_ecosistema
 functional_tags:
   - specie_chiave
@@ -55,7 +55,7 @@ jobs_synergy:
   - Warden
   - Artificer
 environment_affinity:
-  biome_class: badlands
+  biome_class: dorsale_termale_tropicale
   koppen:
     - BSk
     - BWk

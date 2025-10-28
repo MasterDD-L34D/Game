@@ -7,7 +7,7 @@ receipt:
 id: sentinella-radice
 display_name: Sentinella Radice
 biomes:
-  - foresta_temperata
+  - foresta_miceliale
 role_trofico: ingegneri_ecosistema
 functional_tags:
   - specie_chiave
@@ -51,7 +51,7 @@ telemetry:
   expected_pick_rate: 0.12
   spawn_weight: 0.18
 environment_affinity:
-  biome_class: foresta_temperata
+  biome_class: foresta_miceliale
   koppen:
     - Cfb
   hazards_expected:
