@@ -97,12 +97,21 @@ class TraitsInventoryValidator:
                 f"Inventario {self._relative(self.inventory_path)} non è un JSON valido: {exc}"
             ) from exc
 
-        generated_at = payload.get("generated_at")
-        if generated_at is not None and not self._is_valid_iso_timestamp(generated_at):
-            warnings.append(
-                "Campo 'generated_at' non è in formato ISO 8601: "
-                f"{generated_at!r}"
-            )
+        generated_at_raw = payload.get("generated_at")
+        if isinstance(generated_at_raw, str):
+            generated_at = generated_at_raw
+            if not self._is_valid_iso_timestamp(generated_at_raw):
+                warnings.append(
+                    "Campo 'generated_at' non è in formato ISO 8601: "
+                    f"{generated_at_raw!r}"
+                )
+        else:
+            generated_at = None
+            if generated_at_raw is not None:
+                warnings.append(
+                    "Campo 'generated_at' deve essere stringa in formato ISO 8601: "
+                    f"{generated_at_raw!r}"
+                )
 
         resources_data = payload.get("resources")
         if not isinstance(resources_data, list):
