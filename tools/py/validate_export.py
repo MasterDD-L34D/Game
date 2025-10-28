@@ -9,7 +9,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List, Mapping, Sequence
+from typing import Any, Dict, Iterable, List, Mapping, Sequence, Set
 
 try:
     import yaml  # type: ignore
@@ -68,6 +68,13 @@ def load_structured_file(path: Path):
         if suffix == ".json":
             return json.load(fh)
     raise ValueError(f"Formato non supportato per {path} (attesi JSON/YAML)")
+
+
+def load_telemetry_catalog(path: Path) -> Mapping[str, Any]:
+    data = load_structured_file(path)
+    if not isinstance(data, Mapping):
+        raise ValueError(f"{path}: struttura YAML principale non è una mappa")
+    return data
 
 
 def load_recipient_groups(path: Path) -> Mapping[str, RecipientGroup]:
@@ -132,6 +139,104 @@ def normalize_records(raw) -> List[Mapping[str, object]]:
         if "entries" in raw and isinstance(raw["entries"], Sequence):
             return [item for item in raw["entries"] if isinstance(item, Mapping)]
     raise ValueError("Formato export non riconosciuto: atteso array o chiave records/entries")
+
+
+def diff_export_vs_telemetry(
+    records: Sequence[Mapping[str, object]],
+    telemetry_catalog: Mapping[str, Any]
+) -> List[str]:
+    indices = _mapping_keys_lower(telemetry_catalog.get("indices"))
+    telemetry_section = telemetry_catalog.get("telemetry")
+    hud_breakdown = telemetry_section.get("hud_breakdown") if isinstance(telemetry_section, Mapping) else {}
+    roles = _mapping_keys_lower(hud_breakdown.get("roles") if isinstance(hud_breakdown, Mapping) else None)
+    rarities = _mapping_keys_lower(hud_breakdown.get("rarities") if isinstance(hud_breakdown, Mapping) else None)
+
+    telemetry_targets = telemetry_catalog.get("telemetry_targets")
+    target_groups = _mapping_keys_lower(telemetry_targets)
+    target_entries: Set[str] = set()
+    if isinstance(telemetry_targets, Mapping):
+        for value in telemetry_targets.values():
+            target_entries.update(_mapping_keys_lower(value))
+
+    referenced: Dict[str, Set[str]] = {
+        "indices": set(),
+        "roles": set(),
+        "rarities": set(),
+        "target_groups": set(),
+        "target_entries": set(),
+    }
+
+    for record in records:
+        text_tokens = _collect_record_tokens(record)
+        referenced["indices"].update(_find_mentions(text_tokens, indices))
+        referenced["roles"].update(_find_mentions(text_tokens, roles))
+        referenced["rarities"].update(_find_mentions(text_tokens, rarities))
+        referenced["target_groups"].update(_find_mentions(text_tokens, target_groups))
+        referenced["target_entries"].update(_find_mentions(text_tokens, target_entries))
+
+    differences: List[str] = []
+    differences.extend(_build_diff_message("indici", indices, referenced["indices"]))
+    differences.extend(_build_diff_message("ruoli HUD", roles, referenced["roles"]))
+    differences.extend(_build_diff_message("rarità HUD", rarities, referenced["rarities"]))
+    differences.extend(_build_diff_message("target di telemetria", target_groups, referenced["target_groups"]))
+    differences.extend(_build_diff_message("target granulari", target_entries, referenced["target_entries"]))
+    return differences
+
+
+def _mapping_keys_lower(value: Any) -> Set[str]:
+    if not isinstance(value, Mapping):
+        return set()
+    result = set()
+    for key in value.keys():
+        key_str = str(key).strip()
+        if key_str:
+            result.add(key_str.lower())
+    return result
+
+
+def _collect_record_tokens(record: Mapping[str, object]) -> Iterable[str]:
+    tokens: List[str] = []
+    for field in ("summary", "detailed_description", "component_tag"):
+        value = record.get(field)
+        if isinstance(value, str) and value:
+            tokens.append(value.lower())
+
+    routing = record.get("routing")
+    if isinstance(routing, Mapping):
+        notes = routing.get("notes")
+        if isinstance(notes, str) and notes:
+            tokens.append(notes.lower())
+        groups = routing.get("recipient_groups")
+        if isinstance(groups, Sequence) and not isinstance(groups, (str, bytes)):
+            tokens.extend(str(item).lower() for item in groups)
+
+    evidence = record.get("evidence_links")
+    if isinstance(evidence, Sequence) and not isinstance(evidence, (str, bytes)):
+        tokens.extend(str(item).lower() for item in evidence)
+
+    return tokens
+
+
+def _find_mentions(tokens: Iterable[str], keywords: Set[str]) -> Set[str]:
+    found: Set[str] = set()
+    if not keywords:
+        return found
+    for token in tokens:
+        for keyword in keywords:
+            if keyword and keyword in token:
+                found.add(keyword)
+    return found
+
+
+def _build_diff_message(label: str, expected: Set[str], referenced: Set[str]) -> List[str]:
+    messages: List[str] = []
+    missing = sorted(expected - referenced)
+    unexpected = sorted(referenced - expected)
+    if missing:
+        messages.append(f"{label.capitalize()} senza riferimenti nell'export: {', '.join(missing)}")
+    if unexpected:
+        messages.append(f"{label.capitalize()} non definiti in data/telemetry.yaml ma citati nell'export: {', '.join(unexpected)}")
+    return messages
 
 
 def validate_records(records: Sequence[Mapping[str, object]], groups: Mapping[str, RecipientGroup]) -> List[str]:
@@ -235,11 +340,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(argv)
     export_path = Path(args.export)
     recipients_path = Path(args.recipients)
+    telemetry_path = Path("data/telemetry.yaml")
 
     try:
         groups = load_recipient_groups(recipients_path)
         raw_export = load_structured_file(export_path)
         records = normalize_records(raw_export)
+        telemetry_catalog = load_telemetry_catalog(telemetry_path)
     except Exception as exc:  # pragma: no cover - gestione errori CLI
         sys.stderr.write(f"Errore: {exc}\n")
         return 2
@@ -258,6 +365,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 1
 
     print(f"{len(records)} record conformi allo schema telemetry-export.")
+    differences = diff_export_vs_telemetry(records, telemetry_catalog)
+    if differences:
+        print("Diff telemetry/export:")
+        for line in differences:
+            print(f"- {line}")
+    else:
+        print("Diff telemetry/export: nessuna discrepanza individuata rispetto a data/telemetry.yaml.")
     return 0
 
 

@@ -74,6 +74,17 @@ Documentare nel pannello `Triggers` di Apps Script l'utente proprietario: il pro
 - **Registro risorse Hub (PROG-03)** — durante la sessione del 2025-02-26 è emerso che oltre il primo/secondo ciclo il sync dei fogli hub era ancora manuale; con l'estensione Hub Ops l'obiettivo è portare nel flusso automatico il ledger economico e le relative check-integration successive.【F:docs/playtest/SESSION-2025-02-26.md†L15-L27】【F:logs/playtests/2025-02-26/session-metrics.yaml†L24-L33】
 - **Notebook bilanciamento Hub** — l'allegato CSV della stessa sessione riporta la "manual sync requirement" per PROG-03, evidenziando che il tracciamento risorse oltre il ciclo 2 non rientrava ancora nella pipeline automatizzata.【F:docs/playtest/SESSION-2025-02-26/notebook-balancing.csv†L1-L4】
 
+## FAQ Analytics / Support
+
+**Come verifico quali filtri sono stati applicati prima di un export?**  
+Consulta il registro `logs/exports/2025-11-08-filter-selections.md` per trovare timestamp, gruppi destinatari, status e motivazioni raccolti dalla strumentazione della modale analytics.【F:logs/exports/2025-11-08-filter-selections.md†L1-L11】【F:public/analytics/export/ExportModal.tsx†L1-L228】
+
+**Perché il diff vs `data/telemetry.yaml` segnala indici mancanti?**  
+Lo script `tools/py/validate_export.py` ora confronta summary, descrizioni ed evidenze dell'export con gli indici/target definiti in `data/telemetry.yaml`; se l'export non cita determinate metriche viene riportato l'elenco per facilitarne la revisione con Analytics.【F:tools/py/validate_export.py†L1-L310】【F:data/telemetry.yaml†L1-L74】
+
+**Quando arriva una notifica Slack legata al workflow telemetry-export?**  
+Il job GitHub Actions invia sempre un alert al webhook `SLACK_TELEMETRY_WEBHOOK` indicando l'esito della run e il link al dettaglio (`RUN_URL`), sia in caso di successo sia di errore, dopo la validazione schema e i test UI.【F:.github/workflows/telemetry-export.yml†L1-L60】
+
 ## Dry-run, filtri e validazione
 - La funzione `convertYamlToSheetsDryRun()` permette di verificare quali file verrebbero sincronizzati e con quali tab senza creare/modificare Spreadsheet, restituendo un JSON utile da allegare ai report di manutenzione.【F:scripts/driveSync.gs†L82-L210】
 - Il dry-run locale sui log YAML attuali mostra che nessun file dichiara ancora un valore `cycle`: i dataset Hub Ops verranno quindi importati appena il metadato verrà aggiunto ai nuovi YAML dei cicli successivi.【5e2837†L1-L33】
@@ -117,6 +128,12 @@ Quando le quote vengono esaurite, Apps Script registra errori `Exceeded maximum 
 - Aggiornare la libreria js-yaml testando l'URL in un ambiente di staging prima di cambiare `DRIVE_SYNC_YAML_LIB_URL`.
 - Usare `removeAutoSyncTriggers()` prima di rigenerare i trigger con un nuovo intervallo.
 - Annotare gli Spreadsheet generati e i relativi link in [`docs/checklist/milestones.md`](checklist/milestones.md) per mantenere la tracciabilità delle sincronizzazioni.
+
+## Timeline rilasci telemetry-export
+| Data | Aggiornamento | Note |
+|------|---------------|------|
+| 2025-10-27 | Deploy Apps Script + trigger time-driven per sincronizzare i fogli `[VC Logs]` con i log YAML di playtest. | Flusso documentato nella sezione "Deploy 2025-10-27 e validazione VC Logs" e mantenuto dal team Ops.【F:docs/drive-sync.md†L78-L149】 |
+| 2025-11-08 | Telemetria UI export con logging filtri, diff automatico con `data/telemetry.yaml` e alert Slack nel workflow `telemetry-export`. | Consente audit settimanali e visibilità immediata sugli esiti della pipeline CI.【F:public/analytics/export/ExportModal.tsx†L1-L228】【F:tools/py/validate_export.py†L1-L310】【F:.github/workflows/telemetry-export.yml†L1-L60】【F:logs/exports/2025-11-08-filter-selections.md†L1-L11】
 
 ## Workflow consigliato per i log VC
 1. Eseguire i playtest e archiviare i log YAML in `logs/playtests/<data>/` (es. `logs/playtests/2025-10-24-vc/session-metrics.yaml`).【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】

@@ -42,3 +42,22 @@ jobs:
 
       - name: Run export modal UI tests
         run: npx --prefix tools/ts tsx tools/ts/tests/export-modal.test.tsx
+
+      - name: Post Slack alert
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_TELEMETRY_WEBHOOK }}
+          WORKFLOW_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "Slack webhook non configurato, skip notifica."
+            exit 0
+          fi
+          payload=$(cat <<EOF
+{
+  "text": "[telemetry-export] stato: ${WORKFLOW_STATUS}\nDettagli run: ${RUN_URL}"
+}
+EOF
+)
+          curl -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL"
