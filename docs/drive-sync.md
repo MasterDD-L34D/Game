@@ -80,6 +80,7 @@ Documentare nel pannello `Triggers` di Apps Script l'utente proprietario: il pro
 - Il risultato del dry-run include la chiave `filterSummary` con il riepilogo degli alert HUD mantenuti/rimossi dai filtri destinatari/status, utile per verificare eventuali esclusioni inavvertite prima di aggiornare i fogli.【F:scripts/driveSync.gs†L31-L121】
 - I log Apps Script rispettano `DRIVE_SYNC_LOG_LEVEL`: in `info` viene registrato un riepilogo del conteggio escluso, in `debug` ogni alert rimosso riporta la motivazione (`status` o `recipients` non ammessi). Allegare i log ai report QA quando si modifica la configurazione dei filtri.【F:scripts/driveSync.gs†L613-L765】
 - I gruppi destinatari, i canali e le finestre di copertura sono descritti in [`config/drive/recipients.yaml`](../config/drive/recipients.yaml) e fungono da riferimento operativo per allineare gli alert Drive con le guardie HUD/QA/Support.【F:config/drive/recipients.yaml†L1-L57】
+- **Aggiornamento 2025-11-XX** — Il dry-run non è stato eseguito nell'ambiente di sviluppo locale perché mancano l'accesso al progetto Apps Script e alla cartella Drive `1VCLogSheetsSyncHub2025Ops`. Il file [`logs/drive/2025-11-XX-dryrun.json`](../logs/drive/2025-11-XX-dryrun.json) contiene il placeholder da sostituire con l'output reale quando l'operazione verrà completata dal team con accesso alle risorse cloud.
 
 ## Deploy 2025-10-27 e validazione VC Logs
 - Progetto Apps Script: `VC Drive Sync` (dominio interno `game-dev`), collegato alla cartella `1VCLogSheetsSyncHub2025Ops`.
