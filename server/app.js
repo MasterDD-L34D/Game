@@ -4,16 +4,35 @@ const path = require('node:path');
 const { IdeaRepository } = require('./storage');
 const { buildCodexReport } = require('./report');
 
+function sanitizeTextField(value) {
+  if (value === undefined || value === null) {
+    return { sanitized: '', isValid: false };
+  }
+
+  const coerced = typeof value === 'string' ? value : String(value);
+  const sanitized = coerced.trim();
+
+  return { sanitized, isValid: sanitized.length > 0 };
+}
+
 function validateIdeaPayload(payload) {
   if (!payload || typeof payload !== 'object') {
     return 'Payload mancante o non valido';
   }
-  if (!payload.title || !payload.title.trim()) {
+
+  const { sanitized: title, isValid: titleValid } = sanitizeTextField(payload.title);
+  if (!titleValid) {
     return 'Titolo richiesto';
   }
-  if (!payload.category || !payload.category.trim()) {
+
+  const { sanitized: category, isValid: categoryValid } = sanitizeTextField(payload.category);
+  if (!categoryValid) {
     return 'Categoria richiesta';
   }
+
+  payload.title = title;
+  payload.category = category;
+
   return '';
 }
 
