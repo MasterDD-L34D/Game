@@ -5,6 +5,7 @@ const { IdeaRepository, normaliseList } = require('./storage');
 const { buildCodexReport } = require('./report');
 const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesizer');
 const { createRuntimeValidator } = require('../services/generation/runtimeValidator');
+const { createGenerationOrchestratorBridge } = require('../services/generation/orchestratorBridge');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -129,6 +130,9 @@ function createApp(options = {}) {
     options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
   const biomeSynthesizer =
     options.biomeSynthesizer || createBiomeSynthesizer({ dataRoot, runtimeValidator });
+  const generationOrchestrator =
+    options.generationOrchestrator ||
+    createGenerationOrchestratorBridge(options.orchestratorOptions || {});
   const app = express();
 
   app.use(cors({ origin: options.corsOrigin || '*' }));
@@ -150,6 +154,20 @@ function createApp(options = {}) {
       res.json({ ideas });
     } catch (error) {
       res.status(500).json({ error: 'Errore caricamento idee' });
+    }
+  });
+
+  app.post('/api/biomes/generate', async (req, res) => {
+    const payload = req.body || {};
+    try {
+      const result = await biomeSynthesizer.generate({
+        count: payload.count,
+        constraints: payload.constraints || {},
+        seed: payload.seed,
+      });
+      res.json({ biomes: result.biomes, meta: result.constraints });
+    } catch (error) {
+      res.status(500).json({ error: error.message || 'Errore generazione biomi' });
     }
   });
 
@@ -260,6 +278,20 @@ function createApp(options = {}) {
       res.json({ result });
     } catch (error) {
       res.status(500).json({ error: error.message || 'Errore validazione runtime' });
+    }
+  });
+
+  app.post('/api/generation/species', async (req, res) => {
+    const payload = req.body || {};
+    try {
+      const result = await generationOrchestrator.generateSpecies(payload);
+      res.json(result);
+    } catch (error) {
+      if (error && error.message && error.message.includes('trait_ids')) {
+        res.status(400).json({ error: error.message });
+        return;
+      }
+      res.status(500).json({ error: error.message || 'Errore generazione specie' });
     }
   });
 
