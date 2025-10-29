@@ -140,6 +140,8 @@ function buildIncrementalPlan(idea) {
   return plan.join('\n');
 }
 
+const IMMEDIATE_FEEDBACK_FORM_URL = 'https://forms.gle/evoTacticsIdeaFeedback';
+
 function buildCodexReport(idea) {
   const createdAt = idea.created_at || new Date().toISOString();
   const report = [
@@ -189,10 +191,16 @@ function buildCodexReport(idea) {
   if (idea.feedback && idea.feedback.length) {
     report.push('', '## Intake Feedback', formatFeedbackEntries(idea.feedback));
   }
+  report.push(
+    '',
+    '## Share Immediate Feedback',
+    `Compila il modulo espresso per segnalare risultati o regressioni a caldo: [Modulo feedback immediato](${IMMEDIATE_FEEDBACK_FORM_URL}).`,
+  );
   return report.join('\n');
 }
 
 module.exports = {
   buildCodexReport,
   formatFeedbackEntries,
+  IMMEDIATE_FEEDBACK_FORM_URL,
 };
