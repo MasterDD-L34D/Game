@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.schemas.local/trait.schema.json",
+  "title": "Trait",
+  "description": "Definizione canonica di un tratto biologico per i cataloghi di gioco.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "label",
+    "famiglia_tipologia",
+    "fattore_mantenimento_energetico",
+    "tier",
+    "slot",
+    "sinergie",
+    "conflitti",
+    "mutazione_indotta",
+    "uso_funzione",
+    "spinta_selettiva",
+    "sinergie_pi"
+  ],
+  "properties": {
+    "label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "famiglia_tipologia": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fattore_mantenimento_energetico": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tier": {
+      "type": "string",
+      "pattern": "^T[1-5]$"
+    },
+    "slot": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]$"
+      }
+    },
+    "slot_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "core",
+        "complementare"
+      ],
+      "properties": {
+        "core": {
+          "type": "string",
+          "minLength": 1
+        },
+        "complementare": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "sinergie": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "conflitti": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "requisiti_ambientali": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "condizioni",
+          "fonte"
+        ],
+        "properties": {
+          "capacita_richieste": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "condizioni": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "biome_class"
+            ],
+            "properties": {
+              "biome_class": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              }
+            }
+          },
+          "fonte": {
+            "type": "string",
+            "minLength": 1
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "expansion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tier": {
+                "type": "string",
+                "pattern": "^T[1-5]$"
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "mutazione_indotta": {
+      "type": "string",
+      "minLength": 1
+    },
+    "uso_funzione": {
+      "type": "string",
+      "minLength": 1
+    },
+    "spinta_selettiva": {
+      "type": "string",
+      "minLength": 1
+    },
+    "debolezza": {
+      "type": "string"
+    },
+    "sinergie_pi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "co_occorrenze",
+        "combo_totale",
+        "forme",
+        "tabelle_random"
+      ],
+      "properties": {
+        "co_occorrenze": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "combo_totale": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "forme": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "tabelle_random": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}
