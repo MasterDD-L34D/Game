@@ -32,6 +32,16 @@ const datasetMetricElements = {
   speciesSynergies: document.querySelector('[data-dataset-metric="speciesSynergies"]'),
 };
 
+const incomingControls = {
+  dateInput: document.getElementById("incoming-session-date"),
+  commandPreview: document.getElementById("incoming-command"),
+  copyButton: document.getElementById("incoming-copy-command"),
+  commandHint: document.getElementById("incoming-command-hint"),
+  status: document.getElementById("incoming-status"),
+  reportLink: document.getElementById("incoming-report-link"),
+  refreshStatus: document.getElementById("incoming-refresh-status"),
+};
+
 const DATASET_SOURCES = [
   { key: "packs", path: "data/packs.yaml", label: "Pack" },
   { key: "telemetry", path: "data/telemetry.yaml", label: "Telemetria" },
@@ -186,6 +196,7 @@ const REFRESH_DATASET_DEFAULT_LABEL =
   elements.refreshDatasets?.textContent?.trim() || "Aggiorna panoramica";
 
 let datasetLoading = false;
+let incomingStatusLoading = false;
 
 function getYamlParser() {
   if (typeof window === "undefined") return null;
@@ -204,6 +215,19 @@ function formatMetricValue(value) {
     return value.toLocaleString("it-IT");
   }
   return String(value);
+}
+
+function resolveDocumentationLink(path) {
+  if (!path) return "";
+  const trimmed = path.trim();
+  if (!trimmed) return "";
+  if (/^https?:/i.test(trimmed)) {
+    return trimmed;
+  }
+  if (trimmed.startsWith("../")) {
+    return trimmed;
+  }
+  return `../${trimmed}`;
 }
 
 function clearDatasetMetrics() {
@@ -409,6 +433,162 @@ async function loadDatasetOverview() {
     resetDatasetOverview("Errore durante il caricamento");
   } finally {
     setDatasetLoading(false);
+  }
+}
+
+function normalizeDateInput(value) {
+  if (!value) return "";
+  const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return "";
+  return `${match[1]}-${match[2]}-${match[3]}`;
+}
+
+function getIncomingSessionDate() {
+  const raw = normalizeDateInput(incomingControls.dateInput?.value || "");
+  if (raw) return raw;
+  const today = new Date();
+  return today.toISOString().slice(0, 10);
+}
+
+function computeIncomingCommand(date) {
+  const sessionSlug = `sessione-${date}`;
+  return `./scripts/report_incoming.sh --destination ${sessionSlug}`;
+}
+
+function updateIncomingCommandPreview() {
+  if (!incomingControls.commandPreview) return;
+  const date = getIncomingSessionDate();
+  const command = computeIncomingCommand(date);
+  incomingControls.commandPreview.textContent = command;
+  if (incomingControls.commandHint) {
+    incomingControls.commandHint.textContent = "";
+    delete incomingControls.commandHint.dataset.tone;
+  }
+}
+
+function setIncomingCommandHint(message, tone = "info") {
+  if (!incomingControls.commandHint) return;
+  incomingControls.commandHint.textContent = message;
+  incomingControls.commandHint.dataset.tone = tone;
+}
+
+async function copyIncomingCommand() {
+  if (!incomingControls.commandPreview) return;
+  const date = getIncomingSessionDate();
+  const command = computeIncomingCommand(date);
+  try {
+    if (navigator?.clipboard?.writeText) {
+      await navigator.clipboard.writeText(command);
+    } else {
+      const temp = document.createElement("textarea");
+      temp.value = command;
+      temp.setAttribute("readonly", "");
+      temp.style.position = "absolute";
+      temp.style.left = "-9999px";
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+    }
+    setIncomingCommandHint("Comando copiato negli appunti.", "success");
+  } catch (error) {
+    console.warn("Impossibile copiare il comando", error);
+    setIncomingCommandHint(
+      "Copiatura automatica non riuscita: seleziona e copia manualmente il comando.",
+      "error",
+    );
+  }
+}
+
+function setIncomingStatus(message, tone = "info") {
+  if (!incomingControls.status) return;
+  incomingControls.status.textContent = message;
+  incomingControls.status.dataset.tone = tone;
+}
+
+function resetIncomingReportLink() {
+  if (!incomingControls.reportLink) return;
+  incomingControls.reportLink.textContent = "—";
+  incomingControls.reportLink.href = "#";
+  incomingControls.reportLink.setAttribute("aria-disabled", "true");
+  incomingControls.reportLink.setAttribute("tabindex", "-1");
+}
+
+function enableIncomingReportLink(path) {
+  if (!incomingControls.reportLink || !path) {
+    resetIncomingReportLink();
+    return;
+  }
+  const href = resolveDocumentationLink(path);
+  incomingControls.reportLink.textContent = path;
+  incomingControls.reportLink.href = href;
+  incomingControls.reportLink.removeAttribute("aria-disabled");
+  incomingControls.reportLink.removeAttribute("tabindex");
+}
+
+function parseLatestIncomingSession(markdown) {
+  const match = markdown.match(/^## (\d{4}-\d{2}-\d{2}) — Facilitatore: ([^\n]+)$/m);
+  if (!match) return null;
+  const [fullMatch, date, facilitator] = match;
+  const startIndex = match.index ?? markdown.indexOf(fullMatch);
+  const remainder = startIndex >= 0 ? markdown.slice(startIndex + fullMatch.length) : "";
+  const nextSectionIndex = remainder.indexOf("\n## ");
+  const sectionContent =
+    nextSectionIndex >= 0 ? remainder.slice(0, nextSectionIndex) : remainder;
+  const lines = sectionContent.split(/\r?\n/);
+  const reportLine = lines.find((line) => line.trim().startsWith("- Report:"));
+  let reportPath = "";
+  if (reportLine) {
+    reportPath = reportLine.replace(/- Report:\s*/, "").trim();
+    if (reportPath.startsWith("`") && reportPath.endsWith("`")) {
+      reportPath = reportPath.slice(1, -1);
+    }
+  }
+  return {
+    date,
+    facilitator: facilitator.trim(),
+    reportPath,
+  };
+}
+
+async function refreshIncomingStatus() {
+  if (!incomingControls.status) return;
+  if (incomingStatusLoading) {
+    return;
+  }
+  incomingStatusLoading = true;
+  setIncomingStatus("Caricamento stato triage…");
+  resetIncomingReportLink();
+  try {
+    const response = await fetch(
+      `process/incoming_review_log.md?cache=${Date.now()}`,
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const text = await response.text();
+    const latest = parseLatestIncomingSession(text);
+    if (!latest) {
+      setIncomingStatus(
+        "Nessun report registrato: aggiorna il log dopo la prossima review.",
+        "warn",
+      );
+      return;
+    }
+    const formattedDate = formatDate(latest.date);
+    setIncomingStatus(
+      `Ultima sessione: ${formattedDate} • Facilitatore ${latest.facilitator}`,
+      "success",
+    );
+    enableIncomingReportLink(latest.reportPath);
+  } catch (error) {
+    console.error("Impossibile caricare il log Incoming Review", error);
+    setIncomingStatus(
+      "Errore durante il recupero del log: verifica la connessione o il percorso.",
+      "error",
+    );
+  } finally {
+    incomingStatusLoading = false;
   }
 }
 
@@ -697,6 +877,18 @@ function setupEvents() {
   elements.refreshDatasets?.addEventListener("click", () => {
     loadDatasetOverview();
   });
+
+  incomingControls.dateInput?.addEventListener("change", () => {
+    updateIncomingCommandPreview();
+  });
+
+  incomingControls.copyButton?.addEventListener("click", () => {
+    copyIncomingCommand();
+  });
+
+  incomingControls.refreshStatus?.addEventListener("click", () => {
+    refreshIncomingStatus();
+  });
 }
 
 function init() {
@@ -709,6 +901,11 @@ function init() {
   loadChangelog();
   loadActivity();
   loadDatasetOverview();
+  if (incomingControls.dateInput && !incomingControls.dateInput.value) {
+    incomingControls.dateInput.value = new Date().toISOString().slice(0, 10);
+  }
+  updateIncomingCommandPreview();
+  refreshIncomingStatus();
 }
 
 init();
