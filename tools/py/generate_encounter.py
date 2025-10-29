@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Union
@@ -20,6 +21,18 @@ DEFAULT_VC = {
 DEFAULT_BIOMES_PATH = Path(__file__).resolve().parents[2] / 'data' / 'biomes.yaml'
 
 
+def _default_biomes_path() -> Path:
+    override = os.environ.get('GAME_CLI_BIOMES_PATH')
+    if override:
+        return Path(override)
+
+    data_root = os.environ.get('GAME_CLI_DATA_ROOT')
+    if data_root:
+        return Path(data_root) / 'biomes.yaml'
+
+    return DEFAULT_BIOMES_PATH
+
+
 def generate(
     biome_key: str,
     path: Optional[Union[str, Path]] = None,
@@ -27,7 +40,7 @@ def generate(
     party_vc: Optional[Dict[str, str]] = None,
     seed: Optional[str] = None,
 ):
-    dataset_path = Path(path) if path is not None else DEFAULT_BIOMES_PATH
+    dataset_path = Path(path) if path is not None else _default_biomes_path()
     data = load_yaml(dataset_path)
     biomes: Dict[str, Dict[str, object]] = data.get('biomes', {})
     if biome_key not in biomes:

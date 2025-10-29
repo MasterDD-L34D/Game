@@ -19,7 +19,7 @@ from investigate_sources import (
     render_report,
 )
 from roll_pack import roll_pack
-from validate_datasets import PACK_VALIDATOR, main as validate_datasets_main
+from validate_datasets import pack_validator_path, main as validate_datasets_main
 import yaml
 
 CLI_PROFILES_ENV_VAR = "GAME_CLI_PROFILES_DIR"
@@ -82,15 +82,17 @@ def apply_profile(profile: ProfileConfig) -> None:
     """Applica le variabili ambiente di un profilo CLI."""
 
     for key, value in profile.env.items():
-        os.environ[key] = value
+        expanded = os.path.expanduser(os.path.expandvars(value))
+        os.environ[key] = expanded
 
 
 def _load_pack_validator():
-    if not PACK_VALIDATOR.exists():
+    validator_path = pack_validator_path()
+    if not validator_path.exists():
         return None
 
     module_name = "evo_tactics_pack.run_all_validators"
-    spec = importlib.util.spec_from_file_location(module_name, PACK_VALIDATOR)
+    spec = importlib.util.spec_from_file_location(module_name, validator_path)
     if spec is None or spec.loader is None:
         return None
     module = importlib.util.module_from_spec(spec)

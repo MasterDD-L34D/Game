@@ -1,0 +1,22 @@
+name: staging_incoming
+owner: Incoming Integration Team
+description: >-
+  Profilo dedicato allo smoke test degli asset incoming decompressi su staging.
+  Utilizza percorsi forniti dal runner (o dalle variabili GAME_CLI_INCOMING_*)
+  per sostituire i dataset di default.
+env:
+  GAME_CLI_LOG_LEVEL: INFO
+  GAME_CLI_DEFAULT_SEED: incoming-smoke
+  GAME_CLI_EXPECTED_CHANNEL: "#incoming-integration"
+  GAME_CLI_DATA_ROOT: "$GAME_CLI_INCOMING_DATA_ROOT"
+  GAME_CLI_PACK_ROOT: "$GAME_CLI_INCOMING_PACK_ROOT"
+smoke:
+  commands:
+    - validate-datasets
+    - roll-pack ENTP invoker
+    - validate-ecosystem-pack --json-out ${ROOT_DIR}/logs/incoming_smoke/staging_incoming-pack.json
+contacts:
+  slack: "#incoming-integration"
+  leads:
+    - nome: L. Accorsi
+      ruolo: QA Incoming Coordinator
