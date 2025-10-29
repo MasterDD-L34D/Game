@@ -1,7 +1,7 @@
 {
   "generated_at": "2025-10-28T23:44:18Z",
   "status": "success",
-  "data_root": "data/mock/prod_snapshot",
+  "data_root": "data/derived/mock/prod_snapshot",
   "matrix_path": "docs/catalog/species_trait_matrix.json",
   "inventory_path": "docs/catalog/traits_inventory.json",
   "metrics": {
@@ -171,7 +171,7 @@
         "tattiche_di_branco"
       ],
       "sources": [
-        "data/species.yaml"
+        "data/core/species.yaml"
       ]
     },
     {

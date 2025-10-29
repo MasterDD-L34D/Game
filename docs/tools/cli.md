@@ -106,16 +106,16 @@ alla validazione degli asset incoming vengono salvati in
 
 ## Tooling tratti
 
-- `python tools/py/build_trait_baseline.py <env_traits> <trait_reference> --trait-glossary data/traits/glossary.json` — rigenera la baseline dei tratti includendo label dal glossario centrale e annota il percorso nelle metadati del report YAML.【F:tools/py/build_trait_baseline.py†L1-L46】【F:data/analysis/trait_baseline.yaml†L1-L24】
-- `python tools/py/report_trait_coverage.py --out-json data/analysis/trait_coverage_report.json --out-csv data/analysis/trait_coverage_matrix.csv` — produce le matrici trait↔bioma↔morphotype e il diff tra regole ambientali e specie; accetta `--trait-glossary` per forzare path custom.【F:tools/py/report_trait_coverage.py†L1-L85】【F:tools/py/game_utils/trait_coverage.py†L1-L249】
-- `python tools/py/validate_registry_naming.py --trait-glossary data/traits/glossary.json` — verifica slug e traduzioni utilizzando il glossario centralizzato referenziato in `config/project_index.json`.【F:tools/py/validate_registry_naming.py†L1-L270】【F:config/project_index.json†L1-L91】
+- `python tools/py/build_trait_baseline.py <env_traits> <trait_reference> --trait-glossary data/core/traits/glossary.json` — rigenera la baseline dei tratti includendo label dal glossario centrale e annota il percorso nelle metadati del report YAML.【F:tools/py/build_trait_baseline.py†L1-L46】【F:data/derived/analysis/trait_baseline.yaml†L1-L24】
+- `python tools/py/report_trait_coverage.py --out-json data/derived/analysis/trait_coverage_report.json --out-csv data/derived/analysis/trait_coverage_matrix.csv` — produce le matrici trait↔bioma↔morphotype e il diff tra regole ambientali e specie; accetta `--trait-glossary` per forzare path custom.【F:tools/py/report_trait_coverage.py†L1-L85】【F:tools/py/game_utils/trait_coverage.py†L1-L249】
+- `python tools/py/validate_registry_naming.py --trait-glossary data/core/traits/glossary.json` — verifica slug e traduzioni utilizzando il glossario centralizzato referenziato in `config/project_index.json`.【F:tools/py/validate_registry_naming.py†L1-L270】【F:config/project_index.json†L1-L91】
 - `python tools/traits.py validate --matrix docs/catalog/species_trait_matrix.json` — confronta automaticamente i tratti proposti dalle specie/eventi con la matrice curata, segnalando divergenze di archetipi o requisiti di bioma.【F:tools/traits.py†L1-L236】【F:docs/catalog/species_trait_matrix.json†L1-L240】
 
 ### Flusso end-to-end
-1. Definisci il tratto nel glossario (`data/traits/glossary.json`) e sincronizza i registri (`env_traits.json`, `trait_reference.json`).
+1. Definisci il tratto nel glossario (`data/core/traits/glossary.json`) e sincronizza i registri (`env_traits.json`, `trait_reference.json`).
 2. Aggiorna la matrice specie (`docs/catalog/species_trait_matrix.json`) e validala con `python tools/traits.py validate --matrix docs/catalog/species_trait_matrix.json` per prevenire incompatibilità su biomi e morfotipi.【F:docs/catalog/species_trait_matrix.json†L1-L240】【F:tools/traits.py†L1-L236】
 3. Ricostruisci baseline e nomenclature (`build_trait_baseline.py`, `validate_registry_naming.py`) per mantenere allineati tier, slug e riferimenti dataset.【F:tools/py/build_trait_baseline.py†L1-L46】【F:tools/py/validate_registry_naming.py†L1-L270】
-4. Genera coverage (`report_trait_coverage.py`) e ispeziona i diff JSON/CSV per verificare che il tratto compaia nei biomi previsti; prima di chiudere l'iterazione esegui gli smoke test (`scripts/cli_smoke.sh`) e logga i risultati nei report di playtest.【F:tools/py/report_trait_coverage.py†L1-L85】【F:data/analysis/trait_coverage_matrix.csv†L1-L40】【F:scripts/cli_smoke.sh†L1-L120】
+4. Genera coverage (`report_trait_coverage.py`) e ispeziona i diff JSON/CSV per verificare che il tratto compaia nei biomi previsti; prima di chiudere l'iterazione esegui gli smoke test (`scripts/cli_smoke.sh`) e logga i risultati nei report di playtest.【F:tools/py/report_trait_coverage.py†L1-L85】【F:data/derived/analysis/trait_coverage_matrix.csv†L1-L40】【F:scripts/cli_smoke.sh†L1-L120】
 
 ## Integrazione CI
 

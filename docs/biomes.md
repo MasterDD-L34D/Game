@@ -2,7 +2,7 @@
 
 Questa guida descrive lo schema dei biomi usato dalla dashboard di test (`docs/test-interface`) e i passaggi consigliati per mantenere allineati dati, interfaccia e script di verifica.
 
-## Struttura del file `data/biomes.yaml`
+## Struttura del file `data/core/biomes.yaml`
 
 Ogni voce è indicizzata dal nome tecnico del bioma e include i campi seguenti:
 
@@ -10,7 +10,7 @@ Ogni voce è indicizzata dal nome tecnico del bioma e include i campi seguenti:
 - **diff_base** e **mod_biome** – valori numerici usati per i chip di difficoltà/pressione.
 - **affixes** – elenco di tag sintetici resi come pill di riferimento rapido.
 - **aliases** (opzionale) – lista di slug legacy utili a risolvere riferimenti storici o file importati; se presenti vanno
-  sincronizzati con `data/biome_aliases.yaml`.
+  sincronizzati con `data/core/biome_aliases.yaml`.
 - **hazard** – blocco obbligatorio composto da:
   - `description` – testo breve visualizzato in evidenza.
   - `severity` – livello normalizzato (`low`, `medium`, `high`) che guida badge e suggerimenti VC.
@@ -26,7 +26,7 @@ La sezione finale del file raccoglie inoltre le tabelle condivise:
 - `mutations` – liste SG/T0/T1 mostrate come elenco gerarchico.
 - `frequencies` – distribuzioni statistiche affiancate agli altri riferimenti.
 
-## Biomi attualmente definiti (dataset `data/biomes.yaml`)
+## Biomi attualmente definiti (dataset `data/core/biomes.yaml`)
 
 | ID canonico         | Etichetta             | Hazard severity | Diff/Mod | Hook narrativi |
 |---------------------|-----------------------|-----------------|----------|----------------|
@@ -46,11 +46,11 @@ severità dell'hazard.
 
 ## Alias legacy e merge dei dataset
 
-Le migrazioni da dataset più vecchi sfruttano `data/biome_aliases.yaml`, che mappa gli identificativi storici verso gli ID
+Le migrazioni da dataset più vecchi sfruttano `data/core/biome_aliases.yaml`, che mappa gli identificativi storici verso gli ID
 canonici riportati sopra. Quando si integra un aggiornamento massivo proveniente da un branch esterno:
 
 1. **Allinea i nomi** – verificare che eventuali nuovi slug o modifiche negli ID siano riflessi sia nella sezione `aliases`
-   delle singole voci, sia nel file `data/biome_aliases.yaml`.
+   delle singole voci, sia nel file `data/core/biome_aliases.yaml`.
    - Esempio: lo slug abbreviato `stratosfera` ora reindirizza verso `stratosfera_tempestosa` mantenendo la compatibilità con i
      vecchi snapshot dati.
 2. **Normalizza le strutture** – assicurarsi che ogni bioma mantenga i blocchi obbligatori e che le nuove proprietà siano
@@ -62,7 +62,7 @@ canonici riportati sopra. Quando si integra un aggiornamento massivo proveniente
 
 ## Flusso di aggiornamento suggerito
 
-1. **Allineare i dati** – modificare `data/biomes.yaml`, assicurandosi che ogni bioma disponga dei blocchi obbligatori indicati sopra.
+1. **Allineare i dati** – modificare `data/core/biomes.yaml`, assicurandosi che ogni bioma disponga dei blocchi obbligatori indicati sopra.
 2. **Eseguire lo smoke test** – lanciare `scripts/cli_smoke.sh` (con o senza profilo specifico). Lo script include un controllo YAML che verifica label, summary, difficoltà/modificatori, affissi, hazard (con severità normalizzata), archetipi, stresswave e tono/hook narrativi; in caso di mancanze fallisce con un report dettagliato e stampa le metriche di copertura rilevate.
 3. **Verificare la dashboard** – aprire `docs/test-interface/index.html` (ad esempio via `python3 -m http.server`) e controllare:
    - la barra di overview dei biomi (conteggio totale e copertura campi);

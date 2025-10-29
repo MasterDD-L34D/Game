@@ -5,7 +5,7 @@ jobs:
     command: >-
       python scripts/analytics/etl_squadsync.py
       data/analytics/squadsync_canary.csv
-      data/analysis/squadsync_report.json
+      data/derived/analysis/squadsync_report.json
       --start 2023-10-24
       --end 2023-11-05
     canary: true

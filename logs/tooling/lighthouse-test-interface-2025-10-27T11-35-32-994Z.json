@@ -755,7 +755,7 @@
             "entity": "127.0.0.1"
           },
           {
-            "url": "http://127.0.0.1:4173/data/telemetry.yaml",
+            "url": "http://127.0.0.1:4173/data/core/telemetry.yaml",
             "sessionTargetType": "page",
             "protocol": "http/1.1",
             "rendererStartTime": 465.9459999999963,
@@ -772,7 +772,7 @@
             "entity": "127.0.0.1"
           },
           {
-            "url": "http://127.0.0.1:4173/data/biomes.yaml",
+            "url": "http://127.0.0.1:4173/data/core/biomes.yaml",
             "sessionTargetType": "page",
             "protocol": "http/1.1",
             "rendererStartTime": 466.6850000000559,
@@ -789,7 +789,7 @@
             "entity": "127.0.0.1"
           },
           {
-            "url": "http://127.0.0.1:4173/data/mating.yaml",
+            "url": "http://127.0.0.1:4173/data/core/mating.yaml",
             "sessionTargetType": "page",
             "protocol": "http/1.1",
             "rendererStartTime": 467.25400000019,
@@ -806,7 +806,7 @@
             "entity": "127.0.0.1"
           },
           {
-            "url": "http://127.0.0.1:4173/data/species.yaml",
+            "url": "http://127.0.0.1:4173/data/core/species.yaml",
             "sessionTargetType": "page",
             "protocol": "http/1.1",
             "rendererStartTime": 468.08600000012666,
@@ -2580,7 +2580,7 @@
             "totalBytes": 30508
           },
           {
-            "url": "http://127.0.0.1:4173/data/mating.yaml",
+            "url": "http://127.0.0.1:4173/data/core/mating.yaml",
             "totalBytes": 16720
           },
           {
@@ -2588,7 +2588,7 @@
             "totalBytes": 13968
           },
           {
-            "url": "http://127.0.0.1:4173/data/biomes.yaml",
+            "url": "http://127.0.0.1:4173/data/core/biomes.yaml",
             "totalBytes": 7422
           },
           {
@@ -2596,11 +2596,11 @@
             "totalBytes": 5946
           },
           {
-            "url": "http://127.0.0.1:4173/data/telemetry.yaml",
+            "url": "http://127.0.0.1:4173/data/core/telemetry.yaml",
             "totalBytes": 3544
           },
           {
-            "url": "http://127.0.0.1:4173/data/species.yaml",
+            "url": "http://127.0.0.1:4173/data/core/species.yaml",
             "totalBytes": 2134
           }
         ],
@@ -3048,7 +3048,7 @@
             "wastedBytes": 24778
           },
           {
-            "url": "http://127.0.0.1:4173/data/mating.yaml",
+            "url": "http://127.0.0.1:4173/data/core/mating.yaml",
             "totalBytes": 16511,
             "wastedBytes": 11048
           },
@@ -3058,7 +3058,7 @@
             "wastedBytes": 9908
           },
           {
-            "url": "http://127.0.0.1:4173/data/biomes.yaml",
+            "url": "http://127.0.0.1:4173/data/core/biomes.yaml",
             "totalBytes": 7213,
             "wastedBytes": 4810
           },
@@ -3068,7 +3068,7 @@
             "wastedBytes": 4406
           },
           {
-            "url": "http://127.0.0.1:4173/data/telemetry.yaml",
+            "url": "http://127.0.0.1:4173/data/core/telemetry.yaml",
             "totalBytes": 3336,
             "wastedBytes": 1976
           }

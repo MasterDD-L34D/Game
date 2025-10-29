@@ -1,5 +1,5 @@
---- data/chatgpt/2025-10-22/snapshot-20251022T180000Z.json
-+++ data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json
+--- data/external/chatgpt/2025-10-22/snapshot-20251022T180000Z.json
++++ data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json
 @@ -1,7 +1,7 @@
  {
 -  "model": "gpt-4o-mini",

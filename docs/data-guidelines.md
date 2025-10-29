@@ -6,11 +6,11 @@ Questo documento elenca i dataset archiviati in `data/` e definisce le regole op
 
 | File | Chiave radice | Contenuto | Note |
 | --- | --- | --- | --- |
-| `data/biomes.yaml` | `biomes`, `vc_adapt`, `mutations`, `frequencies` | Parametri di difficoltà, adattamenti e tabelle mutazioni per i biomi. | Gli array `t0_table_d12` e `t1_table_d8` rappresentano risultati di dadi e vanno mantenuti ordinati secondo il valore del dado. La struttura del catalogo biomi è descritta in `config/schemas/biome.schema.yaml`. |
-| `data/mating.yaml` | `compat_forme`, `compat_ennea`, `actions_appeal`, `nest_standards`, `hybrid_rules` | Regolette di compatibilità tra forme MBTI/enneagramma, valutazioni azioni e standard del nido. | Le chiavi MBTI devono rimanere in maiuscolo; le azioni usano snake_case. |
+| `data/core/biomes.yaml` | `biomes`, `vc_adapt`, `mutations`, `frequencies` | Parametri di difficoltà, adattamenti e tabelle mutazioni per i biomi. | Gli array `t0_table_d12` e `t1_table_d8` rappresentano risultati di dadi e vanno mantenuti ordinati secondo il valore del dado. La struttura del catalogo biomi è descritta in `config/schemas/biome.schema.yaml`. |
+| `data/core/mating.yaml` | `compat_forme`, `compat_ennea`, `actions_appeal`, `nest_standards`, `hybrid_rules` | Regolette di compatibilità tra forme MBTI/enneagramma, valutazioni azioni e standard del nido. | Le chiavi MBTI devono rimanere in maiuscolo; le azioni usano snake_case. |
 | `data/packs.yaml` | `pi_shop`, `random_general_d20`, `forms` | Tabelledi costo e generazione pacchetti (d20, bias per forma). | Le forme MBTI sono sezioni di secondo livello sotto `forms`. |
-| `data/telemetry.yaml` | `telemetry`, `indices`, `mbti_axes`, `ennea_themes`, `pe_economy` | Configurazioni per la telemetria in gioco, formule e ponderazioni. | Le formule sono stringhe e devono rispettare la sintassi usata in backend analytics. |
-| `data/species.yaml` | `catalog`, `global_rules`, `species` | Catalogo delle parti, sinergie e profili di specie giocabili. | Validato da `config/schemas/species.schema.yaml`; i campi `default_parts` e `trait_plan` accettano solo slug definiti nel catalogo. |
+| `data/core/telemetry.yaml` | `telemetry`, `indices`, `mbti_axes`, `ennea_themes`, `pe_economy` | Configurazioni per la telemetria in gioco, formule e ponderazioni. | Le formule sono stringhe e devono rispettare la sintassi usata in backend analytics. |
+| `data/core/species.yaml` | `catalog`, `global_rules`, `species` | Catalogo delle parti, sinergie e profili di specie giocabili. | Validato da `config/schemas/species.schema.yaml`; i campi `default_parts` e `trait_plan` accettano solo slug definiti nel catalogo. |
 | `packs/evo_tactics_pack/docs/catalog/trait_reference.json` | `traits` | Catalogo completo dei tratti selezionabili. | Validato da `config/schemas/catalog.schema.json` e `config/schemas/trait.schema.json`. |
 
 ## Schemi canonici

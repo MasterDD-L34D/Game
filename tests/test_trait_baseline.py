@@ -22,7 +22,7 @@ def test_derive_trait_baseline_structure(baseline_module):
     env_traits = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "env_traits.json"
     trait_reference = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
 
-    trait_glossary = PROJECT_ROOT / "data" / "traits" / "glossary.json"
+    trait_glossary = PROJECT_ROOT / "data" / "core" / "traits" / "glossary.json"
 
     payload = baseline_module.derive_trait_baseline(
         env_traits,

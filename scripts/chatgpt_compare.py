@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 from typing import Iterable, List, Optional
 
-SNAPSHOT_ROOT = Path("data/chatgpt")
+SNAPSHOT_ROOT = Path("data/external/chatgpt")
 
 
 def collect_snapshots(
@@ -108,7 +108,7 @@ def _display_name(path: Path) -> str:
 def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Confronta un nuovo snapshot con quello precedente salvato in data/chatgpt."
+            "Confronta un nuovo snapshot con quello precedente salvato in data/external/chatgpt."
         )
     )
     parser.add_argument("new_snapshot", type=Path, help="Percorso del nuovo snapshot")
@@ -119,7 +119,7 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--namespace",
-        help="Filtra gli snapshot per namespace (sottocartella di data/chatgpt)",
+        help="Filtra gli snapshot per namespace (sottocartella di data/external/chatgpt)",
     )
     parser.add_argument(
         "--output",

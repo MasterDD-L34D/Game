@@ -8580,7 +8580,7 @@ async function loadTraitGlossary(context, hint) {
     normalizedHint,
     "trait_glossary.json",
     "trait-glossary.json",
-    "data/traits/glossary.json",
+    "data/core/traits/glossary.json",
   ].filter(Boolean);
 
   for (const name of potential) {
