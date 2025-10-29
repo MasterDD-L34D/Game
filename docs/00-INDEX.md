@@ -28,6 +28,10 @@
   - [C — NPG & Biomi (testuale)](../appendici/C-CANVAS_NPG_BIOMI.txt)
   - [D — Accoppiamento/Mating (testuale)](../appendici/D-CANVAS_ACCOPPIAMENTO.txt)
 
+## Automazioni & CI
+- [Pipeline `CI` principale](ci-pipeline.md)
+- [Workflow CI & QA mirati](ci.md)
+
 ## Tracker operativi e log
 
 <!-- tracker-registry:start -->
