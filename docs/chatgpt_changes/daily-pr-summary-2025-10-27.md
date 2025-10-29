@@ -594,7 +594,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 
 > ## Summary
 > - ensure resolve_path checks the working directory and repository root when resolving relative inputs
-> - resolve the trait glossary hint starting from the absolute config directory so the validator finds data/traits/glossary.json
+> - resolve the trait glossary hint starting from the absolute config directory so the validator finds data/core/traits/glossary.json
 > ## Testing
 > - python tools/py/validate_registry_naming.py
 > ------
@@ -927,7 +927,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 > - introduce the analytics export modal filter UI with automated React tests and supporting sample export data
 > ## Testing
 > - node --test tools/tests/driveSync.test.js
-> - python tools/py/validate_export.py --export data/exports/qa-telemetry-export.json --recipients config/drive/recipients.yaml
+> - python tools/py/validate_export.py --export data/derived/exports/qa-telemetry-export.json --recipients config/drive/recipients.yaml
 > - npm --prefix tools/ts run test:ui
 > ------
 > https://chatgpt.com/codex/tasks/task_e_68ff2fcc572c83329be0f64920d923d7
@@ -955,11 +955,11 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 - Link: https://github.com/MasterDD-L34D/Game/pull/183
 
 > ## Summary
-> - add a mock production snapshot under `data/mock/prod_snapshot` with a README describing the workflow
+> - add a mock production snapshot under `data/derived/mock/prod_snapshot` with a README describing the workflow
 > - allow `scripts/run_deploy_checks.sh` to consume an override dataset path and report it in the generated log entry
 > - record the failed deploy check in `logs/web_status.md`, update the milestone checklist, and file a support ticket for the Playwright download 403
 > ## Testing
-> - `DEPLOY_DATA_DIR="$(pwd)/data/mock/prod_snapshot" scripts/run_deploy_checks.sh` *(fails: Playwright Chromium download blocked by HTTP 403)*
+> - `DEPLOY_DATA_DIR="$(pwd)/data/derived/mock/prod_snapshot" scripts/run_deploy_checks.sh` *(fails: Playwright Chromium download blocked by HTTP 403)*
 > ------
 > https://chatgpt.com/codex/tasks/task_e_68ff4dcc22748332b41b96055f113997
 
@@ -972,7 +972,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 
 > ## Summary
 > - document the canonical biome identifiers across canvas, species, and encounter sources
-> - expand `data/biomes.yaml` with hazard, NPC archetype, StressWave, and narrative metadata while adding the missing canvas biomes
+> - expand `data/core/biomes.yaml` with hazard, NPC archetype, StressWave, and narrative metadata while adding the missing canvas biomes
 > - extend the dataset validator and fixtures to enforce the new required fields
 > ## Testing
 > - python tools/py/validate_datasets.py

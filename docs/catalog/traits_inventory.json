@@ -8,25 +8,25 @@
   ],
   "resources": [
     {
-      "path": "data/analysis/trait_baseline.yaml",
+      "path": "data/derived/analysis/trait_baseline.yaml",
       "type": "reference",
       "state": "mock",
       "notes": "Baseline analitica estesa (~4244 righe) con numerosi trait marcati missing_metadata."
     },
     {
-      "path": "data/analysis/trait_coverage_matrix.csv",
+      "path": "data/derived/analysis/trait_coverage_matrix.csv",
       "type": "reference",
       "state": "mock",
       "notes": "Matrice CSV copertura trait con 20 righe di dettaglio."
     },
     {
-      "path": "data/analysis/trait_coverage_report.json",
+      "path": "data/derived/analysis/trait_coverage_report.json",
       "type": "reference",
       "state": "mock",
       "notes": "Report copertura generato con 29 tratti e 0 specie mappate."
     },
     {
-      "path": "data/analysis/trait_env_mapping.json",
+      "path": "data/derived/analysis/trait_env_mapping.json",
       "type": "reference",
       "state": "mock",
       "notes": "Mappatura ambiente-tratti con 272 elementi ambientali generati."
@@ -38,19 +38,19 @@
       "notes": "Configurazioni pacchetti e combo che citano trait_T1/T2 e sinergie correlate."
     },
     {
-      "path": "data/species.yaml",
+      "path": "data/core/species.yaml",
       "type": "specie",
       "state": "mock",
       "notes": "Prototipo catalogo specie con trait_plan manuale per dune_stalker e core trait esteso (sensori_geomagnetici)."
     },
     {
-      "path": "data/telemetry.yaml",
+      "path": "data/core/telemetry.yaml",
       "type": "reference",
       "state": "core",
       "notes": "Telemetria costi con riferimenti a trait_T1/T2/T3 e slot correlati."
     },
     {
-      "path": "data/traits/glossary.json",
+      "path": "data/core/traits/glossary.json",
       "type": "reference",
       "state": "core",
       "notes": "Glossario globale con 29 voci condivise."

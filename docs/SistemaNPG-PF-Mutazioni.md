@@ -29,11 +29,11 @@
 
 ## Mutazioni & Fusioni
 - Tabelle T0/T1/T2 sono legate al bioma e agli affissi; i NPG reclutati ereditano moduli dal Nido e possono accedere a Fusion Node usando Reattori Aeon + Resonance Shards.【F:appendici/C-CANVAS_NPG_BIOMI.txt†L96-L132】【F:docs/Canvas/feature-updates.md†L11-L24】
-- Dataset `data/species.yaml` fornisce esempi di parti default, sinergie (`echo_backstab`) e budget morph per specie come `dune_stalker`, usati per bilanciare conversioni e fusioni.【F:data/species.yaml†L1-L41】
+- Dataset `data/core/species.yaml` fornisce esempi di parti default, sinergie (`echo_backstab`) e budget morph per specie come `dune_stalker`, usati per bilanciare conversioni e fusioni.【F:data/core/species.yaml†L1-L41】
 
 ## PF (Punti Forma) & Coordinamento Telemetria
 - Telemetria risk/cohesion determina quando sbloccare mutazioni e potenziamenti PF; i log vengono sincronizzati via Drive e analizzati durante review telemetriche settimanali.【F:docs/Telemetria-VC.md†L1-L60】【F:docs/drive-sync.md†L1-L80】
-- `pi_shop` e `pe_economy` regolano accesso a sigilli Forma e guardie situazionali post-conversione, mantenendo equilibrio tra nuove fusioni e bilancio squadra.【F:data/packs.yaml†L1-L23】【F:data/telemetry.yaml†L63-L78】
+- `pi_shop` e `pe_economy` regolano accesso a sigilli Forma e guardie situazionali post-conversione, mantenendo equilibrio tra nuove fusioni e bilancio squadra.【F:data/packs.yaml†L1-L23】【F:data/core/telemetry.yaml†L63-L78】
 
 ## Strumenti & Automazione
 - Editor YAML `npg_pack.yaml` (validatore `tools/py/.../validate_package.py`) e dashboard Canvas monitorano spawn vs risk e timeline conversioni.【F:appendici/C-CANVAS_NPG_BIOMI.txt†L118-L132】【F:docs/tool_run_report.md†L1-L40】

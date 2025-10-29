@@ -71,7 +71,7 @@ In alternativa, è possibile usare il tag HTML `<progress>`:
 
 - **Ecosistemi** — L'inventario trait storico è parzialmente chiuso, ma la
   checklist iterativa resta da avviare: serve pianificare un batch dedicato per
-  coprire i 25 task mancanti e consolidare `data/species.yaml`.【F:logs/traits_tracking.md†L24-L44】【F:docs/process/traits_checklist.md†L6-L66】
+  coprire i 25 task mancanti e consolidare `data/core/species.yaml`.【F:logs/traits_tracking.md†L24-L44】【F:docs/process/traits_checklist.md†L6-L66】
 - **Telemetria** — La componente operativa giornaliera è ferma: nessuno dei nove
   passi della checklist è stato tracciato nonostante i run precedenti abbiano
   confermato la validità dei dati. Serve ripristinare le esecuzioni periodiche e

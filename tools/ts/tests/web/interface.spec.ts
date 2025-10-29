@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 function buildDataRoot(baseURL: string): string {
-  return new URL("/data/test-fixtures/minimal/", baseURL).toString();
+  return new URL("/data/derived/test-fixtures/minimal/", baseURL).toString();
 }
 
 test.beforeEach(async ({ context, page, baseURL }) => {

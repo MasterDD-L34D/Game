@@ -44,9 +44,9 @@ const incomingControls = {
 
 const DATASET_SOURCES = [
   { key: "packs", path: "data/packs.yaml", label: "Pack" },
-  { key: "telemetry", path: "data/telemetry.yaml", label: "Telemetria" },
-  { key: "biomes", path: "data/biomes.yaml", label: "Biomi" },
-  { key: "species", path: "data/species.yaml", label: "Specie" },
+  { key: "telemetry", path: "data/core/telemetry.yaml", label: "Telemetria" },
+  { key: "biomes", path: "data/core/biomes.yaml", label: "Biomi" },
+  { key: "species", path: "data/core/species.yaml", label: "Specie" },
 ];
 
 const defaultConfig = {

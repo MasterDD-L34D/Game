@@ -15,8 +15,8 @@
     "docs/drive-sync.md"
   ],
   "data_exports": [
-    "data/chatgpt/local/**.json",
-    "data/chatgpt/notes/**.json",
+    "data/external/chatgpt/local/**.json",
+    "data/external/chatgpt/notes/**.json",
     "logs/**"
   ],
   "notes": [

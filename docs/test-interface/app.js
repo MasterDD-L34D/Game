@@ -1,9 +1,9 @@
 const DATA_SOURCES = [
   { key: "packs", path: "data/packs.yaml" },
-  { key: "telemetry", path: "data/telemetry.yaml" },
-  { key: "biomes", path: "data/biomes.yaml" },
-  { key: "mating", path: "data/mating.yaml" },
-  { key: "species", path: "data/species.yaml" }
+  { key: "telemetry", path: "data/core/telemetry.yaml" },
+  { key: "biomes", path: "data/core/biomes.yaml" },
+  { key: "mating", path: "data/core/mating.yaml" },
+  { key: "species", path: "data/core/species.yaml" }
 ];
 
 const state = {

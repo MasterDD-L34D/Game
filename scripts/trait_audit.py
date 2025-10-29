@@ -27,20 +27,38 @@ except ModuleNotFoundError:  # pragma: no cover - ambiente senza jsonschema
 JSONSCHEMA_AVAILABLE = Draft202012Validator is not None and RefResolver is not None
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+CORE_DATA_DIR = REPO_ROOT / "data" / "core"
+LEGACY_DATA_DIR = REPO_ROOT / "data"
 TRAIT_REFERENCE_PATH = REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
-PACKS_DATA_PATH = REPO_ROOT / "data" / "packs.yaml"
+PACKS_DATA_PATH = LEGACY_DATA_DIR / "packs.yaml"
 APPENDIX_PATH = REPO_ROOT / "appendici"
 DEFAULT_REPORT_PATH = REPO_ROOT / "logs" / "trait_audit.md"
 SCHEMA_DIR = REPO_ROOT / "config" / "schemas"
 SCHEMA_REPORT_PATH = REPO_ROOT / "reports" / "schema_validation.json"
 
+
+def _resolve_dataset_path(filename: str) -> Path:
+    """Return the preferred path for a dataset, falling back to the legacy layout."""
+
+    preferred = CORE_DATA_DIR / filename
+    if preferred.exists():
+        return preferred
+
+    legacy = LEGACY_DATA_DIR / filename
+    if legacy.exists():
+        return legacy
+
+    # Default to the preferred location so missing-file messages point to the new layout.
+    return preferred
+
+
 SCHEMA_TARGETS = (
     (
-        REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json",
+        TRAIT_REFERENCE_PATH,
         "https://game.schemas.local/catalog.schema.json",
     ),
-    (REPO_ROOT / "data" / "biomes.yaml", "https://game.schemas.local/biome.schema.yaml"),
-    (REPO_ROOT / "data" / "species.yaml", "https://game.schemas.local/species.schema.yaml"),
+    (_resolve_dataset_path("biomes.yaml"), "https://game.schemas.local/biome.schema.yaml"),
+    (_resolve_dataset_path("species.yaml"), "https://game.schemas.local/species.schema.yaml"),
 )
 
 

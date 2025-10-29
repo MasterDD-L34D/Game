@@ -74,7 +74,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--etl-report",
         type=Path,
-        default=Path("data/mock/prod_snapshot/analysis/trait_coverage_report.json"),
+        default=Path("data/derived/mock/prod_snapshot/analysis/trait_coverage_report.json"),
         help="Report coverage ETL in formato JSON",
     )
     parser.add_argument(
@@ -86,13 +86,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--trait-glossary",
         type=Path,
-        default=Path("data/traits/glossary.json"),
+        default=Path("data/core/traits/glossary.json"),
         help="Glossario centrale dei tratti",
     )
     parser.add_argument(
         "--out",
         type=Path,
-        default=Path("data/analysis/trait_gap_report.json"),
+        default=Path("data/derived/analysis/trait_gap_report.json"),
         help="File JSON in cui salvare il report di gap",
     )
     return parser

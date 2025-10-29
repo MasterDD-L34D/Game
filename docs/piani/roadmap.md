@@ -27,11 +27,11 @@
 > **Aggiornamento 2025-11-03** — Prima ondata completata: la pipeline Drive Sync per i log VC è attiva, il bilanciamento PI/EMA è allineato con i dataset e gli alert HUD oltre soglia 0.60 guidano il nuovo tuning di "Skydock Siege".
 
 1. **Bilanciamento pacchetti PI e telemetria EMA**
-   - `telemetry.pe_economy` espone ora curva e costi completi, sincronizzati con `pi_shop` per tutte le opzioni acquistabili.【F:data/telemetry.yaml†L1-L72】【F:data/packs.yaml†L1-L88】
-   - Il middleware `tools/ts/hud_alerts.ts` consuma gli eventi `ema.update`, aggiorna l'HUD e notifica il canale `pi.balance.alerts`, con log missione aggiornati nel dossier di tuning.【F:tools/ts/hud_alerts.ts†L1-L206】【F:data/missions/skydock_siege.yaml†L1-L84】
+   - `telemetry.pe_economy` espone ora curva e costi completi, sincronizzati con `pi_shop` per tutte le opzioni acquistabili.【F:data/core/telemetry.yaml†L1-L72】【F:data/packs.yaml†L1-L88】
+   - Il middleware `tools/ts/hud_alerts.ts` consuma gli eventi `ema.update`, aggiorna l'HUD e notifica il canale `pi.balance.alerts`, con log missione aggiornati nel dossier di tuning.【F:tools/ts/hud_alerts.ts†L1-L206】【F:data/core/missions/skydock_siege.yaml†L1-L84】
    - `docs/hooks/ema-metrics.md` descrive gli hook condivisi con il team client, con le finestre EMA aggiornate (0.25/0.35/0.40) e l'idle threshold da 10 s approvato per la build VC.【F:docs/hooks/ema-metrics.md†L1-L52】
 2. **Alert HUD Risk & rituning “Skydock Siege”**
-   - Il mission file registra il tuning hotfix VC 15/02 (scudi potenziati, medkit anticipati, ack PI in 2 turni) per abbassare `time_low_hp_turns` di Bravo da 11 a <=6.【F:data/missions/skydock_siege.yaml†L1-L86】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L58】
+   - Il mission file registra il tuning hotfix VC 15/02 (scudi potenziati, medkit anticipati, ack PI in 2 turni) per abbassare `time_low_hp_turns` di Bravo da 11 a <=6.【F:data/core/missions/skydock_siege.yaml†L1-L86】【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L58】
    - I log missione VC includono le finestre EMA e la cronologia degli alert per l'esportazione Drive.【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
 3. **Automazione export telemetria VC → Drive**
    - `docs/drive-sync.md` contiene ora la procedura autorizzativa e i trigger cron per Apps Script; i run 2025-10-24 e 2025-11-01 confermano la sincronizzazione fogli/log.【F:docs/drive-sync.md†L17-L57】【F:logs/playtests/2025-11-01-vc/session-metrics.yaml†L37-L79】
@@ -54,18 +54,18 @@
    - Allineare roadmap e Canvas con le milestone di release, includendo gli screenshot post-QA e collegando le nuove sintesi ai Canvas tematici creati in `docs/`.【F:docs/DesignDoc-Overview.md†L1-L70】【F:docs/Canvas/feature-updates.md†L1-L40】
    - **Criteri di uscita:** materiali di comunicazione approvati, post Slack programmato e repository Canvas aggiornato con i dati VC novembre 2025.【F:docs/playtest/INSIGHTS-2025-11.md†L3-L19】
 4. **Esperienze di Mating e Nido** _(priorità bassa, monitorare)_
-   - Estendere `compat_forme` alle restanti 14 forme e definire cross-formula per `base_scores`.【F:data/mating.yaml†L1-L120】
-   - Prototipare ambienti interattivi per `dune_stalker` ed `echo_morph`, validando risorse e privacy.【F:data/mating.yaml†L121-L180】
+   - Estendere `compat_forme` alle restanti 14 forme e definire cross-formula per `base_scores`.【F:data/core/mating.yaml†L1-L120】
+   - Prototipare ambienti interattivi per `dune_stalker` ed `echo_morph`, validando risorse e privacy.【F:data/core/mating.yaml†L121-L180】
    - **Checkpoint:** riesaminare la priorità dopo la chiusura di Smart HUD per evitare conflitti di risorse con i playtest VC.
 
 ## Milestone in coda
 > **Ripianificazione post-Smart HUD** — Gli elementi seguenti restano aperti ma vengono accodati fino al completamento delle priorità Smart HUD/SquadSync.【F:docs/playtest/INSIGHTS-2025-11.md†L3-L26】
 
 1. **Missioni verticali e supporto live** _(in coda)_
-   - Preparare il playtest di "Skydock Siege" con obiettivi multilivello e timer di evacuazione.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
-   - Collegare Reattori Aeon, filtro SquadSync e protocolli di soccorso alla pipeline telemetrica co-op.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+   - Preparare il playtest di "Skydock Siege" con obiettivi multilivello e timer di evacuazione.【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+   - Collegare Reattori Aeon, filtro SquadSync e protocolli di soccorso alla pipeline telemetrica co-op.【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
    - Applicare il nuovo layout HUD: grafici risk/cohesion sovrapposti e log esportabili in `.yaml` direttamente da Canvas per i vertical slice.【F:docs/Canvas/feature-updates.md†L9-L20】 _Layout completato con radar/timeline aggiornati; alert automatici >0.60 attivi dal tuning del 2025-11-03._
-    - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; hotfix VC 15/02 documentato in `data/missions/skydock_siege.yaml`.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L94】【F:data/missions/skydock_siege.yaml†L1-L91】 _Monitorare eventuali regressioni nei prossimi playtest QA._
+    - Bilanciare i timer di evacuazione in funzione dei picchi `risk.time_low_hp_turns` registrati nelle squadre Bravo e Charlie, mantenendo l'obiettivo di tilt < 0.50; hotfix VC 15/02 documentato in `data/core/missions/skydock_siege.yaml`.【F:logs/playtests/2025-02-15-vc/session-metrics.yaml†L23-L94】【F:data/core/missions/skydock_siege.yaml†L1-L91】 _Monitorare eventuali regressioni nei prossimi playtest QA._
 
 ## Allineamento stakeholder e checkpoint
 - **Retro settimanale VC (martedì 17:00 CET)** — PM, Analytics, QA: revisione alert HUD, aggiornamento metriche risk/cohesion e decisioni di follow-up smart feature.【F:docs/playtest/INSIGHTS-2025-11.md†L22-L26】
@@ -75,7 +75,7 @@
 - **Review settimanale roadmap & quality (martedì 16:30 CET)** — Consolidare esiti della review: aggiornare tabella mappatura milestone, chiudere o riassegnare bug nel tracker con `roadmap_milestone` coerente e comunicare highlight in `#vc-docs`.【F:docs/process/qa_reporting_schema.md†L138-L164】
 
 ## Prossimi passi
-- Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/biomes.yaml†L1-L13】 _In corso: radar/specie comparate disponibili nella dashboard generator._
+- Documentare esempi di encounter generati (CLI Python) e associarli a test di difficoltà per ciascun bioma.【F:data/core/biomes.yaml†L1-L13】 _In corso: radar/specie comparate disponibili nella dashboard generator._
 - Collegare i log Delta/Echo alla pipeline Google Sheet dopo la stabilizzazione del nuovo metodo `ema_capped_minmax` per assicurare reporting condiviso.【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】【F:docs/drive-sync.md†L1-L52】
 - Creare script di migrazione per esportare `telemetry` su Google Sheet via `scripts/driveSync.gs`.
 - Automatizzare il riepilogo quotidiano delle PR: raccogliere i merge giornalieri, generare report in `docs/chatgpt_changes/` e aggiornare changelog/roadmap/checklist/Canvas entro le 18:00 CET. _Completato via workflow `daily-pr-summary` (report automatici e aggiornamento marker documentazione)._ 

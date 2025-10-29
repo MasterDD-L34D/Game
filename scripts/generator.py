@@ -15,7 +15,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Sequence
 import yaml
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-DEFAULT_DATA_ROOT = ROOT_DIR / "data"
+DEFAULT_DATA_ROOT = ROOT_DIR / "data" / "core"
 DEFAULT_MATRIX_PATH = ROOT_DIR / "docs" / "catalog" / "species_trait_matrix.json"
 DEFAULT_OUTPUT_PATH = ROOT_DIR / "logs" / "tooling" / "generator_run_profile.json"
 DEFAULT_INVENTORY_PATH = ROOT_DIR / "docs" / "catalog" / "traits_inventory.json"
@@ -125,6 +125,18 @@ def _load_inventory_core_traits(path: Path) -> List[str]:
     return result
 
 
+def _normalize_data_root(candidate: Path) -> Path:
+    """Return the directory that actually contains the core dataset."""
+
+    species_path = candidate / "species.yaml"
+    if species_path.exists():
+        return candidate
+    nested = candidate / "core" / "species.yaml"
+    if nested.exists():
+        return candidate / "core"
+    return candidate
+
+
 def _load_species_dataset(data_root: Path) -> Sequence[Mapping[str, Any]]:
     species_path = data_root / "species.yaml"
     payload = _load_yaml(species_path)
@@ -204,6 +216,7 @@ def generate_profile(
     output_path: Path,
 ) -> Dict[str, Any]:
     start_time = time.perf_counter()
+    data_root = _normalize_data_root(data_root)
     matrix_data = _load_json(matrix_path)
     entries = list(_iter_matrix_entries(matrix_data))
     if not entries:
