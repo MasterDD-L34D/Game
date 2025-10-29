@@ -39,7 +39,50 @@ evo-tactics/
 
 Consulta la sezione [Indice Tracker & Stato](#indice-tracker--stato) per percentuali e stato sintetico dei principali blocchi di lavoro.
 
-_Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py), eseguito ogni giorno a mezzogiorno tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml)._ 
+_Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py), eseguito ogni giorno a mezzogiorno tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml)._
+
+## Recap operativo & prossimi step
+
+<table>
+  <tr>
+    <td><strong>Stato corrente</strong></td>
+    <td>
+      <ul>
+        <li>Dataset e pack ecosistema validati con gli ultimi report in <code>reports/incoming/latest/</code>.</li>
+        <li>Pipeline di generazione, dashboard test-interface e workflow CI allineati ai dati pubblici.</li>
+        <li>Sessione corrente conclusa: pronti al passaggio verso istanza ottimizzata per i prossimi batch.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Handoff rapido</strong></td>
+    <td>
+      <ul>
+        <li>Archivia gli artifact di sessione in <code>reports/incoming/</code> prima di spegnere l'istanza corrente.</li>
+        <li>Salva nel log operativo l'ultimo commit/tag usato per inizializzare la nuova istanza.</li>
+        <li>Prepara le variabili d'ambiente condivise (<code>GAME_MODE=optimized</code>, <code>PYTHONPATH=tools/py</code>) per il bootstrap.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+### Come proseguire dalla checklist
+
+- [ ] Rivedi i log in <code>reports/incoming/validation/</code> e apri ticket per eventuali regressioni.
+- [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
+- [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
+- [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
+
+### Continuare in un'istanza ottimizzata
+
+1. **Clona & sincronizza** — Inizializza la nuova istanza con `git clone` sul commit annotato, quindi lancia `npm install` in `tools/ts/` e `pip install -r tools/py/requirements.txt` se mancante la cache.
+2. **Bootstrap script** — Esporta le variabili d'ambiente condivise (`GAME_MODE=optimized`, `PYTHONPATH=tools/py`) e avvia `./scripts/report_incoming.sh --destination sessione-<data>` per ricreare il contesto di validazione.
+3. **Verifiche smoke** — Esegui `npm test` da `tools/ts/` e `PYTHONPATH=tools/py pytest` per assicurarti che l'istanza ottimizzata risponda prima di proseguire con nuovi upload.
+4. **Aggiorna i tracker** — Trascrivi in `docs/00-INDEX.md` la data di bootstrap e i riferimenti dell'istanza (dimensionamento, provider, credenziali condivise) per facilitare il rientro.
+
+### Barra di completamento
+
+<progress value="0.68" max="1"></progress> **68 %** completato — decremento temporaneo per la transizione verso l'istanza ottimizzata.
 
 ## Quick Start — Node/TypeScript
 ```bash
