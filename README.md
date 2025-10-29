@@ -80,9 +80,25 @@ _Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.
 3. **Verifiche smoke** — Esegui `npm test` da `tools/ts/` e `PYTHONPATH=tools/py pytest` per assicurarti che l'istanza ottimizzata risponda prima di proseguire con nuovi upload.
 4. **Aggiorna i tracker** — Trascrivi in `docs/00-INDEX.md` la data di bootstrap e i riferimenti dell'istanza (dimensionamento, provider, credenziali condivise) per facilitare il rientro.
 
+### Piano operativo modulare
+
+| Fase | Obiettivo | Azioni chiave | Output atteso |
+| --- | --- | --- | --- |
+| **F1 · Stabilizzazione** | Portare l'istanza ottimizzata allo stato di parità con la sessione corrente. | - Riprodurre l'ultimo `./scripts/report_incoming.sh --destination sessione-<data>`<br>- Confrontare i report in `reports/incoming/latest/` con il nuovo output<br>- Annotare differenze in `logs/validation_handoff.md` | Report JSON/HTML allineati + log confronto firmato. |
+| **F2 · Batch di validazione** | Eseguire il prossimo caricamento di pacchetti in ingresso. | - Ingerire zip nella cartella `incoming/`<br>- Verificare l'estrazione automatica e i log in `reports/incoming/validation/`<br>- Segnare eventuali KO nella checklist QA (colonna "Nuova istanza") | Cartella `validation/` popolata + ticket aperti per KO. |
+| **F3 · Consolidamento** | Aggiornare documentazione e indicatori condivisi. | - Aggiornare `docs/00-INDEX.md` e `logs/traits_tracking.md` con gli esiti di batch<br>- Pubblicare estratto su Drive/Canale QA<br>- Valutare bump della progress bar | Documentazione aggiornata + recap condiviso. |
+
+### Checklist ricorrente per sessione
+
+- [ ] **Pre-upload** — Confermare spazio disco e variabili d'ambiente (`GAME_MODE`, `PYTHONPATH`).
+- [ ] **Esecuzione script** — Lanciare `./scripts/report_incoming.sh --destination sessione-<data>` e salvare i chunk di log nel tracking QA.
+- [ ] **Controllo manuale** — Aprire `reports/incoming/<destinazione>/report.html` per un controllo visivo dei dataset.
+- [ ] **Follow-up** — Creare ticket per ogni voce "warning"/"error" dei log e linkare il percorso all'interno di `reports/incoming/validation/`.
+- [ ] **Sync documentale** — Aggiornare il riepilogo in README/Drive con percentuali aggiornate.
+
 ### Barra di completamento
 
-<progress value="0.68" max="1"></progress> **68 %** completato — decremento temporaneo per la transizione verso l'istanza ottimizzata.
+<progress value="0.7" max="1"></progress> **70 %** completato — il piano modulare include buffer per l'avvio dell'istanza ottimizzata.
 
 ## Quick Start — Node/TypeScript
 ```bash
