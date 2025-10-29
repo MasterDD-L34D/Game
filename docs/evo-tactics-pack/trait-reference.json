@@ -2,6 +2,286 @@
   "schema_version": "2.0",
   "trait_glossary": "data/traits/glossary.json",
   "traits": {
+    "ali_fulminee": {
+      "label": "Ali Fulminee",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ali Fulminee ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ali_ioniche": {
+      "label": "Ali Ioniche",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ali Ioniche ottimizza le operazioni locomotorio nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ali_membrana_sonica": {
+      "label": "Ali Membrana Sonica",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ali Membrana Sonica ottimizza le operazioni difensivo nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "antenne_dustsense": {
+      "label": "Antenne Dustsense",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Antenne Dustsense ottimizza le operazioni metabolico nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "antenne_eco_turbina": {
+      "label": "Antenne Eco Turbina",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Antenne Eco Turbina ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "antenne_flusso_mareale": {
+      "label": "Antenne Flusso Mareale",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Antenne Flusso Mareale ottimizza le operazioni offensivo nelle condizioni di laguna bioreattiva."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "antenne_microonde_cavernose": {
+      "label": "Antenne Microonde Cavernose",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Antenne Microonde Cavernose ottimizza le operazioni strategia nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
     "antenne_plasmatiche_tempesta": {
       "conflitti": [],
       "debolezza": "Scariche elettriche massicce possono bruciare i recettori e compromettere la coordinazione.",
@@ -23,13 +303,25 @@
         }
       ],
       "sinergie": [
-        "focus_frazionato"
+        "carapace_luminiscente_abissale",
+        "focus_frazionato",
+        "risonanza_di_branco",
+        "sinapsi_coraline_polifoniche"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/Camouflage-Ambush",
+          "hud:StormMeshPsi",
+          "bioma:cicloni_psionici"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Tempestarii",
+          "HUD:Fulcro_Tempesta"
+        ],
+        "tabelle_random": [
+          "tabella:fulmini_empatici"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
@@ -38,6 +330,406 @@
       "slot_profile": {
         "core": "sensoriale",
         "complementare": "offensivo"
+      }
+    },
+    "antenne_reagenti": {
+      "label": "Antenne Reagenti",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Antenne Reagenti ottimizza le operazioni simbiotico nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "antenne_tesla": {
+      "label": "Antenne Tesla",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Antenne Tesla ottimizza le operazioni strutturale nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "antenne_waveguide": {
+      "label": "Antenne Waveguide",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Antenne Waveguide ottimizza le operazioni sensoriale nelle condizioni di reef luminescente."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "antenne_wideband": {
+      "label": "Antenne Wideband",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Antenne Wideband ottimizza le operazioni locomotorio nelle condizioni di steppe algoritmiche."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "appendici_risonanti_marea": {
+      "label": "Appendici Risonanti Marea",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Appendici Risonanti Marea ottimizza le operazioni difensivo nelle condizioni di laguna bioreattiva."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "appendici_thermotattiche": {
+      "label": "Appendici Thermotattiche",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Appendici Thermotattiche ottimizza le operazioni metabolico nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "artigli_acidofagi": {
+      "label": "Artigli Acidofagi",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Artigli Acidofagi ottimizza le operazioni supporto nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "artigli_induzione": {
+      "label": "Artigli Induzione",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Artigli Induzione ottimizza le operazioni offensivo nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "artigli_radice": {
+      "label": "Artigli Radice",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Artigli Radice ottimizza le operazioni strategia nelle condizioni di mangrovieto cinetico."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "artigli_scivolo_silente": {
+      "label": "Artigli Scivolo Silente",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Artigli Scivolo Silente ottimizza le operazioni simbiotico nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "artigli_sette_vie": {
@@ -62,13 +754,24 @@
       ],
       "sinergie": [
         "coda_frusta_cinetica",
-        "struttura_elastica_amorfa"
+        "mimetismo_cromatico_passivo",
+        "struttura_elastica_amorfa",
+        "tattiche_di_branco"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/Aggression-Camouflage",
+          "boardgame:DominantSpecies/Competition",
+          "hud:GripNode_Psion"
+        ],
+        "combo_totale": 4,
+        "forme": [
+          "Forma:Predatore_Tessuto",
+          "HUD:GrappleBurst"
+        ],
+        "tabelle_random": [
+          "tabella:predazione_multicanale"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
@@ -100,13 +803,23 @@
         }
       ],
       "sinergie": [
+        "cartilagine_flessotermica_venti",
+        "sonno_emisferico_alternato",
         "zampe_a_molla"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Glaciation",
+          "boardgame:Evolution/Hibernation",
+          "hud:GlacierClaw_UI"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Assaltatore_Criogenico"
+        ],
+        "tabelle_random": [
+          "tabella:presa_criostatica"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
@@ -115,6 +828,526 @@
       "slot_profile": {
         "core": "locomotorio",
         "complementare": "predatorio"
+      }
+    },
+    "artigli_vetrificati": {
+      "label": "Artigli Vetrificati",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Artigli Vetrificati ottimizza le operazioni strutturale nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "baffi_mareomotori": {
+      "label": "Baffi Mareomotori",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Baffi Mareomotori ottimizza le operazioni sensoriale nelle condizioni di mangrovieto cinetico."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "barbigli_sensori_plasma": {
+      "label": "Barbigli Sensori Plasma",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Barbigli Sensori Plasma ottimizza le operazioni locomotorio nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "barriere_miasma_glaciale": {
+      "label": "Barriere Miasma Glaciale",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Barriere Miasma Glaciale ottimizza le operazioni difensivo nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "batteri_endosimbionti_chemio": {
+      "label": "Batteri Endosimbionti Chemio",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Batteri Endosimbionti Chemio ottimizza le operazioni metabolico nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "batteri_termofili_endosimbiosi": {
+      "label": "Batteri Termofili Endosimbiosi",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Batteri Termofili Endosimbiosi ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "biochip_memoria": {
+      "label": "Biochip Memoria",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Biochip Memoria ottimizza le operazioni offensivo nelle condizioni di steppe algoritmiche."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "biofilm_glow": {
+      "label": "Biofilm Glow",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Biofilm Glow ottimizza le operazioni strategia nelle condizioni di reef luminescente."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "biofilm_iperarido": {
+      "label": "Biofilm Iperarido",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Biofilm Iperarido ottimizza le operazioni simbiotico nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "branchie_dual_mode": {
+      "label": "Branchie Dual Mode",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Branchie Dual Mode ottimizza le operazioni strutturale nelle condizioni di laguna bioreattiva."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "branchie_eoliche": {
+      "label": "Branchie Eoliche",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Branchie Eoliche ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "branchie_metalloidi": {
+      "label": "Branchie Metalloidi",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Branchie Metalloidi ottimizza le operazioni locomotorio nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "branchie_microfiltri": {
+      "label": "Branchie Microfiltri",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Branchie Microfiltri ottimizza le operazioni difensivo nelle condizioni di reef luminescente."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "branchie_osmotiche_salmastra": {
@@ -140,13 +1373,22 @@
         }
       ],
       "sinergie": [
+        "mucillagine_simbionte_mangrovie",
         "scheletro_idro_regolante"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/Symbiosis",
+          "boardgame:DominantSpecies/Adaptation",
+          "hud:EstuarioPsi"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Amfibio_Oracolare"
+        ],
+        "tabelle_random": [
+          "tabella:osmosi_psionica"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
@@ -155,6 +1397,86 @@
       "slot_profile": {
         "core": "respiratorio",
         "complementare": "osmoregolazione"
+      }
+    },
+    "branchie_solfatiche": {
+      "label": "Branchie Solfatiche",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Branchie Solfatiche ottimizza le operazioni metabolico nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "branchie_turbina": {
+      "label": "Branchie Turbina",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Branchie Turbina ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "bulbi_radici_permafrost": {
@@ -178,13 +1500,24 @@
         }
       ],
       "sinergie": [
+        "chioma_parassita_canopica",
+        "nodi_micorrizici_oracolari",
         "vello_condensatore_nebbie"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Fertility",
+          "boardgame:Evolution/Cooperation",
+          "hud:RootMesh_Psi"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Archivio_Subglaciale",
+          "HUD:Radice_Proxy"
+        ],
+        "tabelle_random": [
+          "tabella:riserva_empatica"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
@@ -193,6 +1526,286 @@
       "slot_profile": {
         "core": "simbiotico",
         "complementare": "nutrizione"
+      }
+    },
+    "camere_anticorrosione": {
+      "label": "Camere Anticorrosione",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Camere Anticorrosione ottimizza le operazioni offensivo nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "camere_mirage": {
+      "label": "Camere Mirage",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Camere Mirage ottimizza le operazioni strategia nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "camere_nutrienti_vent": {
+      "label": "Camere Nutrienti Vent",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Camere Nutrienti Vent ottimizza le operazioni simbiotico nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "capillari_criogenici": {
+      "label": "Capillari Criogenici",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Capillari Criogenici ottimizza le operazioni strutturale nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "capillari_fluoridici": {
+      "label": "Capillari Fluoridici",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Capillari Fluoridici ottimizza le operazioni sensoriale nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "capillari_fotovoltaici": {
+      "label": "Capillari Fotovoltaici",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Capillari Fotovoltaici ottimizza le operazioni locomotorio nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "capsule_paracadute": {
+      "label": "Capsule Paracadute",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Capsule Paracadute ottimizza le operazioni difensivo nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "carapace_fase_variabile": {
@@ -230,12 +1843,38 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "ali_membrana_sonica",
+        "appendici_risonanti_marea",
+        "barriere_miasma_glaciale",
+        "branchie_microfiltri",
+        "capsule_paracadute",
+        "cartilagine_flessotermica_venti",
+        "circolazione_bifasica",
+        "coda_coppia_retroattiva",
+        "cute_resistente_sali",
+        "enzimi_antipredatori_algali",
+        "filtri_planctonici",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lingua_cristallina",
+        "mucose_barofile",
+        "sensori_geomagnetici"
+      ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Defense",
+          "boardgame:Evolution/Shell",
+          "hud:PhaseShift_Plate"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Guardiano_Cangiante",
+          "HUD:Placca_Sintonica"
+        ],
+        "tabelle_random": [
+          "tabella:assetto_fase"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
@@ -269,13 +1908,24 @@
         }
       ],
       "sinergie": [
+        "antenne_plasmatiche_tempesta",
+        "risonanza_di_branco",
         "sinapsi_coraline_polifoniche"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/WarningCall",
+          "boardgame:DominantSpecies/Initiative",
+          "hud:AbyssLight_Array"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Lanterna_Abissale",
+          "HUD:LuminaNet"
+        ],
+        "tabelle_random": [
+          "tabella:segnali_bioluminosi"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
@@ -284,6 +1934,86 @@
       "slot_profile": {
         "core": "strutturale",
         "complementare": "sensoriale"
+      }
+    },
+    "carapace_segmenti_logici": {
+      "label": "Carapace Segmenti Logici",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Carapace Segmenti Logici ottimizza le operazioni metabolico nelle condizioni di steppe algoritmiche."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "carapaci_ferruginosi": {
+      "label": "Carapaci Ferruginosi",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Carapaci Ferruginosi ottimizza le operazioni supporto nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "cartilagine_flessotermica_venti": {
@@ -309,13 +2039,24 @@
         }
       ],
       "sinergie": [
+        "artigli_sghiaccio_glaciale",
+        "carapace_fase_variabile",
+        "sacche_galleggianti_ascensoriali",
         "zoccoli_risonanti_steppe"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Wind",
+          "boardgame:Evolution/Flight",
+          "hud:VentSplice_Halo"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Planatore_Psionico"
+        ],
+        "tabelle_random": [
+          "tabella:assetto_eolico"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
@@ -324,6 +2065,166 @@
       "slot_profile": {
         "core": "locomotorio",
         "complementare": "adattivo"
+      }
+    },
+    "cartilagini_biofibre": {
+      "label": "Cartilagini Biofibre",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cartilagini Biofibre ottimizza le operazioni offensivo nelle condizioni di reef luminescente."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cartilagini_desertiche": {
+      "label": "Cartilagini Desertiche",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cartilagini Desertiche ottimizza le operazioni strategia nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cartilagini_flessoacustiche": {
+      "label": "Cartilagini Flessoacustiche",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cartilagini Flessoacustiche ottimizza le operazioni simbiotico nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cartilagini_pseudometalliche": {
+      "label": "Cartilagini Pseudometalliche",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cartilagini Pseudometalliche ottimizza le operazioni strutturale nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "cavita_risonanti_tundra": {
@@ -347,13 +2248,25 @@
         }
       ],
       "sinergie": [
-        "eco_interno_riflesso"
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "empatia_coordinativa",
+        "risonanza_di_branco"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/Communication",
+          "boardgame:DominantSpecies/Initiative",
+          "hud:TundraPulse"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Cantore_Tundra",
+          "HUD:EchoGrid"
+        ],
+        "tabelle_random": [
+          "tabella:canti_ipersonici"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
@@ -362,6 +2275,86 @@
       "slot_profile": {
         "core": "sensoriale",
         "complementare": "supporto"
+      }
+    },
+    "cervelletto_equilibrio_statico": {
+      "label": "Cervelletto Equilibrio Statico",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cervelletto Equilibrio Statico ottimizza le operazioni sensoriale nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "chemiorecettori_bromuro": {
+      "label": "Chemiorecettori Bromuro",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Chemiorecettori Bromuro ottimizza le operazioni locomotorio nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "chioma_parassita_canopica": {
@@ -385,6 +2378,7 @@
         }
       ],
       "sinergie": [
+        "bulbi_radici_permafrost",
         "nodi_micorrizici_oracolari"
       ],
       "sinergie_pi": {
@@ -400,6 +2394,46 @@
       "slot_profile": {
         "core": "simbiotico",
         "complementare": "utility"
+      }
+    },
+    "circolazione_bifasica": {
+      "label": "Circolazione Bifasica",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Circolazione Bifasica ottimizza le operazioni difensivo nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "circolazione_bifasica_palude": {
@@ -442,6 +2476,366 @@
         "complementare": "resilienza"
       }
     },
+    "circolazione_cooling_loop": {
+      "label": "Circolazione Cooling Loop",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Circolazione Cooling Loop ottimizza le operazioni metabolico nelle condizioni di steppe algoritmiche."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "circolazione_doppia": {
+      "label": "Circolazione Doppia",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Circolazione Doppia ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "circolazione_supercritica": {
+      "label": "Circolazione Supercritica",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Circolazione Supercritica ottimizza le operazioni offensivo nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ciste_riduttive": {
+      "label": "Ciste Riduttive",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ciste Riduttive ottimizza le operazioni strategia nelle condizioni di laguna bioreattiva."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ciste_salmastre": {
+      "label": "Ciste Salmastre",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ciste Salmastre ottimizza le operazioni simbiotico nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cisti_iperbariche": {
+      "label": "Cisti Iperbariche",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cisti Iperbariche ottimizza le operazioni strutturale nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "coda_balanciere": {
+      "label": "Coda Balanciere",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Coda Balanciere ottimizza le operazioni sensoriale nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "coda_contrappeso": {
+      "label": "Coda Contrappeso",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Coda Contrappeso ottimizza le operazioni locomotorio nelle condizioni di mangrovieto cinetico."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "coda_coppia_retroattiva": {
+      "label": "Coda Coppia Retroattiva",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Coda Coppia Retroattiva ottimizza le operazioni difensivo nelle condizioni di steppe algoritmiche."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
     "coda_frusta_cinetica": {
       "conflitti": [],
       "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno.",
@@ -476,7 +2870,34 @@
         }
       ],
       "sinergie": [
-        "artigli_sette_vie"
+        "ali_ioniche",
+        "antenne_flusso_mareale",
+        "antenne_wideband",
+        "artigli_induzione",
+        "artigli_sette_vie",
+        "barbigli_sensori_plasma",
+        "biochip_memoria",
+        "branchie_metalloidi",
+        "camere_anticorrosione",
+        "capillari_fotovoltaici",
+        "cartilagini_biofibre",
+        "chemiorecettori_bromuro",
+        "circolazione_supercritica",
+        "coda_contrappeso",
+        "coda_stabilizzatrice_vortex",
+        "cuscinetti_elettrostatici",
+        "denti_chelatanti",
+        "enzimi_antifase_termica",
+        "enzimi_metanoossidanti",
+        "filamenti_termoconduzione",
+        "foliaggio_spugna",
+        "ghiandole_fango_calde",
+        "ghiandole_iodoattive",
+        "ghiandole_ventosa",
+        "gusci_magnesio",
+        "linfa_tampone",
+        "mantelli_geotermici",
+        "mucose_aderenza_sonica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -491,6 +2912,206 @@
       "slot_profile": {
         "core": "locomotorio",
         "complementare": "difensivo"
+      }
+    },
+    "coda_stabilizzatrice_filo": {
+      "label": "Coda Stabilizzatrice Filo",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Coda Stabilizzatrice Filo ottimizza le operazioni metabolico nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "coda_stabilizzatrice_geiser": {
+      "label": "Coda Stabilizzatrice Geiser",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Coda Stabilizzatrice Geiser ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "coda_stabilizzatrice_vortex": {
+      "label": "Coda Stabilizzatrice Vortex",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Coda Stabilizzatrice Vortex ottimizza le operazioni offensivo nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "colonne_vibromagnetiche": {
+      "label": "Colonne Vibromagnetiche",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Colonne Vibromagnetiche ottimizza le operazioni strategia nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "coralli_partner": {
+      "label": "Coralli Partner",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Coralli Partner ottimizza le operazioni simbiotico nelle condizioni di reef luminescente."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "criostasi_adattiva": {
@@ -529,7 +3150,9 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "cavita_risonanti_tundra"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -543,6 +3166,433 @@
       "slot_profile": {
         "core": "metabolico",
         "complementare": "difensivo"
+      }
+    },
+    "cromofori_alert_acido": {
+      "label": "Cromofori Alert Acido",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cromofori Alert Acido ottimizza le operazioni strutturale nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cuore_multicamera_bassa_pressione": {
+      "label": "Cuore Multicamera Bassa Pressione",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cuore Multicamera Bassa Pressione ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cuscinetti_elettrostatici": {
+      "label": "Cuscinetti Elettrostatici",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cuscinetti Elettrostatici ottimizza le operazioni locomotorio nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cute_resistente_sali": {
+      "label": "Cute Resistente Sali",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Attivazione situazionale)",
+      "tier": "T2",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "badlands"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T2",
+            "notes": "Cute Resistente Sali ottimizza le operazioni difensivo nelle condizioni di badlands."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cuticole_cerose": {
+      "label": "Cuticole Cerose",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "cuticole_neutralizzanti": {
+      "label": "Cuticole Neutralizzanti",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Cuticole Neutralizzanti ottimizza le operazioni supporto nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "denti_chelatanti": {
+      "label": "Denti Chelatanti",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Denti Chelatanti ottimizza le operazioni offensivo nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "denti_ossidoferro": {
+      "label": "Denti Ossidoferro",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Denti Ossidoferro ottimizza le operazioni strategia nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "denti_silice_termici": {
+      "label": "Denti Silice Termici",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Denti Silice Termici ottimizza le operazioni simbiotico nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "denti_tuning_fork": {
+      "label": "Denti Tuning Fork",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Denti Tuning Fork ottimizza le operazioni strutturale nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "echi_risonanti": {
+      "label": "Echi Risonanti",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Echi Risonanti ottimizza le operazioni sensoriale nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "eco_interno_riflesso": {
@@ -606,7 +3656,22 @@
       "label": "Empatia Coordinativa",
       "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_eco_turbina",
+        "artigli_acidofagi",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "carapaci_ferruginosi",
+        "cavita_risonanti_tundra",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "cuticole_neutralizzanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_inchiostro_luce",
+        "gusci_criovetro",
+        "luminescenza_hydrotermica"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "job_ability:Warden/Scudo_di_Risonanza"
@@ -622,7 +3687,278 @@
       ],
       "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
       "tier": "T1",
-      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
+      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "coordinazione"
+      }
+    },
+    "enzimi_antifase_termica": {
+      "label": "Enzimi Antifase Termica",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Enzimi Antifase Termica ottimizza le operazioni locomotorio nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "enzimi_antipredatori_algali": {
+      "label": "Enzimi Antipredatori Algali",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Enzimi Antipredatori Algali ottimizza le operazioni difensivo nelle condizioni di reef luminescente."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "enzimi_chelanti": {
+      "label": "Enzimi Chelanti",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "enzimi_chelatori_rapidi": {
+      "label": "Enzimi Chelatori Rapidi",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Enzimi Chelatori Rapidi ottimizza le operazioni supporto nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "enzimi_metanoossidanti": {
+      "label": "Enzimi Metanoossidanti",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Enzimi Metanoossidanti ottimizza le operazioni offensivo nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "epidermide_dielettrica": {
+      "label": "Epidermide Dielettrica",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Epidermide Dielettrica ottimizza le operazioni strategia nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "epitelio_fosforescente": {
+      "label": "Epitelio Fosforescente",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Epitelio Fosforescente ottimizza le operazioni simbiotico nelle condizioni di reef luminescente."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
     },
     "filamenti_digestivi_compattanti": {
       "conflitti": [],
@@ -658,6 +3994,19 @@
         }
       ],
       "sinergie": [
+        "antenne_dustsense",
+        "appendici_thermotattiche",
+        "batteri_endosimbionti_chemio",
+        "branchie_solfatiche",
+        "carapace_segmenti_logici",
+        "circolazione_cooling_loop",
+        "coda_stabilizzatrice_filo",
+        "cuticole_cerose",
+        "enzimi_chelanti",
+        "flagelli_ancoranti",
+        "ghiandole_grafene",
+        "grassi_termici",
+        "luminescenza_aurorale",
         "ventriglio_gastroliti"
       ],
       "sinergie_pi": {
@@ -675,16 +4024,230 @@
         "complementare": "escretorio"
       }
     },
+    "filamenti_magnetotrofi": {
+      "label": "Filamenti Magnetotrofi",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Filamenti Magnetotrofi ottimizza le operazioni strutturale nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "filamenti_superconduttivi": {
+      "label": "Filamenti Superconduttivi",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Filamenti Superconduttivi ottimizza le operazioni sensoriale nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "filamenti_termoconduzione": {
+      "label": "Filamenti Termoconduzione",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Filamenti Termoconduzione ottimizza le operazioni locomotorio nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "filtri_planctonici": {
+      "label": "Filtri Planctonici",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Filtri Planctonici ottimizza le operazioni difensivo nelle condizioni di laguna bioreattiva."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "flagelli_ancoranti": {
+      "label": "Flagelli Ancoranti",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Flagelli Ancoranti ottimizza le operazioni metabolico nelle condizioni di laguna bioreattiva."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
     "focus_frazionato": {
       "conflitti": [],
       "debolezza": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD.",
-      "famiglia_tipologia": "Tattico/Controllo",
+      "famiglia_tipologia": "Strategico/Psionico",
       "fattore_mantenimento_energetico": "Medio (Dividere l'attenzione su più canali)",
       "label": "Focus Frazionato",
       "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
       "requisiti_ambientali": [],
       "sinergie": [
-        "antenne_plasmatiche_tempesta"
+        "ali_fulminee",
+        "antenne_plasmatiche_tempesta",
+        "antenne_waveguide",
+        "baffi_mareomotori",
+        "branchie_eoliche",
+        "capillari_fluoridici",
+        "cervelletto_equilibrio_statico",
+        "coda_balanciere",
+        "cuore_multicamera_bassa_pressione",
+        "echi_risonanti",
+        "filamenti_superconduttivi",
+        "ghiandole_eco_mappanti",
+        "ghiandole_resina_conduttiva",
+        "lamine_scudo_silice",
+        "midollo_antivibrazione"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -708,7 +4271,131 @@
       ],
       "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
       "tier": "T1",
-      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
+      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza.",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "psionico"
+      }
+    },
+    "foliage_fotocatodico": {
+      "label": "Foliage Fotocatodico",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Foliage Fotocatodico ottimizza le operazioni supporto nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "foliaggio_spugna": {
+      "label": "Foliaggio Spugna",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Foliaggio Spugna ottimizza le operazioni offensivo nelle condizioni di mangrovieto cinetico."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiaccio_piezoelettrico": {
+      "label": "Ghiaccio Piezoelettrico",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiaccio Piezoelettrico ottimizza le operazioni strategia nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
     },
     "ghiandola_caustica": {
       "conflitti": [],
@@ -735,7 +4422,758 @@
       ],
       "spinta_selettiva": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
       "tier": "T1",
-      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
+      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere.",
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      }
+    },
+    "ghiandole_cambio_salino": {
+      "label": "Ghiandole Cambio Salino",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Cambio Salino ottimizza le operazioni simbiotico nelle condizioni di laguna bioreattiva."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_condensa_ozono": {
+      "label": "Ghiandole Condensa Ozono",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Condensa Ozono ottimizza le operazioni strutturale nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_eco_mappanti": {
+      "label": "Ghiandole Eco Mappanti",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Eco Mappanti ottimizza le operazioni sensoriale nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_fango_calde": {
+      "label": "Ghiandole Fango Calde",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Fango Calde ottimizza le operazioni locomotorio nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_fango_coesivo": {
+      "label": "Ghiandole Fango Coesivo",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Fango Coesivo ottimizza le operazioni difensivo nelle condizioni di mangrovieto cinetico."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_grafene": {
+      "label": "Ghiandole Grafene",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Grafene ottimizza le operazioni metabolico nelle condizioni di steppe algoritmiche."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_inchiostro_luce": {
+      "label": "Ghiandole Inchiostro Luce",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Inchiostro Luce ottimizza le operazioni supporto nelle condizioni di reef luminescente."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_iodoattive": {
+      "label": "Ghiandole Iodoattive",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Iodoattive ottimizza le operazioni offensivo nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_minerali": {
+      "label": "Ghiandole Minerali",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Minerali ottimizza le operazioni strategia nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_nebbia_acida": {
+      "label": "Ghiandole Nebbia Acida",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Nebbia Acida ottimizza le operazioni simbiotico nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_nebbia_ionica": {
+      "label": "Ghiandole Nebbia Ionica",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Nebbia Ionica ottimizza le operazioni strutturale nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_resina_conduttiva": {
+      "label": "Ghiandole Resina Conduttiva",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Resina Conduttiva ottimizza le operazioni sensoriale nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "ghiandole_ventosa": {
+      "label": "Ghiandole Ventosa",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Ghiandole Ventosa ottimizza le operazioni locomotorio nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "giunti_antitorsione": {
+      "label": "Giunti Antitorsione",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Giunti Antitorsione ottimizza le operazioni difensivo nelle condizioni di mangrovieto cinetico."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "grassi_termici": {
+      "label": "Grassi Termici",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "gusci_criovetro": {
+      "label": "Gusci Criovetro",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Gusci Criovetro ottimizza le operazioni supporto nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "gusci_magnesio": {
+      "label": "Gusci Magnesio",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Gusci Magnesio ottimizza le operazioni offensivo nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "lamelle_shear": {
+      "label": "Lamelle Shear",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Lamelle Shear ottimizza le operazioni strategia nelle condizioni di stratosfera tempestosa."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "lamelle_sincroniche": {
+      "label": "Lamelle Sincroniche",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Lamelle Sincroniche ottimizza le operazioni simbiotico nelle condizioni di steppe algoritmiche."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
     },
     "lamelle_termoforetiche": {
       "conflitti": [
@@ -777,6 +5215,166 @@
         "complementare": "termoregolazione"
       }
     },
+    "lamine_filtranti_aeree": {
+      "label": "Lamine Filtranti Aeree",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Lamine Filtranti Aeree ottimizza le operazioni strutturale nelle condizioni di mangrovieto cinetico."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "lamine_scudo_silice": {
+      "label": "Lamine Scudo Silice",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Lamine Scudo Silice ottimizza le operazioni sensoriale nelle condizioni di dorsale termale tropicale."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "linfa_tampone": {
+      "label": "Linfa Tampone",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Linfa Tampone ottimizza le operazioni locomotorio nelle condizioni di foresta acida."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "lingua_cristallina": {
+      "label": "Lingua Cristallina",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Lingua Cristallina ottimizza le operazioni difensivo nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
     "lingua_tattile_trama": {
       "conflitti": [],
       "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
@@ -813,6 +5411,166 @@
       "slot_profile": {
         "core": "sensoriale",
         "complementare": "alimentare"
+      }
+    },
+    "luminescenza_aurorale": {
+      "label": "Luminescenza Aurorale",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "energia"
+      },
+      "sinergie": [
+        "filamenti_digestivi_compattanti",
+        "ventriglio_gastroliti"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Luminescenza Aurorale ottimizza le operazioni metabolico nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "luminescenza_hydrotermica": {
+      "label": "Luminescenza Hydrotermica",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "logistico"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Luminescenza Hydrotermica ottimizza le operazioni supporto nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "mantelli_geotermici": {
+      "label": "Mantelli Geotermici",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "assalto"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Mantelli Geotermici ottimizza le operazioni offensivo nelle condizioni di caldera glaciale."
+          }
+        }
+      ],
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "membrane_captura_rugiada": {
+      "label": "Membrane Captura Rugiada",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      },
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Membrane Captura Rugiada ottimizza le operazioni strategia nelle condizioni di pianura salina iperarida."
+          }
+        }
+      ],
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "membrane_eliofiltranti": {
@@ -854,6 +5612,126 @@
         "complementare": "protezione"
       }
     },
+    "membrane_planata_vectored": {
+      "label": "Membrane Planata Vectored",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "cooperazione"
+      },
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Membrane Planata Vectored ottimizza le operazioni simbiotico nelle condizioni di canopia ionica."
+          }
+        }
+      ],
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "membrane_pneumatofori": {
+      "label": "Membrane Pneumatofori",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "resilienza"
+      },
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Membrane Pneumatofori ottimizza le operazioni strutturale nelle condizioni di mangrovieto cinetico."
+          }
+        }
+      ],
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "midollo_antivibrazione": {
+      "label": "Midollo Antivibrazione",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "analitico"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Midollo Antivibrazione ottimizza le operazioni sensoriale nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
     "mimetismo_cromatico_passivo": {
       "conflitti": [],
       "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato.",
@@ -888,6 +5766,21 @@
         }
       ],
       "sinergie": [
+        "ali_membrana_sonica",
+        "appendici_risonanti_marea",
+        "artigli_sette_vie",
+        "barriere_miasma_glaciale",
+        "branchie_microfiltri",
+        "capsule_paracadute",
+        "circolazione_bifasica",
+        "coda_coppia_retroattiva",
+        "cute_resistente_sali",
+        "enzimi_antipredatori_algali",
+        "filtri_planctonici",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lingua_cristallina",
+        "mucose_barofile",
         "struttura_elastica_amorfa"
       ],
       "sinergie_pi": {
@@ -928,7 +5821,21 @@
         }
       ],
       "sinergie": [
+        "antenne_reagenti",
+        "artigli_scivolo_silente",
+        "biofilm_iperarido",
+        "branchie_osmotiche_salmastra",
+        "camere_nutrienti_vent",
+        "cartilagini_flessoacustiche",
         "circolazione_bifasica_palude",
+        "ciste_salmastre",
+        "coralli_partner",
+        "denti_silice_termici",
+        "epitelio_fosforescente",
+        "ghiandole_cambio_salino",
+        "ghiandole_nebbia_acida",
+        "lamelle_sincroniche",
+        "membrane_planata_vectored",
         "nodi_micorrizici_oracolari"
       ],
       "sinergie_pi": {
@@ -944,6 +5851,86 @@
       "slot_profile": {
         "core": "simbiotico",
         "complementare": "difensivo"
+      }
+    },
+    "mucose_aderenza_sonica": {
+      "label": "Mucose Aderenza Sonica",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "mobilita"
+      },
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Mucose Aderenza Sonica ottimizza le operazioni locomotorio nelle condizioni di caverna risonante."
+          }
+        }
+      ],
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "mucose_barofile": {
+      "label": "Mucose Barofile",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "tier": "T1",
+      "slot": [],
+      "slot_profile": {
+        "core": "difensivo",
+        "complementare": "protezione"
+      },
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "tier": "T1",
+            "notes": "Mucose Barofile ottimizza le operazioni difensivo nelle condizioni di abisso vulcanico."
+          }
+        }
+      ],
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
       }
     },
     "nodi_micorrizici_oracolari": {
@@ -969,7 +5956,21 @@
         }
       ],
       "sinergie": [
+        "antenne_reagenti",
+        "artigli_scivolo_silente",
+        "biofilm_iperarido",
+        "bulbi_radici_permafrost",
+        "camere_nutrienti_vent",
+        "cartilagini_flessoacustiche",
         "chioma_parassita_canopica",
+        "ciste_salmastre",
+        "coralli_partner",
+        "denti_silice_termici",
+        "epitelio_fosforescente",
+        "ghiandole_cambio_salino",
+        "ghiandole_nebbia_acida",
+        "lamelle_sincroniche",
+        "membrane_planata_vectored",
         "mucillagine_simbionte_mangrovie"
       ],
       "sinergie_pi": {
@@ -1141,17 +6142,35 @@
       ],
       "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma.",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "ricognizione"
+      }
     },
     "pianificatore": {
       "conflitti": [],
       "debolezza": "Rigidità tattica se gli input di telemetria arrivano in ritardo.",
-      "famiglia_tipologia": "Strategico/Comando",
+      "famiglia_tipologia": "Strategico/Tattico",
       "fattore_mantenimento_energetico": "Medio (Analisi continua di stato squadre)",
       "label": "Pianificatore",
       "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_microonde_cavernose",
+        "artigli_radice",
+        "biofilm_glow",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "ciste_riduttive",
+        "colonne_vibromagnetiche",
+        "denti_ossidoferro",
+        "epidermide_dielettrica",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_minerali",
+        "lamelle_shear",
+        "membrane_captura_rugiada"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
@@ -1176,7 +6195,11 @@
       ],
       "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
       "tier": "T1",
-      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
+      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI.",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "tattico"
+      }
     },
     "piume_solari_fotovoltaiche": {
       "conflitti": [
@@ -1286,7 +6309,11 @@
       ],
       "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
       "tier": "T1",
-      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
+      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà.",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "adattivo"
+      }
     },
     "respiro_a_scoppio": {
       "conflitti": [],
@@ -1330,12 +6357,29 @@
     "risonanza_di_branco": {
       "conflitti": [],
       "debolezza": "Stress elevato se la coesione cala sotto i target di telemetria.",
-      "famiglia_tipologia": "Supporto/Armonico",
+      "famiglia_tipologia": "Supporto/Coordinativo",
       "fattore_mantenimento_energetico": "Basso (Richiede mantenimento empatico)",
       "label": "Risonanza di Branco",
       "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_eco_turbina",
+        "antenne_plasmatiche_tempesta",
+        "artigli_acidofagi",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "carapace_luminiscente_abissale",
+        "carapaci_ferruginosi",
+        "cavita_risonanti_tundra",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "cuticole_neutralizzanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_inchiostro_luce",
+        "gusci_criovetro",
+        "luminescenza_hydrotermica"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
@@ -1358,7 +6402,11 @@
       ],
       "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
       "tier": "T1",
-      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
+      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra.",
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "coordinazione"
+      }
     },
     "sacche_galleggianti_ascensoriali": {
       "conflitti": [],
@@ -1394,6 +6442,7 @@
         }
       ],
       "sinergie": [
+        "cartilagine_flessotermica_venti",
         "respiro_a_scoppio",
         "scheletro_idro_regolante",
         "struttura_elastica_amorfa"
@@ -1459,7 +6508,7 @@
         "scheletro_idro_regolante"
       ],
       "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno.",
-      "famiglia_tipologia": "Circolatorio/Difensivo",
+      "famiglia_tipologia": "Offensivo/Cinetico",
       "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
       "label": "Sangue che prende fuoco a contatto con l'ossigeno",
       "mutazione_indotta": "Presenza di composti piroforici nel sangue.",
@@ -1477,7 +6526,20 @@
         }
       ],
       "sinergie": [
-        "lamelle_termoforetiche"
+        "antenne_flusso_mareale",
+        "artigli_induzione",
+        "biochip_memoria",
+        "camere_anticorrosione",
+        "cartilagini_biofibre",
+        "circolazione_supercritica",
+        "coda_stabilizzatrice_vortex",
+        "denti_chelatanti",
+        "enzimi_metanoossidanti",
+        "foliaggio_spugna",
+        "ghiandole_iodoattive",
+        "gusci_magnesio",
+        "lamelle_termoforetiche",
+        "mantelli_geotermici"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1490,8 +6552,8 @@
       "tier": "T1",
       "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria.",
       "slot_profile": {
-        "core": "circolatorio",
-        "complementare": "difensivo"
+        "core": "offensivo",
+        "complementare": "impatto"
       }
     },
     "scheletro_idro_regolante": {
@@ -1517,7 +6579,20 @@
         }
       ],
       "sinergie": [
+        "antenne_tesla",
+        "artigli_vetrificati",
+        "branchie_dual_mode",
         "branchie_osmotiche_salmastra",
+        "capillari_criogenici",
+        "cartilagini_pseudometalliche",
+        "cisti_iperbariche",
+        "cromofori_alert_acido",
+        "denti_tuning_fork",
+        "filamenti_magnetotrofi",
+        "ghiandole_condensa_ozono",
+        "ghiandole_nebbia_ionica",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori",
         "sacche_galleggianti_ascensoriali",
         "struttura_elastica_amorfa"
       ],
@@ -1596,6 +6671,7 @@
         }
       ],
       "sinergie": [
+        "carapace_fase_variabile",
         "eco_interno_riflesso"
       ],
       "sinergie_pi": {
@@ -1636,7 +6712,22 @@
         }
       ],
       "sinergie": [
-        "carapace_luminiscente_abissale"
+        "ali_fulminee",
+        "antenne_plasmatiche_tempesta",
+        "antenne_waveguide",
+        "baffi_mareomotori",
+        "branchie_eoliche",
+        "capillari_fluoridici",
+        "carapace_luminiscente_abissale",
+        "cervelletto_equilibrio_statico",
+        "coda_balanciere",
+        "cuore_multicamera_bassa_pressione",
+        "echi_risonanti",
+        "filamenti_superconduttivi",
+        "ghiandole_eco_mappanti",
+        "ghiandole_resina_conduttiva",
+        "lamine_scudo_silice",
+        "midollo_antivibrazione"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1674,6 +6765,7 @@
         }
       ],
       "sinergie": [
+        "artigli_sghiaccio_glaciale",
         "occhi_infrarosso_composti"
       ],
       "sinergie_pi": {
@@ -1803,7 +6895,20 @@
         }
       ],
       "sinergie": [
+        "antenne_tesla",
         "artigli_sette_vie",
+        "artigli_vetrificati",
+        "branchie_dual_mode",
+        "capillari_criogenici",
+        "cartilagini_pseudometalliche",
+        "cisti_iperbariche",
+        "cromofori_alert_acido",
+        "denti_tuning_fork",
+        "filamenti_magnetotrofi",
+        "ghiandole_condensa_ozono",
+        "ghiandole_nebbia_ionica",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori",
         "mimetismo_cromatico_passivo",
         "sacche_galleggianti_ascensoriali",
         "scheletro_idro_regolante"
@@ -1826,12 +6931,27 @@
     "tattiche_di_branco": {
       "conflitti": [],
       "debolezza": "Richiede formazione stabile; cala se la coesione precipita sotto il target.",
-      "famiglia_tipologia": "Strategico/Supporto",
+      "famiglia_tipologia": "Strategico/Tattico",
       "fattore_mantenimento_energetico": "Medio (Broadcast continuo di segnali)",
       "label": "Tattiche di Branco",
       "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_microonde_cavernose",
+        "artigli_radice",
+        "artigli_sette_vie",
+        "biofilm_glow",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "ciste_riduttive",
+        "colonne_vibromagnetiche",
+        "denti_ossidoferro",
+        "epidermide_dielettrica",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_minerali",
+        "lamelle_shear",
+        "membrane_captura_rugiada"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
@@ -1852,7 +6972,11 @@
       ],
       "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
       "tier": "T1",
-      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
+      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità.",
+      "slot_profile": {
+        "core": "strategia",
+        "complementare": "coordinazione"
+      }
     },
     "vello_condensatore_nebbie": {
       "conflitti": [],
@@ -1913,7 +7037,20 @@
         }
       ],
       "sinergie": [
-        "filamenti_digestivi_compattanti"
+        "antenne_dustsense",
+        "appendici_thermotattiche",
+        "batteri_endosimbionti_chemio",
+        "branchie_solfatiche",
+        "carapace_segmenti_logici",
+        "circolazione_cooling_loop",
+        "coda_stabilizzatrice_filo",
+        "cuticole_cerose",
+        "enzimi_chelanti",
+        "filamenti_digestivi_compattanti",
+        "flagelli_ancoranti",
+        "ghiandole_grafene",
+        "grassi_termici",
+        "luminescenza_aurorale"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1939,7 +7076,21 @@
       "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
       "requisiti_ambientali": [],
       "sinergie": [
-        "artigli_sghiaccio_glaciale"
+        "ali_ioniche",
+        "antenne_wideband",
+        "artigli_sghiaccio_glaciale",
+        "barbigli_sensori_plasma",
+        "branchie_metalloidi",
+        "capillari_fotovoltaici",
+        "chemiorecettori_bromuro",
+        "coda_contrappeso",
+        "cuscinetti_elettrostatici",
+        "enzimi_antifase_termica",
+        "filamenti_termoconduzione",
+        "ghiandole_fango_calde",
+        "ghiandole_ventosa",
+        "linfa_tampone",
+        "mucose_aderenza_sonica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -1960,7 +7111,11 @@
       ],
       "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
       "tier": "T1",
-      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
+      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno.",
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "propulsione"
+      }
     },
     "zoccoli_risonanti_steppe": {
       "conflitti": [

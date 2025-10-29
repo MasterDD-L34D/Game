@@ -1,0 +1,64 @@
+schema_version: 1.7
+receipt:
+  source: coverage_autogen
+  author: automation
+  date: '2025-10-29'
+  trace_hash: to-fill
+id: laguna-bioreattiva-trait-keeper
+display_name: Bioreactive Lagoon Trait Keeper
+biomes:
+  - laguna_bioreattiva
+role_trofico: ingegneri_ecosistema
+functional_tags:
+  - supporto
+  - ricognizione
+morphotype: cursoriale_quadrupede
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: false
+spawn_rules:
+  orario: []
+  meteo: []
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+environment_affinity:
+  biome_class: laguna_bioreattiva
+  rationale: Specie di riferimento generata per coprire i tratti ambientali associati
+    al bioma laguna_bioreattiva. Usata per validare la matrice traits↔species.
+derived_from_environment:
+  suggested_traits:
+    - antenne_flusso_mareale
+    - appendici_risonanti_marea
+    - branchie_dual_mode
+    - ciste_riduttive
+    - filtri_planctonici
+    - flagelli_ancoranti
+    - ghiandole_cambio_salino
+  optional_traits: []
+  required_capabilities: []
+  jobs_bias: []
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits:
+  core: []
+  optional: []
+  synergy: []
+mate_synergy: []
+jobs_synergy: []
+vc:
+  aggro: 0.0
+  risk: 0.1
+  cohesion: 0.6
+  setup: 0.5
+  explore: 0.4
+  tilt: 0.1
