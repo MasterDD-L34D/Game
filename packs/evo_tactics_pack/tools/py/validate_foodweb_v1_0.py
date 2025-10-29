@@ -7,8 +7,20 @@ from pathlib import Path
 
 import yaml
 
-from ...validators.rules import foodweb as foodweb_rules
-from ...validators.rules.base import format_messages, has_errors
+# Ensure the repository root (containing the ``packs`` package) is importable
+CURRENT_DIR = Path(__file__).resolve()
+for candidate in CURRENT_DIR.parents:
+    if (candidate / "packs").is_dir():
+        REPO_ROOT = candidate
+        break
+else:  # Fallback: assume the repository root is the direct parent of ``packs``
+    REPO_ROOT = CURRENT_DIR.parents[4]
+
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from packs.evo_tactics_pack.validators.rules import foodweb as foodweb_rules
+from packs.evo_tactics_pack.validators.rules.base import format_messages, has_errors
 
 
 def _load_yaml(path: Path) -> dict:
