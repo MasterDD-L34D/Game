@@ -71,6 +71,7 @@ class IdeaRepository {
       link_drive: doc.link_drive || '',
       github: doc.github || '',
       note: doc.note || '',
+      feedback: Array.isArray(doc.feedback) ? doc.feedback : [],
       created_at: doc.created_at,
       updated_at: doc.updated_at,
     };
@@ -106,6 +107,7 @@ class IdeaRepository {
       link_drive: String(payload.link_drive || '').trim(),
       github: String(payload.github || '').trim(),
       note: String(payload.note || '').trim(),
+      feedback: [],
     };
 
     if (!data.title) {
@@ -125,6 +127,32 @@ class IdeaRepository {
     };
     await this.db.insert(doc);
     return this.#docToIdea(doc);
+  }
+
+  async addFeedback(id, payload) {
+    await this.ready;
+    if (!Number.isFinite(id)) {
+      throw new Error('ID non valido');
+    }
+    const message = String(payload && payload.message ? payload.message : '').trim();
+    const contact = String(payload && payload.contact ? payload.contact : '').trim();
+    if (!message) {
+      throw new Error('Messaggio feedback richiesto');
+    }
+    const doc = await this.db.findOne({ id });
+    if (!doc) {
+      throw new Error('Idea non trovata');
+    }
+    const now = timestamp();
+    const feedbackEntry = {
+      message,
+      contact,
+      created_at: now,
+    };
+    const feedbackList = Array.isArray(doc.feedback) ? doc.feedback.slice() : [];
+    feedbackList.push(feedbackEntry);
+    await this.db.update({ id }, { $set: { feedback: feedbackList, updated_at: now } });
+    return this.#docToIdea({ ...doc, feedback: feedbackList, updated_at: now });
   }
 }
 

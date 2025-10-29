@@ -194,6 +194,33 @@ function createApp(options = {}) {
     }
   });
 
+  app.post('/api/ideas/:id/feedback', async (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isFinite(id)) {
+      res.status(400).json({ error: 'ID non valido' });
+      return;
+    }
+    const body = req.body || {};
+    const message = typeof body.message === 'string' ? body.message.trim() : '';
+    const contact = typeof body.contact === 'string' ? body.contact.trim() : '';
+    if (!message) {
+      res.status(400).json({ error: 'Messaggio feedback richiesto' });
+      return;
+    }
+    try {
+      const idea = await repo.addFeedback(id, { message, contact });
+      res.status(201).json({ idea });
+    } catch (error) {
+      if (error && error.message === 'Idea non trovata') {
+        res.status(404).json({ error: 'Idea non trovata' });
+      } else if (error && error.message === 'Messaggio feedback richiesto') {
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Errore salvataggio feedback' });
+      }
+    }
+  });
+
   return { app, repo };
 }
 

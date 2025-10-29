@@ -24,6 +24,7 @@
   };
   const MULTI_FIELD_KEYS = Object.keys(MULTI_FIELD_LABELS);
   const STYLE_ID = 'idea-widget-inline-style';
+  const FEEDBACK_TEMPLATE_FALLBACK = '../ideas/feedback.md';
 
   function unique(arr) {
     return Array.from(new Set((arr || []).filter(Boolean)));
@@ -58,6 +59,18 @@
       .multi-select__token button:hover { opacity:0.7; }
       .multi-select__input { flex:1 1 8rem; border:0; outline:none; font:inherit; padding:0.25rem; min-width:8rem; }
       .multi-select__hint { font-size:0.8rem; color:#8b1a1a; }
+      .feedback-card { margin-top:1.5rem; padding:1rem; border:1px solid #d0d6e1; border-radius:12px; background:#f8f9ff; displ
+ay:flex; flex-direction:column; gap:0.75rem; }
+      .feedback-card h4 { margin:0; font-size:1rem; }
+      .feedback-card textarea { width:100%; min-height:5rem; resize:vertical; border:1px solid #d0d6e1; border-radius:8px; pad
+ding:0.5rem; font:inherit; }
+      .feedback-card input[type="text"], .feedback-card input[type="email"] { width:100%; border:1px solid #d0d6e1; border-rad
+ius:8px; padding:0.45rem 0.6rem; font:inherit; }
+      .feedback-card .actions { display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; }
+      .feedback-card .status { font-size:0.85rem; min-height:1.2rem; }
+      .feedback-card .status.err { color:#8b1a1a; }
+      .feedback-card .status.ok { color:#1a7f3b; }
+      .feedback-card .linkish { color:#3046c5; text-decoration:underline; }
     `;
     document.head.appendChild(style);
   }
@@ -451,7 +464,87 @@
     setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 300);
   }
 
-  function renderSuccess(container, data) {
+  function createFeedbackModule(options, idea) {
+    const apiBase = (options && options.apiBase) ? options.apiBase.replace(/\/$/, '') : '';
+    const apiToken = options && options.apiToken;
+    const templateUrl = options && options.feedbackTemplateUrl;
+    if (!apiBase || !idea || !idea.id) return null;
+
+    const wrapper = el('div', { class: 'feedback-card' });
+    wrapper.appendChild(el('h4', {}, 'Idea Engine Feedback'));
+    if (templateUrl) {
+      const link = el('a', { href: templateUrl, target: '_blank', rel: 'noreferrer', class: 'linkish' }, 'template completo');
+      const intro = el('p', { class: 'note small' }, [
+        'Aiutaci a migliorare il flusso (feedback rapido qui sotto o apri il ',
+        link,
+        ').'
+      ]);
+      wrapper.appendChild(intro);
+    } else {
+      wrapper.appendChild(el('p', { class: 'note small' }, 'Aiutaci a migliorare il flusso: lascia un commento rapido qui sott'
+ + 'o.'));
+    }
+
+    const textarea = el('textarea', { placeholder: 'Cosa ha funzionato? Cosa manca?' });
+    const contact = el('input', { type: 'text', placeholder: 'Contatto o handle (opzionale)' });
+    const actions = el('div', { class: 'actions' });
+    const status = el('div', { class: 'status', 'aria-live': 'polite' });
+    const submit = el('button', { type: 'button', class: 'button button--secondary' }, 'Invia feedback');
+
+    let busy = false;
+    function setBusy(isBusy) {
+      busy = isBusy;
+      submit.disabled = isBusy;
+      submit.classList.toggle('button--busy', isBusy);
+      submit.textContent = isBusy ? 'Invio feedback…' : 'Invia feedback';
+    }
+
+    submit.addEventListener('click', async () => {
+      if (busy) return;
+      const message = (textarea.value || '').trim();
+      const contactValue = (contact.value || '').trim();
+      if (!message) {
+        status.textContent = 'Inserisci un commento prima di inviare.';
+        status.className = 'status err';
+        return;
+      }
+      status.textContent = '';
+      status.className = 'status';
+      try {
+        setBusy(true);
+        const response = await fetch(`${apiBase}/api/ideas/${idea.id}/feedback`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(apiToken ? { 'Authorization': 'Bearer ' + apiToken } : {})
+          },
+          body: JSON.stringify({ message, contact: contactValue })
+        });
+        const json = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error((json && json.error) ? json.error : `${response.status} ${response.statusText}`);
+        }
+        textarea.value = '';
+        contact.value = '';
+        status.textContent = 'Grazie! Feedback registrato.';
+        status.className = 'status ok';
+      } catch (error) {
+        status.textContent = 'Errore invio feedback: ' + (error && error.message ? error.message : error);
+        status.className = 'status err';
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    actions.appendChild(submit);
+    wrapper.appendChild(textarea);
+    wrapper.appendChild(contact);
+    wrapper.appendChild(actions);
+    wrapper.appendChild(status);
+    return wrapper;
+  }
+
+  function renderSuccess(container, data, options) {
     const fragments = [
       "<div class='ok'>✅ Idea registrata.</div>"
     ];
@@ -514,12 +607,21 @@
       ]);
       container.appendChild(reportWrapper);
     }
+
+    const feedbackModule = createFeedbackModule(options, data.idea);
+    if (feedbackModule) {
+      container.appendChild(feedbackModule);
+    }
   }
 
   function buildForm(container, opts, categories, taxonomyRaw) {
     ensureStyles();
     const taxonomy = prepareTaxonomy(taxonomyRaw);
     const state = { apiBase: (opts.apiBase||"").trim(), apiToken: (opts.apiToken||"").trim() };
+    const templateUrl = (opts.feedbackTemplateUrl || deriveAssetUrl(FEEDBACK_TEMPLATE_FALLBACK) || '').trim();
+    if (templateUrl) {
+      state.feedbackTemplateUrl = templateUrl;
+    }
     state.categories = Array.isArray(categories) && categories.length ? categories : DEFAULT_CATEGORIES.slice();
     const defaultBiomes = splitList(opts.defaultBiomes || opts.defaultModule || "");
     const defaultEcosystems = splitList(opts.defaultEcosystems || "");
@@ -606,7 +708,7 @@
         });
         const data = await r.json();
         if (!r.ok) throw new Error(data && data.error ? data.error : r.status + " " + r.statusText);
-        renderSuccess(res, data);
+        renderSuccess(res, data, state);
       } catch (e) {
         res.innerHTML = "<span class='err'>Errore: " + (e && e.message ? e.message : e) + "</span>";
       } finally {

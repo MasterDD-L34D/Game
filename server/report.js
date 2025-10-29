@@ -26,6 +26,43 @@ function formatChecklist(actions) {
     .join('\n');
 }
 
+function formatFeedbackEntries(feedback) {
+  if (!Array.isArray(feedback) || !feedback.length) return '-';
+  return feedback
+    .map((entry) => {
+      if (!entry || !entry.message) return null;
+      const message = String(entry.message).trim();
+      if (!message) return null;
+      const contact = entry.contact ? ` (${String(entry.contact).trim()})` : '';
+      let created = '';
+      if (entry.created_at) {
+        const date = new Date(entry.created_at);
+        created = Number.isNaN(date.getTime()) ? ` · ${entry.created_at}` : ` · ${date.toISOString()}`;
+      }
+      return `- ${message}${contact}${created}`;
+    })
+    .filter(Boolean)
+    .join('\n') || '-';
+}
+
+function latestFeedback(feedback) {
+  if (!Array.isArray(feedback) || !feedback.length) return '-';
+  const entries = feedback.filter((entry) => entry && entry.message).map((entry) => ({
+    message: String(entry.message).trim(),
+    contact: entry.contact ? String(entry.contact).trim() : '',
+    created_at: entry.created_at || '',
+  })).filter((entry) => entry.message);
+  if (!entries.length) return '-';
+  const last = entries[entries.length - 1];
+  const contact = last.contact ? ` (${last.contact})` : '';
+  let created = '';
+  if (last.created_at) {
+    const date = new Date(last.created_at);
+    created = Number.isNaN(date.getTime()) ? ` · ${last.created_at}` : ` · ${date.toISOString()}`;
+  }
+  return `${last.message}${contact}${created}`;
+}
+
 function reminderBlock(idea) {
   const fields = [
     ['IDEA', idea.title],
@@ -42,6 +79,7 @@ function reminderBlock(idea) {
     ['LINK_DRIVE', idea.link_drive],
     ['GITHUB', idea.github],
     ['NOTE', idea.note],
+    ['FEEDBACK_RECENTE', latestFeedback(idea.feedback)],
   ];
   return fields
     .map(([label, value]) => `${label}: ${value || '-'}`)
@@ -148,9 +186,13 @@ function buildCodexReport(idea) {
   if (idea.note) {
     report.push('', '## Additional Notes', idea.note);
   }
+  if (idea.feedback && idea.feedback.length) {
+    report.push('', '## Intake Feedback', formatFeedbackEntries(idea.feedback));
+  }
   return report.join('\n');
 }
 
 module.exports = {
   buildCodexReport,
+  formatFeedbackEntries,
 };
