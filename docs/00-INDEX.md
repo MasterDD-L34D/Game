@@ -21,7 +21,7 @@
 - [40 Roadmap / MVP → Alpha](40-ROADMAP.md)
 
 ## Dati & Appendici
-- `data/species.yaml` (catalogo Specie & Parti)
+- `data/core/species.yaml` (catalogo Specie & Parti)
 - `tools/*` (validator Python/TS)
 - Appendici: Canvas integrali
   - [A — Canvas originale (testuale)](../appendici/A-CANVAS_ORIGINALE.txt)

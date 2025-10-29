@@ -41,7 +41,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--out-json",
         type=Path,
-        default=Path("data/analysis/trait_coverage_report.json"),
+        default=Path("data/derived/analysis/trait_coverage_report.json"),
         help="Percorso del report JSON da generare",
     )
     parser.add_argument(

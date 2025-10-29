@@ -5,11 +5,11 @@
 - **Dataset Hub & monitor YAML** — Dashboard automatica che valida i file `data/**/*.yaml`, evidenziando inconsistenze e stato import per Drive Sync.
 - **Generatore VC** — Radar dinamico, confronto specie side-by-side, pin persistente e tooltips hazard/ruoli per condividere build rapidi in QA.
 - **CLI Pack Rolling (TS/Python)** — Gli script `tools/ts/roll_pack` e `tools/py/roll_pack.py` permettono di simulare l'assegnazione dei pacchetti PI usando `data/packs.yaml`, mantenendo parità funzionale tra stack tecnologici.
-- **Generatore Encounter Python** — `tools/py/generate_encounter.py` sfrutta `data/biomes.yaml` per derivare difficoltà, affissi dinamici e adattamenti VC, utile per playtest veloci.
-- **Missione Skydock Siege** — Infiltrazione verticale con obiettivi multilivello, evacuazione cronometrata e coordinamento a quote diverse.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
-- **Reattori Aeon** — Risorsa leggendaria che abilita poteri temporali specifici per le Forme Armoniche.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
-- **Telemetry Risk Tuning 2025-10-24** — Nuovo metodo `ema_capped_minmax` con segnale `overcap_guard_events` e smoothing 0.2 per ridurre i falsi positivi nelle squadre Bravo/Delta.【F:data/telemetry.yaml†L2-L25】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L62】
-- **HUD Smart Alerts Canary** — Layout `data/hud/layout.yaml` con tagging missione gestito da `public/hud/Overlay.tsx` e flag `hud.smart_alerts` per abilitare filtri di rischio parametrizzabili nel canale canary.【F:data/hud/layout.yaml†L1-L30】【F:public/hud/Overlay.tsx†L1-L151】【F:config/cli/hud.yaml†L1-L7】
+- **Generatore Encounter Python** — `tools/py/generate_encounter.py` sfrutta `data/core/biomes.yaml` per derivare difficoltà, affissi dinamici e adattamenti VC, utile per playtest veloci.
+- **Missione Skydock Siege** — Infiltrazione verticale con obiettivi multilivello, evacuazione cronometrata e coordinamento a quote diverse.【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+- **Reattori Aeon** — Risorsa leggendaria che abilita poteri temporali specifici per le Forme Armoniche.【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+- **Telemetry Risk Tuning 2025-10-24** — Nuovo metodo `ema_capped_minmax` con segnale `overcap_guard_events` e smoothing 0.2 per ridurre i falsi positivi nelle squadre Bravo/Delta.【F:data/core/telemetry.yaml†L2-L25】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L62】
+- **HUD Smart Alerts Canary** — Layout `data/core/hud/layout.yaml` con tagging missione gestito da `public/hud/Overlay.tsx` e flag `hud.smart_alerts` per abilitare filtri di rischio parametrizzabili nel canale canary.【F:data/core/hud/layout.yaml†L1-L30】【F:public/hud/Overlay.tsx†L1-L151】【F:config/cli/hud.yaml†L1-L7】
 - **HUD Smart Alerts metrics** — `tools/ts/hud_alerts.ts` registra ack, destinatari e drop dei filtri mentre `scripts/qa/hud_smart_alerts.py` aggrega i log canary schedulati via `config/jobs/hud_canary.yaml`, alimentando `logs/playtests/*/hud_alert_log.json` per dashboard QA.【F:tools/ts/hud_alerts.ts†L1-L360】【F:scripts/qa/hud_smart_alerts.py†L1-L171】【F:config/jobs/hud_canary.yaml†L1-L11】【F:logs/playtests/2025-11-05-vc/hud_alert_log.json†L1-L40】
 - **Analytics SquadSync canary** — ETL `scripts/analytics/etl_squadsync.py`, schema/resolver GraphQL e pagina `/analytics/squadsync/` offrono trend engagement+deployments filtrabili con cron canary e flag dedicato.【F:scripts/analytics/etl_squadsync.py†L1-L220】【F:tools/graphql/resolvers/squadsync.ts†L1-L154】【F:public/analytics/squadsync/index.tsx†L1-L196】【F:config/jobs/etl.yaml†L1-L12】【F:config/feature_flags.yaml†L1-L16】
 
@@ -42,13 +42,13 @@
 ## Regole di gioco evidenziate
 - **Economia PI** — I costi e i massimali (`pi_shop.costs`/`caps`) definiscono la cadenza di progressione e i limiti per i pack iniziali.【F:data/packs.yaml†L1-L17】
 - **Bias per Forma** — Le tabelle `bias_d12` forniscono controllo sullo skew dei pacchetti in base al MBTI scelto, abilitando tuning mirato delle build iniziali.【F:data/packs.yaml†L18-L88】
-- **Adattamenti VC per Bioma** — I flag `vc_adapt` determinano come gli encounter scalano controlli, guardia, imboscate e burst secondo i segnali di telemetria della squadra.【F:data/biomes.yaml†L6-L13】
-- **Regole Ibride di Mating** — Le combinazioni in `hybrid_rules` chiariscono le fusioni locomozione/sensi quando due forme condividono caratteristiche uniche.【F:data/mating.yaml†L25-L32】
-- **Filtro SquadSync** — L'indice StressWave ora isola i picchi dovuti a mismatch di ruolo, supportando tuning mirato della difficoltà co-op.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
-- **Nidi itineranti con ancoraggi** — Gli spostamenti dei clan sabbiosi richiedono Resonance Shards per stabilizzare il trasferimento tra turni.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
-- **Protocollo di soccorso** — Nuove chiamate di rinforzo NPG basate su telemetria live per recuperare squadre in difficoltà.【F:data/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+- **Adattamenti VC per Bioma** — I flag `vc_adapt` determinano come gli encounter scalano controlli, guardia, imboscate e burst secondo i segnali di telemetria della squadra.【F:data/core/biomes.yaml†L6-L13】
+- **Regole Ibride di Mating** — Le combinazioni in `hybrid_rules` chiariscono le fusioni locomozione/sensi quando due forme condividono caratteristiche uniche.【F:data/core/mating.yaml†L25-L32】
+- **Filtro SquadSync** — L'indice StressWave ora isola i picchi dovuti a mismatch di ruolo, supportando tuning mirato della difficoltà co-op.【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+- **Nidi itineranti con ancoraggi** — Gli spostamenti dei clan sabbiosi richiedono Resonance Shards per stabilizzare il trasferimento tra turni.【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
+- **Protocollo di soccorso** — Nuove chiamate di rinforzo NPG basate su telemetria live per recuperare squadre in difficoltà.【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】
 
 ## Dati YAML aggiornati
-- **Biomi** — Ogni voce contiene difficoltà base, modificatori e affissi tematici (es. `savana`, `caverna`, `palude`).【F:data/biomes.yaml†L1-L5】
-- **Telemetria VC** — Le finestre EMA, gli indici VC e le formule MBTI/Ennea supportano il nuovo layer di analytics live per sessioni co-op.【F:data/telemetry.yaml†L1-L25】
-- **Standard di Nido** — I profili `dune_stalker` ed `echo_morph` specificano ambiente, struttura e risorse, fungendo da baseline per la progressione narrativa di clan.【F:data/mating.yaml†L13-L24】
+- **Biomi** — Ogni voce contiene difficoltà base, modificatori e affissi tematici (es. `savana`, `caverna`, `palude`).【F:data/core/biomes.yaml†L1-L5】
+- **Telemetria VC** — Le finestre EMA, gli indici VC e le formule MBTI/Ennea supportano il nuovo layer di analytics live per sessioni co-op.【F:data/core/telemetry.yaml†L1-L25】
+- **Standard di Nido** — I profili `dune_stalker` ed `echo_morph` specificano ambiente, struttura e risorse, fungendo da baseline per la progressione narrativa di clan.【F:data/core/mating.yaml†L13-L24】

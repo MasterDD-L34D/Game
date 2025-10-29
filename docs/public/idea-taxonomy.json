@@ -1,18 +1,18 @@
 {
   "generatedAt": "2025-10-29T00:29:38.594Z",
   "sources": {
-    "biomes": "data/biomes.yaml",
-    "biomeAliases": "data/biome_aliases.yaml",
+    "biomes": "data/core/biomes.yaml",
+    "biomeAliases": "data/core/biome_aliases.yaml",
     "ecosystems": [
       "packs/evo_tactics_pack/data/ecosistemi",
       "packs/evo_tactics_pack/data/ecosystems"
     ],
     "species": [
-      "data/species.yaml",
+      "data/core/species.yaml",
       "packs/evo_tactics_pack/data/species"
     ],
-    "traits": "data/traits/glossary.json",
-    "gameFunctions": "data/game_functions.yaml"
+    "traits": "data/core/traits/glossary.json",
+    "gameFunctions": "data/core/game_functions.yaml"
   },
   "biomes": [
     "abisso_vulcanico",

@@ -43,14 +43,14 @@ successiva e registrare eventuali task di follow-up in roadmap.
     team UI per validare etichette e badge “foodweb ready”.
 ## 2025-10-27T10:49:20Z · run_deploy_checks.sh
 - **Esito script**: ❌ `scripts/run_deploy_checks.sh`
-  - `npm ci` (tools/ts) completato con dataset `data/mock/prod_snapshot`.
+  - `npm ci` (tools/ts) completato con dataset `data/derived/mock/prod_snapshot`.
   - Installazione browser Playwright bloccata: errore HTTP 403 dal mirror `https://playwright.azureedge.net/builds/chromium/1194/chromium-linux.zip`; suite TypeScript/Playwright e `pytest` non eseguite.
 - **Smoke test HTTP**: non avviato (script interrotto durante setup Playwright).
 - **Note**:
   - Ambiente privo di accesso al mirror Playwright; necessario mirror alternativo o cache artefatti per sbloccare la pipeline.
 ## 2025-10-27T11:35:40Z · lighthouse:test-interface & test:web
 - **Esito tool**: ✅ `npm --prefix tools/ts run test:web`
-  - Suite Playwright completata (2 test) contro dataset `data/test-fixtures/minimal`.
+  - Suite Playwright completata (2 test) contro dataset `data/derived/test-fixtures/minimal`.
   - Nessuna regressione di caricamento rilevata: warnings di storage attesi ma non bloccanti.
 - **Audit Lighthouse**: ✅ `npm --prefix tools/ts run lighthouse:test-interface`
   - Performance 82 · Accessibilità 100 · Best Practices 92 · SEO 100.
@@ -62,7 +62,7 @@ successiva e registrare eventuali task di follow-up in roadmap.
 ## 2025-10-28T23:39:35Z · run_deploy_checks.sh
 - **Esito script**: ✅ `scripts/run_deploy_checks.sh`
   - Artefatti TypeScript già presenti in `tools/ts/dist`.
-  - Bundle statico generato in `dist.ii91XC` con dataset `data/mock/prod_snapshot`.
+  - Bundle statico generato in `dist.ii91XC` con dataset `data/derived/mock/prod_snapshot`.
 - **Smoke test HTTP: server Python attivo su http://127.0.0.1:40839/**
   - Dataset copiato con 48 file totali.
   - Richieste principali completate senza errori (index.html e dashboard).
@@ -72,7 +72,7 @@ successiva e registrare eventuali task di follow-up in roadmap.
 ## 2025-10-28T23:40:05Z · run_deploy_checks.sh
 - **Esito script**: ✅ `scripts/run_deploy_checks.sh`
   - Artefatti TypeScript già presenti in `tools/ts/dist`.
-  - Bundle statico generato in `dist.X6KqNP` con dataset `data/mock/prod_snapshot`.
+  - Bundle statico generato in `dist.X6KqNP` con dataset `data/derived/mock/prod_snapshot`.
 - **Smoke test HTTP: server Python attivo su http://127.0.0.1:57027/**
   - Trait generator: core=22 enriched_species=7 (time 10 ms).
   - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.
@@ -85,7 +85,7 @@ successiva e registrare eventuali task di follow-up in roadmap.
 ## 2025-10-28T23:44:19Z · run_deploy_checks.sh
 - **Esito script**: ✅ `scripts/run_deploy_checks.sh`
   - Artefatti TypeScript già presenti in `tools/ts/dist`.
-  - Bundle statico generato in `dist.CLHuOR` con dataset `data/mock/prod_snapshot`.
+  - Bundle statico generato in `dist.CLHuOR` con dataset `data/derived/mock/prod_snapshot`.
 - **Smoke test HTTP: server Python attivo su http://127.0.0.1:45369/**
   - Trait generator: core=22 enriched_species=7 (time 10 ms).
   - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.

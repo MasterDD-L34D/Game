@@ -2,8 +2,8 @@
 
 ## Pre-run (giornaliero)
 - [ ] Aggiorna la sorgente dati (`logs/playtests/...`) e lancia `convertYamlToSheetsDryRun()` verificando `filterSummary` per assicurarti che gli alert HUD previsti vengano mantenuti.【F:scripts/driveSync.gs†L31-L121】
-- [ ] Esegui `python tools/py/validate_export.py --export data/exports/qa-telemetry-export.json --recipients config/drive/recipients.yaml` per validare schema, enum e routing destinatari.【F:tools/py/validate_export.py†L1-L211】
-- [ ] Controlla l'output "Diff telemetry/export" di `validate_export.py`: se compaiono indici/target mancanti rispetto a `data/telemetry.yaml`, apri ticket con Analytics o aggiorna le evidenze nel report.【F:tools/py/validate_export.py†L1-L310】【F:data/telemetry.yaml†L1-L74】
+- [ ] Esegui `python tools/py/validate_export.py --export data/derived/exports/qa-telemetry-export.json --recipients config/drive/recipients.yaml` per validare schema, enum e routing destinatari.【F:tools/py/validate_export.py†L1-L211】
+- [ ] Controlla l'output "Diff telemetry/export" di `validate_export.py`: se compaiono indici/target mancanti rispetto a `data/core/telemetry.yaml`, apri ticket con Analytics o aggiorna le evidenze nel report.【F:tools/py/validate_export.py†L1-L310】【F:data/core/telemetry.yaml†L1-L74】
 - [ ] Se il dry-run esclude alert attesi, modifica temporaneamente `DRIVE_SYNC_FILTER_RECIPIENTS`/`DRIVE_SYNC_FILTER_STATUSES` oppure imposta `DRIVE_SYNC_LOG_LEVEL=debug` per ottenere log dettagliati e allegali al report QA.【F:scripts/driveSync.gs†L1-L118】【F:scripts/driveSync.gs†L613-L765】
 
 ## Verifica UI export (settimanale)

@@ -126,7 +126,7 @@
   "schema_version": "1.0",
   "sources": {
     "species": [
-      "data/species.yaml",
+      "data/core/species.yaml",
       "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
       "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
       "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
@@ -353,7 +353,7 @@
       "required_capabilities": [],
       "role": null,
       "source_files": [
-        "data/species.yaml"
+        "data/core/species.yaml"
       ],
       "synergy_hints": [
         "echo_backstab"

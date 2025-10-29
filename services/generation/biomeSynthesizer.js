@@ -1,4 +1,5 @@
 const fs = require('node:fs/promises');
+const fsSync = require('node:fs');
 const path = require('node:path');
 
 const { createSpeciesBuilder, buildPathfinderProfile } = require('./speciesBuilder');
@@ -488,10 +489,21 @@ async function buildBiomeFromPool(pool, context, traitGlossary, rng, speciesBuil
   return biome;
 }
 
+function resolveDataPath(dataRoot, segments = []) {
+  const targetSegments = Array.isArray(segments) ? segments : [segments];
+  const corePath = path.join(dataRoot, 'core', ...targetSegments);
+  if (fsSync.existsSync(corePath)) {
+    return corePath;
+  }
+  return path.join(dataRoot, ...targetSegments);
+}
+
 function createBiomeSynthesizer(options = {}) {
   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
-  const traitGlossaryPath = options.traitGlossaryPath || path.join(dataRoot, 'traits', 'glossary.json');
-  const traitPoolPath = options.traitPoolPath || path.join(dataRoot, 'traits', 'biome_pools.json');
+  const traitGlossaryPath = options.traitGlossaryPath
+    || resolveDataPath(dataRoot, ['traits', 'glossary.json']);
+  const traitPoolPath = options.traitPoolPath
+    || resolveDataPath(dataRoot, ['traits', 'biome_pools.json']);
   const speciesBuilderInstance = createSpeciesBuilder(
     options.speciesBuilder || {
       catalogPath: path.resolve(__dirname, '..', '..', 'docs', 'catalog', 'catalog_data.json'),

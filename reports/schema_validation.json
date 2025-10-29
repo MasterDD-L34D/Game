@@ -9,14 +9,14 @@
       "status": "ok"
     },
     {
-      "path": "data/biomes.yaml",
+      "path": "data/core/biomes.yaml",
       "schema": "https://game.schemas.local/biome.schema.yaml",
       "errors": [],
       "warnings": [],
       "status": "ok"
     },
     {
-      "path": "data/species.yaml",
+      "path": "data/core/species.yaml",
       "schema": "https://game.schemas.local/species.schema.yaml",
       "errors": [],
       "warnings": [],

@@ -15,7 +15,7 @@ async function main() {
 
   const repoRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)), '..');
   const configPath = path.resolve(repoRoot, args.config || 'config/drive/approved_asset_sources.json');
-  const outputPath = path.resolve(repoRoot, args.output || 'data/drive/approved_assets.json');
+  const outputPath = path.resolve(repoRoot, args.output || 'data/external/drive/approved_assets.json');
 
   let config;
   try {

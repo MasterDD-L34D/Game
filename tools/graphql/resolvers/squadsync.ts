@@ -13,7 +13,7 @@ import type {
 
 const moduleDir = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(moduleDir, '../../..');
-export const DEFAULT_REPORT_PATH = resolve(PROJECT_ROOT, 'data/analysis/squadsync_report.json');
+export const DEFAULT_REPORT_PATH = resolve(PROJECT_ROOT, 'data/derived/analysis/squadsync_report.json');
 
 export interface SquadSyncResolverOptions {
   reportPath?: string;

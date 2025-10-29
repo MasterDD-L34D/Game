@@ -46,7 +46,7 @@ candidates = [
 ]
 
 # Analizza anche directory nidificate comuni, mantenendo l'ordine deterministico.
-for nested in sorted(root.glob("*/data/biomes.yaml")):
+for nested in sorted(root.glob("*/data/core/biomes.yaml")):
     if nested not in candidates:
         candidates.append(nested)
 

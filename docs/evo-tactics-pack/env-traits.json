@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "trait_glossary": "data/traits/glossary.json",
+  "trait_glossary": "data/core/traits/glossary.json",
   "rules": [
     {
       "when": {

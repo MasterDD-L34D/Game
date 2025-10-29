@@ -23,7 +23,7 @@ DEFAULT_MATRIX_PATH = REPO_ROOT / "docs" / "catalog" / "species_trait_matrix.jso
 DEFAULT_TRAIT_REFERENCE_PATH = (
     REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
 )
-DEFAULT_TRAIT_GLOSSARY_PATH = REPO_ROOT / "data" / "traits" / "glossary.json"
+DEFAULT_TRAIT_GLOSSARY_PATH = REPO_ROOT / "data" / "core" / "traits" / "glossary.json"
 DEFAULT_INVENTORY_PATH = REPO_ROOT / "docs" / "catalog" / "traits_inventory.json"
 DEFAULT_PATHFINDER_DATASET_PATH = REPO_ROOT / "data" / "external" / "pathfinder_bestiary_1e.json"
 

@@ -63,6 +63,12 @@ def _data_dir() -> Path:
     return DEFAULT_DATA_DIR
 
 
+def _core_data_dir() -> Path:
+    data_dir = _data_dir()
+    candidate = data_dir / "core"
+    return candidate if candidate.exists() else data_dir
+
+
 def _pack_validator_path() -> Path:
     pack_root = os.environ.get("GAME_CLI_PACK_ROOT")
     if pack_root:
@@ -82,7 +88,7 @@ def pack_validator_path() -> Path:
 
 
 def validate_biomes() -> List[str]:
-    path = _data_dir() / "biomes.yaml"
+    path = _core_data_dir() / "biomes.yaml"
     data = load_yaml(path)
     errors: List[str] = []
 
@@ -201,7 +207,7 @@ def validate_biomes() -> List[str]:
 
 
 def validate_mating() -> List[str]:
-    path = _data_dir() / "mating.yaml"
+    path = _core_data_dir() / "mating.yaml"
     data = load_yaml(path)
     errors: List[str] = []
 
@@ -457,7 +463,7 @@ def parse_range(raw: str) -> Tuple[int, int]:
 
 
 def validate_telemetry() -> List[str]:
-    path = _data_dir() / "telemetry.yaml"
+    path = _core_data_dir() / "telemetry.yaml"
     data = load_yaml(path)
     errors: List[str] = []
 

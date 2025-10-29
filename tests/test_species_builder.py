@@ -17,7 +17,7 @@ class SpeciesBuilderTests(unittest.TestCase):
         trait = self.catalog.require("artigli_sette_vie")
         self.assertEqual(trait.label, "Artigli a Sette Vie")
         self.assertIn("Locomotorio", " ".join(trait.families) or trait.usage or "")
-        self.assertIn("data/traits/glossary.json", trait.dataset_sources)
+        self.assertIn("data/core/traits/glossary.json", trait.dataset_sources)
         self.assertIn("caverna_risonante", trait.environments)
 
     def test_species_blueprint_matches_snapshot(self) -> None:
