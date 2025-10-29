@@ -25,6 +25,7 @@
       "sinergie": [
         "focus_frazionato",
         "sinapsi_coraline_polifoniche",
+        "carapace_luminiscente_abissale",
         "risonanza_di_branco"
       ],
       "sinergie_pi": {
@@ -345,6 +346,7 @@
       "sinergie": [
         "zoccoli_risonanti_steppe",
         "sacche_galleggianti_ascensoriali",
+        "artigli_sghiaccio_glaciale",
         "carapace_fase_variabile"
       ],
       "sinergie_pi": {
@@ -389,7 +391,8 @@
       "sinergie": [
         "eco_interno_riflesso",
         "risonanza_di_branco",
-        "empatia_coordinativa"
+        "empatia_coordinativa",
+        "criostasi_adattiva"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -432,7 +435,8 @@
         }
       ],
       "sinergie": [
-        "nodi_micorrizici_oracolari"
+        "nodi_micorrizici_oracolari",
+        "bulbi_radici_permafrost"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -538,7 +542,9 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "cavita_risonanti_tundra"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -594,7 +600,9 @@
       "label": "Empatia Coordinativa",
       "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "cavita_risonanti_tundra"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "job_ability:Warden/Scudo_di_Risonanza"
@@ -834,7 +842,8 @@
         }
       ],
       "sinergie": [
-        "struttura_elastica_amorfa"
+        "struttura_elastica_amorfa",
+        "artigli_sette_vie"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -871,7 +880,8 @@
       ],
       "sinergie": [
         "circolazione_bifasica_palude",
-        "nodi_micorrizici_oracolari"
+        "nodi_micorrizici_oracolari",
+        "branchie_osmotiche_salmastra"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -908,7 +918,8 @@
       ],
       "sinergie": [
         "chioma_parassita_canopica",
-        "mucillagine_simbionte_mangrovie"
+        "mucillagine_simbionte_mangrovie",
+        "bulbi_radici_permafrost"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1232,7 +1243,11 @@
       "label": "Risonanza di Branco",
       "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_plasmatiche_tempesta",
+        "carapace_luminiscente_abissale",
+        "cavita_risonanti_tundra"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
@@ -1280,7 +1295,8 @@
       "sinergie": [
         "respiro_a_scoppio",
         "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
+        "struttura_elastica_amorfa",
+        "cartilagine_flessotermica_venti"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1460,7 +1476,8 @@
         }
       ],
       "sinergie": [
-        "eco_interno_riflesso"
+        "eco_interno_riflesso",
+        "carapace_fase_variabile"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1496,7 +1513,8 @@
         }
       ],
       "sinergie": [
-        "carapace_luminiscente_abissale"
+        "carapace_luminiscente_abissale",
+        "antenne_plasmatiche_tempesta"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1530,7 +1548,8 @@
         }
       ],
       "sinergie": [
-        "occhi_infrarosso_composti"
+        "occhi_infrarosso_composti",
+        "artigli_sghiaccio_glaciale"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1658,7 +1677,9 @@
       "label": "Tattiche di Branco",
       "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "artigli_sette_vie"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
