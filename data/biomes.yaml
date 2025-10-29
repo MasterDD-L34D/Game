@@ -667,36 +667,6 @@ frequencies:
     t1: 0.1
     none: 0.5
   rovine_planari:
-    label: Rovine Planari Fratturate
-    summary: Metropoli extraplanare in rovina con portali instabili e correnti di
-      energia astrale.
-    diff_base: 4
-    mod_biome: 3
-    affixes:
-    - planar_rift
-    - psionic_echo
-    - cenere_memetica
-    hazard:
-      description: Fenditure di teletrasporto, eco psionici e detriti gravitazionali
-        erranti.
-      severity: high
-      stress_modifiers:
-        planar_rend: 0.06
-        echo_overload: 0.05
-    npc_archetypes:
-      primary:
-      - wardens_planari
-      - mercanti_iconoclasti
-      support:
-      - oracoli_aurorali
-    stresswave:
-      baseline: 0.34
-      escalation_rate: 0.05
-      event_thresholds:
-        rescue: 0.57
-        overrun: 0.8
-    narrative:
-      tone: Esplorazioni tra archi spezzati e conflitti con entità traslocanti.
-      hooks:
-      - Sigillare i portali corrotti prima del collasso dimensionale.
-      - Recuperare reliquie pathfinder riadattate ai protocolli Evo Tactics.
+    t0: 0.25
+    t1: 0.55
+    none: 0.2
