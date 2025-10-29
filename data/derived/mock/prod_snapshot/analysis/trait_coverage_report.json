@@ -1,0 +1,727 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2025-10-26T23:42:22+00:00",
+  "sources": {
+    "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+    "trait_glossary": "/workspace/Game/data/core/traits/glossary.json",
+    "species_root": "packs/evo_tactics_pack/data/species"
+  },
+  "summary": {
+    "traits_total": 29,
+    "traits_with_rules": 20,
+    "traits_with_species": 0,
+    "rule_combos_total": 20,
+    "species_combos_total": 0,
+    "rules_missing_species_total": 20,
+    "traits_missing_species": [
+      "artigli_sette_vie",
+      "carapace_fase_variabile",
+      "coda_frusta_cinetica",
+      "criostasi_adattiva",
+      "eco_interno_riflesso",
+      "filamenti_digestivi_compattanti",
+      "lingua_tattile_trama",
+      "mimetismo_cromatico_passivo",
+      "nucleo_ovomotore_rotante",
+      "occhi_infrarosso_composti",
+      "olfatto_risonanza_magnetica",
+      "respiro_a_scoppio",
+      "sacche_galleggianti_ascensoriali",
+      "sangue_piroforico",
+      "scheletro_idro_regolante",
+      "secrezione_rallentante_palmi",
+      "sonno_emisferico_alternato",
+      "spore_psichiche_silenziate",
+      "struttura_elastica_amorfa",
+      "ventriglio_gastroliti"
+    ],
+    "traits_missing_rules": []
+  },
+  "traits": {
+    "artigli_sette_vie": {
+      "label_it": "Artigli a Sette Vie",
+      "label_en": "Seven-Way Talons",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "carapace_fase_variabile": {
+      "label_it": "Carapace a Variazione di Fase",
+      "label_en": "Phase-Shifting Carapace",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "coda_frusta_cinetica": {
+      "label_it": "Coda a Frusta Cinetica",
+      "label_en": "Kinetic Lash Tail",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "criostasi_adattiva": {
+      "label_it": "Criostasi",
+      "label_en": "Adaptive Cryostasis",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "eco_interno_riflesso": {
+      "label_it": "Riflesso dell'Eco Interno",
+      "label_en": "Internal Echo Reflex",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "empatia_coordinativa": {
+      "label_it": "Empatia Coordinativa",
+      "label_en": "Coordinated Empathy",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "filamenti_digestivi_compattanti": {
+      "label_it": "Filamento materiali digeriti",
+      "label_en": "Digestive Compaction Filaments",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "focus_frazionato": {
+      "label_it": "Focus Frazionato",
+      "label_en": "Fractional Focus",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandola_caustica": {
+      "label_it": "Ghiandola Caustica",
+      "label_en": "Caustic Gland",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "lingua_tattile_trama": {
+      "label_it": "Lingua Tattile Trama-Sensibile",
+      "label_en": "Texture-Sensing Tongue",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "mimetismo_cromatico_passivo": {
+      "label_it": "Ghiandole di Mimetismo Cromatico Passivo",
+      "label_en": "Passive Chromatic Mimicry",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "nucleo_ovomotore_rotante": {
+      "label_it": "Uovo rotaia, uovo grande e uova piccole dentro...",
+      "label_en": "Rotating Ovomotor Core",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "occhi_infrarosso_composti": {
+      "label_it": "Occhi Composti ad Infrarosso",
+      "label_en": "Infrared Compound Eyes",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "olfatto_risonanza_magnetica": {
+      "label_it": "Olfatto di Risonanza Magnetica",
+      "label_en": "Magnetic Resonance Scent",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "pathfinder": {
+      "label_it": "Pathfinder",
+      "label_en": "Pathfinder",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "pianificatore": {
+      "label_it": "Pianificatore",
+      "label_en": "Strategic Planner",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "random": {
+      "label_it": "Trait Random",
+      "label_en": "Trait Random",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "respiro_a_scoppio": {
+      "label_it": "Respiro a scoppio",
+      "label_en": "Burst Breath Propulsion",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "risonanza_di_branco": {
+      "label_it": "Risonanza di Branco",
+      "label_en": "Pack Resonance",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "sacche_galleggianti_ascensoriali": {
+      "label_it": "Sacche galleggianti ascensoriali",
+      "label_en": "Elevating Buoyancy Sacs",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "sangue_piroforico": {
+      "label_it": "Sangue che prende fuoco a contatto con l'ossigeno",
+      "label_en": "Pyrophoric Blood",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "scheletro_idro_regolante": {
+      "label_it": "Scheletro Idro-Regolante",
+      "label_en": "Hydro-Regulating Skeleton",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "secrezione_rallentante_palmi": {
+      "label_it": "Mani secernano liquido rallentante",
+      "label_en": "Retarding Palm Secretions",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "sonno_emisferico_alternato": {
+      "label_it": "Dormire con solo metà cervello alla volta",
+      "label_en": "Unihemispheric Sleep",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "spore_psichiche_silenziate": {
+      "label_it": "Spora Psichica Silenziosa",
+      "label_en": "Silent Psychic Spores",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "struttura_elastica_amorfa": {
+      "label_it": "Struttura elastica, allungabile, amorfa, retrattile",
+      "label_en": "Elastic Amorphous Frame",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "tattiche_di_branco": {
+      "label_it": "Tattiche di Branco",
+      "label_en": "Pack Tactics",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "ventriglio_gastroliti": {
+      "label_it": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
+      "label_en": "Gastrolith Grinding Gizzard",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "zampe_a_molla": {
+      "label_it": "Zampe a Molla",
+      "label_en": "Spring-Loaded Limbs",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    }
+  }
+}

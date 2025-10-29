@@ -1,8 +1,8 @@
 # Hook — Trasmissione Metriche EMA & Alert Risk HUD
 
 ## Contesto
-- Dataset sorgente: `data/telemetry.yaml` (`ema_alpha`, `windows.phase_weights`, normalizzazione `ema_capped_minmax`).
-- Mission tuning: `data/missions/skydock_siege.yaml` definisce target `risk.time_low_hp_turns` e l'alert HUD >0.60 come azione di monitoraggio condivisa.
+- Dataset sorgente: `data/core/telemetry.yaml` (`ema_alpha`, `windows.phase_weights`, normalizzazione `ema_capped_minmax`).
+- Mission tuning: `data/core/missions/skydock_siege.yaml` definisce target `risk.time_low_hp_turns` e l'alert HUD >0.60 come azione di monitoraggio condivisa.
 - Playtest di riferimento: log VC `logs/playtests/2025-02-15-vc/session-metrics.yaml` (sessioni Alpha/Bravo/Charlie).
 
 ## Flusso di trasmissione

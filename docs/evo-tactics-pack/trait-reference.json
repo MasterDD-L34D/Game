@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "trait_glossary": "data/traits/glossary.json",
+  "trait_glossary": "data/core/traits/glossary.json",
   "traits": {
     "ali_fulminee": {
       "label": "Ali Fulminee",

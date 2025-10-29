@@ -1,7 +1,7 @@
 # Playtest VC Mirati alla Telemetria
 
 ## Obiettivo
-Coordinare tre sessioni di playtest focalizzate sugli indici VC definiti in `data/telemetry.yaml`, verificando che la raccolta dati rispetti finestre EMA, pesi e normalizzazioni attese.
+Coordinare tre sessioni di playtest focalizzate sugli indici VC definiti in `data/core/telemetry.yaml`, verificando che la raccolta dati rispetti finestre EMA, pesi e normalizzazioni attese.
 
 ## Setup strumentazione
 - **Build client**: `client-r2821` con modulo telemetria `minmax_scenario` attivo.

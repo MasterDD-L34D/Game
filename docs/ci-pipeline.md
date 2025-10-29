@@ -13,11 +13,11 @@ Passaggi principali del job `build-and-test`:
 3. Installazione delle dipendenze TypeScript (`npm ci`).
 4. Esecuzione delle suite TypeScript (build + unit + Playwright) tramite `npm test`.
 5. Esecuzione della CLI compilata per generare un pack di esempio (`node dist/roll_pack.js ENTP invoker ../../data/packs.yaml`).
-6. Validazione dataset specie lato TypeScript (`node dist/validate_species.js ../../data/species.yaml`).
+6. Validazione dataset specie lato TypeScript (`node dist/validate_species.js ../../data/core/species.yaml`).
 7. Setup di Python 3.11.
 8. Installazione delle dipendenze Python da `tools/py/requirements.txt`.
 9. Esecuzione della suite `pytest` dalla radice del progetto.
-10. Validazione specie lato Python (`python3 validate_species.py ../../data/species.yaml`).
+10. Validazione specie lato Python (`python3 validate_species.py ../../data/core/species.yaml`).
 11. Verifica CLI Python (`python roll_pack.py ENTP invoker ../../data/packs.yaml`).
 12. Validazione dataset base via CLI (`python3 game_cli.py validate-datasets`).
 13. Validazione pack ecosistema Evo-Tactics (`python3 tools/py/game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json`).
@@ -44,7 +44,7 @@ cd tools/ts
 npm ci
 npm test
 node dist/roll_pack.js ENTP invoker ../../data/packs.yaml
-node dist/validate_species.js ../../data/species.yaml
+node dist/validate_species.js ../../data/core/species.yaml
 
 # Python
 cd ../py
@@ -52,7 +52,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 pytest
-python3 validate_species.py ../../data/species.yaml
+python3 validate_species.py ../../data/core/species.yaml
 python roll_pack.py ENTP invoker ../../data/packs.yaml
 python3 game_cli.py validate-datasets
 python3 game_cli.py validate-ecosystem-pack --json-out /tmp/evo_pack_report.json

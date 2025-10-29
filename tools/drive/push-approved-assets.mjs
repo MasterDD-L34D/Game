@@ -13,7 +13,7 @@ async function main() {
   }
 
   const repoRoot = path.resolve(fileURLToPath(new URL('..', import.meta.url)), '..');
-  const manifestPath = path.resolve(repoRoot, args.manifest || 'data/drive/approved_assets.json');
+  const manifestPath = path.resolve(repoRoot, args.manifest || 'data/external/drive/approved_assets.json');
   const manifest = await loadManifest(manifestPath);
 
   const url = args.url || process.env.DRIVE_SYNC_WEBAPP_URL || '';

@@ -9,7 +9,7 @@ python3 roll_pack.py ENTP invoker ../../data/packs.yaml
   ]
 }
 
-python3 generate_encounter.py savana ../../data/biomes.yaml
+python3 generate_encounter.py savana ../../data/core/biomes.yaml
 {
   "biome": "savana",
   "TB": 23,
@@ -63,7 +63,7 @@ python3 roll_pack.py ENTP invoker ../../data/packs.yaml
   ]
 }
 
-python3 generate_encounter.py savana ../../data/biomes.yaml
+python3 generate_encounter.py savana ../../data/core/biomes.yaml
 {
   "biome": "savana",
   "TB": 23,

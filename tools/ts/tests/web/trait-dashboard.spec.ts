@@ -10,7 +10,7 @@ const toolingDir = path.join(repoRoot, "logs", "tooling");
 const logPath = path.join(toolingDir, "trait-plan-dashboard.log");
 
 function buildDataRoot(baseURL: string): string {
-  return new URL("/data/mock/prod_snapshot/", baseURL).toString();
+  return new URL("/data/derived/mock/prod_snapshot/", baseURL).toString();
 }
 
 test.beforeEach(async ({ context, page, baseURL }) => {

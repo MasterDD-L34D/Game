@@ -1,5 +1,5 @@
 # Trait plan snapshot
-source: data/mock/prod_snapshot/
+source: data/derived/mock/prod_snapshot/
 cards: 1
 
 ## Dune Stalker (dune_stalker)

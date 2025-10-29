@@ -57,10 +57,10 @@ IDEA: <titolo breve>
 SOMMARIO: <2-4 righe secche>
 CATEGORIA: vedi `config/idea_engine_taxonomy.json`
 TAGS: #tag1 #tag2 #tag3
-BIOMI: <lista ID da data/biomes.yaml>
+BIOMI: <lista ID da data/core/biomes.yaml>
 ECOSISTEMI: <meta-nodi o pack collegati>
-SPECIE: <slug specie da data/species.yaml>
-TRATTI: <mutazioni/trait da data/traits/>
+SPECIE: <slug specie da data/core/species.yaml>
+TRATTI: <mutazioni/trait da data/core/traits/>
 FUNZIONI_GIOCO: <telemetria_vc, mating_nido, progressione_pe…>
 PRIORITÀ: P0 | P1 | P2 | P3
 AZIONI_NEXT: - [ ] azione 1  - [ ] azione 2
@@ -76,9 +76,9 @@ NOTE: <altro>
 ## Suggerimenti e validazione slug
 - Il widget trasforma i campi Biomi/Ecosistemi/Specie/Tratti/Funzioni in multi-select con suggerimenti derivati dai dataset del repository.
 - Esegui `npm run build:idea-taxonomy` per rigenerare [`docs/public/idea-taxonomy.json`](docs/public/idea-taxonomy.json) a partire da:
-  - `data/biomes.yaml` + alias in `data/biome_aliases.yaml`.
+  - `data/core/biomes.yaml` + alias in `data/core/biome_aliases.yaml`.
   - Datasets ecosistema/specie del pack (`packs/evo_tactics_pack/data/`).
-  - Glossario tratti (`data/traits/glossary.json`).
-  - Catalogo funzioni di gioco (`data/game_functions.yaml`).
+  - Glossario tratti (`data/core/traits/glossary.json`).
+  - Catalogo funzioni di gioco (`data/core/game_functions.yaml`).
 - Il backend (`server/app.js`) usa lo stesso JSON per verificare gli slug inviati: se un valore non è presente viene respinto con messaggio di errore.
 - Per casi sperimentali puoi abilitare il flag **Consenti slug fuori catalogo** nel form: il payload includerà `allowSlugOverride` e il server accetterà comunque l'invio.

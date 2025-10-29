@@ -235,7 +235,7 @@ def _build_diff_message(label: str, expected: Set[str], referenced: Set[str]) ->
     if missing:
         messages.append(f"{label.capitalize()} senza riferimenti nell'export: {', '.join(missing)}")
     if unexpected:
-        messages.append(f"{label.capitalize()} non definiti in data/telemetry.yaml ma citati nell'export: {', '.join(unexpected)}")
+        messages.append(f"{label.capitalize()} non definiti in data/core/telemetry.yaml ma citati nell'export: {', '.join(unexpected)}")
     return messages
 
 
@@ -340,7 +340,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(argv)
     export_path = Path(args.export)
     recipients_path = Path(args.recipients)
-    telemetry_path = Path("data/telemetry.yaml")
+    telemetry_path = Path("data/core/telemetry.yaml")
 
     try:
         groups = load_recipient_groups(recipients_path)
@@ -371,7 +371,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         for line in differences:
             print(f"- {line}")
     else:
-        print("Diff telemetry/export: nessuna discrepanza individuata rispetto a data/telemetry.yaml.")
+        print("Diff telemetry/export: nessuna discrepanza individuata rispetto a data/core/telemetry.yaml.")
     return 0
 
 

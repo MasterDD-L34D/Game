@@ -8,7 +8,7 @@ on:
       - 'tests/hud_alerts.spec.ts'
       - 'scripts/api/telemetry_alerts.py'
       - 'tests/api/test_telemetry_alerts.py'
-      - 'data/hud/**'
+      - 'data/core/hud/**'
       - 'public/hud/**'
       - 'config/cli/hud.yaml'
       - '.github/workflows/hud.yml'

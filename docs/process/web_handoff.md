@@ -24,7 +24,7 @@ il mock-up rapido `docs/catalog/mockups/foodweb_roles.yaml`.
 
 ## QA & Telemetria
 
-- Il report `data/analysis/trait_coverage_report.json` espone ora la sezione
+- Il report `data/derived/analysis/trait_coverage_report.json` espone ora la sezione
   `foodweb_coverage` con soglia esplicita `species_per_role_biome = 2`.
 - Durante i playtest settimanali registrare i difetti di copertura direttamente
   in `logs/web_status.md` (sezione web_log). Evidenziare biomi che non raggiungono

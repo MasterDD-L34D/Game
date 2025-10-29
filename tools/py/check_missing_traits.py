@@ -64,7 +64,7 @@ def main(argv: Iterable[str]) -> int:
     "--species",
     action="append",
     type=Path,
-    default=[Path("data/species.yaml")],
+    default=[Path("data/core/species.yaml")],
     help="File YAML da controllare (può essere passato più volte).",
   )
   parser.add_argument(
