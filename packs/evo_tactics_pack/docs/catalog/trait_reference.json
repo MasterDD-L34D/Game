@@ -70,8 +70,8 @@
       ],
       "sinergie": [
         "coda_frusta_cinetica",
-        "struttura_elastica_amorfa",
         "mimetismo_cromatico_passivo",
+        "struttura_elastica_amorfa",
         "tattiche_di_branco"
       ],
       "sinergie_pi": {
@@ -842,8 +842,8 @@
         }
       ],
       "sinergie": [
-        "struttura_elastica_amorfa",
-        "artigli_sette_vie"
+        "artigli_sette_vie",
+        "struttura_elastica_amorfa"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1513,8 +1513,8 @@
         }
       ],
       "sinergie": [
-        "carapace_luminiscente_abissale",
-        "antenne_plasmatiche_tempesta"
+        "antenne_plasmatiche_tempesta",
+        "carapace_luminiscente_abissale"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
