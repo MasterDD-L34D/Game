@@ -204,36 +204,34 @@ function createApp(options = {}) {
     }
   });
 
-  app.post('/api/biomes/generate', async (req, res) => {
-    const payload = req.body || {};
-    const requestedCount = Number.parseInt(payload.count, 10);
-    const count = Number.isFinite(requestedCount) ? Math.max(1, Math.min(requestedCount, 6)) : 1;
-    const constraints = payload.constraints && typeof payload.constraints === 'object'
-      ? payload.constraints
-      : {};
+  app.post('/api/ideas/:id/feedback', async (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isFinite(id)) {
+      res.status(400).json({ error: 'ID non valido' });
+      return;
+    }
+    const body = req.body || {};
+    const message = typeof body.message === 'string' ? body.message.trim() : '';
+    const contact = typeof body.contact === 'string' ? body.contact.trim() : '';
+    if (!message) {
+      res.status(400).json({ error: 'Messaggio feedback richiesto' });
+      return;
+    }
     try {
-      const response = await biomeSynthesizer.generate({
-        count,
-        seed: payload.seed ?? null,
-        constraints: {
-          hazard: typeof constraints.hazard === 'string' ? constraints.hazard : undefined,
-          climate: typeof constraints.climate === 'string' ? constraints.climate : undefined,
-          minSize: Number.isFinite(constraints.minSize) ? constraints.minSize : undefined,
-          requiredRoles: Array.isArray(constraints.requiredRoles) ? constraints.requiredRoles : undefined,
-          preferredTags: Array.isArray(constraints.preferredTags) ? constraints.preferredTags : undefined,
-        },
-      });
-      res.json({ biomes: response.biomes, meta: response.constraints });
+      const idea = await repo.addFeedback(id, { message, contact });
+      res.status(201).json({ idea });
     } catch (error) {
-      console.error('[biome-generator] errore durante la generazione', error);
-      res.status(500).json({
-        error: 'Errore generazione biomi',
-        details: error instanceof Error ? error.message : String(error ?? ''),
-      });
+      if (error && error.message === 'Idea non trovata') {
+        res.status(404).json({ error: 'Idea non trovata' });
+      } else if (error && error.message === 'Messaggio feedback richiesto') {
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Errore salvataggio feedback' });
+      }
     }
   });
 
-  return { app, repo, biomeSynthesizer };
+  return { app, repo };
 }
 
 module.exports = { createApp };

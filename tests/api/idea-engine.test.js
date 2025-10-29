@@ -48,6 +48,8 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
   assert.deepEqual(response.body.idea.game_functions, ['telemetria_vc']);
   assert.equal(response.body.idea.tags.length, 2);
   assert.ok(response.body.report.includes('Codex GPT Integration Brief'));
+  assert.ok(Array.isArray(response.body.idea.feedback));
+  assert.equal(response.body.idea.feedback.length, 0);
 
   const stored = await repo.getById(response.body.idea.id);
   assert.ok(stored, 'l\'idea deve essere salvata nel database');
@@ -56,6 +58,54 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
   assert.deepEqual(stored.biomes, payload.biomes);
   assert.deepEqual(stored.species, payload.species);
   assert.deepEqual(stored.traits, payload.traits);
+  assert.ok(Array.isArray(stored.feedback));
+  assert.equal(stored.feedback.length, 0);
+});
+
+test('POST /api/ideas/:id/feedback registra il commento e aggiorna il report', async (t) => {
+  const databasePath = createTempDbPath();
+  const { app, repo } = createApp({ databasePath });
+  await repo.ready;
+  t.after(() => {
+    // no-op
+  });
+
+  const ideaRes = await request(app)
+    .post('/api/ideas')
+    .send({
+      title: 'Supporto widget feedback',
+      summary: 'Test modulo feedback',
+      category: 'Biomi'
+    })
+    .expect(201);
+
+  const ideaId = ideaRes.body.idea.id;
+  assert.ok(ideaId, 'deve esistere un id idea');
+
+  const feedbackPayload = {
+    message: 'Interfaccia chiara, aggiungere autocomplete categorie',
+    contact: '@tester'
+  };
+
+  const feedbackRes = await request(app)
+    .post(`/api/ideas/${ideaId}/feedback`)
+    .send(feedbackPayload)
+    .expect(201);
+
+  assert.ok(Array.isArray(feedbackRes.body.idea.feedback));
+  assert.equal(feedbackRes.body.idea.feedback.length, 1);
+  assert.equal(feedbackRes.body.idea.feedback[0].message, feedbackPayload.message);
+  assert.equal(feedbackRes.body.idea.feedback[0].contact, feedbackPayload.contact);
+
+  const stored = await repo.getById(ideaId);
+  assert.equal(stored.feedback.length, 1);
+
+  const reportRes = await request(app)
+    .get(`/api/ideas/${ideaId}/report`)
+    .expect(200);
+
+  assert.ok(reportRes.body.report.includes('## Intake Feedback'));
+  assert.ok(reportRes.body.report.includes('Interfaccia chiara'));
 });
 
 test('GET /api/ideas/:id/report restituisce il report salvato', async (t) => {

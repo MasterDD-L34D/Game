@@ -114,6 +114,17 @@ python3 generate_encounter.py savana
   forzare sorgenti alternative con `?data-root=<url-assoluto-o-root-relative>` e cambiare branch `raw`
   con `?ref=<branch>`.
 
+## Idea Engine Updates & Feedback
+
+### Changelog
+- **2025-10-29** — Il widget `docs/public/embed.js` mostra un modulo "Feedback" dopo l'invio delle idee e il backend accetta
+  `POST /api/ideas/:id/feedback` per archiviare i commenti accanto alla proposta, includendoli nel report Codex.
+
+### Come inviare feedback
+- **Modulo rapido** — Compila il campo feedback direttamente nel widget dopo il submit per registrare note contestuali.
+- **Template strutturato** — Duplica [`docs/ideas/feedback.md`](docs/ideas/feedback.md) quando hai bisogno di un resoconto
+  completo (allega il file oppure apri un ticket con label `idea-engine-feedback`).
+
 ## Pacchetto ecosistemi (Evo-Tactics Pack v1.7)
 - Contenuto in `packs/evo_tactics_pack/` con struttura autosufficiente (`data/`, `docs/`, `tools/`, `out/`).
 - Catalogo HTML pronto (`packs/evo_tactics_pack/docs/catalog/index.html`) e tool client-side (`.../docs/tools/generator.html`).
