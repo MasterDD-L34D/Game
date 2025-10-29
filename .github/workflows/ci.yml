@@ -5,8 +5,37 @@ on:
   pull_request:
 
 jobs:
+  paths-filter:
+    runs-on: ubuntu-latest
+    outputs:
+      ts: ${{ steps.filter.outputs.ts }}
+      cli: ${{ steps.filter.outputs.cli }}
+      data: ${{ steps.filter.outputs.data }}
+      deploy: ${{ steps.filter.outputs.deploy }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - id: filter
+        name: Detect impacted areas
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            ts:
+              - 'tools/ts/**'
+            cli:
+              - 'scripts/cli_smoke.sh'
+            data:
+              - 'data/**'
+              - 'packs/**'
+            deploy:
+              - 'scripts/trait_audit.py'
+
   typescript-tests:
     runs-on: ubuntu-latest
+    needs: paths-filter
+    if: needs.paths-filter.outputs.ts == 'true'
 
     steps:
       - name: Checkout repository
@@ -33,7 +62,10 @@ jobs:
 
   cli-checks:
     runs-on: ubuntu-latest
-    needs: typescript-tests
+    needs:
+      - paths-filter
+      - typescript-tests
+    if: needs.paths-filter.outputs.cli == 'true'
 
     steps:
       - name: Checkout repository
@@ -81,7 +113,10 @@ jobs:
 
   python-tests:
     runs-on: ubuntu-latest
-    needs: cli-checks
+    needs:
+      - paths-filter
+      - cli-checks
+    if: needs.paths-filter.outputs.data == 'true'
 
     steps:
       - name: Checkout repository
@@ -112,7 +147,10 @@ jobs:
 
   dataset-checks:
     runs-on: ubuntu-latest
-    needs: python-tests
+    needs:
+      - paths-filter
+      - python-tests
+    if: needs.paths-filter.outputs.data == 'true' || needs.paths-filter.outputs.deploy == 'true'
 
     steps:
       - name: Checkout repository
