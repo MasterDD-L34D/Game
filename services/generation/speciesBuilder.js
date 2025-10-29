@@ -200,6 +200,132 @@ function composeDescription(traits, morphology, behaviour) {
   return `${lead}${morpho}.${envPart}`;
 }
 
+function clampScore(value) {
+  const numeric = Number.parseFloat(value);
+  if (!Number.isFinite(numeric)) {
+    return 0;
+  }
+  return Math.max(0, Math.min(Math.round(numeric * 1000) / 1000, 1));
+}
+
+function threatTierFromScore(score) {
+  const clamped = clampScore(score);
+  const tier = Math.max(1, Math.min(5, Math.round(clamped * 4) + 1));
+  return `T${tier}`;
+}
+
+function rarityFromScore(score) {
+  const clamped = clampScore(score);
+  if (clamped >= 0.85) return 'R4';
+  if (clamped >= 0.65) return 'R3';
+  if (clamped >= 0.4) return 'R2';
+  return 'R1';
+}
+
+function vcFromAxes(axes = {}) {
+  const threat = clampScore(axes.threat);
+  const defense = clampScore(axes.defense);
+  const mobility = clampScore(axes.mobility);
+  const perception = clampScore(axes.perception);
+  const magic = clampScore(axes.magic);
+  const social = clampScore(axes.social);
+  const stealth = clampScore(axes.stealth);
+  const environment = clampScore(axes.environment);
+  const versatility = clampScore(axes.versatility);
+  return {
+    aggro: threat,
+    risk: clampScore(1 - defense),
+    cohesion: social,
+    setup: Math.max(magic, versatility),
+    explore: Math.max(mobility, environment),
+    tilt: Math.max(perception, stealth),
+  };
+}
+
+function roleFromType(entry = {}) {
+  const type = String(entry.type || '').toLowerCase();
+  if (['dragon', 'magical beast', 'outsider', 'aberration'].includes(type)) {
+    return 'predatore_terziario_apex';
+  }
+  if (['plant', 'ooze', 'vermin'].includes(type)) {
+    return 'ingegneri_ecosistema';
+  }
+  if (['construct', 'undead'].includes(type)) {
+    return 'minaccia_microbica';
+  }
+  return 'evento_ecologico';
+}
+
+function buildPathfinderProfile(statblock, options = {}) {
+  if (!statblock || typeof statblock !== 'object') {
+    throw new Error('Statblock Pathfinder non valido');
+  }
+  const axes = statblock.axes || {};
+  const vc = vcFromAxes(axes);
+  const threatTier = threatTierFromScore(axes.threat);
+  const rarity = rarityFromScore(axes.versatility);
+  const fallbackTraits = Array.isArray(options.fallbackTraits) ? options.fallbackTraits : [];
+  const geneticTraits = Array.isArray(statblock.genetic_traits) ? statblock.genetic_traits : [];
+  const abilities = Array.isArray(statblock.special_abilities) ? statblock.special_abilities.filter(Boolean) : [];
+  const environmentTags = Array.isArray(statblock.environment_tags)
+    ? statblock.environment_tags.filter(Boolean)
+    : [];
+
+  return {
+    id: `pathfinder-${statblock.id}`,
+    display_name: statblock.name || statblock.id || 'Creatura Pathfinder',
+    summary: abilities.length ? `Capacità chiave: ${abilities.slice(0, 3).join(', ')}` : null,
+    description: statblock.visual_description || null,
+    role_trofico: roleFromType(statblock),
+    functional_tags: ['pathfinder', String(statblock.type || '').toLowerCase(), String(statblock.subtype || '').toLowerCase()].filter(Boolean),
+    biomes: options.biomeId ? [options.biomeId] : [],
+    vc,
+    playable_unit: false,
+    spawn_rules: { densita: 'moderata' },
+    balance: {
+      threat_tier: threatTier,
+      rarity,
+      encounter_role: 'ambient',
+    },
+    statistics: {
+      threat_tier: threatTier,
+      rarity,
+      energy_profile: null,
+      synergy_score: clampScore(axes.versatility),
+    },
+    traits: {
+      core: Array.from(new Set(['pathfinder', ...geneticTraits, ...fallbackTraits])),
+      derived: [],
+      conflicts: [],
+    },
+    morphology: {
+      families: [String(statblock.type || '').toLowerCase()],
+      adaptations: geneticTraits,
+      environments: environmentTags,
+    },
+    behavior: {
+      tags: ['pathfinder'],
+      drives: abilities.slice(0, 2),
+    },
+    special_abilities: abilities,
+    environment_affinity: {
+      biome_class: options.biomeId || 'pathfinder_unknown',
+      source_tags: environmentTags,
+    },
+    derived_from_environment: {
+      suggested_traits: geneticTraits,
+      optional_traits: [],
+      synergy_traits: ['pathfinder'],
+    },
+    source_dataset: {
+      id: 'pathfinder',
+      profile_id: statblock.id,
+      cr: statblock.cr,
+      axes,
+    },
+  };
+}
+
 async function loadCatalog(catalogPath = DEFAULT_CATALOG_PATH) {
   const buffer = await fs.readFile(catalogPath, 'utf8');
   const payload = JSON.parse(buffer);
@@ -309,4 +435,5 @@ function createSpeciesBuilder(options = {}) {
 
 module.exports = {
   createSpeciesBuilder,
+  buildPathfinderProfile,
 };

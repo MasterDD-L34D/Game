@@ -1,0 +1,77 @@
+schema_version: 1.7
+receipt:
+  source: PF1E.Bestiary.v1
+  author: designer
+  date: '2025-10-30'
+  trace_hash: to-fill
+id: otyugh-sentinella
+display_name: Otyugh Sentinella delle Fogne Astrali
+biomes:
+  - rovine_planari
+role_trofico: ingegneri_ecosistema
+functional_tags:
+  - filtratore
+  - detritivoro
+  - ingegneri_ecosistema
+morphotype: anfibio_filtratore
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: false
+vc:
+  aggro: 0.3
+  risk: 0.4
+  cohesion: 0.5
+  setup: 0.6
+  explore: 0.5
+  tilt: 0.2
+services_links:
+  - regolazione:depurazione_residui
+  - supporto:riciclo_nutrienti
+spawn_rules:
+  orario:
+    - diurno
+    - notte
+  meteo:
+    - pioggia_cenere
+    - nebbia_risonante
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T2
+  encounter_role: ambient
+telemetry:
+  expected_pick_rate: 0.22
+  spawn_weight: 0.24
+environment_affinity:
+  biome_class: rovine_planari
+  koppen:
+    - Cfa
+    - Cfb
+  hazards_expected:
+    - invasione_vite_dimensionali
+    - eco_mnemonico
+derived_from_environment:
+  suggested_traits:
+    - filtri_bioattivi
+    - proboscide_polifaga
+    - sensori_chimici
+    - membrane_osmotiche
+  optional_traits:
+    - secrezioni_antisepsi
+    - nodi_micotici
+  required_capabilities:
+    - purge_toxins
+    - anchor_waste
+  services_links:
+    - regolazione:purificazione_canali
+  jobs_bias:
+    - Artificer
+    - Warden
+genetic_traits: []
+mate_synergy: []
+jobs_synergy: []

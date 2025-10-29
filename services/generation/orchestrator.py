@@ -26,7 +26,11 @@ from packs.evo_tactics_pack.validators.rules.base import (  # noqa: E402
     format_messages,
     has_errors,
 )
-from services.generation.species_builder import SpeciesBuilder, TraitCatalog  # noqa: E402
+from services.generation.species_builder import (  # noqa: E402
+    PathfinderProfileTranslator,
+    SpeciesBuilder,
+    TraitCatalog,
+)
 
 
 DEFAULT_FALLBACK_TRAITS: Sequence[str] = (
@@ -74,6 +78,8 @@ class SpeciesGenerationRequest:
     base_name: Optional[str] = None
     request_id: Optional[str] = None
     fallback_trait_ids: Sequence[str] = field(default_factory=tuple)
+    dataset_id: Optional[str] = None
+    profile_id: Optional[str] = None
 
     @classmethod
     def from_payload(cls, payload: Mapping[str, Any]) -> "SpeciesGenerationRequest":
@@ -87,6 +93,8 @@ class SpeciesGenerationRequest:
             base_name=_normalise_optional_string(payload.get("base_name")),
             request_id=_normalise_optional_string(request_id) or None,
             fallback_trait_ids=fallback,
+            dataset_id=_normalise_optional_string(payload.get("dataset_id")),
+            profile_id=_normalise_optional_string(payload.get("profile_id")),
         )
 
 
@@ -200,12 +208,18 @@ class GenerationOrchestrator:
         runtime_resources: Optional[runtime_api.RuntimeResources] = None,
         fallback_traits: Sequence[str] = DEFAULT_FALLBACK_TRAITS,
         logger: Optional[StructuredLogger] = None,
+        dataset_translators: Optional[Mapping[str, PathfinderProfileTranslator]] = None,
     ) -> None:
         catalog = trait_catalog or TraitCatalog.load()
         self.catalog = catalog
         self.builder = species_builder or SpeciesBuilder(catalog)
         self.resources = runtime_resources or runtime_api.load_resources()
         self.fallback_traits = list(fallback_traits)
+        self.datasets: Dict[str, PathfinderProfileTranslator] = (
+            dict(dataset_translators)
+            if dataset_translators
+            else {"pathfinder": PathfinderProfileTranslator()}
+        )
         base_logger = logger or StructuredLogger(
             logging.getLogger(__name__), base={"component": "generation-orchestrator"}
         )
@@ -214,6 +228,9 @@ class GenerationOrchestrator:
     def generate_species(self, request: SpeciesGenerationRequest) -> GenerationResult:
         request_id = request.request_id or self._compute_request_id(request)
         logger = self.logger.bind(request_id=request_id)
+
+        if request.dataset_id:
+            return self._generate_from_dataset(request, logger)
 
         candidates = self._prepare_candidates(request)
         if not candidates:
@@ -331,6 +348,10 @@ class GenerationOrchestrator:
     def _compute_request_id(self, request: SpeciesGenerationRequest) -> str:
         parts = list(request.trait_ids or [])
         parts.extend(request.fallback_trait_ids or [])
+        if request.dataset_id:
+            parts.append(f"dataset:{request.dataset_id}")
+        if request.profile_id:
+            parts.append(f"profile:{request.profile_id}")
         seed = request.seed
         if seed is not None:
             parts.append(str(seed))
@@ -340,6 +361,77 @@ class GenerationOrchestrator:
             return uuid.uuid4().hex
         digest_source = "|".join(parts)
         return uuid.uuid5(uuid.NAMESPACE_DNS, digest_source).hex
+
+    def _generate_from_dataset(
+        self,
+        request: SpeciesGenerationRequest,
+        logger: StructuredLogger,
+    ) -> GenerationResult:
+        dataset_id = request.dataset_id or ""
+        translator = self.datasets.get(dataset_id)
+        if not translator:
+            logger.error(
+                "generation.dataset_unknown",
+                dataset_id=dataset_id,
+                available=list(self.datasets.keys()),
+            )
+            raise GenerationError(f"Dataset non supportato: {dataset_id}")
+        profile_id = request.profile_id
+        if not profile_id:
+            logger.error(
+                "generation.dataset_profile_missing",
+                dataset_id=dataset_id,
+            )
+            raise GenerationError("Profilo dataset mancante per la generazione")
+
+        blueprint, adapter_meta = translator.build_blueprint(
+            profile_id,
+            biome_id=request.biome_id,
+            fallback_traits=request.fallback_trait_ids or self.fallback_traits,
+        )
+
+        validation = runtime_api.validate_species_entries(
+            [blueprint],
+            resources=self.resources,
+            biome_id=request.biome_id,
+        )
+        messages = [
+            ValidationMessage(**message)
+            if not isinstance(message, ValidationMessage)
+            else message
+            for message in validation["messages"]
+        ]
+        if has_errors(messages):
+            logger.error(
+                "generation.dataset_validation_failed",
+                dataset_id=dataset_id,
+                profile_id=profile_id,
+                messages=format_messages(messages),
+            )
+            raise GenerationError(
+                f"Validazione fallita per profilo '{profile_id}' del dataset '{dataset_id}'"
+            )
+
+        corrected_entries = validation.get("corrected") or []
+        corrected = corrected_entries[0] if corrected_entries else None
+        bundle = ValidationBundle(
+            corrected=corrected,
+            messages=_render_messages(messages),
+            discarded=validation.get("discarded", []),
+        )
+        meta = {
+            "request_id": request.request_id or self._compute_request_id(request),
+            "attempts": 1,
+            "fallback_used": False,
+            "biome_id": request.biome_id,
+        }
+        meta.update(adapter_meta)
+        logger.info(
+            "generation.dataset_success",
+            dataset_id=dataset_id,
+            profile_id=profile_id,
+        )
+        return GenerationResult(blueprint=blueprint, validation=bundle, meta=meta)
 
 
 def _load_input_payload(path: Optional[Path]) -> Mapping[str, Any]:

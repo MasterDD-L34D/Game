@@ -1,7 +1,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const { createSpeciesBuilder } = require('./speciesBuilder');
+const { createSpeciesBuilder, buildPathfinderProfile } = require('./speciesBuilder');
 const { createRuntimeValidator } = require('./runtimeValidator');
 
 const ROLE_FLAG_SET = new Set(['apex', 'keystone', 'bridge', 'threat', 'event']);
@@ -92,6 +92,14 @@ function ensureArray(value) {
   if (!value) return [];
   if (Array.isArray(value)) return value;
   return [value];
+}
+
+function translatePathfinderStatblock(statblock, context = {}) {
+  const fallbackTraits = ensureArray(context.fallbackTraits);
+  return buildPathfinderProfile(statblock, {
+    biomeId: context.biomeId || null,
+    fallbackTraits,
+  });
 }
 
 function pickMany(array, count, rng) {
@@ -584,4 +592,5 @@ function createBiomeSynthesizer(options = {}) {
 
 module.exports = {
   createBiomeSynthesizer,
+  translatePathfinderStatblock,
 };

@@ -1,0 +1,108 @@
+nodes:
+  - id: reliquie_planari
+  - id: spore_memetiche
+  - id: flussi_radianza
+  - id: archon-solare
+  - id: balor-fission
+  - id: marilith-vault
+  - id: treant-portale
+  - id: couatl-aurora
+  - id: golem-runico
+  - id: banshee-risonante
+  - id: rakshasa-corte
+  - id: bulette-fase
+  - id: otyugh-sentinella
+  - id: detrito
+edges:
+  - from: reliquie_planari
+    to: treant-portale
+    type: mutualism
+    weight: 0.5
+  - from: treant-portale
+    to: archon-solare
+    type: support
+    weight: 0.4
+  - from: treant-portale
+    to: couatl-aurora
+    type: support
+    weight: 0.4
+  - from: flussi_radianza
+    to: archon-solare
+    type: energy
+    weight: 0.6
+  - from: flussi_radianza
+    to: couatl-aurora
+    type: energy
+    weight: 0.5
+  - from: spore_memetiche
+    to: otyugh-sentinella
+    type: detritus
+    weight: 0.6
+  - from: detrito
+    to: otyugh-sentinella
+    type: detritus
+    weight: 0.5
+  - from: otyugh-sentinella
+    to: treant-portale
+    type: nutrient_cycle
+    weight: 0.4
+  - from: bulette-fase
+    to: otyugh-sentinella
+    type: waste
+    weight: 0.3
+  - from: treant-portale
+    to: bulette-fase
+    type: herbivory
+    weight: 0.5
+  - from: couatl-aurora
+    to: treant-portale
+    type: pollination
+    weight: 0.5
+  - from: archon-solare
+    to: couatl-aurora
+    type: coordination
+    weight: 0.4
+  - from: balor-fission
+    to: bulette-fase
+    type: predation
+    weight: 0.5
+  - from: balor-fission
+    to: archon-solare
+    type: predation
+    weight: 0.3
+  - from: marilith-vault
+    to: balor-fission
+    type: contest
+    weight: 0.4
+  - from: marilith-vault
+    to: rakshasa-corte
+    type: suppression
+    weight: 0.4
+  - from: rakshasa-corte
+    to: archon-solare
+    type: parasitism
+    weight: 0.3
+  - from: rakshasa-corte
+    to: treant-portale
+    type: parasitism
+    weight: 0.3
+  - from: banshee-risonante
+    to: balor-fission
+    type: disruption
+    weight: 0.5
+  - from: banshee-risonante
+    to: rakshasa-corte
+    type: disruption
+    weight: 0.4
+  - from: golem-runico
+    to: archon-solare
+    type: fortification
+    weight: 0.4
+  - from: golem-runico
+    to: couatl-aurora
+    type: fortification
+    weight: 0.3
+  - from: golem-runico
+    to: treant-portale
+    type: support
+    weight: 0.5

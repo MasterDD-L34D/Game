@@ -27,6 +27,7 @@ classes:
 - canopia_ionica
 - steppe_algoritmiche
 - caverna_risonante
+- rovine_planari
 koppen_examples:
   foresta_temperata:
   - Cfb
@@ -66,3 +67,6 @@ koppen_examples:
   - BSk
   caverna_risonante:
   - n/a
+  rovine_planari:
+  - Cfa
+  - Cfb

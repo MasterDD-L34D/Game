@@ -134,4 +134,24 @@ species:
   file: species/cryosteppe/thaw-rot.yaml
 - id: evento-brinastorm
   file: species/cryosteppe/evento-brinastorm.yaml
+- id: archon-solare
+  file: species/rovine_planari/archon-solare.yaml
+- id: balor-fission
+  file: species/rovine_planari/balor-fission.yaml
+- id: marilith-vault
+  file: species/rovine_planari/marilith-vault.yaml
+- id: treant-portale
+  file: species/rovine_planari/treant-portale.yaml
+- id: couatl-aurora
+  file: species/rovine_planari/couatl-aurora.yaml
+- id: golem-runico
+  file: species/rovine_planari/golem-runico.yaml
+- id: banshee-risonante
+  file: species/rovine_planari/banshee-risonante.yaml
+- id: rakshasa-corte
+  file: species/rovine_planari/rakshasa-corte.yaml
+- id: bulette-fase
+  file: species/rovine_planari/bulette-fase.yaml
+- id: otyugh-sentinella
+  file: species/rovine_planari/otyugh-sentinella.yaml
 schema_reference: {}
