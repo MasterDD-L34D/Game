@@ -9,7 +9,8 @@
     "start:api": "node server/index.js",
     "build:idea-taxonomy": "node scripts/build-idea-taxonomy.js",
     "drive:generate-approved": "node tools/drive/generate-approved-assets.mjs",
-    "drive:push-approved": "node tools/drive/push-approved-assets.mjs"
+    "drive:push-approved": "node tools/drive/push-approved-assets.mjs",
+    "drive-sync": "node tools/drive/sync-approved-assets.mjs"
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -16,8 +16,8 @@ async function main() {
   const manifestPath = path.resolve(repoRoot, args.manifest || 'data/drive/approved_assets.json');
   const manifest = await loadManifest(manifestPath);
 
-  const url = args.url || process.env.DRIVE_SYNC_WEBAPP_URL;
-  if (!url) {
+  const url = args.url || process.env.DRIVE_SYNC_WEBAPP_URL || '';
+  if (!url && !args.dryRun) {
     console.error('Specifica l\'URL del WebApp Apps Script tramite --url o variabile DRIVE_SYNC_WEBAPP_URL.');
     process.exitCode = 1;
     return;
@@ -43,7 +43,14 @@ async function main() {
     }
   }
 
+  if (!requestUrl) {
+    requestUrl = '(url-non-configurato)';
+  }
+
   if (args.dryRun) {
+    if (!url) {
+      console.warn('Modalità dry-run senza URL configurato: la richiesta non verrà inviata.');
+    }
     console.log('DRY-RUN: non invio nulla. Payload generato:');
     console.log(JSON.stringify({ url: requestUrl, headers, payload }, null, 2));
     return;
