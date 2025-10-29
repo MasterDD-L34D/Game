@@ -40,6 +40,13 @@ function buildAssignments(variant) {
   }));
 }
 
+function resolveAssignmentQuantity(assignment) {
+  const base = Number.isFinite(assignment?.quantity)
+    ? assignment.quantity
+    : assignment?.species?.length || 0;
+  return Math.max(0, Math.floor(base));
+}
+
 function normalizeParameters(variant) {
   const result = {};
   const entries = Object.entries(variant?.parameters || {});
@@ -55,7 +62,13 @@ function computeRarityMix(assignments) {
   const counts = {};
   let total = 0;
   for (const assignment of assignments) {
-    for (const specimen of assignment.species) {
+    const specimens = assignment.species || [];
+    const quantity = resolveAssignmentQuantity(assignment);
+    if (!specimens.length || quantity <= 0) {
+      continue;
+    }
+    for (let i = 0; i < quantity; i += 1) {
+      const specimen = specimens[i % specimens.length];
       const rarity = specimen.statistics?.rarity || 'Sconosciuta';
       counts[rarity] = (counts[rarity] || 0) + 1;
       total += 1;
