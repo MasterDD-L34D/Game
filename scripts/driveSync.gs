@@ -1054,7 +1054,7 @@ function resolveRequestToken_(event, payload) {
 function authorizeApprovedAssetsRequest_(token) {
   const expected = scriptProps.getProperty('DRIVE_SYNC_APPROVED_ASSETS_TOKEN');
   if (!expected) {
-    return true;
+    return false;
   }
   return String(token || '') === String(expected);
 }
