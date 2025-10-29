@@ -439,6 +439,10 @@ const state = {
     audioMuted: false,
     volume: 0.75,
   },
+  api: {
+    base: null,
+  },
+  lastGenerationMeta: null,
   narrative: {
     missionBriefing: DEFAULT_BRIEFING_TEXT,
     narrativeHook: DEFAULT_HOOK_TEXT,
@@ -475,6 +479,10 @@ let composerRadarChart = null;
 let composerChartUnavailable = false;
 const fetchFailureNotices = new Set();
 
+if (typeof window !== "undefined" && typeof window.__EVO_TACTICS_API_BASE__ === "string") {
+  state.api.base = window.__EVO_TACTICS_API_BASE__;
+}
+
 const COMPARISON_LABELS = ["Tier medio", "Densità hazard", "Diversità ruoli"];
 
 const ROLE_FLAGS = ["apex", "keystone", "bridge", "threat", "event"];
@@ -505,12 +513,150 @@ const TRAIT_CATEGORY_LABELS = {
   avanzati_specializzati: "Cluster avanzati",
 };
 
+const API_ENDPOINTS = {
+  biomeGeneration: "/api/biomes/generate",
+};
+
+const CLIMATE_HINTS = [
+  { pattern: /frost|criogen|ghiacci|ice/i, value: "frozen" },
+  { pattern: /desert|sabbia|arid|dust/i, value: "arid" },
+  { pattern: /tempesta|storm|ion|vento/i, value: "storm" },
+  { pattern: /fung|micel|caver/i, value: "subterranean" },
+  { pattern: /abiss|idro|mare|ocean/i, value: "aquatic" },
+];
+
+const HAZARD_LABELS = {
+  low: "Basso",
+  medium: "Medio",
+  high: "Alto",
+};
+
+function filtersInclude(values, pattern) {
+  if (!Array.isArray(values) || !values.length) return false;
+  return values.some((value) => pattern.test(String(value)));
+}
+
+function extractRequiredRoles(filters = {}) {
+  const roles = new Set();
+  (Array.isArray(filters.flags) ? filters.flags : []).forEach((flag) => {
+    if (ROLE_FLAGS.includes(flag)) {
+      roles.add(flag);
+    }
+  });
+  (Array.isArray(filters.roles) ? filters.roles : []).forEach((token) => {
+    const value = String(token).toLowerCase();
+    if (/apic|predator|apex/i.test(value)) roles.add("apex");
+    if (/chiav|custod|warden|keystone/i.test(value)) roles.add("keystone");
+    if (/ponte|bridge|logist|corridor/i.test(value)) roles.add("bridge");
+    if (/minacc|threat|assalt|predator/i.test(value)) roles.add("threat");
+    if (/evento|anomalia|event/i.test(value)) roles.add("event");
+  });
+  return Array.from(roles);
+}
+
+function collectPreferredTags(filters = {}) {
+  const tags = new Set();
+  (Array.isArray(filters.tags) ? filters.tags : []).forEach((tag) => {
+    if (tag) {
+      tags.add(String(tag));
+    }
+  });
+  (Array.isArray(filters.roles) ? filters.roles : []).forEach((token) => {
+    const value = String(token).toLowerCase();
+    if (/criogen|frost|ghiacci/i.test(value)) tags.add("criogenico");
+    if (/desert|sabbia|arid/i.test(value)) tags.add("desertico");
+    if (/idro|abiss|marino|ocean/i.test(value)) tags.add("abissale");
+    if (/fung|micel/i.test(value)) tags.add("micelico");
+  });
+  return Array.from(tags);
+}
+
+function inferHazardFromFilters(filters = {}) {
+  const flags = Array.isArray(filters.flags) ? filters.flags : [];
+  if (flags.includes("threat") || flags.includes("apex")) {
+    return "high";
+  }
+  if (filtersInclude(filters.tags, /tempest|storm|pericolo|hazard|ferro/i)) {
+    return "high";
+  }
+  if (filtersInclude(filters.tags, /rifug|tranquill|shelter|safe/i)) {
+    return "low";
+  }
+  return "medium";
+}
+
+function inferClimateFromFilters(filters = {}) {
+  const tags = Array.isArray(filters.tags) ? filters.tags : [];
+  for (const hint of CLIMATE_HINTS) {
+    if (filtersInclude(tags, hint.pattern)) {
+      return hint.value;
+    }
+  }
+  if (filtersInclude(filters.roles, /criogen|ghiacci|frost/i)) return "frozen";
+  if (filtersInclude(filters.roles, /fung|micel/i)) return "subterranean";
+  if (filtersInclude(filters.roles, /idro|abiss|mare|ocean/i)) return "aquatic";
+  return null;
+}
+
+function inferMinSize(filters = {}) {
+  const roles = extractRequiredRoles(filters);
+  const tagCount = Array.isArray(filters.tags) ? filters.tags.length : 0;
+  const base = roles.length >= 3 ? 4 : 3;
+  const bonus = tagCount >= 4 ? 2 : tagCount >= 2 ? 1 : 0;
+  return Math.min(6, base + bonus);
+}
+
+function buildGenerationConstraints(filters = {}) {
+  const requiredRoles = extractRequiredRoles(filters);
+  const preferredTags = collectPreferredTags(filters);
+  const hazard = inferHazardFromFilters(filters);
+  const climate = inferClimateFromFilters(filters);
+  const minSize = inferMinSize(filters);
+  const constraints = {
+    requiredRoles,
+    preferredTags,
+    hazard,
+    climate,
+    minSize,
+  };
+  if (!constraints.requiredRoles.length) delete constraints.requiredRoles;
+  if (!constraints.preferredTags.length) delete constraints.preferredTags;
+  if (!constraints.hazard) delete constraints.hazard;
+  if (!constraints.climate) delete constraints.climate;
+  if (!Number.isFinite(constraints.minSize)) delete constraints.minSize;
+  return constraints;
+}
+
+function resolveApiEndpoint(pathname) {
+  const bases = [state.api?.base, packContext?.apiBase];
+  if (typeof window !== "undefined" && typeof window.__EVO_TACTICS_API_BASE__ === "string") {
+    bases.push(window.__EVO_TACTICS_API_BASE__);
+  }
+  for (const base of bases) {
+    if (!base) continue;
+    try {
+      return new URL(pathname, base).toString();
+    } catch (error) {
+      console.warn("Impossibile risolvere l'endpoint API", base, error);
+    }
+  }
+  return pathname;
+}
+
+function formatHazardSeverity(severity) {
+  if (!severity) return "";
+  return HAZARD_LABELS[severity] ?? titleCase(severity);
+}
+
 
 function applyCatalogContext(data, context) {
   packContext = context ?? null;
   resolvedCatalogUrl = context?.catalogUrl ?? null;
   resolvedPackRoot = context?.resolvedBase ?? null;
   packDocsBase = context?.docsBase ?? null;
+  if (context?.apiBase) {
+    state.api.base = context.apiBase;
+  }
   state.data = data;
   populateFilters(data);
   renderFlowMap();
@@ -5240,7 +5386,9 @@ function synthesiseBiome(parents) {
   };
 }
 
-function generateSyntheticBiomes(baseBiomes, count) {
+// Pipeline legacy: seleziona biomi preesistenti e li combina per ottenere varianti sintetiche.
+// Rimane come fallback locale quando il worker di generazione non è disponibile.
+function fallbackGenerateBiomes(baseBiomes, count) {
   if (!baseBiomes?.length) return [];
   const result = [];
   for (let i = 0; i < count; i += 1) {
@@ -5249,6 +5397,102 @@ function generateSyntheticBiomes(baseBiomes, count) {
     result.push(synthesiseBiome(parents));
   }
   return result;
+}
+
+async function requestBiomeSynthesis(count, filters) {
+  if (!count) {
+    return { biomes: [], meta: null };
+  }
+  const constraints = buildGenerationConstraints(filters);
+  const endpoint = resolveApiEndpoint(API_ENDPOINTS.biomeGeneration);
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ count, constraints }),
+  });
+  if (!response.ok) {
+    throw new Error(`Richiesta generazione biomi fallita (${response.status})`);
+  }
+  const payload = await response.json();
+  return {
+    biomes: Array.isArray(payload.biomes) ? payload.biomes : [],
+    meta: payload.meta ?? null,
+  };
+}
+
+function normaliseGeneratedSpecies(species, biomeId) {
+  if (!species) return null;
+  const id = species.id || `${slugify(species.display_name || species.role_trofico || "specie")}-${Math.random()
+    .toString(36)
+    .slice(2, 6)}`;
+  const flags = { ...species.flags };
+  ROLE_FLAGS.forEach((flag) => {
+    flags[flag] = Boolean(flags?.[flag]);
+  });
+  const tier = Number.isFinite(species.syntheticTier)
+    ? species.syntheticTier
+    : inferThreatTierFromRole(species.role_trofico ?? "", flags);
+  return {
+    ...species,
+    id,
+    display_name: species.display_name || titleCase(id),
+    role_trofico: species.role_trofico || "ruolo_sintetico",
+    functional_tags: Array.isArray(species.functional_tags) ? species.functional_tags : [],
+    flags,
+    biomes: Array.isArray(species.biomes) && species.biomes.length ? species.biomes : [biomeId],
+    synthetic: true,
+    syntheticTier: tier,
+    balance: species.balance ?? { threat_tier: `T${tier}` },
+  };
+}
+
+function normaliseGeneratedBiome(entry) {
+  if (!entry) return null;
+  if (entry.synthetic === false) {
+    return entry;
+  }
+  const id = entry.id || randomId("biome");
+  const species = Array.isArray(entry.species)
+    ? entry.species.map((sp) => normaliseGeneratedSpecies(sp, id)).filter(Boolean)
+    : [];
+  const manifest = { ...(entry.manifest ?? {}) };
+  if (!manifest.species_counts) {
+    const counts = { apex: 0, keystone: 0, bridge: 0, threat: 0, event: 0 };
+    species.forEach((sp) => {
+      ROLE_FLAGS.forEach((flag) => {
+        if (sp.flags?.[flag]) {
+          counts[flag] += 1;
+        }
+      });
+    });
+    manifest.species_counts = counts;
+  }
+  const metrics = { ...(entry.metrics ?? {}) };
+  if (!Number.isFinite(metrics.zoneCount)) {
+    metrics.zoneCount = Math.max(2, species.length || 3);
+  }
+  if (!metrics.hazardSeverity && entry.hazard?.severity) {
+    metrics.hazardSeverity = entry.hazard.severity;
+  }
+  return {
+    ...entry,
+    id,
+    label: entry.label || `Bioma sintetico ${titleCase(id)}`,
+    synthetic: true,
+    parents: Array.isArray(entry.parents) ? entry.parents : [],
+    hazard: entry.hazard ?? null,
+    traits: entry.traits ?? { ids: [] },
+    manifest,
+    metrics,
+    species,
+  };
+}
+
+function normaliseBiomeCollection(biomes) {
+  if (!Array.isArray(biomes)) return [];
+  return biomes
+    .map((biome) => normaliseGeneratedBiome(biome))
+    .filter(Boolean);
 }
 
 function synthesiseConnections(biomes) {
@@ -6938,6 +7182,45 @@ function buildBiomeCard(biome, filters) {
   }
   body.appendChild(meta);
 
+  if (biome.synthetic) {
+    const detailParts = [];
+    const zoneCount = Number.isFinite(biome.metrics?.zoneCount) ? biome.metrics.zoneCount : null;
+    if (zoneCount) {
+      detailParts.push(`${zoneCount} zone`);
+    }
+    if (biome.hazard?.severity) {
+      detailParts.push(`hazard ${formatHazardSeverity(biome.hazard.severity)}`);
+    }
+    if (Number.isFinite(biome.metrics?.resourceRichness) && biome.metrics.resourceRichness > 0) {
+      detailParts.push(`${biome.metrics.resourceRichness} risorse chiave`);
+    }
+    if (detailParts.length) {
+      const stats = document.createElement("p");
+      stats.className = "generator-card__meta generator-card__meta--emphasis";
+      stats.textContent = detailParts.join(" · ");
+      body.appendChild(stats);
+    }
+
+    const traitDetails = Array.isArray(biome.traits?.details) ? biome.traits.details : [];
+    if (traitDetails.length) {
+      const traitContainer = document.createElement("div");
+      traitContainer.className = "generator-card__traits";
+      traitDetails.slice(0, 6).forEach((trait) => {
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.textContent = trait.label ?? titleCase(trait.id ?? "trait");
+        traitContainer.appendChild(chip);
+      });
+      if (traitDetails.length > 6) {
+        const remainder = document.createElement("span");
+        remainder.className = "chip";
+        remainder.textContent = `+${traitDetails.length - 6}`;
+        traitContainer.appendChild(remainder);
+      }
+      body.appendChild(traitContainer);
+    }
+  }
+
   if (!biome.synthetic) {
     const links = document.createElement("div");
     links.className = "generator-card__links";
@@ -8291,7 +8574,27 @@ function attachActions() {
           elements.nBiomi.value = String(targetCount);
         }
         const toGenerate = Math.max(0, targetCount - lockedBiomes.length);
-        const generated = generateSyntheticBiomes(state.data.biomi, toGenerate);
+        let generated = [];
+        let meta = null;
+        if (toGenerate > 0) {
+          try {
+            const response = await requestBiomeSynthesis(toGenerate, filters);
+            generated = normaliseBiomeCollection(response.biomes);
+            meta = response.meta ?? null;
+            if (!generated.length) {
+              throw new Error("Nessun bioma sintetico restituito dal worker");
+            }
+          } catch (error) {
+            console.warn("Generazione biomi remota fallita", error);
+            setStatus("Worker biomi non disponibile, uso fallback locale.", "warn", {
+              tags: ["roll", "ecosistema", "fallback"],
+              action: "roll-ecos-fallback",
+              metadata: { reason: error instanceof Error ? error.message : String(error ?? "") },
+            });
+            generated = fallbackGenerateBiomes(state.data.biomi, toGenerate);
+            meta = null;
+          }
+        }
         const combined = [...lockedBiomes.slice(0, targetCount), ...generated].slice(0, targetCount);
         state.pick.ecosystem = {
           id: randomId("ecos"),
@@ -8301,6 +8604,7 @@ function attachActions() {
           connessioni: synthesiseConnections(combined),
         };
         state.pick.biomes = combined;
+        state.lastGenerationMeta = meta;
         state.pick.exportSlug = null;
         rerollSpecies(filters);
         rerollSeeds(filters);
@@ -8308,8 +8612,16 @@ function attachActions() {
         renderSeeds();
         focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
+        const summaryParts = [];
+        if (meta?.applied?.hazard) {
+          summaryParts.push(`hazard ${formatHazardSeverity(meta.applied.hazard)}`);
+        }
+        if (meta?.applied?.climate) {
+          summaryParts.push(`clima ${titleCase(meta.applied.climate)}`);
+        }
+        const metaSuffix = summaryParts.length ? ` (${summaryParts.join(" · ")})` : "";
         setStatus(
-          `Generati ${state.pick.biomes.length} biomi sintetici e ${state.pick.seeds.length} seed.`,
+          `Generati ${state.pick.biomes.length} biomi sintetici e ${state.pick.seeds.length} seed${metaSuffix}.`,
           "success",
           {
             tags: ["roll", "ecosistema"],
@@ -8339,9 +8651,30 @@ function attachActions() {
           elements.nBiomi.value = String(targetCount);
         }
         const toGenerate = Math.max(0, targetCount - lockedBiomes.length);
-        const regenerated = generateSyntheticBiomes(state.data.biomi, toGenerate);
+        let regenerated = [];
+        let meta = null;
+        if (toGenerate > 0) {
+          try {
+            const response = await requestBiomeSynthesis(toGenerate, filters);
+            regenerated = normaliseBiomeCollection(response.biomes);
+            meta = response.meta ?? null;
+            if (!regenerated.length) {
+              throw new Error("Nessun bioma sintetico restituito dal worker");
+            }
+          } catch (error) {
+            console.warn("Reroll biomi remoto fallito", error);
+            setStatus("Worker biomi non disponibile, uso fallback locale.", "warn", {
+              tags: ["reroll", "biomi", "fallback"],
+              action: "reroll-biomi-fallback",
+              metadata: { reason: error instanceof Error ? error.message : String(error ?? "") },
+            });
+            regenerated = fallbackGenerateBiomes(state.data.biomi, toGenerate);
+            meta = null;
+          }
+        }
         const combined = [...lockedBiomes.slice(0, targetCount), ...regenerated].slice(0, targetCount);
         state.pick.biomes = combined;
+        state.lastGenerationMeta = meta;
         state.pick.ecosystem = {
           id: state.pick.ecosystem?.id || randomId("ecos"),
           label: `Rete sintetica (${combined.length} biomi)`,
@@ -8356,7 +8689,15 @@ function attachActions() {
         renderSeeds();
         focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
-        setStatus("Biomi sintetici ricalcolati con i filtri correnti.", "success", {
+        const rerollSummary = [];
+        if (meta?.applied?.hazard) {
+          rerollSummary.push(`hazard ${formatHazardSeverity(meta.applied.hazard)}`);
+        }
+        if (meta?.applied?.climate) {
+          rerollSummary.push(`clima ${titleCase(meta.applied.climate)}`);
+        }
+        const rerollSuffix = rerollSummary.length ? ` (${rerollSummary.join(" · ")})` : "";
+        setStatus(`Biomi sintetici ricalcolati con i filtri correnti${rerollSuffix}.`, "success", {
           tags: ["reroll", "biomi"],
           action: "reroll-biomi",
           rare: Boolean(narrativeContext?.isHighThreat),
@@ -8644,6 +8985,13 @@ if (typeof window !== "undefined") {
     getContext() {
       return packContext;
     },
+    getApiBase() {
+      return state.api?.base ?? null;
+    },
+    setApiBase(base) {
+      state.api.base = base ?? null;
+    },
+    requestBiomeSynthesis,
     manualLoadCatalog,
     loadPackCatalog,
   };
