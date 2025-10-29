@@ -10,12 +10,21 @@ import unicodedata
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import re
 
 import yaml
-from jsonschema import Draft202012Validator, RefResolver, exceptions
+
+try:  # pragma: no cover - dipendenza opzionale
+    from jsonschema import Draft202012Validator, RefResolver, exceptions
+except ModuleNotFoundError:  # pragma: no cover - ambiente senza jsonschema
+    Draft202012Validator = None  # type: ignore[assignment]
+    RefResolver = None  # type: ignore[assignment]
+    exceptions = None  # type: ignore[assignment]
+
+
+JSONSCHEMA_AVAILABLE = Draft202012Validator is not None and RefResolver is not None
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TRAIT_REFERENCE_PATH = REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
@@ -65,13 +74,20 @@ def load_structured_data(path: Path) -> Any:
     raise ValueError(f"Formato non supportato per {path.suffix}")
 
 
-def _format_error_path(error: exceptions.ValidationError) -> str:
-    if not error.absolute_path:
+def _format_error_path(error: Any) -> str:
+    if not getattr(error, "absolute_path", None):
         return "<root>"
     return "/" + "/".join(str(part) for part in error.absolute_path)
 
 
-def validate_schemas() -> Tuple[List[Dict[str, Any]], List[Issue]]:
+def validate_schemas() -> Tuple[Optional[List[Dict[str, Any]]], List[Issue]]:
+    if not JSONSCHEMA_AVAILABLE:
+        message = (
+            "Modulo 'jsonschema' non disponibile: validazione schemi saltata. "
+            "Installare 'jsonschema' per eseguire la verifica."
+        )
+        return None, [Issue("warning", message)]
+
     store = load_schema_documents()
     entries: List[Dict[str, Any]] = []
     issues: List[Issue] = []
@@ -391,9 +407,11 @@ def format_report(issues: Iterable[Issue]) -> str:
 def run(args: argparse.Namespace) -> int:
     trait_issues, report_text = check_traits()
     schema_entries, schema_issues = validate_schemas()
+    schema_report = (
+        build_schema_report(schema_entries) if schema_entries is not None else None
+    )
     issues = trait_issues + schema_issues
     blocking = [issue for issue in issues if issue.kind == "blocking"]
-    schema_report = build_schema_report(schema_entries)
 
     if args.check:
         if blocking:
@@ -423,44 +441,52 @@ def run(args: argparse.Namespace) -> int:
                 print(line, file=sys.stderr)
             return 1
 
-        if not SCHEMA_REPORT_PATH.exists():
+        if schema_report is not None:
+            if not SCHEMA_REPORT_PATH.exists():
+                print(
+                    f"Report schema mancante ({SCHEMA_REPORT_PATH}). Eseguire lo script senza --check per generarlo.",
+                    file=sys.stderr,
+                )
+                return 1
+
+            try:
+                existing_schema_report = json.loads(
+                    SCHEMA_REPORT_PATH.read_text(encoding="utf-8")
+                )
+            except json.JSONDecodeError as exc:
+                print(
+                    f"Impossibile leggere {SCHEMA_REPORT_PATH}: {exc}",
+                    file=sys.stderr,
+                )
+                return 1
+
+            normalized_expected = dict(schema_report)
+            normalized_existing = dict(existing_schema_report)
+            normalized_expected["generated_at"] = None
+            normalized_existing["generated_at"] = None
+
+            if normalized_existing != normalized_expected:
+                print(
+                    "Il report schema_validation.json non è aggiornato. Rieseguire l'audit senza --check.",
+                    file=sys.stderr,
+                )
+                import difflib
+
+                diff = difflib.unified_diff(
+                    json.dumps(existing_schema_report, ensure_ascii=False, indent=2).splitlines(),
+                    json.dumps(schema_report, ensure_ascii=False, indent=2).splitlines(),
+                    fromfile=str(SCHEMA_REPORT_PATH),
+                    tofile="generated",
+                    lineterm="",
+                )
+                for line in diff:
+                    print(line, file=sys.stderr)
+                return 1
+        else:
             print(
-                f"Report schema mancante ({SCHEMA_REPORT_PATH}). Eseguire lo script senza --check per generarlo.",
+                "Validazione schemi saltata (modulo 'jsonschema' assente). Skipping verifica report schema.",
                 file=sys.stderr,
             )
-            return 1
-
-        try:
-            existing_schema_report = json.loads(SCHEMA_REPORT_PATH.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
-            print(
-                f"Impossibile leggere {SCHEMA_REPORT_PATH}: {exc}",
-                file=sys.stderr,
-            )
-            return 1
-
-        normalized_expected = dict(schema_report)
-        normalized_existing = dict(existing_schema_report)
-        normalized_expected["generated_at"] = None
-        normalized_existing["generated_at"] = None
-
-        if normalized_existing != normalized_expected:
-            print(
-                "Il report schema_validation.json non è aggiornato. Rieseguire l'audit senza --check.",
-                file=sys.stderr,
-            )
-            import difflib
-
-            diff = difflib.unified_diff(
-                json.dumps(existing_schema_report, ensure_ascii=False, indent=2).splitlines(),
-                json.dumps(schema_report, ensure_ascii=False, indent=2).splitlines(),
-                fromfile=str(SCHEMA_REPORT_PATH),
-                tofile="generated",
-                lineterm="",
-            )
-            for line in diff:
-                print(line, file=sys.stderr)
-            return 1
 
         print("Audit dei tratti: nessuna regressione rilevata.")
         return 1 if blocking else 0
@@ -469,11 +495,18 @@ def run(args: argparse.Namespace) -> int:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(report_text, encoding="utf-8")
 
-    SCHEMA_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    SCHEMA_REPORT_PATH.write_text(
-        json.dumps(schema_report, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    if schema_report is not None:
+        SCHEMA_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+        SCHEMA_REPORT_PATH.write_text(
+            json.dumps(schema_report, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        print(f"Report schema scritto in {SCHEMA_REPORT_PATH}")
+    else:
+        print(
+            "Modulo 'jsonschema' non disponibile: report schema non aggiornato.",
+            file=sys.stderr,
+        )
 
     for issue in blocking:
         print(f"[BLOCCANTE] {issue.message}", file=sys.stderr)
@@ -481,7 +514,6 @@ def run(args: argparse.Namespace) -> int:
         print(f"[WARNING] {warning.message}", file=sys.stderr)
 
     print(f"Report scritto in {output_path}")
-    print(f"Report schema scritto in {SCHEMA_REPORT_PATH}")
     return 1 if blocking else 0
 
 
