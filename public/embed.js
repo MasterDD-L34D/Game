@@ -38,24 +38,36 @@
     return [];
   }
 
+  const DEFAULT_TAXONOMY_URL = (function resolveDefaultTaxonomyUrl() {
+    if (typeof document === 'undefined') return null;
+    try {
+      let scriptUrl = null;
+      const current = document.currentScript;
+      if (current && current.src) {
+        scriptUrl = current.src;
+      } else if (typeof document.getElementsByTagName === 'function') {
+        const scripts = document.getElementsByTagName('script');
+        for (let i = scripts.length - 1; i >= 0; i--) {
+          const candidate = scripts[i] && scripts[i].src;
+          if (!candidate) continue;
+          scriptUrl = candidate;
+          if (/embed\.js(?:\?|$)/.test(candidate)) break;
+        }
+      }
+      if (!scriptUrl) return null;
+      return new URL('idea_engine_taxonomy.json', scriptUrl).toString();
+    } catch (error) {
+      console.warn('Errore calcolo URL tassonomia', error);
+      return null;
+    }
+  })();
+
   async function resolveCategories(opts) {
     const config = (typeof window !== 'undefined' && window.IDEA_WIDGET_CONFIG) ? window.IDEA_WIDGET_CONFIG : {};
     const urls = unique([
       opts && opts.categoriesUrl,
       config.categoriesUrl,
-      (function deriveRelativeUrl() {
-        try {
-          if (typeof document === 'undefined') return null;
-          const currentScript = document.currentScript;
-          if (currentScript && currentScript.src) {
-            const src = new URL(currentScript.src, window.location.href);
-            return new URL('idea_engine_taxonomy.json', src).toString();
-          }
-        } catch (error) {
-          console.warn('Errore calcolo URL tassonomia', error);
-        }
-        return null;
-      })(),
+      DEFAULT_TAXONOMY_URL,
       '../config/idea_engine_taxonomy.json'
     ]);
 
