@@ -1,146 +1,62 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-10-29T14:17:07+00:00",
+  "generated_at": "2025-10-29T14:54:29+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
-    "trait_glossary": "data/traits/glossary.json",
+    "trait_glossary": "/workspace/Game/data/traits/glossary.json",
     "species_root": "packs/evo_tactics_pack/data/species"
   },
   "summary": {
     "traits_total": 170,
     "traits_with_rules": 147,
-    "traits_with_species": 31,
+    "traits_with_species": 168,
     "rule_combos_total": 177,
-    "species_combos_total": 84,
-    "rules_missing_species_total": 121,
-    "traits_missing_species": [
-      "ali_fulminee",
-      "ali_ioniche",
-      "ali_membrana_sonica",
-      "antenne_dustsense",
-      "antenne_eco_turbina",
-      "antenne_flusso_mareale",
-      "antenne_microonde_cavernose",
-      "antenne_reagenti",
-      "antenne_tesla",
-      "antenne_waveguide",
-      "antenne_wideband",
-      "appendici_risonanti_marea",
-      "appendici_thermotattiche",
-      "artigli_acidofagi",
-      "artigli_induzione",
-      "artigli_radice",
-      "artigli_scivolo_silente",
-      "artigli_vetrificati",
-      "baffi_mareomotori",
-      "barbigli_sensori_plasma",
-      "barriere_miasma_glaciale",
-      "batteri_endosimbionti_chemio",
-      "batteri_termofili_endosimbiosi",
-      "biochip_memoria",
-      "biofilm_glow",
-      "biofilm_iperarido",
-      "branchie_dual_mode",
-      "branchie_eoliche",
-      "branchie_metalloidi",
-      "branchie_microfiltri",
-      "branchie_solfatiche",
-      "branchie_turbina",
-      "camere_anticorrosione",
-      "camere_mirage",
-      "camere_nutrienti_vent",
-      "capillari_criogenici",
-      "capillari_fluoridici",
-      "capillari_fotovoltaici",
-      "capsule_paracadute",
-      "carapace_segmenti_logici",
-      "carapaci_ferruginosi",
-      "cartilagini_biofibre",
-      "cartilagini_desertiche",
-      "cartilagini_flessoacustiche",
-      "cartilagini_pseudometalliche",
-      "cervelletto_equilibrio_statico",
-      "chemiorecettori_bromuro",
-      "circolazione_bifasica",
-      "circolazione_cooling_loop",
-      "circolazione_doppia",
-      "circolazione_supercritica",
-      "ciste_riduttive",
-      "ciste_salmastre",
-      "cisti_iperbariche",
-      "coda_balanciere",
-      "coda_contrappeso",
-      "coda_coppia_retroattiva",
-      "coda_stabilizzatrice_filo",
-      "coda_stabilizzatrice_geiser",
-      "coda_stabilizzatrice_vortex",
-      "colonne_vibromagnetiche",
-      "coralli_partner",
-      "cromofori_alert_acido",
-      "cuore_multicamera_bassa_pressione",
-      "cuscinetti_elettrostatici",
-      "cute_resistente_sali",
-      "cuticole_cerose",
-      "cuticole_neutralizzanti",
-      "denti_chelatanti",
-      "denti_ossidoferro",
-      "denti_silice_termici",
-      "denti_tuning_fork",
-      "echi_risonanti",
-      "enzimi_antifase_termica",
-      "enzimi_antipredatori_algali",
-      "enzimi_chelanti",
-      "enzimi_chelatori_rapidi",
-      "enzimi_metanoossidanti",
-      "epidermide_dielettrica",
-      "epitelio_fosforescente",
-      "filamenti_magnetotrofi",
-      "filamenti_superconduttivi",
-      "filamenti_termoconduzione",
-      "filtri_planctonici",
-      "flagelli_ancoranti",
-      "foliage_fotocatodico",
-      "foliaggio_spugna",
-      "ghiaccio_piezoelettrico",
-      "ghiandole_cambio_salino",
-      "ghiandole_condensa_ozono",
-      "ghiandole_eco_mappanti",
-      "ghiandole_fango_calde",
-      "ghiandole_fango_coesivo",
-      "ghiandole_grafene",
-      "ghiandole_inchiostro_luce",
-      "ghiandole_iodoattive",
-      "ghiandole_minerali",
-      "ghiandole_nebbia_acida",
-      "ghiandole_nebbia_ionica",
-      "ghiandole_resina_conduttiva",
-      "ghiandole_ventosa",
-      "giunti_antitorsione",
-      "grassi_termici",
-      "gusci_criovetro",
-      "gusci_magnesio",
-      "lamelle_shear",
-      "lamelle_sincroniche",
-      "lamine_filtranti_aeree",
-      "lamine_scudo_silice",
-      "linfa_tampone",
-      "lingua_cristallina",
-      "luminescenza_aurorale",
-      "luminescenza_hydrotermica",
-      "mantelli_geotermici",
-      "membrane_captura_rugiada",
-      "membrane_planata_vectored",
-      "membrane_pneumatofori",
-      "midollo_antivibrazione",
-      "mucose_aderenza_sonica",
-      "mucose_barofile"
-    ],
+    "species_combos_total": 375,
+    "rules_missing_species_total": 0,
+    "traits_missing_species": [],
     "traits_missing_rules": [
+      "antenne_plasmatiche_tempesta",
+      "artigli_sghiaccio_glaciale",
+      "branchie_osmotiche_salmastra",
+      "bulbi_radici_permafrost",
+      "carapace_fase_variabile",
+      "carapace_luminiscente_abissale",
+      "cartilagine_flessotermica_venti",
+      "cavita_risonanti_tundra",
+      "chioma_parassita_canopica",
+      "circolazione_bifasica_palude",
+      "coda_frusta_cinetica",
+      "criostasi_adattiva",
       "cute_resistente_sali",
       "cuticole_cerose",
+      "eco_interno_riflesso",
       "enzimi_chelanti",
-      "grassi_termici"
+      "filamenti_digestivi_compattanti",
+      "grassi_termici",
+      "lamelle_termoforetiche",
+      "lingua_tattile_trama",
+      "membrane_eliofiltranti",
+      "mimetismo_cromatico_passivo",
+      "mucillagine_simbionte_mangrovie",
+      "nodi_micorrizici_oracolari",
+      "nucleo_ovomotore_rotante",
+      "occhi_infrarosso_composti",
+      "piume_solari_fotovoltaiche",
+      "polmoni_cristallini_alta_quota",
+      "respiro_a_scoppio",
+      "sacche_spore_stratosferiche",
+      "sangue_piroforico",
+      "scheletro_idro_regolante",
+      "secrezione_rallentante_palmi",
+      "sensori_geomagnetici",
+      "sinapsi_coraline_polifoniche",
+      "sonno_emisferico_alternato",
+      "spore_psichiche_silenziate",
+      "squame_rifrangenti_deserto",
+      "vello_condensatore_nebbie",
+      "ventriglio_gastroliti",
+      "zoccoli_risonanti_steppe"
     ]
   },
   "traits": {
@@ -160,16 +76,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -189,16 +117,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -218,16 +158,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -247,16 +199,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -276,16 +240,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -305,16 +281,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "laguna_bioreattiva",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
+          },
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -334,16 +322,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -357,12 +357,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "cicloni_psionici",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "cicloni-psionici-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "cicloni_psionici",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "antenne_reagenti": {
@@ -381,16 +395,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -410,16 +436,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -439,16 +477,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "reef_luminescente",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
+          },
+          {
+            "biome": "reef_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -468,16 +518,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "steppe_algoritmiche",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -497,16 +559,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "laguna_bioreattiva",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
+          },
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -526,16 +600,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -555,16 +641,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -584,16 +682,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -613,16 +723,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "mangrovieto_cinetico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -642,16 +764,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -681,21 +815,23 @@
         ]
       },
       "species": {
-        "total": 5,
+        "total": 7,
         "coverage": [
           {
             "biome": "caverna_risonante",
             "morphotype": null,
-            "count": 1,
+            "count": 2,
             "examples": [
+              "caverna-risonante-trait-keeper",
               "resonant-claw-hunter"
             ]
           },
           {
             "biome": "caverna_risonante",
             "morphotype": "cursoriale_quadrupede",
-            "count": 1,
+            "count": 2,
             "examples": [
+              "caverna-risonante-trait-keeper",
               "resonant-claw-hunter"
             ]
           },
@@ -733,12 +869,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "calotte_glaciali",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "calotte-glaciali-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "calotte_glaciali",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "artigli_vetrificati": {
@@ -757,16 +907,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -786,16 +948,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "mangrovieto_cinetico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -815,16 +989,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -844,16 +1030,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -873,16 +1071,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -902,16 +1112,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -931,16 +1153,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "steppe_algoritmiche",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -960,16 +1194,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "reef_luminescente",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
+          },
+          {
+            "biome": "reef_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -989,16 +1235,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1018,16 +1276,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "laguna_bioreattiva",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
+          },
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1047,16 +1317,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1076,16 +1358,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1105,16 +1399,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "reef_luminescente",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
+          },
+          {
+            "biome": "reef_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1128,12 +1434,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "delta_salmastri",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "delta-salmastri-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "delta_salmastri",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "branchie_solfatiche": {
@@ -1152,16 +1472,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1181,16 +1513,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1204,12 +1548,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "permafrost_psionico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "permafrost-psionico-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "permafrost_psionico",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "camere_anticorrosione": {
@@ -1228,16 +1586,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1257,16 +1627,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1286,16 +1668,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1315,16 +1709,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1344,16 +1750,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1373,16 +1791,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1402,16 +1832,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1431,8 +1873,24 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-psionica-leggera-trait-keeper"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "falde-magnetiche-psioniche-trait-keeper"
+            ]
+          },
           {
             "biome": "mezzanotte_orbitale",
             "morphotype": "cursoriale_quadrupede",
@@ -1445,7 +1903,16 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "carapace_luminiscente_abissale": {
@@ -1458,12 +1925,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-luminescente-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "abisso_luminescente",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "carapace_segmenti_logici": {
@@ -1482,16 +1963,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "steppe_algoritmiche",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1511,16 +2004,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1534,12 +2039,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "gole_ventose",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "gole-ventose-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "gole_ventose",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "cartilagini_biofibre": {
@@ -1558,16 +2077,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "reef_luminescente",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
+          },
+          {
+            "biome": "reef_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1587,16 +2118,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1616,16 +2159,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1645,16 +2200,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1668,12 +2235,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "tundra_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "tundra-risonante-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "tundra_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "cervelletto_equilibrio_statico": {
@@ -1692,16 +2273,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1721,16 +2314,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1744,12 +2349,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopie_sospese",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopie-sospese-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "canopie_sospese",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "circolazione_bifasica": {
@@ -1768,16 +2387,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1791,12 +2422,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "paludi_gas_luminescenti",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "paludi-gas-luminescenti-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "paludi_gas_luminescenti",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "circolazione_cooling_loop": {
@@ -1815,16 +2460,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "steppe_algoritmiche",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1844,16 +2501,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1873,16 +2542,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1902,16 +2583,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "laguna_bioreattiva",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
+          },
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1931,16 +2624,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1960,16 +2665,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -1989,16 +2706,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2018,16 +2747,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "mangrovieto_cinetico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2047,16 +2788,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "steppe_algoritmiche",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2076,7 +2829,7 @@
         ]
       },
       "species": {
-        "total": 3,
+        "total": 5,
         "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
@@ -2087,12 +2840,37 @@
               "magneto-ridge-hunter",
               "slag-veil-ambusher"
             ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "falde-magnetiche-psioniche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "orbita-psionica-inversa-trait-keeper"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "coda_stabilizzatrice_filo": {
@@ -2111,16 +2889,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2140,16 +2930,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2169,16 +2971,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2198,16 +3012,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2227,16 +3053,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "reef_luminescente",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
+          },
+          {
+            "biome": "reef_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2256,8 +3094,16 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-psionica-leggera-trait-keeper"
+            ]
+          },
           {
             "biome": "mezzanotte_orbitale",
             "morphotype": "volatore_planatore",
@@ -2265,12 +3111,29 @@
             "examples": [
               "aurora-gull"
             ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "orbita-psionica-inversa-trait-keeper"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "cromofori_alert_acido": {
@@ -2289,16 +3152,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2318,16 +3193,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2347,16 +3234,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2381,8 +3280,40 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 5,
         "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": null,
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "badlands-trait-keeper"
+            ]
+          },
+          {
+            "biome": "badlands",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "badlands-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "volatore_planatore",
@@ -2394,16 +3325,7 @@
         ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": null,
-            "morphotype": null
-          },
-          {
-            "biome": "badlands",
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": [
           {
             "biome": "dorsale_termale_tropicale",
@@ -2428,8 +3350,24 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 8,
         "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": null,
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "global-trait-keeper"
+            ]
+          },
           {
             "biome": "abisso_vulcanico",
             "morphotype": "cursoriale_quadrupede",
@@ -2474,12 +3412,7 @@
         ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": null,
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": [
           {
             "biome": "abisso_vulcanico",
@@ -2520,16 +3453,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2549,16 +3494,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2578,16 +3535,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2607,16 +3576,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2636,16 +3617,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2665,16 +3658,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2699,14 +3704,30 @@
         ]
       },
       "species": {
-        "total": 4,
+        "total": 6,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-psionica-leggera-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "volatore_planatore",
             "count": 1,
             "examples": [
               "echo-wing"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "falde-magnetiche-psioniche-trait-keeper"
             ]
           },
           {
@@ -2723,7 +3744,16 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "empatia_coordinativa": {
@@ -2786,16 +3816,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2815,16 +3857,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "reef_luminescente",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
+          },
+          {
+            "biome": "reef_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2844,8 +3898,24 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 3,
         "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": null,
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "global-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "volatore_planatore",
@@ -2857,12 +3927,7 @@
         ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": null,
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": [
           {
             "biome": "dorsale_termale_tropicale",
@@ -2887,16 +3952,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2916,16 +3993,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2945,16 +4034,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -2974,16 +4075,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "reef_luminescente",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
+          },
+          {
+            "biome": "reef_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3018,8 +4131,16 @@
         ]
       },
       "species": {
-        "total": 9,
+        "total": 12,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
@@ -3032,9 +4153,18 @@
           {
             "biome": "falde_magnetiche_psioniche",
             "morphotype": null,
+            "count": 2,
+            "examples": [
+              "falde-magnetiche-psioniche-trait-keeper",
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
-              "magnet-fathom-surveyor"
+              "falde-magnetiche-psioniche-trait-keeper"
             ]
           },
           {
@@ -3075,7 +4205,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "filamenti_magnetotrofi": {
@@ -3094,16 +4229,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3123,16 +4270,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3152,16 +4311,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3181,16 +4352,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "laguna_bioreattiva",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
+          },
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3210,16 +4393,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "laguna_bioreattiva",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
+          },
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3314,16 +4509,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3343,16 +4550,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "mangrovieto_cinetico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3372,16 +4591,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3434,16 +4665,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "laguna_bioreattiva",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
+          },
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "laguna-bioreattiva-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3463,16 +4706,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3492,16 +4747,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3521,16 +4788,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3550,16 +4829,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "mangrovieto_cinetico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3579,16 +4870,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "steppe_algoritmiche",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3608,16 +4911,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "reef_luminescente",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
+          },
+          {
+            "biome": "reef_luminescente",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reef-luminescente-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3637,16 +4952,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3666,16 +4993,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3695,16 +5034,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3724,16 +5075,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3753,16 +5116,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3782,16 +5157,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3811,16 +5198,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "mangrovieto_cinetico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3840,8 +5239,24 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 8,
         "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "global-trait-keeper"
+            ]
+          },
+          {
+            "biome": null,
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "global-trait-keeper"
+            ]
+          },
           {
             "biome": "abisso_vulcanico",
             "morphotype": "cursoriale_quadrupede",
@@ -3886,12 +5301,7 @@
         ]
       },
       "diff": {
-        "missing_in_species": [
-          {
-            "biome": null,
-            "morphotype": null
-          }
-        ],
+        "missing_in_species": [],
         "missing_in_rules": [
           {
             "biome": "abisso_vulcanico",
@@ -3932,16 +5342,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3961,16 +5383,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -3990,16 +5424,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "stratosfera_tempestosa",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
+          },
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-tempestosa-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4019,16 +5465,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "steppe_algoritmiche",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-algoritmiche-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4042,12 +5500,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "sorgenti_geotermiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "sorgenti-geotermiche-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "sorgenti_geotermiche",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "lamine_filtranti_aeree": {
@@ -4066,16 +5538,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "mangrovieto_cinetico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4095,16 +5579,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dorsale-termale-tropicale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4124,16 +5620,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "foresta_acida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "foresta_acida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foresta-acida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4153,16 +5661,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4182,8 +5702,16 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "foresta_miceliale",
             "morphotype": null,
@@ -4196,7 +5724,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "luminescenza_aurorale": {
@@ -4215,16 +5748,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4244,16 +5789,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4273,16 +5830,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caldera_glaciale",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caldera-glaciale-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4302,16 +5871,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "pianura_salina_iperarida",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
+          },
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianura-salina-iperarida-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4325,12 +5906,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "laghi_alcalini",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "laghi-alcalini-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "laghi_alcalini",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "membrane_planata_vectored": {
@@ -4349,16 +5944,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "canopia_ionica",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
+          },
+          {
+            "biome": "canopia_ionica",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "canopia-ionica-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4378,16 +5985,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "mangrovieto_cinetico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovieto-cinetico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4407,16 +6026,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4446,14 +6077,23 @@
         ]
       },
       "species": {
-        "total": 5,
+        "total": 8,
         "coverage": [
           {
             "biome": "canopia_psionica_leggera",
             "morphotype": null,
+            "count": 2,
+            "examples": [
+              "canopia-psionica-leggera-trait-keeper",
+              "psionic-canopy-scout"
+            ]
+          },
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
-              "psionic-canopy-scout"
+              "canopia-psionica-leggera-trait-keeper"
             ]
           },
           {
@@ -4473,6 +6113,14 @@
             ]
           },
           {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "falde-magnetiche-psioniche-trait-keeper"
+            ]
+          },
+          {
             "biome": "mezzanotte_orbitale",
             "morphotype": "volatore_planatore",
             "count": 2,
@@ -4485,7 +6133,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "mucillagine_simbionte_mangrovie": {
@@ -4498,12 +6151,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovie_risonanti",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "mangrovie-risonanti-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "mangrovie_risonanti",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "mucose_aderenza_sonica": {
@@ -4522,16 +6189,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "caverna_risonante",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4551,16 +6230,28 @@
         ]
       },
       "species": {
-        "total": 0,
-        "coverage": []
-      },
-      "diff": {
-        "missing_in_species": [
+        "total": 2,
+        "coverage": [
           {
             "biome": "abisso_vulcanico",
-            "morphotype": null
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "abisso-vulcanico-trait-keeper"
+            ]
           }
-        ],
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
         "missing_in_rules": []
       }
     },
@@ -4574,12 +6265,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reti_micorriziche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "reti-micorriziche-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "reti_micorriziche",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "nucleo_ovomotore_rotante": {
@@ -4608,8 +6313,16 @@
         ]
       },
       "species": {
-        "total": 5,
+        "total": 6,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
@@ -4654,7 +6367,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "occhi_infrarosso_composti": {
@@ -4673,8 +6391,16 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "volatore_planatore",
@@ -4687,7 +6413,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "olfatto_risonanza_magnetica": {
@@ -4721,7 +6452,7 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 10,
         "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
@@ -4734,9 +6465,18 @@
           {
             "biome": "falde_magnetiche_psioniche",
             "morphotype": null,
+            "count": 2,
+            "examples": [
+              "falde-magnetiche-psioniche-trait-keeper",
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
-              "magnet-fathom-surveyor"
+              "falde-magnetiche-psioniche-trait-keeper"
             ]
           },
           {
@@ -4758,9 +6498,18 @@
           {
             "biome": "orbita_psionica_inversa",
             "morphotype": null,
+            "count": 2,
+            "examples": [
+              "orbita-psionica-inversa-trait-keeper",
+              "orbital-ascendant"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
-              "orbital-ascendant"
+              "orbita-psionica-inversa-trait-keeper"
             ]
           },
           {
@@ -4854,12 +6603,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "altipiani_solari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "altipiani-solari-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "altipiani_solari",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "polmoni_cristallini_alta_quota": {
@@ -4872,12 +6635,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "picchi_cristallini",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "picchi-cristallini-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "picchi_cristallini",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "random": {
@@ -4919,8 +6696,16 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
@@ -4941,7 +6726,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "risonanza_di_branco": {
@@ -5008,14 +6798,23 @@
         ]
       },
       "species": {
-        "total": 7,
+        "total": 11,
         "coverage": [
           {
             "biome": "canopia_psionica_leggera",
             "morphotype": null,
+            "count": 2,
+            "examples": [
+              "canopia-psionica-leggera-trait-keeper",
+              "psionic-canopy-scout"
+            ]
+          },
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
-              "psionic-canopy-scout"
+              "canopia-psionica-leggera-trait-keeper"
             ]
           },
           {
@@ -5046,9 +6845,18 @@
           {
             "biome": "orbita_psionica_inversa",
             "morphotype": null,
+            "count": 2,
+            "examples": [
+              "orbita-psionica-inversa-trait-keeper",
+              "orbital-ascendant"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
-              "orbital-ascendant"
+              "orbita-psionica-inversa-trait-keeper"
             ]
           },
           {
@@ -5076,12 +6884,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_portante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "stratosfera-portante-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "stratosfera_portante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "sangue_piroforico": {
@@ -5105,8 +6927,16 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "ingegnere_radicante",
@@ -5127,7 +6957,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "scheletro_idro_regolante": {
@@ -5156,8 +6991,16 @@
         ]
       },
       "species": {
-        "total": 5,
+        "total": 6,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
@@ -5188,7 +7031,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "secrezione_rallentante_palmi": {
@@ -5207,8 +7055,16 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "ingegnere_radicante",
@@ -5221,7 +7077,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "sensori_geomagnetici": {
@@ -5234,12 +7095,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianure_magnetiche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "pianure-magnetiche-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "pianure_magnetiche",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "sinapsi_coraline_polifoniche": {
@@ -5252,12 +7127,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "barriere_coralline_psioniche",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "barriere-coralline-psioniche-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "barriere_coralline_psioniche",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "sonno_emisferico_alternato": {
@@ -5281,8 +7170,16 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "volatore_planatore",
@@ -5303,7 +7200,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "spore_psichiche_silenziate": {
@@ -5332,8 +7234,16 @@
         ]
       },
       "species": {
-        "total": 3,
+        "total": 4,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
@@ -5362,7 +7272,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "squame_rifrangenti_deserto": {
@@ -5375,12 +7290,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dune_cristalline",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "dune-cristalline-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "dune_cristalline",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "struttura_elastica_amorfa": {
@@ -5414,14 +7343,23 @@
         ]
       },
       "species": {
-        "total": 10,
+        "total": 14,
         "coverage": [
           {
             "biome": "canopia_psionica_leggera",
             "morphotype": null,
+            "count": 2,
+            "examples": [
+              "canopia-psionica-leggera-trait-keeper",
+              "psionic-canopy-scout"
+            ]
+          },
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
-              "psionic-canopy-scout"
+              "canopia-psionica-leggera-trait-keeper"
             ]
           },
           {
@@ -5444,9 +7382,18 @@
           {
             "biome": "falde_magnetiche_psioniche",
             "morphotype": null,
+            "count": 2,
+            "examples": [
+              "falde-magnetiche-psioniche-trait-keeper",
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
-              "magnet-fathom-surveyor"
+              "falde-magnetiche-psioniche-trait-keeper"
             ]
           },
           {
@@ -5525,12 +7472,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foreste_nubose",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "foreste-nubose-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "foreste_nubose",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "ventriglio_gastroliti": {
@@ -5554,8 +7515,16 @@
         ]
       },
       "species": {
-        "total": 2,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "caverna-risonante-trait-keeper"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
@@ -5576,7 +7545,12 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "zampe_a_molla": {
@@ -5607,12 +7581,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "steppe_risonanti",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "steppe-risonanti-trait-keeper"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "steppe_risonanti",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     }
   },
@@ -6163,6 +8151,635 @@
           "foresta_miceliale",
           "mezzanotte_orbitale",
           "orbita_psionica_inversa"
+        ]
+      },
+      "supporto_specialista": {
+        "total_species": 37,
+        "biomes": {
+          "abisso_luminescente": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "abisso-luminescente-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "carapace_luminiscente_abissale"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml"
+              }
+            ]
+          },
+          "abisso_vulcanico": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "abisso-vulcanico-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "appendici_thermotattiche",
+                  "batteri_endosimbionti_chemio",
+                  "branchie_metalloidi"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml"
+              }
+            ]
+          },
+          "altipiani_solari": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "altipiani-solari-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "piume_solari_fotovoltaiche"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml"
+              }
+            ]
+          },
+          "badlands": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "badlands-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "cute_resistente_sali"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml"
+              }
+            ]
+          },
+          "barriere_coralline_psioniche": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "barriere-coralline-psioniche-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "sinapsi_coraline_polifoniche"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml"
+              }
+            ]
+          },
+          "caldera_glaciale": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "caldera-glaciale-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_vetrificati",
+                  "barriere_miasma_glaciale",
+                  "branchie_solfatiche"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml"
+              }
+            ]
+          },
+          "calotte_glaciali": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "calotte-glaciali-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sghiaccio_glaciale"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml"
+              }
+            ]
+          },
+          "canopia_ionica": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "canopia-ionica-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "ali_ioniche",
+                  "antenne_tesla",
+                  "artigli_induzione"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml"
+              }
+            ]
+          },
+          "canopia_psionica_leggera": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "canopia-psionica-leggera-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "carapace_fase_variabile",
+                  "criostasi_adattiva",
+                  "eco_interno_riflesso"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml"
+              }
+            ]
+          },
+          "canopie_sospese": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "canopie-sospese-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "chioma_parassita_canopica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml"
+              }
+            ]
+          },
+          "caverna_risonante": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "caverna-risonante-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "ali_membrana_sonica",
+                  "antenne_microonde_cavernose",
+                  "artigli_scivolo_silente"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml"
+              }
+            ]
+          },
+          "cicloni_psionici": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "cicloni-psionici-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "antenne_plasmatiche_tempesta"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml"
+              }
+            ]
+          },
+          "delta_salmastri": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "delta-salmastri-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "branchie_osmotiche_salmastra"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml"
+              }
+            ]
+          },
+          "dorsale_termale_tropicale": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "dorsale-termale-tropicale-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "antenne_eco_turbina",
+                  "batteri_termofili_endosimbiosi",
+                  "branchie_turbina"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml"
+              }
+            ]
+          },
+          "dune_cristalline": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "dune-cristalline-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "squame_rifrangenti_deserto"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml"
+              }
+            ]
+          },
+          "falde_magnetiche_psioniche": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "falde-magnetiche-psioniche-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "carapace_fase_variabile",
+                  "coda_frusta_cinetica",
+                  "eco_interno_riflesso"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml"
+              }
+            ]
+          },
+          "foresta_acida": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "foresta-acida-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "antenne_reagenti",
+                  "artigli_acidofagi",
+                  "camere_anticorrosione"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml"
+              }
+            ]
+          },
+          "foreste_nubose": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "foreste-nubose-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "vello_condensatore_nebbie"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml"
+              }
+            ]
+          },
+          "gole_ventose": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "gole-ventose-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "cartilagine_flessotermica_venti"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml"
+              }
+            ]
+          },
+          "laghi_alcalini": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "laghi-alcalini-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "membrane_eliofiltranti"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml"
+              }
+            ]
+          },
+          "laguna_bioreattiva": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "laguna-bioreattiva-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "antenne_flusso_mareale",
+                  "appendici_risonanti_marea",
+                  "branchie_dual_mode"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml"
+              }
+            ]
+          },
+          "mangrovie_risonanti": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "mangrovie-risonanti-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "mucillagine_simbionte_mangrovie"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml"
+              }
+            ]
+          },
+          "mangrovieto_cinetico": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "mangrovieto-cinetico-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_radice",
+                  "baffi_mareomotori",
+                  "coda_contrappeso"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml"
+              }
+            ]
+          },
+          "orbita_psionica_inversa": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "orbita-psionica-inversa-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "coda_frusta_cinetica",
+                  "criostasi_adattiva",
+                  "olfatto_risonanza_magnetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml"
+              }
+            ]
+          },
+          "paludi_gas_luminescenti": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "paludi-gas-luminescenti-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "circolazione_bifasica_palude"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml"
+              }
+            ]
+          },
+          "permafrost_psionico": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "permafrost-psionico-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "bulbi_radici_permafrost"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml"
+              }
+            ]
+          },
+          "pianura_salina_iperarida": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "pianura-salina-iperarida-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "antenne_dustsense",
+                  "biofilm_iperarido",
+                  "camere_mirage"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml"
+              }
+            ]
+          },
+          "pianure_magnetiche": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "pianure-magnetiche-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "sensori_geomagnetici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml"
+              }
+            ]
+          },
+          "picchi_cristallini": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "picchi-cristallini-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "polmoni_cristallini_alta_quota"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml"
+              }
+            ]
+          },
+          "reef_luminescente": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "reef-luminescente-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "antenne_waveguide",
+                  "biofilm_glow",
+                  "branchie_microfiltri"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml"
+              }
+            ]
+          },
+          "reti_micorriziche": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "reti-micorriziche-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "nodi_micorrizici_oracolari"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml"
+              }
+            ]
+          },
+          "sorgenti_geotermiche": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "sorgenti-geotermiche-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "lamelle_termoforetiche"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml"
+              }
+            ]
+          },
+          "steppe_algoritmiche": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "steppe-algoritmiche-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "antenne_wideband",
+                  "biochip_memoria",
+                  "carapace_segmenti_logici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml"
+              }
+            ]
+          },
+          "steppe_risonanti": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "steppe-risonanti-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "zoccoli_risonanti_steppe"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml"
+              }
+            ]
+          },
+          "stratosfera_portante": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "stratosfera-portante-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "sacche_spore_stratosferiche"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml"
+              }
+            ]
+          },
+          "stratosfera_tempestosa": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "stratosfera-tempestosa-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "ali_fulminee",
+                  "barbigli_sensori_plasma",
+                  "branchie_eoliche"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml"
+              }
+            ]
+          },
+          "tundra_risonante": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "tundra-risonante-trait-keeper",
+                "playable_unit": false,
+                "core_traits": [
+                  "cavita_risonanti_tundra"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "abisso_luminescente",
+          "abisso_vulcanico",
+          "altipiani_solari",
+          "badlands",
+          "barriere_coralline_psioniche",
+          "caldera_glaciale",
+          "calotte_glaciali",
+          "canopia_ionica",
+          "canopia_psionica_leggera",
+          "canopie_sospese",
+          "caverna_risonante",
+          "cicloni_psionici",
+          "delta_salmastri",
+          "dorsale_termale_tropicale",
+          "dune_cristalline",
+          "falde_magnetiche_psioniche",
+          "foresta_acida",
+          "foreste_nubose",
+          "gole_ventose",
+          "laghi_alcalini",
+          "laguna_bioreattiva",
+          "mangrovie_risonanti",
+          "mangrovieto_cinetico",
+          "orbita_psionica_inversa",
+          "paludi_gas_luminescenti",
+          "permafrost_psionico",
+          "pianura_salina_iperarida",
+          "pianure_magnetiche",
+          "picchi_cristallini",
+          "reef_luminescente",
+          "reti_micorriziche",
+          "sorgenti_geotermiche",
+          "steppe_algoritmiche",
+          "steppe_risonanti",
+          "stratosfera_portante",
+          "stratosfera_tempestosa",
+          "tundra_risonante"
         ]
       }
     }

@@ -1,0 +1,63 @@
+schema_version: 1.7
+receipt:
+  source: coverage_autogen
+  author: automation
+  date: '2025-10-29'
+  trace_hash: to-fill
+id: abisso-vulcanico-trait-keeper
+display_name: Volcanic Abyss Trait Keeper
+biomes:
+  - abisso_vulcanico
+role_trofico: supporto_specialista
+functional_tags:
+  - supporto
+  - ricognizione
+morphotype: cursoriale_quadrupede
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: false
+spawn_rules:
+  orario: []
+  meteo: []
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+environment_affinity:
+  biome_class: abisso_vulcanico
+  rationale: Specie di riferimento generata per coprire i tratti ambientali associati
+    al bioma abisso_vulcanico. Usata per validare la matrice traits↔species.
+derived_from_environment:
+  suggested_traits:
+    - appendici_thermotattiche
+    - batteri_endosimbionti_chemio
+    - branchie_metalloidi
+    - carapaci_ferruginosi
+    - cartilagini_pseudometalliche
+    - circolazione_supercritica
+    - cisti_iperbariche
+    - denti_ossidoferro
+    - enzimi_metanoossidanti
+    - filamenti_magnetotrofi
+    - ghiandole_fango_calde
+    - luminescenza_hydrotermica
+    - mucose_barofile
+  optional_traits: []
+  required_capabilities: []
+  jobs_bias: []
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits:
+  core: []
+  optional: []
+  synergy: []
+mate_synergy: []
+jobs_synergy: []
