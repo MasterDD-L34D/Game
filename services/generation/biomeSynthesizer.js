@@ -80,7 +80,10 @@ function normaliseTraitGlossary(glossary) {
   Object.entries(glossary.traits).forEach(([id, entry]) => {
     if (!id) return;
     const label = entry?.label_it || entry?.label_en || titleCase(id);
-    map.set(id, { id, label });
+    const descriptionIt = entry?.description_it || null;
+    const descriptionEn = entry?.description_en || null;
+    const description = descriptionIt || descriptionEn || null;
+    map.set(id, { id, label, description, description_it: descriptionIt, description_en: descriptionEn });
   });
   return map;
 }
@@ -214,10 +217,16 @@ function selectTraits(pool, rng) {
 }
 
 function mapTraitDetails(traits, traitGlossary) {
-  return traits.map((traitId) => ({
-    id: traitId,
-    label: traitGlossary.get(traitId)?.label || titleCase(traitId),
-  }));
+  return traits.map((traitId) => {
+    const glossaryEntry = traitGlossary.get(traitId) || {};
+    return {
+      id: traitId,
+      label: glossaryEntry.label || titleCase(traitId),
+      description: glossaryEntry.description || null,
+      description_it: glossaryEntry.description_it || null,
+      description_en: glossaryEntry.description_en || null,
+    };
+  });
 }
 
 function inferTier(role, explicitTier) {

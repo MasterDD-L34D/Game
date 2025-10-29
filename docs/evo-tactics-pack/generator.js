@@ -4680,6 +4680,9 @@ function createChipElement(value) {
   chip.textContent = info?.label ?? value;
   chip.dataset.traitId = value;
   const tooltip = [];
+  const glossaryEntry =
+    state.traitGlossaryIndex instanceof Map ? state.traitGlossaryIndex.get(value) : null;
+  const glossaryDescription = glossaryEntry?.description_it || glossaryEntry?.description_en || null;
   if (info?.usage) tooltip.push(`Uso: ${info.usage}`);
   if (info?.family) tooltip.push(`Famiglia: ${info.family}`);
   if (info?.mutation) tooltip.push(`Mutazione: ${info.mutation}`);
@@ -4705,6 +4708,9 @@ function createChipElement(value) {
   }
   if (info?.environmentRequirements?.length) {
     tooltip.push(`Requisiti ambientali: ${info.environmentRequirements.length}`);
+  }
+  if (glossaryDescription) {
+    tooltip.push(`Sintesi: ${glossaryDescription}`);
   }
   if (tooltip.length) {
     chip.title = tooltip.join("\n");
@@ -4913,7 +4919,14 @@ function indexTraitGlossary(glossary) {
       map.set(traitId, {});
       return;
     }
-    map.set(traitId, { ...info });
+    const descriptionIt = info?.description_it ?? null;
+    const descriptionEn = info?.description_en ?? null;
+    map.set(traitId, {
+      ...info,
+      description: descriptionIt || descriptionEn || null,
+      description_it: descriptionIt,
+      description_en: descriptionEn,
+    });
   });
 
   return map;
@@ -5735,12 +5748,17 @@ function summariseTraitDrivenProfile(traitIds) {
   const conflicts = new Set();
   const adaptations = [];
   const behaviourTexts = [];
+  const descriptions = [];
 
   traitIds.forEach((traitId) => {
     const glossary = glossaryIndex.get(traitId) || {};
     const detail = detailIndex.get(traitId) || {};
     const label = glossary.label_it || glossary.label_en || detail.label || titleCase(traitId);
     labels.push(label);
+    const glossaryDescription = glossary.description_it || glossary.description_en;
+    if (glossaryDescription) {
+      descriptions.push(glossaryDescription);
+    }
     deriveFamiliesFromDetail(detail).forEach((family) => families.add(family));
     const requirements = detail.environmentRequirements || [];
     requirements.forEach((entry) => {
@@ -5762,6 +5780,9 @@ function summariseTraitDrivenProfile(traitIds) {
   if (labels.length) {
     const focus = labels.length > 1 ? `${labels[0]} / ${labels[1]}` : labels[0];
     descriptionParts.push(`Sintesi rapida su ${focus}`);
+  }
+  if (descriptions.length) {
+    descriptionParts.push(descriptions[0]);
   }
   if (families.size) {
     descriptionParts.push(`impronta ${Array.from(families).join(', ')}`);
