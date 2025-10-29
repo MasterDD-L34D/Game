@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import FlowShellView from '../views/FlowShellView.vue';
 import AtlasLayoutView from '../views/atlas/AtlasLayoutView.vue';
 import AtlasPokedexView from '../views/atlas/AtlasPokedexView.vue';
@@ -6,7 +6,7 @@ import AtlasWorldBuilderView from '../views/atlas/AtlasWorldBuilderView.vue';
 import AtlasEncounterLabView from '../views/atlas/AtlasEncounterLabView.vue';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
