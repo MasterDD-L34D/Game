@@ -622,7 +622,11 @@
       ],
       "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
       "tier": "T1",
-      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
+      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "empatico"
+      }
     },
     "filamenti_digestivi_compattanti": {
       "conflitti": [],
@@ -708,7 +712,11 @@
       ],
       "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
       "tier": "T1",
-      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
+      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza.",
+      "slot_profile": {
+        "core": "tattico",
+        "complementare": "controllo"
+      }
     },
     "ghiandola_caustica": {
       "conflitti": [],
@@ -735,7 +743,11 @@
       ],
       "spinta_selettiva": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
       "tier": "T1",
-      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
+      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere.",
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "chimico"
+      }
     },
     "lamelle_termoforetiche": {
       "conflitti": [
@@ -1141,7 +1153,11 @@
       ],
       "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma.",
+      "slot_profile": {
+        "core": "esplorazione",
+        "complementare": "tattico"
+      }
     },
     "pianificatore": {
       "conflitti": [],
@@ -1176,7 +1192,11 @@
       ],
       "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
       "tier": "T1",
-      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
+      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI.",
+      "slot_profile": {
+        "core": "strategico",
+        "complementare": "comando"
+      }
     },
     "piume_solari_fotovoltaiche": {
       "conflitti": [
@@ -1286,7 +1306,11 @@
       ],
       "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
       "tier": "T1",
-      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
+      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà.",
+      "slot_profile": {
+        "core": "flessibile",
+        "complementare": "generico"
+      }
     },
     "respiro_a_scoppio": {
       "conflitti": [],
@@ -1358,7 +1382,11 @@
       ],
       "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
       "tier": "T1",
-      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
+      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra.",
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "armonico"
+      }
     },
     "sacche_galleggianti_ascensoriali": {
       "conflitti": [],
@@ -1852,7 +1880,11 @@
       ],
       "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
       "tier": "T1",
-      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
+      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità.",
+      "slot_profile": {
+        "core": "strategico",
+        "complementare": "supporto"
+      }
     },
     "vello_condensatore_nebbie": {
       "conflitti": [],
@@ -1960,7 +1992,11 @@
       ],
       "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
       "tier": "T1",
-      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
+      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno.",
+      "slot_profile": {
+        "core": "mobilita",
+        "complementare": "cinetico"
+      }
     },
     "zoccoli_risonanti_steppe": {
       "conflitti": [
