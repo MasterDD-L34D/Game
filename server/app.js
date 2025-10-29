@@ -295,6 +295,17 @@ function createApp(options = {}) {
     }
   });
 
+  app.post('/api/generation/species/batch', async (req, res) => {
+    const payload = req.body || {};
+    try {
+      const result = await generationOrchestrator.generateSpeciesBatch(payload);
+      res.json(result);
+    } catch (error) {
+      const status = error && error.message && error.message.includes('trait_ids') ? 400 : 500;
+      res.status(status).json({ error: error.message || 'Errore generazione batch specie' });
+    }
+  });
+
   return { app, repo };
 }
 

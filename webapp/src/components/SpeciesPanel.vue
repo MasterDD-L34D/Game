@@ -1,61 +1,43 @@
 <template>
   <section class="species-panel" v-if="species">
-    <header class="species-panel__header">
-      <h2 class="species-panel__title">{{ species.display_name || species.id }}</h2>
-      <p class="species-panel__summary" v-if="summary">{{ summary }}</p>
-    </header>
+    <SpeciesOverview :name="displayName" :summary="summary" :description="description">
+      <template #actions>
+        <SpeciesQuickActions @export="handleExport" @save="handleSave" />
+      </template>
+    </SpeciesOverview>
 
-    <article class="species-panel__description">
-      <p>{{ description }}</p>
-    </article>
+    <div class="species-panel__layout">
+      <SpeciesBiology
+        :core-traits="coreTraits"
+        :derived-traits="derivedTraits"
+        :adaptations="adaptations"
+        :behaviour-tags="behaviourTags"
+        :drives="behaviourDrives"
+      >
+        <template #filters>
+          <TraitFilterPanel
+            v-model="traitFilters"
+            :core-options="availableTraits.core"
+            :derived-options="availableTraits.derived"
+          />
+        </template>
+      </SpeciesBiology>
 
-    <section class="species-panel__traits">
-      <h3>Tratti fondamentali</h3>
-      <ul class="species-panel__trait-list">
-        <li v-for="trait in coreTraits" :key="trait">{{ trait }}</li>
-      </ul>
-    </section>
+      <aside class="species-panel__sidebar">
+        <SpeciesStatistics :statistics="statistics" :synergy="formattedSynergy">
+          <p v-if="metaInfo" class="species-panel__meta">{{ metaInfo }}</p>
+        </SpeciesStatistics>
+        <SpeciesRevisionTimeline :entries="timelineEntries" />
+      </aside>
+    </div>
 
-    <section class="species-panel__traits" v-if="derivedTraits.length">
-      <h3>Tratti derivati</h3>
-      <ul class="species-panel__trait-list species-panel__trait-list--derived">
-        <li v-for="trait in derivedTraits" :key="trait">{{ trait }}</li>
-      </ul>
-    </section>
-
-    <section class="species-panel__adaptations" v-if="adaptations.length">
-      <h3>Adattamenti</h3>
-      <ul>
-        <li v-for="adaptation in adaptations" :key="adaptation">{{ adaptation }}</li>
-      </ul>
-    </section>
-
-    <section class="species-panel__behavior" v-if="behaviourTags.length">
-      <h3>Comportamento</h3>
-      <p>{{ behaviourTags.join(', ') }}</p>
-    </section>
-
-    <section class="species-panel__statistics">
-      <h3>Statistiche</h3>
-      <dl>
-        <div class="species-panel__stat">
-          <dt>Minaccia</dt>
-          <dd>{{ statistics.threat_tier }}</dd>
-        </div>
-        <div class="species-panel__stat">
-          <dt>Rarità</dt>
-          <dd>{{ statistics.rarity || 'R?' }}</dd>
-        </div>
-        <div class="species-panel__stat">
-          <dt>Energia</dt>
-          <dd>{{ statistics.energy_profile || 'n/d' }}</dd>
-        </div>
-        <div class="species-panel__stat">
-          <dt>Sinergia</dt>
-          <dd>{{ formattedSynergy }}</dd>
-        </div>
-      </dl>
-    </section>
+    <SpeciesPreviewGrid :previews="previewCards" :loading="isPreviewLoading" :error="previewError">
+      <template #filters>
+        <button type="button" class="species-panel__refresh" @click="refreshPreviews" :disabled="isPreviewLoading">
+          Aggiorna batch
+        </button>
+      </template>
+    </SpeciesPreviewGrid>
   </section>
   <section v-else class="species-panel species-panel--empty">
     <p>Nessuna specie selezionata.</p>
@@ -63,25 +45,83 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
+
+import SpeciesBiology from './species/SpeciesBiology.vue';
+import SpeciesOverview from './species/SpeciesOverview.vue';
+import SpeciesPreviewGrid from './species/SpeciesPreviewGrid.vue';
+import SpeciesQuickActions from './species/SpeciesQuickActions.vue';
+import SpeciesRevisionTimeline from './species/SpeciesRevisionTimeline.vue';
+import SpeciesStatistics from './species/SpeciesStatistics.vue';
+import TraitFilterPanel from './species/TraitFilterPanel.vue';
+import { requestSpeciesPreviewBatch } from '../services/speciesPreviewService';
 
 const props = defineProps({
   species: {
     type: Object,
     default: null,
   },
+  validation: {
+    type: Object,
+    default: null,
+  },
+  meta: {
+    type: Object,
+    default: null,
+  },
+  previewBatch: {
+    type: Array,
+    default: () => [],
+  },
+  autoPreview: {
+    type: Boolean,
+    default: true,
+  },
 });
 
+const emit = defineEmits(['export', 'save', 'preview-error']);
+
 const summary = computed(() => props.species?.summary || null);
-const description = computed(() => props.species?.description || props.species?.summary || '');
+const description = computed(
+  () => props.species?.description || props.species?.summary || ''
+);
 const traits = computed(() => props.species?.traits || {});
-const coreTraits = computed(() => traits.value.core || []);
-const derivedTraits = computed(() => traits.value.derived || props.species?.derived_traits || []);
+const coreTraits = computed(() => traits.value.core || props.species?.core_traits || []);
+const derivedTraits = computed(
+  () => traits.value.derived || props.species?.derived_traits || []
+);
 const morphology = computed(() => props.species?.morphology || {});
 const adaptations = computed(() => morphology.value.adaptations || []);
-const behaviour = computed(() => props.species?.behavior || props.species?.behavior_profile || {});
-const behaviourTags = computed(() => behaviour.value.tags || behaviour.value.behaviourTags || []);
-const statistics = computed(() => props.species?.statistics || { threat_tier: props.species?.balance?.threat_tier });
+const behaviour = computed(
+  () => props.species?.behavior || props.species?.behavior_profile || {}
+);
+const behaviourTags = computed(
+  () => behaviour.value.tags || behaviour.value.behaviourTags || []
+);
+const behaviourDrives = computed(() => behaviour.value.drives || []);
+const statistics = computed(() =>
+  props.species?.statistics || {
+    threat_tier: props.species?.balance?.threat_tier,
+    rarity: props.species?.rarity,
+  }
+);
+
+const displayName = computed(
+  () => props.species?.display_name || props.species?.id || 'Specie'
+);
+
+const metaInfo = computed(() => {
+  const attempt = props.meta?.attempts;
+  const fallback = props.meta?.fallback_used;
+  if (attempt || fallback) {
+    const segments = [];
+    if (attempt) segments.push(`Tentativi: ${attempt}`);
+    if (fallback != null) segments.push(`Fallback: ${fallback ? 'sì' : 'no'}`);
+    return segments.join(' · ');
+  }
+  return '';
+});
+
 const formattedSynergy = computed(() => {
   const value = statistics.value?.synergy_score;
   if (typeof value === 'number' && Number.isFinite(value)) {
@@ -89,6 +129,135 @@ const formattedSynergy = computed(() => {
   }
   return 'n/d';
 });
+
+const availableTraits = computed(() => ({
+  core: Array.from(new Set(coreTraits.value || [])).filter(Boolean),
+  derived: Array.from(new Set(derivedTraits.value || [])).filter(Boolean),
+}));
+
+const traitFilters = ref({ core: [], derived: [] });
+
+const timelineEntries = computed(() => {
+  const messages = Array.isArray(props.validation?.messages)
+    ? props.validation.messages
+    : [];
+  return messages.map((message, index) => ({
+    id: `${message.code || 'msg'}-${index}`,
+    title: message.level === 'error' ? 'Errore' : message.level === 'warning' ? 'Avviso' : 'Info',
+    message: message.message || message.code,
+    code: message.code || 'n/d',
+    level: message.level || 'info',
+  }));
+});
+
+const previewCards = ref([]);
+const isPreviewLoading = ref(false);
+const previewError = ref('');
+
+watch(
+  () => props.previewBatch,
+  (value) => {
+    if (Array.isArray(value)) {
+      previewCards.value = value;
+    }
+  },
+  { immediate: true }
+);
+
+watch(
+  () => props.species?.id,
+  () => {
+    traitFilters.value = {
+      core: [...availableTraits.value.core],
+      derived: [...availableTraits.value.derived],
+    };
+    previewCards.value = Array.isArray(props.previewBatch) ? props.previewBatch : [];
+    previewError.value = '';
+    if (props.autoPreview) {
+      void refreshPreviews();
+    }
+  },
+  { immediate: true }
+);
+
+watch(
+  () => [
+    traitFilters.value.core.slice().sort().join(','),
+    traitFilters.value.derived.slice().sort().join(','),
+    props.autoPreview,
+    props.species?.id,
+  ],
+  async () => {
+    if (props.autoPreview) {
+      await refreshPreviews();
+    }
+  }
+);
+
+function buildPreviewRequests() {
+  const coreSelection = traitFilters.value.core.length
+    ? traitFilters.value.core
+    : availableTraits.value.core;
+  const derivedSelection = traitFilters.value.derived;
+  const baseTraits = Array.from(new Set([...coreSelection, ...derivedSelection]));
+  if (!baseTraits.length) {
+    return [];
+  }
+  const biomeId = props.meta?.biome_id || morphology.value.environments?.[0] || null;
+  const fallback = availableTraits.value.core;
+  const combos = [baseTraits];
+  for (const trait of derivedSelection) {
+    combos.push(Array.from(new Set([...coreSelection, trait])));
+  }
+  const uniqueCombos = [];
+  const seen = new Set();
+  for (const combo of combos) {
+    const signature = combo.slice().sort().join('|');
+    if (!signature || seen.has(signature)) continue;
+    seen.add(signature);
+    uniqueCombos.push(combo);
+  }
+  return uniqueCombos.slice(0, 4).map((combo, index) => ({
+    trait_ids: combo,
+    biome_id: biomeId,
+    seed: index,
+    base_name: `${displayName.value} Preview ${index + 1}`,
+    request_id: `${props.species?.id || 'preview'}-${index}`,
+    fallback_trait_ids: fallback,
+  }));
+}
+
+async function refreshPreviews() {
+  if (!props.species) {
+    previewCards.value = [];
+    return;
+  }
+  const requests = buildPreviewRequests();
+  if (!requests.length) {
+    previewCards.value = [];
+    return;
+  }
+  isPreviewLoading.value = true;
+  previewError.value = '';
+  try {
+    const response = await requestSpeciesPreviewBatch(requests);
+    previewCards.value = response.previews || [];
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    previewError.value = message;
+    emit('preview-error', message);
+  } finally {
+    isPreviewLoading.value = false;
+  }
+}
+
+function handleExport() {
+  emit('export', props.species);
+}
+
+function handleSave() {
+  emit('save', props.species);
+}
 </script>
 
 <style scoped>
@@ -99,93 +268,50 @@ const formattedSynergy = computed(() => {
   padding: 1.5rem;
   color: #f0f4ff;
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
-.species-panel__header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 0.75rem;
-}
-
-.species-panel__title {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-}
-
-.species-panel__summary {
-  margin: 0.25rem 0 0;
-  color: rgba(240, 244, 255, 0.82);
-  font-size: 1rem;
-}
-
-.species-panel__description p {
-  margin: 0;
-  line-height: 1.5;
-}
-
-.species-panel__traits,
-.species-panel__adaptations,
-.species-panel__behavior,
-.species-panel__statistics {
-  background: rgba(10, 15, 22, 0.6);
-  padding: 1rem;
-  border-radius: 10px;
-}
-
-.species-panel__traits h3,
-.species-panel__adaptations h3,
-.species-panel__behavior h3,
-.species-panel__statistics h3 {
-  margin: 0 0 0.5rem;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.species-panel__trait-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.species-panel__trait-list li {
-  background: rgba(39, 121, 255, 0.18);
-  border: 1px solid rgba(39, 121, 255, 0.32);
-  border-radius: 999px;
-  padding: 0.3rem 0.75rem;
-  font-size: 0.85rem;
-}
-
-.species-panel__trait-list--derived li {
-  background: rgba(180, 94, 255, 0.18);
-  border-color: rgba(180, 94, 255, 0.32);
-}
-
-.species-panel__adaptations ul {
-  margin: 0;
-  padding-left: 1.1rem;
-}
-
-.species-panel__statistics dl {
+.species-panel__layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.5rem 1rem;
-  margin: 0;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
 }
 
-.species-panel__stat dt {
-  font-weight: 600;
-  margin-bottom: 0.1rem;
-  color: rgba(240, 244, 255, 0.75);
+@media (min-width: 960px) {
+  .species-panel__layout {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
 }
 
-.species-panel__stat dd {
+.species-panel__sidebar {
+  display: grid;
+  gap: 1rem;
+}
+
+.species-panel__meta {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.species-panel__refresh {
+  background: transparent;
+  color: #f0f4ff;
+  border: 1px solid rgba(240, 244, 255, 0.35);
+  border-radius: 8px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.15s ease;
+}
+
+.species-panel__refresh:hover:enabled {
+  background: rgba(39, 121, 255, 0.18);
+}
+
+.species-panel__refresh:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .species-panel--empty {
