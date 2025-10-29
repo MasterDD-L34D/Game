@@ -1,6 +1,6 @@
 # Pipeline CI completa
 
-Il workflow GitHub Actions mantiene in salute la toolchain TS/Python e i dataset di gioco.
+Il workflow GitHub Actions mantiene in salute la toolchain TS/Python e i dataset di gioco. Per evitare esecuzioni superflue, la pipeline principale è stata suddivisa in più job specializzati che si attivano solo quando i file interessati vengono toccati nella PR.
 
 ## Workflow `CI`
 
