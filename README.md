@@ -64,6 +64,25 @@ python3 generate_encounter.py savana
 > seed deterministici condivisi (`--seed`), così da allineare Python e
 > TypeScript sugli stessi dati YAML.
 
+## Pipeline generazione orchestrata
+
+- **Endpoint backend** — `POST /api/generation/species` instrada le richieste
+  dell'UI verso l'orchestratore Python (`services/generation/orchestrator.py`),
+  normalizzando gli input (`trait_ids`, `seed`, `biome_id`).
+- **Orchestratore Python** — carica il `TraitCatalog`, costruisce il blueprint
+  narrativo con `SpeciesBuilder` e invoca i validator runtime del pack
+  (`packs/evo_tactics_pack/validators`) per correggere e certificare l'output.
+- **Fallback automatico** — se i trait richiesti non sono validi oppure la
+  validazione produce errori bloccanti, viene applicato un set di trait di
+  sicurezza (`artigli_sette_vie`, `coda_frusta_cinetica`,
+  `scheletro_idro_regolante`). Tutti gli eventi (successo, fallback, failure)
+  vengono loggati in formato JSON strutturato (`component` =
+  `generation-orchestrator`).
+- **Risposta UI** — il payload JSON combina `blueprint` (story + mechanics),
+  `validation` (messaggi e correzioni applicate) e `meta` (request id,
+  fallback, numero di tentativi) così che Vue possa renderizzare
+  immediatamente alert e summary coerenti.
+
 ## Come aggiornare l'ecosystem pack
 1. **Modifica i dataset** in `packs/evo_tactics_pack/data/` (biomi, ecosistemi, foodweb, specie) mantenendo i percorsi repo-relativi.
 2. **Rigenera i report** eseguendo dalla radice del progetto:
