@@ -31,13 +31,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:sensoriale",
-        "complementare:offensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
       "tier": "T3",
-      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici.",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "offensivo"
+      }
     },
     "artigli_sette_vie": {
       "conflitti": [],
@@ -69,13 +70,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:locomotorio",
-        "complementare:prensile"
-      ],
+      "slot": [],
       "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
       "tier": "T1",
-      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
+      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli.",
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "prensile"
+      }
     },
     "artigli_sghiaccio_glaciale": {
       "conflitti": [],
@@ -106,13 +108,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:locomotorio",
-        "complementare:predatorio"
-      ],
+      "slot": [],
       "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
       "tier": "T2",
-      "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
+      "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto.",
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "predatorio"
+      }
     },
     "branchie_osmotiche_salmastra": {
       "conflitti": [
@@ -145,13 +148,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:respiratorio",
-        "complementare:osmoregolazione"
-      ],
+      "slot": [],
       "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
       "tier": "T2",
-      "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente."
+      "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente.",
+      "slot_profile": {
+        "core": "respiratorio",
+        "complementare": "osmoregolazione"
+      }
     },
     "bulbi_radici_permafrost": {
       "conflitti": [],
@@ -182,13 +186,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:simbiotico",
-        "complementare:nutrizione"
-      ],
+      "slot": [],
       "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
       "tier": "T2",
-      "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
+      "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale.",
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "nutrizione"
+      }
     },
     "carapace_fase_variabile": {
       "conflitti": [
@@ -232,13 +237,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:strutturale",
-        "complementare:difensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
       "tier": "T1",
-      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente.",
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "difensivo"
+      }
     },
     "carapace_luminiscente_abissale": {
       "conflitti": [
@@ -271,13 +277,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:strutturale",
-        "complementare:sensoriale"
-      ],
+      "slot": [],
       "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
       "tier": "T3",
-      "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+      "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti.",
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "sensoriale"
+      }
     },
     "cartilagine_flessotermica_venti": {
       "conflitti": [
@@ -310,13 +317,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:locomotorio",
-        "complementare:adattivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
       "tier": "T2",
-      "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
+      "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide.",
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "adattivo"
+      }
     },
     "cavita_risonanti_tundra": {
       "conflitti": [],
@@ -347,13 +355,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:sensoriale",
-        "complementare:supporto"
-      ],
+      "slot": [],
       "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
       "tier": "T1",
-      "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo."
+      "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo.",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "supporto"
+      }
     },
     "chioma_parassita_canopica": {
       "conflitti": [],
@@ -384,13 +393,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:simbiotico",
-        "complementare:utility"
-      ],
+      "slot": [],
       "spinta_selettiva": "Stabilizzare piattaforme mobili e reti di trasporto tra gli alberi viventi.",
       "tier": "T1",
-      "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi."
+      "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi.",
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "utility"
+      }
     },
     "circolazione_bifasica_palude": {
       "conflitti": [
@@ -423,13 +433,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:metabolico",
-        "complementare:resilienza"
-      ],
+      "slot": [],
       "spinta_selettiva": "Resistere a tossine e anossia tipiche delle paludi psioniche.",
       "tier": "T2",
-      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate."
+      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate.",
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "resilienza"
+      }
     },
     "coda_frusta_cinetica": {
       "conflitti": [],
@@ -473,13 +484,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:locomotorio",
-        "complementare:difensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
       "tier": "T1",
-      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
+      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente.",
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "difensivo"
+      }
     },
     "criostasi_adattiva": {
       "conflitti": [
@@ -524,13 +536,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:metabolico",
-        "complementare:difensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
       "tier": "T1",
-      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
+      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme.",
+      "slot_profile": {
+        "core": "metabolico",
+        "complementare": "difensivo"
+      }
     },
     "eco_interno_riflesso": {
       "conflitti": [],
@@ -576,13 +589,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:sensoriale",
-        "complementare:nervoso"
-      ],
+      "slot": [],
       "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
       "tier": "T2",
-      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
+      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente.",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "nervoso"
+      }
     },
     "empatia_coordinativa": {
       "conflitti": [],
@@ -652,13 +666,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:digestivo",
-        "complementare:escretorio"
-      ],
+      "slot": [],
       "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
       "tier": "T2",
-      "uso_funzione": "Espulsione compatta e ordinata di scorie."
+      "uso_funzione": "Espulsione compatta e ordinata di scorie.",
+      "slot_profile": {
+        "core": "digestivo",
+        "complementare": "escretorio"
+      }
     },
     "focus_frazionato": {
       "conflitti": [],
@@ -753,13 +768,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:respiratorio",
-        "complementare:termoregolazione"
-      ],
+      "slot": [],
       "spinta_selettiva": "Sopravvivere a fluidi tossici e temperature estreme nelle fumarole geotermiche.",
       "tier": "T2",
-      "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati."
+      "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati.",
+      "slot_profile": {
+        "core": "respiratorio",
+        "complementare": "termoregolazione"
+      }
     },
     "lingua_tattile_trama": {
       "conflitti": [],
@@ -790,13 +806,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:sensoriale",
-        "complementare:alimentare"
-      ],
+      "slot": [],
       "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
       "tier": "T1",
-      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture.",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "alimentare"
+      }
     },
     "membrane_eliofiltranti": {
       "conflitti": [],
@@ -828,13 +845,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:respiratorio",
-        "complementare:protezione"
-      ],
+      "slot": [],
       "spinta_selettiva": "Proteggersi da radiazioni e agenti patogeni in altopiani ipersalini.",
       "tier": "T2",
-      "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
+      "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati.",
+      "slot_profile": {
+        "core": "respiratorio",
+        "complementare": "protezione"
+      }
     },
     "mimetismo_cromatico_passivo": {
       "conflitti": [],
@@ -878,13 +896,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:tegumentario",
-        "complementare:difensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
       "tier": "T1",
-      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
+      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto.",
+      "slot_profile": {
+        "core": "tegumentario",
+        "complementare": "difensivo"
+      }
     },
     "mucillagine_simbionte_mangrovie": {
       "conflitti": [
@@ -918,13 +937,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:simbiotico",
-        "complementare:difensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Respinge tossine e predatori microbici tipici dei delta paludosi.",
       "tier": "T1",
-      "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
+      "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite.",
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "difensivo"
+      }
     },
     "nodi_micorrizici_oracolari": {
       "conflitti": [
@@ -958,13 +978,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:simbiotico",
-        "complementare:nervoso"
-      ],
+      "slot": [],
       "spinta_selettiva": "Anticipare frane psioniche e predatori guidati da reti vegetali senzienti.",
       "tier": "T3",
-      "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
+      "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra.",
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "nervoso"
+      }
     },
     "nucleo_ovomotore_rotante": {
       "conflitti": [
@@ -995,13 +1016,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:riproduttivo",
-        "complementare:locomotorio"
-      ],
+      "slot": [],
       "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
       "tier": "T1",
-      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento."
+      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento.",
+      "slot_profile": {
+        "core": "riproduttivo",
+        "complementare": "locomotorio"
+      }
     },
     "occhi_infrarosso_composti": {
       "conflitti": [],
@@ -1032,13 +1054,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:sensoriale",
-        "complementare:visivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
       "tier": "T1",
-      "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+      "uso_funzione": "Vista specializzata che percepisce il calore corporeo.",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "visivo"
+      }
     },
     "olfatto_risonanza_magnetica": {
       "conflitti": [],
@@ -1083,13 +1106,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:sensoriale",
-        "complementare:nervoso"
-      ],
+      "slot": [],
       "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
       "tier": "T2",
-      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
+      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici.",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "nervoso"
+      }
     },
     "pathfinder": {
       "conflitti": [],
@@ -1186,13 +1210,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:tegumentario",
-        "complementare:energetico"
-      ],
+      "slot": [],
       "spinta_selettiva": "Massimizzare l'autonomia energetica per migrazioni aeree sopra deserti e oceani.",
       "tier": "T2",
-      "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio."
+      "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio.",
+      "slot_profile": {
+        "core": "tegumentario",
+        "complementare": "energetico"
+      }
     },
     "polmoni_cristallini_alta_quota": {
       "conflitti": [
@@ -1225,13 +1250,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:respiratorio",
-        "complementare:aerobico"
-      ],
+      "slot": [],
       "spinta_selettiva": "Operare in missioni d'alta quota senza supporto logistico esterno.",
       "tier": "T2",
-      "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi."
+      "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi.",
+      "slot_profile": {
+        "core": "respiratorio",
+        "complementare": "aerobico"
+      }
     },
     "random": {
       "conflitti": [],
@@ -1292,13 +1318,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:respiratorio",
-        "complementare:propulsivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
       "tier": "T1",
-      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente."
+      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente.",
+      "slot_profile": {
+        "core": "respiratorio",
+        "complementare": "propulsivo"
+      }
     },
     "risonanza_di_branco": {
       "conflitti": [],
@@ -1377,13 +1404,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:idrostatico",
-        "complementare:locomotorio"
-      ],
+      "slot": [],
       "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
       "tier": "T1",
-      "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+      "uso_funzione": "Controllo preciso della profondità e del movimento verticale.",
+      "slot_profile": {
+        "core": "idrostatico",
+        "complementare": "locomotorio"
+      }
     },
     "sacche_spore_stratosferiche": {
       "conflitti": [
@@ -1416,13 +1444,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:simbiotico",
-        "complementare:supporto"
-      ],
+      "slot": [],
       "spinta_selettiva": "Dispersone genetica rapida tra arcipelaghi aerei e piattaforme galleggianti.",
       "tier": "T3",
-      "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
+      "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra.",
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "supporto"
+      }
     },
     "sangue_piroforico": {
       "conflitti": [
@@ -1456,13 +1485,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:circolatorio",
-        "complementare:difensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
       "tier": "T1",
-      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria."
+      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria.",
+      "slot_profile": {
+        "core": "circolatorio",
+        "complementare": "difensivo"
+      }
     },
     "scheletro_idro_regolante": {
       "conflitti": [
@@ -1497,13 +1527,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:strutturale",
-        "complementare:omeostatico"
-      ],
+      "slot": [],
       "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
       "tier": "T1",
-      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso."
+      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso.",
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "omeostatico"
+      }
     },
     "secrezione_rallentante_palmi": {
       "conflitti": [
@@ -1535,13 +1566,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:tegumentario",
-        "complementare:difensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
       "tier": "T1",
-      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
+      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici.",
+      "slot_profile": {
+        "core": "tegumentario",
+        "complementare": "difensivo"
+      }
     },
     "sensori_geomagnetici": {
       "conflitti": [],
@@ -1572,13 +1604,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:sensoriale",
-        "complementare:navigazione"
-      ],
+      "slot": [],
       "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
       "tier": "T1",
-      "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
+      "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione.",
+      "slot_profile": {
+        "core": "sensoriale",
+        "complementare": "navigazione"
+      }
     },
     "sinapsi_coraline_polifoniche": {
       "conflitti": [
@@ -1611,13 +1644,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:simbiotico",
-        "complementare:comunicazione"
-      ],
+      "slot": [],
       "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
       "tier": "T2",
-      "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
+      "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee.",
+      "slot_profile": {
+        "core": "simbiotico",
+        "complementare": "comunicazione"
+      }
     },
     "sonno_emisferico_alternato": {
       "conflitti": [],
@@ -1648,13 +1682,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:nervoso",
-        "complementare:omeostatico"
-      ],
+      "slot": [],
       "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
       "tier": "T1",
-      "uso_funzione": "Vigilanza continua pur garantendo riposo."
+      "uso_funzione": "Vigilanza continua pur garantendo riposo.",
+      "slot_profile": {
+        "core": "nervoso",
+        "complementare": "omeostatico"
+      }
     },
     "spore_psichiche_silenziate": {
       "conflitti": [
@@ -1685,13 +1720,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:escretorio",
-        "complementare:psichico"
-      ],
+      "slot": [],
       "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
       "tier": "T1",
-      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini."
+      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini.",
+      "slot_profile": {
+        "core": "escretorio",
+        "complementare": "psichico"
+      }
     },
     "squame_rifrangenti_deserto": {
       "conflitti": [
@@ -1724,13 +1760,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:tegumentario",
-        "complementare:difensivo"
-      ],
+      "slot": [],
       "spinta_selettiva": "Sopravvivere a intensi flare termici e accecanti miraggi desertici.",
       "tier": "T2",
-      "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici."
+      "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici.",
+      "slot_profile": {
+        "core": "tegumentario",
+        "complementare": "difensivo"
+      }
     },
     "struttura_elastica_amorfa": {
       "conflitti": [],
@@ -1777,13 +1814,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:strutturale",
-        "complementare:locomotorio"
-      ],
+      "slot": [],
       "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
       "tier": "T1",
-      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse."
+      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse.",
+      "slot_profile": {
+        "core": "strutturale",
+        "complementare": "locomotorio"
+      }
     },
     "tattiche_di_branco": {
       "conflitti": [],
@@ -1845,13 +1883,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:tegumentario",
-        "complementare:idratazione"
-      ],
+      "slot": [],
       "spinta_selettiva": "Garantire idratazione in climi montani dove l'acqua liquida è scarsa ma la nebbia abbondante.",
       "tier": "T1",
-      "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo."
+      "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo.",
+      "slot_profile": {
+        "core": "tegumentario",
+        "complementare": "idratazione"
+      }
     },
     "ventriglio_gastroliti": {
       "conflitti": [],
@@ -1882,13 +1921,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:digestivo",
-        "complementare:alimentare"
-      ],
+      "slot": [],
       "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
       "tier": "T1",
-      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio."
+      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio.",
+      "slot_profile": {
+        "core": "digestivo",
+        "complementare": "alimentare"
+      }
     },
     "zampe_a_molla": {
       "conflitti": [],
@@ -1953,13 +1993,14 @@
         "forme": [],
         "tabelle_random": []
       },
-      "slot": [
-        "core:locomotorio",
-        "complementare:supporto"
-      ],
+      "slot": [],
       "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
       "tier": "T1",
-      "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
+      "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra.",
+      "slot_profile": {
+        "core": "locomotorio",
+        "complementare": "supporto"
+      }
     }
   }
 }
