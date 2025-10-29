@@ -69,6 +69,14 @@ telemetry:
   expected_pick_rate: null
   spawn_weight: null
 services_links: []
-genetic_traits: []
+genetic_traits:
+  core:
+    - nucleo_ovomotore_rotante
+    - sacche_galleggianti_ascensoriali
+    - scheletro_idro_regolante
+  optional:
+    - carapace_fase_variabile
+    - zampe_a_molla
+  synergy: []
 mate_synergy: []
 jobs_synergy: []

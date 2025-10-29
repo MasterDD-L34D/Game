@@ -72,6 +72,13 @@ telemetry:
   expected_pick_rate: null
   spawn_weight: null
 services_links: []
-genetic_traits: []
+genetic_traits:
+  core:
+    - cute_resistente_sali
+    - enzimi_chelanti
+    - pelli_anti_ustione
+    - pigmenti_termici
+  optional: []
+  synergy: []
 mate_synergy: []
 jobs_synergy: []

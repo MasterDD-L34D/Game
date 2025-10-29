@@ -74,6 +74,14 @@ telemetry:
   expected_pick_rate: null
   spawn_weight: null
 services_links: []
-genetic_traits: []
+genetic_traits:
+  core:
+    - filamenti_digestivi_compattanti
+    - spore_psichiche_silenziate
+    - scheletro_idro_regolante
+  optional:
+    - carapace_fase_variabile
+    - sangue_piroforico
+  synergy: []
 mate_synergy: []
 jobs_synergy: []

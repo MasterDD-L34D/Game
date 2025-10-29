@@ -1,5 +1,16 @@
 # Monitoraggio inventario trait
 
+## 2025-11-16 — Badlands trait sync & QA
+
+- Allineati i file specie Badlands (`packs/evo_tactics_pack/data/species/badlands/*.yaml`) con blocchi `genetic_traits` coerenti
+  rispetto a matrice e reference (`core/optional/synergy`). Focus su magneto-ridge-hunter, dune-stalker, echo-wing,
+  ferrocolonia-magnetotattica, nano-rust-bloom, rust-scavenger, sand-burrower, slag-veil-ambusher e sull'evento "Tempesta Ferrosa".
+- Aggiornata la matrice [`docs/catalog/species_trait_matrix.json`](../docs/catalog/species_trait_matrix.json) e il quicklook CSV
+  per riflettere i nuovi pairing trait↔ruolo; verificata la tassonomia foodweb con i conteggi nel report.
+- Eseguito `python tools/py/report_trait_coverage.py --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json --species-root packs/evo_tactics_pack/data/species --trait-glossary data/traits/glossary.json --out-json data/analysis/trait_coverage_report.json --out-csv data/analysis/trait_coverage_matrix.csv`:
+  il riepilogo conferma `traits_with_species = 27/29`, `rules_missing_species_total = 0` e soglie foodweb rispettate per i ruoli
+  monitorati.
+
 ## 2025-10-29 — Trait ↔ Specie rollout prioritario
 
 - Rigenerata la matrice di copertura (`python tools/py/report_trait_coverage.py --species-root packs/evo_tactics_pack/data/species --out-csv data/analysis/trait_coverage_matrix.csv`), con esito `traits_with_species = 27/29` e `rules_missing_species_total = 0`.

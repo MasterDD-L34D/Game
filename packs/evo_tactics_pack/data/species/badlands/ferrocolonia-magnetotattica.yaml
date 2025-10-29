@@ -103,4 +103,12 @@ derived_from_environment:
 network_bridge_roles:
   - ingegnere_ecosistema
   - sentinella
-genetic_traits: []
+genetic_traits:
+  core:
+    - mimetismo_cromatico_passivo
+    - sangue_piroforico
+    - secrezione_rallentante_palmi
+  optional:
+    - lingua_tattile_trama
+    - ventriglio_gastroliti
+  synergy: []

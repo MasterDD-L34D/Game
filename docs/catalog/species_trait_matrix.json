@@ -292,10 +292,10 @@
         "dorsale_termale_tropicale"
       ],
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "artigli_sette_vie",
+        "coda_frusta_cinetica",
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
       ],
       "display_name": "Dune Stalker",
       "environment_focus": {
@@ -303,7 +303,10 @@
       },
       "id": "dune-stalker",
       "morphotype": "cursoriale_quadrupede",
-      "optional_traits": [],
+      "optional_traits": [
+        "olfatto_risonanza_magnetica",
+        "respiro_a_scoppio"
+      ],
       "playable_unit": false,
       "required_capabilities": [
         "build_cover",
@@ -363,17 +366,15 @@
     },
     "echo-wing": {
       "archetypes": [
-        "Invoker",
-        "Skirmisher"
+        "dispersore_ponte"
       ],
       "biomes": [
         "dorsale_termale_tropicale"
       ],
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "eco_interno_riflesso",
+        "occhi_infrarosso_composti",
+        "sonno_emisferico_alternato"
       ],
       "display_name": "Echo Wing",
       "environment_focus": {
@@ -384,7 +385,10 @@
       },
       "id": "echo-wing",
       "morphotype": "volatore_planatore",
-      "optional_traits": [],
+      "optional_traits": [
+        "sacche_galleggianti_ascensoriali",
+        "lingua_tattile_trama"
+      ],
       "playable_unit": true,
       "required_capabilities": [
         "build_cover",
@@ -408,10 +412,9 @@
         "dorsale_termale_tropicale"
       ],
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "mimetismo_cromatico_passivo",
+        "sangue_piroforico",
+        "secrezione_rallentante_palmi"
       ],
       "display_name": "Ferrocolonia Magnetotattica",
       "environment_focus": {
@@ -422,7 +425,10 @@
       },
       "id": "ferrocolonia-magnetotattica",
       "morphotype": "ingegnere_radicante",
-      "optional_traits": [],
+      "optional_traits": [
+        "lingua_tattile_trama",
+        "ventriglio_gastroliti"
+      ],
       "playable_unit": true,
       "required_capabilities": [
         "build_cover",
@@ -471,10 +477,9 @@
         "dorsale_termale_tropicale"
       ],
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "filamenti_digestivi_compattanti",
+        "spore_psichiche_silenziate",
+        "scheletro_idro_regolante"
       ],
       "display_name": "Nano Rust Bloom",
       "environment_focus": {
@@ -482,7 +487,10 @@
       },
       "id": "nano-rust-bloom",
       "morphotype": "scavenger_corazzato",
-      "optional_traits": [],
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "sangue_piroforico"
+      ],
       "playable_unit": false,
       "required_capabilities": [
         "build_cover",
@@ -541,10 +549,9 @@
         "dorsale_termale_tropicale"
       ],
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "ventriglio_gastroliti",
+        "respiro_a_scoppio",
+        "filamenti_digestivi_compattanti"
       ],
       "display_name": "Rust Scavenger",
       "environment_focus": {
@@ -555,7 +562,10 @@
       },
       "id": "rust-scavenger",
       "morphotype": "scavenger_corazzato",
-      "optional_traits": [],
+      "optional_traits": [
+        "nucleo_ovomotore_rotante",
+        "scheletro_idro_regolante"
+      ],
       "playable_unit": true,
       "required_capabilities": [
         "build_cover",
@@ -578,10 +588,9 @@
         "dorsale_termale_tropicale"
       ],
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "nucleo_ovomotore_rotante",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante"
       ],
       "display_name": "Sand Burrower",
       "environment_focus": {
@@ -589,7 +598,10 @@
       },
       "id": "sand-burrower",
       "morphotype": "cursoriale_quadrupede",
-      "optional_traits": [],
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "zampe_a_molla"
+      ],
       "playable_unit": false,
       "required_capabilities": [
         "build_cover",

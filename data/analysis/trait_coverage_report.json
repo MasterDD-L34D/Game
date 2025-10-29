@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-10-28T23:03:35+00:00",
+  "generated_at": "2025-10-29T00:26:37+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
-    "trait_glossary": "/workspace/Game/data/traits/glossary.json",
+    "trait_glossary": "data/traits/glossary.json",
     "species_root": "packs/evo_tactics_pack/data/species"
   },
   "summary": {

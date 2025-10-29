@@ -78,8 +78,16 @@ derived_from_environment:
     - dr_impact_cap
     - non_metal_gear
     - seal_vents
-  jobs_bias:
-    - Vanguard
-    - Warden
-genetic_traits: []
+jobs_bias:
+  - Vanguard
+  - Warden
+genetic_traits:
+  core:
+    - ventriglio_gastroliti
+    - respiro_a_scoppio
+    - filamenti_digestivi_compattanti
+  optional:
+    - nucleo_ovomotore_rotante
+    - scheletro_idro_regolante
+  synergy: []
 mate_synergy: []

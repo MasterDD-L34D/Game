@@ -88,5 +88,13 @@ network_bridge_roles:
   - dispersore_ponte
   - impollinatore
 services_links: []
-genetic_traits: []
+genetic_traits:
+  core:
+    - eco_interno_riflesso
+    - occhi_infrarosso_composti
+    - sonno_emisferico_alternato
+  optional:
+    - sacche_galleggianti_ascensoriali
+    - lingua_tattile_trama
+  synergy: []
 mate_synergy: []
