@@ -13,6 +13,15 @@ Questa cartella raccoglie i materiali grezzi (appunti, PDF, zip, ecc.) che devon
 
 Lo script produce sia il report JSON sia quello HTML invocando `tools/py/game_cli.py`. I file vengono salvati nella directory `reports/incoming/<destinazione>/` con i nomi `report.json` e `report.html`. Se non specifichi una destinazione, viene usata automaticamente la sottocartella `reports/incoming/latest/`.
 
+Se nella cartella sono presenti archivi `.zip`, lo script li estrae in una directory temporanea, esegue automaticamente i comandi
+
+```bash
+python tools/py/game_cli.py validate-datasets
+python tools/py/game_cli.py validate-ecosystem-pack
+```
+
+(il secondo solo quando il pack ecosistema è disponibile) e salva i log corrispondenti in `reports/incoming/validation/` assieme a un file `summary.txt` con gli esiti. Al termine, l'area temporanea viene ripulita automaticamente.
+
 Per evitare la creazione di file e ottenere solo l'output JSON su `stdout`, puoi lanciare:
 ```bash
 ./scripts/report_incoming.sh --destination -
