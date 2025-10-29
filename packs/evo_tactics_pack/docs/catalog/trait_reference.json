@@ -442,7 +442,7 @@
       },
       "slot": [],
       "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
-      "tier": "T2",
+      "tier": "T1",
       "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
     },
     "criostasi_adattiva": {
@@ -464,7 +464,7 @@
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Fase T1 in canopie sospese per calibrare pompaggio e feedback pressorio.",
+            "notes": "Fase T1 controllata: micro-canopie sospese usate per cicli brevi di ibernazione.",
             "tier": "T1"
           }
         },
@@ -476,7 +476,7 @@
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Apex T3 su piattaforme orbitali a gravità invertita per ascese rapide.",
+            "notes": "Variante apex T3 in camere orbitali a gravità invertita per stasi prolungate.",
             "tier": "T3"
           }
         }
@@ -490,7 +490,7 @@
       },
       "slot": [],
       "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
-      "tier": "T3",
+      "tier": "T1",
       "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
     },
     "eco_interno_riflesso": {
@@ -1298,7 +1298,7 @@
       },
       "slot": [],
       "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
-      "tier": "T3",
+      "tier": "T1",
       "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
     },
     "sacche_spore_stratosferiche": {
@@ -1668,7 +1668,7 @@
       },
       "slot": [],
       "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
-      "tier": "T2",
+      "tier": "T1",
       "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse."
     },
     "tattiche_di_branco": {
