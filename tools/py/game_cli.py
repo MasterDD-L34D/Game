@@ -2,22 +2,29 @@
 from __future__ import annotations
 
 import argparse
+import io
 import importlib.util
 import json
 import os
 import sys
+from html import escape
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
 from generate_encounter import generate as generate_encounter
-from investigate_sources import collect_investigation, render_report
+from investigate_sources import (
+    InvestigationResult,
+    collect_investigation,
+    render_report,
+)
 from roll_pack import roll_pack
 from validate_datasets import PACK_VALIDATOR, main as validate_datasets_main
 import yaml
 
 CLI_PROFILES_ENV_VAR = "GAME_CLI_PROFILES_DIR"
 CLI_PROFILES_DIR = Path(__file__).resolve().parents[2] / "config" / "cli"
+INCOMING_REPORTS_DIR = Path(__file__).resolve().parents[2] / "reports" / "incoming"
 
 
 class ProfileError(RuntimeError):
@@ -184,6 +191,20 @@ def build_parser() -> argparse.ArgumentParser:
         help="Restituisce l'output in formato JSON",
     )
     investigate_parser.add_argument(
+        "--html",
+        action="store_true",
+        help="Salva anche un report HTML nella destinazione configurata",
+    )
+    investigate_parser.add_argument(
+        "--destination",
+        default="latest",
+        metavar="NAME",
+        help=(
+            "Sottocartella in reports/incoming dove salvare i file generati. "
+            "Usare '-' per evitare la creazione di report su disco."
+        ),
+    )
+    investigate_parser.add_argument(
         "--max-preview",
         type=_positive_int,
         default=400,
@@ -233,6 +254,122 @@ def command_validate_ecosystem_pack(args: argparse.Namespace) -> int:
     return 2 if has_failures else 0
 
 
+def _incoming_reports_root() -> Path:
+    base = INCOMING_REPORTS_DIR
+    base.mkdir(parents=True, exist_ok=True)
+    return base.resolve()
+
+
+def _resolve_incoming_destination(destination: Optional[str]) -> Path:
+    base = _incoming_reports_root()
+    if destination is None:
+        target = base
+    else:
+        normalized = destination.strip()
+        if not normalized:
+            target = base
+        else:
+            candidate = Path(normalized)
+            if candidate.is_absolute():
+                raise ValueError(
+                    "La destinazione non può essere un percorso assoluto.",
+                )
+            if any(part == ".." for part in candidate.parts):
+                raise ValueError(
+                    "La destinazione non può uscire da reports/incoming.",
+                )
+            candidate_path = (base / candidate).resolve()
+            if candidate_path != base and base not in candidate_path.parents:
+                raise ValueError(
+                    "La destinazione deve rimanere sotto reports/incoming.",
+                )
+            target = candidate_path
+    target.mkdir(parents=True, exist_ok=True)
+    return target
+
+
+def _render_investigation_result_html(result: InvestigationResult) -> str:
+    keywords = escape(
+        ", ".join(result.keywords)
+    ) if result.keywords else "—"
+    notes_block = (
+        f"<p class=\"notes\"><strong>Note:</strong> {escape(result.notes)}</p>"
+        if result.notes
+        else ""
+    )
+    if result.preview:
+        preview_block = (
+            f"<pre class=\"preview\">{escape(result.preview)}</pre>"
+        )
+    else:
+        preview_block = (
+            "<p class=\"preview empty\"><em>(nessuna preview disponibile)</em></p>"
+        )
+    children_block = ""
+    if result.children:
+        children_items = "".join(
+            _render_investigation_result_html(child) for child in result.children
+        )
+        children_block = f"<ul class=\"children\">{children_items}</ul>"
+    return (
+        "<li class=\"entry\">"
+        "<article>"
+        f"<header><h2>{escape(result.path)}</h2>"
+        f"<p class=\"meta\">Tipo: <strong>{escape(result.type)}</strong> · "
+        f"Dimensione: {result.size_bytes} B</p></header>"
+        f"<p class=\"summary\">{escape(result.summary)}</p>"
+        f"<p class=\"keywords\"><strong>Parole chiave:</strong> {keywords}</p>"
+        f"{notes_block}"
+        f"{preview_block}"
+        f"{children_block}"
+        "</article>"
+        "</li>"
+    )
+
+
+def _build_investigation_html(results: Sequence[InvestigationResult]) -> str:
+    items = "".join(_render_investigation_result_html(result) for result in results)
+    if items:
+        body = f"<ul class=\"results\">{items}</ul>"
+    else:
+        body = "<p class=\"empty\">Nessun file analizzato.</p>"
+    return (
+        "<!DOCTYPE html>\n"
+        "<html lang=\"it\">\n"
+        "<head>\n"
+        "  <meta charset=\"utf-8\" />\n"
+        "  <title>Report indagine incoming</title>\n"
+        "  <style>\n"
+        "    body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;"
+        " margin: 0; padding: 2rem; background: #f5f5f5;}\n"
+        "    main {max-width: 960px; margin: 0 auto; background: #fff; padding: 2rem;"
+        " border-radius: 16px; box-shadow: 0 6px 24px rgba(15, 23, 42, 0.12);}\n"
+        "    h1 {margin-top: 0;}\n"
+        "    ul.results {list-style: none; padding: 0; margin: 2rem 0 0;}\n"
+        "    ul.results > li.entry {padding: 1.5rem 0; border-bottom: 1px solid #e2e8f0;}\n"
+        "    ul.results > li.entry:last-child {border-bottom: none;}\n"
+        "    p.meta {color: #475569; margin: 0.25rem 0 1rem;}\n"
+        "    p.summary {font-weight: 500;}\n"
+        "    p.keywords {color: #334155;}\n"
+        "    p.notes {background: #fef08a; padding: 0.75rem; border-radius: 12px;}\n"
+        "    pre.preview {background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 12px;"
+        " white-space: pre-wrap;}\n"
+        "    p.preview.empty {color: #64748b; font-style: italic;}\n"
+        "    ul.children {list-style: none; padding-left: 1.5rem; margin: 1rem 0 0;"
+        " border-left: 3px solid #cbd5f5;}\n"
+        "    ul.children > li.entry {border-bottom: none; padding: 1rem 0;}\n"
+        "  </style>\n"
+        "</head>\n"
+        "<body>\n"
+        "  <main>\n"
+        "    <h1>Report indagine incoming</h1>\n"
+        f"    {body}\n"
+        "  </main>\n"
+        "</body>\n"
+        "</html>\n"
+    )
+
+
 def command_investigate(args: argparse.Namespace) -> int:
     paths = [Path(path) for path in args.paths]
     results = collect_investigation(
@@ -240,7 +377,44 @@ def command_investigate(args: argparse.Namespace) -> int:
         recursive=args.recursive,
         max_preview=max(100, args.max_preview),
     )
-    render_report(results, json_output=args.json, stream=sys.stdout)
+    destination_arg = getattr(args, "destination", None)
+    html_requested = getattr(args, "html", False)
+    destination_disabled = (
+        destination_arg is not None and destination_arg.strip() == "-"
+    )
+    if html_requested and destination_disabled:
+        sys.stderr.write(
+            "Impossibile generare il report HTML senza una destinazione valida.\n"
+        )
+        return 2
+
+    need_destination = (args.json and not destination_disabled) or html_requested
+    destination_dir: Optional[Path] = None
+    if need_destination:
+        try:
+            destination_dir = _resolve_incoming_destination(destination_arg)
+        except ValueError as error:
+            sys.stderr.write(f"{error}\n")
+            return 2
+
+    if args.json:
+        if destination_dir is None:
+            render_report(results, json_output=True, stream=sys.stdout)
+        else:
+            json_buffer = io.StringIO()
+            render_report(results, json_output=True, stream=json_buffer)
+            json_payload = json_buffer.getvalue()
+            json_path = destination_dir / "report.json"
+            json_path.write_text(json_payload, encoding="utf-8")
+    else:
+        render_report(results, json_output=False, stream=sys.stdout)
+
+    if html_requested:
+        if destination_dir is None:
+            destination_dir = _resolve_incoming_destination(destination_arg)
+        html_payload = _build_investigation_html(results)
+        html_path = destination_dir / "report.html"
+        html_path.write_text(html_payload, encoding="utf-8")
     return 0
 
 
