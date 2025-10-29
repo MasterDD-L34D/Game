@@ -1,6 +1,8 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
+const { createSpeciesBuilder } = require('./speciesBuilder');
+
 const ROLE_FLAG_SET = new Set(['apex', 'keystone', 'bridge', 'threat', 'event']);
 const ROLE_TROPHIC_LABELS = {
   apex: 'predatore_apice',
@@ -237,14 +239,14 @@ function inferTier(role, explicitTier) {
   }
 }
 
-function buildSpecies(pool, biomeId, traitGlossary, constraints, rng) {
+async function buildSpecies(pool, biomeId, traitGlossary, constraints, rng, speciesBuilder) {
   const templates = Array.isArray(pool?.role_templates) ? pool.role_templates : [];
   const preferredRoles = ensureArray(constraints.requiredRoles).filter((role) => ROLE_FLAG_SET.has(role));
   const shuffled = shuffle(templates, rng);
   const species = [];
   const takenRoles = new Set();
 
-  const register = (template) => {
+  const register = async (template) => {
     if (!template) return;
     const role = template.role || 'specialist';
     const baseId = slugify(`${pool.id}-${role}-${template.label || role}`) || randomId('spec', rng);
@@ -255,33 +257,66 @@ function buildSpecies(pool, biomeId, traitGlossary, constraints, rng) {
     const tier = inferTier(role, template.tier);
     const preferredTraits = ensureArray(template.preferred_traits);
     const traitLabels = mapTraitDetails(preferredTraits, traitGlossary);
-    species.push({
+    let builderProfile = null;
+    if (speciesBuilder) {
+      try {
+        builderProfile = await speciesBuilder.buildProfile(preferredTraits, {
+          baseName: template.label || titleCase(`${role}-${pool.id}`),
+          random: () => rng(),
+        });
+      } catch (error) {
+        builderProfile = null;
+      }
+    }
+
+    const profile = builderProfile || {
       id,
       display_name: template.label || titleCase(`${role}-${pool.id}`),
+      summary: template.summary || null,
+      description: template.summary || null,
+      morphology: null,
+      behavior: null,
+      statistics: { threat_tier: `T${tier}`, rarity: null, energy_profile: null, synergy_score: null },
+      traits: { core: preferredTraits, derived: [], conflicts: [] },
+    };
+
+    species.push({
+      id: profile.id || id,
+      display_name: profile.display_name || template.label || titleCase(`${role}-${pool.id}`),
       role_trofico: `${ROLE_TROPHIC_LABELS[role] || role}_${pool.id}`,
       functional_tags: ensureArray(template.functional_tags),
       flags,
-      summary: template.summary || null,
+      summary: profile.summary || template.summary || null,
+      description: profile.description || template.summary || null,
       biomes: [biomeId],
       synthetic: true,
       syntheticTier: tier,
-      balance: { threat_tier: `T${tier}` },
+      balance: { threat_tier: profile.statistics?.threat_tier || `T${tier}` },
       source_traits: preferredTraits,
       source_pool: pool.id,
       trait_labels: traitLabels,
+      derived_traits: profile.traits?.derived || [],
+      conflicting_traits: profile.traits?.conflicts || [],
+      morphology: profile.morphology || null,
+      behavior_profile: profile.behavior || null,
+      statistics: profile.statistics || { threat_tier: `T${tier}` },
     });
     takenRoles.add(role);
   };
 
-  shuffled.forEach((template) => register(template));
+  for (const template of shuffled) {
+    // eslint-disable-next-line no-await-in-loop
+    await register(template);
+  }
 
-  preferredRoles.forEach((role) => {
-    if (takenRoles.has(role)) return;
+  for (const role of preferredRoles) {
+    if (takenRoles.has(role)) continue;
     const fallback = templates.find((template) => template.role === role);
     if (fallback) {
-      register(fallback);
+      // eslint-disable-next-line no-await-in-loop
+      await register(fallback);
     }
-  });
+  }
 
   return species;
 }
@@ -311,7 +346,7 @@ function summariseRolePresence(species) {
   return Array.from(presence);
 }
 
-function buildBiomeFromPool(pool, context, traitGlossary, rng) {
+async function buildBiomeFromPool(pool, context, traitGlossary, rng, speciesBuilder) {
   const traits = selectTraits(pool, rng);
   const traitDetails = mapTraitDetails(traits, traitGlossary);
   const id = randomId(slugify(pool.id) || 'bioma', rng);
@@ -321,7 +356,7 @@ function buildBiomeFromPool(pool, context, traitGlossary, rng) {
   const effectiveMin = Math.min(poolMax, Math.max(poolMin, requestedMin));
   const range = Math.max(poolMax - effectiveMin, 0);
   const zoneCount = effectiveMin + (range > 0 ? Math.floor((rng() || Math.random()) * (range + 1)) : 0);
-  const species = buildSpecies(pool, id, traitGlossary, context, rng);
+  const species = await buildSpecies(pool, id, traitGlossary, context, rng, speciesBuilder);
   const roleCounts = countRoles(species);
   const rolePresence = summariseRolePresence(species);
   const signature = traitDetails.map((trait) => trait.label).join(' · ');
@@ -368,6 +403,11 @@ function createBiomeSynthesizer(options = {}) {
   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
   const traitGlossaryPath = options.traitGlossaryPath || path.join(dataRoot, 'traits', 'glossary.json');
   const traitPoolPath = options.traitPoolPath || path.join(dataRoot, 'traits', 'biome_pools.json');
+  const speciesBuilderInstance = createSpeciesBuilder(
+    options.speciesBuilder || {
+      catalogPath: path.resolve(__dirname, '..', '..', 'docs', 'catalog', 'catalog_data.json'),
+    }
+  );
 
   let loaded = null;
   let loadingPromise = null;
@@ -378,6 +418,7 @@ function createBiomeSynthesizer(options = {}) {
     loadingPromise = Promise.all([
       loadJson(traitGlossaryPath),
       loadJson(traitPoolPath),
+      speciesBuilderInstance.ensureCatalog(),
     ])
       .then(([glossary, pools]) => {
         const traitGlossary = normaliseTraitGlossary(glossary);
@@ -419,7 +460,8 @@ function createBiomeSynthesizer(options = {}) {
         }
       }
       const [entry] = queue.splice(pickedIndex, 1);
-      const biome = buildBiomeFromPool(entry.pool, constraints, traitGlossary, rng);
+      // eslint-disable-next-line no-await-in-loop
+      const biome = await buildBiomeFromPool(entry.pool, constraints, traitGlossary, rng, speciesBuilderInstance);
       result.push(biome);
     }
 

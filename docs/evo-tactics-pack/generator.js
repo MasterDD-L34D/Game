@@ -5627,6 +5627,165 @@ function matchesTags(species, requiredTags) {
   return requiredTags.every((tag) => tags.includes(tag));
 }
 
+const HYBRID_FAMILY_KEYWORDS = [
+  [/locomotorio/i, 'locomotor'],
+  [/prensile/i, 'prehensile'],
+  [/strutturale/i, 'structural'],
+  [/difensivo/i, 'defensive'],
+  [/sensoriale/i, 'sensorial'],
+  [/nervoso/i, 'neural'],
+  [/metabolico/i, 'metabolic'],
+  [/supporto/i, 'support'],
+  [/empatico/i, 'social'],
+  [/cognitivo/i, 'cognitive'],
+  [/offensivo/i, 'offensive'],
+  [/biotico/i, 'biotic'],
+];
+
+const HYBRID_BEHAVIOUR_KEYWORDS = [
+  [/coordin/i, 'coordinated'],
+  [/pred/i, 'predatory'],
+  [/difes/i, 'defensive'],
+  [/support/i, 'supportive'],
+  [/simbi/i, 'symbiotic'],
+  [/migraz/i, 'migratory'],
+  [/arramp/i, 'climber'],
+  [/vol/i, 'aerial'],
+  [/echo/i, 'echolocator'],
+  [/dispers/i, 'disperser'],
+  [/scav/i, 'scavenger'],
+];
+
+function normaliseTraitIds(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value.filter((item) => typeof item === 'string' && item.length);
+  }
+  if (typeof value === 'string') {
+    return value.length ? [value] : [];
+  }
+  return [];
+}
+
+function deriveFamiliesFromDetail(detail) {
+  const results = new Set();
+  const family = detail?.family ?? detail?.famiglia ?? null;
+  if (!family) return results;
+  String(family)
+    .split(/[\\/]/g)
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .forEach((part) => {
+      const lowered = part.toLowerCase();
+      const mapped = HYBRID_FAMILY_KEYWORDS.find(([pattern]) => pattern.test(lowered));
+      results.add(mapped ? mapped[1] : lowered);
+    });
+  return results;
+}
+
+function deriveBehaviourTagsFromTexts(texts) {
+  const tags = new Set();
+  texts.forEach((text) => {
+    if (!text) return;
+    const lowered = text.toLowerCase();
+    HYBRID_BEHAVIOUR_KEYWORDS.forEach(([pattern, label]) => {
+      if (pattern.test(lowered)) {
+        tags.add(label);
+      }
+    });
+  });
+  return Array.from(tags);
+}
+
+function scoreTraitTier(traitId) {
+  const detail = state.traitDetailsIndex?.get(traitId);
+  if (!detail?.tier) return null;
+  const match = /^(?:T)?(\d+)/i.exec(String(detail.tier));
+  if (!match) return null;
+  return Number.parseInt(match[1], 10);
+}
+
+function rarityFromTraitSet(traitIds) {
+  const tierValues = traitIds
+    .map((traitId) => scoreTraitTier(traitId))
+    .filter((value) => Number.isFinite(value));
+  const highTiers = tierValues.filter((value) => value >= 3).length;
+  if (highTiers >= 3) return 'R4';
+  if (highTiers === 2) return 'R3';
+  if (highTiers === 1) return 'R2';
+  return 'R1';
+}
+
+function threatFromTraitSet(traitIds, fallbackTier) {
+  const values = traitIds
+    .map((traitId) => scoreTraitTier(traitId))
+    .filter((value) => Number.isFinite(value));
+  if (!values.length) return fallbackTier || 1;
+  const avg = values.reduce((sum, value) => sum + value, 0) / values.length;
+  return Math.max(1, Math.min(5, Math.round(avg)));
+}
+
+function summariseTraitDrivenProfile(traitIds) {
+  const glossaryIndex = state.traitGlossaryIndex || new Map();
+  const detailIndex = state.traitDetailsIndex || new Map();
+  const labels = [];
+  const families = new Set();
+  const environments = new Set();
+  const derived = new Set();
+  const conflicts = new Set();
+  const adaptations = [];
+  const behaviourTexts = [];
+
+  traitIds.forEach((traitId) => {
+    const glossary = glossaryIndex.get(traitId) || {};
+    const detail = detailIndex.get(traitId) || {};
+    const label = glossary.label_it || glossary.label_en || detail.label || titleCase(traitId);
+    labels.push(label);
+    deriveFamiliesFromDetail(detail).forEach((family) => families.add(family));
+    const requirements = detail.environmentRequirements || [];
+    requirements.forEach((entry) => {
+      const cond = entry?.condizioni || entry?.conditions || {};
+      const biome = cond?.biome_class || entry?.biome;
+      if (biome) environments.add(biome);
+    });
+    normaliseTraitIds(detail.synergy || detail.sinergie).forEach((id) => derived.add(id));
+    normaliseTraitIds(detail.conflict || detail.conflitti).forEach((id) => conflicts.add(id));
+    if (detail.mutation) adaptations.push(detail.mutation);
+    if (detail.weakness) adaptations.push(`Precauzione: ${detail.weakness}`);
+    if (detail.usage) behaviourTexts.push(detail.usage);
+    if (detail.selectiveDrive) behaviourTexts.push(detail.selectiveDrive);
+  });
+
+  const summary = labels.slice(0, 3).join(' · ');
+  const behaviourTags = deriveBehaviourTagsFromTexts(behaviourTexts);
+  const descriptionParts = [];
+  if (labels.length) {
+    const focus = labels.length > 1 ? `${labels[0]} / ${labels[1]}` : labels[0];
+    descriptionParts.push(`Sintesi rapida su ${focus}`);
+  }
+  if (families.size) {
+    descriptionParts.push(`impronta ${Array.from(families).join(', ')}`);
+  }
+  if (behaviourTags.length) {
+    descriptionParts.push(`comportamento ${behaviourTags.join(', ')}`);
+  }
+  if (environments.size) {
+    descriptionParts.push(`biomi: ${Array.from(environments).join(', ')}`);
+  }
+
+  return {
+    labels,
+    summary,
+    description: `${descriptionParts.join(' · ')}.`,
+    families: Array.from(families),
+    environments: Array.from(environments),
+    derived: Array.from(derived),
+    conflicts: Array.from(conflicts),
+    adaptations,
+    behaviourTags,
+  };
+}
+
 function filteredPool(biome, filters) {
   const { flags, roles, tags } = filters;
   return biome.species.filter(
@@ -5698,22 +5857,61 @@ function generateHybridSpecies(biome, filters, desiredCount = 3) {
 
   if (!hybrids.length) {
     const fallbackPool = basePool.filter((sp) => passesComposerConstraints(sp, biome));
-    return fallbackPool.slice(0, Math.min(desiredCount, fallbackPool.length)).map((sp) => ({
-      ...sp,
-      id: `${slugify(sp.id || sp.display_name)}-${Math.random().toString(36).slice(2, 5)}`,
-      display_name: `${sp.display_name ?? sp.id} Neo-Variant`,
-      biomes: [biome.id],
-      synthetic: true,
-      syntheticTier: inferThreatTierFromRole(sp.role_trofico ?? "", sp.flags ?? {}),
-      balance: { threat_tier: `T${inferThreatTierFromRole(sp.role_trofico ?? "", sp.flags ?? {})}` },
-      sources: {
-        primary: {
-          id: sp.id,
-          biome: sp.source_biome ?? sp.biomes?.[0] ?? null,
+    return fallbackPool.slice(0, Math.min(desiredCount, fallbackPool.length)).map((sp) => {
+      const traitIds = [
+        ...normaliseTraitIds(sp.source_traits),
+        ...normaliseTraitIds(sp.traits?.ids),
+      ];
+      const profile = summariseTraitDrivenProfile(traitIds);
+      const baseTier = inferThreatTierFromRole(sp.role_trofico ?? '', sp.flags ?? {});
+      const computedTier = threatFromTraitSet(traitIds, baseTier);
+      const rarity = rarityFromTraitSet(traitIds);
+      const summary = profile.summary || sp.summary || sp.display_name || sp.id;
+      const description = profile.description || sp.description || summary;
+      const displayName = profile.labels.length >= 2
+        ? `${profile.labels[0]} / ${profile.labels[1]}`
+        : `${sp.display_name ?? sp.id} Synth`;
+      const syntheticTier = Math.max(baseTier, computedTier);
+      const synergyScore = profile.derived.length
+        ? Math.min(1, profile.derived.length / Math.max(traitIds.length || 1, 1))
+        : 0;
+
+      return {
+        ...sp,
+        id: `${slugify(sp.id || sp.display_name)}-${Math.random().toString(36).slice(2, 5)}`,
+        display_name: displayName,
+        summary,
+        description,
+        biomes: [biome.id],
+        synthetic: true,
+        syntheticTier,
+        balance: { threat_tier: `T${syntheticTier}` },
+        derived_traits: profile.derived,
+        conflicting_traits: profile.conflicts,
+        morphology: {
+          families: profile.families,
+          adaptations: profile.adaptations,
+          environments: profile.environments,
         },
-        secondary: null,
-      },
-    }));
+        behavior_profile: {
+          tags: profile.behaviourTags,
+          drives: profile.behaviourTags,
+        },
+        statistics: {
+          threat_tier: `T${syntheticTier}`,
+          rarity,
+          energy_profile: null,
+          synergy_score: Number.isFinite(synergyScore) ? Math.round(synergyScore * 1000) / 1000 : 0,
+        },
+        sources: {
+          primary: {
+            id: sp.id,
+            biome: sp.source_biome ?? sp.biomes?.[0] ?? null,
+          },
+          secondary: null,
+        },
+      };
+    });
   }
 
   return hybrids;

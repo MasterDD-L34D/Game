@@ -1,0 +1,542 @@
+"""Species builder utilities for synthetic generation.
+
+This module centralises trait catalog loading and provides helpers to
+assemble coherent species blueprints starting from trait identifiers.
+
+The implementation intentionally mirrors the heuristics used by the
+runtime generator so that unit tests can validate both the narrative
+consistency and the mechanical outputs without relying on browser-only
+logic.
+"""
+from __future__ import annotations
+
+import json
+import hashlib
+import random
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_CATALOG_PATH = REPO_ROOT / "docs" / "catalog" / "catalog_data.json"
+DEFAULT_MATRIX_PATH = REPO_ROOT / "docs" / "catalog" / "species_trait_matrix.json"
+DEFAULT_TRAIT_REFERENCE_PATH = (
+    REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
+)
+DEFAULT_TRAIT_GLOSSARY_PATH = REPO_ROOT / "data" / "traits" / "glossary.json"
+DEFAULT_INVENTORY_PATH = REPO_ROOT / "docs" / "catalog" / "traits_inventory.json"
+
+
+@dataclass(slots=True)
+class TraitUsage:
+    """Represents how a trait is referenced across catalog datasets."""
+
+    core: List[str] = field(default_factory=list)
+    optional: List[str] = field(default_factory=list)
+    synergy: List[str] = field(default_factory=list)
+
+    @classmethod
+    def from_mapping(cls, mapping: Mapping[str, Sequence[str]]) -> "TraitUsage":
+        return cls(
+            core=sorted(set(str(item) for item in mapping.get("core", []) if item)),
+            optional=sorted(set(str(item) for item in mapping.get("optional", []) if item)),
+            synergy=sorted(set(str(item) for item in mapping.get("synergy", []) if item)),
+        )
+
+    def to_payload(self) -> Dict[str, List[str]]:
+        return {"core": self.core, "optional": self.optional, "synergy": self.synergy}
+
+
+@dataclass(slots=True)
+class TraitProfile:
+    """Normalized view over a single trait."""
+
+    id: str
+    label: str
+    tier: Optional[str]
+    families: List[str]
+    energy_profile: Optional[str]
+    usage: Optional[str]
+    selective_drive: Optional[str]
+    mutation: Optional[str]
+    synergies: List[str]
+    conflicts: List[str]
+    environments: List[str]
+    weakness: Optional[str]
+    dataset_sources: List[str]
+    usage_map: TraitUsage
+
+    def to_payload(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "label": self.label,
+            "tier": self.tier,
+            "families": self.families,
+            "energy_profile": self.energy_profile,
+            "usage": self.usage,
+            "selective_drive": self.selective_drive,
+            "mutation": self.mutation,
+            "synergies": self.synergies,
+            "conflicts": self.conflicts,
+            "environments": self.environments,
+            "weakness": self.weakness,
+            "dataset_sources": self.dataset_sources,
+            "usage_map": self.usage_map.to_payload(),
+        }
+
+
+def _load_json(path: Path) -> Mapping[str, Any]:
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def _normalise_sequence(value: Any) -> List[str]:
+    if value is None:
+        return []
+    if isinstance(value, (list, tuple, set)):
+        result: List[str] = []
+        for item in value:
+            if isinstance(item, str) and item.strip():
+                result.append(item.strip())
+        return result
+    if isinstance(value, str) and value.strip():
+        return [value.strip()]
+    return []
+
+
+def _split_families(value: Optional[str]) -> List[str]:
+    if not value:
+        return []
+    parts = [segment.strip() for segment in str(value).replace("\\", "/").split("/")]
+    return [part for part in parts if part]
+
+
+def _parse_environment_requirements(entries: Any) -> List[str]:
+    if not isinstance(entries, list):
+        return []
+    environments: List[str] = []
+    for entry in entries:
+        if not isinstance(entry, Mapping):
+            continue
+        conditions = entry.get("condizioni") or entry.get("conditions")
+        if isinstance(conditions, Mapping):
+            biome = conditions.get("biome_class")
+            if isinstance(biome, str) and biome:
+                environments.append(biome)
+        biome = entry.get("biome")
+        if isinstance(biome, str) and biome:
+            environments.append(biome)
+    return sorted(set(environments))
+
+
+def build_trait_catalog_map(
+    *,
+    catalog_path: Path = DEFAULT_CATALOG_PATH,
+    trait_reference_path: Path = DEFAULT_TRAIT_REFERENCE_PATH,
+    trait_glossary_path: Path = DEFAULT_TRAIT_GLOSSARY_PATH,
+    trait_matrix_path: Path = DEFAULT_MATRIX_PATH,
+    inventory_path: Path = DEFAULT_INVENTORY_PATH,
+) -> Dict[str, TraitProfile]:
+    """Aggregate trait information from the available datasets."""
+
+    if not trait_reference_path.exists():
+        raise FileNotFoundError(f"Trait reference not found: {trait_reference_path}")
+
+    reference = _load_json(trait_reference_path)
+    glossary = _load_json(trait_glossary_path) if trait_glossary_path.exists() else {}
+    matrix = _load_json(trait_matrix_path) if trait_matrix_path.exists() else {}
+    inventory = _load_json(inventory_path) if inventory_path.exists() else {}
+
+    glossary_traits = glossary.get("traits") if isinstance(glossary, Mapping) else {}
+    resources = inventory.get("resources") if isinstance(inventory, Mapping) else []
+    resource_paths = []
+    for item in resources or []:
+        if isinstance(item, Mapping):
+            path = item.get("path")
+            if isinstance(path, str):
+                resource_paths.append(path)
+
+    reference_traits = reference.get("traits") if isinstance(reference, Mapping) else {}
+
+    usage_map: Dict[str, Dict[str, List[str]]] = {}
+
+    def _register_usage(kind: str, trait_id: str, species_id: str) -> None:
+        if not trait_id or not species_id:
+            return
+        usage_map.setdefault(trait_id, {"core": [], "optional": [], "synergy": []})
+        bucket = usage_map[trait_id].setdefault(kind, [])
+        if species_id not in bucket:
+            bucket.append(species_id)
+
+    for bucket_key in ("species", "events"):
+        entries = matrix.get(bucket_key) if isinstance(matrix, Mapping) else {}
+        if not isinstance(entries, Mapping):
+            continue
+        for species_id, payload in entries.items():
+            if not isinstance(payload, Mapping):
+                continue
+            for trait_id in _normalise_sequence(payload.get("core_traits")):
+                _register_usage("core", trait_id, species_id)
+            for trait_id in _normalise_sequence(payload.get("optional_traits")):
+                _register_usage("optional", trait_id, species_id)
+            for trait_id in _normalise_sequence(payload.get("synergy_traits")):
+                _register_usage("synergy", trait_id, species_id)
+
+    catalog_traits: Dict[str, TraitProfile] = {}
+
+    for trait_id, raw in reference_traits.items():
+        if not isinstance(raw, Mapping):
+            continue
+        glossary_entry = glossary_traits.get(trait_id) if isinstance(glossary_traits, Mapping) else {}
+        label = None
+        if isinstance(glossary_entry, Mapping):
+            label = glossary_entry.get("label_it") or glossary_entry.get("label_en")
+        label = label or raw.get("label") or trait_id
+
+        profile = TraitProfile(
+            id=str(trait_id),
+            label=str(label),
+            tier=str(raw.get("tier")) if raw.get("tier") else None,
+            families=_split_families(raw.get("famiglia_tipologia")),
+            energy_profile=str(raw.get("fattore_mantenimento_energetico"))
+            if raw.get("fattore_mantenimento_energetico")
+            else None,
+            usage=str(raw.get("uso_funzione")) if raw.get("uso_funzione") else None,
+            selective_drive=str(raw.get("spinta_selettiva")) if raw.get("spinta_selettiva") else None,
+            mutation=str(raw.get("mutazione_indotta")) if raw.get("mutazione_indotta") else None,
+            synergies=_normalise_sequence(raw.get("sinergie")),
+            conflicts=_normalise_sequence(raw.get("conflitti")),
+            environments=_parse_environment_requirements(raw.get("requisiti_ambientali")),
+            weakness=str(raw.get("debolezza")) if raw.get("debolezza") else None,
+            dataset_sources=sorted(set(resource_paths)),
+            usage_map=TraitUsage.from_mapping(usage_map.get(trait_id, {})),
+        )
+        catalog_traits[trait_id] = profile
+
+    if catalog_path:
+        catalog_payload = {
+            "generated_at": None,
+            "traits": {trait_id: profile.to_payload() for trait_id, profile in catalog_traits.items()},
+            "sources": {
+                "trait_reference": str(trait_reference_path.relative_to(REPO_ROOT)),
+                "trait_matrix": str(trait_matrix_path.relative_to(REPO_ROOT))
+                if trait_matrix_path.exists()
+                else None,
+                "trait_glossary": str(trait_glossary_path.relative_to(REPO_ROOT))
+                if trait_glossary_path.exists()
+                else None,
+                "inventory": str(inventory_path.relative_to(REPO_ROOT))
+                if inventory_path.exists()
+                else None,
+            },
+        }
+        catalog_path.parent.mkdir(parents=True, exist_ok=True)
+        with catalog_path.open("w", encoding="utf-8") as handle:
+            json.dump(catalog_payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
+
+    return catalog_traits
+
+
+class TraitCatalog:
+    """In-memory catalog accessor."""
+
+    def __init__(self, traits: Mapping[str, TraitProfile]):
+        self._traits: Dict[str, TraitProfile] = dict(traits)
+
+    @classmethod
+    def load(cls, path: Path = DEFAULT_CATALOG_PATH) -> "TraitCatalog":
+        if path.exists():
+            payload = _load_json(path)
+            traits_payload = payload.get("traits") if isinstance(payload, Mapping) else {}
+            traits: Dict[str, TraitProfile] = {}
+            for trait_id, raw in traits_payload.items():
+                if not isinstance(raw, Mapping):
+                    continue
+                traits[trait_id] = TraitProfile(
+                    id=trait_id,
+                    label=str(raw.get("label") or trait_id),
+                    tier=str(raw.get("tier")) if raw.get("tier") else None,
+                    families=_normalise_sequence(raw.get("families")),
+                    energy_profile=str(raw.get("energy_profile"))
+                    if raw.get("energy_profile")
+                    else None,
+                    usage=str(raw.get("usage")) if raw.get("usage") else None,
+                    selective_drive=str(raw.get("selective_drive")) if raw.get("selective_drive") else None,
+                    mutation=str(raw.get("mutation")) if raw.get("mutation") else None,
+                    synergies=_normalise_sequence(raw.get("synergies")),
+                    conflicts=_normalise_sequence(raw.get("conflicts")),
+                    environments=_normalise_sequence(raw.get("environments")),
+                    weakness=str(raw.get("weakness")) if raw.get("weakness") else None,
+                    dataset_sources=_normalise_sequence(raw.get("dataset_sources")),
+                    usage_map=TraitUsage.from_mapping(raw.get("usage_map", {})),
+                )
+            if traits:
+                return cls(traits)
+        # fall-back to build from scratch
+        traits = build_trait_catalog_map()
+        return cls(traits)
+
+    def get(self, trait_id: str) -> Optional[TraitProfile]:
+        return self._traits.get(trait_id)
+
+    def require(self, trait_id: str) -> TraitProfile:
+        profile = self.get(trait_id)
+        if not profile:
+            raise KeyError(f"Trait '{trait_id}' non presente nel catalogo")
+        return profile
+
+    def traits(self, trait_ids: Iterable[str]) -> List[TraitProfile]:
+        result: List[TraitProfile] = []
+        for trait_id in trait_ids:
+            profile = self.get(trait_id)
+            if profile:
+                result.append(profile)
+        return result
+
+
+FAMILY_KEYWORDS = {
+    "Locomotorio": "locomotor",
+    "Prensile": "prehensile",
+    "Strutturale": "structural",
+    "Difensivo": "defensive",
+    "Sensoriale": "sensorial",
+    "Nervoso": "neural",
+    "Metabolico": "metabolic",
+    "Supporto": "support",
+    "Empatico": "social",
+    "Cognitivo": "cognitive",
+    "Offensivo": "offensive",
+    "Biotico": "biotic",
+}
+
+BEHAVIOUR_KEYWORDS = {
+    "coordin": "coordinated",
+    "pred": "predatory",
+    "difes": "defensive",
+    "support": "supportive",
+    "simbi": "symbiotic",
+    "migraz": "migratory",
+    "arramp": "climber",
+    "vol": "aerial",
+    "echo": "echolocator",
+    "dispers": "disperser",
+    "scav": "scavenger",
+}
+
+ENERGY_ORDER = ["basso", "medio", "alto", "estremo"]
+
+
+def _normalise_energy(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return None
+    value_lower = value.lower()
+    for token in ("basso", "medio", "alto", "estremo"):
+        if token in value_lower:
+            return token
+    return value_lower.strip()
+
+
+def _score_energy(values: Iterable[str]) -> Optional[str]:
+    picked: Optional[str] = None
+    for value in values:
+        normalised = _normalise_energy(value)
+        if not normalised:
+            continue
+        if picked is None:
+            picked = normalised
+            continue
+        if ENERGY_ORDER.index(normalised) > ENERGY_ORDER.index(picked):
+            picked = normalised
+    return picked
+
+
+def _tier_value(tier: Optional[str]) -> Optional[int]:
+    if not tier:
+        return None
+    for prefix in ("T", "t"):
+        if tier.startswith(prefix):
+            try:
+                return int(tier[1:])
+            except ValueError:
+                return None
+    try:
+        return int(tier)
+    except (TypeError, ValueError):
+        return None
+
+
+def _rarity_from_traits(traits: Sequence[TraitProfile]) -> str:
+    high_tiers = sum(1 for trait in traits if (_tier_value(trait.tier) or 1) >= 3)
+    if high_tiers >= 3:
+        return "R4"
+    if high_tiers == 2:
+        return "R3"
+    if high_tiers == 1:
+        return "R2"
+    return "R1"
+
+
+def _threat_from_traits(traits: Sequence[TraitProfile]) -> str:
+    values = [value for value in (_tier_value(trait.tier) for trait in traits) if value]
+    if not values:
+        return "T1"
+    avg = sum(values) / len(values)
+    tier = min(5, max(1, int(round(avg))))
+    return f"T{tier}"
+
+
+def _synergy_score(traits: Sequence[TraitProfile]) -> float:
+    if not traits:
+        return 0.0
+    total = 0
+    for trait in traits:
+        overlap = sum(1 for candidate in traits if candidate.id in trait.synergies)
+        total += overlap
+    return round(total / (len(traits) * max(len(traits) - 1, 1)), 3)
+
+
+class SpeciesBuilder:
+    """Generate species blueprints from trait identifiers."""
+
+    def __init__(self, catalog: TraitCatalog):
+        self.catalog = catalog
+
+    def _derive_morphology(self, traits: Sequence[TraitProfile]) -> Dict[str, Any]:
+        families = []
+        adaptations: List[str] = []
+        for trait in traits:
+            for family in trait.families:
+                for keyword, tag in FAMILY_KEYWORDS.items():
+                    if keyword.lower() in family.lower():
+                        families.append(tag)
+                        break
+                else:
+                    families.append(family.lower())
+            if trait.mutation:
+                adaptations.append(trait.mutation)
+            if trait.weakness:
+                adaptations.append(f"Precauzione: {trait.weakness}")
+        environments = sorted({env for trait in traits for env in trait.environments})
+        return {
+            "families": sorted(set(families)),
+            "adaptations": adaptations,
+            "environments": environments,
+        }
+
+    def _derive_behaviour(self, traits: Sequence[TraitProfile]) -> Dict[str, Any]:
+        tags: List[str] = []
+        drives: List[str] = []
+        for trait in traits:
+            for field in (trait.usage, trait.selective_drive):
+                if not field:
+                    continue
+                drives.append(field)
+                lowered = field.lower()
+                for token, label in BEHAVIOUR_KEYWORDS.items():
+                    if token in lowered and label not in tags:
+                        tags.append(label)
+        return {
+            "tags": tags,
+            "drives": drives,
+        }
+
+    def _compose_summary(self, traits: Sequence[TraitProfile]) -> str:
+        labels = [trait.label for trait in traits[:3]]
+        return ", ".join(labels)
+
+    def _compose_description(
+        self,
+        traits: Sequence[TraitProfile],
+        morphology: Mapping[str, Any],
+        behaviour: Mapping[str, Any],
+    ) -> str:
+        if not traits:
+            return "Specie sintetica generata da trait sconosciuti."
+        lead = f"Sintesi genetica focalizzata su {traits[0].label}"
+        if len(traits) > 1:
+            lead += f" e {traits[1].label}"
+        morpho = ""
+        families = morphology.get("families") or []
+        if families:
+            morpho = f" con impronta morfologica {', '.join(families)}"
+        behaviour_tags = behaviour.get("tags") or []
+        if behaviour_tags:
+            morpho += f"; comportamento {', '.join(behaviour_tags)}"
+        environments = morphology.get("environments") or []
+        env_part = (
+            f" Ottimizzata per biomi: {', '.join(environments)}."
+            if environments
+            else " Ottimizzata per biomi vari."
+        )
+        return f"{lead}{morpho}.{env_part}"
+
+    def build(
+        self,
+        trait_ids: Sequence[str],
+        *,
+        seed: Optional[int | str] = None,
+        base_name: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        profiles = self.catalog.traits(trait_ids)
+        if not profiles:
+            raise ValueError("Impossibile generare specie: nessun tratto riconosciuto")
+
+        rng = random.Random()
+        if seed is not None:
+            rng.seed(seed)
+
+        morphology = self._derive_morphology(profiles)
+        behaviour = self._derive_behaviour(profiles)
+        energy = _score_energy(trait.energy_profile for trait in profiles if trait.energy_profile)
+        threat = _threat_from_traits(profiles)
+        rarity = _rarity_from_traits(profiles)
+        synergy_score = _synergy_score(profiles)
+        summary = self._compose_summary(profiles)
+        description = self._compose_description(profiles, morphology, behaviour)
+
+        display_name = base_name or profiles[0].label
+        if len(profiles) > 1:
+            blend = rng.choice(profiles[1:]).label
+            display_name = f"{display_name} / {blend}"
+
+        derived_traits = sorted({trait for profile in profiles for trait in profile.synergies})
+        conflicting = sorted({trait for profile in profiles for trait in profile.conflicts})
+
+        identifier_seed = f"{display_name}-{threat}-{rarity}-{rng.random():.4f}"
+        digest = hashlib.sha1(identifier_seed.encode("utf-8")).hexdigest()
+        identifier = "synthetic-" + digest[:10]
+
+        return {
+            "id": identifier,
+            "display_name": display_name,
+            "summary": summary,
+            "description": description,
+            "morphology": morphology,
+            "behavior": behaviour,
+            "statistics": {
+                "threat_tier": threat,
+                "rarity": rarity,
+                "energy_profile": energy,
+                "synergy_score": synergy_score,
+            },
+            "traits": {
+                "core": [profile.id for profile in profiles],
+                "derived": derived_traits,
+                "conflicts": conflicting,
+            },
+        }
+
+
+def load_builder() -> SpeciesBuilder:
+    catalog = TraitCatalog.load()
+    return SpeciesBuilder(catalog)
+
+
+__all__ = [
+    "SpeciesBuilder",
+    "TraitCatalog",
+    "TraitProfile",
+    "TraitUsage",
+    "build_trait_catalog_map",
+    "load_builder",
+]

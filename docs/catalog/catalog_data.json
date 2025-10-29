@@ -1,0 +1,1960 @@
+{
+  "generated_at": null,
+  "sources": {
+    "inventory": "docs/catalog/traits_inventory.json",
+    "trait_glossary": "data/traits/glossary.json",
+    "trait_matrix": "docs/catalog/species_trait_matrix.json",
+    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json"
+  },
+  "traits": {
+    "artigli_sette_vie": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Passivo)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Locomotorio",
+        "Prensile"
+      ],
+      "id": "artigli_sette_vie",
+      "label": "Artigli a Sette Vie",
+      "mutation": "Dita lunghe e segmentate con punte a uncino multiplo.",
+      "selective_drive": "Arrampicarsi su pareti rocciose o vegetazione densa.",
+      "synergies": [
+        "struttura_elastica_amorfa"
+      ],
+      "tier": "T1",
+      "usage": "Afferrare superfici irregolari o oggetti multipli.",
+      "usage_map": {
+        "core": [
+          "dune-stalker",
+          "dune_stalker",
+          "magneto-ridge-hunter"
+        ],
+        "optional": [],
+        "synergy": []
+      },
+      "weakness": "Angoli di presa limitati se la superficie è perfettamente liscia."
+    },
+    "carapace_fase_variabile": {
+      "conflicts": [
+        "struttura_elastica_amorfa"
+      ],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Alto (Richiede energia per il cambio di fase)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Strutturale",
+        "Difensivo"
+      ],
+      "id": "carapace_fase_variabile",
+      "label": "Carapace a Variazione di Fase",
+      "mutation": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
+      "selective_drive": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Durezza/densità del guscio modificabile rapidamente.",
+      "usage_map": {
+        "core": [],
+        "optional": [
+          "nano-rust-bloom",
+          "sand-burrower"
+        ],
+        "synergy": []
+      },
+      "weakness": "Debolezza strutturale durante la transizione tra le fasi di durezza."
+    },
+    "coda_frusta_cinetica": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Mantenimento dell'energia accumulata)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Locomotorio",
+        "Difensivo"
+      ],
+      "id": "coda_frusta_cinetica",
+      "label": "Coda a Frusta Cinetica",
+      "mutation": "Muscolatura della coda densa con tendini e fibre che agiscono come molle.",
+      "selective_drive": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
+      "synergies": [
+        "artigli_sette_vie"
+      ],
+      "tier": "T1",
+      "usage": "Immagazzinare energia da ogni movimento per un colpo finale potente.",
+      "usage_map": {
+        "core": [
+          "dune-stalker",
+          "magneto-ridge-hunter",
+          "slag-veil-ambusher"
+        ],
+        "optional": [
+          "dune_stalker"
+        ],
+        "synergy": []
+      },
+      "weakness": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno."
+    },
+    "criostasi_adattiva": {
+      "conflicts": [
+        "sangue_piroforico",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Metabolico",
+        "Difensivo"
+      ],
+      "id": "criostasi_adattiva",
+      "label": "Criostasi",
+      "mutation": "Sviluppo di enzimi crioprotettivi e tessuto adiposo isolante.",
+      "selective_drive": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Sopravvivenza a condizioni ambientali estreme.",
+      "usage_map": {
+        "core": [],
+        "optional": [
+          "dune_stalker"
+        ],
+        "synergy": []
+      },
+      "weakness": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi."
+    },
+    "eco_interno_riflesso": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Emissioni e ricezione continua)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Sensoriale",
+        "Nervoso"
+      ],
+      "id": "eco_interno_riflesso",
+      "label": "Riflesso dell'Eco Interno",
+      "mutation": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
+      "selective_drive": "Orientamento in ambienti completamente privi di luce.",
+      "synergies": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "tier": "T1",
+      "usage": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente.",
+      "usage_map": {
+        "core": [
+          "aurora-bridge-runner",
+          "echo-wing",
+          "zephyr-spore-courier"
+        ],
+        "optional": [],
+        "synergy": []
+      },
+      "weakness": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue."
+    },
+    "empatia_coordinativa": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Feedback costante dai compagni)",
+      "environments": [],
+      "families": [
+        "Supporto",
+        "Empatico"
+      ],
+      "id": "empatia_coordinativa",
+      "label": "Empatia Coordinativa",
+      "mutation": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
+      "selective_drive": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
+      "usage_map": {
+        "core": [
+          "glowcap-weaver",
+          "myco-spire-warden"
+        ],
+        "optional": [],
+        "synergy": [
+          "aurora-bridge-runner",
+          "zephyr-spore-courier"
+        ]
+      },
+      "weakness": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende."
+    },
+    "filamenti_digestivi_compattanti": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Passivo)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Digestivo",
+        "Escretorio"
+      ],
+      "id": "filamenti_digestivi_compattanti",
+      "label": "Filamento materiali digeriti",
+      "mutation": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
+      "selective_drive": "Necessità di mantenere la pulizia del territorio/nido.",
+      "synergies": [
+        "ventriglio_gastroliti"
+      ],
+      "tier": "T1",
+      "usage": "Espulsione compatta e ordinata di scorie.",
+      "usage_map": {
+        "core": [
+          "glowcap-weaver",
+          "myco-spire-warden",
+          "nano-rust-bloom",
+          "rust-scavenger"
+        ],
+        "optional": [],
+        "synergy": []
+      },
+      "weakness": "Blocco intestinale se la dieta è priva di materiale 'legante'."
+    },
+    "focus_frazionato": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Dividere l'attenzione su più canali)",
+      "environments": [],
+      "families": [
+        "Tattico",
+        "Controllo"
+      ],
+      "id": "focus_frazionato",
+      "label": "Focus Frazionato",
+      "mutation": "Processore di priorità multi-thread per bersagli e obiettivi.",
+      "selective_drive": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Permette di gestire due ingaggi paralleli senza perdere efficienza.",
+      "usage_map": {
+        "core": [],
+        "optional": [
+          "glowcap-weaver",
+          "myco-spire-warden"
+        ],
+        "synergy": [
+          "dune_stalker"
+        ]
+      },
+      "weakness": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD."
+    },
+    "ghiandola_caustica": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Produzione reagenti)",
+      "environments": [],
+      "families": [
+        "Offensivo",
+        "Chimico"
+      ],
+      "id": "ghiandola_caustica",
+      "label": "Ghiandola Caustica",
+      "mutation": "Sintesi rapida di composti caustici nei moduli d'attacco.",
+      "selective_drive": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Sblocco early di danni da acido per rompere armature leggere.",
+      "usage_map": {
+        "core": [],
+        "optional": [
+          "slag-veil-ambusher"
+        ],
+        "synergy": []
+      },
+      "weakness": "Gestione accurata delle riserve per non calare sotto i budget PE previsto."
+    },
+    "lingua_tattile_trama": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Passivo)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Sensoriale",
+        "Alimentare"
+      ],
+      "id": "lingua_tattile_trama",
+      "label": "Lingua Tattile Trama-Sensibile",
+      "mutation": "Lingua sottile con papille tattili e meccanocettori avanzati.",
+      "selective_drive": "Individuare movimenti sismici o cibi sepolti.",
+      "synergies": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "tier": "T1",
+      "usage": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture.",
+      "usage_map": {
+        "core": [],
+        "optional": [
+          "aurora-bridge-runner",
+          "echo-wing",
+          "ferrocolonia-magnetotattica",
+          "glowcap-weaver",
+          "zephyr-spore-courier"
+        ],
+        "synergy": []
+      },
+      "weakness": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi."
+    },
+    "mimetismo_cromatico_passivo": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Fase passiva)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Tegumentario",
+        "Difensivo"
+      ],
+      "id": "mimetismo_cromatico_passivo",
+      "label": "Ghiandole di Mimetismo Cromatico Passivo",
+      "mutation": "Cromatofori che richiedono un input tattile prolungato per la ricarica.",
+      "selective_drive": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
+      "synergies": [
+        "struttura_elastica_amorfa"
+      ],
+      "tier": "T1",
+      "usage": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto.",
+      "usage_map": {
+        "core": [
+          "aurora-bridge-runner",
+          "ferrocolonia-magnetotattica",
+          "zephyr-spore-courier"
+        ],
+        "optional": [],
+        "synergy": []
+      },
+      "weakness": "La colorazione è fissa finché non c'è un nuovo contatto prolungato."
+    },
+    "nucleo_ovomotore_rotante": {
+      "conflicts": [
+        "secrezione_rallentante_palmi"
+      ],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Alto (Rotolamento)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Riproduttivo",
+        "Locomotorio"
+      ],
+      "id": "nucleo_ovomotore_rotante",
+      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
+      "mutation": "Massa globulare rigida con giunto sferico al centro del petto.",
+      "selective_drive": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento.",
+      "usage_map": {
+        "core": [
+          "sand-burrower"
+        ],
+        "optional": [
+          "rust-scavenger"
+        ],
+        "synergy": []
+      },
+      "weakness": "Impossibilità di muoversi su superfici irregolari o in salita ripida."
+    },
+    "occhi_infrarosso_composti": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Passivo)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Sensoriale",
+        "Visivo"
+      ],
+      "id": "occhi_infrarosso_composti",
+      "label": "Occhi Composti ad Infrarosso",
+      "mutation": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
+      "selective_drive": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
+      "synergies": [
+        "sonno_emisferico_alternato"
+      ],
+      "tier": "T1",
+      "usage": "Vista specializzata che percepisce il calore corporeo.",
+      "usage_map": {
+        "core": [
+          "echo-wing"
+        ],
+        "optional": [
+          "aurora-bridge-runner",
+          "zephyr-spore-courier"
+        ],
+        "synergy": []
+      },
+      "weakness": "Accecamento temporaneo da fonti di calore intenso e concentrato."
+    },
+    "olfatto_risonanza_magnetica": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Elaborazione sensoriale costante)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Sensoriale",
+        "Nervoso"
+      ],
+      "id": "olfatto_risonanza_magnetica",
+      "label": "Olfatto di Risonanza Magnetica",
+      "mutation": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
+      "selective_drive": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
+      "synergies": [
+        "eco_interno_riflesso"
+      ],
+      "tier": "T1",
+      "usage": "Percepire la direzione e la composizione di metalli o campi energetici.",
+      "usage_map": {
+        "core": [
+          "slag-veil-ambusher"
+        ],
+        "optional": [
+          "dune-stalker",
+          "magneto-ridge-hunter"
+        ],
+        "synergy": []
+      },
+      "weakness": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici)."
+    },
+    "pathfinder": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Sincronizzazione con HUD di esplorazione)",
+      "environments": [],
+      "families": [
+        "Esplorazione",
+        "Tattico"
+      ],
+      "id": "pathfinder",
+      "label": "Pathfinder",
+      "mutation": "Suite sensoriale orientata a scouting e lettura minacce.",
+      "selective_drive": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Ottimizza esplorazione e controllo mappe multi-bioma.",
+      "usage_map": {
+        "core": [],
+        "optional": [],
+        "synergy": [
+          "glowcap-weaver",
+          "myco-spire-warden"
+        ]
+      },
+      "weakness": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato."
+    },
+    "pianificatore": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Analisi continua di stato squadre)",
+      "environments": [],
+      "families": [
+        "Strategico",
+        "Comando"
+      ],
+      "id": "pianificatore",
+      "label": "Pianificatore",
+      "mutation": "Protocollo decisionale adattivo con buffer informativi dedicati.",
+      "selective_drive": "Squadre che devono mantenere priorità multiple su turni lunghi.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI.",
+      "usage_map": {
+        "core": [],
+        "optional": [],
+        "synergy": [
+          "glowcap-weaver",
+          "myco-spire-warden"
+        ]
+      },
+      "weakness": "Rigidità tattica se gli input di telemetria arrivano in ritardo."
+    },
+    "random": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Variabile (Dipende dal tratto estratto)",
+      "environments": [],
+      "families": [
+        "Flessibile",
+        "Generico"
+      ],
+      "id": "random",
+      "label": "Trait Random",
+      "mutation": "Selezione casuale da pool controllata per esperimenti di build.",
+      "selective_drive": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Slot jolly per testing o pareggiare budget PI quando serve varietà.",
+      "usage_map": {
+        "core": [],
+        "optional": [],
+        "synergy": []
+      },
+      "weakness": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli."
+    },
+    "respiro_a_scoppio": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Alto (Richiede ricarica polmonare)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Respiratorio",
+        "Propulsivo"
+      ],
+      "id": "respiro_a_scoppio",
+      "label": "Respiro a scoppio",
+      "mutation": "Polmoni o sacche aeree ad alta pressione con valvole di rilascio rapide.",
+      "selective_drive": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
+      "synergies": [
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "tier": "T1",
+      "usage": "Rilasciare grandi quantità d'aria o energia in un getto potente.",
+      "usage_map": {
+        "core": [
+          "rust-scavenger"
+        ],
+        "optional": [
+          "dune-stalker",
+          "magneto-ridge-hunter",
+          "slag-veil-ambusher"
+        ],
+        "synergy": []
+      },
+      "weakness": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica)."
+    },
+    "risonanza_di_branco": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Richiede mantenimento empatico)",
+      "environments": [],
+      "families": [
+        "Supporto",
+        "Armonico"
+      ],
+      "id": "risonanza_di_branco",
+      "label": "Risonanza di Branco",
+      "mutation": "Reticolo empatico che collega i canali PI cooperativi.",
+      "selective_drive": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Amplifica buff condivisi sincronizzando i timer di squadra.",
+      "usage_map": {
+        "core": [],
+        "optional": [],
+        "synergy": [
+          "aurora-bridge-runner",
+          "dune_stalker",
+          "zephyr-spore-courier"
+        ]
+      },
+      "weakness": "Stress elevato se la coesione cala sotto i target di telemetria."
+    },
+    "sacche_galleggianti_ascensoriali": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Per il controllo della pressione)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Idrostatico",
+        "Locomotorio"
+      ],
+      "id": "sacche_galleggianti_ascensoriali",
+      "label": "Sacche galleggianti ascensoriali",
+      "mutation": "Sacche ripiene di gas leggeri con pompe muscolari.",
+      "selective_drive": "Vivere in un ambiente acquatico con forti correnti verticali.",
+      "synergies": [
+        "struttura_elastica_amorfa"
+      ],
+      "tier": "T1",
+      "usage": "Controllo preciso della profondità e del movimento verticale.",
+      "usage_map": {
+        "core": [
+          "aurora-bridge-runner",
+          "sand-burrower",
+          "zephyr-spore-courier"
+        ],
+        "optional": [
+          "dune_stalker",
+          "echo-wing"
+        ],
+        "synergy": []
+      },
+      "weakness": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente."
+    },
+    "sangue_piroforico": {
+      "conflicts": [
+        "criostasi_adattiva",
+        "scheletro_idro_regolante"
+      ],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Sintesi dei composti)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Circolatorio",
+        "Difensivo"
+      ],
+      "id": "sangue_piroforico",
+      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
+      "mutation": "Presenza di composti piroforici nel sangue.",
+      "selective_drive": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Meccanismo di difesa termico o chimico che si attiva con l'aria.",
+      "usage_map": {
+        "core": [
+          "ferrocolonia-magnetotattica"
+        ],
+        "optional": [
+          "nano-rust-bloom"
+        ],
+        "synergy": []
+      },
+      "weakness": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno."
+    },
+    "scheletro_idro_regolante": {
+      "conflicts": [
+        "sangue_piroforico"
+      ],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Scambio rapido di fluidi)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Strutturale",
+        "Omeostatico"
+      ],
+      "id": "scheletro_idro_regolante",
+      "label": "Scheletro Idro-Regolante",
+      "mutation": "Struttura ossea porosa capace di scambio rapido di fluidi.",
+      "selective_drive": "Alternare vita terrestre e vita acquatica/aerea.",
+      "synergies": [
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "tier": "T1",
+      "usage": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso.",
+      "usage_map": {
+        "core": [
+          "dune-stalker",
+          "dune_stalker",
+          "magneto-ridge-hunter",
+          "nano-rust-bloom",
+          "sand-burrower"
+        ],
+        "optional": [
+          "rust-scavenger"
+        ],
+        "synergy": [
+          "slag-veil-ambusher"
+        ]
+      },
+      "weakness": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio."
+    },
+    "secrezione_rallentante_palmi": {
+      "conflicts": [
+        "carapace_fase_variabile",
+        "nucleo_ovomotore_rotante"
+      ],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Produzione del liquido)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Tegumentario",
+        "Difensivo"
+      ],
+      "id": "secrezione_rallentante_palmi",
+      "label": "Mani secernano liquido rallentante",
+      "mutation": "Ghiandole mucose modificate sulle superfici prensili.",
+      "selective_drive": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Neutralizzare o immobilizzare prede/nemici.",
+      "usage_map": {
+        "core": [
+          "ferrocolonia-magnetotattica"
+        ],
+        "optional": [],
+        "synergy": []
+      },
+      "weakness": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato."
+    },
+    "sonno_emisferico_alternato": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Mantenimento attivo di metà cervello)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Nervoso",
+        "Omeostatico"
+      ],
+      "id": "sonno_emisferico_alternato",
+      "label": "Dormire con solo metà cervello alla volta",
+      "mutation": "Encefalizzazione asimmetrica o due lobi cerebrali separati.",
+      "selective_drive": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
+      "synergies": [
+        "occhi_infrarosso_composti"
+      ],
+      "tier": "T1",
+      "usage": "Vigilanza continua pur garantendo riposo.",
+      "usage_map": {
+        "core": [
+          "echo-wing"
+        ],
+        "optional": [],
+        "synergy": []
+      },
+      "weakness": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente."
+    },
+    "spore_psichiche_silenziate": {
+      "conflicts": [
+        "respiro_a_scoppio"
+      ],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Alto (Produzione e rilascio)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Escretorio",
+        "Psichico"
+      ],
+      "id": "spore_psichiche_silenziate",
+      "label": "Spora Psichica Silenziosa",
+      "mutation": "Pori che rilasciano nano-particelle attive chimicamente o psichicamente.",
+      "selective_drive": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Indurre uno stato di confusione o letargia negli individui vicini.",
+      "usage_map": {
+        "core": [
+          "nano-rust-bloom"
+        ],
+        "optional": [
+          "myco-spire-warden"
+        ],
+        "synergy": []
+      },
+      "weakness": "Funzionalità ridotta in presenza di vento forte o umidità elevata."
+    },
+    "struttura_elastica_amorfa": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Passivo)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Strutturale",
+        "Locomotorio"
+      ],
+      "id": "struttura_elastica_amorfa",
+      "label": "Struttura elastica, allungabile, amorfa, retrattile",
+      "mutation": "Tessuto con matrice di proteine elastiche iper-modificate.",
+      "selective_drive": "Fuga rapida da predatori in spazi confinati.",
+      "synergies": [
+        "scheletro_idro_regolante"
+      ],
+      "tier": "T1",
+      "usage": "Flessibilità estrema e capacità di assumere forme diverse.",
+      "usage_map": {
+        "core": [
+          "dune-stalker",
+          "dune_stalker",
+          "glowcap-weaver",
+          "myco-spire-warden",
+          "slag-veil-ambusher"
+        ],
+        "optional": [],
+        "synergy": [
+          "magneto-ridge-hunter"
+        ]
+      },
+      "weakness": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione)."
+    },
+    "tattiche_di_branco": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Broadcast continuo di segnali)",
+      "environments": [],
+      "families": [
+        "Strategico",
+        "Supporto"
+      ],
+      "id": "tattiche_di_branco",
+      "label": "Tattiche di Branco",
+      "mutation": "Canale condiviso per marcature e ingaggi simultanei.",
+      "selective_drive": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Coordina prese e focus bersaglio condividendo segnali di priorità.",
+      "usage_map": {
+        "core": [],
+        "optional": [],
+        "synergy": [
+          "dune_stalker",
+          "magneto-ridge-hunter",
+          "slag-veil-ambusher"
+        ]
+      },
+      "weakness": "Richiede formazione stabile; cala se la coesione precipita sotto il target."
+    },
+    "ventriglio_gastroliti": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Medio (Contrazione muscolare costante)",
+      "environments": [
+        "caverna_risonante"
+      ],
+      "families": [
+        "Digestivo",
+        "Alimentare"
+      ],
+      "id": "ventriglio_gastroliti",
+      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
+      "mutation": "Sviluppo di un organo muscolare (ventriglio) con gastroliti.",
+      "selective_drive": "Dieta basata su semi, conchiglie o insetti corazzati.",
+      "synergies": [
+        "filamenti_digestivi_compattanti"
+      ],
+      "tier": "T1",
+      "usage": "Macinazione di cibo duro all'interno di un ventriglio.",
+      "usage_map": {
+        "core": [
+          "rust-scavenger"
+        ],
+        "optional": [
+          "ferrocolonia-magnetotattica"
+        ],
+        "synergy": []
+      },
+      "weakness": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci."
+    },
+    "zampe_a_molla": {
+      "conflicts": [],
+      "dataset_sources": [
+        "data/analysis/trait_baseline.yaml",
+        "data/analysis/trait_coverage_matrix.csv",
+        "data/analysis/trait_coverage_report.json",
+        "data/analysis/trait_env_mapping.json",
+        "data/packs.yaml",
+        "data/species.yaml",
+        "data/telemetry.yaml",
+        "data/traits/glossary.json",
+        "docs/catalog/species_trait_matrix.json",
+        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
+        "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
+        "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
+      ],
+      "energy_profile": "Basso (Carica elastica a turni alterni)",
+      "environments": [],
+      "families": [
+        "Mobilità",
+        "Cinetico"
+      ],
+      "id": "zampe_a_molla",
+      "label": "Zampe a Molla",
+      "mutation": "Arti potenziati con ammortizzatori ad alta compressione.",
+      "selective_drive": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
+      "synergies": [],
+      "tier": "T1",
+      "usage": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno.",
+      "usage_map": {
+        "core": [],
+        "optional": [
+          "sand-burrower"
+        ],
+        "synergy": []
+      },
+      "weakness": "Perdita di valore su mappe con spazi stretti o controllo setup elevato."
+    }
+  }
+}

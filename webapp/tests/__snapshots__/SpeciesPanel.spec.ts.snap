@@ -1,0 +1,60 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SpeciesPanel > renders species narrative and mechanics 1`] = `
+"<section data-v-73eb6eb5="" class="species-panel">
+  <header data-v-73eb6eb5="" class="species-panel__header">
+    <h2 data-v-73eb6eb5="" class="species-panel__title">Predatore / Coda a Frusta Cinetica</h2>
+    <p data-v-73eb6eb5="" class="species-panel__summary">Artigli a Sette Vie, Coda a Frusta Cinetica, Scheletro Idro-Regolante</p>
+  </header>
+  <article data-v-73eb6eb5="" class="species-panel__description">
+    <p data-v-73eb6eb5="">Sintesi genetica focalizzata su Artigli a Sette Vie e Coda a Frusta Cinetica con impronta morfologica defensive, locomotor, omeostatico, prehensile, structural; comportamento climber. Ottimizzata per biomi: caverna_risonante.</p>
+  </article>
+  <section data-v-73eb6eb5="" class="species-panel__traits">
+    <h3 data-v-73eb6eb5="">Tratti fondamentali</h3>
+    <ul data-v-73eb6eb5="" class="species-panel__trait-list">
+      <li data-v-73eb6eb5="">Artigli a Sette Vie</li>
+      <li data-v-73eb6eb5="">Coda a Frusta Cinetica</li>
+      <li data-v-73eb6eb5="">Scheletro Idro-Regolante</li>
+    </ul>
+  </section>
+  <section data-v-73eb6eb5="" class="species-panel__traits">
+    <h3 data-v-73eb6eb5="">Tratti derivati</h3>
+    <ul data-v-73eb6eb5="" class="species-panel__trait-list species-panel__trait-list--derived">
+      <li data-v-73eb6eb5="">struttura_elastica_amorfa</li>
+      <li data-v-73eb6eb5="">sacche_galleggianti_ascensoriali</li>
+    </ul>
+  </section>
+  <section data-v-73eb6eb5="" class="species-panel__adaptations">
+    <h3 data-v-73eb6eb5="">Adattamenti</h3>
+    <ul data-v-73eb6eb5="">
+      <li data-v-73eb6eb5="">Dita lunghe</li>
+      <li data-v-73eb6eb5="">Precauzione: vulnerabile ai veleni</li>
+    </ul>
+  </section>
+  <section data-v-73eb6eb5="" class="species-panel__behavior">
+    <h3 data-v-73eb6eb5="">Comportamento</h3>
+    <p data-v-73eb6eb5="">climber</p>
+  </section>
+  <section data-v-73eb6eb5="" class="species-panel__statistics">
+    <h3 data-v-73eb6eb5="">Statistiche</h3>
+    <dl data-v-73eb6eb5="">
+      <div data-v-73eb6eb5="" class="species-panel__stat">
+        <dt data-v-73eb6eb5="">Minaccia</dt>
+        <dd data-v-73eb6eb5="">T3</dd>
+      </div>
+      <div data-v-73eb6eb5="" class="species-panel__stat">
+        <dt data-v-73eb6eb5="">Rarità</dt>
+        <dd data-v-73eb6eb5="">R2</dd>
+      </div>
+      <div data-v-73eb6eb5="" class="species-panel__stat">
+        <dt data-v-73eb6eb5="">Energia</dt>
+        <dd data-v-73eb6eb5="">medio</dd>
+      </div>
+      <div data-v-73eb6eb5="" class="species-panel__stat">
+        <dt data-v-73eb6eb5="">Sinergia</dt>
+        <dd data-v-73eb6eb5="">42%</dd>
+      </div>
+    </dl>
+  </section>
+</section>"
+`;
