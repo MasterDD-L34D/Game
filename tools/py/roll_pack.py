@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Union
@@ -44,6 +45,18 @@ def pick_combo_from_table(
 DEFAULT_PACKS_PATH = Path(__file__).resolve().parents[2] / 'data' / 'packs.yaml'
 
 
+def _default_packs_path() -> Path:
+    override = os.environ.get('GAME_CLI_PACKS_PATH')
+    if override:
+        return Path(override)
+
+    data_root = os.environ.get('GAME_CLI_DATA_ROOT')
+    if data_root:
+        return Path(data_root) / 'packs.yaml'
+
+    return DEFAULT_PACKS_PATH
+
+
 def roll_pack(
     form: str,
     job: str,
@@ -52,7 +65,7 @@ def roll_pack(
 ):
     resolved_seed = resolve_seed(seed, env_var='ROLL_PACK_SEED')
 
-    dataset_path = Path(data_path) if data_path is not None else DEFAULT_PACKS_PATH
+    dataset_path = Path(data_path) if data_path is not None else _default_packs_path()
     data = load_yaml(dataset_path)
 
     rng = create_rng(resolved_seed)

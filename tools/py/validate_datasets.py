@@ -6,6 +6,7 @@ import importlib.util
 import json
 import re
 import sys
+import os
 from pathlib import Path
 from typing import Iterable, List, Tuple
 
@@ -15,8 +16,8 @@ except ImportError:  # pragma: no cover
     sys.stderr.write("Errore: installa PyYAML (`pip install pyyaml`).\n")
     sys.exit(2)
 
-DATA_DIR = Path(__file__).resolve().parents[2] / "data"
-PACK_VALIDATOR = (
+DEFAULT_DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+DEFAULT_PACK_VALIDATOR = (
     Path(__file__).resolve().parents[2]
     / "packs"
     / "evo_tactics_pack"
@@ -55,8 +56,33 @@ def load_yaml(path: Path):
         return yaml.safe_load(fh)
 
 
+def _data_dir() -> Path:
+    override = os.environ.get("GAME_CLI_DATA_ROOT")
+    if override:
+        return Path(override)
+    return DEFAULT_DATA_DIR
+
+
+def _pack_validator_path() -> Path:
+    pack_root = os.environ.get("GAME_CLI_PACK_ROOT")
+    if pack_root:
+        return Path(pack_root) / "tools" / "py" / "run_all_validators.py"
+
+    override = os.environ.get("GAME_CLI_PACK_VALIDATOR")
+    if override:
+        return Path(override)
+
+    return DEFAULT_PACK_VALIDATOR
+
+
+def pack_validator_path() -> Path:
+    """Restituisce il percorso al validator del pack ecosistemi."""
+
+    return _pack_validator_path()
+
+
 def validate_biomes() -> List[str]:
-    path = DATA_DIR / "biomes.yaml"
+    path = _data_dir() / "biomes.yaml"
     data = load_yaml(path)
     errors: List[str] = []
 
@@ -175,7 +201,7 @@ def validate_biomes() -> List[str]:
 
 
 def validate_mating() -> List[str]:
-    path = DATA_DIR / "mating.yaml"
+    path = _data_dir() / "mating.yaml"
     data = load_yaml(path)
     errors: List[str] = []
 
@@ -250,7 +276,7 @@ def validate_mating() -> List[str]:
 
 
 def validate_packs() -> List[str]:
-    path = DATA_DIR / "packs.yaml"
+    path = _data_dir() / "packs.yaml"
     data = load_yaml(path)
     errors: List[str] = []
 
@@ -330,10 +356,11 @@ def validate_packs() -> List[str]:
 
 
 def _load_pack_validator_module():
-    if not PACK_VALIDATOR.exists():
+    validator_path = _pack_validator_path()
+    if not validator_path.exists():
         return None
     spec = importlib.util.spec_from_file_location(
-        "evo_tactics_pack.run_all_validators", PACK_VALIDATOR
+        "evo_tactics_pack.run_all_validators", validator_path
     )
     if spec is None or spec.loader is None:
         return None
@@ -430,7 +457,7 @@ def parse_range(raw: str) -> Tuple[int, int]:
 
 
 def validate_telemetry() -> List[str]:
-    path = DATA_DIR / "telemetry.yaml"
+    path = _data_dir() / "telemetry.yaml"
     data = load_yaml(path)
     errors: List[str] = []
 

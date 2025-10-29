@@ -69,6 +69,18 @@ Support/QA. Il playbook è registrato in [`docs/support/token-rotation.md`](../s
 che dettaglia finestra temporale, owner e canali di notifica. La CLI espone la
 variabile `GAME_CLI_ESCALATION_PLAYBOOK` per puntare al documento di riferimento.
 
+### Profilo `staging_incoming`
+
+Per validare i materiali decompressi da `incoming/` è disponibile il profilo
+`staging_incoming` definito in
+[`config/cli/staging_incoming.yaml`](../../config/cli/staging_incoming.yaml).
+Il profilo è opt-in (non viene eseguito automaticamente dagli script) e punta
+agli asset estratti tramite le variabili d'ambiente `GAME_CLI_INCOMING_DATA_ROOT`
+e `GAME_CLI_INCOMING_PACK_ROOT`. Entrambe vengono popolate con i percorsi di
+default `incoming/decompressed/latest/data` e
+`incoming/decompressed/latest/packs/evo_tactics_pack`, ma possono essere
+ridefinite prima di avviare gli smoke test.
+
 ## Smoke test CLI (`scripts/cli_smoke.sh`)
 
 Lo script [`scripts/cli_smoke.sh`](../../scripts/cli_smoke.sh) esegue una
@@ -80,10 +92,17 @@ Esempio di esecuzione manuale dalla root del repository:
 ```bash
 ./scripts/cli_smoke.sh            # esegue tutti i profili supportati
 CLI_PROFILES="playtest support" ./scripts/cli_smoke.sh  # filtro personalizzato
+CLI_PROFILES="staging_incoming" ./scripts/cli_smoke.sh  # asset incoming (opt-in)
 ```
 
 Lo script termina con il primo exit code non-zero e raggruppa i log con le
 annotazioni `::group::` per i workflow GitHub Actions.
+
+Il profilo `staging_incoming` può essere incluso anche impostando
+`CLI_INCLUDE_INCOMING_PROFILE=1` prima di lanciare lo script. I log dedicati
+alla validazione degli asset incoming vengono salvati in
+`logs/incoming_smoke/`, insieme all'output JSON prodotto da
+`validate-ecosystem-pack`.
 
 ## Tooling tratti
 
@@ -103,4 +122,7 @@ annotazioni `::group::` per i workflow GitHub Actions.
 La pipeline di Continuous Integration (`.github/workflows/ci.yml`) invoca
 `./scripts/cli_smoke.sh` dopo i test TypeScript/Python per garantire che i
 profili CLI restino coerenti. Il documento [`docs/ci-pipeline.md`](../ci-pipeline.md)
-riporta la sequenza aggiornata degli step.
+riporta la sequenza aggiornata degli step. Per gli asset incoming è disponibile
+il workflow manuale [`incoming-smoke.yml`](../../.github/workflows/incoming-smoke.yml)
+che lancia `./scripts/cli_smoke.sh --profile staging_incoming` e carica come
+artifact i log salvati in `logs/incoming_smoke/`.
