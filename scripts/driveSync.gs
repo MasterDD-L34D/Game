@@ -41,6 +41,7 @@ const CONFIG = {
   }
 };
 CONFIG.sources = getConfiguredSources_();
+CONFIG.approvedAssets = buildApprovedAssetsCache_();
 
 let currentSheetNamePrefix_ = '';
 
@@ -245,6 +246,52 @@ function getFallbackSources_() {
   ];
 }
 
+function buildApprovedAssetsCache_() {
+  const raw = scriptProps.getProperty('DRIVE_SYNC_APPROVED_ASSETS');
+  if (!raw) {
+    return { assets: [], byFileName: {}, bySource: {}, hasSourceMappings: false, manifest: null };
+  }
+  try {
+    const manifest = normalizeApprovedManifest_(raw);
+    const assets = manifest.assets || [];
+    const byFileName = {};
+    const bySource = {};
+    let hasSourceMappings = false;
+
+    for (let i = 0; i < assets.length; i++) {
+      const entry = assets[i];
+      if (!entry || !entry.fileName) {
+        continue;
+      }
+      const fileName = String(entry.fileName).toLowerCase();
+      if (!fileName) {
+        continue;
+      }
+      byFileName[fileName] = entry;
+      const sourceKey = entry.driveSourceId || entry.sourceId || null;
+      if (sourceKey) {
+        const normalizedKey = String(sourceKey).toLowerCase();
+        if (!bySource[normalizedKey]) {
+          bySource[normalizedKey] = {};
+        }
+        bySource[normalizedKey][fileName] = entry;
+        hasSourceMappings = true;
+      }
+    }
+
+    return {
+      manifest,
+      assets,
+      byFileName,
+      bySource,
+      hasSourceMappings
+    };
+  } catch (error) {
+    Logger.log('Impossibile analizzare DRIVE_SYNC_APPROVED_ASSETS: ' + error);
+    return { assets: [], byFileName: {}, bySource: {}, hasSourceMappings: false, manifest: null };
+  }
+}
+
 function normalizeSourceConfig_(source, fallback) {
   const safeSource = source || {};
   const safeFallback = fallback || {};
@@ -352,6 +399,20 @@ function isYamlCandidate_(fileName, source) {
   }
   if (source && source.excludePattern && source.excludePattern.test(fileName)) {
     return false;
+  }
+  if (CONFIG.approvedAssets && CONFIG.approvedAssets.assets && CONFIG.approvedAssets.assets.length) {
+    const normalizedName = String(fileName || '').toLowerCase();
+    if (!normalizedName) {
+      return false;
+    }
+    const sourceId = source && source.id ? String(source.id).toLowerCase() : null;
+    if (sourceId && CONFIG.approvedAssets.bySource[sourceId]) {
+      return Boolean(CONFIG.approvedAssets.bySource[sourceId][normalizedName]);
+    }
+    if (sourceId && CONFIG.approvedAssets.hasSourceMappings) {
+      return false;
+    }
+    return Boolean(CONFIG.approvedAssets.byFileName[normalizedName]);
   }
   return true;
 }
@@ -852,4 +913,164 @@ function formatLogEntry_(entry) {
   } catch (err) {
     return message;
   }
+}
+
+function doPost(event) {
+  const payload = parseJsonSafely_(event && event.postData ? event.postData.contents : null);
+  const token = resolveRequestToken_(event, payload);
+
+  if (!authorizeApprovedAssetsRequest_(token)) {
+    return buildJsonResponse_({ ok: false, error: 'unauthorized' });
+  }
+
+  if (!payload || typeof payload !== 'object') {
+    return buildJsonResponse_({ ok: false, error: 'invalid_payload' });
+  }
+
+  const action = payload.action ? String(payload.action).toLowerCase() : '';
+  if (action === 'updateapprovedassets') {
+    const manifestInput = payload.manifest !== undefined ? payload.manifest : payload;
+    try {
+      const result = updateApprovedAssets(manifestInput);
+      return buildJsonResponse_({ ok: true, result });
+    } catch (error) {
+      return buildJsonResponse_({
+        ok: false,
+        error: 'update_failed',
+        message: error && error.message ? error.message : String(error)
+      });
+    }
+  }
+
+  return buildJsonResponse_({ ok: false, error: 'unknown_action', action });
+}
+
+function updateApprovedAssets(manifestLike) {
+  const manifest = normalizeApprovedManifest_(manifestLike);
+  scriptProps.setProperty('DRIVE_SYNC_APPROVED_ASSETS', JSON.stringify(manifest));
+  CONFIG.approvedAssets = buildApprovedAssetsCache_();
+  return {
+    assets: manifest.assets.length,
+    generatedAt: manifest.generatedAt,
+    version: manifest.version || 1
+  };
+}
+
+function normalizeApprovedManifest_(manifestLike) {
+  let parsed = manifestLike;
+  if (typeof parsed === 'string') {
+    parsed = parseJsonSafely_(parsed);
+  }
+  if (!parsed || typeof parsed !== 'object') {
+    parsed = {};
+  }
+
+  const assetsInput = Array.isArray(parsed.assets)
+    ? parsed.assets
+    : Array.isArray(parsed)
+    ? parsed
+    : [];
+
+  const normalizedAssets = [];
+  for (let i = 0; i < assetsInput.length; i++) {
+    const entry = normalizeApprovedAssetEntry_(assetsInput[i]);
+    if (entry) {
+      normalizedAssets.push(entry);
+    }
+  }
+
+  return {
+    version: parsed.version || 1,
+    generatedAt: parsed.generatedAt || new Date().toISOString(),
+    config: parsed.config || null,
+    summary: parsed.summary || null,
+    totals: {
+      assets: normalizedAssets.length
+    },
+    assets: normalizedAssets
+  };
+}
+
+function normalizeApprovedAssetEntry_(entry) {
+  if (!entry || typeof entry !== 'object') {
+    return null;
+  }
+
+  const rawPath = entry.path ? String(entry.path) : '';
+  let fileName = entry.fileName || entry.filename || entry.name || '';
+  if (!fileName && rawPath) {
+    const pathParts = rawPath.split(/[\\\/]/);
+    fileName = pathParts[pathParts.length - 1] || '';
+  }
+  fileName = String(fileName || '').trim();
+  if (!fileName) {
+    return null;
+  }
+
+  const normalized = {
+    sourceId: entry.sourceId ? String(entry.sourceId) : null,
+    driveSourceId: entry.driveSourceId ? String(entry.driveSourceId).toLowerCase() : null,
+    fileName,
+    path: rawPath || fileName,
+    size: entry.size !== undefined && entry.size !== null && isFinite(entry.size)
+      ? Number(entry.size)
+      : null,
+    sha256: entry.sha256 ? String(entry.sha256) : '',
+    mtime: entry.mtime ? String(entry.mtime) : null
+  };
+
+  if (!normalized.driveSourceId && normalized.sourceId) {
+    normalized.driveSourceId = String(normalized.sourceId).toLowerCase();
+  }
+
+  return normalized;
+}
+
+function resolveRequestToken_(event, payload) {
+  if (payload && payload.token) {
+    return String(payload.token);
+  }
+  if (event && event.parameter) {
+    if (event.parameter.token) {
+      return String(event.parameter.token);
+    }
+    if (event.parameter.key) {
+      return String(event.parameter.key);
+    }
+  }
+  if (event && event.headers) {
+    const header = event.headers.Authorization || event.headers.authorization;
+    if (header) {
+      const parts = String(header).split(/\s+/);
+      if (parts.length === 2) {
+        return parts[1];
+      }
+      return parts[0];
+    }
+  }
+  return '';
+}
+
+function authorizeApprovedAssetsRequest_(token) {
+  const expected = scriptProps.getProperty('DRIVE_SYNC_APPROVED_ASSETS_TOKEN');
+  if (!expected) {
+    return true;
+  }
+  return String(token || '') === String(expected);
+}
+
+function parseJsonSafely_(raw) {
+  if (!raw) {
+    return null;
+  }
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    return null;
+  }
+}
+
+function buildJsonResponse_(payload) {
+  const body = JSON.stringify(payload || {});
+  return ContentService.createTextOutput(body).setMimeType(ContentService.MimeType.JSON);
 }

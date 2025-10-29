@@ -150,3 +150,31 @@ test('dispatchLogs_ rispetta il livello di log', () => {
   ]);
   assert.equal(logs.length, 2);
 });
+
+test('isYamlCandidate_ rispetta la whitelist di asset approvati', () => {
+  const sandbox = createSandbox();
+  sandbox.updateApprovedAssets({
+    version: 1,
+    generatedAt: '2025-10-29T00:00:00Z',
+    assets: [
+      {
+        driveSourceId: 'vc-logs',
+        fileName: 'session-metrics.yaml'
+      }
+    ]
+  });
+
+  const source = sandbox.normalizeSourceConfig_(
+    { id: 'vc-logs' },
+    { folderId: 'folder', destinationFolderId: 'folder', sheetNamePrefix: '' }
+  );
+
+  assert.equal(sandbox.isYamlCandidate_('session-metrics.yaml', source), true);
+  assert.equal(sandbox.isYamlCandidate_('other.yaml', source), false);
+
+  const hubSource = sandbox.normalizeSourceConfig_(
+    { id: 'hub-ops' },
+    { folderId: 'folder', destinationFolderId: 'folder', sheetNamePrefix: '' }
+  );
+  assert.equal(sandbox.isYamlCandidate_('session-metrics.yaml', hubSource), false);
+});
