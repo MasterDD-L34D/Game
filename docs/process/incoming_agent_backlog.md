@@ -2,9 +2,18 @@
 
 Questo backlog traduce le iniziative prioritarie emerse dal report di triage in task eseguibili da agenti specializzati.
 
+## Sessione 2025-10-29 — Kickoff immediato
+- **Owner**: `AG-Orchestrator`
+- **Obiettivo**: chiudere gli action item generati dal primo ciclo automatizzato e sbloccare l'esecuzione settimanale.
+- **Task a breve termine**:
+  1. Creare 3 card Kanban (`evo_pacchetto_minimo_v7`, `ancestors_integration_pack_v0_5`, `recon_meccaniche.json`) con owner assegnati ai caretaker e link al report 2025-10-29.
+  2. Notificare gli agenti in `#incoming-triage-agenti` includendo riepilogo validazioni e scadenze follow-up.
+  3. Registrare l'incidente unzip (`evo_tactics_param_synergy_v8_3.zip`) e aprire ticket manutenzione per `AG-Toolsmith`.
+
 ## 0. Collegare il Support Hub alla pipeline incoming
 - **Agente owner**: `AG-Orchestrator`
 - **Supporto**: `AG-Toolsmith`
+- **Stato**: ✅ Validazione iniziale completata il 2025-10-29 (widget "Ultimo report triage" ora mostra la sessione 2025-10-29).
 - **Attività**:
   1. Validare che la sezione "Incoming Pipeline" di `docs/index.html` generi correttamente il comando `report_incoming.sh` e mostri l'ultimo report dal log.
   2. Aggiornare `docs/process/incoming_review_log.md` subito dopo ogni sessione per mantenere coerente il widget web.
@@ -13,6 +22,7 @@ Questo backlog traduce le iniziative prioritarie emerse dal report di triage in 
 
 ## 1. Programmare il ciclo settimanale "Incoming Review"
 - **Agente owner**: `AG-Orchestrator`
+- **Stato**: ⚠️ Avvio manuale completato il 2025-10-29; schedulazione cron `incoming_review_weekly` ancora da configurare per avvio automatico 2025-11-03 h09:00 UTC.
 - **Attività**:
   1. Configurare cron job `incoming_review_weekly` (lunedì h09:00 UTC) che avvia `./scripts/report_incoming.sh --destination sessione-$(date +%Y-%m-%d)`.
   2. Pubblicare automaticamente il link al report su canale `#incoming-triage-agenti` e aggiornare l'agenda condivisa.
@@ -58,6 +68,7 @@ Questo backlog traduce le iniziative prioritarie emerse dal report di triage in 
 ## 6. Automatizzare i controlli di regressione
 - **Agente owner**: `AG-Validation`
 - **Supporto**: `AG-Toolsmith`
+- **Stato**: ❌ Fermo per incidente unzip su `evo_tactics_param_synergy_v8_3.zip` (vedi log 2025-10-29); ripartenza subordinata alla patch di `AG-Toolsmith`.
 - **Attività**:
   1. Collegare `tools/py/game_cli.py validate-*` e `tools/ts/validate_species.ts` alla pipeline CI su merge verso `main`.
   2. Pubblicare badge di stato nel report settimanale.
@@ -92,6 +103,7 @@ Questo backlog traduce le iniziative prioritarie emerse dal report di triage in 
 ## 10. Budget di manutenzione strumenti
 - **Agente owner**: `AG-Toolsmith`
 - **Supporto**: `AG-Validation`
+- **Stato**: ⚠️ Nuova voce da registrare entro 2025-10-30 per fix `unzip -o` su `scripts/report_incoming.sh`.
 - **Attività**:
   1. Programmare micro-sprint mensile per aggiornare `scripts/report_incoming.sh` e schemi JSON.
   2. Sincronizzare hook Python/TypeScript dell'addon Enneagramma con feedback dell'ultimo triage.

@@ -4,6 +4,7 @@
 
 | Data | Task | Agente owner | Stato | Note |
 | --- | --- | --- | --- | --- |
+| 2025-10-29 | Applicare `unzip -o` in `scripts/report_incoming.sh` per evitare prompt interattivi | `AG-Toolsmith` | Pianificato | Segnalato dal report 2025-10-29; verifica post-fix richiesta a `AG-Validation` |
 | YYYY-MM-DD | Aggiornare `scripts/report_incoming.sh` per supportare nuovo formato | `AG-Toolsmith` | Pianificato | |
 | | | | | |
 
