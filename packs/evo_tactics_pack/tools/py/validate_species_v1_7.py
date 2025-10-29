@@ -2,23 +2,39 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import sys
 from pathlib import Path
 from typing import Iterable
 
 import yaml
 
-# Ensure the repository root (containing the ``packs`` package) is importable
-CURRENT_DIR = Path(__file__).resolve()
-for candidate in CURRENT_DIR.parents:
-    if (candidate / "packs").is_dir():
-        REPO_ROOT = candidate
-        break
-else:  # Fallback: assume the repository root is the direct parent of ``packs``
-    REPO_ROOT = CURRENT_DIR.parents[4]
 
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+def _ensure_repo_root_on_path() -> None:
+    """Make the repository root (containing the ``packs`` package) importable."""
+
+    if importlib.util.find_spec("packs") is not None:
+        return
+
+    repo_root: Path | None = None
+    for candidate in Path(__file__).resolve().parents:
+        if (candidate / "packs").is_dir():
+            repo_root = candidate
+            break
+
+    if repo_root is None:
+        if importlib.util.find_spec("packs") is not None:
+            return
+        raise RuntimeError(
+            "Unable to locate the repository root containing the 'packs' package"
+        )
+
+    repo_root_str = str(repo_root)
+    if repo_root_str not in sys.path:
+        sys.path.insert(0, repo_root_str)
+
+
+_ensure_repo_root_on_path()
 
 from packs.evo_tactics_pack.validators.rules import trophic_roles
 from packs.evo_tactics_pack.validators.rules.base import format_messages, has_errors
