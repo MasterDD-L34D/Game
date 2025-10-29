@@ -23,13 +23,25 @@
         }
       ],
       "sinergie": [
-        "focus_frazionato"
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche",
+        "carapace_luminiscente_abissale",
+        "risonanza_di_branco"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/Camouflage-Ambush",
+          "hud:StormMeshPsi",
+          "bioma:cicloni_psionici"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Tempestarii",
+          "HUD:Fulcro_Tempesta"
+        ],
+        "tabelle_random": [
+          "tabella:fulmini_empatici"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
@@ -58,13 +70,24 @@
       ],
       "sinergie": [
         "coda_frusta_cinetica",
-        "struttura_elastica_amorfa"
+        "struttura_elastica_amorfa",
+        "mimetismo_cromatico_passivo",
+        "tattiche_di_branco"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/Aggression-Camouflage",
+          "boardgame:DominantSpecies/Competition",
+          "hud:GripNode_Psion"
+        ],
+        "combo_totale": 4,
+        "forme": [
+          "Forma:Predatore_Tessuto",
+          "HUD:GrappleBurst"
+        ],
+        "tabelle_random": [
+          "tabella:predazione_multicanale"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
@@ -92,13 +115,23 @@
         }
       ],
       "sinergie": [
-        "zampe_a_molla"
+        "zampe_a_molla",
+        "sonno_emisferico_alternato",
+        "cartilagine_flessotermica_venti"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Glaciation",
+          "boardgame:Evolution/Hibernation",
+          "hud:GlacierClaw_UI"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Assaltatore_Criogenico"
+        ],
+        "tabelle_random": [
+          "tabella:presa_criostatica"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
@@ -128,13 +161,22 @@
         }
       ],
       "sinergie": [
-        "scheletro_idro_regolante"
+        "scheletro_idro_regolante",
+        "mucillagine_simbionte_mangrovie"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/Symbiosis",
+          "boardgame:DominantSpecies/Adaptation",
+          "hud:EstuarioPsi"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Amfibio_Oracolare"
+        ],
+        "tabelle_random": [
+          "tabella:osmosi_psionica"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
@@ -162,13 +204,24 @@
         }
       ],
       "sinergie": [
-        "vello_condensatore_nebbie"
+        "vello_condensatore_nebbie",
+        "nodi_micorrizici_oracolari",
+        "chioma_parassita_canopica"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Fertility",
+          "boardgame:Evolution/Cooperation",
+          "hud:RootMesh_Psi"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Archivio_Subglaciale",
+          "HUD:Radice_Proxy"
+        ],
+        "tabelle_random": [
+          "tabella:riserva_empatica"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
@@ -197,12 +250,24 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "cartilagine_flessotermica_venti",
+        "sensori_geomagnetici"
+      ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Defense",
+          "boardgame:Evolution/Shell",
+          "hud:PhaseShift_Plate"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Guardiano_Cangiante",
+          "HUD:Placca_Sintonica"
+        ],
+        "tabelle_random": [
+          "tabella:assetto_fase"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
@@ -232,13 +297,24 @@
         }
       ],
       "sinergie": [
-        "sinapsi_coraline_polifoniche"
+        "sinapsi_coraline_polifoniche",
+        "antenne_plasmatiche_tempesta",
+        "risonanza_di_branco"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/WarningCall",
+          "boardgame:DominantSpecies/Initiative",
+          "hud:AbyssLight_Array"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Lanterna_Abissale",
+          "HUD:LuminaNet"
+        ],
+        "tabelle_random": [
+          "tabella:segnali_bioluminosi"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
@@ -268,13 +344,24 @@
         }
       ],
       "sinergie": [
-        "zoccoli_risonanti_steppe"
+        "zoccoli_risonanti_steppe",
+        "sacche_galleggianti_ascensoriali",
+        "artigli_sghiaccio_glaciale",
+        "carapace_fase_variabile"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Wind",
+          "boardgame:Evolution/Flight",
+          "hud:VentSplice_Halo"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Planatore_Psionico"
+        ],
+        "tabelle_random": [
+          "tabella:assetto_eolico"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
@@ -302,13 +389,25 @@
         }
       ],
       "sinergie": [
-        "eco_interno_riflesso"
+        "eco_interno_riflesso",
+        "risonanza_di_branco",
+        "empatia_coordinativa",
+        "criostasi_adattiva"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
+        "co_occorrenze": [
+          "boardgame:Evolution/Communication",
+          "boardgame:DominantSpecies/Initiative",
+          "hud:TundraPulse"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Cantore_Tundra",
+          "HUD:EchoGrid"
+        ],
+        "tabelle_random": [
+          "tabella:canti_ipersonici"
+        ]
       },
       "slot": [],
       "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
@@ -336,7 +435,8 @@
         }
       ],
       "sinergie": [
-        "nodi_micorrizici_oracolari"
+        "nodi_micorrizici_oracolari",
+        "bulbi_radici_permafrost"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -442,7 +542,9 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "cavita_risonanti_tundra"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -498,7 +600,9 @@
       "label": "Empatia Coordinativa",
       "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "cavita_risonanti_tundra"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "job_ability:Warden/Scudo_di_Risonanza"
@@ -738,7 +842,8 @@
         }
       ],
       "sinergie": [
-        "struttura_elastica_amorfa"
+        "struttura_elastica_amorfa",
+        "artigli_sette_vie"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -775,7 +880,8 @@
       ],
       "sinergie": [
         "circolazione_bifasica_palude",
-        "nodi_micorrizici_oracolari"
+        "nodi_micorrizici_oracolari",
+        "branchie_osmotiche_salmastra"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -812,7 +918,8 @@
       ],
       "sinergie": [
         "chioma_parassita_canopica",
-        "mucillagine_simbionte_mangrovie"
+        "mucillagine_simbionte_mangrovie",
+        "bulbi_radici_permafrost"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1136,7 +1243,11 @@
       "label": "Risonanza di Branco",
       "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_plasmatiche_tempesta",
+        "carapace_luminiscente_abissale",
+        "cavita_risonanti_tundra"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
@@ -1184,7 +1295,8 @@
       "sinergie": [
         "respiro_a_scoppio",
         "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
+        "struttura_elastica_amorfa",
+        "cartilagine_flessotermica_venti"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1364,7 +1476,8 @@
         }
       ],
       "sinergie": [
-        "eco_interno_riflesso"
+        "eco_interno_riflesso",
+        "carapace_fase_variabile"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1400,7 +1513,8 @@
         }
       ],
       "sinergie": [
-        "carapace_luminiscente_abissale"
+        "carapace_luminiscente_abissale",
+        "antenne_plasmatiche_tempesta"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1434,7 +1548,8 @@
         }
       ],
       "sinergie": [
-        "occhi_infrarosso_composti"
+        "occhi_infrarosso_composti",
+        "artigli_sghiaccio_glaciale"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -1562,7 +1677,9 @@
       "label": "Tattiche di Branco",
       "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "artigli_sette_vie"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
