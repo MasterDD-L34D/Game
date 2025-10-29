@@ -39,6 +39,8 @@ evo-tactics/
 
 Consulta la sezione [Indice Tracker & Stato](#indice-tracker--stato) per percentuali e stato sintetico dei principali blocchi di lavoro.
 
+_Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py), eseguito ogni giorno a mezzogiorno tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml)._ 
+
 ## Quick Start — Node/TypeScript
 ```bash
 cd tools/ts
@@ -199,17 +201,19 @@ git push -u origin main
 
 ### Indice Tracker & Stato
 
+<!-- tracker-status:start -->
 #### Operativo
-- **████████░░ 80% · Telemetria VC** — Le milestone operative hanno completato playtest, normalizzazione e documentazione; restano l'overlay HUD telemetrico, il ribilanciamento XP Cipher e il contrasto EVT-03. Vedi [`docs/checklist/milestones.md#in-corso`](docs/checklist/milestones.md#in-corso).【F:docs/checklist/milestones.md†L8-L17】
+- **███████░░░ 74% · Telemetria VC** — Le milestone operative hanno completato playtest, normalizzazione e documentazione; restano overlay HUD, ribilanciamento XP Cipher e contrasto EVT-03. Vedi [docs/checklist/milestones.md#in-corso](docs/checklist/milestones.md#in-corso).
 
 #### Processo
-- **██████░░░░ 60% · Pipeline deploy web** — Il processo di rilascio è definito ma i riesami settimanali riportano ancora il blocco Playwright 403 e test manuali da pianificare prima di considerarlo stabile. Vedi [`docs/process/web_pipeline.md`](docs/process/web_pipeline.md) e il registro [`logs/web_status.md`](logs/web_status.md).【F:docs/process/web_pipeline.md†L1-L64】【F:logs/web_status.md†L15-L50】
+- **░░░░░░░░░░ 0% · Pipeline deploy web** — Il processo di rilascio è definito ma i riesami settimanali riportano ancora blocchi Playwright e smoke test manuali aperti. Vedi [docs/process/web_pipeline.md](docs/process/web_pipeline.md) e [logs/web_status.md](logs/web_status.md).
 
 #### Log & metriche
-- **███████░░░ 70% · Inventario trait** — La copertura tratti/specie è stata riallineata (`traits_with_species = 27/29`), ma restano da integrare i trait delle appendici e ulteriori dataset mock. Consulta [`logs/traits_tracking.md`](logs/traits_tracking.md).【F:logs/traits_tracking.md†L1-L37】
+- **██████░░░░ 55% · Inventario trait** — La copertura tratti/specie è riallineata ma restano da integrare appendici e dataset mock aggiuntivi. Vedi [logs/traits_tracking.md](logs/traits_tracking.md).
 
 #### Appendici
-- **█████░░░░░ 50% · Canvas e integrazioni** — Gli appendici A/C/D restano l'ultima revisione ufficiale mentre il Canvas segnala follow-up aperti su overlay HUD, patch PROG-04 ed effetti EVT-03 prima del prossimo aggiornamento. Riferimento: [`docs/00-INDEX.md#appendici-di-stato`](docs/00-INDEX.md#appendici-di-stato) e [`docs/Canvas/feature-updates.md`](docs/Canvas/feature-updates.md).【F:docs/00-INDEX.md†L23-L29】【F:docs/Canvas/feature-updates.md†L23-L27】
+- **█████░░░░░ 50% · Canvas e integrazioni** — Gli appendici A/C/D riportano l'ultima revisione mentre canvas e feature updates conservano follow-up aperti. Vedi [docs/00-INDEX.md#appendici-di-stato](docs/00-INDEX.md#appendici-di-stato) e [docs/Canvas/feature-updates.md](docs/Canvas/feature-updates.md).
+<!-- tracker-status:end -->
 
 ## Sincronizzazione contenuti ChatGPT
 - Configura le fonti da monitorare in `data/chatgpt_sources.yaml` (URL del progetto, canvas esportati, ecc.).
