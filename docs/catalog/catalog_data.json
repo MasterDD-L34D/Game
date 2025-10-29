@@ -129,7 +129,10 @@
       "label": "Carapace a Variazione di Fase",
       "mutation": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
       "selective_drive": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
-      "synergies": [],
+      "synergies": [
+        "armatura_pietra_planare",
+        "mantello_meteoritico"
+      ],
       "tier": "T1",
       "usage": "Durezza/densità del guscio modificabile rapidamente.",
       "usage_map": {
@@ -397,7 +400,9 @@
       "label": "Empatia Coordinativa",
       "mutation": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
       "selective_drive": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
-      "synergies": [],
+      "synergies": [
+        "aura_scudo_radianza"
+      ],
       "tier": "T1",
       "usage": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
       "usage_map": {
@@ -532,7 +537,9 @@
       "label": "Focus Frazionato",
       "mutation": "Processore di priorità multi-thread per bersagli e obiettivi.",
       "selective_drive": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
-      "synergies": [],
+      "synergies": [
+        "frusta_fiammeggiante"
+      ],
       "tier": "T1",
       "usage": "Permette di gestire due ingaggi paralleli senza perdere efficienza.",
       "usage_map": {
@@ -1259,7 +1266,9 @@
       "label": "Risonanza di Branco",
       "mutation": "Reticolo empatico che collega i canali PI cooperativi.",
       "selective_drive": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
-      "synergies": [],
+      "synergies": [
+        "aura_scudo_radianza"
+      ],
       "tier": "T1",
       "usage": "Amplifica buff condivisi sincronizzando i timer di squadra.",
       "usage_map": {

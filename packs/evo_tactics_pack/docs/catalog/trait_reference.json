@@ -1859,7 +1859,9 @@
         "giunti_antitorsione",
         "lingua_cristallina",
         "mucose_barofile",
-        "sensori_geomagnetici"
+        "sensori_geomagnetici",
+        "armatura_pietra_planare",
+        "mantello_meteoritico"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -3670,7 +3672,8 @@
         "foliage_fotocatodico",
         "ghiandole_inchiostro_luce",
         "gusci_criovetro",
-        "luminescenza_hydrotermica"
+        "luminescenza_hydrotermica",
+        "aura_scudo_radianza"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -4247,7 +4250,8 @@
         "ghiandole_eco_mappanti",
         "ghiandole_resina_conduttiva",
         "lamine_scudo_silice",
-        "midollo_antivibrazione"
+        "midollo_antivibrazione",
+        "frusta_fiammeggiante"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -6378,7 +6382,8 @@
         "foliage_fotocatodico",
         "ghiandole_inchiostro_luce",
         "gusci_criovetro",
-        "luminescenza_hydrotermica"
+        "luminescenza_hydrotermica",
+        "aura_scudo_radianza"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
