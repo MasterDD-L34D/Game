@@ -5,9 +5,10 @@ const { createApp } = require('./app');
 
 const port = Number.parseInt(process.env.PORT || '3333', 10);
 const host = process.env.HOST || '0.0.0.0';
-const databasePath = process.env.IDEA_ENGINE_DB || path.resolve(__dirname, '..', 'data', 'idea_engine.db');
+const dataRoot = path.resolve(__dirname, '..', 'data');
+const databasePath = process.env.IDEA_ENGINE_DB || path.join(dataRoot, 'idea_engine.db');
 
-const { app } = createApp({ databasePath });
+const { app } = createApp({ databasePath, dataRoot });
 
 const server = http.createServer(app);
 server.listen(port, host, () => {

@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('node:path');
 const { IdeaRepository, normaliseList } = require('./storage');
 const { buildCodexReport } = require('./report');
+const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesizer');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -120,12 +121,21 @@ function validateIdeaPayload(payload) {
 }
 
 function createApp(options = {}) {
-  const databasePath = options.databasePath || path.resolve(__dirname, '..', 'data', 'idea_engine.db');
+  const dataRoot = options.dataRoot || path.resolve(__dirname, '..', 'data');
+  const databasePath = options.databasePath || path.resolve(dataRoot, 'idea_engine.db');
   const repo = options.repo || new IdeaRepository(databasePath);
+  const biomeSynthesizer =
+    options.biomeSynthesizer || createBiomeSynthesizer({ dataRoot });
   const app = express();
 
   app.use(cors({ origin: options.corsOrigin || '*' }));
   app.use(express.json({ limit: '1mb' }));
+
+  if (biomeSynthesizer && typeof biomeSynthesizer.load === 'function') {
+    biomeSynthesizer.load().catch((error) => {
+      console.warn('[biome-generator] impossibile precaricare i pool di tratti', error);
+    });
+  }
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'idea-engine' });
@@ -194,7 +204,36 @@ function createApp(options = {}) {
     }
   });
 
-  return { app, repo };
+  app.post('/api/biomes/generate', async (req, res) => {
+    const payload = req.body || {};
+    const requestedCount = Number.parseInt(payload.count, 10);
+    const count = Number.isFinite(requestedCount) ? Math.max(1, Math.min(requestedCount, 6)) : 1;
+    const constraints = payload.constraints && typeof payload.constraints === 'object'
+      ? payload.constraints
+      : {};
+    try {
+      const response = await biomeSynthesizer.generate({
+        count,
+        seed: payload.seed ?? null,
+        constraints: {
+          hazard: typeof constraints.hazard === 'string' ? constraints.hazard : undefined,
+          climate: typeof constraints.climate === 'string' ? constraints.climate : undefined,
+          minSize: Number.isFinite(constraints.minSize) ? constraints.minSize : undefined,
+          requiredRoles: Array.isArray(constraints.requiredRoles) ? constraints.requiredRoles : undefined,
+          preferredTags: Array.isArray(constraints.preferredTags) ? constraints.preferredTags : undefined,
+        },
+      });
+      res.json({ biomes: response.biomes, meta: response.constraints });
+    } catch (error) {
+      console.error('[biome-generator] errore durante la generazione', error);
+      res.status(500).json({
+        error: 'Errore generazione biomi',
+        details: error instanceof Error ? error.message : String(error ?? ''),
+      });
+    }
+  });
+
+  return { app, repo, biomeSynthesizer };
 }
 
 module.exports = { createApp };
