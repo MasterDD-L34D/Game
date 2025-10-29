@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('node:path');
 const { IdeaRepository, normaliseList } = require('./storage');
 const { buildCodexReport } = require('./report');
+const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesizer');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -120,12 +121,21 @@ function validateIdeaPayload(payload) {
 }
 
 function createApp(options = {}) {
-  const databasePath = options.databasePath || path.resolve(__dirname, '..', 'data', 'idea_engine.db');
+  const dataRoot = options.dataRoot || path.resolve(__dirname, '..', 'data');
+  const databasePath = options.databasePath || path.resolve(dataRoot, 'idea_engine.db');
   const repo = options.repo || new IdeaRepository(databasePath);
+  const biomeSynthesizer =
+    options.biomeSynthesizer || createBiomeSynthesizer({ dataRoot });
   const app = express();
 
   app.use(cors({ origin: options.corsOrigin || '*' }));
   app.use(express.json({ limit: '1mb' }));
+
+  if (biomeSynthesizer && typeof biomeSynthesizer.load === 'function') {
+    biomeSynthesizer.load().catch((error) => {
+      console.warn('[biome-generator] impossibile precaricare i pool di tratti', error);
+    });
+  }
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'idea-engine' });

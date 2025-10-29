@@ -1,0 +1,381 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2025-02-18T00:00:00Z",
+  "pools": [
+    {
+      "id": "cryosteppe_convergence",
+      "label": "Convergenza Cryosteppe",
+      "summary": "Distese glaciali fratturate dove cristalli piezoelettrici amplificano bufere notturne.",
+      "climate_tags": ["frozen", "wind", "night"],
+      "size": { "min": 3, "max": 6 },
+      "hazard": {
+        "severity": "high",
+        "description": "Bombe di ghiaccio sovraccariche e whiteout magnetici che colpiscono i punti di raccolta.",
+        "stress_modifiers": {
+          "whiteout": 0.07,
+          "cryogenic_shock": 0.06
+        }
+      },
+      "ecology": {
+        "biome_type": "cryosteppe",
+        "primary_resources": ["ghiaccio_piezoelettrico", "gas_ionizzati"],
+        "notes": "Colonie nomadi sfruttano ponti di luce per attraversare canyon congelati."
+      },
+      "traits": {
+        "core": [
+          "ghiaccio_piezoelettrico",
+          "criostasi_adattiva",
+          "capillari_criogenici",
+          "gusci_criovetro"
+        ],
+        "support": [
+          "ghiandole_nebbia_ionica",
+          "antenne_wideband",
+          "foliage_fotocatodico"
+        ]
+      },
+      "role_templates": [
+        {
+          "role": "apex",
+          "label": "Predatore Risonante",
+          "summary": "Trappole soniche e artigli cristallizzati per cacciare attraverso bufere notturne.",
+          "functional_tags": ["criogenico", "imboscata"],
+          "preferred_traits": ["criostasi_adattiva", "ghiaccio_piezoelettrico"],
+          "tier": 4
+        },
+        {
+          "role": "keystone",
+          "label": "Scultore di Cristalli",
+          "summary": "Stabilizza ponti ionici e diffonde segnali guida per le carovane.",
+          "functional_tags": ["supporto", "costruttore"],
+          "preferred_traits": ["capillari_criogenici", "antenne_wideband"],
+          "tier": 3
+        },
+        {
+          "role": "bridge",
+          "label": "Colportore Luminescente",
+          "summary": "Trasporta risorse tra vallate congelate usando scie fotoniche.",
+          "functional_tags": ["logistica", "mobilità"],
+          "preferred_traits": ["foliage_fotocatodico"],
+          "tier": 2
+        },
+        {
+          "role": "threat",
+          "label": "Fiera del Whiteout",
+          "summary": "Scatena tempeste mirate contro convogli e basi mobili.",
+          "functional_tags": ["assalto", "area_control"],
+          "preferred_traits": ["ghiandole_nebbia_ionica", "criostasi_adattiva"],
+          "tier": 3
+        },
+        {
+          "role": "event",
+          "label": "Cascata di Schegge",
+          "summary": "Fenomeno stagionale che rilascia cristalli senzienti e missioni di recupero.",
+          "functional_tags": ["evento", "stagionale"],
+          "preferred_traits": ["gusci_criovetro"],
+          "tier": 2
+        }
+      ]
+    },
+    {
+      "id": "magnetar_badlands",
+      "label": "Badlands Magnetar",
+      "summary": "Falesie ferrose e canyon plasmati da tempeste elettromagnetiche continue.",
+      "climate_tags": ["arid", "electric", "storm"],
+      "size": { "min": 4, "max": 6 },
+      "hazard": {
+        "severity": "high",
+        "description": "Sferzate di polvere ferrosa ionizzata e fulmini che riaccendono rottami dormienti.",
+        "stress_modifiers": {
+          "ferrostorm": 0.06,
+          "emp_flash": 0.05
+        }
+      },
+      "ecology": {
+        "biome_type": "badlands",
+        "primary_resources": ["ferro_memoria", "polveri_magnetiche"],
+        "notes": "Clan nomadi sfruttano creste conduttive per dirigere le tempeste."
+      },
+      "traits": {
+        "core": [
+          "cuticole_cerose",
+          "carapace_fase_variabile",
+          "coda_frusta_cinetica",
+          "foliaggio_spugna"
+        ],
+        "support": [
+          "enzimi_chelatori_rapidi",
+          "filamenti_superconduttivi",
+          "antenne_tesla"
+        ]
+      },
+      "role_templates": [
+        {
+          "role": "apex",
+          "label": "Dominatore Magnetico",
+          "summary": "Canalizza scariche elettromagnetiche per travolgere bersagli corazzati.",
+          "functional_tags": ["offensiva", "controllo_campo"],
+          "preferred_traits": ["carapace_fase_variabile", "antenne_tesla"],
+          "tier": 4
+        },
+        {
+          "role": "keystone",
+          "label": "Forgiatore di Creste",
+          "summary": "Stabilizza ponti conduttivi e riattiva infrastrutture ferrose.",
+          "functional_tags": ["supporto", "ingegneria"],
+          "preferred_traits": ["filamenti_superconduttivi", "cuticole_cerose"],
+          "tier": 3
+        },
+        {
+          "role": "bridge",
+          "label": "Pattugliatore dei Canyon",
+          "summary": "Apri corridoi sicuri durante le tempeste e guida le spedizioni.",
+          "functional_tags": ["mobilità", "ricognizione"],
+          "preferred_traits": ["coda_frusta_cinetica"],
+          "tier": 2
+        },
+        {
+          "role": "threat",
+          "label": "Sciame Ferruginoso",
+          "summary": "Naniti magnetiche che corrodono equipaggiamenti e sovraccaricano difese.",
+          "functional_tags": ["corrosivo", "sabotaggio"],
+          "preferred_traits": ["enzimi_chelatori_rapidi", "foliaggio_spugna"],
+          "tier": 3
+        },
+        {
+          "role": "event",
+          "label": "Tempesta Ascensionale",
+          "summary": "Evento meteorico che solleva piattaforme di rottami verso orbite basse.",
+          "functional_tags": ["evento", "verticalità"],
+          "preferred_traits": ["filamenti_superconduttivi"],
+          "tier": 2
+        }
+      ]
+    },
+    {
+      "id": "aerial_canopy",
+      "label": "Canopia Iono-Aerostatica",
+      "summary": "Foreste sospese con piattaforme elettrostatiche e correnti ascendenti costanti.",
+      "climate_tags": ["temperate", "aerial", "ion"],
+      "size": { "min": 3, "max": 5 },
+      "hazard": {
+        "severity": "medium",
+        "description": "Cadute da passerelle instabili e archi elettrici spontanei.",
+        "stress_modifiers": {
+          "vertigo": 0.05,
+          "ion_surge": 0.04
+        }
+      },
+      "ecology": {
+        "biome_type": "canopy",
+        "primary_resources": ["linfa_tampone", "cariche_statiche"],
+        "notes": "Le viti conduttive formano reti di trasporto sospese tra pilastri ionici."
+      },
+      "traits": {
+        "core": [
+          "cuscinetti_elettrostatici",
+          "static_vines",
+          "foliage_fotocatodico",
+          "antenne_waveguide"
+        ],
+        "support": [
+          "linfa_tampone",
+          "lamine_filtranti_aeree",
+          "appendici_risonanti_marea"
+        ]
+      },
+      "role_templates": [
+        {
+          "role": "apex",
+          "label": "Predatore Vorticale",
+          "summary": "Sfrutta correnti ascensionali e campi ionici per abbattere intrusi dall'alto.",
+          "functional_tags": ["aereo", "imboscata"],
+          "preferred_traits": ["cuscinetti_elettrostatici", "static_vines"],
+          "tier": 4
+        },
+        {
+          "role": "keystone",
+          "label": "Custode delle Liane",
+          "summary": "Mantiene il bilanciamento delle passerelle e diffonde energia alle colonie sospese.",
+          "functional_tags": ["supporto", "energia"],
+          "preferred_traits": ["static_vines", "linfa_tampone"],
+          "tier": 3
+        },
+        {
+          "role": "bridge",
+          "label": "Navigatore delle Correnti",
+          "summary": "Guida convogli volanti e sincronizza i flussi tra piattaforme.",
+          "functional_tags": ["mobilità", "coordinazione"],
+          "preferred_traits": ["antenne_waveguide"],
+          "tier": 2
+        },
+        {
+          "role": "threat",
+          "label": "Sciame Ionostatico",
+          "summary": "Scarica impulsi che paralizzano cavi e planatori.",
+          "functional_tags": ["disturbo", "crowd_control"],
+          "preferred_traits": ["appendici_risonanti_marea"],
+          "tier": 3
+        },
+        {
+          "role": "event",
+          "label": "Marea Luminescente",
+          "summary": "Fenomeno migratorio che ricarica o scarica le piattaforme sospese.",
+          "functional_tags": ["evento", "risorsa"],
+          "preferred_traits": ["foliage_fotocatodico"],
+          "tier": 2
+        }
+      ]
+    },
+    {
+      "id": "abyssal_hydrothermal",
+      "label": "Abyssi Idrotermali",
+      "summary": "Camini abissali che miscelano acqua supercritica e bio-luminescenza minerale.",
+      "climate_tags": ["aquatic", "pressure", "thermal"],
+      "size": { "min": 3, "max": 5 },
+      "hazard": {
+        "severity": "high",
+        "description": "Geyser supercritici e collassi strutturali che ridistribuiscono intere colonie.",
+        "stress_modifiers": {
+          "thermal_spike": 0.07,
+          "pressure_wave": 0.06
+        }
+      },
+      "ecology": {
+        "biome_type": "hydrothermal_vents",
+        "primary_resources": ["minerali_risonanti", "microfauna_chemosintetica"],
+        "notes": "Conduzioni basaltiche creano reti di scambio tra torri di ventilazione."
+      },
+      "traits": {
+        "core": [
+          "branchie_turbina",
+          "enzimi_metanoossidanti",
+          "ciste_salmastre",
+          "antenne_flusso_mareale"
+        ],
+        "support": [
+          "filamenti_digestivi_compattanti",
+          "biofilm_glow",
+          "branchie_dual_mode"
+        ]
+      },
+      "role_templates": [
+        {
+          "role": "apex",
+          "label": "Cacciatore Supercritico",
+          "summary": "Sfrutta getti idrotermali per proiettarsi su prede ignare.",
+          "functional_tags": ["acquatico", "pressione"],
+          "preferred_traits": ["branchie_turbina", "enzimi_metanoossidanti"],
+          "tier": 4
+        },
+        {
+          "role": "keystone",
+          "label": "Custode Chemosintetico",
+          "summary": "Regola la distribuzione di nutrienti e bilancia i gradienti termici.",
+          "functional_tags": ["supporto", "nutrizione"],
+          "preferred_traits": ["filamenti_digestivi_compattanti", "biofilm_glow"],
+          "tier": 3
+        },
+        {
+          "role": "bridge",
+          "label": "Mappatore di Correnti",
+          "summary": "Collega fumarole distanti tramite corridoi di pressione stabilizzati.",
+          "functional_tags": ["ricognizione", "logistica"],
+          "preferred_traits": ["antenne_flusso_mareale"],
+          "tier": 2
+        },
+        {
+          "role": "threat",
+          "label": "Sciame Basaltico",
+          "summary": "Micro-colonie corrosive che attaccano strutture e habitat temporanei.",
+          "functional_tags": ["corrosivo", "assalto"],
+          "preferred_traits": ["ciste_salmastre"],
+          "tier": 3
+        },
+        {
+          "role": "event",
+          "label": "Eruzione di Lumen",
+          "summary": "Evento periodico che libera energia bio-luminescente da sfruttare immediatamente.",
+          "functional_tags": ["evento", "risorsa"],
+          "preferred_traits": ["biofilm_glow"],
+          "tier": 2
+        }
+      ]
+    },
+    {
+      "id": "mycelial_vaults",
+      "label": "Volte Miceliali",
+      "summary": "Caverne stratificate illuminate da reti micotiche pulsanti e gas nutritivi.",
+      "climate_tags": ["subterranean", "humid", "bioluminescent"],
+      "size": { "min": 3, "max": 5 },
+      "hazard": {
+        "severity": "medium",
+        "description": "Spore caustiche e collassi enzimatici che riconfigurano i tunnel abitati.",
+        "stress_modifiers": {
+          "spore_bloom": 0.05,
+          "mycelial_quake": 0.04
+        }
+      },
+      "ecology": {
+        "biome_type": "fungal",
+        "primary_resources": ["spore_bioattive", "biofilm_nutriente"],
+        "notes": "Le camere sono modulabili con ponti micotici che filtrano luce e nutrienti."
+      },
+      "traits": {
+        "core": [
+          "biofilm_glow",
+          "appendici_risonanti_marea",
+          "foliaggio_spugna",
+          "enzimi_antifase_termica"
+        ],
+        "support": [
+          "ghiandole_fango_coesivo",
+          "capsule_paracadute",
+          "camere_nutrienti_vent"
+        ]
+      },
+      "role_templates": [
+        {
+          "role": "apex",
+          "label": "Sovrano Micelico",
+          "summary": "Manipola reti di spore per colpire nemici e deviarli in gallerie trappola.",
+          "functional_tags": ["psionico", "controllo_campo"],
+          "preferred_traits": ["appendici_risonanti_marea", "enzimi_antifase_termica"],
+          "tier": 4
+        },
+        {
+          "role": "keystone",
+          "label": "Curatore di Volte",
+          "summary": "Stabilizza camere e ridistribuisce nutrienti ai cluster abitativi.",
+          "functional_tags": ["supporto", "terraforming"],
+          "preferred_traits": ["biofilm_glow", "camere_nutrienti_vent"],
+          "tier": 3
+        },
+        {
+          "role": "bridge",
+          "label": "Navetta Sporiale",
+          "summary": "Collega grotte lontane tramite corridoi micelici espandibili.",
+          "functional_tags": ["logistica", "mobilità"],
+          "preferred_traits": ["capsule_paracadute"],
+          "tier": 2
+        },
+        {
+          "role": "threat",
+          "label": "Sciame Caustico",
+          "summary": "Rilascia spore corrosive che dissolvono equipaggiamenti e ridistribuiscono biomassa.",
+          "functional_tags": ["corrosivo", "assalto"],
+          "preferred_traits": ["ghiandole_fango_coesivo"],
+          "tier": 3
+        },
+        {
+          "role": "event",
+          "label": "Fioritura Sincronica",
+          "summary": "Evento ciclico che apre nuovi tunnel e rilascia opportunità narrative.",
+          "functional_tags": ["evento", "espansione"],
+          "preferred_traits": ["foliaggio_spugna"],
+          "tier": 2
+        }
+      ]
+    }
+  ]
+}
