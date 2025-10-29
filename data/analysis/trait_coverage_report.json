@@ -1,26 +1,357 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-10-29T12:27:55+00:00",
+  "generated_at": "2025-10-29T14:17:07+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
-    "trait_glossary": "/workspace/Game/data/traits/glossary.json",
+    "trait_glossary": "data/traits/glossary.json",
     "species_root": "packs/evo_tactics_pack/data/species"
   },
   "summary": {
-    "traits_total": 50,
-    "traits_with_rules": 27,
-    "traits_with_species": 27,
-    "rule_combos_total": 56,
-    "species_combos_total": 72,
-    "rules_missing_species_total": 0,
-    "traits_missing_species": [],
-    "traits_missing_rules": []
+    "traits_total": 170,
+    "traits_with_rules": 147,
+    "traits_with_species": 31,
+    "rule_combos_total": 177,
+    "species_combos_total": 84,
+    "rules_missing_species_total": 121,
+    "traits_missing_species": [
+      "ali_fulminee",
+      "ali_ioniche",
+      "ali_membrana_sonica",
+      "antenne_dustsense",
+      "antenne_eco_turbina",
+      "antenne_flusso_mareale",
+      "antenne_microonde_cavernose",
+      "antenne_reagenti",
+      "antenne_tesla",
+      "antenne_waveguide",
+      "antenne_wideband",
+      "appendici_risonanti_marea",
+      "appendici_thermotattiche",
+      "artigli_acidofagi",
+      "artigli_induzione",
+      "artigli_radice",
+      "artigli_scivolo_silente",
+      "artigli_vetrificati",
+      "baffi_mareomotori",
+      "barbigli_sensori_plasma",
+      "barriere_miasma_glaciale",
+      "batteri_endosimbionti_chemio",
+      "batteri_termofili_endosimbiosi",
+      "biochip_memoria",
+      "biofilm_glow",
+      "biofilm_iperarido",
+      "branchie_dual_mode",
+      "branchie_eoliche",
+      "branchie_metalloidi",
+      "branchie_microfiltri",
+      "branchie_solfatiche",
+      "branchie_turbina",
+      "camere_anticorrosione",
+      "camere_mirage",
+      "camere_nutrienti_vent",
+      "capillari_criogenici",
+      "capillari_fluoridici",
+      "capillari_fotovoltaici",
+      "capsule_paracadute",
+      "carapace_segmenti_logici",
+      "carapaci_ferruginosi",
+      "cartilagini_biofibre",
+      "cartilagini_desertiche",
+      "cartilagini_flessoacustiche",
+      "cartilagini_pseudometalliche",
+      "cervelletto_equilibrio_statico",
+      "chemiorecettori_bromuro",
+      "circolazione_bifasica",
+      "circolazione_cooling_loop",
+      "circolazione_doppia",
+      "circolazione_supercritica",
+      "ciste_riduttive",
+      "ciste_salmastre",
+      "cisti_iperbariche",
+      "coda_balanciere",
+      "coda_contrappeso",
+      "coda_coppia_retroattiva",
+      "coda_stabilizzatrice_filo",
+      "coda_stabilizzatrice_geiser",
+      "coda_stabilizzatrice_vortex",
+      "colonne_vibromagnetiche",
+      "coralli_partner",
+      "cromofori_alert_acido",
+      "cuore_multicamera_bassa_pressione",
+      "cuscinetti_elettrostatici",
+      "cute_resistente_sali",
+      "cuticole_cerose",
+      "cuticole_neutralizzanti",
+      "denti_chelatanti",
+      "denti_ossidoferro",
+      "denti_silice_termici",
+      "denti_tuning_fork",
+      "echi_risonanti",
+      "enzimi_antifase_termica",
+      "enzimi_antipredatori_algali",
+      "enzimi_chelanti",
+      "enzimi_chelatori_rapidi",
+      "enzimi_metanoossidanti",
+      "epidermide_dielettrica",
+      "epitelio_fosforescente",
+      "filamenti_magnetotrofi",
+      "filamenti_superconduttivi",
+      "filamenti_termoconduzione",
+      "filtri_planctonici",
+      "flagelli_ancoranti",
+      "foliage_fotocatodico",
+      "foliaggio_spugna",
+      "ghiaccio_piezoelettrico",
+      "ghiandole_cambio_salino",
+      "ghiandole_condensa_ozono",
+      "ghiandole_eco_mappanti",
+      "ghiandole_fango_calde",
+      "ghiandole_fango_coesivo",
+      "ghiandole_grafene",
+      "ghiandole_inchiostro_luce",
+      "ghiandole_iodoattive",
+      "ghiandole_minerali",
+      "ghiandole_nebbia_acida",
+      "ghiandole_nebbia_ionica",
+      "ghiandole_resina_conduttiva",
+      "ghiandole_ventosa",
+      "giunti_antitorsione",
+      "grassi_termici",
+      "gusci_criovetro",
+      "gusci_magnesio",
+      "lamelle_shear",
+      "lamelle_sincroniche",
+      "lamine_filtranti_aeree",
+      "lamine_scudo_silice",
+      "linfa_tampone",
+      "lingua_cristallina",
+      "luminescenza_aurorale",
+      "luminescenza_hydrotermica",
+      "mantelli_geotermici",
+      "membrane_captura_rugiada",
+      "membrane_planata_vectored",
+      "membrane_pneumatofori",
+      "midollo_antivibrazione",
+      "mucose_aderenza_sonica",
+      "mucose_barofile"
+    ],
+    "traits_missing_rules": [
+      "cute_resistente_sali",
+      "cuticole_cerose",
+      "enzimi_chelanti",
+      "grassi_termici"
+    ]
   },
   "traits": {
+    "ali_fulminee": {
+      "label_it": "Ali Fulminee",
+      "label_en": "Ali Fulminee",
+      "description_it": "Ali Fulminee permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di stratosfera tempestosa.",
+      "description_en": "Ali Fulminee allow squads to interpret minute signals and unstable psionic patterns within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ali_ioniche": {
+      "label_it": "Ali Ioniche",
+      "label_en": "Ali Ioniche",
+      "description_it": "Ali Ioniche permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di canopia ionica.",
+      "description_en": "Ali Ioniche allow squads to gain grip and controlled acceleration across extreme terrain within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ali_membrana_sonica": {
+      "label_it": "Ali Membrana Sonica",
+      "label_en": "Ali Membrana Sonica",
+      "description_it": "Ali Membrana Sonica permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di caverna risonante.",
+      "description_en": "Ali Membrana Sonica allow squads to disperse energy and attenuate corrosive or thermal impacts within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "antenne_dustsense": {
+      "label_it": "Antenne Dustsense",
+      "label_en": "Antenne Dustsense",
+      "description_it": "Antenne Dustsense permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di pianura salina iperarida.",
+      "description_en": "Antenne Dustsense allow squads to stabilise multi-source energy absorption and conversion within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "antenne_eco_turbina": {
+      "label_it": "Antenne Eco Turbina",
+      "label_en": "Antenne Eco Turbina",
+      "description_it": "Antenne Eco Turbina permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "description_en": "Antenne Eco Turbina allow squads to coordinate resource exchange and squad stabilisation parameters within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "antenne_flusso_mareale": {
+      "label_it": "Antenne Flusso Mareale",
+      "label_en": "Antenne Flusso Mareale",
+      "description_it": "Antenne Flusso Mareale permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di laguna bioreattiva.",
+      "description_en": "Antenne Flusso Mareale allow squads to channel kinetic or elemental energy into targeted strikes within laguna bioreattiva.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "antenne_microonde_cavernose": {
+      "label_it": "Antenne Microonde Cavernose",
+      "label_en": "Antenne Microonde Cavernose",
+      "description_it": "Antenne Microonde Cavernose permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caverna risonante.",
+      "description_en": "Antenne Microonde Cavernose allow squads to predict trajectories and orchestrate multilayered setups within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "antenne_plasmatiche_tempesta": {
       "label_it": "Antenne Plasmatiche di Tempesta",
       "label_en": "Antenne Plasmatiche di Tempesta",
+      "description_it": "Convoglia fulmini atmosferici in attacchi o scudi psionici.",
+      "description_en": "Channels storm lightning into psionic strikes or shields.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -34,9 +365,301 @@
         "missing_in_rules": []
       }
     },
+    "antenne_reagenti": {
+      "label_it": "Antenne Reagenti",
+      "label_en": "Antenne Reagenti",
+      "description_it": "Antenne Reagenti permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di foresta acida.",
+      "description_en": "Antenne Reagenti allow squads to synchronise allied organisms and mutualistic flows within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "antenne_tesla": {
+      "label_it": "Antenne Tesla",
+      "label_en": "Antenne Tesla",
+      "description_it": "Antenne Tesla permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di canopia ionica.",
+      "description_en": "Antenne Tesla allow squads to redistribute load and modulate structural rigidity within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "antenne_waveguide": {
+      "label_it": "Antenne Waveguide",
+      "label_en": "Antenne Waveguide",
+      "description_it": "Antenne Waveguide permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di reef luminescente.",
+      "description_en": "Antenne Waveguide allow squads to interpret minute signals and unstable psionic patterns within reef luminescente.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "antenne_wideband": {
+      "label_it": "Antenne Wideband",
+      "label_en": "Antenne Wideband",
+      "description_it": "Antenne Wideband permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di steppe algoritmiche.",
+      "description_en": "Antenne Wideband allow squads to gain grip and controlled acceleration across extreme terrain within steppe algoritmiche.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "appendici_risonanti_marea": {
+      "label_it": "Appendici Risonanti Marea",
+      "label_en": "Appendici Risonanti Marea",
+      "description_it": "Appendici Risonanti Marea permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di laguna bioreattiva.",
+      "description_en": "Appendici Risonanti Marea allow squads to disperse energy and attenuate corrosive or thermal impacts within laguna bioreattiva.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "appendici_thermotattiche": {
+      "label_it": "Appendici Thermotattiche",
+      "label_en": "Appendici Thermotattiche",
+      "description_it": "Appendici Thermotattiche permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di abisso vulcanico.",
+      "description_en": "Appendici Thermotattiche allow squads to stabilise multi-source energy absorption and conversion within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "artigli_acidofagi": {
+      "label_it": "Artigli Acidofagi",
+      "label_en": "Artigli Acidofagi",
+      "description_it": "Artigli Acidofagi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.",
+      "description_en": "Artigli Acidofagi allow squads to coordinate resource exchange and squad stabilisation parameters within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "artigli_induzione": {
+      "label_it": "Artigli Induzione",
+      "label_en": "Artigli Induzione",
+      "description_it": "Artigli Induzione permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di canopia ionica.",
+      "description_en": "Artigli Induzione allow squads to channel kinetic or elemental energy into targeted strikes within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "artigli_radice": {
+      "label_it": "Artigli Radice",
+      "label_en": "Artigli Radice",
+      "description_it": "Artigli Radice permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di mangrovieto cinetico.",
+      "description_en": "Artigli Radice allow squads to predict trajectories and orchestrate multilayered setups within mangrovieto cinetico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "artigli_scivolo_silente": {
+      "label_it": "Artigli Scivolo Silente",
+      "label_en": "Artigli Scivolo Silente",
+      "description_it": "Artigli Scivolo Silente permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di caverna risonante.",
+      "description_en": "Artigli Scivolo Silente allow squads to synchronise allied organisms and mutualistic flows within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "artigli_sette_vie": {
       "label_it": "Artigli a Sette Vie",
       "label_en": "Seven-Way Talons",
+      "description_it": "Artigli multipli che assicurano presa stabile su superfici irregolari.",
+      "description_en": "Multi-hook talons locking a steady grip on irregular surfaces.",
       "rules": {
         "total": 3,
         "coverage": [
@@ -103,6 +726,8 @@
     "artigli_sghiaccio_glaciale": {
       "label_it": "Artigli Sghiaccio Glaciale",
       "label_en": "Artigli Sghiaccio Glaciale",
+      "description_it": "Falangi criogeniche che congelano e fissano il bersaglio al contatto.",
+      "description_en": "Cryogenic claws that freeze and pin targets on contact.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -113,12 +738,391 @@
       },
       "diff": {
         "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "artigli_vetrificati": {
+      "label_it": "Artigli Vetrificati",
+      "label_en": "Artigli Vetrificati",
+      "description_it": "Artigli Vetrificati permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caldera glaciale.",
+      "description_en": "Artigli Vetrificati allow squads to redistribute load and modulate structural rigidity within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "baffi_mareomotori": {
+      "label_it": "Baffi Mareomotori",
+      "label_en": "Baffi Mareomotori",
+      "description_it": "Baffi Mareomotori permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di mangrovieto cinetico.",
+      "description_en": "Baffi Mareomotori allow squads to interpret minute signals and unstable psionic patterns within mangrovieto cinetico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "barbigli_sensori_plasma": {
+      "label_it": "Barbigli Sensori Plasma",
+      "label_en": "Barbigli Sensori Plasma",
+      "description_it": "Barbigli Sensori Plasma permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di stratosfera tempestosa.",
+      "description_en": "Barbigli Sensori Plasma allow squads to gain grip and controlled acceleration across extreme terrain within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "barriere_miasma_glaciale": {
+      "label_it": "Barriere Miasma Glaciale",
+      "label_en": "Barriere Miasma Glaciale",
+      "description_it": "Barriere Miasma Glaciale permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di caldera glaciale.",
+      "description_en": "Barriere Miasma Glaciale allow squads to disperse energy and attenuate corrosive or thermal impacts within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "batteri_endosimbionti_chemio": {
+      "label_it": "Batteri Endosimbionti Chemio",
+      "label_en": "Batteri Endosimbionti Chemio",
+      "description_it": "Batteri Endosimbionti Chemio permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di abisso vulcanico.",
+      "description_en": "Batteri Endosimbionti Chemio allow squads to stabilise multi-source energy absorption and conversion within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "batteri_termofili_endosimbiosi": {
+      "label_it": "Batteri Termofili Endosimbiosi",
+      "label_en": "Batteri Termofili Endosimbiosi",
+      "description_it": "Batteri Termofili Endosimbiosi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "description_en": "Batteri Termofili Endosimbiosi allow squads to coordinate resource exchange and squad stabilisation parameters within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "biochip_memoria": {
+      "label_it": "Biochip Memoria",
+      "label_en": "Biochip Memoria",
+      "description_it": "Biochip Memoria permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di steppe algoritmiche.",
+      "description_en": "Biochip Memoria allow squads to channel kinetic or elemental energy into targeted strikes within steppe algoritmiche.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "biofilm_glow": {
+      "label_it": "Biofilm Glow",
+      "label_en": "Biofilm Glow",
+      "description_it": "Biofilm Glow permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di reef luminescente.",
+      "description_en": "Biofilm Glow allow squads to predict trajectories and orchestrate multilayered setups within reef luminescente.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "biofilm_iperarido": {
+      "label_it": "Biofilm Iperarido",
+      "label_en": "Biofilm Iperarido",
+      "description_it": "Biofilm Iperarido permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di pianura salina iperarida.",
+      "description_en": "Biofilm Iperarido allow squads to synchronise allied organisms and mutualistic flows within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "branchie_dual_mode": {
+      "label_it": "Branchie Dual Mode",
+      "label_en": "Branchie Dual Mode",
+      "description_it": "Branchie Dual Mode permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di laguna bioreattiva.",
+      "description_en": "Branchie Dual Mode allow squads to redistribute load and modulate structural rigidity within laguna bioreattiva.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "branchie_eoliche": {
+      "label_it": "Branchie Eoliche",
+      "label_en": "Branchie Eoliche",
+      "description_it": "Branchie Eoliche permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di stratosfera tempestosa.",
+      "description_en": "Branchie Eoliche allow squads to interpret minute signals and unstable psionic patterns within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "branchie_metalloidi": {
+      "label_it": "Branchie Metalloidi",
+      "label_en": "Branchie Metalloidi",
+      "description_it": "Branchie Metalloidi permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di abisso vulcanico.",
+      "description_en": "Branchie Metalloidi allow squads to gain grip and controlled acceleration across extreme terrain within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "branchie_microfiltri": {
+      "label_it": "Branchie Microfiltri",
+      "label_en": "Branchie Microfiltri",
+      "description_it": "Branchie Microfiltri permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di reef luminescente.",
+      "description_en": "Branchie Microfiltri allow squads to disperse energy and attenuate corrosive or thermal impacts within reef luminescente.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": []
       }
     },
     "branchie_osmotiche_salmastra": {
       "label_it": "Branchie Osmotiche Salmastre",
       "label_en": "Branchie Osmotiche Salmastre",
+      "description_it": "Branchie psioniche che filtrano sali e tossine in acque variabili.",
+      "description_en": "Psionic gills filtering salts and toxins in shifting waters.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -129,12 +1133,72 @@
       },
       "diff": {
         "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "branchie_solfatiche": {
+      "label_it": "Branchie Solfatiche",
+      "label_en": "Branchie Solfatiche",
+      "description_it": "Branchie Solfatiche permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di caldera glaciale.",
+      "description_en": "Branchie Solfatiche allow squads to stabilise multi-source energy absorption and conversion within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "branchie_turbina": {
+      "label_it": "Branchie Turbina",
+      "label_en": "Branchie Turbina",
+      "description_it": "Branchie Turbina permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "description_en": "Branchie Turbina allow squads to coordinate resource exchange and squad stabilisation parameters within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": []
       }
     },
     "bulbi_radici_permafrost": {
       "label_it": "Bulbi Radici del Permafrost",
       "label_en": "Bulbi Radici del Permafrost",
+      "description_it": "Bulbi radice che rilasciano calore e nutrimento alle unità connesse.",
+      "description_en": "Root bulbs releasing heat and stores to linked allies.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -148,9 +1212,214 @@
         "missing_in_rules": []
       }
     },
+    "camere_anticorrosione": {
+      "label_it": "Camere Anticorrosione",
+      "label_en": "Camere Anticorrosione",
+      "description_it": "Camere Anticorrosione permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di foresta acida.",
+      "description_en": "Camere Anticorrosione allow squads to channel kinetic or elemental energy into targeted strikes within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "camere_mirage": {
+      "label_it": "Camere Mirage",
+      "label_en": "Camere Mirage",
+      "description_it": "Camere Mirage permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di pianura salina iperarida.",
+      "description_en": "Camere Mirage allow squads to predict trajectories and orchestrate multilayered setups within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "camere_nutrienti_vent": {
+      "label_it": "Camere Nutrienti Vent",
+      "label_en": "Camere Nutrienti Vent",
+      "description_it": "Camere Nutrienti Vent permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di dorsale termale tropicale.",
+      "description_en": "Camere Nutrienti Vent allow squads to synchronise allied organisms and mutualistic flows within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "capillari_criogenici": {
+      "label_it": "Capillari Criogenici",
+      "label_en": "Capillari Criogenici",
+      "description_it": "Capillari Criogenici permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caldera glaciale.",
+      "description_en": "Capillari Criogenici allow squads to redistribute load and modulate structural rigidity within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "capillari_fluoridici": {
+      "label_it": "Capillari Fluoridici",
+      "label_en": "Capillari Fluoridici",
+      "description_it": "Capillari Fluoridici permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di foresta acida.",
+      "description_en": "Capillari Fluoridici allow squads to interpret minute signals and unstable psionic patterns within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "capillari_fotovoltaici": {
+      "label_it": "Capillari Fotovoltaici",
+      "label_en": "Capillari Fotovoltaici",
+      "description_it": "Capillari Fotovoltaici permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di canopia ionica.",
+      "description_en": "Capillari Fotovoltaici allow squads to gain grip and controlled acceleration across extreme terrain within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "capsule_paracadute": {
+      "label_it": "Capsule Paracadute",
+      "label_en": "Capsule Paracadute",
+      "description_it": "Capsule Paracadute permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di stratosfera tempestosa.",
+      "description_en": "Capsule Paracadute allow squads to disperse energy and attenuate corrosive or thermal impacts within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "carapace_fase_variabile": {
       "label_it": "Carapace a Variazione di Fase",
       "label_en": "Phase-Shifting Carapace",
+      "description_it": "Corazza che varia densità per bilanciare difesa e mobilità.",
+      "description_en": "Shell shifts density to balance defense and mobility.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -182,6 +1451,8 @@
     "carapace_luminiscente_abissale": {
       "label_it": "Carapace Luminiscente Abissale",
       "label_en": "Carapace Luminiscente Abissale",
+      "description_it": "Guscio bioluminescente che confonde i predatori nelle profondità.",
+      "description_en": "Bioluminescent shell confusing predators in abyssal dark.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -192,12 +1463,72 @@
       },
       "diff": {
         "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "carapace_segmenti_logici": {
+      "label_it": "Carapace Segmenti Logici",
+      "label_en": "Carapace Segmenti Logici",
+      "description_it": "Carapace Segmenti Logici permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di steppe algoritmiche.",
+      "description_en": "Carapace Segmenti Logici allow squads to stabilise multi-source energy absorption and conversion within steppe algoritmiche.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "carapaci_ferruginosi": {
+      "label_it": "Carapaci Ferruginosi",
+      "label_en": "Carapaci Ferruginosi",
+      "description_it": "Carapaci Ferruginosi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di abisso vulcanico.",
+      "description_en": "Carapaci Ferruginosi allow squads to coordinate resource exchange and squad stabilisation parameters within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": []
       }
     },
     "cartilagine_flessotermica_venti": {
       "label_it": "Cartilagine Flessotermica dei Venti",
       "label_en": "Cartilagine Flessotermica dei Venti",
+      "description_it": "Cartilagine termoreattiva che ottimizza virate e planate aeree.",
+      "description_en": "Thermo-reactive cartilage optimizing aerial turns.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -208,12 +1539,130 @@
       },
       "diff": {
         "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "cartilagini_biofibre": {
+      "label_it": "Cartilagini Biofibre",
+      "label_en": "Cartilagini Biofibre",
+      "description_it": "Cartilagini Biofibre permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di reef luminescente.",
+      "description_en": "Cartilagini Biofibre allow squads to channel kinetic or elemental energy into targeted strikes within reef luminescente.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "cartilagini_desertiche": {
+      "label_it": "Cartilagini Desertiche",
+      "label_en": "Cartilagini Desertiche",
+      "description_it": "Cartilagini Desertiche permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di pianura salina iperarida.",
+      "description_en": "Cartilagini Desertiche allow squads to predict trajectories and orchestrate multilayered setups within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "cartilagini_flessoacustiche": {
+      "label_it": "Cartilagini Flessoacustiche",
+      "label_en": "Cartilagini Flessoacustiche",
+      "description_it": "Cartilagini Flessoacustiche permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di caverna risonante.",
+      "description_en": "Cartilagini Flessoacustiche allow squads to synchronise allied organisms and mutualistic flows within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "cartilagini_pseudometalliche": {
+      "label_it": "Cartilagini Pseudometalliche",
+      "label_en": "Cartilagini Pseudometalliche",
+      "description_it": "Cartilagini Pseudometalliche permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
+      "description_en": "Cartilagini Pseudometalliche allow squads to redistribute load and modulate structural rigidity within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": []
       }
     },
     "cavita_risonanti_tundra": {
       "label_it": "Cavità Risonanti della Tundra",
       "label_en": "Cavità Risonanti della Tundra",
+      "description_it": "Camere toraciche che proiettano richiami a lunga distanza nel gelo.",
+      "description_en": "Chest chambers projecting long-range calls through tundra frost.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -224,12 +1673,72 @@
       },
       "diff": {
         "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "cervelletto_equilibrio_statico": {
+      "label_it": "Cervelletto Equilibrio Statico",
+      "label_en": "Cervelletto Equilibrio Statico",
+      "description_it": "Cervelletto Equilibrio Statico permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di canopia ionica.",
+      "description_en": "Cervelletto Equilibrio Statico allow squads to interpret minute signals and unstable psionic patterns within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "chemiorecettori_bromuro": {
+      "label_it": "Chemiorecettori Bromuro",
+      "label_en": "Chemiorecettori Bromuro",
+      "description_it": "Chemiorecettori Bromuro permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di pianura salina iperarida.",
+      "description_en": "Chemiorecettori Bromuro allow squads to gain grip and controlled acceleration across extreme terrain within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": []
       }
     },
     "chioma_parassita_canopica": {
       "label_it": "Chioma Parassita Canopica",
       "label_en": "Chioma Parassita Canopica",
+      "description_it": "Filamenti parassiti che creano corsie energetiche nella canopia.",
+      "description_en": "Parasitic tendrils weaving energy lanes through canopy.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -240,12 +1749,43 @@
       },
       "diff": {
         "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "circolazione_bifasica": {
+      "label_it": "Circolazione Bifasica",
+      "label_en": "Circolazione Bifasica",
+      "description_it": "Circolazione Bifasica permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di caldera glaciale.",
+      "description_en": "Circolazione Bifasica allow squads to disperse energy and attenuate corrosive or thermal impacts within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": []
       }
     },
     "circolazione_bifasica_palude": {
       "label_it": "Circolazione Bifasica di Palude",
       "label_en": "Circolazione Bifasica di Palude",
+      "description_it": "Doppio circuito sanguigno che separa ossigeno e agenti tossici.",
+      "description_en": "Dual blood circuit separating oxygen flow from toxins.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -259,9 +1799,272 @@
         "missing_in_rules": []
       }
     },
+    "circolazione_cooling_loop": {
+      "label_it": "Circolazione Cooling Loop",
+      "label_en": "Circolazione Cooling Loop",
+      "description_it": "Circolazione Cooling Loop permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di steppe algoritmiche.",
+      "description_en": "Circolazione Cooling Loop allow squads to stabilise multi-source energy absorption and conversion within steppe algoritmiche.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "circolazione_doppia": {
+      "label_it": "Circolazione Doppia",
+      "label_en": "Circolazione Doppia",
+      "description_it": "Circolazione Doppia permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "description_en": "Circolazione Doppia allow squads to coordinate resource exchange and squad stabilisation parameters within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "circolazione_supercritica": {
+      "label_it": "Circolazione Supercritica",
+      "label_en": "Circolazione Supercritica",
+      "description_it": "Circolazione Supercritica permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di abisso vulcanico.",
+      "description_en": "Circolazione Supercritica allow squads to channel kinetic or elemental energy into targeted strikes within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ciste_riduttive": {
+      "label_it": "Ciste Riduttive",
+      "label_en": "Ciste Riduttive",
+      "description_it": "Ciste Riduttive permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di laguna bioreattiva.",
+      "description_en": "Ciste Riduttive allow squads to predict trajectories and orchestrate multilayered setups within laguna bioreattiva.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ciste_salmastre": {
+      "label_it": "Ciste Salmastre",
+      "label_en": "Ciste Salmastre",
+      "description_it": "Ciste Salmastre permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di pianura salina iperarida.",
+      "description_en": "Ciste Salmastre allow squads to synchronise allied organisms and mutualistic flows within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "cisti_iperbariche": {
+      "label_it": "Cisti Iperbariche",
+      "label_en": "Cisti Iperbariche",
+      "description_it": "Cisti Iperbariche permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
+      "description_en": "Cisti Iperbariche allow squads to redistribute load and modulate structural rigidity within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "coda_balanciere": {
+      "label_it": "Coda Balanciere",
+      "label_en": "Coda Balanciere",
+      "description_it": "Coda Balanciere permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
+      "description_en": "Coda Balanciere allow squads to interpret minute signals and unstable psionic patterns within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "coda_contrappeso": {
+      "label_it": "Coda Contrappeso",
+      "label_en": "Coda Contrappeso",
+      "description_it": "Coda Contrappeso permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di mangrovieto cinetico.",
+      "description_en": "Coda Contrappeso allow squads to gain grip and controlled acceleration across extreme terrain within mangrovieto cinetico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "coda_coppia_retroattiva": {
+      "label_it": "Coda Coppia Retroattiva",
+      "label_en": "Coda Coppia Retroattiva",
+      "description_it": "Coda Coppia Retroattiva permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di steppe algoritmiche.",
+      "description_en": "Coda Coppia Retroattiva allow squads to disperse energy and attenuate corrosive or thermal impacts within steppe algoritmiche.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "coda_frusta_cinetica": {
       "label_it": "Coda a Frusta Cinetica",
       "label_en": "Kinetic Lash Tail",
+      "description_it": "Coda elastica che accumula slancio per un colpo cinetico devastante.",
+      "description_en": "Elastic tail storing momentum for a devastating lash.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -292,9 +2095,156 @@
         "missing_in_rules": []
       }
     },
+    "coda_stabilizzatrice_filo": {
+      "label_it": "Coda Stabilizzatrice Filo",
+      "label_en": "Coda Stabilizzatrice Filo",
+      "description_it": "Coda Stabilizzatrice Filo permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di canopia ionica.",
+      "description_en": "Coda Stabilizzatrice Filo allow squads to stabilise multi-source energy absorption and conversion within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "coda_stabilizzatrice_geiser": {
+      "label_it": "Coda Stabilizzatrice Geiser",
+      "label_en": "Coda Stabilizzatrice Geiser",
+      "description_it": "Coda Stabilizzatrice Geiser permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale.",
+      "description_en": "Coda Stabilizzatrice Geiser allow squads to coordinate resource exchange and squad stabilisation parameters within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "coda_stabilizzatrice_vortex": {
+      "label_it": "Coda Stabilizzatrice Vortex",
+      "label_en": "Coda Stabilizzatrice Vortex",
+      "description_it": "Coda Stabilizzatrice Vortex permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di stratosfera tempestosa.",
+      "description_en": "Coda Stabilizzatrice Vortex allow squads to channel kinetic or elemental energy into targeted strikes within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "colonne_vibromagnetiche": {
+      "label_it": "Colonne Vibromagnetiche",
+      "label_en": "Colonne Vibromagnetiche",
+      "description_it": "Colonne Vibromagnetiche permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caverna risonante.",
+      "description_en": "Colonne Vibromagnetiche allow squads to predict trajectories and orchestrate multilayered setups within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "coralli_partner": {
+      "label_it": "Coralli Partner",
+      "label_en": "Coralli Partner",
+      "description_it": "Coralli Partner permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di reef luminescente.",
+      "description_en": "Coralli Partner allow squads to synchronise allied organisms and mutualistic flows within reef luminescente.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "criostasi_adattiva": {
       "label_it": "Criostasi",
       "label_en": "Adaptive Cryostasis",
+      "description_it": "Metabolismo sospeso che sopravvive a stagioni estreme prolungate.",
+      "description_en": "Suspended metabolism surviving protracted extreme seasons.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -323,9 +2273,416 @@
         "missing_in_rules": []
       }
     },
+    "cromofori_alert_acido": {
+      "label_it": "Cromofori Alert Acido",
+      "label_en": "Cromofori Alert Acido",
+      "description_it": "Cromofori Alert Acido permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di foresta acida.",
+      "description_en": "Cromofori Alert Acido allow squads to redistribute load and modulate structural rigidity within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "cuore_multicamera_bassa_pressione": {
+      "label_it": "Cuore Multicamera Bassa Pressione",
+      "label_en": "Cuore Multicamera Bassa Pressione",
+      "description_it": "Cuore Multicamera Bassa Pressione permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di stratosfera tempestosa.",
+      "description_en": "Cuore Multicamera Bassa Pressione allow squads to interpret minute signals and unstable psionic patterns within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "cuscinetti_elettrostatici": {
+      "label_it": "Cuscinetti Elettrostatici",
+      "label_en": "Cuscinetti Elettrostatici",
+      "description_it": "Cuscinetti Elettrostatici permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di pianura salina iperarida.",
+      "description_en": "Cuscinetti Elettrostatici allow squads to gain grip and controlled acceleration across extreme terrain within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "cute_resistente_sali": {
+      "label_it": "Cute Resistente Sali",
+      "label_en": "Cute Resistente Sali",
+      "description_it": "Cute Resistente Sali permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di badlands.",
+      "description_en": "Cute Resistente Sali allow squads to disperse energy and attenuate corrosive or thermal impacts within badlands.",
+      "rules": {
+        "total": 2,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          },
+          {
+            "biome": "badlands",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "evento-tempesta-ferrosa"
+            ]
+          }
+        ]
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          },
+          {
+            "biome": "badlands",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "volatore_planatore"
+          }
+        ]
+      }
+    },
+    "cuticole_cerose": {
+      "label_it": "Cuticole Cerose",
+      "label_en": "Cuticole Cerose",
+      "description_it": "Cuticole Cerose permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di ambienti dinamici.",
+      "description_en": "Cuticole Cerose allow squads to stabilise multi-source energy absorption and conversion within ambienti dinamici.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 6,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "thermo-raptor"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "cactus-weaver"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "silica-bloom"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "volatore_planatore",
+            "count": 2,
+            "examples": [
+              "evento-ondata-termica",
+              "noctule-termico"
+            ]
+          },
+          {
+            "biome": "mezzanotte_orbitale",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "evento-brinastorm"
+            ]
+          }
+        ]
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "ingegnere_radicante"
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "mezzanotte_orbitale",
+            "morphotype": "volatore_planatore"
+          }
+        ]
+      }
+    },
+    "cuticole_neutralizzanti": {
+      "label_it": "Cuticole Neutralizzanti",
+      "label_en": "Cuticole Neutralizzanti",
+      "description_it": "Cuticole Neutralizzanti permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.",
+      "description_en": "Cuticole Neutralizzanti allow squads to coordinate resource exchange and squad stabilisation parameters within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "denti_chelatanti": {
+      "label_it": "Denti Chelatanti",
+      "label_en": "Denti Chelatanti",
+      "description_it": "Denti Chelatanti permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di foresta acida.",
+      "description_en": "Denti Chelatanti allow squads to channel kinetic or elemental energy into targeted strikes within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "denti_ossidoferro": {
+      "label_it": "Denti Ossidoferro",
+      "label_en": "Denti Ossidoferro",
+      "description_it": "Denti Ossidoferro permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di abisso vulcanico.",
+      "description_en": "Denti Ossidoferro allow squads to predict trajectories and orchestrate multilayered setups within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "denti_silice_termici": {
+      "label_it": "Denti Silice Termici",
+      "label_en": "Denti Silice Termici",
+      "description_it": "Denti Silice Termici permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di dorsale termale tropicale.",
+      "description_en": "Denti Silice Termici allow squads to synchronise allied organisms and mutualistic flows within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "denti_tuning_fork": {
+      "label_it": "Denti Tuning Fork",
+      "label_en": "Denti Tuning Fork",
+      "description_it": "Denti Tuning Fork permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caverna risonante.",
+      "description_en": "Denti Tuning Fork allow squads to redistribute load and modulate structural rigidity within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "echi_risonanti": {
+      "label_it": "Echi Risonanti",
+      "label_en": "Echi Risonanti",
+      "description_it": "Echi Risonanti permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
+      "description_en": "Echi Risonanti allow squads to interpret minute signals and unstable psionic patterns within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "eco_interno_riflesso": {
       "label_it": "Riflesso dell'Eco Interno",
       "label_en": "Internal Echo Reflex",
+      "description_it": "Sonar interno che mappa l'ambiente attraverso vibrazioni corporee.",
+      "description_en": "Internal sonar mapping surroundings via body reverbs.",
       "rules": {
         "total": 2,
         "coverage": [
@@ -372,6 +2729,8 @@
     "empatia_coordinativa": {
       "label_it": "Empatia Coordinativa",
       "label_en": "Coordinated Empathy",
+      "description_it": "Rete empatica che sincronizza cure e difese dell'intera squadra.",
+      "description_en": "Empathic mesh synchronizing team-wide heals and defenses.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -411,9 +2770,228 @@
         "missing_in_rules": []
       }
     },
+    "enzimi_antifase_termica": {
+      "label_it": "Enzimi Antifase Termica",
+      "label_en": "Enzimi Antifase Termica",
+      "description_it": "Enzimi Antifase Termica permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di caldera glaciale.",
+      "description_en": "Enzimi Antifase Termica allow squads to gain grip and controlled acceleration across extreme terrain within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "enzimi_antipredatori_algali": {
+      "label_it": "Enzimi Antipredatori Algali",
+      "label_en": "Enzimi Antipredatori Algali",
+      "description_it": "Enzimi Antipredatori Algali permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di reef luminescente.",
+      "description_en": "Enzimi Antipredatori Algali allow squads to disperse energy and attenuate corrosive or thermal impacts within reef luminescente.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "enzimi_chelanti": {
+      "label_it": "Enzimi Chelanti",
+      "label_en": "Enzimi Chelanti",
+      "description_it": "Enzimi Chelanti permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di ambienti dinamici.",
+      "description_en": "Enzimi Chelanti allow squads to stabilise multi-source energy absorption and conversion within ambienti dinamici.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "evento-tempesta-ferrosa"
+            ]
+          }
+        ]
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "volatore_planatore"
+          }
+        ]
+      }
+    },
+    "enzimi_chelatori_rapidi": {
+      "label_it": "Enzimi Chelatori Rapidi",
+      "label_en": "Enzimi Chelatori Rapidi",
+      "description_it": "Enzimi Chelatori Rapidi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.",
+      "description_en": "Enzimi Chelatori Rapidi allow squads to coordinate resource exchange and squad stabilisation parameters within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "enzimi_metanoossidanti": {
+      "label_it": "Enzimi Metanoossidanti",
+      "label_en": "Enzimi Metanoossidanti",
+      "description_it": "Enzimi Metanoossidanti permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di abisso vulcanico.",
+      "description_en": "Enzimi Metanoossidanti allow squads to channel kinetic or elemental energy into targeted strikes within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "epidermide_dielettrica": {
+      "label_it": "Epidermide Dielettrica",
+      "label_en": "Epidermide Dielettrica",
+      "description_it": "Epidermide Dielettrica permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di stratosfera tempestosa.",
+      "description_en": "Epidermide Dielettrica allow squads to predict trajectories and orchestrate multilayered setups within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "epitelio_fosforescente": {
+      "label_it": "Epitelio Fosforescente",
+      "label_en": "Epitelio Fosforescente",
+      "description_it": "Epitelio Fosforescente permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di reef luminescente.",
+      "description_en": "Epitelio Fosforescente allow squads to synchronise allied organisms and mutualistic flows within reef luminescente.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "filamenti_digestivi_compattanti": {
       "label_it": "Filamento materiali digeriti",
       "label_en": "Digestive Compaction Filaments",
+      "description_it": "Filamenti digestivi che compattano scarti e liberano spazio vitale.",
+      "description_en": "Digestive filaments compact waste to free vital space.",
       "rules": {
         "total": 4,
         "coverage": [
@@ -500,9 +3078,156 @@
         "missing_in_rules": []
       }
     },
+    "filamenti_magnetotrofi": {
+      "label_it": "Filamenti Magnetotrofi",
+      "label_en": "Filamenti Magnetotrofi",
+      "description_it": "Filamenti Magnetotrofi permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico.",
+      "description_en": "Filamenti Magnetotrofi allow squads to redistribute load and modulate structural rigidity within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "filamenti_superconduttivi": {
+      "label_it": "Filamenti Superconduttivi",
+      "label_en": "Filamenti Superconduttivi",
+      "description_it": "Filamenti Superconduttivi permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caldera glaciale.",
+      "description_en": "Filamenti Superconduttivi allow squads to interpret minute signals and unstable psionic patterns within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "filamenti_termoconduzione": {
+      "label_it": "Filamenti Termoconduzione",
+      "label_en": "Filamenti Termoconduzione",
+      "description_it": "Filamenti Termoconduzione permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di dorsale termale tropicale.",
+      "description_en": "Filamenti Termoconduzione allow squads to gain grip and controlled acceleration across extreme terrain within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "filtri_planctonici": {
+      "label_it": "Filtri Planctonici",
+      "label_en": "Filtri Planctonici",
+      "description_it": "Filtri Planctonici permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di laguna bioreattiva.",
+      "description_en": "Filtri Planctonici allow squads to disperse energy and attenuate corrosive or thermal impacts within laguna bioreattiva.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "flagelli_ancoranti": {
+      "label_it": "Flagelli Ancoranti",
+      "label_en": "Flagelli Ancoranti",
+      "description_it": "Flagelli Ancoranti permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di laguna bioreattiva.",
+      "description_en": "Flagelli Ancoranti allow squads to stabilise multi-source energy absorption and conversion within laguna bioreattiva.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "focus_frazionato": {
       "label_it": "Focus Frazionato",
       "label_en": "Fractional Focus",
+      "description_it": "Cortex biforcato che mantiene due minacce in sorveglianza attiva.",
+      "description_en": "Split cortex keeps two threats under active surveillance.",
       "rules": {
         "total": 3,
         "coverage": [
@@ -573,9 +3298,98 @@
         "missing_in_rules": []
       }
     },
+    "foliage_fotocatodico": {
+      "label_it": "Foliage Fotocatodico",
+      "label_en": "Foliage Fotocatodico",
+      "description_it": "Foliage Fotocatodico permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.",
+      "description_en": "Foliage Fotocatodico allow squads to coordinate resource exchange and squad stabilisation parameters within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "foliaggio_spugna": {
+      "label_it": "Foliaggio Spugna",
+      "label_en": "Foliaggio Spugna",
+      "description_it": "Foliaggio Spugna permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di mangrovieto cinetico.",
+      "description_en": "Foliaggio Spugna allow squads to channel kinetic or elemental energy into targeted strikes within mangrovieto cinetico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiaccio_piezoelettrico": {
+      "label_it": "Ghiaccio Piezoelettrico",
+      "label_en": "Ghiaccio Piezoelettrico",
+      "description_it": "Ghiaccio Piezoelettrico permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caldera glaciale.",
+      "description_en": "Ghiaccio Piezoelettrico allow squads to predict trajectories and orchestrate multilayered setups within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "ghiandola_caustica": {
       "label_it": "Ghiandola Caustica",
       "label_en": "Caustic Gland",
+      "description_it": "Ghiandola offensiva che spruzza acidi rapidi contro corazze leggere.",
+      "description_en": "Offensive gland spraying quick acid against light armor.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -601,12 +3415,628 @@
       },
       "diff": {
         "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_cambio_salino": {
+      "label_it": "Ghiandole Cambio Salino",
+      "label_en": "Ghiandole Cambio Salino",
+      "description_it": "Ghiandole Cambio Salino permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di laguna bioreattiva.",
+      "description_en": "Ghiandole Cambio Salino allow squads to synchronise allied organisms and mutualistic flows within laguna bioreattiva.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "laguna_bioreattiva",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_condensa_ozono": {
+      "label_it": "Ghiandole Condensa Ozono",
+      "label_en": "Ghiandole Condensa Ozono",
+      "description_it": "Ghiandole Condensa Ozono permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di stratosfera tempestosa.",
+      "description_en": "Ghiandole Condensa Ozono allow squads to redistribute load and modulate structural rigidity within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_eco_mappanti": {
+      "label_it": "Ghiandole Eco Mappanti",
+      "label_en": "Ghiandole Eco Mappanti",
+      "description_it": "Ghiandole Eco Mappanti permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
+      "description_en": "Ghiandole Eco Mappanti allow squads to interpret minute signals and unstable psionic patterns within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_fango_calde": {
+      "label_it": "Ghiandole Fango Calde",
+      "label_en": "Ghiandole Fango Calde",
+      "description_it": "Ghiandole Fango Calde permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di abisso vulcanico.",
+      "description_en": "Ghiandole Fango Calde allow squads to gain grip and controlled acceleration across extreme terrain within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_fango_coesivo": {
+      "label_it": "Ghiandole Fango Coesivo",
+      "label_en": "Ghiandole Fango Coesivo",
+      "description_it": "Ghiandole Fango Coesivo permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di mangrovieto cinetico.",
+      "description_en": "Ghiandole Fango Coesivo allow squads to disperse energy and attenuate corrosive or thermal impacts within mangrovieto cinetico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_grafene": {
+      "label_it": "Ghiandole Grafene",
+      "label_en": "Ghiandole Grafene",
+      "description_it": "Ghiandole Grafene permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di steppe algoritmiche.",
+      "description_en": "Ghiandole Grafene allow squads to stabilise multi-source energy absorption and conversion within steppe algoritmiche.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_inchiostro_luce": {
+      "label_it": "Ghiandole Inchiostro Luce",
+      "label_en": "Ghiandole Inchiostro Luce",
+      "description_it": "Ghiandole Inchiostro Luce permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di reef luminescente.",
+      "description_en": "Ghiandole Inchiostro Luce allow squads to coordinate resource exchange and squad stabilisation parameters within reef luminescente.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "reef_luminescente",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_iodoattive": {
+      "label_it": "Ghiandole Iodoattive",
+      "label_en": "Ghiandole Iodoattive",
+      "description_it": "Ghiandole Iodoattive permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di pianura salina iperarida.",
+      "description_en": "Ghiandole Iodoattive allow squads to channel kinetic or elemental energy into targeted strikes within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_minerali": {
+      "label_it": "Ghiandole Minerali",
+      "label_en": "Ghiandole Minerali",
+      "description_it": "Ghiandole Minerali permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di dorsale termale tropicale.",
+      "description_en": "Ghiandole Minerali allow squads to predict trajectories and orchestrate multilayered setups within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_nebbia_acida": {
+      "label_it": "Ghiandole Nebbia Acida",
+      "label_en": "Ghiandole Nebbia Acida",
+      "description_it": "Ghiandole Nebbia Acida permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di foresta acida.",
+      "description_en": "Ghiandole Nebbia Acida allow squads to synchronise allied organisms and mutualistic flows within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_nebbia_ionica": {
+      "label_it": "Ghiandole Nebbia Ionica",
+      "label_en": "Ghiandole Nebbia Ionica",
+      "description_it": "Ghiandole Nebbia Ionica permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di canopia ionica.",
+      "description_en": "Ghiandole Nebbia Ionica allow squads to redistribute load and modulate structural rigidity within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_resina_conduttiva": {
+      "label_it": "Ghiandole Resina Conduttiva",
+      "label_en": "Ghiandole Resina Conduttiva",
+      "description_it": "Ghiandole Resina Conduttiva permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di canopia ionica.",
+      "description_en": "Ghiandole Resina Conduttiva allow squads to interpret minute signals and unstable psionic patterns within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "ghiandole_ventosa": {
+      "label_it": "Ghiandole Ventosa",
+      "label_en": "Ghiandole Ventosa",
+      "description_it": "Ghiandole Ventosa permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di caldera glaciale.",
+      "description_en": "Ghiandole Ventosa allow squads to gain grip and controlled acceleration across extreme terrain within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "giunti_antitorsione": {
+      "label_it": "Giunti Antitorsione",
+      "label_en": "Giunti Antitorsione",
+      "description_it": "Giunti Antitorsione permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di mangrovieto cinetico.",
+      "description_en": "Giunti Antitorsione allow squads to disperse energy and attenuate corrosive or thermal impacts within mangrovieto cinetico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "grassi_termici": {
+      "label_it": "Grassi Termici",
+      "label_en": "Grassi Termici",
+      "description_it": "Grassi Termici permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di ambienti dinamici.",
+      "description_en": "Grassi Termici allow squads to stabilise multi-source energy absorption and conversion within ambienti dinamici.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": null,
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 6,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "thermo-raptor"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "ingegnere_radicante",
+            "count": 1,
+            "examples": [
+              "cactus-weaver"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "silica-bloom"
+            ]
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "volatore_planatore",
+            "count": 2,
+            "examples": [
+              "evento-ondata-termica",
+              "noctule-termico"
+            ]
+          },
+          {
+            "biome": "mezzanotte_orbitale",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "evento-brinastorm"
+            ]
+          }
+        ]
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": null,
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "ingegnere_radicante"
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "scavenger_corazzato"
+          },
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": "volatore_planatore"
+          },
+          {
+            "biome": "mezzanotte_orbitale",
+            "morphotype": "volatore_planatore"
+          }
+        ]
+      }
+    },
+    "gusci_criovetro": {
+      "label_it": "Gusci Criovetro",
+      "label_en": "Gusci Criovetro",
+      "description_it": "Gusci Criovetro permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di caldera glaciale.",
+      "description_en": "Gusci Criovetro allow squads to coordinate resource exchange and squad stabilisation parameters within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "gusci_magnesio": {
+      "label_it": "Gusci Magnesio",
+      "label_en": "Gusci Magnesio",
+      "description_it": "Gusci Magnesio permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di dorsale termale tropicale.",
+      "description_en": "Gusci Magnesio allow squads to channel kinetic or elemental energy into targeted strikes within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "lamelle_shear": {
+      "label_it": "Lamelle Shear",
+      "label_en": "Lamelle Shear",
+      "description_it": "Lamelle Shear permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di stratosfera tempestosa.",
+      "description_en": "Lamelle Shear allow squads to predict trajectories and orchestrate multilayered setups within stratosfera tempestosa.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "stratosfera_tempestosa",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "lamelle_sincroniche": {
+      "label_it": "Lamelle Sincroniche",
+      "label_en": "Lamelle Sincroniche",
+      "description_it": "Lamelle Sincroniche permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di steppe algoritmiche.",
+      "description_en": "Lamelle Sincroniche allow squads to synchronise allied organisms and mutualistic flows within steppe algoritmiche.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "steppe_algoritmiche",
+            "morphotype": null
+          }
+        ],
         "missing_in_rules": []
       }
     },
     "lamelle_termoforetiche": {
       "label_it": "Lamelle Termoforetiche",
       "label_en": "Thermophoretic Lamellae",
+      "description_it": "Lamelle respiratorie che deviano gas estremi con gradienti termici.",
+      "description_en": "Respiratory lamellae deflect extreme gases via heat gradients.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -620,9 +4050,127 @@
         "missing_in_rules": []
       }
     },
+    "lamine_filtranti_aeree": {
+      "label_it": "Lamine Filtranti Aeree",
+      "label_en": "Lamine Filtranti Aeree",
+      "description_it": "Lamine Filtranti Aeree permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di mangrovieto cinetico.",
+      "description_en": "Lamine Filtranti Aeree allow squads to redistribute load and modulate structural rigidity within mangrovieto cinetico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "lamine_scudo_silice": {
+      "label_it": "Lamine Scudo Silice",
+      "label_en": "Lamine Scudo Silice",
+      "description_it": "Lamine Scudo Silice permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di dorsale termale tropicale.",
+      "description_en": "Lamine Scudo Silice allow squads to interpret minute signals and unstable psionic patterns within dorsale termale tropicale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "linfa_tampone": {
+      "label_it": "Linfa Tampone",
+      "label_en": "Linfa Tampone",
+      "description_it": "Linfa Tampone permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di foresta acida.",
+      "description_en": "Linfa Tampone allow squads to gain grip and controlled acceleration across extreme terrain within foresta acida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "foresta_acida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "lingua_cristallina": {
+      "label_it": "Lingua Cristallina",
+      "label_en": "Lingua Cristallina",
+      "description_it": "Lingua Cristallina permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di pianura salina iperarida.",
+      "description_en": "Lingua Cristallina allow squads to disperse energy and attenuate corrosive or thermal impacts within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "lingua_tattile_trama": {
       "label_it": "Lingua Tattile Trama-Sensibile",
       "label_en": "Texture-Sensing Tongue",
+      "description_it": "Lingua sensoriale che legge vibrazioni e fratture nascoste.",
+      "description_en": "Sensory tongue reading hidden vibrations and fractures.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -651,9 +4199,127 @@
         "missing_in_rules": []
       }
     },
+    "luminescenza_aurorale": {
+      "label_it": "Luminescenza Aurorale",
+      "label_en": "Luminescenza Aurorale",
+      "description_it": "Luminescenza Aurorale permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di caldera glaciale.",
+      "description_en": "Luminescenza Aurorale allow squads to stabilise multi-source energy absorption and conversion within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "luminescenza_hydrotermica": {
+      "label_it": "Luminescenza Hydrotermica",
+      "label_en": "Luminescenza Hydrotermica",
+      "description_it": "Luminescenza Hydrotermica permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di abisso vulcanico.",
+      "description_en": "Luminescenza Hydrotermica allow squads to coordinate resource exchange and squad stabilisation parameters within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "mantelli_geotermici": {
+      "label_it": "Mantelli Geotermici",
+      "label_en": "Mantelli Geotermici",
+      "description_it": "Mantelli Geotermici permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di caldera glaciale.",
+      "description_en": "Mantelli Geotermici allow squads to channel kinetic or elemental energy into targeted strikes within caldera glaciale.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caldera_glaciale",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "membrane_captura_rugiada": {
+      "label_it": "Membrane Captura Rugiada",
+      "label_en": "Membrane Captura Rugiada",
+      "description_it": "Membrane Captura Rugiada permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di pianura salina iperarida.",
+      "description_en": "Membrane Captura Rugiada allow squads to predict trajectories and orchestrate multilayered setups within pianura salina iperarida.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "pianura_salina_iperarida",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "membrane_eliofiltranti": {
       "label_it": "Membrane Eliofiltranti",
       "label_en": "Membrane Eliofiltranti",
+      "description_it": "Membrane traslucide che schermano radiazioni e patogeni sospesi.",
+      "description_en": "Translucent membranes screening radiation and airborne pathogens.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -667,9 +4333,98 @@
         "missing_in_rules": []
       }
     },
+    "membrane_planata_vectored": {
+      "label_it": "Membrane Planata Vectored",
+      "label_en": "Membrane Planata Vectored",
+      "description_it": "Membrane Planata Vectored permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di canopia ionica.",
+      "description_en": "Membrane Planata Vectored allow squads to synchronise allied organisms and mutualistic flows within canopia ionica.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "canopia_ionica",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "membrane_pneumatofori": {
+      "label_it": "Membrane Pneumatofori",
+      "label_en": "Membrane Pneumatofori",
+      "description_it": "Membrane Pneumatofori permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di mangrovieto cinetico.",
+      "description_en": "Membrane Pneumatofori allow squads to redistribute load and modulate structural rigidity within mangrovieto cinetico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "mangrovieto_cinetico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "midollo_antivibrazione": {
+      "label_it": "Midollo Antivibrazione",
+      "label_en": "Midollo Antivibrazione",
+      "description_it": "Midollo Antivibrazione permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante.",
+      "description_en": "Midollo Antivibrazione allow squads to interpret minute signals and unstable psionic patterns within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "mimetismo_cromatico_passivo": {
       "label_it": "Ghiandole di Mimetismo Cromatico Passivo",
       "label_en": "Passive Chromatic Mimicry",
+      "description_it": "Cromatofori passivi che replicano lentamente i colori circostanti.",
+      "description_en": "Passive chromatophores slowly mirroring surrounding hues.",
       "rules": {
         "total": 3,
         "coverage": [
@@ -736,6 +4491,8 @@
     "mucillagine_simbionte_mangrovie": {
       "label_it": "Mucillagine Simbionte delle Mangrovie",
       "label_en": "Mucillagine Simbionte delle Mangrovie",
+      "description_it": "Mucosa simbionte che assorbe veleni e sigilla ferite palustri.",
+      "description_en": "Symbiotic mucus absorbing poisons and sealing swamp wounds.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -749,9 +4506,69 @@
         "missing_in_rules": []
       }
     },
+    "mucose_aderenza_sonica": {
+      "label_it": "Mucose Aderenza Sonica",
+      "label_en": "Mucose Aderenza Sonica",
+      "description_it": "Mucose Aderenza Sonica permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di caverna risonante.",
+      "description_en": "Mucose Aderenza Sonica allow squads to gain grip and controlled acceleration across extreme terrain within caverna risonante.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "caverna_risonante",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
+    "mucose_barofile": {
+      "label_it": "Mucose Barofile",
+      "label_en": "Mucose Barofile",
+      "description_it": "Mucose Barofile permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di abisso vulcanico.",
+      "description_en": "Mucose Barofile allow squads to disperse energy and attenuate corrosive or thermal impacts within abisso vulcanico.",
+      "rules": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null,
+            "count": 1
+          }
+        ]
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [
+          {
+            "biome": "abisso_vulcanico",
+            "morphotype": null
+          }
+        ],
+        "missing_in_rules": []
+      }
+    },
     "nodi_micorrizici_oracolari": {
       "label_it": "Nodi Micorrizici Oracolari",
       "label_en": "Nodi Micorrizici Oracolari",
+      "description_it": "Nodi micorrizici che anticipano minacce tramite segnali fungini.",
+      "description_en": "Mycorrhizal nodes foreseeing threats via fungal signals.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -768,6 +4585,8 @@
     "nucleo_ovomotore_rotante": {
       "label_it": "Uovo rotaia, uovo grande e uova piccole dentro...",
       "label_en": "Rotating Ovomotor Core",
+      "description_it": "Nucleo rotante che trasforma il corpo in una ruota motrice.",
+      "description_en": "Rotating core turning the body into a driving wheel.",
       "rules": {
         "total": 3,
         "coverage": [
@@ -841,6 +4660,8 @@
     "occhi_infrarosso_composti": {
       "label_it": "Occhi Composti ad Infrarosso",
       "label_en": "Infrared Compound Eyes",
+      "description_it": "Ommatidi infrarossi che seguono scie termiche nell'oscurità.",
+      "description_en": "Infrared ommatidia tracking thermal trails in darkness.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -872,6 +4693,8 @@
     "olfatto_risonanza_magnetica": {
       "label_it": "Olfatto di Risonanza Magnetica",
       "label_en": "Magnetic Resonance Scent",
+      "description_it": "Bulbi olfattivi che tracciano campi magnetici e vene metalliche.",
+      "description_en": "Olfactory nodes tracing magnetic fields and metal veins.",
       "rules": {
         "total": 4,
         "coverage": [
@@ -958,6 +4781,8 @@
     "pathfinder": {
       "label_it": "Pathfinder",
       "label_en": "Pathfinder",
+      "description_it": "Suite esplorativa che evidenzia rotte sicure tra biomi imprevedibili.",
+      "description_en": "Exploration suite highlighting safe routes across shifting biomes.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -989,6 +4814,8 @@
     "pianificatore": {
       "label_it": "Pianificatore",
       "label_en": "Strategic Planner",
+      "description_it": "Modulo strategico che mantiene priorità e finestre d'attacco allineate.",
+      "description_en": "Strategic module keeping priorities and attack windows aligned.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -1020,6 +4847,8 @@
     "piume_solari_fotovoltaiche": {
       "label_it": "Piume Solari Fotovoltaiche",
       "label_en": "Piume Solari Fotovoltaiche",
+      "description_it": "Piumaggio fotovoltaico che immagazzina luce per lunghe missioni.",
+      "description_en": "Photovoltaic plumage storing sunlight for long sorties.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1036,6 +4865,8 @@
     "polmoni_cristallini_alta_quota": {
       "label_it": "Polmoni Cristallini d'Alta Quota",
       "label_en": "Polmoni Cristallini d'Alta Quota",
+      "description_it": "Polmoni cristallini che concentrano ossigeno rarefatto in quota.",
+      "description_en": "Crystalline lungs concentrating thin high-altitude oxygen.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1052,6 +4883,8 @@
     "random": {
       "label_it": "Trait Random",
       "label_en": "Trait Random",
+      "description_it": "Slot sperimentale che estrae tratti casuali dal pool controllato.",
+      "description_en": "Experimental slot drawing random traits from a curated pool.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1068,6 +4901,8 @@
     "respiro_a_scoppio": {
       "label_it": "Respiro a scoppio",
       "label_en": "Burst Breath Propulsion",
+      "description_it": "Valvole toraciche che rilasciano getti propulsivi istantanei.",
+      "description_en": "Thoracic valves unleashing instantaneous propulsion bursts.",
       "rules": {
         "total": 2,
         "coverage": [
@@ -1112,6 +4947,8 @@
     "risonanza_di_branco": {
       "label_it": "Risonanza di Branco",
       "label_en": "Pack Resonance",
+      "description_it": "Rete risonante che amplifica buff condivisi del branco.",
+      "description_en": "Resonant lattice amplifying the pack's shared buffs.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -1143,6 +4980,8 @@
     "sacche_galleggianti_ascensoriali": {
       "label_it": "Sacche galleggianti ascensoriali",
       "label_en": "Elevating Buoyancy Sacs",
+      "description_it": "Sacche gassose regolabili per controllare assetto e profondità.",
+      "description_en": "Adjustable gas sacs controlling buoyancy and depth.",
       "rules": {
         "total": 4,
         "coverage": [
@@ -1230,6 +5069,8 @@
     "sacche_spore_stratosferiche": {
       "label_it": "Sacche di Spore Stratosferiche",
       "label_en": "Sacche di Spore Stratosferiche",
+      "description_it": "Vescicole stratosferiche che disperdono spore di supporto a lungo.",
+      "description_en": "Stratospheric vesicles dispersing long-range support spores.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1246,6 +5087,8 @@
     "sangue_piroforico": {
       "label_it": "Sangue che prende fuoco a contatto con l'ossigeno",
       "label_en": "Pyrophoric Blood",
+      "description_it": "Fluido ematico che incendia l'aria colpendo chi perfora la corazza.",
+      "description_en": "Blood ignites on air contact, burning would-be piercers.",
       "rules": {
         "total": 2,
         "coverage": [
@@ -1290,6 +5133,8 @@
     "scheletro_idro_regolante": {
       "label_it": "Scheletro Idro-Regolante",
       "label_en": "Hydro-Regulating Skeleton",
+      "description_it": "Ossa porose che modulano il contenuto idrico per mutare massa.",
+      "description_en": "Porous bones modulate water content to shift body mass.",
       "rules": {
         "total": 3,
         "coverage": [
@@ -1349,6 +5194,8 @@
     "secrezione_rallentante_palmi": {
       "label_it": "Mani secernano liquido rallentante",
       "label_en": "Retarding Palm Secretions",
+      "description_it": "Palmi che rilasciano gel rallentante per bloccare bersagli rapidi.",
+      "description_en": "Palms exude slowing gel to snare fast targets.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -1380,6 +5227,8 @@
     "sensori_geomagnetici": {
       "label_it": "Sensori a Risonanza Geomagnetica",
       "label_en": "Geomagnetic Resonance Sensors",
+      "description_it": "Cristalli cranici che mappano corridoi geomagnetici invisibili.",
+      "description_en": "Cranial crystals mapping invisible geomagnetic corridors.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1396,6 +5245,8 @@
     "sinapsi_coraline_polifoniche": {
       "label_it": "Sinapsi Coraline Polifoniche",
       "label_en": "Sinapsi Coraline Polifoniche",
+      "description_it": "Sinapsi coralline che trasmettono ordini tramite armoniche marine.",
+      "description_en": "Coralline synapses relaying orders through marine harmonics.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1412,6 +5263,8 @@
     "sonno_emisferico_alternato": {
       "label_it": "Dormire con solo metà cervello alla volta",
       "label_en": "Unihemispheric Sleep",
+      "description_it": "Cervello alternato che veglia con un emisfero mentre l'altro riposa.",
+      "description_en": "Alternating hemispheres keep watch while the other sleeps.",
       "rules": {
         "total": 2,
         "coverage": [
@@ -1456,6 +5309,8 @@
     "spore_psichiche_silenziate": {
       "label_it": "Spora Psichica Silenziosa",
       "label_en": "Silent Psychic Spores",
+      "description_it": "Spore psioniche che sedano e confondono i bersagli vicini.",
+      "description_en": "Psionic spores that lull and confuse nearby targets.",
       "rules": {
         "total": 3,
         "coverage": [
@@ -1513,6 +5368,8 @@
     "squame_rifrangenti_deserto": {
       "label_it": "Squame Rifrangenti del Deserto",
       "label_en": "Squame Rifrangenti del Deserto",
+      "description_it": "Scaglie cristalline che diffondono calore e creano miraggi.",
+      "description_en": "Crystal scales diffusing heat and casting mirages.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1529,6 +5386,8 @@
     "struttura_elastica_amorfa": {
       "label_it": "Struttura elastica, allungabile, amorfa, retrattile",
       "label_en": "Elastic Amorphous Frame",
+      "description_it": "Corpo amorfo che si estende e si compatta per evadere vincoli.",
+      "description_en": "Amorphous frame stretching or compressing to escape binds.",
       "rules": {
         "total": 4,
         "coverage": [
@@ -1626,6 +5485,8 @@
     "tattiche_di_branco": {
       "label_it": "Tattiche di Branco",
       "label_en": "Pack Tactics",
+      "description_it": "Protocollo tattico che coordina focus e prese condivise.",
+      "description_en": "Tactical protocol coordinating shared focus and grapples.",
       "rules": {
         "total": 1,
         "coverage": [
@@ -1657,6 +5518,8 @@
     "vello_condensatore_nebbie": {
       "label_it": "Vello Condensatore di Nebbie",
       "label_en": "Vello Condensatore di Nebbie",
+      "description_it": "Vello capillare che condensa nebbia in riserve idriche mobili.",
+      "description_en": "Capillary fleece condensing fog into mobile water reserves.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1673,6 +5536,8 @@
     "ventriglio_gastroliti": {
       "label_it": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
       "label_en": "Gastrolith Grinding Gizzard",
+      "description_it": "Ventriglio muscoloso che macina cibi duri con gastroliti.",
+      "description_en": "Muscular gizzard grinding hard food with gastroliths.",
       "rules": {
         "total": 2,
         "coverage": [
@@ -1717,6 +5582,8 @@
     "zampe_a_molla": {
       "label_it": "Zampe a Molla",
       "label_en": "Spring-Loaded Limbs",
+      "description_it": "Arti a molla che accumulano energia per balzi di riposizionamento.",
+      "description_en": "Spring-loaded limbs storing energy for repositioning leaps.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1733,6 +5600,8 @@
     "zoccoli_risonanti_steppe": {
       "label_it": "Zoccoli Risonanti delle Steppe",
       "label_en": "Zoccoli Risonanti delle Steppe",
+      "description_it": "Zoccoli cavi che inviano onde ritmiche al branco sulle steppe.",
+      "description_en": "Hollow hooves sending rhythmic waves across the steppe pack.",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1764,7 +5633,10 @@
               {
                 "id": "noctule-termico",
                 "playable_unit": true,
-                "core_traits": [],
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
                 "source": "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
               }
             ]
@@ -1865,7 +5737,10 @@
               {
                 "id": "evento-ondata-termica",
                 "playable_unit": false,
-                "core_traits": [],
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
                 "source": "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
               }
             ]
@@ -1878,7 +5753,10 @@
               {
                 "id": "evento-tempesta-ferrosa",
                 "playable_unit": false,
-                "core_traits": [],
+                "core_traits": [
+                  "cute_resistente_sali",
+                  "enzimi_chelanti"
+                ],
                 "source": "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
               }
             ]
@@ -1904,7 +5782,10 @@
               {
                 "id": "evento-brinastorm",
                 "playable_unit": false,
-                "core_traits": [],
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
                 "source": "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
               }
             ]
@@ -1928,7 +5809,10 @@
               {
                 "id": "cactus-weaver",
                 "playable_unit": true,
-                "core_traits": [],
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
                 "source": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
               }
             ]
@@ -2040,7 +5924,10 @@
               {
                 "id": "silica-bloom",
                 "playable_unit": false,
-                "core_traits": [],
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
                 "source": "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
               }
             ]
@@ -2158,7 +6045,10 @@
               {
                 "id": "thermo-raptor",
                 "playable_unit": false,
-                "core_traits": [],
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
                 "source": "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
               }
             ]
