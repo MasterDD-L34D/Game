@@ -120,6 +120,46 @@ class GenerationResult:
         }
 
 
+@dataclass(slots=True)
+class SpeciesBatchRequest:
+    entries: List[SpeciesGenerationRequest]
+
+    @classmethod
+    def from_payload(cls, payload: Mapping[str, Any]) -> "SpeciesBatchRequest":
+        batch = payload.get("batch")
+        entries: List[SpeciesGenerationRequest] = []
+        if isinstance(batch, Sequence):
+            for item in batch:
+                if isinstance(item, Mapping):
+                    entries.append(SpeciesGenerationRequest.from_payload(item))
+        return cls(entries=entries)
+
+
+@dataclass(slots=True)
+class BatchEntryError:
+    index: int
+    error: str
+    request_id: Optional[str]
+
+    def to_payload(self) -> Dict[str, Any]:
+        payload: Dict[str, Any] = {"index": self.index, "error": self.error}
+        if self.request_id:
+            payload["request_id"] = self.request_id
+        return payload
+
+
+@dataclass(slots=True)
+class GenerationBatchResult:
+    results: List[GenerationResult]
+    errors: List[BatchEntryError]
+
+    def to_payload(self) -> Dict[str, Any]:
+        return {
+            "results": [result.to_payload() for result in self.results],
+            "errors": [error.to_payload() for error in self.errors],
+        }
+
+
 def _normalise_string_sequence(value: Any) -> List[str]:
     if not value:
         return []
@@ -254,6 +294,28 @@ class GenerationOrchestrator:
         )
         raise GenerationError("Impossibile generare specie valida dopo i fallback")
 
+    def generate_species_batch(
+        self, requests: Sequence[SpeciesGenerationRequest]
+    ) -> GenerationBatchResult:
+        results: List[GenerationResult] = []
+        errors: List[BatchEntryError] = []
+        for index, request in enumerate(requests):
+            request_id = request.request_id or self._compute_request_id(request)
+            try:
+                result = self.generate_species(request)
+            except GenerationError as error:
+                self.logger.bind(request_id=request_id, batch_index=index).error(
+                    "generation.batch_entry_failed",
+                    error=str(error),
+                    traits=list(request.trait_ids),
+                )
+                errors.append(
+                    BatchEntryError(index=index, error=str(error), request_id=request_id)
+                )
+                continue
+            results.append(result)
+        return GenerationBatchResult(results=results, errors=errors)
+
     def _prepare_candidates(self, request: SpeciesGenerationRequest) -> List[Dict[str, Any]]:
         candidates: List[Dict[str, Any]] = []
         requested = [trait for trait in request.trait_ids if self.catalog.get(trait)]
@@ -301,7 +363,11 @@ def _write_output_payload(path: Optional[Path], payload: Mapping[str, Any]) -> N
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Orchestratore generazione specie")
-    parser.add_argument("--action", required=True, choices=["generate-species"])
+    parser.add_argument(
+        "--action",
+        required=True,
+        choices=["generate-species", "generate-species-batch"],
+    )
     parser.add_argument("--input", type=Path, default=None)
     parser.add_argument("--output", type=Path, default=None)
     parser.add_argument("--log-level", default=os.environ.get("ORCHESTRATOR_LOG_LEVEL", "INFO"))
@@ -316,6 +382,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if args.action == "generate-species":
             request = SpeciesGenerationRequest.from_payload(payload)
             result = orchestrator.generate_species(request)
+            _write_output_payload(args.output, result.to_payload())
+            return 0
+        if args.action == "generate-species-batch":
+            batch = SpeciesBatchRequest.from_payload(payload)
+            result = orchestrator.generate_species_batch(batch.entries)
             _write_output_payload(args.output, result.to_payload())
             return 0
     except GenerationError as error:

@@ -40,21 +40,23 @@ function normaliseRequestPayload(input) {
   if (!input || typeof input !== 'object') {
     return { trait_ids: [] };
   }
+  const traitIds = Array.isArray(input.trait_ids)
+    ? input.trait_ids
+    : Array.isArray(input.traitIds)
+      ? input.traitIds
+      : [];
+  const fallback = Array.isArray(input.fallback_trait_ids)
+    ? input.fallback_trait_ids
+    : Array.isArray(input.fallbackTraitIds)
+      ? input.fallbackTraitIds
+      : undefined;
   return {
-    trait_ids: Array.isArray(input.trait_ids)
-      ? input.trait_ids
-      : Array.isArray(input.traitIds)
-        ? input.traitIds
-        : [],
+    trait_ids: traitIds,
     biome_id: input.biome_id || input.biomeId || null,
     seed: input.seed ?? null,
     base_name: input.base_name || input.baseName || null,
     request_id: input.request_id || input.requestId || null,
-    fallback_trait_ids: Array.isArray(input.fallback_trait_ids)
-      ? input.fallback_trait_ids
-      : Array.isArray(input.fallbackTraitIds)
-        ? input.fallbackTraitIds
-        : undefined,
+    fallback_trait_ids: fallback,
   };
 }
 
@@ -75,8 +77,29 @@ function createGenerationOrchestratorBridge(options = {}) {
     });
   }
 
+  async function generateSpeciesBatch(requestPayload) {
+    const entries = Array.isArray(requestPayload?.batch)
+      ? requestPayload.batch
+      : Array.isArray(requestPayload)
+        ? requestPayload
+        : [];
+    const batch = entries
+      .map((entry) => normaliseRequestPayload(entry))
+      .filter((entry) => entry.trait_ids && entry.trait_ids.length);
+    if (!batch.length) {
+      return { results: [], errors: [] };
+    }
+    return invokePython({
+      pythonExecutable,
+      scriptPath,
+      action: 'generate-species-batch',
+      payload: { batch },
+    });
+  }
+
   return {
     generateSpecies,
+    generateSpeciesBatch,
   };
 }
 

@@ -3,9 +3,16 @@ import logging
 
 import pytest
 
+import json
+import logging
+
+import pytest
+
 from services.generation.orchestrator import (
+    GenerationBatchResult,
     GenerationError,
     GenerationOrchestrator,
+    SpeciesBatchRequest,
     SpeciesGenerationRequest,
     StructuredLogger,
 )
@@ -71,3 +78,20 @@ def test_generate_species_raises_on_missing_traits() -> None:
 
     with pytest.raises(GenerationError):
         orchestrator.generate_species(request)
+
+
+def test_generate_species_batch_returns_results_and_errors() -> None:
+    orchestrator = GenerationOrchestrator()
+    batch_request = SpeciesBatchRequest(
+        entries=[
+            build_request(seed=1),
+            build_request(trait_ids=['sconosciuto_trait'], fallback_trait_ids=['artigli_sette_vie'], seed=2),
+        ]
+    )
+
+    result = orchestrator.generate_species_batch(batch_request.entries)
+
+    payload = result.to_payload()
+    assert isinstance(result, GenerationBatchResult)
+    assert len(payload['results']) >= 1
+    assert isinstance(payload['errors'], list)
