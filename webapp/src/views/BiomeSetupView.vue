@@ -210,6 +210,8 @@ const queueSynthesis = () => {
       })),
       connections: graphState.connections.map((connection) => ({
         id: connection.id,
+        from: connection.from,
+        to: connection.to,
         weight: connection.weight,
       })),
     },
