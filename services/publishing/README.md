@@ -25,10 +25,28 @@ Ogni operazione aggiorna `services/publishing/workflowState.json` mantenendo app
 riconosce automaticamente l'esito dell'ultima validazione (`out/validation/last_report.json`) per evitare la promozione di
 pacchetti non sanitizzati.
 
+## Processo di staging automatico
+
+Il comando `node services/publishing/staging.js` consente di allineare rapidamente l'ambiente di staging
+con le ultime fonti validate:
+
+1. Legge l'elenco dei pacchetti verificati (tramite `workflow.listPackages()` e il report di validazione).
+2. Copia in `packs/evo_tactics_pack/out/staging/<pack>` solo i pacchetti conformi, aggiornando history e attori coinvolti.
+3. Rigenera gli indici JSON per il sito (`index.json` e `site_manifest.json`) con metadati, elenco patch e stato approvazioni.
+
+Opzioni disponibili:
+
+- `--actor=<nome>` per personalizzare l'attore registrato nella history.
+- `--include-unvalidated` per forzare lo staging anche dei pacchetti non presenti nell'ultimo report (sconsigliato).
+
+L'esecuzione restituisce un riepilogo testuale con pacchetti elaborati e percorsi dei manifest generati, utile per le note QA
+e per sincronizzare il calendario editoriale.
+
 ## API principali
 
 - `listPackages()` → restituisce stato corrente (validazione, staging, approvazioni).
-- `stagePackage(id, { actor })` → copia il pacchetto in staging, tracciando history e timestamp.
+- `stagePackage(id, { actor, force })` → copia il pacchetto in staging, tracciando history e timestamp (opzionalmente bypassa la
+  verifica della validazione con `force: true`).
 - `requestApproval(id, approver, note)` → registra una richiesta di approvazione.
 - `approvePackage(id, approver, note)` → segna l'approvazione e abilita la promozione.
 - `promoteToProduction(id, { actor, force })` → distribuisce su produzione (dal folder di staging se presente).

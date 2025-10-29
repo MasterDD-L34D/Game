@@ -106,11 +106,12 @@ export class PublishingWorkflow {
 
   async stagePackage(packageId, options = {}) {
     const actor = options.actor || 'system';
+    const force = Boolean(options.force);
     const pkg = await this.getPackage(packageId);
     if (!pkg) {
       throw new Error(`Pacchetto ${packageId} non trovato nella directory sorgente`);
     }
-    if (!pkg.validated) {
+    if (!pkg.validated && !force) {
       throw new Error(`Pacchetto ${packageId} non risulta validato dall'ultimo report`);
     }
 
@@ -124,7 +125,9 @@ export class PublishingWorkflow {
     this._recordHistory(packageId, {
       actor,
       action: 'staged',
-      notes: `Pacchetto copiato in staging (${destination})`,
+      notes: `Pacchetto copiato in staging (${destination})${
+        force ? ' — validazione bypassata' : ''
+      }`,
     });
     await this._persistState();
 
