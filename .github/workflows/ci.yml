@@ -65,7 +65,10 @@ jobs:
     needs:
       - paths-filter
       - typescript-tests
-    if: needs.paths-filter.outputs.cli == 'true'
+    if: >
+      always() &&
+      needs.paths-filter.outputs.cli == 'true' &&
+      (needs.typescript-tests.result == 'success' || needs.typescript-tests.result == 'skipped')
 
     steps:
       - name: Checkout repository
@@ -116,7 +119,10 @@ jobs:
     needs:
       - paths-filter
       - cli-checks
-    if: needs.paths-filter.outputs.data == 'true'
+    if: >
+      always() &&
+      needs.paths-filter.outputs.data == 'true' &&
+      (needs.cli-checks.result == 'success' || needs.cli-checks.result == 'skipped')
 
     steps:
       - name: Checkout repository
@@ -150,7 +156,13 @@ jobs:
     needs:
       - paths-filter
       - python-tests
-    if: needs.paths-filter.outputs.data == 'true' || needs.paths-filter.outputs.deploy == 'true'
+    if: >
+      always() &&
+      (needs.paths-filter.outputs.data == 'true' || needs.paths-filter.outputs.deploy == 'true') &&
+      (
+        needs.paths-filter.outputs.data != 'true' ||
+        needs.python-tests.result == 'success'
+      )
 
     steps:
       - name: Checkout repository
