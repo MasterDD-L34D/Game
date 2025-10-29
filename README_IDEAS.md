@@ -2,6 +2,25 @@
 
 Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee.
 
+## Novità widget & backend — 2025-12-01
+- **Richiamo feedback immediato** — Il report Codex pubblicato dal backend include una call to action verso il modulo espresso
+  così da raccogliere rapidamente le note post-rilascio.
+- **Registro cambi dedicato** — I rilasci di widget/backend confluiscono in [`docs/ideas/changelog.md`](docs/ideas/changelog.md)
+  per avere uno storico unico da citare in release note e retrospettive.
+
+## Procedura feedback Idea Engine
+1. **Compila il modulo espresso** — Segnala regressioni o highlight dal playtest tramite il [modulo feedback immediato](https://forms.gle/evoTacticsIdeaFeedback).
+2. **Aggiungi note contestuali** — Usa il campo feedback mostrato dal widget dopo l'invio per collegare i commenti alla singola
+   idea; l'informazione verrà riportata nel report Codex.
+3. **Apri follow-up strutturati** — Duplica [`docs/ideas/feedback.md`](docs/ideas/feedback.md) o apri un ticket con label
+   `idea-engine-feedback` per raccolte più ampie.
+
+## Link rapidi
+- [Modulo feedback immediato](https://forms.gle/evoTacticsIdeaFeedback)
+- [Changelog widget/backend](docs/ideas/changelog.md)
+- [Indice idee generato dalla CI](IDEAS_INDEX.md)
+- [Support Hub Idea Engine](docs/ideas/index.html)
+
 ## Setup
 1. Copia tutto nella **radice del repo** (mantieni i percorsi).
 2. Apri `docs/ideas/index.html` e imposta:

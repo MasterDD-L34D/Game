@@ -116,14 +116,30 @@ python3 generate_encounter.py savana
 
 ## Idea Engine Updates & Feedback
 
+### Novità rapide — 2025-12-01
+- **CTA unificata per il feedback** — Il report Codex ora si chiude con un richiamo diretto al modulo immediato per raccogliere
+  le impressioni a caldo su widget e backend.
+- **Changelog dedicato** — Le note di rilascio vivono nel nuovo file [`docs/ideas/changelog.md`](docs/ideas/changelog.md) così
+  da poter allegare rapidamente gli highlight di ogni sprint.
+
 ### Changelog
+- Consulta [`docs/ideas/changelog.md`](docs/ideas/changelog.md) per la cronologia completa.
 - **2025-10-29** — Il widget `docs/public/embed.js` mostra un modulo "Feedback" dopo l'invio delle idee e il backend accetta
   `POST /api/ideas/:id/feedback` per archiviare i commenti accanto alla proposta, includendoli nel report Codex.
 
-### Come inviare feedback
-- **Modulo rapido** — Compila il campo feedback direttamente nel widget dopo il submit per registrare note contestuali.
-- **Template strutturato** — Duplica [`docs/ideas/feedback.md`](docs/ideas/feedback.md) quando hai bisogno di un resoconto
-  completo (allega il file oppure apri un ticket con label `idea-engine-feedback`).
+### Procedura feedback
+1. **Segnala subito** — Compila il [modulo feedback immediato](https://forms.gle/evoTacticsIdeaFeedback) per registrare l'esito
+   dei test su widget/back-end entro poche ore dal rilascio.
+2. **Approfondisci nel widget** — Usa il campo feedback integrato dopo l'invio dell'idea per allegare note contestuali che
+   finiranno nel report Codex.
+3. **Formalizza se serve** — Duplica [`docs/ideas/feedback.md`](docs/ideas/feedback.md) o apri un ticket con label
+   `idea-engine-feedback` quando servono follow-up estesi.
+
+### Link rapidi
+- [Modulo feedback immediato](https://forms.gle/evoTacticsIdeaFeedback)
+- [Changelog Idea Engine](docs/ideas/changelog.md)
+- [Indice idee generato dalla CI](IDEAS_INDEX.md)
+- [Support Hub Idea Engine](docs/ideas/index.html)
 
 ## Pacchetto ecosistemi (Evo-Tactics Pack v1.7)
 - Contenuto in `packs/evo_tactics_pack/` con struttura autosufficiente (`data/`, `docs/`, `tools/`, `out/`).
