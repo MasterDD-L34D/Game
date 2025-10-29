@@ -5,13 +5,49 @@
     "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json"
   },
   "traits": {
+    "antenne_plasmatiche_tempesta": {
+      "label_it": "Antenne Plasmatiche di Tempesta",
+      "label_en": "Antenne Plasmatiche di Tempesta"
+    },
     "artigli_sette_vie": {
       "label_en": "Seven-Way Talons",
       "label_it": "Artigli a Sette Vie"
     },
+    "artigli_sghiaccio_glaciale": {
+      "label_it": "Artigli Sghiaccio Glaciale",
+      "label_en": "Artigli Sghiaccio Glaciale"
+    },
+    "branchie_osmotiche_salmastra": {
+      "label_it": "Branchie Osmotiche Salmastre",
+      "label_en": "Branchie Osmotiche Salmastre"
+    },
+    "bulbi_radici_permafrost": {
+      "label_it": "Bulbi Radici del Permafrost",
+      "label_en": "Bulbi Radici del Permafrost"
+    },
     "carapace_fase_variabile": {
       "label_en": "Phase-Shifting Carapace",
       "label_it": "Carapace a Variazione di Fase"
+    },
+    "carapace_luminiscente_abissale": {
+      "label_it": "Carapace Luminiscente Abissale",
+      "label_en": "Carapace Luminiscente Abissale"
+    },
+    "cartilagine_flessotermica_venti": {
+      "label_it": "Cartilagine Flessotermica dei Venti",
+      "label_en": "Cartilagine Flessotermica dei Venti"
+    },
+    "cavita_risonanti_tundra": {
+      "label_it": "Cavità Risonanti della Tundra",
+      "label_en": "Cavità Risonanti della Tundra"
+    },
+    "chioma_parassita_canopica": {
+      "label_it": "Chioma Parassita Canopica",
+      "label_en": "Chioma Parassita Canopica"
+    },
+    "circolazione_bifasica_palude": {
+      "label_it": "Circolazione Bifasica di Palude",
+      "label_en": "Circolazione Bifasica di Palude"
     },
     "coda_frusta_cinetica": {
       "label_en": "Kinetic Lash Tail",
@@ -41,13 +77,29 @@
       "label_en": "Caustic Gland",
       "label_it": "Ghiandola Caustica"
     },
+    "lamelle_termoforetiche": {
+      "label_en": "Thermophoretic Lamellae",
+      "label_it": "Lamelle Termoforetiche"
+    },
     "lingua_tattile_trama": {
       "label_en": "Texture-Sensing Tongue",
       "label_it": "Lingua Tattile Trama-Sensibile"
     },
+    "membrane_eliofiltranti": {
+      "label_it": "Membrane Eliofiltranti",
+      "label_en": "Membrane Eliofiltranti"
+    },
     "mimetismo_cromatico_passivo": {
       "label_en": "Passive Chromatic Mimicry",
       "label_it": "Ghiandole di Mimetismo Cromatico Passivo"
+    },
+    "mucillagine_simbionte_mangrovie": {
+      "label_it": "Mucillagine Simbionte delle Mangrovie",
+      "label_en": "Mucillagine Simbionte delle Mangrovie"
+    },
+    "nodi_micorrizici_oracolari": {
+      "label_it": "Nodi Micorrizici Oracolari",
+      "label_en": "Nodi Micorrizici Oracolari"
     },
     "nucleo_ovomotore_rotante": {
       "label_en": "Rotating Ovomotor Core",
@@ -69,6 +121,14 @@
       "label_en": "Strategic Planner",
       "label_it": "Pianificatore"
     },
+    "piume_solari_fotovoltaiche": {
+      "label_it": "Piume Solari Fotovoltaiche",
+      "label_en": "Piume Solari Fotovoltaiche"
+    },
+    "polmoni_cristallini_alta_quota": {
+      "label_it": "Polmoni Cristallini d'Alta Quota",
+      "label_en": "Polmoni Cristallini d'Alta Quota"
+    },
     "random": {
       "label_en": "Trait Random",
       "label_it": "Trait Random"
@@ -85,9 +145,9 @@
       "label_en": "Elevating Buoyancy Sacs",
       "label_it": "Sacche galleggianti ascensoriali"
     },
-    "sensori_geomagnetici": {
-      "label_en": "Geomagnetic Resonance Sensors",
-      "label_it": "Sensori a Risonanza Geomagnetica"
+    "sacche_spore_stratosferiche": {
+      "label_it": "Sacche di Spore Stratosferiche",
+      "label_en": "Sacche di Spore Stratosferiche"
     },
     "sangue_piroforico": {
       "label_en": "Pyrophoric Blood",
@@ -101,6 +161,14 @@
       "label_en": "Retarding Palm Secretions",
       "label_it": "Mani secernano liquido rallentante"
     },
+    "sensori_geomagnetici": {
+      "label_en": "Geomagnetic Resonance Sensors",
+      "label_it": "Sensori a Risonanza Geomagnetica"
+    },
+    "sinapsi_coraline_polifoniche": {
+      "label_it": "Sinapsi Coraline Polifoniche",
+      "label_en": "Sinapsi Coraline Polifoniche"
+    },
     "sonno_emisferico_alternato": {
       "label_en": "Unihemispheric Sleep",
       "label_it": "Dormire con solo metà cervello alla volta"
@@ -109,17 +177,21 @@
       "label_en": "Silent Psychic Spores",
       "label_it": "Spora Psichica Silenziosa"
     },
+    "squame_rifrangenti_deserto": {
+      "label_it": "Squame Rifrangenti del Deserto",
+      "label_en": "Squame Rifrangenti del Deserto"
+    },
     "struttura_elastica_amorfa": {
       "label_en": "Elastic Amorphous Frame",
       "label_it": "Struttura elastica, allungabile, amorfa, retrattile"
     },
-    "lamelle_termoforetiche": {
-      "label_en": "Thermophoretic Lamellae",
-      "label_it": "Lamelle Termoforetiche"
-    },
     "tattiche_di_branco": {
       "label_en": "Pack Tactics",
       "label_it": "Tattiche di Branco"
+    },
+    "vello_condensatore_nebbie": {
+      "label_it": "Vello Condensatore di Nebbie",
+      "label_en": "Vello Condensatore di Nebbie"
     },
     "ventriglio_gastroliti": {
       "label_en": "Gastrolith Grinding Gizzard",
@@ -128,6 +200,10 @@
     "zampe_a_molla": {
       "label_en": "Spring-Loaded Limbs",
       "label_it": "Zampe a Molla"
+    },
+    "zoccoli_risonanti_steppe": {
+      "label_it": "Zoccoli Risonanti delle Steppe",
+      "label_en": "Zoccoli Risonanti delle Steppe"
     }
   }
 }

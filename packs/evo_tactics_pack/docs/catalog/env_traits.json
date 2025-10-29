@@ -694,6 +694,87 @@
     },
     {
       "when": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "meta": {
+        "category": "pacchetto_psionico",
+        "description": "Canopie conduttrici sospese che diffondono correnti empatiche a bassa intensità.",
+        "cohort": "spirale_psionica",
+        "tier": "T1"
+      },
+      "suggest": {
+        "traits": [
+          "mimetismo_cromatico_passivo",
+          "struttura_elastica_amorfa",
+          "focus_frazionato",
+          "sacche_galleggianti_ascensoriali"
+        ],
+        "effects": {
+          "res_psionic": "+1",
+          "stealth_bonus": true
+        },
+        "jobs_bias": [
+          "Invoker",
+          "Support"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "meta": {
+        "category": "pacchetto_psionico",
+        "description": "Dorsali e falde magnetiche che amplificano segnali sensoriali e digestivi psionici.",
+        "cohort": "spirale_psionica",
+        "tier": "T2"
+      },
+      "suggest": {
+        "traits": [
+          "filamenti_digestivi_compattanti",
+          "olfatto_risonanza_magnetica",
+          "struttura_elastica_amorfa",
+          "nucleo_ovomotore_rotante"
+        ],
+        "effects": {
+          "res_psionic": "+2",
+          "hazard_sense_magnetico": true
+        },
+        "jobs_bias": [
+          "Warden",
+          "Vanguard"
+        ]
+      }
+    },
+    {
+      "when": {
+        "biome_class": "orbita_psionica_inversa"
+      },
+      "meta": {
+        "category": "pacchetto_psionico",
+        "description": "Corridoi orbitali a gravità invertita che fungono da camere di risonanza mentale.",
+        "cohort": "spirale_psionica",
+        "tier": "T3"
+      },
+      "suggest": {
+        "traits": [
+          "sacche_galleggianti_ascensoriali",
+          "olfatto_risonanza_magnetica",
+          "focus_frazionato",
+          "nucleo_ovomotore_rotante"
+        ],
+        "effects": {
+          "res_psionic": "+2",
+          "lift_control": true
+        },
+        "jobs_bias": [
+          "Invoker",
+          "Skirmisher"
+        ]
+      }
+    },
+    {
+      "when": {
         "biome_class": "dorsale_termale_tropicale",
         "morphotype": "cursoriale_quadrupede"
       },
@@ -706,6 +787,7 @@
         "traits": [
           "artigli_sette_vie",
           "coda_frusta_cinetica",
+          "olfatto_risonanza_magnetica",
           "nucleo_ovomotore_rotante",
           "sacche_galleggianti_ascensoriali",
           "scheletro_idro_regolante",
@@ -804,7 +886,9 @@
           "pianificatore",
           "risonanza_di_branco",
           "spore_psichiche_silenziate",
-          "tattiche_di_branco"
+          "tattiche_di_branco",
+          "filamenti_digestivi_compattanti",
+          "struttura_elastica_amorfa"
         ],
         "jobs_bias": [
           "Warden",
@@ -874,7 +958,9 @@
         "traits": [
           "criostasi_adattiva",
           "eco_interno_riflesso",
-          "sonno_emisferico_alternato"
+          "sonno_emisferico_alternato",
+          "mimetismo_cromatico_passivo",
+          "sacche_galleggianti_ascensoriali"
         ],
         "jobs_bias": [
           "Invoker",

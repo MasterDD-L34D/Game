@@ -1,0 +1,80 @@
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-11-10'
+  trace_hash: to-fill
+id: psionic-canopy-scout
+display_name: Psionic Canopy Scout
+biomes:
+  - canopia_psionica_leggera
+role_trofico: ingegneri_ecosistema
+functional_tags:
+  - supporto_psionico
+  - ricognizione
+morphotype: volatore_planatore
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: true
+vc:
+  aggro: 0.3
+  risk: 0.2
+  cohesion: 0.6
+  setup: 0.7
+  explore: 0.8
+  tilt: 0.2
+spawn_rules:
+  orario:
+    - giorno
+    - crepuscolo
+  meteo:
+    - nebbia_spore
+    - brezza_psionica
+  densita: mid
+balance:
+  rarity: R1
+  threat_tier: T1
+  encounter_role: support
+environment_affinity:
+  biome_class: canopia_psionica_leggera
+  hazards_expected:
+    - vortici_psionici
+    - radiazioni_sottili
+  rationale: "Sentinelle leggere che sfruttano la canopia psionica per mantenere corridoi aerei e supervisionare gli spostamenti del branco."
+derived_from_environment:
+  suggested_traits:
+    - focus_frazionato
+    - mimetismo_cromatico_passivo
+    - sacche_galleggianti_ascensoriali
+    - struttura_elastica_amorfa
+  optional_traits:
+    - olfatto_risonanza_magnetica
+    - spore_psichiche_silenziate
+  synergy_traits:
+    - pathfinder
+    - pianificatore
+  required_capabilities:
+    - lift_control
+jobs_bias:
+  - Support
+  - Invoker
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: 0.08
+services_links: []
+genetic_traits:
+  core:
+    - focus_frazionato
+    - mimetismo_cromatico_passivo
+    - sacche_galleggianti_ascensoriali
+    - struttura_elastica_amorfa
+  optional:
+    - olfatto_risonanza_magnetica
+  synergy: []
+mate_synergy: []
+jobs_synergy: []

@@ -241,12 +241,25 @@
         {
           "capacita_richieste": [],
           "condizioni": {
-            "biome_class": "caverna_risonante"
+            "biome_class": "canopia_psionica_leggera"
           },
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "T1 di acclimatazione nelle canopie conduttrici a bassa intensità.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Percorso T2 che aggiunge gradienti magnetici per pattern cromatici complessi.",
+            "tier": "T2"
           }
         }
       ],
@@ -496,12 +509,25 @@
         {
           "capacita_richieste": [],
           "condizioni": {
-            "biome_class": "caverna_risonante"
+            "biome_class": "falde_magnetiche_psioniche"
           },
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "Corridore T2 per intercettare campi magnetici psionici sulle dorsali.",
+            "tier": "T2"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "orbita_psionica_inversa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Variante T3 calibrata alle camere di gravità invertita e ai flussi orbitali.",
+            "tier": "T3"
           }
         }
       ],
@@ -533,12 +559,25 @@
         {
           "capacita_richieste": [],
           "condizioni": {
-            "biome_class": "caverna_risonante"
+            "biome_class": "canopia_psionica_leggera"
           },
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "Fase T1 controllata: micro-canopie sospese usate per cicli brevi di ibernazione.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "orbita_psionica_inversa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Variante apex T3 in camere orbitali a gravità invertita per stasi prolungate.",
+            "tier": "T3"
           }
         }
       ],
@@ -567,12 +606,25 @@
         {
           "capacita_richieste": [],
           "condizioni": {
-            "biome_class": "caverna_risonante"
+            "biome_class": "canopia_psionica_leggera"
           },
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "Start T1 nelle canopie conduttrici per apprendere deformazioni controllate.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Upgrade T2 sulle dorsali magnetiche per mantenere elasticità sotto stress.",
+            "tier": "T2"
           }
         }
       ],
@@ -589,7 +641,7 @@
       },
       "slot": [],
       "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
-      "tier": "T1",
+      "tier": "T2",
       "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
     },
     "empatia_coordinativa": {
@@ -636,7 +688,20 @@
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Variante T2 che sfrutta falde magnetiche per compattare residui ad alta densità.",
+            "tier": "T2"
           }
         }
       ],
@@ -651,7 +716,7 @@
       },
       "slot": [],
       "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
-      "tier": "T1",
+      "tier": "T2",
       "uso_funzione": "Espulsione compatta e ordinata di scorie."
     },
     "focus_frazionato": {
@@ -832,12 +897,25 @@
         {
           "capacita_richieste": [],
           "condizioni": {
-            "biome_class": "caverna_risonante"
+            "biome_class": "canopia_psionica_leggera"
           },
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "T1 di acclimatazione nelle canopie conduttrici a bassa intensità.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Percorso T2 che aggiunge gradienti magnetici per pattern cromatici complessi.",
+            "tier": "T2"
           }
         }
       ],
@@ -1011,12 +1089,25 @@
         {
           "capacita_richieste": [],
           "condizioni": {
-            "biome_class": "caverna_risonante"
+            "biome_class": "falde_magnetiche_psioniche"
           },
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "Corridore T2 per intercettare campi magnetici psionici sulle dorsali.",
+            "tier": "T2"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "orbita_psionica_inversa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Variante T3 calibrata alle camere di gravità invertita e ai flussi orbitali.",
+            "tier": "T3"
           }
         }
       ],
@@ -1032,7 +1123,7 @@
       },
       "slot": [],
       "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
-      "tier": "T1",
+      "tier": "T2",
       "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
     },
     "pathfinder": {
@@ -1283,12 +1374,25 @@
         {
           "capacita_richieste": [],
           "condizioni": {
-            "biome_class": "caverna_risonante"
+            "biome_class": "canopia_psionica_leggera"
           },
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "Fase T1 in canopie sospese per calibrare pompaggio e feedback pressorio.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "orbita_psionica_inversa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Apex T3 su piattaforme orbitali a gravità invertita per ascese rapide.",
+            "tier": "T3"
           }
         }
       ],
@@ -1643,12 +1747,25 @@
         {
           "capacita_richieste": [],
           "condizioni": {
-            "biome_class": "caverna_risonante"
+            "biome_class": "canopia_psionica_leggera"
           },
           "fonte": "env_to_traits",
           "meta": {
             "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+            "notes": "Start T1 nelle canopie conduttrici per apprendere deformazioni controllate.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Upgrade T2 sulle dorsali magnetiche per mantenere elasticità sotto stress.",
+            "tier": "T2"
           }
         }
       ],
