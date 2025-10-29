@@ -140,3 +140,5 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 ### Duplicati segnalati dallo script
 
 Lo script `tools/audit/data_health.py --incoming` evidenzia duplicati da gestire (`compat_map`, `evo-tactics-final`, `evo_tactics_ancestors_repo_pack_v1.0`, `index.html`, `README`).【9688a7†L1-L7】
+
+Lanciando lo stesso audit con l'opzione `--report` viene generato `reports/data_health_summary.json`, utile per integrare il controllo nei workflow CI o nelle dashboard editoriali.

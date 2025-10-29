@@ -14,6 +14,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Iterable, Sequence
 
@@ -259,18 +260,33 @@ def get_nested(mapping, keys: Sequence[str]):
     return value
 
 
-def audit_dataset(rule: DatasetRule) -> list[str]:
+def audit_dataset(rule: DatasetRule) -> tuple[list[str], dict]:
     issues: list[str] = []
     path = rule.absolute_path()
+    status = "ok"
+    summary: dict = {
+        "path": str(rule.path),
+        "format": rule.fmt,
+        "description": rule.description,
+        "expected_schema": rule.schema_version,
+        "dependencies": [str(dep) for dep in rule.dependencies],
+        "issues": issues,
+    }
+    detected_schema: str | None = None
+    detected_version: str | None = None
     if not path.exists():
         issues.append(f"Missing file: {rule.path}")
-        return issues
+        status = "missing"
+        summary["status"] = status
+        return issues, summary
 
     try:
         data = load_structured(path, rule.fmt)
     except Exception as exc:  # pragma: no cover - runtime guard
         issues.append(f"{rule.path}: failed to parse ({exc})")
-        return issues
+        status = "error"
+        summary["status"] = status
+        return issues, summary
 
     if rule.fmt in {"json", "yaml"}:
         if not isinstance(data, dict):
@@ -280,16 +296,20 @@ def audit_dataset(rule: DatasetRule) -> list[str]:
                 if key not in data:
                     issues.append(f"{rule.path}: missing key '{key}'")
             if rule.schema_version is not None:
-                actual = data.get("schema_version")
-                if actual != rule.schema_version:
+                detected_schema = data.get("schema_version")
+                if detected_schema != rule.schema_version:
                     issues.append(
-                        f"{rule.path}: schema_version={actual!r}, expected {rule.schema_version!r}"
+                        f"{rule.path}: schema_version={detected_schema!r}, expected {rule.schema_version!r}"
                     )
+            else:
+                detected_schema = data.get("schema_version")
             if rule.version_path:
                 found = get_nested(data, rule.version_path)
                 if found in (None, ""):
                     pretty = ".".join(rule.version_path)
                     issues.append(f"{rule.path}: missing version info at '{pretty}'")
+                else:
+                    detected_version = str(found)
     elif rule.fmt == "csv":
         header = data
         expected_columns = set(rule.required_keys)
@@ -308,7 +328,16 @@ def audit_dataset(rule: DatasetRule) -> list[str]:
                 f"{rule.path}: dependency missing → {dependency.relative_to(REPO_ROOT)}"
             )
 
-    return issues
+    if issues:
+        if status == "ok":
+            status = "error"
+    summary["status"] = status
+    if detected_schema is not None:
+        summary["detected_schema"] = detected_schema
+    if detected_version is not None:
+        summary["detected_version"] = detected_version
+    summary["issues"] = list(issues)
+    return issues, summary
 
 
 DUPLICATE_STRIP_RE = re.compile(r"\s*\(\d+\)$")
@@ -336,17 +365,47 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument(
         "--incoming", action="store_true", help="Check incoming/ for duplicate payloads"
     )
+    parser.add_argument(
+        "--report",
+        type=Path,
+        help="Write a JSON summary of the audit to the specified path",
+    )
     args = parser.parse_args(argv)
 
     problems: list[str] = []
+    dataset_summaries: list[dict] = []
     for rule in EXPECTED_DATASETS:
-        problems.extend(audit_dataset(rule))
+        issues, summary = audit_dataset(rule)
+        problems.extend(issues)
+        dataset_summaries.append(summary)
 
+    duplicate_entries: list[dict] = []
     if args.incoming:
         duplicates = find_duplicates([REPO_ROOT / "incoming"])
         for key, paths in sorted(duplicates.items()):
             formatted = ", ".join(str(path.relative_to(REPO_ROOT)) for path in paths)
             problems.append(f"Duplicate candidate '{key}': {formatted}")
+            duplicate_entries.append(
+                {
+                    "key": key,
+                    "paths": [str(path.relative_to(REPO_ROOT)) for path in paths],
+                }
+            )
+
+    if args.report:
+        report_payload = {
+            "generated_at": datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
+            "status": "ok" if not problems else "error",
+            "datasets": dataset_summaries,
+        }
+        if args.incoming:
+            report_payload["incoming_duplicates"] = duplicate_entries
+        report_path = args.report
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(
+            json.dumps(report_payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
 
     if problems:
         print("Data health issues detected:", file=sys.stderr)
