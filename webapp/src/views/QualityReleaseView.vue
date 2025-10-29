@@ -92,19 +92,26 @@
         <p>Applica fix automatici o rigenera selezioni specifiche sulla base dei risultati runtime.</p>
       </header>
       <ul class="quality-suggestions">
-        <li v-for="suggestion in suggestions" :key="suggestion.id" :class="['quality-suggestion', `quality-suggestion--${suggestion.scope}`]">
+        <li
+          v-for="suggestion in suggestions"
+          :key="suggestion.id"
+          :class="['quality-suggestion', `quality-suggestion--${suggestion.scope}`]"
+        >
           <div>
             <h4>{{ suggestion.title }}</h4>
             <p>{{ suggestion.description }}</p>
           </div>
-          <button
-            type="button"
-            class="quality-suggestion__action"
-            :disabled="suggestion.applied"
-            @click="applySuggestion(suggestion)"
-          >
-            {{ suggestionLabel(suggestion) }}
-          </button>
+          <div class="quality-suggestion__actions">
+            <button
+              type="button"
+              class="quality-suggestion__action"
+              :disabled="suggestion.applied || suggestion.running"
+              @click="applySuggestion(suggestion)"
+            >
+              {{ suggestion.running ? 'In corso…' : suggestionLabel(suggestion) }}
+            </button>
+            <p v-if="suggestion.error" class="quality-suggestion__error">{{ suggestion.error }}</p>
+          </div>
         </li>
       </ul>
     </section>
@@ -144,6 +151,7 @@
 <script setup>
 import { computed, reactive, ref, toRefs } from 'vue';
 import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService.js';
+import { applyQualitySuggestion } from '../services/qualityReleaseService.js';
 
 const props = defineProps({
   snapshot: {
@@ -164,6 +172,7 @@ const foodwebCheck = reactive({ running: false, result: null, error: null, lastR
 
 const runtimeLogs = ref([]);
 const appliedSuggestionIds = ref([]);
+const suggestionState = reactive({});
 let logCounter = 0;
 
 const orchestrator = computed(() => {
@@ -183,10 +192,15 @@ const owners = computed(() => {
 
 const suggestions = computed(() => {
   const items = Array.isArray(context.value.suggestions) ? context.value.suggestions : [];
-  return items.map((item) => ({
-    ...item,
-    applied: appliedSuggestionIds.value.includes(item.id),
-  }));
+  return items.map((item) => {
+    const state = suggestionState[item.id] || {};
+    return {
+      ...item,
+      applied: appliedSuggestionIds.value.includes(item.id),
+      running: Boolean(state.running),
+      error: state.error || null,
+    };
+  });
 });
 
 const baseLogs = computed(() => {
@@ -387,16 +401,37 @@ async function runFoodwebCheck() {
   }
 }
 
-function applySuggestion(suggestion) {
-  if (!appliedSuggestionIds.value.includes(suggestion.id)) {
-    appliedSuggestionIds.value = [...appliedSuggestionIds.value, suggestion.id];
-    const level = suggestion.action === 'regenerate' ? 'info' : 'success';
-    const message = suggestion.action === 'regenerate'
-      ? `Rigenerazione avviata: ${suggestion.title}`
-      : `Fix applicato: ${suggestion.title}`;
+async function applySuggestion(suggestion) {
+  if (!suggestion || suggestion.running || suggestion.applied) {
+    return;
+  }
+  const id = suggestion.id;
+  suggestionState[id] = { running: true, error: null };
+  try {
+    const response = await applyQualitySuggestion({
+      id: suggestion.id,
+      scope: suggestion.scope,
+      action: suggestion.action,
+      payload: suggestion.payload,
+    });
+    const remoteLogs = Array.isArray(response?.logs) ? response.logs : [];
+    appendLogs(suggestion.scope, remoteLogs);
     appendLogs(suggestion.scope, [
       {
-        level,
+        level: suggestion.action === 'regenerate' ? 'info' : 'success',
+        message: `Suggerimento applicato: ${suggestion.title}`,
+      },
+    ]);
+    if (!appliedSuggestionIds.value.includes(id)) {
+      appliedSuggestionIds.value = [...appliedSuggestionIds.value, id];
+    }
+    suggestionState[id] = { running: false, error: null };
+  } catch (error) {
+    const message = error?.message || 'Errore applicazione suggerimento';
+    suggestionState[id] = { running: false, error: message };
+    appendLogs(suggestion.scope, [
+      {
+        level: 'error',
         message,
       },
     ]);
@@ -595,6 +630,12 @@ function applySuggestion(suggestion) {
   background: rgba(12, 18, 26, 0.85);
 }
 
+.quality-suggestion__actions {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: end;
+}
+
 .quality-suggestion h4 {
   margin: 0 0 0.35rem;
   font-size: 1rem;
@@ -622,6 +663,12 @@ function applySuggestion(suggestion) {
   cursor: not-allowed;
   background: rgba(129, 255, 199, 0.15);
   color: rgba(129, 255, 199, 0.85);
+}
+
+.quality-suggestion__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 133, 133, 0.85);
 }
 
 .quality-logs__toolbar {

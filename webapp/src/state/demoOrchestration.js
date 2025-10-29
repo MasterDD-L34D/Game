@@ -346,6 +346,21 @@ export const qualityReleaseContext = reactive({
       title: 'Allineare trait duplicati',
       description: 'Rimuovere il tratto ripetuto per il branch QA-NEB-07 e riallineare il seed.',
       action: 'fix',
+      payload: {
+        biomeId: 'badlands',
+        entries: [
+          {
+            id: 'spec-runtime-node',
+            display_name: 'Predatore Nodo QA',
+            role_trofico: 'predatore_apice_test',
+            functional_tags: 'predatore',
+            vc: {},
+            playable_unit: false,
+            spawn_rules: {},
+            balance: {},
+          },
+        ],
+      },
     },
     {
       id: 'biome-hazard',
@@ -353,6 +368,16 @@ export const qualityReleaseContext = reactive({
       title: 'Impostare hazard predefinito',
       description: 'Forzare l\'hazard Nebbia fotonica instabile per evitare fallback in produzione.',
       action: 'fix',
+      payload: {
+        biome: {
+          id: 'twilight-marsh',
+          hazard: { id: null, label: null },
+          stability: { erosion: 'medio', vents: 'variabile' },
+          fauna: { apex: ['lupus-nebulis'], support: ['support-1'] },
+          brief: 'Bioma di riferimento per il branch orchestrato in fase di QA.',
+        },
+        defaultHazard: 'Nebbia fotonica instabile',
+      },
     },
     {
       id: 'foodweb-refresh',
@@ -360,6 +385,36 @@ export const qualityReleaseContext = reactive({
       title: 'Rigenerare anelli secondari',
       description: 'Eseguire una rigenerazione mirata dei link con peso < 0.5 per ampliare le sinergie.',
       action: 'regenerate',
+      payload: {
+        foodweb: {
+          anchors: [
+            { id: 'alpha-pack', role: 'predatore_apice' },
+            { id: 'lure-flora', role: 'flora_reagente' },
+          ],
+          links: [
+            { from: 'alpha-pack', to: 'lure-flora', weight: 0.4 },
+          ],
+          focus: 'Ricalibrazione archi secondari sotto soglia 0.5',
+        },
+      },
+    },
+    {
+      id: 'species-reroll',
+      scope: 'species',
+      title: 'Rigenerare blueprint prioritari',
+      description: 'Richiedi una generazione mirata per i seed QA-OBS-05 con fallback controllato.',
+      action: 'regenerate',
+      payload: {
+        entries: [
+          {
+            trait_ids: ['echo_stalker', 'prism_lurker'],
+            biome_id: 'obsidian-ridge',
+            seed: 'QA-OBS-05',
+            request_id: 'regen-obsidian-05',
+            fallback_trait_ids: ['shadow_pack'],
+          },
+        ],
+      },
     },
   ],
   notifications: [
