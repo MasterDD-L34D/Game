@@ -1,0 +1,9 @@
+# Catalogo slug funzionali usati dal widget Idea Intake.
+# Aggiorna questo file quando aggiungi nuove pipeline o sistemi.
+functions:
+  - telemetria_vc
+  - mating_nido
+  - progressione_pe
+  - hud_smart_alerts
+  - stresswave_monitoring
+  - pi_shop
