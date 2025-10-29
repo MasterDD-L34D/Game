@@ -37,10 +37,13 @@ def test_derive_trait_baseline_structure(baseline_module):
     assert artigli["archetype"] == "locomozione"
     assert artigli["biomi"]["caverna_risonante"] == 1
     assert artigli["label_en"] == "Seven-Way Talons"
+    assert artigli["description_it"]
+    assert artigli["description_en"]
 
     zampe = traits["zampe_a_molla"]
     assert zampe["archetype"] == "locomozione"
     assert zampe["occurrences"] == 0
     assert zampe["label_en"] == "Spring-Loaded Limbs"
+    assert zampe["description_en"]
 
     assert "locomozione" in payload["archetypes"]

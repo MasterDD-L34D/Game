@@ -99,6 +99,8 @@ class TraitEntry:
     archetype: str
     label: str | None
     label_en: str | None
+    description_it: str | None
+    description_en: str | None
     tier: str | None
     famiglia_tipologia: str | None
     fattore_mantenimento: str | None
@@ -111,6 +113,8 @@ class TraitEntry:
         return {
             "label": self.label,
             "label_en": self.label_en,
+            "description_it": self.description_it,
+            "description_en": self.description_en,
             "tier": self.tier,
             "archetype": self.archetype,
             "occurrences": self.occurrences,
@@ -221,12 +225,20 @@ def derive_trait_baseline(
         glossary_entry = glossary.get(trait_id) or {}
         label_en = glossary_entry.get("label_en") if isinstance(glossary_entry, Mapping) else None
         label = label or (glossary_entry.get("label_it") if isinstance(glossary_entry, Mapping) else None)
+        description_it = (
+            glossary_entry.get("description_it") if isinstance(glossary_entry, Mapping) else None
+        )
+        description_en = (
+            glossary_entry.get("description_en") if isinstance(glossary_entry, Mapping) else None
+        )
         entry = TraitEntry(
             id=trait_id,
             occurrences=count,
             archetype=archetype,
             label=label,
             label_en=label_en,
+            description_it=description_it,
+            description_en=description_en,
             tier=tier,
             famiglia_tipologia=famiglia_tipologia,
             fattore_mantenimento=fattore_mantenimento,

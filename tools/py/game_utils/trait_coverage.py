@@ -258,10 +258,18 @@ def generate_trait_coverage(
         glossary_entry = glossary.get(trait_id) if isinstance(glossary, Mapping) else None
         label_it = glossary_entry.get("label_it") if isinstance(glossary_entry, Mapping) else None
         label_en = glossary_entry.get("label_en") if isinstance(glossary_entry, Mapping) else None
+        description_it = (
+            glossary_entry.get("description_it") if isinstance(glossary_entry, Mapping) else None
+        )
+        description_en = (
+            glossary_entry.get("description_en") if isinstance(glossary_entry, Mapping) else None
+        )
 
         report_traits[trait_id] = {
             "label_it": label_it,
             "label_en": label_en,
+            "description_it": description_it,
+            "description_en": description_en,
             "rules": {
                 "total": sum(rule_counter.values()),
                 "coverage": rule_rows,
