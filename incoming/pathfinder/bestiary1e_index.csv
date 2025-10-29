@@ -1,0 +1,1212 @@
+name,type,subtype,environment_tags,movement,special_abilities,cr
+Aasimar,outsider,native,any land,walk:30,channel positive energy;rebuke death;touch of good,0.5
+Abaia,magical beast,aquatic,warm lakes,walk:20;swim:80,eldritch gizzard (su);endless coils (ex);wave rider (su);constrict;endless coils,10.0
+Aboleth,aberration,aquatic,any aquatic,walk:10;swim:60,mucus cloud (ex);slime (ex),7.0
+Accuser,outsider,devil; evil; extraplanar; lawful,any,walk:20;fly:60,disease (ex);infernal eye (su),3.0
+Achaierai,outsider,evil; extraplanar; lawful,any land,walk:50,black cloud (su);black cloud,5.0
+Adamantine Golem,construct,,any,walk:30,destructive strike (ex);indestructible (ex);immunity to magic (ex);destructive strike;trample,19.0
+Adaro,monstrous humanoid,aquatic,warm oceans,walk:10;swim:50,poison (ex);poison use (ex);rain frenzy (su);speak with sharks (su);rain frenzy,3.0
+Adherer,monstrous humanoid,,any temperate;underground,walk:30;climb:10,adhesive (su);grab,3.0
+Adhukait,outsider,asura; evil; extraplanar; lawful,any,walk:40,dance of disaster (su);dual mind (su);dance of disaster,7.0
+Adlet,humanoid,adlet; cold,cold plains;hills;mountains,walk:40,arctic stride (ex);frozen breath (su);frozen breath,10.0
+Adult Black Dragon,dragon,water,warm marshes,walk:60;fly:200;swim:60,acid pool (su);acidic bite (su);charm reptiles (sp);corrupt water (sp);speak with reptiles (sp);abilities (sp);swamp stride (ex);water breathing (ex);breath weapon;corrupt water,11.0
+Adult Blue Dragon,dragon,earth,warm deserts,walk:40;burrow:20;fly:200,desert thirst (su);electricity aura (su);mirage (su);sandstorm (su);sound imitation (ex);abilities (sp);storm breath (su);breath weapon;crush;desert thirst,13.0
+Adult Brass Dragon,dragon,fire,warm deserts,walk:60;burrow:30;fly:200,desert wind (su);fire aura (su);move sand (sp);sandstorm (su);sleep breath (su);abilities (sp);summon djinni (sp);breath weapon;desert wind;sleep breath,11.0
+Adult Brine Dragon,dragon,extraplanar; water,any aquatic,walk:60;fly:200;swim:60,capsize (ex);desiccating bite (su);painful strikes (su);abilities (sp);breath weapon,11.0
+Adult Bronze Dragon,dragon,water,temperate coastlines,walk:40;fly:200;swim:60,change shape (su);electricity aura (su);repulsion breath (su);abilities (sp);tidal wave (su);vortex (ex);water breathing (ex);wave mastery (su);breath weapon;crush;repulsion breath,13.0
+Adult Cloud Dragon,dragon,air; extraplanar,any sky,walk:40;fly:200;swim:40,cloud form (su);cloud breath (su);mist vision (su);abilities (sp);thundering bite (su);breath weapon;crush,13.0
+Adult Copper Dragon,dragon,earth,warm hills,walk:40;fly:200,climb stone (ex);deadly joke (sp);mass laughter (sp);slow aura (su);slow breath (su);abilities (sp);trap master (ex);uncanny dodge (ex);b. weapon;slow breath,12.0
+Adult Crystal Dragon,dragon,earth; extraplanar,any underground,walk:60;burrow:30;climb:30;fly:200,razor sharp (sp);ray reflection (ex);scintillating aura (su);abilities (sp);tremorsense (ex);breath weapon,10.0
+Adult Forest Dragon,dragon,earth,any forest,walk:40;burrow:20;climb:30;fly:200,change shape (su);destructive crush (su);elemental breath (su);sound imitation (ex);stony death (su);woodland stride (ex);breath weapon;crush,14.0
+Adult Gold Dragon,dragon,fire,warm plains,walk:60;fly:250;swim:60,change shape (su);detect gems (sp);divine aid (sp);fast flight (ex);fire aura (su);luck (sp);abilities (sp);weakening breath (su);breath weapon;crush;weakening breath,15.0
+Adult Green Dragon,dragon,air,temperate forests,walk:40;fly:200;swim:40,awaken treants (su);camouflage (ex);miasma (su);abilities (sp);trackless step (ex);water breathing (ex);woodland stride (ex);breath weapon;crush,12.0
+Adult Lunar Dragon,dragon,,vacuum,walk:40;burrow:20;fly:200,absolute cold (su);alien presence (su);bewildering breath (su);moonsilver (ex);reflect rays (su);reflected light (ex);bewildering breath;breath weapon;crush;moonsilver,13.0
+Adult Magma Dragon,dragon,extraplanar; fire,any mountains;underground,walk:40;fly:200,magma tomb (su);magma breath (su);abilities (sp);superheated (su);breath weapon,12.0
+Adult Red Dragon,dragon,fire,warm mountains,walk:40;fly:200,fire aura (su);incinerate (su);manipulate flames (su);melt stone (su);smoke vision (ex);abilities (sp);breath weapon;crush,14.0
+Adult Sea Dragon,dragon,water,any water,walk:40;fly:200;swim:80,change shape (su);sea strider (su);tidal wave (su);torrent breath (su);unfettered swimmer (su);breath weapon;crush;torrent breath,12.0
+Adult Silver Dragon,dragon,cold,temperate mountains,walk:40;fly:200,change shape (su);cloudwalking (su);cold aura (su);fog vision (ex);graceful flight (ex);paralyzing breath (su);reflective scales (su);abilities (sp);true courage (ex);breath weapon;crush;paralyzing breath,14.0
+Adult Sky Dragon,dragon,air,temperate;warm mountains,walk:40;fly:200,borne aloft (su);celestial emissary (su);change shape (su);cloud sight (su);grounding breath (su);primal lightning (su);breath weapon;crush,13.0
+Adult Solar Dragon,dragon,fire,vacuum,walk:50;fly:200,alien presence (su);beam of light (su);channel life (su);channel radiation (su);primal fire (su);breath weapon;channel life;crush;primal fire,13.0
+Adult Sovereign Dragon,dragon,,any mountains,walk:50;fly:200,change shape (su);dogmatic discordance (su);golden armor (su);master counterspelling (su);violent retort (ex);breath weapon;crush;violent retort,15.0
+Adult Time Dragon,dragon,,vacuum,walk:50;fly:200,immortal (ex);read the threads (su);alien presence (su);shifting breath (su);second chance (su);time travel (su);breath weapon;crush,15.0
+Adult Umbral Dragon,dragon,extraplanar,any,walk:40;fly:200,breath weapon (su);create shadows (su);energy drain (su);ghost bane (su);umbral scion (ex);shadow breath (su);abilities (sp);breath weapon;crush;shadow breath,14.0
+Adult Underworld Dragon,dragon,fire,any underground,walk:40;burrow:40;fly:200,adamantine claws (ex);change shape (su);lava eruption (su);smoke vision (ex);underworld burrower (ex);adamantine claws;breath weapon,11.0
+Adult Void Dragon,dragon,,vacuum,walk:40;fly:200,agile (ex);alien presence (su);obliterate (su);suffocating breath (su);void gaze (su);breath weapon;crush;obliterate;suffocating breath;void gaze,13.0
+Adult Vortex Dragon,dragon,fire,vacuum,walk:60;fly:200,agile (ex);alien presence (su);collapsing breath (su);fragmented strike (su);galactic emissary (su);breath weapon;crush;fragmented strike,14.0
+Adult White Dragon,dragon,cold,cold mountains,walk:30;burrow:30;fly:200;swim:60,blizzard (su);cold aura (su);freezing fog (sp);ice shape (su);ice tomb (sp);icewalking (ex);snow vision (ex);abilities (sp);breath weapon,10.0
+Aghash,outsider,div; evil; extraplanar,any,walk:30,cursed gaze (su);sandstorm (su);cursed gaze;sandstorm,4.0
+Aghasura,outsider,asura; evil; extraplanar; lawful,any,walk:50;swim:30,attraction aura (su);dual wielder (ex);infused weapons (su);poison (ex);dual wielder;infused weapons;swallow whole,11.0
+Agyra,magical beast,air; kaiju,warm mountains,walk:80;fly:200,blinding flash (su);breath weapon (su);electrified corpse (su);hurricane (sp);rebirth (su);storm flier (ex);swift flight (su);thunderous blast (su);bleed;blinding flash;breath weapon;hurl foe;hurricane;thunderous blast,27.0
+Ahuizotl,magical beast,aquatic,warm lakes;rivers;swamps,walk:30;swim:50,tenacious grapple (ex);voice mimicry (ex);rake,6.0
+Akata,aberration,,any,walk:40;climb:20,deaf (ex);hibernation (ex);salt water vulnerability (ex);void bite (ex);disease (ex),1.0
+Akhana,outsider,aeon; extraplanar,any,walk:30;fly:40,soul siphoning (su);soul siphoning,12.0
+Akhlut,magical beast,cold; shapechanger,cold lakes;plains;oceans,walk:40;swim:60,savage bite (ex);shore storming (ex);snow vision (ex);snow walking (su);savage bite;shore storming;swallow whole,13.0
+Akvan,outsider,div; evil; extraplanar,any,walk:50;fly:120,armor training (ex);aura of hopelessness (su);create ghul (su);shake faith (su);torturous gullet (su);create ghul;rend;shake faith;swallow whole;torturous gullet;trample,20.0
+Albino Cave Solifugid,vermin,,any underground,walk:50;climb:30,pounce;rend,4.0
+Alchemical Golem,construct,,any,walk:30,alchemy (ex);bombs (ex);immunity to magic (ex);splash (ex);alchemy;bombs;splash,9.0
+Allip,undead,incorporeal,any,fly:30,babble (su);madness (su);touch of insanity (su);babble;touch of insanity,3.0
+Allosaurus,animal,,temperate;warm forests;plains,walk:50,pounce;rake,7.0
+Almiraj,magical beast,,temperate hills;plains;forests,walk:30;burrow:10,prone (su);magic horn (su);magic horn,1.0
+Alpluachra,fey,aquatic,temperate forests;fresh water,walk:10;swim:10,implant (ex);numbing slime (ex);vulnerable to salt (ex);implant  space 1 ft.;reach 0 ft.,0.5
+Alraune,plant,,temperate forests,walk:40,calming fragrance (su);feed (ex);bleed;constrict;feed,13.0
+Amoeba Swarm,ooze,swarm,any land;underground,walk:10;climb:10;swim:20,distraction,1.0
+"Amoeba, Giant",ooze,aquatic,any land;underground,walk:10;climb:10;swim:20,constrict,1.0
+Amphisbaena,magical beast,,temperate hills;underground,walk:20;climb:20;swim:20,poison (ex);split (su),4.0
+Ancient Black Dragon,dragon,water,warm marshes,walk:60;fly:200;swim:60,acid pool (su);acidic bite (su);charm reptiles (sp);corrupt water (sp);speak with reptiles (sp);abilities (sp);swamp stride (ex);water breathing (ex);acid pool;acidic bite;breath weapon;corrupt water;crush,16.0
+Ancient Blue Dragon,dragon,earth,warm deserts,walk:40;burrow:20;fly:250,desert thirst (su);electricity aura (su);mirage (su);sandstorm (su);sound imitation (ex);abilities (sp);storm breath (su);breath weapon;crush;desert thirst;mirage;storm breath;tail sweep,18.0
+Ancient Brass Dragon,dragon,fire,warm deserts,walk:60;burrow:30;fly:200,desert wind (su);fire aura (su);move sand (sp);sandstorm (su);sleep breath (su);abilities (sp);summon djinni (sp);breath weapon;crush;desert wind;sandstorm;sleep breath,16.0
+Ancient Brine Dragon,dragon,extraplanar; water,any aquatic,walk:60;fly:200;swim:60,capsize (ex);desiccating bite (su);painful strikes (su);abilities (sp);breath weapon;capsize;crush;desiccating bite,16.0
+Ancient Bronze Dragon,dragon,water,temperate coastlines,walk:60;fly:250,change shape (su);electricity aura (su);repulsion breath (su);abilities (sp);tidal wave (su);vortex (ex);water breathing (ex);wave mastery (su);br. weapon;crush;repul. breath;tail sweep;vortex,18.0
+Ancient Cloud Dragon,dragon,air; extraplanar,any sky,walk:40;fly:250;swim:40,cloud form (su);cloud breath (su);mist vision (su);abilities (sp);thundering bite (su);breath weapon;crush;tail sweep,18.0
+Ancient Copper Dragon,dragon,earth,warm hills,walk:40;fly:200,climb stone (ex);deadly joke (sp);mass laughter (sp);slow aura (su);slow breath (su);abilities (sp);trap master (ex);uncanny dodge (ex);breath weapon;crush;mass laughter;slow breath,17.0
+Ancient Crystal Dragon,dragon,earth; extraplanar,any underground,walk:60;burrow:30;climb:30;fly:200,razor sharp (sp);ray reflection (ex);scintillating aura (su);abilities (sp);tremorsense (ex);breath weapon;crush,15.0
+Ancient Forest Dragon,dragon,earth,any forest,walk:40;burrow:20;climb:30;fly:250,change shape (su);destructive crush (su);elemental breath (su);sound imitation (ex);stony death (su);woodland stride (ex);breath weapon  crush;destructive crush;tail sweep,19.0
+Ancient Gold Dragon,dragon,fire,warm plains,walk:60;fly:250;swim:60,change shape (su);detect gems (sp);divine aid (sp);fast flight (ex);fire aura (su);luck (sp);abilities (sp);weakening breath (su);breath weapon;crush;tail sweep;weaken breath,20.0
+Ancient Green Dragon,dragon,air,temperate forests,walk:40;fly:250;swim:40,awaken treants (su);camouflage (ex);miasma (su);abilities (sp);trackless step (ex);water breathing (ex);woodland stride (ex);breath weapon;crush;miasma;tail sweep,17.0
+Ancient Lunar Dragon,dragon,,vacuum,walk:40;burrow:20;fly:250,absolute cold (su);alien presence (su);bewildering breath (su);moonsilver (ex);reflect rays (su);reflected light (ex);bewildering breath;breath weapon;crush;moonsilver;tail sweep,18.0
+Ancient Magma Dragon,dragon,extraplanar; fire,any mountains;underground,walk:40;fly:200,magma tomb (su);magma breath (su);abilities (sp);superheated (su);breath weapon;crush;magma breath,17.0
+Ancient Red Dragon,dragon,fire,warm mountains,walk:40;fly:250,fire aura (su);incinerate (su);manipulate flames (su);melt stone (su);smoke vision (ex);abilities (sp);breath weapon;crush;manipulate flames;melt stone;tail sweep,19.0
+Ancient Sea Dragon,dragon,water,any water,walk:40;fly:250;swim:100,change shape (su);sea strider (su);tidal wave (su);torrent breath (su);unfettered swimmer (su);breath weapon;crush;tail sweep;torrent breath,17.0
+Ancient Silver Dragon,dragon,cold,temperate mountains,walk:40;fly:250,change shape (su);cloudwalking (su);cold aura (su);fog vision (ex);graceful flight (ex);paralyzing breath (su);reflective scales (su);abilities (sp);true courage (ex);breath weapon;crush;paralyzing breath;tail sweep,19.0
+Ancient Sky Dragon,dragon,air,temperate;warm mountains,walk:40;fly:250,borne aloft (su);celestial emissary (su);change shape (su);cloud sight (su);grounding breath (su);primal lightning (su);breath weapon  crush;grounding breath;primal lightning;tail sweep,18.0
+Ancient Solar Dragon,dragon,fire,vacuum,walk:50;fly:250,alien presence (su);beam of light (su);channel life (su);channel radiation (su);primal fire (su);breath weapon;channel life;channel radiation;crush;primal fire;tail sweep,18.0
+Ancient Sovereign Dragon,dragon,,any mountains,walk:50;fly:250,change shape (su);dogmatic discordance (su);golden armor (su);master counterspelling (su);violent retort (ex);breath weapon;crush;tail sweep;violent retort,20.0
+Ancient Time Dragon,dragon,,vacuum,walk:50;fly:250,immortal (ex);read the threads (su);alien presence (su);shifting breath (su);second chance (su);time travel (su);breath weapon;crush;second chance;shifting breath;tail sweep,20.0
+Ancient Umbral Dragon,dragon,extraplanar,any,walk:40;fly:250,breath weapon (su);create shadows (su);energy drain (su);ghost bane (su);umbral scion (ex);shadow breath (su);abilities (sp);breath weapon;create shadows;crush;shadow breath;tail sweep,19.0
+Ancient Underworld Dragon,dragon,fire,any underground,walk:40;burrow:60;fly:200,adamantine claws (ex);change shape (su);lava eruption (su);smoke vision (ex);underworld burrower (ex);adamantine claws;breath weapon;crush,16.0
+Ancient Void Dragon,dragon,,vacuum,walk:40;fly:250,agile (ex);alien presence (su);obliterate (su);suffocating breath (su);void gaze (su);breath weapon;crush;obliterate;suffocating breath;tail sweep;void gaze,18.0
+Ancient Vortex Dragon,dragon,fire,vacuum,walk:60;fly:250,agile (ex);alien presence (su);collapsing breath (su);fragmented strike (su);galactic emissary (su);breath weapon;collapsing breath;crush;fragmented strike;tail sweep,19.0
+Ancient White Dragon,dragon,cold,cold mountains,walk:30;burrow:30;fly:200;swim:60,blizzard (su);cold aura (su);freezing fog (sp);ice shape (su);ice tomb (sp);icewalking (ex);snow vision (ex);abilities (sp);blizzard;breath weapon;crush;freezing fog,15.0
+Androsphinx,magical beast,,warm deserts;hills,walk:40;fly:60,roar (su);pounce;rake;roar,9.0
+Animate Dream,outsider,extraplanar; incorporeal,any,fly:40,nightmare curse (ex),8.0
+Animated Object,construct,,any,walk:30,,3.0
+Ankheg,magical beast,,temperate;warm plains,walk:30;burrow:20,spit acid (ex);spit acid,3.0
+Ankou,fey,extraplanar,any,fly:90,cold iron killer (su);shadow doubles (su);bleed;cold iron killer;shadow doubles;sneak attack +3d6,14.0
+Ankylosaurus,animal,,warm forests;plains,walk:30,stun (ex),6.0
+Annis Hag,monstrous humanoid,,cold marshes,walk:40,rend,6.0
+Antelope,animal,,temperate;warm plains,walk:60,powerful charge,0.5
+Aoandon,outsider,incorporeal; native,any,fly:60,touch of madness (su),12.0
+Apocalypse Locust,outsider,evil; extraplanar; mythic,any evil-aligned planes,walk:30;fly:60,abyssal torment (su);accursed brand (su);maddening buzz (su);sting (ex);abyssal torment;breath weapon;constrict;maddening buzz;mythic power;sting,6.0
+Aranea,magical beast,shapechanger,tropical forests,walk:50;climb:30,change shape (su);poison (ex);web,4.0
+Arbiter,outsider,extraplanar; inevitable; lawful,any,walk:20;fly:50,constant vigilance (su);electrical burst (ex);locate inevitable (su);electrical burst,2.0
+Archaeopteryx,animal,,temperate;warm forests,walk:40;climb:10;fly:40,weak flier (ex),0.25
+Archelon,animal,,warm;temperate water;coastlines,walk:15;swim:50,capsize,5.0
+Argus,aberration,mythic,any land,walk:40,absolute readiness (ex);accurate strikes (ex);eye gouge (ex);fascinating gaze (su);limitless vision (ex);accurate strikes;constrict;eye gouge;fascinating gaze;mythic power;rend;rock throwing,13.0
+Army Ant Swarm,vermin,swarm,any tropical,walk:30;climb:30,cling (ex);consume (ex);cling;consume;distraction,5.0
+Arsinoitherium,animal,,temperate plains,walk:30,powerful charge;trample,7.0
+Ascomoid,plant,,underground,walk:40,poison (ex);spores (ex);poison;spores;trample,5.0
+Ash Giant,humanoid,giant,any wastelands,walk:40,disease (su);oversized weapon (ex);vermin empathy (ex);disease;rock throwing,11.0
+Assassin Vine,plant,,temperate forests,walk:5,camouflage (ex);entangle (su);constrict;entangle,3.0
+Astradaemon,outsider,daemon; evil; extraplanar,any,walk:90;fly:90,devour soul (su);soul siphon (su);devour soul;energy drain,16.0
+Astral Deva,outsider,angel; extraplanar; good,any good-aligned plane,walk:50;fly:100,stun (su);uncanny dodge (ex),14.0
+Astral Leviathan,outsider,extraplanar,any,fly:90,astral locating (su);gulping tide (ex);fast swallow;gulping tide;swallow whole,18.0
+Asurendra,outsider,asura; evil; extraplanar; lawful,any,walk:50;climb:50;fly:50;swim:50,curse of false wisdom (su);poison (ex);spirit blades (su);curse of false wisdom;spirit blades;swallow whole,20.0
+Athach,humanoid,giant,cold;temperate hills,walk:50,poison (ex);swift claw (ex);rock throwing;swift claw,12.0
+Atomie,fey,,any temperate,walk:20;fly:50,sneak attack +1d6,1.0
+Attic Whisperer,undead,,any urban;ruins,walk:20,aura of sobs (su);steal breath (su);steal voice (su),4.0
+Augnagar,outsider,chaotic; evil; extraplanar; qlippoth,any,walk:50;climb:50;fly:50,horrific appearance (su);bleed;horrific appearance,14.0
+Augur,outsider,evil; extraplanar; kyton; lawful,any,walk:20;fly:50,unnerving gaze (ex);bleed;unnerving gaze,2.0
+Aurochs,animal,,temperate plains,walk:40,stampede (ex);stampede;trample,2.0
+Aurumvorax,magical beast,,temperate plains;hills;forests,walk:30;burrow:10,grab (ex);rake,9.0
+Avoral,outsider,agathion; extraplanar; good,any air,walk:40;fly:90,true seeing (su),9.0
+Axe Beak,animal,,temperate plains,walk:50,sudden charge (ex);sudden charge,2.0
+Axiomite,outsider,extraplanar; lawful,any,walk:30;fly:30,crystalline dust form (su);summon inevitable (sp),8.0
+Azer,outsider,extraplanar; fire,any land,walk:30,heat,2.0
+Azruverda,aberration,,underground,walk:50;climb:30,acid spit (ex);vermin master (su);acid spit;rend,13.0
+Babau,outsider,chaotic; demon; evil; extraplanar,any,walk:30,protective slime (su);sneak attack +2d6,6.0
+Baboon,animal,,warm forests;plains,walk:30,,0.5
+Badger,animal,,temperate forests,walk:30;burrow:10,blood rage,0.5
+"Badger, Dire",animal,,temperate forests,walk:30;burrow:10,blood rage,2.0
+Bakekujira,undead,aquatic,any oceans,walk:15;swim:60,s call (su);resonant song (su);smashing breach (ex);undead parasites (su);capsize;leviathan's call;resonant song;smashing breach,17.0
+Baku,magical beast,,any,walk:30;fly:60,dream claws (ex);dream eating (su);mental drain (su);mental drain,8.0
+Balor,outsider,chaotic; demon; evil; extraplanar,any,walk:40;fly:90,death throes (su);entangle (ex);flaming body (su);vorpal strike (su);whip mastery (ex),20.0
+Baluchitherium,animal,,warm forests,walk:40,trample,8.0
+Bandersnatch,magical beast,,any forests,walk:60;climb:20,bounding charge (ex);brutal tail (ex);gaze (su);lash out (ex);pain (ex);planar acclimation (ex);quill defense (ex);quick recovery (su);quills (ex);relentless tracker (ex);bounding charge;brutal tail;gaze;lash out;pounce;rake;rend,17.0
+Banshee,undead,incorporeal,any,fly:60,hear heartbeat (ex);terror (su);wail (su);wail,13.0
+Barbed Devil,outsider,devil; evil; extraplanar; lawful,any,walk:30,barbed defense (su);fear (su);grab (ex);impale (ex);fear;impale 3d8+9,11.0
+Baregara,outsider,chaotic; evil; extraplanar,warm forests,walk:30;climb:40,devouring grapple (ex);monstrous challenge (su);hold (ex);devouring grapple;monstrous challenge;onearmed hold,12.0
+Barghest,outsider,evil; extraplanar; lawful; shapechanger,any,walk:30,feed (su);feed,4.0
+Barometz,plant,,any forests,walk:40,powerful charge;trample,15.0
+Basidirond,plant,,any non-cold underground,walk:20,hallucination cloud (ex);spores (ex);cold lethargy (ex);hallucination cloud;spores,5.0
+Basilisk,magical beast,,any,walk:20,gaze (ex);gaze,5.0
+Basilosaurus,animal,,any oceans,swim:40,swallow whole,12.0
+Bat,animal,,temperate;hot forests;deserts,walk:5;fly:40,,0.125
+Bat Swarm,animal,swarm,any temperate;tropical,walk:5;fly:40,wounding (ex);distraction;wounding,2.0
+Baykok,undead,,any,walk:30;fly:60,devour soul (su);dread howl (su);infused arrows (su);devour soul;dread howl;infused arrows,9.0
+Bebilith,outsider,chaotic; evil; extraplanar,any,walk:40;climb:20,dismantle armor (ex);penetrating strike (su);rot (su);dismantle armor;penetrating strike;web,10.0
+Beheaded,undead,,any,fly:40,,0.3333333333333333
+Behemoth Hippopotamus,animal,,warm rivers,walk:50,capsize;trample,10.0
+Behir,magical beast,,warm hills;deserts,walk:40;climb:20,grab (ex);breath weapon;constrict;rake;swallow whole,8.0
+Belier Devil,outsider,devil; evil; extraplanar; lawful,any,walk:20;fly:60,possession (su);blood drain;constrict;possession;strangle,16.0
+Belker,outsider,air; elemental; evil,any,walk:30;fly:50,smoke claws (ex);smoke form (su);smoke claws,6.0
+Berbalang,undead,,any land,walk:40;fly:60,projection (su);paralysis,6.0
+Bezravnis,magical beast,earth; kaiju,warm deserts,walk:100;burrow:100,burrowing charge (ex);heat beam (su);poison (su);web (ex);burrowing charge;constrict;heat beam;hurl foe;poison;trample;web,26.0
+Bhole,magical beast,,any underground,walk:50;burrow:50,breath weapon (su);immune to magical control (ex);overwhelming strength (ex);breath weapon;overwhelming strength;swallow whole;trample,17.0
+Bhuta,undead,incorporeal,any aboveground natural area,fly:30,blood drain (su);cold iron weakness (su);bleed;blood drain,11.0
+Bison,animal,,cold;temperate plains,walk:40,stampede;trample,4.0
+Black Pudding,ooze,,any underground,walk:20;climb:20,acid (ex);corrosion (ex);split (ex);suction (ex);constrict;corrosion,7.0
+Black Scorpion,vermin,,warm deserts,walk:60,poison (ex);rapid stinging (ex);constrict;poison;rapid stinging,15.0
+Blindheim,magical beast,,any underground,walk:30;climb:20;swim:20,blinding gaze (ex);blinding gaze,2.0
+Blink Dog,magical beast,,temperate plains;forests,walk:40,,2.0
+Blood Golem,construct,,any,walk:10,blood drain (su);clotted skin (ex);immunity to magic (ex);vulnerable to bleed (ex);bleed;blood drain;constrict,6.0
+Blood Hag,monstrous humanoid,shapechanger,any land,walk:30;fly:60,detonate (su);mask evil (su);blood drain;detonate,8.0
+Boar,animal,,temperate;tropical forests,walk:40,,2.0
+Bodak,undead,extraplanar,any land,walk:20,death gaze (su);vulnerability to sunlight (ex);death gaze,8.0
+Bodythief,plant,,temperate;warm forests,walk:5,absorb essence (su);spawn pod creature (su);transfer (ex);vexing vines (ex);breath weapon;swallow whole;transfer,14.0
+Bogeyman,fey,,any,walk:30,deepest fear (su);striking fear (su);terrible rejuvenation (su);sneak attack +6d6;striking fear,10.0
+Boggard,humanoid,boggard,temperate marshes,walk:20;swim:30,hold breath (ex);sticky tongue (ex);swamp stride (ex);terrifying croak (su);terrifying croak,2.0
+Boilborn,ooze,,any,walk:10;climb:10;swim:10,death throes (su);disease (su);death throes;disease,1.0
+Bokrug,magical beast,aquatic; chaotic; extraplanar; great old one,any water,walk:50;swim:120,critical poisoning (su);immortality (ex);poison (ex);spines (ex);toxic breath (su);unspeakable presence (su);vengeful dreams (su);constrict;critical poisoning;mythic power;poison;powerful blows;vengeful dreams,27.0
+Bone Devil,outsider,devil; evil; extraplanar; lawful,any,walk:40;fly:60,poison (ex),9.0
+Bone Golem,construct,,any,walk:30,bone prison (ex);immunity to magic (ex);bone prison,8.0
+Brachiosaurus,animal,,warm forests;plains,walk:30,trample,10.0
+Brain Ooze,ooze,,any ruins;underground,walk:5;fly:60,neural pulse (su);prescience (su);psychic noise (su),7.0
+Bralani Azata,outsider,azata; chaotic; extraplanar; good,any,walk:40;fly:100,whirlwind blast (su);wind form (su);whirlwind blast,6.0
+Brass Golem,construct,,any,walk:40,brass falchion (ex);breath weapon (su);death throes (ex);immunity to magic (ex);breath weapon;heat,14.0
+Brethedan,aberration,,any sky,walk:0;fly:30,adaptation (ex);combine (ex);constrict;engulf,5.0
+Brijidine,outsider,azata; chaotic; earth; extraplanar; fire; good,any,walk:40;fly:60,flaming body (su);heat stone (su);lava blast (su);obsidian blade (ex);entrap;burn;trample,17.0
+Broken Soul Lillend,outsider,azata; chaotic; extraplanar; evil,any,walk:20;fly:60,agonized wail;baleful gaze;bardic performance;constrict,9.0
+Brownie,fey,,temperate forests;plains,walk:20,,1.0
+Bugbear,humanoid,goblinoid,temperate mountains,walk:30,stalker (ex),2.0
+Buggane,monstrous humanoid,,any underground,walk:30;burrow:30,blind (ex);earth distortion (su);smash and bash (ex);rend;smash and bash,5.0
+Bulette,magical beast,,temperate hills,walk:40;burrow:20,leap (ex);savage bite (ex);leap;savage bite,7.0
+Bull Shark,animal,aquatic,any oceans,swim:60,,2.0
+Bunyip,magical beast,aquatic,any aquatic,walk:10;swim:50,blood rage (ex);roar (su);bleed;blood frenzy;roar,3.0
+Bythos,outsider,aeon; extraplanar,any,fly:40,aging strike (su);confusion gaze (su);temporal strike (su);confusion gaze;temporal strike,16.0
+Cacodaemon,outsider,daemon; evil; extraplanar,any,walk:5;fly:50,disease (su);soul lock (su);soul lock,2.0
+Cairn Linnorm,dragon,,cold hills,walk:40;climb:40;fly:100,breath weapon (su);death curse (su);poison (ex);breath weapon;constrict;death curse,18.0
+Camel,animal,,warm deserts,walk:50,spit (ex);spit,1.0
+Cannon Golem,construct,,any land,walk:30,alloyed (ex);blasting critical (ex);cannon (ex);gun training (ex);immunity to magic (ex);cannon,15.0
+Carbuncle,magical beast,,any forests;swamps,walk:20,empath (su);fatal faker (su);specious suggestion (su);vulnerability to suggestion (ex);fatal faker;specious suggestion,1.0
+Carnivorous Blob,ooze,,any,walk:20;climb:20;swim:20,absorb flesh (ex);reactive strike (ex);vulnerable to cold (ex);absorb flesh;constrict,13.0
+Carnivorous Crystal,ooze,earth; extraplanar,any underground,walk:10;climb:10,brittle (ex);crystallize (ex);razor sharp (ex);subsonic hum (su);crystallize;entrap;razor sharp,11.0
+Carrion Golem,construct,,any land,walk:30,foul stench (ex);immune to magic (ex);plague carrier (ex);plague carrier,4.0
+Caryatid Column,construct,,any,walk:20,immunity to magic (ex);shatter weapons (ex);statue (ex),3.0
+Cassisian,outsider,angel; extraplanar; good,any good-aligned plane,fly:60,perfect memory (ex);lesser protective aura (su);breath weapon,2.0
+Cat,animal,,temperate;hot plains;urban,walk:30,,0.25
+Cat Lord,outsider,native; shapechanger,warm jungles,walk:30;climb:20,favored enemy;pounce;rake,11.0
+Catfolk,humanoid,catfolk,any temperate;warm forest;plains;urban,walk:30,s luck (ex);sprinter (ex);favored enemy,0.5
+Catoblepas,magical beast,,any swamps,walk:40;swim:20,poison breath (ex);breath weapon;trample,12.0
+Catrina,outsider,extraplanar; psychopomp,any,walk:30,calm emotions aura (su);compel condemned (su);kiss of death (su);compel condemned;kiss of death,5.0
+Cauchemar,outsider,evil; extraplanar,any,walk:40;fly:90,smoke,11.0
+Caulborn,outsider,extraplanar,any,walk:30,consume thoughts (ex);cooperative scrying (sp);hive mind (ex);psychic deflection (su);thoughtsense (su);consume thoughts,7.0
+Cave Fisher,vermin,,any underground,walk:20;climb:20,filament (ex);pull (ex);pull,2.0
+Cave Giant,humanoid,giant,any underground,walk:40,axe wielder (ex);rock throwing,6.0
+Cave Scorpion,vermin,,any underground,walk:60;climb:40,poison (ex);rend,1.0
+Cecaelia,monstrous humanoid,aquatic,warm water,walk:200;swim:40,ink cloud (ex);tentacle sense (ex),5.0
+Centaur,monstrous humanoid,,temperate forests;plains,walk:50,undersized weapons (ex),3.0
+Centipede Swarm,vermin,swarm,temperate;warm forest;underground,walk:30;climb:30,poison (ex);distraction;poison,4.0
+Cephalophore,construct,,any,walk:20,dazing gaze (su);dazing strike (su);shatter weapon (ex);statue form (ex);dazing gaze,8.0
+Ceratioidi,monstrous humanoid,aquatic,any saltwater,walk:30;swim:50,dual mind (ex);lure (su);primitive amphibian (ex);lure,3.0
+Cerberi,outsider,evil; extraplanar; lawful,any,walk:40,s jaws (su);soul scent (su);rend,6.0
+Cerebric Fungus,plant,,any,walk:30,otherworldly mind (ex);touch of madness (sp);unsettling appearance (su);pull;star-shriek,3.0
+Cernunnos,outsider,azata; chaotic; extraplanar; good,any forest;plain,walk:40;fly:60,greater slaying arrow (su);charge (ex);lightning rod (su);perfect archer (ex);primal aura (su);unbound (su);greater slaying arrow;horned lord's charge;powerful charge;wild shape,30.0
+Cetaceal,outsider,agathion; aquatic; extraplanar; good,any water,walk:10;swim:80,protective aura (su);shockwave (su);stun (ex);shockwave;push,15.0
+Ceustodaemon,outsider,daemon; evil; extraplanar,any,walk:30,drawn to service (su);breath weapon,6.0
+Chaneque,fey,mythic,any forests,walk:20;climb:20;fly:60,steal soul (su);mythic power;steal soul,1.0
+Changeling,humanoid,changeling,any,walk:30,hexes,0.5
+Chaos Beast,outsider,chaotic; extraplanar,any,walk:20,corporeal instability (su);resistant to transformation (ex),7.0
+Charda,monstrous humanoid,aquatic,cold aquatic;underground,walk:20;swim:60,black bile (su);cold vigor (ex);overwhelming (ex);black bile,7.0
+Charybdis,aberration,aquatic,any oceans,walk:20;swim:50,rending claws (ex);vortex (su);fast swallow;rending claws;swallow whole;vortex,13.0
+Cheetah,animal,,warm plains,walk:50,sprint (ex),2.0
+Chernobue,outsider,chaotic; evil; extraplanar; qlippoth,any,walk:40,aura of misfortune (su);horrific appearance (su);light vulnerability (ex);poison (su);horrific appearance,12.0
+Chimera,magical beast,,temperate hills,walk:30;fly:50,breath weapon (su);breath weapon,7.0
+Choker,aberration,,any underground,walk:20;climb:10,grab (ex);strangle (ex);quickness (su);constrict;grab;strangle,2.0
+Chupacabra,magical beast,,warm hills;plains,walk:30,chupar (ex);chupar;pounce,3.0
+Chuul,aberration,aquatic,temperate swamps,walk:30;swim:20,paralytic tentacles (ex);constrict;paralytic tentacles,7.0
+Clay Golem,construct,,any,walk:20,berserk (ex);cursed wound (ex);haste (su);immunity to magic (ex);berserk;haste,10.0
+Cliff Giant,humanoid,giant,temperate;warm deserts;plains,walk:40,earth attunement (su);rock throwing,9.0
+Cloaker,aberration,,underground,walk:10;fly:40,engulf (ex);moan (ex);shadow shift (su);engulf;moan,5.0
+Clockwork Dragon,construct,clockwork,any land,walk:60;fly:100;swim:60,adamantine weapons (ex);efficient winding (ex);adamantine weapons;breath weapon;self-destruction,16.0
+Clockwork Golem,construct,,any,walk:30,death burst (ex);grind (ex);immunity to magic (ex);wall of gears (su);death burst;grind;wall of gears,12.0
+Clockwork Goliath,construct,clockwork,any,walk:40,cannon (ex);self-destruction;trample,19.0
+Clockwork Leviathan,construct,clockwork,any,walk:30;swim:60,breath weapon (su);grind (ex);swallow whole (ex);breath weapon;grind;swallow whole,12.0
+Clockwork Mage,construct,clockwork,any land,walk:30,wand magic (su);wand magic,9.0
+Clockwork Servant,construct,clockwork,any,walk:30,net (ex);repair clockwork (ex),2.0
+Clockwork Soldier,construct,clockwork,any,walk:30,efficient winding (ex);latch (ex);proficient (ex);standby (ex);latch,6.0
+Clockwork Spy,construct,clockwork,any,walk:30;fly:30,record audio (su);record audio;self-destruct,0.5
+Clockwork Steed,construct,clockwork,any land,walk:50,powerful kick (ex);powerful kick;trample,6.0
+Cloud Giant,humanoid,giant,temperate mountains,walk:50,oversized weapon (ex);rock throwing,11.0
+Cockatrice,magical beast,,temperate plains,walk:20;fly:60,petrification (su),3.0
+Cockroach Swarm,vermin,swarm,any temperate;warm;urban,walk:20;climb:20;fly:30,distraction,2.0
+Cold Rider,fey,cold,any cold,walk:30,icewalking (ex);implements of ice (su);susceptible to shatter (ex),8.0
+Colour Out Of Space,ooze,incorporeal,any,walk:30;fly:50,aura of lassitude (su);disintegrating touch (su);feed (su);susceptible to force effects (ex);feed,10.0
+Coloxus,outsider,chaotic; demon; evil; extraplanar,urban,walk:30;fly:60,droning wings (ex);siphon (su);droning wings;siphon;sneak attack +4d6,12.0
+Comozant Wyrd,outsider,air; elemental; extraplanar; incorporeal,any oceans,walk:20;fly:30,illuminating flames (su);lightning lash (su);plasma form (ex);lightning lash,4.0
+Compsognathus,animal,,temperate;warm forests;plains,walk:40;swim:20,poison (ex),0.5
+Constrictor Snake,animal,,warm forests;swamps;fresh water,walk:20;climb:20;swim:20,constrict,2.0
+Contemplative,monstrous humanoid,,any urban,walk:5;fly:30,,2.0
+Contract Devil,outsider,devil; evil; extraplanar; lawful,any,walk:30,binding contract (su);impale (ex);infernal contract (su);infernal investment (su);binding contract;bleed;impale,10.0
+Coral Golem,construct,,warm oceans;coastlines,walk:30,aquatic reconstruction (ex);immunity to magic (ex);bleed,9.0
+Couatl,outsider,native,warm forests,walk:20;fly:60,poison (ex);constrict,10.0
+Crab Swarm,vermin,aquatic; swarm,any aquatic,walk:30;swim:20,distraction,4.0
+Crag Linnorm,dragon,,cold hills,walk:40;fly:100;swim:60,breath weapon (su);death curse (su);freedom of movement (ex);poison (su);true seeing (ex);breath weapon;constrict;death curse,14.0
+Crawling Hand,undead,,any land,walk:40;climb:40,grab (ex);mark quarry;strangle,0.5
+Criosphinx,magical beast,,warm deserts;hills,walk:30;fly:60,swooping charge (ex);swooping charge,7.0
+Crocodile,animal,,warm rivers;marshes,walk:20;swim:30,death roll (ex);hold breath (ex);sprint (ex);death roll,2.0
+Crucidaemon,outsider,daemon; evil; extraplanar,any,walk:50,chained daggers (su);trap making (ex);bleed;chained daggers;trap making,15.0
+Crypt Thing,undead,,any underground,walk:30,teleporting burst (su);teleporting burst,5.0
+Crysmal,outsider,earth; elemental,any underground,walk:30;burrow:20,crystal sense (sp);shard spike (ex);shard spike +7,3.0
+Cthulhu,aberration,chaotic; evil; great old one,any,walk:60;fly:200;swim:60,cleaving claws (ex);dreams of madness (su);greater starflight (su);immortality (ex);tentacles (ex);unspeakable presence (su);cleaving claws;constrict;dreams of madness;mythic power;powerful blows;tentacles;trample,30.0
+Cyclops,humanoid,giant,any temperate;tropical,walk:30,flash of insight (su),5.0
+Cythnigot,outsider,chaotic; evil; extraplanar; qlippoth,any,walk:40;fly:60,horrific appearance (su);spores (su);horrific appearance,2.0
+D'ziriak,outsider,extraplanar,any land,walk:30,dazzling burst (su);glow (ex);dazzling burst,3.0
+Dagon,outsider,chaotic; demon; evil; extraplanar; water,any oceans,walk:40;swim:120,breath weapon (su);command aquatic creature (su);poison (ex);transformation (su);breath weapon;command aquatic creature;constrict;fast swallow;poison;swallow whole,28.0
+Dandasuka,outsider,native; rakshasa; shapechanger,any,walk:30;climb:20,bleed 1d4;detect thoughts;sneak attack +1d6,5.0
+Dark Caller,humanoid,dark folk,any underground,walk:30,death throes (su);shadow ritual (su);death throes;sneak attack +2d6,5.0
+Dark Creeper,humanoid,dark folk,any underground,walk:30,death throes (su);poison use (ex);rag armor (ex);see in darkness (su);death throes;sneak attack,2.0
+Dark Dancer,humanoid,dark folk,any underground,walk:30,bardic performance (su);dark curse (su);death throes (su);bardic performance;dark curse;death throes;sneak attack +1d6,1.0
+Dark Naga,aberration,,any underground,walk:40,detect thoughts (su);guarded thoughts (ex);poison (ex),8.0
+Dark Slayer,humanoid,dark folk,any underground,walk:30,death throes (su);magical knack (ex);soul harvest (su);death throes;poison use;sneak attack +2d6;soul harvest,3.0
+Dark Stalker,humanoid,dark folk,any underground,walk:30,death throes (su);poison use (ex);see in darkness (su);death throes;sneak attack,4.0
+Darkmantle,magical beast,,any underground,walk:20;fly:30,constrict;grab,1.0
+Deadfall Scorpion,vermin,,temperate forests,walk:50,poison (ex);sudden strike (ex);constrict;sudden strike,8.0
+Death Dog,magical beast,,warm deserts,walk:30,disease (su);disease,2.0
+Death Worm,magical beast,,warm deserts;plains;hills,walk:20;burrow:20,corrosive blood (ex);electrical jolt (su);poison (ex);venomous skin (ex);breath weapon,6.0
+Death's Head Jellyfish,vermin,aquatic,any oceans,swim:20,poison (ex),1.0
+Deathtrap Ooze,ooze,shapechanger,any underground,walk:20;climb:20,acid (ex);trap form (su);constrict,8.0
+Deathweb,undead,,any,walk:30;climb:20,poison (ex);infestation (su);web,6.0
+Decapus,aberration,,temperate forests;underground,walk:10;climb:30,tentacles (ex);constrict,4.0
+Deep Sea Serpent,magical beast,aquatic,any oceans,walk:10;swim:50,elusive (su);powerful tail (ex);surge (ex);capsize;constrict;powerful tail;swallow whole,19.0
+Deinonychus,animal,,warm forests,walk:60,pounce,3.0
+Demilich,undead,,any,fly:30,devour soul (su);greater bestow curse (sp);immunity to magic (su);rejuvenation (su);telekinetic storm (su);torpor (ex);unholy grace (su);vorpal susceptibility (ex);devour soul,14.0
+Denizen of Leng,outsider,chaotic; evil; extraplanar,any land,walk:40,dexterity drain (su);planar fast healing (su);unusual anatomy (ex);sneak attack +5d6,8.0
+Derghodaemon,outsider,daemon; evil; extraplanar,any,walk:40,feeblemind aura (su);swarmwalking (su);rend,12.0
+Derhii,monstrous humanoid,,warm forests;mountains,walk:30;climb:30;fly:60,aerial charge (ex);booming voice (ex);knockdown (ex);aerial charge;knockdown,5.0
+Derro,humanoid,derro,any underground,walk:20,madness (ex);poison use (ex);vulnerability to sunlight (ex);sneak attack +1d6,3.0
+Desert Drake,dragon,earth,warm deserts,walk:30;burrow:20;fly:60,dazzling emergence (ex);sandstorm breath (su);savage bite (ex);speed surge (ex);dazzling emergence;push;sandstorm breath;savage bite,8.0
+Desert Giant,humanoid,giant,warm desert,walk:50,sandwalking (ex);scimitar training (ex);rock throwing;scimitar training,9.0
+Destrachan,aberration,,underground,walk:30,destructive harmonics (su);protection from sonics (ex);destructive harmonics,8.0
+"Devil, Handmaiden",outsider,devil; evil; extraplanar; lawful,any,walk:40;fly:60,agile grappler (ex);tentacle cage (su);tentacle cage,14.0
+Devilbound Sorcerer,female pit fiend-bound human sorcerer 13 humanoid,human,any urban,walk:30,,13.0
+Devilfish,magical beast,aquatic,any aquatic,walk:10;swim:40,poison (ex);savage bite (ex);unholy blood (su);water dependency (ex);savage bite;unholy blood,4.0
+Devourer,undead,extraplanar,any,walk:30;fly:20,devour soul (su);spell deflection (su);devour soul;energy drain,11.0
+Dhampir,humanoid,dhampir,any land,walk:30,resist level drain (ex),0.5
+Dimetrodon,animal,,warm forests,walk:30,tearing bite (ex);tearing bite,3.0
+Dimorphodon,animal,,warm coasts;forests,walk:10;fly:30,poison (ex);poison,1.0
+Diplodocus,animal,,warm plains,walk:30,tail lash (ex);trample,12.0
+Dire Ape,animal,,warm forests,walk:30;climb:30,rend,3.0
+Dire Bat,animal,,any temperate;tropical,walk:20;fly:40,,2.0
+Dire Bear,animal,,cold forests,walk:40,,7.0
+Dire Boar,animal,,temperate;tropical forests,walk:40,,4.0
+Dire Corby,monstrous humanoid,,any underground,walk:30;climb:30,leap (ex);leap;rend,1.0
+Dire Crocodile,animal,,warm rivers;marshes,walk:20;swim:30,death roll;swallow whole,9.0
+Dire Hyena,animal,,warm plains,walk:50,,3.0
+Dire Lion,animal,,warm plains;hills,walk:40,pounce;rake,5.0
+Dire Rat,animal,,any urban,walk:40;climb:20;swim:20,disease (ex);disease,0.3333333333333333
+Dire Shark (Megalodon),animal,aquatic,any ocean,swim:60,swallow whole,9.0
+Dire Tiger,animal,,any forests;plains;swamps,walk:40,pounce;rake,8.0
+Dire Weasel,animal,,any land,walk:40,blood drain;blood rage;grab,3.0
+Dire Wolf,animal,,cold;temperate forests,walk:50,,3.0
+Dire Wolverine,animal,,cold forests,walk:30;climb:10,rage (ex);rage,4.0
+Disenchanter,magical beast,,warm land,walk:50,disenchant (ex);power spray (su);vulnerable to dispel magic (ex);power spray,3.0
+Divine Guardian Hydra,magical beast,air; water,temperate ruins,walk:40;fly:40;swim:40,pounce,5.0
+Djinni,outsider,air; extraplanar,any,walk:20;fly:60,air mastery (ex);air mastery;whirlwind,5.0
+Dodo,animal,,temperate;warm islands,walk:20,,0.25
+Dog,animal,,any,walk:40,,0.3333333333333333
+Dolphin,animal,,any ocean,swim:80,hold breath (ex),0.5
+Doppelganger,monstrous humanoid,shapechanger,any,walk:30,mimicry (ex);perfect copy (su),3.0
+Doru,outsider,div; evil; extraplanar,any,walk:20;fly:40,poison (ex),2.0
+Dorvae,outsider,evil,any,walk:30;fly:60,writhing snakes (ex);dorvae poison (su);writhing snakes,11.0
+Dossenus,aberration,,any underground,walk:30;burrow:30;climb:30,burrow (ex);devastating maw (ex);hydrophobia (ex);swarming (ex);devastating maw;sneak attack +1d6;swarming,1.0
+Dracolisk,dragon,,temperate swamp;underground,walk:20;fly:40,breath weapon;gaze,7.0
+Draconal,outsider,agathion; extraplanar; good,any air,walk:40;fly:120,celestial focus (ex);divine insight (su);protective aura (su);breath weapon,20.0
+Dragon Horse,magical beast,air,any,walk:60;fly:120,breath weapons (su);flying charge (ex);know alignment (su);shift planes (su);breath weapons;flying charge space 10 ft.;reach 10 ft.,9.0
+Dragon Turtle,dragon,aquatic,temperate aquatic,walk:20;swim:30,breath weapon (su);capsize (ex);breath weapon;capsize,9.0
+Dragonne,magical beast,,temperate deserts,walk:40;fly:30,roar (su);roar;pounce,7.0
+Drakainia,aberration,mythic,any,walk:50;climb:30;swim:30,birth spawn (ex);gestation aura (su);impregnate surrogate (su);invert birth (su);polymorphism (ex);razor claws (ex);transfer suffering (su);well of life (su);impregnate surrogate;mythic power;razor claws;well of life,25.0
+Draugr,undead,water,any coastal,walk:30;swim:30,nausea (su),2.0
+Dretch,outsider,chaotic; demon; evil; extraplanar,any,walk:20,,2.0
+Drider,aberration,,any underground,walk:30;climb:20,poison (ex);undersized weapons (ex);web,7.0
+Drow,humanoid,elf,underground,walk:30,poison use (ex),0.3333333333333333
+Drow Noble,humanoid,elf,underground,walk:20,poison use (ex);bleeding touch;channel negative energy;touch of chaos,3.0
+Drowning Devil,outsider,devil; evil; extraplanar; lawful,any,walk:30;fly:30;swim:40,drown (su);heavy aura (su);poison (ex);drown;poison,8.0
+Dryad,fey,,temperate forests,walk:30,tree meld (su);tree dependent (su);wild empathy (su);woodcraft (ex),3.0
+Duergar,humanoid,dwarf,any underground,walk:20,,0.3333333333333333
+Dullahan,undead,,any,walk:30,chilling blade (su);calling (su);summon mount (su);chilling blade;death's calling;summon mount,7.0
+Dust Digger,aberration,,warm deserts,walk:10;burrow:20,sinkhole (ex);sinkhole;swallow whole,4.0
+Dybbuk,undead,incorporeal,any,fly:60,malevolence (su);pain touch (su);possess object (su);malevolence,15.0
+Eagle,animal,,temperate mountains,walk:10;fly:80,,0.5
+Ecorche,undead,,any land,walk:30,seize skin (su);bleed;rend,16.0
+Ectoplasmic Human,undead,,any,walk:30,horrifying ooze (su);phase lurch (su);horrifying ooze,0.5
+Efreeti,outsider,extraplanar; fire,any,walk:20;fly:40,change size (sp);heat (ex);change size;heat,8.0
+Einherji,outsider,extraplanar,any,walk:30,trained (ex);challenge of single combat (ex);thirst for battle (su);challenge of single combat,10.0
+Elasmosaurus,animal,,warm aquatic,walk:20;swim:50,,7.0
+Elder Air Elemental,outsider,air; elemental; extraplanar,plane of air,fly:100,air mastery (ex);whirlwind,11.0
+Elder Earth Elemental,outsider,earth; elemental; extraplanar,any,walk:20;burrow:20,earth glide (ex);earth mastery (ex);earth mastery,11.0
+Elder Fire Elemental,outsider,elemental; extraplanar; fire,any,walk:60,burn,11.0
+Elder Ice Elemental,outsider,air; cold; elemental; extraplanar; water,any land;water,walk:20;burrow:20;swim:60,ice glide (su);icewalking (ex);numbing cold (su);snow vision (ex);numbing cold,11.0
+Elder Lightning Elemental,outsider,air; elemental; extraplanar,any,fly:100,metal mastery (ex);spark leap (ex);metal mastery;spark leap,11.0
+Elder Magma Elemental,outsider,earth; elemental; extraplanar; fire,any,walk:20;burrow:20,burn (ex);earth glide (ex);lava puddle (su);burn;lava puddle,11.0
+Elder Mud Elemental,outsider,earth; elemental; extraplanar; water,any land;water,walk:20;burrow:10;swim:30,earth glide (ex);entrap (ex);entrap,11.0
+Elder Thing,aberration,aquatic,any,walk:30;fly:20;swim:40,hibernation (ex);limited starflight (ex);constrict,5.0
+Elder Water Elemental,outsider,elemental; extraplanar; water,any,walk:20;swim:90,drench (ex);vortex (su);water mastery (ex);drench;vortex;water mastery,11.0
+Electric Eel,animal,,warm fresh water,walk:5;swim:30,electricity (ex),2.0
+Elephant,animal,,warm plains,walk:40,trample,7.0
+Elk,animal,,cold;temperate plains,walk:50,,1.0
+Elohim,outsider,extraplanar; mythic,any,walk:60;fly:60;swim:30,create life (su);natural spellcasting (su);breath weapon;constrict;mythic magic;mythic power,23.0
+Elysian Titan,outsider,chaotic; extraplanar; good,any land,walk:60,trample,21.0
+Emperor Cobra,animal,,temperate;warm swamps,walk:30;climb:30;swim:30,poison (ex),5.0
+Emperor Walrus,animal,,cold oceans,walk:20;swim:60,,8.0
+Eremite,outsider,evil; extraplanar; kyton; lawful,any,walk:40;fly:60,immune to pain (su);evisceration (ex);graft flesh (su);pain (su);shadow traveler (ex);unnerving gaze (ex);evisceration;unnerving gaze,20.0
+Erinyes Devil,outsider,devil; evil; extraplanar; lawful,any,walk:30;fly:50,entangle (su),8.0
+Erlking,fey,,temperate forests,walk:70;fly:90,ironwood mastery (su);warrior fey (ex);bleed;favored enemy;ironwood mastery,18.0
+Ettercap,aberration,,temperate forests,walk:30;climb:30,poison (ex);spider empathy (ex);traps (ex);traps;web,3.0
+Ettin,humanoid,giant,cold hills,walk:40,weapon fighting (ex);superior two-weapon fighting,6.0
+Executioner's Hood,aberration,,any underground,walk:10;climb:5,engulfing drop (ex);strangle (ex);susceptible to alcohol (ex);constrict;engulfing drop;strangle,2.0
+Faceless Stalker,aberration,shapechanger,any swamps;underground,walk:30,change shape (su);faceless (su);blood drain;sneak attack +2d6,4.0
+Fachen,aberration,,temperate hills;plains,walk:30,fear (su);incredible balance (ex),5.0
+Faerie Dragon,dragon,,temperate;warm forests,walk:10;fly:60;swim:30,breath weapon (su);breath weapon,2.0
+Faun,fey,,temperate forests,walk:30,panpipes (su);panpipes,1.0
+Festering Spirit,undead,incorporeal,any land;underground,fly:40,create spawn (su);ghost touch (su);slime (su);trample (ex);create spawn;slime;trample,8.0
+Festrog,undead,,any land,walk:30,charging trip (ex);diseased pustules (ex);feed (su);run (ex);charging trip;diseased pustules;feed,1.0
+Fetchling,outsider,native,any,walk:30,shadow blending (su);sneak attack +1d6,0.5
+Fey Giant Toad,fey,,temperate forests;plains;swamps,walk:30;fly:45;swim:15,poison skin (ex);swallow whole,3.0
+Fire Beetle,vermin,,any,walk:30;fly:30,luminescence (ex),0.3333333333333333
+Fire Giant,humanoid,fire; giant,warm mountains,walk:40,heated rock (su);heated rock;rock throwing,10.0
+Fire Yai,outsider,fire; giant; native; oni; shapechanger,temperate;warm hills;mountains,walk:40;fly:60,fiery missile (su);smoke form (sp);burn;smoke form,15.0
+Fjord Linnorm,dragon,aquatic,cold mountainous coastlines,walk:30;fly:100;swim:60,breath weapon (su);death curse (su);poison (ex);breath weapon;constrict;death curse,16.0
+Flail Snail,magical beast,,underground,walk:10;climb:10,mucus (ex);retraction (ex);slime rope (ex);suction (ex);warp magic (su),4.0
+Flame Drake,dragon,fire,temperate mountains;hills,walk:20;fly:60,fireball breath (su);speed surge (ex);fireball breath,5.0
+Flesh Colossus,construct,colossus; mythic,any land,walk:60,alternate form (ex);selective antimagic aura (su);constrict;mythic power;mythic quickening;pinning stomp,16.0
+Flesh Golem,construct,,any,walk:30,berserk (ex);immunity to magic (ex);berserk,7.0
+Fleshdreg,aberration,,any ruins,walk:30,sinful bite (su),1.0
+Flumph,aberration,,any land;underground,walk:5;fly:20,acid injection (ex);stench spray (ex);stench spray,1.0
+Flying Polyp,aberration,air,any,walk:30;fly:60,deflecting winds (su);partial invisibility (su);sucking wind (su);wind blast (su);constrict;sucking wind;wind blast,14.0
+Flying Squirrel,animal,,temperate forests,walk:20;fly:40,glide (ex),0.3333333333333333
+Fomorian Titan,outsider,chaotic; evil; extraplanar; mythic,any,walk:40,divine resistance (su);divine spell perception (su);bleed;blood rage;mythic power;push;rock throwing;trample,22.0
+Foo Dog,outsider,augmented animal; good; extraplanar,any,walk:40,,2.0
+Forest Drake,dragon,earth,any forests,walk:30;fly:60;swim:30,acidic cloud (su);aquatic adaptation (ex);speed surge (ex);acidic cloud,4.0
+Forlarren,fey,,temperate plains;forests,walk:30,remorse (ex),2.0
+Formian Myrmarch,monstrous humanoid,,warm;temperate land;underground,walk:50,inspire hive (su);poison (ex);poison,10.0
+Formian Queen,monstrous humanoid,,warm;temperate land;underground,walk:5,hive frenzy (su);telepathic feedback (su);telepathic feedback,17.0
+Formian Taskmaster,monstrous humanoid,,warm;temperate land;underground,walk:40,mental motivator (su);poison (ex);poison,7.0
+Formian Warrior,monstrous humanoid,,warm;temperate land;underground,walk:40,coordinate (su);deadly grasp (ex);poison (ex);deadly grasp;poison,3.0
+Formian Worker,monstrous humanoid,,warm;temperate land;underground,walk:40;burrow:10,able assistant (ex);peerless bearer (ex),0.5
+Fossegrim,fey,aquatic,cold;temperate water,walk:30;swim:40,drowning touch (su);enchanting music (su);transparency (su);treasure form (su);drowning touch;enchanting music,4.0
+Fossil Golem,construct,,any,walk:30,immunity to magic (su);petrification (su),12.0
+Fox,animal,,any,walk:40,,0.25
+Freezing Flow,ooze,cold; water,any cold,walk:20;swim:20,crystalline (ex);jagged slam (ex);numbing touch (ex);constrict;jagged slam;numbing touch,4.0
+Freshwater Merrow,humanoid,aquatic; giant,temperate lakes;rivers,walk:40;swim:40,,3.0
+Froghemoth,aberration,,temperate marsh,walk:20;swim:30,around vision (ex);slowed by electricity (ex);constrict;swallow whole,13.0
+Frost Drake,dragon,cold,cold mountains,walk:20;burrow:20;fly:60,freezing mist breath (su);icewalking (ex);speed surge (ex);snow vision (ex);freezing mist breath,7.0
+Frost Giant,humanoid,cold; giant,cold mountains,walk:40,rock throwing,9.0
+Frost Wight,undead,cold,any,walk:30,cold (su);create spawn(su);resurrection vulnerability (su);create spawn;energy drain,4.0
+Frost Worm,magical beast,cold,cold plains;mountains,walk:30;burrow:10,cold (su);death throes (su);trill (su);breath weapon;death throes;trill,12.0
+Fuath,fey,aquatic,any water,walk:20;climb:10;swim:30,congeal water (su);vulnerable to sunlight (ex);congeal water,1.0
+Fungal Crawler,aberration,,any underground,walk:20;climb:40,leap (ex);plant defenses (ex);poison (ex);leap,3.0
+Fungal Nymph,plant,augmented fey,any ruins;underground,walk:20;swim:10,create spawn;poison spore cloud;stunning glance,8.0
+Fungus Leshy,plant,leshy; shapechanger,any swamp;underground,walk:20,puffball (ex);spores (ex);spores,2.0
+Gaki,undead,,any land,walk:30;fly:30,aversion to sun and moon (ex);compulsive hunger (ex);blood drain;fear cone,7.0
+Gallowdead,undead,,any,walk:30,aura of whispers (su);chains of the dead (su);chains of the dead  space 5 ft.;reach 5 ft.,16.0
+Galvo,magical beast,aquatic,any water,walk:30;swim:30,eel dart (ex);swarmlike (ex);varied attack (ex),9.0
+Gar,animal,aquatic,temperate freshwater,swim:60,,1.0
+Garden Ooze,ooze,,temperate forests;marshes;urban,walk:20;climb:20,acid (ex);camouflage (ex);stink (ex);acid;stink,2.0
+Gargoyle,monstrous humanoid,earth,any,walk:40;fly:60,freeze (ex),4.0
+Garuda,outsider,native,tropical hills;mountains,walk:30;fly:80,hatred (ex);swooping pounce (ex);talon or wing (ex);hatred;swooping pounce;talon or wing,9.0
+Gashadokuro,undead,,any,walk:30,breath weapon (su);corpse consumption (su);starvation aura (su);breath weapon;corpse consumption;swallow whole,13.0
+Gathlain,fey,,temperate forests;jungles,walk:30;fly:40,,0.5
+Gearghost,undead,,any urban;underground,fly:40,create trap (su);rejuvenation (su);resetter (ex),5.0
+Geist,undead,incorporeal,any,fly:40,spiritual manipulation (su);terrifying laugh (su);spiritual manipulation;terrifying laughter,9.0
+Gelatinous Cube,ooze,,any underground,walk:15,acid (ex);engulf (ex);paralysis (ex);transparent (ex);engulf;paralysis,3.0
+Ghaele Azata,outsider,azata; chaotic; extraplanar; good,any,walk:50;fly:150,gaze (su);light form (su);light ray (ex);gaze,13.0
+Ghawwas,outsider,aquatic; div; evil; extraplanar,any,walk:30;swim:80,boiling sea (su);poison (ex);rough hide (ex);boiling sea,10.0
+Gholdako,undead,,warm coasts,walk:30,blinding breath (su);disease (ex);blinding breath;disease,10.0
+Ghonhatine,aberration,,any underground,walk:40,feed (su);filth fever (ex);powerful stench (ex);regurgitate (ex);feed;filth fever,10.0
+Ghorazagh,aberration,,any underground,walk:40;climb:40;fly:40,bloodsense (su);bloodspray (su);chemical communication (ex);blood drain;bloodspray,13.0
+Ghost,undead,augmented humanoid; incorporeal,any,fly:30,frightful moan,7.0
+Ghost Scorpion,vermin,,warm deserts;underground,walk:30,poison (ex);pounce,0.5
+Ghoul,undead,,any land,walk:30,disease (su);paralysis,1.0
+Ghul,undead,shapechanger,warm deserts,walk:40;climb:20,cursed claws (ex);bleed;cursed claws;rend,5.0
+Giant Adult Ant Lion,vermin,,warm deserts,walk:30;fly:60,,6.0
+Giant Anaconda,animal,,warm swamps,walk:20;climb:20;swim:20,constrict,10.0
+Giant Ant,vermin,,any,walk:50;climb:20,poison (ex),2.0
+Giant Ant Lion,vermin,,warm deserts,walk:30;burrow:10,sand trap (ex);sand trap,5.0
+Giant Bee,vermin,,temperate;warm plains,walk:20;fly:60,poison (ex);vulnerable to smoke (ex),1.0
+Giant Black Widow Spider,vermin,,any land,walk:30;climb:30,poison (ex);strong webs (ex);web,3.0
+Giant Centipede,vermin,,temperate;warm forest;underground,walk:40;climb:40,poison (ex);poison,0.5
+Giant Chameleon,animal,,warm forests;mountains,walk:40;climb:40,tongue (ex);tongue;pull,3.0
+Giant Cockroach,vermin,,any land,walk:30;climb:30;fly:40,,0.5
+Giant Crab,vermin,aquatic,any aquatic,walk:30;swim:20,water dependency (ex);constrict,2.0
+Giant Crab Spider,vermin,,warm;temperate forests,walk:30;climb:20,poison (ex),0.5
+Giant Crawling Hand,undead,,any land;underground,walk:30,mark quarry (su);pus burst (su);mark quarry;pus burst,5.0
+Giant Dragonfly,vermin,,temperate;warm land,walk:20;fly:80,darting charge (ex);darting charge,4.0
+Giant Dragonfly Nymph,vermin,aquatic,temperate;warm water,walk:10;swim:30,extending jaw (ex);extending jaw,3.0
+Giant Eagle,magical beast,,temperate mountains,walk:10;fly:80,,3.0
+Giant Emperor Scorpion,vermin,,warm deserts,walk:50;burrow:10,ambush pit (ex);poison (ex);ambush pit;constrict;poison;pounce,11.0
+Giant Flea,vermin,,any land;underground,walk:30,disease (ex);uncanny leap (ex);disease,0.5
+Giant Fly,vermin,,any temperate;tropical,walk:20;climb:20;fly:60,disease (ex),1.0
+Giant Flytrap,plant,,temperate swamps,walk:10,engulf (ex);engulf,10.0
+Giant Frilled Lizard,animal,,warm forest;plains;hills,walk:30;climb:30,intimidating charge (ex);intimidating charge,5.0
+Giant Frog,animal,,temperate;warm marshes;aquatic,walk:30;swim:30,tongue (ex);pull;swallow whole;tongue,1.0
+Giant Gar,animal,aquatic,temperate freshwater,swim:60,swallow whole,6.0
+Giant Gecko,animal,,warm forests;mountains,walk:40;climb:40,expert climber (ex),1.0
+Giant Jellyfish,vermin,aquatic,any oceans,swim:20,poison (ex),7.0
+Giant Leech,vermin,aquatic,temperate;warm marshes,walk:5;swim:20,attach (ex);blood drain (ex);susceptible to salt (ex);blood drain,2.0
+Giant Locust,vermin,,temperate;warm deserts;plains,walk:20;climb:20;fly:60,leap (ex);spit (ex);voracious (ex);voracious,3.0
+Giant Maggot,vermin,,any temperate;tropical,walk:10;burrow:5,regurgitate (ex);regurgitate,0.5
+Giant Mantis,vermin,,temperate forests,walk:30;fly:30,lunge (ex);mandibles (ex);sudden strike (ex);lunge;mandibles;sudden strike,3.0
+Giant Moray Eel,animal,aquatic,warm oceans,swim:30,gnaw (ex);gnaw,5.0
+Giant Mosquito,vermin,,temperate;tropical swamps,walk:20;fly:60,disease (ex);bleed;blood drain,6.0
+Giant Octopus,animal,aquatic,any ocean,walk:200;swim:30,poison (ex);constrict,8.0
+Giant Owl,magical beast,,temperate forests,walk:10;fly:60,animal telepathy (su);insightful senses (su);piercing stare (su),5.0
+Giant Phantom Armor,undead,,any,walk:20,,4.0
+Giant Porcupine,animal,,temperate forests;plains,walk:40,quills (ex),2.0
+Giant Queen Bee,vermin,,temperate;warm plains,walk:20;fly:60,poison (ex),5.0
+Giant Rot Grub,vermin,,any,walk:20,gnaw (ex);poison (ex);gnaw;grab,3.0
+Giant Scorpion,vermin,,warm;temperate deserts;forests;plains;underground,walk:50,poison (ex);constrict,3.0
+Giant Sea Anemone,vermin,aquatic,any oceans;coastlines,walk:5,anchored (ex);poison (ex);sightless (ex);swallow whole,2.0
+Giant Seahorse,animal,aquatic,any oceans,swim:30,anchor (ex),3.0
+Giant Skunk,animal,,temperate forests,walk:30,musk (ex);musk,3.0
+Giant Slug,vermin,,temperate;warm marshes;underground,walk:20,spit acid (ex);malleable (ex);susceptible to salt (ex),8.0
+Giant Snapping Turtle,animal,,temperate;warm water;shore,walk:20;swim:20,armored stomach (ex);swallow whole,9.0
+Giant Solifugid,vermin,,warm deserts,walk:50;climb:30,rend,1.0
+Giant Spider,vermin,,any,walk:30;climb:30,poison (ex),1.0
+Giant Squid,animal,aquatic,any ocean,swim:260,constrict,9.0
+Giant Stag Beetle,vermin,,temperate forests,walk:20;fly:20,trample,4.0
+Giant Tarantula,vermin,,any forests,walk:30;climb:30,barbed hairs (ex);poison (ex),8.0
+Giant Tick,vermin,,temperate forests,walk:20;climb:20,grab (ex);disease (ex);blood drain,1.0
+Giant Toad,animal,,temperate forests;plains;swamps,walk:30;swim:15,poison skin (ex);swallow whole,2.0
+Giant Tortoise,animal,,warm deserts;islands,walk:10,buoyant (ex);shell (ex);slow and steady (ex),1.0
+Giant Vulture,animal,,warm plains;hills,walk:10;fly:50,diseased (ex),4.0
+Giant Wasp,vermin,,temperate forests,walk:20;fly:60,poison (ex),3.0
+Giant Water Strider,vermin,,any water,walk:30;fly:20,tremorsense (ex);water skating (ex),1.0
+Giant Weasel,animal,,any land,walk:40,blood drain;grab,1.0
+Giant Whiptail Centipede,vermin,,temperate;warm forests;underground,walk:40;climb:40,poison (ex);tail slap (ex),3.0
+Gibbering Mouther,aberration,,any underground,walk:10;swim:20,around vision (ex);amorphous (ex);blood drain (ex);engulf (ex);gibbering (su);ground manipulation (su);spittle (ex);blood drain;engulf;gibbering;ground manipulation;spittle,5.0
+Giraffe,animal,,warm plains,walk:50,natural weapons (ex),3.0
+Girallon,magical beast,,warm forests,walk:40;climb:40,rend,6.0
+Girtablilu,monstrous humanoid,,warm deserts,walk:50,poison (ex);scorpion empathy (ex);constrict,8.0
+Glabrezu,outsider,chaotic; demon; evil; extraplanar,any,walk:40,rend,13.0
+Glacier Toad,magical beast,cold,cold hills;glaciers,walk:30;swim:15,bitter cold (su);swallow whole,6.0
+Glass Golem,construct,,any land,walk:30,dazzling brightness (ex);immune to magic (ex);reflect spells (ex);bleed;dazzling brightness,8.0
+Globster,ooze,aquatic,any oceans;coastlines,walk:20;swim:40,create spawn (ex);decompose (ex);nausea (ex);create spawn;constrict,5.0
+Gloomwing,outsider,extraplanar,any,walk:10;fly:40,confusion (su);implant (ex);pheromones (su);confusion;implant;pheromones,4.0
+Gnoll,humanoid,gnoll,warm plains;desert,walk:30,,1.0
+Goat,animal,,any,walk:30,,0.3333333333333333
+Goblin,humanoid,goblinoid,temperate forest;plains,walk:30,,0.3333333333333333
+Goblin Dog,animal,,temperate forest;swamp;underground,walk:50,allergic reaction (ex),1.0
+Goblin Snake,aberration,,any underground;swamps,walk:30;burrow:5;swim:20,goblin breath (ex);snake empathy (ex);goblin breath,1.0
+Goliath Spider,vermin,,any forests;swamps,walk:40;climb:20,poison (ex);poisoned web (ex);poison;poisoned web;trample,11.0
+Goliath Stag Beetle,vermin,,warm forests;plains,walk:30;fly:30,trample,8.0
+Gorgon,magical beast,,temperate plains;rocky hills;underground,walk:30,breath weapon;trample,8.0
+Gorilla,animal,,warm forests,walk:30;climb:30,,2.0
+Gorynych,dragon,,temperate forests,walk:30;fly:100;swim:50,breath weapon (su);breath weapon,15.0
+Gourd Leshy,plant,leshy; shapechanger,any hills;plains,walk:20,ensnare (ex);keepsake (su);seed (ex);sneak attack +1d6,1.0
+Graeae,monstrous humanoid,evil; mythic,any,walk:30;fly:60,coven (ex);eye of the graeae (su);fate casting (su);luck ripple (su);luck ripple;mythic power,5.0
+Graveknight,undead,augmented humanoid,any land,walk:30,channel destruction;devastating blast;undead mastery;weapon training,11.0
+Graven Guardian,construct,,any land,walk:40,faith bound (su);magic weapon (su);bleed 2;magic weapon;rest eternal,5.0
+Gray Ooze,ooze,,cold marshes;underground,walk:10,acid (ex);transparent (ex);acid;constrict,4.0
+Gray Render,magical beast,,temperate marshes,walk:30,double damage against objects (ex);rend,8.0
+Great Cyclops,humanoid,giant,any temperate;tropical,walk:50,flash of brutality (su);powerful charge;rock throwing,12.0
+Great Horned Owl,animal,,temperate forests,walk:10;fly:60,,0.5
+Great White Shark,animal,aquatic,any oceans,swim:60,bleed,4.0
+Great White Whale,animal,,any oceans,swim:40,smashing breach (ex);capsize;smashing breach,14.0
+Greater Air Elemental,outsider,air; elemental; extraplanar,plane of air,fly:100,air mastery (ex);whirlwind,9.0
+Greater Barghest,outsider,evil; extraplanar; lawful; shapechanger,any,walk:40,feed (su),7.0
+Greater Earth Elemental,outsider,earth; elemental; extraplanar,any,walk:20;burrow:20,earth glide (ex);earth mastery (ex);earth mastery,9.0
+Greater Fire Elemental,outsider,elemental; extraplanar; fire,any,walk:60,burn,9.0
+Greater Ice Elemental,outsider,air; cold; elemental; extraplanar; water,any land;water,walk:20;burrow:20;swim:60,ice glide (su);icewalking (ex);numbing cold (su);snow vision (ex);numbing cold,9.0
+Greater Lightning Elemental,outsider,air; elemental; extraplanar,any,fly:100,metal mastery (ex);spark leap (ex);metal mastery;spark leap,9.0
+Greater Magma Elemental,outsider,earth; elemental; extraplanar; fire,any,walk:20;burrow:20,burn (ex);earth glide (ex);lava puddle (su);burn;lava puddle,9.0
+Greater Mud Elemental,outsider,earth; elemental; extraplanar; water,any land;water,walk:20;burrow:10;swim:30,earth glide (ex);entrap (ex);entrap,9.0
+Greater Shadow,undead,incorporeal,any,fly:40,strength damage (su);create spawn;strength damage,8.0
+Greater Water Elemental,outsider,elemental; extraplanar; water,any,walk:20;swim:90,drench (ex);vortex (su);water mastery (ex);drench;vortex;water mastery,9.0
+Green Hag,monstrous humanoid,,temperate marshes,walk:30;swim:30,weakness (su);mimicry (ex),5.0
+Greensting Scorpion,vermin,,warm;temperate forests,walk:30,poison (ex);poison,0.25
+Grendel,monstrous humanoid,mythic,cold swamps,walk:40,brutal surge (su);gruesome dismemberment (ex);blood rage;brutal surge;gruesome dismemberment;mythic power,19.0
+Grick,aberration,,any underground,walk:30;climb:20,,3.0
+Griffon,magical beast,,temperate hills,walk:30;fly:80,pounce;rake,4.0
+Grig,fey,,temperate forests,walk:30;fly:40,fiddle (su);fiddle,1.0
+Grimple,fey,,any urban,walk:20;climb:20;fly:20,gremlin lice (ex);putrid vomit (ex);putrid vomit,0.3333333333333333
+Grindylow,aberration,aquatic,any water,walk:200;swim:30,tangling tentacles (ex);tangling tentacles,0.5
+Grippli,humanoid,grippli,warm forests;marshes,walk:30;climb:20,swamp stride (ex);favored enemy,0.5
+Grizzly Bear,animal,,cold forests,walk:40,,4.0
+Grodair,magical beast,aquatic; extraplanar,any water;coastlines,walk:30;swim:60,death flood (su);muddy field (su);water blast (ex);death flood;push,5.0
+Grootslang,magical beast,,warm lakes;rivers,walk:40;swim:30,aquatic elusion (su);impaling bite (ex);thunderous stomp (ex);impaling bite;thunderous stomp;trample,16.0
+Grothlut,aberration,,any underground,walk:20,digestive spew (ex);disgusting demise (ex);piteous moan (su);digestive spew;disgusting demise;piteous moan,3.0
+Gryph,magical beast,,temperate forests;underground,walk:30;fly:50,grab (ex);implant eggs (ex);implant eggs,1.0
+Guardian Dragon,dragon,aquatic; mythic,any,walk:50;climb:30;fly:200;swim:30,agonizing venom (ex);aura of security (su);heroic challenge (su);lingering poisonous cloud (su);poison (ex);secret lair (su);vengeful seeker (ex);agonizing venom;breath weapon;constrict;fast swallow;lingering poisonous cloud;mythic power;poison;swallow whole,24.0
+Guardian Naga,aberration,,temperate plains,walk:40,poison (ex);spit (ex),10.0
+Guardian Phantom Armor,undead,,any,walk:30,,2.0
+Guecubu,undead,earth,any,walk:30;burrow:15,broken ground (su);misfortune (su),8.0
+Gug,aberration,,any underground,walk:40;climb:20,rend,10.0
+Gylptodon,animal,,temperate plains,walk:20,,6.0
+Gynosphinx,magical beast,,warm deserts;hills,walk:40;fly:60,pounce;rake,8.0
+Half-Celestial Unicorn,outsider,native,temperate forests,walk:60;fly:120,smite evil 1/ day;powerful charge,4.0
+Half-Fiend Minotaur,outsider,native,temperate ruins;underground,walk:30;fly:60,smite good 1/day;powerful charge,6.0
+Halsora,aberration,,any underground,walk:30,acidic tears (ex);spores (ex);acidic tears;sneak attack +2d6;spores,7.0
+Hamadryad,fey,,temperate forests,walk:30,druid magic (su);tree meld (su);woodcraft (ex),15.0
+Handmaiden Devil,outsider,devil; evil; extraplanar; lawful,any,walk:40;fly:60,agile grappler (ex);tentacle cage (su);tentacle cage,14.0
+Hangman Tree,plant,,temperate forests,walk:10,hallucinatory spores (ex);vines (ex);constrict;hallucinatory spores;pull;strangle;swallow whole;vines,7.0
+Haniver,fey,aquatic,temperate coasts,walk:10;fly:20;swim:20,misplacement (su);misplacement,0.5
+Harbinger Archon,outsider,archon; extraplanar; good; lawful,any,fly:50,blades (ex);disassemble (su);minor archon (ex);wrath (su);wrath,2.0
+Harionago,undead,,any land,walk:30,infectious laughter (su);bleed;infectious laughter;paralysis,11.0
+Harpy,monstrous humanoid,,temperate marshes,walk:20;fly:80,captivating song (su);captivating song,4.0
+Hastur,aberration,chaotic; evil; great old one,any,walk:80,fulvous dreams (su);immortality (ex);reveal visage (su);tattered lash (ex);unspeakable presence (su);wish (sp);yellow sign (su);bleed;fulvous dreams;mythic power;reveal visage;sneak attack +10d6;yellow sign,29.0
+Hawk,animal,,temperate forests,walk:10;fly:60,,0.3333333333333333
+Hekatonkheires,outsider,chaotic; evil; extraplanar,any,walk:60,hands of war (su);whirlwind (ex);planar leap (su);stunning slam (ex);rock throwing;stunning slam,24.0
+Hell Hound,outsider,evil; extraplanar; fire; lawful,any,walk:40,breath weapon,3.0
+Hellcat,outsider,evil; extraplanar; lawful,any land,walk:40,invisible in light (su);pounce;rake,7.0
+Hellwasp Swarm,vermin,extraplanar; swarm,any,walk:5;fly:40,inhabit (ex);poison (ex);distraction;inhabit,8.0
+Hezrou,outsider,aquatic; chaotic; demon; evil; extraplanar,any swamp,walk:30;swim:30,nausea (ex);nausea,11.0
+Hieracosphinx,magical beast,,warm hills,walk:30;fly:60,shriek (su);pounce;shriek,5.0
+Hill Giant,humanoid,giant,temperate hills,walk:40,rock throwing,7.0
+Hippocampus,magical beast,aquatic,any water,walk:5;swim:60,water dependency (ex),1.0
+Hippogriff,magical beast,,temperate hills;plains,walk:40;fly:100,,2.0
+Hippopotamus,animal,,warm rivers,walk:40,capsize (ex);sweat (ex);capsize;trample,5.0
+Hobgoblin,humanoid,goblinoid,temperate hills,walk:30,,0.5
+Hodag,magical beast,,temperate forests;marshes,walk:30;burrow:15,spiked tail (ex);toss (ex);trackless (ex);spiked tail;toss,6.0
+Hollow Serpent,undead,,any underground,walk:50;climb:50,channel negative energy (su);desiccation aura (su);coils (su);lifesense (su);swift strike (ex);channel negative energy;constrict;energy drain;life-draining coils,16.0
+Homunculus,construct,,any,walk:20;fly:50,poison (ex);telepathic link (su),1.0
+Horned Devil,outsider,devil; evil; extraplanar; lawful,any,walk:30;fly:50,infernal wound (su);stun (su),16.0
+Horse,animal,,temperate plains,walk:50,docile (ex),1.0
+Host Devil,outsider,devil; evil; extraplanar; lawful,any,walk:20;fly:50,master grappler (ex);noxious breath (su);shared senses (su);noxious breath;rend,6.0
+Hound Archon,outsider,archon; extraplanar; good; lawful,any,walk:40,change shape (su),4.0
+Hound of Tindalos,outsider,evil; extraplanar,any,walk:40,angled entry (su);otherworldly mind (ex);ripping gaze (su);ripping gaze,7.0
+Howler,outsider,chaotic; evil; extraplanar,any land,walk:60,howl (su);pain (ex);quill defense (ex);howl,3.0
+Huecuva,undead,,any,walk:30,aura of faithlessness (su);disease (ex);false humanity (su),2.0
+Huge Air Elemental,outsider,air; elemental; extraplanar,plane of air,fly:100,air mastery (ex);whirlwind,7.0
+Huge Earth Elemental,outsider,earth; elemental; extraplanar,any,walk:20;burrow:20,earth glide (ex);earth mastery (ex);earth mastery,7.0
+Huge Fire Elemental,outsider,elemental; extraplanar; fire,any,walk:60,burn,7.0
+Huge Ice Elemental,outsider,air; cold; elemental; extraplanar; water,any land;water,walk:20;burrow:20;swim:60,ice glide (su);icewalking (ex);numbing cold (su);snow vision (ex);numbing cold,7.0
+Huge Lightning Elemental,outsider,air; elemental; extraplanar,any,fly:100,metal mastery (ex);spark leap (ex);metal mastery;spark leap,7.0
+Huge Magma Elemental,outsider,earth; elemental; extraplanar; fire,any,walk:20;burrow:20,burn (ex);earth glide (ex);lava puddle (su);burn;lava puddle,7.0
+Huge Mud Elemental,outsider,earth; elemental; extraplanar; water,any land;water,walk:20;burrow:10;swim:30,earth glide (ex);entrap (ex);entrap,7.0
+Huge Water Elemental,outsider,elemental; extraplanar; water,any,walk:20;swim:90,drench (ex);vortex (su);water mastery (ex);drench;vortex;water mastery,7.0
+Huldra,fey,,cold forests;mountains,walk:30,lashing tail (su);manipulate luck (su);lashing tail;manipulate luck,4.0
+Human Juju Zombie,undead,augmented human,any land,walk:30,sneak attack +1d6,2.0
+Human Skeleton,undead,,any,walk:30,,0.3333333333333333
+Human Zombie,undead,,any,walk:30,,0.5
+Humbaba,monstrous humanoid,,any forests,walk:60,prismatic aura (su);breath weapon;rock throwing,19.0
+Hungry Flesh,ooze,,any land;underground,walk:20;swim:20,disease (ex);monstrous growth (ex);reactive regeneration (ex);slime trail (ex);constrict,3.0
+Hungry Fog,ooze,,any temperate,fly:15,bewitching brume (su);enveloping mists (ex);gaseous (ex);vulnerable to wind (ex);enveloping mists,6.0
+Hyakume,aberration,,any underground,walk:30,drain memory (su);eye probe (su);transfer memories (su);drain memory;quivering palm;stunning fist,15.0
+Hydra,magical beast,,temperate marshes,walk:20;swim:20,fast healing (ex);hydra traits (ex);regenerate head (ex);pounce,4.0
+Hydrodaemon,outsider,aquatic; daemon; evil; extraplanar,any,walk:30;fly:40;swim:60,glide (ex);sleep spittle (su);rake,8.0
+Hyena,animal,,warm plains,walk:50,,1.0
+Hypnalis,outsider,extraplanar,any,walk:40;fly:60,ghost touch fangs (su);phasing (su);poison (su);constrict;poison;sneak attack +2d6,5.0
+Iathavos,outsider,chaotic; evil; extraplanar; qlippoth,any,walk:20;fly:50,abyssal transformation (su);entropic beams (su);horrific appearance (su);ichor (su);stench (su);abyssal transformation;entropic beams;horrific appearance,20.0
+Ice Devil,outsider,devil; evil; extraplanar; lawful,any,walk:40;fly:60,slow (su),13.0
+Ice Golem,construct,cold,any cold,walk:30,cold (ex);icy destruction (ex);immunity to magic (ex);breath weapon;cold;icy destruction,5.0
+Ice Linnorm,dragon,,cold hills;mountains,walk:40;climb:40;fly:100;swim:40,breath weapon (su);death curse (su);freedom of movement (ex);poison (su);true seeing (ex);breath weapon;constrict;death curse,17.0
+Ice Troll,humanoid,cold; giant,cold mountains;underground,walk:30,rend,4.0
+Ice Yai,outsider,cold; oni; giant; native; shapechanger,cold mountains,walk:50;fly:60,icy missile (su);staggering strikes (ex);staggering strikes,14.0
+Ifrit,outsider,native,any land,walk:30,fire affinity (ex),0.5
+Iguanodon,animal,,warm forests;swamps,walk:30,thumb spikes (ex);thumb spikes,6.0
+Ijiraq,fey,shapechanger,cold forests;plains,walk:30,disorienting gaze (su);hide in plain sight (su);disorienting gaze,9.0
+Iku-Turso,aberration,aquatic,cold;temperate water;underground,walk:20;swim:60,disease (su);light lure (su);light lure,8.0
+Imentesh,outsider,chaotic; extraplanar; protean; shapechanger,any,walk:30;fly:30;swim:30,inflict warpwave (su);constrict;inflict warpwave;sneak attack +4d6,10.0
+Immense Tortoise,animal,,warm islands,walk:20,trample,8.0
+Immolation Devil,outsider,devil; evil; extraplanar; lawful,any,walk:30;fly:80,hellfire (su);burn;hellfire,19.0
+Immortal Ichor,ooze,extraplanar,any ruins;underground,walk:20;fly:20,corrupt ally (su),17.0
+Imp,outsider,devil; evil; extraplanar; lawful,any,walk:20;fly:50,poison (ex),2.0
+Incubus,outsider,chaotic; demon; evil; extraplanar,any,walk:30;fly:50,pain redoubled (su);pain redoubled,6.0
+Incutilis,aberration,aquatic,any oceans,walk:5;climb:5;swim:60,puppetmaster (su);puppetmaster,2.0
+Intellect Devourer,aberration,,any underground,walk:40,body thief (su);vulnerable to protection from evil (ex);body thief;sneak attack +3d6,8.0
+Interlocutor,outsider,evil; extraplanar; kyton; lawful,any,walk:40,surgical strikes (ex);unnerving gaze (ex);bleed;poison;rend;surgical strikes;unnerving gaze,12.0
+Invisible Stalker,outsider,air; elemental; extraplanar,any,walk:30,improved tracking (ex);natural invisibility (ex),7.0
+Irminsul,plant,extraplanar; mythic,any,walk:10,planar portal (su);mythic power,17.0
+Irnakurse,aberration,,any underground,walk:10,mind lash (su);soul scream (su);soul scream;rend,9.0
+Iron Cobra,construct,,any,walk:40,find target (su);poison (ex),2.0
+Iron Colossus,construct,colossus; mythic,any land,walk:50,alternate form (ex);deadly fumes (ex);fire absorption (ex);selective antimagic aura (su);siege tower (ex);mythic power;mythic quickening;pinning stomp,21.0
+Iron Golem,construct,,any,walk:20,breath weapon (su);immunity to magic (ex);powerful blows (ex);breath weapon;powerful blows,13.0
+Isitoq,undead,,any,walk:5;fly:60,daze (ex);tears of anguish (su);visual sensor (su);daze;tears of anguish,0.5
+Jabberwock,dragon,air; fire,any forests,walk:40;fly:80,burble (su);damage reduction (ex);eye rays (su);fear of vorpal weapons (ex);planar acclimation (ex);whiffling (ex);burble;burn;eye rays;whiffling,23.0
+Jack-O'-Lantern,plant,,temperate forests;hills;plains,walk:15,explode (ex);fear aura (su);pumpkin form (su);strangling ensnare (ex);breath weapon;explode;strangling ensnare,1.0
+Jackalwere,magical beast,shapechanger,warm deserts,walk:30,change shape (su);jackal empathy (ex);sleep gaze (su);weapon intuition (ex);sleep gaze;weapon intuition,2.0
+Janni,outsider,native,warm deserts,walk:30;fly:20,change size (sp);elemental endurance (ex);change size,4.0
+Jellyfish Swarm,vermin,aquatic; swarm,any aquatic,swim:20,poison (ex);distraction,6.0
+Jiang-Shi,undead,augmented humanoid,any,walk:30,brutal claws;drain chi;flurry of blows;stunning fist,6.0
+Jinkin,fey,,any underground;urban,walk:40,tinker (sp);sneak attack +1d6;tinker,1.0
+Jinmenju,plant,,temperate hills;mountains,walk:10,fruits (su);intoxicating stench (su);unsettling drone (su);enticing head-fruits;intoxicating stench,11.0
+Jinushigami,outsider,earth; kami; native,any,walk:50;burrow:40,infused quarterstaff (su);manipulate terrain (su);ward (su),20.0
+Jorogumo,monstrous humanoid,shapechanger,temperate mountain valleys,walk:30;climb:50;swim:40,poison (ex);spider empathy (ex);spider legs (ex);swift shapechanger (ex);sneak attack +3d6;web,12.0
+Jotund Troll,humanoid,giant,cold hills;mountains,walk:30,seeing attacks (ex);cacophonous roar (su);multiple minds (ex);all-seeing attacks;cacophonous roar;fast swallow;rock throwing;swallow whole,15.0
+Jubjub Bird,magical beast,,temperate;warm forests,walk:50;fly:20,adaptive defense (su);deadly bite (ex);planar acclimation (ex);shriek (ex);deadly bite;shriek;swallow whole,15.0
+Juggernaut,construct,,any,walk:30,bound (su);shrine (ex);vicious trample (ex);soul-powered;vicious trample,11.0
+Julunggali,magical beast,aquatic; extraplanar; mythic; shapechanger,any land;water,walk:40;burrow:40;fly:20;swim:90,fascination aura (su);amazing initiative;constrict;fast swallow;mythic power;pull;push;swallow whole,21.0
+Jungle Giant,humanoid,giant,warm forests,walk:40,archery expert (su);spell storing (su);warding tattoos (su),10.0
+Junk Golem,construct,,any,walk:30,discorporate (ex);disease (ex);immunity to magic (ex);junk repair (su);disease,4.0
+Juvenile Rukh,magical beast,,warm mountains;deserts,walk:20;fly:40,,3.0
+Juvenile Seps,magical beast,,temperate;warm deserts;forests,walk:20,poison (ex);acid blood;poison,2.0
+Jyoti,outsider,extraplanar,any,walk:30;fly:90,breath weapon (su);divine aversion (su);positive energy (su);positive energy affinity (ex);breath weapon;positive energy,9.0
+Kalavakus,outsider,chaotic; demon; evil; extraplanar,any,walk:30,enslave soul (su);horns (ex);enslave soul;horns;powerful charge,10.0
+Kamadan,magical beast,,temperate;warm plains,walk:40,breath weapon (su);snakes (ex);breath weapon;pounce,4.0
+Kangaroo,animal,,temperate hills;plains,walk:50,,0.5
+Kappa,monstrous humanoid,aquatic,any lake;river,walk:20;swim:40,head bowl (su);grab;rake,2.0
+Kapre,plant,,warm;temperate forests,walk:50;climb:30,blow smoke (su);confounding aura (su);tree meld (su);blow smoke,10.0
+Karkinoi,monstrous humanoid,aquatic,any water,walk:30;swim:40,sideways scuttle (ex);water dependency (ex);constrict 1d10+6,6.0
+Kasatha,humanoid,kasatha,warm deserts,walk:30,desert runner (ex);desert stride (ex);jumper (ex);stalker (ex);flurry of blows;stunning fist,0.5
+Kech,monstrous humanoid,,warm forests,walk:40;climb:20,rend,3.0
+Keketar,outsider,chaotic; extraplanar; protean; shapechanger,any,walk:40;fly:40;swim:40,reshape reality (sp);spatial riptide (su);warpwave (su);constrict;reshape reality,17.0
+Kelpie,fey,aquatic; shapechanger,any water,walk:40;swim:40,captivating lure (su);captivating lure,4.0
+Killer Seahorse,animal,aquatic,any oceans,swim:40,bleed 1d6;constrict,5.0
+Kirin,magical beast,air,any,walk:60;fly:120,breath weapon;powerful charge,7.0
+Kitsune,humanoid,kitsune; shapechanger,temperate forests;hills;mountains,walk:30,change shape (su),0.5
+Kobold,humanoid,reptilian,temperate underground;deep forest,walk:30,crafty (ex),0.25
+Kodama,outsider,kami; native,any forest,walk:30,distracting gaze (su);distracting gaze;sneak attack +2d6,5.0
+Kolyarut,outsider,extraplanar; inevitable; lawful,any,walk:30,,12.0
+Kongamato,dragon,,tropical forests,walk:40;fly:160,piercing beak (ex);wailing dive (su);wailing dive;breath weapon,15.0
+Korada,outsider,agathion; extraplanar; good,any forests;mountains,walk:90;climb:30;fly:60,combat style master (ex);primal aura (su);shatter spells (su);tranquil master (su);shatter spells;stunning fist,26.0
+Korred,fey,,temperate forests,walk:30,animated hair (su);stone stride (su);stunning laugh (su);animated hair;stunning laugh;rock throwing,4.0
+Kostchtchie,outsider,chaotic; cold; demon; evil; extraplanar,any cold,walk:60;climb:60,clutch foe (ex);crushing blow (su);favored enemy (su);powerful slam (ex);vengeful strike (su);clutch foe;crushing blow;favored enemy;powerful slam;rock throwing;vengeful strike,26.0
+Kraken,magical beast,aquatic,any ocean,walk:280;swim:40,ink cloud (ex);jet (ex);rend ship (ex);tenacious grapple (ex);constrict;ink cloud;rend ship,18.0
+Krenshar,magical beast,,temperate forests;plains,walk:40,skullface (su);skullface,1.0
+Kuwa,outsider,human; native; oni; shapechanger,any,walk:30,,4.0
+Kyton,outsider,evil; extraplanar; kyton; lawful,any,walk:30,chain armor (ex);dancing chains (su);unnerving gaze (su);dancing chains;unnerving gaze,6.0
+Lamia,monstrous humanoid,,temperate deserts,walk:60,undersized weapons (ex);wisdom drain (su);wisdom drain,6.0
+Lamia Matriarch,monstrous humanoid,shapechanger,any land,walk:40;climb:40;swim:40,wisdom drain (su);wisdom drain,8.0
+Lammasu,magical beast,,temperate deserts,walk:30;fly:60,pounce;rake,8.0
+Lampad,fey,,any underground,walk:30,guarded (su);insane beauty (su);weep (su);weep,5.0
+Lantern Archon,outsider,archon; extraplanar; good; lawful,any,fly:60,gestalt (su);light ray (ex),2.0
+Large Air Elemental,outsider,air; elemental; extraplanar,plane of air,fly:100,air mastery (ex);whirlwind,5.0
+Large Earth Elemental,outsider,earth; elemental; extraplanar,any,walk:20;burrow:20,earth glide (ex);earth mastery (ex);earth mastery,5.0
+Large Fire Elemental,outsider,elemental; extraplanar; fire,any,walk:50,burn,5.0
+Large Ice Elemental,outsider,air; cold; elemental; extraplanar; water,any land;water,walk:20;burrow:20;swim:60,ice glide (su);icewalking (ex);numbing cold (su);snow vision (ex);numbing cold,5.0
+Large Lightning Elemental,outsider,air; elemental; extraplanar,any,fly:100,metal mastery (ex);spark leap (ex);metal mastery;spark leap,5.0
+Large Magma Elemental,outsider,earth; elemental; extraplanar; fire,any,walk:20;burrow:20,burn (ex);earth glide (ex);lava puddle (su);burn;lava puddle,5.0
+Large Mud Elemental,outsider,earth; elemental; extraplanar; water,any land;water,walk:20;burrow:10;swim:30,earth glide (ex);entrap (ex);entrap,5.0
+Large Spriggan,humanoid,gnome,any hills;forests,walk:30,size alteration (su);spriggan magic (ex);spriggan skills (ex);sneak attack +2d6,3.0
+Large Water Elemental,outsider,elemental; extraplanar; water,any,walk:20;swim:90,drench (ex);vortex (su);water mastery (ex);drench;vortex;water mastery,5.0
+Lava Drake,dragon,fire,warm forests;hills;mountains,walk:20;burrow:30;fly:60,magma shake (ex);pyroclastic vomit (ex);speed surge (ex);magma shake;pyroclastic vomit,9.0
+Leaf Leshy,plant,leshy; shapechanger,any forest;hill,walk:20;climb:10;fly:10,glide (ex);seedpods (ex),0.5
+Leaf Ray,plant,,temperate;warm forests,walk:5;fly:40,poison (ex);seed (ex);poison;seed,1.0
+Leanan Sidhe,fey,mythic,any land,walk:30;fly:30,life drain (ex);skill blessing (su);spell blessing (su);unearthly grace (su);life drain;mythic power,9.0
+Leech Swarm,vermin,aquatic; swarm,temperate;warm marshes,walk:5;swim:30,blood drain (ex);poison (ex);blood drain;distraction,4.0
+Legion Archon,outsider,archon; extraplanar; good; lawful,any,walk:40;fly:90,flames of faith (ex);second skin (ex);flames of faith,7.0
+Lemure,outsider,devil; evil; extraplanar; lawful,any,walk:20,,1.0
+Leng Spider,magical beast,extraplanar,any,walk:40;climb:40,poison (su);web weaponry (ex);web;web weaponry,14.0
+Leonal,outsider,agathion; extraplanar; good,any land,walk:60,protective aura (su);roar (su);roar;pounce;rake,12.0
+Leopard,animal,,any forest,walk:30;climb:20,pounce;rake,2.0
+Leprechaun,fey,,temperate forests,walk:40,leprechaun magic (sp),2.0
+Leucrotta,magical beast,,temperate;tropical forests;hills,walk:60;climb:30,lure (su);powerful bite (ex);lure;powerful bite,5.0
+Leukodaemon,outsider,daemon; evil; extraplanar,any,walk:30;fly:60,breath of flies (su);contagion (su);infectious aura (su);breath of flies,9.0
+Lhaksharut,outsider,extraplanar; inevitable; lawful,any,fly:60,cunning reflexes (ex);energy bolt (su);immunity to energy spells (ex);multiweapon mastery (ex);perfect prediction (su);wounding weapons (su);cunning reflexes;multiweapon mastery;wounding weapons,20.0
+Lich,undead,augmented humanoid,any,walk:30,grave touch*;paralyzing touch;power over undead*,12.0
+Lillend Azata,outsider,azata; chaotic; extraplanar; good,any,walk:30;fly:70,bardic performance;constrict,7.0
+Lion,animal,,warm plains,walk:40,pounce;rake,3.0
+Living Topiary,plant,,any land,walk:30,assimilate (ex);hedge stride (sp);move through hedges (ex);sculpt shape (ex),4.0
+Living Wall,construct,,any ruins;underground,walk:10,crushing push (ex);fleshy link (ex);crushing push;push,4.0
+Lizard,animal,,any temperate;warm,walk:20;climb:20,,0.16666666666666666
+Lizardfolk,humanoid,reptilian,temperate swamps,walk:30;swim:15,hold breath (ex),1.0
+Locathah,humanoid,aquatic,temperate;warm aquatic,walk:10;swim:60,,0.5
+Locust Swarm,vermin,swarm,temperate;warm deserts;plains,walk:10;climb:10;fly:30,devour (ex);devour;distraction;voracious,2.0
+Lorelei,aberration,aquatic,any coastlines,walk:20;climb:20;swim:20,murmur (su);poison (ex);vortex (su);murmur;poison;vortex,12.0
+Lukwata,magical beast,aquatic,warm rivers;lakes;swamps,swim:40,damage reduction (ex);digest magic (su);dispelling bite (su);eldritch encrustation (su);capsize;digest magic;dispelling bite,11.0
+Lunar Naga,aberration,,any land,walk:40,hypnosis (su);poison (ex);hypnosis;sneak attack +3d6,6.0
+Lunarma,aberration,,any underground,walk:0;fly:60,barbed carapace (ex);breath weapon (su);implant eggs (ex);breath weapon;constrict;implant eggs,6.0
+Lurker Above,aberration,,any underground,walk:10;climb:5;fly:40,smother (ex);constrict;smother,7.0
+Lurker In Light,fey,extraplanar,any land,walk:30;fly:30,blend with light (su);daylight door (sp);poison (ex);ritual gate (su);sneak attack +3d6,5.0
+Lyrakien,outsider,azata; chaotic; extraplanar; good,any,walk:30;fly:80,starlight blast (su);friend (su);starlight blast,2.0
+Maenad,monstrous humanoid,,temperate forests;plains,walk:30,infectious dance (su);mad feast (su);poison (ex);infectious dance;poison,8.0
+Maftet,monstrous humanoid,,temperate;warm deserts;mountains,walk:40;fly:60,paired weapons (ex);raptor dive (ex);runic tattoos (su);paired weapons;raptor dive,6.0
+Magma Ooze,ooze,fire,any volcano;underground,walk:10;climb:10,lava body (ex);vulnerability to water (ex);burn;constrict,7.0
+Magmin,outsider,elemental; extraplanar; fire,any land,walk:30,heated flesh (ex);searing aura (ex);burn,3.0
+Maharaja,outsider,native; rakshasa; shapechanger,any,walk:40;fly:30,extra initiative (su);detect thoughts;extra initiative,20.0
+Mammoth Flea,vermin,,temperate forests;hills;mountains;plains,walk:30,disease (ex);blood drain;disease,2.0
+Manananggal,undead,,any land,walk:30;fly:100,separate (su);blood drain,7.0
+Mandragora,plant,,cold;temperate forests,walk:40;burrow:10;climb:40,poison (ex);shriek (su);vulnerable to supernatural darkness (ex);blood drain;shriek,4.0
+Manitou,outsider,native,any plains;forests,walk:30,positive energy aura (su);spirit stampede (su);token of fortune (su);spirit stampede,15.0
+Manta Ray,animal,aquatic,warm oceans,swim:60,,1.0
+Manticore,magical beast,,warm hills;marshes,walk:30;fly:50,spikes (ex),5.0
+Marai,outsider,native; rakshasa; shapechanger,any,walk:40,confusion (su);energy bolts (ex);detect thoughts;energy bolts,8.0
+Marid,outsider,extraplanar; water,any,walk:20;swim:60,water mastery (ex);fury (su);vortex (su);vortex;water mastery;water's fury,9.0
+Marilith,outsider,chaotic; demon; evil; extraplanar,any,walk:40,crushing coils (ex);infuse weapon (su);multiweapon mastery (ex);constrict;infuse weapon;multiweapon mastery,17.0
+Marsh Giant,humanoid,giant,temperate marshes,walk:40;swim:20,rock throwing,8.0
+Marut,outsider,extraplanar; inevitable; lawful,any,walk:30,fists of lightning and thunder (su);fists of lightning and thunder,15.0
+Mastodon Elephant,animal,,cold;temperate forests;plains,walk:40,trample,9.0
+Medium Air Elemental,outsider,air; elemental; extraplanar,plane of air,fly:100,air mastery (ex);whirlwind,3.0
+Medium Earth Elemental,outsider,earth; elemental; extraplanar,any,walk:20;burrow:20,earth glide (ex);earth mastery (ex);earth mastery,3.0
+Medium Fire Elemental,outsider,elemental; extraplanar; fire,any,walk:50,burn,3.0
+Medium Ice Elemental,outsider,air; cold; elemental; extraplanar; water,any land;water,walk:20;burrow:20;swim:60,ice glide (su);icewalking (ex);numbing cold (su);snow vision (ex);numbing cold,3.0
+Medium Lightning Elemental,outsider,air; elemental; extraplanar,any,fly:100,metal mastery (ex);spark leap (ex);metal mastery;spark leap,3.0
+Medium Magma Elemental,outsider,earth; elemental; extraplanar; fire,any,walk:20;burrow:20,burn (ex);earth glide (ex);lava puddle (su);burn;lava puddle,3.0
+Medium Mud Elemental,outsider,earth; elemental; extraplanar; water,any land;water,walk:20;burrow:10;swim:30,earth glide (ex);entrap (ex);entrap,3.0
+Medium Water Elemental,outsider,elemental; extraplanar; water,any,walk:20;swim:90,drench (ex);vortex (su);water mastery (ex);drench;vortex;water mastery,3.0
+Medusa,monstrous humanoid,,temperate marshes;underground,walk:30,around vision (ex);petrifying gaze (su);poison (ex);petrifying gaze,7.0
+Megalania,animal,,warm forests;plains,walk:30;swim:30,poison (ex);swallow whole,7.0
+Megaloceros,animal,,cold;temperate forest;plains,walk:50,powerful charge,4.0
+Megatherium,animal,,temperate;warm forest,walk:30;climb:10,rend,5.0
+Meladaemon,outsider,daemon; evil; extraplanar,any,walk:30;fly:60,consumptive aura (su);disease (ex);hunger (su),11.0
+Mephit,outsider,varies,any,walk:30;fly:40,breath weapon (su);breath weapon,3.0
+Mercane,outsider,extraplanar,any land;underground,walk:30,secret chest (sp),5.0
+Merfolk,humanoid,aquatic,temperate ocean,walk:5;swim:50,,0.3333333333333333
+Mi-Go,plant,,any,walk:30;fly:50,deceptive (ex);evisceration (ex);item creation (ex);starflight (su);evisceration;grab;sneak attack +2d6,6.0
+Mihstu,outsider,air; elemental; extraplanar,any,walk:20;fly:20,gaseous (ex);deadly embrace (ex);susceptible to cold (ex);wind defense (ex);deadly embrace,8.0
+Mimic,aberration,shapechanger,any,walk:10,adhesive (ex);mimic object (ex);constrict,4.0
+Mindslaver Mold,plant,,any,walk:5;climb:5,avoidance (ex);infestation (su);mold mindlink (su);spore pod (ex);spores (su);infestation;spores,3.0
+Minotaur,monstrous humanoid,,temperate ruins;underground,walk:30,natural cunning (ex);powerful charge,4.0
+Mist Drake,dragon,air,cold;temperate coasts;hills;marshes,walk:30;fly:80,fogburst (su);fogvision (ex);misty camouflage (ex);speed surge (ex);fogburst,5.0
+Mite,fey,,any underground,walk:20;climb:20,hatred (ex);vermin empathy (ex);hatred,0.25
+Mithral Golem,construct,,any,walk:50,fluid form (ex);immunity to magic (ex);quickness (ex);fluid form;quickness,16.0
+Mobat,magical beast,,temperate;warm forests;hills;underground,walk:20;fly:40,screech (su);screech,3.0
+Mobogo,magical beast,aquatic,temperate swamps,walk:30;fly:30;swim:40,swamp stride (ex);tongue (ex);vile croak (su);crush;pull;swallow whole;vile croak,10.0
+Mogaru,magical beast,kaiju; water,warm forests;water,walk:100;swim:100,absorb energy (ex);breath weapon (su);firebolts (su);reflexive breath (ex);sense kaiju (su);susceptible to song (ex);breath weapon;ferocity;fast swallow;hurl foe;reflexive breath;swallow whole;trample,28.0
+Mohrg,undead,,any,walk:30,create spawn (su);create spawn;paralysis,8.0
+Monaciello,fey,,any urban,walk:30,magic bag (su);stymie channeling (su),1.0
+Monadic Deva,outsider,angel; aquatic; extraplanar; good,any good-aligned plane,walk:40;fly:90,solid blow (su),12.0
+Mongrelman,monstrous humanoid,,any ruins;underground,walk:30,,1.0
+Monitor Lizard,animal,,warm forests;plains,walk:30;swim:30,poison (ex),2.0
+Monkey,animal,,warm forests,walk:30;climb:30,,0.25
+Monkey Swarm,animal,swarm,warm forests,walk:30;climb:20,coordinated swarm (ex);distraction,2.0
+Moon-Beast,aberration,,any land,walk:50;climb:20,wisdom drain (su);rend,11.0
+Moonflower,plant,,any land,walk:20,light pulse (su);pod prison (ex);pod spawn (ex);light pulse;pod prison,8.0
+Morlock,monstrous humanoid,,any underground,walk:40;climb:30,expert climber (ex);leap attack (ex);swarming (ex);leap attack;sneak attack +1d6;swarming,2.0
+Morrigna,outsider,extraplanar; psychopomp,any,walk:40;climb:15,spider sight (su);wrappings (su);wrappings,13.0
+Mosquito Swarm,vermin,swarm,tropical swamps,walk:5;fly:40,bleed;disease;distraction,3.0
+Moss Troll,humanoid,giant; shapechanger,cold;temperate forests,walk:30;climb:10,fear of fire (ex);tree climber (ex),3.0
+Mothman,monstrous humanoid,,any land,walk:30;fly:60,agent of fate (sp);gaze (su);mind-warping gaze,6.0
+Movanic Deva,outsider,angel; extraplanar; good,any good-aligned plane,walk:40;fly:60,s pacifism (ex);protected life force (ex),10.0
+Mu Spore,plant,,any,walk:40;fly:30,grasping tendrils (ex);spore cough (su);spore cough;constrict;swallow whole,21.0
+Mudlord,outsider,earth; elemental; water,temperate;warm marshes;underground,walk:30;swim:40,engulf (su);mudball (ex);vulnerable to magic (ex);engulf;smother,6.0
+Mummified Gynosphinx,undead,augmented magical beast,warm ruins,walk:30;fly:50,burst of vengeance;dust stroke;pounce;rake,9.0
+Mummy,undead,,any,walk:20,despair (su);mummy rot (su),5.0
+Myceloid,plant,,any underground,walk:20,disease (su);spore cloud (ex);spore domination (sp);spore cloud,4.0
+Myrmecoleon,magical beast,mythic,temperate plains;hills,walk:30;burrow:20;climb:20,death throes (ex);scalding spray (ex);blood drain;constrict;death throes;mythic power;scalding spray;trample,10.0
+Nabasu,outsider,chaotic; demon; evil; native,any,walk:30;fly:60,consume life (su);gaze (su);consume life;death-stealing gaze;sneak attack +2d6,8.0
+Nagaji,humanoid,reptilian,warm forests;hills,walk:30,,0.5
+Nalfeshnee,outsider,chaotic; demon; evil; extraplanar,any,walk:30;fly:40,unholy nimbus (su);unholy nimbus,14.0
+Naunet,outsider,chaotic; extraplanar; protean; shapechanger,any,walk:30;fly:30;swim:30,adaptive strike (su);coalesce chaos (su);confusion (su);adaptive strike;coalesce chaos;constrict,7.0
+Necrocraft,undead,,any land;underground,walk:30;fly:30,,3.0
+Necrophidius,construct,,any,walk:30,dance of death (ex);paralysis (su);dance of death,3.0
+Neh-thalggu,aberration,,any,walk:10;fly:40,brain collection (ex);poison (ex);strange knowledge (ex);rend,8.0
+Nemesis Devil,outsider,devil; evil; extraplanar; lawful,any,walk:40;fly:80,devil mark (su);false divinity (su);sleet storm  idol armor (su);infernal wound (su);infernal wound,18.0
+Neothelid,aberration,,any underground,walk:30;fly:60,mind thrust (su);psychic crush (su);trace teleport (ex);breath weapon;mind thrust;psychic  crush;swallow whole,15.0
+Nependis,monstrous humanoid,,temperate forests,walk:40;climb:30,abduct (ex);roar (su);abduct;roar,9.0
+Nephilim,outsider,native,warm hills,walk:40,crushing blow (ex);mortal challenge (su);soul of sorrow (ex);crushing blow;mortal challenge,8.0
+Nereid,fey,water,any aquatic,walk:30;swim:60,beguiling aura (su);drowning kiss (su);poison (ex);shawl (ex);transparency (su);unearthly grace (su);drowning kiss,10.0
+Nessian Warhound,outsider,evil; extraplanar; fire; lawful,any,walk:40,breath weapon,9.0
+Night Hag,outsider,evil; extraplanar,any evil-aligned plane,walk:30,disease (su);dream haunting (su);heartstone (su);dream haunting,9.0
+Nightcrawler,undead,extraplanar; nightshade,any,walk:30;burrow:60,energy drain (su);poison (su);channel negative energy;energy drain;swallow whole,18.0
+Nightgaunt,monstrous humanoid,extraplanar,any mountains,walk:30;fly:40,clutches (ex);faceless (ex);tickle (ex);clutches;tickle,4.0
+Nightmare,outsider,evil; extraplanar,any,walk:40;fly:90,smoke (su);smoke,5.0
+Nightmare Ettercap,aberration,,temperate forests,walk:30;climb:30;fly:10,poison (ex);spider empathy (ex);traps (ex);night terrors;poison;traps;web,4.0
+Nightwalker,undead,extraplanar; nightshade,any,walk:40,fear gaze (su);swift sundering (su);channel energy;fear gaze;swift sundering,16.0
+Nightwave,undead,aquatic; extraplanar; nightshade,any,fly:60;swim:60,blackest depths (su);energy drain (su);channel energy;energy drain;swallow whole,20.0
+Nightwing,undead,extraplanar; nightshade,any,walk:30;fly:60,magic drain (su);channel energy,14.0
+Ningyo,monstrous humanoid,aquatic,warm oceans,walk:20;swim:40,group grappler (ex);nocturnal undeath (su);poison flesh (ex);startle (su);swarming (ex);group grappler;startle;swarming,1.0
+Nixie,fey,aquatic,temperate water,walk:20;swim:30,wild empathy (ex),1.0
+Norn,fey,,cold mountains,walk:40,fated (su);shears (su);shift fate (su);snip thread (su);energy drain;shift fate;snip thread,18.0
+Nosferatu,undead,augmented humanoid; human,any urban;ruins,walk:30,blood drain;dominate;sneak attack +5d6;telekinesis,10.0
+Nosoi,outsider,extraplanar; psychopomp,any,walk:20;fly:50,haunting melody (su);haunting melody,2.0
+Nuckelavee,fey,aquatic,cold swamps;coastlines,walk:50;swim:50,breath weapon (su);disease (su);breath weapon;trample,9.0
+Nue,magical beast,,warm forests;mountains,walk:30,cloud form (su);poison (ex);energy drain;pounce,10.0
+Nuglub,fey,,any underground;urban,walk:30;climb:20,kneecapper (ex),2.0
+Nycar,dragon,aquatic,cold marshes,walk:30;swim:30,elusive (ex);poison (ex);poison,2.0
+Nymph,fey,,temperate forest,walk:30;swim:20,blinding beauty (su);inspiration (su);stunning glance (su);unearthly grace (su);wild empathy (su);stunning glance,7.0
+Nymph Water Strider,vermin,,any water,walk:30;fly:20,,0.25
+Nyogoth,outsider,chaotic; evil; extraplanar; qlippoth,any,walk:5;fly:30,acid spray (su);horrific appearance (su);horrific appearance,10.0
+Ocean Giant,humanoid,aquatic; giant,any oceans,walk:50;swim:40,conch focus (su);conch focus;rock throwing,14.0
+Oceanid,fey,water,any oceans,walk:20;swim:80,water dependency (ex);water magic (su);water telekinesis (su);waveglide (su);water telekinesis,7.0
+Ochre Jelly,ooze,,temperate underground;marshes,walk:10;climb:10,acid (ex);split (ex);constrict,5.0
+Octopus,animal,aquatic,temperate;cold ocean,walk:200;swim:30,ink cloud (ex);jet (ex);poison (ex),1.0
+Ogre,humanoid,giant,temperate;cold hills,walk:30,,3.0
+Ogre Mage,outsider,giant; native; oni; shapechanger,cold hills,walk:40;fly:60,,8.0
+Ogre Spider,vermin,,temperate;cold hills;underground,walk:40;climb:40,poison (ex);web,5.0
+Ogrekin,humanoid,giant,any,walk:30,,2.0
+Olethrodaemon,outsider,daemon; evil; extraplanar,any,walk:40;burrow:50,adamantine claws (ex);drain soul (su);breath (su);drain soul;soul-drained breath;trample,20.0
+Oma,magical beast,,gas giants;vacuum,fly:200,capsize (ex);carrier (ex);starflight (ex);capsize;swallow whole,16.0
+Omox,outsider,aquatic; chaotic; demon; evil; extraplanar,any,walk:40;climb:20;swim:80,liquid leap (sp);slime (su);smothering (ex);smothering,12.0
+Orc,humanoid,,temperate hills;mountains;underground,walk:30,,0.3333333333333333
+Orca,animal,,cold oceans,swim:80,,5.0
+Oread,outsider,native,any land,walk:20,earth affinity (ex),0.5
+Ostiarius,outsider,evil; extraplanar; kyton; lawful,any,walk:30,compel courage (ex);shadow traveler (ex);unnerving gaze (ex);bleed;compel courage;unnerving gaze,5.0
+Otter,animal,,any water,walk:20;swim:30,,0.25
+Otyugh,aberration,,any underground,walk:20,disease (ex);constrict,4.0
+Owb,outsider,extraplanar,any land;underground,walk:5;fly:60,burning cold (su);curse of darkness (su);burning cold;curse of darkness,6.0
+Owl,animal,,temperate forests,walk:10;fly:60,,0.3333333333333333
+Owlbear,magical beast,,temperate forests,walk:30,,4.0
+Pachycephalosaurus,animal,,warm;temperate plains,walk:40,clobbering charge (ex);clobbering charge,4.0
+Pairaka,outsider,div; evil; extraplanar; shapechanger,any,walk:30;fly:50,disease (su);lustful dreams (su);lustful dreams,7.0
+Pale Stranger,undead,,any,walk:30,pistols (su);luck (su);shot (ex);pistols;stranger's shot,10.0
+Paracletus,outsider,aeon; extraplanar,any,fly:40,emotion aura (sp),2.0
+Parasaurolophus,animal,,warm forests;plains,walk:30,trample,4.0
+Pard,magical beast,,temperate;warm forests;plains,walk:120,empathy (su);phasing attack (su);phasing attack,3.0
+Pazuzu,outsider,air; chaotic; demon; evil; extraplanar,any,walk:60;fly:150,aura of locusts (su);avian mastery (su);hear name (su);poison (ex);possession (su);profane wishcraft (su);swarm master (su);hear name;poison;possession;profane wishcraft;swarm master,30.0
+Pech,fey,earth,any underground,walk:20,earth mastery (ex);pech magic (sp);stone knowledge (ex);earth mastery;pech magic;stone knowledge,3.0
+Pegasus,magical beast,,temperate;warm plains,walk:60;fly:120,,3.0
+Peluda,dragon,,temperate marshes;plains,walk:30;swim:30,poison (ex);quill barrage (ex);quills (ex);vulnerable tail (su);breath weapon;poison;quill barrage,10.0
+Penanggalen,undead,augmented humanoid,any,fly:60,cackle hex (su);evil eye hex (su);misfortune hex (su);blood drain;create spawn;disease;hexes,5.0
+Peri,outsider,good; native,any good-aligned plane,walk:30;fly:90,flame jump (sp);smoke sight (su);whirlwind dance (su);burn;whirlwind dance,14.0
+Peryton,magical beast,,any,walk:30;fly:60,horrific critical (ex);shadow mark (su);horrific critical;shadow mark,4.0
+Petitioner,outsider,extraplanar,any,walk:30,,1.0
+Phantom Fungus,plant,,any underground,walk:20;climb:20,phantom flesh (su),3.0
+Phase Spider,magical beast,,warm hills,walk:40;climb:20,ethereal ambush (ex);ethereal jaunt (su);poison (ex);ethereal ambush,5.0
+Phoenix,magical beast,fire,warm desert;hills,walk:30;fly:90,resurrection (su);shroud of flame (su),15.0
+Phycomid,plant,,any underground,walk:10,acid pellet (ex);spores (ex),4.0
+Pickled Punk,undead,,any,walk:15,attach (ex);death throes (ex);irritant (ex);opportune (ex);attach;death throes;irritant,1.0
+Pig,animal,,any,walk:30,,0.3333333333333333
+Pipefox,magical beast,,any,walk:30;climb:20,,2.0
+Piscodaemon,outsider,aquatic; daemon; evil; extraplanar,any,walk:30;swim:50,augmented critical (ex);poison (ex);constrict,10.0
+Pit Fiend,outsider,devil; evil; extraplanar; lawful,any,walk:40;fly:60,devil shaping (su);disease (su);poison (ex);constrict 2d8+19;devil shaping,20.0
+Pixie,fey,,temperate forests,walk:20;fly:60,invisibility (su);special arrows (su);special arrows,4.0
+Plague Zombie,undead,,any,walk:30,death burst (ex);disease (su);staggered (ex);death burst,0.5
+Planetar,outsider,angel; extraplanar; good,any good-aligned plane,walk:30;fly:90,,16.0
+Plasma Ooze,ooze,,any,fly:30,magnetic pulse (su);plasma ray (su);constrict;engulf,16.0
+Platypus,animal,,temperate;warm rivers,walk:10;swim:40,electrolocation (ex);poison (ex);semiaquatic (ex);poison,0.16666666666666666
+Pleroma,outsider,aeon; extraplanar,any,walk:0;fly:60,energy touch (su);sphere of creation (su);sphere of oblivion (su);sphere of creation;sphere of oblivion,20.0
+Pod-Spawned Guard Captain,plant,augmented humanoid,any,walk:30,weapon training,8.0
+Poison Frog,animal,,warm marshes;aquatic,walk:10;swim:20,poison (ex),0.5
+Poltergeist,undead,incorporeal,any,fly:20,frightener (su);rejuvenation (su);site bound (ex);telekinesis (su);frightener;telekinesis,2.0
+Pony,animal,,temperate plains,walk:40,,0.5
+Pooka,fey,,any,walk:30;fly:60,poison (su);poison,2.0
+Popobala,monstrous humanoid,shapechanger,warm coasts;forests,walk:30;climb:30;fly:80,change shape (su);harvester of sorrow (su);horrid haunting (su);popobala fever (su);rend,15.0
+Porcupine,animal,,temperate forests;plains,walk:30,quills (ex),0.25
+Pseudodragon,dragon,,temperate forests,walk:15;fly:60,poison (ex),1.0
+Pteranodon,animal,,warm coastline,walk:10;fly:50,,3.0
+Pugwampi,fey,,warm hills,walk:30,unluck aura (su),0.5
+Pukwudgie,monstrous humanoid,shapechanger,temperate forests;hills;mountains,walk:30,spawn undead (su);poison (su);quills (ex);sneak attack +3d6;spawn undead,7.0
+Purple Worm,magical beast,,any underground,walk:20;burrow:20;swim:10,poison (ex);swallow whole,12.0
+Purrodaemon,outsider,daemon; evil; extraplanar,any,walk:30;fly:60,weapon steep (su);weapon steep,18.0
+Qallupilluk,monstrous humanoid,aquatic,cold oceans,walk:30;swim:40,cloying scent (su);curse of scales (su);curse of scales,7.0
+Quasit,outsider,chaotic; demon; evil; extraplanar,any,walk:20;fly:50,poison (ex),2.0
+Quickling,fey,,temperate forests,walk:120,natural invisibility (su);supernatural speed (su);slow susceptibility (ex);sneak attack +1d6,3.0
+Quickwood,plant,,temperate forests,walk:10,fear aura (su);oaksight (su);roots (ex);spell absorption (su);pull,8.0
+Raccoon,animal,,temperate forests,walk:20;climb:20,,0.5
+Rakshasa,outsider,native; shapechanger,any,walk:40,detect thoughts (su);detect thoughts,10.0
+Raktavarna,outsider,native; rakshasa; shapechanger,any,walk:20;climb:20;swim:20,change shape (su);eyes (su);poison (su);detect thoughts,2.0
+Ram,animal,,temperate mountains,walk:40,powerful charge,1.0
+Rast,outsider,extraplanar; fire,any,walk:5;fly:60,paralyzing gaze (su);blood drain;paralyzing gaze,5.0
+Rat,animal,,any temperate,walk:15;climb:15;swim:15,,0.25
+Rat King,magical beast,,any urban;underground,walk:30;climb:15;swim:15,disease (ex);plaguebringer (ex);speak with rats (ex);disease;plaguebringer,5.0
+Rat Swarm,animal,swarm,any,walk:15;climb:15;swim:15,disease (ex);disease;distraction,2.0
+Ratfolk,humanoid,ratfolk,warm deserts;urban,walk:20,swarming (ex);swarming,0.3333333333333333
+Ratling,magical beast,,any urban,walk:30;burrow:10;climb:20;swim:30,scroll use (ex);sneak attack +1d6,2.0
+Raven,animal,,any temperate,walk:10;fly:40,,0.16666666666666666
+Red Wyrm Ravener,undead,fire,warm mountains,walk:40;fly:250,breath weapon;crush;manipulate flames;melt stone;soul consumption;soul magic;tail sweep,22.0
+Redcap,fey,,temperate forests;mountains;underground,walk:60,boot stomp (ex);heavy weapons (ex);irreligious (ex);red cap (su),6.0
+Reefclaw,aberration,aquatic,any water,walk:5;swim:40,death frenzy (su);grab (ex);poison (ex);death frenzy;constrict,1.0
+Remorhaz,magical beast,,cold deserts;glaciers,walk:30;burrow:20,heat (su);heat;swallow whole,7.0
+Retriever,construct,extraplanar,any,walk:50,eye rays (su);relentless (su);eye rays,11.0
+Revenant,undead,,any land,walk:30,baleful shriek (su);reason to hate (su);sense murderer (su);baleful shriek;constrict,6.0
+Rhinoceros,animal,,warm plains,walk:40,powerful charge,4.0
+Riding Dog,animal,,any,walk:40,,1.0
+Rift Drake,dragon,earth,warm hills;mountains,walk:30;climb:20;fly:60,clinging corrosion (su);savage bite (ex);speed surge (ex);bleed;clinging corrosion;pounce;savage bite,9.0
+River Drake,dragon,aquatic; water,temperate rivers;lakes,walk:20;fly:60;swim:30,caustic mucus (su);speed surge (ex);caustic mucus;pounce,3.0
+River Giant,humanoid,giant,any rivers,walk:40,rock throwing,6.0
+Roc,animal,,warm mountains,walk:20;fly:80,,9.0
+Rock Troll,humanoid,earth; giant,any underground,walk:30,sunlight petrification (ex);rend,6.0
+Rokurokubi,monstrous humanoid,,any ruins,walk:30,elongate neck (ex);nightfall aura (su);no sleep (ex);curse (su);elongate neck;rokurokubi's curse,14.0
+Roper,aberration,,any underground,walk:10,strands (ex);pull;strands,12.0
+Rot Grub Swarm,vermin,swarm,any,walk:10,infestation (ex);distraction;infestation,7.0
+Royal Naga,aberration,shapechanger,any land,walk:40,change shape (su);dual gaze (su);bleed;dual gaze;rend,11.0
+Rukh,magical beast,,warm deserts;mountains,walk:40;fly:80,swallow whole,10.0
+Rune Giant,humanoid,giant,cold mountains,walk:35,command giant (su);runes (ex);spark shower (su);command giants;runes;spark shower,17.0
+Rusalka,fey,aquatic,any water,walk:30;swim:60,beckoning call (su);staggering touch (su);tresses (su);beckoning call;constrict;tresses,12.0
+Rust Monster,aberration,,any underground,walk:40;climb:10,rust (su);scent metals (ex),3.0
+Sabosan,monstrous humanoid,,warm forests;underground,walk:30;fly:40,dust cloud (ex);fell shriek (su);bleed;blood drain;dust cloud;fell shriek;powerful charge,5.0
+Sacristan,outsider,evil; extraplanar; kyton; lawful,any,walk:30,shadow scream (su);unnerving gaze (ex);shadow scream;unnerving gaze,10.0
+Sagari,aberration,,any forests,walk:10;fly:30,baleful whinny (su);flight (su);lashing strike (ex);baleful whinny;lashing strike,0.5
+Saguaroi,plant,,warm deserts,walk:40,needle cone (ex);needle hide (ex);produce water (ex);needle cone,5.0
+Sahuagin,monstrous humanoid,aquatic,temperate;warm ocean,walk:30;swim:60,blood frenzy (ex);speak with sharks (su);blood frenzy,2.0
+Salamander,outsider,extraplanar; fire,any,walk:20,heat (ex);constrict;heat,6.0
+Saltwater Merrow,humanoid,aquatic; giant,temperate oceans,walk:40;swim:40,,6.0
+Samsaran,humanoid,samsaran,any land,walk:30,,0.5
+Sandman,outsider,earth; elemental; extraplanar,any land,walk:30;burrow:30,sand form (su);sleep (su);sleep aura (su),3.0
+Sapphire Jellyfish,vermin,aquatic,warm;temperate oceans,swim:30,electricity blast (ex);poison (ex);electricity blast,11.0
+Sard,plant,,any forests,walk:50;climb:30,death throes (su);electrical jolt (su);planar acclimation (ex);poison (ex);thorns (ex),19.0
+Sargassum Fiend,plant,aquatic,any oceans,walk:20;climb:20;swim:40,grab (ex);mirage (su);constrict;grab,9.0
+Sasquatch,humanoid,sasquatch,temperate;cold forests,walk:40,pungency (ex);woodland stride (ex);rock throwing,2.0
+Satyr,fey,,temperate forests,walk:40,pipes (su);pipes,4.0
+Sayona,undead,,any land;underground,walk:30,absorb blood (su);create spawn (su);living form (su);staggering gaze (su);absorb blood;blood drain;fear cone;paralysis;staggering gaze,12.0
+Scarecrow,construct,,any land,walk:20,fascinating gaze (su);fear (su);fascinating gaze,4.0
+Scarlet Spider,vermin,,any land,walk:30,poison (ex);poison,0.25
+Sceaduinar,outsider,extraplanar,any,walk:40;fly:90,entropic flesh (ex);entropic touch (ex);void child (ex);energy drain;entropic touch,7.0
+Schir,outsider,chaotic; demon; evil; extraplanar,any,walk:30,disease (ex);powerful charge,4.0
+Scrag,humanoid,giant; aquatic,cold mountains,walk:20;swim:40,rend,5.0
+Scylla,aberration,aquatic,any water,walk:30;swim:50,bleed;constrict,16.0
+Sea Bonze,undead,aquatic,any oceans,walk:40;swim:80,dooming gaze (su);capsize;dooming gaze,15.0
+Sea Cat,magical beast,,warm coastlines,walk:10;swim:40,rend,4.0
+Sea Drake,dragon,aquatic,any coastlines,walk:20;fly:60;swim:60,ball lightning breath (su);capsize (ex);speed surge (ex);ball lightning breath;capsize,6.0
+Sea Hag,monstrous humanoid,aquatic,any aquatic,walk:30;swim:40,evil eye (su);horrific appearance (su);evil eye,4.0
+Sea Serpent,magical beast,aquatic,any ocean,walk:20;swim:60,capsize (ex);elusive (su);capsize;constrict;swallow whole,12.0
+Seaweed Leshy,plant,aquatic; leshy; shapechanger,any ocean;coastline,walk:20;swim:20,air cyst (su);water jet (ex);sneak attack +1d6,3.0
+Seaweed Siren,magical beast,aquatic,any coastlines,walk:30;swim:30,cacophony (su);false heads (ex);sonic beams (su);staggering gaze (su);water dependency (ex);staggering gaze;trample,13.0
+Selkie,monstrous humanoid,aquatic; shapechanger,cold oceans,walk:20;swim:50,echo of reason (su);shake (ex);powerful blows;shake,5.0
+Sepid,outsider,div; evil; extraplanar,any,walk:40,deflect rays (su);rain of debris (su);rain of debris,14.0
+Seps,magical beast,,temperate;warm deserts;forests,walk:30,acid blood (ex);liquefaction (su);poison (ex);poison,11.0
+Serpentfolk,monstrous humanoid,,any land,walk:30,poison (ex),4.0
+Seugathi,aberration,,any underground,walk:30,aura of madness (su);confusion command (su);item use (ex);poison (ex);confusion command,6.0
+Shadow,undead,incorporeal,any,fly:40,create spawn (su);strength damage (su);create spawn,3.0
+Shadow Demon,outsider,chaotic; demon; evil; extraplanar,any,fly:40,sprint (ex);shadow blend (su);sunlight powerlessness (ex);pounce;sprint;shadow blend,7.0
+Shadow Drake,dragon,cold,any,walk:20;fly:90,shadow blend (su);speed surge (ex);stygian breath (su);stygian breath,2.0
+Shadow Mastiff,outsider,evil; extraplanar,any,walk:50,bay (su);shadow blend (su);bay,5.0
+Shadow Roper,outsider,augmented aberration,any underground,walk:10,strands (ex);pull;strands,13.0
+Shae,outsider,extraplanar,any,walk:30,cold (su);lesser shadow evocation (sp),4.0
+Shaggy Demodand,outsider,chaotic; demodand; evil; extraplanar,any,walk:40;fly:50,faith-stealing strike,18.0
+Shaitan,outsider,earth; extraplanar,any,walk:20;burrow:60;climb:20,earth mastery (ex);metalmorph (su);stone curse (su);stone glide (su);earth mastery;metalmorph;stone curse,7.0
+Shambling Mound,plant,,temperate forest;marshes,walk:20;swim:20,electric fortitude (ex);constrict,6.0
+Shantak,magical beast,,cold mountains,walk:20;fly:80,share defenses (su);slippery (ex);starflight (su),8.0
+Shard Slag,ooze,fire,any volcanoes;underground,walk:30;burrow:20,burrow (ex);excruciating burn (ex);molten form (ex);slag blades (ex);vulnerable to water (ex);excruciating burn;molten form;slag blades,8.0
+Shark,animal,aquatic,any ocean,swim:60,keen scent (ex),2.0
+Shark-Eating Crab,vermin,aquatic,any water,walk:30;swim:60,darting claw (ex);constrict;darting claw,7.0
+Shedu,magical beast,,warm deserts,walk:30;fly:60,prescience (su);trample,9.0
+Shemhazian,outsider,chaotic; demon; evil; extraplanar,any,walk:40;climb:20;fly:60,paralyzing gaze (su);strength drain (su);paralyzing gaze;rend,16.0
+Shield Archon,outsider,archon; extraplanar; good; lawful,any,walk:40;fly:90,spear and shield (su);stability (ex);transpose ally (su);transpose ally,10.0
+Shikigami,outsider,kami; native,any,walk:30,improvised weapon mastery (ex),2.0
+Shinigami,outsider,extraplanar; lawful,any,walk:30;fly:40,destroy soul (su);destroy soul,17.0
+Shining Child,outsider,evil; extraplanar,any land,walk:30;fly:50,blinding light (ex);burning touch (su);radiant armor (su);searing ray (su),12.0
+Shipwrecker Crab,vermin,aquatic,any water,walk:30;swim:40,powerful claws (ex);constrict,13.0
+Shira,outsider,div; evil; extraplanar,any,walk:50,consume essence (su);dusty pelt (ex);consume essence;dusty pelt;rake,12.0
+Shobhad,monstrous humanoid,,cold deserts;mountains,walk:40,,4.0
+Shocker Lizard,magical beast,,warm marshes,walk:40;climb:20;swim:20,electricity sense (ex);shock (su);shock,2.0
+Shoggoth,ooze,aquatic,cold aquatic;underground,walk:50;climb:30;swim:50,around vision (ex);maddening cacophony (su);engulf (ex);constrict;maddening cacophony;engulf;trample,19.0
+Shoggti,outsider,chaotic; evil; extraplanar; qlippoth,any,walk:30,braincloud (su);horrific appearance (su);braincloud;horrific appearance;constrict,7.0
+Shredskin,undead,,any land,fly:40,control body (su);enshroud (ex);constrict;control body;enshroud;grab,2.0
+Shriezyx,aberration,,any,walk:30;climb:30,fear of fire (ex);poison (ex);slowing toxin (su);slowing toxin;web,4.0
+Shulsaga,outsider,extraplanar,any,walk:30;fly:60,astral recoil (su);disk rider (su);sense rift (su);astral recoil,3.0
+Silvanshee,outsider,agathion; extraplanar; good,any land,walk:30;fly:90,s luck (su);heroic strength (su);spectral mist (su);heroic strength;pounce,2.0
+Simurgh,magical beast,,warm deserts;mountains,walk:40;fly:120,aura of peace (su);banishing swipe (su);glaring ray (su);radiant feathers (su);banishing swipe;glaring ray;radiant feathers,18.0
+Sinspawn,aberration,,any ruins,walk:40,martial proficiency (ex);sinful bite (su),2.0
+Siren,magical beast,,temperate;warm hills,walk:30;fly:60,bardic performance (su);siren song (su);bardic performance;siren's song;sneak attack +2d6,5.0
+Siyokoy,aberration,aquatic,any ocean,walk:30;swim:60,stunning shock (su);attack (ex);constrict;stunning shock;swim-by attack,10.0
+Skaveling,undead,,any underground,walk:20;fly:40,disease (su);screech (su);screech;paralysis,5.0
+Skeletal Champion,undead,,any,walk:30,,2.0
+Skinstitch,construct,,any land,walk:30,nest (su);repair (ex),5.0
+Skulk,humanoid,skulk,any land;underground,walk:30,camouflaged step (ex);chameleon skin (ex);sneak attack +1d6,1.0
+Skum (Ulat-Kini),monstrous humanoid,aquatic,temperate;cold aquatic;underground,walk:20;swim:40,,2.0
+Skunk,animal,,temperate forests,walk:30,musk (ex);musk,0.25
+Slag Giant,humanoid,giant,warm mountains;underground,walk:40,shattering blow (ex);rock throwing,7.0
+Sleipnir,magical beast,,cold mountains,walk:80,breath weapon (su);breath weapon;powerful charge;trample,11.0
+Slicer Beetle,vermin,,temperate forests,walk:40;fly:20,crippling bite (ex);crippling bite,4.0
+Slime Mold,ooze,,temperate forests,walk:20,disease (ex);engulf,2.0
+Slimy Demodand,outsider,chaotic; demodand; evil; extraplanar,any,walk:30;fly:60,acid (su);dread claws (ex);acid;dread claws;faith-stealing strike,16.0
+Slithering Tracker,ooze,,any ruins;underground,walk:10;climb:10,paralysis (ex);transparent (ex);blood drain;grab,4.0
+Sloth,animal,,warm forests,walk:5;climb:5,,0.16666666666666666
+Slurk,magical beast,,temperate swamps;underground,walk:30;climb:30,belly grease (ex);hunker (ex);slime (ex);belly grease;slime,2.0
+Small Air Elemental,outsider,air; elemental; extraplanar,plane of air,fly:100,air mastery (ex);whirlwind,1.0
+Small Earth Elemental,outsider,earth; elemental; extraplanar,any,walk:20;burrow:20,earth glide (ex);earth mastery (ex);earth mastery,1.0
+Small Fire Elemental,outsider,elemental; extraplanar; fire,any,walk:50,burn,1.0
+Small Ice Elemental,outsider,air; cold; elemental; extraplanar; water,any land;water,walk:20;burrow:20;swim:60,ice glide (su);icewalking (ex);numbing cold (su);snow vision (ex);numbing cold,1.0
+Small Lightning Elemental,outsider,air; elemental; extraplanar,any,fly:100,metal mastery (ex);spark leap (ex);metal mastery;spark leap,1.0
+Small Magma Elemental,outsider,earth; elemental; extraplanar; fire,any,walk:20;burrow:20,burn (ex);earth glide (ex);lava puddle (su);burn;lava puddle,1.0
+Small Mud Elemental,outsider,earth; elemental; extraplanar; water,any land;water,walk:20;burrow:10;swim:30,earth glide (ex);entrap (ex);entrap,1.0
+Small Water Elemental,outsider,elemental; extraplanar; water,any,walk:20;swim:90,drench (ex);vortex (su);water mastery (ex);drench;vortex;water mastery,1.0
+Snake Swarm,animal,swarm,any,walk:20;climb:20;swim:20,distraction,2.0
+Snallygaster,aberration,,temperate forests;mountains,walk:20;fly:60,aerial charge (ex);sucking tentacles (ex);aerial charge;bleed;sucking tentacles,3.0
+Snapping Turtle,animal,,temperate;warm water;shore,walk:10;swim:20,shell (ex),0.3333333333333333
+Solar,outsider,angel; extraplanar; good,any good-aligned plane,walk:50;fly:150,slaying arrow (su),23.0
+Soul Eater,outsider,evil; extraplanar,any outer plane,walk:30;fly:100,caster link (ex);find target (su);soul drain (su);wisdom damage (su);find target;soul drain,7.0
+Soulbound Doll,construct,,any,walk:20,alignment variation (ex);effects (ex);soul focus (su),2.0
+Soulbound Mannequin,construct,,any land,walk:30,alignment variation (ex);greater invisibility  disguise self (sp);soul focus (su);effects (ex);constrict,7.0
+Soulbound Shell,construct,,any land,walk:30,cemented mind (ex);soul focus (su);effects (ex),12.0
+Soulsliver,outsider,extraplanar; shapechanger,any land,walk:40,death throes (su);mirror travel (su);perfect copy (su);death throes,2.0
+Spawn Of Yog-Sothoth,aberration,extraplanar,temperate hills,walk:30;climb:30,devastation (ex);tenuous natural invisibility (ex);blood drain;devastation,10.0
+Spectre,undead,incorporeal,any,fly:80,create spawn (su);resurrection vulnerability (su);sunlight powerlessness (ex);unnatural aura (su);create spawn;energy drain,7.0
+Spider Eater,magical beast,,temperate forests,walk:30;fly:60,implant (ex);poison (ex);implant,5.0
+Spider Swarm,vermin,swarm,any,walk:20;climb:20,poison (ex);distraction,1.0
+Spinosaurus,animal,,warm forests;swamps,walk:40;swim:30,pounce;swallow whole,11.0
+Spire Drake,dragon,,any hills,walk:30;climb:30;fly:60,accursed breath (su);soul corruption (su);speed surge (su);accursed breath;soul corruption,7.0
+Spirit Naga,aberration,,temperate marshes,walk:40;swim:20,charming gaze (su);poison (ex);charming gaze,9.0
+Spirit Oni,outsider,native; oni,any,walk:10;fly:30,mask symbiosis (ex);poison (ex);poison,2.0
+Spriggan,humanoid,gnome,any hills;forests,walk:20,size alteration (su);spriggan magic (ex);spriggan skills (ex);sneak attack +2d6,3.0
+Spring-Heeled Jack,fey,,any land,walk:40,frightening gaze (su);vault (su);breath weapon;frightening gaze;vault;sneak attack +1d6,3.0
+Sprite,fey,,temperate forests,walk:15;fly:60,luminous (su),0.3333333333333333
+Squid,animal,aquatic,any ocean,swim:240,ink cloud (ex);jet (ex),1.0
+Stag,animal,,any land,walk:50,,1.0
+Star Archon,outsider,archon; extraplanar; good; lawful,any,walk:40;fly:120,explosive rebirth (su);smite evil 1/day,19.0
+Star-Spawn Of Cthulhu,aberration,,any,walk:40;fly:60;swim:40,immortality (ex);limited starflight (ex);overwhelming mind (ex);constrict;overwhelming mind,20.0
+Stegosaurus,animal,,warm plains,walk:30,,7.0
+Stingray,animal,aquatic,warm oceans,swim:40,poison (ex),0.5
+Stirge,magical beast,,temperate;warm swamps,walk:10;fly:40,attach (ex);blood drain (ex);diseased (ex);blood drain,0.5
+Stone Colossus,construct,colossus; mythic,any land,walk:40,alternate form (ex);movable keep (ex);selective antimagic aura (su);self repair (ex);siege tower (ex);mythic power;mythic quickening;pinning stomp,19.0
+Stone Giant,humanoid,giant,temperate mountains,walk:40,improved rock catching (ex);rock throwing,8.0
+Stone Golem,construct,,any,walk:20,immunity to magic (ex);slow (su);slow,11.0
+Storm Giant,humanoid,giant,any warm,walk:50;swim:40,militant (ex);water breathing (ex),13.0
+Stymphalidies,magical beast,,warm plains;coastlines,walk:20;fly:120,glare (su);wing razors (ex);bleed;glare;wing razors,8.0
+Styracosaurus,animal,,warm plains,walk:40,reflexive strike (ex);powerful charge;reflexive strike,5.0
+Succubus,outsider,chaotic; demon; evil; extraplanar,any,walk:30;fly:50,energy drain (su);profane gift (su);energy drain;profane gift,7.0
+Suli,outsider,native,any,walk:20,elemental assault (su);elemental assault;favored enemy,0.5
+Svartalfar,fey,extraplanar,any,walk:40,bane (su);quickened spell strike (su);bane;quickened spell strike;sneak attack +3d6,8.0
+Svirfneblin,humanoid,gnome,any underground,walk:20,favored enemy;+1 to attack vs. dwarven and reptilian humanoids,1.0
+Swan Maiden,fey,shapechanger,temperate lakes;swamps,walk:30;fly:40,feather cloak (su);transformation ritual (su),6.0
+Sylph,outsider,native,any land,walk:30,air affinity (ex);sneak attack +1d6,0.5
+Taiga Giant,humanoid,giant,cold mountains;forests,walk:30,spirit summoning (su);rock throwing,12.0
+Taiga Linnorm,dragon,,cold forests,walk:40;fly:100;swim:60,breath weapon (su);death curse (su);poison (ex);spines (ex);breath weapon;constrict;death curse,19.0
+Taniniver,dragon,,any land;underground,walk:30;fly:200,breath weapon (ex);disease (ex);breath weapon,18.0
+Tanuki,monstrous humanoid,shapechanger,temperate forests;urban,walk:30,sake affinity (su),4.0
+Taotieh,construct,,any,walk:40,swallow whole (su);pounce;rake;swallow whole,11.0
+Tarn Linnorm,dragon,aquatic,cold lakes;swamps,walk:40;fly:100;swim:80,around vision (ex);breath weapon (su);death curse (su);freedom of movement (ex);poison (su);true seeing (ex);breath weapon;constrict;death curse,20.0
+Tarrasque,magical beast,,any,walk:40,carapace (su);powerful leaper (ex);regeneration (ex);rush (ex);spines (ex);rush;spines;swallow whole,25.0
+Tarry Demodand,outsider,chaotic; demodand; evil; extraplanar,any,walk:60;fly:60,adhesion (ex);adhesion;faith-stealing strike,13.0
+Tataka,outsider,native; rakshasa; shapechanger,any,walk:40,martial artist (su);detect thoughts;martial artist,15.0
+Tatzlwyrm,dragon,,any forests,walk:30;climb:30,poison gasp (ex);poison gasp;pounce;rake,2.0
+Tempest Behemoth,magical beast,air; behemoth,any air,walk:40;fly:200,gale (su);scales (ex);thunderbolt (su);bleed;gale;ruinous;thunderbolt,22.0
+Tendriculos,plant,,temperate;warm forests,walk:20,paralysis;swallow whole,6.0
+Tenebrous Worm,outsider,extraplanar,any land,walk:20,acid (su);bristles (su);poison (su);poison,8.0
+Tengu,humanoid,tengu,temperate mountains;urban,walk:30,gifted linguist (ex);swordtrained (ex);sneak attack +1d6,0.5
+Tentamort,aberration,,any marshes;underground,walk:20;climb:20,poison (ex);constrict,4.0
+Terra-Cotta Soldier,construct,,any,walk:30,keen weapons (su);rank fighting (ex);keen weapons;rank fighting,6.0
+Thalassic Behemoth,magical beast,aquatic; behemoth; water,any water,walk:20;swim:200,water jet (su);capsize;fast swallow;push;rend;ruinous;swallow whole,20.0
+Thanadaemon,outsider,daemon; evil; extraplanar,any,walk:30,draining weapon (su);fear gaze (su);soul crush (su);draining weapon;energy drain;fear gaze;soul crush,13.0
+Thanatotic Titan,outsider,chaotic; evil; extraplanar,any,walk:60,godslayer (su);godslayer;rock-throwing;trample,22.0
+Theletos,outsider,aeon; extraplanar,any,walk:30;fly:30,fate drain (su);wreath of fate (su);wreath of fate,7.0
+Thoqqua,outsider,earth; elemental; extraplanar; fire,any land,walk:30;burrow:20,molten body (su);burn,2.0
+Thrasfyr,magical beast,fire,any,walk:50;climb:50,entangling chains (su);bond (su);planar acclimation (ex);breath weapon;entangling chains;powerful charge,17.0
+Thriae Queen,monstrous humanoid,,any,walk:30;fly:50,launch merope (su);merope coat (su);spawn soldiers (su);poison (ex);launch merope;spawn soldiers,18.0
+Thriae Seer,monstrous humanoid,,any,walk:30;fly:60,merope consumption (su);mind sting (su);merope consumption,11.0
+Thriae Soldier,monstrous humanoid,,any,walk:30;fly:60,merope consumption (su);poison (ex);merope consumption,4.0
+Thulgant,outsider,chaotic; evil; extraplanar; qlippoth,any,walk:40;climb:40;fly:60,ability drain (su);demon hunter (ex);horrific appearance (su);savage stingers (ex);horrific appearance;savage stingers,18.0
+Thunder Behemoth,magical beast,behemoth; earth,any land,walk:30;burrow:30,mighty roar (su);rock spitting (ex);swallow whole (ex);fast swallow;mighty roar;rock spitting;ruinous;swallow whole;trample,18.0
+Thunderbird,magical beast,,any hills;mountains,walk:30;fly:120,thunderbolt (su);storm aura (su);stormsight (ex),11.0
+Thylacine,animal,,warm hills,walk:30,powerful jaws (ex),0.5
+Tiberolith,construct,,any coastlines;water,walk:30,corrosive strikes (ex);shockwave (su);spell trap (su);corrosive strikes;shockwave,10.0
+Tick Swarm,vermin,swarm,temperate forests,walk:30;climb:30,cling (ex);disease (ex);blood drain;cling;distraction,9.0
+Tiefling,outsider,native,any land,walk:30,fiendish sorcery (ex);sneak attack +1d6,0.5
+Tiger,animal,,any forests,walk:40,pounce;rake,4.0
+Tikbalang,monstrous humanoid,,warm jungles;forests,walk:40,spines (ex);pounce;spines;trample,9.0
+Titan Centipede,vermin,,temperate;warm forests;underground,walk:60;climb:60,poison (ex);trample,9.0
+Toad,animal,,temperate;warm forests,walk:5,,0.125
+Tojanida,outsider,extraplanar; water,any water,walk:10;swim:90,ink cloud (ex);ink cloud,5.0
+Tooth Fairy,fey,extraplanar,any urban;plains,walk:15;fly:60,death throes (su);pliers (su);tricky thief (su);death throes;paralysis;pliers;tricky thief,0.25
+Tophet,construct,,any,walk:20,conductive (ex);swallow whole (ex);swallow whole;trample,10.0
+Tor Linnorm,dragon,,cold volcanic mountains,walk:40;climb:40;fly:100;swim:60,breath weapon (su);death curse (su);lava affinity (ex);poison (ex);breath weapon;constrict;death curse,21.0
+Toshigami,outsider,kami; native,any land,walk:60;fly:90,touch of ages (su),15.0
+Totenmaske,undead,shapechanger,any land;underground,walk:50,charisma drain (su);fleshdrink (su);shape flesh (su);fleshdrink;shape flesh,7.0
+Trapper,aberration,,any underground,walk:10;climb:5,constrict;smother,8.0
+Treant,plant,,any forest,walk:30,animate trees (sp);double damage against objects (ex);treespeech (ex);rock throwing;trample,8.0
+Triceratops,animal,,warm plains,walk:30,powerful charge;trample,8.0
+Tripurasura,outsider,asura; evil; extraplanar; lawful,any,walk:20,change shape (su);elusive (su);poison (ex),2.0
+Triton,outsider,native; water,any oceans,walk:5;swim:40,,2.0
+Troglodyte,humanoid,reptilian,any underground,walk:30,,1.0
+Troll,humanoid,giant,cold mountains,walk:30,rend,5.0
+Trollhound,magical beast,,cold mountains,walk:40,disease (ex),3.0
+Trox,monstrous humanoid,,tropical deserts,walk:40;burrow:20,frenzy (ex);grabbing appendages (ex);frenzy;rage,2.0
+Trumpet Archon,outsider,archon; extraplanar; good; lawful,any,walk:40;fly:90,trumpet (su);trumpet,14.0
+Trumpeter Swan,animal,,temperate lakes;swamps,walk:10;fly:100,,0.3333333333333333
+Tuatara,animal,,temperate islands,walk:20;climb:20,,0.25
+Tunche,fey,,warm forests,walk:50;climb:20;swim:20,feather step (su);poison (ex);poison;rend,17.0
+Tupilaq,construct,,any,walk:30;swim:60,scrimshaw magic (sp);seek target (su);shearing jaws (ex);seek target;shearing jaws,7.0
+Twigjack,fey,,temperate forests,walk:30,bramble jump (su);splinterspray (ex);sneak attack +2d6;splinterspray,3.0
+Tylosaurus,animal,,warm aquatic,walk:20;swim:50,swallow whole,8.0
+Tyrannosaurus,animal,,warm forest;plains,walk:40,powerful bite (ex);swallow whole,9.0
+Tyrant Jelly,ooze,mythic,any underground,walk:20;climb:10,control vermin (ex);create spawn (ex);poison (ex);vermin empathy (su);constrict;mythic power;poison,9.0
+Tzitzimitl,undead,,any,walk:50;fly:60,eclipse (su);eye beam (su);light to dark (su);eclipse;energy drain,19.0
+Udaeus,humanoid,mythic; udaeus,any land;urban,walk:20,armor and weapon training (ex);energy resistance (ex);fighter training (ex);infuse arms and armor (ex);infuse arms and armor;mythic power,4.0
+Undine,outsider,native,any land,walk:30,water affinity (ex);channel positive energy 7/day,0.5
+Unfettered Eidolon,outsider,extraplanar,any,walk:20;climb:20;fly:40,,8.0
+Unicorn,magical beast,,temperate forests,walk:60,magic circle against evil (su);magical strike (ex);wild empathy (su);powerful charge,3.0
+Upasunda,outsider,asura; evil; extraplanar; lawful,any,walk:50,infused weapons (su);multiweapon mastery (ex);infused weapons;multiweapon mastery,9.0
+Urdefhan,outsider,native,any land,walk:30,daemonic pact (su);strength damage (su);blood drain,3.0
+Valkyrie,outsider,extraplanar,any,walk:30;fly:100,battle trained (ex);choose the slain (su);holy zeal (su),12.0
+Vampire,undead,augmented humanoid,any,walk:30,blood drain;children of the night;create spawn;dominate;energy drain,9.0
+Vampiric Mist,aberration,air; water,temperate;warm swamps;underground,fly:50,blood siphon (ex);blood overdose (su);misty form (ex);sense blood (ex);bleed,3.0
+Vanara,humanoid,vanara,any forests,walk:30;climb:20,prehensile tail (ex);flurry of blows;stunning fist,0.5
+Vanth,outsider,extraplanar; psychopomp,any,walk:30;fly:50,fear aura (su);scythe (su),7.0
+Vargouille,outsider,evil; extraplanar,any,fly:30,kiss (su);poison (su);shriek (su);kiss;poison;shriek,2.0
+Vegepygmy,plant,,any underground,walk:30,,0.5
+Velociraptor,animal,,warm forests;plains,walk:60,leaping charge (ex);leaping charge,2.0
+Vemerak,aberration,,any underground,walk:40;burrow:20;climb:40,breath weapon (su);earthquake (su);spore cloud (su);breath weapon;constrict;earthquake,14.0
+Venomous Snake,animal,,any temperate;warm,walk:20;climb:20;swim:20,poison (ex),1.0
+Venomous Snake Swarm,animal,swarm,any,walk:20;climb:20;swim:10,poison (ex);distraction,4.0
+Vexgit,fey,,any underground;urban,walk:20;climb:20,speedy sabotage (su);wrecking crew (su);speedy sabotage;wrecking crew,1.0
+Vildeis,outsider,angel; extraplanar; good; lawful,any,walk:40;fly:60,primal aura (su);smite evil (su);zealous vision (su);smite evil 7/day,28.0
+Violet Fungus,plant,,any underground,walk:10,rot (ex),3.0
+Viper,animal,,any temperate;warm,walk:20;climb:20;swim:20,poison (ex),0.5
+Viper Vine,plant,,temperate;warm forests;swamps,walk:10,captivating cloud (su);cold lethargy (ex);captivating cloud;constrict,13.0
+Vishkanya,humanoid,vishkanya,any,walk:30,poison use (ex);toxic (ex);poison;sneak attack +1d6,0.5
+Vodyanoi,monstrous humanoid,aquatic,any rivers;marshes,walk:30;swim:50,suffocating water (su);suffocating water,5.0
+Void Yai,outsider,giant; native; oni; shapechanger,cold;temperate mountains,walk:40;fly:40,commanding voice (su);void form (su);void missile (su);void trap (su);commanding voice;energy drain;void trap,20.0
+Voidworm,outsider,chaotic; extraplanar; protean; shapechanger,any,walk:20;fly:50,confusion (su),2.0
+Voonith,magical beast,aquatic,any rivers;marshes,walk:30;swim:50,freezing howl (su);blood-freezing howl;pounce,4.0
+Vouivre,monstrous humanoid,aquatic,temperate forests;lakes;rivers,walk:30;fly:40;swim:50,snake empathy (ex);unwavering mind (ex);breath weapon,12.0
+Vrock,outsider,chaotic; demon; evil; extraplanar,any,walk:30;fly:50,dance of ruin (su);spores (ex);stunning screech (su);dance of ruin;spores;stunning screech,9.0
+Vrolikai,outsider,chaotic; demon; evil; extraplanar,any,walk:40;fly:60,black flame knives (su);gaze (su);madness (su);multiweapon mastery (ex);black flame knives;death-stealing gaze;multiweapon mastery,19.0
+Vulnudaemon,outsider,daemon; evil; extraplanar,any,walk:30,aura of doom (su);bleed;sneak attack +1d6,4.0
+Vulpinal,outsider,agathion; extraplanar; good,any land,walk:30,calm emotions aura (su);pounce,6.0
+Vulture,animal,,warm plains;hills,walk:10;fly:50,,0.5
+Walrus,animal,,cold oceans,walk:10;swim:40,,3.0
+Warsworn,undead,,any,walk:40,absorb dying creature (su);profane magic (su);scrap ball (ex);absorb dying creature;energy drain;trample,16.0
+Wasp Swarm,vermin,swarm,temperate forests,walk:5;fly:40,poison (ex);distraction;poison,3.0
+Water Naga,aberration,aquatic,temperate water,walk:30;swim:50,poison (ex),7.0
+Water Orm,magical beast,aquatic,any lakes,walk:20;swim:50,elusive (su);water travel (su);swallow whole,10.0
+Water Yai,outsider,aquatic; giant; native; oni; shapechanger; water,any water,walk:50;fly:60;swim:60,acidic missile (su);flowing robes (su);liquid form (sp),18.0
+Wax Golem,construct,,any,walk:30,conditional sentience (su);immunity to magic (ex),3.0
+Wayang,humanoid,wayang,temperate forests,walk:20,light and dark (su),0.5
+Weasel,animal,,temperate hills,walk:20;climb:20,attach (ex),0.5
+Weedwhip,plant,,temperate;warm forests,walk:10,camouflage (ex);dig in (ex);languid whips (ex);poison (ex);poisonous (ex);poison,2.0
+Wendigo,outsider,cold; native,any cold,fly:120,dream haunting (su);howl (ex);wendigo psychosis (su);wind walk (sp);dream haunting;howl;rend;wendigo psychosis,17.0
+"Werebat (Human natural werebat, rogue 3, NE)",humanoid,human; shapechanger,temperate forests;hills,walk:30,sneak attack +2d6,3.0
+Werebat (NE),humanoid,human; shapechanger,temperate forests;hills,walk:30;fly:40,curse of lycanthropy;sneak attack +2d6,3.0
+"Werebear (Human, ranger 4, LG) [1280]",humanoid,human; shapechanger,any forests,walk:30,favored enemy,4.0
+"Werebear (Human, ranger 4, LG) [1281]",humanoid,human; shapechanger,any forests,walk:30,favored enemy,4.0
+"Wereboar (Human, barbarian 2, CN) [1282]",humanoid,human; shapechanger,any forests;plains,walk:40,rage;rage powers,2.0
+"Wereboar (Human, barbarian 2, CN) [1283]",humanoid,human; shapechanger,any forests;plains,walk:40,rage;rage powers,2.0
+"Werecrocodile (Human natural werecrocodile, fighter 3, NE)",humanoid,human; shapechanger,warm rivers;marshes,walk:30,,3.0
+Werecrocodile (NE),humanoid,human; shapechanger,warm rivers;marshes,walk:30;swim:20,death roll (ex);sprint (ex);curse of lycanthropy;death roll;grab,3.0
+"Wererat (Human, rogue 2, LE)",humanoid,human; shapechanger,any urban,walk:30,sneak attack +1d6,2.0
+"Wererat (Human, LE)",humanoid,human; shapechanger,any urban,walk:30,disease (ex);sneak attack +1d6,2.0
+"Wereshark (Human natural wereshark, fighter 3, CE)",humanoid,human; shapechanger,any oceans;coastlines,walk:30,,3.0
+Wereshark (CE),humanoid,human; shapechanger,any oceans;coastlines,walk:30,,3.0
+"Weretiger (Human, rogue 4, NE) [1284]",humanoid,human; shapechanger,any plains;swamps,walk:30,sneak attack +2d6,4.0
+"Weretiger (Human, rogue 4, NE) [1285]",humanoid,human; shapechanger,any plains;swamps,walk:30,pounce;rake;sneak attack +2d6,4.0
+"Werewolf (Human, fighter 2, CE)",humanoid,human; shapechanger,any land,walk:30,,2.0
+"Werewolf (Human, CE)",humanoid,human; shapechanger,any land,walk:30,,2.0
+Whale,animal,,any oceans,swim:40,capsize (ex);capsize,10.0
+Wickerman,construct,fire,any land,walk:30,burning brand (ex);constant blaze (su);fire healing (ex);wicker cage (su);burn;wicker cage,13.0
+Wight,undead,,any,walk:30,create spawn (su);resurrection vulnerability (su);create spawn;energy drain,3.0
+Wikkawak,humanoid,goblinoid,cold mountains,walk:30,thuggery (ex),4.0
+Will-o'-Wisp,aberration,air,any swamp,fly:50,feed on fear (su);immunity to magic (ex);natural invisibility (ex),6.0
+Winter Hag,monstrous humanoid,cold,cold forests;plains,walk:30,breath weapon (su);ice staff (su);icewalking (ex);snow vision (ex);breath weapon,7.0
+Winter Wolf,magical beast,cold,cold forests;plains,walk:50,breath weapon,5.0
+Winterwight,undead,cold,any cold land,walk:30,aura of cold (su);blightfire (su);rend,17.0
+Witchfire,undead,incorporeal,any swamps;woodlands,fly:50,witchflame (su),9.0
+Witchwyrd,monstrous humanoid,,any land,walk:30,absorb force (su);force bolt (su);force bolt,6.0
+Wolf,animal,,cold;temperate forests,walk:50,,1.0
+Wolverine,animal,,cold forests,walk:30;burrow:10;climb:10,rage (ex);rage,2.0
+Wood Giant,humanoid,giant,temperate forests,walk:40,,6.0
+Wood Golem,construct,,any,walk:30,immunity to magic (ex);splintering (su);splintering,6.0
+Woolly Rhinoceros,animal,,cold plains,walk:30,powerful charge;trample,6.0
+Worg,magical beast,,temperate forests;plains,walk:50,,2.0
+Worm That Walks,vermin,augmented human,any,walk:30,discorporate;grab;squirming embrace,14.0
+Wraith,undead,incorporeal,any,fly:60,create spawn (su);constitution drain (su);lifesense (su);sunlight powerlessness (ex);unnatural aura (su),5.0
+Wyrwood,construct,,any ruins;underground,walk:30,sneak attack +1d6,0.5
+Wyvaran,dragon,,temperate mountains,walk:30;fly:30,,0.5
+Wyvern,dragon,,temperate;warm hills,walk:20;fly:60,poison (ex),6.0
+Xacarba,outsider,chaotic; evil; extraplanar,any land,walk:40;climb:20,poison (su);redirect spell (su);constrict;redirect spell,15.0
+Xanthos,magical beast,,any land,walk:60,exploit  stellar conjunction (su),14.0
+Xenopterid,vermin,,any land;underground,walk:40;climb:20;fly:20,entangling slime (ex);poison (ex);blood drain;poison,7.0
+Xill,outsider,evil; extraplanar,any,walk:40,implant (ex);multiweapon mastery (ex);planewalk (su);implant;paralysis,6.0
+Xorn,outsider,earth; extraplanar,any,walk:20;burrow:20,around vision (ex);earth glide (ex),6.0
+Xtabay,plant,,any land,walk:5,devour (ex);soporific pollen (ex);devour;soporific pollen,0.5
+Yamaraj,outsider,extraplanar; psychopomp,any,walk:40;fly:60;swim:40,breath weapon (su);final judgment (su);lightning drinker (su);poison (ex);breath weapon;poison,20.0
+Yaoguai,magical beast,,any land,walk:40,s gift (ex);polymorph susceptibility (su);constrict,7.0
+Yellow Musk Creeper,plant,,temperate;warm forests;underground,walk:5,create yellow musk zombie (su);pollen spray (ex);create yellow musk zombie;pollen spray,2.0
+Yeth Hound,outsider,evil; extraplanar,any,walk:40;fly:60,bay (su);flight (su);sinister bite (su);bay,3.0
+Yeti,monstrous humanoid,cold,cold mountains,walk:40;climb:30,cold (su);frightful gaze (su);frightful gaze;rend,4.0
+Yithian,aberration,,any,walk:20;climb:10,amnesia (su);deadly pincers (ex);mind swap (su);scholar (ex);amnesia;deadly pincers;mind swap,9.0
+Young Black Dragon,dragon,water,warm marshes,walk:60;fly:150;swim:60,acid pool (su);acidic bite (su);charm reptiles (sp);corrupt water (sp);speak with reptiles (sp);abilities (sp);swamp stride (ex);water breathing (ex);breath weapon,7.0
+Young Blue Dragon,dragon,earth,warm deserts,walk:40;burrow:20;fly:200,desert thirst (su);electricity aura (su);mirage (su);sandstorm (su);sound imitation (ex);abilities (sp);storm breath (su);breath weapon;desert thirst,9.0
+Young Brass Dragon,dragon,fire,warm deserts,walk:60;burrow:30;fly:150,desert wind (su);fire aura (su);move sand (sp);sandstorm (su);sleep breath (su);abilities (sp);summon djinni (sp);breath weapon;sleep breath,7.0
+Young Brine Dragon,dragon,extraplanar; water,any aquatic,walk:60;fly:150;swim:60,capsize (ex);desiccating bite (su);painful strikes (su);abilities (sp);breath weapon,7.0
+Young Bronze Dragon,dragon,water,temperate coastlines,walk:40;fly:200;swim:60,change shape (su);electricity aura (su);repulsion breath (su);abilities (sp);tidal wave (su);vortex (ex);water breathing (ex);wave mastery (su);breath weapon;repulsion breath,9.0
+Young Cloud Dragon,dragon,air; extraplanar,any sky,walk:40;fly:200;swim:40,cloud form (su);cloud breath (su);mist vision (su);abilities (sp);thundering bite (su);breath weapon,9.0
+Young Copper Dragon,dragon,earth,warm hills,walk:40;fly:150,climb stone (ex);deadly joke (sp);mass laughter (sp);slow aura (su);slow breath (su);abilities (sp);trap master (ex);uncanny dodge (ex);breath weapon;slow breath,8.0
+Young Crystal Dragon,dragon,earth; extraplanar,any underground,walk:60;burrow:30;climb:30;fly:150,razor sharp (sp);ray reflection (ex);scintillating aura (su);abilities (sp);tremorsense (ex);breath weapon,6.0
+Young Forest Dragon,dragon,earth,any forest,walk:40;burrow:20;climb:30;fly:200,change shape (su);destructive crush (su);elemental breath (su);sound imitation (ex);stony death (su);woodland stride (ex);breath weapon,10.0
+Young Gold Dragon,dragon,fire,warm plains,walk:60;fly:200;swim:60,change shape (su);detect gems (sp);divine aid (sp);fast flight (ex);fire aura (su);luck (sp);abilities (sp);weakening breath (su);breath weapon;weakening breath,11.0
+Young Green Dragon,dragon,air,temperate forests,walk:40;fly:200;swim:40,awaken treants (su);camouflage (ex);miasma (su);abilities (sp);trackless step (ex);water breathing (ex);woodland stride (ex);breath weapon,8.0
+Young Lunar Dragon,dragon,,vacuum,walk:40;burrow:20;fly:200,absolute cold (su);alien presence (su);bewildering breath (su);moonsilver (ex);reflect rays (su);reflected light (ex);bewildering breath;breath weapon;moonsilver,9.0
+Young Magma Dragon,dragon,extraplanar; fire,any mountains;underground,walk:40;fly:150,magma tomb (su);magma breath (su);abilities (sp);superheated (su);breath weapon,8.0
+Young Red Dragon,dragon,fire,warm mountains,walk:40;fly:200,fire aura (su);incinerate (su);manipulate flames (su);melt stone (su);smoke vision (ex);abilities (sp);breath weapon,10.0
+Young Sea Dragon,dragon,water,any water,walk:40;fly:200;swim:60,change shape (su);sea strider (su);tidal wave (su);torrent breath (su);unfettered swimmer (su);breath weapon;torrent breath,8.0
+Young Silver Dragon,dragon,cold,temperate mountains,walk:40;fly:200,change shape (su);cloudwalking (su);cold aura (su);fog vision (ex);graceful flight (ex);paralyzing breath (su);reflective scales (su);abilities (sp);true courage (ex);breath weapon;paralyzing breath,10.0
+Young Sky Dragon,dragon,air,temperate;warm mountains,walk:40;fly:200,borne aloft (su);celestial emissary (su);change shape (su);cloud sight (su);grounding breath (su);primal lightning (su);breath weapon,9.0
+Young Solar Dragon,dragon,fire,vacuum,walk:50;fly:200,alien presence (su);beam of light (su);channel life (su);channel radiation (su);primal fire (su);breath weapon;channel life;primal fire,9.0
+Young Sovereign Dragon,dragon,,any mountains,walk:50;fly:200,change shape (su);dogmatic discordance (su);golden armor (su);master counterspelling (su);violent retort (ex);breath weapon;violent retort,11.0
+Young Time Dragon,dragon,,vacuum,walk:50;fly:200,immortal (ex);read the threads (su);alien presence (su);shifting breath (su);second chance (su);time travel (su);breath weapon,11.0
+Young Umbral Dragon,dragon,extraplanar,any,walk:40;fly:200,breath weapon (su);create shadows (su);energy drain (su);ghost bane (su);umbral scion (ex);shadow breath (su);abilities (sp);breath weapon,10.0
+Young Underworld Dragon,dragon,fire,any underground,walk:40;burrow:30;fly:150,adamantine claws (ex);change shape (su);lava eruption (su);smoke vision (ex);underworld burrower (ex);adamantine claws;breath weapon,7.0
+Young Void Dragon,dragon,,vacuum,walk:40;fly:200,agile (ex);alien presence (su);obliterate (su);suffocating breath (su);void gaze (su);breath weapon;obliterate;suffocating breath,9.0
+Young Vortex Dragon,dragon,fire,vacuum,walk:60;fly:200,agile (ex);alien presence (su);collapsing breath (su);fragmented strike (su);galactic emissary (su);breath weapon,10.0
+Young White Dragon,dragon,cold,cold mountains,walk:30;burrow:30;fly:150;swim:60,blizzard (su);cold aura (su);freezing fog (sp);ice shape (su);ice tomb (sp);icewalking (ex);snow vision (ex);abilities (sp);breath weapon,6.0
+Ypotryll,magical beast,,temperate marshes;hills;coasts,walk:60,minded (ex);destructive charge (ex);thundering path (ex);unstoppable force (ex);destructive charge;push;thundering path;trample;unstoppable force,15.0
+Yrthak,magical beast,,temperate deserts;hills;mountains,walk:20;fly:60,blind (ex);explosion (ex);sonic lance (ex);explosion,9.0
+Yuki-onna,undead,cold; incorporeal,any cold,fly:30,chilling touch (su);fascinating gaze (su);snow dependency (ex);snowstorm (su);chilling touch;fascinating gaze,8.0
+Zelekhut,outsider,extraplanar; inevitable; lawful,any land,walk:50;fly:60,chains (ex),9.0
+Zombie Lord,undead,,any,walk:40,flurry of blows;stunning fist,3.0
+Zomok,plant,extraplanar,any forests,walk:40;fly:100,breath weapon (su);forest step (su);breath weapon;swallow whole;trample,16.0
+Zoog,magical beast,,any forest,walk:30;climb:30,otherworldly touch (ex);spell sight (su);bleed 1,1.0
+Zuishin,outsider,kami; native,any,fly:40,healing arrow (su);holy weapons (su);healing arrow;holy weapons,10.0
+Zuvembie,undead,,any land,walk:30,corpse call (su);corpse call,4.0
