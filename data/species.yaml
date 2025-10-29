@@ -68,10 +68,12 @@ species:
         - artigli_sette_vie
         - struttura_elastica_amorfa
         - scheletro_idro_regolante
+        - sensori_geomagnetici
       optional:
         - coda_frusta_cinetica
         - sacche_galleggianti_ascensoriali
         - criostasi_adattiva
+        - lamelle_termoforetiche
       synergies:
         - focus_frazionato
         - risonanza_di_branco

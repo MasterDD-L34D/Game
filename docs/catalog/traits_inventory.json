@@ -1,5 +1,11 @@
 {
-  "generated_at": "2025-10-28T19:51:30Z",
+  "generated_at": "2025-11-15T10:12:00Z",
+  "core_traits": [
+    "artigli_sette_vie",
+    "scheletro_idro_regolante",
+    "struttura_elastica_amorfa",
+    "sensori_geomagnetici"
+  ],
   "resources": [
     {
       "path": "data/analysis/trait_baseline.yaml",
@@ -35,7 +41,7 @@
       "path": "data/species.yaml",
       "type": "specie",
       "state": "mock",
-      "notes": "Prototipo catalogo specie con trait_plan manuale per dune_stalker."
+      "notes": "Prototipo catalogo specie con trait_plan manuale per dune_stalker e core trait esteso (sensori_geomagnetici)."
     },
     {
       "path": "data/telemetry.yaml",

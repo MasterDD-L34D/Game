@@ -7,3 +7,6 @@ logs/visual_runs/
 logs/visual_baseline/
 node_modules/
 data/idea_engine.db
+
+# Generated UI artifacts
+logs/tooling/*.png

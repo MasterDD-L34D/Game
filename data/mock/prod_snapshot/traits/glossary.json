@@ -85,6 +85,10 @@
       "label_en": "Elevating Buoyancy Sacs",
       "label_it": "Sacche galleggianti ascensoriali"
     },
+    "sensori_geomagnetici": {
+      "label_en": "Geomagnetic Resonance Sensors",
+      "label_it": "Sensori a Risonanza Geomagnetica"
+    },
     "sangue_piroforico": {
       "label_en": "Pyrophoric Blood",
       "label_it": "Sangue che prende fuoco a contatto con l'ossigeno"
@@ -108,6 +112,10 @@
     "struttura_elastica_amorfa": {
       "label_en": "Elastic Amorphous Frame",
       "label_it": "Struttura elastica, allungabile, amorfa, retrattile"
+    },
+    "lamelle_termoforetiche": {
+      "label_en": "Thermophoretic Lamellae",
+      "label_it": "Lamelle Termoforetiche"
     },
     "tattiche_di_branco": {
       "label_en": "Pack Tactics",

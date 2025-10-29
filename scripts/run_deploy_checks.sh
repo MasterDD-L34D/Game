@@ -8,8 +8,59 @@ log() {
   printf '\n[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1"
 }
 
+DATA_SOURCE_DIR="${DEPLOY_DATA_DIR:-$ROOT_DIR/data}"
+if [ ! -d "$DATA_SOURCE_DIR" ]; then
+  log "Dataset directory '$DATA_SOURCE_DIR' non trovato"
+  exit 1
+fi
+export DATA_SOURCE_DIR
+
+SMOKE_TEST_MESSAGE=""
+SMOKE_TEST_DETAILS=()
+
 log "Validating trait inventory (docs/catalog/traits_inventory.json)"
 python3 "$ROOT_DIR/tools/py/traits_validator.py"
+
+log "Generating trait generator profile (scripts/generator.py)"
+GENERATOR_OUTPUT="$ROOT_DIR/logs/tooling/generator_run_profile.json"
+export GENERATOR_OUTPUT
+python3 "$ROOT_DIR/scripts/generator.py" \
+  --data-root "$DATA_SOURCE_DIR" \
+  --matrix "$ROOT_DIR/docs/catalog/species_trait_matrix.json" \
+  --inventory "$ROOT_DIR/docs/catalog/traits_inventory.json" \
+  --output "$GENERATOR_OUTPUT"
+
+GENERATOR_SUMMARY=$(python3 - <<'PY'
+import json
+import os
+
+path = os.environ.get("GENERATOR_OUTPUT")
+if not path:
+    raise SystemExit
+with open(path, "r", encoding="utf-8") as handle:
+    profile = json.load(handle)
+metrics = profile.get("metrics", {})
+highlights = profile.get("highlights", [])
+summary = []
+summary.append(
+    f"  - Trait generator: core={metrics.get('core_traits_total', '?')} "
+    f"enriched_species={metrics.get('enriched_species', '?')} "
+    f"(time {metrics.get('generation_time_ms', '?')} ms)."
+)
+if highlights:
+    highlight_labels = ", ".join(item.get("trait", "-") for item in highlights)
+    summary.append(f"  - Trait highlight: {highlight_labels}.")
+summary.append(
+    f"  - Report salvato in `logs/tooling/generator_run_profile.json`."
+)
+print("\n".join(summary))
+PY
+)
+if [ -n "$GENERATOR_SUMMARY" ]; then
+  while IFS= read -r line; do
+    [ -n "$line" ] && SMOKE_TEST_DETAILS+=("$line")
+  done <<<"$GENERATOR_SUMMARY"
+fi
 
 # The CI workflow already runs the full TypeScript and Python test suites.
 # This script now assumes the build artifacts produced there are available so
@@ -25,12 +76,6 @@ fi
 
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")
-DATA_SOURCE_DIR="${DEPLOY_DATA_DIR:-$ROOT_DIR/data}"
-if [ ! -d "$DATA_SOURCE_DIR" ]; then
-  log "Dataset directory '$DATA_SOURCE_DIR' non trovato"
-  exit 1
-fi
-export DATA_SOURCE_DIR
 cp -r "$ROOT_DIR/docs/test-interface" "$DIST_DIR/test-interface"
 cp -r "$DATA_SOURCE_DIR" "$DIST_DIR/data"
 if [ -f "$ROOT_DIR/docs/test-interface/favicon.ico" ]; then
@@ -51,8 +96,6 @@ cat <<'HTML' >"$DIST_DIR/index.html"
 HTML
 
 log "Deploy bundle ready at $DIST_DIR"
-SMOKE_TEST_MESSAGE=""
-SMOKE_TEST_DETAILS=()
 
 DATA_FILE_TOTAL=$(find "$DIST_DIR/data" -type f | wc -l | tr -d ' ')
 SMOKE_TEST_DETAILS+=("  - Dataset copiato con ${DATA_FILE_TOTAL} file totali.")
