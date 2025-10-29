@@ -13,6 +13,15 @@ Questa pagina estende le note in [docs/ci-pipeline.md](ci-pipeline.md) descriven
 
 ## Dettagli workflow
 
+### CI
+- **Trigger**: `push` e `pull_request`. Un job preliminare (`paths-filter`) usa `dorny/paths-filter@v3` per valutare i percorsi toccati e abilita i job specializzati:
+  - `typescript-tests` quando cambia la toolchain TS (`tools/ts/**`, `package.json`, `webapp/src/**`, …).
+  - `cli-checks` quando vengono toccati la CLI o i dataset (`scripts/cli_smoke.sh`, `tools/py/game_cli.py`, `data/**`, `packs/**`).
+  - `python-tests` se sono modificati gli script/server Python o i dataset (`tools/py/**`, `scripts/**/*.py`, `data/**`).
+  - `dataset-checks` per variazioni ai dataset o agli script di audit (`data/**`, `reports/**`, `scripts/trait_audit.py`, `tools/py/report_trait_coverage.py`).
+  - `deployment-checks` solo per modifiche ai file di deploy (`scripts/run_deploy_checks.sh`, `config/deploy/**`).
+- **Note operative**: le PR puramente documentali non abilitano alcun job, il workflow termina in stato `success` senza eseguire test.
+
 ### Validate registry naming
 - **Trigger**: push e pull request che toccano i file elencati nel blocco `paths` (registri, reference trait, script validator e workflow stesso).
 - **Job**: `naming` esegue Python 3.11, installa `tools/py/requirements.txt` e lancia `python tools/py/validate_registry_naming.py` per assicurare che i registri condivisi rispettino le convenzioni.
