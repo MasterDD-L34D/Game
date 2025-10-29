@@ -29,23 +29,82 @@ export const demoBiomes = reactive([
     id: 'twilight-marsh',
     name: 'Paludi del Crepuscolo',
     climate: 'Umido temperato',
+    hazard: 'Nebbia fotonica instabile',
     risk: 'Moderato',
     focus: 'Nebbia fotonica pulsante',
     opportunities: ['Creare corridoi acustici', 'Reindirizzare i riflettori naturali'],
     readiness: 3,
     total: 5,
+    validators: [
+      {
+        id: 'fog-density',
+        label: 'Densità della nebbia',
+        status: 'passed',
+        message: 'Gradienti fotonici entro la banda consentita per i branchi nebulosi.',
+      },
+      {
+        id: 'thermal-vents',
+        label: 'Sfiati termici',
+        status: 'warning',
+        message: 'Rilevate pulsazioni sporadiche: consigliare modulazione dei filtri respiratori.',
+      },
+    ],
   },
   {
     id: 'obsidian-ridge',
     name: 'Cresta di Ossidiana',
     climate: 'Freddo secco',
+    hazard: 'Venti taglienti cristallizzati',
     risk: 'Elevato',
     focus: 'Canaloni lavici cristallizzati',
     opportunities: ['Proiezioni sonore a lunga distanza', 'Nascondigli naturali multilivello'],
     readiness: 2,
     total: 4,
+    validators: [
+      {
+        id: 'stability',
+        label: 'Stabilità dei camminamenti',
+        status: 'failed',
+        message: 'Cedimenti ripetuti nelle passerelle basalte: richiede rinforzo prima del deploy.',
+      },
+      {
+        id: 'visibility',
+        label: 'Visibilità notturna',
+        status: 'passed',
+        message: 'Rifrazioni luminose controllate: i marker tattici sono visibili ai branchi.',
+      },
+    ],
   },
 ]);
+
+export const biomeSynthesisConfig = reactive({
+  hazard: 'Nebbia fotonica instabile',
+  hazardOptions: [
+    'Nebbia fotonica instabile',
+    'Radiazione prismatica impulsiva',
+    'Correnti elettrostatiche latenti',
+  ],
+  climate: 'Umido temperato',
+  climateOptions: ['Umido temperato', 'Freddo secco', 'Subtropicale ventilato'],
+  requiredRoles: ['Scout fotonico', 'Controller ambientale'],
+  roleCatalog: ['Scout fotonico', 'Controller ambientale', 'Supporto tattico', 'Biologo da campo'],
+  graphicSeed: 'NEBULA-42A',
+});
+
+export const demoBiomeGraph = reactive({
+  nodes: [
+    { id: 'hub', label: 'Nodo di staging', type: 'staging', intensity: 0.82 },
+    { id: 'ambush', label: 'Set ambush', type: 'ambush', intensity: 0.67 },
+    { id: 'lure', label: 'Piazzola esca', type: 'lure', intensity: 0.54 },
+    { id: 'retreat', label: 'Ritro retrattile', type: 'safe', intensity: 0.73 },
+  ],
+  connections: [
+    { id: 'edge-1', from: 'hub', to: 'ambush', weight: 3 },
+    { id: 'edge-2', from: 'ambush', to: 'lure', weight: 2 },
+    { id: 'edge-3', from: 'lure', to: 'retreat', weight: 1 },
+    { id: 'edge-4', from: 'hub', to: 'retreat', weight: 2 },
+  ],
+});
 
 export const demoEncounter = reactive({
   templateName: 'Assalto Nella Nebbia',
@@ -146,6 +205,10 @@ export const orchestratorSnapshot = reactive({
     artifactsReady: 2,
     totalArtifacts: 5,
     channels: ['Compendio digitale', 'Brief video'],
+  },
+  biomeSetup: {
+    prepared: 1,
+    total: 3,
   },
 });
 

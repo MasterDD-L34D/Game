@@ -11,8 +11,22 @@
           <span class="biome-card__badge">{{ biome.climate }}</span>
         </header>
         <p class="biome-card__focus">{{ biome.focus }}</p>
+        <p class="biome-card__hazard"><strong>Hazard:</strong> {{ biome.hazard }}</p>
         <ul>
           <li v-for="item in biome.opportunities" :key="item">{{ item }}</li>
+        </ul>
+        <ul class="biome-card__validators">
+          <li
+            v-for="validator in biome.validators || []"
+            :key="validator.id"
+            :class="`validator validator--${validator.status}`"
+          >
+            <span class="validator__marker"></span>
+            <div>
+              <strong>{{ validator.label }}</strong>
+              <p>{{ validator.message }}</p>
+            </div>
+          </li>
         </ul>
         <footer>
           <div class="biome-card__meter">
@@ -104,6 +118,16 @@ const readinessPercent = (biome) => {
   color: rgba(240, 244, 255, 0.75);
 }
 
+.biome-card__hazard {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(240, 244, 255, 0.65);
+}
+
+.biome-card__hazard strong {
+  color: rgba(240, 244, 255, 0.85);
+}
+
 .biome-card ul {
   margin: 0;
   padding-left: 1.25rem;
@@ -126,5 +150,66 @@ const readinessPercent = (biome) => {
 
 small {
   color: rgba(240, 244, 255, 0.6);
+}
+
+.biome-card__validators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.validator {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(12, 18, 26, 0.75);
+}
+
+.validator strong {
+  font-size: 0.8rem;
+  color: rgba(240, 244, 255, 0.9);
+}
+
+.validator p {
+  margin: 0.15rem 0 0;
+  font-size: 0.75rem;
+  color: rgba(240, 244, 255, 0.7);
+}
+
+.validator__marker {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  margin-top: 0.2rem;
+  background: rgba(240, 244, 255, 0.35);
+}
+
+.validator--passed {
+  border-color: rgba(129, 255, 199, 0.55);
+}
+
+.validator--passed .validator__marker {
+  background: rgba(129, 255, 199, 0.85);
+}
+
+.validator--warning {
+  border-color: rgba(255, 210, 130, 0.6);
+}
+
+.validator--warning .validator__marker {
+  background: rgba(255, 210, 130, 0.85);
+}
+
+.validator--failed {
+  border-color: rgba(255, 135, 135, 0.6);
+}
+
+.validator--failed .validator__marker {
+  background: rgba(255, 135, 135, 0.85);
 }
 </style>

@@ -32,9 +32,12 @@ import {
   demoEncounter,
   orchestratorSnapshot,
   globalTimeline,
+  biomeSynthesisConfig,
+  demoBiomeGraph,
 } from './state/demoOrchestration.js';
 import OverviewView from './views/OverviewView.vue';
 import SpeciesView from './views/SpeciesView.vue';
+import BiomeSetupView from './views/BiomeSetupView.vue';
 import BiomesView from './views/BiomesView.vue';
 import EncounterView from './views/EncounterView.vue';
 import PublishingView from './views/PublishingView.vue';
@@ -51,6 +54,12 @@ flow.updateMetrics('species', {
   completed: orchestratorSnapshot.species.curated,
   total: orchestratorSnapshot.species.total,
   label: 'Specie',
+});
+
+flow.updateMetrics('biomeSetup', {
+  completed: orchestratorSnapshot.biomeSetup.prepared,
+  total: orchestratorSnapshot.biomeSetup.total,
+  label: 'Preset',
 });
 
 flow.updateMetrics('biomes', {
@@ -79,6 +88,7 @@ const summary = flow.summary;
 const viewMap = {
   overview: OverviewView,
   species: SpeciesView,
+  biomeSetup: BiomeSetupView,
   biomes: BiomesView,
   encounter: EncounterView,
   publishing: PublishingView,
@@ -93,6 +103,13 @@ const activeProps = computed(() => {
   }
   if (id === 'species') {
     return { species: demoSpecies, status: orchestratorSnapshot.species };
+  }
+  if (id === 'biomeSetup') {
+    return {
+      config: biomeSynthesisConfig,
+      graph: demoBiomeGraph,
+      validators: demoBiomes,
+    };
   }
   if (id === 'biomes') {
     return { biomes: demoBiomes };

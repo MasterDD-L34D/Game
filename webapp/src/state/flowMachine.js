@@ -14,6 +14,12 @@ const BASE_STEPS = [
     description: 'Selezione e revisione delle specie protagoniste.',
   },
   {
+    id: 'biomeSetup',
+    title: 'Setup Biomi',
+    caption: 'Parametri di sintesi',
+    description: 'Definizione dei vincoli ambientali prima della generazione.',
+  },
+  {
     id: 'biomes',
     title: 'Biomi',
     caption: 'Scenari ecologici',
