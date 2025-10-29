@@ -70,6 +70,17 @@ derived_from_environment:
   jobs_bias:
     - Vanguard
     - Skirmisher
-genetic_traits: []
+genetic_traits:
+  core:
+    - ciclo_vitale_completo
+    - metabolismo_attivo
+    - respirazione_biologica
+    - mantello_meteoritico
+    - frusta_fiammeggiante
+    - focus_frazionato
+  optional:
+    - empatia_coordinativa
+    - artigli_sette_vie
+  synergy: []
 mate_synergy: []
 jobs_synergy: []

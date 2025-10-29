@@ -1024,6 +1024,30 @@
       "label_en": "Mucose Barofile",
       "description_it": "Mucose Barofile permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di abisso vulcanico.",
       "description_en": "Mucose Barofile allow squads to disperse energy and attenuate corrosive or thermal impacts within abisso vulcanico."
+    },
+    "aura_scudo_radianza": {
+      "label_it": "Aura Scudo di Radianza",
+      "label_en": "Radiant Shield Aura",
+      "description_it": "Campo fotoplasmatico che protegge i compagni nelle rovine planari.",
+      "description_en": "Photoplasmic field shielding allies across planar ruins."
+    },
+    "frusta_fiammeggiante": {
+      "label_it": "Frusta Fiammeggiante",
+      "label_en": "Flame Lash",
+      "description_it": "Filamento di plasma controllato usato per arpionare bersagli extraplanari.",
+      "description_en": "Controlled plasma filament used to hook extraplanar targets."
+    },
+    "mantello_meteoritico": {
+      "label_it": "Mantello Meteoritico",
+      "label_en": "Meteoric Mantle",
+      "description_it": "Strato ablativo rigenerante che converte gli impatti in impulsi termici.",
+      "description_en": "Regenerating ablative mantle converting impacts into thermal pulses."
+    },
+    "armatura_pietra_planare": {
+      "label_it": "Armatura di Pietra Planare",
+      "label_en": "Planar Stone Plating",
+      "description_it": "Corazza litica extradimensionale che assorbe shock gravitazionali.",
+      "description_en": "Extradimensional stone plating absorbing gravitational shocks."
     }
   }
 }

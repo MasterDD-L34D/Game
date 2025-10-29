@@ -72,6 +72,14 @@ derived_from_environment:
   jobs_bias:
     - Artificer
     - Warden
-genetic_traits: []
+genetic_traits:
+  core:
+    - ciclo_vitale_completo
+    - metabolismo_attivo
+    - respirazione_biologica
+  optional:
+    - armatura_pietra_planare
+  synergy:
+    - risonanza_di_branco
 mate_synergy: []
 jobs_synergy: []

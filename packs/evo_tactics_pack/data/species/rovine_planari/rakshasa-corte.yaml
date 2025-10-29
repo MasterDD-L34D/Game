@@ -69,6 +69,14 @@ derived_from_environment:
   jobs_bias:
     - Invoker
     - Skirmisher
-genetic_traits: []
+genetic_traits:
+  core:
+    - ciclo_vitale_completo
+    - metabolismo_attivo
+    - respirazione_biologica
+  optional:
+    - empatia_coordinativa
+  synergy:
+    - risonanza_di_branco
 mate_synergy: []
 jobs_synergy: []

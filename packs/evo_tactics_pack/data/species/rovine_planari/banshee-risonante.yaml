@@ -69,6 +69,16 @@ derived_from_environment:
   jobs_bias:
     - Invoker
     - Support
-genetic_traits: []
+genetic_traits:
+  core:
+    - ciclo_vitale_anomalo
+    - metabolismo_sostentato
+    - assenza_respirazione
+    - origine_artificiale
+    - adattamento_volo
+    - risonanza_di_branco
+  optional: []
+  synergy:
+    - focus_frazionato
 mate_synergy: []
 jobs_synergy: []

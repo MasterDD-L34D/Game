@@ -70,12 +70,16 @@ derived_from_environment:
     - Warden
 genetic_traits:
   core:
-    - artigli_sette_vie
+    - ciclo_vitale_completo
+    - metabolismo_attivo
+    - respirazione_biologica
+    - adattamento_volo
+    - mantello_meteoritico
     - frusta_fiammeggiante
   optional:
-    - armatura_pietra_planare
+    - empatia_coordinativa
     - carapace_fase_variabile
   synergy:
-    - mantello_meteoritico
+    - focus_frazionato
 mate_synergy: []
 jobs_synergy: []

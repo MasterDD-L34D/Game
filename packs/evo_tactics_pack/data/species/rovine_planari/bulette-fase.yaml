@@ -68,6 +68,15 @@ derived_from_environment:
   jobs_bias:
     - Vanguard
     - Warden
-genetic_traits: []
+genetic_traits:
+  core:
+    - ciclo_vitale_completo
+    - metabolismo_attivo
+    - respirazione_biologica
+    - fisiologia_predatoria
+  optional:
+    - carapace_fase_variabile
+    - armatura_pietra_planare
+  synergy: []
 mate_synergy: []
 jobs_synergy: []

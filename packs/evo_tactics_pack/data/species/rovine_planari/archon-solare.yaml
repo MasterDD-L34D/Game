@@ -87,12 +87,15 @@ derived_from_environment:
     - Skirmisher
 genetic_traits:
   core:
+    - ciclo_vitale_completo
+    - metabolismo_attivo
+    - respirazione_biologica
+    - adattamento_volo
     - aura_scudo_radianza
-    - empatia_coordinativa
   optional:
-    - focus_frazionato
-    - lamelle_termoforetiche
+    - empatia_coordinativa
   synergy:
+    - focus_frazionato
     - risonanza_di_branco
 mate_synergy:
   - empatia_coordinativa

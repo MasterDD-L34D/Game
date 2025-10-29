@@ -404,12 +404,137 @@ def _clamp_score(value: float | int | None) -> float:
     return max(0.0, min(round(numeric, 3), 1.0))
 
 
+class PathfinderTraitFormula:
+    """Heuristics that derive Evo Tactics trait buckets from Pathfinder data."""
+
+    _ABILITY_KEYWORDS: Sequence[tuple[Sequence[str], str, str]] = (
+        (("aura", "angel", "radiant"), "aura_scudo_radianza", "core"),
+        (("detect thoughts", "telepathy", "empathy"), "empatia_coordinativa", "core"),
+        (("wail", "chorus", "lament"), "risonanza_di_branco", "core"),
+        (("multiweapon", "multiattack", "whirlwind"), "focus_frazionato", "core"),
+        (("whip",), "frusta_fiammeggiante", "core"),
+        (("flaming body", "inferno", "meteoric"), "mantello_meteoritico", "core"),
+        (("poison", "disease", "filth"), "lamelle_termoforetiche", "optional"),
+        (("constrict", "tendrils", "coil"), "artigli_sette_vie", "optional"),
+        (("phase", "dimension", "ethereal"), "carapace_fase_variabile", "optional"),
+    )
+
+    _TYPE_TRAITS: Mapping[str, Sequence[tuple[str, str]]] = {
+        "construct": (("armatura_pietra_planare", "core"),),
+        "undead": (("risonanza_di_branco", "core"),),
+        "aberration": (("carapace_fase_variabile", "optional"),),
+        "outsider": (("empatia_coordinativa", "optional"),),
+    }
+
+    _SUBTYPE_TRAITS: Sequence[tuple[str, Sequence[tuple[str, str]]]] = (
+        ("angel", (("aura_scudo_radianza", "core"),)),
+        ("demon", (("mantello_meteoritico", "core"), ("frusta_fiammeggiante", "core"))),
+        ("rakshasa", (("empatia_coordinativa", "core"),)),
+        ("incorporeal", (("risonanza_di_branco", "core"),)),
+    )
+
+    _MOVEMENT_TRAITS: Mapping[str, tuple[str, str]] = {
+        "burrow": ("carapace_fase_variabile", "optional"),
+        "fly": ("focus_frazionato", "synergy"),
+    }
+
+    _ENVIRONMENT_TRAITS: Sequence[tuple[str, str, str]] = (
+        ("planar", "armatura_pietra_planare", "optional"),
+        ("ash", "mantello_meteoritico", "optional"),
+        ("ruins", "armatura_pietra_planare", "optional"),
+    )
+
+    _PROFILE_OVERRIDES: Mapping[str, Mapping[str, Sequence[str]]] = {
+        "solar": {"core": ("aura_scudo_radianza", "empatia_coordinativa"), "synergy": ("risonanza_di_branco",)},
+        "balor": {"core": ("mantello_meteoritico", "frusta_fiammeggiante"), "optional": ("carapace_fase_variabile",)},
+        "marilith": {"core": ("focus_frazionato",), "optional": ("artigli_sette_vie",)},
+        "rakshasa": {"core": ("empatia_coordinativa",), "synergy": ("risonanza_di_branco",)},
+        "treant": {"optional": ("armatura_pietra_planare",), "synergy": ("risonanza_di_branco",)},
+        "otyugh": {"core": ("lamelle_termoforetiche",), "optional": ("carapace_fase_variabile",)},
+        "banshee": {"core": ("risonanza_di_branco",),},
+        "stone-golem": {"core": ("armatura_pietra_planare",),},
+        "adamantine-golem": {"core": ("armatura_pietra_planare",),},
+        "couatl": {"core": ("empatia_coordinativa",), "synergy": ("risonanza_di_branco",)},
+        "bulette": {"core": ("carapace_fase_variabile",), "optional": ("armatura_pietra_planare",)},
+    }
+
+    def extract(
+        self, entry: Mapping[str, Any], *, fallback_traits: Sequence[str] = ()
+    ) -> Dict[str, List[str]]:
+        """Return normalized trait buckets."""
+
+        buckets: Dict[str, List[str]] = {"core": [], "optional": [], "synergy": []}
+        trait_location: Dict[str, str] = {}
+        bucket_priority = {"core": 3, "optional": 2, "synergy": 1}
+
+        def _register(bucket: str, trait_id: str) -> None:
+            if not trait_id:
+                return
+            current_bucket = trait_location.get(trait_id)
+            if current_bucket:
+                if bucket_priority[bucket] <= bucket_priority[current_bucket]:
+                    return
+                buckets[current_bucket] = [t for t in buckets[current_bucket] if t != trait_id]
+            buckets[bucket].append(trait_id)
+            trait_location[trait_id] = bucket
+
+        base_traits = entry.get("genetic_traits")
+        if isinstance(base_traits, Sequence):
+            for trait_id in base_traits:
+                if isinstance(trait_id, str):
+                    _register("core", trait_id)
+
+        type_field = str(entry.get("type") or "").lower()
+        for trait_id, bucket in self._TYPE_TRAITS.get(type_field, ()):  
+            _register(bucket, trait_id)
+
+        subtype_field = str(entry.get("subtype") or "").lower()
+        for keyword, trait_specs in self._SUBTYPE_TRAITS:
+            if keyword in subtype_field:
+                for trait_id, bucket in trait_specs:
+                    _register(bucket, trait_id)
+
+        movement_entry = entry.get("movement")
+        if isinstance(movement_entry, Mapping):
+            for key, (trait_id, bucket) in self._MOVEMENT_TRAITS.items():
+                if key in movement_entry:
+                    _register(bucket, trait_id)
+
+        ability_text = " ".join(str(item).lower() for item in entry.get("special_abilities", []) if item)
+        for keywords, trait_id, bucket in self._ABILITY_KEYWORDS:
+            if any(keyword in ability_text for keyword in keywords):
+                _register(bucket, trait_id)
+
+        environment_text = " ".join(str(tag).lower() for tag in entry.get("environment_tags", []) if tag)
+        for keyword, trait_id, bucket in self._ENVIRONMENT_TRAITS:
+            if keyword in environment_text:
+                _register(bucket, trait_id)
+
+        profile_id = str(entry.get("id") or "").lower()
+        overrides = self._PROFILE_OVERRIDES.get(profile_id, {})
+        for bucket, traits in overrides.items():
+            for trait_id in traits:
+                _register(bucket, trait_id)
+
+        for trait_id in fallback_traits:
+            if isinstance(trait_id, str):
+                _register("optional", trait_id)
+
+        return buckets
+
+
 class PathfinderProfileTranslator:
     """Translate Pathfinder statblocks into runtime-ready blueprints."""
 
-    def __init__(self, dataset_path: Path = DEFAULT_PATHFINDER_DATASET_PATH) -> None:
+    def __init__(
+        self,
+        dataset_path: Path = DEFAULT_PATHFINDER_DATASET_PATH,
+        *,
+        trait_formula: PathfinderTraitFormula | None = None,
+    ) -> None:
         self.dataset_path = dataset_path
         self._index: Dict[str, Mapping[str, Any]] | None = None
+        self.trait_formula = trait_formula or PathfinderTraitFormula()
 
     def _load_dataset(self) -> Dict[str, Mapping[str, Any]]:
         if self._index is None:
@@ -498,11 +623,9 @@ class PathfinderProfileTranslator:
         vc = self._vc_from_axes(axes if isinstance(axes, Mapping) else {})
         threat_tier = self._threat_tier_from_score(axes.get("threat") if isinstance(axes, Mapping) else None)
         rarity = self._rarity_from_score(axes.get("versatility") if isinstance(axes, Mapping) else None)
-        traits = list(
-            dict.fromkeys(
-                ["pathfinder", *(entry.get("genetic_traits") or []), *fallback_traits]
-            )
-        )
+        trait_buckets = self.trait_formula.extract(entry, fallback_traits=fallback_traits)
+        traits = ["pathfinder", *trait_buckets["core"]]
+
         abilities = [ability for ability in entry.get("special_abilities", []) if ability]
         environment_tags = [tag for tag in entry.get("environment_tags", []) if tag]
         functional_tags = [
@@ -537,7 +660,11 @@ class PathfinderProfileTranslator:
                 "energy_profile": None,
                 "synergy_score": _clamp_score(axes.get("versatility") if isinstance(axes, Mapping) else None),
             },
-            "traits": {"core": traits, "derived": [], "conflicts": []},
+            "traits": {
+                "core": traits,
+                "derived": trait_buckets["optional"],
+                "conflicts": trait_buckets["synergy"],
+            },
             "morphology": {
                 "families": [str(entry.get("type") or "").lower()],
                 "adaptations": entry.get("genetic_traits") or [],
@@ -550,9 +677,9 @@ class PathfinderProfileTranslator:
                 "source_tags": environment_tags,
             },
             "derived_from_environment": {
-                "suggested_traits": entry.get("genetic_traits") or [],
-                "optional_traits": [],
-                "synergy_traits": ["pathfinder"],
+                "suggested_traits": trait_buckets["core"],
+                "optional_traits": trait_buckets["optional"],
+                "synergy_traits": ["pathfinder", *trait_buckets["synergy"]],
             },
             "source_dataset": {
                 "id": "pathfinder",
@@ -717,5 +844,6 @@ __all__ = [
     "TraitUsage",
     "build_trait_catalog_map",
     "load_builder",
+    "PathfinderTraitFormula",
     "PathfinderProfileTranslator",
 ]

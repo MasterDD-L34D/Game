@@ -5,7 +5,10 @@ from services.generation.orchestrator import (
     GenerationOrchestrator,
     SpeciesGenerationRequest,
 )
-from services.generation.species_builder import PathfinderProfileTranslator
+from services.generation.species_builder import (
+    PathfinderProfileTranslator,
+    PathfinderTraitFormula,
+)
 
 
 @pytest.fixture(scope="module")
@@ -46,6 +49,24 @@ def test_pathfinder_generation_matches_statblock(
     assert result.blueprint["environment_affinity"]["source_tags"] == [
         tag for tag in entry.get("environment_tags", []) if tag
     ]
+
+
+def test_pathfinder_trait_formula_extracts_signature_traits(
+    pathfinder_translator: PathfinderProfileTranslator,
+) -> None:
+    formula: PathfinderTraitFormula = pathfinder_translator.trait_formula
+
+    balor_profile = pathfinder_translator.get_profile("balor")
+    balor_traits = formula.extract(balor_profile)
+    assert "mantello_meteoritico" in balor_traits["core"]
+    assert "frusta_fiammeggiante" in balor_traits["core"]
+    assert "carapace_fase_variabile" in balor_traits["optional"]
+
+    solar_profile = pathfinder_translator.get_profile("solar")
+    solar_traits = formula.extract(solar_profile)
+    assert "aura_scudo_radianza" in solar_traits["core"]
+    assert "empatia_coordinativa" in solar_traits["core"]
+    assert "risonanza_di_branco" in solar_traits["synergy"]
 
 
 def test_missing_profile_raises(orchestrator: GenerationOrchestrator) -> None:
