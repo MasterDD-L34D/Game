@@ -30,6 +30,13 @@ evo-tactics/
 └─ README.md
 ```
 
+## Checklist & log di riferimento
+
+- **Operativo** — checklist quotidiane e setup in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log).
+- **Processo** — procedure QA, pipeline telemetria e handoff web raccolti nello stesso indice.
+- **Log & Metriche** — cronologia sync, audit export, metriche dashboard e verifiche tooling documentate nella tabella dedicata.
+- **Pianificazione & Appendici** — roadmap e canvas completi con ultima revisione tracciata nell'indice.
+
 ## Quick Start — Node/TypeScript
 ```bash
 cd tools/ts
