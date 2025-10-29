@@ -24,6 +24,9 @@ _DEFAULT_BIOMES_CANDIDATES = (
     _REPO_ROOT / 'data' / 'biomes.yaml',
 )
 
+# Backwards-compatible alias expected by downstream tooling/tests.
+DEFAULT_BIOMES_PATH = _DEFAULT_BIOMES_CANDIDATES[0]
+
 
 def _resolve_candidate(path: Path) -> Path:
     """Return the most appropriate biome file for the provided path."""
