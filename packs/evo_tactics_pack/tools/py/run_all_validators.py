@@ -74,7 +74,6 @@ def build_biome_commands() -> List[List[str]]:
 
 
 def build_species_commands() -> List[List[str]]:
-    cfg = CONFIG_DIR / "validator_config.yaml"
     registries = CONFIG_DIR / "registries"
     validator = PY_TOOLS_DIR / "validate_species_v1_7.py"
     commands: List[List[str]] = []
@@ -88,8 +87,6 @@ def build_species_commands() -> List[List[str]]:
                         str(validator),
                         "--species-root",
                         str(root),
-                        "--config",
-                        str(cfg),
                         "--registries",
                         str(registries),
                     ]

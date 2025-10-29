@@ -2,14 +2,15 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 
 const { createSpeciesBuilder } = require('./speciesBuilder');
+const { createRuntimeValidator } = require('./runtimeValidator');
 
 const ROLE_FLAG_SET = new Set(['apex', 'keystone', 'bridge', 'threat', 'event']);
 const ROLE_TROPHIC_LABELS = {
-  apex: 'predatore_apice',
-  keystone: 'specie_chiave',
-  bridge: 'specie_ponte',
-  threat: 'minaccia_dinamica',
-  event: 'evento_dinamico',
+  apex: 'predatore_terziario_apex',
+  keystone: 'ingegneri_ecosistema',
+  bridge: 'dispersore_ponte',
+  threat: 'minaccia_microbica',
+  event: 'evento_ecologico',
 };
 
 function slugify(value) {
@@ -239,7 +240,15 @@ function inferTier(role, explicitTier) {
   }
 }
 
-async function buildSpecies(pool, biomeId, traitGlossary, constraints, rng, speciesBuilder) {
+async function buildSpecies(
+  pool,
+  biomeId,
+  traitGlossary,
+  constraints,
+  rng,
+  speciesBuilder,
+  runtimeValidator,
+) {
   const templates = Array.isArray(pool?.role_templates) ? pool.role_templates : [];
   const preferredRoles = ensureArray(constraints.requiredRoles).filter((role) => ROLE_FLAG_SET.has(role));
   const shuffled = shuffle(templates, rng);
@@ -318,7 +327,27 @@ async function buildSpecies(pool, biomeId, traitGlossary, constraints, rng, spec
     }
   }
 
-  return species;
+  let validation = null;
+  let correctedSpecies = species;
+  if (runtimeValidator && typeof runtimeValidator.validateSpeciesBatch === 'function' && species.length) {
+    try {
+      const result = await runtimeValidator.validateSpeciesBatch(species, { biomeId });
+      validation = {
+        messages: Array.isArray(result?.messages) ? result.messages : [],
+        discarded: Array.isArray(result?.discarded) ? result.discarded : [],
+      };
+      if (result && Array.isArray(result.corrected) && result.corrected.length) {
+        correctedSpecies = result.corrected;
+      } else if (result && Array.isArray(result.discarded) && result.discarded.length) {
+        const discarded = new Set(result.discarded.map((item) => String(item)));
+        correctedSpecies = species.filter((entry) => !discarded.has(String(entry.id)));
+      }
+    } catch (error) {
+      validation = { error: error.message };
+    }
+  }
+
+  return { entries: correctedSpecies, validation };
 }
 
 function countRoles(species) {
@@ -346,7 +375,7 @@ function summariseRolePresence(species) {
   return Array.from(presence);
 }
 
-async function buildBiomeFromPool(pool, context, traitGlossary, rng, speciesBuilder) {
+async function buildBiomeFromPool(pool, context, traitGlossary, rng, speciesBuilder, runtimeValidator) {
   const traits = selectTraits(pool, rng);
   const traitDetails = mapTraitDetails(traits, traitGlossary);
   const id = randomId(slugify(pool.id) || 'bioma', rng);
@@ -356,12 +385,21 @@ async function buildBiomeFromPool(pool, context, traitGlossary, rng, speciesBuil
   const effectiveMin = Math.min(poolMax, Math.max(poolMin, requestedMin));
   const range = Math.max(poolMax - effectiveMin, 0);
   const zoneCount = effectiveMin + (range > 0 ? Math.floor((rng() || Math.random()) * (range + 1)) : 0);
-  const species = await buildSpecies(pool, id, traitGlossary, context, rng, speciesBuilder);
+  const speciesResult = await buildSpecies(
+    pool,
+    id,
+    traitGlossary,
+    context,
+    rng,
+    speciesBuilder,
+    runtimeValidator,
+  );
+  const species = speciesResult.entries || [];
   const roleCounts = countRoles(species);
   const rolePresence = summariseRolePresence(species);
   const signature = traitDetails.map((trait) => trait.label).join(' · ');
 
-  return {
+  let biome = {
     id,
     label: `${pool.label} sintetico`,
     synthetic: true,
@@ -397,6 +435,40 @@ async function buildBiomeFromPool(pool, context, traitGlossary, rng, speciesBuil
     signature,
     species,
   };
+
+  const validationReport = {};
+  if (
+    speciesResult.validation
+    && (
+      speciesResult.validation.error
+      || (Array.isArray(speciesResult.validation.messages) && speciesResult.validation.messages.length)
+      || (Array.isArray(speciesResult.validation.discarded) && speciesResult.validation.discarded.length)
+    )
+  ) {
+    validationReport.species = speciesResult.validation;
+  }
+
+  if (runtimeValidator && typeof runtimeValidator.validateBiome === 'function') {
+    try {
+      const biomeValidation = await runtimeValidator.validateBiome(biome, {
+        defaultHazard: pool?.hazard?.id || null,
+      });
+      if (biomeValidation && biomeValidation.corrected && typeof biomeValidation.corrected === 'object') {
+        biome = { ...biome, ...biomeValidation.corrected };
+      }
+      if (biomeValidation && Array.isArray(biomeValidation.messages)) {
+        validationReport.biome = biomeValidation.messages;
+      }
+    } catch (error) {
+      validationReport.biomeError = error.message;
+    }
+  }
+
+  if (Object.keys(validationReport).length) {
+    biome.validation = validationReport;
+  }
+
+  return biome;
 }
 
 function createBiomeSynthesizer(options = {}) {
@@ -408,6 +480,7 @@ function createBiomeSynthesizer(options = {}) {
       catalogPath: path.resolve(__dirname, '..', '..', 'docs', 'catalog', 'catalog_data.json'),
     }
   );
+  const runtimeValidator = options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
 
   let loaded = null;
   let loadingPromise = null;
@@ -461,7 +534,14 @@ function createBiomeSynthesizer(options = {}) {
       }
       const [entry] = queue.splice(pickedIndex, 1);
       // eslint-disable-next-line no-await-in-loop
-      const biome = await buildBiomeFromPool(entry.pool, constraints, traitGlossary, rng, speciesBuilderInstance);
+      const biome = await buildBiomeFromPool(
+        entry.pool,
+        constraints,
+        traitGlossary,
+        rng,
+        speciesBuilderInstance,
+        runtimeValidator,
+      );
       result.push(biome);
     }
 
