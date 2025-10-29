@@ -403,6 +403,84 @@
           </article>
         </div>
       </section>
+      <section id="incoming" class="section">
+        <div class="section__header">
+          <h2>Incoming Pipeline</h2>
+          <p>
+            Coordina il triage degli asset direttamente dal Support Hub: genera il comando
+            di avvio, verifica l'ultimo report e apri rapidamente gli strumenti agentici
+            correlati.
+          </p>
+        </div>
+        <div class="grid grid--two">
+          <article class="card">
+            <h3>Avvia il ciclo settimanale</h3>
+            <p>
+              Seleziona la data della sessione e copia il comando da eseguire sul
+              repository per lanciare <code>report_incoming.sh</code> con la destinazione
+              corretta.
+            </p>
+            <label for="incoming-session-date">Data sessione</label>
+            <input
+              id="incoming-session-date"
+              name="incomingSessionDate"
+              type="date"
+              autocomplete="off"
+            />
+            <div class="command-preview" id="incoming-command" aria-live="polite"></div>
+            <div class="form__actions">
+              <button type="button" class="button" id="incoming-copy-command">
+                Copia comando triage
+              </button>
+              <a class="button button--ghost" href="../incoming/README.md">Guida script</a>
+            </div>
+            <p class="form__hint" id="incoming-command-hint" aria-live="polite"></p>
+            <ul class="link-list">
+              <li>
+                <a href="process/incoming_triage_pipeline.md">Playbook pipeline agentica</a>
+              </li>
+              <li>
+                <a href="checklist/incoming_triage.md">Checklist triage</a>
+              </li>
+              <li>
+                <a href="templates/incoming_triage_meeting.md">Template sync agentica</a>
+              </li>
+              <li>
+                <a href="../incoming/archive/INDEX.md">Indice archivio incoming</a>
+              </li>
+            </ul>
+          </article>
+          <article class="card card--list">
+            <div class="card__header">
+              <h3>Ultimo report triage</h3>
+              <button type="button" class="button button--ghost" id="incoming-refresh-status">
+                Aggiorna
+              </button>
+            </div>
+            <p id="incoming-status" class="placeholder" aria-live="polite">
+              Caricamento stato triage…
+            </p>
+            <div class="stack">
+              <div class="stack__row">
+                <span class="stack__label">Report HTML</span>
+                <a id="incoming-report-link" href="#" aria-disabled="true" tabindex="-1">—</a>
+              </div>
+              <div class="stack__row">
+                <span class="stack__label">Backlog agenti</span>
+                <a id="incoming-backlog-link" href="process/incoming_agent_backlog.md">Apri backlog</a>
+              </div>
+              <div class="stack__row">
+                <span class="stack__label">Checklist</span>
+                <a href="checklist/incoming_triage.md">Rivedi step</a>
+              </div>
+            </div>
+            <p class="form__hint">
+              Chiudi i follow-up del report precedente prima di lanciare una nuova sessione
+              di triage.
+            </p>
+          </article>
+        </div>
+      </section>
       <section id="dashboards" class="section">
         <div class="section__header">
           <h2>Dashboard dedicate</h2>

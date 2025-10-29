@@ -1,106 +1,135 @@
-# Pipeline operativo per il triage della cartella `incoming/`
+# Pipeline operativo agentica per il triage della cartella `incoming/`
 
 ## Obiettivi
-- Trasformare `incoming/` da deposito grezzo a flusso controllato e versionato.
-- Garantire che ogni asset passi per analisi automatica (`scripts/report_incoming.sh`) e valutazione umana coordinata.
-- Preservare idee scartate ma interessanti tramite archiviazione motivata.
+- Trasformare `incoming/` da deposito grezzo a flusso controllato e versionato orchestrato da agenti.
+- Garantire che ogni asset passi per analisi automatica (`scripts/report_incoming.sh`) e validazione cooperativa fra agenti specializzati.
+- Preservare idee scartate ma interessanti tramite archiviazione motivata e tracciabile dagli agenti curatori.
+
+## Panoramica agenti
+| Identificativo agente | Area di competenza | Script/strumenti principali | Output chiave |
+| --- | --- | --- | --- |
+| `AG-Orchestrator` | Coordinamento triage settimanale, aggiornamento board | `scripts/report_incoming.sh`, API board Kanban | Agenda triage, log sessioni, sincronizzazione card |
+| `AG-Validation` | Analisi logiche/tecniche del materiale in entrata | `tools/py/game_cli.py`, `tools/ts/validate_species.ts` | Report validazione, alert regressioni |
+| `AG-Core` | Custodia rules & stats | `packs/` core, feature map v1…v8 | Piani integrazione rules, issue tecniche |
+| `AG-Biome` | Specie/Morph & Biomi | Asset `biomes/`, hook ambientali | Raccolta intuizioni biomi, follow-up ambientali |
+| `AG-Personality` | Personality modules (MBTI/Enneagramma) | `compat_map.json`, `personality_module.v1.json` | Aggiornamenti compatibilità, limiti bilanciamento |
+| `AG-Toolsmith` | Manutenzione strumenti e pipeline CI | `scripts/report_incoming.sh`, `ci-pipeline` | Log manutenzione, PR strumenti |
+
+## Strumenti agentici disponibili
+- **Script di triage**: `scripts/report_incoming.sh` (invocato direttamente dal Support Hub o via cron da `AG-Orchestrator`).
+- **Support Hub web**: `docs/index.html` → sezione "Incoming Pipeline" per generare il comando, consultare l'ultimo report e accedere rapidamente a playbook, checklist e archivio.
+- **Checklist operativa**: `docs/checklist/incoming_triage.md` (sincronizzata con il widget del Support Hub).
+- **Backlog agentico**: `docs/process/incoming_agent_backlog.md` con task e reminder automatizzati.
+- **Registro review**: `docs/process/incoming_review_log.md` (letto dal Support Hub per mostrare l'ultimo report pubblicato).
+- **Indice archivio**: `incoming/archive/INDEX.md` con motivazioni e follow-up sugli asset storicizzati.
 
 ## 1. Ciclo settimanale "Incoming Review"
-1. **Pianificazione**
-   - Calendarizzare un recurring meeting di 30 minuti ogni lunedì.
-   - Owner: Lead Game Designer. Partecipanti fissi: Narrative, Systems, Tooling.
+1. **Pianificazione automatizzata**
+   - `AG-Orchestrator` crea un recurring job di 30 minuti ogni lunedì (cron o scheduler interno).
+   - Il job prepara la stanza di collaborazione agentica (documento condiviso + API board).
 2. **Pre-work (T-1 giorno)**
-   - L'owner esegue:
+   - `AG-Orchestrator` apre il Support Hub (`docs/index.html`) e, dalla sezione "Incoming Pipeline", controlla che il widget "Ultimo report triage" non segnali follow-up aperti.
+   - `AG-Orchestrator` invoca:
      ```bash
      ./scripts/report_incoming.sh --destination sessione-$(date +%Y-%m-%d)
      ```
-   - Lo script genera: log di validazione (`reports/incoming/validation/`), report HTML/JSON (`reports/incoming/sessione-AAAA-MM-GG/`).
-   - Condividere il link al report nella calendar invite.
-3. **Durante il meeting**
-   - Scorrere l'output ordinato per "risultato validazione" e "novità".
-   - Per ogni asset segnare etichetta provvisoria: **Da integrare**, **Archivio storico**, **Scarto** (vedi §3).
-   - Registrare decisioni in `docs/process/incoming_review_log.md` (nuovo file per meeting) oppure nello strumento knowledge base.
-4. **Post-meeting (entro 24h)**
-   - Spostare i file secondo etichetta (§3).
-   - Aggiornare board Kanban (§2) e knowledge base (§6).
+   - L'esecuzione produce log di validazione (`reports/incoming/validation/`) e report HTML/JSON (`reports/incoming/sessione-AAAA-MM-GG/`).
+   - Il percorso del report viene postato da `AG-Orchestrator` nel canale operativo agentico (`#incoming-triage-agenti`).
+3. **Sync asincrona degli agenti**
+   - `AG-Validation` indicizza l'output per risultato e segnala anomalie critiche.
+   - `AG-Core`, `AG-Biome`, `AG-Personality` e `AG-Toolsmith` commentano sul documento condiviso assegnando etichette provvisorie **Da integrare**, **Archivio storico**, **Scarto** (vedi §3).
+   - `AG-Orchestrator` consolida le decisioni in `docs/process/incoming_review_log.md`.
+4. **Post-sync (entro 24h)**
+   - `AG-Orchestrator` esegue lo spostamento file (§3) tramite script automatizzati.
+   - `AG-Orchestrator` e `AG-Validation` aggiornano board Kanban (§2) e knowledge base (§6).
 
 ## 2. Board Kanban dedicato
 - **Struttura colonne**: `Da analizzare` → `In validazione` → `In integrazione` → `In playtest` → `Archivio`.
 - **Card**: una card per ogni asset o gruppo logico (es. `evo_tactics_unified_pack-v1.9.zip`).
-- **Automazioni suggerite**:
-  - Creazione card automatica tramite import CSV dal report JSON.
-  - Notifica Slack quando una card entra in `In playtest`.
+- **Automazioni agentiche**:
+  - `AG-Orchestrator` crea card importando il JSON del report tramite API.
+  - `AG-Validation` aggiorna la card con l'esito dei test e allega log.
+  - Webhook automatico invia notifiche quando una card entra in `In playtest`.
 - **Definition of Done per colonna**:
-  - `Da analizzare`: asset estratto e metadati compilati.
-  - `In validazione`: `report_incoming.sh` eseguito, log allegati.
-  - `In integrazione`: task implementativo aperto nel repo (issue/PR) e owner assegnato.
-  - `In playtest`: build o scenario disponibile per QA/telemetria.
-  - `Archivio`: indice aggiornato (vedi §3.3) con motivazioni.
+  - `Da analizzare`: asset estratto e metadati compilati da `AG-Orchestrator`.
+  - `In validazione`: `AG-Validation` conclude `report_incoming.sh`, allega log e segnala eventuali regressioni.
+  - `In integrazione`: uno fra `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith` apre issue/PR con piano di lavoro.
+  - `In playtest`: `AG-Orchestrator` collega build o scenario disponibile per QA/telemetria.
+  - `Archivio`: `AG-Orchestrator` aggiorna l'indice (vedi §3.3) con motivazioni.
 
 ## 3. Gestione asset dopo il triage
 ### 3.1 Da integrare
-- Spostare asset nella directory target (`packs/`, `docs/`, `tools/`, ...).
-- Aprire issue con checklist di integrazione e link al report di validazione.
-- Pianificare eventuale sprint tematico (§7).
+- `AG-Orchestrator` sposta gli asset nella directory target (`packs/`, `docs/`, `tools/`, ...).
+- L'agente responsabile (Core/Biome/Personality/Toolsmith) apre issue con checklist di integrazione e link al report di validazione.
+- `AG-Orchestrator` propone eventuale sprint tematico (§7).
 
 ### 3.2 Archivio storico
-- Spostare in `incoming/archive/YYYY/MM/` (creare cartella se assente).
-- Aggiornare `incoming/archive/INDEX.md` con tabella motivazioni.
-- Aggiungere tag `archivio` nella board Kanban.
+- `AG-Orchestrator` sposta gli asset in `incoming/archive/YYYY/MM/` (creando cartelle se assenti).
+- `AG-Orchestrator` aggiorna `incoming/archive/INDEX.md` con motivazioni e follow-up.
+- `AG-Orchestrator` applica tag `archivio` alla card Kanban.
 
 ### 3.3 Scarto controllato
-- Se il materiale è duplicato o obsoleto ma contiene intuizioni, salvarne estratti in `incoming/archive/` e documentarli.
-- In caso di file non più utili, eliminarli solo dopo aver verificato che esista copia versionata su repository o drive.
+- `AG-Validation` e l'agente di dominio valutano se estrarre porzioni utili.
+- `AG-Orchestrator` salva gli estratti in `incoming/archive/` e documenta il razionale.
+- Eliminazioni definitive avvengono solo dopo conferma di `AG-Orchestrator` sull'esistenza di copie versionate.
 
-## 4. Ruoli "Caretaker"
-| Area | Owner primario | Back-up | Responsabilità |
+## 4. Ruoli "Caretaker" agentici
+| Area | Agente primario | Agente di back-up | Responsabilità |
 | --- | --- | --- | --- |
-| Core Rules & Stats | Lead Systems Designer | Senior Analyst | Revisione numeri, compatibilità dadi, bilanciamento pack core |
-| Specie/Morph & Biomi | Narrative Biome Lead | Worldbuilding | Sincronizzare pacchetti specie/biomi, verificare hook ambienti |
-| Personality Modules | Narrative Psych Lead | UX Research | Aggiornare moduli MBTI/Enneagram, definire limiti provvisori |
-| Tools & Validation | Toolsmith | QA Automation | Manutenzione script, pipeline CI, documentazione tecnica |
+| Core Rules & Stats | `AG-Core` | `AG-Orchestrator` | Revisione numeri, compatibilità dadi, bilanciamento pack core |
+| Specie/Morph & Biomi | `AG-Biome` | `AG-Core` | Sincronizzare pacchetti specie/biomi, verificare hook ambientali |
+| Personality Modules | `AG-Personality` | `AG-Core` | Aggiornare moduli MBTI/Enneagram, definire limiti provvisori |
+| Tools & Validation | `AG-Toolsmith` | `AG-Validation` | Manutenzione script, pipeline CI, documentazione tecnica |
 
-- Ogni caretaker prepara note pre-meeting: highlights dei propri asset, regressioni, richieste.
-- Rotazione trimestrale delle responsabilità per evitare single point of failure.
+- Ogni caretaker agent produce note pre-sync con highlights, regressioni, richieste.
+- Gli agenti di back-up assumono temporaneamente il ruolo quando il primario è impegnato in altra pipeline.
 
 ## 5. Documentazione di compatibilità
-- Applicare immediatamente le istruzioni di `incoming/GAME_COMPAT_README.md` per l'addon Enneagramma:
-  - Aggiornare `compat_map.json` e `personality_module.v1.json` quando l'asset passa in `In integrazione`.
-  - Registrare i test rapidi (108 profili) in `reports/incoming/tests/`.
-- Replicare la stessa disciplina per altri README guida (`README_INTEGRAZIONE_MECCANICHE.md`, ecc.).
-- Allegare i link in ogni card della board Kanban.
+- `AG-Personality` applica le istruzioni di `incoming/GAME_COMPAT_README.md` per l'addon Enneagramma:
+  - Aggiorna `compat_map.json` e `personality_module.v1.json` quando l'asset passa in `In integrazione`.
+  - Registra i test rapidi (108 profili) in `reports/incoming/tests/`.
+- `AG-Core` e `AG-Biome` replicano lo stesso approccio per gli altri README guida (`README_INTEGRAZIONE_MECCANICHE.md`, ecc.).
+- `AG-Orchestrator` allega tutti i link rilevanti nelle card Kanban.
 
 ## 6. Knowledge base condivisa
-- Dopo il meeting, aggiornare pagina Notion/Confluence con sezioni:
+- `AG-Orchestrator` aggiorna la pagina Notion/Confluence agentica con sezioni:
   - **Integrati**: elenco + link PR/report.
   - **Backlog**: asset rimasti in `Da analizzare` o `In validazione`.
   - **Archivio**: highlight spunti creativi con riferimento a `incoming/archive/INDEX.md`.
   - **Decisioni**: motivazioni e follow-up.
-- In assenza di strumento esterno, usare `docs/process/incoming_review_log.md` con formato meeting template (§8).
+- In assenza di strumento esterno, `AG-Orchestrator` utilizza `docs/process/incoming_review_log.md` (vedi §8) come knowledge base locale.
 
 ## 7. Sprint tematici
-- Pianificare sprint di 1-2 settimane focalizzati su cluster (es. "MBTI ↔ Job affinities").
+- `AG-Orchestrator` propone sprint di 1-2 settimane focalizzati su cluster (es. "MBTI ↔ Job affinities").
 - Input: card `In integrazione` correlate.
 - Output: pacchetto aggiornato, test passati, note di tuning.
-- Registra risultato sprint in `docs/piani/` con summary e telemetria.
+- `AG-Orchestrator` registra il risultato sprint in `docs/piani/` con summary e telemetria.
 
-## 8. Template meeting e checklist
-- Meeting template: `docs/templates/incoming_triage_meeting.md` (agenda standard, spazio note).
-- Checklist operativa: `docs/checklist/incoming_triage.md` (pre/durante/post meeting).
-- Salvare meeting note generate in `docs/process/incoming_review_log.md` oppure export su knowledge base.
+## 8. Template sincronizzazione e checklist
+- Sessione di sincronizzazione agentica: `docs/templates/incoming_triage_meeting.md` (agenda standard, spazio note).
+- Checklist operativa: `docs/checklist/incoming_triage.md` (pre/durante/post sync).
+- `AG-Orchestrator` salva le note generate in `docs/process/incoming_review_log.md` oppure esporta sulla knowledge base.
 
 ## 9. Loop feedback playtest & telemetria
 - Quando una card entra in `In playtest`:
-  - Collegare i file YAML di telemetria (`telemetry/vc.yaml`, `telemetry/pf_session.yaml`).
-  - Aprire task QA per comparare ipotesi vs. dati raccolti.
-  - Aggiornare card con conclusioni e azioni di tuning.
+  - `AG-Orchestrator` collega i file YAML di telemetria (`telemetry/vc.yaml`, `telemetry/pf_session.yaml`).
+  - `AG-Validation` apre task QA per comparare ipotesi vs. dati raccolti.
+  - L'agente di dominio aggiorna la card con conclusioni e azioni di tuning.
 
 ## 10. Manutenzione strumenti
-- Micro-sprint mensile (mezza giornata) per:
+- Micro-sprint mensile orchestrato da `AG-Toolsmith` per:
   - Aggiornare `scripts/report_incoming.sh` (supporto nuovi formati, log più chiari).
   - Validare schemi JSON utilizzati dagli asset.
   - Sincronizzare script Python/TypeScript per addon (es. Enneagramma) con feedback dell'ultimo triage.
-- Registrare azioni in `docs/process/tooling_maintenance_log.md`.
+- `AG-Toolsmith` registra ogni azione in `docs/process/tooling_maintenance_log.md` e notifica `AG-Orchestrator`.
+
+## 11. Avvio dal Support Hub
+- `AG-Orchestrator` utilizza la sezione "Incoming Pipeline" del Support Hub (`docs/index.html`) per:
+  1. Selezionare la data della sessione e copiare il comando generato automaticamente (`./scripts/report_incoming.sh --destination sessione-AAAA-MM-GG`).
+  2. Verificare, tramite il widget "Ultimo report triage", data, facilitatore e link HTML dell'ultima sessione registrata su `docs/process/incoming_review_log.md`.
+  3. Aprire rapidamente playbook, checklist, template e archivio usando i link rapidi della card.
+- Il widget "Ultimo report triage" legge sempre la prima sezione con data reale del log: assicurarsi che ogni nuova voce rispetti il formato `## YYYY-MM-DD — Facilitatore: ...` per mantenerlo sincronizzato.
+- Se il widget segnala follow-up aperti o assenti, `AG-Orchestrator` aggiorna il log prima di lanciare un nuovo triage.
 
 ## Metriche di salute
 - % asset triagiati entro 7 giorni dall'arrivo.
@@ -111,3 +140,4 @@
 - [Checklist triage](../checklist/incoming_triage.md)
 - [Template meeting](../templates/incoming_triage_meeting.md)
 - [Indice archivio incoming](../../incoming/archive/INDEX.md)
+- [Piano di lavoro agentico](incoming_agent_backlog.md)
