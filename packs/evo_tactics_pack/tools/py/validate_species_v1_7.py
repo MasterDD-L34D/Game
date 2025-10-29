@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import sys
 from pathlib import Path
 from typing import Iterable
@@ -12,6 +13,9 @@ import yaml
 def _ensure_repo_root_on_path() -> None:
     """Make the repository root (containing the ``packs`` package) importable."""
 
+    if importlib.util.find_spec("packs") is not None:
+        return
+
     repo_root: Path | None = None
     for candidate in Path(__file__).resolve().parents:
         if (candidate / "packs").is_dir():
@@ -19,6 +23,8 @@ def _ensure_repo_root_on_path() -> None:
             break
 
     if repo_root is None:
+        if importlib.util.find_spec("packs") is not None:
+            return
         raise RuntimeError(
             "Unable to locate the repository root containing the 'packs' package"
         )
