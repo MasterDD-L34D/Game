@@ -97,6 +97,13 @@ jobs:
               sys.exit(1)
           PY
 
+      - name: Check missing traits in species plans
+        run: |
+          python3 tools/py/check_missing_traits.py \
+            --species data/species.yaml \
+            --species data/mock/prod_snapshot/species.yaml \
+            --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json
+
       - name: Run deploy validation checks
         env:
           DEPLOY_DATA_DIR: ${{ github.workspace }}/data
