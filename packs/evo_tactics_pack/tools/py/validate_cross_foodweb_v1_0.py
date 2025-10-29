@@ -1,86 +1,127 @@
 #!/usr/bin/env python3
-import sys, yaml
-from pathlib import Path
-def Y(p): return yaml.safe_load(Path(p).read_text(encoding='utf-8'))
-def load_foodweb(path):
-    try:
-        F=Y(path) or {}
-        return set([ (e.get('from'), e.get('to'), e.get('type')) for e in (F.get('edges') or []) ]), set([n.get('id') if isinstance(n,dict) else n for n in (F.get('nodes') or [])])
-    except Exception:
-        return set(), set()
-def run(net_path):
-    ok=True; warns=0
-    N=Y(net_path); root=N.get('ecosistema') or N.get('network') or {}; net=root
-    nodes = net.get('nodes') or net.get('biomi') or []
-    edges = net.get('edges') or net.get('connessioni') or []
-    # map node -> ecosystem & species_dir
-    node_ecos={ n['id']: Y(n['path']) for n in nodes }
-    node_species_dir={ nid: (E.get('links',{}).get('species_dir')) for nid,E in node_ecos.items() }
-    node_foodweb_path={ nid: (E.get('links',{}).get('foodweb')) for nid,E in node_ecos.items() }
-    # load local foodweb edges/nodes
-    node_fw={ nid: load_foodweb(p) for nid,p in node_foodweb_path.items() if p }
-    # quick helpers
-    def has_detritus_sink(nid):
-        edges, nodes = node_fw.get(nid, (set(),set()))
-        if 'detrito' not in nodes: return False
-        for (f,t,tpe) in edges:
-            if f=='detrito' and tpe in ('detritus','scavenging'):
-                return True
-        return False
-    # 1) trophic_spillover -> destination needs detritus sink or detritivores
-    for e in edges:
-        if e.get('type')=='trophic_spillover':
-            dest=e.get('to')
-            if not has_detritus_sink(dest):
-                print(f"WARNING: {dest} non mostra sink di detrito per spillover {e.get('from')}→{dest}"); warns+=1
-    # 2) corridors/seasonal_bridge need at least one bridge species present in both nodes
-    bridges = net.get('bridge_species_map') or []
-    for e in edges:
-        if e.get('type') in ('corridor','seasonal_bridge'):
-            a,b = e.get('from'), e.get('to')
-            if not any( (a in (bsp.get('present_in_nodes') or [])) and (b in (bsp.get('present_in_nodes') or [])) for bsp in bridges ):
-                print(f"WARNING: nessuna bridge species dichiarata per edge {a}→{b} ({e.get('type')})"); warns+=1
-    # 3) event propagation suggestion
-    for nid, E in node_ecos.items():
-        # naive: search species_dir for files with flags.event==True
-        sdir = node_species_dir.get(nid)
-        has_event=False
-        try:
-            from glob import glob
-            for spath in glob(f"{sdir}/*.yaml"):
-                S=Y(spath)
-                if (S.get('flags') or {}).get('event'):
-                    has_event=True; break
-        except Exception:
-            pass
-        if has_event:
-            for e in edges:
-                if e.get('from')==nid and e.get('type') in ('corridor','seasonal_bridge'):
-                    print(f"INFO: evento in {nid} può propagare verso {e.get('to')} tramite {e.get('type')} ({e.get('seasonality')})")
-    return 0 if ok else 2
+from __future__ import annotations
 
-# CROSS_EVENTS
-def check_cross_events(net_path):
-    from pathlib import Path
-    import yaml
-    N=Y(net_path); root=N.get('ecosistema') or N.get('network') or {}; net=root
-    ce_path = Path(net_path).parent / 'cross_events.yaml'
-    if not ce_path.exists():
+import argparse
+import glob
+import sys
+from pathlib import Path
+
+import yaml
+
+# Ensure the repository root (containing the ``packs`` package) is importable
+CURRENT_DIR = Path(__file__).resolve()
+for candidate in CURRENT_DIR.parents:
+    if (candidate / "packs").is_dir():
+        REPO_ROOT = candidate
+        break
+else:  # Fallback: assume the repository root is the direct parent of ``packs``
+    REPO_ROOT = CURRENT_DIR.parents[4]
+
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from packs.evo_tactics_pack.validators.rules import foodweb
+from packs.evo_tactics_pack.validators.rules.base import format_messages, has_errors
+
+
+def _load_yaml(path: Path | str | None) -> dict:
+    if not path:
+        return {}
+    try:
+        return yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+    except FileNotFoundError:
+        return {}
+
+
+def _collect_node_payloads(nodes: list[dict[str, object]]) -> tuple[dict[str, dict], dict[str, bool]]:
+    node_foodwebs: dict[str, dict] = {}
+    node_events: dict[str, bool] = {}
+    for node in nodes:
+        if not isinstance(node, dict):
+            continue
+        node_id = node.get("id")
+        eco_path = node.get("path")
+        if not isinstance(node_id, str):
+            continue
+        ecosystem = _load_yaml(eco_path)
+        links = ecosystem.get("links") if isinstance(ecosystem, dict) else {}
+        fw_path = links.get("foodweb") if isinstance(links, dict) else None
+        if isinstance(fw_path, str):
+            node_foodwebs[node_id] = _load_yaml(fw_path)
+        species_dir = links.get("species_dir") if isinstance(links, dict) else None
+        node_events[node_id] = _has_event_flag(species_dir)
+    return node_foodwebs, node_events
+
+
+def _has_event_flag(species_dir: object) -> bool:
+    if not isinstance(species_dir, str):
+        return False
+    for path in glob.glob(f"{species_dir}/*.yaml"):
+        payload = _load_yaml(path)
+        flags = payload.get("flags") if isinstance(payload, dict) else {}
+        if isinstance(flags, dict) and flags.get("event"):
+            return True
+    return False
+
+
+def run(net_path: str) -> int:
+    network_doc = _load_yaml(net_path)
+    root = network_doc.get("ecosistema") or network_doc.get("network") or {}
+    nodes = root.get("nodes") or root.get("biomi") or []
+    if not isinstance(nodes, list):
+        nodes = []
+
+    node_foodwebs, node_events = _collect_node_payloads(nodes)
+
+    messages = []
+    messages.extend(foodweb.validate_network_connectivity(root, node_foodwebs))
+    messages.extend(foodweb.collect_event_propagation(root, node_events))
+
+    for line in format_messages(messages):
+        print(line)
+
+    return 0 if not has_errors(messages) else 2
+
+
+def check_cross_events(net_path: str) -> None:
+    net_dir = Path(net_path).resolve().parent
+    events_path = net_dir / "cross_events.yaml"
+    if not events_path.exists():
         return
-    CE = Y(str(ce_path)) or {}
-    events = CE.get('events') or []
-    edges = net.get('edges') or net.get('connessioni') or []
-    for ev in events:
-        froms = ev.get('from_nodes') or []
-        tos = ev.get('to_nodes') or []
-        modes = set(ev.get('propagate_via') or [])
-        for a in froms:
-            for b in tos:
-                # at least one matching edge a->b with type in modes
-                if not any( (e.get('from')==a and e.get('to')==b and e.get('type') in modes) for e in edges ):
-                    print(f"WARNING: cross_event {ev.get('species_id')} non trova edge {a}→{b} con type in {sorted(list(modes))}")
-    return
-if __name__=='__main__':
-    code = run(sys.argv[1])
-    check_cross_events(sys.argv[1])
-    sys.exit(code)
+    network_doc = _load_yaml(net_path)
+    root = network_doc.get("ecosistema") or network_doc.get("network") or {}
+    edges = root.get("edges") or root.get("connessioni") or []
+    payload = _load_yaml(events_path)
+    events = payload.get("events") if isinstance(payload, dict) else []
+    for event in events or []:
+        if not isinstance(event, dict):
+            continue
+        species_id = event.get("species_id")
+        from_nodes = event.get("from_nodes") or []
+        to_nodes = event.get("to_nodes") or []
+        modes = set(event.get("propagate_via") or [])
+        for origin in from_nodes:
+            for target in to_nodes:
+                if not any(
+                    isinstance(edge, dict)
+                    and edge.get("from") == origin
+                    and edge.get("to") == target
+                    and edge.get("type") in modes
+                    for edge in edges
+                ):
+                    print(
+                        f"WARNING: cross_event {species_id} non trova edge {origin}→{target} con type in {sorted(modes)}"
+                    )
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Valida connessioni foodweb cross-bioma")
+    parser.add_argument("net_path")
+    args = parser.parse_args(argv)
+    exit_code = run(args.net_path)
+    check_cross_events(args.net_path)
+    return exit_code
+
+
+if __name__ == "__main__":
+    sys.exit(main())

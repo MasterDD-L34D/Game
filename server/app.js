@@ -4,6 +4,7 @@ const path = require('node:path');
 const { IdeaRepository, normaliseList } = require('./storage');
 const { buildCodexReport } = require('./report');
 const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesizer');
+const { createRuntimeValidator } = require('../services/generation/runtimeValidator');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -124,8 +125,10 @@ function createApp(options = {}) {
   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', 'data');
   const databasePath = options.databasePath || path.resolve(dataRoot, 'idea_engine.db');
   const repo = options.repo || new IdeaRepository(databasePath);
+  const runtimeValidator =
+    options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
   const biomeSynthesizer =
-    options.biomeSynthesizer || createBiomeSynthesizer({ dataRoot });
+    options.biomeSynthesizer || createBiomeSynthesizer({ dataRoot, runtimeValidator });
   const app = express();
 
   app.use(cors({ origin: options.corsOrigin || '*' }));
@@ -228,6 +231,35 @@ function createApp(options = {}) {
       } else {
         res.status(500).json({ error: 'Errore salvataggio feedback' });
       }
+    }
+  });
+
+  app.post('/api/validators/runtime', async (req, res) => {
+    const { kind, payload } = req.body || {};
+    if (!kind) {
+      res.status(400).json({ error: "Campo 'kind' richiesto" });
+      return;
+    }
+    try {
+      let result = {};
+      if (kind === 'species') {
+        const entries = (payload && payload.entries) || [];
+        result = await runtimeValidator.validateSpeciesBatch(entries, {
+          biomeId: payload && payload.biomeId,
+        });
+      } else if (kind === 'biome') {
+        result = await runtimeValidator.validateBiome(payload && payload.biome, {
+          defaultHazard: payload && payload.defaultHazard,
+        });
+      } else if (kind === 'foodweb') {
+        result = await runtimeValidator.validateFoodweb(payload && payload.foodweb);
+      } else {
+        res.status(400).json({ error: `kind non supportato: ${kind}` });
+        return;
+      }
+      res.json({ result });
+    } catch (error) {
+      res.status(500).json({ error: error.message || 'Errore validazione runtime' });
     }
   });
 

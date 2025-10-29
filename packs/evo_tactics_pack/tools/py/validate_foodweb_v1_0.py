@@ -1,20 +1,48 @@
 #!/usr/bin/env python3
-import sys, yaml
+from __future__ import annotations
+
+import argparse
+import sys
 from pathlib import Path
-def Y(p): return yaml.safe_load(Path(p).read_text(encoding='utf-8'))
-def run(foodweb_path, cfg_path):
-    cfg=Y(cfg_path); ok=True
-    fw=Y(foodweb_path)
-    nodes=set([n['id'] if isinstance(n,dict) else n for n in fw.get('nodes',[])])
-    allowed=set(cfg.get('foodweb',{}).get('allowed_edge_types',[]))
-    specials=set(cfg.get('foodweb',{}).get('special_nodes',[]))
-    for e in fw.get('edges',[]):
-        if e.get('type') not in allowed:
-            print(f"ERROR: edge type {e.get('type')} non ammesso"); ok=False
-        if e.get('from') not in nodes or e.get('to') not in nodes:
-            print(f"ERROR: edge {e.get('from')}->{e.get('to')} usa nodi non definiti"); ok=False
-        if e.get('from') in specials or e.get('to') in specials:
-            pass
-    return 0 if ok else 2
-if __name__=='__main__':
-    sys.exit(run(sys.argv[1], sys.argv[2]))
+
+import yaml
+
+# Ensure the repository root (containing the ``packs`` package) is importable
+CURRENT_DIR = Path(__file__).resolve()
+for candidate in CURRENT_DIR.parents:
+    if (candidate / "packs").is_dir():
+        REPO_ROOT = candidate
+        break
+else:  # Fallback: assume the repository root is the direct parent of ``packs``
+    REPO_ROOT = CURRENT_DIR.parents[4]
+
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from packs.evo_tactics_pack.validators.rules import foodweb as foodweb_rules
+from packs.evo_tactics_pack.validators.rules.base import format_messages, has_errors
+
+
+def _load_yaml(path: Path) -> dict:
+    return yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+
+
+def run(foodweb_path: str, cfg_path: str) -> int:
+    foodweb = _load_yaml(foodweb_path)
+    rules = foodweb_rules.build_foodweb_rules(_load_yaml(cfg_path))
+    messages = foodweb_rules.validate_foodweb_document(foodweb, rules)
+    for line in format_messages(messages):
+        print(line)
+    return 0 if not has_errors(messages) else 2
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Valida un foodweb locale")
+    parser.add_argument("foodweb_path")
+    parser.add_argument("cfg_path")
+    args = parser.parse_args(argv)
+    return run(args.foodweb_path, args.cfg_path)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

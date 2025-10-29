@@ -1,35 +1,60 @@
 #!/usr/bin/env python3
-import sys, yaml, os
+from __future__ import annotations
+
+import argparse
+import sys
 from pathlib import Path
-def Y(p): return yaml.safe_load(Path(p).read_text(encoding='utf-8'))
+from typing import Iterable
 
-def run(eco_path, cfg_path, reg_dir):
-    ok=True
-    E = Y(eco_path) or {}
-    if str(E.get('schema_version'))!='1.1':
-        print('WARNING:schema_version!=1.1')
-    # required blocks
-    for k in ['receipt','ecosistema','links','registries']:
-        if k not in E:
-            print(f'ERROR: missing {k}'); ok=False
-    # manifest presence
-    if 'manifest' not in E:
-        print('WARNING: manifest missing')
-    # hazard-per-bioma from config (optional)
-    try:
-        C = Y(cfg_path) or {}
-        biome_id = (E.get('links') or {}).get('biome_id')
-        wanted = ((C.get('biome_hazards') or {}).get(biome_id) or [])
-        reg_hz = Y(os.path.join(reg_dir,'hazards.yaml')) or {}
-        reg_ids = { (h.get('id') if isinstance(h,dict) else None) for h in (reg_hz.get('hazards') or []) }
-        for w in wanted:
-            if isinstance(w, dict): wid = w.get('id')
-            else: wid = w
-            if wid and wid not in reg_ids:
-                print(f'WARNING: hazard {wid} for bioma {biome_id} not found in registries')
-    except Exception as e:
-        print('INFO: hazard mapping not checked:', e)
-    return 0 if ok else 2
+import yaml
 
-if __name__=='__main__':
-    sys.exit(run(sys.argv[1], sys.argv[2], sys.argv[3]))
+# Ensure the repository root (containing the ``packs`` package) is importable
+CURRENT_DIR = Path(__file__).resolve()
+for candidate in CURRENT_DIR.parents:
+    if (candidate / "packs").is_dir():
+        REPO_ROOT = candidate
+        break
+else:  # Fallback: assume the repository root is the direct parent of ``packs``
+    REPO_ROOT = CURRENT_DIR.parents[4]
+
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from packs.evo_tactics_pack.validators.rules import hazards
+from packs.evo_tactics_pack.validators.rules.base import format_messages, has_errors
+
+
+def _load_yaml(path: Path) -> dict:
+    return yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+
+
+def _print_messages(messages: Iterable[str]) -> None:
+    for line in messages:
+        print(line)
+
+
+def run(eco_path: str, cfg_path: str, reg_dir: str) -> int:
+    biome = _load_yaml(eco_path)
+    hazard_registry = hazards.build_hazard_registry(_load_yaml(Path(reg_dir) / "hazards.yaml"))
+    hazard_rules = hazards.build_biome_hazard_rules(_load_yaml(cfg_path))
+
+    messages = hazards.validate_biome_document(
+        biome,
+        hazard_registry=hazard_registry,
+        hazard_rules=hazard_rules,
+    )
+    _print_messages(format_messages(messages))
+    return 0 if not has_errors(messages) else 2
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Valida un bioma v1.1")
+    parser.add_argument("eco_path")
+    parser.add_argument("cfg_path")
+    parser.add_argument("registries_dir")
+    args = parser.parse_args(argv)
+    return run(args.eco_path, args.cfg_path, args.registries_dir)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
