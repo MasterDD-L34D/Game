@@ -8,7 +8,7 @@ id: barriere-coralline-psioniche-trait-keeper
 display_name: Barriere Coralline Psioniche Trait Keeper
 biomes:
   - barriere_coralline_psioniche
-role_trofico: supporto_specialista
+role_trofico: ingegneri_ecosistema
 functional_tags:
   - supporto
   - ricognizione
@@ -49,3 +49,10 @@ genetic_traits:
   synergy: []
 mate_synergy: []
 jobs_synergy: []
+vc:
+  aggro: 0.0
+  risk: 0.1
+  cohesion: 0.6
+  setup: 0.5
+  explore: 0.4
+  tilt: 0.1
