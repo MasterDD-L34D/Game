@@ -14,7 +14,7 @@ oppure `Bloccato = 0%`.
 | Ecosistemi | `docs/checklist/milestones.md` (setup + encounter) | 9 | 9 | 100%【F:docs/checklist/milestones.md†L3-L14】 |
 | Ecosistemi | `logs/traits_tracking.md` | 6 | 11 | 55%【F:logs/traits_tracking.md†L24-L44】 |
 | Ecosistemi | `docs/process/traits_checklist.md` | 0 | 25 | 0%【F:docs/process/traits_checklist.md†L6-L95】 |
-| Telemetria | `docs/checklist/milestones.md` (telemetria) | 9 | 12 | 75%【F:docs/checklist/milestones.md†L9-L23】 |
+| Telemetria | `docs/checklist/milestones.md` (telemetria) | 8 | 11 | 73%【F:docs/checklist/milestones.md†L9-L23】 |
 | Telemetria | `docs/checklist/telemetry.md` | 0 | 9 | 0%【F:docs/checklist/telemetry.md†L3-L16】 |
 | Telemetria | `logs/exports/2025-11-08-filter-selections.md` (surrogato stato: On track) | 1 | 1 | 100%【F:logs/exports/2025-11-08-filter-selections.md†L3-L11】 |
 | Web | `docs/checklist/milestones.md` (milestone web) | 3 | 5 | 60%【F:docs/checklist/milestones.md†L25-L32】 |
@@ -38,7 +38,7 @@ oppure `Bloccato = 0%`.
 | Macro-area | Completati | Totale | Percentuale (≈) | Stato |
 | --- | ---: | ---: | --- | --- |
 | Ecosistemi | 15 | 45 | **35%** | Carico elevato sui passi operativi e QA da completare. |
-| Telemetria | 10 | 22 | **45%** | Checklist dedicate ferme, ma milestone telemetriche già validate. |
+| Telemetria | 9 | 21 | **45%** | Checklist dedicate ferme, ma milestone telemetriche già validate. |
 | Web | 3.5 | 41 | **10%** | Pipeline web quasi tutta da rilanciare; log stato ancora parziali. |
 | QA | 22 | 43 | **50%** | Action item quasi chiusi, intake e follow-up QA ancora aperti. |
 | Operazioni | 50 | 62 | **80%** | Setup e manutenzione quasi completati; restano ADR e tag release. |
