@@ -8,24 +8,138 @@ import sys
 import textwrap
 import unicodedata
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Any, Dict, Iterable, List, Tuple
 
 import re
 
 import yaml
+from jsonschema import Draft202012Validator, RefResolver, exceptions
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TRAIT_REFERENCE_PATH = REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
 PACKS_DATA_PATH = REPO_ROOT / "data" / "packs.yaml"
 APPENDIX_PATH = REPO_ROOT / "appendici"
 DEFAULT_REPORT_PATH = REPO_ROOT / "logs" / "trait_audit.md"
+SCHEMA_DIR = REPO_ROOT / "config" / "schemas"
+SCHEMA_REPORT_PATH = REPO_ROOT / "reports" / "schema_validation.json"
+
+SCHEMA_TARGETS = (
+    (
+        REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json",
+        "https://game.schemas.local/catalog.schema.json",
+    ),
+    (REPO_ROOT / "data" / "biomes.yaml", "https://game.schemas.local/biome.schema.yaml"),
+    (REPO_ROOT / "data" / "species.yaml", "https://game.schemas.local/species.schema.yaml"),
+)
 
 
 @dataclass
 class Issue:
     kind: str  # "blocking" or "warning"
     message: str
+
+
+def load_schema_documents() -> Dict[str, Dict[str, Any]]:
+    store: Dict[str, Dict[str, Any]] = {}
+    if not SCHEMA_DIR.exists():
+        return store
+
+    for path in sorted(SCHEMA_DIR.glob("*.schema.json")) + sorted(SCHEMA_DIR.glob("*.schema.yaml")):
+        if path.suffix == ".json":
+            schema: Dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
+        else:
+            schema = yaml.safe_load(path.read_text(encoding="utf-8"))
+        schema_id = schema.get("$id") or f"https://game.schemas.local/{path.name}"
+        schema.setdefault("$id", schema_id)
+        store[schema_id] = schema
+    return store
+
+
+def load_structured_data(path: Path) -> Any:
+    if path.suffix == ".json":
+        return json.loads(path.read_text(encoding="utf-8"))
+    if path.suffix in {".yaml", ".yml"}:
+        return yaml.safe_load(path.read_text(encoding="utf-8"))
+    raise ValueError(f"Formato non supportato per {path.suffix}")
+
+
+def _format_error_path(error: exceptions.ValidationError) -> str:
+    if not error.absolute_path:
+        return "<root>"
+    return "/" + "/".join(str(part) for part in error.absolute_path)
+
+
+def validate_schemas() -> Tuple[List[Dict[str, Any]], List[Issue]]:
+    store = load_schema_documents()
+    entries: List[Dict[str, Any]] = []
+    issues: List[Issue] = []
+
+    for data_path, schema_id in SCHEMA_TARGETS:
+        relative_path = str(data_path.relative_to(REPO_ROOT))
+        entry: Dict[str, Any] = {
+            "path": relative_path,
+            "schema": schema_id,
+            "errors": [],
+            "warnings": [],
+        }
+
+        schema = store.get(schema_id)
+        if not data_path.exists():
+            message = f"File mancante per la validazione: {relative_path}."
+            entry["errors"].append(message)
+            issues.append(Issue("blocking", message))
+            entries.append(_finalize_schema_entry(entry))
+            continue
+
+        if schema is None:
+            message = f"Schema '{schema_id}' non caricato."
+            entry["errors"].append(message)
+            issues.append(Issue("blocking", message))
+            entries.append(_finalize_schema_entry(entry))
+            continue
+
+        try:
+            data = load_structured_data(data_path)
+        except Exception as exc:  # noqa: BLE001 - vogliamo mostrare l'errore originale
+            message = f"Errore di parsing per {relative_path}: {exc}."
+            entry["errors"].append(message)
+            issues.append(Issue("blocking", message))
+            entries.append(_finalize_schema_entry(entry))
+            continue
+
+        Draft202012Validator.check_schema(schema)
+        resolver = RefResolver.from_schema(schema, store=store)
+        validator = Draft202012Validator(schema, resolver=resolver)
+
+        validation_errors = sorted(validator.iter_errors(data), key=lambda err: list(err.absolute_path))
+        for error in validation_errors:
+            path_repr = _format_error_path(error)
+            message = f"{relative_path}{path_repr}: {error.message}"
+            entry["errors"].append(message)
+            issues.append(Issue("blocking", message))
+
+        entries.append(_finalize_schema_entry(entry))
+
+    return entries, issues
+
+
+def _finalize_schema_entry(entry: Dict[str, Any]) -> Dict[str, Any]:
+    if entry["errors"]:
+        entry["status"] = "error"
+    elif entry["warnings"]:
+        entry["status"] = "warning"
+    else:
+        entry["status"] = "ok"
+    return entry
+
+
+def build_schema_report(entries: List[Dict[str, Any]]) -> Dict[str, Any]:
+    return {
+        "generated_at": datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
+        "files": entries,
+    }
 
 
 def slugify(value: str) -> str:
@@ -275,13 +389,17 @@ def format_report(issues: Iterable[Issue]) -> str:
 
 
 def run(args: argparse.Namespace) -> int:
-    issues, report_text = check_traits()
+    trait_issues, report_text = check_traits()
+    schema_entries, schema_issues = validate_schemas()
+    issues = trait_issues + schema_issues
     blocking = [issue for issue in issues if issue.kind == "blocking"]
+    schema_report = build_schema_report(schema_entries)
 
     if args.check:
         if blocking:
             for issue in blocking:
                 print(f"[BLOCCANTE] {issue.message}", file=sys.stderr)
+
         expected_path = Path(args.output or DEFAULT_REPORT_PATH)
         if not expected_path.exists():
             print(
@@ -304,6 +422,46 @@ def run(args: argparse.Namespace) -> int:
             for line in diff:
                 print(line, file=sys.stderr)
             return 1
+
+        if not SCHEMA_REPORT_PATH.exists():
+            print(
+                f"Report schema mancante ({SCHEMA_REPORT_PATH}). Eseguire lo script senza --check per generarlo.",
+                file=sys.stderr,
+            )
+            return 1
+
+        try:
+            existing_schema_report = json.loads(SCHEMA_REPORT_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            print(
+                f"Impossibile leggere {SCHEMA_REPORT_PATH}: {exc}",
+                file=sys.stderr,
+            )
+            return 1
+
+        normalized_expected = dict(schema_report)
+        normalized_existing = dict(existing_schema_report)
+        normalized_expected["generated_at"] = None
+        normalized_existing["generated_at"] = None
+
+        if normalized_existing != normalized_expected:
+            print(
+                "Il report schema_validation.json non è aggiornato. Rieseguire l'audit senza --check.",
+                file=sys.stderr,
+            )
+            import difflib
+
+            diff = difflib.unified_diff(
+                json.dumps(existing_schema_report, ensure_ascii=False, indent=2).splitlines(),
+                json.dumps(schema_report, ensure_ascii=False, indent=2).splitlines(),
+                fromfile=str(SCHEMA_REPORT_PATH),
+                tofile="generated",
+                lineterm="",
+            )
+            for line in diff:
+                print(line, file=sys.stderr)
+            return 1
+
         print("Audit dei tratti: nessuna regressione rilevata.")
         return 1 if blocking else 0
 
@@ -311,12 +469,19 @@ def run(args: argparse.Namespace) -> int:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(report_text, encoding="utf-8")
 
+    SCHEMA_REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SCHEMA_REPORT_PATH.write_text(
+        json.dumps(schema_report, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
     for issue in blocking:
         print(f"[BLOCCANTE] {issue.message}", file=sys.stderr)
     for warning in (issue for issue in issues if issue.kind == "warning"):
         print(f"[WARNING] {warning.message}", file=sys.stderr)
 
     print(f"Report scritto in {output_path}")
+    print(f"Report schema scritto in {SCHEMA_REPORT_PATH}")
     return 1 if blocking else 0
 
 

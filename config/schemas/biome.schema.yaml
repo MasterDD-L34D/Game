@@ -1,0 +1,177 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://game.schemas.local/biome.schema.yaml
+title: Catalogo Biomi
+description: Struttura canonica per il catalogo dei biomi.
+type: object
+additionalProperties: false
+required:
+  - biomes
+properties:
+  biomes:
+    type: object
+    minProperties: 1
+    patternProperties:
+      "^[a-z0-9_]+$":
+        $ref: "#/$defs/biomeEntry"
+    additionalProperties: false
+  vc_adapt:
+    type: object
+    patternProperties:
+      "^[a-z0-9_]+$":
+        type: object
+        patternProperties:
+          "^[a-z0-9_]+$":
+            type: number
+        additionalProperties: false
+    additionalProperties: false
+  mutations:
+    type: object
+    additionalProperties: false
+    required:
+      - SG_max
+      - t0_table_d12
+      - t1_table_d8
+    properties:
+      SG_max:
+        type: integer
+        minimum: 0
+      t0_table_d12:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+      t1_table_d8:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          minLength: 1
+  frequencies:
+    type: object
+    patternProperties:
+      "^[a-z0-9_]+$":
+        type: object
+        minProperties: 1
+        patternProperties:
+          "^[a-z0-9_]+$":
+            type: number
+        additionalProperties: false
+    additionalProperties: false
+$defs:
+  biomeEntry:
+    type: object
+    additionalProperties: false
+    required:
+      - label
+      - summary
+      - diff_base
+      - mod_biome
+      - affixes
+      - hazard
+      - npc_archetypes
+      - stresswave
+      - narrative
+    properties:
+      label:
+        type: string
+        minLength: 1
+      summary:
+        type: string
+        minLength: 1
+      diff_base:
+        type: integer
+        minimum: 0
+      mod_biome:
+        type: integer
+        minimum: 0
+      affixes:
+        type: array
+        minItems: 1
+        items:
+          type: string
+          pattern: "^[a-z0-9_]+$"
+      aliases:
+        type: array
+        items:
+          type: string
+          pattern: "^[a-z0-9_]+$"
+      hazard:
+        type: object
+        additionalProperties: false
+        required:
+          - description
+          - severity
+          - stress_modifiers
+        properties:
+          description:
+            type: string
+            minLength: 1
+          severity:
+            type: string
+            enum:
+              - low
+              - medium
+              - high
+              - critical
+          stress_modifiers:
+            type: object
+            minProperties: 1
+            patternProperties:
+              "^[a-z0-9_]+$":
+                type: number
+      npc_archetypes:
+        type: object
+        additionalProperties: false
+        required:
+          - primary
+          - support
+        properties:
+          primary:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+          support:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1
+      stresswave:
+        type: object
+        additionalProperties: false
+        required:
+          - baseline
+          - escalation_rate
+          - event_thresholds
+        properties:
+          baseline:
+            type: number
+            minimum: 0
+          escalation_rate:
+            type: number
+            minimum: 0
+          event_thresholds:
+            type: object
+            minProperties: 1
+            patternProperties:
+              "^[a-z0-9_]+$":
+                type: number
+      narrative:
+        type: object
+        additionalProperties: false
+        required:
+          - tone
+          - hooks
+        properties:
+          tone:
+            type: string
+            minLength: 1
+          hooks:
+            type: array
+            minItems: 1
+            items:
+              type: string
+              minLength: 1

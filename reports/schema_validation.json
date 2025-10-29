@@ -1,0 +1,26 @@
+{
+  "generated_at": "2025-10-29T20:29:03Z",
+  "files": [
+    {
+      "path": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+      "schema": "https://game.schemas.local/catalog.schema.json",
+      "errors": [],
+      "warnings": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/biomes.yaml",
+      "schema": "https://game.schemas.local/biome.schema.yaml",
+      "errors": [],
+      "warnings": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/species.yaml",
+      "schema": "https://game.schemas.local/species.schema.yaml",
+      "errors": [],
+      "warnings": [],
+      "status": "ok"
+    }
+  ]
+}

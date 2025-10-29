@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.schemas.local/catalog.schema.json",
+  "title": "Catalogo Tratti",
+  "description": "Schema canonico per i cataloghi di tratti del pacchetto Evo Tactics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trait_glossary",
+    "traits"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$"
+    },
+    "trait_glossary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "traits": {
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-z0-9_]+$": {
+          "$ref": "https://game.schemas.local/trait.schema.json"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

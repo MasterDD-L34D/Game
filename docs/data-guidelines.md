@@ -6,10 +6,22 @@ Questo documento elenca i dataset archiviati in `data/` e definisce le regole op
 
 | File | Chiave radice | Contenuto | Note |
 | --- | --- | --- | --- |
-| `data/biomes.yaml` | `biomes`, `vc_adapt`, `mutations`, `frequencies` | Parametri di difficoltà, adattamenti e tabelle mutazioni per i biomi. | Gli array `t0_table_d12` e `t1_table_d8` rappresentano risultati di dadi e vanno mantenuti ordinati secondo il valore del dado. |
+| `data/biomes.yaml` | `biomes`, `vc_adapt`, `mutations`, `frequencies` | Parametri di difficoltà, adattamenti e tabelle mutazioni per i biomi. | Gli array `t0_table_d12` e `t1_table_d8` rappresentano risultati di dadi e vanno mantenuti ordinati secondo il valore del dado. La struttura del catalogo biomi è descritta in `config/schemas/biome.schema.yaml`. |
 | `data/mating.yaml` | `compat_forme`, `compat_ennea`, `actions_appeal`, `nest_standards`, `hybrid_rules` | Regolette di compatibilità tra forme MBTI/enneagramma, valutazioni azioni e standard del nido. | Le chiavi MBTI devono rimanere in maiuscolo; le azioni usano snake_case. |
 | `data/packs.yaml` | `pi_shop`, `random_general_d20`, `forms` | Tabelledi costo e generazione pacchetti (d20, bias per forma). | Le forme MBTI sono sezioni di secondo livello sotto `forms`. |
 | `data/telemetry.yaml` | `telemetry`, `indices`, `mbti_axes`, `ennea_themes`, `pe_economy` | Configurazioni per la telemetria in gioco, formule e ponderazioni. | Le formule sono stringhe e devono rispettare la sintassi usata in backend analytics. |
+| `data/species.yaml` | `catalog`, `global_rules`, `species` | Catalogo delle parti, sinergie e profili di specie giocabili. | Validato da `config/schemas/species.schema.yaml`; i campi `default_parts` e `trait_plan` accettano solo slug definiti nel catalogo. |
+| `packs/evo_tactics_pack/docs/catalog/trait_reference.json` | `traits` | Catalogo completo dei tratti selezionabili. | Validato da `config/schemas/catalog.schema.json` e `config/schemas/trait.schema.json`. |
+
+## Schemi canonici
+
+Gli schemi JSON/YAML pubblicati in `config/schemas/` fungono da contratto per i dataset condivisi con il team. Ogni schema esplicita le chiavi ammesse, il tipo dei valori e le relazioni più importanti:
+
+* `catalog.schema.json` importa `trait.schema.json` e stabilisce la struttura dei cataloghi di tratti (versionamento, riferimenti al glossario e forma delle entry).
+* `biome.schema.yaml` definisce il formato del catalogo biomi, con vincoli su affissi, severità degli hazard e campi narrativi.
+* `species.schema.yaml` descrive cataloghi, parti, sinergie e profili di specie, assicurando che slot e riferimenti usino slug canonici.
+
+Gli schemi sono utilizzati direttamente dagli script di audit per convalidare ogni modifica e facilitano l'onboarding dei contributor.
 
 ## Regole di naming
 
@@ -17,6 +29,12 @@ Questo documento elenca i dataset archiviati in `data/` e definisce le regole op
 * Ogni chiave di primo livello deve essere in snake_case (ad eccezione di identificatori esterni come tipi MBTI/enneagramma che restano in MAIUSCOLO o includono parentesi).
 * Le liste di valori tabellari usano `lower_snake_case` o `CamelCase` solo quando riprendono nomi propri già stabiliti nel design.
 * I range di dadi si rappresentano come stringhe `"1-3"` o valori puntuali (`"11"`).
+
+### Slug e identificatori
+
+* Gli slug di tratti, biomi, specie, sinergie e parti usano sempre `lower_snake_case` (`^[a-z0-9_]+$`). Lo stesso formato vale per le chiavi degli slot (`locomotion`, `offense`, ecc.) e per i riferimenti incrociati (`trait_plan`, `default_parts`).
+* Gli slot funzionali dei tratti (`slot` nel catalogo) sono lettere maiuscole singole (`A`, `B`, `C`, ...). Usare `slot_profile.core`/`complementare` per specificare l'archetipo tattico e mantenere la corrispondenza con le forme dei pack.
+* Gli identificatori di sinergia (`catalog.synergies[].id`, `trait_plan.synergies[]`) e dei contatori (`global_rules.counters_reference[].counter`) adottano lo stesso slugging per garantire lookup deterministici nelle pipeline.
 
 ## Formato YAML
 
@@ -42,6 +60,16 @@ Lo script verifica:
 4. Che le formule riportate in `telemetry.yaml` contengano soltanto caratteri ammessi.
 
 Il comando esce con codice diverso da zero se vengono individuati errori, così da integrarsi facilmente in CI o nei controlli pre-commit.
+
+### Audit schema
+
+Lo script `scripts/trait_audit.py` esegue anche la validazione contro gli schemi canonici e genera `reports/schema_validation.json` con l'elenco di errori e warning per ciascun file. Per rigenerare i report:
+
+```bash
+python scripts/trait_audit.py
+```
+
+Il report JSON riporta, per ogni dataset, lo stato (`ok`, `warning`, `error`) e l'elenco dei problemi rilevati. Viene verificato automaticamente con `python scripts/trait_audit.py --check` durante le review.
 
 ## Sincronizzazione con Google Sheet
 

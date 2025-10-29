@@ -1,0 +1,212 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://game.schemas.local/species.schema.yaml
+title: Catalogo Specie
+description: Struttura canonica per il catalogo delle specie giocabili.
+type: object
+additionalProperties: false
+required:
+  - catalog
+  - global_rules
+  - species
+properties:
+  catalog:
+    type: object
+    additionalProperties: false
+    required:
+      - slots
+      - synergies
+    properties:
+      slots:
+        type: object
+        minProperties: 1
+        patternProperties:
+          "^[a-z0-9_]+$":
+            type: object
+            minProperties: 1
+            patternProperties:
+              "^[a-z0-9_]+$":
+                $ref: "#/$defs/partDefinition"
+            additionalProperties: false
+        additionalProperties: false
+      synergies:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          required:
+            - id
+            - name
+            - when_all
+          properties:
+            id:
+              type: string
+              pattern: "^[a-z0-9_]+$"
+            name:
+              type: string
+              minLength: 1
+            when_all:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                pattern: '^[a-z0-9_]+(\.[a-z0-9_]+)?$'
+  global_rules:
+    type: object
+    additionalProperties: false
+    required:
+      - morph_budget
+      - stacking_caps
+      - counters_reference
+    properties:
+      morph_budget:
+        type: object
+        additionalProperties: false
+        required:
+          - default_weight_budget
+        properties:
+          default_weight_budget:
+            type: integer
+            minimum: 0
+      stacking_caps:
+        type: object
+        additionalProperties: false
+        required:
+          - res_cap_per_type
+          - dr_cap_per_type
+        properties:
+          res_cap_per_type:
+            type: integer
+            minimum: 0
+          dr_cap_per_type:
+            type: integer
+            minimum: 0
+      counters_reference:
+        type: array
+        items:
+          type: object
+          additionalProperties: false
+          required:
+            - counter
+            - counters
+          properties:
+            counter:
+              type: string
+              minLength: 1
+            counters:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                minLength: 1
+  species:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - display_name
+        - estimated_weight
+        - weight_budget
+        - biome_affinity
+        - default_parts
+        - synergy_hints
+        - trait_plan
+      properties:
+        id:
+          type: string
+          pattern: "^[a-z0-9_]+$"
+        display_name:
+          type: string
+          minLength: 1
+        estimated_weight:
+          type: number
+          minimum: 0
+        weight_budget:
+          type: number
+          minimum: 0
+        biome_affinity:
+          type: string
+          pattern: "^[a-z0-9_]+$"
+        default_parts:
+          type: object
+          minProperties: 1
+          patternProperties:
+            "^[a-z0-9_]+$":
+              oneOf:
+                - type: string
+                  pattern: "^[a-z0-9_]+$"
+                - type: array
+                  minItems: 1
+                  items:
+                    type: string
+                    pattern: "^[a-z0-9_]+$"
+          additionalProperties: false
+        synergy_hints:
+          type: array
+          items:
+            type: string
+            pattern: "^[a-z0-9_]+$"
+        trait_plan:
+          type: object
+          additionalProperties: false
+          required:
+            - core
+          properties:
+            core:
+              type: array
+              minItems: 1
+              items:
+                type: string
+                pattern: "^[a-z0-9_]+$"
+            optional:
+              type: array
+              items:
+                type: string
+                pattern: "^[a-z0-9_]+$"
+            synergies:
+              type: array
+              items:
+                type: string
+                pattern: "^[a-z0-9_]+$"
+            environment_focus:
+              type: object
+              additionalProperties: false
+              required:
+                - biome_class
+                - rationale
+              properties:
+                biome_class:
+                  type: string
+                  pattern: "^[a-z0-9_]+$"
+                rationale:
+                  type: string
+                  minLength: 1
+$defs:
+  partDefinition:
+    type: object
+    additionalProperties: false
+    required:
+      - name
+      - effects
+    properties:
+      name:
+        type: string
+        minLength: 1
+      description:
+        type: string
+      effects:
+        type: object
+        default: {}
+        properties:
+          resistances:
+            type: object
+            additionalProperties: false
+            properties:
+              res:
+                type: object
+                patternProperties:
+                  "^[a-z0-9_]+$":
+                    type: number
+        additionalProperties: true
