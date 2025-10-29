@@ -213,8 +213,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -303,10 +303,10 @@
         }
       ],
       "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche",
         "carapace_luminiscente_abissale",
-        "risonanza_di_branco"
+        "focus_frazionato",
+        "risonanza_di_branco",
+        "sinapsi_coraline_polifoniche"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -623,8 +623,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -754,8 +754,8 @@
       ],
       "sinergie": [
         "coda_frusta_cinetica",
-        "struttura_elastica_amorfa",
         "mimetismo_cromatico_passivo",
+        "struttura_elastica_amorfa",
         "tattiche_di_branco"
       ],
       "sinergie_pi": {
@@ -803,9 +803,9 @@
         }
       ],
       "sinergie": [
-        "zampe_a_molla",
+        "cartilagine_flessotermica_venti",
         "sonno_emisferico_alternato",
-        "cartilagine_flessotermica_venti"
+        "zampe_a_molla"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -1081,8 +1081,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1373,8 +1373,8 @@
         }
       ],
       "sinergie": [
-        "scheletro_idro_regolante",
-        "mucillagine_simbionte_mangrovie"
+        "mucillagine_simbionte_mangrovie",
+        "scheletro_idro_regolante"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -1500,9 +1500,9 @@
         }
       ],
       "sinergie": [
-        "vello_condensatore_nebbie",
+        "chioma_parassita_canopica",
         "nodi_micorrizici_oracolari",
-        "chioma_parassita_canopica"
+        "vello_condensatore_nebbie"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -1539,8 +1539,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1844,7 +1844,21 @@
         }
       ],
       "sinergie": [
+        "ali_membrana_sonica",
+        "appendici_risonanti_marea",
+        "barriere_miasma_glaciale",
+        "branchie_microfiltri",
+        "capsule_paracadute",
         "cartilagine_flessotermica_venti",
+        "circolazione_bifasica",
+        "coda_coppia_retroattiva",
+        "cute_resistente_sali",
+        "enzimi_antipredatori_algali",
+        "filtri_planctonici",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lingua_cristallina",
+        "mucose_barofile",
         "sensori_geomagnetici"
       ],
       "sinergie_pi": {
@@ -1894,9 +1908,9 @@
         }
       ],
       "sinergie": [
-        "sinapsi_coraline_polifoniche",
         "antenne_plasmatiche_tempesta",
-        "risonanza_di_branco"
+        "risonanza_di_branco",
+        "sinapsi_coraline_polifoniche"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -2025,10 +2039,10 @@
         }
       ],
       "sinergie": [
-        "zoccoli_risonanti_steppe",
-        "sacche_galleggianti_ascensoriali",
         "artigli_sghiaccio_glaciale",
-        "carapace_fase_variabile"
+        "carapace_fase_variabile",
+        "sacche_galleggianti_ascensoriali",
+        "zoccoli_risonanti_steppe"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -2064,8 +2078,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2234,10 +2248,10 @@
         }
       ],
       "sinergie": [
+        "criostasi_adattiva",
         "eco_interno_riflesso",
-        "risonanza_di_branco",
         "empatia_coordinativa",
-        "criostasi_adattiva"
+        "risonanza_di_branco"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -2364,8 +2378,8 @@
         }
       ],
       "sinergie": [
-        "nodi_micorrizici_oracolari",
-        "bulbi_radici_permafrost"
+        "bulbi_radici_permafrost",
+        "nodi_micorrizici_oracolari"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -2553,8 +2567,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2856,7 +2870,34 @@
         }
       ],
       "sinergie": [
-        "artigli_sette_vie"
+        "ali_ioniche",
+        "antenne_flusso_mareale",
+        "antenne_wideband",
+        "artigli_induzione",
+        "artigli_sette_vie",
+        "barbigli_sensori_plasma",
+        "biochip_memoria",
+        "branchie_metalloidi",
+        "camere_anticorrosione",
+        "capillari_fotovoltaici",
+        "cartilagini_biofibre",
+        "chemiorecettori_bromuro",
+        "circolazione_supercritica",
+        "coda_contrappeso",
+        "coda_stabilizzatrice_vortex",
+        "cuscinetti_elettrostatici",
+        "denti_chelatanti",
+        "enzimi_antifase_termica",
+        "enzimi_metanoossidanti",
+        "filamenti_termoconduzione",
+        "foliaggio_spugna",
+        "ghiandole_fango_calde",
+        "ghiandole_iodoattive",
+        "ghiandole_ventosa",
+        "gusci_magnesio",
+        "linfa_tampone",
+        "mantelli_geotermici",
+        "mucose_aderenza_sonica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -2964,8 +3005,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3365,8 +3406,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3616,7 +3657,20 @@
       "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
       "requisiti_ambientali": [],
       "sinergie": [
-        "cavita_risonanti_tundra"
+        "antenne_eco_turbina",
+        "artigli_acidofagi",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "carapaci_ferruginosi",
+        "cavita_risonanti_tundra",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "cuticole_neutralizzanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_inchiostro_luce",
+        "gusci_criovetro",
+        "luminescenza_hydrotermica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -3797,8 +3851,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3940,6 +3994,19 @@
         }
       ],
       "sinergie": [
+        "antenne_dustsense",
+        "appendici_thermotattiche",
+        "batteri_endosimbionti_chemio",
+        "branchie_solfatiche",
+        "carapace_segmenti_logici",
+        "circolazione_cooling_loop",
+        "coda_stabilizzatrice_filo",
+        "cuticole_cerose",
+        "enzimi_chelanti",
+        "flagelli_ancoranti",
+        "ghiandole_grafene",
+        "grassi_termici",
+        "luminescenza_aurorale",
         "ventriglio_gastroliti"
       ],
       "sinergie_pi": {
@@ -4166,7 +4233,21 @@
       "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
       "requisiti_ambientali": [],
       "sinergie": [
-        "antenne_plasmatiche_tempesta"
+        "ali_fulminee",
+        "antenne_plasmatiche_tempesta",
+        "antenne_waveguide",
+        "baffi_mareomotori",
+        "branchie_eoliche",
+        "capillari_fluoridici",
+        "cervelletto_equilibrio_statico",
+        "coda_balanciere",
+        "cuore_multicamera_bassa_pressione",
+        "echi_risonanti",
+        "filamenti_superconduttivi",
+        "ghiandole_eco_mappanti",
+        "ghiandole_resina_conduttiva",
+        "lamine_scudo_silice",
+        "midollo_antivibrazione"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -4247,8 +4328,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4638,8 +4719,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4985,8 +5066,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5423,8 +5504,8 @@
         "complementare": "assalto"
       },
       "sinergie": [
-        "sangue_piroforico",
-        "coda_frusta_cinetica"
+        "coda_frusta_cinetica",
+        "sangue_piroforico"
       ],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5685,8 +5766,22 @@
         }
       ],
       "sinergie": [
-        "struttura_elastica_amorfa",
-        "artigli_sette_vie"
+        "ali_membrana_sonica",
+        "appendici_risonanti_marea",
+        "artigli_sette_vie",
+        "barriere_miasma_glaciale",
+        "branchie_microfiltri",
+        "capsule_paracadute",
+        "circolazione_bifasica",
+        "coda_coppia_retroattiva",
+        "cute_resistente_sali",
+        "enzimi_antipredatori_algali",
+        "filtri_planctonici",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lingua_cristallina",
+        "mucose_barofile",
+        "struttura_elastica_amorfa"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -5726,9 +5821,22 @@
         }
       ],
       "sinergie": [
+        "antenne_reagenti",
+        "artigli_scivolo_silente",
+        "biofilm_iperarido",
+        "branchie_osmotiche_salmastra",
+        "camere_nutrienti_vent",
+        "cartilagini_flessoacustiche",
         "circolazione_bifasica_palude",
-        "nodi_micorrizici_oracolari",
-        "branchie_osmotiche_salmastra"
+        "ciste_salmastre",
+        "coralli_partner",
+        "denti_silice_termici",
+        "epitelio_fosforescente",
+        "ghiandole_cambio_salino",
+        "ghiandole_nebbia_acida",
+        "lamelle_sincroniche",
+        "membrane_planata_vectored",
+        "nodi_micorrizici_oracolari"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -5848,9 +5956,22 @@
         }
       ],
       "sinergie": [
+        "antenne_reagenti",
+        "artigli_scivolo_silente",
+        "biofilm_iperarido",
+        "bulbi_radici_permafrost",
+        "camere_nutrienti_vent",
+        "cartilagini_flessoacustiche",
         "chioma_parassita_canopica",
-        "mucillagine_simbionte_mangrovie",
-        "bulbi_radici_permafrost"
+        "ciste_salmastre",
+        "coralli_partner",
+        "denti_silice_termici",
+        "epitelio_fosforescente",
+        "ghiandole_cambio_salino",
+        "ghiandole_nebbia_acida",
+        "lamelle_sincroniche",
+        "membrane_planata_vectored",
+        "mucillagine_simbionte_mangrovie"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -6035,7 +6156,21 @@
       "label": "Pianificatore",
       "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_microonde_cavernose",
+        "artigli_radice",
+        "biofilm_glow",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "ciste_riduttive",
+        "colonne_vibromagnetiche",
+        "denti_ossidoferro",
+        "epidermide_dielettrica",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_minerali",
+        "lamelle_shear",
+        "membrane_captura_rugiada"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
@@ -6228,9 +6363,22 @@
       "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
       "requisiti_ambientali": [],
       "sinergie": [
+        "antenne_eco_turbina",
         "antenne_plasmatiche_tempesta",
+        "artigli_acidofagi",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
         "carapace_luminiscente_abissale",
-        "cavita_risonanti_tundra"
+        "carapaci_ferruginosi",
+        "cavita_risonanti_tundra",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "cuticole_neutralizzanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_inchiostro_luce",
+        "gusci_criovetro",
+        "luminescenza_hydrotermica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -6294,10 +6442,10 @@
         }
       ],
       "sinergie": [
+        "cartilagine_flessotermica_venti",
         "respiro_a_scoppio",
         "scheletro_idro_regolante",
-        "struttura_elastica_amorfa",
-        "cartilagine_flessotermica_venti"
+        "struttura_elastica_amorfa"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -6378,7 +6526,20 @@
         }
       ],
       "sinergie": [
-        "lamelle_termoforetiche"
+        "antenne_flusso_mareale",
+        "artigli_induzione",
+        "biochip_memoria",
+        "camere_anticorrosione",
+        "cartilagini_biofibre",
+        "circolazione_supercritica",
+        "coda_stabilizzatrice_vortex",
+        "denti_chelatanti",
+        "enzimi_metanoossidanti",
+        "foliaggio_spugna",
+        "ghiandole_iodoattive",
+        "gusci_magnesio",
+        "lamelle_termoforetiche",
+        "mantelli_geotermici"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -6418,7 +6579,20 @@
         }
       ],
       "sinergie": [
+        "antenne_tesla",
+        "artigli_vetrificati",
+        "branchie_dual_mode",
         "branchie_osmotiche_salmastra",
+        "capillari_criogenici",
+        "cartilagini_pseudometalliche",
+        "cisti_iperbariche",
+        "cromofori_alert_acido",
+        "denti_tuning_fork",
+        "filamenti_magnetotrofi",
+        "ghiandole_condensa_ozono",
+        "ghiandole_nebbia_ionica",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori",
         "sacche_galleggianti_ascensoriali",
         "struttura_elastica_amorfa"
       ],
@@ -6497,8 +6671,8 @@
         }
       ],
       "sinergie": [
-        "eco_interno_riflesso",
-        "carapace_fase_variabile"
+        "carapace_fase_variabile",
+        "eco_interno_riflesso"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -6538,8 +6712,22 @@
         }
       ],
       "sinergie": [
+        "ali_fulminee",
+        "antenne_plasmatiche_tempesta",
+        "antenne_waveguide",
+        "baffi_mareomotori",
+        "branchie_eoliche",
+        "capillari_fluoridici",
         "carapace_luminiscente_abissale",
-        "antenne_plasmatiche_tempesta"
+        "cervelletto_equilibrio_statico",
+        "coda_balanciere",
+        "cuore_multicamera_bassa_pressione",
+        "echi_risonanti",
+        "filamenti_superconduttivi",
+        "ghiandole_eco_mappanti",
+        "ghiandole_resina_conduttiva",
+        "lamine_scudo_silice",
+        "midollo_antivibrazione"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -6577,8 +6765,8 @@
         }
       ],
       "sinergie": [
-        "occhi_infrarosso_composti",
-        "artigli_sghiaccio_glaciale"
+        "artigli_sghiaccio_glaciale",
+        "occhi_infrarosso_composti"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -6707,7 +6895,20 @@
         }
       ],
       "sinergie": [
+        "antenne_tesla",
         "artigli_sette_vie",
+        "artigli_vetrificati",
+        "branchie_dual_mode",
+        "capillari_criogenici",
+        "cartilagini_pseudometalliche",
+        "cisti_iperbariche",
+        "cromofori_alert_acido",
+        "denti_tuning_fork",
+        "filamenti_magnetotrofi",
+        "ghiandole_condensa_ozono",
+        "ghiandole_nebbia_ionica",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori",
         "mimetismo_cromatico_passivo",
         "sacche_galleggianti_ascensoriali",
         "scheletro_idro_regolante"
@@ -6736,7 +6937,20 @@
       "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
       "requisiti_ambientali": [],
       "sinergie": [
-        "artigli_sette_vie"
+        "antenne_microonde_cavernose",
+        "artigli_radice",
+        "artigli_sette_vie",
+        "biofilm_glow",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "ciste_riduttive",
+        "colonne_vibromagnetiche",
+        "denti_ossidoferro",
+        "epidermide_dielettrica",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_minerali",
+        "lamelle_shear",
+        "membrane_captura_rugiada"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -6823,7 +7037,20 @@
         }
       ],
       "sinergie": [
-        "filamenti_digestivi_compattanti"
+        "antenne_dustsense",
+        "appendici_thermotattiche",
+        "batteri_endosimbionti_chemio",
+        "branchie_solfatiche",
+        "carapace_segmenti_logici",
+        "circolazione_cooling_loop",
+        "coda_stabilizzatrice_filo",
+        "cuticole_cerose",
+        "enzimi_chelanti",
+        "filamenti_digestivi_compattanti",
+        "flagelli_ancoranti",
+        "ghiandole_grafene",
+        "grassi_termici",
+        "luminescenza_aurorale"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -6849,7 +7076,21 @@
       "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
       "requisiti_ambientali": [],
       "sinergie": [
-        "artigli_sghiaccio_glaciale"
+        "ali_ioniche",
+        "antenne_wideband",
+        "artigli_sghiaccio_glaciale",
+        "barbigli_sensori_plasma",
+        "branchie_metalloidi",
+        "capillari_fotovoltaici",
+        "chemiorecettori_bromuro",
+        "coda_contrappeso",
+        "cuscinetti_elettrostatici",
+        "enzimi_antifase_termica",
+        "filamenti_termoconduzione",
+        "ghiandole_fango_calde",
+        "ghiandole_ventosa",
+        "linfa_tampone",
+        "mucose_aderenza_sonica"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
