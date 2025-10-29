@@ -2044,7 +2044,9 @@ function renderSpeciesShowcase(targetContainer = sectionElements.species || docu
       `
     : "";
 
-  commitInnerHTML(container, `${metricsHtml}${slotsSection}${synergySection}`);
+  const traitPlanSection = renderTraitPlanPreview(speciesList);
+
+  commitInnerHTML(container, `${metricsHtml}${slotsSection}${synergySection}${traitPlanSection}`);
 }
 
 function formatEntry(entry) {
@@ -2074,6 +2076,90 @@ function renderPillGroup(title, values) {
       <h4>${title}</h4>
       <div class="pills">${pills}</div>
     </div>
+  `;
+}
+
+function normalizeTraitPlanList(values) {
+  if (!Array.isArray(values)) return [];
+  const seen = new Set();
+  const normalized = [];
+  for (const value of values) {
+    if (typeof value !== "string") continue;
+    const trimmed = value.trim();
+    if (!trimmed || seen.has(trimmed)) continue;
+    seen.add(trimmed);
+    normalized.push({ id: trimmed, label: formatLabel(trimmed) });
+  }
+  return normalized;
+}
+
+function renderTraitPillGroup(title, values, variant) {
+  if (!values.length) return "";
+  const pills = values
+    .map(
+      (value) =>
+        `<span class="pill" data-variant="${variant}" data-trait-id="${value.id}">${value.label}</span>`
+    )
+    .join("");
+  return `
+    <div class="pill-group" data-trait-group="${variant}">
+      <h4>${title}</h4>
+      <div class="pills">${pills}</div>
+    </div>
+  `;
+}
+
+function renderTraitPlanPreview(speciesList) {
+  if (!Array.isArray(speciesList) || speciesList.length === 0) return "";
+  const MAX_SPECIES_PREVIEW = 3;
+  const cards = speciesList.slice(0, MAX_SPECIES_PREVIEW).map((entry) => {
+    const name = entry.display_name || formatLabel(entry.id);
+    const traitPlan = entry.trait_plan || {};
+    const core = normalizeTraitPlanList(traitPlan.core);
+    const optional = normalizeTraitPlanList(traitPlan.optional);
+    const synergy = normalizeTraitPlanList(traitPlan.synergies);
+    const focus = traitPlan.environment_focus || {};
+    const biomeClass = typeof focus.biome_class === "string" && focus.biome_class
+      ? `<p class="muted small">Biome focus: ${formatLabel(focus.biome_class)}</p>`
+      : "";
+    const rationale = typeof focus.rationale === "string" && focus.rationale.trim()
+      ? `<p class="muted small">${focus.rationale.trim()}</p>`
+      : "";
+    const traitGroups = [
+      renderTraitPillGroup("Core", core, "core"),
+      renderTraitPillGroup("Opzionali", optional, "optional"),
+      renderTraitPillGroup("Sinergie", synergy, "synergy"),
+    ]
+      .filter(Boolean)
+      .join("");
+
+    return `
+      <article class="species-trait-card" data-species-id="${entry.id}">
+        <header class="species-trait-card__header">
+          <h3>${name}</h3>
+          ${biomeClass}
+        </header>
+        <div class="species-trait-card__traits">
+          ${traitGroups || '<p class="muted">Nessun trait plan dichiarato.</p>'}
+        </div>
+        ${rationale ? `<footer class="species-trait-card__notes">${rationale}</footer>` : ""}
+      </article>
+    `;
+  });
+
+  const extraCount = speciesList.length > MAX_SPECIES_PREVIEW ? speciesList.length - MAX_SPECIES_PREVIEW : 0;
+  const extraNote = extraCount
+    ? `<p class="muted">+${extraCount} specie aggiuntive con trait plan nel catalogo.</p>`
+    : "";
+
+  return `
+    <section class="species-trait-plan" aria-label="Trait plan specie">
+      <h3>Trait plan prioritario</h3>
+      <div class="species-trait-plan__grid">
+        ${cards.join("")}
+      </div>
+      ${extraNote}
+    </section>
   `;
 }
 

@@ -45,12 +45,17 @@ class InventoryReport:
 
     generated_at: str | None
     resources: Sequence[ResourceReport]
+    core_traits: Sequence[str]
     errors: List[str]
     warnings: List[str]
 
     @property
     def total_resources(self) -> int:
         return len(self.resources)
+
+    @property
+    def core_traits_total(self) -> int:
+        return len(self.core_traits)
 
     @property
     def core_resources(self) -> int:
@@ -104,6 +109,31 @@ class TraitsInventoryValidator:
                 f"{generated_at!r}"
             )
 
+        raw_core_traits = payload.get("core_traits")
+        core_traits: List[str] = []
+        if raw_core_traits is None:
+            core_traits = []
+        elif not isinstance(raw_core_traits, list):
+            raise ValueError(
+                "Campo 'core_traits' deve essere una lista di identificativi trait se presente."
+            )
+        else:
+            seen: set[str] = set()
+            for index, value in enumerate(raw_core_traits):
+                if not isinstance(value, str) or not value.strip():
+                    errors.append(
+                        f"core_traits[{index}] deve essere una stringa non vuota"
+                    )
+                    continue
+                normalized = value.strip()
+                if normalized in seen:
+                    warnings.append(
+                        f"core_traits[{index}] duplicato: {normalized}"
+                    )
+                else:
+                    seen.add(normalized)
+                core_traits.append(normalized)
+
         resources_data = payload.get("resources")
         if not isinstance(resources_data, list):
             raise ValueError(
@@ -120,6 +150,7 @@ class TraitsInventoryValidator:
         return InventoryReport(
             generated_at=generated_at,
             resources=resource_reports,
+            core_traits=core_traits,
             errors=errors,
             warnings=warnings,
         )

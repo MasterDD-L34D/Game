@@ -327,7 +327,8 @@
       "core_traits": [
         "artigli_sette_vie",
         "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
+        "struttura_elastica_amorfa",
+        "sensori_geomagnetici"
       ],
       "display_name": "Dune Stalker",
       "environment_focus": {
@@ -343,7 +344,8 @@
       "optional_traits": [
         "coda_frusta_cinetica",
         "criostasi_adattiva",
-        "sacche_galleggianti_ascensoriali"
+        "sacche_galleggianti_ascensoriali",
+        "lamelle_termoforetiche"
       ],
       "required_capabilities": [],
       "role": null,

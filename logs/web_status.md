@@ -59,3 +59,39 @@ successiva e registrare eventuali task di follow-up in roadmap.
   - App.js ottimizzato con render differito/caching HTML; card specie memoizzata per ridurre repaint.
   - CSS responsive aggiornato: controlli focus visibili, layout hero fluido ≤480 px, preferenze `prefers-reduced-motion` rispettate.
 <!-- web_log:end -->
+## 2025-10-28T23:39:35Z · run_deploy_checks.sh
+- **Esito script**: ✅ `scripts/run_deploy_checks.sh`
+  - Artefatti TypeScript già presenti in `tools/ts/dist`.
+  - Bundle statico generato in `dist.ii91XC` con dataset `data/mock/prod_snapshot`.
+- **Smoke test HTTP: server Python attivo su http://127.0.0.1:40839/**
+  - Dataset copiato con 48 file totali.
+  - Richieste principali completate senza errori (index.html e dashboard).
+- **Note**:
+  - Lo script non esegue più test; utilizza gli artefatti generati dai passaggi CI precedenti.
+
+## 2025-10-28T23:40:05Z · run_deploy_checks.sh
+- **Esito script**: ✅ `scripts/run_deploy_checks.sh`
+  - Artefatti TypeScript già presenti in `tools/ts/dist`.
+  - Bundle statico generato in `dist.X6KqNP` con dataset `data/mock/prod_snapshot`.
+- **Smoke test HTTP: server Python attivo su http://127.0.0.1:57027/**
+  - Trait generator: core=22 enriched_species=7 (time 10 ms).
+  - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.
+  - Report salvato in `logs/tooling/generator_run_profile.json`.
+  - Dataset copiato con 48 file totali.
+  - Richieste principali completate senza errori (index.html e dashboard).
+- **Note**:
+  - Lo script non esegue più test; utilizza gli artefatti generati dai passaggi CI precedenti.
+
+## 2025-10-28T23:44:19Z · run_deploy_checks.sh
+- **Esito script**: ✅ `scripts/run_deploy_checks.sh`
+  - Artefatti TypeScript già presenti in `tools/ts/dist`.
+  - Bundle statico generato in `dist.CLHuOR` con dataset `data/mock/prod_snapshot`.
+- **Smoke test HTTP: server Python attivo su http://127.0.0.1:45369/**
+  - Trait generator: core=22 enriched_species=7 (time 10 ms).
+  - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.
+  - Report salvato in `logs/tooling/generator_run_profile.json`.
+  - Dataset copiato con 48 file totali.
+  - Richieste principali completate senza errori (index.html e dashboard).
+- **Note**:
+  - Lo script non esegue più test; utilizza gli artefatti generati dai passaggi CI precedenti.
+
