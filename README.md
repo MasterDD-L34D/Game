@@ -37,6 +37,8 @@ evo-tactics/
 - **Log & Metriche** — cronologia sync, audit export, metriche dashboard e verifiche tooling documentate nella tabella dedicata.
 - **Pianificazione & Appendici** — roadmap e canvas completi con ultima revisione tracciata nell'indice.
 
+Consulta la sezione [Indice Tracker & Stato](#indice-tracker--stato) per percentuali e stato sintetico dei principali blocchi di lavoro.
+
 ## Quick Start — Node/TypeScript
 ```bash
 cd tools/ts
@@ -190,10 +192,24 @@ git push -u origin main
 - Per istruzioni dettagliate su configurazione, test e trigger automatici consulta la guida [`docs/drive-sync.md`](docs/drive-sync.md).
 
 ## Checklist & TODO attivi
-- **Monitoraggio avanzamento** — Le milestone operative con stato aggiornato sono in [`docs/checklist/milestones.md`](docs/checklist/milestones.md). Le voci ancora aperte includono la validazione delle formule telemetriche con dati reali e la produzione di encounter di esempio per ogni bioma.【F:docs/checklist/milestones.md†L8-L16】
+- **Monitoraggio avanzamento** — Le milestone operative con stato aggiornato sono in [`docs/checklist/milestones.md`](docs/checklist/milestones.md). Restano da chiudere l'overlay HUD telemetrico, il riequilibrio XP del profilo Cipher e il contrasto EVT-03 documentati nella sezione “In corso”.【F:docs/checklist/milestones.md†L8-L17】
 - **Azioni prioritarie consolidate** — Il file [`docs/checklist/action-items.md`](docs/checklist/action-items.md) raccoglie gli step immediati da completare, incrociando roadmap, checklist e problemi emersi dai log di sincronizzazione.【F:docs/checklist/action-items.md†L1-L30】
 - **Checklist di avvio completo** — Usa [`docs/checklist/project-setup-todo.md`](docs/checklist/project-setup-todo.md) come sequenza passo-passo per configurare ambiente, dipendenze, test e sincronizzazioni fino al pieno funzionamento del progetto.【F:docs/checklist/project-setup-todo.md†L1-L64】
 - **Roadmap dettagliata** — Per il contesto strategico delle milestone (bilanciamento pacchetti PI, telemetria VC, esperienze di mating/nido e missioni verticali) consultare [`docs/piani/roadmap.md`](docs/piani/roadmap.md).【F:docs/piani/roadmap.md†L1-L24】
+
+### Indice Tracker & Stato
+
+#### Operativo
+- **████████░░ 80% · Telemetria VC** — Le milestone operative hanno completato playtest, normalizzazione e documentazione; restano l'overlay HUD telemetrico, il ribilanciamento XP Cipher e il contrasto EVT-03. Vedi [`docs/checklist/milestones.md#in-corso`](docs/checklist/milestones.md#in-corso).【F:docs/checklist/milestones.md†L8-L17】
+
+#### Processo
+- **██████░░░░ 60% · Pipeline deploy web** — Il processo di rilascio è definito ma i riesami settimanali riportano ancora il blocco Playwright 403 e test manuali da pianificare prima di considerarlo stabile. Vedi [`docs/process/web_pipeline.md`](docs/process/web_pipeline.md) e il registro [`logs/web_status.md`](logs/web_status.md).【F:docs/process/web_pipeline.md†L1-L64】【F:logs/web_status.md†L15-L50】
+
+#### Log & metriche
+- **███████░░░ 70% · Inventario trait** — La copertura tratti/specie è stata riallineata (`traits_with_species = 27/29`), ma restano da integrare i trait delle appendici e ulteriori dataset mock. Consulta [`logs/traits_tracking.md`](logs/traits_tracking.md).【F:logs/traits_tracking.md†L1-L37】
+
+#### Appendici
+- **█████░░░░░ 50% · Canvas e integrazioni** — Gli appendici A/C/D restano l'ultima revisione ufficiale mentre il Canvas segnala follow-up aperti su overlay HUD, patch PROG-04 ed effetti EVT-03 prima del prossimo aggiornamento. Riferimento: [`docs/00-INDEX.md#appendici-di-stato`](docs/00-INDEX.md#appendici-di-stato) e [`docs/Canvas/feature-updates.md`](docs/Canvas/feature-updates.md).【F:docs/00-INDEX.md†L23-L29】【F:docs/Canvas/feature-updates.md†L23-L27】
 
 ## Sincronizzazione contenuti ChatGPT
 - Configura le fonti da monitorare in `data/chatgpt_sources.yaml` (URL del progetto, canvas esportati, ecc.).
