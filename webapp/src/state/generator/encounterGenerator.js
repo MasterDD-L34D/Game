@@ -262,7 +262,11 @@ export function generateEncounterSeed({
       warnings.push({ code: 'encounter.slot.unfilled', slot: slot.id });
       continue;
     }
-    assignments.push({ slot, quantity, species: selected });
+    const fulfilledQuantity = Math.min(quantity, selected.length);
+    if (fulfilledQuantity < quantity && !slot.optional) {
+      warnings.push({ code: 'encounter.slot.unfilled', slot: slot.id });
+    }
+    assignments.push({ slot, quantity: fulfilledQuantity, species: selected });
   }
   const threat = computeThreat(template, parameters, assignments);
   const context = buildContext({

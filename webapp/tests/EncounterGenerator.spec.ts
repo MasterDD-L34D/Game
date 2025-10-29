@@ -56,10 +56,15 @@ describe('Encounter generation', () => {
     expect(seed.description).toContain('Thermo Raptor');
     expect(seed.metrics.threat.tier).toMatch(/^T/);
     const outriderSlot = seed.slots.find((slot) => slot.id === 'outrider');
-    expect(outriderSlot?.quantity).toBeGreaterThanOrEqual(2);
+    expect(outriderSlot?.species.length).toBe(1);
+    expect(outriderSlot?.quantity).toBe(outriderSlot?.species.length);
     expect(seed.parameters.intensity.value).toBe('high');
     expect(seed.links.biome_id).toBe('deserto_caldo');
-    expect(seed.warnings).toHaveLength(0);
+    expect(
+      seed.warnings.some(
+        (warning) => warning.code === 'encounter.slot.unfilled' && warning.slot === 'outrider'
+      )
+    ).toBe(true);
   });
 
   it('skips optional slots when no species match', () => {
