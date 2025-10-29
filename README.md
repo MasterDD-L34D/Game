@@ -49,8 +49,18 @@ _Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.
     <td>
       <ul>
         <li>Dataset e pack ecosistema validati con gli ultimi report in <code>reports/incoming/latest/</code>.</li>
-        <li>Pipeline di generazione e dashboard test-interface allineate ai dati pubblici.</li>
-        <li>Workflow CI attivo (TypeScript + Python) su ogni push per mantenere la qualità.</li>
+        <li>Pipeline di generazione, dashboard test-interface e workflow CI allineati ai dati pubblici.</li>
+        <li>Sessione corrente conclusa: pronti al passaggio verso istanza ottimizzata per i prossimi batch.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Handoff rapido</strong></td>
+    <td>
+      <ul>
+        <li>Archivia gli artifact di sessione in <code>reports/incoming/</code> prima di spegnere l'istanza corrente.</li>
+        <li>Salva nel log operativo l'ultimo commit/tag usato per inizializzare la nuova istanza.</li>
+        <li>Prepara le variabili d'ambiente condivise (<code>GAME_MODE=optimized</code>, <code>PYTHONPATH=tools/py</code>) per il bootstrap.</li>
       </ul>
     </td>
   </tr>
@@ -63,9 +73,32 @@ _Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.
 - [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
 - [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
 
+### Continuare in un'istanza ottimizzata
+
+1. **Clona & sincronizza** — Inizializza la nuova istanza con `git clone` sul commit annotato, quindi lancia `npm install` in `tools/ts/` e `pip install -r tools/py/requirements.txt` se mancante la cache.
+2. **Bootstrap script** — Esporta le variabili d'ambiente condivise (`GAME_MODE=optimized`, `PYTHONPATH=tools/py`) e avvia `./scripts/report_incoming.sh --destination sessione-<data>` per ricreare il contesto di validazione.
+3. **Verifiche smoke** — Esegui `npm test` da `tools/ts/` e `PYTHONPATH=tools/py pytest` per assicurarti che l'istanza ottimizzata risponda prima di proseguire con nuovi upload.
+4. **Aggiorna i tracker** — Trascrivi in `docs/00-INDEX.md` la data di bootstrap e i riferimenti dell'istanza (dimensionamento, provider, credenziali condivise) per facilitare il rientro.
+
+### Piano operativo modulare
+
+| Fase | Obiettivo | Azioni chiave | Output atteso |
+| --- | --- | --- | --- |
+| **F1 · Stabilizzazione** | Portare l'istanza ottimizzata allo stato di parità con la sessione corrente. | - Riprodurre l'ultimo `./scripts/report_incoming.sh --destination sessione-<data>`<br>- Confrontare i report in `reports/incoming/latest/` con il nuovo output<br>- Annotare differenze in `logs/validation_handoff.md` | Report JSON/HTML allineati + log confronto firmato. |
+| **F2 · Batch di validazione** | Eseguire il prossimo caricamento di pacchetti in ingresso. | - Ingerire zip nella cartella `incoming/`<br>- Verificare l'estrazione automatica e i log in `reports/incoming/validation/`<br>- Segnare eventuali KO nella checklist QA (colonna "Nuova istanza") | Cartella `validation/` popolata + ticket aperti per KO. |
+| **F3 · Consolidamento** | Aggiornare documentazione e indicatori condivisi. | - Aggiornare `docs/00-INDEX.md` e `logs/traits_tracking.md` con gli esiti di batch<br>- Pubblicare estratto su Drive/Canale QA<br>- Valutare bump della progress bar | Documentazione aggiornata + recap condiviso. |
+
+### Checklist ricorrente per sessione
+
+- [ ] **Pre-upload** — Confermare spazio disco e variabili d'ambiente (`GAME_MODE`, `PYTHONPATH`).
+- [ ] **Esecuzione script** — Lanciare `./scripts/report_incoming.sh --destination sessione-<data>` e salvare i chunk di log nel tracking QA.
+- [ ] **Controllo manuale** — Aprire `reports/incoming/<destinazione>/report.html` per un controllo visivo dei dataset.
+- [ ] **Follow-up** — Creare ticket per ogni voce "warning"/"error" dei log e linkare il percorso all'interno di `reports/incoming/validation/`.
+- [ ] **Sync documentale** — Aggiornare il riepilogo in README/Drive con percentuali aggiornate.
+
 ### Barra di completamento
 
-<progress value="0.7" max="1"></progress> **70 %** completato — aggiornare dopo il prossimo ciclo di validazione.
+<progress value="0.7" max="1"></progress> **70 %** completato — il piano modulare include buffer per l'avvio dell'istanza ottimizzata.
 
 ## Quick Start — Node/TypeScript
 ```bash
