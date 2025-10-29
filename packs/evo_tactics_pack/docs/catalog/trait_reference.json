@@ -2,6 +2,40 @@
   "schema_version": "2.0",
   "trait_glossary": "data/traits/glossary.json",
   "traits": {
+    "antenne_plasmatiche_tempesta": {
+      "conflitti": [],
+      "debolezza": "Scariche elettriche massicce possono bruciare i recettori e compromettere la coordinazione.",
+      "famiglia_tipologia": "Sensoriale/Offensivo",
+      "fattore_mantenimento_energetico": "Alto (Canalizzazione costante di plasma atmosferico)",
+      "label": "Antenne Plasmatiche di Tempesta",
+      "mutazione_indotta": "Flagelli coronati da nodi plasma-sensibili che captano e deviano fulmini.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "cicloni_psionici"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Occhi di tempesta permanenti che concentrano elettricità e onde psioniche."
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
+      "tier": "T3",
+      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+    },
     "artigli_sette_vie": {
       "conflitti": [],
       "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
@@ -23,6 +57,7 @@
         }
       ],
       "sinergie": [
+        "coda_frusta_cinetica",
         "struttura_elastica_amorfa"
       ],
       "sinergie_pi": {
@@ -35,6 +70,110 @@
       "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
       "tier": "T1",
       "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
+    },
+    "artigli_sghiaccio_glaciale": {
+      "conflitti": [],
+      "debolezza": "In ambienti temperati i tessuti subiscono microfratture e richiedono continue riparazioni.",
+      "famiglia_tipologia": "Locomotorio/Predatorio",
+      "fattore_mantenimento_energetico": "Medio (Raffreddamento endogeno controllato)",
+      "label": "Artigli Sghiaccio Glaciale",
+      "mutazione_indotta": "Falangi rivestite da ghiaccio strutturale che si espande creando lame traslucide.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "calotte_glaciali"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Calotte di ghiaccio psionico che reagiscono alle vibrazioni e amplificano le lame criogeniche."
+          }
+        }
+      ],
+      "sinergie": [
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
+      "tier": "T2",
+      "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
+    },
+    "branchie_osmotiche_salmastra": {
+      "conflitti": [
+        "polmoni_cristallini_alta_quota"
+      ],
+      "debolezza": "Richiede accesso costante ad acqua salmastra; ambienti d'acqua dolce provocano stress ionico.",
+      "famiglia_tipologia": "Respiratorio/Osmoregolazione",
+      "fattore_mantenimento_energetico": "Medio (Pompe ioniche attive)",
+      "label": "Branchie Osmotiche Salmastre",
+      "mutazione_indotta": "Lamelle branchiali multilivello con valvole che separano sali e tossine.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "delta_salmastri"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Estuari psionici dove l'acqua dolce e marina si mescolano creando gradienti forti."
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
+      "tier": "T2",
+      "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente."
+    },
+    "bulbi_radici_permafrost": {
+      "conflitti": [],
+      "debolezza": "Disgeli improvvisi trasformano i bulbi in masse gelatinose che rallentano i movimenti.",
+      "famiglia_tipologia": "Simbiotico/Nutrizione",
+      "fattore_mantenimento_energetico": "Medio (Accumulo e rilascio lento di nutrienti)",
+      "label": "Bulbi Radici del Permafrost",
+      "mutazione_indotta": "Bulbi radicali multipli che immagazzinano energia nelle stagioni fredde per rilasciarla durante le missioni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "permafrost_psionico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Suoli congelati con vene energetiche che alimentano radici coscienti."
+          }
+        }
+      ],
+      "sinergie": [
+        "vello_condensatore_nebbie"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
+      "tier": "T2",
+      "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
     },
     "carapace_fase_variabile": {
       "conflitti": [
@@ -69,6 +208,182 @@
       "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
       "tier": "T1",
       "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+    },
+    "carapace_luminiscente_abissale": {
+      "conflitti": [
+        "carapace_fase_variabile"
+      ],
+      "debolezza": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile.",
+      "famiglia_tipologia": "Strutturale/Sensoriale",
+      "fattore_mantenimento_energetico": "Alto (Bioluminescenza controllata)",
+      "label": "Carapace Luminiscente Abissale",
+      "mutazione_indotta": "Placche chitino-minerali con microrganismi luminescenti che comunicano in pattern.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Gole oceaniche illuminate da coralli psionici e scariche elettrostatiche."
+          }
+        }
+      ],
+      "sinergie": [
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
+      "tier": "T3",
+      "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+    },
+    "cartilagine_flessotermica_venti": {
+      "conflitti": [
+        "scheletro_idro_regolante"
+      ],
+      "debolezza": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento.",
+      "famiglia_tipologia": "Locomotorio/Adattivo",
+      "fattore_mantenimento_energetico": "Medio (Richiede frequenti riallineamenti fibrosi)",
+      "label": "Cartilagine Flessotermica dei Venti",
+      "mutazione_indotta": "Giunzioni cartilaginee che cambiano rigidità in risposta a gradienti termici e eolici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "gole_ventose"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Canyon sospesi dove venti caldi e freddi si alternano in pattern ciclici."
+          }
+        }
+      ],
+      "sinergie": [
+        "zoccoli_risonanti_steppe"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
+      "tier": "T2",
+      "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
+    },
+    "cavita_risonanti_tundra": {
+      "conflitti": [],
+      "debolezza": "In ambienti temperati l'eco interna produce rumori udibili che rivelano la posizione.",
+      "famiglia_tipologia": "Sensoriale/Supporto",
+      "fattore_mantenimento_energetico": "Basso (Camere di risonanza statiche)",
+      "label": "Cavità Risonanti della Tundra",
+      "mutazione_indotta": "Camere toraciche espanse che amplificano vibrazioni subsoniche nel permafrost.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "tundra_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Steppe gelate che trasmettono vibrazioni psioniche a chilometri di distanza."
+          }
+        }
+      ],
+      "sinergie": [
+        "eco_interno_riflesso"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo."
+    },
+    "chioma_parassita_canopica": {
+      "conflitti": [],
+      "debolezza": "Se la pianta ospite muore la chioma psionica collassa causando shock sistemico.",
+      "famiglia_tipologia": "Simbiotico/Utility",
+      "fattore_mantenimento_energetico": "Medio (Nutrimento condiviso con l'ospite arboreo)",
+      "label": "Chioma Parassita Canopica",
+      "mutazione_indotta": "Filamenti vegetali che si intrecciano con la canopia ospite fornendo punti d'ancoraggio e energia.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopie_sospese"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Foreste verticali multilivello con alberi levitanti e liane sensibili."
+          }
+        }
+      ],
+      "sinergie": [
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Stabilizzare piattaforme mobili e reti di trasporto tra gli alberi viventi.",
+      "tier": "T1",
+      "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi."
+    },
+    "circolazione_bifasica_palude": {
+      "conflitti": [
+        "sangue_piroforico"
+      ],
+      "debolezza": "Zone asciutte e calde causano stagnazione del circuito linfatico portando a tossicosi.",
+      "famiglia_tipologia": "Metabolico/Resilienza",
+      "fattore_mantenimento_energetico": "Medio (Doppio circuito emolinfa/linfa)",
+      "label": "Circolazione Bifasica di Palude",
+      "mutazione_indotta": "Cuori gemelli che pompano separatamente emolinfa ossigenata e linfa detossificante.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "paludi_gas_luminescenti"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Paludi bioluminescenti piene di gas nervini e batteri simbionti."
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Resistere a tossine e anossia tipiche delle paludi psioniche.",
+      "tier": "T2",
+      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate."
     },
     "coda_frusta_cinetica": {
       "conflitti": [],
@@ -160,7 +475,9 @@
         }
       ],
       "sinergie": [
-        "olfatto_risonanza_magnetica"
+        "cavita_risonanti_tundra",
+        "olfatto_risonanza_magnetica",
+        "sensori_geomagnetici"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -241,7 +558,9 @@
       "label": "Focus Frazionato",
       "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "antenne_plasmatiche_tempesta"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "PE",
@@ -293,6 +612,42 @@
       "tier": "T1",
       "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
     },
+    "lamelle_termoforetiche": {
+      "conflitti": [
+        "criostasi_adattiva"
+      ],
+      "debolezza": "Rende instabile la fisiologia in ambienti a gelo improvviso, con rischio di microfratture vascolari.",
+      "famiglia_tipologia": "Respiratorio/Termoregolazione",
+      "fattore_mantenimento_energetico": "Medio (Flusso continuo di fluidi caldi)",
+      "label": "Lamelle Termoforetiche",
+      "mutazione_indotta": "Canali lamellari mineralizzati che convogliano fluidi caldi tra branchie interne.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "sorgenti_geotermiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Habitat idrotermali psionici dove il calore e la pressione variano rapidamente."
+          }
+        }
+      ],
+      "sinergie": [
+        "sangue_piroforico"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Sopravvivere a fluidi tossici e temperature estreme nelle fumarole geotermiche.",
+      "tier": "T2",
+      "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati."
+    },
     "lingua_tattile_trama": {
       "conflitti": [],
       "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
@@ -327,6 +682,41 @@
       "tier": "T1",
       "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
     },
+    "membrane_eliofiltranti": {
+      "conflitti": [],
+      "debolezza": "Atmosfere acide degradano rapidamente il film eliofiltrante.",
+      "famiglia_tipologia": "Respiratorio/Protezione",
+      "fattore_mantenimento_energetico": "Basso (Auto-riparazione lenta)",
+      "label": "Membrane Eliofiltranti",
+      "mutazione_indotta": "Strati di mucopolisaccaridi trasparenti che filtrano radiazioni e microrganismi sospesi.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laghi_alcalini"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Bacini alcalini sospesi dove la luce viene rifratta da vapori metallici."
+          }
+        }
+      ],
+      "sinergie": [
+        "piume_solari_fotovoltaiche",
+        "polmoni_cristallini_alta_quota"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Proteggersi da radiazioni e agenti patogeni in altopiani ipersalini.",
+      "tier": "T2",
+      "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
+    },
     "mimetismo_cromatico_passivo": {
       "conflitti": [],
       "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato.",
@@ -360,6 +750,80 @@
       "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
       "tier": "T1",
       "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
+    },
+    "mucillagine_simbionte_mangrovie": {
+      "conflitti": [
+        "ghiandola_caustica"
+      ],
+      "debolezza": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione.",
+      "famiglia_tipologia": "Simbiotico/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Coltura simbiotica costante)",
+      "label": "Mucillagine Simbionte delle Mangrovie",
+      "mutazione_indotta": "Strati mucosi che ospitano microfauna detossificante proveniente dalle radici di mangrovia.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovie_risonanti"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Foreste di mangrovie ipersature dove le radici cantano frequenze psioniche."
+          }
+        }
+      ],
+      "sinergie": [
+        "circolazione_bifasica_palude",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Respinge tossine e predatori microbici tipici dei delta paludosi.",
+      "tier": "T1",
+      "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
+    },
+    "nodi_micorrizici_oracolari": {
+      "conflitti": [
+        "spore_psichiche_silenziate"
+      ],
+      "debolezza": "Se la rete micorrizica viene recisa, l'organismo soffre crisi percettive e perdita di orientamento.",
+      "famiglia_tipologia": "Simbiotico/Nervoso",
+      "fattore_mantenimento_energetico": "Medio (Scambio continuo di segnali con simbionti)",
+      "label": "Nodi Micorrizici Oracolari",
+      "mutazione_indotta": "Radici dermiche che intrecciano funghi psionici capaci di predire variazioni ambientali.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reti_micorriziche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Sottoboschi viventi con reti fungine coscienti che emettono segnali premonitori."
+          }
+        }
+      ],
+      "sinergie": [
+        "chioma_parassita_canopica",
+        "mucillagine_simbionte_mangrovie"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Anticipare frane psioniche e predatori guidati da reti vegetali senzienti.",
+      "tier": "T3",
+      "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
     },
     "nucleo_ovomotore_rotante": {
       "conflitti": [
@@ -450,7 +914,8 @@
         }
       ],
       "sinergie": [
-        "eco_interno_riflesso"
+        "eco_interno_riflesso",
+        "lingua_tattile_trama"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -526,6 +991,79 @@
       "tier": "T1",
       "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
     },
+    "piume_solari_fotovoltaiche": {
+      "conflitti": [
+        "criostasi_adattiva"
+      ],
+      "debolezza": "Ombre prolungate o polveri dense riducono drasticamente la produzione energetica.",
+      "famiglia_tipologia": "Tegumentario/Energetico",
+      "fattore_mantenimento_energetico": "Alto (Richiede manutenzione delle lamine fotoreattive)",
+      "label": "Piume Solari Fotovoltaiche",
+      "mutazione_indotta": "Piumaggio stratificato con pigmenti piezo-fotovoltaici che immagazzinano luce.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "altipiani_solari"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Altipiani ad alta insolazione dove le correnti psioniche amplificano la luce."
+          }
+        }
+      ],
+      "sinergie": [
+        "membrane_eliofiltranti",
+        "sacche_spore_stratosferiche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Massimizzare l'autonomia energetica per migrazioni aeree sopra deserti e oceani.",
+      "tier": "T2",
+      "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio."
+    },
+    "polmoni_cristallini_alta_quota": {
+      "conflitti": [
+        "branchie_osmotiche_salmastra"
+      ],
+      "debolezza": "Particolato pesante o sabbia vulcanica graffia i cristalli riducendo l'efficienza respiratoria.",
+      "famiglia_tipologia": "Respiratorio/Aerobico",
+      "fattore_mantenimento_energetico": "Medio (Pulizia periodica dei cristalli)",
+      "label": "Polmoni Cristallini d'Alta Quota",
+      "mutazione_indotta": "Sistemi alveolari irrobustiti da strutture cristalline che catturano ossigeno rarefatto.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "picchi_cristallini"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Catene montuose sospese dove i cristalli amplificano l'aria rarefatta."
+          }
+        }
+      ],
+      "sinergie": [
+        "membrane_eliofiltranti"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Operare in missioni d'alta quota senza supporto logistico esterno.",
+      "tier": "T2",
+      "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi."
+    },
     "random": {
       "conflitti": [],
       "debolezza": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli.",
@@ -576,7 +1114,8 @@
         }
       ],
       "sinergie": [
-        "sacche_galleggianti_ascensoriali"
+        "sacche_galleggianti_ascensoriali",
+        "squame_rifrangenti_deserto"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -643,6 +1182,8 @@
         }
       ],
       "sinergie": [
+        "respiro_a_scoppio",
+        "scheletro_idro_regolante",
         "struttura_elastica_amorfa"
       ],
       "sinergie_pi": {
@@ -655,6 +1196,42 @@
       "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
       "tier": "T1",
       "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+    },
+    "sacche_spore_stratosferiche": {
+      "conflitti": [
+        "respiro_a_scoppio"
+      ],
+      "debolezza": "Correnti ionizzate possono incendiare le sacche rendendo l'organismo instabile.",
+      "famiglia_tipologia": "Simbiotico/Supporto",
+      "fattore_mantenimento_energetico": "Alto (Coltura continua di spore portanti)",
+      "label": "Sacche di Spore Stratosferiche",
+      "mutazione_indotta": "Vescicole dermiche che rilasciano spore portatrici capaci di galleggiare per chilometri.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_portante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Correnti ascendenti permanenti che trasportano semi e spore su larga scala."
+          }
+        }
+      ],
+      "sinergie": [
+        "piume_solari_fotovoltaiche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Dispersone genetica rapida tra arcipelaghi aerei e piattaforme galleggianti.",
+      "tier": "T3",
+      "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
     },
     "sangue_piroforico": {
       "conflitti": [
@@ -679,7 +1256,9 @@
           }
         }
       ],
-      "sinergie": [],
+      "sinergie": [
+        "lamelle_termoforetiche"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -714,7 +1293,9 @@
         }
       ],
       "sinergie": [
-        "sacche_galleggianti_ascensoriali"
+        "branchie_osmotiche_salmastra",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
       ],
       "sinergie_pi": {
         "co_occorrenze": [],
@@ -761,6 +1342,76 @@
       "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
       "tier": "T1",
       "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
+    },
+    "sensori_geomagnetici": {
+      "conflitti": [],
+      "debolezza": "Tempeste solari possono saturare il segnale magnetico, causando disorientamento prolungato.",
+      "famiglia_tipologia": "Sensoriale/Navigazione",
+      "fattore_mantenimento_energetico": "Basso (Ricettori passivi)",
+      "label": "Sensori Geomagnetici",
+      "mutazione_indotta": "Cristalli ferromagnetici allineati lungo il cranio che fungono da bussola psionica.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianure_magnetiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Distese pianeggianti con vortici geomagnetici da sfruttare per la navigazione."
+          }
+        }
+      ],
+      "sinergie": [
+        "eco_interno_riflesso"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
+      "tier": "T1",
+      "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
+    },
+    "sinapsi_coraline_polifoniche": {
+      "conflitti": [
+        "spore_psichiche_silenziate"
+      ],
+      "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
+      "famiglia_tipologia": "Simbiotico/Comunicazione",
+      "fattore_mantenimento_energetico": "Medio (Scambio continuo di impulsi corallini)",
+      "label": "Sinapsi Coraline Polifoniche",
+      "mutazione_indotta": "Fibre nervose intrecciate con coralli sonori che trasmettono ordini tramite armoniche.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "barriere_coralline_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Scogliere viventi che rispondono a canti psionici e onde sonore."
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_luminiscente_abissale"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
+      "tier": "T2",
+      "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
     },
     "sonno_emisferico_alternato": {
       "conflitti": [],
@@ -830,6 +1481,42 @@
       "tier": "T1",
       "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini."
     },
+    "squame_rifrangenti_deserto": {
+      "conflitti": [
+        "mimetismo_cromatico_passivo"
+      ],
+      "debolezza": "Soffre danni da feedback termico se colpito da raggi concentrati o laser.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Richiede riallineamento delle placche)",
+      "label": "Squame Rifrangenti del Deserto",
+      "mutazione_indotta": "Placche cristalline sovrapposte che deviano luce e calore lungo superfici multiple.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dune_cristalline"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Deserti di quarzo e vetro dove le tempeste solari vengono amplificate."
+          }
+        }
+      ],
+      "sinergie": [
+        "respiro_a_scoppio"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Sopravvivere a intensi flare termici e accecanti miraggi desertici.",
+      "tier": "T2",
+      "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici."
+    },
     "struttura_elastica_amorfa": {
       "conflitti": [],
       "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione).",
@@ -851,6 +1538,9 @@
         }
       ],
       "sinergie": [
+        "artigli_sette_vie",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
         "scheletro_idro_regolante"
       ],
       "sinergie_pi": {
@@ -895,6 +1585,40 @@
       "tier": "T1",
       "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
     },
+    "vello_condensatore_nebbie": {
+      "conflitti": [],
+      "debolezza": "In ambienti aridi accumula detriti che riducono la capacità di condensa.",
+      "famiglia_tipologia": "Tegumentario/Idratazione",
+      "fattore_mantenimento_energetico": "Basso (Strutture passive a microfilo)",
+      "label": "Vello Condensatore di Nebbie",
+      "mutazione_indotta": "Peli cavi microstriati che catturano e canalizzano la bruma atmosferica.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foreste_nubose"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Canopie immerse in nebbia costante con risonanza umida e lampi bioluminescenti."
+          }
+        }
+      ],
+      "sinergie": [
+        "bulbi_radici_permafrost"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Garantire idratazione in climi montani dove l'acqua liquida è scarsa ma la nebbia abbondante.",
+      "tier": "T1",
+      "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo."
+    },
     "ventriglio_gastroliti": {
       "conflitti": [],
       "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci.",
@@ -937,7 +1661,9 @@
       "label": "Zampe a Molla",
       "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
       "requisiti_ambientali": [],
-      "sinergie": [],
+      "sinergie": [
+        "artigli_sghiaccio_glaciale"
+      ],
       "sinergie_pi": {
         "co_occorrenze": [
           "cap_pt",
@@ -958,6 +1684,42 @@
       "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
       "tier": "T1",
       "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
+    },
+    "zoccoli_risonanti_steppe": {
+      "conflitti": [
+        "zampe_a_molla"
+      ],
+      "debolezza": "Suoli cedevoli come sabbie mobili annullano la vibrazione e riducono la trazione.",
+      "famiglia_tipologia": "Locomotorio/Supporto",
+      "fattore_mantenimento_energetico": "Basso (Vibrazione passiva del suolo)",
+      "label": "Zoccoli Risonanti delle Steppe",
+      "mutazione_indotta": "Placche cornee cave che emettono onde sismiche ritmiche al contatto con il terreno.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_risonanti"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Praterie ventose dove il suolo amplifica vibrazioni utili alla comunicazione di branco."
+          }
+        }
+      ],
+      "sinergie": [
+        "cartilagine_flessotermica_venti"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
+      "tier": "T1",
+      "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
     }
   }
 }
