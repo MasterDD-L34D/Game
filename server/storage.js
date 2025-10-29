@@ -139,20 +139,21 @@ class IdeaRepository {
     if (!message) {
       throw new Error('Messaggio feedback richiesto');
     }
-    const doc = await this.db.findOne({ id });
-    if (!doc) {
-      throw new Error('Idea non trovata');
-    }
     const now = timestamp();
     const feedbackEntry = {
       message,
       contact,
       created_at: now,
     };
-    const feedbackList = Array.isArray(doc.feedback) ? doc.feedback.slice() : [];
-    feedbackList.push(feedbackEntry);
-    await this.db.update({ id }, { $set: { feedback: feedbackList, updated_at: now } });
-    return this.#docToIdea({ ...doc, feedback: feedbackList, updated_at: now });
+    const updatedDoc = await this.db.update(
+      { id },
+      { $push: { feedback: feedbackEntry }, $set: { updated_at: now } },
+      { returnUpdatedDocs: true, multi: false }
+    );
+    if (!updatedDoc) {
+      throw new Error('Idea non trovata');
+    }
+    return this.#docToIdea(updatedDoc);
   }
 }
 
