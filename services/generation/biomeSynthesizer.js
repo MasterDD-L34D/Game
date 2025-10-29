@@ -90,6 +90,23 @@ function ensureArray(value) {
   return [value];
 }
 
+function parseThreatTier(value) {
+  if (Number.isFinite(value)) {
+    return Number(value);
+  }
+  if (typeof value === 'string') {
+    const match = value.match(/T\s*(\d+)/i);
+    if (match) {
+      return Number.parseInt(match[1], 10);
+    }
+    const numeric = Number.parseFloat(value);
+    if (Number.isFinite(numeric)) {
+      return numeric;
+    }
+  }
+  return null;
+}
+
 function pickMany(array, count, rng) {
   const source = Array.from(array ?? []);
   const picked = [];
@@ -280,6 +297,10 @@ async function buildSpecies(pool, biomeId, traitGlossary, constraints, rng, spec
       traits: { core: preferredTraits, derived: [], conflicts: [] },
     };
 
+    const syntheticTier = builderProfile
+      ? parseThreatTier(builderProfile.statistics?.threat_tier) ?? tier
+      : tier;
+
     species.push({
       id: profile.id || id,
       display_name: profile.display_name || template.label || titleCase(`${role}-${pool.id}`),
@@ -290,8 +311,8 @@ async function buildSpecies(pool, biomeId, traitGlossary, constraints, rng, spec
       description: profile.description || template.summary || null,
       biomes: [biomeId],
       synthetic: true,
-      syntheticTier: tier,
-      balance: { threat_tier: profile.statistics?.threat_tier || `T${tier}` },
+      syntheticTier,
+      balance: { threat_tier: profile.statistics?.threat_tier || `T${syntheticTier}` },
       source_traits: preferredTraits,
       source_pool: pool.id,
       trait_labels: traitLabels,
@@ -299,7 +320,7 @@ async function buildSpecies(pool, biomeId, traitGlossary, constraints, rng, spec
       conflicting_traits: profile.traits?.conflicts || [],
       morphology: profile.morphology || null,
       behavior_profile: profile.behavior || null,
-      statistics: profile.statistics || { threat_tier: `T${tier}` },
+      statistics: profile.statistics || { threat_tier: `T${syntheticTier}` },
     });
     takenRoles.add(role);
   };
