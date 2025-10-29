@@ -4,781 +4,1298 @@ source:
   trait_reference: packs/evo_tactics_pack/docs/catalog/trait_reference.json
   trait_glossary: data/traits/glossary.json
 summary:
-  total_traits: 281
-  missing_metadata: 252
+  total_traits: 302
+  missing_metadata: 132
 traits:
   ali_fulminee:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ali Fulminee
+    label_en: Ali Fulminee
+    description_it: Ali Fulminee permette alle squadre di interpretare segnali minuti
+      e pattern psionici instabili all'interno di stratosfera tempestosa.
+    description_en: Ali Fulminee allow squads to interpret minute signals and unstable
+      psionic patterns within stratosfera tempestosa.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
     conflitti: []
     biomi:
       stratosfera_tempestosa: 1
-    missing_metadata: true
+    missing_metadata: false
   ali_ioniche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      canopia_ionica: 1
-    missing_metadata: true
-  ali_membrana_sonica:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caverna_risonante: 1
-    missing_metadata: true
-  antenne_dustsense:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      pianura_salina_iperarida: 1
-    missing_metadata: true
-  antenne_eco_turbina:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      dorsale_termale_tropicale: 1
-    missing_metadata: true
-  antenne_flusso_mareale:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      laguna_bioreattiva: 1
-    missing_metadata: true
-  antenne_microonde_cavernose:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caverna_risonante: 1
-    missing_metadata: true
-  antenne_reagenti:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      foresta_acida: 1
-    missing_metadata: true
-  antenne_tesla:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      canopia_ionica: 1
-    missing_metadata: true
-  antenne_waveguide:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      reef_luminescente: 1
-    missing_metadata: true
-  antenne_wideband:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      steppe_algoritmiche: 1
-    missing_metadata: true
-  appendici_risonanti_marea:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      laguna_bioreattiva: 1
-    missing_metadata: true
-  appendici_thermotattiche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      abisso_vulcanico: 1
-    missing_metadata: true
-  artigli_acidofagi:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      foresta_acida: 1
-    missing_metadata: true
-  artigli_induzione:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      canopia_ionica: 1
-    missing_metadata: true
-  artigli_radice:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      mangrovieto_cinetico: 1
-    missing_metadata: true
-  artigli_scivolo_silente:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caverna_risonante: 1
-    missing_metadata: true
-  artigli_sette_vie:
-    label: Artigli a Sette Vie
-    label_en: Seven-Way Talons
+    label: Ali Ioniche
+    label_en: Ali Ioniche
+    description_it: Ali Ioniche permette alle squadre di ottenere presa e accelerazioni
+      controllate su terreni estremi all'interno di canopia ionica.
+    description_en: Ali Ioniche allow squads to gain grip and controlled acceleration
+      across extreme terrain within canopia ionica.
     tier: T1
     archetype: locomozione
     occurrences: 1
-    famiglia_tipologia: Locomotorio/Prensile
+    famiglia_tipologia: Locomotorio/Mobilità
     fattore_mantenimento_energetico: Basso (Passivo)
     sinergie:
-    - struttura_elastica_amorfa
+    - coda_frusta_cinetica
+    - zampe_a_molla
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: false
+  ali_membrana_sonica:
+    label: Ali Membrana Sonica
+    label_en: Ali Membrana Sonica
+    description_it: Ali Membrana Sonica permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di caverna risonante.
+    description_en: Ali Membrana Sonica allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within caverna risonante.
+    tier: T1
+    archetype: difesa
+    occurrences: 1
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       caverna_risonante: 1
     missing_metadata: false
-  artigli_vetrificati:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+  antenne_dustsense:
+    label: Antenne Dustsense
+    label_en: Antenne Dustsense
+    description_it: Antenne Dustsense permette alle squadre di stabilizzare assorbimento
+      e conversione energetica multi-fonte all'interno di pianura salina iperarida.
+    description_en: Antenne Dustsense allow squads to stabilise multi-source energy
+      absorption and conversion within pianura salina iperarida.
+    tier: T1
+    archetype: metabolismo
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caldera_glaciale: 1
-    missing_metadata: true
-  baffi_mareomotori:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      mangrovieto_cinetico: 1
-    missing_metadata: true
-  barbigli_sensori_plasma:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      stratosfera_tempestosa: 1
-    missing_metadata: true
-  barriere_miasma_glaciale:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caldera_glaciale: 1
-    missing_metadata: true
-  batteri_endosimbionti_chemio:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      abisso_vulcanico: 1
-    missing_metadata: true
-  batteri_termofili_endosimbiosi:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      dorsale_termale_tropicale: 1
-    missing_metadata: true
-  biochip_memoria:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      steppe_algoritmiche: 1
-    missing_metadata: true
-  biofilm_glow:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      reef_luminescente: 1
-    missing_metadata: true
-  biofilm_iperarido:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
     conflitti: []
     biomi:
       pianura_salina_iperarida: 1
-    missing_metadata: true
-  branchie_dual_mode:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    missing_metadata: false
+  antenne_eco_turbina:
+    label: Antenne Eco Turbina
+    label_en: Antenne Eco Turbina
+    description_it: Antenne Eco Turbina permette alle squadre di coordinare scambi
+      di risorse e parametri di stabilizzazione di squadra all'interno di dorsale
+      termale tropicale.
+    description_en: Antenne Eco Turbina allow squads to coordinate resource exchange
+      and squad stabilisation parameters within dorsale termale tropicale.
+    tier: T1
+    archetype: supporto
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: false
+  antenne_flusso_mareale:
+    label: Antenne Flusso Mareale
+    label_en: Antenne Flusso Mareale
+    description_it: Antenne Flusso Mareale permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di laguna bioreattiva.
+    description_en: Antenne Flusso Mareale allow squads to channel kinetic or elemental
+      energy into targeted strikes within laguna bioreattiva.
+    tier: T1
+    archetype: offensiva
+    occurrences: 1
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
     conflitti: []
     biomi:
       laguna_bioreattiva: 1
-    missing_metadata: true
-  branchie_eoliche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    missing_metadata: false
+  antenne_microonde_cavernose:
+    label: Antenne Microonde Cavernose
+    label_en: Antenne Microonde Cavernose
+    description_it: Antenne Microonde Cavernose permette alle squadre di prevedere
+      traiettorie e orchestrare setup multilivello all'interno di caverna risonante.
+    description_en: Antenne Microonde Cavernose allow squads to predict trajectories
+      and orchestrate multilayered setups within caverna risonante.
+    tier: T1
+    archetype: strategia
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
     conflitti: []
     biomi:
-      stratosfera_tempestosa: 1
-    missing_metadata: true
-  branchie_metalloidi:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+      caverna_risonante: 1
+    missing_metadata: false
+  antenne_plasmatiche_tempesta:
+    label: Antenne Plasmatiche di Tempesta
+    label_en: Antenne Plasmatiche di Tempesta
+    description_it: Convoglia fulmini atmosferici in attacchi o scudi psionici.
+    description_en: Channels storm lightning into psionic strikes or shields.
+    tier: T3
+    archetype: sensoriale
+    occurrences: 0
+    famiglia_tipologia: Sensoriale/Offensivo
+    fattore_mantenimento_energetico: Alto (Canalizzazione costante di plasma atmosferico)
+    sinergie:
+    - carapace_luminiscente_abissale
+    - focus_frazionato
+    - risonanza_di_branco
+    - sinapsi_coraline_polifoniche
     conflitti: []
-    biomi:
-      abisso_vulcanico: 1
-    missing_metadata: true
-  branchie_microfiltri:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    biomi: {}
+    missing_metadata: false
+  antenne_reagenti:
+    label: Antenne Reagenti
+    label_en: Antenne Reagenti
+    description_it: Antenne Reagenti permette alle squadre di sincronizzare organismi
+      alleati e flussi mutualistici all'interno di foresta acida.
+    description_en: Antenne Reagenti allow squads to synchronise allied organisms
+      and mutualistic flows within foresta acida.
+    tier: T1
+    archetype: simbiotico
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      reef_luminescente: 1
-    missing_metadata: true
-  branchie_solfatiche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caldera_glaciale: 1
-    missing_metadata: true
-  branchie_turbina:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      dorsale_termale_tropicale: 1
-    missing_metadata: true
-  camere_anticorrosione:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
     conflitti: []
     biomi:
       foresta_acida: 1
-    missing_metadata: true
-  camere_mirage:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    missing_metadata: false
+  antenne_tesla:
+    label: Antenne Tesla
+    label_en: Antenne Tesla
+    description_it: Antenne Tesla permette alle squadre di ridistribuire carichi e
+      modulare rigidità strutturale all'interno di canopia ionica.
+    description_en: Antenne Tesla allow squads to redistribute load and modulate structural
+      rigidity within canopia ionica.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      pianura_salina_iperarida: 1
-    missing_metadata: true
-  camere_nutrienti_vent:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      dorsale_termale_tropicale: 1
-    missing_metadata: true
-  capillari_criogenici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caldera_glaciale: 1
-    missing_metadata: true
-  capillari_fluoridici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      foresta_acida: 1
-    missing_metadata: true
-  capillari_fotovoltaici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       canopia_ionica: 1
-    missing_metadata: true
-  capsule_paracadute:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    missing_metadata: false
+  antenne_waveguide:
+    label: Antenne Waveguide
+    label_en: Antenne Waveguide
+    description_it: Antenne Waveguide permette alle squadre di interpretare segnali
+      minuti e pattern psionici instabili all'interno di reef luminescente.
+    description_en: Antenne Waveguide allow squads to interpret minute signals and
+      unstable psionic patterns within reef luminescente.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: false
+  antenne_wideband:
+    label: Antenne Wideband
+    label_en: Antenne Wideband
+    description_it: Antenne Wideband permette alle squadre di ottenere presa e accelerazioni
+      controllate su terreni estremi all'interno di steppe algoritmiche.
+    description_en: Antenne Wideband allow squads to gain grip and controlled acceleration
+      across extreme terrain within steppe algoritmiche.
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: false
+  appendici_risonanti_marea:
+    label: Appendici Risonanti Marea
+    label_en: Appendici Risonanti Marea
+    description_it: Appendici Risonanti Marea permette alle squadre di disperdere
+      energia e attenuare impatti corrosivi o termici all'interno di laguna bioreattiva.
+    description_en: Appendici Risonanti Marea allow squads to disperse energy and
+      attenuate corrosive or thermal impacts within laguna bioreattiva.
+    tier: T1
+    archetype: difesa
+    occurrences: 1
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: false
+  appendici_thermotattiche:
+    label: Appendici Thermotattiche
+    label_en: Appendici Thermotattiche
+    description_it: Appendici Thermotattiche permette alle squadre di stabilizzare
+      assorbimento e conversione energetica multi-fonte all'interno di abisso vulcanico.
+    description_en: Appendici Thermotattiche allow squads to stabilise multi-source
+      energy absorption and conversion within abisso vulcanico.
+    tier: T1
+    archetype: metabolismo
+    occurrences: 1
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: false
+  artigli_acidofagi:
+    label: Artigli Acidofagi
+    label_en: Artigli Acidofagi
+    description_it: Artigli Acidofagi permette alle squadre di coordinare scambi di
+      risorse e parametri di stabilizzazione di squadra all'interno di foresta acida.
+    description_en: Artigli Acidofagi allow squads to coordinate resource exchange
+      and squad stabilisation parameters within foresta acida.
+    tier: T1
+    archetype: supporto
+    occurrences: 1
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: false
+  artigli_induzione:
+    label: Artigli Induzione
+    label_en: Artigli Induzione
+    description_it: Artigli Induzione permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di canopia ionica.
+    description_en: Artigli Induzione allow squads to channel kinetic or elemental
+      energy into targeted strikes within canopia ionica.
+    tier: T1
+    archetype: offensiva
+    occurrences: 1
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: false
+  artigli_radice:
+    label: Artigli Radice
+    label_en: Artigli Radice
+    description_it: Artigli Radice permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di mangrovieto cinetico.
+    description_en: Artigli Radice allow squads to predict trajectories and orchestrate
+      multilayered setups within mangrovieto cinetico.
+    tier: T1
+    archetype: strategia
+    occurrences: 1
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: false
+  artigli_scivolo_silente:
+    label: Artigli Scivolo Silente
+    label_en: Artigli Scivolo Silente
+    description_it: Artigli Scivolo Silente permette alle squadre di sincronizzare
+      organismi alleati e flussi mutualistici all'interno di caverna risonante.
+    description_en: Artigli Scivolo Silente allow squads to synchronise allied organisms
+      and mutualistic flows within caverna risonante.
+    tier: T1
+    archetype: simbiotico
+    occurrences: 1
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  artigli_sette_vie:
+    label: Artigli a Sette Vie
+    label_en: Seven-Way Talons
+    description_it: Artigli multipli che assicurano presa stabile su superfici irregolari.
+    description_en: Multi-hook talons locking a steady grip on irregular surfaces.
+    tier: T1
+    archetype: locomozione
+    occurrences: 3
+    famiglia_tipologia: Locomotorio/Prensile
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - mimetismo_cromatico_passivo
+    - struttura_elastica_amorfa
+    - tattiche_di_branco
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      mezzanotte_orbitale: 1
+    missing_metadata: false
+  artigli_sghiaccio_glaciale:
+    label: Artigli Sghiaccio Glaciale
+    label_en: Artigli Sghiaccio Glaciale
+    description_it: Falangi criogeniche che congelano e fissano il bersaglio al contatto.
+    description_en: Cryogenic claws that freeze and pin targets on contact.
+    tier: T2
+    archetype: locomozione
+    occurrences: 0
+    famiglia_tipologia: Locomotorio/Predatorio
+    fattore_mantenimento_energetico: Medio (Raffreddamento endogeno controllato)
+    sinergie:
+    - cartilagine_flessotermica_venti
+    - sonno_emisferico_alternato
+    - zampe_a_molla
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  artigli_vetrificati:
+    label: Artigli Vetrificati
+    label_en: Artigli Vetrificati
+    description_it: Artigli Vetrificati permette alle squadre di ridistribuire carichi
+      e modulare rigidità strutturale all'interno di caldera glaciale.
+    description_en: Artigli Vetrificati allow squads to redistribute load and modulate
+      structural rigidity within caldera glaciale.
+    tier: T1
+    archetype: struttura
+    occurrences: 1
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: false
+  baffi_mareomotori:
+    label: Baffi Mareomotori
+    label_en: Baffi Mareomotori
+    description_it: Baffi Mareomotori permette alle squadre di interpretare segnali
+      minuti e pattern psionici instabili all'interno di mangrovieto cinetico.
+    description_en: Baffi Mareomotori allow squads to interpret minute signals and
+      unstable psionic patterns within mangrovieto cinetico.
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
+    conflitti: []
+    biomi:
+      mangrovieto_cinetico: 1
+    missing_metadata: false
+  barbigli_sensori_plasma:
+    label: Barbigli Sensori Plasma
+    label_en: Barbigli Sensori Plasma
+    description_it: Barbigli Sensori Plasma permette alle squadre di ottenere presa
+      e accelerazioni controllate su terreni estremi all'interno di stratosfera tempestosa.
+    description_en: Barbigli Sensori Plasma allow squads to gain grip and controlled
+      acceleration across extreme terrain within stratosfera tempestosa.
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
     conflitti: []
     biomi:
       stratosfera_tempestosa: 1
-    missing_metadata: true
+    missing_metadata: false
+  barriere_miasma_glaciale:
+    label: Barriere Miasma Glaciale
+    label_en: Barriere Miasma Glaciale
+    description_it: Barriere Miasma Glaciale permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di caldera glaciale.
+    description_en: Barriere Miasma Glaciale allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within caldera glaciale.
+    tier: T1
+    archetype: difesa
+    occurrences: 1
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: false
+  batteri_endosimbionti_chemio:
+    label: Batteri Endosimbionti Chemio
+    label_en: Batteri Endosimbionti Chemio
+    description_it: Batteri Endosimbionti Chemio permette alle squadre di stabilizzare
+      assorbimento e conversione energetica multi-fonte all'interno di abisso vulcanico.
+    description_en: Batteri Endosimbionti Chemio allow squads to stabilise multi-source
+      energy absorption and conversion within abisso vulcanico.
+    tier: T1
+    archetype: metabolismo
+    occurrences: 1
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: false
+  batteri_termofili_endosimbiosi:
+    label: Batteri Termofili Endosimbiosi
+    label_en: Batteri Termofili Endosimbiosi
+    description_it: Batteri Termofili Endosimbiosi permette alle squadre di coordinare
+      scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale
+      termale tropicale.
+    description_en: Batteri Termofili Endosimbiosi allow squads to coordinate resource
+      exchange and squad stabilisation parameters within dorsale termale tropicale.
+    tier: T1
+    archetype: supporto
+    occurrences: 1
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: false
+  biochip_memoria:
+    label: Biochip Memoria
+    label_en: Biochip Memoria
+    description_it: Biochip Memoria permette alle squadre di canalizzare energia cinetica
+      o elementale in colpi mirati all'interno di steppe algoritmiche.
+    description_en: Biochip Memoria allow squads to channel kinetic or elemental energy
+      into targeted strikes within steppe algoritmiche.
+    tier: T1
+    archetype: offensiva
+    occurrences: 1
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
+    conflitti: []
+    biomi:
+      steppe_algoritmiche: 1
+    missing_metadata: false
+  biofilm_glow:
+    label: Biofilm Glow
+    label_en: Biofilm Glow
+    description_it: Biofilm Glow permette alle squadre di prevedere traiettorie e
+      orchestrare setup multilivello all'interno di reef luminescente.
+    description_en: Biofilm Glow allow squads to predict trajectories and orchestrate
+      multilayered setups within reef luminescente.
+    tier: T1
+    archetype: strategia
+    occurrences: 1
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: false
+  biofilm_iperarido:
+    label: Biofilm Iperarido
+    label_en: Biofilm Iperarido
+    description_it: Biofilm Iperarido permette alle squadre di sincronizzare organismi
+      alleati e flussi mutualistici all'interno di pianura salina iperarida.
+    description_en: Biofilm Iperarido allow squads to synchronise allied organisms
+      and mutualistic flows within pianura salina iperarida.
+    tier: T1
+    archetype: simbiotico
+    occurrences: 1
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: false
+  branchie_dual_mode:
+    label: Branchie Dual Mode
+    label_en: Branchie Dual Mode
+    description_it: Branchie Dual Mode permette alle squadre di ridistribuire carichi
+      e modulare rigidità strutturale all'interno di laguna bioreattiva.
+    description_en: Branchie Dual Mode allow squads to redistribute load and modulate
+      structural rigidity within laguna bioreattiva.
+    tier: T1
+    archetype: struttura
+    occurrences: 1
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
+    conflitti: []
+    biomi:
+      laguna_bioreattiva: 1
+    missing_metadata: false
+  branchie_eoliche:
+    label: Branchie Eoliche
+    label_en: Branchie Eoliche
+    description_it: Branchie Eoliche permette alle squadre di interpretare segnali
+      minuti e pattern psionici instabili all'interno di stratosfera tempestosa.
+    description_en: Branchie Eoliche allow squads to interpret minute signals and
+      unstable psionic patterns within stratosfera tempestosa.
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: false
+  branchie_metalloidi:
+    label: Branchie Metalloidi
+    label_en: Branchie Metalloidi
+    description_it: Branchie Metalloidi permette alle squadre di ottenere presa e
+      accelerazioni controllate su terreni estremi all'interno di abisso vulcanico.
+    description_en: Branchie Metalloidi allow squads to gain grip and controlled acceleration
+      across extreme terrain within abisso vulcanico.
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: false
+  branchie_microfiltri:
+    label: Branchie Microfiltri
+    label_en: Branchie Microfiltri
+    description_it: Branchie Microfiltri permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di reef luminescente.
+    description_en: Branchie Microfiltri allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within reef luminescente.
+    tier: T1
+    archetype: difesa
+    occurrences: 1
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: false
+  branchie_osmotiche_salmastra:
+    label: Branchie Osmotiche Salmastre
+    label_en: Branchie Osmotiche Salmastre
+    description_it: Branchie psioniche che filtrano sali e tossine in acque variabili.
+    description_en: Psionic gills filtering salts and toxins in shifting waters.
+    tier: T2
+    archetype: sopravvivenza
+    occurrences: 0
+    famiglia_tipologia: Respiratorio/Osmoregolazione
+    fattore_mantenimento_energetico: Medio (Pompe ioniche attive)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - scheletro_idro_regolante
+    conflitti:
+    - polmoni_cristallini_alta_quota
+    biomi: {}
+    missing_metadata: false
+  branchie_solfatiche:
+    label: Branchie Solfatiche
+    label_en: Branchie Solfatiche
+    description_it: Branchie Solfatiche permette alle squadre di stabilizzare assorbimento
+      e conversione energetica multi-fonte all'interno di caldera glaciale.
+    description_en: Branchie Solfatiche allow squads to stabilise multi-source energy
+      absorption and conversion within caldera glaciale.
+    tier: T1
+    archetype: metabolismo
+    occurrences: 1
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: false
+  branchie_turbina:
+    label: Branchie Turbina
+    label_en: Branchie Turbina
+    description_it: Branchie Turbina permette alle squadre di coordinare scambi di
+      risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale
+      tropicale.
+    description_en: Branchie Turbina allow squads to coordinate resource exchange
+      and squad stabilisation parameters within dorsale termale tropicale.
+    tier: T1
+    archetype: supporto
+    occurrences: 1
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: false
+  bulbi_radici_permafrost:
+    label: Bulbi Radici del Permafrost
+    label_en: Bulbi Radici del Permafrost
+    description_it: Bulbi radice che rilasciano calore e nutrimento alle unità connesse.
+    description_en: Root bulbs releasing heat and stores to linked allies.
+    tier: T2
+    archetype: simbiotico
+    occurrences: 0
+    famiglia_tipologia: Simbiotico/Nutrizione
+    fattore_mantenimento_energetico: Medio (Accumulo e rilascio lento di nutrienti)
+    sinergie:
+    - chioma_parassita_canopica
+    - nodi_micorrizici_oracolari
+    - vello_condensatore_nebbie
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  camere_anticorrosione:
+    label: Camere Anticorrosione
+    label_en: Camere Anticorrosione
+    description_it: Camere Anticorrosione permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di foresta acida.
+    description_en: Camere Anticorrosione allow squads to channel kinetic or elemental
+      energy into targeted strikes within foresta acida.
+    tier: T1
+    archetype: offensiva
+    occurrences: 1
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: false
+  camere_mirage:
+    label: Camere Mirage
+    label_en: Camere Mirage
+    description_it: Camere Mirage permette alle squadre di prevedere traiettorie e
+      orchestrare setup multilivello all'interno di pianura salina iperarida.
+    description_en: Camere Mirage allow squads to predict trajectories and orchestrate
+      multilayered setups within pianura salina iperarida.
+    tier: T1
+    archetype: strategia
+    occurrences: 1
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: false
+  camere_nutrienti_vent:
+    label: Camere Nutrienti Vent
+    label_en: Camere Nutrienti Vent
+    description_it: Camere Nutrienti Vent permette alle squadre di sincronizzare organismi
+      alleati e flussi mutualistici all'interno di dorsale termale tropicale.
+    description_en: Camere Nutrienti Vent allow squads to synchronise allied organisms
+      and mutualistic flows within dorsale termale tropicale.
+    tier: T1
+    archetype: simbiotico
+    occurrences: 1
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: false
+  capillari_criogenici:
+    label: Capillari Criogenici
+    label_en: Capillari Criogenici
+    description_it: Capillari Criogenici permette alle squadre di ridistribuire carichi
+      e modulare rigidità strutturale all'interno di caldera glaciale.
+    description_en: Capillari Criogenici allow squads to redistribute load and modulate
+      structural rigidity within caldera glaciale.
+    tier: T1
+    archetype: struttura
+    occurrences: 1
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
+    conflitti: []
+    biomi:
+      caldera_glaciale: 1
+    missing_metadata: false
+  capillari_fluoridici:
+    label: Capillari Fluoridici
+    label_en: Capillari Fluoridici
+    description_it: Capillari Fluoridici permette alle squadre di interpretare segnali
+      minuti e pattern psionici instabili all'interno di foresta acida.
+    description_en: Capillari Fluoridici allow squads to interpret minute signals
+      and unstable psionic patterns within foresta acida.
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: false
+  capillari_fotovoltaici:
+    label: Capillari Fotovoltaici
+    label_en: Capillari Fotovoltaici
+    description_it: Capillari Fotovoltaici permette alle squadre di ottenere presa
+      e accelerazioni controllate su terreni estremi all'interno di canopia ionica.
+    description_en: Capillari Fotovoltaici allow squads to gain grip and controlled
+      acceleration across extreme terrain within canopia ionica.
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
+    conflitti: []
+    biomi:
+      canopia_ionica: 1
+    missing_metadata: false
+  capsule_paracadute:
+    label: Capsule Paracadute
+    label_en: Capsule Paracadute
+    description_it: Capsule Paracadute permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di stratosfera tempestosa.
+    description_en: Capsule Paracadute allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within stratosfera tempestosa.
+    tier: T1
+    archetype: difesa
+    occurrences: 1
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: false
   carapace_fase_variabile:
     label: Carapace a Variazione di Fase
     label_en: Phase-Shifting Carapace
+    description_it: Corazza che varia densità per bilanciare difesa e mobilità.
+    description_en: Shell shifts density to balance defense and mobility.
     tier: T1
     archetype: struttura
     occurrences: 1
     famiglia_tipologia: Strutturale/Difensivo
     fattore_mantenimento_energetico: Alto (Richiede energia per il cambio di fase)
-    sinergie: []
+    sinergie:
+    - cartilagine_flessotermica_venti
+    - sensori_geomagnetici
     conflitti:
     - struttura_elastica_amorfa
     biomi:
-      caverna_risonante: 1
+      mezzanotte_orbitale: 1
+    missing_metadata: false
+  carapace_luminiscente_abissale:
+    label: Carapace Luminiscente Abissale
+    label_en: Carapace Luminiscente Abissale
+    description_it: Guscio bioluminescente che confonde i predatori nelle profondità.
+    description_en: Bioluminescent shell confusing predators in abyssal dark.
+    tier: T3
+    archetype: struttura
+    occurrences: 0
+    famiglia_tipologia: Strutturale/Sensoriale
+    fattore_mantenimento_energetico: Alto (Bioluminescenza controllata)
+    sinergie:
+    - antenne_plasmatiche_tempesta
+    - risonanza_di_branco
+    - sinapsi_coraline_polifoniche
+    conflitti:
+    - carapace_fase_variabile
+    biomi: {}
     missing_metadata: false
   carapace_segmenti_logici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Carapace Segmenti Logici
+    label_en: Carapace Segmenti Logici
+    description_it: Carapace Segmenti Logici permette alle squadre di stabilizzare
+      assorbimento e conversione energetica multi-fonte all'interno di steppe algoritmiche.
+    description_en: Carapace Segmenti Logici allow squads to stabilise multi-source
+      energy absorption and conversion within steppe algoritmiche.
+    tier: T1
+    archetype: metabolismo
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
     conflitti: []
     biomi:
       steppe_algoritmiche: 1
-    missing_metadata: true
+    missing_metadata: false
   carapaci_ferruginosi:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Carapaci Ferruginosi
+    label_en: Carapaci Ferruginosi
+    description_it: Carapaci Ferruginosi permette alle squadre di coordinare scambi
+      di risorse e parametri di stabilizzazione di squadra all'interno di abisso vulcanico.
+    description_en: Carapaci Ferruginosi allow squads to coordinate resource exchange
+      and squad stabilisation parameters within abisso vulcanico.
+    tier: T1
+    archetype: supporto
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
     conflitti: []
     biomi:
       abisso_vulcanico: 1
-    missing_metadata: true
+    missing_metadata: false
+  cartilagine_flessotermica_venti:
+    label: Cartilagine Flessotermica dei Venti
+    label_en: Cartilagine Flessotermica dei Venti
+    description_it: Cartilagine termoreattiva che ottimizza virate e planate aeree.
+    description_en: Thermo-reactive cartilage optimizing aerial turns.
+    tier: T2
+    archetype: locomozione
+    occurrences: 0
+    famiglia_tipologia: Locomotorio/Adattivo
+    fattore_mantenimento_energetico: Medio (Richiede frequenti riallineamenti fibrosi)
+    sinergie:
+    - artigli_sghiaccio_glaciale
+    - carapace_fase_variabile
+    - sacche_galleggianti_ascensoriali
+    - zoccoli_risonanti_steppe
+    conflitti:
+    - scheletro_idro_regolante
+    biomi: {}
+    missing_metadata: false
   cartilagini_biofibre:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Cartilagini Biofibre
+    label_en: Cartilagini Biofibre
+    description_it: Cartilagini Biofibre permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di reef luminescente.
+    description_en: Cartilagini Biofibre allow squads to channel kinetic or elemental
+      energy into targeted strikes within reef luminescente.
+    tier: T1
+    archetype: offensiva
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
     conflitti: []
     biomi:
       reef_luminescente: 1
-    missing_metadata: true
+    missing_metadata: false
   cartilagini_desertiche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Cartilagini Desertiche
+    label_en: Cartilagini Desertiche
+    description_it: Cartilagini Desertiche permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di pianura salina iperarida.
+    description_en: Cartilagini Desertiche allow squads to predict trajectories and
+      orchestrate multilayered setups within pianura salina iperarida.
+    tier: T1
+    archetype: strategia
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
     conflitti: []
     biomi:
       pianura_salina_iperarida: 1
-    missing_metadata: true
+    missing_metadata: false
   cartilagini_flessoacustiche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Cartilagini Flessoacustiche
+    label_en: Cartilagini Flessoacustiche
+    description_it: Cartilagini Flessoacustiche permette alle squadre di sincronizzare
+      organismi alleati e flussi mutualistici all'interno di caverna risonante.
+    description_en: Cartilagini Flessoacustiche allow squads to synchronise allied
+      organisms and mutualistic flows within caverna risonante.
+    tier: T1
+    archetype: simbiotico
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
     conflitti: []
     biomi:
       caverna_risonante: 1
-    missing_metadata: true
+    missing_metadata: false
   cartilagini_pseudometalliche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Cartilagini Pseudometalliche
+    label_en: Cartilagini Pseudometalliche
+    description_it: Cartilagini Pseudometalliche permette alle squadre di ridistribuire
+      carichi e modulare rigidità strutturale all'interno di abisso vulcanico.
+    description_en: Cartilagini Pseudometalliche allow squads to redistribute load
+      and modulate structural rigidity within abisso vulcanico.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       abisso_vulcanico: 1
-    missing_metadata: true
+    missing_metadata: false
+  cavita_risonanti_tundra:
+    label: Cavità Risonanti della Tundra
+    label_en: Cavità Risonanti della Tundra
+    description_it: Camere toraciche che proiettano richiami a lunga distanza nel
+      gelo.
+    description_en: Chest chambers projecting long-range calls through tundra frost.
+    tier: T1
+    archetype: sensoriale
+    occurrences: 0
+    famiglia_tipologia: Sensoriale/Supporto
+    fattore_mantenimento_energetico: Basso (Camere di risonanza statiche)
+    sinergie:
+    - criostasi_adattiva
+    - eco_interno_riflesso
+    - empatia_coordinativa
+    - risonanza_di_branco
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
   cervelletto_equilibrio_statico:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Cervelletto Equilibrio Statico
+    label_en: Cervelletto Equilibrio Statico
+    description_it: Cervelletto Equilibrio Statico permette alle squadre di interpretare
+      segnali minuti e pattern psionici instabili all'interno di canopia ionica.
+    description_en: Cervelletto Equilibrio Statico allow squads to interpret minute
+      signals and unstable psionic patterns within canopia ionica.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
     conflitti: []
     biomi:
       canopia_ionica: 1
-    missing_metadata: true
+    missing_metadata: false
   chemiorecettori_bromuro:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Chemiorecettori Bromuro
+    label_en: Chemiorecettori Bromuro
+    description_it: Chemiorecettori Bromuro permette alle squadre di ottenere presa
+      e accelerazioni controllate su terreni estremi all'interno di pianura salina
+      iperarida.
+    description_en: Chemiorecettori Bromuro allow squads to gain grip and controlled
+      acceleration across extreme terrain within pianura salina iperarida.
+    tier: T1
+    archetype: locomozione
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
     conflitti: []
     biomi:
       pianura_salina_iperarida: 1
-    missing_metadata: true
+    missing_metadata: false
+  chioma_parassita_canopica:
+    label: Chioma Parassita Canopica
+    label_en: Chioma Parassita Canopica
+    description_it: Filamenti parassiti che creano corsie energetiche nella canopia.
+    description_en: Parasitic tendrils weaving energy lanes through canopy.
+    tier: T1
+    archetype: simbiotico
+    occurrences: 0
+    famiglia_tipologia: Simbiotico/Utility
+    fattore_mantenimento_energetico: Medio (Nutrimento condiviso con l'ospite arboreo)
+    sinergie:
+    - bulbi_radici_permafrost
+    - nodi_micorrizici_oracolari
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
   circolazione_bifasica:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Circolazione Bifasica
+    label_en: Circolazione Bifasica
+    description_it: Circolazione Bifasica permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di caldera glaciale.
+    description_en: Circolazione Bifasica allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within caldera glaciale.
+    tier: T1
+    archetype: difesa
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       caldera_glaciale: 1
-    missing_metadata: true
+    missing_metadata: false
+  circolazione_bifasica_palude:
+    label: Circolazione Bifasica di Palude
+    label_en: Circolazione Bifasica di Palude
+    description_it: Doppio circuito sanguigno che separa ossigeno e agenti tossici.
+    description_en: Dual blood circuit separating oxygen flow from toxins.
+    tier: T2
+    archetype: metabolismo
+    occurrences: 0
+    famiglia_tipologia: Metabolico/Resilienza
+    fattore_mantenimento_energetico: Medio (Doppio circuito emolinfa/linfa)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    conflitti:
+    - sangue_piroforico
+    biomi: {}
+    missing_metadata: false
   circolazione_cooling_loop:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Circolazione Cooling Loop
+    label_en: Circolazione Cooling Loop
+    description_it: Circolazione Cooling Loop permette alle squadre di stabilizzare
+      assorbimento e conversione energetica multi-fonte all'interno di steppe algoritmiche.
+    description_en: Circolazione Cooling Loop allow squads to stabilise multi-source
+      energy absorption and conversion within steppe algoritmiche.
+    tier: T1
+    archetype: metabolismo
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
     conflitti: []
     biomi:
       steppe_algoritmiche: 1
-    missing_metadata: true
+    missing_metadata: false
   circolazione_doppia:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Circolazione Doppia
+    label_en: Circolazione Doppia
+    description_it: Circolazione Doppia permette alle squadre di coordinare scambi
+      di risorse e parametri di stabilizzazione di squadra all'interno di dorsale
+      termale tropicale.
+    description_en: Circolazione Doppia allow squads to coordinate resource exchange
+      and squad stabilisation parameters within dorsale termale tropicale.
+    tier: T1
+    archetype: supporto
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
     conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
-    missing_metadata: true
+    missing_metadata: false
   circolazione_supercritica:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Circolazione Supercritica
+    label_en: Circolazione Supercritica
+    description_it: Circolazione Supercritica permette alle squadre di canalizzare
+      energia cinetica o elementale in colpi mirati all'interno di abisso vulcanico.
+    description_en: Circolazione Supercritica allow squads to channel kinetic or elemental
+      energy into targeted strikes within abisso vulcanico.
+    tier: T1
+    archetype: offensiva
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
     conflitti: []
     biomi:
       abisso_vulcanico: 1
-    missing_metadata: true
+    missing_metadata: false
   ciste_riduttive:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ciste Riduttive
+    label_en: Ciste Riduttive
+    description_it: Ciste Riduttive permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di laguna bioreattiva.
+    description_en: Ciste Riduttive allow squads to predict trajectories and orchestrate
+      multilayered setups within laguna bioreattiva.
+    tier: T1
+    archetype: strategia
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
     conflitti: []
     biomi:
       laguna_bioreattiva: 1
-    missing_metadata: true
+    missing_metadata: false
   ciste_salmastre:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ciste Salmastre
+    label_en: Ciste Salmastre
+    description_it: Ciste Salmastre permette alle squadre di sincronizzare organismi
+      alleati e flussi mutualistici all'interno di pianura salina iperarida.
+    description_en: Ciste Salmastre allow squads to synchronise allied organisms and
+      mutualistic flows within pianura salina iperarida.
+    tier: T1
+    archetype: simbiotico
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
     conflitti: []
     biomi:
       pianura_salina_iperarida: 1
-    missing_metadata: true
+    missing_metadata: false
   cisti_iperbariche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Cisti Iperbariche
+    label_en: Cisti Iperbariche
+    description_it: Cisti Iperbariche permette alle squadre di ridistribuire carichi
+      e modulare rigidità strutturale all'interno di abisso vulcanico.
+    description_en: Cisti Iperbariche allow squads to redistribute load and modulate
+      structural rigidity within abisso vulcanico.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       abisso_vulcanico: 1
-    missing_metadata: true
+    missing_metadata: false
   coda_balanciere:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Coda Balanciere
+    label_en: Coda Balanciere
+    description_it: Coda Balanciere permette alle squadre di interpretare segnali
+      minuti e pattern psionici instabili all'interno di caverna risonante.
+    description_en: Coda Balanciere allow squads to interpret minute signals and unstable
+      psionic patterns within caverna risonante.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
     conflitti: []
     biomi:
       caverna_risonante: 1
-    missing_metadata: true
+    missing_metadata: false
   coda_contrappeso:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Coda Contrappeso
+    label_en: Coda Contrappeso
+    description_it: Coda Contrappeso permette alle squadre di ottenere presa e accelerazioni
+      controllate su terreni estremi all'interno di mangrovieto cinetico.
+    description_en: Coda Contrappeso allow squads to gain grip and controlled acceleration
+      across extreme terrain within mangrovieto cinetico.
+    tier: T1
+    archetype: locomozione
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
     conflitti: []
     biomi:
       mangrovieto_cinetico: 1
-    missing_metadata: true
+    missing_metadata: false
   coda_coppia_retroattiva:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Coda Coppia Retroattiva
+    label_en: Coda Coppia Retroattiva
+    description_it: Coda Coppia Retroattiva permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di steppe algoritmiche.
+    description_en: Coda Coppia Retroattiva allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within steppe algoritmiche.
+    tier: T1
+    archetype: difesa
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       steppe_algoritmiche: 1
-    missing_metadata: true
+    missing_metadata: false
   coda_frusta_cinetica:
     label: Coda a Frusta Cinetica
     label_en: Kinetic Lash Tail
+    description_it: Coda elastica che accumula slancio per un colpo cinetico devastante.
+    description_en: Elastic tail storing momentum for a devastating lash.
     tier: T1
     archetype: locomozione
     occurrences: 1
@@ -788,790 +1305,1165 @@ traits:
     - artigli_sette_vie
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
     missing_metadata: false
   coda_stabilizzatrice_filo:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Coda Stabilizzatrice Filo
+    label_en: Coda Stabilizzatrice Filo
+    description_it: Coda Stabilizzatrice Filo permette alle squadre di stabilizzare
+      assorbimento e conversione energetica multi-fonte all'interno di canopia ionica.
+    description_en: Coda Stabilizzatrice Filo allow squads to stabilise multi-source
+      energy absorption and conversion within canopia ionica.
+    tier: T1
+    archetype: metabolismo
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
     conflitti: []
     biomi:
       canopia_ionica: 1
-    missing_metadata: true
+    missing_metadata: false
   coda_stabilizzatrice_geiser:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Coda Stabilizzatrice Geiser
+    label_en: Coda Stabilizzatrice Geiser
+    description_it: Coda Stabilizzatrice Geiser permette alle squadre di coordinare
+      scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale
+      termale tropicale.
+    description_en: Coda Stabilizzatrice Geiser allow squads to coordinate resource
+      exchange and squad stabilisation parameters within dorsale termale tropicale.
+    tier: T1
+    archetype: supporto
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
     conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
-    missing_metadata: true
+    missing_metadata: false
   coda_stabilizzatrice_vortex:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Coda Stabilizzatrice Vortex
+    label_en: Coda Stabilizzatrice Vortex
+    description_it: Coda Stabilizzatrice Vortex permette alle squadre di canalizzare
+      energia cinetica o elementale in colpi mirati all'interno di stratosfera tempestosa.
+    description_en: Coda Stabilizzatrice Vortex allow squads to channel kinetic or
+      elemental energy into targeted strikes within stratosfera tempestosa.
+    tier: T1
+    archetype: offensiva
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
     conflitti: []
     biomi:
       stratosfera_tempestosa: 1
-    missing_metadata: true
+    missing_metadata: false
   colonne_vibromagnetiche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Colonne Vibromagnetiche
+    label_en: Colonne Vibromagnetiche
+    description_it: Colonne Vibromagnetiche permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di caverna risonante.
+    description_en: Colonne Vibromagnetiche allow squads to predict trajectories and
+      orchestrate multilayered setups within caverna risonante.
+    tier: T1
+    archetype: strategia
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
     conflitti: []
     biomi:
       caverna_risonante: 1
-    missing_metadata: true
+    missing_metadata: false
   coralli_partner:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Coralli Partner
+    label_en: Coralli Partner
+    description_it: Coralli Partner permette alle squadre di sincronizzare organismi
+      alleati e flussi mutualistici all'interno di reef luminescente.
+    description_en: Coralli Partner allow squads to synchronise allied organisms and
+      mutualistic flows within reef luminescente.
+    tier: T1
+    archetype: simbiotico
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
     conflitti: []
     biomi:
       reef_luminescente: 1
-    missing_metadata: true
+    missing_metadata: false
   criostasi_adattiva:
     label: Criostasi
     label_en: Adaptive Cryostasis
+    description_it: Metabolismo sospeso che sopravvive a stagioni estreme prolungate.
+    description_en: Suspended metabolism surviving protracted extreme seasons.
     tier: T1
     archetype: metabolismo
     occurrences: 1
     famiglia_tipologia: Metabolico/Difensivo
     fattore_mantenimento_energetico: Alto (Fase di risveglio/inizio) / Basso (Fase
       Criostasi).
-    sinergie: []
+    sinergie:
+    - cavita_risonanti_tundra
     conflitti:
     - sacche_galleggianti_ascensoriali
     - sangue_piroforico
     biomi:
-      caverna_risonante: 1
+      mezzanotte_orbitale: 1
     missing_metadata: false
   cromofori_alert_acido:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Cromofori Alert Acido
+    label_en: Cromofori Alert Acido
+    description_it: Cromofori Alert Acido permette alle squadre di ridistribuire carichi
+      e modulare rigidità strutturale all'interno di foresta acida.
+    description_en: Cromofori Alert Acido allow squads to redistribute load and modulate
+      structural rigidity within foresta acida.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       foresta_acida: 1
-    missing_metadata: true
+    missing_metadata: false
   cuore_multicamera_bassa_pressione:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      stratosfera_tempestosa: 1
-    missing_metadata: true
-  cuscinetti_elettrostatici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      pianura_salina_iperarida: 1
-    missing_metadata: true
-  cute_resistente_sali:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 2
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      badlands: 1
-    missing_metadata: true
-  cuticole_cerose:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi: {}
-    missing_metadata: true
-  cuticole_neutralizzanti:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      foresta_acida: 1
-    missing_metadata: true
-  denti_chelatanti:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      foresta_acida: 1
-    missing_metadata: true
-  denti_ossidoferro:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      abisso_vulcanico: 1
-    missing_metadata: true
-  denti_silice_termici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      dorsale_termale_tropicale: 1
-    missing_metadata: true
-  denti_tuning_fork:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caverna_risonante: 1
-    missing_metadata: true
-  echi_risonanti:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caverna_risonante: 1
-    missing_metadata: true
-  eco_interno_riflesso:
-    label: Riflesso dell'Eco Interno
-    label_en: Internal Echo Reflex
+    label: Cuore Multicamera Bassa Pressione
+    label_en: Cuore Multicamera Bassa Pressione
+    description_it: Cuore Multicamera Bassa Pressione permette alle squadre di interpretare
+      segnali minuti e pattern psionici instabili all'interno di stratosfera tempestosa.
+    description_en: Cuore Multicamera Bassa Pressione allow squads to interpret minute
+      signals and unstable psionic patterns within stratosfera tempestosa.
     tier: T1
     archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: Sensoriale/Nervoso
-    fattore_mantenimento_energetico: Medio (Emissioni e ricezione continua)
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
     sinergie:
-    - olfatto_risonanza_magnetica
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: false
+  cuscinetti_elettrostatici:
+    label: Cuscinetti Elettrostatici
+    label_en: Cuscinetti Elettrostatici
+    description_it: Cuscinetti Elettrostatici permette alle squadre di ottenere presa
+      e accelerazioni controllate su terreni estremi all'interno di pianura salina
+      iperarida.
+    description_en: Cuscinetti Elettrostatici allow squads to gain grip and controlled
+      acceleration across extreme terrain within pianura salina iperarida.
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
+    conflitti: []
+    biomi:
+      pianura_salina_iperarida: 1
+    missing_metadata: false
+  cute_resistente_sali:
+    label: Cute Resistente Sali
+    label_en: Cute Resistente Sali
+    description_it: Cute Resistente Sali permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di badlands.
+    description_en: Cute Resistente Sali allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within badlands.
+    tier: T2
+    archetype: difesa
+    occurrences: 2
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Medio (Attivazione situazionale)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
+    conflitti: []
+    biomi:
+      badlands: 1
+    missing_metadata: false
+  cuticole_cerose:
+    label: Cuticole Cerose
+    label_en: Cuticole Cerose
+    description_it: Cuticole Cerose permette alle squadre di stabilizzare assorbimento
+      e conversione energetica multi-fonte all'interno di ambienti dinamici.
+    description_en: Cuticole Cerose allow squads to stabilise multi-source energy
+      absorption and conversion within ambienti dinamici.
+    tier: T1
+    archetype: metabolismo
+    occurrences: 1
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  cuticole_neutralizzanti:
+    label: Cuticole Neutralizzanti
+    label_en: Cuticole Neutralizzanti
+    description_it: Cuticole Neutralizzanti permette alle squadre di coordinare scambi
+      di risorse e parametri di stabilizzazione di squadra all'interno di foresta
+      acida.
+    description_en: Cuticole Neutralizzanti allow squads to coordinate resource exchange
+      and squad stabilisation parameters within foresta acida.
+    tier: T1
+    archetype: supporto
+    occurrences: 1
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: false
+  denti_chelatanti:
+    label: Denti Chelatanti
+    label_en: Denti Chelatanti
+    description_it: Denti Chelatanti permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di foresta acida.
+    description_en: Denti Chelatanti allow squads to channel kinetic or elemental
+      energy into targeted strikes within foresta acida.
+    tier: T1
+    archetype: offensiva
+    occurrences: 1
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: false
+  denti_ossidoferro:
+    label: Denti Ossidoferro
+    label_en: Denti Ossidoferro
+    description_it: Denti Ossidoferro permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di abisso vulcanico.
+    description_en: Denti Ossidoferro allow squads to predict trajectories and orchestrate
+      multilayered setups within abisso vulcanico.
+    tier: T1
+    archetype: strategia
+    occurrences: 1
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: false
+  denti_silice_termici:
+    label: Denti Silice Termici
+    label_en: Denti Silice Termici
+    description_it: Denti Silice Termici permette alle squadre di sincronizzare organismi
+      alleati e flussi mutualistici all'interno di dorsale termale tropicale.
+    description_en: Denti Silice Termici allow squads to synchronise allied organisms
+      and mutualistic flows within dorsale termale tropicale.
+    tier: T1
+    archetype: simbiotico
+    occurrences: 1
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+    missing_metadata: false
+  denti_tuning_fork:
+    label: Denti Tuning Fork
+    label_en: Denti Tuning Fork
+    description_it: Denti Tuning Fork permette alle squadre di ridistribuire carichi
+      e modulare rigidità strutturale all'interno di caverna risonante.
+    description_en: Denti Tuning Fork allow squads to redistribute load and modulate
+      structural rigidity within caverna risonante.
+    tier: T1
+    archetype: struttura
+    occurrences: 1
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       caverna_risonante: 1
+    missing_metadata: false
+  echi_risonanti:
+    label: Echi Risonanti
+    label_en: Echi Risonanti
+    description_it: Echi Risonanti permette alle squadre di interpretare segnali minuti
+      e pattern psionici instabili all'interno di caverna risonante.
+    description_en: Echi Risonanti allow squads to interpret minute signals and unstable
+      psionic patterns within caverna risonante.
+    tier: T1
+    archetype: sensoriale
+    occurrences: 1
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  eco_interno_riflesso:
+    label: Riflesso dell'Eco Interno
+    label_en: Internal Echo Reflex
+    description_it: Sonar interno che mappa l'ambiente attraverso vibrazioni corporee.
+    description_en: Internal sonar mapping surroundings via body reverbs.
+    tier: T2
+    archetype: sensoriale
+    occurrences: 2
+    famiglia_tipologia: Sensoriale/Nervoso
+    fattore_mantenimento_energetico: Medio (Emissioni e ricezione continua)
+    sinergie:
+    - cavita_risonanti_tundra
+    - olfatto_risonanza_magnetica
+    - sensori_geomagnetici
+    conflitti: []
+    biomi:
+      dorsale_termale_tropicale: 1
+      mezzanotte_orbitale: 1
     missing_metadata: false
   empatia_coordinativa:
     label: Empatia Coordinativa
     label_en: Coordinated Empathy
+    description_it: Rete empatica che sincronizza cure e difese dell'intera squadra.
+    description_en: Empathic mesh synchronizing team-wide heals and defenses.
     tier: T1
     archetype: supporto
-    occurrences: 0
+    occurrences: 1
     famiglia_tipologia: Supporto/Empatico
     fattore_mantenimento_energetico: Medio (Feedback costante dai compagni)
-    sinergie: []
+    sinergie:
+    - cavita_risonanti_tundra
     conflitti: []
-    biomi: {}
+    biomi:
+      foresta_miceliale: 1
     missing_metadata: false
   enzimi_antifase_termica:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Enzimi Antifase Termica
+    label_en: Enzimi Antifase Termica
+    description_it: Enzimi Antifase Termica permette alle squadre di ottenere presa
+      e accelerazioni controllate su terreni estremi all'interno di caldera glaciale.
+    description_en: Enzimi Antifase Termica allow squads to gain grip and controlled
+      acceleration across extreme terrain within caldera glaciale.
+    tier: T1
+    archetype: locomozione
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
     conflitti: []
     biomi:
       caldera_glaciale: 1
-    missing_metadata: true
+    missing_metadata: false
   enzimi_antipredatori_algali:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Enzimi Antipredatori Algali
+    label_en: Enzimi Antipredatori Algali
+    description_it: Enzimi Antipredatori Algali permette alle squadre di disperdere
+      energia e attenuare impatti corrosivi o termici all'interno di reef luminescente.
+    description_en: Enzimi Antipredatori Algali allow squads to disperse energy and
+      attenuate corrosive or thermal impacts within reef luminescente.
+    tier: T1
+    archetype: difesa
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       reef_luminescente: 1
-    missing_metadata: true
+    missing_metadata: false
   enzimi_chelanti:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi: {}
-    missing_metadata: true
-  enzimi_chelatori_rapidi:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      foresta_acida: 1
-    missing_metadata: true
-  enzimi_metanoossidanti:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      abisso_vulcanico: 1
-    missing_metadata: true
-  epidermide_dielettrica:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      stratosfera_tempestosa: 1
-    missing_metadata: true
-  epitelio_fosforescente:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      reef_luminescente: 1
-    missing_metadata: true
-  filamenti_digestivi_compattanti:
-    label: Filamento materiali digeriti
-    label_en: Digestive Compaction Filaments
+    label: Enzimi Chelanti
+    label_en: Enzimi Chelanti
+    description_it: Enzimi Chelanti permette alle squadre di stabilizzare assorbimento
+      e conversione energetica multi-fonte all'interno di ambienti dinamici.
+    description_en: Enzimi Chelanti allow squads to stabilise multi-source energy
+      absorption and conversion within ambienti dinamici.
     tier: T1
     archetype: metabolismo
     occurrences: 1
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
+  enzimi_chelatori_rapidi:
+    label: Enzimi Chelatori Rapidi
+    label_en: Enzimi Chelatori Rapidi
+    description_it: Enzimi Chelatori Rapidi permette alle squadre di coordinare scambi
+      di risorse e parametri di stabilizzazione di squadra all'interno di foresta
+      acida.
+    description_en: Enzimi Chelatori Rapidi allow squads to coordinate resource exchange
+      and squad stabilisation parameters within foresta acida.
+    tier: T1
+    archetype: supporto
+    occurrences: 1
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
+    conflitti: []
+    biomi:
+      foresta_acida: 1
+    missing_metadata: false
+  enzimi_metanoossidanti:
+    label: Enzimi Metanoossidanti
+    label_en: Enzimi Metanoossidanti
+    description_it: Enzimi Metanoossidanti permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di abisso vulcanico.
+    description_en: Enzimi Metanoossidanti allow squads to channel kinetic or elemental
+      energy into targeted strikes within abisso vulcanico.
+    tier: T1
+    archetype: offensiva
+    occurrences: 1
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
+    conflitti: []
+    biomi:
+      abisso_vulcanico: 1
+    missing_metadata: false
+  epidermide_dielettrica:
+    label: Epidermide Dielettrica
+    label_en: Epidermide Dielettrica
+    description_it: Epidermide Dielettrica permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di stratosfera tempestosa.
+    description_en: Epidermide Dielettrica allow squads to predict trajectories and
+      orchestrate multilayered setups within stratosfera tempestosa.
+    tier: T1
+    archetype: strategia
+    occurrences: 1
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
+    conflitti: []
+    biomi:
+      stratosfera_tempestosa: 1
+    missing_metadata: false
+  epitelio_fosforescente:
+    label: Epitelio Fosforescente
+    label_en: Epitelio Fosforescente
+    description_it: Epitelio Fosforescente permette alle squadre di sincronizzare
+      organismi alleati e flussi mutualistici all'interno di reef luminescente.
+    description_en: Epitelio Fosforescente allow squads to synchronise allied organisms
+      and mutualistic flows within reef luminescente.
+    tier: T1
+    archetype: simbiotico
+    occurrences: 1
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
+    conflitti: []
+    biomi:
+      reef_luminescente: 1
+    missing_metadata: false
+  filamenti_digestivi_compattanti:
+    label: Filamento materiali digeriti
+    label_en: Digestive Compaction Filaments
+    description_it: Filamenti digestivi che compattano scarti e liberano spazio vitale.
+    description_en: Digestive filaments compact waste to free vital space.
+    tier: T2
+    archetype: metabolismo
+    occurrences: 4
     famiglia_tipologia: Digestivo/Escretorio
     fattore_mantenimento_energetico: Basso (Passivo)
     sinergie:
     - ventriglio_gastroliti
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      falde_magnetiche_psioniche: 1
+      foresta_miceliale: 1
+      mezzanotte_orbitale: 1
     missing_metadata: false
   filamenti_magnetotrofi:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Filamenti Magnetotrofi
+    label_en: Filamenti Magnetotrofi
+    description_it: Filamenti Magnetotrofi permette alle squadre di ridistribuire
+      carichi e modulare rigidità strutturale all'interno di abisso vulcanico.
+    description_en: Filamenti Magnetotrofi allow squads to redistribute load and modulate
+      structural rigidity within abisso vulcanico.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       abisso_vulcanico: 1
-    missing_metadata: true
+    missing_metadata: false
   filamenti_superconduttivi:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Filamenti Superconduttivi
+    label_en: Filamenti Superconduttivi
+    description_it: Filamenti Superconduttivi permette alle squadre di interpretare
+      segnali minuti e pattern psionici instabili all'interno di caldera glaciale.
+    description_en: Filamenti Superconduttivi allow squads to interpret minute signals
+      and unstable psionic patterns within caldera glaciale.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
     conflitti: []
     biomi:
       caldera_glaciale: 1
-    missing_metadata: true
+    missing_metadata: false
   filamenti_termoconduzione:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Filamenti Termoconduzione
+    label_en: Filamenti Termoconduzione
+    description_it: Filamenti Termoconduzione permette alle squadre di ottenere presa
+      e accelerazioni controllate su terreni estremi all'interno di dorsale termale
+      tropicale.
+    description_en: Filamenti Termoconduzione allow squads to gain grip and controlled
+      acceleration across extreme terrain within dorsale termale tropicale.
+    tier: T1
+    archetype: locomozione
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
     conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
-    missing_metadata: true
+    missing_metadata: false
   filtri_planctonici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Filtri Planctonici
+    label_en: Filtri Planctonici
+    description_it: Filtri Planctonici permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di laguna bioreattiva.
+    description_en: Filtri Planctonici allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within laguna bioreattiva.
+    tier: T1
+    archetype: difesa
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       laguna_bioreattiva: 1
-    missing_metadata: true
+    missing_metadata: false
   flagelli_ancoranti:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Flagelli Ancoranti
+    label_en: Flagelli Ancoranti
+    description_it: Flagelli Ancoranti permette alle squadre di stabilizzare assorbimento
+      e conversione energetica multi-fonte all'interno di laguna bioreattiva.
+    description_en: Flagelli Ancoranti allow squads to stabilise multi-source energy
+      absorption and conversion within laguna bioreattiva.
+    tier: T1
+    archetype: metabolismo
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
     conflitti: []
     biomi:
       laguna_bioreattiva: 1
-    missing_metadata: true
+    missing_metadata: false
   focus_frazionato:
     label: Focus Frazionato
     label_en: Fractional Focus
+    description_it: Cortex biforcato che mantiene due minacce in sorveglianza attiva.
+    description_en: Split cortex keeps two threats under active surveillance.
     tier: T1
     archetype: controllo
-    occurrences: 0
+    occurrences: 3
     famiglia_tipologia: Tattico/Controllo
     fattore_mantenimento_energetico: Medio (Dividere l'attenzione su più canali)
-    sinergie: []
+    sinergie:
+    - antenne_plasmatiche_tempesta
     conflitti: []
-    biomi: {}
+    biomi:
+      canopia_psionica_leggera: 1
+      foresta_miceliale: 1
+      orbita_psionica_inversa: 1
     missing_metadata: false
   foliage_fotocatodico:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Foliage Fotocatodico
+    label_en: Foliage Fotocatodico
+    description_it: Foliage Fotocatodico permette alle squadre di coordinare scambi
+      di risorse e parametri di stabilizzazione di squadra all'interno di foresta
+      acida.
+    description_en: Foliage Fotocatodico allow squads to coordinate resource exchange
+      and squad stabilisation parameters within foresta acida.
+    tier: T1
+    archetype: supporto
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
     conflitti: []
     biomi:
       foresta_acida: 1
-    missing_metadata: true
+    missing_metadata: false
   foliaggio_spugna:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Foliaggio Spugna
+    label_en: Foliaggio Spugna
+    description_it: Foliaggio Spugna permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di mangrovieto cinetico.
+    description_en: Foliaggio Spugna allow squads to channel kinetic or elemental
+      energy into targeted strikes within mangrovieto cinetico.
+    tier: T1
+    archetype: offensiva
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
     conflitti: []
     biomi:
       mangrovieto_cinetico: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiaccio_piezoelettrico:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiaccio Piezoelettrico
+    label_en: Ghiaccio Piezoelettrico
+    description_it: Ghiaccio Piezoelettrico permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di caldera glaciale.
+    description_en: Ghiaccio Piezoelettrico allow squads to predict trajectories and
+      orchestrate multilayered setups within caldera glaciale.
+    tier: T1
+    archetype: strategia
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
     conflitti: []
     biomi:
       caldera_glaciale: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandola_caustica:
     label: Ghiandola Caustica
     label_en: Caustic Gland
+    description_it: Ghiandola offensiva che spruzza acidi rapidi contro corazze leggere.
+    description_en: Offensive gland spraying quick acid against light armor.
     tier: T1
     archetype: offensiva
-    occurrences: 0
+    occurrences: 1
     famiglia_tipologia: Offensivo/Chimico
     fattore_mantenimento_energetico: Medio (Produzione reagenti)
     sinergie: []
     conflitti: []
-    biomi: {}
+    biomi:
+      foresta_miceliale: 1
     missing_metadata: false
   ghiandole_cambio_salino:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Cambio Salino
+    label_en: Ghiandole Cambio Salino
+    description_it: Ghiandole Cambio Salino permette alle squadre di sincronizzare
+      organismi alleati e flussi mutualistici all'interno di laguna bioreattiva.
+    description_en: Ghiandole Cambio Salino allow squads to synchronise allied organisms
+      and mutualistic flows within laguna bioreattiva.
+    tier: T1
+    archetype: simbiotico
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
     conflitti: []
     biomi:
       laguna_bioreattiva: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_condensa_ozono:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Condensa Ozono
+    label_en: Ghiandole Condensa Ozono
+    description_it: Ghiandole Condensa Ozono permette alle squadre di ridistribuire
+      carichi e modulare rigidità strutturale all'interno di stratosfera tempestosa.
+    description_en: Ghiandole Condensa Ozono allow squads to redistribute load and
+      modulate structural rigidity within stratosfera tempestosa.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       stratosfera_tempestosa: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_eco_mappanti:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Eco Mappanti
+    label_en: Ghiandole Eco Mappanti
+    description_it: Ghiandole Eco Mappanti permette alle squadre di interpretare segnali
+      minuti e pattern psionici instabili all'interno di caverna risonante.
+    description_en: Ghiandole Eco Mappanti allow squads to interpret minute signals
+      and unstable psionic patterns within caverna risonante.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
     conflitti: []
     biomi:
       caverna_risonante: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_fango_calde:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Fango Calde
+    label_en: Ghiandole Fango Calde
+    description_it: Ghiandole Fango Calde permette alle squadre di ottenere presa
+      e accelerazioni controllate su terreni estremi all'interno di abisso vulcanico.
+    description_en: Ghiandole Fango Calde allow squads to gain grip and controlled
+      acceleration across extreme terrain within abisso vulcanico.
+    tier: T1
+    archetype: locomozione
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
     conflitti: []
     biomi:
       abisso_vulcanico: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_fango_coesivo:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Fango Coesivo
+    label_en: Ghiandole Fango Coesivo
+    description_it: Ghiandole Fango Coesivo permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di mangrovieto cinetico.
+    description_en: Ghiandole Fango Coesivo allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within mangrovieto cinetico.
+    tier: T1
+    archetype: difesa
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       mangrovieto_cinetico: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_grafene:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Grafene
+    label_en: Ghiandole Grafene
+    description_it: Ghiandole Grafene permette alle squadre di stabilizzare assorbimento
+      e conversione energetica multi-fonte all'interno di steppe algoritmiche.
+    description_en: Ghiandole Grafene allow squads to stabilise multi-source energy
+      absorption and conversion within steppe algoritmiche.
+    tier: T1
+    archetype: metabolismo
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
     conflitti: []
     biomi:
       steppe_algoritmiche: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_inchiostro_luce:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Inchiostro Luce
+    label_en: Ghiandole Inchiostro Luce
+    description_it: Ghiandole Inchiostro Luce permette alle squadre di coordinare
+      scambi di risorse e parametri di stabilizzazione di squadra all'interno di reef
+      luminescente.
+    description_en: Ghiandole Inchiostro Luce allow squads to coordinate resource
+      exchange and squad stabilisation parameters within reef luminescente.
+    tier: T1
+    archetype: supporto
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
     conflitti: []
     biomi:
       reef_luminescente: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_iodoattive:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Iodoattive
+    label_en: Ghiandole Iodoattive
+    description_it: Ghiandole Iodoattive permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di pianura salina iperarida.
+    description_en: Ghiandole Iodoattive allow squads to channel kinetic or elemental
+      energy into targeted strikes within pianura salina iperarida.
+    tier: T1
+    archetype: offensiva
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
     conflitti: []
     biomi:
       pianura_salina_iperarida: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_minerali:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Minerali
+    label_en: Ghiandole Minerali
+    description_it: Ghiandole Minerali permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di dorsale termale tropicale.
+    description_en: Ghiandole Minerali allow squads to predict trajectories and orchestrate
+      multilayered setups within dorsale termale tropicale.
+    tier: T1
+    archetype: strategia
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
     conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_nebbia_acida:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Nebbia Acida
+    label_en: Ghiandole Nebbia Acida
+    description_it: Ghiandole Nebbia Acida permette alle squadre di sincronizzare
+      organismi alleati e flussi mutualistici all'interno di foresta acida.
+    description_en: Ghiandole Nebbia Acida allow squads to synchronise allied organisms
+      and mutualistic flows within foresta acida.
+    tier: T1
+    archetype: simbiotico
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
     conflitti: []
     biomi:
       foresta_acida: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_nebbia_ionica:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Nebbia Ionica
+    label_en: Ghiandole Nebbia Ionica
+    description_it: Ghiandole Nebbia Ionica permette alle squadre di ridistribuire
+      carichi e modulare rigidità strutturale all'interno di canopia ionica.
+    description_en: Ghiandole Nebbia Ionica allow squads to redistribute load and
+      modulate structural rigidity within canopia ionica.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       canopia_ionica: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_resina_conduttiva:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Resina Conduttiva
+    label_en: Ghiandole Resina Conduttiva
+    description_it: Ghiandole Resina Conduttiva permette alle squadre di interpretare
+      segnali minuti e pattern psionici instabili all'interno di canopia ionica.
+    description_en: Ghiandole Resina Conduttiva allow squads to interpret minute signals
+      and unstable psionic patterns within canopia ionica.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
     conflitti: []
     biomi:
       canopia_ionica: 1
-    missing_metadata: true
+    missing_metadata: false
   ghiandole_ventosa:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Ghiandole Ventosa
+    label_en: Ghiandole Ventosa
+    description_it: Ghiandole Ventosa permette alle squadre di ottenere presa e accelerazioni
+      controllate su terreni estremi all'interno di caldera glaciale.
+    description_en: Ghiandole Ventosa allow squads to gain grip and controlled acceleration
+      across extreme terrain within caldera glaciale.
+    tier: T1
+    archetype: locomozione
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
     conflitti: []
     biomi:
       caldera_glaciale: 1
-    missing_metadata: true
+    missing_metadata: false
   giunti_antitorsione:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Giunti Antitorsione
+    label_en: Giunti Antitorsione
+    description_it: Giunti Antitorsione permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di mangrovieto cinetico.
+    description_en: Giunti Antitorsione allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within mangrovieto cinetico.
+    tier: T1
+    archetype: difesa
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       mangrovieto_cinetico: 1
-    missing_metadata: true
+    missing_metadata: false
   grassi_termici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Grassi Termici
+    label_en: Grassi Termici
+    description_it: Grassi Termici permette alle squadre di stabilizzare assorbimento
+      e conversione energetica multi-fonte all'interno di ambienti dinamici.
+    description_en: Grassi Termici allow squads to stabilise multi-source energy absorption
+      and conversion within ambienti dinamici.
+    tier: T1
+    archetype: metabolismo
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
     conflitti: []
     biomi: {}
-    missing_metadata: true
+    missing_metadata: false
   gusci_criovetro:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Gusci Criovetro
+    label_en: Gusci Criovetro
+    description_it: Gusci Criovetro permette alle squadre di coordinare scambi di
+      risorse e parametri di stabilizzazione di squadra all'interno di caldera glaciale.
+    description_en: Gusci Criovetro allow squads to coordinate resource exchange and
+      squad stabilisation parameters within caldera glaciale.
+    tier: T1
+    archetype: supporto
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
     conflitti: []
     biomi:
       caldera_glaciale: 1
-    missing_metadata: true
+    missing_metadata: false
   gusci_magnesio:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Gusci Magnesio
+    label_en: Gusci Magnesio
+    description_it: Gusci Magnesio permette alle squadre di canalizzare energia cinetica
+      o elementale in colpi mirati all'interno di dorsale termale tropicale.
+    description_en: Gusci Magnesio allow squads to channel kinetic or elemental energy
+      into targeted strikes within dorsale termale tropicale.
+    tier: T1
+    archetype: offensiva
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
     conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
-    missing_metadata: true
+    missing_metadata: false
   lamelle_shear:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Lamelle Shear
+    label_en: Lamelle Shear
+    description_it: Lamelle Shear permette alle squadre di prevedere traiettorie e
+      orchestrare setup multilivello all'interno di stratosfera tempestosa.
+    description_en: Lamelle Shear allow squads to predict trajectories and orchestrate
+      multilayered setups within stratosfera tempestosa.
+    tier: T1
+    archetype: strategia
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
     conflitti: []
     biomi:
       stratosfera_tempestosa: 1
-    missing_metadata: true
+    missing_metadata: false
   lamelle_sincroniche:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Lamelle Sincroniche
+    label_en: Lamelle Sincroniche
+    description_it: Lamelle Sincroniche permette alle squadre di sincronizzare organismi
+      alleati e flussi mutualistici all'interno di steppe algoritmiche.
+    description_en: Lamelle Sincroniche allow squads to synchronise allied organisms
+      and mutualistic flows within steppe algoritmiche.
+    tier: T1
+    archetype: simbiotico
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
     conflitti: []
     biomi:
       steppe_algoritmiche: 1
-    missing_metadata: true
+    missing_metadata: false
+  lamelle_termoforetiche:
+    label: Lamelle Termoforetiche
+    label_en: Thermophoretic Lamellae
+    description_it: Lamelle respiratorie che deviano gas estremi con gradienti termici.
+    description_en: Respiratory lamellae deflect extreme gases via heat gradients.
+    tier: T2
+    archetype: sopravvivenza
+    occurrences: 0
+    famiglia_tipologia: Respiratorio/Termoregolazione
+    fattore_mantenimento_energetico: Medio (Flusso continuo di fluidi caldi)
+    sinergie:
+    - sangue_piroforico
+    conflitti:
+    - criostasi_adattiva
+    biomi: {}
+    missing_metadata: false
   lamine_filtranti_aeree:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Lamine Filtranti Aeree
+    label_en: Lamine Filtranti Aeree
+    description_it: Lamine Filtranti Aeree permette alle squadre di ridistribuire
+      carichi e modulare rigidità strutturale all'interno di mangrovieto cinetico.
+    description_en: Lamine Filtranti Aeree allow squads to redistribute load and modulate
+      structural rigidity within mangrovieto cinetico.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       mangrovieto_cinetico: 1
-    missing_metadata: true
+    missing_metadata: false
   lamine_scudo_silice:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Lamine Scudo Silice
+    label_en: Lamine Scudo Silice
+    description_it: Lamine Scudo Silice permette alle squadre di interpretare segnali
+      minuti e pattern psionici instabili all'interno di dorsale termale tropicale.
+    description_en: Lamine Scudo Silice allow squads to interpret minute signals and
+      unstable psionic patterns within dorsale termale tropicale.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
     conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
-    missing_metadata: true
+    missing_metadata: false
   linfa_tampone:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Linfa Tampone
+    label_en: Linfa Tampone
+    description_it: Linfa Tampone permette alle squadre di ottenere presa e accelerazioni
+      controllate su terreni estremi all'interno di foresta acida.
+    description_en: Linfa Tampone allow squads to gain grip and controlled acceleration
+      across extreme terrain within foresta acida.
+    tier: T1
+    archetype: locomozione
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
     conflitti: []
     biomi:
       foresta_acida: 1
-    missing_metadata: true
+    missing_metadata: false
   lingua_cristallina:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Lingua Cristallina
+    label_en: Lingua Cristallina
+    description_it: Lingua Cristallina permette alle squadre di disperdere energia
+      e attenuare impatti corrosivi o termici all'interno di pianura salina iperarida.
+    description_en: Lingua Cristallina allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within pianura salina iperarida.
+    tier: T1
+    archetype: difesa
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       pianura_salina_iperarida: 1
-    missing_metadata: true
+    missing_metadata: false
   lingua_tattile_trama:
     label: Lingua Tattile Trama-Sensibile
     label_en: Texture-Sensing Tongue
+    description_it: Lingua sensoriale che legge vibrazioni e fratture nascoste.
+    description_en: Sensory tongue reading hidden vibrations and fractures.
     tier: T1
     archetype: sensoriale
     occurrences: 1
@@ -1581,142 +2473,238 @@ traits:
     - olfatto_risonanza_magnetica
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      foresta_miceliale: 1
     missing_metadata: false
   luminescenza_aurorale:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Luminescenza Aurorale
+    label_en: Luminescenza Aurorale
+    description_it: Luminescenza Aurorale permette alle squadre di stabilizzare assorbimento
+      e conversione energetica multi-fonte all'interno di caldera glaciale.
+    description_en: Luminescenza Aurorale allow squads to stabilise multi-source energy
+      absorption and conversion within caldera glaciale.
+    tier: T1
+    archetype: metabolismo
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Digestivo/Metabolico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - filamenti_digestivi_compattanti
+    - ventriglio_gastroliti
     conflitti: []
     biomi:
       caldera_glaciale: 1
-    missing_metadata: true
+    missing_metadata: false
   luminescenza_hydrotermica:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Luminescenza Hydrotermica
+    label_en: Luminescenza Hydrotermica
+    description_it: Luminescenza Hydrotermica permette alle squadre di coordinare
+      scambi di risorse e parametri di stabilizzazione di squadra all'interno di abisso
+      vulcanico.
+    description_en: Luminescenza Hydrotermica allow squads to coordinate resource
+      exchange and squad stabilisation parameters within abisso vulcanico.
+    tier: T1
+    archetype: supporto
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Supporto/Logistico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
     conflitti: []
     biomi:
       abisso_vulcanico: 1
-    missing_metadata: true
+    missing_metadata: false
   mantelli_geotermici:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Mantelli Geotermici
+    label_en: Mantelli Geotermici
+    description_it: Mantelli Geotermici permette alle squadre di canalizzare energia
+      cinetica o elementale in colpi mirati all'interno di caldera glaciale.
+    description_en: Mantelli Geotermici allow squads to channel kinetic or elemental
+      energy into targeted strikes within caldera glaciale.
+    tier: T1
+    archetype: offensiva
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Offensivo/Assalto
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - sangue_piroforico
     conflitti: []
     biomi:
       caldera_glaciale: 1
-    missing_metadata: true
+    missing_metadata: false
   membrane_captura_rugiada:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Membrane Captura Rugiada
+    label_en: Membrane Captura Rugiada
+    description_it: Membrane Captura Rugiada permette alle squadre di prevedere traiettorie
+      e orchestrare setup multilivello all'interno di pianura salina iperarida.
+    description_en: Membrane Captura Rugiada allow squads to predict trajectories
+      and orchestrate multilayered setups within pianura salina iperarida.
+    tier: T1
+    archetype: strategia
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strategico/Tattico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - pianificatore
+    - tattiche_di_branco
     conflitti: []
     biomi:
       pianura_salina_iperarida: 1
-    missing_metadata: true
+    missing_metadata: false
+  membrane_eliofiltranti:
+    label: Membrane Eliofiltranti
+    label_en: Membrane Eliofiltranti
+    description_it: Membrane traslucide che schermano radiazioni e patogeni sospesi.
+    description_en: Translucent membranes screening radiation and airborne pathogens.
+    tier: T2
+    archetype: sopravvivenza
+    occurrences: 0
+    famiglia_tipologia: Respiratorio/Protezione
+    fattore_mantenimento_energetico: Basso (Auto-riparazione lenta)
+    sinergie:
+    - piume_solari_fotovoltaiche
+    - polmoni_cristallini_alta_quota
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
   membrane_planata_vectored:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Membrane Planata Vectored
+    label_en: Membrane Planata Vectored
+    description_it: Membrane Planata Vectored permette alle squadre di sincronizzare
+      organismi alleati e flussi mutualistici all'interno di canopia ionica.
+    description_en: Membrane Planata Vectored allow squads to synchronise allied organisms
+      and mutualistic flows within canopia ionica.
+    tier: T1
+    archetype: simbiotico
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Simbiotico/Cooperativo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
     conflitti: []
     biomi:
       canopia_ionica: 1
-    missing_metadata: true
+    missing_metadata: false
   membrane_pneumatofori:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Membrane Pneumatofori
+    label_en: Membrane Pneumatofori
+    description_it: Membrane Pneumatofori permette alle squadre di ridistribuire carichi
+      e modulare rigidità strutturale all'interno di mangrovieto cinetico.
+    description_en: Membrane Pneumatofori allow squads to redistribute load and modulate
+      structural rigidity within mangrovieto cinetico.
+    tier: T1
+    archetype: struttura
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Strutturale/Adattivo
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
     conflitti: []
     biomi:
       mangrovieto_cinetico: 1
-    missing_metadata: true
+    missing_metadata: false
   midollo_antivibrazione:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
+    label: Midollo Antivibrazione
+    label_en: Midollo Antivibrazione
+    description_it: Midollo Antivibrazione permette alle squadre di interpretare segnali
+      minuti e pattern psionici instabili all'interno di caverna risonante.
+    description_en: Midollo Antivibrazione allow squads to interpret minute signals
+      and unstable psionic patterns within caverna risonante.
+    tier: T1
+    archetype: sensoriale
     occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    famiglia_tipologia: Sensoriale/Analitico
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - focus_frazionato
+    - sinapsi_coraline_polifoniche
     conflitti: []
     biomi:
       caverna_risonante: 1
-    missing_metadata: true
+    missing_metadata: false
   mimetismo_cromatico_passivo:
     label: Ghiandole di Mimetismo Cromatico Passivo
     label_en: Passive Chromatic Mimicry
+    description_it: Cromatofori passivi che replicano lentamente i colori circostanti.
+    description_en: Passive chromatophores slowly mirroring surrounding hues.
+    tier: T1
+    archetype: difesa
+    occurrences: 3
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Basso (Fase passiva)
+    sinergie:
+    - artigli_sette_vie
+    - struttura_elastica_amorfa
+    conflitti: []
+    biomi:
+      canopia_psionica_leggera: 1
+      dorsale_termale_tropicale: 1
+      mezzanotte_orbitale: 1
+    missing_metadata: false
+  mucillagine_simbionte_mangrovie:
+    label: Mucillagine Simbionte delle Mangrovie
+    label_en: Mucillagine Simbionte delle Mangrovie
+    description_it: Mucosa simbionte che assorbe veleni e sigilla ferite palustri.
+    description_en: Symbiotic mucus absorbing poisons and sealing swamp wounds.
+    tier: T1
+    archetype: simbiotico
+    occurrences: 0
+    famiglia_tipologia: Simbiotico/Difensivo
+    fattore_mantenimento_energetico: Medio (Coltura simbiotica costante)
+    sinergie:
+    - branchie_osmotiche_salmastra
+    - circolazione_bifasica_palude
+    - nodi_micorrizici_oracolari
+    conflitti:
+    - ghiandola_caustica
+    biomi: {}
+    missing_metadata: false
+  mucose_aderenza_sonica:
+    label: Mucose Aderenza Sonica
+    label_en: Mucose Aderenza Sonica
+    description_it: Mucose Aderenza Sonica permette alle squadre di ottenere presa
+      e accelerazioni controllate su terreni estremi all'interno di caverna risonante.
+    description_en: Mucose Aderenza Sonica allow squads to gain grip and controlled
+      acceleration across extreme terrain within caverna risonante.
+    tier: T1
+    archetype: locomozione
+    occurrences: 1
+    famiglia_tipologia: Locomotorio/Mobilità
+    fattore_mantenimento_energetico: Basso (Passivo)
+    sinergie:
+    - coda_frusta_cinetica
+    - zampe_a_molla
+    conflitti: []
+    biomi:
+      caverna_risonante: 1
+    missing_metadata: false
+  mucose_barofile:
+    label: Mucose Barofile
+    label_en: Mucose Barofile
+    description_it: Mucose Barofile permette alle squadre di disperdere energia e
+      attenuare impatti corrosivi o termici all'interno di abisso vulcanico.
+    description_en: Mucose Barofile allow squads to disperse energy and attenuate
+      corrosive or thermal impacts within abisso vulcanico.
     tier: T1
     archetype: difesa
     occurrences: 1
     famiglia_tipologia: Tegumentario/Difensivo
-    fattore_mantenimento_energetico: Basso (Fase passiva)
+    fattore_mantenimento_energetico: Basso (Passivo)
     sinergie:
-    - struttura_elastica_amorfa
-    conflitti: []
-    biomi:
-      caverna_risonante: 1
-    missing_metadata: false
-  mucose_aderenza_sonica:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
-    conflitti: []
-    biomi:
-      caverna_risonante: 1
-    missing_metadata: true
-  mucose_barofile:
-    label: null
-    label_en: null
-    tier: null
-    archetype: non_classificato
-    occurrences: 1
-    famiglia_tipologia: null
-    fattore_mantenimento_energetico: null
-    sinergie: []
+    - carapace_fase_variabile
+    - mimetismo_cromatico_passivo
     conflitti: []
     biomi:
       abisso_vulcanico: 1
-    missing_metadata: true
+    missing_metadata: false
   muscoli_controvento:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1730,6 +2718,8 @@ traits:
   muscoli_fasici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1743,6 +2733,8 @@ traits:
   muscoli_isotermici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1756,6 +2748,8 @@ traits:
   muscoli_pettine:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1769,6 +2763,8 @@ traits:
   navigatore_magnetico:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1782,6 +2778,8 @@ traits:
   nervature_fotoniche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1792,9 +2790,29 @@ traits:
     biomi:
       reef_luminescente: 1
     missing_metadata: true
+  nodi_micorrizici_oracolari:
+    label: Nodi Micorrizici Oracolari
+    label_en: Nodi Micorrizici Oracolari
+    description_it: Nodi micorrizici che anticipano minacce tramite segnali fungini.
+    description_en: Mycorrhizal nodes foreseeing threats via fungal signals.
+    tier: T3
+    archetype: simbiotico
+    occurrences: 0
+    famiglia_tipologia: Simbiotico/Nervoso
+    fattore_mantenimento_energetico: Medio (Scambio continuo di segnali con simbionti)
+    sinergie:
+    - bulbi_radici_permafrost
+    - chioma_parassita_canopica
+    - mucillagine_simbionte_mangrovie
+    conflitti:
+    - spore_psichiche_silenziate
+    biomi: {}
+    missing_metadata: false
   nodi_miovibranti:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1808,6 +2826,8 @@ traits:
   nodi_sincronizzazione_branchiale:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1821,6 +2841,8 @@ traits:
   nuclei_termoriflettenti:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1834,20 +2856,26 @@ traits:
   nucleo_ovomotore_rotante:
     label: Uovo rotaia, uovo grande e uova piccole dentro...
     label_en: Rotating Ovomotor Core
+    description_it: Nucleo rotante che trasforma il corpo in una ruota motrice.
+    description_en: Rotating core turning the body into a driving wheel.
     tier: T1
     archetype: supporto
-    occurrences: 1
+    occurrences: 3
     famiglia_tipologia: Riproduttivo/Locomotorio
     fattore_mantenimento_energetico: Alto (Rotolamento)
     sinergie: []
     conflitti:
     - secrezione_rallentante_palmi
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      falde_magnetiche_psioniche: 1
+      orbita_psionica_inversa: 1
     missing_metadata: false
   occhi_calcolo_predittivo:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1861,6 +2889,8 @@ traits:
   occhi_ecoscuro:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1874,6 +2904,8 @@ traits:
   occhi_fotofobi:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1887,6 +2919,8 @@ traits:
   occhi_infrarosso_composti:
     label: Occhi Composti ad Infrarosso
     label_en: Infrared Compound Eyes
+    description_it: Ommatidi infrarossi che seguono scie termiche nell'oscurità.
+    description_en: Infrared ommatidia tracking thermal trails in darkness.
     tier: T1
     archetype: sensoriale
     occurrences: 1
@@ -1896,11 +2930,13 @@ traits:
     - sonno_emisferico_alternato
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
     missing_metadata: false
   ocelli_lumospot:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1914,6 +2950,8 @@ traits:
   oculari_ionosferici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1927,6 +2965,8 @@ traits:
   oculari_sulfurei:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1940,20 +2980,28 @@ traits:
   olfatto_risonanza_magnetica:
     label: Olfatto di Risonanza Magnetica
     label_en: Magnetic Resonance Scent
-    tier: T1
+    description_it: Bulbi olfattivi che tracciano campi magnetici e vene metalliche.
+    description_en: Olfactory nodes tracing magnetic fields and metal veins.
+    tier: T2
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 4
     famiglia_tipologia: Sensoriale/Nervoso
     fattore_mantenimento_energetico: Medio (Elaborazione sensoriale costante)
     sinergie:
     - eco_interno_riflesso
+    - lingua_tattile_trama
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      falde_magnetiche_psioniche: 1
+      mezzanotte_orbitale: 1
+      orbita_psionica_inversa: 1
     missing_metadata: false
   orecchi_fasici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1967,6 +3015,8 @@ traits:
   ossa_capillari_saline:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1980,6 +3030,8 @@ traits:
   ossa_cavi_resonanti:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -1993,6 +3045,8 @@ traits:
   ossa_spugna:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2006,6 +3060,8 @@ traits:
   ossatura_liana_composta:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2019,6 +3075,8 @@ traits:
   osseina_crescita_adattiva:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2032,6 +3090,8 @@ traits:
   osseina_igroscopica:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2045,6 +3105,8 @@ traits:
   ossigenatori_simbiotici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2058,18 +3120,23 @@ traits:
   pathfinder:
     label: Pathfinder
     label_en: Pathfinder
+    description_it: Suite esplorativa che evidenzia rotte sicure tra biomi imprevedibili.
+    description_en: Exploration suite highlighting safe routes across shifting biomes.
     tier: T1
     archetype: esplorazione
-    occurrences: 0
+    occurrences: 1
     famiglia_tipologia: Esplorazione/Tattico
     fattore_mantenimento_energetico: Basso (Sincronizzazione con HUD di esplorazione)
     sinergie: []
     conflitti: []
-    biomi: {}
+    biomi:
+      foresta_miceliale: 1
     missing_metadata: false
   peli_fumarolici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2083,6 +3150,8 @@ traits:
   peli_idrofobici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2096,6 +3165,8 @@ traits:
   peli_prossimita_lidar:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2109,6 +3180,8 @@ traits:
   pelle_anticavitazione:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2122,6 +3195,8 @@ traits:
   pelle_carbonata:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2135,6 +3210,8 @@ traits:
   pelle_microantenna:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2148,6 +3225,8 @@ traits:
   pelle_osmoattiva:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2161,6 +3240,8 @@ traits:
   pelle_piroclastica:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2174,6 +3255,8 @@ traits:
   pelli_anti_ustione:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2187,6 +3270,8 @@ traits:
   pelli_antifouling:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2200,6 +3285,8 @@ traits:
   pelli_antiossidanti:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2213,6 +3300,8 @@ traits:
   pelli_cave:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2225,6 +3314,8 @@ traits:
   pelli_fitte:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2237,6 +3328,8 @@ traits:
   pelli_solfurose:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2250,6 +3343,8 @@ traits:
   pelli_stratopausa:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2263,6 +3358,8 @@ traits:
   pelliccia_fonomodulante:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2276,6 +3373,8 @@ traits:
   pelliccia_microbolle:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2289,6 +3388,8 @@ traits:
   pellicola_antiablativa:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2302,6 +3403,8 @@ traits:
   pellicola_bioreattiva:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2315,6 +3418,8 @@ traits:
   pellicole_flogistiche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2328,18 +3433,23 @@ traits:
   pianificatore:
     label: Pianificatore
     label_en: Strategic Planner
+    description_it: Modulo strategico che mantiene priorità e finestre d'attacco allineate.
+    description_en: Strategic module keeping priorities and attack windows aligned.
     tier: T1
     archetype: strategia
-    occurrences: 0
+    occurrences: 1
     famiglia_tipologia: Strategico/Comando
     fattore_mantenimento_energetico: Medio (Analisi continua di stato squadre)
     sinergie: []
     conflitti: []
-    biomi: {}
+    biomi:
+      foresta_miceliale: 1
     missing_metadata: false
   piedi_aderenza_speleologica:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2353,6 +3463,8 @@ traits:
   piedi_grip_canopy:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2366,6 +3478,8 @@ traits:
   piedi_grip_magnetico:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2379,6 +3493,8 @@ traits:
   piedi_micropori:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2392,6 +3508,8 @@ traits:
   piedi_stabilizzatori_fango:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2405,6 +3523,8 @@ traits:
   pigmenti_assorbi_suono:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2418,6 +3538,8 @@ traits:
   pigmenti_aurorali:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2430,6 +3552,8 @@ traits:
   pigmenti_biolumina:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2443,6 +3567,8 @@ traits:
   pigmenti_cromofase:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2456,6 +3582,8 @@ traits:
   pigmenti_cronoresponsivi:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2469,6 +3597,8 @@ traits:
   pigmenti_signal:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2482,6 +3612,8 @@ traits:
   pigmenti_tannino:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2495,6 +3627,8 @@ traits:
   pigmenti_termici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2508,6 +3642,8 @@ traits:
   pigmenti_termofasici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2521,6 +3657,8 @@ traits:
   pigmenti_ultravioletto:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2534,6 +3672,8 @@ traits:
   pinne_trazione_vortice:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2547,6 +3687,8 @@ traits:
   piume_antistatiche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2560,6 +3702,8 @@ traits:
   piume_plasma:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2570,9 +3714,28 @@ traits:
     biomi:
       canopia_ionica: 1
     missing_metadata: true
+  piume_solari_fotovoltaiche:
+    label: Piume Solari Fotovoltaiche
+    label_en: Piume Solari Fotovoltaiche
+    description_it: Piumaggio fotovoltaico che immagazzina luce per lunghe missioni.
+    description_en: Photovoltaic plumage storing sunlight for long sorties.
+    tier: T2
+    archetype: difesa
+    occurrences: 0
+    famiglia_tipologia: Tegumentario/Energetico
+    fattore_mantenimento_energetico: Alto (Richiede manutenzione delle lamine fotoreattive)
+    sinergie:
+    - membrane_eliofiltranti
+    - sacche_spore_stratosferiche
+    conflitti:
+    - criostasi_adattiva
+    biomi: {}
+    missing_metadata: false
   placche_basiche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2586,6 +3749,8 @@ traits:
   placche_calcaree_flessibili:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2599,6 +3764,8 @@ traits:
   placche_scudo_abissale:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2612,6 +3779,8 @@ traits:
   plastron_vapori_caldi:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2622,9 +3791,27 @@ traits:
     biomi:
       caldera_glaciale: 1
     missing_metadata: true
+  polmoni_cristallini_alta_quota:
+    label: Polmoni Cristallini d'Alta Quota
+    label_en: Polmoni Cristallini d'Alta Quota
+    description_it: Polmoni cristallini che concentrano ossigeno rarefatto in quota.
+    description_en: Crystalline lungs concentrating thin high-altitude oxygen.
+    tier: T2
+    archetype: sopravvivenza
+    occurrences: 0
+    famiglia_tipologia: Respiratorio/Aerobico
+    fattore_mantenimento_energetico: Medio (Pulizia periodica dei cristalli)
+    sinergie:
+    - membrane_eliofiltranti
+    conflitti:
+    - branchie_osmotiche_salmastra
+    biomi: {}
+    missing_metadata: false
   polmoni_ramificati:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2638,6 +3825,8 @@ traits:
   pori_osmotici_regolati:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2651,6 +3840,8 @@ traits:
   proteine_shock_termico:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2663,6 +3854,8 @@ traits:
   radici_filtro_solfati:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2676,6 +3869,8 @@ traits:
   random:
     label: Trait Random
     label_en: Trait Random
+    description_it: Slot sperimentale che estrae tratti casuali dal pool controllato.
+    description_en: Experimental slot drawing random traits from a curated pool.
     tier: T1
     archetype: adattivo
     occurrences: 0
@@ -2688,6 +3883,8 @@ traits:
   respiratori_modulari:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2701,20 +3898,26 @@ traits:
   respiro_a_scoppio:
     label: Respiro a scoppio
     label_en: Burst Breath Propulsion
+    description_it: Valvole toraciche che rilasciano getti propulsivi istantanei.
+    description_en: Thoracic valves unleashing instantaneous propulsion bursts.
     tier: T1
     archetype: sopravvivenza
-    occurrences: 1
+    occurrences: 2
     famiglia_tipologia: Respiratorio/Propulsivo
     fattore_mantenimento_energetico: Alto (Richiede ricarica polmonare)
     sinergie:
     - sacche_galleggianti_ascensoriali
+    - squame_rifrangenti_deserto
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      mezzanotte_orbitale: 1
     missing_metadata: false
   rete_ionoscambio:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2728,6 +3931,8 @@ traits:
   rete_neurofitonica:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2741,6 +3946,8 @@ traits:
   rete_neuroplancton:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2754,6 +3961,8 @@ traits:
   rete_neuroqubit:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2767,6 +3976,8 @@ traits:
   rete_neurosonar:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2780,6 +3991,8 @@ traits:
   rete_osmotica:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2793,6 +4006,8 @@ traits:
   rete_parafulmine:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2806,6 +4021,8 @@ traits:
   rete_vascolare_thermo:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2819,6 +4036,8 @@ traits:
   reti_capillari_radici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2831,6 +4050,8 @@ traits:
   retine_sussultorie:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2844,18 +4065,26 @@ traits:
   risonanza_di_branco:
     label: Risonanza di Branco
     label_en: Pack Resonance
+    description_it: Rete risonante che amplifica buff condivisi del branco.
+    description_en: Resonant lattice amplifying the pack's shared buffs.
     tier: T1
     archetype: supporto
-    occurrences: 0
+    occurrences: 1
     famiglia_tipologia: Supporto/Armonico
     fattore_mantenimento_energetico: Basso (Richiede mantenimento empatico)
-    sinergie: []
+    sinergie:
+    - antenne_plasmatiche_tempesta
+    - carapace_luminiscente_abissale
+    - cavita_risonanti_tundra
     conflitti: []
-    biomi: {}
+    biomi:
+      foresta_miceliale: 1
     missing_metadata: false
   sacche_brina_notturna:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2869,6 +4098,8 @@ traits:
   sacche_buoyoniche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2882,6 +4113,8 @@ traits:
   sacche_calcaree:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2895,20 +4128,30 @@ traits:
   sacche_galleggianti_ascensoriali:
     label: Sacche galleggianti ascensoriali
     label_en: Elevating Buoyancy Sacs
+    description_it: Sacche gassose regolabili per controllare assetto e profondità.
+    description_en: Adjustable gas sacs controlling buoyancy and depth.
     tier: T1
     archetype: locomozione
-    occurrences: 1
+    occurrences: 4
     famiglia_tipologia: Idrostatico/Locomotorio
     fattore_mantenimento_energetico: Medio (Per il controllo della pressione)
     sinergie:
+    - cartilagine_flessotermica_venti
+    - respiro_a_scoppio
+    - scheletro_idro_regolante
     - struttura_elastica_amorfa
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      canopia_psionica_leggera: 1
+      dorsale_termale_tropicale: 1
+      mezzanotte_orbitale: 1
+      orbita_psionica_inversa: 1
     missing_metadata: false
   sacche_pressurizzate:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2922,6 +4165,8 @@ traits:
   sacche_riserva_plancton:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2935,6 +4180,8 @@ traits:
   sacche_risonanza:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2948,6 +4195,8 @@ traits:
   sacche_scarica_pilota:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2958,24 +4207,46 @@ traits:
     biomi:
       canopia_ionica: 1
     missing_metadata: true
+  sacche_spore_stratosferiche:
+    label: Sacche di Spore Stratosferiche
+    label_en: Sacche di Spore Stratosferiche
+    description_it: Vescicole stratosferiche che disperdono spore di supporto a lungo.
+    description_en: Stratospheric vesicles dispersing long-range support spores.
+    tier: T3
+    archetype: simbiotico
+    occurrences: 0
+    famiglia_tipologia: Simbiotico/Supporto
+    fattore_mantenimento_energetico: Alto (Coltura continua di spore portanti)
+    sinergie:
+    - piume_solari_fotovoltaiche
+    conflitti:
+    - respiro_a_scoppio
+    biomi: {}
+    missing_metadata: false
   sangue_piroforico:
     label: Sangue che prende fuoco a contatto con l'ossigeno
     label_en: Pyrophoric Blood
+    description_it: Fluido ematico che incendia l'aria colpendo chi perfora la corazza.
+    description_en: Blood ignites on air contact, burning would-be piercers.
     tier: T1
     archetype: sopravvivenza
-    occurrences: 1
+    occurrences: 2
     famiglia_tipologia: Circolatorio/Difensivo
     fattore_mantenimento_energetico: Medio (Sintesi dei composti)
-    sinergie: []
+    sinergie:
+    - lamelle_termoforetiche
     conflitti:
     - criostasi_adattiva
     - scheletro_idro_regolante
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      mezzanotte_orbitale: 1
     missing_metadata: false
   scaglie_bisolfuro:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -2989,6 +4260,8 @@ traits:
   scaglie_speculari:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3002,21 +4275,28 @@ traits:
   scheletro_idro_regolante:
     label: Scheletro Idro-Regolante
     label_en: Hydro-Regulating Skeleton
+    description_it: Ossa porose che modulano il contenuto idrico per mutare massa.
+    description_en: Porous bones modulate water content to shift body mass.
     tier: T1
     archetype: struttura
-    occurrences: 1
+    occurrences: 3
     famiglia_tipologia: Strutturale/Omeostatico
     fattore_mantenimento_energetico: Medio (Scambio rapido di fluidi)
     sinergie:
+    - branchie_osmotiche_salmastra
     - sacche_galleggianti_ascensoriali
+    - struttura_elastica_amorfa
     conflitti:
     - sangue_piroforico
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 2
+      mezzanotte_orbitale: 1
     missing_metadata: false
   secrezione_rallentante_palmi:
     label: Mani secernano liquido rallentante
     label_en: Retarding Palm Secretions
+    description_it: Palmi che rilasciano gel rallentante per bloccare bersagli rapidi.
+    description_en: Palms exude slowing gel to snare fast targets.
     tier: T1
     archetype: difesa
     occurrences: 1
@@ -3027,11 +4307,13 @@ traits:
     - carapace_fase_variabile
     - nucleo_ovomotore_rotante
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
     missing_metadata: false
   sensori_corrente_micros:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3045,6 +4327,8 @@ traits:
   sensori_differenziale_pressione:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3058,6 +4342,8 @@ traits:
   sensori_drillici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3071,6 +4357,8 @@ traits:
   sensori_elettroflora:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3081,9 +4369,27 @@ traits:
     biomi:
       canopia_ionica: 1
     missing_metadata: true
+  sensori_geomagnetici:
+    label: Sensori Geomagnetici
+    label_en: Geomagnetic Resonance Sensors
+    description_it: Cristalli cranici che mappano corridoi geomagnetici invisibili.
+    description_en: Cranial crystals mapping invisible geomagnetic corridors.
+    tier: T1
+    archetype: sensoriale
+    occurrences: 0
+    famiglia_tipologia: Sensoriale/Navigazione
+    fattore_mantenimento_energetico: Basso (Ricettori passivi)
+    sinergie:
+    - carapace_fase_variabile
+    - eco_interno_riflesso
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
   sensori_gradiente_geotermico:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3097,6 +4403,8 @@ traits:
   sensori_lampo_precoce:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3110,6 +4418,8 @@ traits:
   sensori_limo:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3123,6 +4433,8 @@ traits:
   sensori_ph_marea:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3136,6 +4448,8 @@ traits:
   sensori_solfuri:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3149,6 +4463,8 @@ traits:
   sensori_spettro_profondo:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3162,6 +4478,8 @@ traits:
   sensori_termobiforcuti:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3175,6 +4493,8 @@ traits:
   sensori_termoclino:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3188,6 +4508,8 @@ traits:
   simbionti_batteri_metano:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3201,6 +4523,8 @@ traits:
   simbionti_detox:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3214,6 +4538,8 @@ traits:
   simbionti_luciferasi:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3227,6 +4553,8 @@ traits:
   simbionti_metabolizzatori_azoto:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3237,9 +4565,28 @@ traits:
     biomi:
       laguna_bioreattiva: 1
     missing_metadata: true
+  sinapsi_coraline_polifoniche:
+    label: Sinapsi Coraline Polifoniche
+    label_en: Sinapsi Coraline Polifoniche
+    description_it: Sinapsi coralline che trasmettono ordini tramite armoniche marine.
+    description_en: Coralline synapses relaying orders through marine harmonics.
+    tier: T2
+    archetype: simbiotico
+    occurrences: 0
+    famiglia_tipologia: Simbiotico/Comunicazione
+    fattore_mantenimento_energetico: Medio (Scambio continuo di impulsi corallini)
+    sinergie:
+    - antenne_plasmatiche_tempesta
+    - carapace_luminiscente_abissale
+    conflitti:
+    - spore_psichiche_silenziate
+    biomi: {}
+    missing_metadata: false
   sinapsi_risonanza_storm:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3253,6 +4600,8 @@ traits:
   sistema_biofeedback_rete:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3266,6 +4615,8 @@ traits:
   sistema_sedimento_attivo:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3279,6 +4630,8 @@ traits:
   sistema_sospensione_coriolis:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3292,20 +4645,26 @@ traits:
   sonno_emisferico_alternato:
     label: Dormire con solo metà cervello alla volta
     label_en: Unihemispheric Sleep
+    description_it: Cervello alternato che veglia con un emisfero mentre l'altro riposa.
+    description_en: Alternating hemispheres keep watch while the other sleeps.
     tier: T1
     archetype: sensoriale
-    occurrences: 1
+    occurrences: 2
     famiglia_tipologia: Nervoso/Omeostatico
     fattore_mantenimento_energetico: Medio (Mantenimento attivo di metà cervello)
     sinergie:
+    - artigli_sghiaccio_glaciale
     - occhi_infrarosso_composti
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      mezzanotte_orbitale: 1
     missing_metadata: false
   spine_dati:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3319,6 +4678,8 @@ traits:
   spore_acidostatiche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3332,46 +4693,80 @@ traits:
   spore_psichiche_silenziate:
     label: Spora Psichica Silenziosa
     label_en: Silent Psychic Spores
+    description_it: Spore psioniche che sedano e confondono i bersagli vicini.
+    description_en: Psionic spores that lull and confuse nearby targets.
     tier: T1
     archetype: metabolismo
-    occurrences: 1
+    occurrences: 3
     famiglia_tipologia: Escretorio/Psichico
     fattore_mantenimento_energetico: Alto (Produzione e rilascio)
     sinergie: []
     conflitti:
     - respiro_a_scoppio
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      foresta_miceliale: 1
+      mezzanotte_orbitale: 1
+    missing_metadata: false
+  squame_rifrangenti_deserto:
+    label: Squame Rifrangenti del Deserto
+    label_en: Squame Rifrangenti del Deserto
+    description_it: Scaglie cristalline che diffondono calore e creano miraggi.
+    description_en: Crystal scales diffusing heat and casting mirages.
+    tier: T2
+    archetype: difesa
+    occurrences: 0
+    famiglia_tipologia: Tegumentario/Difensivo
+    fattore_mantenimento_energetico: Medio (Richiede riallineamento delle placche)
+    sinergie:
+    - respiro_a_scoppio
+    conflitti:
+    - mimetismo_cromatico_passivo
+    biomi: {}
     missing_metadata: false
   struttura_elastica_amorfa:
     label: Struttura elastica, allungabile, amorfa, retrattile
     label_en: Elastic Amorphous Frame
+    description_it: Corpo amorfo che si estende e si compatta per evadere vincoli.
+    description_en: Amorphous frame stretching or compressing to escape binds.
     tier: T1
     archetype: struttura
-    occurrences: 1
+    occurrences: 4
     famiglia_tipologia: Strutturale/Locomotorio
     fattore_mantenimento_energetico: Basso (Passivo)
     sinergie:
+    - artigli_sette_vie
+    - mimetismo_cromatico_passivo
+    - sacche_galleggianti_ascensoriali
     - scheletro_idro_regolante
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      canopia_psionica_leggera: 1
+      dorsale_termale_tropicale: 1
+      falde_magnetiche_psioniche: 1
+      foresta_miceliale: 1
     missing_metadata: false
   tattiche_di_branco:
     label: Tattiche di Branco
     label_en: Pack Tactics
+    description_it: Protocollo tattico che coordina focus e prese condivise.
+    description_en: Tactical protocol coordinating shared focus and grapples.
     tier: T1
     archetype: strategia
-    occurrences: 0
+    occurrences: 1
     famiglia_tipologia: Strategico/Supporto
     fattore_mantenimento_energetico: Medio (Broadcast continuo di segnali)
-    sinergie: []
+    sinergie:
+    - artigli_sette_vie
     conflitti: []
-    biomi: {}
+    biomi:
+      foresta_miceliale: 1
     missing_metadata: false
   tendini_attuatori:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3385,6 +4780,8 @@ traits:
   tendini_cristallini:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3398,6 +4795,8 @@ traits:
   tendini_elastomagnetici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3411,6 +4810,8 @@ traits:
   tendini_flessioni_rapide:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3424,6 +4825,8 @@ traits:
   tentacoli_sensori_sismici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3437,6 +4840,8 @@ traits:
   tessuti_autorigeneranti_calore:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3450,6 +4855,8 @@ traits:
   tessuti_piezobiotici:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3463,6 +4870,8 @@ traits:
   valvole_aerofragili:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3476,6 +4885,8 @@ traits:
   valvole_efficienza_moto:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3489,6 +4900,8 @@ traits:
   valvole_flusso_bidirezionali:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3502,6 +4915,8 @@ traits:
   valvole_pressione_caverna:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3515,6 +4930,8 @@ traits:
   valvole_pressione_dinamiche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3525,9 +4942,26 @@ traits:
     biomi:
       dorsale_termale_tropicale: 1
     missing_metadata: true
+  vello_condensatore_nebbie:
+    label: Vello Condensatore di Nebbie
+    label_en: Vello Condensatore di Nebbie
+    description_it: Vello capillare che condensa nebbia in riserve idriche mobili.
+    description_en: Capillary fleece condensing fog into mobile water reserves.
+    tier: T1
+    archetype: difesa
+    occurrences: 0
+    famiglia_tipologia: Tegumentario/Idratazione
+    fattore_mantenimento_energetico: Basso (Strutture passive a microfilo)
+    sinergie:
+    - bulbi_radici_permafrost
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
   ventose_geotermiche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3541,6 +4975,8 @@ traits:
   ventose_tessitura:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3554,20 +4990,25 @@ traits:
   ventriglio_gastroliti:
     label: Denti sonci (ciottoli/sassi), ti nutri di tutto
     label_en: Gastrolith Grinding Gizzard
+    description_it: Ventriglio muscoloso che macina cibi duri con gastroliti.
+    description_en: Muscular gizzard grinding hard food with gastroliths.
     tier: T1
     archetype: metabolismo
-    occurrences: 1
+    occurrences: 2
     famiglia_tipologia: Digestivo/Alimentare
     fattore_mantenimento_energetico: Medio (Contrazione muscolare costante)
     sinergie:
     - filamenti_digestivi_compattanti
     conflitti: []
     biomi:
-      caverna_risonante: 1
+      dorsale_termale_tropicale: 1
+      mezzanotte_orbitale: 1
     missing_metadata: false
   vesciche_sospensive:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3581,6 +5022,8 @@ traits:
   vescicole_assorbenti:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3594,6 +5037,8 @@ traits:
   vibrisse_salimetriche:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3607,6 +5052,8 @@ traits:
   vista_multispettro:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3620,18 +5067,23 @@ traits:
   zampe_a_molla:
     label: Zampe a Molla
     label_en: Spring-Loaded Limbs
+    description_it: Arti a molla che accumulano energia per balzi di riposizionamento.
+    description_en: Spring-loaded limbs storing energy for repositioning leaps.
     tier: T1
     archetype: locomozione
     occurrences: 0
     famiglia_tipologia: Mobilità/Cinetico
     fattore_mantenimento_energetico: Basso (Carica elastica a turni alterni)
-    sinergie: []
+    sinergie:
+    - artigli_sghiaccio_glaciale
     conflitti: []
     biomi: {}
     missing_metadata: false
   zampe_cerniera:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3645,6 +5097,8 @@ traits:
   zoccoli_resina_ionica:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3655,9 +5109,27 @@ traits:
     biomi:
       foresta_acida: 1
     missing_metadata: true
+  zoccoli_risonanti_steppe:
+    label: Zoccoli Risonanti delle Steppe
+    label_en: Zoccoli Risonanti delle Steppe
+    description_it: Zoccoli cavi che inviano onde ritmiche al branco sulle steppe.
+    description_en: Hollow hooves sending rhythmic waves across the steppe pack.
+    tier: T1
+    archetype: locomozione
+    occurrences: 0
+    famiglia_tipologia: Locomotorio/Supporto
+    fattore_mantenimento_energetico: Basso (Vibrazione passiva del suolo)
+    sinergie:
+    - cartilagine_flessotermica_venti
+    conflitti:
+    - zampe_a_molla
+    biomi: {}
+    missing_metadata: false
   zoccoli_stabilita_dinamica:
     label: null
     label_en: null
+    description_it: null
+    description_en: null
     tier: null
     archetype: non_classificato
     occurrences: 1
@@ -3678,151 +5150,79 @@ archetypes:
     traits:
     - focus_frazionato
   difesa:
-    total: 2
+    total: 19
     traits:
+    - ali_membrana_sonica
+    - appendici_risonanti_marea
+    - barriere_miasma_glaciale
+    - branchie_microfiltri
+    - capsule_paracadute
+    - circolazione_bifasica
+    - coda_coppia_retroattiva
+    - cute_resistente_sali
+    - enzimi_antipredatori_algali
+    - filtri_planctonici
+    - ghiandole_fango_coesivo
+    - giunti_antitorsione
+    - lingua_cristallina
     - mimetismo_cromatico_passivo
+    - mucose_barofile
+    - piume_solari_fotovoltaiche
     - secrezione_rallentante_palmi
+    - squame_rifrangenti_deserto
+    - vello_condensatore_nebbie
   esplorazione:
     total: 1
     traits:
     - pathfinder
   locomozione:
-    total: 4
+    total: 21
     traits:
+    - ali_ioniche
+    - antenne_wideband
     - artigli_sette_vie
+    - artigli_sghiaccio_glaciale
+    - barbigli_sensori_plasma
+    - branchie_metalloidi
+    - capillari_fotovoltaici
+    - cartilagine_flessotermica_venti
+    - chemiorecettori_bromuro
+    - coda_contrappeso
     - coda_frusta_cinetica
+    - cuscinetti_elettrostatici
+    - enzimi_antifase_termica
+    - filamenti_termoconduzione
+    - ghiandole_fango_calde
+    - ghiandole_ventosa
+    - linfa_tampone
+    - mucose_aderenza_sonica
     - sacche_galleggianti_ascensoriali
     - zampe_a_molla
+    - zoccoli_risonanti_steppe
   metabolismo:
-    total: 4
+    total: 18
     traits:
+    - antenne_dustsense
+    - appendici_thermotattiche
+    - batteri_endosimbionti_chemio
+    - branchie_solfatiche
+    - carapace_segmenti_logici
+    - circolazione_bifasica_palude
+    - circolazione_cooling_loop
+    - coda_stabilizzatrice_filo
     - criostasi_adattiva
+    - cuticole_cerose
+    - enzimi_chelanti
     - filamenti_digestivi_compattanti
+    - flagelli_ancoranti
+    - ghiandole_grafene
+    - grassi_termici
+    - luminescenza_aurorale
     - spore_psichiche_silenziate
     - ventriglio_gastroliti
   non_classificato:
-    total: 252
+    total: 132
     traits:
-    - ali_fulminee
-    - ali_ioniche
-    - ali_membrana_sonica
-    - antenne_dustsense
-    - antenne_eco_turbina
-    - antenne_flusso_mareale
-    - antenne_microonde_cavernose
-    - antenne_reagenti
-    - antenne_tesla
-    - antenne_waveguide
-    - antenne_wideband
-    - appendici_risonanti_marea
-    - appendici_thermotattiche
-    - artigli_acidofagi
-    - artigli_induzione
-    - artigli_radice
-    - artigli_scivolo_silente
-    - artigli_vetrificati
-    - baffi_mareomotori
-    - barbigli_sensori_plasma
-    - barriere_miasma_glaciale
-    - batteri_endosimbionti_chemio
-    - batteri_termofili_endosimbiosi
-    - biochip_memoria
-    - biofilm_glow
-    - biofilm_iperarido
-    - branchie_dual_mode
-    - branchie_eoliche
-    - branchie_metalloidi
-    - branchie_microfiltri
-    - branchie_solfatiche
-    - branchie_turbina
-    - camere_anticorrosione
-    - camere_mirage
-    - camere_nutrienti_vent
-    - capillari_criogenici
-    - capillari_fluoridici
-    - capillari_fotovoltaici
-    - capsule_paracadute
-    - carapace_segmenti_logici
-    - carapaci_ferruginosi
-    - cartilagini_biofibre
-    - cartilagini_desertiche
-    - cartilagini_flessoacustiche
-    - cartilagini_pseudometalliche
-    - cervelletto_equilibrio_statico
-    - chemiorecettori_bromuro
-    - circolazione_bifasica
-    - circolazione_cooling_loop
-    - circolazione_doppia
-    - circolazione_supercritica
-    - ciste_riduttive
-    - ciste_salmastre
-    - cisti_iperbariche
-    - coda_balanciere
-    - coda_contrappeso
-    - coda_coppia_retroattiva
-    - coda_stabilizzatrice_filo
-    - coda_stabilizzatrice_geiser
-    - coda_stabilizzatrice_vortex
-    - colonne_vibromagnetiche
-    - coralli_partner
-    - cromofori_alert_acido
-    - cuore_multicamera_bassa_pressione
-    - cuscinetti_elettrostatici
-    - cute_resistente_sali
-    - cuticole_cerose
-    - cuticole_neutralizzanti
-    - denti_chelatanti
-    - denti_ossidoferro
-    - denti_silice_termici
-    - denti_tuning_fork
-    - echi_risonanti
-    - enzimi_antifase_termica
-    - enzimi_antipredatori_algali
-    - enzimi_chelanti
-    - enzimi_chelatori_rapidi
-    - enzimi_metanoossidanti
-    - epidermide_dielettrica
-    - epitelio_fosforescente
-    - filamenti_magnetotrofi
-    - filamenti_superconduttivi
-    - filamenti_termoconduzione
-    - filtri_planctonici
-    - flagelli_ancoranti
-    - foliage_fotocatodico
-    - foliaggio_spugna
-    - ghiaccio_piezoelettrico
-    - ghiandole_cambio_salino
-    - ghiandole_condensa_ozono
-    - ghiandole_eco_mappanti
-    - ghiandole_fango_calde
-    - ghiandole_fango_coesivo
-    - ghiandole_grafene
-    - ghiandole_inchiostro_luce
-    - ghiandole_iodoattive
-    - ghiandole_minerali
-    - ghiandole_nebbia_acida
-    - ghiandole_nebbia_ionica
-    - ghiandole_resina_conduttiva
-    - ghiandole_ventosa
-    - giunti_antitorsione
-    - grassi_termici
-    - gusci_criovetro
-    - gusci_magnesio
-    - lamelle_shear
-    - lamelle_sincroniche
-    - lamine_filtranti_aeree
-    - lamine_scudo_silice
-    - linfa_tampone
-    - lingua_cristallina
-    - luminescenza_aurorale
-    - luminescenza_hydrotermica
-    - mantelli_geotermici
-    - membrane_captura_rugiada
-    - membrane_planata_vectored
-    - membrane_pneumatofori
-    - midollo_antivibrazione
-    - mucose_aderenza_sonica
-    - mucose_barofile
     - muscoli_controvento
     - muscoli_fasici
     - muscoli_isotermici
@@ -3956,160 +5356,136 @@ archetypes:
     - zoccoli_resina_ionica
     - zoccoli_stabilita_dinamica
   offensiva:
-    total: 1
+    total: 14
     traits:
+    - antenne_flusso_mareale
+    - artigli_induzione
+    - biochip_memoria
+    - camere_anticorrosione
+    - cartilagini_biofibre
+    - circolazione_supercritica
+    - coda_stabilizzatrice_vortex
+    - denti_chelatanti
+    - enzimi_metanoossidanti
+    - foliaggio_spugna
     - ghiandola_caustica
+    - ghiandole_iodoattive
+    - gusci_magnesio
+    - mantelli_geotermici
   sensoriale:
-    total: 5
+    total: 22
     traits:
+    - ali_fulminee
+    - antenne_plasmatiche_tempesta
+    - antenne_waveguide
+    - baffi_mareomotori
+    - branchie_eoliche
+    - capillari_fluoridici
+    - cavita_risonanti_tundra
+    - cervelletto_equilibrio_statico
+    - coda_balanciere
+    - cuore_multicamera_bassa_pressione
+    - echi_risonanti
     - eco_interno_riflesso
+    - filamenti_superconduttivi
+    - ghiandole_eco_mappanti
+    - ghiandole_resina_conduttiva
+    - lamine_scudo_silice
     - lingua_tattile_trama
+    - midollo_antivibrazione
     - occhi_infrarosso_composti
     - olfatto_risonanza_magnetica
+    - sensori_geomagnetici
     - sonno_emisferico_alternato
-  sopravvivenza:
-    total: 2
+  simbiotico:
+    total: 19
     traits:
+    - antenne_reagenti
+    - artigli_scivolo_silente
+    - biofilm_iperarido
+    - bulbi_radici_permafrost
+    - camere_nutrienti_vent
+    - cartilagini_flessoacustiche
+    - chioma_parassita_canopica
+    - ciste_salmastre
+    - coralli_partner
+    - denti_silice_termici
+    - epitelio_fosforescente
+    - ghiandole_cambio_salino
+    - ghiandole_nebbia_acida
+    - lamelle_sincroniche
+    - membrane_planata_vectored
+    - mucillagine_simbionte_mangrovie
+    - nodi_micorrizici_oracolari
+    - sacche_spore_stratosferiche
+    - sinapsi_coraline_polifoniche
+  sopravvivenza:
+    total: 6
+    traits:
+    - branchie_osmotiche_salmastra
+    - lamelle_termoforetiche
+    - membrane_eliofiltranti
+    - polmoni_cristallini_alta_quota
     - respiro_a_scoppio
     - sangue_piroforico
   strategia:
-    total: 2
+    total: 15
     traits:
+    - antenne_microonde_cavernose
+    - artigli_radice
+    - biofilm_glow
+    - camere_mirage
+    - cartilagini_desertiche
+    - ciste_riduttive
+    - colonne_vibromagnetiche
+    - denti_ossidoferro
+    - epidermide_dielettrica
+    - ghiaccio_piezoelettrico
+    - ghiandole_minerali
+    - lamelle_shear
+    - membrane_captura_rugiada
     - pianificatore
     - tattiche_di_branco
   struttura:
-    total: 3
+    total: 17
     traits:
+    - antenne_tesla
+    - artigli_vetrificati
+    - branchie_dual_mode
+    - capillari_criogenici
     - carapace_fase_variabile
+    - carapace_luminiscente_abissale
+    - cartilagini_pseudometalliche
+    - cisti_iperbariche
+    - cromofori_alert_acido
+    - denti_tuning_fork
+    - filamenti_magnetotrofi
+    - ghiandole_condensa_ozono
+    - ghiandole_nebbia_ionica
+    - lamine_filtranti_aeree
+    - membrane_pneumatofori
     - scheletro_idro_regolante
     - struttura_elastica_amorfa
   supporto:
-    total: 3
+    total: 16
     traits:
+    - antenne_eco_turbina
+    - artigli_acidofagi
+    - batteri_termofili_endosimbiosi
+    - branchie_turbina
+    - carapaci_ferruginosi
+    - circolazione_doppia
+    - coda_stabilizzatrice_geiser
+    - cuticole_neutralizzanti
     - empatia_coordinativa
+    - enzimi_chelatori_rapidi
+    - foliage_fotocatodico
+    - ghiandole_inchiostro_luce
+    - gusci_criovetro
+    - luminescenza_hydrotermica
     - nucleo_ovomotore_rotante
     - risonanza_di_branco
 missing_metadata:
-- ali_fulminee
-- ali_ioniche
-- ali_membrana_sonica
-- antenne_dustsense
-- antenne_eco_turbina
-- antenne_flusso_mareale
-- antenne_microonde_cavernose
-- antenne_reagenti
-- antenne_tesla
-- antenne_waveguide
-- antenne_wideband
-- appendici_risonanti_marea
-- appendici_thermotattiche
-- artigli_acidofagi
-- artigli_induzione
-- artigli_radice
-- artigli_scivolo_silente
-- artigli_vetrificati
-- baffi_mareomotori
-- barbigli_sensori_plasma
-- barriere_miasma_glaciale
-- batteri_endosimbionti_chemio
-- batteri_termofili_endosimbiosi
-- biochip_memoria
-- biofilm_glow
-- biofilm_iperarido
-- branchie_dual_mode
-- branchie_eoliche
-- branchie_metalloidi
-- branchie_microfiltri
-- branchie_solfatiche
-- branchie_turbina
-- camere_anticorrosione
-- camere_mirage
-- camere_nutrienti_vent
-- capillari_criogenici
-- capillari_fluoridici
-- capillari_fotovoltaici
-- capsule_paracadute
-- carapace_segmenti_logici
-- carapaci_ferruginosi
-- cartilagini_biofibre
-- cartilagini_desertiche
-- cartilagini_flessoacustiche
-- cartilagini_pseudometalliche
-- cervelletto_equilibrio_statico
-- chemiorecettori_bromuro
-- circolazione_bifasica
-- circolazione_cooling_loop
-- circolazione_doppia
-- circolazione_supercritica
-- ciste_riduttive
-- ciste_salmastre
-- cisti_iperbariche
-- coda_balanciere
-- coda_contrappeso
-- coda_coppia_retroattiva
-- coda_stabilizzatrice_filo
-- coda_stabilizzatrice_geiser
-- coda_stabilizzatrice_vortex
-- colonne_vibromagnetiche
-- coralli_partner
-- cromofori_alert_acido
-- cuore_multicamera_bassa_pressione
-- cuscinetti_elettrostatici
-- cute_resistente_sali
-- cuticole_cerose
-- cuticole_neutralizzanti
-- denti_chelatanti
-- denti_ossidoferro
-- denti_silice_termici
-- denti_tuning_fork
-- echi_risonanti
-- enzimi_antifase_termica
-- enzimi_antipredatori_algali
-- enzimi_chelanti
-- enzimi_chelatori_rapidi
-- enzimi_metanoossidanti
-- epidermide_dielettrica
-- epitelio_fosforescente
-- filamenti_magnetotrofi
-- filamenti_superconduttivi
-- filamenti_termoconduzione
-- filtri_planctonici
-- flagelli_ancoranti
-- foliage_fotocatodico
-- foliaggio_spugna
-- ghiaccio_piezoelettrico
-- ghiandole_cambio_salino
-- ghiandole_condensa_ozono
-- ghiandole_eco_mappanti
-- ghiandole_fango_calde
-- ghiandole_fango_coesivo
-- ghiandole_grafene
-- ghiandole_inchiostro_luce
-- ghiandole_iodoattive
-- ghiandole_minerali
-- ghiandole_nebbia_acida
-- ghiandole_nebbia_ionica
-- ghiandole_resina_conduttiva
-- ghiandole_ventosa
-- giunti_antitorsione
-- grassi_termici
-- gusci_criovetro
-- gusci_magnesio
-- lamelle_shear
-- lamelle_sincroniche
-- lamine_filtranti_aeree
-- lamine_scudo_silice
-- linfa_tampone
-- lingua_cristallina
-- luminescenza_aurorale
-- luminescenza_hydrotermica
-- mantelli_geotermici
-- membrane_captura_rugiada
-- membrane_planata_vectored
-- membrane_pneumatofori
-- midollo_antivibrazione
-- mucose_aderenza_sonica
-- mucose_barofile
 - muscoli_controvento
 - muscoli_fasici
 - muscoli_isotermici
