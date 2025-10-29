@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import argparse
 import importlib
+import io
+import json
 import os
 import sys
 from pathlib import Path
@@ -88,6 +91,40 @@ def test_game_cli_missing_profile_raises(monkeypatch: pytest.MonkeyPatch, tmp_pa
 
     with pytest.raises(module.ProfileError):
         module.load_profile("absent")
+
+
+def test_game_cli_investigate_writes_reports(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = _import("game_cli")
+    target_file = tmp_path / "sample.json"
+    target_file.write_text(json.dumps({"pack": {"name": "Gamma"}}), encoding="utf-8")
+
+    custom_reports_dir = tmp_path / "reports" / "incoming"
+    monkeypatch.setattr(module, "INCOMING_REPORTS_DIR", custom_reports_dir)
+
+    args = argparse.Namespace(
+        paths=[str(target_file)],
+        recursive=False,
+        json=True,
+        html=True,
+        max_preview=200,
+        destination="session",
+    )
+
+    monkeypatch.setattr(module.sys, "stdout", io.StringIO())
+    exit_code = module.command_investigate(args)
+    assert exit_code == 0
+
+    reports_dir = custom_reports_dir / "session"
+    json_path = reports_dir / "report.json"
+    html_path = reports_dir / "report.html"
+    assert json_path.exists()
+    assert html_path.exists()
+
+    payload = json.loads(json_path.read_text(encoding="utf-8"))
+    assert isinstance(payload, list)
+    assert payload
 
 
 def test_roll_pack_module_has_entrypoints() -> None:
