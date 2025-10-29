@@ -39,7 +39,33 @@ evo-tactics/
 
 Consulta la sezione [Indice Tracker & Stato](#indice-tracker--stato) per percentuali e stato sintetico dei principali blocchi di lavoro.
 
-_Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py), eseguito ogni giorno a mezzogiorno tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml)._ 
+_Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py), eseguito ogni giorno a mezzogiorno tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml)._
+
+## Recap operativo & prossimi step
+
+<table>
+  <tr>
+    <td><strong>Stato corrente</strong></td>
+    <td>
+      <ul>
+        <li>Dataset e pack ecosistema validati con gli ultimi report in <code>reports/incoming/latest/</code>.</li>
+        <li>Pipeline di generazione e dashboard test-interface allineate ai dati pubblici.</li>
+        <li>Workflow CI attivo (TypeScript + Python) su ogni push per mantenere la qualità.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+### Come proseguire dalla checklist
+
+- [ ] Rivedi i log in <code>reports/incoming/validation/</code> e apri ticket per eventuali regressioni.
+- [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
+- [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
+- [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
+
+### Barra di completamento
+
+<progress value="0.7" max="1"></progress> **70 %** completato — aggiornare dopo il prossimo ciclo di validazione.
 
 ## Quick Start — Node/TypeScript
 ```bash
