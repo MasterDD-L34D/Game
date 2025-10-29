@@ -41,7 +41,8 @@
       "foresta_miceliale": "Mycelial Forest",
       "atollo_obsidiana": "Obsidian Atoll",
       "mezzanotte_orbitale": "Orbital Midnight",
-      "caverna_risonante": "Resonant Cavern"
+      "caverna_risonante": "Resonant Cavern",
+      "rovine_planari": "Planar Ruins"
     },
     "hazards": {
       "aerosol_solfurei": "Sulfur Aerosols",
@@ -67,7 +68,8 @@
       "cursoriale_quadrupede": "Cursorial Quadruped",
       "ingegnere_radicante": "Rooting Engineer",
       "scavenger_corazzato": "Armored Scavenger",
-      "volatore_planatore": "Gliding Flier"
+      "volatore_planatore": "Gliding Flier",
+      "anfibio_filtratore": "Filter-Feeding Amphibian"
     },
     "salinity": {
       "dolce": "Freshwater",

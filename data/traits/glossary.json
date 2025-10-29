@@ -1024,6 +1024,30 @@
       "label_en": "Mucose Barofile",
       "description_it": "Mucose Barofile permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di abisso vulcanico.",
       "description_en": "Mucose Barofile allow squads to disperse energy and attenuate corrosive or thermal impacts within abisso vulcanico."
+    },
+    "aura_scudo_radianza": {
+      "label_it": "Aura Scudo di Radianza",
+      "label_en": "Radiant Shield Aura",
+      "description_it": "Campo fotoplasmatico che devia danni planari e sincronizza i battiti della squadra.",
+      "description_en": "Photoplasmic field that deflects planar damage while syncing squad vitals."
+    },
+    "frusta_fiammeggiante": {
+      "label_it": "Frusta Fiammeggiante",
+      "label_en": "Flame Lash",
+      "description_it": "Appendice di plasma vincolato capace di arpionare e incendiare bersagli.",
+      "description_en": "Bound plasma appendage that can hook and ignite targets."
+    },
+    "mantello_meteoritico": {
+      "label_it": "Mantello Meteoritico",
+      "label_en": "Meteoric Mantle",
+      "description_it": "Strati ablativi rigeneranti che vaporizzano l'impatto convertendolo in impulso termico.",
+      "description_en": "Regenerating ablative layers that vaporize impacts into thermal pulses."
+    },
+    "armatura_pietra_planare": {
+      "label_it": "Armatura di Pietra Planare",
+      "label_en": "Planar Stone Plating",
+      "description_it": "Corazza risonante scolpita da roccia extradimensionale che smorza onde d'urto.",
+      "description_en": "Resonant plating carved from extradimensional stone that dampens shockwaves."
     }
   }
 }

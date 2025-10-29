@@ -1,0 +1,102 @@
+schema_version: 1.7
+receipt:
+  source: PF1E.Bestiary.v1
+  author: designer
+  date: '2025-10-30'
+  trace_hash: to-fill
+id: archon-solare
+display_name: Archon Solare Custode
+biomes:
+  - rovine_planari
+role_trofico: dispersore_ponte
+functional_tags:
+  - impollinatore
+  - dispersore
+  - specie_chiave
+  - sentinella
+morphotype: volatore_planatore
+flags:
+  apex: false
+  keystone: true
+  sentient: true
+  bridge: true
+  threat: false
+  event: false
+playable_unit: true
+pi_loadout:
+  weight_budget: 13
+  default_parts:
+    locomotion: glide_wings
+    senses:
+      - echolocate
+    offense:
+      - claw_finesse
+    defense:
+      - elastomer_skin
+vc:
+  aggro: 0.5
+  risk: 0.4
+  cohesion: 0.8
+  setup: 0.6
+  explore: 0.7
+  tilt: 0.2
+services_links:
+  - supporto:luci_sacre
+  - regolazione:scudi_radiani
+spawn_rules:
+  orario:
+    - crepuscolo
+    - notte
+  meteo:
+    - nebbia_risonante
+    - quiete_planare
+  densita: low
+balance:
+  rarity: R3
+  threat_tier: T2
+  encounter_role: support
+telemetry:
+  expected_pick_rate: 0.24
+  spawn_weight: 0.18
+environment_affinity:
+  biome_class: rovine_planari
+  koppen:
+    - Cfa
+    - Cfb
+  hazards_expected:
+    - tempesta_radianza
+    - fratture_planari
+derived_from_environment:
+  suggested_traits:
+    - ali_solari_fotoni
+    - empatia_coordinativa
+    - risonanza_di_branco
+    - aura_scudo_radianza
+    - visione_spettrale
+  optional_traits:
+    - focus_frazionato
+    - lamelle_termoforetiche
+  required_capabilities:
+    - flight
+    - radiant_resist
+  services_links:
+    - supporto:rinforzo_barriere
+    - culturale:guida_spirituale
+  jobs_bias:
+    - Invoker
+    - Skirmisher
+genetic_traits:
+  core:
+    - ciclo_vitale_completo
+    - metabolismo_attivo
+    - respirazione_biologica
+    - adattamento_volo
+    - aura_scudo_radianza
+  optional:
+    - empatia_coordinativa
+  synergy:
+    - focus_frazionato
+    - risonanza_di_branco
+mate_synergy:
+  - empatia_coordinativa
+jobs_synergy: []

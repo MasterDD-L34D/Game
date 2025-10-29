@@ -1859,7 +1859,9 @@
         "giunti_antitorsione",
         "lingua_cristallina",
         "mucose_barofile",
-        "sensori_geomagnetici"
+        "sensori_geomagnetici",
+        "armatura_pietra_planare",
+        "mantello_meteoritico"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -3670,7 +3672,8 @@
         "foliage_fotocatodico",
         "ghiandole_inchiostro_luce",
         "gusci_criovetro",
-        "luminescenza_hydrotermica"
+        "luminescenza_hydrotermica",
+        "aura_scudo_radianza"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -4247,7 +4250,8 @@
         "ghiandole_eco_mappanti",
         "ghiandole_resina_conduttiva",
         "lamine_scudo_silice",
-        "midollo_antivibrazione"
+        "midollo_antivibrazione",
+        "frusta_fiammeggiante"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -6378,7 +6382,8 @@
         "foliage_fotocatodico",
         "ghiandole_inchiostro_luce",
         "gusci_criovetro",
-        "luminescenza_hydrotermica"
+        "luminescenza_hydrotermica",
+        "aura_scudo_radianza"
       ],
       "sinergie_pi": {
         "co_occorrenze": [
@@ -7155,6 +7160,181 @@
       "slot_profile": {
         "core": "locomotorio",
         "complementare": "supporto"
+      }
+    },
+    "aura_scudo_radianza": {
+      "label": "Aura Scudo di Radianza",
+      "famiglia_tipologia": "Supporto/Difesa",
+      "fattore_mantenimento_energetico": "Alto (Canalizzazione fotonica continua)",
+      "tier": "T3",
+      "slot": [],
+      "slot_profile": {
+        "core": "supporto",
+        "complementare": "difesa"
+      },
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflitti": [
+        "mantello_meteoritico"
+      ],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [
+            "flight"
+          ],
+          "condizioni": {
+            "biome_class": "rovine_planari"
+          },
+          "fonte": "pathfinder_import",
+          "meta": {
+            "expansion": "pathfinder_dataset",
+            "tier": "T3",
+            "notes": "Richiede catalizzatori di luce stabili nelle rovine planari."
+          }
+        }
+      ],
+      "mutazione_indotta": "Innesta organi fotoplasmatici che diffondono uno scudo radiante sugli alleati vicini.",
+      "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra.",
+      "spinta_selettiva": "Proteggere gli hub di evacuazione durante tempeste di energia planare.",
+      "debolezza": "Soffre saturazione se esposta a ombre gravitazionali o zone di antimagia.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "frusta_fiammeggiante": {
+      "label": "Frusta Fiammeggiante",
+      "famiglia_tipologia": "Offensivo/Controllo",
+      "fattore_mantenimento_energetico": "Medio (Filamenti di plasma vincolato)",
+      "tier": "T2",
+      "slot": [],
+      "slot_profile": {
+        "core": "offensivo",
+        "complementare": "controllo"
+      },
+      "sinergie": [
+        "focus_frazionato",
+        "mantello_meteoritico"
+      ],
+      "conflitti": [
+        "armatura_pietra_planare"
+      ],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [
+            "void_stride"
+          ],
+          "condizioni": {
+            "biome_class": "rovine_planari"
+          },
+          "fonte": "pathfinder_import",
+          "meta": {
+            "expansion": "pathfinder_dataset",
+            "tier": "T2",
+            "notes": "Necessita condotti di stabilizzazione infernale nelle rovine planari."
+          }
+        }
+      ],
+      "mutazione_indotta": "Genera appendici tentacolari avvolte da plasma infernale controllato.",
+      "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia.",
+      "spinta_selettiva": "Creare distanza di sicurezza contro predatori d'élite nelle zone instabili.",
+      "debolezza": "Consumante: richiede costante dissipazione termica per non bruciare la matrice portante.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "mantello_meteoritico": {
+      "label": "Mantello Meteoritico",
+      "famiglia_tipologia": "Difesa/Termoregolazione",
+      "fattore_mantenimento_energetico": "Alto (Rivestimento ablativo rigenerante)",
+      "tier": "T3",
+      "slot": [],
+      "slot_profile": {
+        "core": "difesa",
+        "complementare": "termico"
+      },
+      "sinergie": [
+        "frusta_fiammeggiante",
+        "carapace_fase_variabile"
+      ],
+      "conflitti": [
+        "aura_scudo_radianza"
+      ],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [
+            "fire_resist"
+          ],
+          "condizioni": {
+            "biome_class": "rovine_planari"
+          },
+          "fonte": "pathfinder_import",
+          "meta": {
+            "expansion": "pathfinder_dataset",
+            "tier": "T3",
+            "notes": "Richiede continue docce di plasma per mantenere la matrice ablativa."
+          }
+        }
+      ],
+      "mutazione_indotta": "Deposita strati sovrapposti di materiale meteorico che vaporizzano l'impatto e rilasciano radianza.",
+      "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi.",
+      "spinta_selettiva": "Sopravvivere a bombardamenti planari e piogge di meteore dimensionali.",
+      "debolezza": "Vulnerabile a scariche di freddo gravitazionale che irrigidiscono il mantello.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      }
+    },
+    "armatura_pietra_planare": {
+      "label": "Armatura di Pietra Planare",
+      "famiglia_tipologia": "Difesa/Strutturale",
+      "fattore_mantenimento_energetico": "Basso (Risonanza geodetica stabile)",
+      "tier": "T2",
+      "slot": [],
+      "slot_profile": {
+        "core": "difesa",
+        "complementare": "strutturale"
+      },
+      "sinergie": [
+        "carapace_fase_variabile"
+      ],
+      "conflitti": [
+        "frusta_fiammeggiante"
+      ],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [
+            "deploy_barrier"
+          ],
+          "condizioni": {
+            "biome_class": "rovine_planari"
+          },
+          "fonte": "pathfinder_import",
+          "meta": {
+            "expansion": "pathfinder_dataset",
+            "tier": "T2",
+            "notes": "Plasmazione del substrato lapideo proveniente da fratture planari."
+          }
+        }
+      ],
+      "mutazione_indotta": "Cristallizza il dermascheletro con nodi rune che deviano energia.",
+      "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali.",
+      "spinta_selettiva": "Stabilizzare varchi e proteggere infrastrutture dalle onde d'urto.",
+      "debolezza": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità.",
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
       }
     }
   }

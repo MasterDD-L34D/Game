@@ -57,6 +57,8 @@ function normaliseRequestPayload(input) {
     base_name: input.base_name || input.baseName || null,
     request_id: input.request_id || input.requestId || null,
     fallback_trait_ids: fallback,
+    dataset_id: input.dataset_id || input.datasetId || null,
+    profile_id: input.profile_id || input.profileId || null,
   };
 }
 

@@ -129,7 +129,10 @@
       "label": "Carapace a Variazione di Fase",
       "mutation": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
       "selective_drive": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
-      "synergies": [],
+      "synergies": [
+        "armatura_pietra_planare",
+        "mantello_meteoritico"
+      ],
       "tier": "T1",
       "usage": "Durezza/densità del guscio modificabile rapidamente.",
       "usage_map": {
@@ -397,7 +400,9 @@
       "label": "Empatia Coordinativa",
       "mutation": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
       "selective_drive": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
-      "synergies": [],
+      "synergies": [
+        "aura_scudo_radianza"
+      ],
       "tier": "T1",
       "usage": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
       "usage_map": {
@@ -532,7 +537,9 @@
       "label": "Focus Frazionato",
       "mutation": "Processore di priorità multi-thread per bersagli e obiettivi.",
       "selective_drive": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
-      "synergies": [],
+      "synergies": [
+        "frusta_fiammeggiante"
+      ],
       "tier": "T1",
       "usage": "Permette di gestire due ingaggi paralleli senza perdere efficienza.",
       "usage_map": {
@@ -1259,7 +1266,9 @@
       "label": "Risonanza di Branco",
       "mutation": "Reticolo empatico che collega i canali PI cooperativi.",
       "selective_drive": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
-      "synergies": [],
+      "synergies": [
+        "aura_scudo_radianza"
+      ],
       "tier": "T1",
       "usage": "Amplifica buff condivisi sincronizzando i timer di squadra.",
       "usage_map": {
@@ -1955,6 +1964,161 @@
         "synergy": []
       },
       "weakness": "Perdita di valore su mappe con spazi stretti o controllo setup elevato."
+    },
+    "aura_scudo_radianza": {
+      "id": "aura_scudo_radianza",
+      "label": "Aura Scudo di Radianza",
+      "tier": "T3",
+      "families": [
+        "Supporto",
+        "Difesa"
+      ],
+      "energy_profile": "Alto (Canalizzazione fotonica continua)",
+      "usage": "Canalizza scudi fotoplasmatici condivisi.",
+      "selective_drive": "Proteggere i punti di ancoraggio durante tempeste planari.",
+      "mutation": "Integra cristalli luminescenti connessi al sistema nervoso.",
+      "synergies": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "conflicts": [
+        "mantello_meteoritico"
+      ],
+      "environments": [
+        "rovine_planari"
+      ],
+      "weakness": "Sovraccarica in presenza di ombre gravitazionali.",
+      "dataset_sources": [
+        "data/traits/glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml"
+      ],
+      "usage_map": {
+        "core": [
+          "archon-solare"
+        ],
+        "optional": [],
+        "synergy": [
+          "balor-fission",
+          "couatl-aurora"
+        ]
+      }
+    },
+    "frusta_fiammeggiante": {
+      "id": "frusta_fiammeggiante",
+      "label": "Frusta Fiammeggiante",
+      "tier": "T2",
+      "families": [
+        "Offensivo",
+        "Controllo"
+      ],
+      "energy_profile": "Medio (Filamenti di plasma vincolato)",
+      "usage": "Cattura e trascina bersagli mentre infonde danni termici.",
+      "selective_drive": "Gestire predatori élite nelle fratture planari.",
+      "mutation": "Forma tentacoli plasmatici con nocciolo runico stabilizzante.",
+      "synergies": [
+        "focus_frazionato",
+        "mantello_meteoritico"
+      ],
+      "conflicts": [
+        "armatura_pietra_planare"
+      ],
+      "environments": [
+        "rovine_planari"
+      ],
+      "weakness": "Richiede dissipazione termica continua.",
+      "dataset_sources": [
+        "data/traits/glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml",
+        "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml"
+      ],
+      "usage_map": {
+        "core": [
+          "balor-fission",
+          "marilith-vault"
+        ],
+        "optional": [],
+        "synergy": []
+      }
+    },
+    "mantello_meteoritico": {
+      "id": "mantello_meteoritico",
+      "label": "Mantello Meteoritico",
+      "tier": "T3",
+      "families": [
+        "Difesa",
+        "Termico"
+      ],
+      "energy_profile": "Alto (Rivestimento ablativo rigenerante)",
+      "usage": "Dissipa impatti estremi e converte l'energia in contropressioni.",
+      "selective_drive": "Sopravvivere a bombardamenti planari prolungati.",
+      "mutation": "Deposita strati di minerali meteoritici autorigeneranti.",
+      "synergies": [
+        "frusta_fiammeggiante",
+        "carapace_fase_variabile"
+      ],
+      "conflicts": [
+        "aura_scudo_radianza"
+      ],
+      "environments": [
+        "rovine_planari"
+      ],
+      "weakness": "Perde efficacia con raffreddamento gravitazionale improvviso.",
+      "dataset_sources": [
+        "data/traits/glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml",
+        "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml"
+      ],
+      "usage_map": {
+        "core": [
+          "balor-fission",
+          "marilith-vault"
+        ],
+        "optional": [],
+        "synergy": []
+      }
+    },
+    "armatura_pietra_planare": {
+      "id": "armatura_pietra_planare",
+      "label": "Armatura di Pietra Planare",
+      "tier": "T2",
+      "families": [
+        "Difesa",
+        "Strutturale"
+      ],
+      "energy_profile": "Basso (Risonanza geodetica stabile)",
+      "usage": "Stabilizza il corpo contro onde d'urto e torsioni dimensionali.",
+      "selective_drive": "Ancorare unità difensive durante aperture di portali.",
+      "mutation": "Cristallizza il dermascheletro con nodi runici.",
+      "synergies": [
+        "carapace_fase_variabile"
+      ],
+      "conflicts": [
+        "frusta_fiammeggiante"
+      ],
+      "environments": [
+        "rovine_planari"
+      ],
+      "weakness": "Peso elevato in atmosfera standard.",
+      "dataset_sources": [
+        "data/traits/glossary.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml",
+        "packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml",
+        "packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml"
+      ],
+      "usage_map": {
+        "core": [
+          "golem-runico"
+        ],
+        "optional": [
+          "bulette-fase",
+          "treant-portale"
+        ],
+        "synergy": []
+      }
     }
   }
 }

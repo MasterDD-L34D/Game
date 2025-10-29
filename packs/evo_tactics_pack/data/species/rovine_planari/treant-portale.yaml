@@ -1,0 +1,85 @@
+schema_version: 1.7
+receipt:
+  source: PF1E.Bestiary.v1
+  author: designer
+  date: '2025-10-30'
+  trace_hash: to-fill
+id: treant-portale
+display_name: Treant dei Portali Antichi
+biomes:
+  - rovine_planari
+role_trofico: ingegneri_ecosistema
+functional_tags:
+  - ingegneri_ecosistema
+  - specie_chiave
+  - simbionte
+morphotype: ingegnere_radicante
+flags:
+  apex: false
+  keystone: true
+  sentient: true
+  bridge: false
+  threat: false
+  event: false
+playable_unit: false
+vc:
+  aggro: 0.3
+  risk: 0.2
+  cohesion: 0.9
+  setup: 0.7
+  explore: 0.5
+  tilt: 0.2
+services_links:
+  - supporto:stabilizzazione_portali
+  - regolazione:assorbimento_energia
+spawn_rules:
+  orario:
+    - diurno
+  meteo:
+    - pioggia_cenere
+    - quiete_planare
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T2
+  encounter_role: ambient
+telemetry:
+  expected_pick_rate: 0.2
+  spawn_weight: 0.22
+environment_affinity:
+  biome_class: rovine_planari
+  koppen:
+    - Cfa
+    - Cfb
+  hazards_expected:
+    - fratture_planari
+    - invasione_vite_dimensionali
+derived_from_environment:
+  suggested_traits:
+    - radici_ancora_planare
+    - reti_capillari_radici
+    - pigmenti_aurorali
+    - corteccia_memetica
+  optional_traits:
+    - nodi_micotici
+    - fotosintesi_bifase
+  required_capabilities:
+    - stabilize_gate
+    - cleanse_corruption
+  services_links:
+    - supporto:rinforzo_strutturale
+    - regolazione:depurazione_flussi
+  jobs_bias:
+    - Artificer
+    - Warden
+genetic_traits:
+  core:
+    - ciclo_vitale_completo
+    - metabolismo_attivo
+    - respirazione_biologica
+  optional:
+    - armatura_pietra_planare
+  synergy:
+    - risonanza_di_branco
+mate_synergy: []
+jobs_synergy: []
