@@ -32,6 +32,196 @@
       </article>
     </div>
 
+    <section class="quality-release__console">
+      <header class="quality-release__section-header">
+        <h3>Console editoriale</h3>
+        <p>
+          Programma rilasci per il dataset Nebula, monitora gli stream di validazione e coordina le notifiche al team
+          prima della promozione.
+        </p>
+      </header>
+      <div class="release-console">
+        <section class="release-console__panel release-console__panel--form">
+          <h4>Programmazione rilascio</h4>
+          <form class="release-console__form" @submit.prevent="scheduleRelease">
+            <div class="release-console__field">
+              <label for="release-package">Pacchetto</label>
+              <select id="release-package" v-model="releaseConsoleForm.packageId">
+                <option
+                  v-for="pkg in releasePackages"
+                  :key="pkg.id"
+                  :value="pkg.id"
+                  :disabled="pkg.status === 'blocked'"
+                >
+                  {{ pkg.name }} · {{ pkg.environmentLabel }}
+                </option>
+              </select>
+            </div>
+            <div class="release-console__field">
+              <label for="release-environment">Ambiente</label>
+              <select id="release-environment" v-model="releaseConsoleForm.environment">
+                <option value="staging">Staging</option>
+                <option value="production">Produzione</option>
+              </select>
+            </div>
+            <div class="release-console__field">
+              <label for="release-window">Finestra</label>
+              <input
+                id="release-window"
+                v-model="releaseConsoleForm.window"
+                type="text"
+                placeholder="19/05 · 10:00"
+              />
+            </div>
+            <div class="release-console__field">
+              <label for="release-notes">Note operative</label>
+              <textarea
+                id="release-notes"
+                v-model="releaseConsoleForm.notes"
+                rows="2"
+                placeholder="Snapshot 42A con fix aurorali"
+              ></textarea>
+            </div>
+            <p v-if="releaseConsoleForm.error" class="release-console__error">
+              {{ releaseConsoleForm.error }}
+            </p>
+            <button type="submit" class="release-console__submit">Programma rilascio</button>
+          </form>
+        </section>
+
+        <section class="release-console__panel release-console__panel--schedule">
+          <h4>Rilasci programmati</h4>
+          <ul class="release-console__list">
+            <li v-for="slot in plannedReleases" :key="slot.id">
+              <header>
+                <strong>{{ slot.packageName }}</strong>
+                <span class="release-console__status" :data-status="slot.status">
+                  {{ scheduleStatusLabel(slot.status) }}
+                </span>
+              </header>
+              <dl>
+                <div>
+                  <dt>Finestra</dt>
+                  <dd>{{ slot.window }}</dd>
+                </div>
+                <div>
+                  <dt>Ambiente</dt>
+                  <dd>{{ environmentLabel(slot.environment) }}</dd>
+                </div>
+                <div>
+                  <dt>Gate</dt>
+                  <dd>{{ slot.approvals.join(', ') || '—' }}</dd>
+                </div>
+              </dl>
+              <footer>
+                <button
+                  type="button"
+                  class="release-console__action"
+                  :disabled="slot.status !== 'scheduled' && slot.status !== 'awaiting-approval'"
+                  @click="markScheduleApproved(slot)"
+                >
+                  Conferma approvazione
+                </button>
+                <button
+                  type="button"
+                  class="release-console__action"
+                  :disabled="slot.status !== 'approved'"
+                  @click="promoteSchedule(slot)"
+                >
+                  Promuovi in produzione
+                </button>
+              </footer>
+            </li>
+            <li v-if="!plannedReleases.length" class="release-console__empty">Nessun rilascio pianificato.</li>
+          </ul>
+        </section>
+
+        <section class="release-console__panel release-console__panel--streams">
+          <h4>Stream di validazione</h4>
+          <ul class="release-console__list">
+            <li v-for="stream in validationStreams" :key="stream.id">
+              <header>
+                <strong>{{ stream.label }}</strong>
+                <span class="release-console__status" :data-status="stream.status">
+                  {{ streamStatusLabel(stream.status) }}
+                </span>
+              </header>
+              <p class="release-console__stream-meta">
+                Ultimo evento · {{ formatTimestamp(stream.lastEvent) }} · Pending {{ stream.pending }}
+              </p>
+              <footer>
+                <button
+                  type="button"
+                  class="release-console__action"
+                  :disabled="stream.status === 'monitoring'"
+                  @click="monitorStream(stream)"
+                >
+                  Avvia monitoraggio
+                </button>
+                <button type="button" class="release-console__action" @click="refreshStream(stream)">
+                  Aggiorna stato
+                </button>
+                <button
+                  type="button"
+                  class="release-console__action"
+                  :disabled="stream.status === 'cleared'"
+                  @click="resolveStream(stream)"
+                >
+                  Segna risolto
+                </button>
+              </footer>
+            </li>
+            <li v-if="!validationStreams.length" class="release-console__empty">
+              Nessuno stream di validazione attivo.
+            </li>
+          </ul>
+        </section>
+
+        <section class="release-console__panel release-console__panel--notifications">
+          <h4>Notifiche team</h4>
+          <ul class="release-console__list">
+            <li v-for="notification in consoleNotifications" :key="notification.id">
+              <header>
+                <strong>{{ notification.channel }}</strong>
+              </header>
+              <p class="release-console__message">{{ notification.message }}</p>
+              <p class="release-console__stream-meta">
+                Ultimo invio · {{ formatTimestamp(notification.lastTriggeredAt) }}
+              </p>
+              <footer>
+                <button type="button" class="release-console__action" @click="notifyTeam(notification)">
+                  Invia aggiornamento
+                </button>
+              </footer>
+            </li>
+            <li v-if="!consoleNotifications.length" class="release-console__empty">
+              Nessuna notifica configurata.
+            </li>
+          </ul>
+          <div class="release-console__watchers" v-if="releaseConsoleWatchers.length">
+            <h5>Referenti</h5>
+            <ul>
+              <li v-for="watcher in releaseConsoleWatchers" :key="watcher.id">
+                {{ watcher.name }} · {{ watcher.channel }}
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <aside class="release-console__guide">
+        <h4>Guida rapida alla release Nebula</h4>
+        <ol>
+          <li>Verifica che il pacchetto abbia superato la validazione automatica dal workflow publishing.</li>
+          <li>Usa la sezione “Programmazione rilascio” per schedulare staging e raccogliere le approvazioni obbligatorie.</li>
+          <li>Attiva il monitoraggio degli stream QA e invia la notifica al team quando il gate di approvazione è verde.</li>
+        </ol>
+        <p>
+          Tutte le azioni sono sincronizzate con lo stato persistente in <code>services/publishing/workflowState.json</code> e
+          vengono riportate nei log sottostanti.
+        </p>
+      </aside>
+    </section>
+
     <section class="quality-release__validators">
       <header class="quality-release__section-header">
         <h3>Runtime checks</h3>
@@ -149,7 +339,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, toRefs } from 'vue';
+import { computed, reactive, ref, toRefs, watch } from 'vue';
 import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService.js';
 import { applyQualitySuggestion } from '../services/qualityReleaseService.js';
 
@@ -174,6 +364,139 @@ const runtimeLogs = ref([]);
 const appliedSuggestionIds = ref([]);
 const suggestionState = reactive({});
 let logCounter = 0;
+
+const releaseConsoleState = reactive({
+  packages: [],
+  schedule: [],
+  streams: [],
+  watchers: [],
+  notifications: [],
+});
+
+const releaseConsoleForm = reactive({
+  packageId: '',
+  environment: 'staging',
+  window: '',
+  notes: '',
+  error: null,
+});
+
+function assignArray(target, values) {
+  target.splice(0, target.length, ...values);
+}
+
+function environmentLabel(environment) {
+  if (environment === 'production') {
+    return 'Produzione';
+  }
+  if (environment === 'staging') {
+    return 'Staging';
+  }
+  return environment || '—';
+}
+
+function normalisePackage(pkg) {
+  const id = pkg?.id || pkg?.packageId || `pkg-${Math.random().toString(36).slice(2, 8)}`;
+  const environment = pkg?.environment || 'staging';
+  return {
+    id,
+    name: pkg?.name || pkg?.label || id,
+    environment,
+    environmentLabel: environmentLabel(environment),
+    status: pkg?.status || 'ready',
+    approvals: Array.isArray(pkg?.approvals) ? [...pkg.approvals] : [],
+    lastValidation: pkg?.lastValidation || null,
+  };
+}
+
+function normaliseSchedule(entry) {
+  const packageId = entry?.packageId || entry?.id || `pkg-${Math.random().toString(36).slice(2, 8)}`;
+  const environment = entry?.environment || 'staging';
+  const approvals = Array.isArray(entry?.approvals) ? [...entry.approvals] : [];
+  return {
+    id: entry?.id || `schedule-${packageId}-${Math.random().toString(36).slice(2, 8)}`,
+    packageId,
+    packageName: entry?.packageName || entry?.packageLabel || packageId,
+    environment,
+    window: entry?.window || '—',
+    approvals,
+    status: entry?.status || 'scheduled',
+    notes: entry?.notes || '',
+    lastUpdated: entry?.lastUpdated || entry?.createdAt || null,
+  };
+}
+
+function normaliseStream(stream) {
+  return {
+    id: stream?.id || `stream-${Math.random().toString(36).slice(2, 8)}`,
+    label: stream?.label || 'Stream QA',
+    scope: stream?.scope || 'publishing',
+    status: stream?.status || 'idle',
+    pending: typeof stream?.pending === 'number' ? stream.pending : 0,
+    lastEvent: stream?.lastEvent || null,
+  };
+}
+
+function normaliseNotification(notification) {
+  return {
+    id: notification?.id || `notif-${Math.random().toString(36).slice(2, 8)}`,
+    channel: notification?.channel || 'Canale interno',
+    message: notification?.message || 'Aggiornamento pacchetto disponibile.',
+    lastTriggeredAt: notification?.lastTriggeredAt || null,
+  };
+}
+
+function syncReleaseConsole() {
+  const payload = context.value?.releaseConsole || {};
+  const packages = Array.isArray(payload.packages) ? payload.packages.map(normalisePackage) : [];
+  const schedule = Array.isArray(payload.schedule) ? payload.schedule.map(normaliseSchedule) : [];
+  const streams = Array.isArray(payload.streams) ? payload.streams.map(normaliseStream) : [];
+  const watchers = Array.isArray(payload.watchers) ? payload.watchers.map((item) => ({ ...item })) : [];
+  const notifications = Array.isArray(payload.notifications)
+    ? payload.notifications.map(normaliseNotification)
+    : [];
+
+  assignArray(releaseConsoleState.packages, packages);
+  assignArray(releaseConsoleState.schedule, schedule);
+  assignArray(releaseConsoleState.streams, streams);
+  assignArray(releaseConsoleState.watchers, watchers);
+  assignArray(releaseConsoleState.notifications, notifications);
+
+  if (!packages.some((pkg) => pkg.id === releaseConsoleForm.packageId)) {
+    releaseConsoleForm.packageId = packages[0]?.id || '';
+  }
+}
+
+syncReleaseConsole();
+
+watch(
+  () => context.value?.releaseConsole,
+  () => {
+    syncReleaseConsole();
+  },
+  { deep: true }
+);
+
+const releasePackages = computed(() => releaseConsoleState.packages);
+
+const plannedReleases = computed(() => {
+  const sorted = [...releaseConsoleState.schedule];
+  sorted.sort((a, b) => {
+    const left = Date.parse(a.window || '') || 0;
+    const right = Date.parse(b.window || '') || 0;
+    if (left && right) {
+      return left - right;
+    }
+    if (left) return -1;
+    if (right) return 1;
+    return a.window.localeCompare(b.window);
+  });
+  return sorted;
+});
+
+const validationStreams = computed(() => releaseConsoleState.streams);
+const consoleNotifications = computed(() => releaseConsoleState.notifications);
+const releaseConsoleWatchers = computed(() => releaseConsoleState.watchers);
 
 const orchestrator = computed(() => {
   const info = context.value.orchestrator || {};
@@ -221,6 +544,7 @@ const scopeOptions = computed(() => [
   { value: 'species', label: 'Specie' },
   { value: 'biome', label: 'Biomi' },
   { value: 'foodweb', label: 'Foodweb' },
+  { value: 'publishing', label: 'Publishing' },
 ]);
 
 const scopeFilter = ref('all');
@@ -315,6 +639,9 @@ function displayScope(scope) {
   if (scope === 'foodweb') {
     return 'Foodweb';
   }
+  if (scope === 'publishing') {
+    return 'Publishing';
+  }
   return 'Generale';
 }
 
@@ -332,6 +659,166 @@ function formatTimestamp(value) {
     hour: '2-digit',
     minute: '2-digit',
   }).format(date);
+}
+
+function scheduleStatusLabel(status) {
+  if (status === 'scheduled') {
+    return 'Programmato';
+  }
+  if (status === 'awaiting-approval') {
+    return 'In approvazione';
+  }
+  if (status === 'approved') {
+    return 'Approvato';
+  }
+  if (status === 'deployed') {
+    return 'Promosso';
+  }
+  return '—';
+}
+
+function streamStatusLabel(status) {
+  if (status === 'monitoring') {
+    return 'Monitoraggio attivo';
+  }
+  if (status === 'cleared') {
+    return 'Pulito';
+  }
+  if (status === 'idle') {
+    return 'In attesa';
+  }
+  return status || '—';
+}
+
+function scheduleRelease() {
+  releaseConsoleForm.error = null;
+  if (!releaseConsoleForm.packageId) {
+    releaseConsoleForm.error = 'Seleziona un pacchetto Nebula da pubblicare.';
+    return;
+  }
+  if (!releaseConsoleForm.window || !releaseConsoleForm.window.trim()) {
+    releaseConsoleForm.error = 'Indica una finestra di rilascio.';
+    return;
+  }
+  const pkg = releaseConsoleState.packages.find((item) => item.id === releaseConsoleForm.packageId);
+  if (!pkg) {
+    releaseConsoleForm.error = 'Pacchetto selezionato non valido.';
+    return;
+  }
+  const entry = {
+    id: `schedule-${Date.now()}`,
+    packageId: pkg.id,
+    packageName: pkg.name,
+    environment: releaseConsoleForm.environment,
+    window: releaseConsoleForm.window.trim(),
+    approvals: [...pkg.approvals],
+    status: pkg.status === 'ready' ? 'awaiting-approval' : 'scheduled',
+    notes: releaseConsoleForm.notes.trim(),
+    lastUpdated: new Date().toISOString(),
+  };
+  releaseConsoleState.schedule.unshift(entry);
+  releaseConsoleForm.window = '';
+  releaseConsoleForm.notes = '';
+  appendLogs('publishing', [
+    {
+      level: 'info',
+      message: `Programmata finestra ${environmentLabel(entry.environment)} per ${entry.packageName} (${entry.window}).`,
+    },
+  ]);
+}
+
+function markScheduleApproved(slot) {
+  const target = releaseConsoleState.schedule.find((item) => item.id === slot.id);
+  if (!target || target.status === 'approved' || target.status === 'deployed') {
+    return;
+  }
+  target.status = 'approved';
+  target.lastUpdated = new Date().toISOString();
+  appendLogs('publishing', [
+    {
+      level: 'success',
+      message: `Pacchetto ${target.packageName} approvato per ${environmentLabel(target.environment)}.`,
+    },
+  ]);
+}
+
+function promoteSchedule(slot) {
+  const target = releaseConsoleState.schedule.find((item) => item.id === slot.id);
+  if (!target || target.status !== 'approved') {
+    return;
+  }
+  target.status = 'deployed';
+  target.lastUpdated = new Date().toISOString();
+  appendLogs('publishing', [
+    {
+      level: 'success',
+      message: `Promosso ${target.packageName} su ${environmentLabel(target.environment)}.`,
+    },
+  ]);
+}
+
+function monitorStream(stream) {
+  const target = releaseConsoleState.streams.find((item) => item.id === stream.id);
+  if (!target || target.status === 'monitoring') {
+    return;
+  }
+  target.status = 'monitoring';
+  target.lastEvent = new Date().toISOString();
+  appendLogs('publishing', [
+    {
+      level: 'info',
+      message: `Monitoraggio attivo per ${target.label}.`,
+    },
+  ]);
+}
+
+function refreshStream(stream) {
+  const target = releaseConsoleState.streams.find((item) => item.id === stream.id);
+  if (!target) {
+    return;
+  }
+  const pending = Math.max(0, (target.pending || 0) - 1);
+  target.pending = pending;
+  target.lastEvent = new Date().toISOString();
+  appendLogs('publishing', [
+    {
+      level: pending === 0 ? 'success' : 'info',
+      message:
+        pending === 0
+          ? `${target.label} senza elementi pendenti.`
+          : `${target.label} aggiornato, elementi rimanenti ${pending}.`,
+    },
+  ]);
+}
+
+function resolveStream(stream) {
+  const target = releaseConsoleState.streams.find((item) => item.id === stream.id);
+  if (!target) {
+    return;
+  }
+  target.status = 'cleared';
+  target.pending = 0;
+  target.lastEvent = new Date().toISOString();
+  appendLogs('publishing', [
+    {
+      level: 'success',
+      message: `${target.label} contrassegnato come risolto.`,
+    },
+  ]);
+}
+
+function notifyTeam(notification) {
+  const target = releaseConsoleState.notifications.find((item) => item.id === notification.id);
+  const timestamp = new Date().toISOString();
+  if (target) {
+    target.lastTriggeredAt = timestamp;
+  }
+  appendLogs('publishing', [
+    {
+      level: 'success',
+      message: `Notifica inviata su ${notification.channel}: ${notification.message}`,
+    },
+  ]);
 }
 
 async function runSpeciesCheck() {
@@ -518,6 +1005,253 @@ async function applySuggestion(suggestion) {
 .quality-release__notifications small {
   font-size: 0.75rem;
   color: rgba(240, 244, 255, 0.55);
+}
+
+.quality-release__console {
+  background: rgba(9, 14, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.2rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.release-console {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.release-console__panel {
+  background: rgba(12, 18, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.release-console__panel h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(240, 244, 255, 0.75);
+}
+
+.release-console__form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.release-console__field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.release-console__field label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(240, 244, 255, 0.55);
+}
+
+.release-console__field input,
+.release-console__field select,
+.release-console__field textarea {
+  background: rgba(9, 14, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f0f4ff;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.release-console__field textarea {
+  resize: vertical;
+}
+
+.release-console__submit {
+  border: none;
+  background: linear-gradient(90deg, #57ca8a 0%, #61d5ff 100%);
+  color: #05080d;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.release-console__submit:hover {
+  opacity: 0.85;
+}
+
+.release-console__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 133, 133, 0.85);
+}
+
+.release-console__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.release-console__list li {
+  background: rgba(9, 14, 20, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.85rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.release-console__list header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.release-console__status {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(96, 213, 255, 0.35);
+  color: rgba(96, 213, 255, 0.85);
+}
+
+.release-console__status[data-status='awaiting-approval'] {
+  border-color: rgba(255, 200, 112, 0.45);
+  color: rgba(255, 200, 112, 0.9);
+}
+
+.release-console__status[data-status='approved'] {
+  border-color: rgba(129, 255, 199, 0.55);
+  color: rgba(129, 255, 199, 0.85);
+}
+
+.release-console__status[data-status='deployed'] {
+  border-color: rgba(238, 170, 255, 0.55);
+  color: rgba(238, 170, 255, 0.9);
+}
+
+.release-console__list dl {
+  margin: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.release-console__list dl div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: rgba(240, 244, 255, 0.75);
+}
+
+.release-console__list dt {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.65rem;
+  color: rgba(240, 244, 255, 0.5);
+}
+
+.release-console__list dd {
+  margin: 0;
+  font-weight: 600;
+  color: rgba(240, 244, 255, 0.85);
+}
+
+.release-console__action {
+  border: none;
+  background: rgba(96, 213, 255, 0.16);
+  color: #61d5ff;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.release-console__action:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.release-console__action:not(:disabled):hover {
+  background: rgba(96, 213, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+.release-console__empty {
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(240, 244, 255, 0.6);
+}
+
+.release-console__stream-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(240, 244, 255, 0.6);
+}
+
+.release-console__message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(240, 244, 255, 0.78);
+}
+
+.release-console__watchers {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.75rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.release-console__watchers h5 {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  color: rgba(240, 244, 255, 0.55);
+}
+
+.release-console__watchers ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: rgba(240, 244, 255, 0.7);
+}
+
+.release-console__guide {
+  background: rgba(12, 18, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.65rem;
+  font-size: 0.9rem;
+  color: rgba(240, 244, 255, 0.75);
+}
+
+.release-console__guide h4 {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  color: rgba(240, 244, 255, 0.65);
+}
+
+.release-console__guide ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.4rem;
 }
 
 .quality-release__validators,

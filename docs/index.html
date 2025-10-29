@@ -43,6 +43,7 @@
         <a href="#flow">Come si svolge</a>
         <a href="#structure">Mappa del sito</a>
         <a href="#mission-control">Mission Control</a>
+        <a href="#release">Quality &amp; Release</a>
         <a href="ideas/index.html">Idea Engine</a>
         <a href="test-interface/index.html">Interfaccia Test</a>
         <a href="evo-tactics-pack/generator.html">Generatore</a>
@@ -140,6 +141,14 @@
               Raccolta completa di cataloghi, dataset e strumenti sperimentali per espandere l'universo Evo-Tactics.
             </p>
             <a class="button button--ghost" href="evo-tactics-pack/index.html">Esplora il pack</a>
+          </article>
+          <article class="card landing-card">
+            <h3>Console Quality &amp; Release</h3>
+            <p>
+              Programma rilasci Nebula, traccia approvazioni e monitoraggio QA con il nuovo workflow di publishing
+              collegato agli artefatti di staging/produzione.
+            </p>
+            <a class="button button--ghost" href="#release">Apri la guida</a>
           </article>
           <article class="card landing-card">
             <h3>Catalogo biomi &amp; specie</h3>
@@ -400,6 +409,44 @@
               referrerpolicy="no-referrer"
               sandbox="allow-scripts allow-same-origin allow-forms"
             ></iframe>
+          </article>
+        </div>
+      </section>
+      <section id="release" class="section section--split">
+        <div class="section__header">
+          <h2>Quality &amp; Release · Nebula Dataset</h2>
+          <p>
+            Pianifica rilasci sincronizzati con il nuovo workflow di publishing e consulta le viste Atlas dedicate al
+            branch Nebula.
+          </p>
+        </div>
+        <div class="split">
+          <article class="card">
+            <h3>Workflow di pubblicazione</h3>
+            <p>
+              Il modulo <code>services/publishing/workflow.js</code> coordina staging, approvazioni e deploy in
+              produzione. Lo stato persistente è salvato in <code>services/publishing/workflowState.json</code> per
+              allineare la console in-app e gli script CI.
+            </p>
+            <ol>
+              <li>Genera o valida i pacchetti in <code>packs/evo_tactics_pack/out/patches</code>.</li>
+              <li>Usa <code>workflow.stagePackage(id)</code> per copiarli in staging dopo la validazione automatica.</li>
+              <li>Registra approvazioni con <code>requestApproval</code>/<code>approvePackage</code> e promuovi con
+                <code>promoteToProduction</code>.</li>
+            </ol>
+          </article>
+          <article class="card">
+            <h3>Console e sottopagine Atlas</h3>
+            <p>
+              Nel pannello “Quality &amp; Release” trovi la console editoriale con programmazione rilasci, monitoraggio
+              log e notifiche. Le sottopagine Atlas (Pokédex, World Builder, Encounter Lab) sono prefiltrate sul dataset
+              Nebula per supportare QA e team editoriali.
+            </p>
+            <ul>
+              <li>Programma finestre staging/produzione e monitora lo stato degli stream QA.</li>
+              <li>Consulta specie, biomi e encounter Nebula già normalizzati.</li>
+              <li>Invia notifiche automatiche ai canali Release/QA quando i pacchetti sono pronti.</li>
+            </ul>
           </article>
         </div>
       </section>
