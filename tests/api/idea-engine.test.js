@@ -24,10 +24,10 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
     summary: 'Dungeon modulare con telemetria',
     category: 'Biomi',
     tags: ['#playtest', 'telemetria'],
-    biomes: ['foresta_temperata'],
-    ecosystems: ['ecosistema_alpha'],
-    species: ['cervo_bianco'],
-    traits: ['muta_respiratoria'],
+    biomes: ['dorsale_termale_tropicale'],
+    ecosystems: ['meta_ecosistema_alpha'],
+    species: ['dune-stalker'],
+    traits: ['focus_frazionato'],
     game_functions: ['telemetria_vc'],
     priority: 'P1',
     actions_next: '- [ ] Stendere schema incontri',
@@ -43,8 +43,8 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
 
   assert.ok(response.body.idea.id, 'l\'idea deve avere un id');
   assert.equal(response.body.idea.category, 'Biomi');
-  assert.deepEqual(response.body.idea.biomes, ['foresta_temperata']);
-  assert.deepEqual(response.body.idea.ecosystems, ['ecosistema_alpha']);
+  assert.deepEqual(response.body.idea.biomes, ['dorsale_termale_tropicale']);
+  assert.deepEqual(response.body.idea.ecosystems, ['meta_ecosistema_alpha']);
   assert.deepEqual(response.body.idea.game_functions, ['telemetria_vc']);
   assert.equal(response.body.idea.tags.length, 2);
   assert.ok(response.body.report.includes('Codex GPT Integration Brief'));
@@ -118,4 +118,51 @@ test('POST /api/ideas rifiuta categorie non in tassonomia', async (t) => {
     .expect(400);
 
   assert.equal(res.body.error, 'Categoria non valida');
+});
+
+test('POST /api/ideas rifiuta slug non catalogati senza override', async (t) => {
+  const databasePath = createTempDbPath();
+  const { app, repo } = createApp({ databasePath });
+  await repo.ready;
+  t.after(() => {
+    // no-op
+  });
+
+  const res = await request(app)
+    .post('/api/ideas')
+    .send({
+      title: 'Idea con slug errati',
+      summary: 'Test controllo slug',
+      category: 'Biomi',
+      biomes: ['bioma_sconosciuto'],
+      traits: ['mutazione_custom']
+    })
+    .expect(400);
+
+  assert.match(res.body.error, /Slug non riconosciuti/);
+  assert.ok(res.body.error.includes('Biomi'));
+});
+
+test('POST /api/ideas accetta slug non catalogati con override', async (t) => {
+  const databasePath = createTempDbPath();
+  const { app, repo } = createApp({ databasePath });
+  await repo.ready;
+  t.after(() => {
+    // no-op
+  });
+
+  const payload = {
+    title: 'Idea con override slug',
+    summary: 'Verifica flag override',
+    category: 'Biomi',
+    biomes: ['nuovo_bioma'],
+    allowSlugOverride: true
+  };
+
+  const res = await request(app)
+    .post('/api/ideas')
+    .send(payload)
+    .expect(201);
+
+  assert.deepEqual(res.body.idea.biomes, ['nuovo_bioma']);
 });

@@ -53,3 +53,13 @@ NOTE: <altro>
 - La lista ufficiale delle categorie è definita in [`config/idea_engine_taxonomy.json`](config/idea_engine_taxonomy.json) e viene caricata sia dal backend Node (`server/app.js`) sia dal widget (`docs/public/embed.js`).
 - Quando aggiorni la tassonomia modifica il file JSON (mantieni la struttura `{ "categories": [] }`) e fai commit.
 - Per la versione pubblicata su GitHub Pages imposta `window.IDEA_WIDGET_CONFIG.categoriesUrl` verso l'asset JSON servito (esempio: `https://raw.githubusercontent.com/<org>/<repo>/main/config/idea_engine_taxonomy.json`). In locale puoi lasciare il valore di default `../config/idea_engine_taxonomy.json`.
+
+## Suggerimenti e validazione slug
+- Il widget trasforma i campi Biomi/Ecosistemi/Specie/Tratti/Funzioni in multi-select con suggerimenti derivati dai dataset del repository.
+- Esegui `npm run build:idea-taxonomy` per rigenerare [`docs/public/idea-taxonomy.json`](docs/public/idea-taxonomy.json) a partire da:
+  - `data/biomes.yaml` + alias in `data/biome_aliases.yaml`.
+  - Datasets ecosistema/specie del pack (`packs/evo_tactics_pack/data/`).
+  - Glossario tratti (`data/traits/glossary.json`).
+  - Catalogo funzioni di gioco (`data/game_functions.yaml`).
+- Il backend (`server/app.js`) usa lo stesso JSON per verificare gli slug inviati: se un valore non è presente viene respinto con messaggio di errore.
+- Per casi sperimentali puoi abilitare il flag **Consenti slug fuori catalogo** nel form: il payload includerà `allowSlugOverride` e il server accetterà comunque l'invio.

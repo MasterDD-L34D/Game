@@ -24,11 +24,16 @@ test("permette export markdown offline", async ({ page }) => {
   await page.fill("#title", "Idea offline Playwright");
   await page.fill("#summary", "Verifica del flusso di export in modalità offline.");
   await page.fill("#tags", "#playwright #offline");
-  await page.fill("#biomes", "foresta_temperata");
-  await page.fill("#ecosystems", "ecosistema_alpha");
-  await page.fill("#species", "cervo_bianco");
-  await page.fill("#traits", "muta_respiratoria");
-  await page.fill("#game_functions", "telemetria_vc");
+  await page.fill("#biomes_input", "dorsale_termale_tropicale");
+  await page.press("#biomes_input", "Enter");
+  await page.fill("#ecosystems_input", "meta_ecosistema_alpha");
+  await page.press("#ecosystems_input", "Enter");
+  await page.fill("#species_input", "dune-stalker");
+  await page.press("#species_input", "Enter");
+  await page.fill("#traits_input", "focus_frazionato");
+  await page.press("#traits_input", "Enter");
+  await page.fill("#game_functions_input", "telemetria_vc");
+  await page.press("#game_functions_input", "Enter");
   await page.fill("#actions_next", "- [ ] valida export\n- [ ] sincronizza reminder");
 
   await page.getByRole("button", { name: "Anteprima / Export .md" }).click();
@@ -36,12 +41,12 @@ test("permette export markdown offline", async ({ page }) => {
   const preview = page.locator("#result pre.preview");
   await expect(preview).toContainText("IDEA: Idea offline Playwright");
   await expect(preview).toContainText("## Suggested Next Actions");
-  await expect(preview).toContainText("- **Biomi:** foresta_temperata");
+  await expect(preview).toContainText("- **Biomi:** dorsale_termale_tropicale");
 
   const reminder = page.locator("#result pre.preview");
   await expect(reminder).toContainText("TAGS: #playwright #offline");
-  await expect(reminder).toContainText("BIOMI: foresta_temperata");
-  await expect(reminder).toContainText("ECOSISTEMI: ecosistema_alpha");
+  await expect(reminder).toContainText("BIOMI: dorsale_termale_tropicale");
+  await expect(reminder).toContainText("ECOSISTEMI: meta_ecosistema_alpha");
 
   const note = page.locator("#result .note.small");
   await expect(note).toContainText("Metti il file in  /ideas");
