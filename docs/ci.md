@@ -39,3 +39,7 @@ Questa pagina estende le note in [docs/ci-pipeline.md](ci-pipeline.md) descriven
 
 ## Etichette PR
 Al momento **non sono configurate etichette** per forzare l'esecuzione di questi workflow. Se in futuro verranno introdotti override (es. `ci-force-registry`, `run-hud-canary`), documentare qui il nome della label e i casi d'uso previsti.
+
+## Step successivi
+- Valutare l'introduzione di una GitHub Action dedicata (ad esempio `actions/github-script`) o di un bot interno che assegni automaticamente etichette basate sulle aree toccate dai file modificati nelle pull request.
+- Aggiornare i workflow affinché i job opzionali possano essere forzati tramite una condizione del tipo `if: contains(github.event.pull_request.labels.*.name, 'nome-label')`, così da permettere future modifiche che sbloccano esecuzioni on-demand tramite etichette dedicate.
