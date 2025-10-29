@@ -41,7 +41,9 @@ except KeyError:
     sys.exit(1)
 
 candidates = [
+    root / "data" / "core" / "biomes.yaml",
     root / "data" / "biomes.yaml",
+    root / "Game" / "data" / "core" / "biomes.yaml",
     root / "Game" / "data" / "biomes.yaml",
 ]
 

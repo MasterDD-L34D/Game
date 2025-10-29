@@ -18,19 +18,45 @@ DEFAULT_VC = {
 }
 
 
-DEFAULT_BIOMES_PATH = Path(__file__).resolve().parents[2] / 'data' / 'biomes.yaml'
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_DEFAULT_BIOMES_CANDIDATES = (
+    _REPO_ROOT / 'data' / 'core' / 'biomes.yaml',
+    _REPO_ROOT / 'data' / 'biomes.yaml',
+)
+
+
+def _resolve_candidate(path: Path) -> Path:
+    """Return the most appropriate biome file for the provided path."""
+
+    if path.is_file():
+        return path
+
+    if path.is_dir():
+        for relative in ('biomes.yaml', 'core/biomes.yaml'):
+            candidate = path / relative
+            if candidate.exists():
+                return candidate
+        return path / 'biomes.yaml'
+
+    # Assume the caller passed a path-like string that should point to the file.
+    return path
 
 
 def _default_biomes_path() -> Path:
     override = os.environ.get('GAME_CLI_BIOMES_PATH')
     if override:
-        return Path(override)
+        return _resolve_candidate(Path(override))
 
     data_root = os.environ.get('GAME_CLI_DATA_ROOT')
     if data_root:
-        return Path(data_root) / 'biomes.yaml'
+        return _resolve_candidate(Path(data_root))
 
-    return DEFAULT_BIOMES_PATH
+    for candidate in _DEFAULT_BIOMES_CANDIDATES:
+        if candidate.exists():
+            return candidate
+
+    # Default to the new core location even if it does not exist yet, so the error is explicit.
+    return _DEFAULT_BIOMES_CANDIDATES[0]
 
 
 def generate(
