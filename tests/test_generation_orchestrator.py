@@ -46,6 +46,31 @@ def test_generate_species_applies_fallback_on_invalid_traits() -> None:
     assert result.blueprint['traits']['core']
 
 
+def test_generate_species_uses_corrected_blueprint(monkeypatch: pytest.MonkeyPatch) -> None:
+    orchestrator = GenerationOrchestrator(fallback_traits=[])
+    request = build_request()
+
+    def fake_validate(entries, resources, biome_id):
+        corrected = dict(entries[0])
+        corrected['schema_version'] = '9999.0'
+        return {
+            'messages': [],
+            'corrected': [corrected],
+            'discarded': [],
+        }
+
+    monkeypatch.setattr(
+        'services.generation.orchestrator.runtime_api.validate_species_entries',
+        fake_validate,
+    )
+
+    result = orchestrator.generate_species(request)
+
+    assert result.blueprint['schema_version'] == '9999.0'
+    assert result.validation.corrected is not None
+    assert result.validation.corrected['schema_version'] == '9999.0'
+
+
 def test_generate_species_logs_structured_events(caplog: pytest.LogCaptureFixture) -> None:
     logger = StructuredLogger(logging.getLogger('test-orchestrator'), base={'component': 'test'})
     orchestrator = GenerationOrchestrator(logger=logger)

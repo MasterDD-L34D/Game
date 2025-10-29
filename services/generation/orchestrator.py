@@ -234,6 +234,7 @@ class GenerationOrchestrator:
             )
             corrected_entries = validation.get("corrected") or []
             corrected = corrected_entries[0] if corrected_entries else None
+            result_blueprint = corrected or blueprint
             bundle = ValidationBundle(
                 corrected=corrected,
                 messages=_render_messages(messages),
@@ -245,7 +246,9 @@ class GenerationOrchestrator:
                 "fallback_used": candidate["source"] != "requested",
                 "biome_id": request.biome_id,
             }
-            return GenerationResult(blueprint=blueprint, validation=bundle, meta=meta)
+            return GenerationResult(
+                blueprint=result_blueprint, validation=bundle, meta=meta
+            )
 
         logger.error(
             "generation.exhausted_fallbacks",
