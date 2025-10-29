@@ -1,0 +1,1038 @@
+{
+  "module_id": "personality_enneagram",
+  "version": "1.0.0-draft",
+  "generated_at": "2025-10-24T13:30:16.633345",
+  "dataset": {
+    "schema_version": "1.0.0",
+    "generated_at": "2025-10-24T12:54:30.265570",
+    "types": [
+      {
+        "id": 1,
+        "name_it": "Il Perfezionista / Riformatore",
+        "center": "Centro Istintivo (Gut)",
+        "core_emotion": "Rabbia",
+        "basic_fear": "Essere corrotti/cattivi, difettosi",
+        "basic_desire": "Essere buoni, integri, equilibrati",
+        "passion": "Ira",
+        "fixation": "Risentimento",
+        "virtue": "Serenità",
+        "stress_to": 4,
+        "growth_to": 7,
+        "wings": [
+          "1w9",
+          "1w2"
+        ],
+        "wings_names_ei": [
+          "1w9 – The Idealist",
+          "1w2 – The Advocate"
+        ],
+        "wings_detail": {
+          "1w2": {
+            "name_ei": "The Advocate",
+            "summary": "più caloroso e sociale; orientato al servizio e al contatto"
+          },
+          "1w9": {
+            "name_ei": "The Idealist",
+            "summary": "più riflessivo, stoico, idealista; più calmo e distaccato"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "name_it": "Il Donatore / Aiutante",
+        "center": "Centro Emotivo (Heart)",
+        "core_emotion": "Vergogna",
+        "basic_fear": "Essere indesiderati, indegni di amore",
+        "basic_desire": "Sentirsi amati",
+        "passion": "Superbia",
+        "fixation": "Adulazione (lusinga)",
+        "virtue": "Umiltà",
+        "stress_to": 8,
+        "growth_to": 4,
+        "wings": [
+          "2w1",
+          "2w3"
+        ],
+        "wings_names_ei": [
+          "2w1 – The Servant",
+          "2w3 – The Host/Hostess"
+        ],
+        "wings_detail": {
+          "2w1": {
+            "name_ei": "The Servant",
+            "summary": "più contenuto, doveroso; tono più sobrio e ‘di servizio’"
+          },
+          "2w3": {
+            "name_ei": "The Host/Hostess",
+            "summary": "più ambizioso e orientato all’immagine; ospitale e assertivo"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "name_it": "L’Esecutore / Realizzatore",
+        "center": "Centro Emotivo (Heart)",
+        "core_emotion": "Vergogna",
+        "basic_fear": "Essere senza valore",
+        "basic_desire": "Sentirsi di valore e meritevoli",
+        "passion": "Inganno (autoinganno)",
+        "fixation": "Vanità",
+        "virtue": "Veridicità (autenticità)",
+        "stress_to": 9,
+        "growth_to": 6,
+        "wings": [
+          "3w2",
+          "3w4"
+        ],
+        "wings_names_ei": [
+          "3w2 – The Charmer",
+          "3w4 – The Professional"
+        ],
+        "wings_detail": {
+          "3w2": {
+            "name_ei": "The Charmer",
+            "summary": "più relazionale e carismatico; cerca popolarità"
+          },
+          "3w4": {
+            "name_ei": "The Professional",
+            "summary": "più riservato e professionale; attenzione alla qualità/autenticità"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "name_it": "Il Romantico / Individualista",
+        "center": "Centro Emotivo (Heart)",
+        "core_emotion": "Vergogna",
+        "basic_fear": "Non avere identità o significato personale",
+        "basic_desire": "Essere se stessi in modo unico",
+        "passion": "Invidia",
+        "fixation": "Malinconia",
+        "virtue": "Equanimità",
+        "stress_to": 2,
+        "growth_to": 1,
+        "wings": [
+          "4w3",
+          "4w5"
+        ],
+        "wings_names_ei": [
+          "4w3 – The Aristocrat",
+          "4w5 – The Bohemian"
+        ],
+        "wings_detail": {
+          "4w3": {
+            "name_ei": "The Aristocrat",
+            "summary": "più estroverso e performativo; spinta a emergere"
+          },
+          "4w5": {
+            "name_ei": "The Bohemian",
+            "summary": "più introspettivo e intellettuale; gusto per il ritiro"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "name_it": "L’Osservatore / Investigatore",
+        "center": "Centro Mentale (Head)",
+        "core_emotion": "Paura",
+        "basic_fear": "Essere impotenti, incapaci, incompetenti",
+        "basic_desire": "Competenza e comprensione",
+        "passion": "Avarizia",
+        "fixation": "Ritenzione (stinginess)",
+        "virtue": "Distacco",
+        "stress_to": 7,
+        "growth_to": 8,
+        "wings": [
+          "5w4",
+          "5w6"
+        ],
+        "wings_names_ei": [
+          "5w4 – The Iconoclast",
+          "5w6 – The Problem Solver"
+        ],
+        "wings_detail": {
+          "5w4": {
+            "name_ei": "The Iconoclast",
+            "summary": "più originale/artistico; sensibilità estetica marcata"
+          },
+          "5w6": {
+            "name_ei": "The Problem Solver",
+            "summary": "più tecnico/pragmatico; cautela e problem-solving"
+          }
+        }
+      },
+      {
+        "id": 6,
+        "name_it": "Lo Scettico Leale / Lealista",
+        "center": "Centro Mentale (Head)",
+        "core_emotion": "Paura",
+        "basic_fear": "Essere senza supporto o guida",
+        "basic_desire": "Avere sicurezza e supporto",
+        "passion": "Paura",
+        "fixation": "Vigliaccheria",
+        "virtue": "Coraggio",
+        "stress_to": 3,
+        "growth_to": 9,
+        "wings": [
+          "6w5",
+          "6w7"
+        ],
+        "wings_names_ei": [
+          "6w5 – The Defender",
+          "6w7 – The Buddy"
+        ],
+        "wings_detail": {
+          "6w5": {
+            "name_ei": "The Defender",
+            "summary": "più analitico e riservato; orientato a sistemi/regole"
+          },
+          "6w7": {
+            "name_ei": "The Buddy",
+            "summary": "più socievole e reattivo; cerca incoraggiamento/opzioni"
+          }
+        }
+      },
+      {
+        "id": 7,
+        "name_it": "L’Ottimista / Entusiasta",
+        "center": "Centro Mentale (Head)",
+        "core_emotion": "Paura",
+        "basic_fear": "Essere privati, intrappolati nel dolore",
+        "basic_desire": "Essere soddisfatti e appagati",
+        "passion": "Gola (gluttonia)",
+        "fixation": "Pianificazione",
+        "virtue": "Sobrietà",
+        "stress_to": 1,
+        "growth_to": 5,
+        "wings": [
+          "7w6",
+          "7w8"
+        ],
+        "wings_names_ei": [
+          "7w6 – The Entertainer",
+          "7w8 – The Realist"
+        ],
+        "wings_detail": {
+          "7w6": {
+            "name_ei": "The Entertainer",
+            "summary": "più cooperativo e pianificatore; pensa al team"
+          },
+          "7w8": {
+            "name_ei": "The Realist",
+            "summary": "più assertivo e deciso; cerca impatto immediato"
+          }
+        }
+      },
+      {
+        "id": 8,
+        "name_it": "Il Capo / Sfidante",
+        "center": "Centro Istintivo (Gut)",
+        "core_emotion": "Rabbia",
+        "basic_fear": "Essere controllati, feriti o violati",
+        "basic_desire": "Proteggersi ed essere autosufficienti",
+        "passion": "Lussuria",
+        "fixation": "Vendetta",
+        "virtue": "Innocenza",
+        "stress_to": 5,
+        "growth_to": 2,
+        "wings": [
+          "8w7",
+          "8w9"
+        ],
+        "wings_names_ei": [
+          "8w7 – The Maverick",
+          "8w9 – The Bear"
+        ],
+        "wings_detail": {
+          "8w7": {
+            "name_ei": "The Maverick",
+            "summary": "più energico e imprenditoriale; orientato al rischio"
+          },
+          "8w9": {
+            "name_ei": "The Bear",
+            "summary": "più stabile e protettivo; presenza calma e contenuta"
+          }
+        }
+      },
+      {
+        "id": 9,
+        "name_it": "Il Mediatore / Pacificatore",
+        "center": "Centro Istintivo (Gut)",
+        "core_emotion": "Rabbia",
+        "basic_fear": "Perdita, frammentazione, separazione",
+        "basic_desire": "Pace della mente, interezza",
+        "passion": "Accidia (pigrizia)",
+        "fixation": "Indolenza",
+        "virtue": "Azione",
+        "stress_to": 6,
+        "growth_to": 3,
+        "wings": [
+          "9w8",
+          "9w1"
+        ],
+        "wings_names_ei": [
+          "9w8 – The Referee",
+          "9w1 – The Dreamer"
+        ],
+        "wings_detail": {
+          "9w1": {
+            "name_ei": "The Dreamer",
+            "summary": "più idealista e ordinato; coscienzioso e corretto"
+          },
+          "9w8": {
+            "name_ei": "The Referee",
+            "summary": "più deciso, pratico; tende a proteggere i confini"
+          }
+        }
+      }
+    ],
+    "triads": {
+      "Centri (emozione di base)": [
+        {
+          "group": "Istintivo (8-9-1) – Rabbia",
+          "types": [
+            8,
+            9,
+            1
+          ]
+        },
+        {
+          "group": "Emotivo (2-3-4) – Vergogna",
+          "types": [
+            2,
+            3,
+            4
+          ]
+        },
+        {
+          "group": "Mentale (5-6-7) – Paura",
+          "types": [
+            5,
+            6,
+            7
+          ]
+        }
+      ],
+      "Harmonic (gestione del conflitto)": [
+        {
+          "group": "Positive Outlook/Ottimisti",
+          "types": [
+            2,
+            7,
+            9
+          ]
+        },
+        {
+          "group": "Competency/Competenti",
+          "types": [
+            1,
+            3,
+            5
+          ]
+        },
+        {
+          "group": "Reactive/Reattivi",
+          "types": [
+            4,
+            6,
+            8
+          ]
+        }
+      ],
+      "Hornevian (stile sociale)": [
+        {
+          "group": "Compliant/Obbediente",
+          "types": [
+            1,
+            2,
+            6
+          ]
+        },
+        {
+          "group": "Withdrawn/Ritirato",
+          "types": [
+            4,
+            5,
+            9
+          ]
+        },
+        {
+          "group": "Assertive/Affermativo",
+          "types": [
+            3,
+            7,
+            8
+          ]
+        }
+      ],
+      "Object Relations": [
+        {
+          "group": "Attachment/Attaccamento",
+          "types": [
+            3,
+            6,
+            9
+          ]
+        },
+        {
+          "group": "Frustration/Frustrazione",
+          "types": [
+            1,
+            4,
+            7
+          ]
+        },
+        {
+          "group": "Rejection/Rifiuto",
+          "types": [
+            2,
+            5,
+            8
+          ]
+        }
+      ]
+    },
+    "variants": [
+      {
+        "variant": "SP (Self-preservation)",
+        "focus": "Sicurezza fisica, risorse, salute/comfort",
+        "keywords": "praticità, conservazione, routine, protezione"
+      },
+      {
+        "variant": "SO (Social)",
+        "focus": "Appartenenza, reti, ruolo nel gruppo/status",
+        "keywords": "connessione, cooperazione, contributo, immagine sociale"
+      },
+      {
+        "variant": "SX (Sessuale/One-to-one)",
+        "focus": "Intensità relazionale, attrazione, fusione/creatività",
+        "keywords": "magnetismo, focus, passione, rischio"
+      }
+    ],
+    "stackings": [
+      {
+        "stacking": "sp/so",
+        "summary": "pratico e orientato alla stabilità; poi rete/ruolo"
+      },
+      {
+        "stacking": "sp/sx",
+        "summary": "conservazione con slanci intensi selettivi"
+      },
+      {
+        "stacking": "so/sp",
+        "summary": "sociale/comunitario con base pratica solida"
+      },
+      {
+        "stacking": "so/sx",
+        "summary": "visibilità e legami; ricerca di impatto relazionale"
+      },
+      {
+        "stacking": "sx/sp",
+        "summary": "intensità e legame; base pragmatica a supporto"
+      },
+      {
+        "stacking": "sx/so",
+        "summary": "intensità diretta verso visibilità e appartenenza"
+      }
+    ],
+    "sources": [
+      {
+        "label": "Wikipedia — Enneagram of Personality",
+        "url": "https://en.wikipedia.org/wiki/Enneagram_of_Personality"
+      },
+      {
+        "label": "Enneagram Institute — Types 1–9 + System",
+        "url": "https://www.enneagraminstitute.com/"
+      },
+      {
+        "label": "Narrative Enneagram — Instinctual Subtypes",
+        "url": "https://www.narrativeenneagram.org/instinctual-subtypes/"
+      },
+      {
+        "label": "Enneagram Explained — Hornevian & Harmonic",
+        "url": "https://enneagramexplained.com/"
+      },
+      {
+        "label": "Object Relations (overview)",
+        "url": "https://heathdavishavlick.com/the-enneagram-and-object-relations-theory/"
+      }
+    ],
+    "notes": [
+      "Traduzioni italiane d’uso comune; i nickname EI restano in inglese.",
+      "Modello descrittivo non clinico: usare per scopi ludici/profilazione narrativa."
+    ]
+  },
+  "mechanics_registry": {
+    "version": "0.1-draft",
+    "updated_at": "2025-10-24T13:27:01.245279",
+    "conventions": {
+      "stat_ops": [
+        "add_flat",
+        "add_pct",
+        "mult_pct",
+        "set_min",
+        "set_max"
+      ],
+      "timing": [
+        "passive",
+        "once_per_encounter",
+        "per_turn",
+        "triggered"
+      ],
+      "scopes": [
+        "self",
+        "ally",
+        "party",
+        "enemy",
+        "area"
+      ],
+      "duration": [
+        "instant",
+        "1T",
+        "until_end_of_encounter"
+      ]
+    },
+    "hooks": [
+      {
+        "id": "triad.core_emotion.rabbia",
+        "eligibility": {
+          "types": [
+            8,
+            9,
+            1
+          ]
+        },
+        "trigger": {
+          "event": "on_first_blood_received"
+        },
+        "effects": [
+          {
+            "stat": "melee_damage",
+            "op": "add_pct",
+            "value": 0.05,
+            "duration": "1T"
+          }
+        ],
+        "limit_per_encounter": 1,
+        "status": "stub"
+      },
+      {
+        "id": "triad.core_emotion.vergogna",
+        "eligibility": {
+          "types": [
+            2,
+            3,
+            4
+          ]
+        },
+        "trigger": {
+          "event": "on_ally_downed"
+        },
+        "effects": [
+          {
+            "stat": "support_power",
+            "op": "add_pct",
+            "value": 0.08,
+            "duration": "1T"
+          }
+        ],
+        "limit_per_encounter": 1,
+        "status": "stub"
+      },
+      {
+        "id": "triad.core_emotion.paura",
+        "eligibility": {
+          "types": [
+            5,
+            6,
+            7
+          ]
+        },
+        "trigger": {
+          "event": "on_ambush_initiated"
+        },
+        "effects": [
+          {
+            "stat": "evasion",
+            "op": "add_flat",
+            "value": 5,
+            "duration": "1T"
+          }
+        ],
+        "limit_per_encounter": 1,
+        "status": "stub"
+      },
+      {
+        "id": "hornevian.obbediente",
+        "eligibility": {
+          "types": [
+            1,
+            2,
+            6
+          ]
+        },
+        "trigger": {
+          "event": "on_coordinate_action"
+        },
+        "effects": [
+          {
+            "stat": "teamwork_bonus",
+            "op": "add_pct",
+            "value": 0.1,
+            "duration": "instant"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "hornevian.ritirato",
+        "eligibility": {
+          "types": [
+            4,
+            5,
+            9
+          ]
+        },
+        "trigger": {
+          "event": "on_stealth_start"
+        },
+        "effects": [
+          {
+            "stat": "stealth",
+            "op": "add_flat",
+            "value": 2,
+            "duration": "1T"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "hornevian.assertivo",
+        "eligibility": {
+          "types": [
+            3,
+            7,
+            8
+          ]
+        },
+        "trigger": {
+          "event": "on_initiative_win"
+        },
+        "effects": [
+          {
+            "stat": "initiative",
+            "op": "add_flat",
+            "value": 2,
+            "duration": "1T"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "harmonic.ottimisti",
+        "eligibility": {
+          "types": [
+            2,
+            7,
+            9
+          ]
+        },
+        "trigger": {
+          "event": "on_setback"
+        },
+        "effects": [
+          {
+            "stat": "stamina_regen",
+            "op": "add_pct",
+            "value": 0.1,
+            "duration": "1T"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "harmonic.competenti",
+        "eligibility": {
+          "types": [
+            1,
+            3,
+            5
+          ]
+        },
+        "trigger": {
+          "event": "on_skill_check_under_pressure"
+        },
+        "effects": [
+          {
+            "stat": "skill_success",
+            "op": "add_pct",
+            "value": 0.05,
+            "duration": "instant"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "harmonic.reattivi",
+        "eligibility": {
+          "types": [
+            4,
+            6,
+            8
+          ]
+        },
+        "trigger": {
+          "event": "on_damage_taken_then_counter"
+        },
+        "effects": [
+          {
+            "stat": "counter_chance",
+            "op": "add_pct",
+            "value": 0.05,
+            "duration": "1T"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "objrel.attaccamento",
+        "eligibility": {
+          "types": [
+            3,
+            6,
+            9
+          ]
+        },
+        "trigger": {
+          "event": "on_adjacent_ally"
+        },
+        "effects": [
+          {
+            "stat": "bond_aura",
+            "op": "add_pct",
+            "value": 0.05,
+            "duration": "1T"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "objrel.frustrazione",
+        "eligibility": {
+          "types": [
+            1,
+            4,
+            7
+          ]
+        },
+        "trigger": {
+          "event": "on_goal_blocked"
+        },
+        "effects": [
+          {
+            "stat": "burst_damage",
+            "op": "add_pct",
+            "value": 0.05,
+            "duration": "1T"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "objrel.rifiuto",
+        "eligibility": {
+          "types": [
+            2,
+            5,
+            8
+          ]
+        },
+        "trigger": {
+          "event": "on_isolation"
+        },
+        "effects": [
+          {
+            "stat": "self_reliance",
+            "op": "add_pct",
+            "value": 0.05,
+            "duration": "1T"
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "instinct.sp",
+        "eligibility": {
+          "any": true
+        },
+        "timing": "passive",
+        "effects": [
+          {
+            "stat": "hp_max",
+            "op": "add_pct",
+            "value": 0.05
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "instinct.so",
+        "eligibility": {
+          "any": true
+        },
+        "timing": "passive",
+        "effects": [
+          {
+            "stat": "aura_radius",
+            "op": "add_flat",
+            "value": 1
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "instinct.sx",
+        "eligibility": {
+          "any": true
+        },
+        "timing": "passive",
+        "effects": [
+          {
+            "stat": "duel_bonus",
+            "op": "add_pct",
+            "value": 0.05
+          }
+        ],
+        "status": "stub"
+      },
+      {
+        "id": "stacking.sx_so",
+        "eligibility": {
+          "instinct": "SX"
+        },
+        "timing": "passive",
+        "effects": [
+          {
+            "stat": "charisma_checks",
+            "op": "add_flat",
+            "value": 1
+          }
+        ],
+        "status": "stub"
+      }
+    ]
+  },
+  "compatibility": {
+    "version": "0.1-draft",
+    "updated_at": "2025-10-24T13:30:16.633235",
+    "stats": {
+      "hp_max": {
+        "aliases": [
+          "hpmax",
+          "max_hp",
+          "hpMax",
+          "health_max"
+        ]
+      },
+      "initiative": {
+        "aliases": [
+          "init",
+          "initiativeScore",
+          "init_score"
+        ]
+      },
+      "melee_damage": {
+        "aliases": [
+          "melee_dmg",
+          "atk_melee_damage",
+          "mdmg"
+        ]
+      },
+      "ranged_damage": {
+        "aliases": [
+          "ranged_dmg",
+          "atk_ranged_damage",
+          "rdmg"
+        ]
+      },
+      "support_power": {
+        "aliases": [
+          "support",
+          "heal_power",
+          "buff_power"
+        ]
+      },
+      "evasion": {
+        "aliases": [
+          "evade",
+          "dodge",
+          "evasionRate"
+        ]
+      },
+      "stealth": {
+        "aliases": [
+          "sneak",
+          "concealment",
+          "stealth_score"
+        ]
+      },
+      "stamina_regen": {
+        "aliases": [
+          "stam_regen",
+          "energy_regen",
+          "endurance_regen"
+        ]
+      },
+      "aura_radius": {
+        "aliases": [
+          "auraRange",
+          "teamAuraRadius"
+        ]
+      },
+      "charisma_checks": {
+        "aliases": [
+          "cha_checks",
+          "presence",
+          "influence"
+        ]
+      },
+      "counter_chance": {
+        "aliases": [
+          "counter",
+          "riposte_chance"
+        ]
+      },
+      "skill_success": {
+        "aliases": [
+          "skill_check_bonus",
+          "skill_success_rate"
+        ]
+      },
+      "burst_damage": {
+        "aliases": [
+          "burst",
+          "alpha_damage"
+        ]
+      },
+      "bond_aura": {
+        "aliases": [
+          "link_aura",
+          "ally_bonus"
+        ]
+      },
+      "self_reliance": {
+        "aliases": [
+          "solo_bonus",
+          "independent_bonus"
+        ]
+      },
+      "initiative_adv": {
+        "aliases": [
+          "init_adv",
+          "initiative_advantage"
+        ]
+      }
+    },
+    "events": {
+      "on_first_blood_received": {
+        "aliases": [
+          "on_first_blood",
+          "on_first_hit_taken"
+        ]
+      },
+      "on_ally_downed": {
+        "aliases": [
+          "on_ally_down",
+          "on_ally_ko"
+        ]
+      },
+      "on_ambush_initiated": {
+        "aliases": [
+          "on_ambush",
+          "on_surprise_round"
+        ]
+      },
+      "on_coordinate_action": {
+        "aliases": [
+          "on_team_action",
+          "on_help_action"
+        ]
+      },
+      "on_stealth_start": {
+        "aliases": [
+          "on_enter_stealth"
+        ]
+      },
+      "on_initiative_win": {
+        "aliases": [
+          "on_win_initiative"
+        ]
+      },
+      "on_setback": {
+        "aliases": [
+          "on_fail_check",
+          "on_damage_spike",
+          "on_objective_loss"
+        ]
+      },
+      "on_skill_check_under_pressure": {
+        "aliases": [
+          "on_skill_clutch",
+          "on_skill_check_high_dc"
+        ]
+      },
+      "on_damage_taken_then_counter": {
+        "aliases": [
+          "on_hit_then_counter"
+        ]
+      },
+      "on_adjacent_ally": {
+        "aliases": [
+          "on_ally_close",
+          "on_bond_range"
+        ]
+      },
+      "on_goal_blocked": {
+        "aliases": [
+          "on_objective_denied",
+          "on_interrupt"
+        ]
+      },
+      "on_isolation": {
+        "aliases": [
+          "on_no_ally_near",
+          "on_solo_state"
+        ]
+      }
+    },
+    "limits": {
+      "exclusive_groups": [
+        "core_emotion",
+        "hornevian",
+        "harmonic",
+        "object_rel"
+      ],
+      "per_encounter_activation": {
+        "core_emotion": 1,
+        "hornevian": 2,
+        "harmonic": 2,
+        "object_rel": 2
+      },
+      "passives": {
+        "instincts_stack_with": "none",
+        "stacking_rule": "replace_base_instinct",
+        "caps": {
+          "add_pct": 0.2,
+          "add_flat_initiative": 4
+        }
+      }
+    }
+  },
+  "integration_notes": [
+    "Leggere `personality.enneagram` dalla Scheda PG e mappare su hooks attivi nel registry.",
+    "Applicare alias di `compatibility.stats/events` per adattarsi ai nomi reali del tuo engine.",
+    "Rispettare i limiti di stacking ed esclusione per famiglia (core_emotion, hornevian, harmonic, object_rel).",
+    "Instinct variants (SP/SO/SX) sono passive; lo stacking (es. sx/so) sostituisce il base e applica un mod.",
+    "Valori conservativi (+5%/+2flat/1T) come baseline fino a bilanciamento finale."
+  ]
+}

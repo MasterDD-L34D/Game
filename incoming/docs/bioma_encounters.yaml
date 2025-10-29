@@ -1,0 +1,20 @@
+# bioma_encounters.yaml
+# Dataset base per tracciamento outcome in Evo-Tactics
+
+- biome: "Palude Mutagena"
+  mutation: "Carapace Riflettente"
+  outcome: "Rallenta aggressori, bonus difesa"
+  mbti: "INTJ"
+  timestamp: "2025-10-24T15:30:00Z"
+
+- biome: "Foresta Simbiotica"
+  mutation: "Tendini Elettrici"
+  outcome: "Amplifica sinergia con VC Hook-B"
+  mbti: "ENFP"
+  timestamp: "2025-10-24T15:31:00Z"
+
+- biome: "Ghiacciaio Omeostatico"
+  mutation: "Placca Termoregolante"
+  outcome: "Evita perdita turni in round gelidi"
+  mbti: "ISTP"
+  timestamp: "2025-10-24T15:32:00Z"

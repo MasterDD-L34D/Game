@@ -1,0 +1,23 @@
+ecosistema:
+  abiotico: [luce, temperatura, acqua, suolo, aria, nutrienti, pH, salinità]
+  trofico:
+    produttori: [piante, alghe, cianobatteri]
+    consumatori:
+      primari: [erbivori, detritivori]
+      secondari: [carnivori]
+      terziari: [predatori_apicali]
+    decompositori: [funghi, batteri]
+  gruppi_funzioniali:
+    - predatori
+    - impollinatori
+    - dispersori_semi
+    - simbionti: [micorrize, rizobi, licheni]
+    - parassiti/parasitoidi
+    - detritivori/saprofagi
+    - filtratori
+    - ingegneri_ecosistema
+  suolo:
+    orizzonti: [O, A, B, C]
+    processi: [fissazione_N, nitrificazione, denitrificazione, mineralizzazione]
+  acque:
+    comparti: [fitoplancton, zooplancton, nekton, benthos, periphyton]

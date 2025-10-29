@@ -1,0 +1,114 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>Ecosystem Generator</title>
+<style>
+body{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:24px;color:#222}
+h1,h2{margin:8px 0} .row{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0}
+select,input,button{padding:6px 8px;border:1px solid #e5e7eb;border-radius:8px}
+.card{border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
+.small{font-size:12px;color:#6b7280}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;background:#eef2ff;color:#3730a3;margin-right:6px;font-size:12px}
+</style></head><body>
+<h1>Ecosystem Random Generator</h1>
+<p class="small">Client-side · usa <code>catalog_data.json</code> · re-roll selettivi su ecosistema, biomi e specie.</p>
+
+<div class="card">
+  <h2>Parametri</h2>
+  <div class="row">
+    <label>N. Biomi <input id="nBiomi" type="number" min="1" max="6" value="2"></label>
+    <label>Richiedi flags (multi): 
+      <select id="flags" multiple size="5">
+        <option value="apex">apex</option>
+        <option value="keystone">keystone</option>
+        <option value="bridge">bridge</option>
+        <option value="threat">threat</option>
+        <option value="event">event</option>
+      </select>
+    </label>
+    <label>Include solo ruoli: 
+      <select id="roles" multiple size="5"></select>
+    </label>
+    <label>Tag funzionali richiesti:
+      <select id="tags" multiple size="6"></select>
+    </label>
+  </div>
+  <div class="row">
+    <button id="rollEcos">🎲 Roll Ecosistema</button>
+    <button id="rerollBiomi">↻ Re-roll Biomi</button>
+    <button id="rerollSpecie">↻ Re-roll Specie</button>
+  </div>
+</div>
+
+<div id="out"></div>
+
+<script>
+let data, pick={ecos:{}, biomi:[], specie:{}};
+
+function randi(n){ return Math.floor(Math.random()*n); }
+function sample(arr){ return arr.length? arr[randi(arr.length)] : null; }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+function hasFlags(sp, wanted){ return (wanted||[]).every(f=> sp.flags && sp.flags[f]); }
+function hasTags(sp, wanted){ return (wanted||[]).every(t=> (sp.functional_tags||[]).includes(t)); }
+function rolesOf(data){ return [...new Set(data.species.map(s=>s.role_trofico).filter(Boolean))].sort(); }
+function tagsOf(data){ return [...new Set(data.species.flatMap(s=>s.functional_tags||[]))].sort(); }
+
+async function load(){
+  const res=await fetch('../catalog/catalog_data.json'); data=await res.json();
+  // fill roles/tags
+  const r=rolesOf(data), t=tagsOf(data);
+  const rsel=document.getElementById('roles'); r.forEach(x=>{ const o=document.createElement('option'); o.value=x;o.textContent=x;rsel.appendChild(o); });
+  const tsel=document.getElementById('tags'); t.forEach(x=>{ const o=document.createElement('option'); o.value=x;o.textContent=x;tsel.appendChild(o); });
+}
+function getSelMulti(id){ return Array.from(document.getElementById(id).selectedOptions).map(o=>o.value); }
+
+function rollEcosistema(){
+  const n=parseInt(document.getElementById('nBiomi').value,10)||2;
+  pick.ecos={ label: data.ecosistema.label, conn: data.ecosistema.connessioni };
+  // pick biomes
+  const pool=[...data.biomi];
+  shuffle(pool);
+  pick.biomi=pool.slice(0,n);
+  // pick species per biome with constraints
+  pick.specie={};
+  rerollSpecie();
+  render();
+}
+function rerollBiomi(){
+  const n=parseInt(document.getElementById('nBiomi').value,10)||2;
+  const pool=[...data.biomi];
+  shuffle(pool);
+  pick.biomi=pool.slice(0,n);
+  rerollSpecie(); render();
+}
+function rerollSpecie(){
+  const needFlags=getSelMulti('flags');
+  const needRoles=getSelMulti('roles');
+  const needTags=getSelMulti('tags');
+  pick.specie={};
+  for(const b of pick.biomi){
+    const pool=b.species.filter(s=> (!needRoles.length || needRoles.includes(s.role_trofico||'')) && hasFlags(s,needFlags) && hasTags(s,needTags));
+    const chosen = sample(pool) || sample(b.species) || null;
+    pick.specie[b.id]= chosen? [chosen] : [];
+  }
+}
+
+function render(){
+  const out=document.getElementById('out'); out.innerHTML='';
+  const wrap=document.createElement('div'); wrap.className='grid';
+  for(const b of pick.biomi){
+    const card=document.createElement('div'); card.className='card';
+    const list = (pick.specie[b.id]||[]).map(s=>`<li><strong>${s.display_name}</strong> <span class="small">(${s.id})</span> — <em>${s.role_trofico||'-'}</em></li>`).join('');
+    card.innerHTML = `<h2>${b.id}</h2>
+      <div class="small"><a href="../..//${b.path}">Bioma YAML</a> · ${b.foodweb.path? `<a href="../..//${b.foodweb.path}">Foodweb</a>`: ''}</div>
+      <ul>${list || '<li class="small">Nessuna specie conforme ai filtri, re-rolla o allenta i vincoli.</li>'}</ul>`;
+    wrap.appendChild(card);
+  }
+  out.appendChild(wrap);
+}
+
+document.getElementById('rollEcos').onclick=rollEcosistema;
+document.getElementById('rerollBiomi').onclick=rerollBiomi;
+document.getElementById('rerollSpecie').onclick=()=>{ rerollSpecie(); render(); };
+load();
+</script>
+</body></html>

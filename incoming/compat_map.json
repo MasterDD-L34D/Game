@@ -1,0 +1,206 @@
+{
+  "version": "0.1-draft",
+  "updated_at": "2025-10-24T13:30:16.633235",
+  "stats": {
+    "hp_max": {
+      "aliases": [
+        "hpmax",
+        "max_hp",
+        "hpMax",
+        "health_max"
+      ]
+    },
+    "initiative": {
+      "aliases": [
+        "init",
+        "initiativeScore",
+        "init_score"
+      ]
+    },
+    "melee_damage": {
+      "aliases": [
+        "melee_dmg",
+        "atk_melee_damage",
+        "mdmg"
+      ]
+    },
+    "ranged_damage": {
+      "aliases": [
+        "ranged_dmg",
+        "atk_ranged_damage",
+        "rdmg"
+      ]
+    },
+    "support_power": {
+      "aliases": [
+        "support",
+        "heal_power",
+        "buff_power"
+      ]
+    },
+    "evasion": {
+      "aliases": [
+        "evade",
+        "dodge",
+        "evasionRate"
+      ]
+    },
+    "stealth": {
+      "aliases": [
+        "sneak",
+        "concealment",
+        "stealth_score"
+      ]
+    },
+    "stamina_regen": {
+      "aliases": [
+        "stam_regen",
+        "energy_regen",
+        "endurance_regen"
+      ]
+    },
+    "aura_radius": {
+      "aliases": [
+        "auraRange",
+        "teamAuraRadius"
+      ]
+    },
+    "charisma_checks": {
+      "aliases": [
+        "cha_checks",
+        "presence",
+        "influence"
+      ]
+    },
+    "counter_chance": {
+      "aliases": [
+        "counter",
+        "riposte_chance"
+      ]
+    },
+    "skill_success": {
+      "aliases": [
+        "skill_check_bonus",
+        "skill_success_rate"
+      ]
+    },
+    "burst_damage": {
+      "aliases": [
+        "burst",
+        "alpha_damage"
+      ]
+    },
+    "bond_aura": {
+      "aliases": [
+        "link_aura",
+        "ally_bonus"
+      ]
+    },
+    "self_reliance": {
+      "aliases": [
+        "solo_bonus",
+        "independent_bonus"
+      ]
+    },
+    "initiative_adv": {
+      "aliases": [
+        "init_adv",
+        "initiative_advantage"
+      ]
+    }
+  },
+  "events": {
+    "on_first_blood_received": {
+      "aliases": [
+        "on_first_blood",
+        "on_first_hit_taken"
+      ]
+    },
+    "on_ally_downed": {
+      "aliases": [
+        "on_ally_down",
+        "on_ally_ko"
+      ]
+    },
+    "on_ambush_initiated": {
+      "aliases": [
+        "on_ambush",
+        "on_surprise_round"
+      ]
+    },
+    "on_coordinate_action": {
+      "aliases": [
+        "on_team_action",
+        "on_help_action"
+      ]
+    },
+    "on_stealth_start": {
+      "aliases": [
+        "on_enter_stealth"
+      ]
+    },
+    "on_initiative_win": {
+      "aliases": [
+        "on_win_initiative"
+      ]
+    },
+    "on_setback": {
+      "aliases": [
+        "on_fail_check",
+        "on_damage_spike",
+        "on_objective_loss"
+      ]
+    },
+    "on_skill_check_under_pressure": {
+      "aliases": [
+        "on_skill_clutch",
+        "on_skill_check_high_dc"
+      ]
+    },
+    "on_damage_taken_then_counter": {
+      "aliases": [
+        "on_hit_then_counter"
+      ]
+    },
+    "on_adjacent_ally": {
+      "aliases": [
+        "on_ally_close",
+        "on_bond_range"
+      ]
+    },
+    "on_goal_blocked": {
+      "aliases": [
+        "on_objective_denied",
+        "on_interrupt"
+      ]
+    },
+    "on_isolation": {
+      "aliases": [
+        "on_no_ally_near",
+        "on_solo_state"
+      ]
+    }
+  },
+  "limits": {
+    "exclusive_groups": [
+      "core_emotion",
+      "hornevian",
+      "harmonic",
+      "object_rel"
+    ],
+    "per_encounter_activation": {
+      "core_emotion": 1,
+      "hornevian": 2,
+      "harmonic": 2,
+      "object_rel": 2
+    },
+    "passives": {
+      "instincts_stack_with": "none",
+      "stacking_rule": "replace_base_instinct",
+      "caps": {
+        "add_pct": 0.2,
+        "add_flat_initiative": 4
+      }
+    }
+  }
+}
