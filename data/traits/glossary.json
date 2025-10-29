@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2025-10-26T23:33:05Z",
+  "updated_at": "2025-10-29T03:34:20Z",
   "sources": {
     "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json"
   },
@@ -128,6 +128,82 @@
     "zampe_a_molla": {
       "label_en": "Spring-Loaded Limbs",
       "label_it": "Zampe a Molla"
+    },
+    "antenne_plasmatiche_tempesta": {
+      "label_en": "Storm Plasma Antennae",
+      "label_it": "Antenne Plasmatiche di Tempesta"
+    },
+    "artigli_sghiaccio_glaciale": {
+      "label_en": "Glacial Ice-Shear Claws",
+      "label_it": "Artigli Sghiaccio Glaciale"
+    },
+    "branchie_osmotiche_salmastra": {
+      "label_en": "Brackish Osmotic Gills",
+      "label_it": "Branchie Osmotiche Salmastre"
+    },
+    "bulbi_radici_permafrost": {
+      "label_en": "Permafrost Root Bulbs",
+      "label_it": "Bulbi Radici del Permafrost"
+    },
+    "carapace_luminiscente_abissale": {
+      "label_en": "Abyssal Luminous Carapace",
+      "label_it": "Carapace Luminiscente Abissale"
+    },
+    "cartilagine_flessotermica_venti": {
+      "label_en": "Wind-Tuned Flexothermal Cartilage",
+      "label_it": "Cartilagine Flessotermica dei Venti"
+    },
+    "cavita_risonanti_tundra": {
+      "label_en": "Tundra Resonant Cavities",
+      "label_it": "Cavità Risonanti della Tundra"
+    },
+    "chioma_parassita_canopica": {
+      "label_en": "Canopy Parasitic Crown",
+      "label_it": "Chioma Parassita Canopica"
+    },
+    "circolazione_bifasica_palude": {
+      "label_en": "Swamp Biphase Circulation",
+      "label_it": "Circolazione Bifasica di Palude"
+    },
+    "membrane_eliofiltranti": {
+      "label_en": "Heliofiltering Membranes",
+      "label_it": "Membrane Eliofiltranti"
+    },
+    "mucillagine_simbionte_mangrovie": {
+      "label_en": "Mangrove Symbiont Mucilage",
+      "label_it": "Mucillagine Simbionte delle Mangrovie"
+    },
+    "nodi_micorrizici_oracolari": {
+      "label_en": "Oracular Mycorrhizal Nodes",
+      "label_it": "Nodi Micorrizici Oracolari"
+    },
+    "piume_solari_fotovoltaiche": {
+      "label_en": "Solar Photovoltaic Feathers",
+      "label_it": "Piume Solari Fotovoltaiche"
+    },
+    "polmoni_cristallini_alta_quota": {
+      "label_en": "High-Altitude Crystal Lungs",
+      "label_it": "Polmoni Cristallini d'Alta Quota"
+    },
+    "sacche_spore_stratosferiche": {
+      "label_en": "Stratospheric Spore Sacs",
+      "label_it": "Sacche di Spore Stratosferiche"
+    },
+    "sinapsi_coraline_polifoniche": {
+      "label_en": "Polyphonic Coral Synapses",
+      "label_it": "Sinapsi Coraline Polifoniche"
+    },
+    "squame_rifrangenti_deserto": {
+      "label_en": "Desert Refracting Scales",
+      "label_it": "Squame Rifrangenti del Deserto"
+    },
+    "vello_condensatore_nebbie": {
+      "label_en": "Fog-Condensing Fleece",
+      "label_it": "Vello Condensatore di Nebbie"
+    },
+    "zoccoli_risonanti_steppe": {
+      "label_en": "Steppe Resonant Hooves",
+      "label_it": "Zoccoli Risonanti delle Steppe"
     }
   }
 }
