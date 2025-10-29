@@ -134,6 +134,7 @@
       opts && opts.taxonomyUrl,
       config.taxonomyUrl,
       deriveAssetUrl('idea-taxonomy.json'),
+      '../public/idea-taxonomy.json',
       'idea-taxonomy.json'
     ]);
 
