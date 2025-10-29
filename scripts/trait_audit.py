@@ -166,7 +166,27 @@ def check_traits() -> Tuple[List[Issue], str]:
                 )
             )
         slot_letter = context.split(".")[-1]
-        declared_slots = data.get("slot", []) or []
+        raw_slots = data.get("slot", []) or []
+        invalid_tokens = [
+            token
+            for token in raw_slots
+            if isinstance(token, str) and ":" in token
+        ]
+        if invalid_tokens:
+            issues.append(
+                Issue(
+                    "blocking",
+                    f"Tratto '{data.get('label', trait_id)}' dichiara tassonomie nel campo 'slot'"
+                    " (valori: "
+                    + ", ".join(sorted(set(invalid_tokens)))
+                    + "). Spostare questi descrittori in 'slot_profile' mantenendo solo le lettere degli slot.",
+                )
+            )
+        declared_slots = [
+            (token.strip().upper())
+            for token in raw_slots
+            if isinstance(token, str) and token.strip() and ":" not in token
+        ]
         if slot_letter not in declared_slots:
             issues.append(
                 Issue(
