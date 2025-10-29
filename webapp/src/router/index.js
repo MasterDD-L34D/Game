@@ -6,7 +6,7 @@ import AtlasWorldBuilderView from '../views/atlas/AtlasWorldBuilderView.vue';
 import AtlasEncounterLabView from '../views/atlas/AtlasEncounterLabView.vue';
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
