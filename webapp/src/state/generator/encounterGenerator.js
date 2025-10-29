@@ -124,7 +124,7 @@ function pickSpeciesForSlot(speciesPool, quantity, random) {
   return result;
 }
 
-function parseThreatTier(value) {
+export function parseThreatTier(value) {
   if (typeof value === 'number') {
     return value;
   }
@@ -137,7 +137,7 @@ function parseThreatTier(value) {
   return 1;
 }
 
-function computeThreat(template, parameters, slotAssignments) {
+export function computeThreat(template, parameters, slotAssignments) {
   const threatConfig = template.dynamics?.threat || {};
   const slotWeight = threatConfig.slotWeight || {};
   let score = threatConfig.base ?? 0;
