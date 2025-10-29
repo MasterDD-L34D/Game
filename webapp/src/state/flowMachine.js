@@ -32,6 +32,12 @@ const BASE_STEPS = [
     description: 'Seed, varianti e parametri del combattimento.',
   },
   {
+    id: 'qualityRelease',
+    title: 'Quality & Release',
+    caption: 'Validazione runtime',
+    description: 'Controlli QA automatizzati e readiness per la release.',
+  },
+  {
     id: 'publishing',
     title: 'Publishing',
     caption: 'Preparazione artefatti',

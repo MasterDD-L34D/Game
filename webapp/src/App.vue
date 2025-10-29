@@ -34,6 +34,7 @@ import {
   globalTimeline,
   biomeSynthesisConfig,
   demoBiomeGraph,
+  qualityReleaseContext,
 } from './state/demoOrchestration.js';
 import OverviewView from './views/OverviewView.vue';
 import SpeciesView from './views/SpeciesView.vue';
@@ -41,6 +42,7 @@ import BiomeSetupView from './views/BiomeSetupView.vue';
 import BiomesView from './views/BiomesView.vue';
 import EncounterView from './views/EncounterView.vue';
 import PublishingView from './views/PublishingView.vue';
+import QualityReleaseView from './views/QualityReleaseView.vue';
 
 const flow = useGeneratorFlow();
 
@@ -74,6 +76,22 @@ flow.updateMetrics('encounter', {
   label: 'Varianti',
 });
 
+const qualityChecks = orchestratorSnapshot.qualityRelease.checks || {};
+const totalQualityChecks = Object.values(qualityChecks).reduce(
+  (acc, item) => acc + (item.total || 0),
+  0,
+);
+const completedQualityChecks = Object.values(qualityChecks).reduce(
+  (acc, item) => acc + (item.passed || 0),
+  0,
+);
+
+flow.updateMetrics('qualityRelease', {
+  completed: completedQualityChecks,
+  total: totalQualityChecks,
+  label: 'Check QA',
+});
+
 flow.updateMetrics('publishing', {
   completed: orchestratorSnapshot.publishing.artifactsReady,
   total: orchestratorSnapshot.publishing.totalArtifacts,
@@ -91,6 +109,7 @@ const viewMap = {
   biomeSetup: BiomeSetupView,
   biomes: BiomesView,
   encounter: EncounterView,
+  qualityRelease: QualityReleaseView,
   publishing: PublishingView,
 };
 
@@ -116,6 +135,12 @@ const activeProps = computed(() => {
   }
   if (id === 'encounter') {
     return { encounter: demoEncounter, summary: orchestratorSnapshot.encounter };
+  }
+  if (id === 'qualityRelease') {
+    return {
+      snapshot: orchestratorSnapshot.qualityRelease,
+      context: qualityReleaseContext,
+    };
   }
   if (id === 'publishing') {
     return { publishing: orchestratorSnapshot.publishing };
