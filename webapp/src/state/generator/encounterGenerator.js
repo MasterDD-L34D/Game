@@ -142,11 +142,21 @@ export function computeThreat(template, parameters, slotAssignments) {
   const slotWeight = threatConfig.slotWeight || {};
   let score = threatConfig.base ?? 0;
   for (const assignment of slotAssignments) {
+    const specimens = assignment.species || [];
+    const quantityBase = Number.isFinite(assignment.quantity)
+      ? assignment.quantity
+      : specimens.length;
+    const quantity = Math.max(0, Math.floor(quantityBase));
+    if (!specimens.length || quantity <= 0) {
+      continue;
+    }
     const weight = slotWeight[assignment.slot.id] ?? slotWeight.default ?? 1;
-    const slotThreat = assignment.species.reduce((acc, specimen) => {
+    let slotThreat = 0;
+    for (let i = 0; i < quantity; i += 1) {
+      const specimen = specimens[i % specimens.length];
       const tier = parseThreatTier(specimen.statistics?.threat_tier || specimen.balance?.threat_tier);
-      return acc + tier;
-    }, 0);
+      slotThreat += tier;
+    }
     score += slotThreat * weight;
   }
   if (threatConfig.parameterMultipliers) {
