@@ -3,7 +3,7 @@
 Questo file riepiloga l'ultima esecuzione degli script di sincronizzazione.
 
 - Script principale: `scripts/chatgpt_sync.py`
-- Configurazione di esempio: `data/chatgpt_sources.yaml`
+- Configurazione di esempio: `data/external/chatgpt_sources.yaml`
 - Riepilogo ultima esecuzione: `logs/chatgpt_sync.log`
 - Diff generati: `docs/chatgpt_changes/<namespace>/<YYYY-MM-DD>/`
 
@@ -30,7 +30,7 @@ problemi riscontrati) dopo ogni modifica sostanziale al flusso di sincronizzazio
 - **Fonti eseguite**:
   - `local-export` → diff aggiornato in `docs/chatgpt_changes/local/2025-10-24/`.
   - `local-notes` → diff aggiornato in `docs/chatgpt_changes/notes/2025-10-24/`.
-- **Note**: reinstallata la dipendenza `requests` tramite `tools/py/requirements.txt`; verificato che i percorsi export puntino alla cartella `data/exports/`. Nessun proxy richiesto per le fonti locali.【F:logs/chatgpt_sync_last.json†L1-L28】【F:docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021001Z-local-export.md†L1-L20】
+- **Note**: reinstallata la dipendenza `requests` tramite `tools/py/requirements.txt`; verificato che i percorsi export puntino alla cartella `data/derived/exports/`. Nessun proxy richiesto per le fonti locali.【F:logs/chatgpt_sync_last.json†L1-L28】【F:docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021001Z-local-export.md†L1-L20】
 
 ### 2025-10-24 02:05 UTC
 - **Esito**: manutenzione ambiente completata.
@@ -44,7 +44,7 @@ problemi riscontrati) dopo ogni modifica sostanziale al flusso di sincronizzazio
   - `local-export` → diff aggiornato in `docs/chatgpt_changes/local/2025-10-23/`.
   - `local-notes` → diff aggiornato in `docs/chatgpt_changes/notes/2025-10-23/`.
 - **Credenziali/Proxy**: non richiesti (fonti locali, nessuna variabile impostata).
-- **Note**: aggiornato `data/chatgpt_sources.yaml` per puntare a `data/exports/*`; installati `requests` e `PyYAML` per evitare errori di import; fallimento intermedio dovuto a percorso errato ora risolto.
+- **Note**: aggiornato `data/external/chatgpt_sources.yaml` per puntare a `data/derived/exports/*`; installati `requests` e `PyYAML` per evitare errori di import; fallimento intermedio dovuto a percorso errato ora risolto.
 
 ### 2025-10-23 18:12 UTC
 - **Esito**: configurazione ambiente completata (nessuna sincronizzazione eseguita).

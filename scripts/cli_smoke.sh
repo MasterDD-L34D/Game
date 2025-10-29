@@ -41,12 +41,14 @@ except KeyError:
     sys.exit(1)
 
 candidates = [
+    root / "data" / "core" / "biomes.yaml",
     root / "data" / "biomes.yaml",
+    root / "Game" / "data" / "core" / "biomes.yaml",
     root / "Game" / "data" / "biomes.yaml",
 ]
 
 # Analizza anche directory nidificate comuni, mantenendo l'ordine deterministico.
-for nested in sorted(root.glob("*/data/biomes.yaml")):
+for nested in sorted(root.glob("*/data/core/biomes.yaml")):
     if nested not in candidates:
         candidates.append(nested)
 

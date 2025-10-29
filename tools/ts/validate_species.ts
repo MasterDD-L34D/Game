@@ -169,5 +169,5 @@ function validate(path: string) {
   process.exit(report.errors === 0 ? 0 : 1);
 }
 
-const pathArg = process.argv[2] || "../../data/species.yaml";
+const pathArg = process.argv[2] || "../../data/core/species.yaml";
 validate(pathArg);

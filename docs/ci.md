@@ -33,7 +33,7 @@ Questa pagina estende le note in [docs/ci-pipeline.md](ci-pipeline.md) descriven
 - **Quando usarlo**: lanciare dopo aver caricato nuovi dump in `incoming/` per verificarne la sanità prima di importarli nei dataset ufficiali.
 
 ### HUD Canary
-- **Trigger**: push che coinvolgono asset HUD (`tools/ts/hud_alerts.ts`, `data/hud/**`, `public/hud/**`, ecc.) oppure lancio manuale (`workflow_dispatch`).
+- **Trigger**: push che coinvolgono asset HUD (`tools/ts/hud_alerts.ts`, `data/core/hud/**`, `public/hud/**`, ecc.) oppure lancio manuale (`workflow_dispatch`).
 - **Job**: `canary` controlla il flag `default` in `config/cli/hud.yaml`. Se impostato a `true`, installa Node.js 20, esegue `npm ci` + `npm run build --if-present` in `tools/ts` e produce il bundle HUD. Se il flag è `false`, il job termina con un messaggio informativo senza eseguire build.
 - **Uso pratico**: mantenere il flag attivo quando si desidera ricevere feedback immediato su modifiche agli "smart alerts"; disabilitarlo se si stanno lavorando draft non pronti.
 

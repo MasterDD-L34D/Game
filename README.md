@@ -169,7 +169,7 @@ python3 generate_encounter.py savana
 4. **Verifica la CI**: il workflow `.github/workflows/ci.yml` esegue entrambi i comandi ad ogni push/PR, quindi qualsiasi regressione sui dataset del pack verrà segnalata automaticamente.
 
 ## Aggiornamenti Trait ↔ Specie
-- **Copertura aggiornata** — Dopo la riallineatura dei dataset `packs/evo_tactics_pack/data/species/**` la matrice `python tools/py/report_trait_coverage.py` riporta `traits_with_species = 27/29` e nessuna combinazione regola↔specie mancante (`rules_missing_species_total = 0`). Consulta il report JSON rigenerato in [`data/analysis/trait_coverage_report.json`](data/analysis/trait_coverage_report.json) e il CSV corrispondente per i dettagli per tratto.
+- **Copertura aggiornata** — Dopo la riallineatura dei dataset `packs/evo_tactics_pack/data/species/**` la matrice `python tools/py/report_trait_coverage.py` riporta `traits_with_species = 27/29` e nessuna combinazione regola↔specie mancante (`rules_missing_species_total = 0`). Consulta il report JSON rigenerato in [`data/derived/analysis/trait_coverage_report.json`](data/derived/analysis/trait_coverage_report.json) e il CSV corrispondente per i dettagli per tratto.
 - **Specie prioritarie per bioma** — La tabella di appoggio [`docs/catalog/species_trait_quicklook.csv`](docs/catalog/species_trait_quicklook.csv) elenca gli accoppiamenti `core/optional_traits` estratti da `docs/catalog/species_trait_matrix.json` per i biomi prioritari (Badlands/dorsale termale tropicale, Foresta miceliale, Cryosteppe). Utilizzala come riferimento rapido durante le sessioni di bilanciamento.
 - **Verifica sul campo** — Le specie campione `dune-stalker` (badlands), `lupus-temperatus` (foresta miceliale) e `aurora-gull` (cryosteppe) sono state validate manualmente nei rispettivi ambienti con smoke test rapidi (documentati in [`logs/traits_tracking.md`](logs/traits_tracking.md)) per confermare l'aderenza dei nuovi trait al ruolo tattico previsto.
 
@@ -179,7 +179,7 @@ python3 generate_encounter.py savana
 
 ## Novità trait & specie — 2025-11-16
 - **Suite Badlands riallineata** — Le specie Badlands (inclusi `dune-stalker`, `echo-wing`, `ferrocolonia-magnetotattica`, `magneto-ridge-hunter`, `nano-rust-bloom`, `rust-scavenger`, `sand-burrower`, `slag-veil-ambusher` ed evento `tempesta ferrosa`) usano ora blocchi `genetic_traits` coerenti con la matrice aggiornata e il reference genetico. Consulta i dettagli nei file YAML del pack (`packs/evo_tactics_pack/data/species/badlands/*.yaml`) e nella matrice centralizzata [`docs/catalog/species_trait_matrix.json`](docs/catalog/species_trait_matrix.json).
-- **Quicklook e copertura foodweb** — Il CSV rapido [`docs/catalog/species_trait_quicklook.csv`](docs/catalog/species_trait_quicklook.csv) riporta i nuovi pairing core/opzionali per il bioma dorsale termale tropicale, mentre il report rigenerato [`data/analysis/trait_coverage_report.json`](data/analysis/trait_coverage_report.json) conferma `traits_with_species = 27/29`, `rules_missing_species_total = 0` e i conteggi `foodweb_coverage` per i ruoli monitorati.
+- **Quicklook e copertura foodweb** — Il CSV rapido [`docs/catalog/species_trait_quicklook.csv`](docs/catalog/species_trait_quicklook.csv) riporta i nuovi pairing core/opzionali per il bioma dorsale termale tropicale, mentre il report rigenerato [`data/derived/analysis/trait_coverage_report.json`](data/derived/analysis/trait_coverage_report.json) conferma `traits_with_species = 27/29`, `rules_missing_species_total = 0` e i conteggi `foodweb_coverage` per i ruoli monitorati.
 - **Checklist di rollout** — Il log operativo [`logs/traits_tracking.md`](logs/traits_tracking.md) documenta il comando eseguito e i gate QA da mantenere nei prossimi batch (incluso l'invito a rieseguire il generatore prima del prossimo checkpoint playtest).
 
 ### Feedback rapido (revisione entro 2025-11-23)
@@ -279,10 +279,10 @@ git push -u origin main
 <!-- tracker-status:end -->
 
 ## Sincronizzazione contenuti ChatGPT
-- Configura le fonti da monitorare in `data/chatgpt_sources.yaml` (URL del progetto, canvas esportati, ecc.).
+- Configura le fonti da monitorare in `data/external/chatgpt_sources.yaml` (URL del progetto, canvas esportati, ecc.).
 - Installa le dipendenze Python richieste (`pip install -r tools/py/requirements.txt`) prima di eseguire lo script: il file include `requests`, `PyYAML` e il client `openai` necessario per l'accesso API.
 - Se incontri errori `ProxyError 403`, aggiorna le credenziali o esegui la sincronizzazione da una rete autorizzata: i dettagli dell'ultimo tentativo sono riportati in [`docs/chatgpt_sync_status.md`](docs/chatgpt_sync_status.md).【F:docs/chatgpt_sync_status.md†L1-L24】
-- Esegui `python3 scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml` per scaricare gli snapshot giornalieri.
+- Esegui `python3 scripts/chatgpt_sync.py --config data/external/chatgpt_sources.yaml` per scaricare gli snapshot giornalieri.
 - Controlla i diff generati in `docs/chatgpt_changes/<namespace>/<data>/` e il log in `logs/chatgpt_sync.log`.
 - Aggiorna `docs/chatgpt_sync_status.md` con note operative e credenziali aggiornate.
 

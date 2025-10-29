@@ -320,23 +320,23 @@ def validate(
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("path", nargs="?", default="data/species.yaml")
+    ap.add_argument("path", nargs="?", default="data/core/species.yaml")
     ap.add_argument(
         "--baseline",
         type=Path,
-        default=Path("data/analysis/trait_baseline.yaml"),
+        default=Path("data/derived/analysis/trait_baseline.yaml"),
         help="Percorso al dataset del trait baseline",
     )
     ap.add_argument(
         "--biomes",
         type=Path,
-        default=Path("data/biomes.yaml"),
+        default=Path("data/core/biomes.yaml"),
         help="Dataset biomi per validare le affinità specie",
     )
     ap.add_argument(
         "--biome-aliases",
         type=Path,
-        default=Path("data/biome_aliases.yaml"),
+        default=Path("data/core/biome_aliases.yaml"),
         help="Mappa YAML degli alias dei biomi",
     )
     args = ap.parse_args()

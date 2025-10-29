@@ -79,8 +79,8 @@ Documentare nel pannello `Triggers` di Apps Script l'utente proprietario: il pro
 **Come verifico quali filtri sono stati applicati prima di un export?**  
 Consulta il registro `logs/exports/2025-11-08-filter-selections.md` per trovare timestamp, gruppi destinatari, status e motivazioni raccolti dalla strumentazione della modale analytics.【F:logs/exports/2025-11-08-filter-selections.md†L1-L11】【F:public/analytics/export/ExportModal.tsx†L1-L228】
 
-**Perché il diff vs `data/telemetry.yaml` segnala indici mancanti?**  
-Lo script `tools/py/validate_export.py` ora confronta summary, descrizioni ed evidenze dell'export con gli indici/target definiti in `data/telemetry.yaml`; se l'export non cita determinate metriche viene riportato l'elenco per facilitarne la revisione con Analytics.【F:tools/py/validate_export.py†L1-L310】【F:data/telemetry.yaml†L1-L74】
+**Perché il diff vs `data/core/telemetry.yaml` segnala indici mancanti?**  
+Lo script `tools/py/validate_export.py` ora confronta summary, descrizioni ed evidenze dell'export con gli indici/target definiti in `data/core/telemetry.yaml`; se l'export non cita determinate metriche viene riportato l'elenco per facilitarne la revisione con Analytics.【F:tools/py/validate_export.py†L1-L310】【F:data/core/telemetry.yaml†L1-L74】
 
 **Quando arriva una notifica Slack legata al workflow telemetry-export?**  
 Il job GitHub Actions invia sempre un alert al webhook `SLACK_TELEMETRY_WEBHOOK` indicando l'esito della run e il link al dettaglio (`RUN_URL`), sia in caso di successo sia di errore, dopo la validazione schema e i test UI.【F:.github/workflows/telemetry-export.yml†L1-L60】
@@ -133,7 +133,7 @@ Quando le quote vengono esaurite, Apps Script registra errori `Exceeded maximum 
 | Data | Aggiornamento | Note |
 |------|---------------|------|
 | 2025-10-27 | Deploy Apps Script + trigger time-driven per sincronizzare i fogli `[VC Logs]` con i log YAML di playtest. | Flusso documentato nella sezione "Deploy 2025-10-27 e validazione VC Logs" e mantenuto dal team Ops.【F:docs/drive-sync.md†L78-L149】 |
-| 2025-11-08 | Telemetria UI export con logging filtri, diff automatico con `data/telemetry.yaml` e alert Slack nel workflow `telemetry-export`. | Consente audit settimanali e visibilità immediata sugli esiti della pipeline CI.【F:public/analytics/export/ExportModal.tsx†L1-L228】【F:tools/py/validate_export.py†L1-L310】【F:.github/workflows/telemetry-export.yml†L1-L60】【F:logs/exports/2025-11-08-filter-selections.md†L1-L11】
+| 2025-11-08 | Telemetria UI export con logging filtri, diff automatico con `data/core/telemetry.yaml` e alert Slack nel workflow `telemetry-export`. | Consente audit settimanali e visibilità immediata sugli esiti della pipeline CI.【F:public/analytics/export/ExportModal.tsx†L1-L228】【F:tools/py/validate_export.py†L1-L310】【F:.github/workflows/telemetry-export.yml†L1-L60】【F:logs/exports/2025-11-08-filter-selections.md†L1-L11】
 
 ## Workflow consigliato per i log VC
 1. Eseguire i playtest e archiviare i log YAML in `logs/playtests/<data>/` (es. `logs/playtests/2025-10-24-vc/session-metrics.yaml`).【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】

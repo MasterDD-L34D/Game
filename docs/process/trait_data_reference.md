@@ -6,15 +6,15 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 
 | Percorso | Contenuto | Note |
 | --- | --- | --- |
-| `data/traits/glossary.json` | Glossario condiviso con label ufficiali, descrizioni sintetiche e collegamento al reference principale. | Usato da strumenti ETL e validazione. |
+| `data/core/traits/glossary.json` | Glossario condiviso con label ufficiali, descrizioni sintetiche e collegamento al reference principale. | Usato da strumenti ETL e validazione. |
 | `packs/evo_tactics_pack/docs/catalog/trait_reference.json` | Sorgente autorevole per tier, slot, sinergie, requisiti ambientali e metadati PI. | Duplicato in `docs/evo-tactics-pack/trait-reference.json` per distribuzione web. |
 | `packs/evo_tactics_pack/docs/catalog/env_traits.json` | Mappa le condizioni ambientali (biomi, hazard, ecc.) ai tratti disponibili. | Necessario per report di coverage. |
 | `logs/trait_audit.md` | Output dell'audit di coerenza; deve essere privo di warning prima di aprire una PR. | Generato da `scripts/trait_audit.py`. |
-| `data/analysis/trait_baseline.yaml` & `data/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL. | Utili per verificare la copertura sui nove assi. |
+| `data/derived/analysis/trait_baseline.yaml` & `data/derived/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL. | Utili per verificare la copertura sui nove assi. |
 
 ## Workflow di aggiornamento
 
-1. **Allineare il glossario** – aggiungere o aggiornare le voci in `data/traits/glossary.json`, assicurandosi che `trait_reference` punti al file del pack.
+1. **Allineare il glossario** – aggiungere o aggiornare le voci in `data/core/traits/glossary.json`, assicurandosi che `trait_reference` punti al file del pack.
 2. **Aggiornare il trait reference** – editare `packs/evo_tactics_pack/docs/catalog/trait_reference.json` (e sincronizzare la copia in `docs/evo-tactics-pack/trait-reference.json`).
    - Popolare i campi obbligatori: `tier`, `slot`, `slot_profile`, `sinergie`, `conflitti`, `requisiti_ambientali`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `debolezza`.
    - Ogni sinergia deve essere **reciproca**: se il tratto A elenca il tratto B, anche B deve elencare A.
@@ -24,30 +24,30 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
    python tools/py/build_trait_baseline.py \
      packs/evo_tactics_pack/docs/catalog/env_traits.json \
      packs/evo_tactics_pack/docs/catalog/trait_reference.json \
-     --trait-glossary data/traits/glossary.json
+     --trait-glossary data/core/traits/glossary.json
    ```
-   Questo aggiorna `data/analysis/trait_baseline.yaml`.
+   Questo aggiorna `data/derived/analysis/trait_baseline.yaml`.
 5. **Aggiornare i report di coverage** – eseguire:
    ```bash
    python tools/py/report_trait_coverage.py \
      --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json \
      --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json \
-     --trait-glossary data/traits/glossary.json \
-     --out-json data/analysis/trait_coverage_report.json \
-     --out-csv data/analysis/trait_coverage_matrix.csv
+     --trait-glossary data/core/traits/glossary.json \
+     --out-json data/derived/analysis/trait_coverage_report.json \
+     --out-csv data/derived/analysis/trait_coverage_matrix.csv
    ```
 6. **Analizzare i gap rispetto ai dati ETL** – usare:
    ```bash
    python tools/analysis/trait_gap_report.py \
      --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json \
-     --trait-glossary data/traits/glossary.json \
-     --etl-report data/mock/prod_snapshot/analysis/trait_coverage_report.json \
-     --out data/analysis/trait_gap_report.json
+     --trait-glossary data/core/traits/glossary.json \
+     --etl-report data/derived/mock/prod_snapshot/analysis/trait_coverage_report.json \
+     --out data/derived/analysis/trait_gap_report.json
    ```
 7. **Validare naming e integrità** – controllare che i registri restino coerenti:
    ```bash
    python tools/py/validate_registry_naming.py \
-     --trait-glossary data/traits/glossary.json \
+     --trait-glossary data/core/traits/glossary.json \
      --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json \
      --project-index config/project_index.json \
      --env-rules packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml \

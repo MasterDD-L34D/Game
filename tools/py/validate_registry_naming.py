@@ -200,7 +200,7 @@ def validate_project_index(
                 )
 
     if not trait_glossary:
-        target = str(glossary_path) if glossary_path else "data/traits/glossary.json"
+        target = str(glossary_path) if glossary_path else "data/core/traits/glossary.json"
         errors.append(f"{target}: glossario tratti mancante o vuoto")
         return
 

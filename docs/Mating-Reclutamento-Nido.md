@@ -19,8 +19,8 @@
 - Gestione risorse: `Nutrienti`, `Energia`, `Legami`, `Reattori Aeon`, `Shards`. Il cruscotto HUD mostra trend; se una risorsa <2 applicare penalità alla missione successiva. Rituali di coesione riducono StressWave globale spendendo Legami.【F:appendici/D-CANVAS_ACCOPPIAMENTO.txt†L105-L124】【F:docs/Telemetria-VC.md†L61-L100】
 
 ## Ereditarietà & Mutazioni
-- Nuove Forme selezionano 2 gene slots dai genitori + 1 mutazione ambientale; `form_seed_bias` determina preferenze tratti. Tabelle per struttura/funzione/memorie sbloccano missioni story-driven; mutazioni T1/T2 richiedono moduli Nido ≥2.【F:appendici/D-CANVAS_ACCOPPIAMENTO.txt†L111-L140】【F:data/mating.yaml†L1-L160】
-- Dataset `data/mating.yaml` documenta archetipi Forma, likes/dislikes, collaboration hooks e base_scores usati per calcolare compatibilità e stress triggers durante sessioni VC.【F:data/mating.yaml†L1-L160】
+- Nuove Forme selezionano 2 gene slots dai genitori + 1 mutazione ambientale; `form_seed_bias` determina preferenze tratti. Tabelle per struttura/funzione/memorie sbloccano missioni story-driven; mutazioni T1/T2 richiedono moduli Nido ≥2.【F:appendici/D-CANVAS_ACCOPPIAMENTO.txt†L111-L140】【F:data/core/mating.yaml†L1-L160】
+- Dataset `data/core/mating.yaml` documenta archetipi Forma, likes/dislikes, collaboration hooks e base_scores usati per calcolare compatibilità e stress triggers durante sessioni VC.【F:data/core/mating.yaml†L1-L160】
 
 ## Rituali & Eventi
 - **Convergenza**: lega due membri, fornisce buff `Bond Shield` (assorbe 1 fallimento critico).【F:appendici/D-CANVAS_ACCOPPIAMENTO.txt†L141-L160】

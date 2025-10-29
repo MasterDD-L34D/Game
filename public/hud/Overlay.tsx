@@ -52,12 +52,12 @@ function loadLayout(): LayoutConfig {
 
   try {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const fileLayout = require('../../data/hud/layout.yaml');
+    const fileLayout = require('../../data/core/hud/layout.yaml');
     if (fileLayout && typeof fileLayout === 'object') {
       return fileLayout as LayoutConfig;
     }
   } catch (error) {
-    console.warn('[HUD Overlay] Impossibile caricare data/hud/layout.yaml', error);
+    console.warn('[HUD Overlay] Impossibile caricare data/core/hud/layout.yaml', error);
   }
 
   return {

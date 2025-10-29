@@ -16,7 +16,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Seque
 
 DATE_INPUT_FORMATS = ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y")
 DATE_OUTPUT_FORMAT = "%Y-%m-%d"
-DEFAULT_OUTPUT_PATH = Path("data/analysis/squadsync_report.json")
+DEFAULT_OUTPUT_PATH = Path("data/derived/analysis/squadsync_report.json")
 
 
 class SquadSyncETLError(RuntimeError):

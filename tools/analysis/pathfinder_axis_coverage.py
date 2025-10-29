@@ -214,7 +214,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--baseline",
         type=Path,
-        default=Path("data/analysis/trait_baseline.yaml"),
+        default=Path("data/derived/analysis/trait_baseline.yaml"),
         help="Baseline dei tratti Evo Tactics",
     )
     parser.add_argument(

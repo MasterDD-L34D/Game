@@ -20,13 +20,13 @@ except ModuleNotFoundError as exc:  # pragma: no cover
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_MATRIX_PATH = PROJECT_ROOT / "docs/catalog/species_trait_matrix.json"
 DEFAULT_SPECIES_HINTS = [
-    PROJECT_ROOT / "data/species.yaml",
+    PROJECT_ROOT / "data/core/species.yaml",
     PROJECT_ROOT / "data/species",
     PROJECT_ROOT / "packs/evo_tactics_pack/data/species",
 ]
 DEFAULT_EVENTS_HINTS = [PROJECT_ROOT / "data/events"]
-BIOME_INDEX_PATH = PROJECT_ROOT / "data/biomes.yaml"
-BIOME_ALIASES_PATH = PROJECT_ROOT / "data/biome_aliases.yaml"
+BIOME_INDEX_PATH = PROJECT_ROOT / "data/core/biomes.yaml"
+BIOME_ALIASES_PATH = PROJECT_ROOT / "data/core/biome_aliases.yaml"
 
 
 def _ensure_list(value: Any) -> list[str]:

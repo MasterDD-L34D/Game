@@ -31,8 +31,8 @@ telemetrici TV.
 - **Dataset & Hooks**: `themes.yaml` → `reformer_1`, `personality_module.v1.json` → `mechanics_registry.hooks["theme.reformer_1"].links`, `dataset.themes[reformer_1]`.
 - **Scopo**: mantenere coerenza tra biomi, affissi e mutazioni per ridurre
   l'entropia ambientale degli encounter. I riferimenti principali sono
-  `biomes`, `vc_adapt` e `mutations` in `data/biomes.yaml`, che vengono
-  sincronizzati con gli adattamenti attivi della sessione.【F:data/biomes.yaml†L1-L18】
+  `biomes`, `vc_adapt` e `mutations` in `data/core/biomes.yaml`, che vengono
+  sincronizzati con gli adattamenti attivi della sessione.【F:data/core/biomes.yaml†L1-L18】
 - **Trigger**: profilo di telemetria centrato su coesione e preparazione
   (`cohesion`, `setup`), con soglie >= 0.62/0.55 su due finestre consecutive.
 - **Effetti**: bonus di controllo ambiente, riduzione costo mutazioni e reroll
@@ -43,19 +43,19 @@ telemetrici TV.
 ## Coordinatore (Tipo 2)
 - **Dataset & Hooks**: `themes.yaml` → `helper_2`, registry hook `theme.helper_2` con sinergie `triad.core_emotion.vergogna`, `hornevian.obbediente`, `harmonic.ottimisti`.
 - **Scopo**: esaltare il supporto continuo e la gestione scudi nelle squadre ad
-  alta coesione (telemetria `cohesion>0.70`).【F:data/telemetry.yaml†L14-L29】
+  alta coesione (telemetria `cohesion>0.70`).【F:data/core/telemetry.yaml†L14-L29】
 - **Trigger**: azioni cooperative `assist`, `shield_share`, `revive` e
-  comportamenti preferiti dal Coordinatore nel sistema di mating.【F:data/mating.yaml†L360-L368】
+  comportamenti preferiti dal Coordinatore nel sistema di mating.【F:data/core/mating.yaml†L360-L368】
 - **Effetti**: rigenerazione scudi aggiuntiva, carte reazione gratuite dopo
   azioni di supporto.
 - **Note operative**: consigliato per sessioni tutorial e per test degli
-  adattamenti `cohesion_high` che aggiungono controllo al campo.【F:data/biomes.yaml†L6-L10】
+  adattamenti `cohesion_high` che aggiungono controllo al campo.【F:data/core/biomes.yaml†L6-L10】
 
 ## Conquistatore (Tipo 3)
 - **Dataset & Hooks**: `themes.yaml` → `achiever_3`, hook `theme.achiever_3` e links su `dataset.themes[achiever_3]`.
 - **Scopo**: premiare squadre aggressive che mantengono pressione elevata.
 - **Trigger**: telemetria `aggro>0.65` con `risk>0.55`, coerente con il tema
-  Conquistatore nelle preferenze Ennea del sistema di mating.【F:data/telemetry.yaml†L24-L27】【F:data/mating.yaml†L363-L368】
+  Conquistatore nelle preferenze Ennea del sistema di mating.【F:data/core/telemetry.yaml†L24-L27】【F:data/core/mating.yaml†L363-L368】
 - **Effetti**: aumento danni nelle cariche coordinate e recupero stamina dopo
   `first_strike`.
 - **Note operative**: richiede monitoraggio di `overcap_guard` per evitare spike
@@ -66,7 +66,7 @@ telemetrici TV.
 - **Scopo**: orchestrare pattern estetici e tattici, alternando rigore e
   improvvisazione regolata.
 - **Trigger**: segnali MBTI `S_N` e `J_P`, basati su `pattern_entropy`,
-  `cover_discipline` e `time_to_commit` nelle formule di `data/telemetry.yaml`.【F:data/telemetry.yaml†L20-L24】
+  `cover_discipline` e `time_to_commit` nelle formule di `data/core/telemetry.yaml`.【F:data/core/telemetry.yaml†L20-L24】
 - **Effetti**: accesso a mod estetici, swap istantanei di carte abilità quando i
   pattern superano soglie di entropia.
 - **Note operative**: utile per generare seed "signature" e per documentare
@@ -85,7 +85,7 @@ telemetrici TV.
 - **Dataset & Hooks**: `themes.yaml` → `loyalist_6`, hook `theme.loyalist_6` collegato alle metriche EMA tramite `links.telemetry_metrics`.
 - **Scopo**: garantire la sincronizzazione dell'infrastruttura di telemetria,
   verificando parametri `ema_alpha`, `debounce_ms` e `idle_threshold_s` descritti
-  in `data/telemetry.yaml`.【F:data/telemetry.yaml†L1-L13】
+  in `data/core/telemetry.yaml`.【F:data/core/telemetry.yaml†L1-L13】
 - **Trigger**: tre missioni consecutive senza perdita di eventi VC e
   calibrazione confermata degli strumenti.
 - **Effetti**: smoothing virtuale dei segnali EMA e attivazione di report live
@@ -97,7 +97,7 @@ telemetrici TV.
 - **Dataset & Hooks**: `themes.yaml` → `enthusiast_7`, hook `theme.enthusiast_7` e sinergia `triad.core_emotion.paura`.
 - **Scopo**: incentivare rotte opzionali e scoperta di nuovi tile.
 - **Trigger**: `explore>0.70` e azioni `optional_discovery`/`new_biome_entry`
-  preferite dall'archetipo Esploratore.【F:data/telemetry.yaml†L24-L27】【F:data/mating.yaml†L363-L368】
+  preferite dall'archetipo Esploratore.【F:data/core/telemetry.yaml†L24-L27】【F:data/core/mating.yaml†L363-L368】
 - **Effetti**: tiri bonus sulle tabelle mutazione T0 e movimento gratuito quando
   si esplorano tile consecutivi.
 - **Note operative**: raccoglie log per bilanciare affissi esplorativi nei biomi.
@@ -106,7 +106,7 @@ telemetrici TV.
 - **Dataset & Hooks**: `themes.yaml` → `challenger_8`, `theme.challenger_8` + `harmonic.reattivi` nel blocco `links`.
 - **Scopo**: trasformare il rischio controllato in dominanza difensiva.
 - **Trigger**: valori `risk` elevati con `damage_taken_window` sotto soglia e
-  adattamenti `risk_high` che modificano burst e armatura.【F:data/biomes.yaml†L6-L12】
+  adattamenti `risk_high` che modificano burst e armatura.【F:data/core/biomes.yaml†L6-L12】
 - **Effetti**: riduzione danni post `overcap_guard` e danni da impatto extra
   durante knockback.
 - **Note operative**: ideale per missioni difesa/ondata; monitorare eventi di
@@ -116,7 +116,7 @@ telemetrici TV.
 - **Dataset & Hooks**: `themes.yaml` → `peacemaker_9`, `theme.peacemaker_9` e sinergie `triad.core_emotion.rabbia`/`harmonic.ottimisti`.
 - **Scopo**: mitigare tilt e mantenere equilibrio mentale della squadra.
 - **Trigger**: `tilt>0.65` come definito in telemetria e gestione delle finestre
-  EMA correlate.【F:data/telemetry.yaml†L18-L29】
+  EMA correlate.【F:data/core/telemetry.yaml†L18-L29】
 - **Effetti**: recupero morale a fine fase e vantaggio ai tiri di resistenza se
   il tilt rientra rapidamente.
 - **Note operative**: abilitare pause tattiche programmate e segnali calmanti

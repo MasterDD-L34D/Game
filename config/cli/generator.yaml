@@ -1,10 +1,10 @@
 # Profilo CLI dedicato al trait generator con dataset snapshot mock.
 name: generator
 version: 1
-description: "Esegue scripts/generator.py contro il dataset data/mock/prod_snapshot per validare i trait core."
+description: "Esegue scripts/generator.py contro il dataset data/derived/mock/prod_snapshot per validare i trait core."
 owner: qa-traits@evo-tactics.invalid
 env:
-  GENERATOR_DATA_ROOT: data/mock/prod_snapshot
+  GENERATOR_DATA_ROOT: data/derived/mock/prod_snapshot
   GENERATOR_MATRIX_PATH: docs/catalog/species_trait_matrix.json
   GENERATOR_INVENTORY_PATH: docs/catalog/traits_inventory.json
   GENERATOR_OUTPUT_PATH: logs/tooling/generator_run_profile.json
