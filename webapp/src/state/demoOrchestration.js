@@ -201,10 +201,71 @@ export const orchestratorSnapshot = reactive({
     variants: 4,
     warnings: 1,
   },
+  qualityRelease: {
+    checks: {
+      species: { passed: 2, total: 3 },
+      biomes: { passed: 1, total: 2 },
+      foodweb: { passed: 1, total: 1 },
+    },
+    lastRun: '2024-05-18T09:20:00Z',
+    owners: ['QA Core', 'Narrative QA'],
+  },
   publishing: {
     artifactsReady: 2,
     totalArtifacts: 5,
     channels: ['Compendio digitale', 'Brief video'],
+    workflow: {
+      preview: {
+        status: 'ready',
+        owner: 'QA Core',
+        eta: 'Oggi · 15:00',
+        notes: 'Build promossa in staging con fixture aggiornate.',
+      },
+      approval: {
+        status: 'pending',
+        owner: 'Creative Lead',
+        eta: 'Domani · 10:30',
+        notes: 'In attesa di sign-off narrativo e marketing.',
+      },
+      deploy: {
+        status: 'scheduled',
+        owner: 'Web Ops',
+        eta: 'Domani · 18:00',
+        notes: 'Deploy su CDN con finestra di rollback di 30 minuti.',
+      },
+    },
+    history: [
+      {
+        id: 'preview-generated',
+        label: 'Preview generata',
+        author: 'QA Core',
+        timestamp: '2024-05-18 09:10',
+        details: 'Snapshot giocabile caricata sul portale interno.',
+      },
+      {
+        id: 'qa-sync',
+        label: 'Sync QA & Narrative',
+        author: 'Narrative QA',
+        timestamp: '2024-05-18 11:45',
+        details: 'Definite correzioni di localizzazione per il briefing video.',
+      },
+    ],
+    notifications: [
+      {
+        id: 'notif-slack',
+        channel: 'Slack #release-alerts',
+        message: 'Richiesta approvazione finale pubblicazione patch 1.2.',
+        recipients: ['Creative Lead', 'Web Ops'],
+        time: '2024-05-18 11:50',
+      },
+      {
+        id: 'notif-email',
+        channel: 'Email Team Marketing',
+        message: 'Disponibile anteprima aggiornata per campagna social.',
+        recipients: ['Marketing'],
+        time: '2024-05-18 12:05',
+      },
+    ],
   },
   biomeSetup: {
     prepared: 1,
@@ -220,4 +281,115 @@ export const globalTimeline = computed(() => {
     label: `Sincronizzazione ${percent}%`,
     percent,
   };
+});
+
+export const qualityReleaseContext = reactive({
+  orchestrator: {
+    stage: 'QA Freeze',
+    releaseWindow: 'Patch 1.2 · 48h',
+    coordinator: 'QA Core',
+    focusAreas: ['Specie prioritarie', 'Bilanciamento biomi', 'Foodweb narrativo'],
+  },
+  speciesBatch: {
+    entries: [
+      {
+        trait_ids: ['shadow_pack', 'luminous_feral'],
+        biome_id: 'twilight-marsh',
+        seed: 'QA-NEB-01',
+        base_name: 'Lupi Nebbiosi',
+        request_id: 'spec-check-01',
+      },
+      {
+        trait_ids: ['echo_stalker', 'prism_lurker'],
+        biome_id: 'obsidian-ridge',
+        seed: 'QA-OBS-05',
+        base_name: 'Predatori di Risonanza',
+        request_id: 'spec-check-02',
+      },
+      {
+        trait_ids: ['mist_rider', 'thermal_climber'],
+        biome_id: 'twilight-marsh',
+        seed: 'QA-NEB-07',
+        base_name: 'Assaltatori Nebulari',
+        request_id: 'spec-check-03',
+      },
+    ],
+    biomeId: 'twilight-marsh',
+  },
+  biomeCheck: {
+    biome: {
+      id: 'twilight-marsh',
+      hazard: { id: null, label: null },
+      stability: { erosion: 'medio', vents: 'variabile' },
+      fauna: { apex: ['lupus-nebulis'], support: ['support-1'] },
+      brief: 'Bioma di riferimento per il branch orchestrato in fase di QA.',
+    },
+    defaultHazard: 'Nebbia fotonica instabile',
+  },
+  foodwebCheck: {
+    foodweb: {
+      anchors: [
+        { id: 'alpha-pack', role: 'predatore_apice' },
+        { id: 'lure-flora', role: 'flora_reagente' },
+      ],
+      links: [
+        { from: 'alpha-pack', to: 'lure-flora', weight: 0.7 },
+        { from: 'lure-flora', to: 'alpha-pack', weight: 0.4 },
+      ],
+      focus: 'Sincronizzazione tra branchi e flora prismatica.',
+    },
+  },
+  suggestions: [
+    {
+      id: 'species-duplicates',
+      scope: 'species',
+      title: 'Allineare trait duplicati',
+      description: 'Rimuovere il tratto ripetuto per il branch QA-NEB-07 e riallineare il seed.',
+      action: 'fix',
+    },
+    {
+      id: 'biome-hazard',
+      scope: 'biome',
+      title: 'Impostare hazard predefinito',
+      description: 'Forzare l\'hazard Nebbia fotonica instabile per evitare fallback in produzione.',
+      action: 'fix',
+    },
+    {
+      id: 'foodweb-refresh',
+      scope: 'foodweb',
+      title: 'Rigenerare anelli secondari',
+      description: 'Eseguire una rigenerazione mirata dei link con peso < 0.5 per ampliare le sinergie.',
+      action: 'regenerate',
+    },
+  ],
+  notifications: [
+    {
+      id: 'notify-qa',
+      channel: 'Slack #qa-ops',
+      message: 'Runtime validator completato per i branch Nebbia/Obsydian.',
+      time: '09:45',
+    },
+    {
+      id: 'notify-release',
+      channel: 'Email Release Team',
+      message: 'In attesa approvazione finale per deploy patch 1.2.',
+      time: '10:05',
+    },
+  ],
+  logs: [
+    {
+      id: 'log-species',
+      scope: 'species',
+      level: 'info',
+      message: 'Batch QA-NEB completato con 2 fix automatici.',
+      timestamp: '2024-05-18T09:12:00Z',
+    },
+    {
+      id: 'log-biome',
+      scope: 'biome',
+      level: 'warning',
+      message: 'Hazard non impostato, applicare default QA.',
+      timestamp: '2024-05-18T09:18:00Z',
+    },
+  ],
 });
