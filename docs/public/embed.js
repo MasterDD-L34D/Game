@@ -440,7 +440,7 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
       "",
       "## Suggested Next Actions",
       "- [ ] Valida TAGS, BIOMI e SPECIE con le convenzioni in /config/project_index.json",
-      "- [ ] Aggiorna o crea i dataset YAML in data/biomes.yaml, data/species.yaml e data/traits/ se mancano riferimenti",
+      "- [ ] Aggiorna o crea i dataset YAML in data/core/biomes.yaml, data/core/species.yaml e data/core/traits/ se mancano riferimenti",
       "- [ ] Collega la proposta al catalogo ecosistemi (docs/evo-tactics-pack) o al README pertinente",
       "- [ ] (Opzionale) Copia un Google Doc da template e incolla il Reminder nell’header",
       "- [ ] (Opzionale) Esporta questa idea in `/ideas` del repo tramite PR automatica",

@@ -3,7 +3,7 @@
 Questa guida accompagna la presentazione pubblica della demo VC mostrando in sequenza HUD, vista SquadSync e controlli di export. È pensata per essere letta insieme alle build client `client-r2821` e successive.
 
 ## 1. Overlay HUD contestuale
-- Attivare l'overlay smart alerts dal menu Debug della build (`HUD > Smart Overlay`). Il componente React principale è `public/hud/Overlay.tsx`, che carica il layout da `data/hud/layout.yaml` oppure da `__HUD_LAYOUT__` se presente a runtime.
+- Attivare l'overlay smart alerts dal menu Debug della build (`HUD > Smart Overlay`). Il componente React principale è `public/hud/Overlay.tsx`, che carica il layout da `data/core/hud/layout.yaml` oppure da `__HUD_LAYOUT__` se presente a runtime.
 - Lo script seleziona automaticamente l'overlay in base a `missionTag`/`missionId` e mostra filtri attivi (`risk_threshold`, `cohesion_floor`, ecc.) insieme ai pannelli abilitati (radar risk/cohesion, timeline eventi, log acknowledgement). Questo consente di raccontare al pubblico come i trigger EMA alimentano la UI.
 - In caso di fallback (layout assente), spiegare la modalità legacy: viene renderizzato `LegacyRiskOverlay` con copia statica e link all'asset legacy. È utile citare la differenza rispetto alla visualizzazione dinamica.
 

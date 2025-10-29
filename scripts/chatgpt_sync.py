@@ -4,7 +4,7 @@
 Lo script può interrogare l'API di OpenAI, importare un export manuale o
 scaricare una pagina web (ad esempio il progetto condiviso su chatgpt.com).
 Ogni istantanea viene salvata in una cartella datata all'interno di
-``data/chatgpt`` con metadati e diff automatici. Gli errori sono registrati nel
+``data/external/chatgpt`` con metadati e diff automatici. Gli errori sono registrati nel
 file ``logs/chatgpt_sync.log``.
 """
 
@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
-SNAPSHOT_ROOT = Path("data/chatgpt")
+SNAPSHOT_ROOT = Path("data/external/chatgpt")
 LOG_FILE = Path("logs/chatgpt_sync.log")
 DEFAULT_MODEL = "gpt-4o-mini"
 SUMMARY_FILE = Path("logs/chatgpt_sync_last.json")
@@ -130,7 +130,7 @@ def copy_export_file(source: Path, *, namespace: Optional[str] = None) -> Path:
         raise FileNotFoundError(f"File di export non trovato: {source}")
 
     source_resolved = source.resolve()
-    exports_root = (Path("data/exports").resolve())
+    exports_root = (Path("data/derived/exports").resolve())
 
     # Se il file proviene già dalla directory radice degli export, evitiamo di
     # duplicarlo e riutilizziamo direttamente il percorso canonico. In questo
@@ -427,7 +427,7 @@ def parse_arguments(argv: Optional[list[str]] = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--namespace",
-        help="Sottocartella opzionale dentro data/chatgpt dove salvare lo snapshot",
+        help="Sottocartella opzionale dentro data/external/chatgpt dove salvare lo snapshot",
     )
     parser.add_argument(
         "--label",

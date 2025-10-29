@@ -5,7 +5,7 @@ on:
     paths:
       - '.github/workflows/telemetry-export.yml'
       - 'config/drive/**'
-      - 'data/exports/**'
+      - 'data/derived/exports/**'
       - 'docs/drive-sync.md'
       - 'docs/process/qa_reporting_schema.md'
       - 'public/analytics/export/**'
@@ -30,7 +30,7 @@ jobs:
         run: pip install PyYAML
 
       - name: Validate telemetry export schema
-        run: python tools/py/validate_export.py --export data/exports/qa-telemetry-export.json --recipients config/drive/recipients.yaml
+        run: python tools/py/validate_export.py --export data/derived/exports/qa-telemetry-export.json --recipients config/drive/recipients.yaml
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

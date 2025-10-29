@@ -14,7 +14,7 @@ credenziali necessari.
    ```bash
    npm run drive:generate-approved
    ```
-   Il comando produce/aggiorna `data/drive/approved_assets.json` includendo nome file,
+   Il comando produce/aggiorna `data/external/drive/approved_assets.json` includendo nome file,
    hash SHA-256, sorgente e driveSourceId per l'incrocio con `driveSync.gs`.
 3. Verifica il riepilogo stampato a console: il manifest riporta il numero totale di
    asset approvati e gli eventuali file scartati da ciascuna sorgente.

@@ -3,7 +3,7 @@
 ## Struttura Economica
 - **Costo PI**: trait_T1 3 PE, trait_T2 6 PE, trait_T3 10 PE, job_ability 4 PE, ultimate_slot 6 PE, modulo_tattico 3 PE; cap acquisti su `cap_pt_max` e `starter_bioma_max` per evitare snowball precoce.【F:data/packs.yaml†L1-L8】
 - **Curve Budget**: baseline 7 → veteran 9 → elite 11, con sblocchi legati a optional e style bonus; i pack si basano su tiri `random_general_d20` con risultati speciali per bias Forma/Job e scelta manuale a 20.【F:data/packs.yaml†L9-L23】
-- **Shop Loop**: `pi_shop` alimenta companion app e HUD con suggerimenti di spesa coerenti con telemetria `pe_economy` (expected delta 6 PE, soft cap backlog 18).【F:data/telemetry.yaml†L63-L78】
+- **Shop Loop**: `pi_shop` alimenta companion app e HUD con suggerimenti di spesa coerenti con telemetria `pe_economy` (expected delta 6 PE, soft cap backlog 18).【F:data/core/telemetry.yaml†L63-L78】
 
 ## Pacchetti d20
 | Range d20 | Pack | Combo | Note |
@@ -60,5 +60,5 @@
 3. Aggiorna `docs/Canvas/feature-updates.md` e `docs/piani/roadmap.md` con nuove sinergie o spostamenti budget dopo ogni tuning settimanale PR/telemetria.【F:docs/Canvas/feature-updates.md†L1-L40】【F:docs/piani/roadmap.md†L1-L90】
 
 ## Stato & Azioni
-- Tutte le Forme MBTI sono mappate; restano da estendere `compat_forme` e `base_scores` nel dataset `data/mating.yaml` per supportare romance e Nido (task Ondata 2).【F:data/mating.yaml†L1-L120】【F:docs/piani/roadmap.md†L43-L61】
+- Tutte le Forme MBTI sono mappate; restano da estendere `compat_forme` e `base_scores` nel dataset `data/core/mating.yaml` per supportare romance e Nido (task Ondata 2).【F:data/core/mating.yaml†L1-L120】【F:docs/piani/roadmap.md†L43-L61】
 - Il workflow `daily-pr-summary` aggiorna automaticamente pack change log, evitando divergenze tra CLI TS/Python e documentazione PI.【F:docs/Canvas/feature-updates.md†L11-L20】【F:docs/tool_run_report.md†L1-L40】

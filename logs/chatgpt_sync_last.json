@@ -1,17 +1,17 @@
 {
   "run_timestamp": "2025-10-24T02:19:02.771632+00:00",
-  "config": "data/chatgpt_sources.yaml",
+  "config": "data/external/chatgpt_sources.yaml",
   "results": [
     {
-      "snapshot": "data/chatgpt/local/2025-10-24/snapshot-20251024T021902Z-local-export.json",
+      "snapshot": "data/external/chatgpt/local/2025-10-24/snapshot-20251024T021902Z-local-export.json",
       "metadata": {
         "source": "export",
         "namespace": "local",
         "namespace_requested": "local",
         "name": "local-export",
-        "export_file": "/workspace/Game/data/exports/local-conversation.json",
-        "stored_path": "/workspace/Game/data/exports/local-conversation.json",
-        "original_export": "/workspace/Game/data/exports/local-conversation.json"
+        "export_file": "/workspace/Game/data/derived/exports/local-conversation.json",
+        "stored_path": "/workspace/Game/data/derived/exports/local-conversation.json",
+        "original_export": "/workspace/Game/data/derived/exports/local-conversation.json"
       },
       "diff": {
         "diff": "docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021902Z-local-export.diff",
@@ -20,15 +20,15 @@
       "name": "local-export"
     },
     {
-      "snapshot": "data/chatgpt/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.json",
+      "snapshot": "data/external/chatgpt/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.json",
       "metadata": {
         "source": "export",
         "namespace": "notes",
         "namespace_requested": "notes",
         "name": "local-notes",
-        "export_file": "/workspace/Game/data/exports/notes-conversation.json",
-        "stored_path": "/workspace/Game/data/exports/notes-conversation.json",
-        "original_export": "/workspace/Game/data/exports/notes-conversation.json"
+        "export_file": "/workspace/Game/data/derived/exports/notes-conversation.json",
+        "stored_path": "/workspace/Game/data/derived/exports/notes-conversation.json",
+        "original_export": "/workspace/Game/data/derived/exports/notes-conversation.json"
       },
       "diff": {
         "diff": "docs/chatgpt_changes/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.diff",

@@ -895,7 +895,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 > - extend species definitions with balanced trait plans plus validator checks and document the new progression canvas notes
 > - cover the new flow with a regression test that exercises the baseline generator
 > ## Testing
-> - python tools/py/validate_species.py --baseline data/analysis/trait_baseline.yaml --biomes data/biomes.yaml
+> - python tools/py/validate_species.py --baseline data/derived/analysis/trait_baseline.yaml --biomes data/core/biomes.yaml
 > - pytest
 > ------
 > https://chatgpt.com/codex/tasks/task_e_68feaa545aa48332b553a6645f3e416d

@@ -38,7 +38,7 @@
 - Audit web limitato: server statico `python -m http.server 8000` raggiungibile via `curl`, ma resta necessario testare la UI con browser reale per azionare i pulsanti automatizzati.【2bc46d†L1-L7】
 
 # 2025-10-24 — ChatGPT Sync & Telemetry Validation
-- Eseguito `python scripts/chatgpt_sync.py --config data/chatgpt_sources.yaml` dopo aver reinstallato `requests`; generati diff aggiornati per `local-export` e `local-notes`.【1b0562†L1-L9】
+- Eseguito `python scripts/chatgpt_sync.py --config data/external/chatgpt_sources.yaml` dopo aver reinstallato `requests`; generati diff aggiornati per `local-export` e `local-notes`.【1b0562†L1-L9】
 - Ricompilata la CLI TypeScript con `npm run build` per assicurare che gli esempi roll_pack riflettano l'ultima logica condivisa.【d30fc0†L1-L6】
 - Verificata la parità TS/Python tramite `node tools/ts/dist/roll_pack.js … --seed demo` e `python tools/py/roll_pack.py … --seed demo` ottenendo JSON identici.【a03e68†L1-L25】【f0dfbf†L1-L25】
 - Convalidato il dataset aggiornato (`python tools/py/validate_datasets.py`) e rigenerati log di playtest Delta/Echo per documentare il nuovo smoothing EMA.【414bb7†L1-L2】【F:logs/playtests/2025-10-24-vc/session-metrics.yaml†L1-L73】
@@ -67,7 +67,7 @@
 - The outputs matched the TypeScript tool in structure and produced no assertion errors, indicating the pack cost validations succeeded.
 
 ## Python `generate_encounter.py`
-- Generated encounters for the available biomes defined in `data/biomes.yaml`:
+- Generated encounters for the available biomes defined in `data/core/biomes.yaml`:
   1. `savana`
   2. `caverna`
   3. `palude`

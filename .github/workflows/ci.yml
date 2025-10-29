@@ -76,7 +76,7 @@ jobs:
 
       - name: Validate Species (TS)
         working-directory: tools/ts
-        run: node dist/validate_species.js ../../data/species.yaml
+        run: node dist/validate_species.js ../../data/core/species.yaml
 
   cli-checks:
     runs-on: ubuntu-latest
@@ -155,7 +155,7 @@ jobs:
       - name: Validate Species (Python)
         working-directory: tools/py
         run: |
-          python3 validate_species.py ../../data/species.yaml
+          python3 validate_species.py ../../data/core/species.yaml
 
       - name: Run Python validation script
         working-directory: tools/py
@@ -187,11 +187,11 @@ jobs:
 
       - name: Enforce trait coverage baseline
         run: |
-          python3 tools/py/report_trait_coverage.py --species-root packs/evo_tactics_pack/data/species --out-csv data/analysis/trait_coverage_matrix.csv
+          python3 tools/py/report_trait_coverage.py --species-root packs/evo_tactics_pack/data/species --out-csv data/derived/analysis/trait_coverage_matrix.csv
           python3 - <<'PY'
           import json, sys
 
-          with open('data/analysis/trait_coverage_report.json', encoding='utf-8') as handle:
+          with open('data/derived/analysis/trait_coverage_report.json', encoding='utf-8') as handle:
               summary = json.load(handle).get('summary', {})
 
           min_traits = 27

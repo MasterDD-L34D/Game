@@ -33,7 +33,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--out",
         type=Path,
-        default=Path("data/analysis/trait_baseline.yaml"),
+        default=Path("data/derived/analysis/trait_baseline.yaml"),
         help="File YAML in cui salvare il set base",
     )
     return parser

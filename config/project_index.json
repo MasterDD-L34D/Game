@@ -96,6 +96,6 @@
     }
   },
   "glossaries": {
-    "traits": "data/traits/glossary.json"
+    "traits": "data/core/traits/glossary.json"
   }
 }

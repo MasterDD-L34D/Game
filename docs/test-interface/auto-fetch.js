@@ -3,14 +3,14 @@ const DEFAULT_SOURCES = [
   {
     key: "telemetry",
     label: "Telemetry",
-    path: "data/telemetry.yaml",
+    path: "data/core/telemetry.yaml",
     format: "yaml",
   },
-  { key: "biomes", label: "Biomi", path: "data/biomes.yaml", format: "yaml" },
-  { key: "mating", label: "Mating", path: "data/mating.yaml", format: "yaml" },
+  { key: "biomes", label: "Biomi", path: "data/core/biomes.yaml", format: "yaml" },
+  { key: "mating", label: "Mating", path: "data/core/mating.yaml", format: "yaml" },
 ];
 
-const EXTERNAL_MANIFEST_PATH = "data/auto_external_sources.yaml";
+const EXTERNAL_MANIFEST_PATH = "data/external/auto_external_sources.yaml";
 let manifestLoaded = false;
 let dataSources = [...DEFAULT_SOURCES];
 const TEXT_PREVIEW_LIMIT = 1000;
