@@ -84,14 +84,14 @@ python3 generate_encounter.py savana
 - **Specie prioritarie per bioma** — La tabella di appoggio [`docs/catalog/species_trait_quicklook.csv`](docs/catalog/species_trait_quicklook.csv) elenca gli accoppiamenti `core/optional_traits` estratti da `docs/catalog/species_trait_matrix.json` per i biomi prioritari (Badlands/dorsale termale tropicale, Foresta miceliale, Cryosteppe). Utilizzala come riferimento rapido durante le sessioni di bilanciamento.
 - **Verifica sul campo** — Le specie campione `dune-stalker` (badlands), `lupus-temperatus` (foresta miceliale) e `aurora-gull` (cryosteppe) sono state validate manualmente nei rispettivi ambienti con smoke test rapidi (documentati in [`logs/traits_tracking.md`](logs/traits_tracking.md)) per confermare l'aderenza dei nuovi trait al ruolo tattico previsto.
 
-## Novità trait & specie — 2025-11-15
-- **Sensori geomagnetici nel core del Dune Stalker** — Il tratto `sensori_geomagnetici` entra nel blocco core della variante prototipo `dune_stalker`, con focus ambientale aggiornato in [`docs/catalog/species_trait_matrix.json`](docs/catalog/species_trait_matrix.json). Il nuovo profilo di generazione conferma la copertura completa nel dataset snapshot (`logs/tooling/generator_run_profile.json`).
-- **Lamelle termoforetiche come opzione tattica** — Il pacchetto opzionale della stessa specie include ora `lamelle_termoforetiche`, coordinato con il glossario mock aggiornato (`data/mock/prod_snapshot/traits/glossary.json`). La dashboard mostra il trait plan completo nelle card dedicate grazie all'aggiornamento UI.
-- **Report QA & UI mock** — Il run del generatore produce un riepilogo firmato in [`logs/tooling/generator_run_profile.json`](logs/tooling/generator_run_profile.json) mentre la verifica visiva è documentata in [`logs/tooling/generator_ui_mock.md`](logs/tooling/generator_ui_mock.md) e nel report Playwright (`tools/ts/playwright-report.json`).
+## Novità trait & specie — 2025-11-16
+- **Suite Badlands riallineata** — Le specie Badlands (inclusi `dune-stalker`, `echo-wing`, `ferrocolonia-magnetotattica`, `magneto-ridge-hunter`, `nano-rust-bloom`, `rust-scavenger`, `sand-burrower`, `slag-veil-ambusher` ed evento `tempesta ferrosa`) usano ora blocchi `genetic_traits` coerenti con la matrice aggiornata e il reference genetico. Consulta i dettagli nei file YAML del pack (`packs/evo_tactics_pack/data/species/badlands/*.yaml`) e nella matrice centralizzata [`docs/catalog/species_trait_matrix.json`](docs/catalog/species_trait_matrix.json).
+- **Quicklook e copertura foodweb** — Il CSV rapido [`docs/catalog/species_trait_quicklook.csv`](docs/catalog/species_trait_quicklook.csv) riporta i nuovi pairing core/opzionali per il bioma dorsale termale tropicale, mentre il report rigenerato [`data/analysis/trait_coverage_report.json`](data/analysis/trait_coverage_report.json) conferma `traits_with_species = 27/29`, `rules_missing_species_total = 0` e i conteggi `foodweb_coverage` per i ruoli monitorati.
+- **Checklist di rollout** — Il log operativo [`logs/traits_tracking.md`](logs/traits_tracking.md) documenta il comando eseguito e i gate QA da mantenere nei prossimi batch (incluso l'invito a rieseguire il generatore prima del prossimo checkpoint playtest).
 
-### Feedback rapido (revisione entro 2025-11-22)
-- **Canale espresso** — Annota qui sotto (bullet o checklist) eventuali anomalie sulle nuove combo trait/specie prima della chiusura del ciclo. Per discussioni lunghe apri un ticket con label `trait-feedback`.
-- [ ] QA Lead — rivedere tutti i commenti il **2025-11-22** e aggiornare `logs/tooling/generator_ui_mock.md` con le azioni decise.
+### Feedback rapido (revisione entro 2025-11-23)
+- **Canale espresso** — Aggiungi qui eventuali anomalie sulle nuove combinazioni trait/specie. Per analisi lunghe apri un ticket con label `trait-feedback` e linka il report di coverage.
+- [ ] QA Lead — verificare entro **2025-11-23** gli output del generatore e aggiornare `logs/traits_tracking.md` con eventuali correzioni o regressioni.
 - Commenti raccolti:
   - _Placeholder_: sostituisci con note operative o link a PR/issue.
 

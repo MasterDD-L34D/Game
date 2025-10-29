@@ -71,6 +71,15 @@ telemetry:
   expected_pick_rate: null
   spawn_weight: null
 services_links: []
-genetic_traits: []
+genetic_traits:
+  core:
+    - artigli_sette_vie
+    - coda_frusta_cinetica
+    - scheletro_idro_regolante
+    - struttura_elastica_amorfa
+  optional:
+    - olfatto_risonanza_magnetica
+    - respiro_a_scoppio
+  synergy: []
 mate_synergy: []
 jobs_synergy: []
