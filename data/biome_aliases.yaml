@@ -34,3 +34,15 @@ aliases:
   stratosfera:
     canonical: stratosfera_tempestosa
     notes: "Slug abbreviato usato negli snapshot precedenti della stratosfera."
+  canopia_psionica_leggera:
+    canonical: canopia_ionica
+    status: expansion
+    notes: "Nodo T1 per le colture psioniche leggere, collegato alla canopia ionica verticale."
+  falde_magnetiche_psioniche:
+    canonical: dorsale_termale_tropicale
+    status: expansion
+    notes: "Classe T2 che sfrutta le dorsali termali per amplificare i gradienti magnetici psionici."
+  orbita_psionica_inversa:
+    canonical: mezzanotte_orbitale
+    status: expansion
+    notes: "Classe T3 apex ambientata nella Mezzanotte Orbitale e nei suoi loop gravitazionali."

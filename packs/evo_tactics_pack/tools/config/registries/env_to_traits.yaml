@@ -548,3 +548,57 @@ rules:
     - scheletro_idro_regolante
     - coda_frusta_cinetica
     - eco_interno_riflesso
+- when:
+    biome_class: canopia_psionica_leggera
+  meta:
+    expansion: controllo_psionico
+    notes: Nodo di crescita T1 per canopy conduttive a bassa intensità psionica.
+    tier: T1
+  suggest:
+    traits:
+    - mimetismo_cromatico_passivo
+    - struttura_elastica_amorfa
+    - focus_frazionato
+    - sacche_galleggianti_ascensoriali
+    effects:
+      res_psionic: '+1'
+      stealth_bonus: true
+    jobs_bias:
+    - Invoker
+    - Support
+- when:
+    biome_class: falde_magnetiche_psioniche
+  meta:
+    expansion: controllo_psionico
+    notes: Corridoi T2 su dorsali magnetiche con eco psioniche amplificate.
+    tier: T2
+  suggest:
+    traits:
+    - filamenti_digestivi_compattanti
+    - olfatto_risonanza_magnetica
+    - struttura_elastica_amorfa
+    - nucleo_ovomotore_rotante
+    effects:
+      res_psionic: '+2'
+      hazard_sense_magnetico: true
+    jobs_bias:
+    - Warden
+    - Vanguard
+- when:
+    biome_class: orbita_psionica_inversa
+  meta:
+    expansion: controllo_psionico
+    notes: Spazio T3 apex tra piattaforme orbitali e camere a gravità invertita.
+    tier: T3
+  suggest:
+    traits:
+    - sacche_galleggianti_ascensoriali
+    - olfatto_risonanza_magnetica
+    - focus_frazionato
+    - nucleo_ovomotore_rotante
+    effects:
+      res_psionic: '+2'
+      lift_control: true
+    jobs_bias:
+    - Invoker
+    - Skirmisher

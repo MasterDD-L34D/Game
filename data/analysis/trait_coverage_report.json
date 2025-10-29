@@ -1,29 +1,39 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-10-29T00:26:37+00:00",
+  "generated_at": "2025-10-29T12:27:55+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
-    "trait_glossary": "data/traits/glossary.json",
+    "trait_glossary": "/workspace/Game/data/traits/glossary.json",
     "species_root": "packs/evo_tactics_pack/data/species"
   },
   "summary": {
-    "traits_total": 29,
+    "traits_total": 50,
     "traits_with_rules": 27,
     "traits_with_species": 27,
-    "rule_combos_total": 39,
-    "species_combos_total": 46,
+    "rule_combos_total": 56,
+    "species_combos_total": 72,
     "rules_missing_species_total": 0,
     "traits_missing_species": [],
-    "traits_missing_rules": [
-      "filamenti_digestivi_compattanti",
-      "mimetismo_cromatico_passivo",
-      "olfatto_risonanza_magnetica",
-      "sacche_galleggianti_ascensoriali",
-      "struttura_elastica_amorfa"
-    ]
+    "traits_missing_rules": []
   },
   "traits": {
+    "antenne_plasmatiche_tempesta": {
+      "label_it": "Antenne Plasmatiche di Tempesta",
+      "label_en": "Antenne Plasmatiche di Tempesta",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
     "artigli_sette_vie": {
       "label_it": "Artigli a Sette Vie",
       "label_en": "Seven-Way Talons",
@@ -90,6 +100,54 @@
         "missing_in_rules": []
       }
     },
+    "artigli_sghiaccio_glaciale": {
+      "label_it": "Artigli Sghiaccio Glaciale",
+      "label_en": "Artigli Sghiaccio Glaciale",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "branchie_osmotiche_salmastra": {
+      "label_it": "Branchie Osmotiche Salmastre",
+      "label_en": "Branchie Osmotiche Salmastre",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "bulbi_radici_permafrost": {
+      "label_it": "Bulbi Radici del Permafrost",
+      "label_en": "Bulbi Radici del Permafrost",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
     "carapace_fase_variabile": {
       "label_it": "Carapace a Variazione di Fase",
       "label_en": "Phase-Shifting Carapace",
@@ -115,6 +173,86 @@
             ]
           }
         ]
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "carapace_luminiscente_abissale": {
+      "label_it": "Carapace Luminiscente Abissale",
+      "label_en": "Carapace Luminiscente Abissale",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "cartilagine_flessotermica_venti": {
+      "label_it": "Cartilagine Flessotermica dei Venti",
+      "label_en": "Cartilagine Flessotermica dei Venti",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "cavita_risonanti_tundra": {
+      "label_it": "Cavità Risonanti della Tundra",
+      "label_en": "Cavità Risonanti della Tundra",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "chioma_parassita_canopica": {
+      "label_it": "Chioma Parassita Canopica",
+      "label_en": "Chioma Parassita Canopica",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "circolazione_bifasica_palude": {
+      "label_it": "Circolazione Bifasica di Palude",
+      "label_en": "Circolazione Bifasica di Palude",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
       },
       "diff": {
         "missing_in_species": [],
@@ -277,11 +415,21 @@
       "label_it": "Filamento materiali digeriti",
       "label_en": "Digestive Compaction Filaments",
       "rules": {
-        "total": 2,
+        "total": 4,
         "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "scavenger_corazzato",
+            "count": 1
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": null,
+            "count": 1
+          },
+          {
+            "biome": "foresta_miceliale",
+            "morphotype": null,
             "count": 1
           },
           {
@@ -292,7 +440,7 @@
         ]
       },
       "species": {
-        "total": 5,
+        "total": 9,
         "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
@@ -301,6 +449,31 @@
             "examples": [
               "nano-rust-bloom",
               "rust-scavenger"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "foresta_miceliale",
+            "morphotype": null,
+            "count": 2,
+            "examples": [
+              "glowcap-weaver",
+              "myco-spire-warden"
             ]
           },
           {
@@ -324,36 +497,73 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [
-          {
-            "biome": "foresta_miceliale",
-            "morphotype": "scavenger_corazzato"
-          }
-        ]
+        "missing_in_rules": []
       }
     },
     "focus_frazionato": {
       "label_it": "Focus Frazionato",
       "label_en": "Fractional Focus",
       "rules": {
-        "total": 1,
+        "total": 3,
         "coverage": [
           {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": null,
+            "count": 1
+          },
+          {
             "biome": "foresta_miceliale",
+            "morphotype": null,
+            "count": 1
+          },
+          {
+            "biome": "orbita_psionica_inversa",
             "morphotype": null,
             "count": 1
           }
         ]
       },
       "species": {
-        "total": 1,
+        "total": 5,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
           {
             "biome": "foresta_miceliale",
             "morphotype": null,
             "count": 1,
             "examples": [
               "sentinella-radice"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
             ]
           }
         ]
@@ -394,6 +604,22 @@
         "missing_in_rules": []
       }
     },
+    "lamelle_termoforetiche": {
+      "label_it": "Lamelle Termoforetiche",
+      "label_en": "Thermophoretic Lamellae",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
     "lingua_tattile_trama": {
       "label_it": "Lingua Tattile Trama-Sensibile",
       "label_en": "Texture-Sensing Tongue",
@@ -425,22 +651,64 @@
         "missing_in_rules": []
       }
     },
+    "membrane_eliofiltranti": {
+      "label_it": "Membrane Eliofiltranti",
+      "label_en": "Membrane Eliofiltranti",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
     "mimetismo_cromatico_passivo": {
       "label_it": "Ghiandole di Mimetismo Cromatico Passivo",
       "label_en": "Passive Chromatic Mimicry",
       "rules": {
-        "total": 1,
+        "total": 3,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": null,
+            "count": 1
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "ingegnere_radicante",
+            "count": 1
+          },
+          {
+            "biome": "mezzanotte_orbitale",
+            "morphotype": "volatore_planatore",
             "count": 1
           }
         ]
       },
       "species": {
-        "total": 3,
+        "total": 5,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "ingegnere_radicante",
@@ -462,29 +730,66 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [
-          {
-            "biome": "mezzanotte_orbitale",
-            "morphotype": "volatore_planatore"
-          }
-        ]
+        "missing_in_rules": []
+      }
+    },
+    "mucillagine_simbionte_mangrovie": {
+      "label_it": "Mucillagine Simbionte delle Mangrovie",
+      "label_en": "Mucillagine Simbionte delle Mangrovie",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "nodi_micorrizici_oracolari": {
+      "label_it": "Nodi Micorrizici Oracolari",
+      "label_en": "Nodi Micorrizici Oracolari",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
       }
     },
     "nucleo_ovomotore_rotante": {
       "label_it": "Uovo rotaia, uovo grande e uova piccole dentro...",
       "label_en": "Rotating Ovomotor Core",
       "rules": {
-        "total": 1,
+        "total": 3,
         "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
             "count": 1
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": null,
+            "count": 1
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": null,
+            "count": 1
           }
         ]
       },
       "species": {
-        "total": 1,
+        "total": 5,
         "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
@@ -492,6 +797,38 @@
             "count": 1,
             "examples": [
               "sand-burrower"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
             ]
           }
         ]
@@ -536,17 +873,32 @@
       "label_it": "Olfatto di Risonanza Magnetica",
       "label_en": "Magnetic Resonance Scent",
       "rules": {
-        "total": 1,
+        "total": 4,
         "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": null,
+            "count": 1
+          },
           {
             "biome": "mezzanotte_orbitale",
             "morphotype": "cursoriale_quadrupede",
+            "count": 1
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": null,
             "count": 1
           }
         ]
       },
       "species": {
-        "total": 2,
+        "total": 6,
         "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
@@ -557,23 +909,50 @@
             ]
           },
           {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
             "biome": "mezzanotte_orbitale",
             "morphotype": "cursoriale_quadrupede",
             "count": 1,
             "examples": [
               "cryo-lynx"
             ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [
-          {
-            "biome": "dorsale_termale_tropicale",
-            "morphotype": "cursoriale_quadrupede"
-          }
-        ]
+        "missing_in_rules": []
       }
     },
     "pathfinder": {
@@ -632,6 +1011,38 @@
             ]
           }
         ]
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "piume_solari_fotovoltaiche": {
+      "label_it": "Piume Solari Fotovoltaiche",
+      "label_en": "Piume Solari Fotovoltaiche",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "polmoni_cristallini_alta_quota": {
+      "label_it": "Polmoni Cristallini d'Alta Quota",
+      "label_en": "Polmoni Cristallini d'Alta Quota",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
       },
       "diff": {
         "missing_in_species": [],
@@ -733,18 +1144,49 @@
       "label_it": "Sacche galleggianti ascensoriali",
       "label_en": "Elevating Buoyancy Sacs",
       "rules": {
-        "total": 1,
+        "total": 4,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": null,
+            "count": 1
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
+            "count": 1
+          },
+          {
+            "biome": "mezzanotte_orbitale",
+            "morphotype": "volatore_planatore",
+            "count": 1
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": null,
             "count": 1
           }
         ]
       },
       "species": {
-        "total": 3,
+        "total": 7,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
@@ -761,17 +1203,44 @@
               "aurora-bridge-runner",
               "zephyr-spore-courier"
             ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
+            ]
+          },
+          {
+            "biome": "orbita_psionica_inversa",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "orbital-ascendant"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [
-          {
-            "biome": "mezzanotte_orbitale",
-            "morphotype": "volatore_planatore"
-          }
-        ]
+        "missing_in_rules": []
+      }
+    },
+    "sacche_spore_stratosferiche": {
+      "label_it": "Sacche di Spore Stratosferiche",
+      "label_en": "Sacche di Spore Stratosferiche",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
       }
     },
     "sangue_piroforico": {
@@ -908,6 +1377,38 @@
         "missing_in_rules": []
       }
     },
+    "sensori_geomagnetici": {
+      "label_it": "Sensori a Risonanza Geomagnetica",
+      "label_en": "Geomagnetic Resonance Sensors",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "sinapsi_coraline_polifoniche": {
+      "label_it": "Sinapsi Coraline Polifoniche",
+      "label_en": "Sinapsi Coraline Polifoniche",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
     "sonno_emisferico_alternato": {
       "label_it": "Dormire con solo metà cervello alla volta",
       "label_en": "Unihemispheric Sleep",
@@ -1009,22 +1510,69 @@
         "missing_in_rules": []
       }
     },
+    "squame_rifrangenti_deserto": {
+      "label_it": "Squame Rifrangenti del Deserto",
+      "label_en": "Squame Rifrangenti del Deserto",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
     "struttura_elastica_amorfa": {
       "label_it": "Struttura elastica, allungabile, amorfa, retrattile",
       "label_en": "Elastic Amorphous Frame",
       "rules": {
-        "total": 1,
+        "total": 4,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": null,
+            "count": 1
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
+            "count": 1
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": null,
+            "count": 1
+          },
+          {
+            "biome": "foresta_miceliale",
+            "morphotype": null,
             "count": 1
           }
         ]
       },
       "species": {
-        "total": 4,
+        "total": 10,
         "coverage": [
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
+          {
+            "biome": "canopia_psionica_leggera",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "psionic-canopy-scout"
+            ]
+          },
           {
             "biome": "dorsale_termale_tropicale",
             "morphotype": "cursoriale_quadrupede",
@@ -1032,6 +1580,31 @@
             "examples": [
               "dune-stalker",
               "slag-veil-ambusher"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "falde_magnetiche_psioniche",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "magnet-fathom-surveyor"
+            ]
+          },
+          {
+            "biome": "foresta_miceliale",
+            "morphotype": null,
+            "count": 2,
+            "examples": [
+              "glowcap-weaver",
+              "myco-spire-warden"
             ]
           },
           {
@@ -1047,12 +1620,7 @@
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [
-          {
-            "biome": "foresta_miceliale",
-            "morphotype": "scavenger_corazzato"
-          }
-        ]
+        "missing_in_rules": []
       }
     },
     "tattiche_di_branco": {
@@ -1080,6 +1648,22 @@
             ]
           }
         ]
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "vello_condensatore_nebbie": {
+      "label_it": "Vello Condensatore di Nebbie",
+      "label_en": "Vello Condensatore di Nebbie",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
       },
       "diff": {
         "missing_in_species": [],
@@ -1133,6 +1717,22 @@
     "zampe_a_molla": {
       "label_it": "Zampe a Molla",
       "label_en": "Spring-Loaded Limbs",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": []
+      }
+    },
+    "zoccoli_risonanti_steppe": {
+      "label_it": "Zoccoli Risonanti delle Steppe",
+      "label_en": "Zoccoli Risonanti delle Steppe",
       "rules": {
         "total": 0,
         "coverage": []
@@ -1318,7 +1918,7 @@
         ]
       },
       "ingegneri_ecosistema": {
-        "total_species": 6,
+        "total_species": 7,
         "biomes": {
           "abisso_vulcanico": {
             "count": 1,
@@ -1330,6 +1930,23 @@
                 "playable_unit": true,
                 "core_traits": [],
                 "source": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
+              }
+            ]
+          },
+          "canopia_psionica_leggera": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "psionic-canopy-scout",
+                "playable_unit": true,
+                "core_traits": [
+                  "focus_frazionato",
+                  "mimetismo_cromatico_passivo",
+                  "sacche_galleggianti_ascensoriali"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml"
               }
             ]
           },
@@ -1407,6 +2024,7 @@
         },
         "biomes_missing_threshold": [
           "abisso_vulcanico",
+          "canopia_psionica_leggera",
           "dorsale_termale_tropicale",
           "mezzanotte_orbitale"
         ]
@@ -1487,7 +2105,7 @@
         ]
       },
       "predatore_regolatore_simbionte": {
-        "total_species": 1,
+        "total_species": 2,
         "biomes": {
           "dorsale_termale_tropicale": {
             "count": 1,
@@ -1505,14 +2123,32 @@
                 "source": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
               }
             ]
+          },
+          "falde_magnetiche_psioniche": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "magnet-fathom-surveyor",
+                "playable_unit": false,
+                "core_traits": [
+                  "filamenti_digestivi_compattanti",
+                  "nucleo_ovomotore_rotante",
+                  "olfatto_risonanza_magnetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
-          "dorsale_termale_tropicale"
+          "dorsale_termale_tropicale",
+          "falde_magnetiche_psioniche"
         ]
       },
       "predatore_terziario_apex": {
-        "total_species": 7,
+        "total_species": 8,
         "biomes": {
           "abisso_vulcanico": {
             "count": 1,
@@ -1612,13 +2248,31 @@
                 "source": "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
               }
             ]
+          },
+          "orbita_psionica_inversa": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "orbital-ascendant",
+                "playable_unit": true,
+                "core_traits": [
+                  "focus_frazionato",
+                  "nucleo_ovomotore_rotante",
+                  "olfatto_risonanza_magnetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
           "abisso_vulcanico",
           "caverna_risonante",
           "foresta_miceliale",
-          "mezzanotte_orbitale"
+          "mezzanotte_orbitale",
+          "orbita_psionica_inversa"
         ]
       }
     }

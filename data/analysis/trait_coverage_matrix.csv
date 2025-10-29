@@ -11,24 +11,45 @@ eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,mezzanotte_o
 empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_miceliale,,1,3
 empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_miceliale,scavenger_corazzato,0,2
 filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,dorsale_termale_tropicale,scavenger_corazzato,1,2
+filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,falde_magnetiche_psioniche,,1,1
+filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,falde_magnetiche_psioniche,scavenger_corazzato,0,1
+filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,foresta_miceliale,,1,2
 filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,foresta_miceliale,scavenger_corazzato,0,2
 filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,mezzanotte_orbitale,scavenger_corazzato,1,1
+focus_frazionato,Focus Frazionato,Fractional Focus,canopia_psionica_leggera,,1,1
+focus_frazionato,Focus Frazionato,Fractional Focus,canopia_psionica_leggera,volatore_planatore,0,1
 focus_frazionato,Focus Frazionato,Fractional Focus,foresta_miceliale,,1,1
+focus_frazionato,Focus Frazionato,Fractional Focus,orbita_psionica_inversa,,1,1
+focus_frazionato,Focus Frazionato,Fractional Focus,orbita_psionica_inversa,volatore_planatore,0,1
 ghiandola_caustica,Ghiandola Caustica,Caustic Gland,foresta_miceliale,,1,1
 lingua_tattile_trama,Lingua Tattile Trama-Sensibile,Texture-Sensing Tongue,foresta_miceliale,,1,1
+mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,canopia_psionica_leggera,,1,1
+mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,canopia_psionica_leggera,volatore_planatore,0,1
 mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,dorsale_termale_tropicale,ingegnere_radicante,1,1
-mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,mezzanotte_orbitale,volatore_planatore,0,2
+mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Passive Chromatic Mimicry,mezzanotte_orbitale,volatore_planatore,1,2
 nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,falde_magnetiche_psioniche,,1,1
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,falde_magnetiche_psioniche,scavenger_corazzato,0,1
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,orbita_psionica_inversa,,1,1
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,orbita_psionica_inversa,volatore_planatore,0,1
 occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Infrared Compound Eyes,dorsale_termale_tropicale,volatore_planatore,1,1
-olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,dorsale_termale_tropicale,cursoriale_quadrupede,0,1
+olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
+olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,falde_magnetiche_psioniche,,1,1
+olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,falde_magnetiche_psioniche,scavenger_corazzato,0,1
 olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,mezzanotte_orbitale,cursoriale_quadrupede,1,1
+olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,orbita_psionica_inversa,,1,1
+olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Magnetic Resonance Scent,orbita_psionica_inversa,volatore_planatore,0,1
 pathfinder,Pathfinder,Pathfinder,foresta_miceliale,,1,1
 pianificatore,Pianificatore,Strategic Planner,foresta_miceliale,,1,1
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,dorsale_termale_tropicale,scavenger_corazzato,1,1
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,mezzanotte_orbitale,cursoriale_quadrupede,1,1
 risonanza_di_branco,Risonanza di Branco,Pack Resonance,foresta_miceliale,,1,1
+sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,canopia_psionica_leggera,,1,1
+sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,canopia_psionica_leggera,volatore_planatore,0,1
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,dorsale_termale_tropicale,cursoriale_quadrupede,1,1
-sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,mezzanotte_orbitale,volatore_planatore,0,2
+sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,mezzanotte_orbitale,volatore_planatore,1,2
+sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,orbita_psionica_inversa,,1,1
+sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,orbita_psionica_inversa,volatore_planatore,0,1
 sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,dorsale_termale_tropicale,ingegnere_radicante,1,1
 sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Pyrophoric Blood,mezzanotte_orbitale,scavenger_corazzato,1,1
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,dorsale_termale_tropicale,cursoriale_quadrupede,1,3
@@ -40,7 +61,12 @@ sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemisph
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,dorsale_termale_tropicale,scavenger_corazzato,1,1
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,foresta_miceliale,,1,1
 spore_psichiche_silenziate,Spora Psichica Silenziosa,Silent Psychic Spores,mezzanotte_orbitale,scavenger_corazzato,1,1
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,canopia_psionica_leggera,,1,1
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,canopia_psionica_leggera,volatore_planatore,0,1
 struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,dorsale_termale_tropicale,cursoriale_quadrupede,1,2
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,falde_magnetiche_psioniche,,1,1
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,falde_magnetiche_psioniche,scavenger_corazzato,0,1
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,foresta_miceliale,,1,2
 struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Elastic Amorphous Frame,foresta_miceliale,scavenger_corazzato,0,2
 tattiche_di_branco,Tattiche di Branco,Pack Tactics,foresta_miceliale,,1,1
 ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,dorsale_termale_tropicale,scavenger_corazzato,1,1
