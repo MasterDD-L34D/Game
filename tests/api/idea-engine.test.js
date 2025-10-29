@@ -99,3 +99,23 @@ test('POST /api/ideas valida i campi obbligatori', async (t) => {
 
   assert.equal(res.body.error, 'Titolo richiesto');
 });
+
+test('POST /api/ideas rifiuta categorie non in tassonomia', async (t) => {
+  const databasePath = createTempDbPath();
+  const { app, repo } = createApp({ databasePath });
+  await repo.ready;
+  t.after(() => {
+    // no-op
+  });
+
+  const res = await request(app)
+    .post('/api/ideas')
+    .send({
+      title: 'Idea senza categoria valida',
+      summary: 'Test categoria',
+      category: 'Non Esiste'
+    })
+    .expect(400);
+
+  assert.equal(res.body.error, 'Categoria non valida');
+});

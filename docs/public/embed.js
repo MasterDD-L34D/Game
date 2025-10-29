@@ -2,7 +2,7 @@
 // Evo Tactics — Idea Intake Widget
 // Nota: mantenere sincronizzato con docs/public/embed.js (GitHub Pages).
 (function(){
-  const CATEGORIES = [
+  const DEFAULT_CATEGORIES = [
     "Biomi",
     "Ecosistemi",
     "Specie",
@@ -15,6 +15,59 @@
     "Altro"
   ];
   const PRIORITIES = ["P0","P1","P2","P3"];
+
+  function unique(arr) {
+    return Array.from(new Set(arr.filter(Boolean)));
+  }
+
+  async function fetchCategoriesFrom(url) {
+    if (!url) return [];
+    try {
+      const response = await fetch(url, { cache: 'no-store' });
+      if (!response.ok) throw new Error(response.statusText || 'HTTP ' + response.status);
+      const json = await response.json();
+      if (json && Array.isArray(json.categories)) {
+        return json.categories.filter((item) => typeof item === 'string' && item.trim()).map((item) => item.trim());
+      }
+      if (Array.isArray(json)) {
+        return json.filter((item) => typeof item === 'string' && item.trim()).map((item) => item.trim());
+      }
+    } catch (error) {
+      console.warn('Impossibile caricare le categorie da', url, error);
+    }
+    return [];
+  }
+
+  async function resolveCategories(opts) {
+    const config = (typeof window !== 'undefined' && window.IDEA_WIDGET_CONFIG) ? window.IDEA_WIDGET_CONFIG : {};
+    const urls = unique([
+      opts && opts.categoriesUrl,
+      config.categoriesUrl,
+      (function deriveRelativeUrl() {
+        try {
+          if (typeof document === 'undefined') return null;
+          const currentScript = document.currentScript;
+          if (currentScript && currentScript.src) {
+            const src = new URL(currentScript.src, window.location.href);
+            return new URL('idea_engine_taxonomy.json', src).toString();
+          }
+        } catch (error) {
+          console.warn('Errore calcolo URL tassonomia', error);
+        }
+        return null;
+      })(),
+      '../config/idea_engine_taxonomy.json'
+    ]);
+
+    for (const url of urls) {
+      const categories = await fetchCategoriesFrom(url);
+      if (categories.length) {
+        return categories;
+      }
+    }
+
+    return DEFAULT_CATEGORIES.slice();
+  }
 
   function formatList(items) {
     if (!items || !items.length) return "-";
@@ -52,8 +105,9 @@
     return c;
   }
 
-  function buildForm(container, opts) {
+  function buildForm(container, opts, categories) {
     const state = { apiBase: (opts.apiBase||"").trim(), apiToken: (opts.apiToken||"").trim() };
+    state.categories = Array.isArray(categories) && categories.length ? categories : DEFAULT_CATEGORIES.slice();
     const defaultBiomes = splitList(opts.defaultBiomes || opts.defaultModule || "");
     const defaultEcosystems = splitList(opts.defaultEcosystems || "");
     const defaultSpecies = splitList(opts.defaultSpecies || "");
@@ -62,6 +116,7 @@
     const defaultPriority = opts.defaultPriority || "P2";
 
     const formActions = [];
+    const validate = createValidator(state.categories);
 
     const f = el("form", { id: "idea-form" }, [
       el("div", { class: "grid" }, [
@@ -69,7 +124,7 @@
         wrap("Sommario (2-4 righe)", el("textarea", { id:"summary", rows:"3", placeholder:"Descrizione sintetica" }), "full"),
         wrap("Categoria", (function(){
           const sel = el("select", { id:"category" });
-          CATEGORIES.forEach(c => sel.appendChild(el("option", { value: c }, c)));
+          state.categories.forEach(c => sel.appendChild(el("option", { value: c }, c)));
           return sel;
         })()),
         wrap("Tags (spazio separati)", el("input", { type:"text", id:"tags", placeholder:"#ideazione #bioma #specie" })),
@@ -239,11 +294,15 @@
     };
   }
 
-  function validate(p) {
-    if (!p.title) return "Titolo richiesto.";
-    if (!p.category) return "Categoria richiesta.";
-    if (p.title.length > 140) return "Titolo troppo lungo (max 140).";
-    return "";
+  function createValidator(categories) {
+    const validCategories = new Set((categories || []).map((c) => c.trim()));
+    return function validate(p) {
+      if (!p.title) return "Titolo richiesto.";
+      if (!p.category) return "Categoria richiesta.";
+      if (p.title.length > 140) return "Titolo troppo lungo (max 140).";
+      if (validCategories.size && !validCategories.has(p.category)) return "Categoria non valida";
+      return "";
+    };
   }
 
   function reminderBlock(p) {
@@ -319,8 +378,20 @@
   window.IdeaWidget = {
     mount: function(selector, opts) {
       const root = document.querySelector(selector);
-      if (!root) return;
-      buildForm(root, opts||{});
-    }
+      const options = opts || {};
+      if (!root) return Promise.resolve(DEFAULT_CATEGORIES.slice());
+      return resolveCategories(options).then((categories) => {
+        buildForm(root, options, categories);
+        return categories;
+      }).catch((error) => {
+        console.warn('Errore mount widget, uso categorie di default', error);
+        buildForm(root, options, DEFAULT_CATEGORIES.slice());
+        return DEFAULT_CATEGORIES.slice();
+      });
+    },
+    loadCategories: function(opts) {
+      return resolveCategories(opts || {});
+    },
+    DEFAULT_CATEGORIES: DEFAULT_CATEGORIES.slice()
   };
 })();

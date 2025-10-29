@@ -74,7 +74,7 @@
           <dl>
             <div>
               <dt>Categoria</dt>
-              <dd>Biomi · Ecosistemi · Specie · Tratti &amp; Mutazioni · Missioni &amp; Stage · Telemetria &amp; HUD · Tooling &amp; Pipeline · Documentazione &amp; Lore · Progressione &amp; Economia · Altro</dd>
+              <dd id="idea-categories-list">Caricamento tassonomia…</dd>
             </div>
             <div>
               <dt>Tags</dt>
@@ -138,6 +138,7 @@
         defaultTraits: "",
         defaultFunctions: "",
         defaultPriority: "P2",
+        categoriesUrl: "../config/idea_engine_taxonomy.json",
       };
 
       if (!window.IDEA_WIDGET_CONFIG.apiBase && window.location.hostname === "localhost") {
@@ -160,6 +161,7 @@
           if (params.has("traits")) window.IDEA_WIDGET_CONFIG.defaultTraits = params.get("traits") || "";
           if (params.has("functions")) window.IDEA_WIDGET_CONFIG.defaultFunctions = params.get("functions") || "";
           if (params.has("priority")) window.IDEA_WIDGET_CONFIG.defaultPriority = params.get("priority") || "P2";
+          if (params.has("categoriesUrl")) window.IDEA_WIDGET_CONFIG.categoriesUrl = params.get("categoriesUrl") || "";
         } catch (error) {
           console.warn("Impossibile applicare gli override del widget", error);
         }
@@ -171,7 +173,20 @@
         const container = document.querySelector("#idea-widget");
         if (!container) return;
         if (window.IdeaWidget && typeof window.IdeaWidget.mount === "function") {
-          window.IdeaWidget.mount("#idea-widget", window.IDEA_WIDGET_CONFIG);
+          window.IdeaWidget
+            .mount("#idea-widget", window.IDEA_WIDGET_CONFIG)
+            .then((categories) => {
+              const list = document.getElementById("idea-categories-list");
+              if (list && Array.isArray(categories) && categories.length) {
+                list.textContent = categories.join(" · ");
+              }
+            })
+            .catch(() => {
+              const list = document.getElementById("idea-categories-list");
+              if (list) {
+                list.textContent = window.IdeaWidget.DEFAULT_CATEGORIES.join(" · ");
+              }
+            });
         } else {
           container.innerHTML =
             "<p class='err'>Impossibile caricare il widget (controlla <code>docs/public/embed.js</code>).</p>";
