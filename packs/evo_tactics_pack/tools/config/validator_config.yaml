@@ -39,6 +39,7 @@ spawn:
   - notte
   - crepuscolo
   - continuo
+  - giorno
   meteo:
   - sereno_freddo
   - whiteout
@@ -47,6 +48,10 @@ spawn:
   - caldo_pulsato
   - tempesta_sabbia_magnetica
   - foschia_ferrosa
+  - brezza_psionica
+  - pioggia_metallica
+  - tempesta_solare
+  - calma_orbitale
 budget_tiers:
   default_max: 12
   apex_or_keystone_max: 14
