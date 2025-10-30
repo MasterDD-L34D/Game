@@ -73,7 +73,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | incoming/ancestors_integration_pack_v0_2.zip | 3.50 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_integration_pack_v0_3.zip | 3.85 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_integration_pack_v0_4.zip | 3.11 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
-| incoming/ancestors_integration_pack_v0_5.zip | 4.21 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
+| incoming/ancestors_integration_pack_v0_5.zip | 4.21 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
 | incoming/ancestors_neuronal_v0_3.zip | 4.30 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_neurons_dump_v0.3__DEXTERITY.csv | 7.38 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_neurons_dump_v0_6.zip | 7.33 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
@@ -106,7 +106,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | incoming/evo_pacchetto_minimo_v4.zip | 31.47 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
 | incoming/evo_pacchetto_minimo_v5.zip | 41.64 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
 | incoming/evo_pacchetto_minimo_v6.zip | 45.51 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
-| incoming/evo_pacchetto_minimo_v7.zip | 65.24 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
+| incoming/evo_pacchetto_minimo_v7.zip | 65.24 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/evo_pacchetto_minimo_v8.zip | 71.60 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
 | incoming/evo_sentience_branch_layout_v0_1.zip | 3.64 KB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
 | incoming/evo_sentience_rfc_pack_v0_1.zip | 5.04 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
@@ -132,7 +132,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | incoming/logs_48354746845.zip | 9.23 KB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
 | incoming/pack_biome_jobs_v8_alt.json | 20.48 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/personality_module.v1.json | 24.16 KB | 2025-10-29T18:47:07 | AG-Personality | N/D (grezzo) |
-| incoming/recon_meccaniche.json | 1.82 KB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
+| incoming/recon_meccaniche.json | 1.82 KB | 2025-10-29T18:47:07 | AG-Validation | N/D (grezzo) |
 | incoming/scan_engine_idents.py | 2.97 KB | 2025-10-29T18:47:07 | AG-Toolsmith | N/D (grezzo) |
 | incoming/sensienti_traits_v0.1.yaml | 3.77 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/species_index.html | 3.52 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
@@ -140,3 +140,12 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 ### Duplicati segnalati dallo script
 
 Lo script `tools/audit/data_health.py --incoming` evidenzia duplicati da gestire (`compat_map`, `evo-tactics-final`, `evo_tactics_ancestors_repo_pack_v1.0`, `index.html`, `README`).【9688a7†L1-L7】
+
+### Audit caretaker 2025-11-08
+
+- Verifica manuale degli assignment confrontando la tabella caretaker del playbook.【F:docs/process/incoming_triage_pipeline.md†L70-L88】
+- Allineati gli owner per gli asset prioritari del ciclo 2025-10-29:
+  - `incoming/ancestors_integration_pack_v0_5.zip` → `AG-Core` (ecosistema completo da integrare nelle regole principali).【F:reports/data_inventory.md†L96-L124】【F:docs/process/incoming_review_log.md†L15-L19】
+  - `incoming/evo_pacchetto_minimo_v7.zip` → `AG-Biome` (hook biomi e contenuti ambientali).【F:reports/data_inventory.md†L109-L124】【F:docs/process/incoming_review_log.md†L15-L19】
+  - `incoming/recon_meccaniche.json` → `AG-Validation` (ricognizione su nuove regole evento).【F:reports/data_inventory.md†L133-L139】【F:docs/process/incoming_review_log.md†L15-L19】
+- Non sono emerse ulteriori discrepanze rispetto alla snapshot `reports/incoming/latest/report.json` al 2025-10-29.【F:reports/incoming/latest/report.json†L13181-L20070】
