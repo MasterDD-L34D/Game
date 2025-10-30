@@ -1,6 +1,10 @@
 # Canale `#incoming-triage-agenti` — Registro aggiornamenti
 
 <!-- incoming_triage_log:start -->
+## 2025-11-13T18:30:00Z · Pubblicazione tabella di marcia settimana 2025-11-14
+- **Messaggio Slack**: condivisa nel canale `#incoming-triage-agenti` la pianificazione a tre slot per il 14 novembre, con richiamo alla checklist triage e ai ruoli caretaker attivi.
+- **Contenuto condiviso**: link diretti al backlog aggiornato (`docs/process/incoming_agent_backlog.md`) e alla roadmap operativa (`docs/piani/roadmap.md`) per la finestra settimanale.
+- **Dipendenze**: evidenziato che lo slot di apertura richiede la conferma del fix `unzip -o` nel maintenance log e che gli slot successivi dipendono dai log validati e dalla disponibilità di `AG-Core`/`AG-Validation` secondo la pipeline triage.
 ## 2025-11-10T07:45:00Z · Bozza annuncio piano settimanale
 - **Messaggio Slack**: preparata bozza per `#incoming-triage-agenti` con link a backlog, registro sessioni e roadmap; disponibile in `logs/incoming_triage_slack_plan_2025-11-10.md` pronta per il post manuale.【F:logs/incoming_triage_slack_plan_2025-11-10.md†L1-L23】
 - **Aggiornamenti richiesti**: dopo la pubblicazione ricordarsi di spostare le card Kanban secondo gli highlight e registrare outcome su `docs/process/incoming_review_log.md`.【F:docs/process/incoming_agent_backlog.md†L9-L38】【F:docs/process/incoming_review_log.md†L1-L27】
