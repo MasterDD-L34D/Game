@@ -49,7 +49,12 @@ describe('SpeciesPanel', () => {
       props: { species: BASE_SPECIES, validation: VALIDATION, autoPreview: false },
     });
     expect(wrapper.text()).toContain('Predatore / Coda a Frusta Cinetica');
-    expect(wrapper.text()).toContain('Tratti derivati');
+    expect(wrapper.text()).toContain('Derivati');
+    const telemetryTab = wrapper
+      .findAll('button')
+      .find((button) => button.text().toLowerCase().includes('telemetry'));
+    expect(telemetryTab).toBeDefined();
+    await telemetryTab!.trigger('click');
     expect(wrapper.text()).toContain('Revisioni validate');
     expect(wrapper.html()).toMatchSnapshot();
   });
@@ -63,8 +68,13 @@ describe('SpeciesPanel', () => {
     const wrapper = mount(SpeciesPanel, {
       props: { species: BASE_SPECIES, autoPreview: false },
     });
-    await wrapper.find('button').trigger('click');
-    await wrapper.findAll('button')[1].trigger('click');
+    const buttons = wrapper.findAll('button');
+    const exportButton = buttons.find((button) => button.text().includes('Esporta'));
+    const saveButton = buttons.find((button) => button.text().includes('Salva'));
+    expect(exportButton).toBeDefined();
+    expect(saveButton).toBeDefined();
+    await exportButton!.trigger('click');
+    await saveButton!.trigger('click');
     expect(wrapper.emitted('export')).toBeTruthy();
     expect(wrapper.emitted('save')).toBeTruthy();
   });
@@ -77,6 +87,12 @@ describe('SpeciesPanel', () => {
     await vi.waitFor(() => {
       expect(requestSpeciesPreviewBatch).toHaveBeenCalled();
     });
+    const biologyTab = wrapper
+      .findAll('button')
+      .find((button) => button.text().toLowerCase().includes('biologia'));
+    expect(biologyTab).toBeDefined();
+    await biologyTab!.trigger('click');
+    await flushPromises();
     const checkbox = wrapper.find('input[type="checkbox"]');
     expect(checkbox.exists()).toBe(true);
     const callCount = requestSpeciesPreviewBatch.mock.calls.length;

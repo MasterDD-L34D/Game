@@ -2,173 +2,109 @@
 
 exports[`Generation flow orchestrato > renderizza il blueprint orchestrato 1`] = `
 "<section data-v-73eb6eb5="" class="species-panel">
-  <header data-v-f805145c="" data-v-73eb6eb5="" class="species-overview">
-    <div data-v-f805145c="" class="species-overview__heading">
-      <h2 data-v-f805145c="" class="species-overview__title">Predatore Snapshot / Scheletro Idro-Regolante</h2>
-      <p data-v-f805145c="" class="species-overview__summary">Artigli a Sette Vie, Coda a Frusta Cinetica, Scheletro Idro-Regolante</p>
-    </div>
-    <p data-v-f805145c="" class="species-overview__description">Sintesi genetica focalizzata su Artigli a Sette Vie e Coda a Frusta Cinetica con impronta morfologica defensive, locomotor, omeostatico, prehensile, structural; comportamento climber. Ottimizzata per biomi: caverna_risonante.</p>
-    <div data-v-78ecd3ce="" data-v-73eb6eb5="" class="species-quick-actions"><button data-v-78ecd3ce="" type="button" class="species-quick-actions__button"> Esporta scheda </button><button data-v-78ecd3ce="" type="button" class="species-quick-actions__button species-quick-actions__button--secondary"> Salva nel pack </button></div>
-  </header>
-  <div data-v-73eb6eb5="" class="species-panel__layout">
-    <section data-v-ae611db0="" data-v-73eb6eb5="" class="species-biology">
-      <div data-v-ae611db0="" class="species-biology__section">
-        <header data-v-ae611db0="" class="species-biology__header">
-          <h3 data-v-ae611db0="">Tratti fondamentali</h3>
-          <div data-v-13adf612="" data-v-73eb6eb5="" class="trait-filter-panel">
-            <div data-v-13adf612="" class="trait-filter-panel__group">
-              <h4 data-v-13adf612="">Filtra tratti core</h4>
-              <ul data-v-13adf612="">
-                <li data-v-13adf612=""><label data-v-13adf612=""><input data-v-13adf612="" type="checkbox" checked="" value="artigli_sette_vie"> artigli_sette_vie</label></li>
-                <li data-v-13adf612=""><label data-v-13adf612=""><input data-v-13adf612="" type="checkbox" checked="" value="coda_frusta_cinetica"> coda_frusta_cinetica</label></li>
-                <li data-v-13adf612=""><label data-v-13adf612=""><input data-v-13adf612="" type="checkbox" checked="" value="scheletro_idro_regolante"> scheletro_idro_regolante</label></li>
-              </ul>
-            </div>
-            <div data-v-13adf612="" class="trait-filter-panel__group">
-              <h4 data-v-13adf612="">Filtra tratti derivati</h4>
-              <ul data-v-13adf612="">
-                <li data-v-13adf612=""><label data-v-13adf612=""><input data-v-13adf612="" type="checkbox" checked="" value="artigli_sette_vie"> artigli_sette_vie</label></li>
-                <li data-v-13adf612=""><label data-v-13adf612=""><input data-v-13adf612="" type="checkbox" checked="" value="sacche_galleggianti_ascensoriali"> sacche_galleggianti_ascensoriali</label></li>
-                <li data-v-13adf612=""><label data-v-13adf612=""><input data-v-13adf612="" type="checkbox" checked="" value="struttura_elastica_amorfa"> struttura_elastica_amorfa</label></li>
-              </ul>
+  <section data-v-966c492d="" data-v-73eb6eb5="" class="nebula-shell">
+    <div data-v-966c492d="" class="nebula-shell__frame">
+      <header data-v-966c492d="" class="nebula-shell__header">
+        <div data-v-966c492d="" class="nebula-shell__status-grid">
+          <div data-v-966c492d="" class="nebula-shell__status"><span data-v-966c492d="" class="nebula-shell__status-led" data-tone="neutral"></span>
+            <div data-v-966c492d="">
+              <p data-v-966c492d="" class="nebula-shell__status-label">Rarità</p>
+              <p data-v-966c492d="" class="nebula-shell__status-value">R1</p>
             </div>
           </div>
-        </header>
-        <ul data-v-ae611db0="" class="species-biology__trait-list" data-testid="core-traits">
-          <li data-v-ae611db0="">artigli_sette_vie</li>
-          <li data-v-ae611db0="">coda_frusta_cinetica</li>
-          <li data-v-ae611db0="">scheletro_idro_regolante</li>
-        </ul>
+          <div data-v-966c492d="" class="nebula-shell__status"><span data-v-966c492d="" class="nebula-shell__status-led" data-tone="neutral"></span>
+            <div data-v-966c492d="">
+              <p data-v-966c492d="" class="nebula-shell__status-label">Threat tier</p>
+              <p data-v-966c492d="" class="nebula-shell__status-value">T1</p>
+            </div>
+          </div>
+          <div data-v-966c492d="" class="nebula-shell__status"><span data-v-966c492d="" class="nebula-shell__status-led" data-tone="critical"></span>
+            <div data-v-966c492d="">
+              <p data-v-966c492d="" class="nebula-shell__status-label">Allineamento</p>
+              <p data-v-966c492d="" class="nebula-shell__status-value">17%</p>
+            </div>
+          </div>
+        </div>
+        <div data-v-966c492d="" class="nebula-shell__actions">
+          <div data-v-78ecd3ce="" data-v-73eb6eb5="" class="species-quick-actions"><button data-v-78ecd3ce="" type="button" class="species-quick-actions__button"> Esporta scheda </button><button data-v-78ecd3ce="" type="button" class="species-quick-actions__button species-quick-actions__button--secondary"> Salva nel pack </button></div>
+        </div>
+      </header>
+      <div data-v-966c492d="" class="nebula-shell__cards">
+        <article data-v-1960f20b="" data-v-73eb6eb5="" class="species-card">
+          <header data-v-1960f20b="" class="species-card__header">
+            <div data-v-1960f20b="">
+              <p data-v-1960f20b="" class="species-card__kicker">Profilo non definito</p>
+              <h3 data-v-1960f20b="" class="species-card__title">Predatore Snapshot / Scheletro Idro-Regolante</h3>
+            </div>
+            <div data-v-1960f20b="" class="species-card__badges"><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="core"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">✦</span><span data-v-48844140="" class="trait-chip__label">R1</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="hazard"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">⚡</span><span data-v-48844140="" class="trait-chip__label">T1</span></span></div>
+          </header>
+          <p data-v-1960f20b="" class="species-card__synopsis">Artigli a Sette Vie, Coda a Frusta Cinetica, Scheletro Idro-Regolante</p>
+          <section data-v-1960f20b="" class="species-card__traits" aria-label="Tratti principali">
+            <div data-v-1960f20b="">
+              <h4 data-v-1960f20b="">Core</h4>
+              <div data-v-1960f20b="" class="species-card__trait-grid"><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="core"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">✶</span><span data-v-48844140="" class="trait-chip__label">artigli_sette_vie</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="core"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">✶</span><span data-v-48844140="" class="trait-chip__label">coda_frusta_cinetica</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="core"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">✶</span><span data-v-48844140="" class="trait-chip__label">scheletro_idro_regolante</span></span></div>
+            </div>
+            <div data-v-1960f20b="">
+              <h4 data-v-1960f20b="">Derivati</h4>
+              <div data-v-1960f20b="" class="species-card__trait-grid"><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="derived"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">☲</span><span data-v-48844140="" class="trait-chip__label">artigli_sette_vie</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="derived"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">☲</span><span data-v-48844140="" class="trait-chip__label">sacche_galleggianti_ascensoriali</span></span><span data-v-48844140="" data-v-1960f20b="" class="trait-chip" data-variant="derived"><span data-v-48844140="" class="trait-chip__icon" aria-hidden="true">☲</span><span data-v-48844140="" class="trait-chip__label">struttura_elastica_amorfa</span></span></div>
+            </div>
+            <!--v-if-->
+          </section>
+          <footer data-v-1960f20b="" class="species-card__footer">
+            <div data-v-1960f20b="" class="species-card__info-block"><span data-v-1960f20b="" class="species-card__label">Energia</span><span data-v-1960f20b="">medio</span></div>
+            <div data-v-1960f20b="" class="species-card__info-block"><span data-v-1960f20b="" class="species-card__label">Habitat</span><span data-v-1960f20b="">caverna_risonante</span></div>
+            <!--v-if-->
+          </footer>
+        </article>
       </div>
-      <div data-v-ae611db0="" class="species-biology__section">
-        <h3 data-v-ae611db0="">Tratti derivati</h3>
-        <ul data-v-ae611db0="" class="species-biology__trait-list species-biology__trait-list--derived" data-testid="derived-traits">
-          <li data-v-ae611db0="">artigli_sette_vie</li>
-          <li data-v-ae611db0="">sacche_galleggianti_ascensoriali</li>
-          <li data-v-ae611db0="">struttura_elastica_amorfa</li>
-        </ul>
+      <nav data-v-966c492d="" class="nebula-shell__tabs" aria-label="Navigazione schede"><button data-v-966c492d="" type="button" class="nebula-shell__tab"><span data-v-966c492d="" class="nebula-shell__tab-icon" aria-hidden="true">🧬</span><span data-v-966c492d="">Scheda</span></button><button data-v-966c492d="" type="button" class="nebula-shell__tab"><span data-v-966c492d="" class="nebula-shell__tab-icon" aria-hidden="true">🌿</span><span data-v-966c492d="">Biologia</span></button><button data-v-966c492d="" type="button" class="nebula-shell__tab"><span data-v-966c492d="" class="nebula-shell__tab-icon" aria-hidden="true">📡</span><span data-v-966c492d="">Telemetry</span></button><button data-v-966c492d="" type="button" class="nebula-shell__tab nebula-shell__tab--active"><span data-v-966c492d="" class="nebula-shell__tab-icon" aria-hidden="true">∞</span><span data-v-966c492d="">Sinergie</span></button></nav>
+      <div data-v-966c492d="" class="nebula-shell__content">
+        <div data-v-73eb6eb5="" class="species-panel__section species-panel__section--synergy">
+          <p data-v-73eb6eb5="" class="species-panel__empty">Nessuna sinergia registrata per questa specie.</p>
+          <section data-v-38b0498e="" data-v-73eb6eb5="" class="species-preview-grid species-panel__previews">
+            <header data-v-38b0498e="" class="species-preview-grid__header">
+              <h3 data-v-38b0498e="">Anteprime sintetiche</h3><button data-v-73eb6eb5="" type="button" class="species-panel__refresh"> Aggiorna batch </button>
+            </header>
+            <div data-v-38b0498e="" class="species-preview-grid__cards">
+              <article data-v-38b0498e="" class="species-preview-card">
+                <header data-v-38b0498e="" class="species-preview-card__header">
+                  <h4 data-v-38b0498e="">Predatore Snapshot / Scheletro Idro-Regolante</h4><span data-v-38b0498e="" class="species-preview-card__badge">T1</span>
+                </header>
+                <p data-v-38b0498e="" class="species-preview-card__summary">Artigli a Sette Vie, Coda a Frusta Cinetica, Scheletro Idro-Regolante</p>
+                <dl data-v-38b0498e="" class="species-preview-card__stats">
+                  <div data-v-38b0498e="">
+                    <dt data-v-38b0498e="">Energia</dt>
+                    <dd data-v-38b0498e="">medio</dd>
+                  </div>
+                  <div data-v-38b0498e="">
+                    <dt data-v-38b0498e="">Rarità</dt>
+                    <dd data-v-38b0498e="">R1</dd>
+                  </div>
+                </dl>
+                <p data-v-38b0498e="" class="species-preview-card__traits">artigli_sette_vie, coda_frusta_cinetica, scheletro_idro_regolante</p>
+              </article>
+              <article data-v-38b0498e="" class="species-preview-card">
+                <header data-v-38b0498e="" class="species-preview-card__header">
+                  <h4 data-v-38b0498e="">Predatore Variant / Coda a Frusta Cinetica</h4><span data-v-38b0498e="" class="species-preview-card__badge">T1</span>
+                </header>
+                <p data-v-38b0498e="" class="species-preview-card__summary">Artigli a Sette Vie, Coda a Frusta Cinetica</p>
+                <dl data-v-38b0498e="" class="species-preview-card__stats">
+                  <div data-v-38b0498e="">
+                    <dt data-v-38b0498e="">Energia</dt>
+                    <dd data-v-38b0498e="">medio</dd>
+                  </div>
+                  <div data-v-38b0498e="">
+                    <dt data-v-38b0498e="">Rarità</dt>
+                    <dd data-v-38b0498e="">R1</dd>
+                  </div>
+                </dl>
+                <p data-v-38b0498e="" class="species-preview-card__traits">artigli_sette_vie, coda_frusta_cinetica</p>
+              </article>
+            </div>
+          </section>
+        </div>
       </div>
-      <div data-v-ae611db0="" class="species-biology__section">
-        <h3 data-v-ae611db0="">Adattamenti</h3>
-        <ul data-v-ae611db0="" class="species-biology__list">
-          <li data-v-ae611db0="">Dita lunghe e segmentate con punte a uncino multiplo.</li>
-          <li data-v-ae611db0="">Precauzione: Angoli di presa limitati se la superficie è perfettamente liscia.</li>
-          <li data-v-ae611db0="">Muscolatura della coda densa con tendini e fibre che agiscono come molle.</li>
-          <li data-v-ae611db0="">Precauzione: Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno.</li>
-          <li data-v-ae611db0="">Struttura ossea porosa capace di scambio rapido di fluidi.</li>
-          <li data-v-ae611db0="">Precauzione: Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio.</li>
-        </ul>
-      </div>
-      <div data-v-ae611db0="" class="species-biology__section">
-        <h3 data-v-ae611db0="">Comportamento</h3>
-        <p data-v-ae611db0="" class="species-biology__behaviour-tags">climber</p>
-        <ul data-v-ae611db0="" class="species-biology__list">
-          <li data-v-ae611db0="">Afferrare superfici irregolari o oggetti multipli.</li>
-          <li data-v-ae611db0="">Arrampicarsi su pareti rocciose o vegetazione densa.</li>
-          <li data-v-ae611db0="">Immagazzinare energia da ogni movimento per un colpo finale potente.</li>
-          <li data-v-ae611db0="">Necessità di un attacco di "sfondamento" dopo movimento preparatorio.</li>
-          <li data-v-ae611db0="">Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso.</li>
-          <li data-v-ae611db0="">Alternare vita terrestre e vita acquatica/aerea.</li>
-        </ul>
-      </div>
-    </section>
-    <aside data-v-73eb6eb5="" class="species-panel__sidebar">
-      <section data-v-e6469edf="" data-v-73eb6eb5="" class="species-statistics">
-        <h3 data-v-e6469edf="">Statistiche</h3>
-        <dl data-v-e6469edf="" class="species-statistics__grid">
-          <div data-v-e6469edf="" class="species-statistics__stat">
-            <dt data-v-e6469edf="">Minaccia</dt>
-            <dd data-v-e6469edf="">T1</dd>
-          </div>
-          <div data-v-e6469edf="" class="species-statistics__stat">
-            <dt data-v-e6469edf="">Rarità</dt>
-            <dd data-v-e6469edf="">R1</dd>
-          </div>
-          <div data-v-e6469edf="" class="species-statistics__stat">
-            <dt data-v-e6469edf="">Energia</dt>
-            <dd data-v-e6469edf="">medio</dd>
-          </div>
-          <div data-v-e6469edf="" class="species-statistics__stat">
-            <dt data-v-e6469edf="">Sinergia</dt>
-            <dd data-v-e6469edf="">17%</dd>
-          </div>
-        </dl>
-        <p data-v-73eb6eb5="" class="species-panel__meta">Tentativi: 1 · Fallback: no</p>
-      </section>
-      <section data-v-5b00ee54="" data-v-73eb6eb5="" class="species-timeline">
-        <h3 data-v-5b00ee54="">Revisioni validate</h3>
-        <ol data-v-5b00ee54="" class="species-timeline__list">
-          <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--info">
-            <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Info</strong><span data-v-5b00ee54="" class="species-timeline__code">species.schema_version.defaulted</span></header>
-            <p data-v-5b00ee54="">schema_version mancante: impostato a 1.7</p>
-          </li>
-          <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--info">
-            <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Info</strong><span data-v-5b00ee54="" class="species-timeline__code">species.receipt.defaulted</span></header>
-            <p data-v-5b00ee54="">receipt mancante: impostato a sorgente runtime-generator</p>
-          </li>
-          <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--info">
-            <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Info</strong><span data-v-5b00ee54="" class="species-timeline__code">species.role.normalized</span></header>
-            <p data-v-5b00ee54="">role_trofico normalizzato a 'evento_ecologico'</p>
-          </li>
-          <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--info">
-            <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Info</strong><span data-v-5b00ee54="" class="species-timeline__code">species.spawn_rules.density</span></header>
-            <p data-v-5b00ee54="">densita default impostata a moderata</p>
-          </li>
-          <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--info">
-            <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Info</strong><span data-v-5b00ee54="" class="species-timeline__code">species.balance.encounter_role</span></header>
-            <p data-v-5b00ee54="">encounter_role default impostato a minion</p>
-          </li>
-          <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--warning">
-            <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Avviso</strong><span data-v-5b00ee54="" class="species-timeline__code">species.environment_affinity.missing</span></header>
-            <p data-v-5b00ee54="">environment_affinity non presente</p>
-          </li>
-          <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--warning">
-            <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Avviso</strong><span data-v-5b00ee54="" class="species-timeline__code">species.derived_from_environment.missing</span></header>
-            <p data-v-5b00ee54="">derived_from_environment non presente</p>
-          </li>
-        </ol>
-      </section>
-    </aside>
-  </div>
-  <section data-v-38b0498e="" data-v-73eb6eb5="" class="species-preview-grid">
-    <header data-v-38b0498e="" class="species-preview-grid__header">
-      <h3 data-v-38b0498e="">Anteprime sintetiche</h3><button data-v-73eb6eb5="" type="button" class="species-panel__refresh"> Aggiorna batch </button>
-    </header>
-    <div data-v-38b0498e="" class="species-preview-grid__cards">
-      <article data-v-38b0498e="" class="species-preview-card">
-        <header data-v-38b0498e="" class="species-preview-card__header">
-          <h4 data-v-38b0498e="">Predatore Snapshot / Scheletro Idro-Regolante</h4><span data-v-38b0498e="" class="species-preview-card__badge">T1</span>
-        </header>
-        <p data-v-38b0498e="" class="species-preview-card__summary">Artigli a Sette Vie, Coda a Frusta Cinetica, Scheletro Idro-Regolante</p>
-        <dl data-v-38b0498e="" class="species-preview-card__stats">
-          <div data-v-38b0498e="">
-            <dt data-v-38b0498e="">Energia</dt>
-            <dd data-v-38b0498e="">medio</dd>
-          </div>
-          <div data-v-38b0498e="">
-            <dt data-v-38b0498e="">Rarità</dt>
-            <dd data-v-38b0498e="">R1</dd>
-          </div>
-        </dl>
-        <p data-v-38b0498e="" class="species-preview-card__traits">artigli_sette_vie, coda_frusta_cinetica, scheletro_idro_regolante</p>
-      </article>
-      <article data-v-38b0498e="" class="species-preview-card">
-        <header data-v-38b0498e="" class="species-preview-card__header">
-          <h4 data-v-38b0498e="">Predatore Variant / Coda a Frusta Cinetica</h4><span data-v-38b0498e="" class="species-preview-card__badge">T1</span>
-        </header>
-        <p data-v-38b0498e="" class="species-preview-card__summary">Artigli a Sette Vie, Coda a Frusta Cinetica</p>
-        <dl data-v-38b0498e="" class="species-preview-card__stats">
-          <div data-v-38b0498e="">
-            <dt data-v-38b0498e="">Energia</dt>
-            <dd data-v-38b0498e="">medio</dd>
-          </div>
-          <div data-v-38b0498e="">
-            <dt data-v-38b0498e="">Rarità</dt>
-            <dd data-v-38b0498e="">R1</dd>
-          </div>
-        </dl>
-        <p data-v-38b0498e="" class="species-preview-card__traits">artigli_sette_vie, coda_frusta_cinetica</p>
-      </article>
+      <footer data-v-966c492d="" class="nebula-shell__footer"></footer>
     </div>
   </section>
 </section>"

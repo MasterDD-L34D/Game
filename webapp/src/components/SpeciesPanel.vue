@@ -1,43 +1,88 @@
 <template>
   <section class="species-panel" v-if="species">
-    <SpeciesOverview :name="displayName" :summary="summary" :description="description">
+    <NebulaShell :tabs="tabs" v-model="activeTab" :status-indicators="statusIndicators">
       <template #actions>
         <SpeciesQuickActions @export="handleExport" @save="handleSave" />
       </template>
-    </SpeciesOverview>
 
-    <div class="species-panel__layout">
-      <SpeciesBiology
-        :core-traits="coreTraits"
-        :derived-traits="derivedTraits"
-        :adaptations="adaptations"
-        :behaviour-tags="behaviourTags"
-        :drives="behaviourDrives"
-      >
-        <template #filters>
-          <TraitFilterPanel
-            v-model="traitFilters"
-            :core-options="availableTraits.core"
-            :derived-options="availableTraits.derived"
-          />
-        </template>
-      </SpeciesBiology>
-
-      <aside class="species-panel__sidebar">
-        <SpeciesStatistics :statistics="statistics" :synergy="formattedSynergy">
-          <p v-if="metaInfo" class="species-panel__meta">{{ metaInfo }}</p>
-        </SpeciesStatistics>
-        <SpeciesRevisionTimeline :entries="timelineEntries" />
-      </aside>
-    </div>
-
-    <SpeciesPreviewGrid :previews="previewCards" :loading="isPreviewLoading" :error="previewError">
-      <template #filters>
-        <button type="button" class="species-panel__refresh" @click="refreshPreviews" :disabled="isPreviewLoading">
-          Aggiorna batch
-        </button>
+      <template #cards>
+        <SpeciesCard :species="species" />
       </template>
-    </SpeciesPreviewGrid>
+
+      <template #default="{ activeTab: currentTab }">
+        <div v-if="currentTab === 'overview'" class="species-panel__section">
+          <SpeciesOverview :name="displayName" :summary="summary" :description="description" />
+          <div v-if="metaInfo" class="species-panel__meta">
+            <TraitChip :label="metaInfo" variant="telemetry" icon="⧉" />
+          </div>
+          <div class="species-panel__adaptations" v-if="adaptations.length">
+            <h4>Adattamenti</h4>
+            <ul>
+              <li v-for="item in adaptations" :key="item">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div v-else-if="currentTab === 'biology'" class="species-panel__section species-panel__section--grid">
+          <SpeciesBiology
+            :core-traits="coreTraits"
+            :derived-traits="derivedTraits"
+            :adaptations="adaptations"
+            :behaviour-tags="behaviourTags"
+            :drives="behaviourDrives"
+          >
+            <template #filters>
+              <TraitFilterPanel
+                v-model="traitFilters"
+                :core-options="availableTraits.core"
+                :derived-options="availableTraits.derived"
+              />
+            </template>
+          </SpeciesBiology>
+        </div>
+
+        <div v-else-if="currentTab === 'telemetry'" class="species-panel__section species-panel__section--columns">
+          <SpeciesStatistics :statistics="statistics" :synergy="formattedSynergy">
+            <p v-if="metaInfo" class="species-panel__meta-text">{{ metaInfo }}</p>
+          </SpeciesStatistics>
+          <SpeciesRevisionTimeline :entries="timelineEntries" />
+          <div class="species-panel__telemetry" v-if="telemetryInfo.length">
+            <h4>Telemetry</h4>
+            <ul>
+              <li v-for="item in telemetryInfo" :key="item.label">
+                <strong>{{ item.label }}</strong>
+                <span>{{ item.value }}</span>
+              </li>
+            </ul>
+          </div>
+          <div v-if="previewError" class="species-panel__error">{{ previewError }}</div>
+        </div>
+
+        <div v-else-if="currentTab === 'synergies'" class="species-panel__section species-panel__section--synergy">
+          <div class="species-panel__synergy-grid" v-if="synergyCards.length">
+            <SpeciesSynergyCard
+              v-for="card in synergyCards"
+              :key="card.id"
+              :title="card.title"
+              :detail="card.detail"
+            />
+          </div>
+          <p v-else class="species-panel__empty">Nessuna sinergia registrata per questa specie.</p>
+          <SpeciesPreviewGrid
+            class="species-panel__previews"
+            :previews="previewCards"
+            :loading="isPreviewLoading"
+            :error="previewError"
+          >
+            <template #filters>
+              <button type="button" class="species-panel__refresh" @click="refreshPreviews" :disabled="isPreviewLoading">
+                Aggiorna batch
+              </button>
+            </template>
+          </SpeciesPreviewGrid>
+        </div>
+      </template>
+    </NebulaShell>
   </section>
   <section v-else class="species-panel species-panel--empty">
     <p>Nessuna specie selezionata.</p>
@@ -47,13 +92,17 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
 
+import NebulaShell from './layout/NebulaShell.vue';
 import SpeciesBiology from './species/SpeciesBiology.vue';
+import SpeciesCard from './species/SpeciesCard.vue';
 import SpeciesOverview from './species/SpeciesOverview.vue';
 import SpeciesPreviewGrid from './species/SpeciesPreviewGrid.vue';
 import SpeciesQuickActions from './species/SpeciesQuickActions.vue';
 import SpeciesRevisionTimeline from './species/SpeciesRevisionTimeline.vue';
 import SpeciesStatistics from './species/SpeciesStatistics.vue';
+import SpeciesSynergyCard from './species/SpeciesSynergyCard.vue';
 import TraitFilterPanel from './species/TraitFilterPanel.vue';
+import TraitChip from './shared/TraitChip.vue';
 import { requestSpeciesPreviewBatch } from '../services/speciesPreviewService';
 
 const props = defineProps({
@@ -82,33 +131,26 @@ const props = defineProps({
 const emit = defineEmits(['export', 'save', 'preview-error']);
 
 const summary = computed(() => props.species?.summary || null);
-const description = computed(
-  () => props.species?.description || props.species?.summary || ''
-);
+const description = computed(() => props.species?.description || props.species?.summary || '');
 const traits = computed(() => props.species?.traits || {});
 const coreTraits = computed(() => traits.value.core || props.species?.core_traits || []);
-const derivedTraits = computed(
-  () => traits.value.derived || props.species?.derived_traits || []
-);
+const derivedTraits = computed(() => traits.value.derived || props.species?.derived_traits || []);
 const morphology = computed(() => props.species?.morphology || {});
 const adaptations = computed(() => morphology.value.adaptations || []);
-const behaviour = computed(
-  () => props.species?.behavior || props.species?.behavior_profile || {}
-);
-const behaviourTags = computed(
-  () => behaviour.value.tags || behaviour.value.behaviourTags || []
-);
+const behaviour = computed(() => props.species?.behavior || props.species?.behavior_profile || {});
+const behaviourTags = computed(() => behaviour.value.tags || behaviour.value.behaviourTags || []);
 const behaviourDrives = computed(() => behaviour.value.drives || []);
-const statistics = computed(() =>
-  props.species?.statistics || {
-    threat_tier: props.species?.balance?.threat_tier,
-    rarity: props.species?.rarity,
-  }
+const statistics = computed(
+  () =>
+    props.species?.statistics || {
+      threat_tier: props.species?.balance?.threat_tier,
+      rarity: props.species?.rarity,
+    },
 );
 
-const displayName = computed(
-  () => props.species?.display_name || props.species?.id || 'Specie'
-);
+const displayName = computed(() => props.species?.display_name || props.species?.id || 'Specie');
+
+const telemetry = computed(() => props.species?.telemetry || props.meta?.telemetry || {});
 
 const metaInfo = computed(() => {
   const attempt = props.meta?.attempts;
@@ -136,11 +178,122 @@ const availableTraits = computed(() => ({
 }));
 
 const traitFilters = ref({ core: [], derived: [] });
+const activeTab = ref('overview');
+
+const tabs = computed(() => [
+  { id: 'overview', label: 'Scheda', icon: '🧬' },
+  { id: 'biology', label: 'Biologia', icon: '🌿' },
+  { id: 'telemetry', label: 'Telemetry', icon: '📡' },
+  { id: 'synergies', label: 'Sinergie', icon: '∞' },
+]);
+
+const statusIndicators = computed(() => {
+  const items = [];
+  const rarity = props.species?.rarity || statistics.value?.rarity;
+  if (rarity) {
+    items.push({ id: 'rarity', label: 'Rarità', value: rarity, tone: 'neutral' });
+  }
+  const threat = statistics.value?.threat_tier || props.species?.threatTier;
+  if (threat) {
+    const numeric = Number.parseInt(String(threat).replace(/[^0-9]/g, ''), 10);
+    let tone = 'neutral';
+    if (Number.isFinite(numeric)) {
+      if (numeric >= 3) tone = 'critical';
+      else if (numeric >= 2) tone = 'warning';
+    }
+    items.push({ id: 'threat', label: 'Threat tier', value: `T${numeric || threat}`, tone });
+  }
+  const synergyScore = statistics.value?.synergy_score;
+  if (typeof synergyScore === 'number') {
+    const percent = Math.round(synergyScore * 100);
+    let tone = 'warning';
+    if (percent >= 80) tone = 'success';
+    else if (percent < 50) tone = 'critical';
+    items.push({ id: 'synergy', label: 'Allineamento', value: `${percent}%`, tone });
+  }
+  const coverage = telemetry.value?.coverage;
+  if (typeof coverage === 'number') {
+    const percent = Math.round(coverage * 100);
+    let tone = 'neutral';
+    if (coverage >= 0.8) tone = 'success';
+    else if (coverage < 0.55) tone = 'warning';
+    items.push({ id: 'coverage', label: 'Coverage QA', value: `${percent}%`, tone });
+  }
+  return items;
+});
+
+const telemetryInfo = computed(() => {
+  const info = [];
+  if (telemetry.value?.lastValidation) {
+    const date = new Date(telemetry.value.lastValidation);
+    info.push({
+      label: 'Ultima validazione',
+      value: Number.isNaN(date.getTime())
+        ? telemetry.value.lastValidation
+        : new Intl.DateTimeFormat('it-IT', {
+            day: '2-digit',
+            month: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+          }).format(date),
+    });
+  }
+  if (telemetry.value?.curatedBy) {
+    info.push({ label: 'Curatore', value: telemetry.value.curatedBy });
+  }
+  if (typeof telemetry.value?.coverage === 'number') {
+    info.push({ label: 'Coverage', value: `${Math.round(telemetry.value.coverage * 100)}%` });
+  }
+  return info;
+});
+
+const synergyCards = computed(() => {
+  const entries = Array.isArray(props.species?.traits?.synergy)
+    ? props.species.traits.synergy
+    : [];
+  const breakdown = props.species?.statistics?.synergy_breakdown || props.species?.statistics?.synergies || {};
+  return entries.map((entry, index) => {
+    const key = typeof entry === 'string' ? entry : entry?.id || String(index);
+    const label = typeof entry === 'string' ? entry : entry?.label || entry?.name || `Sinergia ${index + 1}`;
+    let note = '';
+    if (Array.isArray(breakdown)) {
+      const record = breakdown[index];
+      if (record && typeof record === 'object') {
+        note = record.note || record.summary || record.detail || '';
+      } else if (typeof record === 'string') {
+        note = record;
+      }
+    } else if (breakdown && typeof breakdown === 'object') {
+      const record = breakdown[key] || breakdown[label];
+      if (record && typeof record === 'object') {
+        note = record.note || record.summary || record.detail || '';
+      } else if (typeof record === 'string') {
+        note = record;
+      }
+    }
+    const details = [];
+    if (note) {
+      details.push(note);
+    }
+    if (typeof telemetry.value?.coverage === 'number') {
+      details.push(`Coverage ${Math.round(telemetry.value.coverage * 100)}%`);
+    }
+    if (statistics.value?.synergy_score) {
+      details.push(`Allineamento ${formattedSynergy.value}`);
+    }
+    if (!details.length) {
+      details.push('Sinergia registrata dal generator senza annotazioni extra.');
+    }
+    return {
+      id: `${props.species?.id || 'synergy'}-${index}`,
+      title: label,
+      detail: details.join(' · '),
+    };
+  });
+});
 
 const timelineEntries = computed(() => {
-  const messages = Array.isArray(props.validation?.messages)
-    ? props.validation.messages
-    : [];
+  const messages = Array.isArray(props.validation?.messages) ? props.validation.messages : [];
   return messages.map((message, index) => ({
     id: `${message.code || 'msg'}-${index}`,
     title: message.level === 'error' ? 'Errore' : message.level === 'warning' ? 'Avviso' : 'Info',
@@ -161,12 +314,13 @@ watch(
       previewCards.value = value;
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(
   () => props.species?.id,
   () => {
+    activeTab.value = 'overview';
     traitFilters.value = {
       core: [...availableTraits.value.core],
       derived: [...availableTraits.value.derived],
@@ -177,7 +331,7 @@ watch(
       void refreshPreviews();
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(
@@ -191,7 +345,7 @@ watch(
     if (props.autoPreview) {
       await refreshPreviews();
     }
-  }
+  },
 );
 
 function buildPreviewRequests() {
@@ -262,36 +416,80 @@ function handleSave() {
 
 <style scoped>
 .species-panel {
-  background: #0a0d12;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 1.5rem;
-  color: #f0f4ff;
-  display: grid;
-  gap: 1.5rem;
+  color: inherit;
 }
 
-.species-panel__layout {
+.species-panel--empty {
+  text-align: center;
+  color: rgba(240, 244, 255, 0.6);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.species-panel__section {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.25rem;
+}
+
+.species-panel__section--grid {
   grid-template-columns: minmax(0, 1fr);
 }
 
-@media (min-width: 960px) {
-  .species-panel__layout {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  }
-}
-
-.species-panel__sidebar {
-  display: grid;
-  gap: 1rem;
+.species-panel__section--columns {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .species-panel__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.species-panel__meta-text {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   opacity: 0.75;
+}
+
+.species-panel__adaptations h4,
+.species-panel__telemetry h4 {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: rgba(226, 232, 240, 0.75);
+}
+
+.species-panel__adaptations ul,
+.species-panel__telemetry ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.35rem;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.species-panel__telemetry li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.species-panel__synergy-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.species-panel__empty {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.65);
+}
+
+.species-panel__previews {
+  margin-top: 1.5rem;
 }
 
 .species-panel__refresh {
@@ -314,11 +512,8 @@ function handleSave() {
   cursor: not-allowed;
 }
 
-.species-panel--empty {
-  text-align: center;
-  color: rgba(240, 244, 255, 0.6);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 2rem;
+.species-panel__error {
+  color: rgba(248, 113, 113, 0.9);
+  font-size: 0.85rem;
 }
 </style>
