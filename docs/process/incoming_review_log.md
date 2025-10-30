@@ -6,6 +6,16 @@
 
 ---
 
+## 2025-11-13 — Facilitatore: `AG-Orchestrator`
+- Report: `docs/process/incoming_agent_streams.md`
+- Agenti coinvolti: `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`
+- Decisioni chiave:
+  - Raccolte e consolidate le schede operative dei cinque stream agentici (triage, validazione, biomi, personality, tooling) in un unico riferimento aggiornato.
+  - Pubblicato il link del documento nel canale `#incoming-triage-agenti` per garantire visibilità a tutti i caretaker.
+- Follow-up:
+  - Verificare nella prossima sessione che ogni caretaker abbia preso in carico gli aggiornamenti di responsabilità/dependenze elencati.
+
+
 ## 2025-10-29 — Facilitatore: `AG-Orchestrator`
 - Report: `reports/incoming/sessione-2025-10-29/report.html`
 - Agenti coinvolti: `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`
