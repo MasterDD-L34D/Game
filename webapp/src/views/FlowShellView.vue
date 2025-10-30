@@ -96,6 +96,11 @@ const activeProps = computed(() => {
       requestId: orchestrator.speciesRequestId.value,
       loading: orchestrator.loadingSpecies.value,
       error: orchestrator.speciesError.value,
+      traitCatalog: orchestrator.traitCatalog.value,
+      traitCompliance: orchestrator.traitCompliance.value,
+      traitDiagnosticsLoading: orchestrator.loadingTraitDiagnostics.value,
+      traitDiagnosticsError: orchestrator.traitDiagnosticsError.value,
+      traitDiagnosticsMeta: orchestrator.traitDiagnosticsMeta.value,
     };
   }
   if (id === 'biomeSetup') {

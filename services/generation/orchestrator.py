@@ -30,6 +30,7 @@ from services.generation.species_builder import (  # noqa: E402
     PathfinderProfileTranslator,
     SpeciesBuilder,
     TraitCatalog,
+    build_trait_diagnostics,
 )
 
 
@@ -458,7 +459,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument(
         "--action",
         required=True,
-        choices=["generate-species", "generate-species-batch"],
+        choices=["generate-species", "generate-species-batch", "trait-diagnostics"],
     )
     parser.add_argument("--input", type=Path, default=None)
     parser.add_argument("--output", type=Path, default=None)
@@ -480,6 +481,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             batch = SpeciesBatchRequest.from_payload(payload)
             result = orchestrator.generate_species_batch(batch.entries)
             _write_output_payload(args.output, result.to_payload())
+            return 0
+        if args.action == "trait-diagnostics":
+            diagnostics = build_trait_diagnostics()
+            _write_output_payload(args.output, diagnostics)
             return 0
     except GenerationError as error:
         logging.getLogger(__name__).error(

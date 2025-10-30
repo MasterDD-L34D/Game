@@ -99,9 +99,19 @@ function createGenerationOrchestratorBridge(options = {}) {
     });
   }
 
+  async function fetchTraitDiagnostics() {
+    return invokePython({
+      pythonExecutable,
+      scriptPath,
+      action: 'trait-diagnostics',
+      payload: {},
+    });
+  }
+
   return {
     generateSpecies,
     generateSpeciesBatch,
+    fetchTraitDiagnostics,
   };
 }
 
