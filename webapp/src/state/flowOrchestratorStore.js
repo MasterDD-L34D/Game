@@ -10,7 +10,8 @@ import { fetchTraitDiagnostics } from '../services/traitDiagnosticsService.js';
 
 const { normaliseRequest: normaliseSpeciesRequest, normaliseBatchEntries } = orchestratorInternals;
 
-const DEFAULT_SNAPSHOT_ENDPOINT = '/demo/flow-shell-snapshot.json';
+const DEFAULT_SNAPSHOT_ENDPOINT = '/api/generation/snapshot';
+const LOCAL_FALLBACK_SNAPSHOT = '/demo/flow-shell-snapshot.json';
 const speciesCache = new Map();
 const batchCache = new Map();
 let logSequence = 0;
@@ -96,6 +97,10 @@ function pushLog(state, event, details = {}) {
 
 export function useFlowOrchestrator(options = {}) {
   const snapshotUrl = options.snapshotUrl || DEFAULT_SNAPSHOT_ENDPOINT;
+  const fallbackSnapshotUrl =
+    options.fallbackSnapshotUrl === null
+      ? null
+      : options.fallbackSnapshotUrl || LOCAL_FALLBACK_SNAPSHOT;
   const state = reactive({
     snapshot: null,
     loadingSnapshot: false,
@@ -132,11 +137,39 @@ export function useFlowOrchestrator(options = {}) {
         scope: 'flow',
         level: 'info',
         message: 'Snapshot orchestrator caricato',
-        meta: { source: snapshotUrl },
+        meta: { source: snapshotUrl, fallback: false },
       });
       return state.snapshot;
     } catch (error) {
       const err = toError(error);
+      if (fallbackSnapshotUrl && fallbackSnapshotUrl !== snapshotUrl) {
+        try {
+          const fallbackResponse = await fetchImpl(fallbackSnapshotUrl, { cache: 'no-store' });
+          if (!fallbackResponse.ok) {
+            throw new Error(
+              `Impossibile caricare snapshot fallback (${fallbackResponse.status})`,
+            );
+          }
+          const fallbackData = await fallbackResponse.json();
+          state.snapshot = fallbackData || {};
+          pushLog(state, 'snapshot.fallback', {
+            scope: 'flow',
+            level: 'warning',
+            message: `Endpoint snapshot non disponibile (${err.message}), applico fallback locale`,
+            meta: { source: fallbackSnapshotUrl, fallback: true },
+          });
+          return state.snapshot;
+        } catch (fallbackError) {
+          const fallbackErr = toError(fallbackError);
+          state.error = fallbackErr;
+          pushLog(state, 'snapshot.failed', {
+            scope: 'flow',
+            level: 'error',
+            message: fallbackErr.message,
+          });
+          throw fallbackErr;
+        }
+      }
       state.error = err;
       pushLog(state, 'snapshot.failed', {
         scope: 'flow',
