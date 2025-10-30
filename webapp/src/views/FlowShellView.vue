@@ -85,7 +85,11 @@ const activeView = computed(() => viewMap[currentStep.value.id] || OverviewView)
 const activeProps = computed(() => {
   const id = currentStep.value.id;
   if (id === 'overview') {
-    return { overview: orchestrator.overview.value, timeline: orchestrator.timeline.value };
+    return {
+      overview: orchestrator.overview.value,
+      timeline: orchestrator.timeline.value,
+      qualityRelease: orchestrator.qualityRelease.value,
+    };
   }
   if (id === 'species') {
     return {
