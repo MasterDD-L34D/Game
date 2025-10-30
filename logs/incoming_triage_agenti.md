@@ -1,6 +1,10 @@
 # Canale `#incoming-triage-agenti` — Registro aggiornamenti
 
 <!-- incoming_triage_log:start -->
+## 2025-11-10T07:45:00Z · Bozza annuncio piano settimanale
+- **Messaggio Slack**: preparata bozza per `#incoming-triage-agenti` con link a backlog, registro sessioni e roadmap; disponibile in `logs/incoming_triage_slack_plan_2025-11-10.md` pronta per il post manuale.【F:logs/incoming_triage_slack_plan_2025-11-10.md†L1-L23】
+- **Aggiornamenti richiesti**: dopo la pubblicazione ricordarsi di spostare le card Kanban secondo gli highlight e registrare outcome su `docs/process/incoming_review_log.md`.【F:docs/process/incoming_agent_backlog.md†L9-L38】【F:docs/process/incoming_review_log.md†L1-L27】
+- **Prossimi passi**: confermare completamento del fix `unzip -o`, smoke test CLI `staging_incoming` e consolidamento report `recon_meccaniche.json` durante gli slot del 10-11 novembre.【F:docs/process/incoming_agent_backlog.md†L18-L47】
 ## 2025-11-09T08:30:00Z · Pianificazione slot calendario condiviso
 - **Calendario condiviso**: programmati tre slot (10:00, 14:30, 11:00 CET) per le card `evo_pacchetto_minimo_v7`, `ancestors_integration_pack_v0_5` e `recon_meccaniche.json`, collegando ciascun blocco alla tabella "Slot calendario condiviso" nel backlog agentico.【F:docs/process/incoming_agent_backlog.md†L18-L36】
 - **Prerequisiti pre-slot**: verificare prima di ogni blocco il fix `unzip -o` e la rigenerazione log `sessione-2025-11-10`, la disponibilità dell'ambiente `staging_incoming` con smoke test salvato e la raccolta stime/confronti per `recon_meccaniche.json`.【F:docs/process/incoming_agent_backlog.md†L28-L36】
