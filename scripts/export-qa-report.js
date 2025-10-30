@@ -135,6 +135,36 @@ async function writeJson(filePath, payload) {
   await fs.writeFile(filePath, text, 'utf8');
 }
 
+async function readJson(filePath) {
+  try {
+    const text = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(text);
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      return null;
+    }
+    throw error;
+  }
+}
+
+function preserveGeneratedAt(existing, nextPayload) {
+  if (!existing || !existing.generated_at) {
+    return nextPayload;
+  }
+
+  const { generated_at: _oldGeneratedAt, ...existingRest } = existing;
+  const { generated_at: _newGeneratedAt, ...nextRest } = nextPayload;
+
+  if (JSON.stringify(existingRest) === JSON.stringify(nextRest)) {
+    return {
+      ...nextPayload,
+      generated_at: existing.generated_at,
+    };
+  }
+
+  return nextPayload;
+}
+
 async function run() {
   const orchestrator = createGenerationOrchestratorBridge({
     autoShutdownMs: Number(process.env.ORCHESTRATOR_AUTOCLOSE_MS) || null,
@@ -147,8 +177,11 @@ async function run() {
       throw new Error('Trait diagnostics non disponibili');
     }
 
-    const baseline = buildTraitBaselineReport(diagnostics);
-    const qaBadges = buildQaBadgesReport(baseline);
+    const previousBaseline = await readJson(TRAIT_BASELINE_PATH);
+    const baseline = preserveGeneratedAt(previousBaseline, buildTraitBaselineReport(diagnostics));
+
+    const previousQaBadges = await readJson(QA_BADGES_PATH);
+    const qaBadges = preserveGeneratedAt(previousQaBadges, buildQaBadgesReport(baseline));
 
     await writeJson(TRAIT_BASELINE_PATH, baseline);
     await writeJson(QA_BADGES_PATH, qaBadges);
