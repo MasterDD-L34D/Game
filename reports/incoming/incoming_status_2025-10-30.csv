@@ -1,0 +1,87 @@
+Item,Type,StatusIndicators,State,Notes,Dependencies
+ancestors_branches_totals_v0.3.csv,.csv,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_evo_pack_v1_3.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_integration_pack_v0_1.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_integration_pack_v0_2.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_integration_pack_v0_3.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_integration_pack_v0_4.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_integration_pack_v0_5.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_neuronal_v0_3.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+Ancestors_Neurons_Attack_Dodge_SelfControl_Ambulation_Partial_v0_6.csv,.csv,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_neurons_dump_v0.3__DEXTERITY.csv,.csv,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_neurons_dump_v0_6.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+ancestors_neurons_pack_v1_2.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+archive,directory,,Operativo,Indice archiviazione gestito da AG-Orchestrator; nessun intervento richiesto se non per nuovi spostamenti.,AG-Orchestrator (post-sync Incoming Review)
+compat_map (1).json,.json,,Duplicato,Duplicato della mappa compatibilità; consolidare con compat_map.json per evitare divergenze.,
+compat_map.json,.json,,Bloccato,Mappa alias STAT/EVENTI in bozza; richiede nomi canonici dal team Game prima di integrazione.,Team Engine (naming STAT/EVENTI)
+decompressed,directory,README.md,Pronto,Area staging per archivi estratti; workflow incoming-smoke dipende da questa struttura.,Workflow incoming-smoke.yml
+docs,directory,bioma_encounters.yaml; readme.md; readme_devkit.txt,Pronto,Codex documentale completo con template e script; pronto per import nei repo di documentazione.,Team Documentazione
+engine_events.schema.json,.json,,Da valutare,Schema eventi; verificare coerenza con hook_bindings prima di uso.,Team Engine
+Ennagramma,directory,README_ENNEAGRAMMA.md; enneagramma_dataset.json,Pronto,Dataset CSV completo con README e fonti; utilizzabile immediatamente.,
+enneagramma_mechanics_registry.template.json,.json,,Bozza,Template registry meccanico; necessita allineamento con compat_map e hook reali.,Team Engine (hook/eventi)
+et_alignment_scanner.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-badlands-addon-v1.7.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-badlands-ecosystem-it-v1.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-final (1).zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-final.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-interconnect-addon-v1.7.1.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-merged.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-normalized.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-starter.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-unified-pack-v1.9.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-unified-plus-validators-v1.9.6.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-unified-v1.9.7-ecosistema.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-unified-v1.9.8-ecosistema-catalog.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-unified-v2.0.0-site-tools.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-unified-v2.0.1-site-tools.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics-validator-pack-v1.5.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo-tactics.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_enneagram_addon_v1.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_pacchetto_minimo.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_pacchetto_minimo_v2.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_pacchetto_minimo_v3.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_pacchetto_minimo_v4.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_pacchetto_minimo_v5.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_pacchetto_minimo_v6.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_pacchetto_minimo_v7.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_pacchetto_minimo_v8.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_sentience_branch_layout_v0_1.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_sentience_rfc_pack_v0_1.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_ancestors_repo_pack_v1.0 (1).zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_ancestors_repo_pack_v1.0.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_badlands_IT.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_badlands_PTPF_IT.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_deduped_v8_1.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_ecosystem_badlands.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_ecosystems_pack.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_merged_final.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_param_synergy_v8_3.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+evo_tactics_tables_v8_3.xlsx,.xlsx,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+EvoTactics_DevKit.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+EvoTactics_FullRepo_v1.0.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+FEATURE_MAP_EVO_TACTICS.md,.md,,Informativo,Feature map aggiornata con TODO playtest-needed; usare come riferimento roadmap.,
+GAME_COMPAT_README.md,.md,,Da integrare,Guida integrazione hook Enneagramma nel repo Game; azioni pendenti su validazioni STAT/EVENTI.,Team Engine/Game
+game_repo_map.json,.json,,Pronto,Mappa dei file chiave del repo Game; utile per onboarding core team.,
+generator.html,.html,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+hook_bindings.ts,.ts,,Da integrare,Adapter TypeScript per hook Enneagramma; richiede collegamento a engine e compat_map aggiornato.,Team Engine (binding eventi/stat)
+IDEA-001_ecosistema_template.yaml,.yaml,,Template,Schema ecosistema generico; personalizzare prima della produzione.,
+idea_catalog.csv,.csv,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+idea_intake_site_package.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+Img,directory,,Da valutare,Asset grafici (MBTI/Enneagramma); definire licenze e compressione.,Team Arte
+index (1).html,.html,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+index.html,.html,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+Inserisci questi parametri nella tabella e dammi i....docx,.docx,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+last_report.html,.html,last_report.json,Bloccato,Report ultimo ingest con errori ecosistemi; vedi last_report.json per dettagli.,Dataset ecosistemi (file mancanti)
+last_report.json,.json,,Bloccato,Validazioni fallite: mancano file biomi/ecosistemi in percorso estratto.,Team Dati Ecosistemi
+logs_48354746845.zip,.zip,,Da valutare,Nessun file di stato rilevato; richiede triage manuale.,
+MODELLI_RIF_EVO_TACTICS.md,.md,,Informativo,Toolkit modelli di design; nessuna azione immediata.,
+pack_biome_jobs_v8_alt.json,.json,,Da valutare,Spawn pack alternativo (v8 alt); richiede verifica bilanciamento prima di uso.,
+pathfinder,directory,,Da valutare,Contiene indice bestiario Pathfinder 1e; definire processo di import.,Team Lore/Regole
+personality_module.v1.json,.json,,Bozza,Modulo meccanico Enneagramma v1.0.0-draft; effetti in beta fino a playtest.,Team Bilanciamento
+README.md,.md,,Informativo,Istruzioni generali su script report_incoming; nessuna azione.,
+README_INTEGRAZIONE_MECCANICHE.md,.md,,Informativo,Note su integrazione meccaniche/compat_map; attendere dati definitivi.,Team Engine/Game
+README_SCAN_STAT_EVENTI.md,.md,,Da integrare,Procedura per scanner STAT/EVENTI; prossimo passo eseguire script e aggiornare compat_map.,Team Engine/Game
+recon_meccaniche.json,.json,,Informativo,Ricognizione asset esterni (GitHub/GDrive); segnala dipendenze extra-team.,"Team Esterni (Item-generator, GDrive)"
+scan_engine_idents.py,.py,,Pronto,Script operativo per individuare STAT/EVENTI nel codice.,
+sensienti_traits_v0.1.yaml,.yaml,,Bozza,Tier sensienti con placeholder codici neuroni; necessita verifica mapping.,Team Ancestors (codici neuroni)
+species_index.html,.html,,Bloccato,UI indice specie richiede file catalog_data.json non presente.,Esport catalog_data.json
