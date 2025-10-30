@@ -1,0 +1,776 @@
+[
+  {
+    "percorso": "Ancestors_Neurons_Attack_Dodge_SelfControl_Ambulation_Partial_v0_6.csv",
+    "tipo": "file",
+    "dettagli": "6.6 KiB; .csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "Ennagramma",
+    "tipo": "directory",
+    "dettagli": "0 cartelle; 7 file; 19.8 KiB",
+    "stato": "OK"
+  },
+  {
+    "percorso": "Ennagramma/README_ENNEAGRAMMA.md",
+    "tipo": "file",
+    "dettagli": "3.3 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "Ennagramma/enneagramma_dataset.json",
+    "tipo": "file",
+    "dettagli": "11.5 KiB; .json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "Ennagramma/enneagramma_master.csv",
+    "tipo": "file",
+    "dettagli": "2.2 KiB; .csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "Ennagramma/enneagramma_stackings.csv",
+    "tipo": "file",
+    "dettagli": "0.3 KiB; .csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "Ennagramma/enneagramma_triadi_complete.csv",
+    "tipo": "file",
+    "dettagli": "0.7 KiB; .csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "Ennagramma/enneagramma_varianti_istintive.csv",
+    "tipo": "file",
+    "dettagli": "0.4 KiB; .csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "Ennagramma/enneagramma_wings.csv",
+    "tipo": "file",
+    "dettagli": "1.4 KiB; .csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "EvoTactics_DevKit.zip",
+    "tipo": "file",
+    "dettagli": "5.3 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "EvoTactics_FullRepo_v1.0.zip",
+    "tipo": "file",
+    "dettagli": "1372.3 KiB; .0.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "FEATURE_MAP_EVO_TACTICS.md",
+    "tipo": "file",
+    "dettagli": "6.3 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "GAME_COMPAT_README.md",
+    "tipo": "file",
+    "dettagli": "1.7 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "IDEA-001_ecosistema_template.yaml",
+    "tipo": "file",
+    "dettagli": "0.7 KiB; .yaml",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "Img",
+    "tipo": "directory",
+    "dettagli": "1 cartelle; 11 file; 524.1 KiB",
+    "stato": "OK"
+  },
+  {
+    "percorso": "Img/ENFJ Eroe.svg",
+    "tipo": "file",
+    "dettagli": "26.0 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/ENFP Crociato.svg",
+    "tipo": "file",
+    "dettagli": "38.2 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/ENTJ Comandante.svg",
+    "tipo": "file",
+    "dettagli": "12.4 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/ENTP Visionario.svg",
+    "tipo": "file",
+    "dettagli": "23.3 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/ESFJ Ambasciatore.svg",
+    "tipo": "file",
+    "dettagli": "60.6 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/ESFP Intrattenitore.svg",
+    "tipo": "file",
+    "dettagli": "27.4 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/ESTJ Esecutivo.svg",
+    "tipo": "file",
+    "dettagli": "48.5 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/ESTP Ribelle.svg",
+    "tipo": "file",
+    "dettagli": "23.4 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi",
+    "tipo": "directory",
+    "dettagli": "0 cartelle; 9 file; 182.1 KiB",
+    "stato": "OK"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 1 Perfezionista.svg",
+    "tipo": "file",
+    "dettagli": "15.7 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 2 Aiutante.svg",
+    "tipo": "file",
+    "dettagli": "18.7 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 3 Vincete.svg",
+    "tipo": "file",
+    "dettagli": "15.1 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 4 Individualista.svg",
+    "tipo": "file",
+    "dettagli": "27.0 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 5 Investigatore.svg",
+    "tipo": "file",
+    "dettagli": "21.7 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 6 Lealista.svg",
+    "tipo": "file",
+    "dettagli": "18.2 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 6 Visionario.svg",
+    "tipo": "file",
+    "dettagli": "21.3 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 7 Entusista.svg",
+    "tipo": "file",
+    "dettagli": "19.4 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/Enneagrammi/Tipo 9 Mediatore.svg",
+    "tipo": "file",
+    "dettagli": "24.9 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/INFJ Guardiano.svg",
+    "tipo": "file",
+    "dettagli": "30.2 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/INFP Mediatore.svg",
+    "tipo": "file",
+    "dettagli": "23.4 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Img/INTJ Stratega.svg",
+    "tipo": "file",
+    "dettagli": "28.6 KiB; .svg",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "Inserisci questi parametri nella tabella e dammi i....docx",
+    "tipo": "file",
+    "dettagli": "13.1 KiB; ....docx",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "MODELLI_RIF_EVO_TACTICS.md",
+    "tipo": "file",
+    "dettagli": "4.7 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "README.md",
+    "tipo": "file",
+    "dettagli": "1.4 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "README_INTEGRAZIONE_MECCANICHE.md",
+    "tipo": "file",
+    "dettagli": "0.7 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "README_SCAN_STAT_EVENTI.md",
+    "tipo": "file",
+    "dettagli": "0.9 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "ancestors_branches_totals_v0.3.csv",
+    "tipo": "file",
+    "dettagli": "1.3 KiB; .3.csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "ancestors_evo_pack_v1_3.zip",
+    "tipo": "file",
+    "dettagli": "7.5 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "ancestors_integration_pack_v0_1.zip",
+    "tipo": "file",
+    "dettagli": "7.9 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "ancestors_integration_pack_v0_2.zip",
+    "tipo": "file",
+    "dettagli": "3.5 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "ancestors_integration_pack_v0_3.zip",
+    "tipo": "file",
+    "dettagli": "3.8 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "ancestors_integration_pack_v0_4.zip",
+    "tipo": "file",
+    "dettagli": "3.1 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "ancestors_integration_pack_v0_5.zip",
+    "tipo": "file",
+    "dettagli": "4.2 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "ancestors_neuronal_v0_3.zip",
+    "tipo": "file",
+    "dettagli": "4.3 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "ancestors_neurons_dump_v0.3__DEXTERITY.csv",
+    "tipo": "file",
+    "dettagli": "7.4 KiB; .3__DEXTERITY.csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "ancestors_neurons_dump_v0_6.zip",
+    "tipo": "file",
+    "dettagli": "7.3 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "ancestors_neurons_pack_v1_2.zip",
+    "tipo": "file",
+    "dettagli": "8.1 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "archive",
+    "tipo": "directory",
+    "dettagli": "0 cartelle; 1 file; 0.9 KiB",
+    "stato": "OK"
+  },
+  {
+    "percorso": "archive/INDEX.md",
+    "tipo": "file",
+    "dettagli": "0.9 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "compat_map (1).json",
+    "tipo": "file",
+    "dettagli": "3.9 KiB; .json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "compat_map.json",
+    "tipo": "file",
+    "dettagli": "3.6 KiB; .json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "decompressed",
+    "tipo": "directory",
+    "dettagli": "0 cartelle; 2 file; 0.4 KiB",
+    "stato": "OK"
+  },
+  {
+    "percorso": "decompressed/.gitkeep",
+    "tipo": "file",
+    "dettagli": "0.0 KiB; ",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "decompressed/README.md",
+    "tipo": "file",
+    "dettagli": "0.4 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "docs",
+    "tipo": "directory",
+    "dettagli": "0 cartelle; 11 file; 13.8 KiB",
+    "stato": "OK"
+  },
+  {
+    "percorso": "docs/Evo Tactics Game Template.md",
+    "tipo": "file",
+    "dettagli": "2.9 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "docs/VISION_AND_STRUCTURE.md",
+    "tipo": "file",
+    "dettagli": "1.9 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "docs/ascii_matrix_methods.py",
+    "tipo": "file",
+    "dettagli": "0.8 KiB; .py",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "docs/auto_eval_from_yaml.py",
+    "tipo": "file",
+    "dettagli": "1.6 KiB; .py",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "docs/bioma_encounters.yaml",
+    "tipo": "file",
+    "dettagli": "0.6 KiB; .yaml",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "docs/drift_check.js",
+    "tipo": "file",
+    "dettagli": "1.2 KiB; .js",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "docs/installer.sh",
+    "tipo": "file",
+    "dettagli": "1.1 KiB; .sh",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "docs/obsidian_template.md",
+    "tipo": "file",
+    "dettagli": "0.7 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "docs/readme.md",
+    "tipo": "file",
+    "dettagli": "1.2 KiB; .md",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "docs/readme_devkit.txt",
+    "tipo": "file",
+    "dettagli": "1.0 KiB; .txt",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "docs/yaml_validator.py",
+    "tipo": "file",
+    "dettagli": "1.0 KiB; .py",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "engine_events.schema.json",
+    "tipo": "file",
+    "dettagli": "0.4 KiB; .schema.json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "enneagramma_mechanics_registry.template.json",
+    "tipo": "file",
+    "dettagli": "6.3 KiB; .template.json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "et_alignment_scanner.zip",
+    "tipo": "file",
+    "dettagli": "3.4 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-badlands-addon-v1.7.zip",
+    "tipo": "file",
+    "dettagli": "43.2 KiB; .7.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-badlands-ecosystem-it-v1.zip",
+    "tipo": "file",
+    "dettagli": "9.4 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-final (1).zip",
+    "tipo": "file",
+    "dettagli": "75.7 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-final.zip",
+    "tipo": "file",
+    "dettagli": "75.7 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-interconnect-addon-v1.7.1.zip",
+    "tipo": "file",
+    "dettagli": "48.7 KiB; .7.1.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-merged.zip",
+    "tipo": "file",
+    "dettagli": "70.4 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-normalized.zip",
+    "tipo": "file",
+    "dettagli": "72.1 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-starter.zip",
+    "tipo": "file",
+    "dettagli": "11.0 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-unified-pack-v1.9.zip",
+    "tipo": "file",
+    "dettagli": "68.4 KiB; .9.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-unified-plus-validators-v1.9.6.zip",
+    "tipo": "file",
+    "dettagli": "85.5 KiB; .9.6.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-unified-v1.9.7-ecosistema.zip",
+    "tipo": "file",
+    "dettagli": "90.6 KiB; .9.7-ecosistema.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-unified-v1.9.8-ecosistema-catalog.zip",
+    "tipo": "file",
+    "dettagli": "94.6 KiB; .9.8-ecosistema-catalog.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-unified-v2.0.0-site-tools.zip",
+    "tipo": "file",
+    "dettagli": "338.4 KiB; .0.0-site-tools.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-unified-v2.0.1-site-tools.zip",
+    "tipo": "file",
+    "dettagli": "346.0 KiB; .0.1-site-tools.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics-validator-pack-v1.5.zip",
+    "tipo": "file",
+    "dettagli": "15.4 KiB; .5.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo-tactics.zip",
+    "tipo": "file",
+    "dettagli": "22.6 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_enneagram_addon_v1.zip",
+    "tipo": "file",
+    "dettagli": "15.4 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_pacchetto_minimo.zip",
+    "tipo": "file",
+    "dettagli": "10.6 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_pacchetto_minimo_v2.zip",
+    "tipo": "file",
+    "dettagli": "17.8 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_pacchetto_minimo_v3.zip",
+    "tipo": "file",
+    "dettagli": "23.9 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_pacchetto_minimo_v4.zip",
+    "tipo": "file",
+    "dettagli": "31.5 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_pacchetto_minimo_v5.zip",
+    "tipo": "file",
+    "dettagli": "41.6 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_pacchetto_minimo_v6.zip",
+    "tipo": "file",
+    "dettagli": "45.5 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_pacchetto_minimo_v7.zip",
+    "tipo": "file",
+    "dettagli": "65.2 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_pacchetto_minimo_v8.zip",
+    "tipo": "file",
+    "dettagli": "71.6 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_sentience_branch_layout_v0_1.zip",
+    "tipo": "file",
+    "dettagli": "3.6 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_sentience_rfc_pack_v0_1.zip",
+    "tipo": "file",
+    "dettagli": "5.0 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_ancestors_repo_pack_v1.0 (1).zip",
+    "tipo": "file",
+    "dettagli": "12.1 KiB; .0 (1).zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_ancestors_repo_pack_v1.0.zip",
+    "tipo": "file",
+    "dettagli": "11.4 KiB; .0.zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_badlands_IT.zip",
+    "tipo": "file",
+    "dettagli": "11.1 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_badlands_PTPF_IT.zip",
+    "tipo": "file",
+    "dettagli": "14.7 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_deduped_v8_1.zip",
+    "tipo": "file",
+    "dettagli": "166.3 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_ecosystem_badlands.zip",
+    "tipo": "file",
+    "dettagli": "7.5 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_ecosystems_pack.zip",
+    "tipo": "file",
+    "dettagli": "3.8 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_merged_final.zip",
+    "tipo": "file",
+    "dettagli": "155.0 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_param_synergy_v8_3.zip",
+    "tipo": "file",
+    "dettagli": "166.3 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "evo_tactics_tables_v8_3.xlsx",
+    "tipo": "file",
+    "dettagli": "21.3 KiB; .xlsx",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "game_repo_map.json",
+    "tipo": "file",
+    "dettagli": "0.8 KiB; .json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "generator.html",
+    "tipo": "file",
+    "dettagli": "5.0 KiB; .html",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "hook_bindings.ts",
+    "tipo": "file",
+    "dettagli": "1.4 KiB; .ts",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "idea_catalog.csv",
+    "tipo": "file",
+    "dettagli": "1.2 KiB; .csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "idea_intake_site_package.zip",
+    "tipo": "file",
+    "dettagli": "7.0 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "index (1).html",
+    "tipo": "file",
+    "dettagli": "15.4 KiB; .html",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "index.html",
+    "tipo": "file",
+    "dettagli": "15.1 KiB; .html",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "last_report.html",
+    "tipo": "file",
+    "dettagli": "4.6 KiB; .html",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "last_report.json",
+    "tipo": "file",
+    "dettagli": "7.0 KiB; .json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "logs_48354746845.zip",
+    "tipo": "file",
+    "dettagli": "9.2 KiB; .zip",
+    "stato": "ZIP integro"
+  },
+  {
+    "percorso": "pack_biome_jobs_v8_alt.json",
+    "tipo": "file",
+    "dettagli": "20.5 KiB; .json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "pathfinder",
+    "tipo": "directory",
+    "dettagli": "0 cartelle; 1 file; 141.4 KiB",
+    "stato": "OK"
+  },
+  {
+    "percorso": "pathfinder/bestiary1e_index.csv",
+    "tipo": "file",
+    "dettagli": "141.4 KiB; .csv",
+    "stato": "CSV (non validato)"
+  },
+  {
+    "percorso": "personality_module.v1.json",
+    "tipo": "file",
+    "dettagli": "24.2 KiB; .v1.json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "recon_meccaniche.json",
+    "tipo": "file",
+    "dettagli": "1.8 KiB; .json",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "scan_engine_idents.py",
+    "tipo": "file",
+    "dettagli": "3.0 KiB; .py",
+    "stato": "File generico"
+  },
+  {
+    "percorso": "sensienti_traits_v0.1.yaml",
+    "tipo": "file",
+    "dettagli": "3.8 KiB; .1.yaml",
+    "stato": "Documento testo"
+  },
+  {
+    "percorso": "species_index.html",
+    "tipo": "file",
+    "dettagli": "3.5 KiB; .html",
+    "stato": "Documento testo"
+  }
+]
