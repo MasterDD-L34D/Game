@@ -1,0 +1,59 @@
+schema_version: 1.0
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+ecosistema:
+  id: BADLANDS
+  label: Brulle Terre Ferrose
+  biome_id: badlands
+  clima:
+    temperatura_C:
+      media_annua: 14.5
+      min_mese_piu_freddo: -8.0
+      max_mese_piu_caldo: 39.5
+    precipitazioni_mm:
+      totale_annuo: 180
+      indice_stagionalita: estivo-debole
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: 0.045
+  abiotico:
+    salinita: salina interna
+    nutrienti:
+      N: basso
+      P: medio
+      K: alto
+  trofico:
+    produttori:
+    - arbusti_xerofili
+    - crostoni_criptofite
+    - cianobatteri
+    consumatori:
+      primari:
+      - sand-burrower
+      - rust-scavenger
+      secondari:
+      - ferrocolonia-magnetotattica
+      - echo-wing
+      terziari:
+      - dune-stalker
+    decompositori:
+    - nano-rust-bloom
+    - evento-tempesta-ferrosa
+  note: Ecosistema desertico magnetizzato con pulse detritici stagionali.
+links:
+  species_dir: packs/evo_tactics_pack/data/species/badlands
+  foodweb: packs/evo_tactics_pack/data/foodwebs/badlands_foodweb.yaml
+rules:
+  at_least:
+    sentient: 1
+    apex: 1
+    keystone: 2
+    bridge: 1
+    threat: 1
+    event: 1
