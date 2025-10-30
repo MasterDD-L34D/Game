@@ -82,15 +82,22 @@ exports[`SpeciesPanel > renders species narrative and mechanics 1`] = `
             </dl>
           </section>
           <section data-v-5b00ee54="" data-v-73eb6eb5="" class="species-timeline">
-            <h3 data-v-5b00ee54="">Revisioni validate</h3>
+            <div data-v-5b00ee54="" class="species-timeline__header">
+              <h3 data-v-5b00ee54="">Revisioni validate</h3>
+              <div data-v-5b00ee54="" class="species-timeline__filters"><button data-v-5b00ee54="" type="button" class="species-timeline__filter species-timeline__filter--active"><span data-v-5b00ee54="" class="species-timeline__filter-icon">✦</span><span data-v-5b00ee54="" class="species-timeline__filter-label">Tutte</span><span data-v-5b00ee54="" class="species-timeline__filter-count">2</span></button><button data-v-5b00ee54="" type="button" class="species-timeline__filter"><span data-v-5b00ee54="" class="species-timeline__filter-icon">✧</span><span data-v-5b00ee54="" class="species-timeline__filter-label">Info</span><span data-v-5b00ee54="" class="species-timeline__filter-count">1</span></button><button data-v-5b00ee54="" type="button" class="species-timeline__filter"><span data-v-5b00ee54="" class="species-timeline__filter-icon">⚠️</span><span data-v-5b00ee54="" class="species-timeline__filter-label">Avvisi</span><span data-v-5b00ee54="" class="species-timeline__filter-count">1</span></button><button data-v-5b00ee54="" type="button" class="species-timeline__filter"><span data-v-5b00ee54="" class="species-timeline__filter-icon">☠️</span><span data-v-5b00ee54="" class="species-timeline__filter-label">Critici</span><span data-v-5b00ee54="" class="species-timeline__filter-count">0</span></button><button data-v-5b00ee54="" type="button" class="species-timeline__filter"><span data-v-5b00ee54="" class="species-timeline__filter-icon">✨</span><span data-v-5b00ee54="" class="species-timeline__filter-label">OK</span><span data-v-5b00ee54="" class="species-timeline__filter-count">0</span></button></div>
+            </div>
             <ol data-v-5b00ee54="" class="species-timeline__list">
-              <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--info">
-                <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Info</strong><span data-v-5b00ee54="" class="species-timeline__code">species.schema_version.defaulted</span></header>
-                <p data-v-5b00ee54="">schema_version mancante</p>
+              <li data-v-5b00ee54="" class="species-timeline__entry" data-tone="info">
+                <div data-v-5b00ee54="" class="species-timeline__entry-header"><span data-v-5b00ee54="" class="species-timeline__badge" data-tone="info"><span data-v-5b00ee54="" class="species-timeline__badge-icon">✧</span><span data-v-5b00ee54="" class="species-timeline__badge-text">Info</span></span>
+                  <div data-v-5b00ee54="" class="species-timeline__entry-meta"><strong data-v-5b00ee54="">Info</strong><span data-v-5b00ee54="" class="species-timeline__code">species.schema_version.defaulted</span></div>
+                </div>
+                <p data-v-5b00ee54="" class="species-timeline__message">schema_version mancante</p>
               </li>
-              <li data-v-5b00ee54="" class="species-timeline__entry species-timeline__entry--warning">
-                <header data-v-5b00ee54=""><strong data-v-5b00ee54="">Avviso</strong><span data-v-5b00ee54="" class="species-timeline__code">species.environment_affinity.missing</span></header>
-                <p data-v-5b00ee54="">environment_affinity non presente</p>
+              <li data-v-5b00ee54="" class="species-timeline__entry" data-tone="warning">
+                <div data-v-5b00ee54="" class="species-timeline__entry-header"><span data-v-5b00ee54="" class="species-timeline__badge" data-tone="warning"><span data-v-5b00ee54="" class="species-timeline__badge-icon">⚠️</span><span data-v-5b00ee54="" class="species-timeline__badge-text">Avviso</span></span>
+                  <div data-v-5b00ee54="" class="species-timeline__entry-meta"><strong data-v-5b00ee54="">Avviso</strong><span data-v-5b00ee54="" class="species-timeline__code">species.environment_affinity.missing</span></div>
+                </div>
+                <p data-v-5b00ee54="" class="species-timeline__message">environment_affinity non presente</p>
               </li>
             </ol>
           </section>

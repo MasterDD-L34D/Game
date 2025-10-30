@@ -312,14 +312,19 @@
         <p>Traccia degli eventi emessi dal runtime validator e dalle azioni correttive.</p>
       </header>
       <div class="quality-logs__toolbar">
-        <button
-          v-for="option in scopeOptions"
-          :key="option.value"
-          type="button"
-          :class="['quality-logs__filter', { 'quality-logs__filter--active': option.value === scopeFilter }]"
-          @click="scopeFilter = option.value"
-        >
-          {{ option.label }}
+        <div class="quality-logs__filters">
+          <button
+            v-for="option in scopeOptions"
+            :key="option.value"
+            type="button"
+            :class="['quality-logs__filter', { 'quality-logs__filter--active': option.value === scopeFilter }]"
+            @click="scopeFilter = option.value"
+          >
+            {{ option.label }}
+          </button>
+        </div>
+        <button type="button" class="quality-logs__export" @click="exportQaLogs">
+          Esporta JSON QA
         </button>
       </div>
       <ul class="quality-logs">
@@ -342,6 +347,7 @@
 import { computed, reactive, ref, toRefs, watch } from 'vue';
 import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService.js';
 import { applyQualitySuggestion } from '../services/qualityReleaseService.js';
+import { logEvent as logClientEvent, useClientLogger } from '../services/clientLogger.js';
 
 const props = defineProps({
   snapshot: {
@@ -368,6 +374,8 @@ const runtimeLogs = ref([]);
 const appliedSuggestionIds = ref([]);
 const suggestionState = reactive({});
 let logCounter = 0;
+
+const clientLogger = useClientLogger();
 
 const releaseConsoleState = reactive({
   packages: [],
@@ -567,19 +575,37 @@ function appendLogs(kind, entries = []) {
   if (!entries.length) {
     return;
   }
+  const baseTimestamp = Date.now();
   const payload = entries.map((entry) => {
     const message = typeof entry === 'string' ? entry : entry.message || entry.text || '';
     const level = entry.level || entry.severity || (entry.type === 'error' ? 'error' : 'info');
     const timestamp = entry.timestamp || new Date().toISOString();
+    const scope = entry.scope || kind;
     return {
-      id: `${kind}-${Date.now()}-${logCounter++}`,
-      scope: entry.scope || kind,
+      id: `${kind}-${baseTimestamp}-${logCounter++}`,
+      scope,
       level,
       message,
       timestamp,
     };
   });
   runtimeLogs.value = [...runtimeLogs.value, ...payload];
+  const eventName = kind === 'publishing' ? `quality.${kind}` : `validator.${kind}`;
+  payload.forEach((logEntry, index) => {
+    const original = entries[index];
+    const data = typeof original === 'string'
+      ? { message: logEntry.message, level: logEntry.level }
+      : original;
+    logClientEvent(eventName, {
+      id: logEntry.id,
+      scope: logEntry.scope,
+      level: logEntry.level,
+      message: logEntry.message,
+      timestamp: logEntry.timestamp,
+      data,
+      source: 'quality-console',
+    });
+  });
 }
 
 function normaliseMessages(kind, result) {
@@ -830,6 +856,12 @@ function notifyTeam(notification) {
 async function runSpeciesCheck() {
   speciesCheck.running = true;
   speciesCheck.error = null;
+  logClientEvent('validator.species.requested', {
+    scope: 'species',
+    level: 'info',
+    message: 'Validazione specie avviata',
+    source: 'quality-console',
+  });
   try {
     const result = await validateSpeciesBatch(context.value.speciesBatch.entries, {
       biomeId: context.value.speciesBatch.biomeId,
@@ -837,6 +869,29 @@ async function runSpeciesCheck() {
     speciesCheck.result = result;
     speciesCheck.lastRun = new Date().toISOString();
     appendLogs('species', normaliseMessages('species', result));
+    const warnings = Array.isArray(result?.messages)
+      ? result.messages.filter((item) => (item.level || item.severity) === 'warning').length
+      : 0;
+    const errors = Array.isArray(result?.messages)
+      ? result.messages.filter((item) => (item.level || item.severity) === 'error').length
+      : 0;
+    logClientEvent('validator.species.success', {
+      scope: 'species',
+      level: errors > 0 ? 'error' : warnings > 0 ? 'warning' : 'success',
+      message:
+        errors > 0
+          ? `Validazione completata con ${errors} errori e ${warnings} warning`
+          : warnings > 0
+            ? `Validazione completata con ${warnings} warning`
+            : 'Validazione specie completata',
+      data: {
+        warnings,
+        errors,
+        corrected: Array.isArray(result?.corrected) ? result.corrected.length : 0,
+        discarded: Array.isArray(result?.discarded) ? result.discarded.length : 0,
+      },
+      source: 'quality-console',
+    });
   } catch (error) {
     speciesCheck.error = error?.message || 'Errore validazione specie';
     appendLogs('species', [
@@ -845,6 +900,13 @@ async function runSpeciesCheck() {
         message: speciesCheck.error,
       },
     ]);
+    logClientEvent('validator.species.failed', {
+      scope: 'species',
+      level: 'error',
+      message: speciesCheck.error,
+      data: { error: error?.message || speciesCheck.error },
+      source: 'quality-console',
+    });
   } finally {
     speciesCheck.running = false;
   }
@@ -853,6 +915,12 @@ async function runSpeciesCheck() {
 async function runBiomeCheck() {
   biomeCheck.running = true;
   biomeCheck.error = null;
+  logClientEvent('validator.biome.requested', {
+    scope: 'biome',
+    level: 'info',
+    message: 'Sanitizzazione bioma avviata',
+    source: 'quality-console',
+  });
   try {
     const result = await validateBiome(context.value.biomeCheck.biome, {
       defaultHazard: context.value.biomeCheck.defaultHazard,
@@ -860,6 +928,29 @@ async function runBiomeCheck() {
     biomeCheck.result = result;
     biomeCheck.lastRun = new Date().toISOString();
     appendLogs('biome', normaliseMessages('biome', result));
+    const warnings = Array.isArray(result?.messages)
+      ? result.messages.filter((item) => (item.level || item.severity) === 'warning').length
+      : 0;
+    const errors = Array.isArray(result?.messages)
+      ? result.messages.filter((item) => (item.level || item.severity) === 'error').length
+      : 0;
+    logClientEvent('validator.biome.success', {
+      scope: 'biome',
+      level: errors > 0 ? 'error' : warnings > 0 ? 'warning' : 'success',
+      message:
+        errors > 0
+          ? `Sanitizzazione completata con ${errors} errori`
+          : warnings > 0
+            ? `Sanitizzazione completata con ${warnings} warning`
+            : 'Sanitizzazione bioma completata',
+      data: {
+        warnings,
+        errors,
+        corrected: Array.isArray(result?.corrected) ? result.corrected.length : 0,
+        discarded: Array.isArray(result?.discarded) ? result.discarded.length : 0,
+      },
+      source: 'quality-console',
+    });
   } catch (error) {
     biomeCheck.error = error?.message || 'Errore sanitizzazione bioma';
     appendLogs('biome', [
@@ -868,6 +959,13 @@ async function runBiomeCheck() {
         message: biomeCheck.error,
       },
     ]);
+    logClientEvent('validator.biome.failed', {
+      scope: 'biome',
+      level: 'error',
+      message: biomeCheck.error,
+      data: { error: error?.message || biomeCheck.error },
+      source: 'quality-console',
+    });
   } finally {
     biomeCheck.running = false;
   }
@@ -876,11 +974,40 @@ async function runBiomeCheck() {
 async function runFoodwebCheck() {
   foodwebCheck.running = true;
   foodwebCheck.error = null;
+  logClientEvent('validator.foodweb.requested', {
+    scope: 'foodweb',
+    level: 'info',
+    message: 'Validazione foodweb avviata',
+    source: 'quality-console',
+  });
   try {
     const result = await validateFoodweb(context.value.foodwebCheck.foodweb);
     foodwebCheck.result = result;
     foodwebCheck.lastRun = new Date().toISOString();
     appendLogs('foodweb', normaliseMessages('foodweb', result));
+    const warnings = Array.isArray(result?.messages)
+      ? result.messages.filter((item) => (item.level || item.severity) === 'warning').length
+      : 0;
+    const errors = Array.isArray(result?.messages)
+      ? result.messages.filter((item) => (item.level || item.severity) === 'error').length
+      : 0;
+    logClientEvent('validator.foodweb.success', {
+      scope: 'foodweb',
+      level: errors > 0 ? 'error' : warnings > 0 ? 'warning' : 'success',
+      message:
+        errors > 0
+          ? `Validazione foodweb con ${errors} errori`
+          : warnings > 0
+            ? `Validazione foodweb con ${warnings} warning`
+            : 'Validazione foodweb completata',
+      data: {
+        warnings,
+        errors,
+        corrected: Array.isArray(result?.corrected) ? result.corrected.length : 0,
+        discarded: Array.isArray(result?.discarded) ? result.discarded.length : 0,
+      },
+      source: 'quality-console',
+    });
   } catch (error) {
     foodwebCheck.error = error?.message || 'Errore validazione foodweb';
     appendLogs('foodweb', [
@@ -889,6 +1016,13 @@ async function runFoodwebCheck() {
         message: foodwebCheck.error,
       },
     ]);
+    logClientEvent('validator.foodweb.failed', {
+      scope: 'foodweb',
+      level: 'error',
+      message: foodwebCheck.error,
+      data: { error: error?.message || foodwebCheck.error },
+      source: 'quality-console',
+    });
   } finally {
     foodwebCheck.running = false;
   }
@@ -900,6 +1034,13 @@ async function applySuggestion(suggestion) {
   }
   const id = suggestion.id;
   suggestionState[id] = { running: true, error: null };
+  logClientEvent('quality.suggestion.requested', {
+    scope: suggestion.scope || 'publishing',
+    level: 'info',
+    message: `Suggerimento in esecuzione: ${suggestion.title}`,
+    data: { id: suggestion.id, action: suggestion.action },
+    source: 'quality-console',
+  });
   try {
     const response = await applyQualitySuggestion({
       id: suggestion.id,
@@ -919,6 +1060,13 @@ async function applySuggestion(suggestion) {
       appliedSuggestionIds.value = [...appliedSuggestionIds.value, id];
     }
     suggestionState[id] = { running: false, error: null };
+    logClientEvent('quality.suggestion.success', {
+      scope: suggestion.scope || 'publishing',
+      level: 'success',
+      message: `Suggerimento completato: ${suggestion.title}`,
+      data: { id: suggestion.id, action: suggestion.action },
+      source: 'quality-console',
+    });
   } catch (error) {
     const message = error?.message || 'Errore applicazione suggerimento';
     suggestionState[id] = { running: false, error: message };
@@ -928,7 +1076,31 @@ async function applySuggestion(suggestion) {
         message,
       },
     ]);
+    logClientEvent('quality.suggestion.failed', {
+      scope: suggestion.scope || 'publishing',
+      level: 'error',
+      message,
+      data: { id: suggestion.id, action: suggestion.action },
+      source: 'quality-console',
+    });
   }
+}
+
+function exportQaLogs() {
+  const scope = scopeFilter.value;
+  const filenameScope = scope === 'all' ? 'all-scopes' : scope;
+  clientLogger.exportLogs({
+    filename: `qa-flow-logs-${filenameScope}.json`,
+    filter: scope === 'all' ? undefined : (entry) => entry.scope === scope,
+  });
+  logClientEvent('quality.logs.exported', {
+    scope,
+    level: 'info',
+    message: scope === 'all'
+      ? 'Esportazione log QA per tutti gli scope'
+      : `Esportazione log QA per scope ${scope}`,
+    source: 'quality-console',
+  });
 }
 </script>
 
@@ -1413,8 +1585,16 @@ async function applySuggestion(suggestion) {
 
 .quality-logs__toolbar {
   display: flex;
-  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.quality-logs__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .quality-logs__filter {
@@ -1431,6 +1611,29 @@ async function applySuggestion(suggestion) {
 .quality-logs__filter--active {
   border-color: rgba(96, 213, 255, 0.55);
   color: #61d5ff;
+}
+
+.quality-logs__export {
+  background: linear-gradient(135deg, rgba(96, 213, 255, 0.25), rgba(159, 123, 255, 0.25));
+  border: 1px solid rgba(96, 213, 255, 0.35);
+  color: #f0f4ff;
+  padding: 0.4rem 0.85rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quality-logs__export:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(96, 213, 255, 0.25);
+}
+
+.quality-logs__export:focus-visible {
+  outline: 2px solid rgba(159, 123, 255, 0.65);
+  outline-offset: 2px;
 }
 
 .quality-logs {
