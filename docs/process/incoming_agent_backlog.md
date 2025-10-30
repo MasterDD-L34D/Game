@@ -18,6 +18,16 @@ Questo backlog traduce le iniziative prioritarie emerse dal report di triage in 
 | `ancestors_integration_pack_v0_5` | Da analizzare | `AG-Core` | Richiesto smoke test CLI (`config/cli/staging_incoming.yaml`) prima dello sblocco integrazione. | Pianificare tuning parametri core in backlog `In integrazione`. |
 | `recon_meccaniche.json` | In validazione | `AG-Validation` | Segnato bisogno raccolta stime tempo-analisi e confronto con hook evento correnti. | Consolidare report e passare outcome a `AG-Orchestrator` per decisione. |
 
+### Slot calendario condiviso · settimana 2025-11-10
+
+Prima di ogni blocco `AG-Orchestrator` verifica i prerequisiti indicati per evitare blocchi operativi; al termine applica i controlli post-processo per mantenere sincronizzati board, log e knowledge base.
+
+| Slot (CET) | Card Kanban | Prerequisiti da verificare (pre-slot) | Controlli post-processo |
+| --- | --- | --- | --- |
+| 2025-11-10 10:00–10:45 | `evo_pacchetto_minimo_v7` → focus validazioni | Confermare merge del fix `unzip -o` su `scripts/report_incoming.sh`, rieseguire `./scripts/report_incoming.sh --destination sessione-2025-11-10` e raccogliere i log in `reports/incoming/sessione-2025-11-10/`. | Spostare la card in `In validazione`, allegare il nuovo log nella board, registrare l'esito in `logs/incoming_triage_agenti.md` e aggiornare la sezione corrente di `docs/process/incoming_review_log.md` con summary e link. |
+| 2025-11-10 14:30–15:30 | `ancestors_integration_pack_v0_5` → tuning core | Garantire disponibilità ambiente CLI `staging_incoming`, completare smoke test `scripts/cli_smoke.sh --profile staging_incoming` con output salvato in `logs/incoming_smoke/` e confermare caretaker `AG-Core` reperibile. | Aggiornare la card a `In integrazione` con link al risultato dello smoke test, annotare la decisione e il tuning previsto nel log agentico, integrare il follow-up nel knowledge base (`incoming_review_log.md`). |
+| 2025-11-11 11:00–12:00 | `recon_meccaniche.json` → consolidamento report | Raccogliere le stime tempo-analisi dagli agenti di dominio, esportare i confronti con gli hook evento correnti e predisporre il report `reports/incoming/latest/report.html` per la review finale. | Applicare l'esito (integrazione o archivio) sulla card Kanban, allegare il report consolidato, aggiornare `logs/incoming_triage_agenti.md` con decisione e follow-up e sintetizzare nel knowledge base con eventuali ticket aperti. |
+
 ## 0. Collegare il Support Hub alla pipeline incoming
 - **Agente owner**: `AG-Orchestrator`
 - **Supporto**: `AG-Toolsmith`
