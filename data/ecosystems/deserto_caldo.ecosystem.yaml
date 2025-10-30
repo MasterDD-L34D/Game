@@ -1,0 +1,58 @@
+schema_version: 1.0
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+ecosistema:
+  id: DESERTO_CALDO
+  label: Deserto Caldo Vetrificato
+  biome_id: deserto_caldo
+  clima:
+    temperatura_C:
+      media_annua: 32.0
+      min_mese_piu_freddo: 18.0
+      max_mese_piu_caldo: 48.0
+    precipitazioni_mm:
+      totale_annuo: 95
+      indice_stagionalita: estivo
+  composizione_aria:
+    gas_maggiori_percento:
+      N2: 78.08
+      O2: 20.95
+      Ar: 0.93
+      CO2: 0.03
+  abiotico:
+    salinita: salina interna
+    nutrienti:
+      N: basso
+      P: basso
+      K: medio
+  trofico:
+    produttori:
+    - cactus-weaver
+    - cianobatteri_dune
+    - arbusti_pioneer
+    consumatori:
+      primari:
+      - silica-bloom
+      - arbusti_pioneer_detritivori
+      secondari:
+      - noctule-termico
+      terziari:
+      - thermo-raptor
+    decompositori:
+    - evento-ondata-termica
+    - biofilm_termico
+  note: Deserto iper-arido con lenti magnetiche sotterranee e trasporto di polveri
+    ionizzate.
+links:
+  species_dir: packs/evo_tactics_pack/data/species/deserto_caldo
+  foodweb: packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml
+rules:
+  at_least:
+    apex: 1
+    keystone: 1
+    bridge: 1
+    threat: 1
+    event: 1
