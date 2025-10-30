@@ -1,0 +1,9 @@
+{
+  "pythonPath": "python3",
+  "poolSize": 2,
+  "requestTimeoutMs": 120000,
+  "heartbeatIntervalMs": 5000,
+  "heartbeatTimeoutMs": 15000,
+  "maxTaskRetries": 1,
+  "autoShutdownMs": null
+}
