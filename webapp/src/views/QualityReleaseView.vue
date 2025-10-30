@@ -323,9 +323,14 @@
             {{ option.label }}
           </button>
         </div>
-        <button type="button" class="quality-logs__export" @click="exportQaLogs">
-          Esporta JSON QA
-        </button>
+        <div class="quality-logs__actions">
+          <button type="button" class="quality-logs__export" @click="exportQaLogs('json')">
+            Esporta JSON QA
+          </button>
+          <button type="button" class="quality-logs__export" @click="exportQaLogs('csv')">
+            Esporta CSV QA
+          </button>
+        </div>
       </div>
       <ul class="quality-logs">
         <li v-for="log in filteredLogs" :key="log.id" :class="['quality-log', `quality-log--${log.level}`]">
@@ -1086,19 +1091,24 @@ async function applySuggestion(suggestion) {
   }
 }
 
-function exportQaLogs() {
+function exportQaLogs(format = 'json') {
   const scope = scopeFilter.value;
   const filenameScope = scope === 'all' ? 'all-scopes' : scope;
+  const extension = format === 'csv' ? 'csv' : 'json';
   clientLogger.exportLogs({
-    filename: `qa-flow-logs-${filenameScope}.json`,
+    filename: `qa-flow-logs-${filenameScope}.${extension}`,
     filter: scope === 'all' ? undefined : (entry) => entry.scope === scope,
+    format,
   });
+  const scopeMessage =
+    scope === 'all'
+      ? 'Esportazione log QA per tutti gli scope'
+      : `Esportazione log QA per scope ${scope}`;
   logClientEvent('quality.logs.exported', {
     scope,
     level: 'info',
-    message: scope === 'all'
-      ? 'Esportazione log QA per tutti gli scope'
-      : `Esportazione log QA per scope ${scope}`,
+    message: `${scopeMessage} (${extension.toUpperCase()})`,
+    data: { format: extension },
     source: 'quality-console',
   });
 }
@@ -1592,6 +1602,12 @@ function exportQaLogs() {
 }
 
 .quality-logs__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quality-logs__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;

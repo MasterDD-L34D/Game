@@ -1,0 +1,49 @@
+name: qa-reports
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/qa-reports.yml'
+      - 'scripts/export-qa-report.js'
+      - 'services/generation/**'
+      - 'reports/**'
+      - 'packs/evo_tactics_pack/**'
+      - 'data/**'
+      - 'docs/recap/qa-playbook.md'
+
+jobs:
+  export-qa-reports:
+    name: Generate QA baselines
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f tools/py/requirements.txt ]; then
+            python -m pip install -r tools/py/requirements.txt
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate QA reports
+        run: node scripts/export-qa-report.js
+
+      - name: Ensure reports are up to date
+        run: |
+          if [ -n "$(git status --porcelain reports/qa_badges.json reports/trait_baseline.json)" ]; then
+            echo "::error::QA reports non aggiornati. Esegui 'npm run export:qa' e committa i risultati."
+            git status --short reports/qa_badges.json reports/trait_baseline.json
+            exit 1
+          fi
