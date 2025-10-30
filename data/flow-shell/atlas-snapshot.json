@@ -1,0 +1,748 @@
+{
+  "overview": {
+    "objectives": [
+      "Stabilire punto di vista narrativo",
+      "Definire palette emozionale",
+      "Vincolare escalation a 12 minuti"
+    ],
+    "blockers": [
+      "In attesa di conferma sul canale di distribuzione"
+    ],
+    "completion": {
+      "completed": 3,
+      "total": 4
+    }
+  },
+  "species": {
+    "curated": 8,
+    "total": 12,
+    "shortlist": [
+      "Lupo delle Nebbie",
+      "Cefalo Prisma",
+      "Draco delle Tife"
+    ]
+  },
+  "biomeSetup": {
+    "prepared": 1,
+    "total": 3,
+    "config": {
+      "hazard": "Nebbia fotonica instabile",
+      "hazardOptions": [
+        "Nebbia fotonica instabile",
+        "Radiazione prismatica impulsiva",
+        "Correnti elettrostatiche latenti"
+      ],
+      "climate": "Umido temperato",
+      "climateOptions": [
+        "Umido temperato",
+        "Freddo secco",
+        "Subtropicale ventilato"
+      ],
+      "requiredRoles": [
+        "Scout fotonico",
+        "Controller ambientale"
+      ],
+      "roleCatalog": [
+        "Scout fotonico",
+        "Controller ambientale",
+        "Supporto tattico",
+        "Biologo da campo"
+      ],
+      "graphicSeed": "NEBULA-42A"
+    },
+    "graph": {
+      "nodes": [
+        {
+          "id": "hub",
+          "label": "Nodo di staging",
+          "type": "staging",
+          "intensity": 0.82
+        },
+        {
+          "id": "ambush",
+          "label": "Set ambush",
+          "type": "ambush",
+          "intensity": 0.67
+        },
+        {
+          "id": "lure",
+          "label": "Piazzola esca",
+          "type": "lure",
+          "intensity": 0.54
+        },
+        {
+          "id": "retreat",
+          "label": "Ritro retrattile",
+          "type": "safe",
+          "intensity": 0.73
+        }
+      ],
+      "connections": [
+        {
+          "id": "edge-1",
+          "from": "hub",
+          "to": "ambush",
+          "weight": 3
+        },
+        {
+          "id": "edge-2",
+          "from": "ambush",
+          "to": "lure",
+          "weight": 2
+        },
+        {
+          "id": "edge-3",
+          "from": "lure",
+          "to": "retreat",
+          "weight": 1
+        },
+        {
+          "id": "edge-4",
+          "from": "hub",
+          "to": "retreat",
+          "weight": 2
+        }
+      ]
+    }
+  },
+  "biomes": [
+    {
+      "id": "twilight-marsh",
+      "name": "Paludi del Crepuscolo",
+      "climate": "Umido temperato",
+      "hazard": "Nebbia fotonica instabile",
+      "risk": "Moderato",
+      "focus": "Nebbia fotonica pulsante",
+      "opportunities": [
+        "Creare corridoi acustici",
+        "Reindirizzare i riflettori naturali"
+      ],
+      "readiness": 3,
+      "total": 5,
+      "validators": [
+        {
+          "id": "fog-density",
+          "label": "Densità della nebbia",
+          "status": "passed",
+          "message": "Gradienti fotonici entro la banda consentita per i branchi nebulosi."
+        },
+        {
+          "id": "thermal-vents",
+          "label": "Sfiati termici",
+          "status": "warning",
+          "message": "Rilevate pulsazioni sporadiche: consigliare modulazione dei filtri respiratori."
+        }
+      ]
+    },
+    {
+      "id": "obsidian-ridge",
+      "name": "Cresta di Ossidiana",
+      "climate": "Freddo secco",
+      "hazard": "Venti taglienti cristallizzati",
+      "risk": "Elevato",
+      "focus": "Canaloni lavici cristallizzati",
+      "opportunities": [
+        "Proiezioni sonore a lunga distanza",
+        "Nascondigli naturali multilivello"
+      ],
+      "readiness": 2,
+      "total": 4,
+      "validators": [
+        {
+          "id": "stability",
+          "label": "Stabilità dei camminamenti",
+          "status": "failed",
+          "message": "Cedimenti ripetuti nelle passerelle basalte: richiede rinforzo prima del deploy."
+        },
+        {
+          "id": "visibility",
+          "label": "Visibilità notturna",
+          "status": "passed",
+          "message": "Rifrazioni luminose controllate: i marker tattici sono visibili ai branchi."
+        }
+      ]
+    }
+  ],
+  "encounter": {
+    "templateName": "Assalto Nella Nebbia",
+    "biomeName": "Paludi del Crepuscolo",
+    "parameterLabels": {
+      "density": "Densità del branco",
+      "cadence": "Cadenza offensiva"
+    },
+    "variants": [
+      {
+        "id": "strike-team",
+        "summary": "Intercettazione rapida con due nuclei coordinati.",
+        "description": "La squadra entra dal fronte orientale sfruttando micro-lampi per disgregare la formazione nemica mentre il branco primario chiude da nord.",
+        "parameters": {
+          "density": {
+            "label": "Compatta",
+            "value": "compact"
+          },
+          "cadence": {
+            "label": "Impulsi rapidi",
+            "value": "burst"
+          }
+        },
+        "slots": [
+          {
+            "id": "alpha",
+            "title": "Alfa nebulare",
+            "quantity": 1,
+            "species": [
+              {
+                "id": "lupus-nebulis",
+                "display_name": "Lupo delle Nebbie",
+                "summary": "Predatore d'élite che sfrutta condensazioni luminose per disorientare gli intrusi."
+              }
+            ]
+          },
+          {
+            "id": "stalker",
+            "title": "Predatori di supporto",
+            "quantity": 3,
+            "species": [
+              {
+                "id": "support-1",
+                "display_name": "Lupo delle Nebbie - Scout"
+              },
+              {
+                "id": "support-2",
+                "display_name": "Lupo delle Nebbie - Distruttore"
+              }
+            ]
+          }
+        ],
+        "metrics": {
+          "threat": {
+            "tier": "T2"
+          }
+        },
+        "warnings": [
+          {
+            "code": "ATTENTION_SPIKES",
+            "slot": "stalker"
+          }
+        ]
+      },
+      {
+        "id": "stealth",
+        "summary": "Pattuglia silente con cariche differite.",
+        "description": "Una squadra distaccata prepara i rifugi mentre il branco principale attiva le trappole di luce in sequenza.",
+        "parameters": {
+          "density": {
+            "label": "Diluita",
+            "value": "spread"
+          },
+          "cadence": {
+            "label": "Sincronizzata",
+            "value": "sync"
+          }
+        },
+        "slots": [
+          {
+            "id": "alpha",
+            "title": "Alfa nebulare",
+            "quantity": 1,
+            "species": [
+              {
+                "id": "lupus-nebulis",
+                "display_name": "Lupo delle Nebbie"
+              }
+            ]
+          },
+          {
+            "id": "saboteur",
+            "title": "Sabotatori luminescenti",
+            "quantity": 2,
+            "species": [
+              {
+                "id": "saboteur-1",
+                "display_name": "Sabotatore Prismico"
+              },
+              {
+                "id": "saboteur-2",
+                "display_name": "Sabotatore Obscura"
+              }
+            ]
+          }
+        ],
+        "metrics": {
+          "threat": {
+            "tier": "T3"
+          }
+        },
+        "warnings": []
+      }
+    ]
+  },
+  "qualityRelease": {
+    "checks": {
+      "species": {
+        "passed": 2,
+        "total": 3
+      },
+      "biomes": {
+        "passed": 1,
+        "total": 2
+      },
+      "foodweb": {
+        "passed": 1,
+        "total": 1
+      }
+    },
+    "lastRun": "2024-05-18T09:20:00Z",
+    "owners": [
+      "QA Core",
+      "Narrative QA"
+    ]
+  },
+  "publishing": {
+    "artifactsReady": 2,
+    "totalArtifacts": 5,
+    "channels": [
+      "Compendio digitale",
+      "Brief video"
+    ],
+    "workflow": {
+      "preview": {
+        "status": "ready",
+        "owner": "QA Core",
+        "eta": "Oggi · 15:00",
+        "notes": "Build promossa in staging con fixture aggiornate."
+      },
+      "approval": {
+        "status": "pending",
+        "owner": "Creative Lead",
+        "eta": "Domani · 10:30",
+        "notes": "In attesa di sign-off narrativo e marketing."
+      },
+      "deploy": {
+        "status": "scheduled",
+        "owner": "Web Ops",
+        "eta": "Domani · 18:00",
+        "notes": "Deploy su CDN con finestra di rollback di 30 minuti."
+      }
+    },
+    "history": [
+      {
+        "id": "preview-generated",
+        "label": "Preview generata",
+        "author": "QA Core",
+        "timestamp": "2024-05-18 09:10",
+        "details": "Snapshot giocabile caricata sul portale interno."
+      },
+      {
+        "id": "qa-sync",
+        "label": "Sync QA & Narrative",
+        "author": "Narrative QA",
+        "timestamp": "2024-05-18 11:45",
+        "details": "Definite correzioni di localizzazione per il briefing video."
+      }
+    ],
+    "notifications": [
+      {
+        "id": "notif-slack",
+        "channel": "Slack #release-alerts",
+        "message": "Richiesta approvazione finale pubblicazione patch 1.2.",
+        "recipients": [
+          "Creative Lead",
+          "Web Ops"
+        ],
+        "time": "2024-05-18 11:50"
+      },
+      {
+        "id": "notif-email",
+        "channel": "Email Team Marketing",
+        "message": "Disponibile anteprima aggiornata per campagna social.",
+        "recipients": [
+          "Marketing"
+        ],
+        "time": "2024-05-18 12:05"
+      }
+    ]
+  },
+  "suggestions": [
+    {
+      "id": "species-duplicates",
+      "scope": "species",
+      "title": "Allineare trait duplicati",
+      "description": "Rimuovere il tratto ripetuto per il branch QA-NEB-07 e riallineare il seed.",
+      "action": "fix",
+      "payload": {
+        "biomeId": "badlands",
+        "entries": [
+          {
+            "id": "spec-runtime-node",
+            "display_name": "Predatore Nodo QA",
+            "role_trofico": "predatore_apice_test",
+            "functional_tags": "predatore",
+            "vc": {},
+            "playable_unit": false,
+            "spawn_rules": {},
+            "balance": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "biome-hazard",
+      "scope": "biome",
+      "title": "Impostare hazard predefinito",
+      "description": "Forzare l'hazard Nebbia fotonica instabile per evitare fallback in produzione.",
+      "action": "fix",
+      "payload": {
+        "biome": {
+          "id": "twilight-marsh",
+          "hazard": {
+            "id": null,
+            "label": null
+          },
+          "stability": {
+            "erosion": "medio",
+            "vents": "variabile"
+          },
+          "fauna": {
+            "apex": [
+              "lupus-nebulis"
+            ],
+            "support": [
+              "support-1"
+            ]
+          },
+          "brief": "Bioma di riferimento per il branch orchestrato in fase di QA."
+        },
+        "defaultHazard": "Nebbia fotonica instabile"
+      }
+    },
+    {
+      "id": "foodweb-refresh",
+      "scope": "foodweb",
+      "title": "Rigenerare anelli secondari",
+      "description": "Eseguire una rigenerazione mirata dei link con peso < 0.5 per ampliare le sinergie.",
+      "action": "regenerate",
+      "payload": {
+        "foodweb": {
+          "anchors": [
+            {
+              "id": "alpha-pack",
+              "role": "predatore_apice"
+            },
+            {
+              "id": "lure-flora",
+              "role": "flora_reagente"
+            }
+          ],
+          "links": [
+            {
+              "from": "alpha-pack",
+              "to": "lure-flora",
+              "weight": 0.4
+            }
+          ],
+          "focus": "Ricalibrazione archi secondari sotto soglia 0.5"
+        }
+      }
+    },
+    {
+      "id": "species-reroll",
+      "scope": "species",
+      "title": "Rigenerare blueprint prioritari",
+      "description": "Richiedi una generazione mirata per i seed QA-OBS-05 con fallback controllato.",
+      "action": "regenerate",
+      "payload": {
+        "entries": [
+          {
+            "trait_ids": [
+              "echo_stalker",
+              "prism_lurker"
+            ],
+            "biome_id": "obsidian-ridge",
+            "seed": "QA-OBS-05",
+            "request_id": "regen-obsidian-05",
+            "fallback_trait_ids": [
+              "shadow_pack"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notify-qa",
+      "channel": "Slack #qa-ops",
+      "message": "Runtime validator completato per i branch Nebbia/Obsydian.",
+      "time": "09:45"
+    },
+    {
+      "id": "notify-release",
+      "channel": "Email Release Team",
+      "message": "In attesa approvazione finale per deploy patch 1.2.",
+      "time": "10:05"
+    }
+  ],
+  "qualityReleaseContext": {
+    "orchestrator": {
+      "stage": "QA Freeze",
+      "releaseWindow": "Patch 1.2 · 48h",
+      "coordinator": "QA Core",
+      "focusAreas": [
+        "Specie prioritarie",
+        "Bilanciamento biomi",
+        "Foodweb narrativo"
+      ]
+    },
+    "speciesBatch": {
+      "entries": [
+        {
+          "trait_ids": [
+            "shadow_pack",
+            "luminous_feral"
+          ],
+          "biome_id": "twilight-marsh",
+          "seed": "QA-NEB-01",
+          "base_name": "Lupi Nebbiosi",
+          "request_id": "spec-check-01"
+        },
+        {
+          "trait_ids": [
+            "echo_stalker",
+            "prism_lurker"
+          ],
+          "biome_id": "obsidian-ridge",
+          "seed": "QA-OBS-05",
+          "base_name": "Predatori di Risonanza",
+          "request_id": "spec-check-02"
+        },
+        {
+          "trait_ids": [
+            "mist_rider",
+            "thermal_climber"
+          ],
+          "biome_id": "twilight-marsh",
+          "seed": "QA-NEB-07",
+          "base_name": "Assaltatori Nebulari",
+          "request_id": "spec-check-03"
+        }
+      ],
+      "biomeId": "twilight-marsh"
+    },
+    "biomeCheck": {
+      "biome": {
+        "id": "twilight-marsh",
+        "hazard": {
+          "id": null,
+          "label": null
+        },
+        "stability": {
+          "erosion": "medio",
+          "vents": "variabile"
+        },
+        "fauna": {
+          "apex": [
+            "lupus-nebulis"
+          ],
+          "support": [
+            "support-1"
+          ]
+        },
+        "brief": "Bioma di riferimento per il branch orchestrato in fase di QA."
+      },
+      "defaultHazard": "Nebbia fotonica instabile"
+    },
+    "foodwebCheck": {
+      "foodweb": {
+        "anchors": [
+          {
+            "id": "alpha-pack",
+            "role": "predatore_apice"
+          },
+          {
+            "id": "lure-flora",
+            "role": "flora_reagente"
+          }
+        ],
+        "links": [
+          {
+            "from": "alpha-pack",
+            "to": "lure-flora",
+            "weight": 0.7
+          },
+          {
+            "from": "lure-flora",
+            "to": "alpha-pack",
+            "weight": 0.4
+          }
+        ],
+        "focus": "Sincronizzazione tra branchi e flora prismatica."
+      }
+    },
+    "releaseConsole": {
+      "packages": [
+        {
+          "id": "nebula-alpha-staging",
+          "name": "Nebula Branch · Alpha build",
+          "environment": "staging",
+          "status": "ready",
+          "approvals": [
+            "QA Core",
+            "Ops QA"
+          ],
+          "lastValidation": "2024-05-18T10:20:00Z"
+        },
+        {
+          "id": "nebula-alpha-prod",
+          "name": "Nebula Branch · Release Candidate",
+          "environment": "production",
+          "status": "awaiting-approval",
+          "approvals": [
+            "Creative Lead",
+            "Web Ops"
+          ],
+          "lastValidation": "2024-05-18T09:55:00Z"
+        },
+        {
+          "id": "nebula-hotfix",
+          "name": "Nebula Hotfix · QA Freeze",
+          "environment": "staging",
+          "status": "blocked",
+          "approvals": [
+            "Narrative QA"
+          ],
+          "lastValidation": "2024-05-17T22:10:00Z"
+        }
+      ],
+      "schedule": [
+        {
+          "id": "slot-staging",
+          "packageId": "nebula-alpha-staging",
+          "packageName": "Nebula Branch · Alpha build",
+          "environment": "staging",
+          "window": "19/05 · 10:00",
+          "approvals": [
+            "QA Core",
+            "Ops QA"
+          ],
+          "status": "awaiting-approval",
+          "notes": "Snapshot 42A su staging per review cross-team.",
+          "lastUpdated": "2024-05-18T10:15:00Z"
+        },
+        {
+          "id": "slot-prod",
+          "packageId": "nebula-alpha-prod",
+          "packageName": "Nebula Branch · Release Candidate",
+          "environment": "production",
+          "window": "20/05 · 19:00",
+          "approvals": [
+            "Creative Lead",
+            "Web Ops"
+          ],
+          "status": "scheduled",
+          "notes": "Promozione subordinata a freeze QA Nebula.",
+          "lastUpdated": "2024-05-18T09:50:00Z"
+        }
+      ],
+      "streams": [
+        {
+          "id": "stream-species",
+          "label": "Log specie Nebula",
+          "scope": "species",
+          "status": "monitoring",
+          "pending": 1,
+          "lastEvent": "2024-05-18T10:40:00Z"
+        },
+        {
+          "id": "stream-encounter",
+          "label": "Log encounter Nebula",
+          "scope": "publishing",
+          "status": "idle",
+          "pending": 2,
+          "lastEvent": "2024-05-18T09:20:00Z"
+        }
+      ],
+      "watchers": [
+        {
+          "id": "qa-core",
+          "name": "QA Core",
+          "channel": "Slack #qa-ops"
+        },
+        {
+          "id": "release",
+          "name": "Release Management",
+          "channel": "Email release@intent.games"
+        },
+        {
+          "id": "marketing",
+          "name": "Marketing Sync",
+          "channel": "Slack #release-alerts"
+        }
+      ],
+      "notifications": [
+        {
+          "id": "notif-staging",
+          "channel": "Slack #release-alerts",
+          "message": "Pacchetto Nebula pronto per staging.",
+          "lastTriggeredAt": "2024-05-18T10:25:00Z"
+        },
+        {
+          "id": "notif-prod",
+          "channel": "Email Release Team",
+          "message": "Attendere conferma finale per deploy produzione.",
+          "lastTriggeredAt": null
+        }
+      ]
+    },
+    "notifications": [
+      {
+        "id": "notify-qa",
+        "channel": "Slack #qa-ops",
+        "message": "Runtime validator completato per i branch Nebbia/Obsydian.",
+        "time": "09:45"
+      },
+      {
+        "id": "notify-release",
+        "channel": "Email Release Team",
+        "message": "In attesa approvazione finale per deploy patch 1.2.",
+        "time": "10:05"
+      }
+    ],
+    "logs": [
+      {
+        "id": "log-species",
+        "scope": "species",
+        "level": "info",
+        "message": "Batch QA-NEB completato con 2 fix automatici.",
+        "timestamp": "2024-05-18T09:12:00Z"
+      },
+      {
+        "id": "log-biome",
+        "scope": "biome",
+        "level": "warning",
+        "message": "Hazard non impostato, applicare default QA.",
+        "timestamp": "2024-05-18T09:18:00Z"
+      }
+    ]
+  },
+  "initialSpeciesRequest": {
+    "trait_ids": [
+      "artigli_sette_vie",
+      "coda_frusta_cinetica",
+      "scheletro_idro_regolante"
+    ],
+    "biome_id": "caverna_risonante",
+    "seed": 99,
+    "base_name": "Predatore QA",
+    "request_id": "nebula-priority"
+  },
+  "biomeSummary": {
+    "validated": 2,
+    "pending": 1
+  },
+  "encounterSummary": {
+    "seeds": 2,
+    "variants": 4,
+    "warnings": 1
+  }
+}

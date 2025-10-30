@@ -7,6 +7,7 @@ const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesi
 const { createRuntimeValidator } = require('../services/generation/runtimeValidator');
 const { createGenerationOrchestratorBridge } = require('../services/generation/orchestratorBridge');
 const { createTraitDiagnosticsSync } = require('./traitDiagnostics');
+const { createGenerationSnapshotHandler } = require('./routes/generationSnapshot');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -241,6 +242,14 @@ function createApp(options = {}) {
   traitDiagnosticsSync.load().catch((error) => {
     console.warn('[trait-diagnostics] preload fallito', error);
   });
+
+  const generationSnapshotHandler = createGenerationSnapshotHandler({
+    orchestrator: generationOrchestrator,
+    traitDiagnostics: traitDiagnosticsSync,
+    datasetPath: options.generationSnapshot?.datasetPath,
+  });
+
+  app.get('/api/generation/snapshot', generationSnapshotHandler);
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'idea-engine' });
