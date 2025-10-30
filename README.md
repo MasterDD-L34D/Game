@@ -187,14 +187,19 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Indice tracker & stato**: usa `docs/00-INDEX.md` per checklist quotidiane, log e roadmap; la sezione viene aggiornata automaticamente da [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py) tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml).
 - **Log di riferimento**: `logs/traits_tracking.md`, `logs/web_status.md` e i report in `reports/incoming/` documentano l'avanzamento tecnico delle ultime sessioni.
 
-### Recap operativo & prossimi step
-- [ ] Rivedi i log in `reports/incoming/validation/` e apri ticket per eventuali regressioni.
-- [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
-- [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
-- [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
+<!-- tracker-status:start -->
+#### Operativo
+- **███████░░░ 74% · Telemetria VC** — Le milestone operative hanno completato playtest, normalizzazione e documentazione; restano overlay HUD, ribilanciamento XP Cipher e contrasto EVT-03. Vedi [docs/checklist/milestones.md#in-corso](docs/checklist/milestones.md#in-corso).
 
-### Barra di completamento
-<progress value="0.7" max="1"></progress> **70 %** completato — aggiornare dopo il prossimo ciclo di validazione.
+#### Processo
+- **░░░░░░░░░░ 0% · Pipeline deploy web** — Il processo di rilascio è definito ma i riesami settimanali riportano ancora blocchi Playwright e smoke test manuali aperti. Vedi [docs/process/web_pipeline.md](docs/process/web_pipeline.md) e [logs/web_status.md](logs/web_status.md).
+
+#### Log & metriche
+- **██████░░░░ 55% · Inventario trait** — La copertura tratti/specie è riallineata ma restano da integrare appendici e dataset mock aggiuntivi. Vedi [logs/traits_tracking.md](logs/traits_tracking.md).
+
+#### Appendici
+- **█████░░░░░ 50% · Canvas e integrazioni** — Gli appendici A/C/D riportano l'ultima revisione mentre canvas e feature updates conservano follow-up aperti. Vedi [docs/00-INDEX.md#appendici-di-stato](docs/00-INDEX.md#appendici-di-stato) e [docs/Canvas/feature-updates.md](docs/Canvas/feature-updates.md).
+<!-- tracker-status:end -->
 
 ## Documentazione & tracker
 - **Indice operativo**: `docs/00-INDEX.md` aggrega checklist quotidiane, log e roadmap.
