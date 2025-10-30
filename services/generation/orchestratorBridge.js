@@ -1,39 +1,410 @@
 const { spawn } = require('node:child_process');
+const { EventEmitter } = require('node:events');
+const fs = require('node:fs');
 const path = require('node:path');
+const readline = require('node:readline');
 
-const DEFAULT_SCRIPT_PATH = path.resolve(__dirname, 'orchestrator.py');
+const DEFAULT_CONFIG = {
+  pythonPath: process.env.PYTHON || 'python3',
+  poolSize: 2,
+  requestTimeoutMs: 120_000,
+  heartbeatIntervalMs: 5_000,
+  heartbeatTimeoutMs: 15_000,
+  maxTaskRetries: 1,
+  restartDelayMs: 250,
+  autoShutdownMs: null,
+};
 
-function invokePython({ pythonExecutable, scriptPath, action, payload }) {
-  return new Promise((resolve, reject) => {
-    const proc = spawn(pythonExecutable, [scriptPath, '--action', action], {
+const DEFAULT_CONFIG_PATH = path.resolve(__dirname, '../../config/orchestrator.json');
+const DEFAULT_WORKER_SCRIPT = path.resolve(__dirname, 'worker.py');
+
+function loadConfig(configPath = DEFAULT_CONFIG_PATH) {
+  try {
+    const text = fs.readFileSync(configPath, 'utf8');
+    const parsed = JSON.parse(text);
+    if (!parsed || typeof parsed !== 'object') {
+      return {};
+    }
+    return parsed;
+  } catch (error) {
+    if (error && error.code !== 'ENOENT') {
+      console.warn('[orchestrator-bridge] configurazione non caricabile:', error.message);
+    }
+    return {};
+  }
+}
+
+function coerceNumber(value, fallback) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) && numeric > 0 ? numeric : fallback;
+}
+
+function resolveAutoShutdownMs(value) {
+  if (value === undefined || value === null) {
+    return null;
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return null;
+    }
+    const normalised = trimmed.toLowerCase();
+    if (['off', 'none', 'no', 'false', 'never', 'disable', 'disabled'].includes(normalised)) {
+      return null;
+    }
+    const numeric = Number(trimmed);
+    if (!Number.isFinite(numeric) || numeric <= 0) {
+      return null;
+    }
+    return numeric;
+  }
+  if (typeof value === 'number') {
+    return Number.isFinite(value) && value > 0 ? value : null;
+  }
+  return null;
+}
+
+class PythonWorker extends EventEmitter {
+  constructor(id, options) {
+    super();
+    this.id = id;
+    this.options = options;
+    this.process = null;
+    this.stdout = null;
+    this.currentTask = null;
+    this.requestSeq = 0;
+    this.ready = false;
+    this._stopping = false;
+    this._heartbeatTimer = null;
+    this._spawn();
+  }
+
+  _spawn() {
+    const env = {
+      ...process.env,
+      ORCHESTRATOR_WORKER_HEARTBEAT_INTERVAL_MS: String(
+        coerceNumber(this.options.heartbeatIntervalMs, DEFAULT_CONFIG.heartbeatIntervalMs),
+      ),
+    };
+
+    const proc = spawn(this.options.pythonPath, [this.options.workerScript], {
       stdio: ['pipe', 'pipe', 'pipe'],
+      env,
     });
 
-    const stdoutChunks = [];
-    const stderrChunks = [];
+    this.process = proc;
+    this.ready = false;
 
-    proc.stdout.on('data', (chunk) => stdoutChunks.push(chunk));
-    proc.stderr.on('data', (chunk) => stderrChunks.push(chunk));
-    proc.on('error', reject);
+    proc.on('error', (error) => {
+      this.emit('worker-error', error);
+    });
 
-    proc.on('close', (code) => {
-      const stdout = Buffer.concat(stdoutChunks).toString('utf8');
-      const stderr = Buffer.concat(stderrChunks).toString('utf8');
-      if (code !== 0) {
-        const message = stderr || `orchestrator exited with code ${code}`;
-        reject(new Error(message.trim()));
+    proc.on('exit', (code, signal) => {
+      this._handleExit(code, signal);
+    });
+
+    proc.stderr.on('data', (chunk) => {
+      const text = chunk.toString();
+      if (text.trim()) {
+        this.emit('stderr', { id: this.id, message: text });
+      }
+    });
+
+    const rl = readline.createInterface({ input: proc.stdout });
+    this.stdout = rl;
+    rl.on('line', (line) => this._handleLine(line));
+  }
+
+  _handleLine(line) {
+    if (!line) return;
+    let message;
+    try {
+      message = JSON.parse(line);
+    } catch (error) {
+      this.emit('protocol-error', { id: this.id, line, error });
+      return;
+    }
+
+    if (message.type === 'ready') {
+      this.ready = true;
+      this._resetHeartbeatTimer();
+      this.emit('available');
+      return;
+    }
+
+    if (message.type === 'heartbeat') {
+      this._resetHeartbeatTimer();
+      this.emit('heartbeat', message);
+      return;
+    }
+
+    if (message.type !== 'response') {
+      return;
+    }
+
+    const task = this.currentTask;
+    if (!task || task.id !== message.id) {
+      this.emit('protocol-error', { id: this.id, message, reason: 'unknown-request' });
+      return;
+    }
+
+    clearTimeout(task.timer);
+    this.currentTask = null;
+    if (message.status === 'ok') {
+      task.resolve(message.result || {});
+    } else {
+      const error = new Error(message.error || 'Errore generico worker orchestrator');
+      error.code = message.code || 'REQUEST_ERROR';
+      task.reject(error);
+    }
+    this.emit('available');
+  }
+
+  _handleExit(code, signal) {
+    if (this.stdout) {
+      this.stdout.removeAllListeners();
+      this.stdout.close();
+      this.stdout = null;
+    }
+    this._clearHeartbeatTimer();
+
+    const task = this.currentTask;
+    if (task) {
+      clearTimeout(task.timer);
+      this.currentTask = null;
+      const error = new Error(
+        `Worker ${this.id} terminato (${code !== null ? code : signal || 'sconosciuto'})`,
+      );
+      error.code = 'WORKER_CRASH';
+      task.reject(error);
+    }
+
+    if (this._stopping) {
+      this.process = null;
+      this.emit('stopped');
+      return;
+    }
+
+    this.process = null;
+    this.ready = false;
+    this.emit('crash', { id: this.id, code, signal });
+    setTimeout(() => {
+      if (!this._stopping) {
+        this._spawn();
+      }
+    }, this.options.restartDelayMs || DEFAULT_CONFIG.restartDelayMs);
+  }
+
+  _resetHeartbeatTimer() {
+    this._clearHeartbeatTimer();
+    const timeout = coerceNumber(
+      this.options.heartbeatTimeoutMs,
+      DEFAULT_CONFIG.heartbeatTimeoutMs,
+    );
+    if (!timeout) return;
+    const timer = setTimeout(() => this._handleHeartbeatTimeout(), timeout);
+    if (typeof timer.unref === 'function') {
+      timer.unref();
+    }
+    this._heartbeatTimer = timer;
+  }
+
+  _clearHeartbeatTimer() {
+    if (this._heartbeatTimer) {
+      clearTimeout(this._heartbeatTimer);
+      this._heartbeatTimer = null;
+    }
+  }
+
+  _handleHeartbeatTimeout() {
+    if (this._stopping || !this.process) {
+      return;
+    }
+    this.emit('heartbeat-missed', { id: this.id });
+    this.process.kill('SIGKILL');
+  }
+
+  isAvailable() {
+    return this.ready && !this.currentTask;
+  }
+
+  runTask(action, payload, timeoutMs) {
+    if (!this.process || !this.isAvailable()) {
+      return Promise.reject(new Error('Worker non disponibile'));
+    }
+
+    const requestId = `${this.id}-${++this.requestSeq}`;
+    return new Promise((resolve, reject) => {
+      const timer = timeoutMs
+        ? setTimeout(() => this._handleRequestTimeout(requestId), timeoutMs)
+        : null;
+      this.currentTask = { id: requestId, resolve, reject, timer, timeoutMs };
+      try {
+        this.process.stdin.write(
+          `${JSON.stringify({ type: 'request', id: requestId, action, payload })}\n`,
+          'utf8',
+        );
+      } catch (error) {
+        if (timer) clearTimeout(timer);
+        this.currentTask = null;
+        reject(error);
+        this.emit('available');
         return;
       }
+    });
+  }
+
+  _handleRequestTimeout(requestId) {
+    const task = this.currentTask;
+    if (!task || task.id !== requestId) {
+      return;
+    }
+    this.currentTask = null;
+    const error = new Error(
+      `Richiesta ${requestId} scaduta dopo ${task.timeoutMs || 0} ms`,
+    );
+    error.code = 'REQUEST_TIMEOUT';
+    task.reject(error);
+    if (this.process) {
+      this.process.kill('SIGKILL');
+    }
+  }
+
+  async stop() {
+    this._stopping = true;
+    this._clearHeartbeatTimer();
+    const proc = this.process;
+    if (!proc) {
+      this.emit('stopped');
+      return;
+    }
+    return new Promise((resolve) => {
+      const onStopped = () => {
+        this.removeListener('stopped', onStopped);
+        resolve();
+      };
+      this.on('stopped', onStopped);
       try {
-        resolve(stdout ? JSON.parse(stdout) : {});
+        proc.kill('SIGTERM');
       } catch (error) {
-        reject(error);
+        resolve();
       }
     });
+  }
 
-    proc.stdin.write(JSON.stringify(payload || {}));
-    proc.stdin.end();
-  });
+  forceCrash() {
+    if (this.process) {
+      this.process.kill('SIGKILL');
+    }
+  }
+}
+
+class WorkerPool {
+  constructor(options) {
+    this.options = options;
+    this.queue = [];
+    this.workers = [];
+    this.maxTaskRetries = options.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries;
+    for (let index = 0; index < options.poolSize; index += 1) {
+      this._createWorker(index);
+    }
+  }
+
+  _createWorker(index) {
+    const worker = new PythonWorker(index, this.options);
+    worker.on('available', () => this._dispatch());
+    worker.on('crash', () => this._dispatch());
+    worker.on('heartbeat-missed', () => this._dispatch());
+    this.workers[index] = worker;
+  }
+
+  _dispatch() {
+    if (!this.queue.length) {
+      return;
+    }
+    for (const worker of this.workers) {
+      if (!worker || !worker.isAvailable()) {
+        continue;
+      }
+      if (!this.queue.length) {
+        break;
+      }
+      const task = this.queue.shift();
+      if (!task) {
+        break;
+      }
+      this._assign(worker, task);
+    }
+  }
+
+  _assign(worker, task) {
+    worker
+      .runTask(task.action, task.payload, task.timeoutMs)
+      .then((result) => {
+        task.resolve(result);
+        this._dispatch();
+      })
+      .catch((error) => {
+        if (this._shouldRetry(error, task)) {
+          task.attempts += 1;
+          this.queue.unshift(task);
+          setTimeout(() => this._dispatch(), 0);
+          return;
+        }
+        task.reject(error);
+        this._dispatch();
+      });
+  }
+
+  _shouldRetry(error, task) {
+    if (!error || typeof error !== 'object') {
+      return false;
+    }
+    if (error.code === 'WORKER_CRASH' && task.attempts < this.maxTaskRetries) {
+      return true;
+    }
+    return false;
+  }
+
+  run(action, payload, timeoutMs) {
+    return new Promise((resolve, reject) => {
+      this.queue.push({
+        action,
+        payload,
+        resolve,
+        reject,
+        attempts: 0,
+        timeoutMs,
+      });
+      this._dispatch();
+    });
+  }
+
+  async close() {
+    const pending = this.queue.splice(0);
+    pending.forEach((task) => {
+      task.reject(new Error('Pool terminato'));
+    });
+    await Promise.all(
+      this.workers.filter(Boolean).map((worker) => worker.stop()),
+    );
+  }
+
+  debugKillWorker(index = 0) {
+    const worker = this.workers[index];
+    if (worker) {
+      worker.forceCrash();
+    }
+  }
+
+  getStats() {
+    const available = this.workers.filter((worker) => worker && worker.isAvailable()).length;
+    return {
+      size: this.workers.length,
+      available,
+      queue: this.queue.length,
+    };
+  }
 }
 
 function normaliseRequestPayload(input) {
@@ -63,20 +434,97 @@ function normaliseRequestPayload(input) {
 }
 
 function createGenerationOrchestratorBridge(options = {}) {
-  const pythonExecutable = options.pythonPath || process.env.PYTHON || 'python3';
-  const scriptPath = options.scriptPath || DEFAULT_SCRIPT_PATH;
+  const fileConfig = loadConfig(options.configPath || DEFAULT_CONFIG_PATH);
+  const merged = {
+    ...DEFAULT_CONFIG,
+    workerScript: DEFAULT_WORKER_SCRIPT,
+    ...fileConfig,
+    ...options,
+  };
+
+  const resolved = {
+    pythonPath: merged.pythonPath || DEFAULT_CONFIG.pythonPath,
+    workerScript: merged.workerScript || DEFAULT_WORKER_SCRIPT,
+    poolSize: Math.max(1, coerceNumber(merged.poolSize, DEFAULT_CONFIG.poolSize)),
+    requestTimeoutMs: coerceNumber(merged.requestTimeoutMs, DEFAULT_CONFIG.requestTimeoutMs),
+    heartbeatIntervalMs: coerceNumber(
+      merged.heartbeatIntervalMs,
+      DEFAULT_CONFIG.heartbeatIntervalMs,
+    ),
+    heartbeatTimeoutMs: coerceNumber(
+      merged.heartbeatTimeoutMs,
+      DEFAULT_CONFIG.heartbeatTimeoutMs,
+    ),
+    maxTaskRetries: Math.max(0, merged.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries),
+    restartDelayMs: coerceNumber(merged.restartDelayMs, DEFAULT_CONFIG.restartDelayMs),
+    autoShutdownMs: resolveAutoShutdownMs(
+      merged.autoShutdownMs ?? process.env.ORCHESTRATOR_AUTOCLOSE_MS ?? DEFAULT_CONFIG.autoShutdownMs,
+    ),
+  };
+
+  const pool = new WorkerPool(resolved);
+  const cleanupRegistrations = [];
+  let shutdownTimer = null;
+  let closingPromise = null;
+
+  const requestShutdown = () => {
+    if (!closingPromise) {
+      cancelAutoShutdown();
+      closingPromise = pool
+        .close()
+        .catch((error) => {
+          console.warn('[orchestrator-bridge] arresto pool fallito', error);
+        })
+        .then(() => undefined);
+    }
+    return closingPromise;
+  };
+
+  const cancelAutoShutdown = () => {
+    if (shutdownTimer) {
+      clearTimeout(shutdownTimer);
+      shutdownTimer = null;
+    }
+  };
+
+  const scheduleAutoShutdown = () => {
+    if (!resolved.autoShutdownMs || closingPromise) {
+      return;
+    }
+    cancelAutoShutdown();
+    shutdownTimer = setTimeout(() => {
+      requestShutdown();
+    }, resolved.autoShutdownMs);
+    if (typeof shutdownTimer.unref === 'function') {
+      shutdownTimer.unref();
+    }
+  };
+
+  const registerCleanup = (event) => {
+    const handler = () => {
+      requestShutdown();
+    };
+    process.on(event, handler);
+    cleanupRegistrations.push([event, handler]);
+  };
+
+  ['beforeExit', 'SIGINT', 'SIGTERM', 'SIGQUIT'].forEach(registerCleanup);
 
   async function generateSpecies(requestPayload) {
     const payload = normaliseRequestPayload(requestPayload);
     if (!payload.trait_ids.length) {
       throw new Error('trait_ids richiesti per la generazione');
     }
-    return invokePython({
-      pythonExecutable,
-      scriptPath,
-      action: 'generate-species',
-      payload,
-    });
+    if (closingPromise) {
+      throw new Error('Pool orchestrator non disponibile');
+    }
+    cancelAutoShutdown();
+    try {
+      const result = await pool.run('generate-species', payload, resolved.requestTimeoutMs);
+      return result;
+    } finally {
+      scheduleAutoShutdown();
+    }
   }
 
   async function generateSpeciesBatch(requestPayload) {
@@ -91,28 +539,65 @@ function createGenerationOrchestratorBridge(options = {}) {
     if (!batch.length) {
       return { results: [], errors: [] };
     }
-    return invokePython({
-      pythonExecutable,
-      scriptPath,
-      action: 'generate-species-batch',
-      payload: { batch },
-    });
+    if (closingPromise) {
+      throw new Error('Pool orchestrator non disponibile');
+    }
+    cancelAutoShutdown();
+    try {
+      const result = await pool.run(
+        'generate-species-batch',
+        { batch },
+        resolved.requestTimeoutMs,
+      );
+      return result;
+    } finally {
+      scheduleAutoShutdown();
+    }
   }
 
   async function fetchTraitDiagnostics() {
-    return invokePython({
-      pythonExecutable,
-      scriptPath,
-      action: 'trait-diagnostics',
-      payload: {},
-    });
+    if (closingPromise) {
+      throw new Error('Pool orchestrator non disponibile');
+    }
+    cancelAutoShutdown();
+    try {
+      const result = await pool.run('trait-diagnostics', {}, resolved.requestTimeoutMs);
+      return result;
+    } finally {
+      scheduleAutoShutdown();
+    }
   }
 
-  return {
+  async function close() {
+    cancelAutoShutdown();
+    while (cleanupRegistrations.length) {
+      const [event, handler] = cleanupRegistrations.pop();
+      if (typeof process.off === 'function') {
+        process.off(event, handler);
+      } else {
+        process.removeListener(event, handler);
+      }
+    }
+    await requestShutdown();
+  }
+
+  const api = {
     generateSpecies,
     generateSpeciesBatch,
     fetchTraitDiagnostics,
+    close,
   };
+
+  if (process.env.NODE_ENV === 'test') {
+    Object.defineProperty(api, '_pool', {
+      value: pool,
+      enumerable: false,
+      configurable: false,
+      writable: false,
+    });
+  }
+
+  return api;
 }
 
 module.exports = { createGenerationOrchestratorBridge };
