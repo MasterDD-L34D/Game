@@ -5,7 +5,7 @@
       <p>Curazione attuale e shortlist degli organismi selezionati.</p>
     </header>
     <div class="flow-view__content">
-      <SpeciesPanel :species="species" />
+      <SpeciesPanel :species="species" :meta="meta" :validation="validation" />
       <aside class="flow-view__sidebar">
         <div class="sidebar-card">
           <h3>Stato curazione</h3>
@@ -16,6 +16,36 @@
           <ul>
             <li v-for="item in shortlist" :key="item">{{ item }}</li>
           </ul>
+        </div>
+        <div class="sidebar-card" v-if="requestSummary">
+          <h3>Richiesta orchestrator</h3>
+          <p><strong>ID:</strong> {{ requestSummary.id }}</p>
+          <p><strong>Bioma:</strong> {{ requestSummary.biome }}</p>
+          <p><strong>Fallback:</strong> {{ requestSummary.fallback }}</p>
+        </div>
+        <div class="sidebar-card sidebar-card--info" v-if="validationDetails.total">
+          <h3>Validazione runtime</h3>
+          <p><strong>Messaggi:</strong> {{ validationDetails.total }}</p>
+          <p v-if="validationDetails.warnings"><strong>Warning:</strong> {{ validationDetails.warnings }}</p>
+          <p v-if="validationDetails.corrected">Blueprint corretto dai validator.</p>
+          <p v-if="validationDetails.discarded">Elementi scartati: {{ validationDetails.discarded }}</p>
+          <ul class="sidebar-card__validation">
+            <li v-for="message in validationPreview" :key="message.code || message.message">
+              <span class="sidebar-card__badge" :data-level="message.level || 'info'">{{ message.level || 'info' }}</span>
+              <span class="sidebar-card__text">{{ message.message }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="sidebar-card sidebar-card--info" v-else>
+          <h3>Validazione runtime</h3>
+          <p>Nessun messaggio dai validator per l'ultima generazione.</p>
+        </div>
+        <div class="sidebar-card sidebar-card--loading" v-if="loading">
+          <p>Generazione specie in corso…</p>
+        </div>
+        <div class="sidebar-card sidebar-card--error" v-if="errorMessage">
+          <h3>Errore orchestrator</h3>
+          <p>{{ errorMessage }}</p>
         </div>
       </aside>
     </div>
@@ -29,18 +59,92 @@ import SpeciesPanel from '../components/SpeciesPanel.vue';
 const props = defineProps({
   species: {
     type: Object,
-    required: true,
+    default: null,
   },
   status: {
     type: Object,
     required: true,
   },
+  meta: {
+    type: Object,
+    default: () => ({}),
+  },
+  validation: {
+    type: Object,
+    default: () => ({ messages: [], discarded: [], corrected: null }),
+  },
+  requestId: {
+    type: [String, null],
+    default: null,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  error: {
+    type: [String, Object, null],
+    default: null,
+  },
 });
 
-const { species, status } = toRefs(props);
+const { species, status, meta, validation, requestId, loading, error } = toRefs(props);
 const curated = computed(() => status.value.curated || 0);
 const total = computed(() => status.value.total || 0);
 const shortlist = computed(() => status.value.shortlist || []);
+
+const requestSummary = computed(() => {
+  const request = meta.value || {};
+  const id = requestId.value || request.request_id || request.requestId;
+  const biome = request.biome_id || request.biomeId || '—';
+  const fallback = request.fallback_used === undefined
+    ? 'Non calcolato'
+    : request.fallback_used
+      ? 'Attivato'
+      : 'Non utilizzato';
+  if (!id && biome === '—' && fallback === 'Non calcolato') {
+    return null;
+  }
+  return {
+    id: id || '—',
+    biome,
+    fallback,
+  };
+});
+
+const validationMessages = computed(() => {
+  const messages = Array.isArray(validation.value?.messages) ? validation.value.messages : [];
+  return messages.filter(Boolean);
+});
+
+const validationDetails = computed(() => {
+  const messages = validationMessages.value;
+  const warnings = messages.filter((message) => (message.level || message.severity) === 'warning').length;
+  const errors = messages.filter((message) => (message.level || message.severity) === 'error').length;
+  const discarded = Array.isArray(validation.value?.discarded) ? validation.value.discarded.length : 0;
+  const corrected = validation.value?.corrected ? 1 : 0;
+  return {
+    total: messages.length,
+    warnings,
+    errors,
+    discarded,
+    corrected,
+  };
+});
+
+const validationPreview = computed(() => validationMessages.value.slice(0, 3));
+
+const errorMessage = computed(() => {
+  if (!error.value) {
+    return '';
+  }
+  if (typeof error.value === 'string') {
+    return error.value;
+  }
+  if (error.value && typeof error.value.message === 'string') {
+    return error.value.message;
+  }
+  return String(error.value);
+});
 </script>
 
 <style scoped>
@@ -98,5 +202,59 @@ const shortlist = computed(() => status.value.shortlist || []);
   color: rgba(240, 244, 255, 0.8);
   display: grid;
   gap: 0.25rem;
+}
+
+.sidebar-card--info {
+  border-color: rgba(96, 213, 255, 0.22);
+}
+
+.sidebar-card--loading {
+  border-style: dashed;
+  color: rgba(240, 244, 255, 0.7);
+}
+
+.sidebar-card--error {
+  border-color: rgba(244, 96, 96, 0.4);
+  background: rgba(244, 96, 96, 0.12);
+  color: rgba(255, 210, 210, 0.95);
+}
+
+.sidebar-card__validation {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.sidebar-card__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.65rem;
+  margin-right: 0.5rem;
+  background: rgba(96, 213, 255, 0.15);
+  color: #61d5ff;
+}
+
+.sidebar-card__badge[data-level='warning'] {
+  background: rgba(244, 196, 96, 0.18);
+  color: #f4c460;
+}
+
+.sidebar-card__badge[data-level='error'] {
+  background: rgba(244, 96, 96, 0.2);
+  color: #ff7f7f;
+}
+
+.sidebar-card__text {
+  display: inline-block;
+  color: rgba(240, 244, 255, 0.82);
+  font-size: 0.9rem;
 }
 </style>

@@ -352,9 +352,13 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  orchestratorLogs: {
+    type: Array,
+    default: () => [],
+  },
 });
 
-const { snapshot, context } = toRefs(props);
+const { snapshot, context, orchestratorLogs } = toRefs(props);
 
 const speciesCheck = reactive({ running: false, result: null, error: null, lastRun: null });
 const biomeCheck = reactive({ running: false, result: null, error: null, lastRun: null });
@@ -527,13 +531,15 @@ const suggestions = computed(() => {
 });
 
 const baseLogs = computed(() => {
-  const logs = Array.isArray(context.value.logs) ? context.value.logs : [];
-  return logs.map((item) => ({
+  const contextLogs = Array.isArray(context.value.logs) ? context.value.logs : [];
+  const orchestratorEntries = Array.isArray(orchestratorLogs.value) ? orchestratorLogs.value : [];
+  const merged = [...contextLogs, ...orchestratorEntries];
+  return merged.map((item) => ({
     id: item.id,
     scope: item.scope || 'general',
     level: item.level || 'info',
-    message: item.message,
-    timestamp: item.timestamp,
+    message: item.message || '',
+    timestamp: item.timestamp || new Date().toISOString(),
   }));
 });
 
