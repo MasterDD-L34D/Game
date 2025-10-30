@@ -24,11 +24,10 @@
         <h3>Finestra di release</h3>
         <p class="atlas-layout__release">{{ dataset.releaseWindow }}</p>
         <p class="atlas-layout__curator">Curatori · {{ dataset.curator }}</p>
-        <ul>
-          <li v-for="highlight in dataset.highlights" :key="highlight">{{ highlight }}</li>
-        </ul>
       </aside>
     </header>
+
+    <AtlasCollectionProgress :metrics="dataset.metrics" :dataset="dataset" :highlights="dataset.highlights" />
 
     <nav class="atlas-layout__nav" aria-label="Sottosezioni atlas">
       <RouterLink
@@ -52,6 +51,7 @@
 import { computed } from 'vue';
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 import { atlasDataset, atlasTotals } from '../../state/atlasDataset.js';
+import AtlasCollectionProgress from '../../components/atlas/AtlasCollectionProgress.vue';
 
 const dataset = atlasDataset;
 const totals = atlasTotals;
@@ -155,12 +155,6 @@ function forwardNotification(payload) {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-}
-
-.atlas-layout__aside ul {
-  margin: 0;
-  padding-left: 1.25rem;
-  color: rgba(15, 23, 42, 0.7);
 }
 
 .atlas-layout__release {
