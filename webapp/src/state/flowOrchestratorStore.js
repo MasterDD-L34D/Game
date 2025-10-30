@@ -5,6 +5,7 @@ import {
   summariseValidation,
   __testables__ as orchestratorInternals,
 } from '../services/generationOrchestratorService.js';
+import { fetchTraitDiagnostics } from '../services/traitDiagnosticsService.js';
 
 const { normaliseRequest: normaliseSpeciesRequest, normaliseBatchEntries } = orchestratorInternals;
 
@@ -94,6 +95,10 @@ export function useFlowOrchestrator(options = {}) {
     lastRequest: null,
     lastBatchResult: null,
     logs: [],
+    traitDiagnostics: null,
+    traitDiagnosticsMeta: null,
+    loadingTraitDiagnostics: false,
+    traitDiagnosticsError: null,
   });
 
   async function fetchSnapshot(force = false) {
@@ -251,6 +256,34 @@ export function useFlowOrchestrator(options = {}) {
     }
   }
 
+  async function loadTraitDiagnostics({ force = false, refresh = false } = {}) {
+    if (state.traitDiagnostics && !force && !refresh) {
+      return state.traitDiagnostics;
+    }
+    state.loadingTraitDiagnostics = true;
+    state.traitDiagnosticsError = null;
+    try {
+      const { diagnostics, meta } = await fetchTraitDiagnostics({
+        ...(options.traitDiagnosticsOptions || {}),
+        refresh,
+      });
+      state.traitDiagnostics = diagnostics || {};
+      state.traitDiagnosticsMeta = meta || {};
+      return state.traitDiagnostics;
+    } catch (error) {
+      const err = toError(error);
+      state.traitDiagnosticsError = err;
+      pushLog(state, 'trait.diagnostics.failed', {
+        scope: 'quality',
+        level: 'error',
+        message: err.message,
+      });
+      throw err;
+    } finally {
+      state.loadingTraitDiagnostics = false;
+    }
+  }
+
   async function bootstrap() {
     await fetchSnapshot();
     const initialRequest = state.snapshot?.initialSpeciesRequest || {};
@@ -260,6 +293,16 @@ export function useFlowOrchestrator(options = {}) {
       }
     } catch (error) {
       // l'errore è già tracciato nei log
+    }
+    try {
+      await loadTraitDiagnostics();
+      pushLog(state, 'trait.diagnostics.loaded', {
+        scope: 'quality',
+        level: 'info',
+        message: 'Trait diagnostics sincronizzati',
+      });
+    } catch (error) {
+      // già tracciato in loadTraitDiagnostics
     }
   }
 
@@ -275,6 +318,8 @@ export function useFlowOrchestrator(options = {}) {
   const suggestions = computed(() => Array.isArray(state.snapshot?.suggestions) ? state.snapshot.suggestions : []);
   const notifications = computed(() => Array.isArray(state.snapshot?.notifications) ? state.snapshot.notifications : []);
   const qualityContext = computed(() => state.snapshot?.qualityReleaseContext || {});
+  const traitDiagnostics = computed(() => state.traitDiagnostics || null);
+  const traitDiagnosticsMeta = computed(() => state.traitDiagnosticsMeta || {});
   const timeline = computed(() => {
     const completion = overview.value?.completion || {};
     const total = Number(completion.total) || 0;
@@ -356,6 +401,67 @@ export function useFlowOrchestrator(options = {}) {
     }));
   });
 
+  const traitCatalog = computed(() => {
+    const traits = Array.isArray(traitDiagnostics.value?.traits)
+      ? traitDiagnostics.value.traits
+      : [];
+    const labels = {};
+    const synergyMap = {};
+    for (const entry of traits) {
+      if (!entry || typeof entry !== 'object') continue;
+      const id = entry.id;
+      if (!id) continue;
+      labels[id] = entry.label || id;
+      if (Array.isArray(entry.synergies)) {
+        synergyMap[id] = entry.synergies.filter(Boolean);
+      }
+    }
+    return {
+      traits,
+      labels,
+      synergyMap,
+    };
+  });
+
+  const traitCompliance = computed(() => {
+    const diagnostics = traitDiagnostics.value || {};
+    const summary = diagnostics.summary || {};
+    const total = Number(summary.total_traits) || 0;
+    const glossaryOk = Number(summary.glossary_ok) || 0;
+    const glossaryMissing = Math.max(total - glossaryOk, 0);
+    const matrixMismatch = Number(summary.matrix_mismatch) || 0;
+    const matrixOnly = Number(summary.matrix_only_traits) || 0;
+    const conflicts = Number(summary.with_conflicts) || 0;
+    const badges = [];
+    if (total > 0) {
+      badges.push({
+        id: 'glossary',
+        label: glossaryMissing === 0 ? 'Glossario OK' : 'Glossario incompleto',
+        value: `${glossaryOk}/${total}`,
+        tone: glossaryMissing === 0 ? 'success' : 'warning',
+      });
+    }
+    const matrixIssues = matrixMismatch + matrixOnly;
+    badges.push({
+      id: 'matrix',
+      label: matrixIssues === 0 ? 'Matrix OK' : 'Matrix mismatch',
+      value: matrixIssues === 0 ? '0 mismatch' : `${matrixIssues} mismatch`,
+      tone: matrixIssues === 0 ? 'success' : 'warning',
+    });
+    badges.push({
+      id: 'conflicts',
+      label: conflicts === 0 ? 'Conflicts OK' : 'Conflicts attivi',
+      value: `${conflicts}`,
+      tone: conflicts === 0 ? 'neutral' : 'warning',
+    });
+    return {
+      badges,
+      summary,
+      generatedAt: diagnostics.generated_at || diagnostics.generatedAt || null,
+      matrixOnlyTraits: diagnostics.matrix_only_traits || [],
+    };
+  });
+
   return {
     state,
     snapshot: computed(() => state.snapshot || {}),
@@ -371,6 +477,8 @@ export function useFlowOrchestrator(options = {}) {
     suggestions,
     notifications,
     qualityContext,
+    traitDiagnostics,
+    traitDiagnosticsMeta,
     timeline,
     speciesBlueprint,
     speciesMeta,
@@ -378,6 +486,10 @@ export function useFlowOrchestrator(options = {}) {
     speciesRequestId,
     metrics,
     logs: uiLogs,
+    traitCatalog,
+    traitCompliance,
+    loadingTraitDiagnostics: computed(() => state.loadingTraitDiagnostics),
+    traitDiagnosticsError: computed(() => state.traitDiagnosticsError),
     loadingSnapshot: computed(() => state.loadingSnapshot),
     loadingSpecies: computed(() => state.loadingSpecies),
     loadingBatch: computed(() => state.loadingBatch),
@@ -388,6 +500,7 @@ export function useFlowOrchestrator(options = {}) {
     runSpecies,
     runSpeciesBatch,
     bootstrap,
+    loadTraitDiagnostics,
   };
 }
 

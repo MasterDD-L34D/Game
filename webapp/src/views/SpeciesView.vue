@@ -5,7 +5,13 @@
       <p>Curazione attuale e shortlist degli organismi selezionati.</p>
     </header>
     <div class="flow-view__content">
-      <SpeciesPanel :species="species" :meta="meta" :validation="validation" />
+      <SpeciesPanel
+        :species="species"
+        :meta="meta"
+        :validation="validation"
+        :trait-catalog="traitCatalog"
+        :trait-compliance="traitCompliance"
+      />
       <aside class="flow-view__sidebar">
         <div class="sidebar-card">
           <h3>Stato curazione</h3>
@@ -42,6 +48,24 @@
         </div>
         <div class="sidebar-card sidebar-card--loading" v-if="loading">
           <p>Generazione specie in corso…</p>
+        </div>
+        <div class="sidebar-card sidebar-card--info" v-else-if="traitDiagnosticsLoading">
+          <h3>Trait QA</h3>
+          <p>Sincronizzazione della coverage in corso…</p>
+        </div>
+        <div class="sidebar-card sidebar-card--error" v-else-if="traitDiagnosticsErrorMessage">
+          <h3>Trait QA</h3>
+          <p>{{ traitDiagnosticsErrorMessage }}</p>
+        </div>
+        <div class="sidebar-card sidebar-card--qa" v-else-if="traitComplianceBadges.length">
+          <h3>Trait QA</h3>
+          <ul class="sidebar-card__badges">
+            <li v-for="badge in traitComplianceBadges" :key="badge.id">
+              <span class="sidebar-card__badge-label" :data-tone="badge.tone || 'neutral'">{{ badge.label }}</span>
+              <span class="sidebar-card__badge-value">{{ badge.value }}</span>
+            </li>
+          </ul>
+          <p v-if="traitComplianceTimestamp" class="sidebar-card__meta">Aggiornato {{ traitComplianceTimestamp }}</p>
         </div>
         <div class="sidebar-card sidebar-card--error" v-if="errorMessage">
           <h3>Errore orchestrator</h3>
@@ -85,9 +109,42 @@ const props = defineProps({
     type: [String, Object, null],
     default: null,
   },
+  traitCatalog: {
+    type: Object,
+    default: () => ({ traits: [], labels: {}, synergyMap: {} }),
+  },
+  traitCompliance: {
+    type: Object,
+    default: () => ({ badges: [], summary: {}, generatedAt: null }),
+  },
+  traitDiagnosticsLoading: {
+    type: Boolean,
+    default: false,
+  },
+  traitDiagnosticsError: {
+    type: [String, Object, null],
+    default: null,
+  },
+  traitDiagnosticsMeta: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 
-const { species, status, meta, validation, requestId, loading, error } = toRefs(props);
+const {
+  species,
+  status,
+  meta,
+  validation,
+  requestId,
+  loading,
+  error,
+  traitCatalog,
+  traitCompliance,
+  traitDiagnosticsLoading,
+  traitDiagnosticsError,
+  traitDiagnosticsMeta,
+} = toRefs(props);
 const curated = computed(() => status.value.curated || 0);
 const total = computed(() => status.value.total || 0);
 const shortlist = computed(() => status.value.shortlist || []);
@@ -144,6 +201,41 @@ const errorMessage = computed(() => {
     return error.value.message;
   }
   return String(error.value);
+});
+
+const traitComplianceBadges = computed(() => {
+  const badges = Array.isArray(traitCompliance.value?.badges) ? traitCompliance.value.badges : [];
+  return badges.filter(Boolean);
+});
+
+const traitComplianceTimestamp = computed(() => {
+  const generatedAt = traitCompliance.value?.generatedAt || traitDiagnosticsMeta.value?.fetched_at;
+  if (!generatedAt) {
+    return '';
+  }
+  const date = new Date(generatedAt);
+  if (Number.isNaN(date.getTime())) {
+    return generatedAt;
+  }
+  return new Intl.DateTimeFormat('it-IT', {
+    day: '2-digit',
+    month: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
+});
+
+const traitDiagnosticsErrorMessage = computed(() => {
+  if (!traitDiagnosticsError.value) {
+    return '';
+  }
+  if (typeof traitDiagnosticsError.value === 'string') {
+    return traitDiagnosticsError.value;
+  }
+  if (typeof traitDiagnosticsError.value.message === 'string') {
+    return traitDiagnosticsError.value.message;
+  }
+  return String(traitDiagnosticsError.value);
 });
 </script>
 
@@ -202,6 +294,61 @@ const errorMessage = computed(() => {
   color: rgba(240, 244, 255, 0.8);
   display: grid;
   gap: 0.25rem;
+}
+
+.sidebar-card__badges {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.sidebar-card__badges li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-card__badge-label {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(240, 244, 255, 0.12);
+}
+
+.sidebar-card__badge-label[data-tone='success'] {
+  background: rgba(46, 204, 113, 0.22);
+  color: #c9ffde;
+}
+
+.sidebar-card__badge-label[data-tone='warning'] {
+  background: rgba(241, 196, 15, 0.2);
+  color: #ffe7a3;
+}
+
+.sidebar-card__badge-label[data-tone='critical'] {
+  background: rgba(231, 76, 60, 0.22);
+  color: #ffd0d0;
+}
+
+.sidebar-card__badge-value {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.sidebar-card__meta {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: rgba(240, 244, 255, 0.65);
+}
+
+.sidebar-card--qa {
+  border: 1px solid rgba(39, 121, 255, 0.25);
+  background: rgba(14, 24, 40, 0.7);
 }
 
 .sidebar-card--info {

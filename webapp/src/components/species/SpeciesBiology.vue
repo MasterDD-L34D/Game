@@ -8,6 +8,7 @@
       <ul class="species-biology__trait-list" data-testid="core-traits">
         <li v-for="trait in coreTraits" :key="trait">{{ trait }}</li>
       </ul>
+      <slot name="synergy-suggestions"></slot>
     </div>
 
     <div v-if="derivedTraits.length" class="species-biology__section">

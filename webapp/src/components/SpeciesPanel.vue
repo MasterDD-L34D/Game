@@ -36,7 +36,25 @@
                 v-model="traitFilters"
                 :core-options="availableTraits.core"
                 :derived-options="availableTraits.derived"
+                :labels="traitLabelMap"
+                :highlight="synergySuggestions"
               />
+            </template>
+            <template #synergy-suggestions>
+              <div v-if="synergySuggestions.length" class="species-panel__suggestions">
+                <p>Sinergie dal catalogo</p>
+                <div class="species-panel__suggestions-list">
+                  <button
+                    v-for="suggestion in synergySuggestions"
+                    :key="`suggestion-${suggestion}`"
+                    type="button"
+                    class="species-panel__suggestion"
+                    @click="applySynergySuggestion(suggestion)"
+                  >
+                    <TraitChip :label="formatTraitLabel(suggestion)" variant="synergy" />
+                  </button>
+                </div>
+              </div>
             </template>
           </SpeciesBiology>
         </div>
@@ -118,6 +136,14 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  traitCatalog: {
+    type: Object,
+    default: () => ({ traits: [], labels: {}, synergyMap: {} }),
+  },
+  traitCompliance: {
+    type: Object,
+    default: () => ({ badges: [] }),
+  },
   previewBatch: {
     type: Array,
     default: () => [],
@@ -172,10 +198,69 @@ const formattedSynergy = computed(() => {
   return 'n/d';
 });
 
+const traitCatalogEntries = computed(() =>
+  Array.isArray(props.traitCatalog?.traits) ? props.traitCatalog.traits : [],
+);
+const traitLabelMap = computed(() => props.traitCatalog?.labels || {});
+const traitSynergyMap = computed(() => props.traitCatalog?.synergyMap || {});
+
+const catalogTraitIds = computed(() =>
+  traitCatalogEntries.value
+    .map((entry) => (entry && entry.id ? String(entry.id) : null))
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b)),
+);
+
+function uniqueSorted(values) {
+  return Array.from(new Set(values.filter(Boolean))).sort((a, b) => a.localeCompare(b));
+}
+
+const coreTraitOptions = computed(() => {
+  const base = new Set(coreTraits.value || []);
+  const fallback = catalogTraitIds.value.slice(0, 20);
+  if (!base.size && fallback.length) {
+    fallback.forEach((id) => base.add(id));
+  }
+  const seeds = [...(coreTraits.value || []), ...(derivedTraits.value || [])];
+  for (const traitId of seeds) {
+    const synergies = traitSynergyMap.value[traitId] || [];
+    synergies.forEach((entry) => base.add(entry));
+  }
+  return uniqueSorted([...base]);
+});
+
+const derivedTraitOptions = computed(() => {
+  const base = new Set(derivedTraits.value || []);
+  const fallback = catalogTraitIds.value.slice(0, 20);
+  if (!base.size && fallback.length) {
+    fallback.forEach((id) => base.add(id));
+  }
+  const seeds = [...(coreTraits.value || []), ...(derivedTraits.value || [])];
+  for (const traitId of seeds) {
+    const synergies = traitSynergyMap.value[traitId] || [];
+    synergies.forEach((entry) => base.add(entry));
+  }
+  return uniqueSorted([...base]);
+});
+
 const availableTraits = computed(() => ({
-  core: Array.from(new Set(coreTraits.value || [])).filter(Boolean),
-  derived: Array.from(new Set(derivedTraits.value || [])).filter(Boolean),
+  core: coreTraitOptions.value,
+  derived: derivedTraitOptions.value,
 }));
+
+const synergySuggestions = computed(() => {
+  const suggestions = new Set();
+  const currentCore = Array.isArray(traitFilters.value.core) ? traitFilters.value.core : [];
+  for (const traitId of currentCore) {
+    const entries = traitSynergyMap.value[traitId] || [];
+    for (const entry of entries) {
+      if (!currentCore.includes(entry)) {
+        suggestions.add(entry);
+      }
+    }
+  }
+  return uniqueSorted([...suggestions]);
+});
 
 const traitFilters = ref({ core: [], derived: [] });
 const activeTab = ref('overview');
@@ -186,6 +271,32 @@ const tabs = computed(() => [
   { id: 'telemetry', label: 'Telemetry', icon: '📡' },
   { id: 'synergies', label: 'Sinergie', icon: '∞' },
 ]);
+
+function formatTraitLabel(traitId) {
+  if (!traitId) {
+    return '';
+  }
+  const label = traitLabelMap.value?.[traitId];
+  if (label && label !== traitId) {
+    return `${traitId} · ${label}`;
+  }
+  return traitId;
+}
+
+function applySynergySuggestion(traitId) {
+  if (!traitId) {
+    return;
+  }
+  const core = Array.isArray(traitFilters.value.core) ? [...traitFilters.value.core] : [];
+  const derived = Array.isArray(traitFilters.value.derived) ? [...traitFilters.value.derived] : [];
+  if (!derived.includes(traitId)) {
+    derived.push(traitId);
+  }
+  traitFilters.value = {
+    core,
+    derived,
+  };
+}
 
 const statusIndicators = computed(() => {
   const items = [];
@@ -218,6 +329,18 @@ const statusIndicators = computed(() => {
     if (coverage >= 0.8) tone = 'success';
     else if (coverage < 0.55) tone = 'warning';
     items.push({ id: 'coverage', label: 'Coverage QA', value: `${percent}%`, tone });
+  }
+  const complianceBadges = Array.isArray(props.traitCompliance?.badges)
+    ? props.traitCompliance.badges
+    : [];
+  for (const badge of complianceBadges) {
+    if (!badge) continue;
+    items.push({
+      id: `trait-${badge.id || badge.label}`,
+      label: badge.label || 'Trait QA',
+      value: badge.value || '',
+      tone: badge.tone || 'neutral',
+    });
   }
   return items;
 });
@@ -322,8 +445,8 @@ watch(
   () => {
     activeTab.value = 'overview';
     traitFilters.value = {
-      core: [...availableTraits.value.core],
-      derived: [...availableTraits.value.derived],
+      core: uniqueSorted([... (coreTraits.value || [])]),
+      derived: uniqueSorted([... (derivedTraits.value || [])]),
     };
     previewCards.value = Array.isArray(props.previewBatch) ? props.previewBatch : [];
     previewError.value = '';
@@ -351,14 +474,16 @@ watch(
 function buildPreviewRequests() {
   const coreSelection = traitFilters.value.core.length
     ? traitFilters.value.core
-    : availableTraits.value.core;
+    : Array.isArray(coreTraits.value) && coreTraits.value.length
+      ? uniqueSorted([...coreTraits.value])
+      : coreTraitOptions.value;
   const derivedSelection = traitFilters.value.derived;
   const baseTraits = Array.from(new Set([...coreSelection, ...derivedSelection]));
   if (!baseTraits.length) {
     return [];
   }
   const biomeId = props.meta?.biome_id || morphology.value.environments?.[0] || null;
-  const fallback = availableTraits.value.core;
+  const fallback = coreTraitOptions.value;
   const combos = [baseTraits];
   for (const trait of derivedSelection) {
     combos.push(Array.from(new Set([...coreSelection, trait])));
@@ -515,5 +640,37 @@ function handleSave() {
 .species-panel__error {
   color: rgba(248, 113, 113, 0.9);
   font-size: 0.85rem;
+}
+
+.species-panel__suggestions {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.species-panel__suggestions p {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.species-panel__suggestions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.species-panel__suggestion {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.species-panel__suggestion:focus-visible {
+  outline: 2px solid rgba(39, 121, 255, 0.6);
+  outline-offset: 2px;
 }
 </style>
