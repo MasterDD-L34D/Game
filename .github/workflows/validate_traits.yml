@@ -1,0 +1,27 @@
+name: Validate Trait Catalog
+
+on:
+  push:
+    paths:
+      - 'packs/evo_tactics_pack/docs/catalog/**.json'
+      - 'tools/py/**.py'
+  pull_request:
+    paths:
+      - 'packs/evo_tactics_pack/docs/catalog/**.json'
+      - 'tools/py/**.py'
+
+jobs:
+  validate-traits:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jsonschema
+      - name: Validate catalog
+        run: |
+          python tools/py/trait_template_validator.py --summary
