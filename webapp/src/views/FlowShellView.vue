@@ -6,7 +6,13 @@
     </header>
 
     <main class="flow-shell__main">
-      <component :is="activeView" v-bind="activeProps" />
+      <div v-if="isLoading" class="flow-shell__placeholder">
+        Caricamento orchestratore…
+      </div>
+      <div v-else-if="loadError" class="flow-shell__placeholder flow-shell__placeholder--error">
+        {{ loadError }}
+      </div>
+      <component v-else :is="activeView" v-bind="activeProps" />
     </main>
 
     <footer class="flow-shell__footer">
@@ -22,20 +28,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import FlowBreadcrumb from '../components/layout/FlowBreadcrumb.vue';
 import ProgressTracker from '../components/layout/ProgressTracker.vue';
 import { useGeneratorFlow } from '../state/flowMachine.js';
-import {
-  demoSpecies,
-  demoBiomes,
-  demoEncounter,
-  orchestratorSnapshot,
-  globalTimeline,
-  biomeSynthesisConfig,
-  demoBiomeGraph,
-  qualityReleaseContext,
-} from '../state/demoOrchestration.js';
+import { useFlowOrchestrator } from '../state/flowOrchestratorStore.js';
 import OverviewView from './OverviewView.vue';
 import SpeciesView from './SpeciesView.vue';
 import BiomeSetupView from './BiomeSetupView.vue';
@@ -45,63 +42,33 @@ import PublishingView from './PublishingView.vue';
 import QualityReleaseView from './QualityReleaseView.vue';
 
 const flow = useGeneratorFlow();
-
-flow.updateMetrics('overview', {
-  completed: orchestratorSnapshot.overview.completion.completed,
-  total: orchestratorSnapshot.overview.completion.total,
-  label: 'Milestone',
-});
-
-flow.updateMetrics('species', {
-  completed: orchestratorSnapshot.species.curated,
-  total: orchestratorSnapshot.species.total,
-  label: 'Specie',
-});
-
-flow.updateMetrics('biomeSetup', {
-  completed: orchestratorSnapshot.biomeSetup.prepared,
-  total: orchestratorSnapshot.biomeSetup.total,
-  label: 'Preset',
-});
-
-flow.updateMetrics('biomes', {
-  completed: orchestratorSnapshot.biomes.validated,
-  total: orchestratorSnapshot.biomes.validated + orchestratorSnapshot.biomes.pending,
-  label: 'Biomi',
-});
-
-flow.updateMetrics('encounter', {
-  completed: orchestratorSnapshot.encounter.variants,
-  total: orchestratorSnapshot.encounter.variants + orchestratorSnapshot.encounter.seeds,
-  label: 'Varianti',
-});
-
-const qualityChecks = orchestratorSnapshot.qualityRelease.checks || {};
-const totalQualityChecks = Object.values(qualityChecks).reduce(
-  (acc, item) => acc + (item.total || 0),
-  0,
-);
-const completedQualityChecks = Object.values(qualityChecks).reduce(
-  (acc, item) => acc + (item.passed || 0),
-  0,
-);
-
-flow.updateMetrics('qualityRelease', {
-  completed: completedQualityChecks,
-  total: totalQualityChecks,
-  label: 'Check QA',
-});
-
-flow.updateMetrics('publishing', {
-  completed: orchestratorSnapshot.publishing.artifactsReady,
-  total: orchestratorSnapshot.publishing.totalArtifacts,
-  label: 'Artefatti',
-});
-
 const steps = flow.steps;
 const breadcrumb = flow.breadcrumb;
 const currentStep = flow.currentStep;
 const summary = flow.summary;
+
+const orchestrator = useFlowOrchestrator();
+
+onMounted(() => {
+  orchestrator.bootstrap().catch(() => {
+    // l'errore viene già gestito all'interno dello store
+  });
+});
+
+watch(
+  () => orchestrator.metrics.value,
+  (metrics) => {
+    if (!metrics) {
+      return;
+    }
+    Object.entries(metrics).forEach(([stepId, metric]) => {
+      if (metric && typeof metric === 'object') {
+        flow.updateMetrics(stepId, metric);
+      }
+    });
+  },
+  { immediate: true, deep: true },
+);
 
 const viewMap = {
   overview: OverviewView,
@@ -118,38 +85,59 @@ const activeView = computed(() => viewMap[currentStep.value.id] || OverviewView)
 const activeProps = computed(() => {
   const id = currentStep.value.id;
   if (id === 'overview') {
-    return { overview: orchestratorSnapshot.overview, timeline: globalTimeline.value };
+    return { overview: orchestrator.overview.value, timeline: orchestrator.timeline.value };
   }
   if (id === 'species') {
-    return { species: demoSpecies, status: orchestratorSnapshot.species };
+    return {
+      species: orchestrator.speciesBlueprint.value,
+      status: orchestrator.speciesStatus.value,
+      meta: orchestrator.speciesMeta.value,
+      validation: orchestrator.speciesValidation.value,
+      requestId: orchestrator.speciesRequestId.value,
+      loading: orchestrator.loadingSpecies.value,
+      error: orchestrator.speciesError.value,
+    };
   }
   if (id === 'biomeSetup') {
     return {
-      config: biomeSynthesisConfig,
-      graph: demoBiomeGraph,
-      validators: demoBiomes,
+      config: orchestrator.biomeSetup.value?.config || {},
+      graph: orchestrator.biomeSetup.value?.graph || {},
+      validators: orchestrator.biomeSetup.value?.validators || orchestrator.biomes.value,
     };
   }
   if (id === 'biomes') {
-    return { biomes: demoBiomes };
+    return { biomes: orchestrator.biomes.value };
   }
   if (id === 'encounter') {
-    return { encounter: demoEncounter, summary: orchestratorSnapshot.encounter };
+    return { encounter: orchestrator.encounter.value, summary: orchestrator.encounterSummary.value };
   }
   if (id === 'qualityRelease') {
     return {
-      snapshot: orchestratorSnapshot.qualityRelease,
-      context: qualityReleaseContext,
+      snapshot: orchestrator.qualityRelease.value,
+      context: orchestrator.qualityContext.value,
+      orchestratorLogs: orchestrator.logs.value,
     };
   }
   if (id === 'publishing') {
-    return { publishing: orchestratorSnapshot.publishing };
+    return { publishing: orchestrator.publishing.value };
   }
   return {};
 });
 
 const canGoBack = computed(() => currentStep.value.index > 0);
 const canGoForward = computed(() => currentStep.value.index < steps.length - 1);
+
+const isLoading = computed(
+  () => orchestrator.loadingSnapshot.value || orchestrator.loadingSpecies.value,
+);
+
+const loadError = computed(() => {
+  const error = orchestrator.error.value || orchestrator.speciesError.value;
+  if (!error) {
+    return '';
+  }
+  return error.message || String(error);
+});
 
 const goToStep = (stepId) => flow.goTo(stepId);
 const goNext = () => flow.next();
@@ -175,6 +163,23 @@ const goPrevious = () => flow.previous();
 
 .flow-shell__main {
   display: grid;
+}
+
+.flow-shell__placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 320px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: rgba(240, 244, 255, 0.75);
+  background: rgba(5, 8, 13, 0.6);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.flow-shell__placeholder--error {
+  border-color: rgba(244, 96, 96, 0.45);
+  color: rgba(255, 180, 180, 0.9);
 }
 
 .flow-shell__footer {
