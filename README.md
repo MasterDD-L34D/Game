@@ -1,119 +1,80 @@
-# Evo-Tactics — Progetto Gioco Evolutivo Tattico (Repo Starter)
+# Evo-Tactics — Starter Monorepo
 
-Repository avviabile per il progetto: tattico co-op su TV/app con sistema d20, evoluzione alla *Spore*, Forme MBTI→16, Enneagram Themes, telemetria VC, tratti/mutazioni, pacchetti PI, NPG reattivi per bioma, Mating/Nido.
+Starter repository per il progetto tattico co-op con sistema d20 e progressione evolutiva modulare. Il pacchetto include dati YAML, CLI in Python/TypeScript, backend Idea Engine, webapp di test e pipeline di pubblicazione per condividere rapidamente build, report e materiali di presentazione.
 
-> Questo è uno **starter** pronto all’uso: dati YAML, script CLI (TS/Python), e struttura CI. È progettato per essere caricato su **GitHub** e condiviso su **Google Drive**.
+## Indice
+- [Panoramica](#panoramica)
+- [Tour del repository](#tour-del-repository)
+- [Setup rapido](#setup-rapido)
+- [CLI & strumenti](#cli--strumenti)
+- [Backend Idea Engine](#backend-idea-engine)
+- [Dashboard web & showcase](#dashboard-web--showcase)
+- [Dataset & Ecosystem Pack](#dataset--ecosystem-pack)
+- [Storico aggiornamenti & archivio](#storico-aggiornamenti--archivio)
+- [Stato operativo & tracker](#stato-operativo--tracker)
+- [Documentazione & tracker](#documentazione--tracker)
+- [Automazione & workflow](#automazione--workflow)
+- [QA & test](#qa--test)
+- [Integrazioni esterne](#integrazioni-esterne)
+- [Distribuzione & condivisione](#distribuzione--condivisione)
+- [Licenza](#licenza)
 
-## Showcase demo · preset "Bundle demo pubblico"
+## Panoramica
+- **Gioco**: tattico co-op con evoluzione a stadi, combinazioni MBTI/Enneagramma, biomi reattivi e mutazioni modulari.
+- **Starter kit**: dati YAML verificati, strumenti CLI per validare/generare contenuti, workflow CI preconfigurati e materiale di presentazione condivisibile.
+- **Obiettivo**: permettere bootstrap rapido di nuove istanze (locale o cloud) mantenendo consistenza tra dataset, orchestratore e deliverable di comunicazione.
 
-![Anteprima dossier showcase](public/showcase-dossier.svg)
-
-- **Dossier HTML** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.html`](docs/presentations/showcase/evo-tactics-showcase-dossier.html) riutilizza il template export del generatore mantenendo i token cromatici (`--color-accent-400`, palette `public/`).
-- **Press kit PDF** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64`](docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64) conserva l'export in formato Base64; decodificalo con `python -m base64 -d docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64 > docs/presentations/showcase/dist/evo-tactics-showcase-dossier.pdf` (o con `base64 --decode`) per ottenere il PDF pronto alla distribuzione.
-- **Rigenerazione rapida** — esegui `python tools/py/build_showcase_materials.py` per aggiornare HTML, Base64 del PDF e cover `SVG` in `public/` partendo dal payload curato (`docs/presentations/showcase/showcase_dossier.yaml`).
-
-## Struttura
+## Tour del repository
 ```
 evo-tactics/
-├─ docs/                 # Note progettuali (Canvas, roadmap, checklist)
-├─ data/                 # Dataset YAML (telemetria, pack PI, biomi, mutazioni, ecc.)
-├─ packs/
-│  └─ evo_tactics_pack/  # Pacchetto ecosistemi/specie v1.7 con catalogo HTML e validator dedicati
-├─ tools/
-│  ├─ ts/                # CLI TypeScript + test (roll_pack, Node test runner)
-│  └─ py/                # CLI Python unificata + helper condivisi
-│     ├─ game_cli.py     # Entry point con sottocomandi roll-pack/generate-encounter/validate-datasets
-│     ├─ game_utils/     # RNG deterministico, loader YAML e helper condivisi
-│     ├─ roll_pack.py    # Wrapper compatibile con lo script storico
-│     └─ generate_encounter.py
-├─ scripts/              # Utility (Drive, sincronizzazioni)
-└─ README.md
+├─ data/                      # Dataset YAML (specie, biomi, telemetria, derived report)
+├─ packs/evo_tactics_pack/    # Ecosystem pack v1.7 con validator, report e catalogo HTML
+├─ tools/py/                  # CLI Python unificata e helper condivisi
+├─ tools/ts/                  # CLI TypeScript + test Node/Playwright
+├─ server/                    # API Express + orchestratore Idea Engine
+├─ services/generation/       # Builder specie, runtime validator, bridge orchestrazione
+├─ webapp/                    # Dashboard Vue 3 + Vite con test Vitest
+├─ docs/                      # Canvas progettuali, checklist, changelog, presentazioni
+├─ scripts/                   # Utility (report incoming, sync Drive, builder taxonomy)
+├─ tests/                     # Suite Node, pytest e E2E dedicate ai dataset e al backend
+└─ public/                    # Asset condivisi (showcase, token cromatici)
 ```
 
-## Checklist & log di riferimento
+## Setup rapido
+1. **Clona il repository** e posizionati nella root.
+2. **Dipendenze Node (root + tools/ts + webapp)**:
+   ```bash
+   npm install
+   npm --prefix tools/ts install
+   npm --prefix webapp install
+   ```
+3. **Dipendenze Python**:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r tools/py/requirements.txt
+   ```
+4. (Facoltativo) Esporta variabili condivise per ambienti ottimizzati:
+   ```bash
+   export GAME_MODE=optimized
+   export PYTHONPATH=tools/py
+   ```
 
-- **Operativo** — checklist quotidiane e setup in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log).
-- **Processo** — procedure QA, pipeline telemetria e handoff web raccolti nello stesso indice.
-- **Log & Metriche** — cronologia sync, audit export, metriche dashboard e verifiche tooling documentate nella tabella dedicata.
-- **Pianificazione & Appendici** — roadmap e canvas completi con ultima revisione tracciata nell'indice.
+## CLI & strumenti
+### Strumenti Python (`tools/py`)
+- Entry point unificato:
+  ```bash
+  cd tools/py
+  python3 game_cli.py roll-pack entp invoker --seed demo
+  python3 game_cli.py generate-encounter savana --party-power 18 --seed demo
+  python3 game_cli.py validate-datasets
+  python3 game_cli.py validate-ecosystem-pack \
+    --json-out ../../packs/evo_tactics_pack/out/validation/last_report.json \
+    --html-out ../../packs/evo_tactics_pack/out/validation/last_report.html
+  ```
+- Wrapper legacy ancora disponibili (`roll_pack.py`, `generate_encounter.py`) reindirizzano al parser condiviso.
 
-Consulta la sezione [Indice Tracker & Stato](#indice-tracker--stato) per percentuali e stato sintetico dei principali blocchi di lavoro.
-
-_Sezione mantenuta automaticamente dallo script [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py), eseguito ogni giorno a mezzogiorno tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml)._
-
-## Recap operativo & prossimi step
-
-<table>
-  <tr>
-    <td><strong>Stato corrente</strong></td>
-    <td>
-      <ul>
-        <li>Dataset e pack ecosistema validati con gli ultimi report in <code>reports/incoming/latest/</code>.</li>
-        <li>Pipeline di generazione, dashboard test-interface e workflow CI allineati ai dati pubblici.</li>
-        <li>Sessione corrente conclusa: pronti al passaggio verso istanza ottimizzata per i prossimi batch.</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td><strong>Handoff rapido</strong></td>
-    <td>
-      <ul>
-        <li>Archivia gli artifact di sessione in <code>reports/incoming/</code> prima di spegnere l'istanza corrente.</li>
-        <li>Salva nel log operativo l'ultimo commit/tag usato per inizializzare la nuova istanza.</li>
-        <li>Prepara le variabili d'ambiente condivise (<code>GAME_MODE=optimized</code>, <code>PYTHONPATH=tools/py</code>) per il bootstrap.</li>
-      </ul>
-    </td>
-  </tr>
-</table>
-
-### Come proseguire dalla checklist
-
-- [ ] Rivedi i log in <code>reports/incoming/validation/</code> e apri ticket per eventuali regressioni.
-- [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
-- [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
-- [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
-
-### Continuare in un'istanza ottimizzata
-
-1. **Clona & sincronizza** — Inizializza la nuova istanza con `git clone` sul commit annotato, quindi lancia `npm install` in `tools/ts/` e `pip install -r tools/py/requirements.txt` se mancante la cache.
-2. **Bootstrap script** — Esporta le variabili d'ambiente condivise (`GAME_MODE=optimized`, `PYTHONPATH=tools/py`) e avvia `./scripts/report_incoming.sh --destination sessione-<data>` per ricreare il contesto di validazione.
-3. **Verifiche smoke** — Esegui `npm test` da `tools/ts/` e `PYTHONPATH=tools/py pytest` per assicurarti che l'istanza ottimizzata risponda prima di proseguire con nuovi upload.
-4. **Aggiorna i tracker** — Trascrivi in `docs/00-INDEX.md` la data di bootstrap e i riferimenti dell'istanza (dimensionamento, provider, credenziali condivise) per facilitare il rientro.
-
-### Piano operativo modulare
-
-| Fase | Obiettivo | Azioni chiave | Output atteso |
-| --- | --- | --- | --- |
-| **F1 · Stabilizzazione** | Portare l'istanza ottimizzata allo stato di parità con la sessione corrente. | - Riprodurre l'ultimo `./scripts/report_incoming.sh --destination sessione-<data>`<br>- Confrontare i report in `reports/incoming/latest/` con il nuovo output<br>- Annotare differenze in `logs/validation_handoff.md` | Report JSON/HTML allineati + log confronto firmato. |
-| **F2 · Batch di validazione** | Eseguire il prossimo caricamento di pacchetti in ingresso. | - Ingerire zip nella cartella `incoming/`<br>- Verificare l'estrazione automatica e i log in `reports/incoming/validation/`<br>- Segnare eventuali KO nella checklist QA (colonna "Nuova istanza") | Cartella `validation/` popolata + ticket aperti per KO. |
-| **F3 · Consolidamento** | Aggiornare documentazione e indicatori condivisi. | - Aggiornare `docs/00-INDEX.md` e `logs/traits_tracking.md` con gli esiti di batch<br>- Pubblicare estratto su Drive/Canale QA<br>- Valutare bump della progress bar | Documentazione aggiornata + recap condiviso. |
-
-### Checklist ricorrente per sessione
-
-- [ ] **Pre-upload** — Confermare spazio disco e variabili d'ambiente (`GAME_MODE`, `PYTHONPATH`).
-- [ ] **Esecuzione script** — Lanciare `./scripts/report_incoming.sh --destination sessione-<data>` e salvare i chunk di log nel tracking QA.
-- [ ] **Controllo manuale** — Aprire `reports/incoming/<destinazione>/report.html` per un controllo visivo dei dataset.
-- [ ] **Follow-up** — Creare ticket per ogni voce "warning"/"error" dei log e linkare il percorso all'interno di `reports/incoming/validation/`.
-- [ ] **Sync documentale** — Aggiornare il riepilogo in README/Drive con percentuali aggiornate.
-
-### Barra di completamento
-
-<progress value="0.7" max="1"></progress> **70 %** completato — il piano modulare include buffer per l'avvio dell'istanza ottimizzata.
-
-## Quick Start — Node/TypeScript
-```bash
-cd tools/ts
-npm install
-npm run build
-# Esegue il CLI (dataset implicito da ../../data/packs.yaml)
-node dist/roll_pack.js ENTP invoker --seed demo
-
-# Varianti
-# ROLL_PACK_SEED=demo node dist/roll_pack.js ENTP invoker
-# node dist/roll_pack.js ENTP invoker /percorso/custom/packs.yaml
-```
-
-## Quick Start — Python
+#### Quick start — Python
 ```bash
 cd tools/py
 # CLI unificata con seed riproducibile e path opzionali
@@ -129,118 +90,146 @@ python3 roll_pack.py ENTP invoker
 python3 generate_encounter.py savana
 ```
 
-> Suggerimento: lo script unificato `game_cli.py` espone sottocomandi coerenti
-> (`roll-pack`, `generate-encounter`, `validate-datasets`) e gestisce anche i
-> seed deterministici condivisi (`--seed`), così da allineare Python e
-> TypeScript sugli stessi dati YAML.
+### Strumenti TypeScript (`tools/ts`)
+- Build e roll pack demo:
+  ```bash
+  cd tools/ts
+  npm install
+  npm run build
+  node dist/roll_pack.js ENTP invoker --seed demo
+  ```
+- Test Playwright e suite Web:
+  ```bash
+  npm test            # compila, lancia unit test Node e Playwright
+  npm run test:web    # esegue solo i test Playwright
+  npm run lighthouse:test-interface
+  ```
+- Script di supporto: `scripts/run_lighthouse.mjs`, `scripts/ensure_chromium.mjs`, `scripts/postbuild.mjs`.
 
-## Pipeline generazione orchestrata
+#### Quick start — Node/TypeScript
+```bash
+cd tools/ts
+npm install
+npm run build
+# Esegue il CLI (dataset implicito da ../../data/packs.yaml)
+node dist/roll_pack.js ENTP invoker --seed demo
 
-- **Endpoint backend** — `POST /api/generation/species` instrada le richieste
+# Varianti
+# ROLL_PACK_SEED=demo node dist/roll_pack.js ENTP invoker
+# node dist/roll_pack.js ENTP invoker /percorso/custom/packs.yaml
+```
+
+## Backend Idea Engine
+- **Avvio API**: `npm run start:api` espone l'app Express su `http://0.0.0.0:3333` (porta configurabile con `PORT`). Il database NeDB di default vive in `data/idea_engine.db` (sovrascrivibile con `IDEA_ENGINE_DB`).
+- **Endpoint principali**:
+  - `GET /api/health` – stato runtime.
+  - `GET /api/ideas`, `POST /api/ideas`, `GET /api/ideas/:id`, `POST /api/ideas/:id/feedback` – gestione idee e feedback.
+  - `POST /api/biomes/generate` – genera sintesi bioma via `createBiomeSynthesizer`.
+  - `POST /api/validators/runtime` – esegue validator runtime sul payload fornito.
+  - `POST /api/quality/suggestions/apply` – applica suggerimenti qualità sul dataset ricevuto.
+  - `POST /api/generation/species` e `/api/generation/species/batch` – orchestrano la generazione specie integrando `SpeciesBuilder`, `TraitCatalog` e validator pack.
+  - `GET /api/ideas/:id/report` – produce report Codex in HTML/JSON usando `server/report.js`.
+- **Orchestrazione**: la pipeline combina normalizzazione slug, fallback automatici per trait non validi e log strutturati (vedi `services/generation/*`).
+
+### Pipeline generazione orchestrata
+- **Endpoint backend** – `POST /api/generation/species` instrada le richieste
   dell'UI verso l'orchestratore Python (`services/generation/orchestrator.py`),
   normalizzando gli input (`trait_ids`, `seed`, `biome_id`).
-- **Orchestratore Python** — carica il `TraitCatalog`, costruisce il blueprint
+- **Orchestratore Python** – carica il `TraitCatalog`, costruisce il blueprint
   narrativo con `SpeciesBuilder` e invoca i validator runtime del pack
   (`packs/evo_tactics_pack/validators`) per correggere e certificare l'output.
-- **Fallback automatico** — se i trait richiesti non sono validi oppure la
+- **Fallback automatico** – se i trait richiesti non sono validi oppure la
   validazione produce errori bloccanti, viene applicato un set di trait di
   sicurezza (`artigli_sette_vie`, `coda_frusta_cinetica`,
   `scheletro_idro_regolante`). Tutti gli eventi (successo, fallback, failure)
-  vengono loggati in formato JSON strutturato (`component` =
-  `generation-orchestrator`).
-- **Risposta UI** — il payload JSON combina `blueprint` (story + mechanics),
+  vengono loggati in formato JSON strutturato (`component = generation-orchestrator`).
+- **Risposta UI** – il payload JSON combina `blueprint` (story + mechanics),
   `validation` (messaggi e correzioni applicate) e `meta` (request id,
   fallback, numero di tentativi) così che Vue possa renderizzare
   immediatamente alert e summary coerenti.
 
-## Come aggiornare l'ecosystem pack
-1. **Modifica i dataset** in `packs/evo_tactics_pack/data/` (biomi, ecosistemi, foodweb, specie) mantenendo i percorsi repo-relativi.
-2. **Rigenera i report** eseguendo dalla radice del progetto:
-   ```bash
-   python3 tools/py/game_cli.py validate-datasets
-   ```
-   Il comando esegue i controlli storici su `data/` **e** tutti i validator del pack, emettendo un riepilogo degli avvisi per facilitarne il review.
-3. **Ispeziona il dettaglio** con il comando dedicato, utile se desideri solo il pack o devi salvare i report HTML/JSON rigenerati:
-   ```bash
-   python3 tools/py/game_cli.py validate-ecosystem-pack \
-     --json-out packs/evo_tactics_pack/out/validation/last_report.json \
-     --html-out packs/evo_tactics_pack/out/validation/last_report.html
-   ```
-4. **Verifica la CI**: il workflow `.github/workflows/ci.yml` esegue entrambi i comandi ad ogni push/PR, quindi qualsiasi regressione sui dataset del pack verrà segnalata automaticamente.
+## Dashboard web & showcase
+- **Dashboard test interface** (`docs/test-interface/`): carica YAML da `data/`, consente smoke test dei dataset e fetch manuali. Avvia un server statico locale con `python3 -m http.server 8000` e visita `http://localhost:8000/docs/test-interface/`.
+- **Deploy continuo**: il workflow GitHub Actions `deploy-test-interface` pubblica la dashboard su GitHub Pages. Imposta una sola volta Pages (`Settings → Pages → GitHub Actions`).
+- **Showcase pubblico**:
+  - `docs/presentations/showcase/evo-tactics-showcase-dossier.html`
+  - `docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64` (decodifica con `python -m base64 -d ...`)
+  - Rigenera asset con `python tools/py/build_showcase_materials.py`, che aggiorna HTML, Base64 del PDF e cover SVG in `public/showcase-dossier.svg`.
 
-## Aggiornamenti Trait ↔ Specie
-- **Copertura aggiornata** — Dopo la riallineatura dei dataset `packs/evo_tactics_pack/data/species/**` la matrice `python tools/py/report_trait_coverage.py` riporta `traits_with_species = 27/29` e nessuna combinazione regola↔specie mancante (`rules_missing_species_total = 0`). Consulta il report JSON rigenerato in [`data/derived/analysis/trait_coverage_report.json`](data/derived/analysis/trait_coverage_report.json) e il CSV corrispondente per i dettagli per tratto.
-- **Specie prioritarie per bioma** — La tabella di appoggio [`docs/catalog/species_trait_quicklook.csv`](docs/catalog/species_trait_quicklook.csv) elenca gli accoppiamenti `core/optional_traits` estratti da `docs/catalog/species_trait_matrix.json` per i biomi prioritari (Badlands/dorsale termale tropicale, Foresta miceliale, Cryosteppe). Utilizzala come riferimento rapido durante le sessioni di bilanciamento.
-- **Verifica sul campo** — Le specie campione `dune-stalker` (badlands), `lupus-temperatus` (foresta miceliale) e `aurora-gull` (cryosteppe) sono state validate manualmente nei rispettivi ambienti con smoke test rapidi (documentati in [`logs/traits_tracking.md`](logs/traits_tracking.md)) per confermare l'aderenza dei nuovi trait al ruolo tattico previsto.
+### Showcase demo · preset "Bundle demo pubblico"
+![Anteprima dossier showcase](public/showcase-dossier.svg)
 
-## Workflow CI & QA
-- **Pipeline principale** — La panoramica dettagliata del job `CI` rimane in [`docs/ci-pipeline.md`](docs/ci-pipeline.md).
-- **Controlli mirati** — Consulta [`docs/ci.md`](docs/ci.md) per trigger, pattern di attivazione e logica dei workflow aggiuntivi (`validate-naming`, `incoming-smoke`, `hud`, `qa-kpi-monitor`).
+- **Dossier HTML** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.html`](docs/presentations/showcase/evo-tactics-showcase-dossier.html) riutilizza il template export del generatore mantenendo i token cromatici (`--color-accent-400`, palette `public/`).
+- **Press kit PDF** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64`](docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64) conserva l'export in formato Base64; decodificalo con `python -m base64 -d docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64 > docs/presentations/showcase/dist/evo-tactics-showcase-dossier.pdf` (o con `base64 --decode`) per ottenere il PDF pronto alla distribuzione.
+- **Rigenerazione rapida** — esegui `python tools/py/build_showcase_materials.py` per aggiornare HTML, Base64 del PDF e cover `SVG` in `public/` partendo dal payload curato (`docs/presentations/showcase/showcase_dossier.yaml`).
 
-## Novità trait & specie — 2025-11-16
-- **Suite Badlands riallineata** — Le specie Badlands (inclusi `dune-stalker`, `echo-wing`, `ferrocolonia-magnetotattica`, `magneto-ridge-hunter`, `nano-rust-bloom`, `rust-scavenger`, `sand-burrower`, `slag-veil-ambusher` ed evento `tempesta ferrosa`) usano ora blocchi `genetic_traits` coerenti con la matrice aggiornata e il reference genetico. Consulta i dettagli nei file YAML del pack (`packs/evo_tactics_pack/data/species/badlands/*.yaml`) e nella matrice centralizzata [`docs/catalog/species_trait_matrix.json`](docs/catalog/species_trait_matrix.json).
-- **Quicklook e copertura foodweb** — Il CSV rapido [`docs/catalog/species_trait_quicklook.csv`](docs/catalog/species_trait_quicklook.csv) riporta i nuovi pairing core/opzionali per il bioma dorsale termale tropicale, mentre il report rigenerato [`data/derived/analysis/trait_coverage_report.json`](data/derived/analysis/trait_coverage_report.json) conferma `traits_with_species = 27/29`, `rules_missing_species_total = 0` e i conteggi `foodweb_coverage` per i ruoli monitorati.
-- **Checklist di rollout** — Il log operativo [`logs/traits_tracking.md`](logs/traits_tracking.md) documenta il comando eseguito e i gate QA da mantenere nei prossimi batch (incluso l'invito a rieseguire il generatore prima del prossimo checkpoint playtest).
+## Dataset & Ecosystem Pack
+- **Dataset principali** in `data/` (specie, biomi, telemetria, trait) e `data/derived/analysis/trait_coverage_report.json` per insight sulla copertura trait/specie.
+- **Pack v1.7** (`packs/evo_tactics_pack/`): struttura autosufficiente con `data/`, `docs/`, `tools/` e report in `out/validation/`. Segui il README del pack per approfondimenti.
+- **Aggiornare il pack**:
+  1. Modifica YAML in `packs/evo_tactics_pack/data/`.
+  2. Rigenera la validazione:
+     ```bash
+     python3 tools/py/game_cli.py validate-datasets
+     python3 tools/py/game_cli.py validate-ecosystem-pack \
+       --json-out packs/evo_tactics_pack/out/validation/last_report.json \
+       --html-out packs/evo_tactics_pack/out/validation/last_report.html
+     ```
+  3. Controlla i log in `reports/incoming/` e `logs/traits_tracking.md`.
+- **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
 
-### Feedback rapido (revisione entro 2025-11-23)
-- **Canale espresso** — Aggiungi qui eventuali anomalie sulle nuove combinazioni trait/specie. Per analisi lunghe apri un ticket con label `trait-feedback` e linka il report di coverage.
-- [ ] QA Lead — verificare entro **2025-11-23** gli output del generatore e aggiornare `logs/traits_tracking.md` con eventuali correzioni o regressioni.
-- Commenti raccolti:
-  - _Placeholder_: sostituisci con note operative o link a PR/issue.
+## Storico aggiornamenti & archivio
+- **Suite Badlands riallineata (2025-11-16)** — i YAML aggiornati in `packs/evo_tactics_pack/data/species/badlands/` sono stati verificati con `python tools/py/report_trait_coverage.py` riportando `traits_with_species = 27/29` e nessuna regola senza specie (`rules_missing_species_total = 0`). Consulta `data/analysis/trait_coverage_report.json`, `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv` per il dettaglio e i pairing core/opzionali.
+- **Checklist rollout trait** — il log operativo [`logs/traits_tracking.md`](logs/traits_tracking.md) conserva le note di QA e i gate da rieseguire prima dei prossimi playtest; usa la sezione commenti per nuovi feedback rapidi e aggiorna la casella QA Lead entro le scadenze indicate.
+- **Idea Engine — novità 2025-12-01** — il widget embed (`docs/public/embed.js`) propone il modulo feedback immediato dopo l'invio delle idee e il backend espone `POST /api/ideas/:id/feedback`. Il changelog completo è in [`docs/ideas/changelog.md`](docs/ideas/changelog.md), mentre il modulo espresso resta disponibile [qui](https://forms.gle/evoTacticsIdeaFeedback).
 
-## Interfaccia test & recap via web
-- [Apri la dashboard](docs/test-interface/index.html) per consultare rapidamente pacchetti PI,
-  telemetria VC, biomi e compatibilità delle forme (funziona sia in locale sia online).
-- **Online automatico (GitHub Pages)**: il workflow [`deploy-test-interface`](.github/workflows/deploy-test-interface.yml)
-  pubblica in modo continuativo i contenuti della dashboard e i dataset YAML ad ogni push su `main`.
-  Dopo aver abilitato *una sola volta* GitHub Pages (`Settings → Pages → Build and deployment → GitHub Actions`),
-  il sito sarà sempre raggiungibile da `https://<tuo-utente>.github.io/<repo>/test-interface/` (o dal dominio
-  personalizzato) con fetch automatico degli YAML direttamente dal branch indicato. Prima del deploy il workflow
-  lancia le suite di test TypeScript (`npm test` in `tools/ts`) e Python (`PYTHONPATH=tools/py pytest`) per garantire
-  che la dashboard rifletta dati validi e CLI funzionanti.
-- **Uso locale**: avvia un server dalla radice (`python3 -m http.server 8000`) e visita
-  `http://localhost:8000/docs/test-interface/` per lavorare offline.
-- Premi "Ricarica dati YAML" dopo aver modificato i file in `data/`, quindi "Esegui test" per i
-  controlli rapidi di integrità sui dataset caricati.
-- Per aggiornamenti al volo, incolla l'URL di uno snapshot YAML/JSON nel form "Fetching manuale" e
-  premi "Scarica & applica" per un merge immediato nel dataset di sessione. In hosting remoto puoi
-  forzare sorgenti alternative con `?data-root=<url-assoluto-o-root-relative>` e cambiare branch `raw`
-  con `?ref=<branch>`.
+## Stato operativo & tracker
+- **Indice tracker & stato**: usa `docs/00-INDEX.md` per checklist quotidiane, log e roadmap; la sezione viene aggiornata automaticamente da [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py) tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml).
+- **Log di riferimento**: `logs/traits_tracking.md`, `logs/web_status.md` e i report in `reports/incoming/` documentano l'avanzamento tecnico delle ultime sessioni.
 
-## Idea Engine Updates & Feedback
+### Recap operativo & prossimi step
+- [ ] Rivedi i log in `reports/incoming/validation/` e apri ticket per eventuali regressioni.
+- [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
+- [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
+- [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
 
-### Novità rapide — 2025-12-01
-- **CTA unificata per il feedback** — Il report Codex ora si chiude con un richiamo diretto al modulo immediato per raccogliere
-  le impressioni a caldo su widget e backend.
-- **Changelog dedicato** — Le note di rilascio vivono nel nuovo file [`docs/ideas/changelog.md`](docs/ideas/changelog.md) così
-  da poter allegare rapidamente gli highlight di ogni sprint.
+### Barra di completamento
+<progress value="0.7" max="1"></progress> **70 %** completato — aggiornare dopo il prossimo ciclo di validazione.
 
-### Changelog
-- Consulta [`docs/ideas/changelog.md`](docs/ideas/changelog.md) per la cronologia completa.
-- **2025-10-29** — Il widget `docs/public/embed.js` mostra un modulo "Feedback" dopo l'invio delle idee e il backend accetta
-  `POST /api/ideas/:id/feedback` per archiviare i commenti accanto alla proposta, includendoli nel report Codex.
+## Documentazione & tracker
+- **Indice operativo**: `docs/00-INDEX.md` aggrega checklist quotidiane, log e roadmap.
+- **Checklist**: consultare `docs/checklist/action-items.md`, `docs/checklist/milestones.md`, `docs/checklist/project-setup-todo.md` per stato avanzamento e task prioritari.
+- **Roadmap**: `docs/piani/roadmap.md` con milestone strategiche (telemetria VC, pacchetti PI, mating/nido).
+- **Idea Engine**: changelog e procedure in `docs/ideas/changelog.md`, `docs/ideas/index.html` e `IDEAS_INDEX.md`.
+- **Log tematici**: `logs/traits_tracking.md`, `logs/web_status.md`, `logs/chatgpt_sync.log` per audit tecnici.
 
-### Procedura feedback
-1. **Segnala subito** — Compila il [modulo feedback immediato](https://forms.gle/evoTacticsIdeaFeedback) per registrare l'esito
-   dei test su widget/back-end entro poche ore dal rilascio.
-2. **Approfondisci nel widget** — Usa il campo feedback integrato dopo l'invio dell'idea per allegare note contestuali che
-   finiranno nel report Codex.
-3. **Formalizza se serve** — Duplica [`docs/ideas/feedback.md`](docs/ideas/feedback.md) o apri un ticket con label
-   `idea-engine-feedback` quando servono follow-up estesi.
+## Automazione & workflow
+- **Script principali**:
+  - `scripts/report_incoming.sh` – archivia i batch in `reports/incoming/` (usare `--destination sessione-YYYY-MM-DD`).
+  - `scripts/daily_tracker_refresh.py` – aggiorna automaticamente le sezioni tracker del README e dei log.
+  - `scripts/build-idea-taxonomy.js` e `tools/drive/*.mjs` – generano/trasferiscono asset approvati verso Drive.
+- **Workflow CI** (`.github/workflows/`):
+  - `ci.yml` – esegue lint/test Python & TypeScript e validator pack ad ogni push/PR.
+  - `deploy-test-interface.yml` – build & deploy GitHub Pages.
+  - `daily-tracker-refresh.yml` – schedulato a mezzogiorno per aggiornare tracker.
+  - Workflow dedicati (`validate-naming`, `incoming-smoke`, `hud`, `qa-kpi-monitor`) documentati in `docs/ci.md` e `docs/ci-pipeline.md`.
 
-### Link rapidi
-- [Modulo feedback immediato](https://forms.gle/evoTacticsIdeaFeedback)
-- [Changelog Idea Engine](docs/ideas/changelog.md)
-- [Indice idee generato dalla CI](IDEAS_INDEX.md)
-- [Support Hub Idea Engine](docs/ideas/index.html)
+## QA & test
+- **Python**: esegui dalla root con `PYTHONPATH=tools/py pytest` (copre RNG deterministici, builder, validator).
+- **TypeScript**: `npm --prefix tools/ts test` (include unit test Node e Playwright UI export modal).
+- **API Node**: `npm run test:api` lancia `node --test tests/api/*.test.js`.
+- **Webapp**: `npm --prefix webapp test` esegue la suite Vitest/JSDOM.
+- **HUD & dashboard**: test Playwright dedicati (`tools/ts/tests`, `tests/hud_alerts.spec.ts`) e `tests/validate_dashboard.py` per smoke test.
 
-## Pacchetto ecosistemi (Evo-Tactics Pack v1.7)
-- Contenuto in `packs/evo_tactics_pack/` con struttura autosufficiente (`data/`, `docs/`, `tools/`, `out/`).
-- Catalogo HTML pronto (`packs/evo_tactics_pack/docs/catalog/index.html`) e tool client-side (`.../docs/tools/generator.html`).
-- Validator Python dedicati richiamabili con i percorsi già aggiornati nel `README` del pack (`packs/evo_tactics_pack/README.md`).
-- Dataset YAML puntano ora a percorsi relativi al repository, così da funzionare sia in locale sia in CI senza rewrite manuali.
+## Integrazioni esterne
+- **Drive**: guida in `docs/drive-sync.md`; script `scripts/driveSync.gs`, `tools/drive/*.mjs` per sincronizzazioni e stage publishing (`npm run stage:publishing`).
+- **Sincronizzazione ChatGPT**:
+  - Configura le fonti in `data/external/chatgpt_sources.yaml`.
+  - Esegui `python3 scripts/chatgpt_sync.py --config data/external/chatgpt_sources.yaml`.
+  - Verifica gli snapshot in `docs/chatgpt_changes/<namespace>/` e aggiorna `docs/chatgpt_sync_status.md` con esiti.
 
-## Pubblicazione su GitHub
+## Distribuzione & condivisione
+### Pubblicazione GitHub
 ```bash
 cd /path/alla/cartella/evo-tactics
 git init
@@ -251,52 +240,10 @@ git remote add origin https://github.com/<tuo-utente>/<repo>.git
 git push -u origin main
 ```
 
-## Condivisione su Google Drive
-- Carica lo **zip** generato da ChatGPT su Drive (o estrai e carica la cartella).
-- Quando necessario, comprimi nuovamente l'intera directory del progetto prima del caricamento oppure automatizza la sincronizzazione con Drive eseguendo lo script `scripts/driveSync.gs` da Apps Script sulla cartella dedicata.
-- Per istruzioni dettagliate su configurazione, test e trigger automatici consulta la guida [`docs/drive-sync.md`](docs/drive-sync.md).
-
-## Checklist & TODO attivi
-- **Monitoraggio avanzamento** — Le milestone operative con stato aggiornato sono in [`docs/checklist/milestones.md`](docs/checklist/milestones.md). Restano da chiudere l'overlay HUD telemetrico, il riequilibrio XP del profilo Cipher e il contrasto EVT-03 documentati nella sezione “In corso”.【F:docs/checklist/milestones.md†L8-L17】
-- **Azioni prioritarie consolidate** — Il file [`docs/checklist/action-items.md`](docs/checklist/action-items.md) raccoglie gli step immediati da completare, incrociando roadmap, checklist e problemi emersi dai log di sincronizzazione.【F:docs/checklist/action-items.md†L1-L30】
-- **Checklist di avvio completo** — Usa [`docs/checklist/project-setup-todo.md`](docs/checklist/project-setup-todo.md) come sequenza passo-passo per configurare ambiente, dipendenze, test e sincronizzazioni fino al pieno funzionamento del progetto.【F:docs/checklist/project-setup-todo.md†L1-L64】
-- **Roadmap dettagliata** — Per il contesto strategico delle milestone (bilanciamento pacchetti PI, telemetria VC, esperienze di mating/nido e missioni verticali) consultare [`docs/piani/roadmap.md`](docs/piani/roadmap.md).【F:docs/piani/roadmap.md†L1-L24】
-
-### Indice Tracker & Stato
-
-<!-- tracker-status:start -->
-#### Operativo
-- **███████░░░ 74% · Telemetria VC** — Le milestone operative hanno completato playtest, normalizzazione e documentazione; restano overlay HUD, ribilanciamento XP Cipher e contrasto EVT-03. Vedi [docs/checklist/milestones.md#in-corso](docs/checklist/milestones.md#in-corso).
-
-#### Processo
-- **░░░░░░░░░░ 0% · Pipeline deploy web** — Il processo di rilascio è definito ma i riesami settimanali riportano ancora blocchi Playwright e smoke test manuali aperti. Vedi [docs/process/web_pipeline.md](docs/process/web_pipeline.md) e [logs/web_status.md](logs/web_status.md).
-
-#### Log & metriche
-- **██████░░░░ 55% · Inventario trait** — La copertura tratti/specie è riallineata ma restano da integrare appendici e dataset mock aggiuntivi. Vedi [logs/traits_tracking.md](logs/traits_tracking.md).
-
-#### Appendici
-- **█████░░░░░ 50% · Canvas e integrazioni** — Gli appendici A/C/D riportano l'ultima revisione mentre canvas e feature updates conservano follow-up aperti. Vedi [docs/00-INDEX.md#appendici-di-stato](docs/00-INDEX.md#appendici-di-stato) e [docs/Canvas/feature-updates.md](docs/Canvas/feature-updates.md).
-<!-- tracker-status:end -->
-
-## Sincronizzazione contenuti ChatGPT
-- Configura le fonti da monitorare in `data/external/chatgpt_sources.yaml` (URL del progetto, canvas esportati, ecc.).
-- Installa le dipendenze Python richieste (`pip install -r tools/py/requirements.txt`) prima di eseguire lo script: il file include `requests`, `PyYAML` e il client `openai` necessario per l'accesso API.
-- Se incontri errori `ProxyError 403`, aggiorna le credenziali o esegui la sincronizzazione da una rete autorizzata: i dettagli dell'ultimo tentativo sono riportati in [`docs/chatgpt_sync_status.md`](docs/chatgpt_sync_status.md).【F:docs/chatgpt_sync_status.md†L1-L24】
-- Esegui `python3 scripts/chatgpt_sync.py --config data/external/chatgpt_sources.yaml` per scaricare gli snapshot giornalieri.
-- Controlla i diff generati in `docs/chatgpt_changes/<namespace>/<data>/` e il log in `logs/chatgpt_sync.log`.
-- Aggiorna `docs/chatgpt_sync_status.md` con note operative e credenziali aggiornate.
-
-## Suite di test automatizzati
-- **Python** — la suite copre gli helper RNG deterministici e può essere eseguita da root con:
-  ```bash
-  PYTHONPATH=tools/py pytest
-  ```
-  Le dipendenze di test (`pytest`) sono incluse nello stesso `requirements.txt`.
-- **TypeScript** — compila le sorgenti ESM e lancia gli unit test Node:
-  ```bash
-  cd tools/ts
-  npm test
-  ```
+### Condivisione su Google Drive
+- Comprimi la cartella del progetto o utilizza lo script `scripts/driveSync.gs` per automatizzare l'upload.
+- Per invii manuali, mantieni sincronizzati gli artifact rigenerati (`docs/presentations/showcase/*`, report in `packs/.../out/`).
+- Consulta `docs/drive-sync.md` per setup credenziali, test e trigger automatici.
 
 ## Licenza
-MIT — vedi `LICENSE`.
+MIT — vedi [`LICENSE`](LICENSE).
