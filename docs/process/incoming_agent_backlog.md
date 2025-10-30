@@ -10,6 +10,14 @@ Questo backlog traduce le iniziative prioritarie emerse dal report di triage in 
   2. Notificare gli agenti in `#incoming-triage-agenti` includendo riepilogo validazioni e scadenze follow-up.
   3. Registrare l'incidente unzip (`evo_tactics_param_synergy_v8_3.zip`) e aprire ticket manutenzione per `AG-Toolsmith`.
 
+### Note Kanban 2025-11-08
+
+| Card | Colonna | Caretaker | Prerequisiti accodati | Next step |
+| --- | --- | --- | --- | --- |
+| `evo_pacchetto_minimo_v7` | Da analizzare | `AG-Biome` | Annotato fix `unzip -o` come blocco e rimando al pacchetto validazione di `AG-Toolsmith`. | Rieseguire validazioni automatiche dopo il fix e allegare log aggiornati. |
+| `ancestors_integration_pack_v0_5` | Da analizzare | `AG-Core` | Richiesto smoke test CLI (`config/cli/staging_incoming.yaml`) prima dello sblocco integrazione. | Pianificare tuning parametri core in backlog `In integrazione`. |
+| `recon_meccaniche.json` | In validazione | `AG-Validation` | Segnato bisogno raccolta stime tempo-analisi e confronto con hook evento correnti. | Consolidare report e passare outcome a `AG-Orchestrator` per decisione. |
+
 ## 0. Collegare il Support Hub alla pipeline incoming
 - **Agente owner**: `AG-Orchestrator`
 - **Supporto**: `AG-Toolsmith`
