@@ -11,6 +11,16 @@
 8. **Riepilogo PR giornaliero (entro 18:00 CET)** — Esegui `python tools/py/daily_pr_report.py --repo <owner/repo> --date <YYYY-MM-DD>` oppure verifica il workflow `daily-pr-summary`; salva l'output in `docs/chatgpt_changes/` e aggiorna changelog, roadmap, checklist e Canvas includendo le modifiche al refactor CLI.【F:docs/README.md†L32-L38】【F:docs/tool_run_report.md†L1-L40】
 9. **Review roadmap & comunicazione** — Ogni martedì 16:30-17:15 CET consolidare gli esiti della review settimanale: aggiornare questa pagina con stato milestone (`RM-*`), elencare bug chiusi o riassegnati e pubblicare riepilogo nel canale `#vc-docs`/Drive per l'allineamento stakeholder.【F:docs/process/qa_reporting_schema.md†L138-L164】
 
+### Tabella di marcia incoming — settimana 2025-11-14
+
+| Slot (CET) | Focus | Output atteso | Dipendenze e checklist chiave |
+| --- | --- | --- | --- |
+| 2025-11-14 09:30–10:15 | `evo_pacchetto_minimo_v7` — validazioni post-fix unzip | Log HTML/JSON rigenerati e card spostata in `In validazione` con evidenze aggiornate. | Patch `unzip -o` confermata nel maintenance log e checklist triage Pre-sync (`docs/checklist/incoming_triage.md`). |
+| 2025-11-14 11:00–12:00 | `ancestors_integration_pack_v0_5` — validazione ecosistema | Report JSON/HTML prodotto e smoke CLI `staging_incoming` allegato alla card con nota tuning `AG-Core`. | Dipende dai log dello slot precedente, ruoli caretaker attivi (`docs/process/incoming_triage_pipeline.md`) e checklist Durante la sync. |
+| 2025-11-14 15:00–16:00 | `recon_meccaniche.json` — consolidamento insight | Report investigativo e knowledge base aggiornata con decisione/follow-up. | Necessita output dei primi due slot, stime dominio e checklist Post-sync per board/log/archivio. |
+
+La pianificazione dettagliata (comandi/script e log da aggiornare) è disponibile nel backlog agentico (`docs/process/incoming_agent_backlog.md`).
+
 ## Mappatura milestone → componenti/feature
 
 | ID | Milestone | Componenti / feature principali (`component_tag`) | Note ticketing |
