@@ -13,7 +13,7 @@
 <script setup>
 import { toRefs } from 'vue';
 import NebulaProgressModule from '../components/flow/NebulaProgressModule.vue';
-import { useNebulaProgressModule } from '../state/nebulaProgressModule.js';
+import { useNebulaProgressModule } from '../modules/useNebulaProgressModule';
 
 const props = defineProps({
   overview: {

@@ -8,6 +8,7 @@ const { createRuntimeValidator } = require('../services/generation/runtimeValida
 const { createGenerationOrchestratorBridge } = require('../services/generation/orchestratorBridge');
 const { createTraitDiagnosticsSync } = require('./traitDiagnostics');
 const { createGenerationSnapshotHandler } = require('./routes/generationSnapshot');
+const { createNebulaRouter } = require('./routes/nebula');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -250,6 +251,11 @@ function createApp(options = {}) {
   });
 
   app.get('/api/generation/snapshot', generationSnapshotHandler);
+
+  const nebulaRouter = createNebulaRouter({
+    telemetryPath: options?.nebula?.telemetryPath,
+  });
+  app.use('/api/nebula', nebulaRouter);
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'idea-engine' });
