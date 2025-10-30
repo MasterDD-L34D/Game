@@ -12,11 +12,13 @@ Questo backlog traduce le iniziative prioritarie emerse dal report di triage in 
 
 ### Note Kanban 2025-11-08
 
-| Card | Colonna | Caretaker | Prerequisiti accodati | Next step |
-| --- | --- | --- | --- | --- |
-| `evo_pacchetto_minimo_v7` | Da analizzare | `AG-Biome` | Annotato fix `unzip -o` come blocco e rimando al pacchetto validazione di `AG-Toolsmith`. | Rieseguire validazioni automatiche dopo il fix e allegare log aggiornati. |
-| `ancestors_integration_pack_v0_5` | Da analizzare | `AG-Core` | Richiesto smoke test CLI (`config/cli/staging_incoming.yaml`) prima dello sblocco integrazione. | Pianificare tuning parametri core in backlog `In integrazione`. |
-| `recon_meccaniche.json` | In validazione | `AG-Validation` | Segnato bisogno raccolta stime tempo-analisi e confronto con hook evento correnti. | Consolidare report e passare outcome a `AG-Orchestrator` per decisione. |
+Consultare l'[inventario aggiornato al 2025-10-30](../../reports/incoming/inventory-2025-10-30.md) per il dettaglio completo degli asset presenti in `incoming/` prima di procedere con i task.
+
+| Card | Colonna | Caretaker | Prerequisiti accodati | Next step | Riferimento pre-esecuzione |
+| --- | --- | --- | --- | --- | --- |
+| `evo_pacchetto_minimo_v7` | Da analizzare | `AG-Biome` | Annotato fix `unzip -o` come blocco e rimando al pacchetto validazione di `AG-Toolsmith`. | Rieseguire validazioni automatiche dopo il fix e allegare log aggiornati. | [Report sessione-2025-10-29](../../reports/incoming/sessione-2025-10-29/report.html) |
+| `ancestors_integration_pack_v0_5` | Da analizzare | `AG-Core` | Richiesto smoke test CLI (`config/cli/staging_incoming.yaml`) prima dello sblocco integrazione. | Pianificare tuning parametri core in backlog `In integrazione`. | [`scripts/cli_smoke.sh`](../../scripts/cli_smoke.sh) |
+| `recon_meccaniche.json` | In validazione | `AG-Validation` | Segnato bisogno raccolta stime tempo-analisi e confronto con hook evento correnti. | Consolidare report e passare outcome a `AG-Orchestrator` per decisione. | [Report latest](../../reports/incoming/latest/report.html) |
 
 ### Slot calendario condiviso · settimana 2025-11-10
 
