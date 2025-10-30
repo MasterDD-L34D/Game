@@ -16,8 +16,8 @@ Consultare l'[inventario aggiornato al 2025-10-30](../../reports/incoming/invent
 
 | Card | Colonna | Caretaker | Prerequisiti accodati | Next step | Riferimento pre-esecuzione |
 | --- | --- | --- | --- | --- | --- |
-| `evo_pacchetto_minimo_v7` | Da analizzare | `AG-Biome` | Annotato fix `unzip -o` come blocco e rimando al pacchetto validazione di `AG-Toolsmith`. | Rieseguire validazioni automatiche dopo il fix e allegare log aggiornati. | [Report sessione-2025-10-29](../../reports/incoming/sessione-2025-10-29/report.html) |
-| `ancestors_integration_pack_v0_5` | Da analizzare | `AG-Core` | Richiesto smoke test CLI (`config/cli/staging_incoming.yaml`) prima dello sblocco integrazione. | Pianificare tuning parametri core in backlog `In integrazione`. | [`scripts/cli_smoke.sh`](../../scripts/cli_smoke.sh) |
+| `evo_pacchetto_minimo_v7` | In validazione | `AG-Biome` | Annotato fix `unzip -o` come blocco con allegato il log `reports/incoming/validation/evo_pacchetto_minimo_v7-20251030-133350/`. | Condividere ai caretaker l'esito dei validator e preparare il passaggio a `In integrazione` dopo la patch unzip. | [Report sessione-2025-11-14](../../reports/incoming/sessione-2025-11-14/report.html) |
+| `ancestors_integration_pack_v0_5` | In validazione | `AG-Core` | Validazioni dataset/ecosistema salvate in `reports/incoming/validation/ancestors_integration_pack_v0_5-20251030-133350/`; resta da completare lo smoke test CLI (`config/cli/staging_incoming.yaml`). | Eseguire `scripts/cli_smoke.sh --profile staging_incoming` con log in `logs/incoming_smoke/` per sbloccare il passaggio a `In integrazione`. | [`scripts/cli_smoke.sh`](../scripts/cli_smoke.sh) |
 | `recon_meccaniche.json` | In validazione | `AG-Validation` | Segnato bisogno raccolta stime tempo-analisi e confronto con hook evento correnti. | Consolidare report e passare outcome a `AG-Orchestrator` per decisione. | [Report latest](../../reports/incoming/latest/report.html) |
 
 ### Slot calendario condiviso · settimana 2025-11-10
