@@ -1,6 +1,7 @@
 # Canvas — Aggiornamenti Rapidi
 
 ## Nuove feature
+- **Flow QA logger & timeline JRPG** — Il Flow Shell registra automaticamente snapshot, fallback e validazioni nel nuovo logger client-side. Dalla vista **Quality Release → Log runtime** è possibile filtrare gli scope e usare il bottone **Esporta JSON QA** per scaricare il dump strutturato che alimenta i recap interni. In **Specie → Telemetry → Revisioni validate** la mini timeline adotta icone/gradienti stile JRPG con filtri per severità per individuare rapidamente gli avvisi dei validator.
 - **Mission Control refresh** — Landing guidata, quick actions contestuali e timeline attività filtrabile mantengono il team allineato sui rollout giornalieri.
 - **Dataset Hub & monitor YAML** — Dashboard automatica che valida i file `data/**/*.yaml`, evidenziando inconsistenze e stato import per Drive Sync.
 - **Generatore VC** — Radar dinamico, confronto specie side-by-side, pin persistente e tooltips hazard/ruoli per condividere build rapidi in QA.

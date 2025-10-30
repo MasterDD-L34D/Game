@@ -5,6 +5,7 @@ import {
   summariseValidation,
   __testables__ as orchestratorInternals,
 } from '../services/generationOrchestratorService.js';
+import { logEvent as logClientEvent } from '../services/clientLogger.js';
 import { fetchTraitDiagnostics } from '../services/traitDiagnosticsService.js';
 
 const { normaliseRequest: normaliseSpeciesRequest, normaliseBatchEntries } = orchestratorInternals;
@@ -73,11 +74,23 @@ function pushLog(state, event, details = {}) {
     meta: details.meta || null,
     validation: details.validation || null,
     timestamp: new Date().toISOString(),
+    source: 'orchestrator',
   };
   state.logs.unshift(entry);
   if (state.logs.length > 200) {
     state.logs.length = 200;
   }
+  logClientEvent(event, {
+    id: entry.id,
+    scope: entry.scope,
+    level: entry.level,
+    message: entry.message,
+    request_id: entry.request_id,
+    meta: entry.meta,
+    validation: entry.validation,
+    timestamp: entry.timestamp,
+    source: entry.source,
+  });
   return entry;
 }
 
@@ -148,12 +161,35 @@ export function useFlowOrchestrator(options = {}) {
       const cached = speciesCache.get(cacheKey);
       state.speciesResult = cached.result;
       state.lastRequest = cached.request;
+      const cachedSummary = summariseValidation(cached.result?.validation || {});
+      const fallbackUsed = Boolean(
+        cached.result?.meta?.fallback_used ?? cached.result?.meta?.fallbackUsed ?? cached.result?.meta?.fallback_active,
+      );
       pushLog(state, 'generation.cache.hit', {
         level: 'info',
-        message: 'Risultato orchestrator recuperato dalla cache',
+        message: fallbackUsed
+          ? 'Cache orchestrator con fallback attivo'
+          : 'Risultato orchestrator recuperato dalla cache',
         request_id: cached.result?.meta?.request_id || cached.request?.request_id || null,
         meta: cached.result?.meta || null,
+        validation: cachedSummary,
       });
+      if (fallbackUsed) {
+        pushLog(state, 'generation.fallback', {
+          level: 'warning',
+          message: 'Il fallback traits è stato utilizzato nella risposta cache.',
+          request_id: cached.result?.meta?.request_id || cached.request?.request_id || null,
+          meta: cached.result?.meta || null,
+        });
+      }
+      if (cachedSummary.warnings > 0) {
+        pushLog(state, 'generation.validation.warning', {
+          level: 'warning',
+          message: `Validator cache: ${cachedSummary.warnings} warning`,
+          request_id: cached.result?.meta?.request_id || cached.request?.request_id || null,
+          validation: cachedSummary,
+        });
+      }
       return cached.result;
     }
     state.loadingSpecies = true;
@@ -183,6 +219,25 @@ export function useFlowOrchestrator(options = {}) {
         meta: result.meta || null,
         validation: summary,
       });
+      const fallbackUsed = Boolean(
+        result.meta?.fallback_used ?? result.meta?.fallbackUsed ?? result.meta?.fallback_active,
+      );
+      if (fallbackUsed) {
+        pushLog(state, 'generation.fallback', {
+          level: 'warning',
+          message: 'Il fallback traits è stato attivato dal runtime.',
+          request_id: result.meta?.request_id || normalised.request_id || null,
+          meta: result.meta || null,
+        });
+      }
+      if (summary.warnings > 0) {
+        pushLog(state, 'generation.validation.warning', {
+          level: 'warning',
+          message: `Validator ha emesso ${summary.warnings} warning per la specie generata`,
+          request_id: result.meta?.request_id || normalised.request_id || null,
+          validation: summary,
+        });
+      }
       return result;
     } catch (error) {
       const err = toError(error);
@@ -398,6 +453,7 @@ export function useFlowOrchestrator(options = {}) {
       request_id: entry.request_id || null,
       meta: entry.meta || null,
       validation: entry.validation || null,
+      source: entry.source || 'orchestrator',
     }));
   });
 
