@@ -11,7 +11,58 @@ import { fetchTraitDiagnostics } from '../services/traitDiagnosticsService.js';
 const { normaliseRequest: normaliseSpeciesRequest, normaliseBatchEntries } = orchestratorInternals;
 
 const DEFAULT_SNAPSHOT_ENDPOINT = '/api/generation/snapshot';
-const LOCAL_FALLBACK_SNAPSHOT = '/demo/flow-shell-snapshot.json';
+
+const RAW_BASE_URL =
+  typeof import.meta !== 'undefined' &&
+  import.meta.env &&
+  typeof import.meta.env.BASE_URL === 'string'
+    ? import.meta.env.BASE_URL
+    : '/';
+
+function normaliseBaseUrl(base) {
+  if (!base) {
+    return '/';
+  }
+  return base.endsWith('/') ? base : `${base}/`;
+}
+
+function isRelativeBase(base) {
+  if (!base) {
+    return false;
+  }
+  return !/^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/)/.test(base);
+}
+
+const NORMALISED_BASE_URL = normaliseBaseUrl(RAW_BASE_URL);
+const LOCAL_FALLBACK_SNAPSHOT = `${NORMALISED_BASE_URL}demo/flow-shell-snapshot.json`;
+
+function readEnvString(key) {
+  if (typeof import.meta === 'undefined' || !import.meta.env) {
+    return undefined;
+  }
+  const value = import.meta.env[key];
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  return trimmed || undefined;
+}
+
+function resolveFallbackEnv(value) {
+  if (typeof value === 'undefined') {
+    return undefined;
+  }
+  if (value === null) {
+    return null;
+  }
+  if (typeof value === 'string' && value.toLowerCase() === 'null') {
+    return null;
+  }
+  return value;
+}
+
+const SNAPSHOT_ENV_URL = readEnvString('VITE_FLOW_SNAPSHOT_URL');
+const FALLBACK_ENV_VALUE = resolveFallbackEnv(readEnvString('VITE_FLOW_SNAPSHOT_FALLBACK'));
 const speciesCache = new Map();
 const batchCache = new Map();
 let logSequence = 0;
@@ -104,11 +155,16 @@ function pushLog(state, event, details = {}) {
 }
 
 export function useFlowOrchestrator(options = {}) {
-  const snapshotUrl = options.snapshotUrl || DEFAULT_SNAPSHOT_ENDPOINT;
+  const snapshotUrl =
+    options.snapshotUrl || SNAPSHOT_ENV_URL || DEFAULT_SNAPSHOT_ENDPOINT;
+  const fallbackOverride = Object.prototype.hasOwnProperty.call(
+    options,
+    'fallbackSnapshotUrl',
+  )
+    ? options.fallbackSnapshotUrl
+    : FALLBACK_ENV_VALUE;
   const fallbackSnapshotUrl =
-    options.fallbackSnapshotUrl === null
-      ? null
-      : options.fallbackSnapshotUrl || LOCAL_FALLBACK_SNAPSHOT;
+    fallbackOverride === null ? null : fallbackOverride || LOCAL_FALLBACK_SNAPSHOT;
   const state = reactive({
     snapshot: null,
     loadingSnapshot: false,
@@ -134,58 +190,90 @@ export function useFlowOrchestrator(options = {}) {
     state.loadingSnapshot = true;
     state.error = null;
     const fetchImpl = ensureFetch();
-    try {
-      const targetUrl = buildSnapshotUrl(snapshotUrl, { refresh: force });
-      const response = await fetchImpl(targetUrl, { cache: 'no-store' });
-      if (!response.ok) {
-        throw new Error(`Impossibile caricare snapshot orchestrator (${response.status})`);
+    const preferLocalFallbackFirst =
+      !force &&
+      fallbackSnapshotUrl &&
+      fallbackSnapshotUrl !== snapshotUrl &&
+      isRelativeBase(RAW_BASE_URL);
+
+    const loadFallbackSnapshot = async ({ event, level, message }) => {
+      const fallbackResponse = await fetchImpl(fallbackSnapshotUrl, { cache: 'no-store' });
+      if (!fallbackResponse.ok) {
+        throw new Error(`Impossibile caricare snapshot fallback (${fallbackResponse.status})`);
       }
-      const data = await response.json();
-      state.snapshot = data || {};
-      pushLog(state, 'snapshot.loaded', {
+      const fallbackData = await fallbackResponse.json();
+      state.snapshot = fallbackData || {};
+      pushLog(state, event, {
         scope: 'flow',
-        level: 'info',
-        message: 'Snapshot orchestrator caricato',
-        meta: { source: targetUrl, fallback: false },
+        level,
+        message,
+        meta: { source: fallbackSnapshotUrl, fallback: true },
       });
       return state.snapshot;
-    } catch (error) {
-      const err = toError(error);
-      if (fallbackSnapshotUrl && fallbackSnapshotUrl !== snapshotUrl) {
+    };
+
+    try {
+      if (preferLocalFallbackFirst) {
         try {
-          const fallbackResponse = await fetchImpl(fallbackSnapshotUrl, { cache: 'no-store' });
-          if (!fallbackResponse.ok) {
-            throw new Error(
-              `Impossibile caricare snapshot fallback (${fallbackResponse.status})`,
-            );
-          }
-          const fallbackData = await fallbackResponse.json();
-          state.snapshot = fallbackData || {};
-          pushLog(state, 'snapshot.fallback', {
-            scope: 'flow',
-            level: 'warning',
-            message: `Endpoint snapshot non disponibile (${err.message}), applico fallback locale`,
-            meta: { source: fallbackSnapshotUrl, fallback: true },
+          return await loadFallbackSnapshot({
+            event: 'snapshot.fallback',
+            level: 'info',
+            message: `Base relativa rilevata (${RAW_BASE_URL || './'}), utilizzo snapshot locale`,
           });
-          return state.snapshot;
         } catch (fallbackError) {
           const fallbackErr = toError(fallbackError);
-          state.error = fallbackErr;
-          pushLog(state, 'snapshot.failed', {
+          pushLog(state, 'snapshot.fallback-first.failed', {
             scope: 'flow',
-            level: 'error',
-            message: fallbackErr.message,
+            level: 'warning',
+            message: `Snapshot locale non disponibile (${fallbackErr.message}), proseguo con endpoint remoto`,
+            meta: { source: fallbackSnapshotUrl, fallback: true },
           });
-          throw fallbackErr;
         }
       }
-      state.error = err;
-      pushLog(state, 'snapshot.failed', {
-        scope: 'flow',
-        level: 'error',
-        message: err.message,
-      });
-      throw err;
+
+      try {
+        const targetUrl = buildSnapshotUrl(snapshotUrl, { refresh: force });
+        const response = await fetchImpl(targetUrl, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`Impossibile caricare snapshot orchestrator (${response.status})`);
+        }
+        const data = await response.json();
+        state.snapshot = data || {};
+        pushLog(state, 'snapshot.loaded', {
+          scope: 'flow',
+          level: 'info',
+          message: 'Snapshot orchestrator caricato',
+          meta: { source: targetUrl, fallback: false },
+        });
+        return state.snapshot;
+      } catch (error) {
+        const err = toError(error);
+        if (fallbackSnapshotUrl && fallbackSnapshotUrl !== snapshotUrl) {
+          try {
+            return await loadFallbackSnapshot({
+              event: 'snapshot.fallback',
+              level: 'warning',
+              message: `Endpoint snapshot non disponibile (${err.message}), applico fallback locale`,
+            });
+          } catch (fallbackError) {
+            const fallbackErr = toError(fallbackError);
+            state.error = fallbackErr;
+            pushLog(state, 'snapshot.failed', {
+              scope: 'flow',
+              level: 'error',
+              message: fallbackErr.message,
+            });
+            throw fallbackErr;
+          }
+        }
+        state.error = err;
+        pushLog(state, 'snapshot.failed', {
+          scope: 'flow',
+          level: 'error',
+          message: err.message,
+        });
+        throw err;
+      }
     } finally {
       state.loadingSnapshot = false;
     }
