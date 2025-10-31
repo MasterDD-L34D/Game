@@ -1,0 +1,48 @@
+version: '1.0'
+service: moderation
+owners:
+  - team-moderation-ops
+  - data-science
+checks:
+  - id: nlp-training-drift
+    description: "Allerta se l'accuratezza del modello NLP scende sotto la soglia"
+    schedule: '0 */4 * * *'
+    query: metrics.moderation.model_accuracy
+    threshold:
+      type: below
+      value: 0.88
+    notification_channels:
+      - slack:#moderation-ops
+      - pagerduty:ds-oncall
+  - id: transcription-latency
+    description: "Pipeline voice-to-text con latenza superiore a 12s"
+    schedule: '*/15 * * * *'
+    query: metrics.moderation.transcription_latency_p95
+    threshold:
+      type: above
+      value: 12
+    notification_channels:
+      - slack:#moderation-ops
+  - id: transcription-error-rate
+    description: "Error rate API trascrizione oltre 5%"
+    schedule: '*/10 * * * *'
+    query: metrics.moderation.transcription_error_rate
+    threshold:
+      type: above
+      value: 0.05
+    notification_channels:
+      - slack:#moderation-alerts
+  - id: backlog-growth
+    description: "Backlog moderazione in crescita per più di 3 slot consecutivi"
+    schedule: '*/30 * * * *'
+    query: metrics.moderation.backlog_growth_rate
+    threshold:
+      type: above_consecutive
+      value: 3
+    notification_channels:
+      - slack:#moderation-ops
+runbooks:
+  nlp-training-drift: docs/runbooks/moderation/model_drift.md
+  transcription-latency: docs/runbooks/moderation/transcription_latency.md
+  transcription-error-rate: docs/runbooks/moderation/transcription_errors.md
+  backlog-growth: docs/runbooks/moderation/backlog_management.md
