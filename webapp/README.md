@@ -55,3 +55,25 @@ dati live. L'intervallo di polling può essere personalizzato passando `pollInte
 
 - `npm run check:data` verifica la presenza dei JSON di fallback richiesti dal registry ed esce con errore
   se uno o più file non sono raggiungibili.
+
+## Static hosting
+
+La dashboard è pensata per essere distribuita anche come bundle statico (es. GitHub Pages, Netlify, bucket S3).
+
+- **Configurazione `base`** – La build di produzione utilizza `base: './'` (vedi `vite.config.ts`) così che gli asset
+  vengano risolti in maniera relativa. In ambienti con path personalizzato imposta `VITE_BASE_PATH` o avvia la build
+  con `npm run build -- --base=/percorso/`.
+- **`import.meta.env.BASE_URL`** – L'entrypoint (`index.html`) carica l'applicazione tramite `import.meta.env.BASE_URL`,
+  perciò tutti i percorsi generati (router, asset, fallback) rispettano la `base` configurata.
+- **Variabili d'ambiente** – Oltre agli endpoint descritti sopra puoi definire `VITE_API_BASE` o URL specifici per ciascun
+  modulo. In ambienti statici è possibile precompilare questi valori creando un file `.env.production` prima della build.
+- **Fallback HTML** – Quando ospiti la webapp dietro CDN o Pages abilita il fallback su `index.html` per supportare il router
+  history di Vue (`404.html` su GitHub Pages, regola di rewrite su Netlify/S3/CloudFront).
+- **Test locale della build** – Esegui `npm run build && npm run preview` all'interno di `webapp/` oppure
+  il comando monorepo `npm run webapp:deploy` per installare le dipendenze, generare la build e avviare un server di
+  anteprima.
+- **Asset fingerprint** – La configurazione Vite produce bundle hashati (`assets/[name]-[hash].*`) così da poter impostare
+  header di cache aggressivi in hosting statico senza rischiare inconsistenze.
+
+> Suggerimento: il server `preview` di Vite espone la build ottimizzata su `http://localhost:4173` con gli stessi header
+> e rewrites che troveresti in hosting statico, così da verificare path relativi e fallback prima del deploy.

@@ -24,6 +24,18 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 - **Starter kit**: dati YAML verificati, strumenti CLI per validare/generare contenuti, workflow CI preconfigurati e materiale di presentazione condivisibile.
 - **Obiettivo**: permettere bootstrap rapido di nuove istanze (locale o cloud) mantenendo consistenza tra dataset, orchestratore e deliverable di comunicazione.
 
+## Settori e dipendenze
+- **Flow (generazione & validazione)** – vive principalmente in `services/generation/`, `tools/py`, `tools/ts` e nei dataset `data/core/`.
+  Orchestratore Python, CLI e validator TypeScript condividono gli stessi schema YAML; le pipeline front/back usano il registry condiviso in `webapp/src/config/dataSources.ts`.
+- **Atlas (telemetria & dashboard)** – la webapp (`webapp/`) e le dashboard statiche in `docs/test-interface/` leggono gli snapshot `data/derived/` e i mock `webapp/public/data/`.
+  Le variabili `VITE_*` armonizzano API live e fallback, mentre la configurazione `base` di Vite governa deploy statici e percorsi condivisi con Flow.
+- **Backend Idea Engine** – `server/` e `services/` espongono endpoint Express utilizzati sia dalla webapp (Flow/Atlas) sia dagli script CLI.
+  Dipende dai dataset `data/core/` e produce report in `reports/` e `packs/evo_tactics_pack/out/`.
+- **Dataset & pack** – `data/`, `packs/` e `reports/` raccolgono la fonte unica per specie, trait, biomi e analisi.
+  Ogni aggiornamento dei dataset è propagato verso Flow (validator/orchestratore), Atlas (snapshot), backend (API) e documentazione (`docs/catalog/`).
+
+> Quando modifichi un settore, verifica le dipendenze a valle: ad esempio una variazione nei dataset implica rigenerare la webapp (`npm run webapp:deploy`), aggiornare i report (`reports/`) e rieseguire i test backend (`npm run test:api`).
+
 ## Tour del repository
 ```
 evo-tactics/

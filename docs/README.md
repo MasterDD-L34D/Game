@@ -13,6 +13,12 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 - **Tutorial multimediali** — consulta `tutorials/` per schede SVG e passaggi rapidi dedicati a CLI, Idea Engine e dashboard (`docs/tutorials/*.md`).
 - **Feedback potenziato** — il modulo in `docs/public/embed.js` è attivo di default e rimanda al canale Slack `#feedback-enhancements` quando l'API non è configurata.
 
+## Settori operativi
+- **Flow** – orchestratore e validator (`services/generation/`, `tools/py`, `tools/ts`) sincronizzati con i dataset `data/core/`.
+- **Atlas** – webapp Vite (`webapp/`) e pannelli statici (`docs/test-interface/`) basati su snapshot `data/derived/` e fallback `webapp/public/data/`.
+- **Backend Idea Engine** – servizi Express (`server/`, `services/`) che espongono API consumate da Flow e Atlas e producono artefatti in `reports/`.
+- **Dataset & pack** – fonte unica (`data/`, `packs/`, `reports/`) che alimenta gli altri settori; ogni modifica richiede la verifica incrociata dei workflow (`npm run test:api`, `npm run webapp:deploy`).
+
 ## Procedure post-ottobre 2025
 Dal ciclo VC-2025-10 in avanti utilizziamo un flusso documentale condiviso con Support/QA e Telemetria. Con l'estensione di novembre 2025 il refactor della CLI introduce anche un percorso di approvazione per i profili `playtest`, `telemetry` e `support`.
 
