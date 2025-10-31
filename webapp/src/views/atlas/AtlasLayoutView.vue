@@ -27,6 +27,10 @@
       </aside>
     </header>
 
+    <p v-if="statusLabel" class="atlas-layout__status" :data-offline="isOffline">
+      {{ statusLabel }}
+    </p>
+
     <AtlasCollectionProgress :metrics="dataset.metrics" :dataset="dataset" :highlights="dataset.highlights" />
 
     <nav class="atlas-layout__nav" aria-label="Sottosezioni atlas">
@@ -52,6 +56,17 @@ import { computed } from 'vue';
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 import { atlasDataset, atlasTotals } from '../../state/atlasDataset.js';
 import AtlasCollectionProgress from '../../components/atlas/AtlasCollectionProgress.vue';
+
+const props = defineProps({
+  isDemo: {
+    type: Boolean,
+    default: false,
+  },
+  isOffline: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const dataset = atlasDataset;
 const totals = atlasTotals;
@@ -81,6 +96,16 @@ const links = computed(() => {
       active: name === 'atlas-encounter-lab',
     },
   ];
+});
+
+const statusLabel = computed(() => {
+  if (!props.isDemo && !props.isOffline) {
+    return '';
+  }
+  if (props.isOffline) {
+    return 'Modalità demo · dataset offline sincronizzato da fallback';
+  }
+  return 'Modalità demo attiva per le sezioni Atlas';
 });
 
 function forwardNotification(payload) {
@@ -165,6 +190,21 @@ function forwardNotification(payload) {
 .atlas-layout__curator {
   font-size: 0.85rem;
   color: rgba(15, 23, 42, 0.6);
+}
+
+.atlas-layout__status {
+  margin: -1rem 0 0;
+  padding: 0.85rem 1.25rem;
+  border-radius: 0.85rem;
+  background: rgba(59, 130, 246, 0.12);
+  color: rgba(15, 23, 42, 0.85);
+  font-weight: 600;
+  border: 1px dashed rgba(59, 130, 246, 0.3);
+}
+
+.atlas-layout__status[data-offline='true'] {
+  background: rgba(244, 114, 182, 0.12);
+  border-color: rgba(244, 114, 182, 0.4);
 }
 
 .atlas-layout__nav {

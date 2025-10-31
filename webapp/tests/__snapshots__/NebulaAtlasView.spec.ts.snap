@@ -1,0 +1,78 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NebulaAtlasView > mostra il banner demo e genera uno snapshot stabile 1`] = `
+"<section data-v-43e6e8ac="" class="nebula-atlas-view">
+  <aside data-v-43e6e8ac="" class="nebula-atlas-view__banner" role="status">
+    <div data-v-43e6e8ac="">
+      <h2 data-v-43e6e8ac="">Modalità demo attiva</h2>
+      <p data-v-43e6e8ac=""> Il dataset statico Nebula Atlas Demo è disponibile offline mentre la telemetria live è temporaneamente sospesa. I grafici mostrano una sincronizzazione mock per mantenere la console operativa. </p>
+      <p data-v-43e6e8ac="" class="nebula-atlas-view__banner-meta"> Origine dati: <strong data-v-43e6e8ac="">Telemetria offline · demo</strong></p>
+    </div>
+    <div data-v-43e6e8ac="" class="nebula-atlas-view__banner-actions"><button data-v-43e6e8ac="" type="button" class="nebula-atlas-view__banner-button"> Riprova sincronizzazione </button><button data-v-43e6e8ac="" type="button" class="nebula-atlas-view__banner-button"> Forza telemetria demo </button></div>
+  </aside>
+  <div data-v-43e6e8ac="" data-test="progress-stub" header="[object Object]" cards="[object Object]" timeline-entries="[object Object]" evolution-matrix="[object Object]" share="[object Object]" telemetry-status="[object Object]"></div>
+  <section data-v-43e6e8ac="" class="nebula-atlas-view__live" aria-live="polite">
+    <header data-v-43e6e8ac="" class="nebula-atlas-view__live-header">
+      <div data-v-43e6e8ac="">
+        <h3 data-v-43e6e8ac="">Telemetria live</h3>
+        <p data-v-43e6e8ac="">Indicatori dal generatore Nebula combinati con il dataset atlas.</p>
+      </div>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__status"><span data-v-43e6e8ac="" class="nebula-atlas-view__badge" data-tone="offline">Telemetria offline · demo</span><small data-v-43e6e8ac="">Ultimo sync: 2035-04-01T12:00:00Z · Telemetria offline · demo</small></div>
+    </header>
+    <div data-v-43e6e8ac="" class="nebula-atlas-view__grid">
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__metrics">
+        <article data-v-43e6e8ac="" class="nebula-atlas-view__metric" data-tone="neutral">
+          <h4 data-v-43e6e8ac="">Eventi totali</h4><strong data-v-43e6e8ac="">128</strong>
+        </article>
+        <article data-v-43e6e8ac="" class="nebula-atlas-view__metric" data-tone="warning">
+          <h4 data-v-43e6e8ac="">Eventi aperti</h4><strong data-v-43e6e8ac="">4</strong>
+        </article>
+        <article data-v-43e6e8ac="" class="nebula-atlas-view__metric" data-tone="critical">
+          <h4 data-v-43e6e8ac="">Priorità alta</h4><strong data-v-43e6e8ac="">2</strong>
+        </article>
+        <article data-v-43e6e8ac="" class="nebula-atlas-view__metric" data-tone="success">
+          <h4 data-v-43e6e8ac="">Acknowledged</h4><strong data-v-43e6e8ac="">92</strong>
+        </article>
+      </div>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__readiness">
+        <h4 data-v-43e6e8ac="">Readiness branchi</h4>
+        <ul data-v-43e6e8ac="">
+          <li data-v-43e6e8ac="" data-tone="success" data-mode="demo">
+            <div data-v-43e6e8ac="" class="nebula-atlas-view__chip-label"><span data-v-43e6e8ac="">Pronte</span><small data-v-43e6e8ac="">Offline demo</small></div><strong data-v-43e6e8ac="">8</strong>
+          </li>
+          <li data-v-43e6e8ac="" data-tone="warning" data-mode="demo">
+            <div data-v-43e6e8ac="" class="nebula-atlas-view__chip-label"><span data-v-43e6e8ac="">In attesa</span><small data-v-43e6e8ac="">Offline demo</small></div><strong data-v-43e6e8ac="">2</strong>
+          </li>
+          <li data-v-43e6e8ac="" data-tone="neutral" data-mode="demo">
+            <div data-v-43e6e8ac="" class="nebula-atlas-view__chip-label"><span data-v-43e6e8ac="">Neutrali</span><small data-v-43e6e8ac="">Offline demo</small></div><strong data-v-43e6e8ac="">1</strong>
+          </li>
+          <li data-v-43e6e8ac="" data-tone="critical" data-mode="demo">
+            <div data-v-43e6e8ac="" class="nebula-atlas-view__chip-label"><span data-v-43e6e8ac="">Bloccate</span><small data-v-43e6e8ac="">Offline demo</small></div><strong data-v-43e6e8ac="">0</strong>
+          </li>
+        </ul>
+      </div>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="Copertura QA">
+        <header data-v-43e6e8ac="">
+          <h4 data-v-43e6e8ac="">Copertura QA media</h4><span data-v-43e6e8ac="">82%</span>
+        </header>
+        <div data-v-43e6e8ac="" class="sparkline-chart" points="60,72,88" color="#61d5ff" variant="demo"></div>
+      </div>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="Incidenti telemetria">
+        <header data-v-43e6e8ac="">
+          <h4 data-v-43e6e8ac="">Incidenti ultimi 7 giorni</h4><span data-v-43e6e8ac="">3</span>
+        </header>
+        <div data-v-43e6e8ac="" class="sparkline-chart" points="2,1,0" color="#ff6982" variant="demo"></div>
+      </div>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="High priority">
+        <header data-v-43e6e8ac="">
+          <h4 data-v-43e6e8ac="">High priority</h4><span data-v-43e6e8ac="">2</span>
+        </header>
+        <div data-v-43e6e8ac="" class="sparkline-chart" points="1,1,0" color="#f4c060" variant="demo"></div>
+      </div>
+    </div>
+    <footer data-v-43e6e8ac="" class="nebula-atlas-view__footer"><span data-v-43e6e8ac="">Sync mock 15m fa</span>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__controls"><button data-v-43e6e8ac="" type="button" class="nebula-atlas-view__refresh">Aggiorna ora</button><button data-v-43e6e8ac="" type="button" class="nebula-atlas-view__refresh">Carica mock</button></div>
+    </footer>
+  </section>
+</section>"
+`;

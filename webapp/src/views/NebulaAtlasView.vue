@@ -1,5 +1,26 @@
 <template>
   <section class="nebula-atlas-view">
+    <aside v-if="telemetryStatus.offline" class="nebula-atlas-view__banner" role="status">
+      <div>
+        <h2>Modalità demo attiva</h2>
+        <p>
+          Il dataset statico {{ datasetInfo.title }} è disponibile offline mentre la telemetria live è
+          temporaneamente sospesa. I grafici mostrano una sincronizzazione mock per mantenere la console operativa.
+        </p>
+        <p class="nebula-atlas-view__banner-meta">
+          Origine dati: <strong>{{ datasetInfo.sourceLabel }}</strong>
+        </p>
+      </div>
+      <div class="nebula-atlas-view__banner-actions">
+        <button type="button" class="nebula-atlas-view__banner-button" @click="refresh">
+          Riprova sincronizzazione
+        </button>
+        <button type="button" class="nebula-atlas-view__banner-button" @click="activateDemo">
+          Forza telemetria demo
+        </button>
+      </div>
+    </aside>
+
     <NebulaProgressModule
       :header="moduleState.header"
       :cards="moduleState.cards"
@@ -21,8 +42,8 @@
         </div>
       </header>
 
-      <div v-if="moduleState.error" class="nebula-atlas-view__error" role="status">
-        {{ moduleState.error.message }}
+      <div v-if="moduleError" class="nebula-atlas-view__error" role="status">
+        {{ moduleError.message }}
       </div>
 
       <div class="nebula-atlas-view__grid" v-else>
@@ -77,8 +98,11 @@
       </div>
 
       <footer class="nebula-atlas-view__footer">
-        <span>{{ moduleState.telemetrySummary.lastEventLabel }}</span>
-        <button type="button" class="nebula-atlas-view__refresh" @click="refresh">Aggiorna ora</button>
+        <span>{{ lastEventLabel }}</span>
+        <div class="nebula-atlas-view__controls">
+          <button type="button" class="nebula-atlas-view__refresh" @click="refresh">Aggiorna ora</button>
+          <button type="button" class="nebula-atlas-view__refresh" @click="activateDemo">Carica mock</button>
+        </div>
       </footer>
     </section>
   </section>
@@ -92,7 +116,19 @@ import { useNebulaProgressModule } from '../modules/useNebulaProgressModule';
 
 const moduleState = useNebulaProgressModule();
 
+const datasetInfo = computed(() => {
+  const header = moduleState.header.value || {};
+  const summary = moduleState.telemetrySummary.value;
+  return {
+    title: header.title || 'Nebula Atlas Dataset',
+    summary: header.summary || '',
+    sourceLabel: summary.sourceLabel,
+  };
+});
+
 const telemetryStatus = computed(() => moduleState.telemetryStatus.value);
+const moduleError = computed(() => moduleState.error.value);
+const lastEventLabel = computed(() => moduleState.telemetrySummary.value.lastEventLabel);
 
 const summaryCards = computed(() => {
   const summary = moduleState.telemetrySummary.value;
@@ -153,12 +189,63 @@ const statusMeta = computed(() => {
 const chartVariant = computed(() => telemetryStatus.value.variant);
 
 const refresh = () => moduleState.refresh();
+const activateDemo = () => {
+  if (typeof moduleState.activateDemoTelemetry === 'function') {
+    return moduleState.activateDemoTelemetry();
+  }
+  return moduleState.refresh();
+};
 </script>
 
 <style scoped>
 .nebula-atlas-view {
   display: grid;
   gap: 2.5rem;
+}
+
+.nebula-atlas-view__banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 209, 102, 0.25);
+  background: rgba(255, 209, 102, 0.12);
+  color: #ffe3a6;
+}
+
+.nebula-atlas-view__banner h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+}
+
+.nebula-atlas-view__banner-meta {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.nebula-atlas-view__banner-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nebula-atlas-view__banner-button {
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 209, 102, 0.45);
+  background: rgba(16, 19, 32, 0.6);
+  color: #ffecc2;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.nebula-atlas-view__banner-button:hover {
+  background: rgba(16, 19, 32, 0.8);
+  transform: translateY(-1px);
 }
 
 .nebula-atlas-view__live {
@@ -202,122 +289,103 @@ const refresh = () => moduleState.refresh();
 }
 
 .nebula-atlas-view__badge[data-tone='success'] {
-  background: rgba(115, 255, 206, 0.18);
-  color: #73ffce;
+  background: rgba(74, 222, 128, 0.18);
+  color: #4ade80;
 }
 
 .nebula-atlas-view__badge[data-tone='offline'] {
-  background: rgba(244, 192, 96, 0.12);
-  color: #fbd89a;
-  border: 1px dashed rgba(244, 192, 96, 0.45);
+  background: rgba(255, 153, 204, 0.18);
+  color: #ff99cc;
 }
 
 .nebula-atlas-view__badge[data-tone='neutral'] {
-  background: rgba(224, 237, 255, 0.12);
-  color: rgba(224, 237, 255, 0.75);
-  border: 1px solid rgba(224, 237, 255, 0.2);
+  background: rgba(148, 163, 184, 0.18);
+  color: #94a3b8;
+}
+
+.nebula-atlas-view__error {
+  padding: 1rem 1.25rem;
+  border-radius: 0.85rem;
+  background: rgba(255, 105, 130, 0.1);
+  border: 1px solid rgba(255, 105, 130, 0.35);
+  color: #ff99aa;
 }
 
 .nebula-atlas-view__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 }
 
 .nebula-atlas-view__metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 1rem;
 }
 
 .nebula-atlas-view__metric {
-  padding: 1.25rem;
-  border-radius: 16px;
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(14, 20, 32, 0.8);
+  border-radius: 0.95rem;
+  padding: 1.15rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  border: 1px solid rgba(97, 213, 255, 0.18);
+  gap: 0.4rem;
+  border: 1px solid rgba(97, 213, 255, 0.12);
 }
 
 .nebula-atlas-view__metric[data-tone='warning'] {
   border-color: rgba(244, 192, 96, 0.35);
 }
 
+.nebula-atlas-view__metric[data-tone='success'] {
+  border-color: rgba(74, 222, 128, 0.35);
+}
+
 .nebula-atlas-view__metric[data-tone='critical'] {
   border-color: rgba(255, 105, 130, 0.4);
 }
 
-.nebula-atlas-view__metric[data-tone='success'] {
-  border-color: rgba(115, 255, 206, 0.35);
-}
-
-.nebula-atlas-view__metric h4 {
-  margin: 0;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(230, 243, 255, 0.75);
-}
-
-.nebula-atlas-view__metric strong {
-  font-size: 1.8rem;
-}
-
 .nebula-atlas-view__readiness {
-  padding: 1.5rem;
-  border-radius: 16px;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(14, 20, 32, 0.8);
+  border-radius: 0.95rem;
+  padding: 1.15rem;
   border: 1px solid rgba(97, 213, 255, 0.18);
-}
-
-.nebula-atlas-view__readiness h4 {
-  margin: 0 0 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  color: rgba(230, 243, 255, 0.75);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .nebula-atlas-view__readiness ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
   list-style: none;
-  margin: 0;
+  display: grid;
+  gap: 0.65rem;
   padding: 0;
+  margin: 0;
 }
 
 .nebula-atlas-view__readiness li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  background: rgba(230, 243, 255, 0.05);
-  border: 1px solid rgba(97, 213, 255, 0.12);
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(5, 8, 13, 0.75);
+  border: 1px solid rgba(97, 213, 255, 0.14);
 }
 
 .nebula-atlas-view__readiness li[data-mode='demo'] {
   border-style: dashed;
-  border-color: rgba(244, 192, 96, 0.35);
-  background: rgba(244, 192, 96, 0.08);
 }
 
 .nebula-atlas-view__chip-label {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.5rem;
-  width: 100%;
-  flex: 1;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
-.nebula-atlas-view__chip-label small {
-  font-size: 0.65rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(244, 192, 96, 0.85);
+.nebula-atlas-view__readiness li[data-tone='success'] {
+  border-color: rgba(74, 222, 128, 0.25);
 }
 
 .nebula-atlas-view__readiness li[data-tone='warning'] {
@@ -325,72 +393,52 @@ const refresh = () => moduleState.refresh();
 }
 
 .nebula-atlas-view__readiness li[data-tone='critical'] {
-  border-color: rgba(255, 105, 130, 0.35);
-}
-
-.nebula-atlas-view__readiness li[data-tone='success'] {
-  border-color: rgba(115, 255, 206, 0.3);
+  border-color: rgba(255, 105, 130, 0.25);
 }
 
 .nebula-atlas-view__chart {
-  padding: 1.5rem;
-  border-radius: 16px;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(14, 20, 32, 0.8);
+  border-radius: 0.95rem;
+  padding: 1.15rem;
   border: 1px solid rgba(97, 213, 255, 0.18);
   display: grid;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .nebula-atlas-view__chart header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: baseline;
   gap: 1rem;
-}
-
-.nebula-atlas-view__chart h4 {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.85rem;
-  color: rgba(230, 243, 255, 0.75);
-}
-
-.nebula-atlas-view__chart span {
-  font-weight: 600;
-  color: rgba(230, 243, 255, 0.9);
 }
 
 .nebula-atlas-view__footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
-  font-size: 0.9rem;
-  color: rgba(230, 243, 255, 0.7);
+}
+
+.nebula-atlas-view__controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .nebula-atlas-view__refresh {
-  background: linear-gradient(135deg, #61d5ff, #9f7bff);
-  border: none;
-  color: #05080d;
+  padding: 0.55rem 1.1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(97, 213, 255, 0.45);
+  background: rgba(6, 12, 21, 0.75);
+  color: #c9e7ff;
   font-weight: 600;
-  padding: 0.5rem 1.5rem;
-  border-radius: 999px;
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s ease, background 0.18s ease;
 }
 
 .nebula-atlas-view__refresh:hover {
+  background: rgba(6, 12, 21, 0.95);
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(97, 213, 255, 0.35);
-}
-
-.nebula-atlas-view__error {
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  background: rgba(255, 105, 130, 0.15);
-  border: 1px solid rgba(255, 105, 130, 0.35);
-  color: #ffd5de;
 }
 </style>
