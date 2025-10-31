@@ -1,0 +1,87 @@
+pipeline:
+  version: 1.0.0
+  description: >-
+    Definizione dei passaggi di raccolta e triage feedback dopo l'intake automatico.
+    Utilizzato dagli owner per tracciare stato e responsabilità.
+  states:
+    - id: new
+      label: "Nuovo"
+      description: "Feedback appena ricevuto, in attesa di triage."
+      sla_hours: 12
+    - id: triaged
+      label: "Triagiato"
+      description: "Classificato con categoria, severità confermata e owner assegnato."
+      sla_hours: 24
+    - id: in_progress
+      label: "In lavorazione"
+      description: "Task aperto su backlog e in lavorazione attiva."
+      sla_hours: 72
+    - id: awaiting_feedback
+      label: "In attesa tester"
+      description: "Richieste informazioni aggiuntive al tester."
+      sla_hours: 48
+    - id: resolved
+      label: "Risolto"
+      description: "Fix completato, in attesa di conferma tester."
+      sla_hours: 24
+    - id: closed
+      label: "Chiuso"
+      description: "Feedback confermato risolto o archiviato."
+      sla_hours: 0
+  transitions:
+    - from: new
+      to: triaged
+      required_actions:
+        - "Compila triage note"
+        - "Assegna owner"
+    - from: triaged
+      to: in_progress
+      required_actions:
+        - "Crea task su incoming/FEATURE_MAP_EVO_TACTICS.md"
+        - "Notifica owner su Slack"
+    - from: triaged
+      to: awaiting_feedback
+      required_actions:
+        - "Contatta tester"
+    - from: in_progress
+      to: resolved
+      required_actions:
+        - "Aggiorna stato task"
+        - "Valida fix in ambiente staging"
+    - from: awaiting_feedback
+      to: triaged
+      required_actions:
+        - "Ricevi info tester"
+    - from: resolved
+      to: closed
+      required_actions:
+        - "Conferma con tester"
+  owners:
+    gameplay:
+      default: "lead.design@evo-tactics.dev"
+      backup: "design.producer@evo-tactics.dev"
+    tecnica:
+      default: "lead.engineering@evo-tactics.dev"
+      backup: "qa.automation@evo-tactics.dev"
+    narrativa:
+      default: "narrative.lead@evo-tactics.dev"
+      backup: "narrative.support@evo-tactics.dev"
+    ux:
+      default: "ux.lead@evo-tactics.dev"
+      backup: "ux.research@evo-tactics.dev"
+  cadence:
+    daily_sync:
+      time: "09:30"
+      timezone: "Europe/Rome"
+      agenda:
+        - "Review nuove submission"
+        - "Aggiornare stato in_progress"
+        - "Identificare blocchi"
+    weekly_digest:
+      day: "Friday"
+      time: "16:00"
+      deliverable: "Report generato da tools/feedback/report_generator.py"
+  reporting:
+    dashboard: "analytics/feedback/weekly_summary.csv"
+    changelog: "docs/changelog.md"
+    archive_path: "data/feedback/archive/"
