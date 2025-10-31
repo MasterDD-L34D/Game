@@ -22,7 +22,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CATALOG_PATH = REPO_ROOT / "docs" / "catalog" / "catalog_data.json"
 DEFAULT_MATRIX_PATH = REPO_ROOT / "docs" / "catalog" / "species_trait_matrix.json"
 DEFAULT_TRAIT_REFERENCE_PATH = (
-    REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
+    REPO_ROOT / "data" / "traits" / "index.json"
 )
 DEFAULT_TRAIT_GLOSSARY_PATH = REPO_ROOT / "data" / "core" / "traits" / "glossary.json"
 DEFAULT_INVENTORY_PATH = REPO_ROOT / "docs" / "catalog" / "traits_inventory.json"

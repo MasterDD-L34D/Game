@@ -1,0 +1,687 @@
+{
+  "schema_version": "2.0",
+  "traits": {
+    "antenne_eco_turbina": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "antenne_eco_turbina",
+      "label": "Antenne Eco Turbina",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Antenne Eco Turbina ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "artigli_acidofagi": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "artigli_acidofagi",
+      "label": "Artigli Acidofagi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Artigli Acidofagi ottimizza le operazioni supporto nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "aura_scudo_radianza": {
+      "conflitti": [
+        "mantello_meteoritico"
+      ],
+      "debolezza": "Soffre saturazione se esposta a ombre gravitazionali o zone di antimagia.",
+      "famiglia_tipologia": "Supporto/Difesa",
+      "fattore_mantenimento_energetico": "Alto (Canalizzazione fotonica continua)",
+      "id": "aura_scudo_radianza",
+      "label": "Aura Scudo di Radianza",
+      "mutazione_indotta": "Innesta organi fotoplasmatici che diffondono uno scudo radiante sugli alleati vicini.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [
+            "flight"
+          ],
+          "condizioni": {
+            "biome_class": "rovine_planari"
+          },
+          "fonte": "pathfinder_import",
+          "meta": {
+            "expansion": "pathfinder_dataset",
+            "notes": "Richiede catalizzatori di luce stabili nelle rovine planari.",
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "difesa",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Proteggere gli hub di evacuazione durante tempeste di energia planare.",
+      "tier": "T3",
+      "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra."
+    },
+    "batteri_termofili_endosimbiosi": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "batteri_termofili_endosimbiosi",
+      "label": "Batteri Termofili Endosimbiosi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Batteri Termofili Endosimbiosi ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "branchie_turbina": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "branchie_turbina",
+      "label": "Branchie Turbina",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Branchie Turbina ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "carapaci_ferruginosi": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "carapaci_ferruginosi",
+      "label": "Carapaci Ferruginosi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Carapaci Ferruginosi ottimizza le operazioni supporto nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "circolazione_doppia": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "circolazione_doppia",
+      "label": "Circolazione Doppia",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Circolazione Doppia ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "coda_stabilizzatrice_geiser": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "coda_stabilizzatrice_geiser",
+      "label": "Coda Stabilizzatrice Geiser",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Coda Stabilizzatrice Geiser ottimizza le operazioni supporto nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "cuticole_neutralizzanti": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cuticole_neutralizzanti",
+      "label": "Cuticole Neutralizzanti",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cuticole Neutralizzanti ottimizza le operazioni supporto nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "empatia_coordinativa": {
+      "conflitti": [],
+      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+      "famiglia_tipologia": "Supporto/Empatico",
+      "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
+      "id": "empatia_coordinativa",
+      "label": "Empatia Coordinativa",
+      "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
+      "requisiti_ambientali": [],
+      "sinergie": [
+        "antenne_eco_turbina",
+        "artigli_acidofagi",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "carapaci_ferruginosi",
+        "cavita_risonanti_tundra",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "cuticole_neutralizzanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_inchiostro_luce",
+        "gusci_criovetro",
+        "luminescenza_hydrotermica",
+        "aura_scudo_radianza"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "job_ability:Warden/Scudo_di_Risonanza"
+        ],
+        "combo_totale": 1,
+        "forme": [
+          "INFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A"
+      ],
+      "slot_profile": {
+        "complementare": "coordinazione",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
+      "tier": "T1",
+      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
+    },
+    "enzimi_chelatori_rapidi": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "enzimi_chelatori_rapidi",
+      "label": "Enzimi Chelatori Rapidi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Enzimi Chelatori Rapidi ottimizza le operazioni supporto nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "foliage_fotocatodico": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "foliage_fotocatodico",
+      "label": "Foliage Fotocatodico",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Foliage Fotocatodico ottimizza le operazioni supporto nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "ghiandole_inchiostro_luce": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_inchiostro_luce",
+      "label": "Ghiandole Inchiostro Luce",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Inchiostro Luce ottimizza le operazioni supporto nelle condizioni di reef luminescente.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "gusci_criovetro": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "gusci_criovetro",
+      "label": "Gusci Criovetro",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Gusci Criovetro ottimizza le operazioni supporto nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "luminescenza_hydrotermica": {
+      "conflitti": [],
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "luminescenza_hydrotermica",
+      "label": "Luminescenza Hydrotermica",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Luminescenza Hydrotermica ottimizza le operazioni supporto nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistico",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "tier": "T1",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "risonanza_di_branco": {
+      "conflitti": [],
+      "debolezza": "Stress elevato se la coesione cala sotto i target di telemetria.",
+      "famiglia_tipologia": "Supporto/Coordinativo",
+      "fattore_mantenimento_energetico": "Basso (Richiede mantenimento empatico)",
+      "id": "risonanza_di_branco",
+      "label": "Risonanza di Branco",
+      "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
+      "requisiti_ambientali": [],
+      "sinergie": [
+        "antenne_eco_turbina",
+        "antenne_plasmatiche_tempesta",
+        "artigli_acidofagi",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "carapace_luminiscente_abissale",
+        "carapaci_ferruginosi",
+        "cavita_risonanti_tundra",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "cuticole_neutralizzanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_inchiostro_luce",
+        "gusci_criovetro",
+        "luminescenza_hydrotermica",
+        "aura_scudo_radianza"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "guardia_situazionale",
+          "starter_bioma"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "ENFJ",
+          "INFP",
+          "ISFJ"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "B",
+        "C"
+      ],
+      "slot_profile": {
+        "complementare": "coordinazione",
+        "core": "supporto"
+      },
+      "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
+    }
+  },
+  "type": "supporto"
+}

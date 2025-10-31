@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+  "famiglia_tipologia": "Locomotorio/Mobilità",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "ali_ioniche",
+  "label": "Ali Ioniche",
+  "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_ionica"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Ali Ioniche ottimizza le operazioni locomotorio nelle condizioni di canopia ionica.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "coda_frusta_cinetica",
+    "zampe_a_molla"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "mobilita",
+    "core": "locomotorio"
+  },
+  "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+  "tier": "T1",
+  "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+}

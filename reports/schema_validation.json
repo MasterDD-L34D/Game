@@ -2,7 +2,7 @@
   "generated_at": "2025-10-29T20:29:03Z",
   "files": [
     {
-      "path": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+      "path": "data/traits/index.json",
       "schema": "https://game.schemas.local/catalog.schema.json",
       "errors": [],
       "warnings": [],

@@ -1,0 +1,39 @@
+{
+  "conflitti": [],
+  "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
+  "famiglia_tipologia": "Sensoriale/Alimentare",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "lingua_tattile_trama",
+  "label": "Lingua Tattile Trama-Sensibile",
+  "mutazione_indotta": "Lingua sottile con papille tattili e meccanocettori avanzati.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+      }
+    }
+  ],
+  "sinergie": [
+    "olfatto_risonanza_magnetica"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "alimentare",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
+  "tier": "T1",
+  "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+}

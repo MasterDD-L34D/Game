@@ -1,0 +1,52 @@
+{
+  "conflitti": [],
+  "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci.",
+  "famiglia_tipologia": "Digestivo/Alimentare",
+  "fattore_mantenimento_energetico": "Medio (Contrazione muscolare costante)",
+  "id": "ventriglio_gastroliti",
+  "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
+  "mutazione_indotta": "Sviluppo di un organo muscolare (ventriglio) con gastroliti.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_dustsense",
+    "appendici_thermotattiche",
+    "batteri_endosimbionti_chemio",
+    "branchie_solfatiche",
+    "carapace_segmenti_logici",
+    "circolazione_cooling_loop",
+    "coda_stabilizzatrice_filo",
+    "cuticole_cerose",
+    "enzimi_chelanti",
+    "filamenti_digestivi_compattanti",
+    "flagelli_ancoranti",
+    "ghiandole_grafene",
+    "grassi_termici",
+    "luminescenza_aurorale"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "alimentare",
+    "core": "digestivo"
+  },
+  "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
+  "tier": "T1",
+  "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio."
+}

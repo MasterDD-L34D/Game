@@ -1,0 +1,55 @@
+{
+  "conflitti": [],
+  "debolezza": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente.",
+  "famiglia_tipologia": "Idrostatico/Locomotorio",
+  "fattore_mantenimento_energetico": "Medio (Per il controllo della pressione)",
+  "id": "sacche_galleggianti_ascensoriali",
+  "label": "Sacche galleggianti ascensoriali",
+  "mutazione_indotta": "Sacche ripiene di gas leggeri con pompe muscolari.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Fase T1 in canopie sospese per calibrare pompaggio e feedback pressorio.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "orbita_psionica_inversa"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Apex T3 su piattaforme orbitali a gravità invertita per ascese rapide.",
+        "tier": "T3"
+      }
+    }
+  ],
+  "sinergie": [
+    "cartilagine_flessotermica_venti",
+    "respiro_a_scoppio",
+    "scheletro_idro_regolante",
+    "struttura_elastica_amorfa"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "locomotorio",
+    "core": "idrostatico"
+  },
+  "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
+  "tier": "T1",
+  "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+}

@@ -3,7 +3,7 @@
   "generated_at": "2025-10-29T14:20:44+00:00",
   "sources": {
     "etl_report": "data/derived/mock/prod_snapshot/analysis/trait_coverage_report.json",
-    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+    "trait_reference": "data/traits/index.json",
     "trait_glossary": "data/core/traits/glossary.json"
   },
   "summary": {

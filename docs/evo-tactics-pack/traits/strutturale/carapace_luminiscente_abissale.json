@@ -1,0 +1,52 @@
+{
+  "conflitti": [
+    "carapace_fase_variabile"
+  ],
+  "debolezza": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile.",
+  "famiglia_tipologia": "Strutturale/Sensoriale",
+  "fattore_mantenimento_energetico": "Alto (Bioluminescenza controllata)",
+  "id": "carapace_luminiscente_abissale",
+  "label": "Carapace Luminiscente Abissale",
+  "mutazione_indotta": "Placche chitino-minerali con microrganismi luminescenti che comunicano in pattern.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "abisso_luminescente"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Gole oceaniche illuminate da coralli psionici e scariche elettrostatiche."
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_plasmatiche_tempesta",
+    "risonanza_di_branco",
+    "sinapsi_coraline_polifoniche"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:Evolution/WarningCall",
+      "boardgame:DominantSpecies/Initiative",
+      "hud:AbyssLight_Array"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Lanterna_Abissale",
+      "HUD:LuminaNet"
+    ],
+    "tabelle_random": [
+      "tabella:segnali_bioluminosi"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "sensoriale",
+    "core": "strutturale"
+  },
+  "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
+  "tier": "T3",
+  "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+}

@@ -3,7 +3,7 @@
   "generated_at": "2025-10-26T23:42:22+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
-    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+    "trait_reference": "data/traits/index.json",
     "trait_glossary": "/workspace/Game/data/core/traits/glossary.json",
     "species_root": "packs/evo_tactics_pack/data/species"
   },

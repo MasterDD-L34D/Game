@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+  "famiglia_tipologia": "Digestivo/Metabolico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "antenne_dustsense",
+  "label": "Antenne Dustsense",
+  "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "pianura_salina_iperarida"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Antenne Dustsense ottimizza le operazioni metabolico nelle condizioni di pianura salina iperarida.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "filamenti_digestivi_compattanti",
+    "ventriglio_gastroliti"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "energia",
+    "core": "metabolico"
+  },
+  "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+  "tier": "T1",
+  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+}

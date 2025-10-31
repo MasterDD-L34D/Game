@@ -1,0 +1,41 @@
+{
+  "conflitti": [
+    "respiro_a_scoppio"
+  ],
+  "debolezza": "Correnti ionizzate possono incendiare le sacche rendendo l'organismo instabile.",
+  "famiglia_tipologia": "Simbiotico/Supporto",
+  "fattore_mantenimento_energetico": "Alto (Coltura continua di spore portanti)",
+  "id": "sacche_spore_stratosferiche",
+  "label": "Sacche di Spore Stratosferiche",
+  "mutazione_indotta": "Vescicole dermiche che rilasciano spore portatrici capaci di galleggiare per chilometri.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "stratosfera_portante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Correnti ascendenti permanenti che trasportano semi e spore su larga scala."
+      }
+    }
+  ],
+  "sinergie": [
+    "piume_solari_fotovoltaiche"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "supporto",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "Dispersone genetica rapida tra arcipelaghi aerei e piattaforme galleggianti.",
+  "tier": "T3",
+  "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
+}

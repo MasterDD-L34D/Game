@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+  "famiglia_tipologia": "Offensivo/Assalto",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "camere_anticorrosione",
+  "label": "Camere Anticorrosione",
+  "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_acida"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Camere Anticorrosione ottimizza le operazioni offensivo nelle condizioni di foresta acida.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "coda_frusta_cinetica",
+    "sangue_piroforico"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "assalto",
+    "core": "offensivo"
+  },
+  "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+  "tier": "T1",
+  "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+}

@@ -1,0 +1,55 @@
+{
+  "conflitti": [
+    "sangue_piroforico",
+    "sacche_galleggianti_ascensoriali"
+  ],
+  "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi.",
+  "famiglia_tipologia": "Metabolico/Difensivo",
+  "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
+  "id": "criostasi_adattiva",
+  "label": "Criostasi",
+  "mutazione_indotta": "Sviluppo di enzimi crioprotettivi e tessuto adiposo isolante.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Fase T1 controllata: micro-canopie sospese usate per cicli brevi di ibernazione.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "orbita_psionica_inversa"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Variante apex T3 in camere orbitali a gravità invertita per stasi prolungate.",
+        "tier": "T3"
+      }
+    }
+  ],
+  "sinergie": [
+    "cavita_risonanti_tundra"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difensivo",
+    "core": "metabolico"
+  },
+  "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
+  "tier": "T1",
+  "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
+}

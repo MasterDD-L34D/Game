@@ -1,0 +1,55 @@
+{
+  "conflitti": [],
+  "debolezza": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD.",
+  "famiglia_tipologia": "Strategico/Psionico",
+  "fattore_mantenimento_energetico": "Medio (Dividere l'attenzione su più canali)",
+  "id": "focus_frazionato",
+  "label": "Focus Frazionato",
+  "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
+  "requisiti_ambientali": [],
+  "sinergie": [
+    "ali_fulminee",
+    "antenne_plasmatiche_tempesta",
+    "antenne_waveguide",
+    "baffi_mareomotori",
+    "branchie_eoliche",
+    "capillari_fluoridici",
+    "cervelletto_equilibrio_statico",
+    "coda_balanciere",
+    "cuore_multicamera_bassa_pressione",
+    "echi_risonanti",
+    "filamenti_superconduttivi",
+    "ghiandole_eco_mappanti",
+    "ghiandole_resina_conduttiva",
+    "lamine_scudo_silice",
+    "midollo_antivibrazione",
+    "frusta_fiammeggiante"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "PE",
+      "cap_pt",
+      "job_ability:Invoker/Sincronia",
+      "sigillo_forma",
+      "starter_bioma"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "ENTP",
+      "INFJ",
+      "INTP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A",
+    "C"
+  ],
+  "slot_profile": {
+    "complementare": "psionico",
+    "core": "strategia"
+  },
+  "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
+  "tier": "T1",
+  "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
+}

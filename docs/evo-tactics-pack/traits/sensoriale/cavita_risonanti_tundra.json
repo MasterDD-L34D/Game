@@ -1,0 +1,51 @@
+{
+  "conflitti": [],
+  "debolezza": "In ambienti temperati l'eco interna produce rumori udibili che rivelano la posizione.",
+  "famiglia_tipologia": "Sensoriale/Supporto",
+  "fattore_mantenimento_energetico": "Basso (Camere di risonanza statiche)",
+  "id": "cavita_risonanti_tundra",
+  "label": "Cavità Risonanti della Tundra",
+  "mutazione_indotta": "Camere toraciche espanse che amplificano vibrazioni subsoniche nel permafrost.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "tundra_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Steppe gelate che trasmettono vibrazioni psioniche a chilometri di distanza."
+      }
+    }
+  ],
+  "sinergie": [
+    "criostasi_adattiva",
+    "eco_interno_riflesso",
+    "empatia_coordinativa",
+    "risonanza_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:Evolution/Communication",
+      "boardgame:DominantSpecies/Initiative",
+      "hud:TundraPulse"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Cantore_Tundra",
+      "HUD:EchoGrid"
+    ],
+    "tabelle_random": [
+      "tabella:canti_ipersonici"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "supporto",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
+  "tier": "T1",
+  "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo."
+}

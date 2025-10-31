@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "Rigidità tattica se gli input di telemetria arrivano in ritardo.",
+  "famiglia_tipologia": "Strategico/Tattico",
+  "fattore_mantenimento_energetico": "Medio (Analisi continua di stato squadre)",
+  "id": "pianificatore",
+  "label": "Pianificatore",
+  "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
+  "requisiti_ambientali": [],
+  "sinergie": [
+    "antenne_microonde_cavernose",
+    "artigli_radice",
+    "biofilm_glow",
+    "camere_mirage",
+    "cartilagini_desertiche",
+    "ciste_riduttive",
+    "colonne_vibromagnetiche",
+    "denti_ossidoferro",
+    "epidermide_dielettrica",
+    "ghiaccio_piezoelettrico",
+    "ghiandole_minerali",
+    "lamelle_shear",
+    "membrane_captura_rugiada"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "PE",
+      "cap_pt",
+      "guardia_situazionale",
+      "sigillo_forma",
+      "starter_bioma"
+    ],
+    "combo_totale": 6,
+    "forme": [
+      "ENTJ",
+      "ENTP",
+      "ESTJ",
+      "INTJ",
+      "ISTJ"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A",
+    "C"
+  ],
+  "slot_profile": {
+    "complementare": "tattico",
+    "core": "strategia"
+  },
+  "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
+  "tier": "T1",
+  "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
+}

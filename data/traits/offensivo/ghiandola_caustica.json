@@ -1,0 +1,32 @@
+{
+  "conflitti": [],
+  "debolezza": "Gestione accurata delle riserve per non calare sotto i budget PE previsto.",
+  "famiglia_tipologia": "Offensivo/Chimico",
+  "fattore_mantenimento_energetico": "Medio (Produzione reagenti)",
+  "id": "ghiandola_caustica",
+  "label": "Ghiandola Caustica",
+  "mutazione_indotta": "Sintesi rapida di composti caustici nei moduli d'attacco.",
+  "requisiti_ambientali": [],
+  "sinergie": [],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "PE",
+      "guardia_situazionale"
+    ],
+    "combo_totale": 1,
+    "forme": [
+      "ISTP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A"
+  ],
+  "slot_profile": {
+    "complementare": "assalto",
+    "core": "offensivo"
+  },
+  "spinta_selettiva": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
+  "tier": "T1",
+  "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
+}

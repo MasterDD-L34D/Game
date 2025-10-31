@@ -6,7 +6,7 @@ seguendo step incrementali che coprono revisione design, QA e telemetria.
 ## 1. Preparazione design
 - [ ] Validare la proposta con il glossario (`data/core/traits/glossary.json`) e
       aprire una nota di revisione nel documento di riferimento del pack.
-- [ ] Aggiornare `env_traits.json` / `trait_reference.json` con tier, slot e
+- [ ] Aggiornare `env_traits.json` / `data/traits/index.json` con tier, slot e
       requisiti ambientali, includendo eventuali note di bilanciamento.
 - [ ] Aggiornare `docs/catalog/species_trait_matrix.json` con le nuove
       associazioni Forma↔bioma e indicare l'owner del tratto nelle note.

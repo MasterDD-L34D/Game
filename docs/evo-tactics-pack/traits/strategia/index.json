@@ -1,0 +1,766 @@
+{
+  "schema_version": "2.0",
+  "traits": {
+    "antenne_microonde_cavernose": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "antenne_microonde_cavernose",
+      "label": "Antenne Microonde Cavernose",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Antenne Microonde Cavernose ottimizza le operazioni strategia nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "artigli_radice": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "artigli_radice",
+      "label": "Artigli Radice",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Artigli Radice ottimizza le operazioni strategia nelle condizioni di mangrovieto cinetico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "biofilm_glow": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "biofilm_glow",
+      "label": "Biofilm Glow",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Biofilm Glow ottimizza le operazioni strategia nelle condizioni di reef luminescente.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "camere_mirage": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "camere_mirage",
+      "label": "Camere Mirage",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Camere Mirage ottimizza le operazioni strategia nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "cartilagini_desertiche": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cartilagini_desertiche",
+      "label": "Cartilagini Desertiche",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cartilagini Desertiche ottimizza le operazioni strategia nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ciste_riduttive": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ciste_riduttive",
+      "label": "Ciste Riduttive",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ciste Riduttive ottimizza le operazioni strategia nelle condizioni di laguna bioreattiva.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "colonne_vibromagnetiche": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "colonne_vibromagnetiche",
+      "label": "Colonne Vibromagnetiche",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Colonne Vibromagnetiche ottimizza le operazioni strategia nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "denti_ossidoferro": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "denti_ossidoferro",
+      "label": "Denti Ossidoferro",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Denti Ossidoferro ottimizza le operazioni strategia nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "epidermide_dielettrica": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "epidermide_dielettrica",
+      "label": "Epidermide Dielettrica",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Epidermide Dielettrica ottimizza le operazioni strategia nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "focus_frazionato": {
+      "conflitti": [],
+      "debolezza": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD.",
+      "famiglia_tipologia": "Strategico/Psionico",
+      "fattore_mantenimento_energetico": "Medio (Dividere l'attenzione su più canali)",
+      "id": "focus_frazionato",
+      "label": "Focus Frazionato",
+      "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
+      "requisiti_ambientali": [],
+      "sinergie": [
+        "ali_fulminee",
+        "antenne_plasmatiche_tempesta",
+        "antenne_waveguide",
+        "baffi_mareomotori",
+        "branchie_eoliche",
+        "capillari_fluoridici",
+        "cervelletto_equilibrio_statico",
+        "coda_balanciere",
+        "cuore_multicamera_bassa_pressione",
+        "echi_risonanti",
+        "filamenti_superconduttivi",
+        "ghiandole_eco_mappanti",
+        "ghiandole_resina_conduttiva",
+        "lamine_scudo_silice",
+        "midollo_antivibrazione",
+        "frusta_fiammeggiante"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "job_ability:Invoker/Sincronia",
+          "sigillo_forma",
+          "starter_bioma"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "ENTP",
+          "INFJ",
+          "INTP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "C"
+      ],
+      "slot_profile": {
+        "complementare": "psionico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
+      "tier": "T1",
+      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
+    },
+    "ghiaccio_piezoelettrico": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiaccio_piezoelettrico",
+      "label": "Ghiaccio Piezoelettrico",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiaccio Piezoelettrico ottimizza le operazioni strategia nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ghiandole_minerali": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_minerali",
+      "label": "Ghiandole Minerali",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Minerali ottimizza le operazioni strategia nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "lamelle_shear": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "lamelle_shear",
+      "label": "Lamelle Shear",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Lamelle Shear ottimizza le operazioni strategia nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "membrane_captura_rugiada": {
+      "conflitti": [],
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "membrane_captura_rugiada",
+      "label": "Membrane Captura Rugiada",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Membrane Captura Rugiada ottimizza le operazioni strategia nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "pianificatore",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "tier": "T1",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "pathfinder": {
+      "conflitti": [],
+      "debolezza": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato.",
+      "famiglia_tipologia": "Esplorazione/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
+      "id": "pathfinder",
+      "label": "Pathfinder",
+      "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "starter_bioma"
+        ],
+        "combo_totale": 1,
+        "forme": [
+          "ENFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A"
+      ],
+      "slot_profile": {
+        "complementare": "ricognizione",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+    },
+    "pianificatore": {
+      "conflitti": [],
+      "debolezza": "Rigidità tattica se gli input di telemetria arrivano in ritardo.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Medio (Analisi continua di stato squadre)",
+      "id": "pianificatore",
+      "label": "Pianificatore",
+      "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
+      "requisiti_ambientali": [],
+      "sinergie": [
+        "antenne_microonde_cavernose",
+        "artigli_radice",
+        "biofilm_glow",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "ciste_riduttive",
+        "colonne_vibromagnetiche",
+        "denti_ossidoferro",
+        "epidermide_dielettrica",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_minerali",
+        "lamelle_shear",
+        "membrane_captura_rugiada"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "guardia_situazionale",
+          "sigillo_forma",
+          "starter_bioma"
+        ],
+        "combo_totale": 6,
+        "forme": [
+          "ENTJ",
+          "ENTP",
+          "ESTJ",
+          "INTJ",
+          "ISTJ"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "C"
+      ],
+      "slot_profile": {
+        "complementare": "tattico",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
+      "tier": "T1",
+      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
+    },
+    "random": {
+      "conflitti": [],
+      "debolezza": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli.",
+      "famiglia_tipologia": "Flessibile/Generico",
+      "fattore_mantenimento_energetico": "Variabile (Dipende dal tratto estratto)",
+      "id": "random",
+      "label": "Trait Random",
+      "mutazione_indotta": "Selezione casuale da pool controllata per esperimenti di build.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "cap_pt",
+          "guardia_situazionale",
+          "job_ability:Random"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "NEUTRA"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "B"
+      ],
+      "slot_profile": {
+        "complementare": "adattivo",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
+      "tier": "T1",
+      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
+    },
+    "tattiche_di_branco": {
+      "conflitti": [],
+      "debolezza": "Richiede formazione stabile; cala se la coesione precipita sotto il target.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Medio (Broadcast continuo di segnali)",
+      "id": "tattiche_di_branco",
+      "label": "Tattiche di Branco",
+      "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
+      "requisiti_ambientali": [],
+      "sinergie": [
+        "antenne_microonde_cavernose",
+        "artigli_radice",
+        "artigli_sette_vie",
+        "biofilm_glow",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "ciste_riduttive",
+        "colonne_vibromagnetiche",
+        "denti_ossidoferro",
+        "epidermide_dielettrica",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_minerali",
+        "lamelle_shear",
+        "membrane_captura_rugiada"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "guardia_situazionale",
+          "sigillo_forma",
+          "starter_bioma"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "ESFJ",
+          "ESFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "B"
+      ],
+      "slot_profile": {
+        "complementare": "coordinazione",
+        "core": "strategia"
+      },
+      "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
+      "tier": "T1",
+      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
+    }
+  },
+  "type": "strategia"
+}

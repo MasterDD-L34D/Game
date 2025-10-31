@@ -1,0 +1,53 @@
+{
+  "conflitti": [],
+  "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici).",
+  "famiglia_tipologia": "Sensoriale/Nervoso",
+  "fattore_mantenimento_energetico": "Medio (Elaborazione sensoriale costante)",
+  "id": "olfatto_risonanza_magnetica",
+  "label": "Olfatto di Risonanza Magnetica",
+  "mutazione_indotta": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Corridore T2 per intercettare campi magnetici psionici sulle dorsali.",
+        "tier": "T2"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "orbita_psionica_inversa"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Variante T3 calibrata alle camere di gravità invertita e ai flussi orbitali.",
+        "tier": "T3"
+      }
+    }
+  ],
+  "sinergie": [
+    "eco_interno_riflesso",
+    "lingua_tattile_trama"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "nervoso",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
+  "tier": "T2",
+  "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
+}

@@ -1,0 +1,41 @@
+{
+  "conflitti": [
+    "criostasi_adattiva"
+  ],
+  "debolezza": "Rende instabile la fisiologia in ambienti a gelo improvviso, con rischio di microfratture vascolari.",
+  "famiglia_tipologia": "Respiratorio/Termoregolazione",
+  "fattore_mantenimento_energetico": "Medio (Flusso continuo di fluidi caldi)",
+  "id": "lamelle_termoforetiche",
+  "label": "Lamelle Termoforetiche",
+  "mutazione_indotta": "Canali lamellari mineralizzati che convogliano fluidi caldi tra branchie interne.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "sorgenti_geotermiche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Habitat idrotermali psionici dove il calore e la pressione variano rapidamente."
+      }
+    }
+  ],
+  "sinergie": [
+    "sangue_piroforico"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "termoregolazione",
+    "core": "respiratorio"
+  },
+  "spinta_selettiva": "Sopravvivere a fluidi tossici e temperature estreme nelle fumarole geotermiche.",
+  "tier": "T2",
+  "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati."
+}

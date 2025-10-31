@@ -1,0 +1,67 @@
+{
+  "conflitti": [],
+  "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato.",
+  "famiglia_tipologia": "Tegumentario/Difensivo",
+  "fattore_mantenimento_energetico": "Basso (Fase passiva)",
+  "id": "mimetismo_cromatico_passivo",
+  "label": "Ghiandole di Mimetismo Cromatico Passivo",
+  "mutazione_indotta": "Cromatofori che richiedono un input tattile prolungato per la ricarica.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "T1 di acclimatazione nelle canopie conduttrici a bassa intensità.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Percorso T2 che aggiunge gradienti magnetici per pattern cromatici complessi.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "ali_membrana_sonica",
+    "appendici_risonanti_marea",
+    "artigli_sette_vie",
+    "barriere_miasma_glaciale",
+    "branchie_microfiltri",
+    "capsule_paracadute",
+    "circolazione_bifasica",
+    "coda_coppia_retroattiva",
+    "cute_resistente_sali",
+    "enzimi_antipredatori_algali",
+    "filtri_planctonici",
+    "ghiandole_fango_coesivo",
+    "giunti_antitorsione",
+    "lingua_cristallina",
+    "mucose_barofile",
+    "struttura_elastica_amorfa"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difensivo",
+    "core": "tegumentario"
+  },
+  "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
+  "tier": "T1",
+  "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
+}

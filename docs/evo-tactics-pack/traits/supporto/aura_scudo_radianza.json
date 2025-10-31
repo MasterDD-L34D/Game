@@ -1,0 +1,45 @@
+{
+  "conflitti": [
+    "mantello_meteoritico"
+  ],
+  "debolezza": "Soffre saturazione se esposta a ombre gravitazionali o zone di antimagia.",
+  "famiglia_tipologia": "Supporto/Difesa",
+  "fattore_mantenimento_energetico": "Alto (Canalizzazione fotonica continua)",
+  "id": "aura_scudo_radianza",
+  "label": "Aura Scudo di Radianza",
+  "mutazione_indotta": "Innesta organi fotoplasmatici che diffondono uno scudo radiante sugli alleati vicini.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [
+        "flight"
+      ],
+      "condizioni": {
+        "biome_class": "rovine_planari"
+      },
+      "fonte": "pathfinder_import",
+      "meta": {
+        "expansion": "pathfinder_dataset",
+        "notes": "Richiede catalizzatori di luce stabili nelle rovine planari.",
+        "tier": "T3"
+      }
+    }
+  ],
+  "sinergie": [
+    "empatia_coordinativa",
+    "risonanza_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difesa",
+    "core": "supporto"
+  },
+  "spinta_selettiva": "Proteggere gli hub di evacuazione durante tempeste di energia planare.",
+  "tier": "T3",
+  "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra."
+}

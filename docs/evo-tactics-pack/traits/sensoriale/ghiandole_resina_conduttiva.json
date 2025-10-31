@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+  "famiglia_tipologia": "Sensoriale/Analitico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "ghiandole_resina_conduttiva",
+  "label": "Ghiandole Resina Conduttiva",
+  "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_ionica"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Ghiandole Resina Conduttiva ottimizza le operazioni sensoriale nelle condizioni di canopia ionica.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "focus_frazionato",
+    "sinapsi_coraline_polifoniche"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "analitico",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+  "tier": "T1",
+  "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+}

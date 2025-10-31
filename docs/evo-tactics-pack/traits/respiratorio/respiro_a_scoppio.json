@@ -1,0 +1,40 @@
+{
+  "conflitti": [],
+  "debolezza": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica).",
+  "famiglia_tipologia": "Respiratorio/Propulsivo",
+  "fattore_mantenimento_energetico": "Alto (Richiede ricarica polmonare)",
+  "id": "respiro_a_scoppio",
+  "label": "Respiro a scoppio",
+  "mutazione_indotta": "Polmoni o sacche aeree ad alta pressione con valvole di rilascio rapide.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+      }
+    }
+  ],
+  "sinergie": [
+    "sacche_galleggianti_ascensoriali",
+    "squame_rifrangenti_deserto"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "propulsivo",
+    "core": "respiratorio"
+  },
+  "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
+  "tier": "T1",
+  "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente."
+}

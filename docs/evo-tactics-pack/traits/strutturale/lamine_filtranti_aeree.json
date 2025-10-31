@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Risonanze errate possono generare microfratture.",
+  "famiglia_tipologia": "Strutturale/Adattivo",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "lamine_filtranti_aeree",
+  "label": "Lamine Filtranti Aeree",
+  "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "mangrovieto_cinetico"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Lamine Filtranti Aeree ottimizza le operazioni strutturale nelle condizioni di mangrovieto cinetico.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "scheletro_idro_regolante",
+    "struttura_elastica_amorfa"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "resilienza",
+    "core": "strutturale"
+  },
+  "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+  "tier": "T1",
+  "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+}

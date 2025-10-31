@@ -1,0 +1,33 @@
+{
+  "conflitti": [],
+  "debolezza": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato.",
+  "famiglia_tipologia": "Esplorazione/Tattico",
+  "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
+  "id": "pathfinder",
+  "label": "Pathfinder",
+  "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
+  "requisiti_ambientali": [],
+  "sinergie": [],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "PE",
+      "cap_pt",
+      "starter_bioma"
+    ],
+    "combo_totale": 1,
+    "forme": [
+      "ENFP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A"
+  ],
+  "slot_profile": {
+    "complementare": "ricognizione",
+    "core": "strategia"
+  },
+  "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
+  "tier": "T1",
+  "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+}

@@ -1,0 +1,55 @@
+{
+  "conflitti": [
+    "criostasi_adattiva",
+    "scheletro_idro_regolante"
+  ],
+  "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno.",
+  "famiglia_tipologia": "Offensivo/Cinetico",
+  "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
+  "id": "sangue_piroforico",
+  "label": "Sangue che prende fuoco a contatto con l'ossigeno",
+  "mutazione_indotta": "Presenza di composti piroforici nel sangue.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_flusso_mareale",
+    "artigli_induzione",
+    "biochip_memoria",
+    "camere_anticorrosione",
+    "cartilagini_biofibre",
+    "circolazione_supercritica",
+    "coda_stabilizzatrice_vortex",
+    "denti_chelatanti",
+    "enzimi_metanoossidanti",
+    "foliaggio_spugna",
+    "ghiandole_iodoattive",
+    "gusci_magnesio",
+    "lamelle_termoforetiche",
+    "mantelli_geotermici"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "impatto",
+    "core": "offensivo"
+  },
+  "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
+  "tier": "T1",
+  "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria."
+}

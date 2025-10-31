@@ -8,7 +8,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | --- | --- | --- | --- |
 | data/core/traits/glossary.json | JSON | schema 1.0 | Glossario centrale usato da tool ETL e validatori.【F:docs/DesignDoc-Overview.md†L39-L44】 |
 | packs/evo_tactics_pack/docs/catalog/trait_glossary.json | JSON | schema 1.0 | Glossario distribuito nel pack, sincronizzato dal workflow tratti.【F:docs/DesignDoc-Overview.md†L39-L44】 |
-| packs/evo_tactics_pack/docs/catalog/trait_reference.json | JSON | schema 2.0 | Reference genetico consumato da baseline e validatori.【F:docs/DesignDoc-Overview.md†L40-L44】 |
+| data/traits/index.json | JSON | schema 2.0 | Reference genetico consumato da baseline e validatori.【F:docs/DesignDoc-Overview.md†L40-L44】 |
 | packs/evo_tactics_pack/docs/catalog/env_traits.json | JSON | schema 1.0 | Regole env→trait per generator e ETL coverage.【F:docs/DesignDoc-Overview.md†L40-L44】 |
 | packs/evo_tactics_pack/data/core/species.yaml | YAML | v0.41 | Catalogo specie consumato da generator e coverage.【F:docs/public/idea-taxonomy.json†L10-L15】 |
 | data/core/traits/biome_pools.json | JSON | schema 1.0 | Pool tratti per synth biome (biomeSynthesizer).【F:services/generation/biomeSynthesizer.js†L492-L516】 |
@@ -46,7 +46,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | data/external/chatgpt_sources.yaml | 703.00 B | 2025-10-29T18:47:06 | AG-Toolsmith | Configurazione usata dallo script di sync ChatGPT.【F:data/external/chatgpt_sources.yaml†L1-L24】【F:README.md†L218-L223】 |
 | data/external/drive/approved_assets.json | 4.21 KB | 2025-10-29T18:47:06 | AG-Toolsmith | Generato da config `config/drive/approved_asset_sources.json` tramite tool drive.【F:data/external/drive/approved_assets.json†L1-L39】【F:tools/drive/generate-approved-assets.mjs†L16-L78】 |
 | packs/evo_tactics_pack/data/core/species.yaml | 4.14 KB | 2025-10-29T18:47:07 | AG-Biome | Metadati pack specie usati in coverage e taxonomy.【F:packs/evo_tactics_pack/data/core/species.yaml†L1-L11】【F:docs/public/idea-taxonomy.json†L10-L15】 |
-| packs/evo_tactics_pack/docs/catalog/trait_reference.json | 248.13 KB | 2025-10-29T18:47:07 | AG-Core | Reference puntato dal glossario e dagli script baseline.【F:packs/evo_tactics_pack/docs/catalog/trait_reference.json†L1-L13】【F:tools/py/build_trait_baseline.py†L15-L55】 |
+| data/traits/index.json | 248.13 KB | 2025-10-29T18:47:07 | AG-Core | Reference puntato dal glossario e dagli script baseline.【F:data/traits/index.json†L1-L13】【F:tools/py/build_trait_baseline.py†L15-L55】 |
 | packs/evo_tactics_pack/docs/catalog/trait_glossary.json | 66.52 KB | 2025-10-29T18:47:07 | AG-Core | Replica pack del glossario legata al reference.【F:packs/evo_tactics_pack/docs/catalog/trait_glossary.json†L1-L8】 |
 | packs/evo_tactics_pack/docs/catalog/env_traits.json | 24.50 KB | 2025-10-29T18:47:07 | AG-Core | Regole ambientali legate al glossario condiviso.【F:packs/evo_tactics_pack/docs/catalog/env_traits.json†L1-L17】 |
 | packs/evo_tactics_pack/docs/catalog/catalog_data.json | 32.41 KB | 2025-10-29T18:47:07 | AG-Core | Indice ecosistemi/specie nel bundle pack.【F:packs/evo_tactics_pack/docs/catalog/catalog_data.json†L1-L17】 |

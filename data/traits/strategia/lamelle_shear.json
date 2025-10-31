@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+  "famiglia_tipologia": "Strategico/Tattico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "lamelle_shear",
+  "label": "Lamelle Shear",
+  "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "stratosfera_tempestosa"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Lamelle Shear ottimizza le operazioni strategia nelle condizioni di stratosfera tempestosa.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "pianificatore",
+    "tattiche_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "tattico",
+    "core": "strategia"
+  },
+  "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+  "tier": "T1",
+  "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+}

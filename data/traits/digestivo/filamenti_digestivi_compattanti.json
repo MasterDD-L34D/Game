@@ -1,0 +1,65 @@
+{
+  "conflitti": [],
+  "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'.",
+  "famiglia_tipologia": "Digestivo/Escretorio",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "filamenti_digestivi_compattanti",
+  "label": "Filamento materiali digeriti",
+  "mutazione_indotta": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Variante T2 che sfrutta falde magnetiche per compattare residui ad alta densità.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_dustsense",
+    "appendici_thermotattiche",
+    "batteri_endosimbionti_chemio",
+    "branchie_solfatiche",
+    "carapace_segmenti_logici",
+    "circolazione_cooling_loop",
+    "coda_stabilizzatrice_filo",
+    "cuticole_cerose",
+    "enzimi_chelanti",
+    "flagelli_ancoranti",
+    "ghiandole_grafene",
+    "grassi_termici",
+    "luminescenza_aurorale",
+    "ventriglio_gastroliti"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "escretorio",
+    "core": "digestivo"
+  },
+  "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
+  "tier": "T2",
+  "uso_funzione": "Espulsione compatta e ordinata di scorie."
+}

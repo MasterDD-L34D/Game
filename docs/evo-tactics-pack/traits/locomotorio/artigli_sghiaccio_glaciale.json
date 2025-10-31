@@ -1,0 +1,49 @@
+{
+  "conflitti": [],
+  "debolezza": "In ambienti temperati i tessuti subiscono microfratture e richiedono continue riparazioni.",
+  "famiglia_tipologia": "Locomotorio/Predatorio",
+  "fattore_mantenimento_energetico": "Medio (Raffreddamento endogeno controllato)",
+  "id": "artigli_sghiaccio_glaciale",
+  "label": "Artigli Sghiaccio Glaciale",
+  "mutazione_indotta": "Falangi rivestite da ghiaccio strutturale che si espande creando lame traslucide.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "calotte_glaciali"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Calotte di ghiaccio psionico che reagiscono alle vibrazioni e amplificano le lame criogeniche."
+      }
+    }
+  ],
+  "sinergie": [
+    "cartilagine_flessotermica_venti",
+    "sonno_emisferico_alternato",
+    "zampe_a_molla"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:DominantSpecies/Glaciation",
+      "boardgame:Evolution/Hibernation",
+      "hud:GlacierClaw_UI"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Assaltatore_Criogenico"
+    ],
+    "tabelle_random": [
+      "tabella:presa_criostatica"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "predatorio",
+    "core": "locomotorio"
+  },
+  "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
+  "tier": "T2",
+  "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
+}

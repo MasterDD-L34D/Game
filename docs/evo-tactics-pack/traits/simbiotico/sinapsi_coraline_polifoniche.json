@@ -1,0 +1,56 @@
+{
+  "conflitti": [
+    "spore_psichiche_silenziate"
+  ],
+  "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
+  "famiglia_tipologia": "Simbiotico/Comunicazione",
+  "fattore_mantenimento_energetico": "Medio (Scambio continuo di impulsi corallini)",
+  "id": "sinapsi_coraline_polifoniche",
+  "label": "Sinapsi Coraline Polifoniche",
+  "mutazione_indotta": "Fibre nervose intrecciate con coralli sonori che trasmettono ordini tramite armoniche.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "barriere_coralline_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Scogliere viventi che rispondono a canti psionici e onde sonore."
+      }
+    }
+  ],
+  "sinergie": [
+    "ali_fulminee",
+    "antenne_plasmatiche_tempesta",
+    "antenne_waveguide",
+    "baffi_mareomotori",
+    "branchie_eoliche",
+    "capillari_fluoridici",
+    "carapace_luminiscente_abissale",
+    "cervelletto_equilibrio_statico",
+    "coda_balanciere",
+    "cuore_multicamera_bassa_pressione",
+    "echi_risonanti",
+    "filamenti_superconduttivi",
+    "ghiandole_eco_mappanti",
+    "ghiandole_resina_conduttiva",
+    "lamine_scudo_silice",
+    "midollo_antivibrazione"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "comunicazione",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
+  "tier": "T2",
+  "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
+}

@@ -53,7 +53,7 @@ EXPECTED_DATASETS: tuple[DatasetRule, ...] = (
         schema_version="1.0",
         dependencies=(
             Path("packs/evo_tactics_pack/docs/catalog/env_traits.json"),
-            Path("packs/evo_tactics_pack/docs/catalog/trait_reference.json"),
+            Path("data/traits/index.json"),
             Path("data/core/traits/glossary.json"),
         ),
         description="Trait baseline compiled from catalog + glossary references.",
@@ -65,7 +65,7 @@ EXPECTED_DATASETS: tuple[DatasetRule, ...] = (
         schema_version="1.0",
         dependencies=(
             Path("packs/evo_tactics_pack/docs/catalog/env_traits.json"),
-            Path("packs/evo_tactics_pack/docs/catalog/trait_reference.json"),
+            Path("data/traits/index.json"),
             Path("data/core/traits/glossary.json"),
             Path("packs/evo_tactics_pack/data/species"),
         ),
@@ -76,7 +76,7 @@ EXPECTED_DATASETS: tuple[DatasetRule, ...] = (
         fmt="csv",
         required_keys=("trait_id", "label_it", "label_en", "biome"),
         dependencies=(
-            Path("packs/evo_tactics_pack/docs/catalog/trait_reference.json"),
+            Path("data/traits/index.json"),
             Path("packs/evo_tactics_pack/data/species"),
         ),
         description="Flattened matrix backing dashboard exports.",
@@ -199,7 +199,7 @@ EXPECTED_DATASETS: tuple[DatasetRule, ...] = (
         description="Pack-level species catalog meta + global rules.",
     ),
     DatasetRule(
-        path=Path("packs/evo_tactics_pack/docs/catalog/trait_reference.json"),
+        path=Path("data/traits/index.json"),
         fmt="json",
         required_keys=("schema_version", "trait_glossary", "traits"),
         schema_version="2.0",

@@ -1,0 +1,580 @@
+{
+  "schema_version": "2.0",
+  "traits": {
+    "ali_membrana_sonica": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ali_membrana_sonica",
+      "label": "Ali Membrana Sonica",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ali Membrana Sonica ottimizza le operazioni difensivo nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "appendici_risonanti_marea": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "appendici_risonanti_marea",
+      "label": "Appendici Risonanti Marea",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Appendici Risonanti Marea ottimizza le operazioni difensivo nelle condizioni di laguna bioreattiva.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "barriere_miasma_glaciale": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "barriere_miasma_glaciale",
+      "label": "Barriere Miasma Glaciale",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Barriere Miasma Glaciale ottimizza le operazioni difensivo nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "branchie_microfiltri": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "branchie_microfiltri",
+      "label": "Branchie Microfiltri",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Branchie Microfiltri ottimizza le operazioni difensivo nelle condizioni di reef luminescente.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "capsule_paracadute": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "capsule_paracadute",
+      "label": "Capsule Paracadute",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Capsule Paracadute ottimizza le operazioni difensivo nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "circolazione_bifasica": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "circolazione_bifasica",
+      "label": "Circolazione Bifasica",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Circolazione Bifasica ottimizza le operazioni difensivo nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "coda_coppia_retroattiva": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "coda_coppia_retroattiva",
+      "label": "Coda Coppia Retroattiva",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Coda Coppia Retroattiva ottimizza le operazioni difensivo nelle condizioni di steppe algoritmiche.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "cute_resistente_sali": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Attivazione situazionale)",
+      "id": "cute_resistente_sali",
+      "label": "Cute Resistente Sali",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "badlands"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cute Resistente Sali ottimizza le operazioni difensivo nelle condizioni di badlands.",
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T2",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "enzimi_antipredatori_algali": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "enzimi_antipredatori_algali",
+      "label": "Enzimi Antipredatori Algali",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Enzimi Antipredatori Algali ottimizza le operazioni difensivo nelle condizioni di reef luminescente.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "filtri_planctonici": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "filtri_planctonici",
+      "label": "Filtri Planctonici",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Filtri Planctonici ottimizza le operazioni difensivo nelle condizioni di laguna bioreattiva.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "ghiandole_fango_coesivo": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_fango_coesivo",
+      "label": "Ghiandole Fango Coesivo",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Fango Coesivo ottimizza le operazioni difensivo nelle condizioni di mangrovieto cinetico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "giunti_antitorsione": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "giunti_antitorsione",
+      "label": "Giunti Antitorsione",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Giunti Antitorsione ottimizza le operazioni difensivo nelle condizioni di mangrovieto cinetico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "lingua_cristallina": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "lingua_cristallina",
+      "label": "Lingua Cristallina",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Lingua Cristallina ottimizza le operazioni difensivo nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "mucose_barofile": {
+      "conflitti": [],
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "mucose_barofile",
+      "label": "Mucose Barofile",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Mucose Barofile ottimizza le operazioni difensivo nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "mimetismo_cromatico_passivo"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "difensivo"
+      },
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "tier": "T1",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    }
+  },
+  "type": "difensivo"
+}

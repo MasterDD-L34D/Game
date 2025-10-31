@@ -1,0 +1,838 @@
+{
+  "schema_version": "2.0",
+  "traits": {
+    "antenne_reagenti": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "antenne_reagenti",
+      "label": "Antenne Reagenti",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Antenne Reagenti ottimizza le operazioni simbiotico nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "artigli_scivolo_silente": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "artigli_scivolo_silente",
+      "label": "Artigli Scivolo Silente",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Artigli Scivolo Silente ottimizza le operazioni simbiotico nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "biofilm_iperarido": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "biofilm_iperarido",
+      "label": "Biofilm Iperarido",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Biofilm Iperarido ottimizza le operazioni simbiotico nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "bulbi_radici_permafrost": {
+      "conflitti": [],
+      "debolezza": "Disgeli improvvisi trasformano i bulbi in masse gelatinose che rallentano i movimenti.",
+      "famiglia_tipologia": "Simbiotico/Nutrizione",
+      "fattore_mantenimento_energetico": "Medio (Accumulo e rilascio lento di nutrienti)",
+      "id": "bulbi_radici_permafrost",
+      "label": "Bulbi Radici del Permafrost",
+      "mutazione_indotta": "Bulbi radicali multipli che immagazzinano energia nelle stagioni fredde per rilasciarla durante le missioni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "permafrost_psionico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Suoli congelati con vene energetiche che alimentano radici coscienti."
+          }
+        }
+      ],
+      "sinergie": [
+        "chioma_parassita_canopica",
+        "nodi_micorrizici_oracolari",
+        "vello_condensatore_nebbie"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Fertility",
+          "boardgame:Evolution/Cooperation",
+          "hud:RootMesh_Psi"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Archivio_Subglaciale",
+          "HUD:Radice_Proxy"
+        ],
+        "tabelle_random": [
+          "tabella:riserva_empatica"
+        ]
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "nutrizione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
+      "tier": "T2",
+      "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
+    },
+    "camere_nutrienti_vent": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "camere_nutrienti_vent",
+      "label": "Camere Nutrienti Vent",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Camere Nutrienti Vent ottimizza le operazioni simbiotico nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "cartilagini_flessoacustiche": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cartilagini_flessoacustiche",
+      "label": "Cartilagini Flessoacustiche",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cartilagini Flessoacustiche ottimizza le operazioni simbiotico nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "chioma_parassita_canopica": {
+      "conflitti": [],
+      "debolezza": "Se la pianta ospite muore la chioma psionica collassa causando shock sistemico.",
+      "famiglia_tipologia": "Simbiotico/Utility",
+      "fattore_mantenimento_energetico": "Medio (Nutrimento condiviso con l'ospite arboreo)",
+      "id": "chioma_parassita_canopica",
+      "label": "Chioma Parassita Canopica",
+      "mutazione_indotta": "Filamenti vegetali che si intrecciano con la canopia ospite fornendo punti d'ancoraggio e energia.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopie_sospese"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Foreste verticali multilivello con alberi levitanti e liane sensibili."
+          }
+        }
+      ],
+      "sinergie": [
+        "bulbi_radici_permafrost",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "utility",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Stabilizzare piattaforme mobili e reti di trasporto tra gli alberi viventi.",
+      "tier": "T1",
+      "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi."
+    },
+    "ciste_salmastre": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ciste_salmastre",
+      "label": "Ciste Salmastre",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ciste Salmastre ottimizza le operazioni simbiotico nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "coralli_partner": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "coralli_partner",
+      "label": "Coralli Partner",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Coralli Partner ottimizza le operazioni simbiotico nelle condizioni di reef luminescente.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "denti_silice_termici": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "denti_silice_termici",
+      "label": "Denti Silice Termici",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Denti Silice Termici ottimizza le operazioni simbiotico nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "epitelio_fosforescente": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "epitelio_fosforescente",
+      "label": "Epitelio Fosforescente",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Epitelio Fosforescente ottimizza le operazioni simbiotico nelle condizioni di reef luminescente.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ghiandole_cambio_salino": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_cambio_salino",
+      "label": "Ghiandole Cambio Salino",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Cambio Salino ottimizza le operazioni simbiotico nelle condizioni di laguna bioreattiva.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ghiandole_nebbia_acida": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_nebbia_acida",
+      "label": "Ghiandole Nebbia Acida",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Nebbia Acida ottimizza le operazioni simbiotico nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "lamelle_sincroniche": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "lamelle_sincroniche",
+      "label": "Lamelle Sincroniche",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Lamelle Sincroniche ottimizza le operazioni simbiotico nelle condizioni di steppe algoritmiche.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "membrane_planata_vectored": {
+      "conflitti": [],
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "famiglia_tipologia": "Simbiotico/Cooperativo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "membrane_planata_vectored",
+      "label": "Membrane Planata Vectored",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Membrane Planata Vectored ottimizza le operazioni simbiotico nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "mucillagine_simbionte_mangrovie",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "tier": "T1",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "mucillagine_simbionte_mangrovie": {
+      "conflitti": [
+        "ghiandola_caustica"
+      ],
+      "debolezza": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione.",
+      "famiglia_tipologia": "Simbiotico/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Coltura simbiotica costante)",
+      "id": "mucillagine_simbionte_mangrovie",
+      "label": "Mucillagine Simbionte delle Mangrovie",
+      "mutazione_indotta": "Strati mucosi che ospitano microfauna detossificante proveniente dalle radici di mangrovia.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovie_risonanti"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Foreste di mangrovie ipersature dove le radici cantano frequenze psioniche."
+          }
+        }
+      ],
+      "sinergie": [
+        "antenne_reagenti",
+        "artigli_scivolo_silente",
+        "biofilm_iperarido",
+        "branchie_osmotiche_salmastra",
+        "camere_nutrienti_vent",
+        "cartilagini_flessoacustiche",
+        "circolazione_bifasica_palude",
+        "ciste_salmastre",
+        "coralli_partner",
+        "denti_silice_termici",
+        "epitelio_fosforescente",
+        "ghiandole_cambio_salino",
+        "ghiandole_nebbia_acida",
+        "lamelle_sincroniche",
+        "membrane_planata_vectored",
+        "nodi_micorrizici_oracolari"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "difensivo",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Respinge tossine e predatori microbici tipici dei delta paludosi.",
+      "tier": "T1",
+      "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
+    },
+    "nodi_micorrizici_oracolari": {
+      "conflitti": [
+        "spore_psichiche_silenziate"
+      ],
+      "debolezza": "Se la rete micorrizica viene recisa, l'organismo soffre crisi percettive e perdita di orientamento.",
+      "famiglia_tipologia": "Simbiotico/Nervoso",
+      "fattore_mantenimento_energetico": "Medio (Scambio continuo di segnali con simbionti)",
+      "id": "nodi_micorrizici_oracolari",
+      "label": "Nodi Micorrizici Oracolari",
+      "mutazione_indotta": "Radici dermiche che intrecciano funghi psionici capaci di predire variazioni ambientali.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reti_micorriziche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Sottoboschi viventi con reti fungine coscienti che emettono segnali premonitori."
+          }
+        }
+      ],
+      "sinergie": [
+        "antenne_reagenti",
+        "artigli_scivolo_silente",
+        "biofilm_iperarido",
+        "bulbi_radici_permafrost",
+        "camere_nutrienti_vent",
+        "cartilagini_flessoacustiche",
+        "chioma_parassita_canopica",
+        "ciste_salmastre",
+        "coralli_partner",
+        "denti_silice_termici",
+        "epitelio_fosforescente",
+        "ghiandole_cambio_salino",
+        "ghiandole_nebbia_acida",
+        "lamelle_sincroniche",
+        "membrane_planata_vectored",
+        "mucillagine_simbionte_mangrovie"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "nervoso",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Anticipare frane psioniche e predatori guidati da reti vegetali senzienti.",
+      "tier": "T3",
+      "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
+    },
+    "sacche_spore_stratosferiche": {
+      "conflitti": [
+        "respiro_a_scoppio"
+      ],
+      "debolezza": "Correnti ionizzate possono incendiare le sacche rendendo l'organismo instabile.",
+      "famiglia_tipologia": "Simbiotico/Supporto",
+      "fattore_mantenimento_energetico": "Alto (Coltura continua di spore portanti)",
+      "id": "sacche_spore_stratosferiche",
+      "label": "Sacche di Spore Stratosferiche",
+      "mutazione_indotta": "Vescicole dermiche che rilasciano spore portatrici capaci di galleggiare per chilometri.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_portante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Correnti ascendenti permanenti che trasportano semi e spore su larga scala."
+          }
+        }
+      ],
+      "sinergie": [
+        "piume_solari_fotovoltaiche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "supporto",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Dispersone genetica rapida tra arcipelaghi aerei e piattaforme galleggianti.",
+      "tier": "T3",
+      "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
+    },
+    "sinapsi_coraline_polifoniche": {
+      "conflitti": [
+        "spore_psichiche_silenziate"
+      ],
+      "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
+      "famiglia_tipologia": "Simbiotico/Comunicazione",
+      "fattore_mantenimento_energetico": "Medio (Scambio continuo di impulsi corallini)",
+      "id": "sinapsi_coraline_polifoniche",
+      "label": "Sinapsi Coraline Polifoniche",
+      "mutazione_indotta": "Fibre nervose intrecciate con coralli sonori che trasmettono ordini tramite armoniche.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "barriere_coralline_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Scogliere viventi che rispondono a canti psionici e onde sonore."
+          }
+        }
+      ],
+      "sinergie": [
+        "ali_fulminee",
+        "antenne_plasmatiche_tempesta",
+        "antenne_waveguide",
+        "baffi_mareomotori",
+        "branchie_eoliche",
+        "capillari_fluoridici",
+        "carapace_luminiscente_abissale",
+        "cervelletto_equilibrio_statico",
+        "coda_balanciere",
+        "cuore_multicamera_bassa_pressione",
+        "echi_risonanti",
+        "filamenti_superconduttivi",
+        "ghiandole_eco_mappanti",
+        "ghiandole_resina_conduttiva",
+        "lamine_scudo_silice",
+        "midollo_antivibrazione"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "comunicazione",
+        "core": "simbiotico"
+      },
+      "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
+      "tier": "T2",
+      "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
+    }
+  },
+  "type": "simbiotico"
+}

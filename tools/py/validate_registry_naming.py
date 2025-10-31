@@ -243,7 +243,7 @@ def parse_arguments(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--trait-reference",
         type=Path,
-        default=Path("docs/evo-tactics-pack/trait-reference.json"),
+        default=Path("data/traits/index.json"),
         help="File JSON del trait reference",
     )
     parser.add_argument(

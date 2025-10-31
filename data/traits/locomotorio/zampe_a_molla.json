@@ -1,0 +1,51 @@
+{
+  "conflitti": [],
+  "debolezza": "Perdita di valore su mappe con spazi stretti o controllo setup elevato.",
+  "famiglia_tipologia": "Mobilità/Cinetico",
+  "fattore_mantenimento_energetico": "Basso (Carica elastica a turni alterni)",
+  "id": "zampe_a_molla",
+  "label": "Zampe a Molla",
+  "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
+  "requisiti_ambientali": [],
+  "sinergie": [
+    "ali_ioniche",
+    "antenne_wideband",
+    "artigli_sghiaccio_glaciale",
+    "barbigli_sensori_plasma",
+    "branchie_metalloidi",
+    "capillari_fotovoltaici",
+    "chemiorecettori_bromuro",
+    "coda_contrappeso",
+    "cuscinetti_elettrostatici",
+    "enzimi_antifase_termica",
+    "filamenti_termoconduzione",
+    "ghiandole_fango_calde",
+    "ghiandole_ventosa",
+    "linfa_tampone",
+    "mucose_aderenza_sonica"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "cap_pt",
+      "guardia_situazionale",
+      "job_ability:Skirmisher/Dash_Cut"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "ESTP",
+      "ISFP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A",
+    "B"
+  ],
+  "slot_profile": {
+    "complementare": "propulsione",
+    "core": "locomotorio"
+  },
+  "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
+  "tier": "T1",
+  "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
+}

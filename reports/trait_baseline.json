@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "source": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
-    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+    "trait_reference": "data/traits/index.json",
     "trait_glossary": "data/core/traits/glossary.json"
   },
   "summary": {
