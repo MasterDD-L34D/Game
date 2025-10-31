@@ -7,6 +7,39 @@ vi.mock('../../src/services/apiEndpoints.js', () => ({
   readEnvString: vi.fn(() => undefined),
 }));
 
+const dataSourceMock = vi.hoisted(() => {
+  const defaults = new Map<string, { endpoint: string | null; fallback: string | null; mock: string | null }>([
+    ['flowSnapshot', { endpoint: '/api/generation/snapshot', fallback: 'assets/demo/fallback.json', mock: null }],
+    ['generationSpecies', { endpoint: '/api/generation/species', fallback: null, mock: null }],
+    ['generationSpeciesBatch', { endpoint: '/api/generation/species/batch', fallback: null, mock: null }],
+    ['generationSpeciesPreview', { endpoint: '/api/generation/species/batch', fallback: null, mock: null }],
+    ['traitDiagnostics', { endpoint: '/api/traits/diagnostics', fallback: 'assets/demo/traits.json', mock: null }],
+  ]);
+  return {
+    resolveDataSource(id: string, overrides: Record<string, unknown> = {}) {
+      const base = defaults.get(id) || { endpoint: null, fallback: null, mock: null };
+      const result = {
+        id,
+        endpoint: base.endpoint,
+        fallback: base.fallback,
+        mock: base.mock,
+      };
+      if (Object.prototype.hasOwnProperty.call(overrides, 'endpoint')) {
+        result.endpoint = (overrides.endpoint as string | null) ?? null;
+      }
+      if (Object.prototype.hasOwnProperty.call(overrides, 'fallback')) {
+        result.fallback = (overrides.fallback as string | null) ?? null;
+      }
+      if (Object.prototype.hasOwnProperty.call(overrides, 'mock')) {
+        result.mock = (overrides.mock as string | null) ?? null;
+      }
+      return result;
+    },
+  };
+});
+
+vi.mock('../../src/config/dataSources.js', () => dataSourceMock);
+
 const orchestratorMocks = vi.hoisted(() => {
   const summarise = vi.fn((validation: any = {}) => {
     const messages = Array.isArray(validation?.messages) ? validation.messages : [];

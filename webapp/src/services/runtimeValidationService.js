@@ -1,24 +1,14 @@
 import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from './apiEndpoints.js';
 import { fetchJsonWithFallback } from './fetchWithFallback.js';
+import { resolveDataSource } from '../config/dataSources.js';
 
-const DEFAULT_ENDPOINT = '/api/validators/runtime';
-const DEFAULT_FALLBACKS = {
-  species: 'api-mock/validators/species.json',
-  biome: 'api-mock/validators/biome.json',
-  foodweb: 'api-mock/validators/foodweb.json',
+const DATA_SOURCE_BY_KIND = {
+  species: 'runtimeValidatorSpecies',
+  biome: 'runtimeValidatorBiome',
+  foodweb: 'runtimeValidatorFoodweb',
 };
 
-function ensureFetch() {
-  if (typeof fetch === 'function') {
-    return fetch;
-  }
-  if (typeof globalThis !== 'undefined' && typeof globalThis.fetch === 'function') {
-    return globalThis.fetch;
-  }
-  throw new Error("fetch non disponibile nell'ambiente corrente");
-}
-
-function resolveFallback(kind, options) {
+function resolveFallback(kind, options, fallback) {
   if (options && Object.prototype.hasOwnProperty.call(options, 'fallback')) {
     if (options.fallback === null) {
       return null;
@@ -36,7 +26,7 @@ function resolveFallback(kind, options) {
       return value.trim();
     }
   }
-  return DEFAULT_FALLBACKS[kind] || null;
+  return fallback;
 }
 
 function resolveAllowFallback(options) {
@@ -50,12 +40,16 @@ async function postRuntime(kind, payload, options = {}) {
   if (!kind) {
     throw new Error("Parametro 'kind' richiesto per la validazione runtime");
   }
-  const endpoint = resolveApiUrl(options.endpoint || DEFAULT_ENDPOINT);
-  const fallbackPath = resolveFallback(kind, options);
+  const dataSourceId = DATA_SOURCE_BY_KIND[kind] || 'runtimeValidatorSpecies';
+  const config = resolveDataSource(dataSourceId, {
+    endpoint: Object.prototype.hasOwnProperty.call(options, 'endpoint') ? options.endpoint : undefined,
+    fallback: undefined,
+  });
+  const endpoint = resolveApiUrl(options.endpoint || config.endpoint);
+  const fallbackPath = resolveFallback(kind, options, config.fallback);
   const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
-  const fetchImpl = ensureFetch();
-  const { data: body, source, error } = await fetchJsonWithFallback(endpoint, {
-    fetchImpl,
+  const response = await fetchJsonWithFallback(endpoint, {
+    fetchImpl: options.fetchImpl,
     requestInit: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -66,15 +60,17 @@ async function postRuntime(kind, payload, options = {}) {
     errorMessage: 'Errore validazione runtime',
     fallbackErrorMessage: 'Validator runtime locale non disponibile',
   });
+  const { data: body, error } = response;
+  const endpointSource = response.source;
   const payloadBody = body && typeof body === 'object' ? { ...body } : body;
   const result = payloadBody && typeof payloadBody === 'object' && Object.prototype.hasOwnProperty.call(payloadBody, 'result')
     ? payloadBody.result
     : payloadBody;
   if (result && typeof result === 'object') {
     const meta = { ...(result.meta || {}), ...(payloadBody?.meta || {}) };
-    meta.endpoint_source = source;
-    meta.endpoint_url = source === 'fallback' && fallbackUrl ? fallbackUrl : endpoint;
-    if (source === 'fallback') {
+    meta.endpoint_source = endpointSource;
+    meta.endpoint_url = endpointSource === 'fallback' && fallbackUrl ? fallbackUrl : endpoint;
+    if (endpointSource === 'fallback') {
       meta.fallback_error = error ? error.message : 'Richiesta remota non disponibile';
     }
     result.meta = meta;

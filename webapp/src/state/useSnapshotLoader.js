@@ -1,39 +1,24 @@
 import { computed, reactive } from 'vue';
-import {
-  resolveApiUrl,
-  resolveAssetUrl,
-  isStaticDeployment,
-  readEnvString,
-} from '../services/apiEndpoints.js';
+import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/apiEndpoints.js';
+import { resolveFetchImplementation } from '../services/fetchWithFallback.js';
+import { resolveDataSource } from '../config/dataSources.js';
 import { resolveWithFallback } from './fallbackHelper.js';
 
-const DEFAULT_SNAPSHOT_ENDPOINT = '/api/generation/snapshot';
-const DEFAULT_SNAPSHOT_FALLBACK = 'demo/flow-shell-snapshot.json';
-
-function resolveFallbackEnv(value) {
+function normaliseOverride(value) {
   if (typeof value === 'undefined') {
     return undefined;
   }
   if (value === null) {
     return null;
   }
-  if (typeof value === 'string' && value.toLowerCase() === 'null') {
+  if (typeof value === 'string' && value.trim().toLowerCase() === 'null') {
     return null;
   }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    return trimmed.length ? trimmed : undefined;
+  }
   return value;
-}
-
-function ensureFetch(fetchOverride) {
-  if (typeof fetchOverride === 'function') {
-    return fetchOverride;
-  }
-  if (typeof fetch === 'function') {
-    return fetch;
-  }
-  if (typeof globalThis !== 'undefined' && typeof globalThis.fetch === 'function') {
-    return globalThis.fetch;
-  }
-  throw new Error('errors.snapshot.fetch_missing');
 }
 
 function buildSnapshotUrl(url, { refresh = false } = {}) {
@@ -48,7 +33,7 @@ function determineFallbackLabel(url) {
   if (!url) {
     return null;
   }
-  if (url.includes('/demo/')) {
+  if (url.includes('/data/flow/snapshots/') || url.includes('data/flow/snapshots/')) {
     return 'demo';
   }
   return 'fallback';
@@ -58,24 +43,16 @@ export { determineFallbackLabel };
 
 export function useSnapshotLoader(options = {}) {
   const logger = options.logger || null;
-  const snapshotEnvUrl = options.snapshotUrl || readEnvString('VITE_FLOW_SNAPSHOT_URL');
-  const rawFallbackEnv = Object.prototype.hasOwnProperty.call(options, 'fallbackSnapshotUrl')
-    ? options.fallbackSnapshotUrl
-    : resolveFallbackEnv(readEnvString('VITE_FLOW_SNAPSHOT_FALLBACK'));
-  const snapshotUrl = resolveApiUrl(snapshotEnvUrl || DEFAULT_SNAPSHOT_ENDPOINT);
-  const fallbackSnapshotUrl = (() => {
-    if (rawFallbackEnv === undefined) {
-      return resolveAssetUrl(DEFAULT_SNAPSHOT_FALLBACK);
-    }
-    if (rawFallbackEnv === null) {
-      return null;
-    }
-    if (typeof rawFallbackEnv === 'string' && rawFallbackEnv.trim()) {
-      return resolveAssetUrl(rawFallbackEnv.trim());
-    }
-    return resolveAssetUrl(DEFAULT_SNAPSHOT_FALLBACK);
-  })();
-  const fetchImpl = ensureFetch(options.fetch);
+  const source = resolveDataSource('flowSnapshot', {
+    endpoint: Object.prototype.hasOwnProperty.call(options, 'snapshotUrl') ? options.snapshotUrl : undefined,
+    fallback: Object.prototype.hasOwnProperty.call(options, 'fallbackSnapshotUrl')
+      ? normaliseOverride(options.fallbackSnapshotUrl)
+      : undefined,
+  });
+  const snapshotEndpoint = source.endpoint || '/api/generation/snapshot';
+  const snapshotUrl = resolveApiUrl(snapshotEndpoint);
+  const fallbackSnapshotUrl = source.fallback ? resolveAssetUrl(source.fallback) : null;
+  const fetchImpl = resolveFetchImplementation(options.fetch);
   const state = reactive({
     snapshot: null,
     loading: false,
@@ -300,8 +277,7 @@ export function useSnapshotLoader(options = {}) {
 }
 
 export const __internals__ = {
-  ensureFetch,
   buildSnapshotUrl,
   determineFallbackLabel,
-  resolveFallbackEnv,
+  normaliseOverride,
 };

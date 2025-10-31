@@ -1,5 +1,18 @@
 import { isStaticDeployment } from './apiEndpoints.js';
 
+export function resolveFetchImplementation(fetchImpl) {
+  if (typeof fetchImpl === 'function') {
+    return fetchImpl;
+  }
+  if (typeof fetch === 'function') {
+    return fetch;
+  }
+  if (typeof globalThis !== 'undefined' && typeof globalThis.fetch === 'function') {
+    return globalThis.fetch.bind(globalThis);
+  }
+  throw new Error('fetch non disponibile nell\'ambiente corrente');
+}
+
 function toError(value, fallbackMessage = 'Richiesta fallita') {
   if (value instanceof Error) {
     return value;
@@ -56,13 +69,11 @@ export async function fetchJsonWithFallback(url, options = {}) {
     buildFallbackErrorMessage,
   } = options;
 
-  if (typeof fetchImpl !== 'function') {
-    throw new Error('fetchImpl richiesto per fetchJsonWithFallback');
-  }
+  const fetchFn = resolveFetchImplementation(fetchImpl);
 
   let remoteResponse;
   try {
-    remoteResponse = await fetchImpl(url, requestInit);
+    remoteResponse = await fetchFn(url, requestInit);
     if (!remoteResponse.ok) {
       throw await createHttpError(remoteResponse, errorMessage, buildErrorMessage);
     }
@@ -75,7 +86,7 @@ export async function fetchJsonWithFallback(url, options = {}) {
     }
     try {
       const fallbackRequest = { cache: 'no-store', ...fallbackInit };
-      const fallbackResponse = await fetchImpl(fallbackUrl, fallbackRequest);
+      const fallbackResponse = await fetchFn(fallbackUrl, fallbackRequest);
       if (!fallbackResponse.ok) {
         throw await createHttpError(
           fallbackResponse,
@@ -98,4 +109,5 @@ export async function fetchJsonWithFallback(url, options = {}) {
 export const __internals__ = {
   toError,
   createHttpError,
+  resolveFetchImplementation,
 };

@@ -9,8 +9,9 @@ import {
 } from 'vue';
 
 import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/apiEndpoints.js';
-import { fetchJsonWithFallback } from '../services/fetchWithFallback.js';
+import { fetchJsonWithFallback, resolveFetchImplementation } from '../services/fetchWithFallback.js';
 import { atlasDataset as staticDataset } from '../state/atlasDataset.js';
+import { resolveDataSource } from '../config/dataSources.js';
 
 type MaybeRef<T> = Ref<T> | { value: T } | T | undefined;
 
@@ -96,10 +97,6 @@ type UseNebulaProgressOptions = {
   telemetryMock?: string | null;
 };
 
-const DEFAULT_ENDPOINT = '/api/nebula/atlas';
-const DEFAULT_FALLBACK = 'api-mock/nebula/atlas.json';
-const DEFAULT_TELEMETRY_MOCK = 'nebula/telemetry.json';
-
 function normaliseArray(values: unknown): string[] {
   if (!Array.isArray(values)) {
     return [];
@@ -178,19 +175,6 @@ function formatRelativeTime(timestamp?: string | null): string {
   return `Sync ${days}g fa`;
 }
 
-function ensureFetch(fetcher?: typeof fetch): typeof fetch {
-  if (fetcher) {
-    return fetcher;
-  }
-  if (typeof fetch === 'function') {
-    return fetch;
-  }
-  if (typeof globalThis !== 'undefined' && typeof (globalThis as unknown as { fetch?: typeof fetch }).fetch === 'function') {
-    return (globalThis as unknown as { fetch: typeof fetch }).fetch;
-  }
-  throw new Error('fetch non disponibile per il caricamento del dataset Nebula');
-}
-
 function toError(value: unknown): Error {
   if (value instanceof Error) {
     return value;
@@ -203,28 +187,20 @@ export function useNebulaProgressModule(
   sources: NebulaModuleSources = {},
   options: UseNebulaProgressOptions = {},
 ) {
-  const endpoint = resolveApiUrl(options.endpoint || DEFAULT_ENDPOINT);
-  const fallbackPath =
-    options && Object.prototype.hasOwnProperty.call(options, 'fallback')
-      ? options.fallback
-      : DEFAULT_FALLBACK;
-  const fallbackUrl =
-    typeof fallbackPath === 'string' && fallbackPath.trim()
-      ? resolveAssetUrl(fallbackPath.trim())
-      : null;
-  let telemetryMockUrl: string | null = null;
-  if (options && Object.prototype.hasOwnProperty.call(options, 'telemetryMock')) {
-    const mockValue = options.telemetryMock;
-    telemetryMockUrl = typeof mockValue === 'string' && mockValue.trim().length > 0 ? resolveAssetUrl(mockValue.trim()) : null;
-  } else {
-    telemetryMockUrl = resolveAssetUrl(DEFAULT_TELEMETRY_MOCK);
-  }
+  const dataSource = resolveDataSource('nebulaAtlas', {
+    endpoint: Object.prototype.hasOwnProperty.call(options, 'endpoint') ? options.endpoint : undefined,
+    fallback: Object.prototype.hasOwnProperty.call(options, 'fallback') ? options.fallback : undefined,
+    mock: Object.prototype.hasOwnProperty.call(options, 'telemetryMock') ? options.telemetryMock : undefined,
+  });
+  const endpoint = resolveApiUrl(options.endpoint || dataSource.endpoint);
+  const fallbackUrl = dataSource.fallback ? resolveAssetUrl(dataSource.fallback) : null;
+  const telemetryMockUrl = dataSource.mock ? resolveAssetUrl(dataSource.mock) : null;
   const allowFallback =
     options && Object.prototype.hasOwnProperty.call(options, 'allowFallback')
       ? Boolean(options.allowFallback)
       : isStaticDeployment();
   const pollIntervalMs = Number.isFinite(options.pollIntervalMs) ? Number(options.pollIntervalMs) : 15000;
-  const fetchImpl = ensureFetch(options.fetcher);
+  const fetchImpl = resolveFetchImplementation(options.fetcher);
 
   const dataset = ref<NebulaDataset | null>(null);
   const telemetry = ref<NebulaTelemetry | null>(null);
@@ -263,7 +239,7 @@ export function useNebulaProgressModule(
   async function loadAtlas() {
     loading.value = true;
     try {
-      const { data: payload, source, error: remoteError } = await fetchJsonWithFallback(endpoint, {
+      const response = await fetchJsonWithFallback(endpoint, {
         fetchImpl,
         requestInit: { cache: 'no-store' },
         fallbackUrl,
@@ -271,6 +247,8 @@ export function useNebulaProgressModule(
         errorMessage: 'Impossibile caricare dataset Nebula',
         fallbackErrorMessage: 'Dataset Nebula locale non disponibile',
       });
+      const { data: payload, error: remoteError } = response;
+      const endpointSource = response.source;
       const data = (payload ?? {}) as NebulaApiResponse;
       if (data?.dataset) {
         dataset.value = data.dataset;
@@ -278,13 +256,13 @@ export function useNebulaProgressModule(
       if (data?.telemetry) {
         telemetry.value = data.telemetry;
         lastUpdated.value = data.telemetry.updatedAt || new Date().toISOString();
-        telemetryMode.value = source === 'fallback' ? 'fallback' : 'live';
+        telemetryMode.value = endpointSource === 'fallback' ? 'fallback' : 'live';
       } else {
         lastUpdated.value = new Date().toISOString();
-        telemetryMode.value = source === 'fallback' ? 'fallback' : 'live';
+        telemetryMode.value = endpointSource === 'fallback' ? 'fallback' : 'live';
       }
       error.value = null;
-      if (source === 'fallback') {
+      if (endpointSource === 'fallback') {
         console.warn(
           '[nebula-progress] Dataset caricato da fallback locale',
           { source: fallbackUrl, reason: remoteError?.message || 'endpoint remoto non disponibile' },
