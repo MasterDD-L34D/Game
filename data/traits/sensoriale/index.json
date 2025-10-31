@@ -1,0 +1,907 @@
+{
+  "schema_version": "2.0",
+  "traits": {
+    "ali_fulminee": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ali_fulminee",
+      "label": "Ali Fulminee",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ali Fulminee ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "antenne_plasmatiche_tempesta": {
+      "conflitti": [],
+      "debolezza": "Scariche elettriche massicce possono bruciare i recettori e compromettere la coordinazione.",
+      "famiglia_tipologia": "Sensoriale/Offensivo",
+      "fattore_mantenimento_energetico": "Alto (Canalizzazione costante di plasma atmosferico)",
+      "id": "antenne_plasmatiche_tempesta",
+      "label": "Antenne Plasmatiche di Tempesta",
+      "mutazione_indotta": "Flagelli coronati da nodi plasma-sensibili che captano e deviano fulmini.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "cicloni_psionici"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Occhi di tempesta permanenti che concentrano elettricità e onde psioniche."
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_luminiscente_abissale",
+        "focus_frazionato",
+        "risonanza_di_branco",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "boardgame:Evolution/Camouflage-Ambush",
+          "hud:StormMeshPsi",
+          "bioma:cicloni_psionici"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Tempestarii",
+          "HUD:Fulcro_Tempesta"
+        ],
+        "tabelle_random": [
+          "tabella:fulmini_empatici"
+        ]
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "offensivo",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
+      "tier": "T3",
+      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+    },
+    "antenne_waveguide": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "antenne_waveguide",
+      "label": "Antenne Waveguide",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "reef_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Antenne Waveguide ottimizza le operazioni sensoriale nelle condizioni di reef luminescente.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "baffi_mareomotori": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "baffi_mareomotori",
+      "label": "Baffi Mareomotori",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Baffi Mareomotori ottimizza le operazioni sensoriale nelle condizioni di mangrovieto cinetico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "branchie_eoliche": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "branchie_eoliche",
+      "label": "Branchie Eoliche",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Branchie Eoliche ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "capillari_fluoridici": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "capillari_fluoridici",
+      "label": "Capillari Fluoridici",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Capillari Fluoridici ottimizza le operazioni sensoriale nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "cavita_risonanti_tundra": {
+      "conflitti": [],
+      "debolezza": "In ambienti temperati l'eco interna produce rumori udibili che rivelano la posizione.",
+      "famiglia_tipologia": "Sensoriale/Supporto",
+      "fattore_mantenimento_energetico": "Basso (Camere di risonanza statiche)",
+      "id": "cavita_risonanti_tundra",
+      "label": "Cavità Risonanti della Tundra",
+      "mutazione_indotta": "Camere toraciche espanse che amplificano vibrazioni subsoniche nel permafrost.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "tundra_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Steppe gelate che trasmettono vibrazioni psioniche a chilometri di distanza."
+          }
+        }
+      ],
+      "sinergie": [
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "empatia_coordinativa",
+        "risonanza_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "boardgame:Evolution/Communication",
+          "boardgame:DominantSpecies/Initiative",
+          "hud:TundraPulse"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Cantore_Tundra",
+          "HUD:EchoGrid"
+        ],
+        "tabelle_random": [
+          "tabella:canti_ipersonici"
+        ]
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "supporto",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo."
+    },
+    "cervelletto_equilibrio_statico": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cervelletto_equilibrio_statico",
+      "label": "Cervelletto Equilibrio Statico",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cervelletto Equilibrio Statico ottimizza le operazioni sensoriale nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "coda_balanciere": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "coda_balanciere",
+      "label": "Coda Balanciere",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Coda Balanciere ottimizza le operazioni sensoriale nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "cuore_multicamera_bassa_pressione": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cuore_multicamera_bassa_pressione",
+      "label": "Cuore Multicamera Bassa Pressione",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cuore Multicamera Bassa Pressione ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "echi_risonanti": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "echi_risonanti",
+      "label": "Echi Risonanti",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Echi Risonanti ottimizza le operazioni sensoriale nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "eco_interno_riflesso": {
+      "conflitti": [],
+      "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue.",
+      "famiglia_tipologia": "Sensoriale/Nervoso",
+      "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
+      "id": "eco_interno_riflesso",
+      "label": "Riflesso dell'Eco Interno",
+      "mutazione_indotta": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_psionica_leggera"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Start T1 nelle canopie conduttrici per apprendere deformazioni controllate.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Upgrade T2 sulle dorsali magnetiche per mantenere elasticità sotto stress.",
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [
+        "cavita_risonanti_tundra",
+        "olfatto_risonanza_magnetica",
+        "sensori_geomagnetici"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "nervoso",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
+      "tier": "T2",
+      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
+    },
+    "filamenti_superconduttivi": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "filamenti_superconduttivi",
+      "label": "Filamenti Superconduttivi",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Filamenti Superconduttivi ottimizza le operazioni sensoriale nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ghiandole_eco_mappanti": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_eco_mappanti",
+      "label": "Ghiandole Eco Mappanti",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Eco Mappanti ottimizza le operazioni sensoriale nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ghiandole_resina_conduttiva": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_resina_conduttiva",
+      "label": "Ghiandole Resina Conduttiva",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Resina Conduttiva ottimizza le operazioni sensoriale nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "lamine_scudo_silice": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "lamine_scudo_silice",
+      "label": "Lamine Scudo Silice",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Lamine Scudo Silice ottimizza le operazioni sensoriale nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "lingua_tattile_trama": {
+      "conflitti": [],
+      "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
+      "famiglia_tipologia": "Sensoriale/Alimentare",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "lingua_tattile_trama",
+      "label": "Lingua Tattile Trama-Sensibile",
+      "mutazione_indotta": "Lingua sottile con papille tattili e meccanocettori avanzati.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "olfatto_risonanza_magnetica"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "alimentare",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
+      "tier": "T1",
+      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+    },
+    "midollo_antivibrazione": {
+      "conflitti": [],
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "midollo_antivibrazione",
+      "label": "Midollo Antivibrazione",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Midollo Antivibrazione ottimizza le operazioni sensoriale nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "occhi_infrarosso_composti": {
+      "conflitti": [],
+      "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato.",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "occhi_infrarosso_composti",
+      "label": "Occhi Composti ad Infrarosso",
+      "mutazione_indotta": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "sonno_emisferico_alternato"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "visivo",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
+      "tier": "T1",
+      "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+    },
+    "olfatto_risonanza_magnetica": {
+      "conflitti": [],
+      "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici).",
+      "famiglia_tipologia": "Sensoriale/Nervoso",
+      "fattore_mantenimento_energetico": "Medio (Elaborazione sensoriale costante)",
+      "id": "olfatto_risonanza_magnetica",
+      "label": "Olfatto di Risonanza Magnetica",
+      "mutazione_indotta": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Corridore T2 per intercettare campi magnetici psionici sulle dorsali.",
+            "tier": "T2"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "orbita_psionica_inversa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Variante T3 calibrata alle camere di gravità invertita e ai flussi orbitali.",
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [
+        "eco_interno_riflesso",
+        "lingua_tattile_trama"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "nervoso",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
+      "tier": "T2",
+      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
+    },
+    "sensori_geomagnetici": {
+      "conflitti": [],
+      "debolezza": "Tempeste solari possono saturare il segnale magnetico, causando disorientamento prolungato.",
+      "famiglia_tipologia": "Sensoriale/Navigazione",
+      "fattore_mantenimento_energetico": "Basso (Ricettori passivi)",
+      "id": "sensori_geomagnetici",
+      "label": "Sensori Geomagnetici",
+      "mutazione_indotta": "Cristalli ferromagnetici allineati lungo il cranio che fungono da bussola psionica.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianure_magnetiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Distese pianeggianti con vortici geomagnetici da sfruttare per la navigazione."
+          }
+        }
+      ],
+      "sinergie": [
+        "carapace_fase_variabile",
+        "eco_interno_riflesso"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "navigazione",
+        "core": "sensoriale"
+      },
+      "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
+      "tier": "T1",
+      "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
+    }
+  },
+  "type": "sensoriale"
+}

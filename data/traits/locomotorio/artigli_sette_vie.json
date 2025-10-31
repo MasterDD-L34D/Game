@@ -1,0 +1,51 @@
+{
+  "conflitti": [],
+  "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
+  "famiglia_tipologia": "Locomotorio/Prensile",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "artigli_sette_vie",
+  "label": "Artigli a Sette Vie",
+  "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+      }
+    }
+  ],
+  "sinergie": [
+    "coda_frusta_cinetica",
+    "mimetismo_cromatico_passivo",
+    "struttura_elastica_amorfa",
+    "tattiche_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:Evolution/Aggression-Camouflage",
+      "boardgame:DominantSpecies/Competition",
+      "hud:GripNode_Psion"
+    ],
+    "combo_totale": 4,
+    "forme": [
+      "Forma:Predatore_Tessuto",
+      "HUD:GrappleBurst"
+    ],
+    "tabelle_random": [
+      "tabella:predazione_multicanale"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "prensile",
+    "core": "locomotorio"
+  },
+  "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
+  "tier": "T1",
+  "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
+}

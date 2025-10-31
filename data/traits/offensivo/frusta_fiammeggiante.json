@@ -1,0 +1,45 @@
+{
+  "conflitti": [
+    "armatura_pietra_planare"
+  ],
+  "debolezza": "Consumante: richiede costante dissipazione termica per non bruciare la matrice portante.",
+  "famiglia_tipologia": "Offensivo/Controllo",
+  "fattore_mantenimento_energetico": "Medio (Filamenti di plasma vincolato)",
+  "id": "frusta_fiammeggiante",
+  "label": "Frusta Fiammeggiante",
+  "mutazione_indotta": "Genera appendici tentacolari avvolte da plasma infernale controllato.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [
+        "void_stride"
+      ],
+      "condizioni": {
+        "biome_class": "rovine_planari"
+      },
+      "fonte": "pathfinder_import",
+      "meta": {
+        "expansion": "pathfinder_dataset",
+        "notes": "Necessita condotti di stabilizzazione infernale nelle rovine planari.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "focus_frazionato",
+    "mantello_meteoritico"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "controllo",
+    "core": "offensivo"
+  },
+  "spinta_selettiva": "Creare distanza di sicurezza contro predatori d'élite nelle zone instabili.",
+  "tier": "T2",
+  "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia."
+}

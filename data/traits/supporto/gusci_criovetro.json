@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+  "famiglia_tipologia": "Supporto/Logistico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "gusci_criovetro",
+  "label": "Gusci Criovetro",
+  "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caldera_glaciale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Gusci Criovetro ottimizza le operazioni supporto nelle condizioni di caldera glaciale.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "empatia_coordinativa",
+    "risonanza_di_branco"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "logistico",
+    "core": "supporto"
+  },
+  "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+  "tier": "T1",
+  "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+}

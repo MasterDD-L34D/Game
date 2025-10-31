@@ -11,7 +11,7 @@ from game_utils.trait_baseline import derive_trait_baseline
 ROOT = Path(__file__).resolve().parents[2]
 REPORTS_DIR = ROOT / "reports"
 ENV_TRAITS = ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "env_traits.json"
-TRAIT_REFERENCE = ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "trait_reference.json"
+TRAIT_REFERENCE = ROOT / "data" / "traits" / "index.json"
 TRAIT_GLOSSARY = ROOT / "data" / "core" / "traits" / "glossary.json"
 
 

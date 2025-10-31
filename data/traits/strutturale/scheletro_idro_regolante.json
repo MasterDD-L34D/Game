@@ -1,0 +1,56 @@
+{
+  "conflitti": [
+    "sangue_piroforico"
+  ],
+  "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio.",
+  "famiglia_tipologia": "Strutturale/Omeostatico",
+  "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
+  "id": "scheletro_idro_regolante",
+  "label": "Scheletro Idro-Regolante",
+  "mutazione_indotta": "Struttura ossea porosa capace di scambio rapido di fluidi.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+      }
+    }
+  ],
+  "sinergie": [
+    "antenne_tesla",
+    "artigli_vetrificati",
+    "branchie_dual_mode",
+    "branchie_osmotiche_salmastra",
+    "capillari_criogenici",
+    "cartilagini_pseudometalliche",
+    "cisti_iperbariche",
+    "cromofori_alert_acido",
+    "denti_tuning_fork",
+    "filamenti_magnetotrofi",
+    "ghiandole_condensa_ozono",
+    "ghiandole_nebbia_ionica",
+    "lamine_filtranti_aeree",
+    "membrane_pneumatofori",
+    "sacche_galleggianti_ascensoriali",
+    "struttura_elastica_amorfa"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "omeostatico",
+    "core": "strutturale"
+  },
+  "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
+  "tier": "T1",
+  "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso."
+}

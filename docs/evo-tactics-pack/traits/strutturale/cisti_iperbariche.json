@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Risonanze errate possono generare microfratture.",
+  "famiglia_tipologia": "Strutturale/Adattivo",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "cisti_iperbariche",
+  "label": "Cisti Iperbariche",
+  "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "abisso_vulcanico"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Cisti Iperbariche ottimizza le operazioni strutturale nelle condizioni di abisso vulcanico.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "scheletro_idro_regolante",
+    "struttura_elastica_amorfa"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "resilienza",
+    "core": "strutturale"
+  },
+  "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+  "tier": "T1",
+  "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+}

@@ -1,0 +1,39 @@
+{
+  "conflitti": [],
+  "debolezza": "In ambienti aridi accumula detriti che riducono la capacità di condensa.",
+  "famiglia_tipologia": "Tegumentario/Idratazione",
+  "fattore_mantenimento_energetico": "Basso (Strutture passive a microfilo)",
+  "id": "vello_condensatore_nebbie",
+  "label": "Vello Condensatore di Nebbie",
+  "mutazione_indotta": "Peli cavi microstriati che catturano e canalizzano la bruma atmosferica.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foreste_nubose"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Canopie immerse in nebbia costante con risonanza umida e lampi bioluminescenti."
+      }
+    }
+  ],
+  "sinergie": [
+    "bulbi_radici_permafrost"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "idratazione",
+    "core": "tegumentario"
+  },
+  "spinta_selettiva": "Garantire idratazione in climi montani dove l'acqua liquida è scarsa ma la nebbia abbondante.",
+  "tier": "T1",
+  "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo."
+}

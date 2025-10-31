@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "updated_at": "2025-10-29T14:21:01+00:00",
   "sources": {
-    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json"
+    "trait_reference": "data/traits/index.json"
   },
   "traits": {
     "antenne_plasmatiche_tempesta": {

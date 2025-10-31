@@ -1,0 +1,903 @@
+{
+  "schema_version": "2.0",
+  "traits": {
+    "ali_ioniche": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ali_ioniche",
+      "label": "Ali Ioniche",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ali Ioniche ottimizza le operazioni locomotorio nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "antenne_wideband": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "antenne_wideband",
+      "label": "Antenne Wideband",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_algoritmiche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Antenne Wideband ottimizza le operazioni locomotorio nelle condizioni di steppe algoritmiche.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "artigli_sette_vie": {
+      "conflitti": [],
+      "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
+      "famiglia_tipologia": "Locomotorio/Prensile",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "artigli_sette_vie",
+      "label": "Artigli a Sette Vie",
+      "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "mimetismo_cromatico_passivo",
+        "struttura_elastica_amorfa",
+        "tattiche_di_branco"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "boardgame:Evolution/Aggression-Camouflage",
+          "boardgame:DominantSpecies/Competition",
+          "hud:GripNode_Psion"
+        ],
+        "combo_totale": 4,
+        "forme": [
+          "Forma:Predatore_Tessuto",
+          "HUD:GrappleBurst"
+        ],
+        "tabelle_random": [
+          "tabella:predazione_multicanale"
+        ]
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "prensile",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
+      "tier": "T1",
+      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
+    },
+    "artigli_sghiaccio_glaciale": {
+      "conflitti": [],
+      "debolezza": "In ambienti temperati i tessuti subiscono microfratture e richiedono continue riparazioni.",
+      "famiglia_tipologia": "Locomotorio/Predatorio",
+      "fattore_mantenimento_energetico": "Medio (Raffreddamento endogeno controllato)",
+      "id": "artigli_sghiaccio_glaciale",
+      "label": "Artigli Sghiaccio Glaciale",
+      "mutazione_indotta": "Falangi rivestite da ghiaccio strutturale che si espande creando lame traslucide.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "calotte_glaciali"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Calotte di ghiaccio psionico che reagiscono alle vibrazioni e amplificano le lame criogeniche."
+          }
+        }
+      ],
+      "sinergie": [
+        "cartilagine_flessotermica_venti",
+        "sonno_emisferico_alternato",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Glaciation",
+          "boardgame:Evolution/Hibernation",
+          "hud:GlacierClaw_UI"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Assaltatore_Criogenico"
+        ],
+        "tabelle_random": [
+          "tabella:presa_criostatica"
+        ]
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "predatorio",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
+      "tier": "T2",
+      "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
+    },
+    "barbigli_sensori_plasma": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "barbigli_sensori_plasma",
+      "label": "Barbigli Sensori Plasma",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Barbigli Sensori Plasma ottimizza le operazioni locomotorio nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "branchie_metalloidi": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "branchie_metalloidi",
+      "label": "Branchie Metalloidi",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Branchie Metalloidi ottimizza le operazioni locomotorio nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "capillari_fotovoltaici": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "capillari_fotovoltaici",
+      "label": "Capillari Fotovoltaici",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Capillari Fotovoltaici ottimizza le operazioni locomotorio nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "cartilagine_flessotermica_venti": {
+      "conflitti": [
+        "scheletro_idro_regolante"
+      ],
+      "debolezza": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento.",
+      "famiglia_tipologia": "Locomotorio/Adattivo",
+      "fattore_mantenimento_energetico": "Medio (Richiede frequenti riallineamenti fibrosi)",
+      "id": "cartilagine_flessotermica_venti",
+      "label": "Cartilagine Flessotermica dei Venti",
+      "mutazione_indotta": "Giunzioni cartilaginee che cambiano rigidità in risposta a gradienti termici e eolici.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "gole_ventose"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Canyon sospesi dove venti caldi e freddi si alternano in pattern ciclici."
+          }
+        }
+      ],
+      "sinergie": [
+        "artigli_sghiaccio_glaciale",
+        "carapace_fase_variabile",
+        "sacche_galleggianti_ascensoriali",
+        "zoccoli_risonanti_steppe"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Wind",
+          "boardgame:Evolution/Flight",
+          "hud:VentSplice_Halo"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Planatore_Psionico"
+        ],
+        "tabelle_random": [
+          "tabella:assetto_eolico"
+        ]
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "adattivo",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
+      "tier": "T2",
+      "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
+    },
+    "chemiorecettori_bromuro": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "chemiorecettori_bromuro",
+      "label": "Chemiorecettori Bromuro",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Chemiorecettori Bromuro ottimizza le operazioni locomotorio nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "coda_contrappeso": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "coda_contrappeso",
+      "label": "Coda Contrappeso",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Coda Contrappeso ottimizza le operazioni locomotorio nelle condizioni di mangrovieto cinetico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "coda_frusta_cinetica": {
+      "conflitti": [],
+      "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno.",
+      "famiglia_tipologia": "Locomotorio/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Mantenimento dell'energia accumulata)",
+      "id": "coda_frusta_cinetica",
+      "label": "Coda a Frusta Cinetica",
+      "mutazione_indotta": "Muscolatura della coda densa con tendini e fibre che agiscono come molle.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Corridore T2 per intercettare campi magnetici psionici sulle dorsali.",
+            "tier": "T2"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "orbita_psionica_inversa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Variante T3 calibrata alle camere di gravità invertita e ai flussi orbitali.",
+            "tier": "T3"
+          }
+        }
+      ],
+      "sinergie": [
+        "ali_ioniche",
+        "antenne_flusso_mareale",
+        "antenne_wideband",
+        "artigli_induzione",
+        "artigli_sette_vie",
+        "barbigli_sensori_plasma",
+        "biochip_memoria",
+        "branchie_metalloidi",
+        "camere_anticorrosione",
+        "capillari_fotovoltaici",
+        "cartilagini_biofibre",
+        "chemiorecettori_bromuro",
+        "circolazione_supercritica",
+        "coda_contrappeso",
+        "coda_stabilizzatrice_vortex",
+        "cuscinetti_elettrostatici",
+        "denti_chelatanti",
+        "enzimi_antifase_termica",
+        "enzimi_metanoossidanti",
+        "filamenti_termoconduzione",
+        "foliaggio_spugna",
+        "ghiandole_fango_calde",
+        "ghiandole_iodoattive",
+        "ghiandole_ventosa",
+        "gusci_magnesio",
+        "linfa_tampone",
+        "mantelli_geotermici",
+        "mucose_aderenza_sonica"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "difensivo",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
+      "tier": "T1",
+      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
+    },
+    "cuscinetti_elettrostatici": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cuscinetti_elettrostatici",
+      "label": "Cuscinetti Elettrostatici",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "pianura_salina_iperarida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cuscinetti Elettrostatici ottimizza le operazioni locomotorio nelle condizioni di pianura salina iperarida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "enzimi_antifase_termica": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "enzimi_antifase_termica",
+      "label": "Enzimi Antifase Termica",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Enzimi Antifase Termica ottimizza le operazioni locomotorio nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "filamenti_termoconduzione": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "filamenti_termoconduzione",
+      "label": "Filamenti Termoconduzione",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "dorsale_termale_tropicale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Filamenti Termoconduzione ottimizza le operazioni locomotorio nelle condizioni di dorsale termale tropicale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "ghiandole_fango_calde": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_fango_calde",
+      "label": "Ghiandole Fango Calde",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Fango Calde ottimizza le operazioni locomotorio nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "ghiandole_ventosa": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_ventosa",
+      "label": "Ghiandole Ventosa",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Ventosa ottimizza le operazioni locomotorio nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "linfa_tampone": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "linfa_tampone",
+      "label": "Linfa Tampone",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Linfa Tampone ottimizza le operazioni locomotorio nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "mucose_aderenza_sonica": {
+      "conflitti": [],
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "mucose_aderenza_sonica",
+      "label": "Mucose Aderenza Sonica",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Mucose Aderenza Sonica ottimizza le operazioni locomotorio nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "zampe_a_molla": {
+      "conflitti": [],
+      "debolezza": "Perdita di valore su mappe con spazi stretti o controllo setup elevato.",
+      "famiglia_tipologia": "Mobilità/Cinetico",
+      "fattore_mantenimento_energetico": "Basso (Carica elastica a turni alterni)",
+      "id": "zampe_a_molla",
+      "label": "Zampe a Molla",
+      "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
+      "requisiti_ambientali": [],
+      "sinergie": [
+        "ali_ioniche",
+        "antenne_wideband",
+        "artigli_sghiaccio_glaciale",
+        "barbigli_sensori_plasma",
+        "branchie_metalloidi",
+        "capillari_fotovoltaici",
+        "chemiorecettori_bromuro",
+        "coda_contrappeso",
+        "cuscinetti_elettrostatici",
+        "enzimi_antifase_termica",
+        "filamenti_termoconduzione",
+        "ghiandole_fango_calde",
+        "ghiandole_ventosa",
+        "linfa_tampone",
+        "mucose_aderenza_sonica"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "cap_pt",
+          "guardia_situazionale",
+          "job_ability:Skirmisher/Dash_Cut"
+        ],
+        "combo_totale": 2,
+        "forme": [
+          "ESTP",
+          "ISFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A",
+        "B"
+      ],
+      "slot_profile": {
+        "complementare": "propulsione",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
+      "tier": "T1",
+      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
+    },
+    "zoccoli_risonanti_steppe": {
+      "conflitti": [
+        "zampe_a_molla"
+      ],
+      "debolezza": "Suoli cedevoli come sabbie mobili annullano la vibrazione e riducono la trazione.",
+      "famiglia_tipologia": "Locomotorio/Supporto",
+      "fattore_mantenimento_energetico": "Basso (Vibrazione passiva del suolo)",
+      "id": "zoccoli_risonanti_steppe",
+      "label": "Zoccoli Risonanti delle Steppe",
+      "mutazione_indotta": "Placche cornee cave che emettono onde sismiche ritmiche al contatto con il terreno.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "steppe_risonanti"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Praterie ventose dove il suolo amplifica vibrazioni utili alla comunicazione di branco."
+          }
+        }
+      ],
+      "sinergie": [
+        "cartilagine_flessotermica_venti"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "supporto",
+        "core": "locomotorio"
+      },
+      "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
+      "tier": "T1",
+      "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
+    }
+  },
+  "type": "locomotorio"
+}

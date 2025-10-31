@@ -1,0 +1,40 @@
+{
+  "conflitti": [],
+  "debolezza": "Atmosfere acide degradano rapidamente il film eliofiltrante.",
+  "famiglia_tipologia": "Respiratorio/Protezione",
+  "fattore_mantenimento_energetico": "Basso (Auto-riparazione lenta)",
+  "id": "membrane_eliofiltranti",
+  "label": "Membrane Eliofiltranti",
+  "mutazione_indotta": "Strati di mucopolisaccaridi trasparenti che filtrano radiazioni e microrganismi sospesi.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "laghi_alcalini"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Bacini alcalini sospesi dove la luce viene rifratta da vapori metallici."
+      }
+    }
+  ],
+  "sinergie": [
+    "piume_solari_fotovoltaiche",
+    "polmoni_cristallini_alta_quota"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "protezione",
+    "core": "respiratorio"
+  },
+  "spinta_selettiva": "Proteggersi da radiazioni e agenti patogeni in altopiani ipersalini.",
+  "tier": "T2",
+  "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
+}

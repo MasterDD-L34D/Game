@@ -1,0 +1,44 @@
+{
+  "conflitti": [
+    "frusta_fiammeggiante"
+  ],
+  "debolezza": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità.",
+  "famiglia_tipologia": "Difesa/Strutturale",
+  "fattore_mantenimento_energetico": "Basso (Risonanza geodetica stabile)",
+  "id": "armatura_pietra_planare",
+  "label": "Armatura di Pietra Planare",
+  "mutazione_indotta": "Cristallizza il dermascheletro con nodi rune che deviano energia.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [
+        "deploy_barrier"
+      ],
+      "condizioni": {
+        "biome_class": "rovine_planari"
+      },
+      "fonte": "pathfinder_import",
+      "meta": {
+        "expansion": "pathfinder_dataset",
+        "notes": "Plasmazione del substrato lapideo proveniente da fratture planari.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "carapace_fase_variabile"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "strutturale",
+    "core": "difesa"
+  },
+  "spinta_selettiva": "Stabilizzare varchi e proteggere infrastrutture dalle onde d'urto.",
+  "tier": "T2",
+  "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali."
+}

@@ -74,7 +74,7 @@
       "notes": "Glossario pack con 29 etichette bilingui."
     },
     {
-      "path": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+      "path": "data/traits/index.json",
       "type": "reference",
       "state": "core",
       "notes": "Catalogo principale con 29 tratti dettagliati e fonti env_to_traits."

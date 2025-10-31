@@ -11,7 +11,7 @@ Questo documento elenca i dataset archiviati in `data/` e definisce le regole op
 | `data/packs.yaml` | `pi_shop`, `random_general_d20`, `forms` | Tabelledi costo e generazione pacchetti (d20, bias per forma). | Le forme MBTI sono sezioni di secondo livello sotto `forms`. |
 | `data/core/telemetry.yaml` | `telemetry`, `indices`, `mbti_axes`, `ennea_themes`, `pe_economy` | Configurazioni per la telemetria in gioco, formule e ponderazioni. | Le formule sono stringhe e devono rispettare la sintassi usata in backend analytics. |
 | `data/core/species.yaml` | `catalog`, `global_rules`, `species` | Catalogo delle parti, sinergie e profili di specie giocabili. | Validato da `config/schemas/species.schema.yaml`; i campi `default_parts` e `trait_plan` accettano solo slug definiti nel catalogo. |
-| `packs/evo_tactics_pack/docs/catalog/trait_reference.json` | `traits` | Catalogo completo dei tratti selezionabili. | Validato da `config/schemas/catalog.schema.json` e `config/schemas/trait.schema.json`. |
+| `data/traits/index.json` | `traits` | Catalogo completo dei tratti selezionabili. | Validato da `config/schemas/catalog.schema.json` e `config/schemas/trait.schema.json`. |
 
 ## Schemi canonici
 

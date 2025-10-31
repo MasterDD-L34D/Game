@@ -1,0 +1,54 @@
+{
+  "conflitti": [],
+  "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue.",
+  "famiglia_tipologia": "Sensoriale/Nervoso",
+  "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
+  "id": "eco_interno_riflesso",
+  "label": "Riflesso dell'Eco Interno",
+  "mutazione_indotta": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Start T1 nelle canopie conduttrici per apprendere deformazioni controllate.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Upgrade T2 sulle dorsali magnetiche per mantenere elasticità sotto stress.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "cavita_risonanti_tundra",
+    "olfatto_risonanza_magnetica",
+    "sensori_geomagnetici"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "nervoso",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
+  "tier": "T2",
+  "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
+}

@@ -1,0 +1,41 @@
+{
+  "conflitti": [
+    "mimetismo_cromatico_passivo"
+  ],
+  "debolezza": "Soffre danni da feedback termico se colpito da raggi concentrati o laser.",
+  "famiglia_tipologia": "Tegumentario/Difensivo",
+  "fattore_mantenimento_energetico": "Medio (Richiede riallineamento delle placche)",
+  "id": "squame_rifrangenti_deserto",
+  "label": "Squame Rifrangenti del Deserto",
+  "mutazione_indotta": "Placche cristalline sovrapposte che deviano luce e calore lungo superfici multiple.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "dune_cristalline"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Deserti di quarzo e vetro dove le tempeste solari vengono amplificate."
+      }
+    }
+  ],
+  "sinergie": [
+    "respiro_a_scoppio"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difensivo",
+    "core": "tegumentario"
+  },
+  "spinta_selettiva": "Sopravvivere a intensi flare termici e accecanti miraggi desertici.",
+  "tier": "T2",
+  "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici."
+}

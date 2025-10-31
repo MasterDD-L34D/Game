@@ -8554,12 +8554,15 @@ async function loadTraitRegistry(context) {
 }
 
 function localTraitReferenceFallbackUrl() {
-  try {
-    return new URL("./trait-reference.json", import.meta.url).toString();
-  } catch (error) {
-    console.warn("Impossibile calcolare il percorso locale del reference tratti", error);
-    return null;
+  const candidates = ["./traits/index.json", "./trait-reference.json", "./trait_reference.json"];
+  for (const candidate of candidates) {
+    try {
+      return new URL(candidate, import.meta.url).toString();
+    } catch (error) {
+      console.warn("Impossibile calcolare il percorso locale del reference tratti", candidate, error);
+    }
   }
+  return null;
 }
 
 function localTraitGlossaryFallbackUrl() {
@@ -8644,6 +8647,11 @@ async function loadTraitReference(context) {
   const fallback = localTraitReferenceFallbackUrl();
   if (context?.resolveDocHref) {
     try {
+      candidates.push(context.resolveDocHref("traits/index.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere traits/index.json tramite docsBase", error);
+    }
+    try {
       candidates.push(context.resolveDocHref("trait_reference.json"));
     } catch (error) {
       console.warn("Impossibile risolvere trait_reference.json tramite docsBase", error);
@@ -8655,6 +8663,11 @@ async function loadTraitReference(context) {
     }
   }
   if (context?.resolvePackHref) {
+    try {
+      candidates.push(context.resolvePackHref("data/traits/index.json"));
+    } catch (error) {
+      console.warn("Impossibile risolvere data/traits/index.json tramite packBase", error);
+    }
     try {
       candidates.push(context.resolvePackHref("docs/catalog/trait_reference.json"));
     } catch (error) {

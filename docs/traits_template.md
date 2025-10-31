@@ -9,7 +9,7 @@ dataset storico di 174 trait.
 
 - `packs/evo_tactics_pack/docs/catalog/trait_catalog.schema.json` — schema per l'intero catalogo.
 - `packs/evo_tactics_pack/docs/catalog/trait_entry.schema.json` — schema per il singolo trait.
-- `packs/evo_tactics_pack/docs/catalog/trait_reference.json` — catalogo principale validato.
+- `data/traits/index.json` — catalogo principale validato.
 - `tools/py/trait_template_validator.py` — CLI per convalida e riepilogo dei campi.
 
 ## Campi richiesti (per trait)
@@ -91,7 +91,7 @@ I seguenti campi sono stringhe facoltative: `debolezza` (già richiesto), `morph
 
 ## Catalogo di riferimento
 
-Il file `trait_reference.json` contiene 174 voci. Esempio abbreviato (slug `artigli_sette_vie`):
+Il file `data/traits/index.json` contiene 174 voci aggregate dalle sottocartelle. Esempio abbreviato (slug `artigli_sette_vie`):
 
 ```json
 {

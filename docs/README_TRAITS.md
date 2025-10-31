@@ -5,12 +5,19 @@ necessari per validarli.
 
 ## Struttura
 ```text
+data/traits/
+├─ index.json                    # catalogo principale (schema 2.0) con rimandi alle sottocartelle
+├─ difensivo/
+│  ├─ index.json                 # indice di categoria + trait con metadati
+│  └─ <trait>.json               # singolo tratto (slug come nome file)
+├─ …                             # altre tipologie (sensoriale, metabolico, ecc.)
+
 packs/evo_tactics_pack/docs/catalog/
 ├─ trait_entry.schema.json       # schema per ogni voce trait (compatibile con il dataset legacy)
 ├─ trait_catalog.schema.json     # schema per l'intero catalogo (header + mappa)
-├─ trait_reference.json          # catalogo principale con 174 trait
 └─ archive/
-   └─ trait_reference_legacy.json  # snapshot di backup (identico al catalogo principale)
+   └─ trait_reference_legacy.json  # snapshot di backup del catalogo legacy
+
 tools/py/
 └─ trait_template_validator.py   # validatore + summary
 .github/workflows/

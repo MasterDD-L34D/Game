@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+  "famiglia_tipologia": "Digestivo/Metabolico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "flagelli_ancoranti",
+  "label": "Flagelli Ancoranti",
+  "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "laguna_bioreattiva"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Flagelli Ancoranti ottimizza le operazioni metabolico nelle condizioni di laguna bioreattiva.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "filamenti_digestivi_compattanti",
+    "ventriglio_gastroliti"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "energia",
+    "core": "metabolico"
+  },
+  "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+  "tier": "T1",
+  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+}

@@ -1,0 +1,39 @@
+{
+  "conflitti": [],
+  "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato.",
+  "famiglia_tipologia": "Sensoriale/Visivo",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "occhi_infrarosso_composti",
+  "label": "Occhi Composti ad Infrarosso",
+  "mutazione_indotta": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+      }
+    }
+  ],
+  "sinergie": [
+    "sonno_emisferico_alternato"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "visivo",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
+  "tier": "T1",
+  "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+}

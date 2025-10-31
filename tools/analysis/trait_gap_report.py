@@ -80,7 +80,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--trait-reference",
         type=Path,
-        default=Path("packs/evo_tactics_pack/docs/catalog/trait_reference.json"),
+        default=Path("data/traits/index.json"),
         help="Registry locale dei tratti",
     )
     parser.add_argument(

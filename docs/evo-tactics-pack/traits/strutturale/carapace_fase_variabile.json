@@ -1,0 +1,80 @@
+{
+  "conflitti": [
+    "struttura_elastica_amorfa"
+  ],
+  "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza.",
+  "famiglia_tipologia": "Strutturale/Difensivo",
+  "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
+  "id": "carapace_fase_variabile",
+  "label": "Carapace a Variazione di Fase",
+  "mutazione_indotta": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "T1 di acclimatazione nelle canopie conduttrici a bassa intensità.",
+        "tier": "T1"
+      }
+    },
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Percorso T2 che aggiunge gradienti magnetici per pattern cromatici complessi.",
+        "tier": "T2"
+      }
+    }
+  ],
+  "sinergie": [
+    "ali_membrana_sonica",
+    "appendici_risonanti_marea",
+    "barriere_miasma_glaciale",
+    "branchie_microfiltri",
+    "capsule_paracadute",
+    "cartilagine_flessotermica_venti",
+    "circolazione_bifasica",
+    "coda_coppia_retroattiva",
+    "cute_resistente_sali",
+    "enzimi_antipredatori_algali",
+    "filtri_planctonici",
+    "ghiandole_fango_coesivo",
+    "giunti_antitorsione",
+    "lingua_cristallina",
+    "mucose_barofile",
+    "sensori_geomagnetici",
+    "armatura_pietra_planare",
+    "mantello_meteoritico"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:DominantSpecies/Defense",
+      "boardgame:Evolution/Shell",
+      "hud:PhaseShift_Plate"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Guardiano_Cangiante",
+      "HUD:Placca_Sintonica"
+    ],
+    "tabelle_random": [
+      "tabella:assetto_fase"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "difensivo",
+    "core": "strutturale"
+  },
+  "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
+  "tier": "T1",
+  "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+}

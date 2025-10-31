@@ -1,0 +1,40 @@
+{
+  "conflitti": [],
+  "debolezza": "Tempeste solari possono saturare il segnale magnetico, causando disorientamento prolungato.",
+  "famiglia_tipologia": "Sensoriale/Navigazione",
+  "fattore_mantenimento_energetico": "Basso (Ricettori passivi)",
+  "id": "sensori_geomagnetici",
+  "label": "Sensori Geomagnetici",
+  "mutazione_indotta": "Cristalli ferromagnetici allineati lungo il cranio che fungono da bussola psionica.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "pianure_magnetiche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Distese pianeggianti con vortici geomagnetici da sfruttare per la navigazione."
+      }
+    }
+  ],
+  "sinergie": [
+    "carapace_fase_variabile",
+    "eco_interno_riflesso"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "navigazione",
+    "core": "sensoriale"
+  },
+  "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
+  "tier": "T1",
+  "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
+}

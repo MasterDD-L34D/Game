@@ -1,0 +1,40 @@
+{
+  "conflitti": [],
+  "debolezza": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente.",
+  "famiglia_tipologia": "Nervoso/Omeostatico",
+  "fattore_mantenimento_energetico": "Medio (Mantenimento attivo di metà cervello)",
+  "id": "sonno_emisferico_alternato",
+  "label": "Dormire con solo metà cervello alla volta",
+  "mutazione_indotta": "Encefalizzazione asimmetrica o due lobi cerebrali separati.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "caverna_risonante"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+      }
+    }
+  ],
+  "sinergie": [
+    "artigli_sghiaccio_glaciale",
+    "occhi_infrarosso_composti"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "omeostatico",
+    "core": "nervoso"
+  },
+  "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
+  "tier": "T1",
+  "uso_funzione": "Vigilanza continua pur garantendo riposo."
+}

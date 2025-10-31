@@ -1,0 +1,41 @@
+{
+  "conflitti": [],
+  "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+  "famiglia_tipologia": "Tegumentario/Difensivo",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "id": "coda_coppia_retroattiva",
+  "label": "Coda Coppia Retroattiva",
+  "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "steppe_algoritmiche"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "notes": "Coda Coppia Retroattiva ottimizza le operazioni difensivo nelle condizioni di steppe algoritmiche.",
+        "tier": "T1"
+      }
+    }
+  ],
+  "sinergie": [
+    "carapace_fase_variabile",
+    "mimetismo_cromatico_passivo"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 2,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "protezione",
+    "core": "difensivo"
+  },
+  "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+  "tier": "T1",
+  "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+}

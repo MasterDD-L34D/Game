@@ -1,0 +1,47 @@
+{
+  "conflitti": [],
+  "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+  "famiglia_tipologia": "Supporto/Empatico",
+  "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
+  "id": "empatia_coordinativa",
+  "label": "Empatia Coordinativa",
+  "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
+  "requisiti_ambientali": [],
+  "sinergie": [
+    "antenne_eco_turbina",
+    "artigli_acidofagi",
+    "batteri_termofili_endosimbiosi",
+    "branchie_turbina",
+    "carapaci_ferruginosi",
+    "cavita_risonanti_tundra",
+    "circolazione_doppia",
+    "coda_stabilizzatrice_geiser",
+    "cuticole_neutralizzanti",
+    "enzimi_chelatori_rapidi",
+    "foliage_fotocatodico",
+    "ghiandole_inchiostro_luce",
+    "gusci_criovetro",
+    "luminescenza_hydrotermica",
+    "aura_scudo_radianza"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "job_ability:Warden/Scudo_di_Risonanza"
+    ],
+    "combo_totale": 1,
+    "forme": [
+      "INFP"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A"
+  ],
+  "slot_profile": {
+    "complementare": "coordinazione",
+    "core": "supporto"
+  },
+  "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
+  "tier": "T1",
+  "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
+}

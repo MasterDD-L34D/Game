@@ -1,0 +1,52 @@
+{
+  "conflitti": [
+    "scheletro_idro_regolante"
+  ],
+  "debolezza": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento.",
+  "famiglia_tipologia": "Locomotorio/Adattivo",
+  "fattore_mantenimento_energetico": "Medio (Richiede frequenti riallineamenti fibrosi)",
+  "id": "cartilagine_flessotermica_venti",
+  "label": "Cartilagine Flessotermica dei Venti",
+  "mutazione_indotta": "Giunzioni cartilaginee che cambiano rigidità in risposta a gradienti termici e eolici.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "gole_ventose"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Canyon sospesi dove venti caldi e freddi si alternano in pattern ciclici."
+      }
+    }
+  ],
+  "sinergie": [
+    "artigli_sghiaccio_glaciale",
+    "carapace_fase_variabile",
+    "sacche_galleggianti_ascensoriali",
+    "zoccoli_risonanti_steppe"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:DominantSpecies/Wind",
+      "boardgame:Evolution/Flight",
+      "hud:VentSplice_Halo"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Planatore_Psionico"
+    ],
+    "tabelle_random": [
+      "tabella:assetto_eolico"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "adattivo",
+    "core": "locomotorio"
+  },
+  "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
+  "tier": "T2",
+  "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
+}

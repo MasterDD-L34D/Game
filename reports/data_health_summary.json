@@ -9,7 +9,7 @@
       "expected_schema": "1.0",
       "dependencies": [
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "data/core/traits/glossary.json"
       ],
       "issues": [],
@@ -23,7 +23,7 @@
       "expected_schema": "1.0",
       "dependencies": [
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "data/core/traits/glossary.json",
         "packs/evo_tactics_pack/data/species"
       ],
@@ -37,7 +37,7 @@
       "description": "Flattened matrix backing dashboard exports.",
       "expected_schema": null,
       "dependencies": [
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/data/species"
       ],
       "issues": [],
@@ -217,7 +217,7 @@
       "status": "missing"
     },
     {
-      "path": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+      "path": "data/traits/index.json",
       "format": "json",
       "description": "Authoritative trait registry for the pack.",
       "expected_schema": "2.0",

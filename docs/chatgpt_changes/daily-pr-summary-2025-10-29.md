@@ -152,7 +152,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 > - synchronize the species trait matrix and quicklook CSV with the updated core/optional groupings
 > - refresh documentation and QA logs with the new rollout status and coverage report timestamp
 > ## Testing
-> - python tools/py/report_trait_coverage.py --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json --species-root packs/evo_tactics_pack/data/species --trait-glossary data/traits/glossary.json --out-json data/analysis/trait_coverage_report.json --out-csv data/analysis/trait_coverage_matrix.csv
+> - python tools/py/report_trait_coverage.py --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json --trait-reference data/traits/index.json --species-root packs/evo_tactics_pack/data/species --trait-glossary data/traits/glossary.json --out-json data/analysis/trait_coverage_report.json --out-csv data/analysis/trait_coverage_matrix.csv
 > ------
 > https://chatgpt.com/codex/tasks/task_e_68fe9f9a62f88332b73991f02d8decbe
 
@@ -692,7 +692,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 
 > ## Summary
 > - populate the `slot` field in `docs/evo-tactics-pack/trait-reference.json` using core/complementare tags derived from each trait's famiglia_tipologia
-> - mirror the same slot annotations in `packs/evo_tactics_pack/docs/catalog/trait_reference.json` to keep the catalog sources aligned
+> - mirror the same slot annotations in `data/traits/index.json` to keep the catalog sources aligned
 > - record the distribution of core vs complementare roles to verify coverage across the updated taxonomy
 > ## Testing
 > - not run
@@ -868,10 +868,10 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 > - regenerate the trait baseline, coverage matrix/report, and publish the new ETL-driven gap report
 > - introduce `tools/analysis/trait_gap_report.py` to reconcile ETL coverage with the nine axis categories
 > ## Testing
-> - python tools/py/build_trait_baseline.py packs/evo_tactics_pack/docs/catalog/env_traits.json packs/evo_tactics_pack/docs/catalog/trait_reference.json --trait-glossary data/traits/glossary.json
-> - python tools/py/report_trait_coverage.py --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json --trait-glossary data/traits/glossary.json --out-json data/analysis/trait_coverage_report.json --out-csv data/analysis/trait_coverage_matrix.csv
-> - python tools/analysis/trait_gap_report.py --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json --trait-glossary data/traits/glossary.json --etl-report data/mock/prod_snapshot/analysis/trait_coverage_report.json --out data/analysis/trait_gap_report.json
-> - python tools/py/validate_registry_naming.py --trait-glossary data/traits/glossary.json --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json --project-index config/project_index.json --env-rules packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml --hazards packs/evo_tactics_pack/tools/config/registries/hazards.yaml --biomes packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml --species-root packs/evo_tactics_pack/data/species
+> - python tools/py/build_trait_baseline.py packs/evo_tactics_pack/docs/catalog/env_traits.json data/traits/index.json --trait-glossary data/traits/glossary.json
+> - python tools/py/report_trait_coverage.py --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json --trait-reference data/traits/index.json --trait-glossary data/traits/glossary.json --out-json data/analysis/trait_coverage_report.json --out-csv data/analysis/trait_coverage_matrix.csv
+> - python tools/analysis/trait_gap_report.py --trait-reference data/traits/index.json --trait-glossary data/traits/glossary.json --etl-report data/mock/prod_snapshot/analysis/trait_coverage_report.json --out data/analysis/trait_gap_report.json
+> - python tools/py/validate_registry_naming.py --trait-glossary data/traits/glossary.json --trait-reference data/traits/index.json --project-index config/project_index.json --env-rules packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml --hazards packs/evo_tactics_pack/tools/config/registries/hazards.yaml --biomes packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml --species-root packs/evo_tactics_pack/data/species
 > ------
 
 ## #298 — Add Support Hub controls for incoming agent pipeline
@@ -950,7 +950,7 @@ _Generato automaticamente da `tools/py/daily_pr_report.py`._
 > - add a publishing workflow module, refresh the documentation/help, and enforce CI checks that fail on missing traits
 > ## Testing
 > - npm test
-> - python3 tools/py/check_missing_traits.py --species data/species.yaml --species data/mock/prod_snapshot/species.yaml --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json
+> - python3 tools/py/check_missing_traits.py --species data/species.yaml --species data/mock/prod_snapshot/species.yaml --trait-reference data/traits/index.json
 > ------
 > https://chatgpt.com/codex/tasks/task_e_69025d7d7ebc8332a3760a1f9fb8f1cc
 

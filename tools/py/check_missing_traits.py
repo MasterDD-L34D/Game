@@ -70,7 +70,7 @@ def main(argv: Iterable[str]) -> int:
   parser.add_argument(
     "--trait-reference",
     type=Path,
-    default=Path("packs/evo_tactics_pack/docs/catalog/trait_reference.json"),
+    default=Path("data/traits/index.json"),
     help="Percorso al trait reference JSON.",
   )
   args = parser.parse_args(list(argv))

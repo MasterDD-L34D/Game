@@ -25,15 +25,28 @@ ENV_RULES_PATH = (
     / "env_to_traits.yaml"
 )
 TRAIT_REFERENCE_PATHS = [
-    REPO_ROOT
-    / "packs"
-    / "evo_tactics_pack"
-    / "docs"
-    / "catalog"
-    / "trait_reference.json",
+    REPO_ROOT / "data" / "traits" / "index.json",
     REPO_ROOT / "docs" / "evo-tactics-pack" / "trait-reference.json",
 ]
 MAPPING_OUTPUT_PATH = REPO_ROOT / "data" / "analysis" / "trait_env_mapping.json"
+
+
+TRAIT_FIELD_ORDER = [
+    "label",
+    "famiglia_tipologia",
+    "fattore_mantenimento_energetico",
+    "tier",
+    "slot",
+    "slot_profile",
+    "sinergie",
+    "conflitti",
+    "requisiti_ambientali",
+    "mutazione_indotta",
+    "uso_funzione",
+    "spinta_selettiva",
+    "debolezza",
+    "sinergie_pi",
+]
 
 
 @dataclass
@@ -148,6 +161,21 @@ def ensure_list(value: Iterable | None) -> list:
     if isinstance(value, list):
         return value
     return list(value)
+
+
+def order_trait_fields(data: Mapping[str, object]) -> dict[str, object]:
+    """Restituisce una copia ordinata secondo la struttura originale del catalogo."""
+
+    ordered: dict[str, object] = {}
+    for key in TRAIT_FIELD_ORDER:
+        if key in data:
+            ordered[key] = data[key]
+
+    for key, value in data.items():
+        if key not in ordered:
+            ordered[key] = value
+
+    return ordered
 
 
 def load_packs() -> Mapping:
@@ -350,7 +378,9 @@ def upgrade_trait_catalog() -> None:
                 }
             traits[trait_id].update(meta)
 
-        for trait_id, info in traits.items():
+        ordered_traits: dict[str, dict[str, object]] = {}
+        for trait_id in sorted(traits):
+            info = traits[trait_id]
             slug = trait_id
             contexts = pi_usage.get(slug, {"contexts": [], "tiers": set()})
             env_rules_for_trait = env_index.get(trait_id, [])
@@ -380,8 +410,12 @@ def upgrade_trait_catalog() -> None:
             }
             info["requisiti_ambientali"] = serialize_env_requirements(env_rules_for_trait)
 
+            ordered_traits[trait_id] = order_trait_fields(info)
+
+        data["traits"] = ordered_traits
+
         path.write_text(
-            json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
 

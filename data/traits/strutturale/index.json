@@ -1,0 +1,795 @@
+{
+  "schema_version": "2.0",
+  "traits": {
+    "antenne_tesla": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "antenne_tesla",
+      "label": "Antenne Tesla",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Antenne Tesla ottimizza le operazioni strutturale nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "artigli_vetrificati": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "artigli_vetrificati",
+      "label": "Artigli Vetrificati",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Artigli Vetrificati ottimizza le operazioni strutturale nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "branchie_dual_mode": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "branchie_dual_mode",
+      "label": "Branchie Dual Mode",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "laguna_bioreattiva"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Branchie Dual Mode ottimizza le operazioni strutturale nelle condizioni di laguna bioreattiva.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "capillari_criogenici": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "capillari_criogenici",
+      "label": "Capillari Criogenici",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caldera_glaciale"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Capillari Criogenici ottimizza le operazioni strutturale nelle condizioni di caldera glaciale.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "carapace_fase_variabile": {
+      "conflitti": [
+        "struttura_elastica_amorfa"
+      ],
+      "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza.",
+      "famiglia_tipologia": "Strutturale/Difensivo",
+      "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
+      "id": "carapace_fase_variabile",
+      "label": "Carapace a Variazione di Fase",
+      "mutazione_indotta": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_psionica_leggera"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "T1 di acclimatazione nelle canopie conduttrici a bassa intensità.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Percorso T2 che aggiunge gradienti magnetici per pattern cromatici complessi.",
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [
+        "ali_membrana_sonica",
+        "appendici_risonanti_marea",
+        "barriere_miasma_glaciale",
+        "branchie_microfiltri",
+        "capsule_paracadute",
+        "cartilagine_flessotermica_venti",
+        "circolazione_bifasica",
+        "coda_coppia_retroattiva",
+        "cute_resistente_sali",
+        "enzimi_antipredatori_algali",
+        "filtri_planctonici",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lingua_cristallina",
+        "mucose_barofile",
+        "sensori_geomagnetici",
+        "armatura_pietra_planare",
+        "mantello_meteoritico"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "boardgame:DominantSpecies/Defense",
+          "boardgame:Evolution/Shell",
+          "hud:PhaseShift_Plate"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Guardiano_Cangiante",
+          "HUD:Placca_Sintonica"
+        ],
+        "tabelle_random": [
+          "tabella:assetto_fase"
+        ]
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "difensivo",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
+      "tier": "T1",
+      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+    },
+    "carapace_luminiscente_abissale": {
+      "conflitti": [
+        "carapace_fase_variabile"
+      ],
+      "debolezza": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile.",
+      "famiglia_tipologia": "Strutturale/Sensoriale",
+      "fattore_mantenimento_energetico": "Alto (Bioluminescenza controllata)",
+      "id": "carapace_luminiscente_abissale",
+      "label": "Carapace Luminiscente Abissale",
+      "mutazione_indotta": "Placche chitino-minerali con microrganismi luminescenti che comunicano in pattern.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_luminescente"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Gole oceaniche illuminate da coralli psionici e scariche elettrostatiche."
+          }
+        }
+      ],
+      "sinergie": [
+        "antenne_plasmatiche_tempesta",
+        "risonanza_di_branco",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "boardgame:Evolution/WarningCall",
+          "boardgame:DominantSpecies/Initiative",
+          "hud:AbyssLight_Array"
+        ],
+        "combo_totale": 3,
+        "forme": [
+          "Forma:Lanterna_Abissale",
+          "HUD:LuminaNet"
+        ],
+        "tabelle_random": [
+          "tabella:segnali_bioluminosi"
+        ]
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "sensoriale",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
+      "tier": "T3",
+      "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+    },
+    "cartilagini_pseudometalliche": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cartilagini_pseudometalliche",
+      "label": "Cartilagini Pseudometalliche",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cartilagini Pseudometalliche ottimizza le operazioni strutturale nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "cisti_iperbariche": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cisti_iperbariche",
+      "label": "Cisti Iperbariche",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cisti Iperbariche ottimizza le operazioni strutturale nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "cromofori_alert_acido": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "cromofori_alert_acido",
+      "label": "Cromofori Alert Acido",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "foresta_acida"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Cromofori Alert Acido ottimizza le operazioni strutturale nelle condizioni di foresta acida.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "denti_tuning_fork": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "denti_tuning_fork",
+      "label": "Denti Tuning Fork",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Denti Tuning Fork ottimizza le operazioni strutturale nelle condizioni di caverna risonante.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "filamenti_magnetotrofi": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "filamenti_magnetotrofi",
+      "label": "Filamenti Magnetotrofi",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "abisso_vulcanico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Filamenti Magnetotrofi ottimizza le operazioni strutturale nelle condizioni di abisso vulcanico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "ghiandole_condensa_ozono": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_condensa_ozono",
+      "label": "Ghiandole Condensa Ozono",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Condensa Ozono ottimizza le operazioni strutturale nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "ghiandole_nebbia_ionica": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ghiandole_nebbia_ionica",
+      "label": "Ghiandole Nebbia Ionica",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ghiandole Nebbia Ionica ottimizza le operazioni strutturale nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "lamine_filtranti_aeree": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "lamine_filtranti_aeree",
+      "label": "Lamine Filtranti Aeree",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Lamine Filtranti Aeree ottimizza le operazioni strutturale nelle condizioni di mangrovieto cinetico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "membrane_pneumatofori": {
+      "conflitti": [],
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "membrane_pneumatofori",
+      "label": "Membrane Pneumatofori",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "mangrovieto_cinetico"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Membrane Pneumatofori ottimizza le operazioni strutturale nelle condizioni di mangrovieto cinetico.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "tier": "T1",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "scheletro_idro_regolante": {
+      "conflitti": [
+        "sangue_piroforico"
+      ],
+      "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio.",
+      "famiglia_tipologia": "Strutturale/Omeostatico",
+      "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
+      "id": "scheletro_idro_regolante",
+      "label": "Scheletro Idro-Regolante",
+      "mutazione_indotta": "Struttura ossea porosa capace di scambio rapido di fluidi.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "caverna_risonante"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
+          }
+        }
+      ],
+      "sinergie": [
+        "antenne_tesla",
+        "artigli_vetrificati",
+        "branchie_dual_mode",
+        "branchie_osmotiche_salmastra",
+        "capillari_criogenici",
+        "cartilagini_pseudometalliche",
+        "cisti_iperbariche",
+        "cromofori_alert_acido",
+        "denti_tuning_fork",
+        "filamenti_magnetotrofi",
+        "ghiandole_condensa_ozono",
+        "ghiandole_nebbia_ionica",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "omeostatico",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
+      "tier": "T1",
+      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso."
+    },
+    "struttura_elastica_amorfa": {
+      "conflitti": [],
+      "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione).",
+      "famiglia_tipologia": "Strutturale/Locomotorio",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "struttura_elastica_amorfa",
+      "label": "Struttura elastica, allungabile, amorfa, retrattile",
+      "mutazione_indotta": "Tessuto con matrice di proteine elastiche iper-modificate.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_psionica_leggera"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Start T1 nelle canopie conduttrici per apprendere deformazioni controllate.",
+            "tier": "T1"
+          }
+        },
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "falde_magnetiche_psioniche"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "controllo_psionico",
+            "notes": "Upgrade T2 sulle dorsali magnetiche per mantenere elasticità sotto stress.",
+            "tier": "T2"
+          }
+        }
+      ],
+      "sinergie": [
+        "antenne_tesla",
+        "artigli_sette_vie",
+        "artigli_vetrificati",
+        "branchie_dual_mode",
+        "capillari_criogenici",
+        "cartilagini_pseudometalliche",
+        "cisti_iperbariche",
+        "cromofori_alert_acido",
+        "denti_tuning_fork",
+        "filamenti_magnetotrofi",
+        "ghiandole_condensa_ozono",
+        "ghiandole_nebbia_ionica",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "locomotorio",
+        "core": "strutturale"
+      },
+      "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
+      "tier": "T1",
+      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse."
+    }
+  },
+  "type": "strutturale"
+}

@@ -1,0 +1,50 @@
+{
+  "conflitti": [],
+  "debolezza": "Disgeli improvvisi trasformano i bulbi in masse gelatinose che rallentano i movimenti.",
+  "famiglia_tipologia": "Simbiotico/Nutrizione",
+  "fattore_mantenimento_energetico": "Medio (Accumulo e rilascio lento di nutrienti)",
+  "id": "bulbi_radici_permafrost",
+  "label": "Bulbi Radici del Permafrost",
+  "mutazione_indotta": "Bulbi radicali multipli che immagazzinano energia nelle stagioni fredde per rilasciarla durante le missioni.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "permafrost_psionico"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Suoli congelati con vene energetiche che alimentano radici coscienti."
+      }
+    }
+  ],
+  "sinergie": [
+    "chioma_parassita_canopica",
+    "nodi_micorrizici_oracolari",
+    "vello_condensatore_nebbie"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "boardgame:DominantSpecies/Fertility",
+      "boardgame:Evolution/Cooperation",
+      "hud:RootMesh_Psi"
+    ],
+    "combo_totale": 3,
+    "forme": [
+      "Forma:Archivio_Subglaciale",
+      "HUD:Radice_Proxy"
+    ],
+    "tabelle_random": [
+      "tabella:riserva_empatica"
+    ]
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "nutrizione",
+    "core": "simbiotico"
+  },
+  "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
+  "tier": "T2",
+  "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
+}

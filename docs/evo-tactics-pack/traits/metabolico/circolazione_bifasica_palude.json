@@ -1,0 +1,41 @@
+{
+  "conflitti": [
+    "sangue_piroforico"
+  ],
+  "debolezza": "Zone asciutte e calde causano stagnazione del circuito linfatico portando a tossicosi.",
+  "famiglia_tipologia": "Metabolico/Resilienza",
+  "fattore_mantenimento_energetico": "Medio (Doppio circuito emolinfa/linfa)",
+  "id": "circolazione_bifasica_palude",
+  "label": "Circolazione Bifasica di Palude",
+  "mutazione_indotta": "Cuori gemelli che pompano separatamente emolinfa ossigenata e linfa detossificante.",
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "paludi_gas_luminescenti"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico",
+        "notes": "Paludi bioluminescenti piene di gas nervini e batteri simbionti."
+      }
+    }
+  ],
+  "sinergie": [
+    "mucillagine_simbionte_mangrovie"
+  ],
+  "sinergie_pi": {
+    "co_occorrenze": [],
+    "combo_totale": 0,
+    "forme": [],
+    "tabelle_random": []
+  },
+  "slot": [],
+  "slot_profile": {
+    "complementare": "resilienza",
+    "core": "metabolico"
+  },
+  "spinta_selettiva": "Resistere a tossine e anossia tipiche delle paludi psioniche.",
+  "tier": "T2",
+  "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate."
+}

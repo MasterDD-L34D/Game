@@ -4,7 +4,7 @@
     "inventory": "docs/catalog/traits_inventory.json",
     "trait_glossary": "data/core/traits/glossary.json",
     "trait_matrix": "docs/catalog/species_trait_matrix.json",
-    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json"
+    "trait_reference": "data/traits/index.json"
   },
   "traits": {
     "artigli_sette_vie": {
@@ -42,7 +42,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -112,7 +112,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -180,7 +180,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -253,7 +253,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -317,7 +317,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -385,7 +385,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -453,7 +453,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -522,7 +522,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -589,7 +589,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -651,7 +651,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -721,7 +721,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -791,7 +791,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -857,7 +857,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -926,7 +926,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -995,7 +995,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1058,7 +1058,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1121,7 +1121,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1181,7 +1181,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1251,7 +1251,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1317,7 +1317,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1391,7 +1391,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1459,7 +1459,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1536,7 +1536,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1600,7 +1600,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1668,7 +1668,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1734,7 +1734,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1806,7 +1806,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1870,7 +1870,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1938,7 +1938,7 @@
         "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
         "packs/evo_tactics_pack/docs/catalog/env_traits.json",
         "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
         "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
         "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json"
@@ -1990,7 +1990,7 @@
       "weakness": "Sovraccarica in presenza di ombre gravitazionali.",
       "dataset_sources": [
         "data/core/traits/glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml"
       ],
       "usage_map": {
@@ -2029,7 +2029,7 @@
       "weakness": "Richiede dissipazione termica continua.",
       "dataset_sources": [
         "data/core/traits/glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml",
         "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml"
       ],
@@ -2067,7 +2067,7 @@
       "weakness": "Perde efficacia con raffreddamento gravitazionale improvviso.",
       "dataset_sources": [
         "data/core/traits/glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml",
         "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml"
       ],
@@ -2104,7 +2104,7 @@
       "weakness": "Peso elevato in atmosfera standard.",
       "dataset_sources": [
         "data/core/traits/glossary.json",
-        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/traits/index.json",
         "packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml",
         "packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml",
         "packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml"

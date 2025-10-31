@@ -1,0 +1,34 @@
+{
+  "conflitti": [],
+  "debolezza": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli.",
+  "famiglia_tipologia": "Flessibile/Generico",
+  "fattore_mantenimento_energetico": "Variabile (Dipende dal tratto estratto)",
+  "id": "random",
+  "label": "Trait Random",
+  "mutazione_indotta": "Selezione casuale da pool controllata per esperimenti di build.",
+  "requisiti_ambientali": [],
+  "sinergie": [],
+  "sinergie_pi": {
+    "co_occorrenze": [
+      "cap_pt",
+      "guardia_situazionale",
+      "job_ability:Random"
+    ],
+    "combo_totale": 2,
+    "forme": [
+      "NEUTRA"
+    ],
+    "tabelle_random": []
+  },
+  "slot": [
+    "A",
+    "B"
+  ],
+  "slot_profile": {
+    "complementare": "adattivo",
+    "core": "strategia"
+  },
+  "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
+  "tier": "T1",
+  "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
+}

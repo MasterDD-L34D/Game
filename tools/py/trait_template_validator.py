@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Trait Template Validator & Summary
-- Validates packs/evo_tactics_pack/docs/catalog/trait_reference.json
+- Validates data/traits/index.json
   using trait_catalog.schema.json and trait_entry.schema.json
 - Prints an optional summary (--summary) of field types and keys
 Usage:
@@ -23,7 +23,7 @@ from jsonschema import Draft202012Validator, RefResolver
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 CAT = ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog"
-CAT_FILE = CAT / "trait_reference.json"
+CAT_FILE = ROOT / "data" / "traits" / "index.json"
 SCHEMA_ENTRY = CAT / "trait_entry.schema.json"
 SCHEMA_CATALOG = CAT / "trait_catalog.schema.json"
 
