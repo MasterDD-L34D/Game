@@ -26,6 +26,8 @@ appendici_risonanti_marea,Appendici Risonanti Marea,Appendici Risonanti Marea,la
 appendici_risonanti_marea,Appendici Risonanti Marea,Appendici Risonanti Marea,laguna_bioreattiva,cursoriale_quadrupede,0,1
 appendici_thermotattiche,Appendici Thermotattiche,Appendici Thermotattiche,abisso_vulcanico,,1,1
 appendici_thermotattiche,Appendici Thermotattiche,Appendici Thermotattiche,abisso_vulcanico,cursoriale_quadrupede,0,1
+armatura_pietra_planare,Armatura di Pietra Planare,Planar Stone Plating,rovine_planari,cursoriale_quadrupede,0,1
+armatura_pietra_planare,Armatura di Pietra Planare,Planar Stone Plating,rovine_planari,scavenger_corazzato,0,1
 artigli_acidofagi,Artigli Acidofagi,Artigli Acidofagi,foresta_acida,,1,1
 artigli_acidofagi,Artigli Acidofagi,Artigli Acidofagi,foresta_acida,cursoriale_quadrupede,0,1
 artigli_induzione,Artigli Induzione,Artigli Induzione,canopia_ionica,,1,1
@@ -38,9 +40,11 @@ artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,caverna_risonante,,1,2
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,caverna_risonante,cursoriale_quadrupede,0,2
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,dorsale_termale_tropicale,cursoriale_quadrupede,1,2
 artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,mezzanotte_orbitale,cursoriale_quadrupede,1,1
+artigli_sette_vie,Artigli a Sette Vie,Seven-Way Talons,rovine_planari,cursoriale_quadrupede,0,2
 artigli_sghiaccio_glaciale,Artigli Sghiaccio Glaciale,Artigli Sghiaccio Glaciale,calotte_glaciali,cursoriale_quadrupede,0,1
 artigli_vetrificati,Artigli Vetrificati,Artigli Vetrificati,caldera_glaciale,,1,1
 artigli_vetrificati,Artigli Vetrificati,Artigli Vetrificati,caldera_glaciale,cursoriale_quadrupede,0,1
+aura_scudo_radianza,Aura Scudo di Radianza,Radiant Shield Aura,rovine_planari,volatore_planatore,0,1
 baffi_mareomotori,Baffi Mareomotori,Baffi Mareomotori,mangrovieto_cinetico,,1,1
 baffi_mareomotori,Baffi Mareomotori,Baffi Mareomotori,mangrovieto_cinetico,cursoriale_quadrupede,0,1
 barbigli_sensori_plasma,Barbigli Sensori Plasma,Barbigli Sensori Plasma,stratosfera_tempestosa,,1,1
@@ -88,6 +92,8 @@ capsule_paracadute,Capsule Paracadute,Capsule Paracadute,stratosfera_tempestosa,
 carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,canopia_psionica_leggera,cursoriale_quadrupede,0,1
 carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,falde_magnetiche_psioniche,cursoriale_quadrupede,0,1
 carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,mezzanotte_orbitale,cursoriale_quadrupede,1,1
+carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,rovine_planari,cursoriale_quadrupede,0,1
+carapace_fase_variabile,Carapace a Variazione di Fase,Phase-Shifting Carapace,rovine_planari,scavenger_corazzato,0,1
 carapace_luminiscente_abissale,Carapace Luminiscente Abissale,Carapace Luminiscente Abissale,abisso_luminescente,cursoriale_quadrupede,0,1
 carapace_segmenti_logici,Carapace Segmenti Logici,Carapace Segmenti Logici,steppe_algoritmiche,,1,1
 carapace_segmenti_logici,Carapace Segmenti Logici,Carapace Segmenti Logici,steppe_algoritmiche,cursoriale_quadrupede,0,1
@@ -132,6 +138,7 @@ coda_coppia_retroattiva,Coda Coppia Retroattiva,Coda Coppia Retroattiva,steppe_a
 coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,dorsale_termale_tropicale,cursoriale_quadrupede,1,3
 coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,falde_magnetiche_psioniche,cursoriale_quadrupede,0,1
 coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,orbita_psionica_inversa,cursoriale_quadrupede,0,1
+coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,rovine_planari,cursoriale_quadrupede,0,2
 coda_stabilizzatrice_filo,Coda Stabilizzatrice Filo,Coda Stabilizzatrice Filo,canopia_ionica,,1,1
 coda_stabilizzatrice_filo,Coda Stabilizzatrice Filo,Coda Stabilizzatrice Filo,canopia_ionica,cursoriale_quadrupede,0,1
 coda_stabilizzatrice_geiser,Coda Stabilizzatrice Geiser,Coda Stabilizzatrice Geiser,dorsale_termale_tropicale,,1,1
@@ -181,6 +188,8 @@ eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,falde_magnet
 eco_interno_riflesso,Riflesso dell'Eco Interno,Internal Echo Reflex,mezzanotte_orbitale,volatore_planatore,1,3
 empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_miceliale,,1,3
 empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,foresta_miceliale,scavenger_corazzato,0,2
+empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,rovine_planari,cursoriale_quadrupede,0,1
+empatia_coordinativa,Empatia Coordinativa,Coordinated Empathy,rovine_planari,volatore_planatore,0,2
 enzimi_antifase_termica,Enzimi Antifase Termica,Enzimi Antifase Termica,caldera_glaciale,,1,1
 enzimi_antifase_termica,Enzimi Antifase Termica,Enzimi Antifase Termica,caldera_glaciale,cursoriale_quadrupede,0,1
 enzimi_antipredatori_algali,Enzimi Antipredatori Algali,Enzimi Antipredatori Algali,reef_luminescente,,1,1
@@ -223,6 +232,7 @@ foliage_fotocatodico,Foliage Fotocatodico,Foliage Fotocatodico,foresta_acida,,1,
 foliage_fotocatodico,Foliage Fotocatodico,Foliage Fotocatodico,foresta_acida,cursoriale_quadrupede,0,1
 foliaggio_spugna,Foliaggio Spugna,Foliaggio Spugna,mangrovieto_cinetico,,1,1
 foliaggio_spugna,Foliaggio Spugna,Foliaggio Spugna,mangrovieto_cinetico,cursoriale_quadrupede,0,1
+frusta_fiammeggiante,Frusta Fiammeggiante,Flame Lash,rovine_planari,cursoriale_quadrupede,0,1
 ghiaccio_piezoelettrico,Ghiaccio Piezoelettrico,Ghiaccio Piezoelettrico,caldera_glaciale,,1,1
 ghiaccio_piezoelettrico,Ghiaccio Piezoelettrico,Ghiaccio Piezoelettrico,caldera_glaciale,cursoriale_quadrupede,0,1
 ghiandola_caustica,Ghiandola Caustica,Caustic Gland,foresta_miceliale,,1,1
@@ -269,6 +279,7 @@ lamelle_shear,Lamelle Shear,Lamelle Shear,stratosfera_tempestosa,,1,1
 lamelle_shear,Lamelle Shear,Lamelle Shear,stratosfera_tempestosa,cursoriale_quadrupede,0,1
 lamelle_sincroniche,Lamelle Sincroniche,Lamelle Sincroniche,steppe_algoritmiche,,1,1
 lamelle_sincroniche,Lamelle Sincroniche,Lamelle Sincroniche,steppe_algoritmiche,cursoriale_quadrupede,0,1
+lamelle_termoforetiche,Lamelle Termoforetiche,Thermophoretic Lamellae,rovine_planari,cursoriale_quadrupede,0,1
 lamelle_termoforetiche,Lamelle Termoforetiche,Thermophoretic Lamellae,sorgenti_geotermiche,cursoriale_quadrupede,0,1
 lamine_filtranti_aeree,Lamine Filtranti Aeree,Lamine Filtranti Aeree,mangrovieto_cinetico,,1,1
 lamine_filtranti_aeree,Lamine Filtranti Aeree,Lamine Filtranti Aeree,mangrovieto_cinetico,cursoriale_quadrupede,0,1
@@ -286,6 +297,7 @@ luminescenza_hydrotermica,Luminescenza Hydrotermica,Luminescenza Hydrotermica,ab
 luminescenza_hydrotermica,Luminescenza Hydrotermica,Luminescenza Hydrotermica,abisso_vulcanico,cursoriale_quadrupede,0,1
 mantelli_geotermici,Mantelli Geotermici,Mantelli Geotermici,caldera_glaciale,,1,1
 mantelli_geotermici,Mantelli Geotermici,Mantelli Geotermici,caldera_glaciale,cursoriale_quadrupede,0,1
+mantello_meteoritico,Mantello Meteoritico,Meteoric Mantle,rovine_planari,cursoriale_quadrupede,0,1
 membrane_captura_rugiada,Membrane Captura Rugiada,Membrane Captura Rugiada,pianura_salina_iperarida,,1,1
 membrane_captura_rugiada,Membrane Captura Rugiada,Membrane Captura Rugiada,pianura_salina_iperarida,cursoriale_quadrupede,0,1
 membrane_eliofiltranti,Membrane Eliofiltranti,Membrane Eliofiltranti,laghi_alcalini,cursoriale_quadrupede,0,1
@@ -331,6 +343,7 @@ respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,caverna_risonante,cu
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,dorsale_termale_tropicale,scavenger_corazzato,1,1
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,mezzanotte_orbitale,cursoriale_quadrupede,1,1
 risonanza_di_branco,Risonanza di Branco,Pack Resonance,foresta_miceliale,,1,1
+risonanza_di_branco,Risonanza di Branco,Pack Resonance,rovine_planari,volatore_planatore,0,1
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,canopia_psionica_leggera,,1,2
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,canopia_psionica_leggera,cursoriale_quadrupede,0,1
 sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Elevating Buoyancy Sacs,canopia_psionica_leggera,volatore_planatore,0,1
@@ -347,9 +360,12 @@ scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,cave
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,dorsale_termale_tropicale,cursoriale_quadrupede,1,3
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,dorsale_termale_tropicale,scavenger_corazzato,1,1
 scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,mezzanotte_orbitale,cursoriale_quadrupede,1,1
+scheletro_idro_regolante,Scheletro Idro-Regolante,Hydro-Regulating Skeleton,rovine_planari,cursoriale_quadrupede,0,1
 secrezione_rallentante_palmi,Mani secernano liquido rallentante,Retarding Palm Secretions,caverna_risonante,cursoriale_quadrupede,0,1
 secrezione_rallentante_palmi,Mani secernano liquido rallentante,Retarding Palm Secretions,dorsale_termale_tropicale,ingegnere_radicante,1,1
 sensori_geomagnetici,Sensori a Risonanza Geomagnetica,Geomagnetic Resonance Sensors,pianure_magnetiche,cursoriale_quadrupede,0,1
+sensori_geomagnetici,Sensori a Risonanza Geomagnetica,Geomagnetic Resonance Sensors,rovine_planari,cursoriale_quadrupede,0,2
+sensori_geomagnetici,Sensori a Risonanza Geomagnetica,Geomagnetic Resonance Sensors,rovine_planari,volatore_planatore,0,1
 sinapsi_coraline_polifoniche,Sinapsi Coraline Polifoniche,Sinapsi Coraline Polifoniche,barriere_coralline_psioniche,cursoriale_quadrupede,0,1
 sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,caverna_risonante,cursoriale_quadrupede,0,1
 sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Unihemispheric Sleep,dorsale_termale_tropicale,volatore_planatore,1,1

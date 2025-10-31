@@ -1,10 +1,10 @@
 schema_version: '1.0'
 source:
   env_traits: packs/evo_tactics_pack/docs/catalog/env_traits.json
-  trait_reference: data/traits/index.json
+  trait_reference: packs/evo_tactics_pack/docs/catalog/trait_reference.json
   trait_glossary: data/core/traits/glossary.json
 summary:
-  total_traits: 302
+  total_traits: 306
   missing_metadata: 132
 traits:
   ali_fulminee:
@@ -273,6 +273,24 @@ traits:
     biomi:
       abisso_vulcanico: 1
     missing_metadata: false
+  armatura_pietra_planare:
+    label: Armatura di Pietra Planare
+    label_en: Planar Stone Plating
+    description_it: Corazza risonante scolpita da roccia extradimensionale che smorza
+      onde d'urto.
+    description_en: Resonant plating carved from extradimensional stone that dampens
+      shockwaves.
+    tier: T2
+    archetype: difesa
+    occurrences: 0
+    famiglia_tipologia: Difesa/Strutturale
+    fattore_mantenimento_energetico: Basso (Risonanza geodetica stabile)
+    sinergie:
+    - carapace_fase_variabile
+    conflitti:
+    - frusta_fiammeggiante
+    biomi: {}
+    missing_metadata: false
   artigli_acidofagi:
     label: Artigli Acidofagi
     label_en: Artigli Acidofagi
@@ -405,6 +423,25 @@ traits:
     conflitti: []
     biomi:
       caldera_glaciale: 1
+    missing_metadata: false
+  aura_scudo_radianza:
+    label: Aura Scudo di Radianza
+    label_en: Radiant Shield Aura
+    description_it: Campo fotoplasmatico che devia danni planari e sincronizza i battiti
+      della squadra.
+    description_en: Photoplasmic field that deflects planar damage while syncing squad
+      vitals.
+    tier: T3
+    archetype: supporto
+    occurrences: 0
+    famiglia_tipologia: Supporto/Difesa
+    fattore_mantenimento_energetico: Alto (Canalizzazione fotonica continua)
+    sinergie:
+    - empatia_coordinativa
+    - risonanza_di_branco
+    conflitti:
+    - mantello_meteoritico
+    biomi: {}
     missing_metadata: false
   baffi_mareomotori:
     label: Baffi Mareomotori
@@ -852,7 +889,23 @@ traits:
     famiglia_tipologia: Strutturale/Difensivo
     fattore_mantenimento_energetico: Alto (Richiede energia per il cambio di fase)
     sinergie:
+    - ali_membrana_sonica
+    - appendici_risonanti_marea
+    - armatura_pietra_planare
+    - barriere_miasma_glaciale
+    - branchie_microfiltri
+    - capsule_paracadute
     - cartilagine_flessotermica_venti
+    - circolazione_bifasica
+    - coda_coppia_retroattiva
+    - cute_resistente_sali
+    - enzimi_antipredatori_algali
+    - filtri_planctonici
+    - ghiandole_fango_coesivo
+    - giunti_antitorsione
+    - lingua_cristallina
+    - mantello_meteoritico
+    - mucose_barofile
     - sensori_geomagnetici
     conflitti:
     - struttura_elastica_amorfa
@@ -1302,7 +1355,34 @@ traits:
     famiglia_tipologia: Locomotorio/Difensivo
     fattore_mantenimento_energetico: Medio (Mantenimento dell'energia accumulata)
     sinergie:
+    - ali_ioniche
+    - antenne_flusso_mareale
+    - antenne_wideband
+    - artigli_induzione
     - artigli_sette_vie
+    - barbigli_sensori_plasma
+    - biochip_memoria
+    - branchie_metalloidi
+    - camere_anticorrosione
+    - capillari_fotovoltaici
+    - cartilagini_biofibre
+    - chemiorecettori_bromuro
+    - circolazione_supercritica
+    - coda_contrappeso
+    - coda_stabilizzatrice_vortex
+    - cuscinetti_elettrostatici
+    - denti_chelatanti
+    - enzimi_antifase_termica
+    - enzimi_metanoossidanti
+    - filamenti_termoconduzione
+    - foliaggio_spugna
+    - ghiandole_fango_calde
+    - ghiandole_iodoattive
+    - ghiandole_ventosa
+    - gusci_magnesio
+    - linfa_tampone
+    - mantelli_geotermici
+    - mucose_aderenza_sonica
     conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
@@ -1662,7 +1742,21 @@ traits:
     famiglia_tipologia: Supporto/Empatico
     fattore_mantenimento_energetico: Medio (Feedback costante dai compagni)
     sinergie:
+    - antenne_eco_turbina
+    - artigli_acidofagi
+    - aura_scudo_radianza
+    - batteri_termofili_endosimbiosi
+    - branchie_turbina
+    - carapaci_ferruginosi
     - cavita_risonanti_tundra
+    - circolazione_doppia
+    - coda_stabilizzatrice_geiser
+    - cuticole_neutralizzanti
+    - enzimi_chelatori_rapidi
+    - foliage_fotocatodico
+    - ghiandole_inchiostro_luce
+    - gusci_criovetro
+    - luminescenza_hydrotermica
     conflitti: []
     biomi:
       foresta_miceliale: 1
@@ -1811,6 +1905,19 @@ traits:
     famiglia_tipologia: Digestivo/Escretorio
     fattore_mantenimento_energetico: Basso (Passivo)
     sinergie:
+    - antenne_dustsense
+    - appendici_thermotattiche
+    - batteri_endosimbionti_chemio
+    - branchie_solfatiche
+    - carapace_segmenti_logici
+    - circolazione_cooling_loop
+    - coda_stabilizzatrice_filo
+    - cuticole_cerose
+    - enzimi_chelanti
+    - flagelli_ancoranti
+    - ghiandole_grafene
+    - grassi_termici
+    - luminescenza_aurorale
     - ventriglio_gastroliti
     conflitti: []
     biomi:
@@ -1921,12 +2028,27 @@ traits:
     description_it: Cortex biforcato che mantiene due minacce in sorveglianza attiva.
     description_en: Split cortex keeps two threats under active surveillance.
     tier: T1
-    archetype: controllo
+    archetype: strategia
     occurrences: 3
-    famiglia_tipologia: Tattico/Controllo
+    famiglia_tipologia: Strategico/Psionico
     fattore_mantenimento_energetico: Medio (Dividere l'attenzione su più canali)
     sinergie:
+    - ali_fulminee
     - antenne_plasmatiche_tempesta
+    - antenne_waveguide
+    - baffi_mareomotori
+    - branchie_eoliche
+    - capillari_fluoridici
+    - cervelletto_equilibrio_statico
+    - coda_balanciere
+    - cuore_multicamera_bassa_pressione
+    - echi_risonanti
+    - filamenti_superconduttivi
+    - frusta_fiammeggiante
+    - ghiandole_eco_mappanti
+    - ghiandole_resina_conduttiva
+    - lamine_scudo_silice
+    - midollo_antivibrazione
     conflitti: []
     biomi:
       canopia_psionica_leggera: 1
@@ -1971,6 +2093,24 @@ traits:
     conflitti: []
     biomi:
       mangrovieto_cinetico: 1
+    missing_metadata: false
+  frusta_fiammeggiante:
+    label: Frusta Fiammeggiante
+    label_en: Flame Lash
+    description_it: Appendice di plasma vincolato capace di arpionare e incendiare
+      bersagli.
+    description_en: Bound plasma appendage that can hook and ignite targets.
+    tier: T2
+    archetype: offensiva
+    occurrences: 0
+    famiglia_tipologia: Offensivo/Controllo
+    fattore_mantenimento_energetico: Medio (Filamenti di plasma vincolato)
+    sinergie:
+    - focus_frazionato
+    - mantello_meteoritico
+    conflitti:
+    - armatura_pietra_planare
+    biomi: {}
     missing_metadata: false
   ghiaccio_piezoelettrico:
     label: Ghiaccio Piezoelettrico
@@ -2533,6 +2673,25 @@ traits:
     biomi:
       caldera_glaciale: 1
     missing_metadata: false
+  mantello_meteoritico:
+    label: Mantello Meteoritico
+    label_en: Meteoric Mantle
+    description_it: Strati ablativi rigeneranti che vaporizzano l'impatto convertendolo
+      in impulso termico.
+    description_en: Regenerating ablative layers that vaporize impacts into thermal
+      pulses.
+    tier: T3
+    archetype: difesa
+    occurrences: 0
+    famiglia_tipologia: Difesa/Termoregolazione
+    fattore_mantenimento_energetico: Alto (Rivestimento ablativo rigenerante)
+    sinergie:
+    - carapace_fase_variabile
+    - frusta_fiammeggiante
+    conflitti:
+    - aura_scudo_radianza
+    biomi: {}
+    missing_metadata: false
   membrane_captura_rugiada:
     label: Membrane Captura Rugiada
     label_en: Membrane Captura Rugiada
@@ -2636,7 +2795,21 @@ traits:
     famiglia_tipologia: Tegumentario/Difensivo
     fattore_mantenimento_energetico: Basso (Fase passiva)
     sinergie:
+    - ali_membrana_sonica
+    - appendici_risonanti_marea
     - artigli_sette_vie
+    - barriere_miasma_glaciale
+    - branchie_microfiltri
+    - capsule_paracadute
+    - circolazione_bifasica
+    - coda_coppia_retroattiva
+    - cute_resistente_sali
+    - enzimi_antipredatori_algali
+    - filtri_planctonici
+    - ghiandole_fango_coesivo
+    - giunti_antitorsione
+    - lingua_cristallina
+    - mucose_barofile
     - struttura_elastica_amorfa
     conflitti: []
     biomi:
@@ -2655,8 +2828,21 @@ traits:
     famiglia_tipologia: Simbiotico/Difensivo
     fattore_mantenimento_energetico: Medio (Coltura simbiotica costante)
     sinergie:
+    - antenne_reagenti
+    - artigli_scivolo_silente
+    - biofilm_iperarido
     - branchie_osmotiche_salmastra
+    - camere_nutrienti_vent
+    - cartilagini_flessoacustiche
     - circolazione_bifasica_palude
+    - ciste_salmastre
+    - coralli_partner
+    - denti_silice_termici
+    - epitelio_fosforescente
+    - ghiandole_cambio_salino
+    - ghiandole_nebbia_acida
+    - lamelle_sincroniche
+    - membrane_planata_vectored
     - nodi_micorrizici_oracolari
     conflitti:
     - ghiandola_caustica
@@ -2801,8 +2987,21 @@ traits:
     famiglia_tipologia: Simbiotico/Nervoso
     fattore_mantenimento_energetico: Medio (Scambio continuo di segnali con simbionti)
     sinergie:
+    - antenne_reagenti
+    - artigli_scivolo_silente
+    - biofilm_iperarido
     - bulbi_radici_permafrost
+    - camere_nutrienti_vent
+    - cartilagini_flessoacustiche
     - chioma_parassita_canopica
+    - ciste_salmastre
+    - coralli_partner
+    - denti_silice_termici
+    - epitelio_fosforescente
+    - ghiandole_cambio_salino
+    - ghiandole_nebbia_acida
+    - lamelle_sincroniche
+    - membrane_planata_vectored
     - mucillagine_simbionte_mangrovie
     conflitti:
     - spore_psichiche_silenziate
@@ -3438,9 +3637,22 @@ traits:
     tier: T1
     archetype: strategia
     occurrences: 1
-    famiglia_tipologia: Strategico/Comando
+    famiglia_tipologia: Strategico/Tattico
     fattore_mantenimento_energetico: Medio (Analisi continua di stato squadre)
-    sinergie: []
+    sinergie:
+    - antenne_microonde_cavernose
+    - artigli_radice
+    - biofilm_glow
+    - camere_mirage
+    - cartilagini_desertiche
+    - ciste_riduttive
+    - colonne_vibromagnetiche
+    - denti_ossidoferro
+    - epidermide_dielettrica
+    - ghiaccio_piezoelettrico
+    - ghiandole_minerali
+    - lamelle_shear
+    - membrane_captura_rugiada
     conflitti: []
     biomi:
       foresta_miceliale: 1
@@ -4070,12 +4282,26 @@ traits:
     tier: T1
     archetype: supporto
     occurrences: 1
-    famiglia_tipologia: Supporto/Armonico
+    famiglia_tipologia: Supporto/Coordinativo
     fattore_mantenimento_energetico: Basso (Richiede mantenimento empatico)
     sinergie:
+    - antenne_eco_turbina
     - antenne_plasmatiche_tempesta
+    - artigli_acidofagi
+    - aura_scudo_radianza
+    - batteri_termofili_endosimbiosi
+    - branchie_turbina
     - carapace_luminiscente_abissale
+    - carapaci_ferruginosi
     - cavita_risonanti_tundra
+    - circolazione_doppia
+    - coda_stabilizzatrice_geiser
+    - cuticole_neutralizzanti
+    - enzimi_chelatori_rapidi
+    - foliage_fotocatodico
+    - ghiandole_inchiostro_luce
+    - gusci_criovetro
+    - luminescenza_hydrotermica
     conflitti: []
     biomi:
       foresta_miceliale: 1
@@ -4229,12 +4455,25 @@ traits:
     description_it: Fluido ematico che incendia l'aria colpendo chi perfora la corazza.
     description_en: Blood ignites on air contact, burning would-be piercers.
     tier: T1
-    archetype: sopravvivenza
+    archetype: offensiva
     occurrences: 2
-    famiglia_tipologia: Circolatorio/Difensivo
+    famiglia_tipologia: Offensivo/Cinetico
     fattore_mantenimento_energetico: Medio (Sintesi dei composti)
     sinergie:
+    - antenne_flusso_mareale
+    - artigli_induzione
+    - biochip_memoria
+    - camere_anticorrosione
+    - cartilagini_biofibre
+    - circolazione_supercritica
+    - coda_stabilizzatrice_vortex
+    - denti_chelatanti
+    - enzimi_metanoossidanti
+    - foliaggio_spugna
+    - ghiandole_iodoattive
+    - gusci_magnesio
     - lamelle_termoforetiche
+    - mantelli_geotermici
     conflitti:
     - criostasi_adattiva
     - scheletro_idro_regolante
@@ -4283,7 +4522,20 @@ traits:
     famiglia_tipologia: Strutturale/Omeostatico
     fattore_mantenimento_energetico: Medio (Scambio rapido di fluidi)
     sinergie:
+    - antenne_tesla
+    - artigli_vetrificati
+    - branchie_dual_mode
     - branchie_osmotiche_salmastra
+    - capillari_criogenici
+    - cartilagini_pseudometalliche
+    - cisti_iperbariche
+    - cromofori_alert_acido
+    - denti_tuning_fork
+    - filamenti_magnetotrofi
+    - ghiandole_condensa_ozono
+    - ghiandole_nebbia_ionica
+    - lamine_filtranti_aeree
+    - membrane_pneumatofori
     - sacche_galleggianti_ascensoriali
     - struttura_elastica_amorfa
     conflitti:
@@ -4576,8 +4828,22 @@ traits:
     famiglia_tipologia: Simbiotico/Comunicazione
     fattore_mantenimento_energetico: Medio (Scambio continuo di impulsi corallini)
     sinergie:
+    - ali_fulminee
     - antenne_plasmatiche_tempesta
+    - antenne_waveguide
+    - baffi_mareomotori
+    - branchie_eoliche
+    - capillari_fluoridici
     - carapace_luminiscente_abissale
+    - cervelletto_equilibrio_statico
+    - coda_balanciere
+    - cuore_multicamera_bassa_pressione
+    - echi_risonanti
+    - filamenti_superconduttivi
+    - ghiandole_eco_mappanti
+    - ghiandole_resina_conduttiva
+    - lamine_scudo_silice
+    - midollo_antivibrazione
     conflitti:
     - spore_psichiche_silenziate
     biomi: {}
@@ -4735,7 +5001,20 @@ traits:
     famiglia_tipologia: Strutturale/Locomotorio
     fattore_mantenimento_energetico: Basso (Passivo)
     sinergie:
+    - antenne_tesla
     - artigli_sette_vie
+    - artigli_vetrificati
+    - branchie_dual_mode
+    - capillari_criogenici
+    - cartilagini_pseudometalliche
+    - cisti_iperbariche
+    - cromofori_alert_acido
+    - denti_tuning_fork
+    - filamenti_magnetotrofi
+    - ghiandole_condensa_ozono
+    - ghiandole_nebbia_ionica
+    - lamine_filtranti_aeree
+    - membrane_pneumatofori
     - mimetismo_cromatico_passivo
     - sacche_galleggianti_ascensoriali
     - scheletro_idro_regolante
@@ -4754,10 +5033,23 @@ traits:
     tier: T1
     archetype: strategia
     occurrences: 1
-    famiglia_tipologia: Strategico/Supporto
+    famiglia_tipologia: Strategico/Tattico
     fattore_mantenimento_energetico: Medio (Broadcast continuo di segnali)
     sinergie:
+    - antenne_microonde_cavernose
+    - artigli_radice
     - artigli_sette_vie
+    - biofilm_glow
+    - camere_mirage
+    - cartilagini_desertiche
+    - ciste_riduttive
+    - colonne_vibromagnetiche
+    - denti_ossidoferro
+    - epidermide_dielettrica
+    - ghiaccio_piezoelettrico
+    - ghiandole_minerali
+    - lamelle_shear
+    - membrane_captura_rugiada
     conflitti: []
     biomi:
       foresta_miceliale: 1
@@ -4998,7 +5290,20 @@ traits:
     famiglia_tipologia: Digestivo/Alimentare
     fattore_mantenimento_energetico: Medio (Contrazione muscolare costante)
     sinergie:
+    - antenne_dustsense
+    - appendici_thermotattiche
+    - batteri_endosimbionti_chemio
+    - branchie_solfatiche
+    - carapace_segmenti_logici
+    - circolazione_cooling_loop
+    - coda_stabilizzatrice_filo
+    - cuticole_cerose
+    - enzimi_chelanti
     - filamenti_digestivi_compattanti
+    - flagelli_ancoranti
+    - ghiandole_grafene
+    - grassi_termici
+    - luminescenza_aurorale
     conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
@@ -5075,7 +5380,21 @@ traits:
     famiglia_tipologia: Mobilità/Cinetico
     fattore_mantenimento_energetico: Basso (Carica elastica a turni alterni)
     sinergie:
+    - ali_ioniche
+    - antenne_wideband
     - artigli_sghiaccio_glaciale
+    - barbigli_sensori_plasma
+    - branchie_metalloidi
+    - capillari_fotovoltaici
+    - chemiorecettori_bromuro
+    - coda_contrappeso
+    - cuscinetti_elettrostatici
+    - enzimi_antifase_termica
+    - filamenti_termoconduzione
+    - ghiandole_fango_calde
+    - ghiandole_ventosa
+    - linfa_tampone
+    - mucose_aderenza_sonica
     conflitti: []
     biomi: {}
     missing_metadata: false
@@ -5145,15 +5464,12 @@ archetypes:
     total: 1
     traits:
     - random
-  controllo:
-    total: 1
-    traits:
-    - focus_frazionato
   difesa:
-    total: 19
+    total: 21
     traits:
     - ali_membrana_sonica
     - appendici_risonanti_marea
+    - armatura_pietra_planare
     - barriere_miasma_glaciale
     - branchie_microfiltri
     - capsule_paracadute
@@ -5165,6 +5481,7 @@ archetypes:
     - ghiandole_fango_coesivo
     - giunti_antitorsione
     - lingua_cristallina
+    - mantello_meteoritico
     - mimetismo_cromatico_passivo
     - mucose_barofile
     - piume_solari_fotovoltaiche
@@ -5356,7 +5673,7 @@ archetypes:
     - zoccoli_resina_ionica
     - zoccoli_stabilita_dinamica
   offensiva:
-    total: 14
+    total: 16
     traits:
     - antenne_flusso_mareale
     - artigli_induzione
@@ -5368,10 +5685,12 @@ archetypes:
     - denti_chelatanti
     - enzimi_metanoossidanti
     - foliaggio_spugna
+    - frusta_fiammeggiante
     - ghiandola_caustica
     - ghiandole_iodoattive
     - gusci_magnesio
     - mantelli_geotermici
+    - sangue_piroforico
   sensoriale:
     total: 22
     traits:
@@ -5420,16 +5739,15 @@ archetypes:
     - sacche_spore_stratosferiche
     - sinapsi_coraline_polifoniche
   sopravvivenza:
-    total: 6
+    total: 5
     traits:
     - branchie_osmotiche_salmastra
     - lamelle_termoforetiche
     - membrane_eliofiltranti
     - polmoni_cristallini_alta_quota
     - respiro_a_scoppio
-    - sangue_piroforico
   strategia:
-    total: 15
+    total: 16
     traits:
     - antenne_microonde_cavernose
     - artigli_radice
@@ -5440,6 +5758,7 @@ archetypes:
     - colonne_vibromagnetiche
     - denti_ossidoferro
     - epidermide_dielettrica
+    - focus_frazionato
     - ghiaccio_piezoelettrico
     - ghiandole_minerali
     - lamelle_shear
@@ -5467,10 +5786,11 @@ archetypes:
     - scheletro_idro_regolante
     - struttura_elastica_amorfa
   supporto:
-    total: 16
+    total: 17
     traits:
     - antenne_eco_turbina
     - artigli_acidofagi
+    - aura_scudo_radianza
     - batteri_termofili_endosimbiosi
     - branchie_turbina
     - carapaci_ferruginosi
