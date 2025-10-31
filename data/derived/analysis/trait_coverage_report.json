@@ -1,23 +1,26 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-10-29T14:54:29+00:00",
+  "generated_at": "2025-10-31T13:50:14+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
-    "trait_reference": "data/traits/index.json",
-    "trait_glossary": "/workspace/Game/data/core/traits/glossary.json",
+    "trait_reference": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+    "trait_glossary": "data/core/traits/glossary.json",
     "species_root": "packs/evo_tactics_pack/data/species"
   },
   "summary": {
-    "traits_total": 170,
+    "traits_total": 174,
     "traits_with_rules": 147,
-    "traits_with_species": 168,
+    "traits_with_species": 172,
     "rule_combos_total": 177,
-    "species_combos_total": 375,
+    "species_combos_total": 391,
     "rules_missing_species_total": 0,
     "traits_missing_species": [],
     "traits_missing_rules": [
       "antenne_plasmatiche_tempesta",
+      "armatura_pietra_planare",
+      "artigli_sette_vie",
       "artigli_sghiaccio_glaciale",
+      "aura_scudo_radianza",
       "branchie_osmotiche_salmastra",
       "bulbi_radici_permafrost",
       "carapace_fase_variabile",
@@ -31,11 +34,14 @@
       "cute_resistente_sali",
       "cuticole_cerose",
       "eco_interno_riflesso",
+      "empatia_coordinativa",
       "enzimi_chelanti",
       "filamenti_digestivi_compattanti",
+      "frusta_fiammeggiante",
       "grassi_termici",
       "lamelle_termoforetiche",
       "lingua_tattile_trama",
+      "mantello_meteoritico",
       "membrane_eliofiltranti",
       "mimetismo_cromatico_passivo",
       "mucillagine_simbionte_mangrovie",
@@ -45,6 +51,7 @@
       "piume_solari_fotovoltaiche",
       "polmoni_cristallini_alta_quota",
       "respiro_a_scoppio",
+      "risonanza_di_branco",
       "sacche_spore_stratosferiche",
       "sangue_piroforico",
       "scheletro_idro_regolante",
@@ -625,6 +632,50 @@
         "missing_in_rules": []
       }
     },
+    "armatura_pietra_planare": {
+      "label_it": "Armatura di Pietra Planare",
+      "label_en": "Planar Stone Plating",
+      "description_it": "Corazza risonante scolpita da roccia extradimensionale che smorza onde d'urto.",
+      "description_en": "Resonant plating carved from extradimensional stone that dampens shockwaves.",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 2,
+        "coverage": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "balor-fission"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "golem-runico"
+            ]
+          }
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato"
+          }
+        ]
+      }
+    },
     "artigli_acidofagi": {
       "label_it": "Artigli Acidofagi",
       "label_en": "Artigli Acidofagi",
@@ -815,7 +866,7 @@
         ]
       },
       "species": {
-        "total": 7,
+        "total": 9,
         "coverage": [
           {
             "biome": "caverna_risonante",
@@ -851,12 +902,26 @@
             "examples": [
               "cryo-lynx"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 2,
+            "examples": [
+              "balor-fission",
+              "marilith-vault"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "artigli_sghiaccio_glaciale": {
@@ -930,6 +995,38 @@
       "diff": {
         "missing_in_species": [],
         "missing_in_rules": []
+      }
+    },
+    "aura_scudo_radianza": {
+      "label_it": "Aura Scudo di Radianza",
+      "label_en": "Radiant Shield Aura",
+      "description_it": "Campo fotoplasmatico che devia danni planari e sincronizza i battiti della squadra.",
+      "description_en": "Photoplasmic field that deflects planar damage while syncing squad vitals.",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "archon-solare"
+            ]
+          }
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
+          }
+        ]
       }
     },
     "baffi_mareomotori": {
@@ -1873,7 +1970,7 @@
         ]
       },
       "species": {
-        "total": 3,
+        "total": 5,
         "coverage": [
           {
             "biome": "canopia_psionica_leggera",
@@ -1898,6 +1995,22 @@
             "examples": [
               "cryo-lynx"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "balor-fission"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato",
+            "count": 1,
+            "examples": [
+              "golem-runico"
+            ]
           }
         ]
       },
@@ -1911,6 +2024,14 @@
           {
             "biome": "falde_magnetiche_psioniche",
             "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "scavenger_corazzato"
           }
         ]
       }
@@ -2829,7 +2950,7 @@
         ]
       },
       "species": {
-        "total": 5,
+        "total": 7,
         "coverage": [
           {
             "biome": "dorsale_termale_tropicale",
@@ -2856,6 +2977,15 @@
             "examples": [
               "orbita-psionica-inversa-trait-keeper"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 2,
+            "examples": [
+              "bulette-fase",
+              "marilith-vault"
+            ]
           }
         ]
       },
@@ -2868,6 +2998,10 @@
           },
           {
             "biome": "orbita_psionica_inversa",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
             "morphotype": "cursoriale_quadrupede"
           }
         ]
@@ -3772,7 +3906,7 @@
         ]
       },
       "species": {
-        "total": 5,
+        "total": 8,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -3792,12 +3926,38 @@
               "glowcap-weaver",
               "myco-spire-warden"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "rakshasa-corte"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 2,
+            "examples": [
+              "archon-solare",
+              "couatl-aurora"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
+          }
+        ]
       }
     },
     "enzimi_antifase_termica": {
@@ -4573,6 +4733,38 @@
       "diff": {
         "missing_in_species": [],
         "missing_in_rules": []
+      }
+    },
+    "frusta_fiammeggiante": {
+      "label_it": "Frusta Fiammeggiante",
+      "label_en": "Flame Lash",
+      "description_it": "Appendice di plasma vincolato capace di arpionare e incendiare bersagli.",
+      "description_en": "Bound plasma appendage that can hook and ignite targets.",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "balor-fission"
+            ]
+          }
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "ghiaccio_piezoelettrico": {
@@ -5500,8 +5692,16 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "bulette-fase"
+            ]
+          },
           {
             "biome": "sorgenti_geotermiche",
             "morphotype": "cursoriale_quadrupede",
@@ -5515,6 +5715,10 @@
       "diff": {
         "missing_in_species": [],
         "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
           {
             "biome": "sorgenti_geotermiche",
             "morphotype": "cursoriale_quadrupede"
@@ -5853,6 +6057,38 @@
       "diff": {
         "missing_in_species": [],
         "missing_in_rules": []
+      }
+    },
+    "mantello_meteoritico": {
+      "label_it": "Mantello Meteoritico",
+      "label_en": "Meteoric Mantle",
+      "description_it": "Strati ablativi rigeneranti che vaporizzano l'impatto convertendolo in impulso termico.",
+      "description_en": "Regenerating ablative layers that vaporize impacts into thermal pulses.",
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "balor-fission"
+            ]
+          }
+        ]
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ]
       }
     },
     "membrane_captura_rugiada": {
@@ -6750,7 +6986,7 @@
         ]
       },
       "species": {
-        "total": 1,
+        "total": 2,
         "coverage": [
           {
             "biome": "foresta_miceliale",
@@ -6759,12 +6995,25 @@
             "examples": [
               "lupus-temperatus"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "archon-solare"
+            ]
           }
         ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": []
+        "missing_in_rules": [
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
+          }
+        ]
       }
     },
     "sacche_galleggianti_ascensoriali": {
@@ -6991,7 +7240,7 @@
         ]
       },
       "species": {
-        "total": 6,
+        "total": 7,
         "coverage": [
           {
             "biome": "caverna_risonante",
@@ -7026,6 +7275,14 @@
             "examples": [
               "steppe-bison-mini"
             ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "bulette-fase"
+            ]
           }
         ]
       },
@@ -7034,6 +7291,10 @@
         "missing_in_rules": [
           {
             "biome": "caverna_risonante",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
             "morphotype": "cursoriale_quadrupede"
           }
         ]
@@ -7095,7 +7356,7 @@
         "coverage": []
       },
       "species": {
-        "total": 1,
+        "total": 4,
         "coverage": [
           {
             "biome": "pianure_magnetiche",
@@ -7103,6 +7364,23 @@
             "count": 1,
             "examples": [
               "pianure-magnetiche-trait-keeper"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 2,
+            "examples": [
+              "bulette-fase",
+              "marilith-vault"
+            ]
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore",
+            "count": 1,
+            "examples": [
+              "couatl-aurora"
             ]
           }
         ]
@@ -7113,6 +7391,14 @@
           {
             "biome": "pianure_magnetiche",
             "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "cursoriale_quadrupede"
+          },
+          {
+            "biome": "rovine_planari",
+            "morphotype": "volatore_planatore"
           }
         ]
       }
@@ -7611,7 +7897,7 @@
     },
     "roles": {
       "dispersore_ponte": {
-        "total_species": 5,
+        "total_species": 7,
         "biomes": {
           "abisso_vulcanico": {
             "count": 1,
@@ -7682,6 +7968,32 @@
                 "source": "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
               }
             ]
+          },
+          "rovine_planari": {
+            "count": 2,
+            "playable_count": 2,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "archon-solare",
+                "playable_unit": true,
+                "core_traits": [
+                  "empatia_coordinativa",
+                  "risonanza_di_branco",
+                  "aura_scudo_radianza"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml"
+              },
+              {
+                "id": "couatl-aurora",
+                "playable_unit": true,
+                "core_traits": [
+                  "empatia_coordinativa",
+                  "sensori_geomagnetici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
@@ -7690,7 +8002,7 @@
         ]
       },
       "erbivoro_primario": {
-        "total_species": 1,
+        "total_species": 2,
         "biomes": {
           "dorsale_termale_tropicale": {
             "count": 1,
@@ -7708,14 +8020,32 @@
                 "source": "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
               }
             ]
+          },
+          "rovine_planari": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "bulette-fase",
+                "playable_unit": false,
+                "core_traits": [
+                  "scheletro_idro_regolante",
+                  "sensori_geomagnetici",
+                  "coda_frusta_cinetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
-          "dorsale_termale_tropicale"
+          "dorsale_termale_tropicale",
+          "rovine_planari"
         ]
       },
       "evento_ecologico": {
-        "total_species": 4,
+        "total_species": 5,
         "biomes": {
           "abisso_vulcanico": {
             "count": 1,
@@ -7777,384 +8107,31 @@
                 "source": "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
               }
             ]
+          },
+          "rovine_planari": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "banshee-risonante",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml"
+              }
+            ]
           }
         },
         "biomes_missing_threshold": [
           "abisso_vulcanico",
           "dorsale_termale_tropicale",
           "foresta_miceliale",
-          "mezzanotte_orbitale"
+          "mezzanotte_orbitale",
+          "rovine_planari"
         ]
       },
       "ingegneri_ecosistema": {
-        "total_species": 7,
-        "biomes": {
-          "abisso_vulcanico": {
-            "count": 1,
-            "playable_count": 1,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "cactus-weaver",
-                "playable_unit": true,
-                "core_traits": [
-                  "cuticole_cerose",
-                  "grassi_termici"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
-              }
-            ]
-          },
-          "canopia_psionica_leggera": {
-            "count": 1,
-            "playable_count": 1,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "psionic-canopy-scout",
-                "playable_unit": true,
-                "core_traits": [
-                  "focus_frazionato",
-                  "mimetismo_cromatico_passivo",
-                  "sacche_galleggianti_ascensoriali"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml"
-              }
-            ]
-          },
-          "dorsale_termale_tropicale": {
-            "count": 1,
-            "playable_count": 1,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "rust-scavenger",
-                "playable_unit": true,
-                "core_traits": [
-                  "ventriglio_gastroliti",
-                  "respiro_a_scoppio",
-                  "filamenti_digestivi_compattanti"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
-              }
-            ]
-          },
-          "foresta_miceliale": {
-            "count": 3,
-            "playable_count": 2,
-            "meets_threshold": true,
-            "species": [
-              {
-                "id": "glowcap-weaver",
-                "playable_unit": false,
-                "core_traits": [
-                  "filamenti_digestivi_compattanti",
-                  "empatia_coordinativa",
-                  "struttura_elastica_amorfa"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
-              },
-              {
-                "id": "myco-spire-warden",
-                "playable_unit": true,
-                "core_traits": [
-                  "filamenti_digestivi_compattanti",
-                  "empatia_coordinativa",
-                  "struttura_elastica_amorfa"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
-              },
-              {
-                "id": "sentinella-radice",
-                "playable_unit": true,
-                "core_traits": [
-                  "focus_frazionato",
-                  "pathfinder",
-                  "pianificatore"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
-              }
-            ]
-          },
-          "mezzanotte_orbitale": {
-            "count": 1,
-            "playable_count": 1,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "steppe-bison-mini",
-                "playable_unit": true,
-                "core_traits": [
-                  "ventriglio_gastroliti",
-                  "scheletro_idro_regolante",
-                  "respiro_a_scoppio"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
-              }
-            ]
-          }
-        },
-        "biomes_missing_threshold": [
-          "abisso_vulcanico",
-          "canopia_psionica_leggera",
-          "dorsale_termale_tropicale",
-          "mezzanotte_orbitale"
-        ]
-      },
-      "minaccia_microbica": {
-        "total_species": 4,
-        "biomes": {
-          "abisso_vulcanico": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "silica-bloom",
-                "playable_unit": false,
-                "core_traits": [
-                  "cuticole_cerose",
-                  "grassi_termici"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
-              }
-            ]
-          },
-          "dorsale_termale_tropicale": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "nano-rust-bloom",
-                "playable_unit": false,
-                "core_traits": [
-                  "filamenti_digestivi_compattanti",
-                  "spore_psichiche_silenziate",
-                  "scheletro_idro_regolante"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
-              }
-            ]
-          },
-          "foresta_miceliale": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "blight-micotico",
-                "playable_unit": false,
-                "core_traits": [
-                  "spore_psichiche_silenziate",
-                  "lingua_tattile_trama",
-                  "ghiandola_caustica"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
-              }
-            ]
-          },
-          "mezzanotte_orbitale": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "thaw-rot",
-                "playable_unit": false,
-                "core_traits": [
-                  "filamenti_digestivi_compattanti",
-                  "spore_psichiche_silenziate",
-                  "sangue_piroforico"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
-              }
-            ]
-          }
-        },
-        "biomes_missing_threshold": [
-          "abisso_vulcanico",
-          "dorsale_termale_tropicale",
-          "foresta_miceliale",
-          "mezzanotte_orbitale"
-        ]
-      },
-      "predatore_regolatore_simbionte": {
-        "total_species": 2,
-        "biomes": {
-          "dorsale_termale_tropicale": {
-            "count": 1,
-            "playable_count": 1,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "ferrocolonia-magnetotattica",
-                "playable_unit": true,
-                "core_traits": [
-                  "mimetismo_cromatico_passivo",
-                  "sangue_piroforico",
-                  "secrezione_rallentante_palmi"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
-              }
-            ]
-          },
-          "falde_magnetiche_psioniche": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "magnet-fathom-surveyor",
-                "playable_unit": false,
-                "core_traits": [
-                  "filamenti_digestivi_compattanti",
-                  "nucleo_ovomotore_rotante",
-                  "olfatto_risonanza_magnetica"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml"
-              }
-            ]
-          }
-        },
-        "biomes_missing_threshold": [
-          "dorsale_termale_tropicale",
-          "falde_magnetiche_psioniche"
-        ]
-      },
-      "predatore_terziario_apex": {
-        "total_species": 8,
-        "biomes": {
-          "abisso_vulcanico": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "thermo-raptor",
-                "playable_unit": false,
-                "core_traits": [
-                  "cuticole_cerose",
-                  "grassi_termici"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
-              }
-            ]
-          },
-          "caverna_risonante": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "resonant-claw-hunter",
-                "playable_unit": false,
-                "core_traits": [
-                  "artigli_sette_vie"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml"
-              }
-            ]
-          },
-          "dorsale_termale_tropicale": {
-            "count": 3,
-            "playable_count": 1,
-            "meets_threshold": true,
-            "species": [
-              {
-                "id": "dune-stalker",
-                "playable_unit": false,
-                "core_traits": [
-                  "artigli_sette_vie",
-                  "coda_frusta_cinetica",
-                  "scheletro_idro_regolante"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
-              },
-              {
-                "id": "magneto-ridge-hunter",
-                "playable_unit": true,
-                "core_traits": [
-                  "coda_frusta_cinetica",
-                  "scheletro_idro_regolante",
-                  "artigli_sette_vie"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
-              },
-              {
-                "id": "slag-veil-ambusher",
-                "playable_unit": false,
-                "core_traits": [
-                  "coda_frusta_cinetica",
-                  "struttura_elastica_amorfa",
-                  "olfatto_risonanza_magnetica"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
-              }
-            ]
-          },
-          "foresta_miceliale": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "lupus-temperatus",
-                "playable_unit": false,
-                "core_traits": [
-                  "empatia_coordinativa",
-                  "tattiche_di_branco",
-                  "risonanza_di_branco"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
-              }
-            ]
-          },
-          "mezzanotte_orbitale": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "cryo-lynx",
-                "playable_unit": false,
-                "core_traits": [
-                  "artigli_sette_vie",
-                  "carapace_fase_variabile",
-                  "olfatto_risonanza_magnetica"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
-              }
-            ]
-          },
-          "orbita_psionica_inversa": {
-            "count": 1,
-            "playable_count": 1,
-            "meets_threshold": false,
-            "species": [
-              {
-                "id": "orbital-ascendant",
-                "playable_unit": true,
-                "core_traits": [
-                  "focus_frazionato",
-                  "nucleo_ovomotore_rotante",
-                  "olfatto_risonanza_magnetica"
-                ],
-                "source": "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml"
-              }
-            ]
-          }
-        },
-        "biomes_missing_threshold": [
-          "abisso_vulcanico",
-          "caverna_risonante",
-          "foresta_miceliale",
-          "mezzanotte_orbitale",
-          "orbita_psionica_inversa"
-        ]
-      },
-      "supporto_specialista": {
-        "total_species": 37,
+        "total_species": 47,
         "biomes": {
           "abisso_luminescente": {
             "count": 1,
@@ -8172,9 +8149,9 @@
             ]
           },
           "abisso_vulcanico": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
+            "count": 2,
+            "playable_count": 1,
+            "meets_threshold": true,
             "species": [
               {
                 "id": "abisso-vulcanico-trait-keeper",
@@ -8185,6 +8162,15 @@
                   "branchie_metalloidi"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml"
+              },
+              {
+                "id": "cactus-weaver",
+                "playable_unit": true,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
               }
             ]
           },
@@ -8283,9 +8269,9 @@
             ]
           },
           "canopia_psionica_leggera": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
+            "count": 2,
+            "playable_count": 1,
+            "meets_threshold": true,
             "species": [
               {
                 "id": "canopia-psionica-leggera-trait-keeper",
@@ -8296,6 +8282,16 @@
                   "eco_interno_riflesso"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml"
+              },
+              {
+                "id": "psionic-canopy-scout",
+                "playable_unit": true,
+                "core_traits": [
+                  "focus_frazionato",
+                  "mimetismo_cromatico_passivo",
+                  "sacche_galleggianti_ascensoriali"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml"
               }
             ]
           },
@@ -8362,9 +8358,9 @@
             ]
           },
           "dorsale_termale_tropicale": {
-            "count": 1,
-            "playable_count": 0,
-            "meets_threshold": false,
+            "count": 2,
+            "playable_count": 1,
+            "meets_threshold": true,
             "species": [
               {
                 "id": "dorsale-termale-tropicale-trait-keeper",
@@ -8375,6 +8371,16 @@
                   "branchie_turbina"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml"
+              },
+              {
+                "id": "rust-scavenger",
+                "playable_unit": true,
+                "core_traits": [
+                  "ventriglio_gastroliti",
+                  "respiro_a_scoppio",
+                  "filamenti_digestivi_compattanti"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
               }
             ]
           },
@@ -8424,6 +8430,43 @@
                   "camere_anticorrosione"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml"
+              }
+            ]
+          },
+          "foresta_miceliale": {
+            "count": 3,
+            "playable_count": 2,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "glowcap-weaver",
+                "playable_unit": false,
+                "core_traits": [
+                  "filamenti_digestivi_compattanti",
+                  "empatia_coordinativa",
+                  "struttura_elastica_amorfa"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
+              },
+              {
+                "id": "myco-spire-warden",
+                "playable_unit": true,
+                "core_traits": [
+                  "filamenti_digestivi_compattanti",
+                  "empatia_coordinativa",
+                  "struttura_elastica_amorfa"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
+              },
+              {
+                "id": "sentinella-radice",
+                "playable_unit": true,
+                "core_traits": [
+                  "focus_frazionato",
+                  "pathfinder",
+                  "pianificatore"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
               }
             ]
           },
@@ -8518,6 +8561,23 @@
                   "coda_contrappeso"
                 ],
                 "source": "packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml"
+              }
+            ]
+          },
+          "mezzanotte_orbitale": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "steppe-bison-mini",
+                "playable_unit": true,
+                "core_traits": [
+                  "ventriglio_gastroliti",
+                  "scheletro_idro_regolante",
+                  "respiro_a_scoppio"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
               }
             ]
           },
@@ -8647,6 +8707,34 @@
               }
             ]
           },
+          "rovine_planari": {
+            "count": 3,
+            "playable_count": 0,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "golem-runico",
+                "playable_unit": false,
+                "core_traits": [
+                  "carapace_fase_variabile",
+                  "armatura_pietra_planare"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml"
+              },
+              {
+                "id": "otyugh-sentinella",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml"
+              },
+              {
+                "id": "treant-portale",
+                "playable_unit": false,
+                "core_traits": [],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml"
+              }
+            ]
+          },
           "sorgenti_geotermiche": {
             "count": 1,
             "playable_count": 0,
@@ -8744,19 +8832,16 @@
         },
         "biomes_missing_threshold": [
           "abisso_luminescente",
-          "abisso_vulcanico",
           "altipiani_solari",
           "badlands",
           "barriere_coralline_psioniche",
           "caldera_glaciale",
           "calotte_glaciali",
           "canopia_ionica",
-          "canopia_psionica_leggera",
           "canopie_sospese",
           "caverna_risonante",
           "cicloni_psionici",
           "delta_salmastri",
-          "dorsale_termale_tropicale",
           "dune_cristalline",
           "falde_magnetiche_psioniche",
           "foresta_acida",
@@ -8766,6 +8851,7 @@
           "laguna_bioreattiva",
           "mangrovie_risonanti",
           "mangrovieto_cinetico",
+          "mezzanotte_orbitale",
           "orbita_psionica_inversa",
           "paludi_gas_luminescenti",
           "permafrost_psionico",
@@ -8780,6 +8866,301 @@
           "stratosfera_portante",
           "stratosfera_tempestosa",
           "tundra_risonante"
+        ]
+      },
+      "minaccia_microbica": {
+        "total_species": 5,
+        "biomes": {
+          "abisso_vulcanico": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "silica-bloom",
+                "playable_unit": false,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
+              }
+            ]
+          },
+          "dorsale_termale_tropicale": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "nano-rust-bloom",
+                "playable_unit": false,
+                "core_traits": [
+                  "filamenti_digestivi_compattanti",
+                  "spore_psichiche_silenziate",
+                  "scheletro_idro_regolante"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
+              }
+            ]
+          },
+          "foresta_miceliale": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "blight-micotico",
+                "playable_unit": false,
+                "core_traits": [
+                  "spore_psichiche_silenziate",
+                  "lingua_tattile_trama",
+                  "ghiandola_caustica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
+              }
+            ]
+          },
+          "mezzanotte_orbitale": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "thaw-rot",
+                "playable_unit": false,
+                "core_traits": [
+                  "filamenti_digestivi_compattanti",
+                  "spore_psichiche_silenziate",
+                  "sangue_piroforico"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
+              }
+            ]
+          },
+          "rovine_planari": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "rakshasa-corte",
+                "playable_unit": false,
+                "core_traits": [
+                  "empatia_coordinativa"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "abisso_vulcanico",
+          "dorsale_termale_tropicale",
+          "foresta_miceliale",
+          "mezzanotte_orbitale",
+          "rovine_planari"
+        ]
+      },
+      "predatore_regolatore_simbionte": {
+        "total_species": 2,
+        "biomes": {
+          "dorsale_termale_tropicale": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "ferrocolonia-magnetotattica",
+                "playable_unit": true,
+                "core_traits": [
+                  "mimetismo_cromatico_passivo",
+                  "sangue_piroforico",
+                  "secrezione_rallentante_palmi"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
+              }
+            ]
+          },
+          "falde_magnetiche_psioniche": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "magnet-fathom-surveyor",
+                "playable_unit": false,
+                "core_traits": [
+                  "filamenti_digestivi_compattanti",
+                  "nucleo_ovomotore_rotante",
+                  "olfatto_risonanza_magnetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "dorsale_termale_tropicale",
+          "falde_magnetiche_psioniche"
+        ]
+      },
+      "predatore_terziario_apex": {
+        "total_species": 10,
+        "biomes": {
+          "abisso_vulcanico": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "thermo-raptor",
+                "playable_unit": false,
+                "core_traits": [
+                  "cuticole_cerose",
+                  "grassi_termici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
+              }
+            ]
+          },
+          "caverna_risonante": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "resonant-claw-hunter",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml"
+              }
+            ]
+          },
+          "dorsale_termale_tropicale": {
+            "count": 3,
+            "playable_count": 1,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "dune-stalker",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie",
+                  "coda_frusta_cinetica",
+                  "scheletro_idro_regolante"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
+              },
+              {
+                "id": "magneto-ridge-hunter",
+                "playable_unit": true,
+                "core_traits": [
+                  "coda_frusta_cinetica",
+                  "scheletro_idro_regolante",
+                  "artigli_sette_vie"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
+              },
+              {
+                "id": "slag-veil-ambusher",
+                "playable_unit": false,
+                "core_traits": [
+                  "coda_frusta_cinetica",
+                  "struttura_elastica_amorfa",
+                  "olfatto_risonanza_magnetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
+              }
+            ]
+          },
+          "foresta_miceliale": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "lupus-temperatus",
+                "playable_unit": false,
+                "core_traits": [
+                  "empatia_coordinativa",
+                  "tattiche_di_branco",
+                  "risonanza_di_branco"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
+              }
+            ]
+          },
+          "mezzanotte_orbitale": {
+            "count": 1,
+            "playable_count": 0,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "cryo-lynx",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie",
+                  "carapace_fase_variabile",
+                  "olfatto_risonanza_magnetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
+              }
+            ]
+          },
+          "orbita_psionica_inversa": {
+            "count": 1,
+            "playable_count": 1,
+            "meets_threshold": false,
+            "species": [
+              {
+                "id": "orbital-ascendant",
+                "playable_unit": true,
+                "core_traits": [
+                  "focus_frazionato",
+                  "nucleo_ovomotore_rotante",
+                  "olfatto_risonanza_magnetica"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml"
+              }
+            ]
+          },
+          "rovine_planari": {
+            "count": 2,
+            "playable_count": 0,
+            "meets_threshold": true,
+            "species": [
+              {
+                "id": "balor-fission",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie",
+                  "frusta_fiammeggiante",
+                  "armatura_pietra_planare"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml"
+              },
+              {
+                "id": "marilith-vault",
+                "playable_unit": false,
+                "core_traits": [
+                  "artigli_sette_vie",
+                  "coda_frusta_cinetica",
+                  "sensori_geomagnetici"
+                ],
+                "source": "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml"
+              }
+            ]
+          }
+        },
+        "biomes_missing_threshold": [
+          "abisso_vulcanico",
+          "caverna_risonante",
+          "foresta_miceliale",
+          "mezzanotte_orbitale",
+          "orbita_psionica_inversa"
         ]
       }
     }

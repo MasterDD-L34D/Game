@@ -7,7 +7,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 | Percorso | Contenuto | Note |
 | --- | --- | --- |
 | `data/core/traits/glossary.json` | Glossario condiviso con label ufficiali, descrizioni sintetiche e collegamento al reference principale. | Usato da strumenti ETL e validazione. |
-| `data/traits/index.json` | Sorgente autorevole per tier, slot, sinergie, requisiti ambientali e metadati PI. | Duplicato in `docs/evo-tactics-pack/trait-reference.json` per distribuzione web. |
+| `data/traits/index.json` | Sorgente autorevole per tier, slot, sinergie, requisiti ambientali e metadati PI. | Duplicato in `docs/evo-tactics-pack/trait-reference.json` (web) e `packs/evo_tactics_pack/docs/catalog/trait_reference.json` (bundle pack); **tutte le copie vanno aggiornate insieme**. |
 | `packs/evo_tactics_pack/docs/catalog/env_traits.json` | Mappa le condizioni ambientali (biomi, hazard, ecc.) ai tratti disponibili. | Necessario per report di coverage. |
 | `logs/trait_audit.md` | Output dell'audit di coerenza; deve essere privo di warning prima di aprire una PR. | Generato da `scripts/trait_audit.py`. |
 | `data/derived/analysis/trait_baseline.yaml` & `data/derived/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL. | Utili per verificare la copertura sui nove assi. |
@@ -15,7 +15,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 ## Workflow di aggiornamento
 
 1. **Allineare il glossario** – aggiungere o aggiornare le voci in `data/core/traits/glossary.json`, assicurandosi che `trait_reference` punti a `data/traits/index.json`.
-2. **Aggiornare il trait reference** – editare `data/traits/index.json` (e sincronizzare la copia in `docs/evo-tactics-pack/trait-reference.json`).
+2. **Aggiornare il trait reference** – editare `data/traits/index.json` e sincronizzare le copie in `docs/evo-tactics-pack/trait-reference.json` **e** `packs/evo_tactics_pack/docs/catalog/trait_reference.json`.
    - Popolare i campi obbligatori: `tier`, `slot`, `slot_profile`, `sinergie`, `conflitti`, `requisiti_ambientali`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `debolezza`.
    - Ogni sinergia deve essere **reciproca**: se il tratto A elenca il tratto B, anche B deve elencare A.
 3. **Aggiornare le regole ambientali** – se necessario, associare il tratto in `packs/evo_tactics_pack/docs/catalog/env_traits.json`.
@@ -23,7 +23,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
    ```bash
    python tools/py/build_trait_baseline.py \
      packs/evo_tactics_pack/docs/catalog/env_traits.json \
-     data/traits/index.json \
+     packs/evo_tactics_pack/docs/catalog/trait_reference.json \
      --trait-glossary data/core/traits/glossary.json
    ```
    Questo aggiorna `data/derived/analysis/trait_baseline.yaml`.
@@ -31,7 +31,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
    ```bash
    python tools/py/report_trait_coverage.py \
      --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json \
-     --trait-reference data/traits/index.json \
+     --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json \
      --trait-glossary data/core/traits/glossary.json \
      --out-json data/derived/analysis/trait_coverage_report.json \
      --out-csv data/derived/analysis/trait_coverage_matrix.csv

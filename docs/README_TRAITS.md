@@ -13,6 +13,7 @@ data/traits/
 ├─ …                             # altre tipologie (sensoriale, metabolico, ecc.)
 
 packs/evo_tactics_pack/docs/catalog/
+├─ trait_reference.json          # copia del catalogo core inclusa nel bundle del pack (sync con data/traits/index.json)
 ├─ trait_entry.schema.json       # schema per ogni voce trait (compatibile con il dataset legacy)
 ├─ trait_catalog.schema.json     # schema per l'intero catalogo (header + mappa)
 └─ archive/
