@@ -50,6 +50,30 @@ function createFetchStub() {
           updatedAt: '2024-05-18T10:45:00Z',
           sample: [],
         },
+        generator: {
+          status: 'success',
+          label: 'Generatore online',
+          generatedAt: '2024-05-18T10:40:00Z',
+          updatedAt: '2024-05-18T10:46:00Z',
+          sourceLabel: 'Generator telemetry',
+          metrics: {
+            generationTimeMs: 420,
+            speciesTotal: 12,
+            enrichedSpecies: 8,
+            eventTotal: 3,
+            datasetSpeciesTotal: 6,
+            coverageAverage: 78,
+            coreTraits: 24,
+            optionalTraits: 11,
+            synergyTraits: 8,
+            expectedCoreTraits: 22,
+          },
+          streams: {
+            generationTime: [300, 340, 360, 390, 410, 420],
+            species: [6, 7, 8, 9, 11, 12],
+            enriched: [3, 4, 5, 6, 7, 8],
+          },
+        },
       };
     },
   })) as unknown as typeof fetch;
@@ -82,6 +106,7 @@ describe('NebulaAtlasView', () => {
       await nextTick();
       await Promise.resolve();
       expect(wrapper.text()).toContain('Telemetria live');
+      expect(wrapper.text()).toContain('Generatore Nebula');
       expect(wrapper.html()).toMatchSnapshot();
       expect(fetchStub).toHaveBeenCalled();
     } finally {
