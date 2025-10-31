@@ -19,6 +19,7 @@
 ## Interfaccia & Produzione
 - [30 UI TV — Carta Temperamentale & Albero Evolutivo](30-UI_TV_IDENTITA.md)
 - [40 Roadmap / MVP → Alpha](40-ROADMAP.md)
+- [Tutorial rapidi (CLI, Idea Engine, Dashboard)](tutorials/README.md)
 
 ## Dati & Appendici
 - `data/core/species.yaml` (catalogo Specie & Parti)

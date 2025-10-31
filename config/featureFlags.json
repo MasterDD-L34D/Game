@@ -40,6 +40,36 @@
             "alertChannel": "analytics-duty"
           }
         ]
+      },
+      "ideaEngineFeedback": {
+        "description": "Attiva il modulo feedback Idea Engine con canale Slack #feedback-enhancements.",
+        "default": true,
+        "rollout": {
+          "phase": "general_availability",
+          "cohorts": ["idea-engine", "qa-support", "webapp"],
+          "start": "2025-12-02",
+          "target": "2025-12-09"
+        },
+        "owner": {
+          "team": "support-qa",
+          "contact": "support-qa@gamestudio.local",
+          "slack": "#feedback-enhancements"
+        },
+        "playbook": "docs/tutorials/idea-engine-feedback.md",
+        "metrics": [
+          {
+            "name": "feedback_response_time_hours",
+            "threshold": "<=24",
+            "window": "7d",
+            "alertChannel": "#feedback-enhancements"
+          },
+          {
+            "name": "tutorial_views_weekly",
+            "threshold": ">=12",
+            "window": "7d",
+            "alertChannel": "analytics-duty"
+          }
+        ]
       }
     }
   }

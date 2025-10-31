@@ -13,6 +13,22 @@
 ### Known Issues
 - _Nessuno segnalato._
 
+## [2025-12-02] Feedback & Tutorial boost
+### Added
+- Tutorial rapidi con schede SVG dedicate per CLI, Idea Engine e dashboard (`docs/tutorials/*`, `assets/tutorials/*`).
+- Integrazione del changelog nel `README.md` e nelle pagine indice dei documenti.
+- Canale Slack `#feedback-enhancements` collegato alle procedure di QA rapida.
+
+### Changed
+- Modulo feedback dell'Idea Engine ora visibile anche senza API configurata, con fallback su Slack e template aggiornato.
+- `docs/public/embed.js` supporta il canale Slack configurabile e messaggi guida aggiornati.
+
+### Fixed
+- Documentazione principale aggiornata con link coerenti verso tutorial e changelog.
+
+### Known Issues
+- In attesa di nuove PR giornaliere per popolare la sezione "Unreleased".
+
 ### Riepilogo PR giornalieri
 <!-- daily-pr-summary:start -->
 - **2025-10-30** — [#326](https://github.com/MasterDD-L34D/Game/pull/326) Ripristina contenuti storici nel README; [#327](https://github.com/MasterDD-L34D/Game/pull/327) Restore tracker status markers and refresh tracker data; [#328](https://github.com/MasterDD-L34D/Game/pull/328) Implement orchestrator client and async flow shell integration; [#329](https://github.com/MasterDD-L34D/Game/pull/329) feat: add nebula shell layout and atlas progress; [#330](https://github.com/MasterDD-L34D/Game/pull/330) Add root ecosystem definitions and hazard registry; [#331](https://github.com/MasterDD-L34D/Game/pull/331) Add trait diagnostics sync pipeline and QA surfacing; [#332](https://github.com/MasterDD-L34D/Game/pull/332) Add incoming inventory status report; [#333](https://github.com/MasterDD-L34D/Game/pull/333) Add Nebula overview module with telemetry timeline; [#334](https://github.com/MasterDD-L34D/Game/pull/334) Log incoming triage sync status; [#335](https://github.com/MasterDD-L34D/Game/pull/335) Add QA logger hooks and timeline severity filters; [#336](https://github.com/MasterDD-L34D/Game/pull/336) Sync caretaker assignments with Kanban prerequisites; [#338](https://github.com/MasterDD-L34D/Game/pull/338) Add API-driven flow shell snapshot; [#337](https://github.com/MasterDD-L34D/Game/pull/337) Plan calendar slots for incoming triage; [#339](https://github.com/MasterDD-L34D/Game/pull/339) Add incoming triage Slack announcement draft; [#340](https://github.com/MasterDD-L34D/Game/pull/340) Add orchestrator worker pool with heartbeat recovery; [#341](https://github.com/MasterDD-L34D/Game/pull/341) Document incoming agent streams responsibilities; [#343](https://github.com/MasterDD-L34D/Game/pull/343) Add Nebula atlas API and live telemetry view; [#342](https://github.com/MasterDD-L34D/Game/pull/342) Add incoming inventory report and backlog references; [#344](https://github.com/MasterDD-L34D/Game/pull/344) Pianifica slot incoming del 14 novembre; [#345](https://github.com/MasterDD-L34D/Game/pull/345) Log incoming triage sessione-2025-11-14 and publish validation reports; [#346](https://github.com/MasterDD-L34D/Game/pull/346) Automate QA report exports and add UI log download options. [Report](chatgpt_changes/daily-pr-summary-2025-10-30.md)

@@ -15,3 +15,17 @@ feature_flags:
       metrics:
         - "Engagement medio > 0.58 nelle squadre canary"
         - "Tempo medio stand-up < 11 minuti"
+  idea_engine:
+    feedback_enhancements:
+      description: "Attiva il modulo feedback con fallback Slack #feedback-enhancements."
+      default: true
+      rollout:
+        phase: general_availability
+      owner: support_ops
+      controls:
+        contact: support-qa@gamestudio.local
+        slack: "#feedback-enhancements"
+        playbook: docs/tutorials/idea-engine-feedback.md
+      metrics:
+        - "Tempo medio risposta feedback < 24h"
+        - "Numero escalation Slack gestite per sprint >= 3"

@@ -468,79 +468,96 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
     const apiBase = (options && options.apiBase) ? options.apiBase.replace(/\/$/, '') : '';
     const apiToken = options && options.apiToken;
     const templateUrl = options && options.feedbackTemplateUrl;
-    if (!apiBase || !idea || !idea.id) return null;
+    const slackChannel = options && options.feedbackChannel ? String(options.feedbackChannel).trim() : '';
+    const slackLink = slackChannel ? `https://slack.com/app_redirect?channel=${slackChannel.replace(/^#/, '')}` : '';
+    const hasApi = Boolean(apiBase && idea && idea.id);
+    if (!hasApi && !slackLink) return null;
 
     const wrapper = el('div', { class: 'feedback-card' });
     wrapper.appendChild(el('h4', {}, 'Idea Engine Feedback'));
+
+    const introParts = [];
     if (templateUrl) {
       const link = el('a', { href: templateUrl, target: '_blank', rel: 'noreferrer', class: 'linkish' }, 'template completo');
-      const intro = el('p', { class: 'note small' }, [
-        'Aiutaci a migliorare il flusso (feedback rapido qui sotto o apri il ',
-        link,
-        ').'
-      ]);
-      wrapper.appendChild(intro);
+      introParts.push('Aiutaci a migliorare il flusso (feedback rapido qui sotto o apri il ', link, ').');
     } else {
-      wrapper.appendChild(el('p', { class: 'note small' }, 'Aiutaci a migliorare il flusso: lascia un commento rapido qui sott'
- + 'o.'));
+      introParts.push('Aiutaci a migliorare il flusso: lascia un commento rapido qui sotto.');
     }
-
-    const textarea = el('textarea', { placeholder: 'Cosa ha funzionato? Cosa manca?' });
-    const contact = el('input', { type: 'text', placeholder: 'Contatto o handle (opzionale)' });
-    const actions = el('div', { class: 'actions' });
-    const status = el('div', { class: 'status', 'aria-live': 'polite' });
-    const submit = el('button', { type: 'button', class: 'button button--secondary' }, 'Invia feedback');
-
-    let busy = false;
-    function setBusy(isBusy) {
-      busy = isBusy;
-      submit.disabled = isBusy;
-      submit.classList.toggle('button--busy', isBusy);
-      submit.textContent = isBusy ? 'Invio feedback…' : 'Invia feedback';
+    if (!hasApi && slackChannel) {
+      const slackAnchor = el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'linkish' }, slackChannel);
+      introParts.push(' Puoi anche aprire ', slackAnchor, ' per discutere follow-up o allegare materiali.');
     }
+    wrapper.appendChild(el('p', { class: 'note small' }, introParts));
 
-    submit.addEventListener('click', async () => {
-      if (busy) return;
-      const message = (textarea.value || '').trim();
-      const contactValue = (contact.value || '').trim();
-      if (!message) {
-        status.textContent = 'Inserisci un commento prima di inviare.';
-        status.className = 'status err';
-        return;
+    if (hasApi) {
+      const textarea = el('textarea', { placeholder: 'Cosa ha funzionato? Cosa manca?' });
+      const contact = el('input', { type: 'text', placeholder: 'Contatto o handle (opzionale)' });
+      const actions = el('div', { class: 'actions' });
+      const status = el('div', { class: 'status', 'aria-live': 'polite' });
+      const submit = el('button', { type: 'button', class: 'button button--secondary' }, 'Invia feedback');
+
+      let busy = false;
+      function setBusy(isBusy) {
+        busy = isBusy;
+        submit.disabled = isBusy;
+        submit.classList.toggle('button--busy', isBusy);
+        submit.textContent = isBusy ? 'Invio feedback…' : 'Invia feedback';
       }
-      status.textContent = '';
-      status.className = 'status';
-      try {
-        setBusy(true);
-        const response = await fetch(`${apiBase}/api/ideas/${idea.id}/feedback`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(apiToken ? { 'Authorization': 'Bearer ' + apiToken } : {})
-          },
-          body: JSON.stringify({ message, contact: contactValue })
-        });
-        const json = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error((json && json.error) ? json.error : `${response.status} ${response.statusText}`);
+
+      submit.addEventListener('click', async () => {
+        if (busy) return;
+        const message = (textarea.value || '').trim();
+        const contactValue = (contact.value || '').trim();
+        if (!message) {
+          status.textContent = 'Inserisci un commento prima di inviare.';
+          status.className = 'status err';
+          return;
         }
-        textarea.value = '';
-        contact.value = '';
-        status.textContent = 'Grazie! Feedback registrato.';
-        status.className = 'status ok';
-      } catch (error) {
-        status.textContent = 'Errore invio feedback: ' + (error && error.message ? error.message : error);
-        status.className = 'status err';
-      } finally {
-        setBusy(false);
-      }
-    });
+        status.textContent = '';
+        status.className = 'status';
+        try {
+          setBusy(true);
+          const response = await fetch(`${apiBase}/api/ideas/${idea.id}/feedback`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              ...(apiToken ? { 'Authorization': 'Bearer ' + apiToken } : {})
+            },
+            body: JSON.stringify({ message, contact: contactValue })
+          });
+          const json = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error((json && json.error) ? json.error : `${response.status} ${response.statusText}`);
+          }
+          textarea.value = '';
+          contact.value = '';
+          status.textContent = 'Grazie! Feedback registrato.';
+          status.className = 'status ok';
+        } catch (error) {
+          status.textContent = 'Errore invio feedback: ' + (error && error.message ? error.message : error);
+          status.className = 'status err';
+        } finally {
+          setBusy(false);
+        }
+      });
 
-    actions.appendChild(submit);
-    wrapper.appendChild(textarea);
-    wrapper.appendChild(contact);
-    wrapper.appendChild(actions);
-    wrapper.appendChild(status);
+      actions.appendChild(submit);
+      if (slackLink) {
+        const slackButton = el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'button button--ghost' }, `Apri ${slackChannel}`);
+        actions.appendChild(slackButton);
+      }
+      wrapper.appendChild(textarea);
+      wrapper.appendChild(contact);
+      wrapper.appendChild(actions);
+      wrapper.appendChild(status);
+    } else if (slackLink) {
+      const fallback = el('p', { class: 'note small' }, [
+        'API non configurata: usa ',
+        el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'linkish' }, slackChannel),
+        ' per condividere il feedback (allega log o screenshot rilevanti).'
+      ]);
+      wrapper.appendChild(fallback);
+    }
     return wrapper;
   }
 
@@ -617,7 +634,11 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
   function buildForm(container, opts, categories, taxonomyRaw) {
     ensureStyles();
     const taxonomy = prepareTaxonomy(taxonomyRaw);
-    const state = { apiBase: (opts.apiBase||"").trim(), apiToken: (opts.apiToken||"").trim() };
+    const state = {
+      apiBase: (opts.apiBase||"").trim(),
+      apiToken: (opts.apiToken||"").trim(),
+      feedbackChannel: (opts.feedbackChannel || '#feedback-enhancements').trim()
+    };
     const templateUrl = (opts.feedbackTemplateUrl || deriveAssetUrl(FEEDBACK_TEMPLATE_FALLBACK) || '').trim();
     if (templateUrl) {
       state.feedbackTemplateUrl = templateUrl;
