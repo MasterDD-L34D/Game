@@ -95,6 +95,67 @@
           </header>
           <SparklineChart :points="highPriorityStream" color="#f4c060" :variant="chartVariant" />
         </div>
+
+        <div class="nebula-atlas-view__generator" aria-label="Telemetria generatore">
+          <header>
+            <div>
+              <h4>Generatore Nebula</h4>
+              <small>{{ generatorSourceLabel }}</small>
+            </div>
+            <span class="nebula-atlas-view__badge" :data-tone="generatorTone">{{ generatorStatusLabel }}</span>
+          </header>
+
+          <p class="nebula-atlas-view__generator-meta">Ultima run: {{ generatorRunLabel }}</p>
+
+          <div class="nebula-atlas-view__metrics nebula-atlas-view__metrics--generator">
+            <article
+              v-for="card in generatorCards"
+              :key="card.id"
+              class="nebula-atlas-view__metric"
+              :data-tone="card.tone"
+            >
+              <h4>{{ card.label }}</h4>
+              <strong>{{ card.value }}</strong>
+              <small v-if="card.meta">{{ card.meta }}</small>
+            </article>
+          </div>
+
+          <div class="nebula-atlas-view__generator-charts">
+            <div class="nebula-atlas-view__chart" aria-label="Tempo generazione">
+              <header>
+                <h4>Tempo generazione</h4>
+                <span>{{ generatorMetrics.generationTimeMs ?? '—' }} ms</span>
+              </header>
+              <SparklineChart
+                :points="generatorStreams.generationTime"
+                color="#7c5cff"
+                :variant="chartVariant"
+              />
+            </div>
+            <div class="nebula-atlas-view__chart" aria-label="Specie generate">
+              <header>
+                <h4>Specie generate</h4>
+                <span>{{ generatorMetrics.speciesTotal }}</span>
+              </header>
+              <SparklineChart
+                :points="generatorStreams.species"
+                color="#4ade80"
+                :variant="chartVariant"
+              />
+            </div>
+            <div class="nebula-atlas-view__chart" aria-label="Blueprint arricchiti">
+              <header>
+                <h4>Blueprint arricchiti</h4>
+                <span>{{ generatorMetrics.enrichedSpecies }}</span>
+              </header>
+              <SparklineChart
+                :points="generatorStreams.enriched"
+                color="#ff99cc"
+                :variant="chartVariant"
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <footer class="nebula-atlas-view__footer">
@@ -159,6 +220,111 @@ const readinessChips = computed(() => {
 const coverageStream = computed(() => moduleState.telemetryStreams.value.coverage);
 const incidentStream = computed(() => moduleState.telemetryStreams.value.incidents);
 const highPriorityStream = computed(() => moduleState.telemetryStreams.value.highPriority);
+
+const generatorStatusState = computed(() => {
+  const status = moduleState.generatorStatus?.value;
+  if (!status) {
+    return {
+      status: 'unknown',
+      label: 'Generatore non disponibile',
+      generatedAt: null,
+      updatedAt: null,
+      sourceLabel: 'Generator telemetry offline',
+    };
+  }
+  return status;
+});
+
+const generatorMetrics = computed(() => {
+  const metrics = moduleState.generatorMetrics?.value;
+  if (!metrics) {
+    return {
+      generationTimeMs: null,
+      speciesTotal: 0,
+      enrichedSpecies: 0,
+      eventTotal: 0,
+      datasetSpeciesTotal: 0,
+      coverageAverage: 0,
+      coreTraits: 0,
+      optionalTraits: 0,
+      synergyTraits: 0,
+      expectedCoreTraits: 0,
+    };
+  }
+  return metrics;
+});
+
+const generatorStreams = computed(() => {
+  const streams = moduleState.generatorStreams?.value;
+  if (!streams) {
+    return { generationTime: [], species: [], enriched: [] };
+  }
+  return streams;
+});
+
+function formatRunTimestamp(timestamp) {
+  if (!timestamp) {
+    return 'N/D';
+  }
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) {
+    return timestamp;
+  }
+  return new Intl.DateTimeFormat('it-IT', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(date);
+}
+
+const generatorStatusLabel = computed(() => generatorStatusState.value.label);
+const generatorRunLabel = computed(() => formatRunTimestamp(generatorStatusState.value.generatedAt || generatorStatusState.value.updatedAt));
+const generatorSourceLabel = computed(() => generatorStatusState.value.sourceLabel);
+
+const generatorTone = computed(() => {
+  const status = generatorStatusState.value.status;
+  if (status === 'success') {
+    return 'success';
+  }
+  if (status === 'warning' || status === 'degraded') {
+    return 'warning';
+  }
+  if (status === 'unknown') {
+    return 'neutral';
+  }
+  return 'offline';
+});
+
+const generatorCards = computed(() => {
+  const metrics = generatorMetrics.value;
+  const coverage = typeof metrics.coverageAverage === 'number' ? metrics.coverageAverage : 0;
+  const datasetTotal = metrics.datasetSpeciesTotal || 0;
+  return [
+    { id: 'species-total', label: 'Specie totali', value: metrics.speciesTotal, tone: 'neutral' },
+    {
+      id: 'enriched',
+      label: 'Blueprint arricchiti',
+      value: metrics.enrichedSpecies,
+      tone: metrics.enrichedSpecies >= datasetTotal ? 'success' : 'warning',
+      meta: datasetTotal ? `Target ${datasetTotal}` : '',
+    },
+    {
+      id: 'events',
+      label: 'Eventi runtime',
+      value: metrics.eventTotal,
+      tone: metrics.eventTotal > 0 ? 'warning' : 'success',
+    },
+    {
+      id: 'coverage',
+      label: 'Copertura atlas',
+      value: `${coverage}%`,
+      tone: coverage >= 75 ? 'success' : 'neutral',
+    },
+  ];
+});
 
 const statusTone = computed(() => {
   if (moduleState.loading.value) {
@@ -323,6 +489,10 @@ const activateDemo = () => {
   gap: 1rem;
 }
 
+.nebula-atlas-view__metrics--generator {
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
 .nebula-atlas-view__metric {
   background: rgba(14, 20, 32, 0.8);
   border-radius: 0.95rem;
@@ -403,6 +573,43 @@ const activateDemo = () => {
   border: 1px solid rgba(97, 213, 255, 0.18);
   display: grid;
   gap: 0.75rem;
+}
+
+.nebula-atlas-view__generator {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 1.5rem;
+  background: rgba(12, 16, 26, 0.85);
+  border-radius: 1rem;
+  border: 1px solid rgba(124, 92, 255, 0.25);
+  padding: 1.5rem;
+}
+
+.nebula-atlas-view__generator > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.nebula-atlas-view__generator h4 {
+  margin: 0;
+}
+
+.nebula-atlas-view__generator small {
+  opacity: 0.7;
+}
+
+.nebula-atlas-view__generator-meta {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.nebula-atlas-view__generator-charts {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 }
 
 .nebula-atlas-view__chart header {

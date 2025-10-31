@@ -70,6 +70,51 @@ exports[`NebulaAtlasView > renderizza indicatori live e snapshot coerente 1`] = 
         </header>
         <div data-v-43e6e8ac="" class="sparkline-stub" color="#f4c060" variant="live">0,1,0</div>
       </div>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__generator" aria-label="Telemetria generatore">
+        <header data-v-43e6e8ac="">
+          <div data-v-43e6e8ac="">
+            <h4 data-v-43e6e8ac="">Generatore Nebula</h4><small data-v-43e6e8ac="">Generator telemetry</small>
+          </div><span data-v-43e6e8ac="" class="nebula-atlas-view__badge" data-tone="success">Generatore online</span>
+        </header>
+        <p data-v-43e6e8ac="" class="nebula-atlas-view__generator-meta">Ultima run: 18/05/2024, 10:40:00</p>
+        <div data-v-43e6e8ac="" class="nebula-atlas-view__metrics nebula-atlas-view__metrics--generator">
+          <article data-v-43e6e8ac="" class="nebula-atlas-view__metric" data-tone="neutral">
+            <h4 data-v-43e6e8ac="">Specie totali</h4><strong data-v-43e6e8ac="">12</strong>
+            <!--v-if-->
+          </article>
+          <article data-v-43e6e8ac="" class="nebula-atlas-view__metric" data-tone="success">
+            <h4 data-v-43e6e8ac="">Blueprint arricchiti</h4><strong data-v-43e6e8ac="">8</strong><small data-v-43e6e8ac="">Target 6</small>
+          </article>
+          <article data-v-43e6e8ac="" class="nebula-atlas-view__metric" data-tone="warning">
+            <h4 data-v-43e6e8ac="">Eventi runtime</h4><strong data-v-43e6e8ac="">3</strong>
+            <!--v-if-->
+          </article>
+          <article data-v-43e6e8ac="" class="nebula-atlas-view__metric" data-tone="success">
+            <h4 data-v-43e6e8ac="">Copertura atlas</h4><strong data-v-43e6e8ac="">78%</strong>
+            <!--v-if-->
+          </article>
+        </div>
+        <div data-v-43e6e8ac="" class="nebula-atlas-view__generator-charts">
+          <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="Tempo generazione">
+            <header data-v-43e6e8ac="">
+              <h4 data-v-43e6e8ac="">Tempo generazione</h4><span data-v-43e6e8ac="">420 ms</span>
+            </header>
+            <div data-v-43e6e8ac="" class="sparkline-stub" color="#7c5cff" variant="live">300,340,360,390,410,420</div>
+          </div>
+          <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="Specie generate">
+            <header data-v-43e6e8ac="">
+              <h4 data-v-43e6e8ac="">Specie generate</h4><span data-v-43e6e8ac="">12</span>
+            </header>
+            <div data-v-43e6e8ac="" class="sparkline-stub" color="#4ade80" variant="live">6,7,8,9,11,12</div>
+          </div>
+          <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="Blueprint arricchiti">
+            <header data-v-43e6e8ac="">
+              <h4 data-v-43e6e8ac="">Blueprint arricchiti</h4><span data-v-43e6e8ac="">8</span>
+            </header>
+            <div data-v-43e6e8ac="" class="sparkline-stub" color="#ff99cc" variant="live">3,4,5,6,7,8</div>
+          </div>
+        </div>
+      </div>
     </div>
     <footer data-v-43e6e8ac="" class="nebula-atlas-view__footer"><span data-v-43e6e8ac="">Sync 30 min fa</span>
       <div data-v-43e6e8ac="" class="nebula-atlas-view__controls"><button data-v-43e6e8ac="" type="button" class="nebula-atlas-view__refresh">Aggiorna ora</button><button data-v-43e6e8ac="" type="button" class="nebula-atlas-view__refresh">Carica mock</button></div>

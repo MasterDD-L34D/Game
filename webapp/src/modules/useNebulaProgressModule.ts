@@ -75,11 +75,42 @@ type NebulaTelemetry = {
   sample: unknown[];
 };
 
+type GeneratorMetrics = {
+  generationTimeMs: number | null;
+  speciesTotal: number;
+  enrichedSpecies: number;
+  eventTotal: number;
+  datasetSpeciesTotal: number;
+  coverageAverage: number;
+  coreTraits: number;
+  optionalTraits: number;
+  synergyTraits: number;
+  expectedCoreTraits: number;
+};
+
+type GeneratorStreams = {
+  generationTime: number[];
+  species: number[];
+  enriched: number[];
+};
+
+type NebulaGeneratorTelemetry = {
+  status: string;
+  label: string;
+  generatedAt: string | null;
+  dataRoot?: string | null;
+  metrics: GeneratorMetrics;
+  streams: GeneratorStreams;
+  updatedAt: string | null;
+  sourceLabel: string;
+};
+
 type TelemetryMode = 'live' | 'fallback' | 'mock';
 
 type NebulaApiResponse = {
   dataset?: NebulaDataset;
   telemetry?: NebulaTelemetry;
+  generator?: NebulaGeneratorTelemetry;
 };
 
 type NebulaModuleSources = {
@@ -204,6 +235,7 @@ export function useNebulaProgressModule(
 
   const dataset = ref<NebulaDataset | null>(null);
   const telemetry = ref<NebulaTelemetry | null>(null);
+  const generator = ref<NebulaGeneratorTelemetry | null>(null);
   const loading = ref(false);
   const error = ref<Error | null>(null);
   const lastUpdated = ref<string | null>(null);
@@ -260,6 +292,9 @@ export function useNebulaProgressModule(
       } else {
         lastUpdated.value = new Date().toISOString();
         telemetryMode.value = endpointSource === 'fallback' ? 'fallback' : 'live';
+      }
+      if (data?.generator) {
+        generator.value = data.generator;
       }
       error.value = null;
       if (endpointSource === 'fallback') {
@@ -617,6 +652,57 @@ export function useNebulaProgressModule(
     };
   });
 
+  const generatorStatus = computed(() => {
+    const payload = generator.value;
+    if (!payload) {
+      return {
+        status: 'unknown',
+        label: 'Generatore non disponibile',
+        generatedAt: null,
+        updatedAt: null,
+        sourceLabel: 'Generator telemetry offline',
+      };
+    }
+    return {
+      status: payload.status,
+      label: payload.label || 'Generatore online',
+      generatedAt: payload.generatedAt || null,
+      updatedAt: payload.updatedAt || null,
+      sourceLabel: payload.sourceLabel || 'Generator telemetry',
+    };
+  });
+
+  const generatorMetrics = computed<GeneratorMetrics>(() => {
+    const payload = generator.value?.metrics;
+    if (!payload) {
+      return {
+        generationTimeMs: null,
+        speciesTotal: 0,
+        enrichedSpecies: 0,
+        eventTotal: 0,
+        datasetSpeciesTotal: activeDataset.value?.species?.length || 0,
+        coverageAverage: telemetry.value?.coverage?.average ?? 0,
+        coreTraits: 0,
+        optionalTraits: 0,
+        synergyTraits: 0,
+        expectedCoreTraits: 0,
+      };
+    }
+    return payload;
+  });
+
+  const generatorStreams = computed<GeneratorStreams>(() => {
+    const streams = generator.value?.streams;
+    if (!streams) {
+      return { generationTime: [], species: [], enriched: [] };
+    }
+    return {
+      generationTime: Array.isArray(streams.generationTime) ? streams.generationTime : [],
+      species: Array.isArray(streams.species) ? streams.species : [],
+      enriched: Array.isArray(streams.enriched) ? streams.enriched : [],
+    };
+  });
+
   return {
     header,
     cards,
@@ -628,6 +714,9 @@ export function useNebulaProgressModule(
     telemetryDistribution,
     telemetryCoverageAverage,
     telemetryStatus,
+    generatorStatus,
+    generatorMetrics,
+    generatorStreams,
     loading,
     error,
     lastUpdated,
