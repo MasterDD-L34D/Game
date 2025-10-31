@@ -131,6 +131,31 @@
 - Il widget "Ultimo report triage" legge sempre la prima sezione con data reale del log: assicurarsi che ogni nuova voce rispetti il formato `## YYYY-MM-DD — Facilitatore: ...` per mantenerlo sincronizzato.
 - Se il widget segnala follow-up aperti o assenti, `AG-Orchestrator` aggiorna il log prima di lanciare un nuovo triage.
 
+## 12. Escalation e contatti rapidi
+- **Canale operativo**: `#incoming-triage-agenti` rimane il punto unico di coordinamento per tutti gli incidenti.
+- **Sequenza di escalation**:
+
+| Scenario | Trigger | Contatto primario | Escalation | Evidenze da allegare |
+| --- | --- | --- | --- | --- |
+| Fallimento `report_incoming.sh` | Exit code ≠ 0 durante l'esecuzione manuale | `AG-Validation` (`validation-oncall`) | `AG-Toolsmith`, poi `support-lead@game.dev` | Output `reports/incoming/validation/*`, log CLI `scripts/report_incoming.sh` |
+| Problemi decompressione ZIP | messaggi "estrazione fallita" o errori `unzip` | `AG-Toolsmith` (`tooling-oncall`) | `AG-Orchestrator` per riassegnazione caretaker | Path asset, log temporanei in `/tmp/incoming_validation*` |
+| Asset critici con blocker di design | segnalazioni dagli agenti di dominio | `AG-Orchestrator` | Responsabile dominio di back-up (`AG-Core`, `AG-Biome`, `AG-Personality`) | Report di validazione, card Kanban, snippet doc |
+| Inattività canale > 30 min su nuovo arrivo | Nuovo asset segnalato in `incoming/` senza update nel canale operativo | `AG-Orchestrator` | `support-lead@game.dev` per escalation cross-team | Messaggio di presa in carico/assenza nel canale, timestamp, caretaker assegnati |
+
+- **Template escalation**: utilizzare `docs/support/bug-template.md` allegando sempre riferimenti a report HTML/JSON e timestamp UTC.
+
+## 13. Retrospettive periodiche
+- **Cadenza**: primo lunedì del mese alle 16:00 CET, facilitata da `AG-Orchestrator` con supporto di `AG-Validation`.
+- **Input obbligatori**:
+  - Snapshot differenza `incoming/` vs. ultimo report pubblicato (timestamp, asset nuovi o non triagiati).
+  - Ultime tre voci di `docs/process/incoming_review_log.md` e del registro agentico (`logs/incoming_triage_agenti.md`).
+  - Metriche di tempo ciclo (tempo da arrivo a decisione) derivate dal backlog `docs/process/incoming_agent_backlog.md`.
+- **Formato**:
+  1. Revisione KPI (tempo triage, numero incidenti, esiti validator).
+  2. Analisi qualitativa degli incidenti registrati e delle escalation attivate.
+  3. Decisioni: ogni punto produce issue/PR o aggiornamento playbook, da tracciare nella sezione "Controlli periodici" della checklist.
+- **Output**: creare una nuova voce in `docs/process/incoming_review_log.md` con tag `[Retrospettiva]` e allegare eventuali ticket aperti.
+
 ## Metriche di salute
 - % asset triagiati entro 7 giorni dall'arrivo.
 - Numero di regressioni rilevate dagli script di validazione vs. manuali.
