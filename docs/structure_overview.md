@@ -70,3 +70,16 @@ contenuto estendibile.
 Seguendo questo schema possiamo introdurre nuovi pack o dataset esterni senza
 riaprire decisioni sulla collocazione dei file core o derived, mantenendo al
 contempo un canale di migrazione chiaro per chi usa snapshot precedenti.
+
+## Settori operativi e dipendenze
+
+- **Flow** – orchestration Python/TypeScript (`services/generation/`, `tools/py`, `tools/ts`) alimentata dai dataset `data/core/`.
+  I payload prodotti vengono validati e pubblicati verso il backend e la webapp.
+- **Atlas** – dashboard Vue (`webapp/`) e pannelli statici (`docs/test-interface/`) che consumano snapshot `data/derived/` e fallback `webapp/public/data/`.
+  Dipende dalle stesse variabili `VITE_*` utilizzate da Flow per mantenere path coerenti in hosting statico.
+- **Backend Idea Engine** – API Express (`server/`, `services/`) che espongono generazione e validazione a Flow e Atlas;
+  produce report in `reports/` e nel pack (`packs/evo_tactics_pack/out/`).
+- **Dataset & pack** – sorgente unica (`data/`, `packs/`, `reports/`) da cui derivano orchestratore, backend e dashboard.
+  Ogni modifica richiede sincronizzazione con Flow (validator), Atlas (snapshot/preview) e documentazione (`docs/catalog/`).
+
+> In fase di pianificazione considera sempre l'impatto incrociato: es. aggiornare i trait implica rigenerare i bundle web (`npm run webapp:deploy`), rieseguire i validator Python/TS e aggiornare i manifest distribuiti dal backend.
