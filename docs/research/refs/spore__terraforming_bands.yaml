@@ -1,0 +1,34 @@
+id: "spore__terraforming_bands"
+source_game: "spore"
+title: "Terraforming a bande con slot"
+category: "Map|Economy|World"
+summary: "Biomi con bande di vitalità; strumenti spostano parametri ambientali e sbloccano slot."
+adopt_adapt_avoid: "Adopt"
+spec:
+  mechanics: |
+    Ogni bioma ha T-bands (T0–T3) definite da atmosfera+temperatura.
+    Bande superiori sbloccano slot insediativi/add-on; instabilità può far retrocedere di banda.
+  parameters:
+    - { name: "band", type: "enum", formula: "T0,T1,T2,T3" }
+    - { name: "env_params", type: "enum", formula: "temperatura, atmosfera, biomassa, umidità" }
+    - { name: "slots_per_band", type: "int", formula: "slot per banda", range: { min: 0, max: 6, step: 1 } }
+ux:
+  notes: "Gauge ambientali; indicatori drift/stabilità; suggerimenti strumenti."
+  accessibility: "Preset consigliati per raggiungere band target."
+telemetry_map:
+  events: [ "biome_param_changed", "band_reached", "slot_unlocked" ]
+  axes_impact: { E: 5, N: 1, T: 3, P: 4 }
+impact:
+  catalogs: [ "biomes/terraforming_bands.yaml", "rules/colony_slots.yaml" ]
+  dependencies: [ "telemetry/biome_events.yaml" ]
+  risks: [ "Loop di tuning grindy" ]
+  open_questions: [ "Persistenza banda vs eventi dinamici?" ]
+score:
+  coerenza: 5
+  innovazione: 4
+  compatibilita_telemetria: 5
+  drift_risk: 4
+  elasticita: 4
+  costo: 3
+  rischio_tecnico: 3
+  weighted: 53

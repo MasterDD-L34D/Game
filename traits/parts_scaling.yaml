@@ -1,0 +1,12 @@
+version: 1
+system: parts_scaling
+description: "Derivazione stats/abilità da parti e livelli."
+stats:
+  speed: { base: 0, per_level: 0.5 }
+  attack: { base: 0, per_level: 1.0 }
+abilities:
+  bite:    { level_max: 5, cd: "short" }
+  strike:  { level_max: 5, cd: "long", cleave: true }
+  charge:  { level_max: 5, stun: true }
+  spit:    { level_max: 5, dot: true, cd: "medium" }
+TODO: "Allineare famiglie di parti e moltiplicatori."
