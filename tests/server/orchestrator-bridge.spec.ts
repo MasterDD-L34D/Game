@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { before, after, describe, it } from 'node:test';
 
-import { createGenerationOrchestratorBridge } from '../../services/generation/orchestratorBridge';
+import { createGenerationOrchestratorBridge } from '../../server/services/orchestratorBridge';
 
 describe('generation orchestrator bridge worker pool', () => {
   const traitIds = ['artigli_sette_vie', 'coda_frusta_cinetica', 'scheletro_idro_regolante'];
@@ -39,7 +39,7 @@ describe('generation orchestrator bridge worker pool', () => {
   });
 
   it('elabora richieste concorrenti mantenendo la pipeline calda', async () => {
-    const requests = Array.from({ length: 6 }).map((_, index) => ({
+    const requests = Array.from({ length: 8 }).map((_, index) => ({
       trait_ids: traitIds,
       seed: index + 1,
       request_id: `req-${index + 1}`,
@@ -52,6 +52,12 @@ describe('generation orchestrator bridge worker pool', () => {
       assert.ok(result.blueprint, 'blueprint mancante nel risultato');
       assert.ok(result.meta?.request_id, 'meta.request_id mancante');
     }
+
+    const pool = (bridge as any)._pool;
+    assert.ok(pool, 'Pool di worker non disponibile per il test');
+    const stats = pool.getStats();
+    assert.equal(stats.queue, 0, 'la coda dovrebbe essere scarica dopo le richieste');
+    assert.equal(stats.size, 2);
   });
 
   it('ripristina un worker dopo un crash improvviso', async () => {
@@ -71,5 +77,34 @@ describe('generation orchestrator bridge worker pool', () => {
 
     const stats = pool.getStats();
     assert.equal(stats.size, 2, 'il pool dovrebbe ripristinare il numero di worker iniziali');
+  });
+
+  it('gestisce batch paralleli e mantiene statistiche coerenti', async () => {
+    const batches = Array.from({ length: 3 }).map((_, batchIndex) =>
+      bridge.generateSpeciesBatch({
+        batch: Array.from({ length: 3 }).map((__, entryIndex) => ({
+          trait_ids: traitIds,
+          seed: batchIndex * 10 + entryIndex,
+          request_id: `batch-${batchIndex}-${entryIndex}`,
+        })),
+      }),
+    );
+
+    const results = await Promise.all(batches);
+    for (const batch of results) {
+      assert.equal(batch.errors.length, 0, 'nessun errore atteso nel batch');
+      assert.equal(batch.results.length, 3, 'ogni batch dovrebbe produrre tre risultati');
+      for (const entry of batch.results) {
+        assert.ok(entry.meta?.request_id?.startsWith('batch-'));
+      }
+    }
+
+    const pool = (bridge as any)._pool;
+    const stats = pool.getStats();
+    assert.equal(stats.queue, 0, 'nessuna richiesta dovrebbe rimanere in coda');
+    assert.equal(stats.size, 2);
+    assert.equal(stats.lastHeartbeats.length, 2);
+    const activeHeartbeats = stats.lastHeartbeats.filter((value) => typeof value === 'number');
+    assert.ok(activeHeartbeats.length >= 1, 'almeno un worker dovrebbe aver inviato un heartbeat');
   });
 });

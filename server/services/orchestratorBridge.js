@@ -13,10 +13,14 @@ const DEFAULT_CONFIG = {
   maxTaskRetries: 1,
   restartDelayMs: 250,
   autoShutdownMs: null,
+  workerStartTimeoutMs: 30_000,
 };
 
 const DEFAULT_CONFIG_PATH = path.resolve(__dirname, '../../config/orchestrator.json');
-const DEFAULT_WORKER_SCRIPT = path.resolve(__dirname, 'worker.py');
+const DEFAULT_WORKER_SCRIPT = path.resolve(
+  __dirname,
+  '../../services/generation/worker.py',
+);
 
 function loadConfig(configPath = DEFAULT_CONFIG_PATH) {
   try {
@@ -64,6 +68,40 @@ function resolveAutoShutdownMs(value) {
   return null;
 }
 
+function resolveStartTimeoutMs(value, fallback) {
+  if (value === undefined) {
+    return fallback;
+  }
+  if (value === null) {
+    return null;
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return fallback;
+    }
+    const normalised = trimmed.toLowerCase();
+    if (['off', 'none', 'no', 'false', 'never', 'disable', 'disabled', '0'].includes(normalised)) {
+      return null;
+    }
+    const numeric = Number(trimmed);
+    if (!Number.isFinite(numeric) || numeric <= 0) {
+      return fallback;
+    }
+    return numeric;
+  }
+  if (typeof value === 'number') {
+    if (!Number.isFinite(value)) {
+      return fallback;
+    }
+    if (value <= 0) {
+      return null;
+    }
+    return value;
+  }
+  return fallback;
+}
+
 class PythonWorker extends EventEmitter {
   constructor(id, options) {
     super();
@@ -76,6 +114,8 @@ class PythonWorker extends EventEmitter {
     this.ready = false;
     this._stopping = false;
     this._heartbeatTimer = null;
+    this._startTimer = null;
+    this.lastHeartbeatAt = null;
     this._spawn();
   }
 
@@ -94,6 +134,7 @@ class PythonWorker extends EventEmitter {
 
     this.process = proc;
     this.ready = false;
+    this.lastHeartbeatAt = null;
 
     proc.on('error', (error) => {
       this.emit('worker-error', error);
@@ -101,6 +142,16 @@ class PythonWorker extends EventEmitter {
 
     proc.on('exit', (code, signal) => {
       this._handleExit(code, signal);
+    });
+
+    proc.stdin.on('error', (error) => {
+      if (this.currentTask) {
+        const task = this.currentTask;
+        clearTimeout(task.timer);
+        this.currentTask = null;
+        task.reject(error);
+      }
+      this.emit('worker-error', error);
     });
 
     proc.stderr.on('data', (chunk) => {
@@ -113,6 +164,18 @@ class PythonWorker extends EventEmitter {
     const rl = readline.createInterface({ input: proc.stdout });
     this.stdout = rl;
     rl.on('line', (line) => this._handleLine(line));
+
+    const startTimeout = resolveStartTimeoutMs(
+      this.options.workerStartTimeoutMs,
+      DEFAULT_CONFIG.workerStartTimeoutMs,
+    );
+    if (startTimeout) {
+      const timer = setTimeout(() => this._handleStartTimeout(), startTimeout);
+      if (typeof timer.unref === 'function') {
+        timer.unref();
+      }
+      this._startTimer = timer;
+    }
   }
 
   _handleLine(line) {
@@ -127,12 +190,15 @@ class PythonWorker extends EventEmitter {
 
     if (message.type === 'ready') {
       this.ready = true;
+      this.lastHeartbeatAt = Date.now();
+      this._clearStartTimer();
       this._resetHeartbeatTimer();
       this.emit('available');
       return;
     }
 
     if (message.type === 'heartbeat') {
+      this.lastHeartbeatAt = Date.now();
       this._resetHeartbeatTimer();
       this.emit('heartbeat', message);
       return;
@@ -167,6 +233,7 @@ class PythonWorker extends EventEmitter {
       this.stdout = null;
     }
     this._clearHeartbeatTimer();
+    this._clearStartTimer();
 
     const task = this.currentTask;
     if (task) {
@@ -213,6 +280,24 @@ class PythonWorker extends EventEmitter {
     if (this._heartbeatTimer) {
       clearTimeout(this._heartbeatTimer);
       this._heartbeatTimer = null;
+    }
+  }
+
+  _clearStartTimer() {
+    if (this._startTimer) {
+      clearTimeout(this._startTimer);
+      this._startTimer = null;
+    }
+  }
+
+  _handleStartTimeout() {
+    this._startTimer = null;
+    if (this._stopping || this.ready) {
+      return;
+    }
+    this.emit('start-timeout', { id: this.id });
+    if (this.process) {
+      this.process.kill('SIGKILL');
     }
   }
 
@@ -273,6 +358,7 @@ class PythonWorker extends EventEmitter {
   async stop() {
     this._stopping = true;
     this._clearHeartbeatTimer();
+    this._clearStartTimer();
     const proc = this.process;
     if (!proc) {
       this.emit('stopped');
@@ -315,6 +401,8 @@ class WorkerPool {
     worker.on('available', () => this._dispatch());
     worker.on('crash', () => this._dispatch());
     worker.on('heartbeat-missed', () => this._dispatch());
+    worker.on('start-timeout', () => this._dispatch());
+    worker.on('worker-error', () => this._dispatch());
     this.workers[index] = worker;
   }
 
@@ -403,6 +491,7 @@ class WorkerPool {
       size: this.workers.length,
       available,
       queue: this.queue.length,
+      lastHeartbeats: this.workers.map((worker) => (worker ? worker.lastHeartbeatAt : null)),
     };
   }
 }
@@ -457,6 +546,10 @@ function createGenerationOrchestratorBridge(options = {}) {
     ),
     maxTaskRetries: Math.max(0, merged.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries),
     restartDelayMs: coerceNumber(merged.restartDelayMs, DEFAULT_CONFIG.restartDelayMs),
+    workerStartTimeoutMs: resolveStartTimeoutMs(
+      merged.workerStartTimeoutMs,
+      DEFAULT_CONFIG.workerStartTimeoutMs,
+    ),
     autoShutdownMs: resolveAutoShutdownMs(
       merged.autoShutdownMs ?? process.env.ORCHESTRATOR_AUTOCLOSE_MS ?? DEFAULT_CONFIG.autoShutdownMs,
     ),
