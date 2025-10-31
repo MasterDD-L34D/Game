@@ -336,12 +336,15 @@
   white-space: pre-wrap;
 }
 
-#idea-widget .linkish {
+#idea-widget .linkish,
+#idea-widget .feedback-link {
   color: var(--color-accent-400);
 }
 
 #idea-widget .linkish:hover,
-#idea-widget .linkish:focus-visible {
+#idea-widget .linkish:focus-visible,
+#idea-widget .feedback-link:hover,
+#idea-widget .feedback-link:focus-visible {
   text-decoration: underline;
 }
 

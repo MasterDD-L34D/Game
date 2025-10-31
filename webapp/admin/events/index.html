@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editor eventi dinamici</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Editor eventi dinamici</h1>
+      <p>
+        Configura eventi live per le missioni, personalizza le fasi e verifica la timeline
+        risultante con gestione del fuso orario e fallback manuale.
+      </p>
+    </header>
+    <main class="layout">
+      <section class="panel panel--form">
+        <div class="panel__header">
+          <h2>Configurazione evento</h2>
+          <p>Aggiungi o modifica un evento dinamico e definisci le sue fasi principali.</p>
+        </div>
+        <form data-event-form class="event-form">
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Titolo</span>
+              <input name="title" type="text" placeholder="Assalto alle Torri" required />
+            </label>
+            <label class="form-field">
+              <span>ID</span>
+              <input name="eventId" type="text" placeholder="raid-assalto" />
+            </label>
+            <label class="form-field">
+              <span>Inizio</span>
+              <input name="start" type="datetime-local" required />
+            </label>
+            <label class="form-field">
+              <span>Durata (min)</span>
+              <input name="duration" type="number" min="15" step="5" value="90" required />
+            </label>
+            <label class="form-field">
+              <span>Fuso orario evento</span>
+              <input
+                name="timezone"
+                type="text"
+                list="timezone-list"
+                placeholder="Europe/Rome"
+              />
+            </label>
+            <label class="form-field">
+              <span>Tag</span>
+              <input name="tags" type="text" placeholder="raid, premium" />
+            </label>
+          </div>
+          <label class="form-field form-field--wide">
+            <span>Descrizione</span>
+            <textarea
+              name="description"
+              rows="3"
+              placeholder="Raid cooperativo a ondate con ricompense uniche"
+            ></textarea>
+          </label>
+          <label class="form-field form-field--wide">
+            <span>Ricompense (separate da virgola)</span>
+            <input name="rewards" type="text" placeholder="Gladio Astro, 5000 credito" />
+          </label>
+          <section class="phase-section">
+            <div class="phase-section__header">
+              <h3>Fasi evento</h3>
+              <button type="button" data-add-phase class="ghost-button">Aggiungi fase</button>
+            </div>
+            <p class="phase-section__hint">
+              Usa le fasi per coordinare attività, notifiche e spawn. Offsets e durate sono
+              espressi in minuti rispetto all'inizio dell'evento.
+            </p>
+            <div class="phase-list" data-phase-list></div>
+          </section>
+          <div class="form-actions">
+            <button type="submit" class="primary">Salva evento</button>
+            <button type="button" data-reset-form class="ghost-button">Pulisci form</button>
+          </div>
+        </form>
+      </section>
+      <section class="panel panel--timeline">
+        <div class="panel__header">
+          <h2>Timeline dinamica</h2>
+          <p>La timeline aggiorna automaticamente la sequenza degli eventi configurati.</p>
+        </div>
+        <div class="timeline-toolbar">
+          <label class="form-field">
+            <span>Fuso orario globale</span>
+            <input
+              type="text"
+              data-scheduler-timezone
+              list="timezone-list"
+              placeholder="UTC"
+            />
+          </label>
+          <button type="button" data-export-json class="ghost-button">Esporta JSON</button>
+        </div>
+        <div class="timeline-preview" data-timeline></div>
+      </section>
+      <section class="panel panel--list">
+        <div class="panel__header">
+          <h2>Eventi programmati</h2>
+          <p>Gestisci gli eventi attivi nella timeline. Modifica o rimuovi quelli non più utili.</p>
+        </div>
+        <div class="events-list" data-events-list></div>
+      </section>
+      <section class="panel panel--fallback">
+        <div class="panel__header">
+          <h2>Fallback manuale</h2>
+          <p>
+            Definisci eventi di backup usati quando il fuso orario principale non è valido o non ci
+            sono eventi attivi.
+          </p>
+        </div>
+        <form data-fallback-form class="fallback-form">
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Titolo</span>
+              <input name="fallbackTitle" type="text" placeholder="Emergenza Nebula" required />
+            </label>
+            <label class="form-field">
+              <span>ID</span>
+              <input name="fallbackId" type="text" placeholder="fallback-emergenza" />
+            </label>
+            <label class="form-field">
+              <span>Inizio</span>
+              <input name="fallbackStart" type="datetime-local" required />
+            </label>
+            <label class="form-field">
+              <span>Durata (min)</span>
+              <input name="fallbackDuration" type="number" min="15" step="5" value="60" required />
+            </label>
+            <label class="form-field">
+              <span>Fuso orario</span>
+              <input
+                name="fallbackTimezone"
+                type="text"
+                list="timezone-list"
+                placeholder="UTC"
+              />
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="primary">Aggiungi fallback</button>
+            <button type="button" data-clear-fallback class="ghost-button">Svuota fallback</button>
+          </div>
+        </form>
+        <div class="events-list" data-fallback-list></div>
+      </section>
+    </main>
+    <template id="phase-row-template">
+      <div class="phase-row">
+        <label>
+          <span>Nome fase</span>
+          <input type="text" data-phase-label placeholder="Preparazione" />
+        </label>
+        <label>
+          <span>Offset (min)</span>
+          <input type="number" min="0" step="5" data-phase-offset value="0" />
+        </label>
+        <label>
+          <span>Durata (min)</span>
+          <input type="number" min="5" step="5" data-phase-duration value="15" />
+        </label>
+        <button type="button" class="ghost-button" data-remove-phase>Rimuovi</button>
+      </div>
+    </template>
+    <datalist id="timezone-list">
+      <option value="UTC"></option>
+      <option value="Europe/Rome"></option>
+      <option value="Europe/London"></option>
+      <option value="America/New_York"></option>
+      <option value="America/Los_Angeles"></option>
+      <option value="America/Sao_Paulo"></option>
+      <option value="Asia/Tokyo"></option>
+      <option value="Asia/Singapore"></option>
+      <option value="Australia/Sydney"></option>
+    </datalist>
+    <footer class="app-footer">
+      <p>
+        La timeline utilizza lo scheduler condiviso con i servizi backend per garantire
+        allineamento tra anteprima e logica di pubblicazione eventi.
+      </p>
+    </footer>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

@@ -70,7 +70,7 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
       .feedback-card .status { font-size:0.85rem; min-height:1.2rem; }
       .feedback-card .status.err { color:#8b1a1a; }
       .feedback-card .status.ok { color:#1a7f3b; }
-      .feedback-card .linkish { color:#3046c5; text-decoration:underline; }
+      .feedback-card .feedback-link { color:#3046c5; text-decoration:underline; }
     `;
     document.head.appendChild(style);
   }
@@ -478,13 +478,13 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
 
     const introParts = [];
     if (templateUrl) {
-      const link = el('a', { href: templateUrl, target: '_blank', rel: 'noreferrer', class: 'linkish' }, 'template completo');
+      const link = el('a', { href: templateUrl, target: '_blank', rel: 'noreferrer', class: 'feedback-link' }, 'template completo');
       introParts.push('Aiutaci a migliorare il flusso (feedback rapido qui sotto o apri il ', link, ').');
     } else {
       introParts.push('Aiutaci a migliorare il flusso: lascia un commento rapido qui sotto.');
     }
     if (!hasApi && slackChannel) {
-      const slackAnchor = el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'linkish' }, slackChannel);
+      const slackAnchor = el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'feedback-link' }, slackChannel);
       introParts.push(' Puoi anche aprire ', slackAnchor, ' per discutere follow-up o allegare materiali.');
     }
     wrapper.appendChild(el('p', { class: 'note small' }, introParts));
@@ -553,7 +553,7 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
     } else if (slackLink) {
       const fallback = el('p', { class: 'note small' }, [
         'API non configurata: usa ',
-        el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'linkish' }, slackChannel),
+        el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'feedback-link' }, slackChannel),
         ' per condividere il feedback (allega log o screenshot rilevanti).'
       ]);
       wrapper.appendChild(fallback);
