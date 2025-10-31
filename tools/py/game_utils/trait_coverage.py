@@ -95,12 +95,16 @@ def generate_trait_coverage(
     env_traits_path: Path,
     trait_reference_path: Path,
     species_root: Path,
+    species_affinity_path: Path | None = None,
     trait_glossary_path: Path | None = None,
 ) -> dict[str, Any]:
     """Calcola matrici di coverage trait↔bioma↔forma."""
 
     env_data = _load_json(env_traits_path)
     trait_data = _load_json(trait_reference_path)
+
+    if species_affinity_path and not isinstance(species_affinity_path, Path):
+        species_affinity_path = Path(species_affinity_path)
 
     if trait_glossary_path and not isinstance(trait_glossary_path, Path):
         trait_glossary_path = Path(trait_glossary_path)
@@ -112,6 +116,17 @@ def generate_trait_coverage(
             env_traits_path.parent,
             trait_reference_path.parent,
         )
+
+    affinity_path_resolved: Path | None = None
+    affinity_map: Mapping[str, Any] | None = None
+    if species_affinity_path is not None:
+        affinity_path_resolved = _resolve_path(
+            species_affinity_path, env_traits_path.parent, trait_reference_path.parent
+        )
+        if affinity_path_resolved and affinity_path_resolved.exists():
+            raw_affinity = _load_json(affinity_path_resolved)
+            if isinstance(raw_affinity, Mapping):
+                affinity_map = raw_affinity
 
     glossary: Mapping[str, Mapping] = {}
     if trait_glossary_path and trait_glossary_path.exists():
@@ -127,6 +142,7 @@ def generate_trait_coverage(
 
     rule_matrix: dict[str, Counter] = defaultdict(Counter)
     species_matrix: dict[str, Counter] = defaultdict(Counter)
+    species_seen: dict[str, set[str]] = defaultdict(set)
     species_examples: dict[str, dict[tuple[str | None, str | None], set[str]]] = defaultdict(
         lambda: defaultdict(set)
     )
@@ -180,29 +196,34 @@ def generate_trait_coverage(
             combos = [(biome, morph) for biome in biomes]
         else:
             combos = [(None, morph)]
-        for trait_id in traits:
-            rule_counter = rule_matrix.get(trait_id, Counter())
-            for combo in combos:
-                species_matrix[trait_id][combo] += 1
-                species_examples[trait_id][combo].add(species_id)
+            for trait_id in traits:
+                rule_counter = rule_matrix.get(trait_id, Counter())
+                for combo in combos:
+                    species_matrix[trait_id][combo] += 1
+                    species_examples[trait_id][combo].add(species_id)
+                    species_seen[trait_id].add(species_id)
 
-                biome, morph_combo = combo
-                if (
-                    morph_combo is not None
-                    and rule_counter
-                    and (biome, None) in rule_counter
-                ):
-                    wildcard_combo = (biome, None)
-                    species_matrix[trait_id][wildcard_combo] += 1
-                    species_examples[trait_id][wildcard_combo].add(species_id)
+                    biome, morph_combo = combo
+                    if (
+                        morph_combo is not None
+                        and rule_counter
+                        and (biome, None) in rule_counter
+                    ):
+                        wildcard_combo = (biome, None)
+                        species_matrix[trait_id][wildcard_combo] += 1
+                        species_examples[trait_id][wildcard_combo].add(species_id)
+                        species_seen[trait_id].add(species_id)
 
     summary = {
         "traits_total": len(target_traits),
         "traits_with_rules": 0,
         "traits_with_species": 0,
+        "traits_with_affinity": 0,
         "rule_combos_total": 0,
         "species_combos_total": 0,
         "rules_missing_species_total": 0,
+        "affinity_missing_species_total": 0,
+        "affinity_missing_matrix_total": 0,
     }
 
     report_traits: dict[str, Any] = {}
@@ -265,6 +286,55 @@ def generate_trait_coverage(
             glossary_entry.get("description_en") if isinstance(glossary_entry, Mapping) else None
         )
 
+        affinity_info: dict[str, Any] | None = None
+        affinity_species_ids: list[str] = []
+        affinity_roles_counter: Counter[str] = Counter()
+
+        if affinity_map is not None:
+            affinity_entries = affinity_map.get(trait_id)
+            if isinstance(affinity_entries, Iterable):
+                for entry in affinity_entries:
+                    if not isinstance(entry, Mapping):
+                        continue
+                    species_id = entry.get("species_id")
+                    if not isinstance(species_id, str):
+                        continue
+                    affinity_species_ids.append(species_id)
+                    raw_roles = entry.get("roles")
+                    if isinstance(raw_roles, Iterable) and not isinstance(
+                        raw_roles, (str, bytes)
+                    ):
+                        roles = [
+                            role for role in raw_roles if isinstance(role, str)
+                        ]
+                    elif isinstance(raw_roles, str):
+                        roles = [raw_roles]
+                    else:
+                        roles = []
+                    for role in roles:
+                        affinity_roles_counter[role] += 1
+
+                if affinity_species_ids:
+                    summary["traits_with_affinity"] += 1
+                    affinity_info = {
+                        "total_species": len(affinity_species_ids),
+                        "roles_breakdown": dict(
+                            sorted(affinity_roles_counter.items())
+                        ),
+                        "top_species": affinity_species_ids[:10],
+                    }
+
+        coverage_species_set = species_seen.get(trait_id, set())
+        affinity_species_set = set(affinity_species_ids)
+
+        missing_in_affinity: list[str] = []
+        missing_in_matrix: list[str] = []
+        if affinity_map is not None:
+            missing_in_affinity = sorted(coverage_species_set - affinity_species_set)
+            missing_in_matrix = sorted(affinity_species_set - coverage_species_set)
+            summary["affinity_missing_species_total"] += len(missing_in_affinity)
+            summary["affinity_missing_matrix_total"] += len(missing_in_matrix)
+
         report_traits[trait_id] = {
             "label_it": label_it,
             "label_en": label_en,
@@ -281,8 +351,13 @@ def generate_trait_coverage(
             "diff": {
                 "missing_in_species": missing_in_species,
                 "missing_in_rules": missing_in_rules,
+                "missing_in_affinity": missing_in_affinity,
+                "missing_in_matrix": missing_in_matrix,
             },
         }
+
+        if affinity_info is not None:
+            report_traits[trait_id]["affinity"] = affinity_info
 
     summary["traits_missing_species"] = traits_missing_species
     summary["traits_missing_rules"] = traits_missing_rules
@@ -321,6 +396,7 @@ def generate_trait_coverage(
             "trait_reference": str(trait_reference_path),
             "trait_glossary": str(trait_glossary_path) if trait_glossary_path else None,
             "species_root": str(species_root),
+            "species_affinity": str(affinity_path_resolved) if affinity_map else None,
         },
         "summary": summary,
         "traits": report_traits,

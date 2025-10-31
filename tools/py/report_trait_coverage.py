@@ -33,6 +33,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Directory o file YAML da cui estrarre le specie",
     )
     parser.add_argument(
+        "--species-affinity",
+        type=Path,
+        default=None,
+        help="Mappa trait→specie pre-calcolata per verificare la coverage",
+    )
+    parser.add_argument(
         "--trait-glossary",
         type=Path,
         default=None,
@@ -86,6 +92,7 @@ def main(argv: list[str] | None = None) -> int:
         args.env_traits,
         args.trait_reference,
         args.species_root,
+        args.species_affinity,
         args.trait_glossary,
     )
 
