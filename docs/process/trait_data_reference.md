@@ -8,6 +8,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 | --- | --- | --- |
 | `data/core/traits/glossary.json` | Glossario condiviso con label ufficiali, descrizioni sintetiche e collegamento al reference principale. | Usato da strumenti ETL e validazione. |
 | `data/traits/index.json` | Sorgente autorevole per tier, slot, sinergie, requisiti ambientali e metadati PI. | Duplicato in `docs/evo-tactics-pack/trait-reference.json` (web) e `packs/evo_tactics_pack/docs/catalog/trait_reference.json` (bundle pack); **tutte le copie vanno aggiornate insieme**. |
+| `data/traits/index.csv` | Indice rapido dei file trait con label, categoria/tipo, percorso e flag di completezza. | Generato da `node scripts/build_trait_index.js` per facilitare audit e inventari. |
 | `packs/evo_tactics_pack/docs/catalog/env_traits.json` | Mappa le condizioni ambientali (biomi, hazard, ecc.) ai tratti disponibili. | Necessario per report di coverage. |
 | `logs/trait_audit.md` | Output dell'audit di coerenza; deve essere privo di warning prima di aprire una PR. | Generato da `scripts/trait_audit.py`. |
 | `data/derived/analysis/trait_baseline.yaml` & `data/derived/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL. | Utili per verificare la copertura sui nove assi. |
@@ -18,8 +19,13 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 2. **Aggiornare il trait reference** – editare `data/traits/index.json` e sincronizzare le copie in `docs/evo-tactics-pack/trait-reference.json` **e** `packs/evo_tactics_pack/docs/catalog/trait_reference.json`.
    - Popolare i campi obbligatori: `tier`, `slot`, `slot_profile`, `sinergie`, `conflitti`, `requisiti_ambientali`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `debolezza`.
    - Ogni sinergia deve essere **reciproca**: se il tratto A elenca il tratto B, anche B deve elencare A.
-3. **Aggiornare le regole ambientali** – se necessario, associare il tratto in `packs/evo_tactics_pack/docs/catalog/env_traits.json`.
-4. **Rigenerare la baseline** – eseguire:
+3. **Rigenerare l'indice rapido** – creare/aggiornare `data/traits/index.csv` per l'audit dei file:
+   ```bash
+   node scripts/build_trait_index.js --output data/traits/index.csv
+   ```
+   Il comando supporta anche `--format json` se serve produrre un riepilogo alternativo.
+4. **Aggiornare le regole ambientali** – se necessario, associare il tratto in `packs/evo_tactics_pack/docs/catalog/env_traits.json`.
+5. **Rigenerare la baseline** – eseguire:
    ```bash
    python tools/py/build_trait_baseline.py \
      packs/evo_tactics_pack/docs/catalog/env_traits.json \
@@ -27,7 +33,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
      --trait-glossary data/core/traits/glossary.json
    ```
    Questo aggiorna `data/derived/analysis/trait_baseline.yaml`.
-5. **Aggiornare i report di coverage** – eseguire:
+6. **Aggiornare i report di coverage** – eseguire:
    ```bash
    python tools/py/report_trait_coverage.py \
      --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json \
@@ -36,7 +42,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
      --out-json data/derived/analysis/trait_coverage_report.json \
      --out-csv data/derived/analysis/trait_coverage_matrix.csv
    ```
-6. **Analizzare i gap rispetto ai dati ETL** – usare:
+7. **Analizzare i gap rispetto ai dati ETL** – usare:
    ```bash
    python tools/analysis/trait_gap_report.py \
      --trait-reference data/traits/index.json \
@@ -44,7 +50,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
      --etl-report data/derived/mock/prod_snapshot/analysis/trait_coverage_report.json \
      --out data/derived/analysis/trait_gap_report.json
    ```
-7. **Validare naming e integrità** – controllare che i registri restino coerenti:
+8. **Validare naming e integrità** – controllare che i registri restino coerenti:
    ```bash
    python tools/py/validate_registry_naming.py \
      --trait-glossary data/core/traits/glossary.json \
@@ -55,7 +61,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
      --biomes packs/evo_tactics_pack/tools/config/registries/biome_classes.yaml \
      --species-root packs/evo_tactics_pack/data/species
    ```
-8. **Eseguire l'audit finale** – rigenerare `logs/trait_audit.md` e assicurarsi che non ci siano warning o errori:
+9. **Eseguire l'audit finale** – rigenerare `logs/trait_audit.md` e assicurarsi che non ci siano warning o errori:
    ```bash
    python3 scripts/trait_audit.py
    python3 scripts/trait_audit.py --check
