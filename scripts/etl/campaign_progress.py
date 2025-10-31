@@ -193,7 +193,7 @@ def build_campaign_progress(records: Iterable[CampaignRecord]) -> Dict[str, Any]
         leads = int(stage["leads"])
         conversions = int(stage["conversions"])
         previous = funnel[index - 1] if index > 0 else None
-        drop_off_base = (previous["conversions"] if previous else leads) or (previous["leads"] if previous else leads)
+        drop_off_base = previous["leads"] if previous else leads
         drop_off_rate = 0.0
         if previous and drop_off_base:
             drop_off_rate = max(0.0, 1 - leads / drop_off_base)
