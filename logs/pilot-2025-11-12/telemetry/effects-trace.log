@@ -1,6 +1,0 @@
-2025-11-12T15:22:11Z EVT-03 trigger:start cinematic_delay=1.62s
-2025-11-12T15:22:12Z EVT-03 effect:shadow_bloom intensity=0.78
-2025-11-12T15:22:13Z EVT-03 effect:rift_particles status=stable
-2025-11-12T15:24:44Z EVT-03 trigger:reset timer=93s outcome=pass
-2025-11-12T15:26:55Z EVT-03 trigger:reset timer=91s outcome=pass
-2025-11-12T15:28:47Z EVT-03 trigger:reset timer=94s outcome=pass

@@ -1,3 +1,0 @@
-zip_file: evo_tactics_param_synergy_v8_3.zip
-timestamp: 20251029-153215
-error: estrazione fallita

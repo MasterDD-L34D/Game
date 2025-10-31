@@ -1,8 +1,0 @@
-PyYAML>=6.0        # parsing dei dataset YAML condivisi
-requests>=2.32.0   # download HTTP per sincronizzazioni e fetch manuali
-openai>=1.0.0      # accesso API per scripts/chatgpt_sync.py
-pytest>=8.0.0      # suite di test deterministici in tools/py
-pypdf>=4.0.0       # estrazione di testo dai PDF per l'indagine dei contenuti
-playwright>=1.48.0 # snapshot visivi automatici con Chromium headless
-Pillow>=10.4.0     # confronto e differenze tra screenshot baseline/correnti
-fpdf2>=2.7.8       # generazione dossier PDF per press kit e showcase

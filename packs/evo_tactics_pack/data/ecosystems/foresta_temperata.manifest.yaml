@@ -1,7 +1,0 @@
-schema_version: 1.0
-biome: foresta_temperata
-requirements:
-  groups: [predatori, prede_erbivori, impollinatori, dispersori_semi, simbionti_mutualistici, parassiti_parasitoidi, detritivori, filtratori, ingegneri_ecosistema, specie_chiave_di_volta]
-  at_least: {sentient: 1, apex: 1, keystone: 1, bridge: 1, threat: 1, event: 1}
-species_dir: packs/evo_tactics_pack/data/species/foresta_temperata
-foodweb: packs/evo_tactics_pack/data/foodwebs/foresta_temperata_foodweb.yaml

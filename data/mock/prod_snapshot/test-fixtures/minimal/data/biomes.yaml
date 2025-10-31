@@ -1,8 +1,0 @@
-biomes:
-  aurora_grove:
-    label: "Bosco Aurora"
-    tier: "1"
-    summary: "Bioma compatto per verificare le anteprime."
-    features:
-      - "Foliage luminescente"
-      - "Campi magnetici stabili"

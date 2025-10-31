@@ -1,5 +1,0 @@
-scenario_id,attempts,avg_time_seconds,avg_damage_taken,success,notes
-BAL-02,2,572,420,true,"Second attempt succeeded after stamina potion buff"
-BAL-03,1,0,0,false,"Terminated early due to pathfinding lock on wave 4"
-PROG-03,1,660,0,true,"Resource surplus ended at 5% with manual sync requirement"
-EVT-01,1,415,110,true,"Cooperative decision maintained; shader artifacts logged"
