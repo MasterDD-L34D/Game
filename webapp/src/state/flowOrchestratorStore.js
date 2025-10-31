@@ -7,46 +7,18 @@ import {
 } from '../services/generationOrchestratorService.js';
 import { logEvent as logClientEvent } from '../services/clientLogger.js';
 import { fetchTraitDiagnostics } from '../services/traitDiagnosticsService.js';
+import { resolveApiUrl, resolveAssetUrl, isStaticDeployment, readEnvString } from '../services/apiEndpoints.js';
 
 const { normaliseRequest: normaliseSpeciesRequest, normaliseBatchEntries } = orchestratorInternals;
 
 const DEFAULT_SNAPSHOT_ENDPOINT = '/api/generation/snapshot';
-
-const RAW_BASE_URL =
-  typeof import.meta !== 'undefined' &&
-  import.meta.env &&
-  typeof import.meta.env.BASE_URL === 'string'
-    ? import.meta.env.BASE_URL
-    : '/';
-
-function normaliseBaseUrl(base) {
-  if (!base) {
-    return '/';
-  }
-  return base.endsWith('/') ? base : `${base}/`;
-}
-
-function isRelativeBase(base) {
-  if (!base) {
-    return false;
-  }
-  return !/^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/)/.test(base);
-}
-
-const NORMALISED_BASE_URL = normaliseBaseUrl(RAW_BASE_URL);
-const LOCAL_FALLBACK_SNAPSHOT = `${NORMALISED_BASE_URL}demo/flow-shell-snapshot.json`;
-
-function readEnvString(key) {
-  if (typeof import.meta === 'undefined' || !import.meta.env) {
-    return undefined;
-  }
-  const value = import.meta.env[key];
-  if (typeof value !== 'string') {
-    return undefined;
-  }
-  const trimmed = value.trim();
-  return trimmed || undefined;
-}
+const DEFAULT_SNAPSHOT_FALLBACK = 'demo/flow-shell-snapshot.json';
+const DEFAULT_SPECIES_ENDPOINT = '/api/generation/species';
+const DEFAULT_SPECIES_FALLBACK = 'api-mock/generation/species.json';
+const DEFAULT_BATCH_ENDPOINT = '/api/generation/species/batch';
+const DEFAULT_BATCH_FALLBACK = 'api-mock/generation/species-batch.json';
+const DEFAULT_TRAIT_DIAGNOSTICS_ENDPOINT = '/api/traits/diagnostics';
+const DEFAULT_TRAIT_DIAGNOSTICS_FALLBACK = 'api-mock/traits/diagnostics.json';
 
 function resolveFallbackEnv(value) {
   if (typeof value === 'undefined') {
@@ -63,6 +35,7 @@ function resolveFallbackEnv(value) {
 
 const SNAPSHOT_ENV_URL = readEnvString('VITE_FLOW_SNAPSHOT_URL');
 const FALLBACK_ENV_VALUE = resolveFallbackEnv(readEnvString('VITE_FLOW_SNAPSHOT_FALLBACK'));
+const LOCAL_FALLBACK_SNAPSHOT = resolveAssetUrl(DEFAULT_SNAPSHOT_FALLBACK);
 const speciesCache = new Map();
 const batchCache = new Map();
 let logSequence = 0;
@@ -155,8 +128,10 @@ function pushLog(state, event, details = {}) {
 }
 
 export function useFlowOrchestrator(options = {}) {
-  const snapshotUrl =
-    options.snapshotUrl || SNAPSHOT_ENV_URL || DEFAULT_SNAPSHOT_ENDPOINT;
+  const staticDeployment = isStaticDeployment();
+  const snapshotUrl = resolveApiUrl(
+    options.snapshotUrl || SNAPSHOT_ENV_URL || DEFAULT_SNAPSHOT_ENDPOINT,
+  );
   const fallbackOverride = Object.prototype.hasOwnProperty.call(
     options,
     'fallbackSnapshotUrl',
@@ -164,7 +139,38 @@ export function useFlowOrchestrator(options = {}) {
     ? options.fallbackSnapshotUrl
     : FALLBACK_ENV_VALUE;
   const fallbackSnapshotUrl =
-    fallbackOverride === null ? null : fallbackOverride || LOCAL_FALLBACK_SNAPSHOT;
+    fallbackOverride === null
+      ? null
+      : typeof fallbackOverride === 'string' && fallbackOverride.trim()
+        ? resolveAssetUrl(fallbackOverride.trim())
+        : LOCAL_FALLBACK_SNAPSHOT;
+  const speciesOptions = {
+    endpoint: resolveApiUrl(DEFAULT_SPECIES_ENDPOINT),
+    fallback: DEFAULT_SPECIES_FALLBACK,
+    allowFallback: staticDeployment,
+    ...(options.speciesOptions || {}),
+  };
+  if (typeof speciesOptions.endpoint === 'string') {
+    speciesOptions.endpoint = resolveApiUrl(speciesOptions.endpoint);
+  }
+  const batchOptions = {
+    endpoint: resolveApiUrl(DEFAULT_BATCH_ENDPOINT),
+    fallback: DEFAULT_BATCH_FALLBACK,
+    allowFallback: staticDeployment,
+    ...(options.batchOptions || {}),
+  };
+  if (typeof batchOptions.endpoint === 'string') {
+    batchOptions.endpoint = resolveApiUrl(batchOptions.endpoint);
+  }
+  const traitDiagnosticsOptions = {
+    endpoint: resolveApiUrl(DEFAULT_TRAIT_DIAGNOSTICS_ENDPOINT),
+    fallback: DEFAULT_TRAIT_DIAGNOSTICS_FALLBACK,
+    allowFallback: staticDeployment,
+    ...(options.traitDiagnosticsOptions || {}),
+  };
+  if (typeof traitDiagnosticsOptions.endpoint === 'string') {
+    traitDiagnosticsOptions.endpoint = resolveApiUrl(traitDiagnosticsOptions.endpoint);
+  }
   const state = reactive({
     snapshot: null,
     loadingSnapshot: false,
@@ -194,7 +200,7 @@ export function useFlowOrchestrator(options = {}) {
       !force &&
       fallbackSnapshotUrl &&
       fallbackSnapshotUrl !== snapshotUrl &&
-      isRelativeBase(RAW_BASE_URL);
+      staticDeployment;
 
     const loadFallbackSnapshot = async ({ event, level, message }) => {
       const fallbackResponse = await fetchImpl(fallbackSnapshotUrl, { cache: 'no-store' });
@@ -218,7 +224,7 @@ export function useFlowOrchestrator(options = {}) {
           return await loadFallbackSnapshot({
             event: 'snapshot.fallback',
             level: 'info',
-            message: `Base relativa rilevata (${RAW_BASE_URL || './'}), utilizzo snapshot locale`,
+            message: 'Deploy statico rilevato, utilizzo snapshot locale',
           });
         } catch (fallbackError) {
           const fallbackErr = toError(fallbackError);
@@ -295,11 +301,12 @@ export function useFlowOrchestrator(options = {}) {
       const fallbackUsed = Boolean(
         cached.result?.meta?.fallback_used ?? cached.result?.meta?.fallbackUsed ?? cached.result?.meta?.fallback_active,
       );
+      const sourceLabel = cached.result?.meta?.endpoint_source === 'fallback' ? 'fallback locale' : 'endpoint remoto';
       pushLog(state, 'generation.cache.hit', {
         level: 'info',
         message: fallbackUsed
-          ? 'Cache orchestrator con fallback attivo'
-          : 'Risultato orchestrator recuperato dalla cache',
+          ? `Cache orchestrator con fallback attivo (${sourceLabel})`
+          : `Risultato orchestrator recuperato dalla cache (${sourceLabel})`,
         request_id: cached.result?.meta?.request_id || cached.request?.request_id || null,
         meta: cached.result?.meta || null,
         validation: cachedSummary,
@@ -335,16 +342,17 @@ export function useFlowOrchestrator(options = {}) {
       },
     });
     try {
-      const result = await generateSpecies(normalised, options.speciesOptions || {});
+      const result = await generateSpecies(normalised, speciesOptions);
       speciesCache.set(cacheKey, { result, request: normalised, timestamp: Date.now() });
       state.speciesResult = result;
       state.lastRequest = normalised;
       const summary = summariseValidation(result.validation);
+      const endpointSource = result.meta?.endpoint_source === 'fallback' ? 'fallback locale' : 'endpoint remoto';
       pushLog(state, 'generation.success', {
         level: summary.errors > 0 ? 'warning' : 'success',
         message: summary.errors > 0
-          ? `Specie generata con ${summary.errors} errori di validazione`
-          : `Specie generata in ${result.meta?.attempts || 1} tentativi`,
+          ? `Specie generata con ${summary.errors} errori di validazione (${endpointSource})`
+          : `Specie generata in ${result.meta?.attempts || 1} tentativi (${endpointSource})`,
         request_id: result.meta?.request_id || normalised.request_id || null,
         meta: result.meta || null,
         validation: summary,
@@ -396,11 +404,16 @@ export function useFlowOrchestrator(options = {}) {
     if (!force && batchCache.has(cacheKey)) {
       const cached = batchCache.get(cacheKey);
       state.lastBatchResult = cached.result;
+      const sourceLabel = cached.result?.endpoint_source === 'fallback' ? 'fallback locale' : 'endpoint remoto';
       pushLog(state, 'generation.batch.cache.hit', {
         scope: 'flow',
         level: 'info',
-        message: 'Batch orchestrator recuperato dalla cache',
-        meta: { entries: batchEntries.length },
+        message: `Batch orchestrator recuperato dalla cache (${sourceLabel})`,
+        meta: {
+          entries: batchEntries.length,
+          endpoint_source: cached.result?.endpoint_source || null,
+          endpoint_url: cached.result?.endpoint_url || null,
+        },
       });
       return cached.result;
     }
@@ -412,17 +425,20 @@ export function useFlowOrchestrator(options = {}) {
       message: `Richiesta batch orchestrator (${batchEntries.length} elementi)`
     });
     try {
-      const result = await generateSpeciesBatch({ batch: batchEntries }, options.batchOptions || {});
+      const result = await generateSpeciesBatch({ batch: batchEntries }, batchOptions);
       batchCache.set(cacheKey, { result, entries: batchEntries, timestamp: Date.now() });
       state.lastBatchResult = result;
+      const endpointSource = result.endpoint_source === 'fallback' ? 'fallback locale' : 'endpoint remoto';
       pushLog(state, 'generation.batch.success', {
         scope: 'flow',
         level: result.errors.length ? 'warning' : 'success',
-        message: `Batch completato (${result.results.length} successi, ${result.errors.length} errori)`,
+        message: `Batch completato (${result.results.length} successi, ${result.errors.length} errori) da ${endpointSource}`,
         meta: {
           entries: batchEntries.length,
           success: result.results.length,
           errors: result.errors.length,
+          endpoint_source: result.endpoint_source,
+          endpoint_url: result.endpoint_url,
         },
       });
       return result;
@@ -449,11 +465,18 @@ export function useFlowOrchestrator(options = {}) {
     state.traitDiagnosticsError = null;
     try {
       const { diagnostics, meta } = await fetchTraitDiagnostics({
-        ...(options.traitDiagnosticsOptions || {}),
+        ...traitDiagnosticsOptions,
         refresh,
       });
       state.traitDiagnostics = diagnostics || {};
       state.traitDiagnosticsMeta = meta || {};
+      const endpointSource = meta?.endpoint_source === 'fallback' ? 'fallback locale' : 'endpoint remoto';
+      pushLog(state, 'trait.diagnostics.loaded', {
+        scope: 'quality',
+        level: meta?.endpoint_source === 'fallback' ? 'warning' : 'info',
+        message: `Trait diagnostics sincronizzati da ${endpointSource}`,
+        meta,
+      });
       return state.traitDiagnostics;
     } catch (error) {
       const err = toError(error);
@@ -481,11 +504,6 @@ export function useFlowOrchestrator(options = {}) {
     }
     try {
       await loadTraitDiagnostics();
-      pushLog(state, 'trait.diagnostics.loaded', {
-        scope: 'quality',
-        level: 'info',
-        message: 'Trait diagnostics sincronizzati',
-      });
     } catch (error) {
       // già tracciato in loadTraitDiagnostics
     }

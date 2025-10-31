@@ -1,4 +1,8 @@
+import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from './apiEndpoints.js';
+import { fetchJsonWithFallback } from './fetchWithFallback.js';
+
 const DEFAULT_ENDPOINT = '/api/quality/suggestions/apply';
+const DEFAULT_FALLBACK = 'api-mock/quality/suggestions/apply.json';
 
 function ensureFetch() {
   if (typeof fetch === 'function') {
@@ -10,28 +14,54 @@ function ensureFetch() {
   throw new Error("fetch non disponibile nell'ambiente corrente");
 }
 
+function resolveFallback(options) {
+  if (options && Object.prototype.hasOwnProperty.call(options, 'fallback')) {
+    if (options.fallback === null) {
+      return null;
+    }
+    if (typeof options.fallback === 'string' && options.fallback.trim()) {
+      return options.fallback.trim();
+    }
+  }
+  return DEFAULT_FALLBACK;
+}
+
+function resolveAllowFallback(options) {
+  if (options && Object.prototype.hasOwnProperty.call(options, 'allowFallback')) {
+    return Boolean(options.allowFallback);
+  }
+  return isStaticDeployment();
+}
+
 export async function applyQualitySuggestion(suggestion, options = {}) {
   if (!suggestion || typeof suggestion !== 'object') {
     throw new Error("Suggerimento non valido per l'applicazione");
   }
-  const endpoint = options.endpoint || DEFAULT_ENDPOINT;
+  const endpoint = resolveApiUrl(options.endpoint || DEFAULT_ENDPOINT);
+  const fallbackPath = resolveFallback(options);
+  const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
   const fetchImpl = ensureFetch();
-  const response = await fetchImpl(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ suggestion }),
+  const { data: payload, source, error } = await fetchJsonWithFallback(endpoint, {
+    fetchImpl,
+    requestInit: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ suggestion }),
+    },
+    fallbackUrl,
+    allowFallback: resolveAllowFallback(options),
+    errorMessage: 'Errore applicazione suggerimento',
+    fallbackErrorMessage: 'Suggerimenti locali non disponibili',
   });
-  if (!response.ok) {
-    let message = 'Errore applicazione suggerimento';
-    try {
-      const errorBody = await response.json();
-      if (errorBody && errorBody.error) {
-        message = errorBody.error;
-      }
-    } catch (error) {
-      message = await response.text();
+  const result = payload && typeof payload === 'object' ? { ...payload } : payload;
+  if (result && typeof result === 'object') {
+    const meta = { ...(result.meta || {}) };
+    meta.endpoint_source = source;
+    meta.endpoint_url = source === 'fallback' && fallbackUrl ? fallbackUrl : endpoint;
+    if (source === 'fallback') {
+      meta.fallback_error = error ? error.message : 'Richiesta remota non disponibile';
     }
-    throw new Error(message || 'Errore applicazione suggerimento');
+    result.meta = meta;
   }
-  return response.json();
+  return result;
 }

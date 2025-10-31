@@ -1,0 +1,58 @@
+{
+  "dataset": {
+    "id": "fallback-nebula",
+    "title": "Nebula Progress (fallback)",
+    "summary": "Dati caricati dal fallback statico",
+    "releaseWindow": "Q1",
+    "curator": "Offline",
+    "species": [
+      {
+        "id": "fallback-species",
+        "name": "Specie Nebula",
+        "readiness": "Pronto",
+        "traits": {
+          "core": ["fallback-core-trait"],
+          "optional": ["fallback-optional-trait"]
+        }
+      }
+    ],
+    "metrics": {
+      "species": 1,
+      "biomes": 1,
+      "encounters": 0
+    }
+  },
+  "telemetry": {
+    "summary": {
+      "totalEvents": 10,
+      "openEvents": 0,
+      "acknowledgedEvents": 10,
+      "highPriorityEvents": 0,
+      "lastEventAt": "2024-01-01T00:00:00.000Z"
+    },
+    "coverage": {
+      "average": 92,
+      "history": [70, 80, 92],
+      "distribution": {
+        "success": 8,
+        "warning": 1,
+        "neutral": 1,
+        "critical": 0
+      }
+    },
+    "incidents": {
+      "timeline": [
+        {
+          "date": "2024-01-01",
+          "total": 1,
+          "highPriority": 0
+        }
+      ]
+    },
+    "updatedAt": "2024-01-01T00:00:00.000Z",
+    "sample": []
+  },
+  "meta": {
+    "endpoint_source": "fallback"
+  }
+}
