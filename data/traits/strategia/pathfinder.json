@@ -38,6 +38,20 @@
     "complementare": "ricognizione",
     "core": "strategia"
   },
+  "biome_tags": [
+    "foresta_acida",
+    "foresta_miceliale"
+  ],
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
+  "data_origin": "controllo_psionico",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": true,
+    "has_usage_tags": true
+  },
   "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
   "tier": "T1",
   "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."

@@ -1,175 +1,176 @@
-id,label,category,type,path,completeness
-ali_membrana_sonica,Ali Membrana Sonica,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/ali_membrana_sonica.json,
-appendici_risonanti_marea,Appendici Risonanti Marea,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/appendici_risonanti_marea.json,
-barriere_miasma_glaciale,Barriere Miasma Glaciale,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/barriere_miasma_glaciale.json,
-branchie_microfiltri,Branchie Microfiltri,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/branchie_microfiltri.json,
-capsule_paracadute,Capsule Paracadute,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/capsule_paracadute.json,
-circolazione_bifasica,Circolazione Bifasica,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/circolazione_bifasica.json,
-coda_coppia_retroattiva,Coda Coppia Retroattiva,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/coda_coppia_retroattiva.json,
-cute_resistente_sali,Cute Resistente Sali,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/cute_resistente_sali.json,
-enzimi_antipredatori_algali,Enzimi Antipredatori Algali,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/enzimi_antipredatori_algali.json,
-filtri_planctonici,Filtri Planctonici,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/filtri_planctonici.json,
-ghiandole_fango_coesivo,Ghiandole Fango Coesivo,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/ghiandole_fango_coesivo.json,
-giunti_antitorsione,Giunti Antitorsione,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/giunti_antitorsione.json,
-lingua_cristallina,Lingua Cristallina,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/lingua_cristallina.json,
-mucose_barofile,Mucose Barofile,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/mucose_barofile.json,
-armatura_pietra_planare,Armatura di Pietra Planare,Difesa/Strutturale,Strutturale,data/traits/difesa/armatura_pietra_planare.json,
-mantello_meteoritico,Mantello Meteoritico,Difesa/Termoregolazione,Termoregolazione,data/traits/difesa/mantello_meteoritico.json,
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestivo/Escretorio,Escretorio,data/traits/digestivo/filamenti_digestivi_compattanti.json,
-ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Digestivo/Alimentare,Alimentare,data/traits/digestivo/ventriglio_gastroliti.json,
-spore_psichiche_silenziate,Spora Psichica Silenziosa,Escretorio/Psichico,Psichico,data/traits/escretorio/spore_psichiche_silenziate.json,
-sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Idrostatico/Locomotorio,Locomotorio,data/traits/idrostatico/sacche_galleggianti_ascensoriali.json,
-ali_ioniche,Ali Ioniche,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/ali_ioniche.json,
-antenne_wideband,Antenne Wideband,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/antenne_wideband.json,
-artigli_sette_vie,Artigli a Sette Vie,Locomotorio/Prensile,Prensile,data/traits/locomotorio/artigli_sette_vie.json,
-artigli_sghiaccio_glaciale,Artigli Sghiaccio Glaciale,Locomotorio/Predatorio,Predatorio,data/traits/locomotorio/artigli_sghiaccio_glaciale.json,
-barbigli_sensori_plasma,Barbigli Sensori Plasma,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/barbigli_sensori_plasma.json,
-branchie_metalloidi,Branchie Metalloidi,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/branchie_metalloidi.json,
-capillari_fotovoltaici,Capillari Fotovoltaici,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/capillari_fotovoltaici.json,
-cartilagine_flessotermica_venti,Cartilagine Flessotermica dei Venti,Locomotorio/Adattivo,Adattivo,data/traits/locomotorio/cartilagine_flessotermica_venti.json,
-chemiorecettori_bromuro,Chemiorecettori Bromuro,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/chemiorecettori_bromuro.json,
-coda_contrappeso,Coda Contrappeso,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/coda_contrappeso.json,
-coda_frusta_cinetica,Coda a Frusta Cinetica,Locomotorio/Difensivo,Difensivo,data/traits/locomotorio/coda_frusta_cinetica.json,
-cuscinetti_elettrostatici,Cuscinetti Elettrostatici,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/cuscinetti_elettrostatici.json,
-enzimi_antifase_termica,Enzimi Antifase Termica,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/enzimi_antifase_termica.json,
-filamenti_termoconduzione,Filamenti Termoconduzione,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/filamenti_termoconduzione.json,
-ghiandole_fango_calde,Ghiandole Fango Calde,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/ghiandole_fango_calde.json,
-ghiandole_ventosa,Ghiandole Ventosa,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/ghiandole_ventosa.json,
-linfa_tampone,Linfa Tampone,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/linfa_tampone.json,
-mucose_aderenza_sonica,Mucose Aderenza Sonica,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/mucose_aderenza_sonica.json,
-zampe_a_molla,Zampe a Molla,Mobilità/Cinetico,Cinetico,data/traits/locomotorio/zampe_a_molla.json,
-zoccoli_risonanti_steppe,Zoccoli Risonanti delle Steppe,Locomotorio/Supporto,Supporto,data/traits/locomotorio/zoccoli_risonanti_steppe.json,
-antenne_dustsense,Antenne Dustsense,Digestivo/Metabolico,Metabolico,data/traits/metabolico/antenne_dustsense.json,
-appendici_thermotattiche,Appendici Thermotattiche,Digestivo/Metabolico,Metabolico,data/traits/metabolico/appendici_thermotattiche.json,
-batteri_endosimbionti_chemio,Batteri Endosimbionti Chemio,Digestivo/Metabolico,Metabolico,data/traits/metabolico/batteri_endosimbionti_chemio.json,
-branchie_solfatiche,Branchie Solfatiche,Digestivo/Metabolico,Metabolico,data/traits/metabolico/branchie_solfatiche.json,
-carapace_segmenti_logici,Carapace Segmenti Logici,Digestivo/Metabolico,Metabolico,data/traits/metabolico/carapace_segmenti_logici.json,
-circolazione_bifasica_palude,Circolazione Bifasica di Palude,Metabolico/Resilienza,Resilienza,data/traits/metabolico/circolazione_bifasica_palude.json,
-circolazione_cooling_loop,Circolazione Cooling Loop,Digestivo/Metabolico,Metabolico,data/traits/metabolico/circolazione_cooling_loop.json,
-coda_stabilizzatrice_filo,Coda Stabilizzatrice Filo,Digestivo/Metabolico,Metabolico,data/traits/metabolico/coda_stabilizzatrice_filo.json,
-criostasi_adattiva,Criostasi,Metabolico/Difensivo,Difensivo,data/traits/metabolico/criostasi_adattiva.json,
-cuticole_cerose,Cuticole Cerose,Digestivo/Metabolico,Metabolico,data/traits/metabolico/cuticole_cerose.json,
-enzimi_chelanti,Enzimi Chelanti,Digestivo/Metabolico,Metabolico,data/traits/metabolico/enzimi_chelanti.json,
-flagelli_ancoranti,Flagelli Ancoranti,Digestivo/Metabolico,Metabolico,data/traits/metabolico/flagelli_ancoranti.json,
-ghiandole_grafene,Ghiandole Grafene,Digestivo/Metabolico,Metabolico,data/traits/metabolico/ghiandole_grafene.json,
-grassi_termici,Grassi Termici,Digestivo/Metabolico,Metabolico,data/traits/metabolico/grassi_termici.json,
-luminescenza_aurorale,Luminescenza Aurorale,Digestivo/Metabolico,Metabolico,data/traits/metabolico/luminescenza_aurorale.json,
-sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Nervoso/Omeostatico,Omeostatico,data/traits/nervoso/sonno_emisferico_alternato.json,
-antenne_flusso_mareale,Antenne Flusso Mareale,Offensivo/Assalto,Assalto,data/traits/offensivo/antenne_flusso_mareale.json,
-artigli_induzione,Artigli Induzione,Offensivo/Assalto,Assalto,data/traits/offensivo/artigli_induzione.json,
-biochip_memoria,Biochip Memoria,Offensivo/Assalto,Assalto,data/traits/offensivo/biochip_memoria.json,
-camere_anticorrosione,Camere Anticorrosione,Offensivo/Assalto,Assalto,data/traits/offensivo/camere_anticorrosione.json,
-cartilagini_biofibre,Cartilagini Biofibre,Offensivo/Assalto,Assalto,data/traits/offensivo/cartilagini_biofibre.json,
-circolazione_supercritica,Circolazione Supercritica,Offensivo/Assalto,Assalto,data/traits/offensivo/circolazione_supercritica.json,
-coda_stabilizzatrice_vortex,Coda Stabilizzatrice Vortex,Offensivo/Assalto,Assalto,data/traits/offensivo/coda_stabilizzatrice_vortex.json,
-denti_chelatanti,Denti Chelatanti,Offensivo/Assalto,Assalto,data/traits/offensivo/denti_chelatanti.json,
-enzimi_metanoossidanti,Enzimi Metanoossidanti,Offensivo/Assalto,Assalto,data/traits/offensivo/enzimi_metanoossidanti.json,
-foliaggio_spugna,Foliaggio Spugna,Offensivo/Assalto,Assalto,data/traits/offensivo/foliaggio_spugna.json,
-frusta_fiammeggiante,Frusta Fiammeggiante,Offensivo/Controllo,Controllo,data/traits/offensivo/frusta_fiammeggiante.json,
-ghiandola_caustica,Ghiandola Caustica,Offensivo/Chimico,Chimico,data/traits/offensivo/ghiandola_caustica.json,
-ghiandole_iodoattive,Ghiandole Iodoattive,Offensivo/Assalto,Assalto,data/traits/offensivo/ghiandole_iodoattive.json,
-gusci_magnesio,Gusci Magnesio,Offensivo/Assalto,Assalto,data/traits/offensivo/gusci_magnesio.json,
-mantelli_geotermici,Mantelli Geotermici,Offensivo/Assalto,Assalto,data/traits/offensivo/mantelli_geotermici.json,
-sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Offensivo/Cinetico,Cinetico,data/traits/offensivo/sangue_piroforico.json,
-branchie_osmotiche_salmastra,Branchie Osmotiche Salmastre,Respiratorio/Osmoregolazione,Osmoregolazione,data/traits/respiratorio/branchie_osmotiche_salmastra.json,
-lamelle_termoforetiche,Lamelle Termoforetiche,Respiratorio/Termoregolazione,Termoregolazione,data/traits/respiratorio/lamelle_termoforetiche.json,
-membrane_eliofiltranti,Membrane Eliofiltranti,Respiratorio/Protezione,Protezione,data/traits/respiratorio/membrane_eliofiltranti.json,
-polmoni_cristallini_alta_quota,Polmoni Cristallini d'Alta Quota,Respiratorio/Aerobico,Aerobico,data/traits/respiratorio/polmoni_cristallini_alta_quota.json,
-respiro_a_scoppio,Respiro a scoppio,Respiratorio/Propulsivo,Propulsivo,data/traits/respiratorio/respiro_a_scoppio.json,
-nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Riproduttivo/Locomotorio,Locomotorio,data/traits/riproduttivo/nucleo_ovomotore_rotante.json,
-ali_fulminee,Ali Fulminee,Sensoriale/Analitico,Analitico,data/traits/sensoriale/ali_fulminee.json,
-antenne_plasmatiche_tempesta,Antenne Plasmatiche di Tempesta,Sensoriale/Offensivo,Offensivo,data/traits/sensoriale/antenne_plasmatiche_tempesta.json,
-antenne_waveguide,Antenne Waveguide,Sensoriale/Analitico,Analitico,data/traits/sensoriale/antenne_waveguide.json,
-baffi_mareomotori,Baffi Mareomotori,Sensoriale/Analitico,Analitico,data/traits/sensoriale/baffi_mareomotori.json,
-branchie_eoliche,Branchie Eoliche,Sensoriale/Analitico,Analitico,data/traits/sensoriale/branchie_eoliche.json,
-capillari_fluoridici,Capillari Fluoridici,Sensoriale/Analitico,Analitico,data/traits/sensoriale/capillari_fluoridici.json,
-cavita_risonanti_tundra,Cavità Risonanti della Tundra,Sensoriale/Supporto,Supporto,data/traits/sensoriale/cavita_risonanti_tundra.json,
-cervelletto_equilibrio_statico,Cervelletto Equilibrio Statico,Sensoriale/Analitico,Analitico,data/traits/sensoriale/cervelletto_equilibrio_statico.json,
-coda_balanciere,Coda Balanciere,Sensoriale/Analitico,Analitico,data/traits/sensoriale/coda_balanciere.json,
-cuore_multicamera_bassa_pressione,Cuore Multicamera Bassa Pressione,Sensoriale/Analitico,Analitico,data/traits/sensoriale/cuore_multicamera_bassa_pressione.json,
-echi_risonanti,Echi Risonanti,Sensoriale/Analitico,Analitico,data/traits/sensoriale/echi_risonanti.json,
-eco_interno_riflesso,Riflesso dell'Eco Interno,Sensoriale/Nervoso,Nervoso,data/traits/sensoriale/eco_interno_riflesso.json,
-filamenti_superconduttivi,Filamenti Superconduttivi,Sensoriale/Analitico,Analitico,data/traits/sensoriale/filamenti_superconduttivi.json,
-ghiandole_eco_mappanti,Ghiandole Eco Mappanti,Sensoriale/Analitico,Analitico,data/traits/sensoriale/ghiandole_eco_mappanti.json,
-ghiandole_resina_conduttiva,Ghiandole Resina Conduttiva,Sensoriale/Analitico,Analitico,data/traits/sensoriale/ghiandole_resina_conduttiva.json,
-lamine_scudo_silice,Lamine Scudo Silice,Sensoriale/Analitico,Analitico,data/traits/sensoriale/lamine_scudo_silice.json,
-lingua_tattile_trama,Lingua Tattile Trama-Sensibile,Sensoriale/Alimentare,Alimentare,data/traits/sensoriale/lingua_tattile_trama.json,
-midollo_antivibrazione,Midollo Antivibrazione,Sensoriale/Analitico,Analitico,data/traits/sensoriale/midollo_antivibrazione.json,
-occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Sensoriale/Visivo,Visivo,data/traits/sensoriale/occhi_infrarosso_composti.json,
-olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Sensoriale/Nervoso,Nervoso,data/traits/sensoriale/olfatto_risonanza_magnetica.json,
-sensori_geomagnetici,Sensori Geomagnetici,Sensoriale/Navigazione,Navigazione,data/traits/sensoriale/sensori_geomagnetici.json,
-antenne_reagenti,Antenne Reagenti,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/antenne_reagenti.json,
-artigli_scivolo_silente,Artigli Scivolo Silente,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/artigli_scivolo_silente.json,
-biofilm_iperarido,Biofilm Iperarido,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/biofilm_iperarido.json,
-bulbi_radici_permafrost,Bulbi Radici del Permafrost,Simbiotico/Nutrizione,Nutrizione,data/traits/simbiotico/bulbi_radici_permafrost.json,
-camere_nutrienti_vent,Camere Nutrienti Vent,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/camere_nutrienti_vent.json,
-cartilagini_flessoacustiche,Cartilagini Flessoacustiche,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/cartilagini_flessoacustiche.json,
-chioma_parassita_canopica,Chioma Parassita Canopica,Simbiotico/Utility,Utility,data/traits/simbiotico/chioma_parassita_canopica.json,
-ciste_salmastre,Ciste Salmastre,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/ciste_salmastre.json,
-coralli_partner,Coralli Partner,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/coralli_partner.json,
-denti_silice_termici,Denti Silice Termici,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/denti_silice_termici.json,
-epitelio_fosforescente,Epitelio Fosforescente,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/epitelio_fosforescente.json,
-ghiandole_cambio_salino,Ghiandole Cambio Salino,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/ghiandole_cambio_salino.json,
-ghiandole_nebbia_acida,Ghiandole Nebbia Acida,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/ghiandole_nebbia_acida.json,
-lamelle_sincroniche,Lamelle Sincroniche,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/lamelle_sincroniche.json,
-membrane_planata_vectored,Membrane Planata Vectored,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/membrane_planata_vectored.json,
-mucillagine_simbionte_mangrovie,Mucillagine Simbionte delle Mangrovie,Simbiotico/Difensivo,Difensivo,data/traits/simbiotico/mucillagine_simbionte_mangrovie.json,
-nodi_micorrizici_oracolari,Nodi Micorrizici Oracolari,Simbiotico/Nervoso,Nervoso,data/traits/simbiotico/nodi_micorrizici_oracolari.json,
-sacche_spore_stratosferiche,Sacche di Spore Stratosferiche,Simbiotico/Supporto,Supporto,data/traits/simbiotico/sacche_spore_stratosferiche.json,
-sinapsi_coraline_polifoniche,Sinapsi Coraline Polifoniche,Simbiotico/Comunicazione,Comunicazione,data/traits/simbiotico/sinapsi_coraline_polifoniche.json,
-antenne_microonde_cavernose,Antenne Microonde Cavernose,Strategico/Tattico,Tattico,data/traits/strategia/antenne_microonde_cavernose.json,
-artigli_radice,Artigli Radice,Strategico/Tattico,Tattico,data/traits/strategia/artigli_radice.json,
-biofilm_glow,Biofilm Glow,Strategico/Tattico,Tattico,data/traits/strategia/biofilm_glow.json,
-camere_mirage,Camere Mirage,Strategico/Tattico,Tattico,data/traits/strategia/camere_mirage.json,
-cartilagini_desertiche,Cartilagini Desertiche,Strategico/Tattico,Tattico,data/traits/strategia/cartilagini_desertiche.json,
-ciste_riduttive,Ciste Riduttive,Strategico/Tattico,Tattico,data/traits/strategia/ciste_riduttive.json,
-colonne_vibromagnetiche,Colonne Vibromagnetiche,Strategico/Tattico,Tattico,data/traits/strategia/colonne_vibromagnetiche.json,
-denti_ossidoferro,Denti Ossidoferro,Strategico/Tattico,Tattico,data/traits/strategia/denti_ossidoferro.json,
-epidermide_dielettrica,Epidermide Dielettrica,Strategico/Tattico,Tattico,data/traits/strategia/epidermide_dielettrica.json,
-focus_frazionato,Focus Frazionato,Strategico/Psionico,Psionico,data/traits/strategia/focus_frazionato.json,
-ghiaccio_piezoelettrico,Ghiaccio Piezoelettrico,Strategico/Tattico,Tattico,data/traits/strategia/ghiaccio_piezoelettrico.json,
-ghiandole_minerali,Ghiandole Minerali,Strategico/Tattico,Tattico,data/traits/strategia/ghiandole_minerali.json,
-lamelle_shear,Lamelle Shear,Strategico/Tattico,Tattico,data/traits/strategia/lamelle_shear.json,
-membrane_captura_rugiada,Membrane Captura Rugiada,Strategico/Tattico,Tattico,data/traits/strategia/membrane_captura_rugiada.json,
-pathfinder,Pathfinder,Esplorazione/Tattico,Tattico,data/traits/strategia/pathfinder.json,
-pianificatore,Pianificatore,Strategico/Tattico,Tattico,data/traits/strategia/pianificatore.json,
-random,Trait Random,Flessibile/Generico,Generico,data/traits/strategia/random.json,
-tattiche_di_branco,Tattiche di Branco,Strategico/Tattico,Tattico,data/traits/strategia/tattiche_di_branco.json,
-antenne_tesla,Antenne Tesla,Strutturale/Adattivo,Adattivo,data/traits/strutturale/antenne_tesla.json,
-artigli_vetrificati,Artigli Vetrificati,Strutturale/Adattivo,Adattivo,data/traits/strutturale/artigli_vetrificati.json,
-branchie_dual_mode,Branchie Dual Mode,Strutturale/Adattivo,Adattivo,data/traits/strutturale/branchie_dual_mode.json,
-capillari_criogenici,Capillari Criogenici,Strutturale/Adattivo,Adattivo,data/traits/strutturale/capillari_criogenici.json,
-carapace_fase_variabile,Carapace a Variazione di Fase,Strutturale/Difensivo,Difensivo,data/traits/strutturale/carapace_fase_variabile.json,
-carapace_luminiscente_abissale,Carapace Luminiscente Abissale,Strutturale/Sensoriale,Sensoriale,data/traits/strutturale/carapace_luminiscente_abissale.json,
-cartilagini_pseudometalliche,Cartilagini Pseudometalliche,Strutturale/Adattivo,Adattivo,data/traits/strutturale/cartilagini_pseudometalliche.json,
-cisti_iperbariche,Cisti Iperbariche,Strutturale/Adattivo,Adattivo,data/traits/strutturale/cisti_iperbariche.json,
-cromofori_alert_acido,Cromofori Alert Acido,Strutturale/Adattivo,Adattivo,data/traits/strutturale/cromofori_alert_acido.json,
-denti_tuning_fork,Denti Tuning Fork,Strutturale/Adattivo,Adattivo,data/traits/strutturale/denti_tuning_fork.json,
-filamenti_magnetotrofi,Filamenti Magnetotrofi,Strutturale/Adattivo,Adattivo,data/traits/strutturale/filamenti_magnetotrofi.json,
-ghiandole_condensa_ozono,Ghiandole Condensa Ozono,Strutturale/Adattivo,Adattivo,data/traits/strutturale/ghiandole_condensa_ozono.json,
-ghiandole_nebbia_ionica,Ghiandole Nebbia Ionica,Strutturale/Adattivo,Adattivo,data/traits/strutturale/ghiandole_nebbia_ionica.json,
-lamine_filtranti_aeree,Lamine Filtranti Aeree,Strutturale/Adattivo,Adattivo,data/traits/strutturale/lamine_filtranti_aeree.json,
-membrane_pneumatofori,Membrane Pneumatofori,Strutturale/Adattivo,Adattivo,data/traits/strutturale/membrane_pneumatofori.json,
-scheletro_idro_regolante,Scheletro Idro-Regolante,Strutturale/Omeostatico,Omeostatico,data/traits/strutturale/scheletro_idro_regolante.json,
-struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Strutturale/Locomotorio,Locomotorio,data/traits/strutturale/struttura_elastica_amorfa.json,
-antenne_eco_turbina,Antenne Eco Turbina,Supporto/Logistico,Logistico,data/traits/supporto/antenne_eco_turbina.json,
-artigli_acidofagi,Artigli Acidofagi,Supporto/Logistico,Logistico,data/traits/supporto/artigli_acidofagi.json,
-aura_scudo_radianza,Aura Scudo di Radianza,Supporto/Difesa,Difesa,data/traits/supporto/aura_scudo_radianza.json,
-batteri_termofili_endosimbiosi,Batteri Termofili Endosimbiosi,Supporto/Logistico,Logistico,data/traits/supporto/batteri_termofili_endosimbiosi.json,
-branchie_turbina,Branchie Turbina,Supporto/Logistico,Logistico,data/traits/supporto/branchie_turbina.json,
-carapaci_ferruginosi,Carapaci Ferruginosi,Supporto/Logistico,Logistico,data/traits/supporto/carapaci_ferruginosi.json,
-circolazione_doppia,Circolazione Doppia,Supporto/Logistico,Logistico,data/traits/supporto/circolazione_doppia.json,
-coda_stabilizzatrice_geiser,Coda Stabilizzatrice Geiser,Supporto/Logistico,Logistico,data/traits/supporto/coda_stabilizzatrice_geiser.json,
-cuticole_neutralizzanti,Cuticole Neutralizzanti,Supporto/Logistico,Logistico,data/traits/supporto/cuticole_neutralizzanti.json,
-empatia_coordinativa,Empatia Coordinativa,Supporto/Empatico,Empatico,data/traits/supporto/empatia_coordinativa.json,
-enzimi_chelatori_rapidi,Enzimi Chelatori Rapidi,Supporto/Logistico,Logistico,data/traits/supporto/enzimi_chelatori_rapidi.json,
-foliage_fotocatodico,Foliage Fotocatodico,Supporto/Logistico,Logistico,data/traits/supporto/foliage_fotocatodico.json,
-ghiandole_inchiostro_luce,Ghiandole Inchiostro Luce,Supporto/Logistico,Logistico,data/traits/supporto/ghiandole_inchiostro_luce.json,
-gusci_criovetro,Gusci Criovetro,Supporto/Logistico,Logistico,data/traits/supporto/gusci_criovetro.json,
-luminescenza_hydrotermica,Luminescenza Hydrotermica,Supporto/Logistico,Logistico,data/traits/supporto/luminescenza_hydrotermica.json,
-risonanza_di_branco,Risonanza di Branco,Supporto/Coordinativo,Coordinativo,data/traits/supporto/risonanza_di_branco.json,
-mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/mimetismo_cromatico_passivo.json,
-piume_solari_fotovoltaiche,Piume Solari Fotovoltaiche,Tegumentario/Energetico,Energetico,data/traits/tegumentario/piume_solari_fotovoltaiche.json,
-secrezione_rallentante_palmi,Mani secernano liquido rallentante,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/secrezione_rallentante_palmi.json,
-squame_rifrangenti_deserto,Squame Rifrangenti del Deserto,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/squame_rifrangenti_deserto.json,
-vello_condensatore_nebbie,Vello Condensatore di Nebbie,Tegumentario/Idratazione,Idratazione,data/traits/tegumentario/vello_condensatore_nebbie.json,
+id,label,category,type,path,completeness,data_origin,biome_tags,usage_tags,has_biome,has_species_link
+ali_membrana_sonica,Ali Membrana Sonica,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/ali_membrana_sonica.json,,coverage_q4_2025,,,true,false
+appendici_risonanti_marea,Appendici Risonanti Marea,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/appendici_risonanti_marea.json,,coverage_q4_2025,,,true,false
+barriere_miasma_glaciale,Barriere Miasma Glaciale,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/barriere_miasma_glaciale.json,,coverage_q4_2025,,,true,false
+branchie_microfiltri,Branchie Microfiltri,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/branchie_microfiltri.json,,coverage_q4_2025,,,true,false
+capsule_paracadute,Capsule Paracadute,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/capsule_paracadute.json,,coverage_q4_2025,,,true,false
+circolazione_bifasica,Circolazione Bifasica,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/circolazione_bifasica.json,,coverage_q4_2025,,,true,false
+coda_coppia_retroattiva,Coda Coppia Retroattiva,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/coda_coppia_retroattiva.json,,coverage_q4_2025,,,true,false
+cute_resistente_sali,Cute Resistente Sali,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/cute_resistente_sali.json,,coverage_q4_2025,,,true,false
+enzimi_antipredatori_algali,Enzimi Antipredatori Algali,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/enzimi_antipredatori_algali.json,,coverage_q4_2025,,,true,false
+filtri_planctonici,Filtri Planctonici,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/filtri_planctonici.json,,coverage_q4_2025,,,true,false
+ghiandole_fango_coesivo,Ghiandole Fango Coesivo,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/ghiandole_fango_coesivo.json,,coverage_q4_2025,,,true,false
+giunti_antitorsione,Giunti Antitorsione,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/giunti_antitorsione.json,,coverage_q4_2025,,,true,false
+lingua_cristallina,Lingua Cristallina,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/lingua_cristallina.json,,coverage_q4_2025,,,true,false
+mucose_barofile,Mucose Barofile,Tegumentario/Difensivo,Difensivo,data/traits/difensivo/mucose_barofile.json,,coverage_q4_2025,,,true,false
+armatura_pietra_planare,Armatura di Pietra Planare,Difesa/Strutturale,Strutturale,data/traits/difesa/armatura_pietra_planare.json,,pathfinder_dataset,,,true,false
+mantello_meteoritico,Mantello Meteoritico,Difesa/Termoregolazione,Termoregolazione,data/traits/difesa/mantello_meteoritico.json,,pathfinder_dataset,,,true,false
+filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestivo/Escretorio,Escretorio,data/traits/digestivo/filamenti_digestivi_compattanti.json,,controllo_psionico,,,true,false
+ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Digestivo/Alimentare,Alimentare,data/traits/digestivo/ventriglio_gastroliti.json,,controllo_psionico,,,true,false
+spore_psichiche_silenziate,Spora Psichica Silenziosa,Escretorio/Psichico,Psichico,data/traits/escretorio/spore_psichiche_silenziate.json,,controllo_psionico,,,true,false
+sacche_galleggianti_ascensoriali,Sacche galleggianti ascensoriali,Idrostatico/Locomotorio,Locomotorio,data/traits/idrostatico/sacche_galleggianti_ascensoriali.json,,controllo_psionico,,,true,false
+ali_ioniche,Ali Ioniche,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/ali_ioniche.json,,coverage_q4_2025,,,true,false
+antenne_wideband,Antenne Wideband,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/antenne_wideband.json,,coverage_q4_2025,,,true,false
+artigli_sette_vie,Artigli a Sette Vie,Locomotorio/Prensile,Prensile,data/traits/locomotorio/artigli_sette_vie.json,,controllo_psionico,,,true,false
+artigli_sghiaccio_glaciale,Artigli Sghiaccio Glaciale,Locomotorio/Predatorio,Predatorio,data/traits/locomotorio/artigli_sghiaccio_glaciale.json,,controllo_psionico,,,true,false
+barbigli_sensori_plasma,Barbigli Sensori Plasma,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/barbigli_sensori_plasma.json,,coverage_q4_2025,,,true,false
+branchie_metalloidi,Branchie Metalloidi,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/branchie_metalloidi.json,,coverage_q4_2025,,,true,false
+capillari_fotovoltaici,Capillari Fotovoltaici,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/capillari_fotovoltaici.json,,coverage_q4_2025,,,true,false
+cartilagine_flessotermica_venti,Cartilagine Flessotermica dei Venti,Locomotorio/Adattivo,Adattivo,data/traits/locomotorio/cartilagine_flessotermica_venti.json,,controllo_psionico,,,true,false
+chemiorecettori_bromuro,Chemiorecettori Bromuro,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/chemiorecettori_bromuro.json,,coverage_q4_2025,,,true,false
+coda_contrappeso,Coda Contrappeso,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/coda_contrappeso.json,,coverage_q4_2025,,,true,false
+coda_frusta_cinetica,Coda a Frusta Cinetica,Locomotorio/Difensivo,Difensivo,data/traits/locomotorio/coda_frusta_cinetica.json,,controllo_psionico,,,true,false
+cuscinetti_elettrostatici,Cuscinetti Elettrostatici,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/cuscinetti_elettrostatici.json,,coverage_q4_2025,,,true,false
+enzimi_antifase_termica,Enzimi Antifase Termica,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/enzimi_antifase_termica.json,,coverage_q4_2025,,,true,false
+filamenti_termoconduzione,Filamenti Termoconduzione,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/filamenti_termoconduzione.json,,coverage_q4_2025,,,true,false
+ghiandole_fango_calde,Ghiandole Fango Calde,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/ghiandole_fango_calde.json,,coverage_q4_2025,,,true,false
+ghiandole_ventosa,Ghiandole Ventosa,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/ghiandole_ventosa.json,,coverage_q4_2025,,,true,false
+linfa_tampone,Linfa Tampone,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/linfa_tampone.json,,coverage_q4_2025,,,true,false
+mucose_aderenza_sonica,Mucose Aderenza Sonica,Locomotorio/Mobilità,Mobilità,data/traits/locomotorio/mucose_aderenza_sonica.json,,coverage_q4_2025,,,true,false
+zampe_a_molla,Zampe a Molla,Mobilità/Cinetico,Cinetico,data/traits/locomotorio/zampe_a_molla.json,,controllo_psionico,,,true,false
+zoccoli_risonanti_steppe,Zoccoli Risonanti delle Steppe,Locomotorio/Supporto,Supporto,data/traits/locomotorio/zoccoli_risonanti_steppe.json,,controllo_psionico,,,true,false
+antenne_dustsense,Antenne Dustsense,Digestivo/Metabolico,Metabolico,data/traits/metabolico/antenne_dustsense.json,,coverage_q4_2025,,,true,false
+appendici_thermotattiche,Appendici Thermotattiche,Digestivo/Metabolico,Metabolico,data/traits/metabolico/appendici_thermotattiche.json,,coverage_q4_2025,,,true,false
+batteri_endosimbionti_chemio,Batteri Endosimbionti Chemio,Digestivo/Metabolico,Metabolico,data/traits/metabolico/batteri_endosimbionti_chemio.json,,coverage_q4_2025,,,true,false
+branchie_solfatiche,Branchie Solfatiche,Digestivo/Metabolico,Metabolico,data/traits/metabolico/branchie_solfatiche.json,,coverage_q4_2025,,,true,false
+carapace_segmenti_logici,Carapace Segmenti Logici,Digestivo/Metabolico,Metabolico,data/traits/metabolico/carapace_segmenti_logici.json,,coverage_q4_2025,,,true,false
+circolazione_bifasica_palude,Circolazione Bifasica di Palude,Metabolico/Resilienza,Resilienza,data/traits/metabolico/circolazione_bifasica_palude.json,,controllo_psionico,,,true,false
+circolazione_cooling_loop,Circolazione Cooling Loop,Digestivo/Metabolico,Metabolico,data/traits/metabolico/circolazione_cooling_loop.json,,coverage_q4_2025,,,true,false
+coda_stabilizzatrice_filo,Coda Stabilizzatrice Filo,Digestivo/Metabolico,Metabolico,data/traits/metabolico/coda_stabilizzatrice_filo.json,,coverage_q4_2025,,,true,false
+criostasi_adattiva,Criostasi,Metabolico/Difensivo,Difensivo,data/traits/metabolico/criostasi_adattiva.json,,controllo_psionico,,,true,false
+cuticole_cerose,Cuticole Cerose,Digestivo/Metabolico,Metabolico,data/traits/metabolico/cuticole_cerose.json,,controllo_psionico,,,true,false
+enzimi_chelanti,Enzimi Chelanti,Digestivo/Metabolico,Metabolico,data/traits/metabolico/enzimi_chelanti.json,,controllo_psionico,,,true,false
+flagelli_ancoranti,Flagelli Ancoranti,Digestivo/Metabolico,Metabolico,data/traits/metabolico/flagelli_ancoranti.json,,coverage_q4_2025,,,true,false
+ghiandole_grafene,Ghiandole Grafene,Digestivo/Metabolico,Metabolico,data/traits/metabolico/ghiandole_grafene.json,,coverage_q4_2025,,,true,false
+grassi_termici,Grassi Termici,Digestivo/Metabolico,Metabolico,data/traits/metabolico/grassi_termici.json,,controllo_psionico,,,true,false
+luminescenza_aurorale,Luminescenza Aurorale,Digestivo/Metabolico,Metabolico,data/traits/metabolico/luminescenza_aurorale.json,,coverage_q4_2025,,,true,false
+sonno_emisferico_alternato,Dormire con solo metà cervello alla volta,Nervoso/Omeostatico,Omeostatico,data/traits/nervoso/sonno_emisferico_alternato.json,,controllo_psionico,,,true,false
+antenne_flusso_mareale,Antenne Flusso Mareale,Offensivo/Assalto,Assalto,data/traits/offensivo/antenne_flusso_mareale.json,,coverage_q4_2025,,,true,false
+artigli_induzione,Artigli Induzione,Offensivo/Assalto,Assalto,data/traits/offensivo/artigli_induzione.json,,coverage_q4_2025,,,true,false
+biochip_memoria,Biochip Memoria,Offensivo/Assalto,Assalto,data/traits/offensivo/biochip_memoria.json,,coverage_q4_2025,,,true,false
+camere_anticorrosione,Camere Anticorrosione,Offensivo/Assalto,Assalto,data/traits/offensivo/camere_anticorrosione.json,,coverage_q4_2025,,,true,false
+cartilagini_biofibre,Cartilagini Biofibre,Offensivo/Assalto,Assalto,data/traits/offensivo/cartilagini_biofibre.json,,coverage_q4_2025,,,true,false
+circolazione_supercritica,Circolazione Supercritica,Offensivo/Assalto,Assalto,data/traits/offensivo/circolazione_supercritica.json,,coverage_q4_2025,,,true,false
+coda_stabilizzatrice_vortex,Coda Stabilizzatrice Vortex,Offensivo/Assalto,Assalto,data/traits/offensivo/coda_stabilizzatrice_vortex.json,,coverage_q4_2025,,,true,false
+denti_chelatanti,Denti Chelatanti,Offensivo/Assalto,Assalto,data/traits/offensivo/denti_chelatanti.json,,coverage_q4_2025,,,true,false
+enzimi_metanoossidanti,Enzimi Metanoossidanti,Offensivo/Assalto,Assalto,data/traits/offensivo/enzimi_metanoossidanti.json,,coverage_q4_2025,,,true,false
+foliaggio_spugna,Foliaggio Spugna,Offensivo/Assalto,Assalto,data/traits/offensivo/foliaggio_spugna.json,,coverage_q4_2025,,,true,false
+frusta_fiammeggiante,Frusta Fiammeggiante,Offensivo/Controllo,Controllo,data/traits/offensivo/frusta_fiammeggiante.json,,pathfinder_dataset,,,true,false
+ghiandola_caustica,Ghiandola Caustica,Offensivo/Chimico,Chimico,data/traits/offensivo/ghiandola_caustica.json,,controllo_psionico,,,true,false
+ghiandole_iodoattive,Ghiandole Iodoattive,Offensivo/Assalto,Assalto,data/traits/offensivo/ghiandole_iodoattive.json,,coverage_q4_2025,,,true,false
+gusci_magnesio,Gusci Magnesio,Offensivo/Assalto,Assalto,data/traits/offensivo/gusci_magnesio.json,,coverage_q4_2025,,,true,false
+mantelli_geotermici,Mantelli Geotermici,Offensivo/Assalto,Assalto,data/traits/offensivo/mantelli_geotermici.json,,coverage_q4_2025,,,true,false
+sangue_piroforico,Sangue che prende fuoco a contatto con l'ossigeno,Offensivo/Cinetico,Cinetico,data/traits/offensivo/sangue_piroforico.json,,controllo_psionico,,,true,false
+branchie_osmotiche_salmastra,Branchie Osmotiche Salmastre,Respiratorio/Osmoregolazione,Osmoregolazione,data/traits/respiratorio/branchie_osmotiche_salmastra.json,,controllo_psionico,,,true,false
+lamelle_termoforetiche,Lamelle Termoforetiche,Respiratorio/Termoregolazione,Termoregolazione,data/traits/respiratorio/lamelle_termoforetiche.json,,controllo_psionico,,,true,false
+membrane_eliofiltranti,Membrane Eliofiltranti,Respiratorio/Protezione,Protezione,data/traits/respiratorio/membrane_eliofiltranti.json,,controllo_psionico,,,true,false
+polmoni_cristallini_alta_quota,Polmoni Cristallini d'Alta Quota,Respiratorio/Aerobico,Aerobico,data/traits/respiratorio/polmoni_cristallini_alta_quota.json,,controllo_psionico,,,true,false
+respiro_a_scoppio,Respiro a scoppio,Respiratorio/Propulsivo,Propulsivo,data/traits/respiratorio/respiro_a_scoppio.json,,controllo_psionico,,,true,false
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Riproduttivo/Locomotorio,Locomotorio,data/traits/riproduttivo/nucleo_ovomotore_rotante.json,,controllo_psionico,,,true,false
+ali_fulminee,Ali Fulminee,Sensoriale/Analitico,Analitico,data/traits/sensoriale/ali_fulminee.json,,coverage_q4_2025,,,true,false
+antenne_plasmatiche_tempesta,Antenne Plasmatiche di Tempesta,Sensoriale/Offensivo,Offensivo,data/traits/sensoriale/antenne_plasmatiche_tempesta.json,,controllo_psionico,,,true,false
+antenne_waveguide,Antenne Waveguide,Sensoriale/Analitico,Analitico,data/traits/sensoriale/antenne_waveguide.json,,coverage_q4_2025,,,true,false
+baffi_mareomotori,Baffi Mareomotori,Sensoriale/Analitico,Analitico,data/traits/sensoriale/baffi_mareomotori.json,,coverage_q4_2025,,,true,false
+branchie_eoliche,Branchie Eoliche,Sensoriale/Analitico,Analitico,data/traits/sensoriale/branchie_eoliche.json,,coverage_q4_2025,,,true,false
+capillari_fluoridici,Capillari Fluoridici,Sensoriale/Analitico,Analitico,data/traits/sensoriale/capillari_fluoridici.json,,coverage_q4_2025,,,true,false
+cavita_risonanti_tundra,Cavità Risonanti della Tundra,Sensoriale/Supporto,Supporto,data/traits/sensoriale/cavita_risonanti_tundra.json,,controllo_psionico,,,true,false
+cervelletto_equilibrio_statico,Cervelletto Equilibrio Statico,Sensoriale/Analitico,Analitico,data/traits/sensoriale/cervelletto_equilibrio_statico.json,,coverage_q4_2025,,,true,false
+coda_balanciere,Coda Balanciere,Sensoriale/Analitico,Analitico,data/traits/sensoriale/coda_balanciere.json,,coverage_q4_2025,,,true,false
+cuore_multicamera_bassa_pressione,Cuore Multicamera Bassa Pressione,Sensoriale/Analitico,Analitico,data/traits/sensoriale/cuore_multicamera_bassa_pressione.json,,coverage_q4_2025,,,true,false
+echi_risonanti,Echi Risonanti,Sensoriale/Analitico,Analitico,data/traits/sensoriale/echi_risonanti.json,,coverage_q4_2025,,,true,false
+eco_interno_riflesso,Riflesso dell'Eco Interno,Sensoriale/Nervoso,Nervoso,data/traits/sensoriale/eco_interno_riflesso.json,,controllo_psionico,,,true,false
+filamenti_superconduttivi,Filamenti Superconduttivi,Sensoriale/Analitico,Analitico,data/traits/sensoriale/filamenti_superconduttivi.json,,coverage_q4_2025,,,true,false
+ghiandole_eco_mappanti,Ghiandole Eco Mappanti,Sensoriale/Analitico,Analitico,data/traits/sensoriale/ghiandole_eco_mappanti.json,,coverage_q4_2025,,,true,false
+ghiandole_resina_conduttiva,Ghiandole Resina Conduttiva,Sensoriale/Analitico,Analitico,data/traits/sensoriale/ghiandole_resina_conduttiva.json,,coverage_q4_2025,,,true,false
+lamine_scudo_silice,Lamine Scudo Silice,Sensoriale/Analitico,Analitico,data/traits/sensoriale/lamine_scudo_silice.json,,coverage_q4_2025,,,true,false
+lingua_tattile_trama,Lingua Tattile Trama-Sensibile,Sensoriale/Alimentare,Alimentare,data/traits/sensoriale/lingua_tattile_trama.json,,controllo_psionico,,,true,false
+midollo_antivibrazione,Midollo Antivibrazione,Sensoriale/Analitico,Analitico,data/traits/sensoriale/midollo_antivibrazione.json,,coverage_q4_2025,,,true,false
+occhi_infrarosso_composti,Occhi Composti ad Infrarosso,Sensoriale/Visivo,Visivo,data/traits/sensoriale/occhi_infrarosso_composti.json,,controllo_psionico,,,true,false
+olfatto_risonanza_magnetica,Olfatto di Risonanza Magnetica,Sensoriale/Nervoso,Nervoso,data/traits/sensoriale/olfatto_risonanza_magnetica.json,,controllo_psionico,,,true,false
+sensori_geomagnetici,Sensori Geomagnetici,Sensoriale/Navigazione,Navigazione,data/traits/sensoriale/sensori_geomagnetici.json,,controllo_psionico,,,true,false
+antenne_reagenti,Antenne Reagenti,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/antenne_reagenti.json,,coverage_q4_2025,,,true,false
+artigli_scivolo_silente,Artigli Scivolo Silente,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/artigli_scivolo_silente.json,,coverage_q4_2025,,,true,false
+biofilm_iperarido,Biofilm Iperarido,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/biofilm_iperarido.json,,coverage_q4_2025,,,true,false
+bulbi_radici_permafrost,Bulbi Radici del Permafrost,Simbiotico/Nutrizione,Nutrizione,data/traits/simbiotico/bulbi_radici_permafrost.json,,controllo_psionico,,,true,false
+camere_nutrienti_vent,Camere Nutrienti Vent,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/camere_nutrienti_vent.json,,coverage_q4_2025,,,true,false
+cartilagini_flessoacustiche,Cartilagini Flessoacustiche,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/cartilagini_flessoacustiche.json,,coverage_q4_2025,,,true,false
+chioma_parassita_canopica,Chioma Parassita Canopica,Simbiotico/Utility,Utility,data/traits/simbiotico/chioma_parassita_canopica.json,,controllo_psionico,,,true,false
+ciste_salmastre,Ciste Salmastre,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/ciste_salmastre.json,,coverage_q4_2025,,,true,false
+coralli_partner,Coralli Partner,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/coralli_partner.json,,coverage_q4_2025,,,true,false
+denti_silice_termici,Denti Silice Termici,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/denti_silice_termici.json,,coverage_q4_2025,,,true,false
+epitelio_fosforescente,Epitelio Fosforescente,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/epitelio_fosforescente.json,,coverage_q4_2025,,,true,false
+ghiandole_cambio_salino,Ghiandole Cambio Salino,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/ghiandole_cambio_salino.json,,coverage_q4_2025,,,true,false
+ghiandole_nebbia_acida,Ghiandole Nebbia Acida,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/ghiandole_nebbia_acida.json,,coverage_q4_2025,,,true,false
+lamelle_sincroniche,Lamelle Sincroniche,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/lamelle_sincroniche.json,,coverage_q4_2025,,,true,false
+membrane_planata_vectored,Membrane Planata Vectored,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/membrane_planata_vectored.json,,coverage_q4_2025,,,true,false
+mucillagine_simbionte_mangrovie,Mucillagine Simbionte delle Mangrovie,Simbiotico/Difensivo,Difensivo,data/traits/simbiotico/mucillagine_simbionte_mangrovie.json,,controllo_psionico,,,true,false
+nodi_micorrizici_oracolari,Nodi Micorrizici Oracolari,Simbiotico/Nervoso,Nervoso,data/traits/simbiotico/nodi_micorrizici_oracolari.json,,controllo_psionico,,,true,false
+sacche_spore_stratosferiche,Sacche di Spore Stratosferiche,Simbiotico/Supporto,Supporto,data/traits/simbiotico/sacche_spore_stratosferiche.json,,controllo_psionico,,,true,false
+sinapsi_coraline_polifoniche,Sinapsi Coraline Polifoniche,Simbiotico/Comunicazione,Comunicazione,data/traits/simbiotico/sinapsi_coraline_polifoniche.json,,controllo_psionico,,,true,false
+species_affinity,,,,data/traits/species_affinity.json,,,,,false,false
+antenne_microonde_cavernose,Antenne Microonde Cavernose,Strategico/Tattico,Tattico,data/traits/strategia/antenne_microonde_cavernose.json,,coverage_q4_2025,,,true,false
+artigli_radice,Artigli Radice,Strategico/Tattico,Tattico,data/traits/strategia/artigli_radice.json,,coverage_q4_2025,,,true,false
+biofilm_glow,Biofilm Glow,Strategico/Tattico,Tattico,data/traits/strategia/biofilm_glow.json,,coverage_q4_2025,,,true,false
+camere_mirage,Camere Mirage,Strategico/Tattico,Tattico,data/traits/strategia/camere_mirage.json,,coverage_q4_2025,,,true,false
+cartilagini_desertiche,Cartilagini Desertiche,Strategico/Tattico,Tattico,data/traits/strategia/cartilagini_desertiche.json,,coverage_q4_2025,,,true,false
+ciste_riduttive,Ciste Riduttive,Strategico/Tattico,Tattico,data/traits/strategia/ciste_riduttive.json,,coverage_q4_2025,,,true,false
+colonne_vibromagnetiche,Colonne Vibromagnetiche,Strategico/Tattico,Tattico,data/traits/strategia/colonne_vibromagnetiche.json,,coverage_q4_2025,,,true,false
+denti_ossidoferro,Denti Ossidoferro,Strategico/Tattico,Tattico,data/traits/strategia/denti_ossidoferro.json,,coverage_q4_2025,,,true,false
+epidermide_dielettrica,Epidermide Dielettrica,Strategico/Tattico,Tattico,data/traits/strategia/epidermide_dielettrica.json,,coverage_q4_2025,,,true,false
+focus_frazionato,Focus Frazionato,Strategico/Psionico,Psionico,data/traits/strategia/focus_frazionato.json,,controllo_psionico,,,true,false
+ghiaccio_piezoelettrico,Ghiaccio Piezoelettrico,Strategico/Tattico,Tattico,data/traits/strategia/ghiaccio_piezoelettrico.json,,coverage_q4_2025,,,true,false
+ghiandole_minerali,Ghiandole Minerali,Strategico/Tattico,Tattico,data/traits/strategia/ghiandole_minerali.json,,coverage_q4_2025,,,true,false
+lamelle_shear,Lamelle Shear,Strategico/Tattico,Tattico,data/traits/strategia/lamelle_shear.json,,coverage_q4_2025,,,true,false
+membrane_captura_rugiada,Membrane Captura Rugiada,Strategico/Tattico,Tattico,data/traits/strategia/membrane_captura_rugiada.json,,coverage_q4_2025,,,true,false
+pathfinder,Pathfinder,Esplorazione/Tattico,Tattico,data/traits/strategia/pathfinder.json,,controllo_psionico,foresta_acida;foresta_miceliale,scout;support,true,true
+pianificatore,Pianificatore,Strategico/Tattico,Tattico,data/traits/strategia/pianificatore.json,,controllo_psionico,,,true,false
+random,Trait Random,Flessibile/Generico,Generico,data/traits/strategia/random.json,,controllo_psionico,,,true,false
+tattiche_di_branco,Tattiche di Branco,Strategico/Tattico,Tattico,data/traits/strategia/tattiche_di_branco.json,,controllo_psionico,,,true,false
+antenne_tesla,Antenne Tesla,Strutturale/Adattivo,Adattivo,data/traits/strutturale/antenne_tesla.json,,coverage_q4_2025,,,true,false
+artigli_vetrificati,Artigli Vetrificati,Strutturale/Adattivo,Adattivo,data/traits/strutturale/artigli_vetrificati.json,,coverage_q4_2025,,,true,false
+branchie_dual_mode,Branchie Dual Mode,Strutturale/Adattivo,Adattivo,data/traits/strutturale/branchie_dual_mode.json,,coverage_q4_2025,,,true,false
+capillari_criogenici,Capillari Criogenici,Strutturale/Adattivo,Adattivo,data/traits/strutturale/capillari_criogenici.json,,coverage_q4_2025,,,true,false
+carapace_fase_variabile,Carapace a Variazione di Fase,Strutturale/Difensivo,Difensivo,data/traits/strutturale/carapace_fase_variabile.json,,controllo_psionico,,,true,false
+carapace_luminiscente_abissale,Carapace Luminiscente Abissale,Strutturale/Sensoriale,Sensoriale,data/traits/strutturale/carapace_luminiscente_abissale.json,,controllo_psionico,,,true,false
+cartilagini_pseudometalliche,Cartilagini Pseudometalliche,Strutturale/Adattivo,Adattivo,data/traits/strutturale/cartilagini_pseudometalliche.json,,coverage_q4_2025,,,true,false
+cisti_iperbariche,Cisti Iperbariche,Strutturale/Adattivo,Adattivo,data/traits/strutturale/cisti_iperbariche.json,,coverage_q4_2025,,,true,false
+cromofori_alert_acido,Cromofori Alert Acido,Strutturale/Adattivo,Adattivo,data/traits/strutturale/cromofori_alert_acido.json,,coverage_q4_2025,,,true,false
+denti_tuning_fork,Denti Tuning Fork,Strutturale/Adattivo,Adattivo,data/traits/strutturale/denti_tuning_fork.json,,coverage_q4_2025,,,true,false
+filamenti_magnetotrofi,Filamenti Magnetotrofi,Strutturale/Adattivo,Adattivo,data/traits/strutturale/filamenti_magnetotrofi.json,,coverage_q4_2025,,,true,false
+ghiandole_condensa_ozono,Ghiandole Condensa Ozono,Strutturale/Adattivo,Adattivo,data/traits/strutturale/ghiandole_condensa_ozono.json,,coverage_q4_2025,,,true,false
+ghiandole_nebbia_ionica,Ghiandole Nebbia Ionica,Strutturale/Adattivo,Adattivo,data/traits/strutturale/ghiandole_nebbia_ionica.json,,coverage_q4_2025,,,true,false
+lamine_filtranti_aeree,Lamine Filtranti Aeree,Strutturale/Adattivo,Adattivo,data/traits/strutturale/lamine_filtranti_aeree.json,,coverage_q4_2025,,,true,false
+membrane_pneumatofori,Membrane Pneumatofori,Strutturale/Adattivo,Adattivo,data/traits/strutturale/membrane_pneumatofori.json,,coverage_q4_2025,,,true,false
+scheletro_idro_regolante,Scheletro Idro-Regolante,Strutturale/Omeostatico,Omeostatico,data/traits/strutturale/scheletro_idro_regolante.json,,controllo_psionico,,,true,false
+struttura_elastica_amorfa,"Struttura elastica, allungabile, amorfa, retrattile",Strutturale/Locomotorio,Locomotorio,data/traits/strutturale/struttura_elastica_amorfa.json,,controllo_psionico,,,true,false
+antenne_eco_turbina,Antenne Eco Turbina,Supporto/Logistico,Logistico,data/traits/supporto/antenne_eco_turbina.json,,coverage_q4_2025,,,true,false
+artigli_acidofagi,Artigli Acidofagi,Supporto/Logistico,Logistico,data/traits/supporto/artigli_acidofagi.json,,coverage_q4_2025,,,true,false
+aura_scudo_radianza,Aura Scudo di Radianza,Supporto/Difesa,Difesa,data/traits/supporto/aura_scudo_radianza.json,,pathfinder_dataset,,,true,false
+batteri_termofili_endosimbiosi,Batteri Termofili Endosimbiosi,Supporto/Logistico,Logistico,data/traits/supporto/batteri_termofili_endosimbiosi.json,,coverage_q4_2025,,,true,false
+branchie_turbina,Branchie Turbina,Supporto/Logistico,Logistico,data/traits/supporto/branchie_turbina.json,,coverage_q4_2025,,,true,false
+carapaci_ferruginosi,Carapaci Ferruginosi,Supporto/Logistico,Logistico,data/traits/supporto/carapaci_ferruginosi.json,,coverage_q4_2025,,,true,false
+circolazione_doppia,Circolazione Doppia,Supporto/Logistico,Logistico,data/traits/supporto/circolazione_doppia.json,,coverage_q4_2025,,,true,false
+coda_stabilizzatrice_geiser,Coda Stabilizzatrice Geiser,Supporto/Logistico,Logistico,data/traits/supporto/coda_stabilizzatrice_geiser.json,,coverage_q4_2025,,,true,false
+cuticole_neutralizzanti,Cuticole Neutralizzanti,Supporto/Logistico,Logistico,data/traits/supporto/cuticole_neutralizzanti.json,,coverage_q4_2025,,,true,false
+empatia_coordinativa,Empatia Coordinativa,Supporto/Empatico,Empatico,data/traits/supporto/empatia_coordinativa.json,,controllo_psionico,,,true,false
+enzimi_chelatori_rapidi,Enzimi Chelatori Rapidi,Supporto/Logistico,Logistico,data/traits/supporto/enzimi_chelatori_rapidi.json,,coverage_q4_2025,,,true,false
+foliage_fotocatodico,Foliage Fotocatodico,Supporto/Logistico,Logistico,data/traits/supporto/foliage_fotocatodico.json,,coverage_q4_2025,,,true,false
+ghiandole_inchiostro_luce,Ghiandole Inchiostro Luce,Supporto/Logistico,Logistico,data/traits/supporto/ghiandole_inchiostro_luce.json,,coverage_q4_2025,,,true,false
+gusci_criovetro,Gusci Criovetro,Supporto/Logistico,Logistico,data/traits/supporto/gusci_criovetro.json,,coverage_q4_2025,,,true,false
+luminescenza_hydrotermica,Luminescenza Hydrotermica,Supporto/Logistico,Logistico,data/traits/supporto/luminescenza_hydrotermica.json,,coverage_q4_2025,,,true,false
+risonanza_di_branco,Risonanza di Branco,Supporto/Coordinativo,Coordinativo,data/traits/supporto/risonanza_di_branco.json,,controllo_psionico,,,true,false
+mimetismo_cromatico_passivo,Ghiandole di Mimetismo Cromatico Passivo,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/mimetismo_cromatico_passivo.json,,controllo_psionico,,,true,false
+piume_solari_fotovoltaiche,Piume Solari Fotovoltaiche,Tegumentario/Energetico,Energetico,data/traits/tegumentario/piume_solari_fotovoltaiche.json,,controllo_psionico,,,true,false
+secrezione_rallentante_palmi,Mani secernano liquido rallentante,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/secrezione_rallentante_palmi.json,,controllo_psionico,,,true,false
+squame_rifrangenti_deserto,Squame Rifrangenti del Deserto,Tegumentario/Difensivo,Difensivo,data/traits/tegumentario/squame_rifrangenti_deserto.json,,controllo_psionico,,,true,false
+vello_condensatore_nebbie,Vello Condensatore di Nebbie,Tegumentario/Idratazione,Idratazione,data/traits/tegumentario/vello_condensatore_nebbie.json,,controllo_psionico,,,true,false

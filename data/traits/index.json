@@ -8546,6 +8546,20 @@
         "complementare": "ricognizione",
         "core": "strategia"
       },
+      "biome_tags": [
+        "foresta_acida",
+        "foresta_miceliale"
+      ],
+      "usage_tags": [
+        "scout",
+        "support"
+      ],
+      "data_origin": "controllo_psionico",
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
       "species_affinity": [
         {
           "roles": [

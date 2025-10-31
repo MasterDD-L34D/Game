@@ -71,6 +71,14 @@
         "pattern": "^[a-z0-9_]+$"
       }
     },
+    "biome_tags": {
+      "type": "array",
+      "description": "Elenco di biomi secondari o affinità ambientali.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]+$"
+      }
+    },
     "requisiti_ambientali": {
       "type": "array",
       "description": "Vincoli ambientali opzionali.",
@@ -106,6 +114,39 @@
     },
     "sinergie_pi": {
       "$ref": "#/$defs/sinergie_pi"
+    },
+    "usage_tags": {
+      "type": "array",
+      "description": "Tag normalizzati per ruolo tattico/funzionale (es. scout, breaker).",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]+$"
+      }
+    },
+    "data_origin": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Identificatore del pacchetto o fonte editoriale del tratto."
+    },
+    "completion_flags": {
+      "type": "object",
+      "description": "Indicatori booleani per segnalare lacune editoriali o collegamenti completati.",
+      "additionalProperties": false,
+      "properties": {
+        "has_biome": {
+          "type": "boolean",
+          "description": "True se il tratto ha vincoli o tag di bioma compilati."
+        },
+        "has_species_link": {
+          "type": "boolean",
+          "description": "True se il tratto è collegato a una o più specie."
+        }
+      },
+      "patternProperties": {
+        "^[a-z0-9_]+$": {
+          "type": "boolean"
+        }
+      }
     }
   },
   "$defs": {

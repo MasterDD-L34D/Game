@@ -79,6 +79,74 @@ function pickCompleteness(trait) {
   return null;
 }
 
+function normalizeStringArray(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value
+    .filter((item) => typeof item === 'string')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function pickDataOrigin(trait) {
+  if (!trait || typeof trait !== 'object') {
+    return null;
+  }
+  if (typeof trait.data_origin === 'string' && trait.data_origin.trim()) {
+    return trait.data_origin.trim();
+  }
+  if (trait.meta && typeof trait.meta === 'object') {
+    const candidate = trait.meta.expansion;
+    if (typeof candidate === 'string' && candidate.trim()) {
+      return candidate.trim();
+    }
+  }
+  if (Array.isArray(trait.requisiti_ambientali)) {
+    for (const requirement of trait.requisiti_ambientali) {
+      if (!requirement || typeof requirement !== 'object') {
+        continue;
+      }
+      const meta = requirement.meta;
+      if (meta && typeof meta === 'object') {
+        const candidate = meta.expansion;
+        if (typeof candidate === 'string' && candidate.trim()) {
+          return candidate.trim();
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function deriveCompletionFlags(trait, biomeTags, usageTags) {
+  const flags = {};
+  if (trait && typeof trait === 'object' && trait.completion_flags && typeof trait.completion_flags === 'object') {
+    for (const [key, value] of Object.entries(trait.completion_flags)) {
+      if (typeof value === 'boolean') {
+        flags[key] = value;
+      }
+    }
+  }
+
+  const requisiti = trait && Array.isArray(trait.requisiti_ambientali) ? trait.requisiti_ambientali : [];
+  const hasBiomeInformation = biomeTags.length > 0 || requisiti.length > 0;
+  if (flags.has_biome === undefined) {
+    flags.has_biome = Boolean(hasBiomeInformation);
+  }
+
+  const speciesAffinity = trait && Array.isArray(trait.species_affinity) ? trait.species_affinity : [];
+  if (flags.has_species_link === undefined) {
+    flags.has_species_link = speciesAffinity.length > 0;
+  }
+
+  if (flags.has_usage_tags === undefined && usageTags.length > 0) {
+    flags.has_usage_tags = true;
+  }
+
+  return flags;
+}
+
 function parseArgs(argv) {
   const args = { output: DEFAULT_OUTPUT };
   for (let i = 0; i < argv.length; i += 1) {
@@ -141,7 +209,19 @@ function escapeCsv(value) {
 }
 
 function formatAsCsv(traits) {
-  const header = ['id', 'label', 'category', 'type', 'path', 'completeness'];
+  const header = [
+    'id',
+    'label',
+    'category',
+    'type',
+    'path',
+    'completeness',
+    'data_origin',
+    'biome_tags',
+    'usage_tags',
+    'has_biome',
+    'has_species_link',
+  ];
   const lines = [header.join(',')];
   for (const trait of traits) {
     const row = [
@@ -151,6 +231,11 @@ function formatAsCsv(traits) {
       escapeCsv(trait.category.type || ''),
       escapeCsv(trait.path),
       escapeCsv(trait.completeness ?? ''),
+      escapeCsv(trait.dataOrigin ?? ''),
+      escapeCsv(trait.biomeTags.length > 0 ? trait.biomeTags.join(';') : ''),
+      escapeCsv(trait.usageTags.length > 0 ? trait.usageTags.join(';') : ''),
+      escapeCsv(trait.completionFlags.has_biome ?? ''),
+      escapeCsv(trait.completionFlags.has_species_link ?? ''),
     ];
     lines.push(row.join(','));
   }
@@ -189,12 +274,19 @@ function main() {
     }
 
     const category = normalizeCategory(data.famiglia_tipologia);
+    const biomeTags = normalizeStringArray(data.biome_tags);
+    const usageTags = normalizeStringArray(data.usage_tags);
+    const completionFlags = deriveCompletionFlags(data, biomeTags, usageTags);
     const record = {
       id: data.id || path.basename(filePath, '.json'),
       label: data.label || null,
       category,
       path: toRelative(filePath),
       completeness: pickCompleteness(data),
+      dataOrigin: pickDataOrigin(data),
+      biomeTags,
+      usageTags,
+      completionFlags,
     };
     records.push(record);
   }
@@ -211,6 +303,10 @@ function main() {
       famiglia: trait.category.family,
       path: trait.path,
       completeness: trait.completeness ?? null,
+      data_origin: trait.dataOrigin ?? null,
+      biome_tags: trait.biomeTags,
+      usage_tags: trait.usageTags,
+      completion_flags: trait.completionFlags,
     })));
   } else {
     console.error(`Formato non supportato: ${args.format}`);
