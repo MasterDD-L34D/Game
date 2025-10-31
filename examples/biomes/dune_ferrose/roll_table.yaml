@@ -1,0 +1,24 @@
+roll_table:
+  id: RT-DUNE-02
+  title: "Mutazioni — Dune Ferrose (Tier 2)"
+  dice: d100
+  scope: "bioma:dune_ferrose:t2"
+  entries:
+    - range: "01-20"
+      name: "Carapace Ferrico"
+      grants: [{type: card_ref, card_id: CARD-CARAPACE-FERRICO-1}]
+    - range: "21-45"
+      name: "Gambe Pistoniche"
+      grants: [{type: card_ref, card_id: CARD-PISTON-LEGS-1}]
+    - range: "46-65"
+      name: "Ghiandole Ematiche"
+      grants: [{type: card_ref, card_id: CARD-HEM-GLANDS-1}]
+    - range: "66-80"
+      name: "Occhi Sabbiosi"
+      grants: [{type: card_ref, card_id: CARD-SAND-EYES-1}]
+    - range: "81-90"
+      name: "Lobi Anemometro"
+      grants: [{type: card_ref, card_id: CARD-WIND-LOBES-1}]
+    - range: "91-100"
+      name: "Spine Ferrofile"
+      grants: [{type: card_ref, card_id: CARD-FERRO-SPINES-1}]

@@ -1,0 +1,14 @@
+# roll_table_schema.yaml — schema minimo per tabelle a “tiro di dado”
+roll_table:
+  id: RT-EXAMPLE-001
+  title: "Esempio Tabella"
+  dice: d100            # d100|d20|...
+  scope: "bioma:<id>[:tier]"
+  notes: "Range inclusivi"
+  entries:
+    - range: "01-10"
+      name: "Nome voce"
+      grants:
+        - type: "card_ref"
+          card_id: "CARD-ID-1"
+    # ... fino a coprire tutto l’intervallo del dado

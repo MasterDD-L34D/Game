@@ -1,0 +1,166 @@
+cards:
+  - id: CARD-CARAPACE-FERRICO-1
+    name: "Carapace Ferrico"
+    rarity: non_comune
+    tags: [difesa, armatura]
+    synergy_tags: [resilienza]
+    description: "Placche metalliche aumentano la protezione."
+    effect:
+      rules:
+        - "+2 Armatura per 2 turni (no stack)"
+    requirements:
+      level_min: 1
+      exclusions: []
+    personality_weights:
+      enneagram:
+        "6": 0.2
+        "8": 0.3
+      mbti:
+        ISTJ: 0.2
+    action_affinity:
+      recent_actions:
+        danni_subiti:
+          per_event: 0.05
+          cap: 0.15
+    balance:
+      max_copies: 1
+      offer_cooldown_encounters: 2
+
+  - id: CARD-PISTON-LEGS-1
+    name: "Gambe Pistoniche"
+    rarity: rara
+    tags: [mobilità, carica]
+    synergy_tags: [carica, spike]
+    description: "Spinta meccanica per balzi e cariche."
+    effect:
+      rules:
+        - "+3m velocità per 2 turni (stack 2)"
+        - "Carica: +1d6 impatto"
+    requirements:
+      level_min: 1
+      exclusions:
+        - CARD-ANCORE-PEDANE-1
+    personality_weights:
+      enneagram:
+        "3": 0.3
+        "7": 0.2
+      mbti:
+        ENTP: 0.2
+    action_affinity:
+      recent_actions:
+        cariche_effettuate:
+          per_event: 0.10
+          cap: 0.20
+        salti_lunghi:
+          per_event: 0.05
+          cap: 0.15
+    balance:
+      max_copies: 1
+      offer_cooldown_encounters: 2
+
+  - id: CARD-HEM-GLANDS-1
+    name: "Ghiandole Ematiche"
+    rarity: rara
+    tags: [offesa, sanguinamento]
+    synergy_tags: [dot, escalation]
+    description: "Secrezioni che amplificano il sanguinamento."
+    effect:
+      rules:
+        - "Colpi: +1 Bleed (2 turni), se già sanguina -> +1 extra"
+    requirements:
+      level_min: 1
+      exclusions: []
+    personality_weights:
+      enneagram:
+        "8": 0.4
+      mbti:
+        INTJ: 0.2
+    action_affinity:
+      recent_actions:
+        colpi_critici:
+          per_event: 0.05
+          cap: 0.15
+    balance:
+      max_copies: 1
+      offer_cooldown_encounters: 2
+
+  - id: CARD-SAND-EYES-1
+    name: "Occhi Sabbiosi"
+    rarity: comune
+    tags: [controllo, precisione]
+    synergy_tags: [accuracy, reveal]
+    description: "Adatti a tempeste di sabbia."
+    effect:
+      rules:
+        - "Ignora svantaggi da sabbia/polvere; +1 colpire bersagli coperti"
+    requirements:
+      level_min: 1
+      exclusions: []
+    personality_weights:
+      enneagram:
+        "5": 0.2
+        "1": 0.1
+      mbti:
+        INTP: 0.1
+    action_affinity:
+      recent_actions:
+        colpi_mancati:
+          per_event: 0.05
+          cap: 0.15
+    balance:
+      max_copies: 2
+      offer_cooldown_encounters: 1
+
+  - id: CARD-WIND-LOBES-1
+    name: "Lobi Anemometro"
+    rarity: non_comune
+    tags: [utility, scouting]
+    synergy_tags: [tempo, vantaggio]
+    description: "Legge micro-correnti per posizionamento."
+    effect:
+      rules:
+        - "Una volta/encounter: riposiziona 1 alleato di 1m (reazione)"
+    requirements:
+      level_min: 1
+      exclusions: []
+    personality_weights:
+      enneagram:
+        "2": 0.2
+        "6": 0.2
+      mbti:
+        ENFJ: 0.1
+    action_affinity:
+      recent_actions:
+        assist:
+          per_event: 0.05
+          cap: 0.15
+    balance:
+      max_copies: 1
+      offer_cooldown_encounters: 2
+
+  - id: CARD-FERRO-SPINES-1
+    name: "Spine Ferrofile"
+    rarity: epica
+    tags: [offesa, reazione]
+    synergy_tags: [thorns, proximity]
+    description: "Spicole metalliche che reagiscono ai colpi ravvicinati."
+    effect:
+      rules:
+        - "Quando vieni colpito in mischia: infliggi 1d4 spina (1/turno)"
+    requirements:
+      level_min: 1
+      exclusions: []
+    personality_weights:
+      enneagram:
+        "9": 0.1
+        "8": 0.2
+      mbti:
+        ISTP: 0.2
+    action_affinity:
+      recent_actions:
+        danni_subiti:
+          per_event: 0.05
+          cap: 0.15
+    balance:
+      max_copies: 1
+      offer_cooldown_encounters: 3
