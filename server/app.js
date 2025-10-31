@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('node:path');
+const { register: registerTsx } = require('tsx/cjs/api');
 const { IdeaRepository, normaliseList } = require('./storage');
 const { buildCodexReport } = require('./report');
 const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesizer');
@@ -9,6 +10,8 @@ const { createGenerationOrchestratorBridge } = require('./services/orchestratorB
 const { createTraitDiagnosticsSync } = require('./traitDiagnostics');
 const { createGenerationSnapshotHandler } = require('./routes/generationSnapshot');
 const { createNebulaRouter } = require('./routes/nebula');
+registerTsx({ cwd: path.resolve(__dirname, '..') });
+const { createLoadoutRecommendationRouter } = require('../src/services/loadoutRecommendation.ts');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -233,6 +236,7 @@ function createApp(options = {}) {
 
   app.use(cors({ origin: options.corsOrigin || '*' }));
   app.use(express.json({ limit: '1mb' }));
+  app.use(createLoadoutRecommendationRouter());
 
   if (biomeSynthesizer && typeof biomeSynthesizer.load === 'function') {
     biomeSynthesizer.load().catch((error) => {
