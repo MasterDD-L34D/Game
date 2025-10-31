@@ -1,142 +1,172 @@
 # Template dati trait
 
-Questo documento descrive la struttura canonica delle voci trait utilizzata dai cataloghi di
-`packs/evo_tactics_pack/docs/catalog`. Il template è definito dagli schemi JSON
-`trait_catalog.schema.json` e `trait_entry.schema.json` (Draft 2020-12) e rimane compatibile con il
-dataset storico di 174 trait.
+Questo documento descrive la struttura canonica dei trait archiviati in
+`data/traits`. Il template è definito dallo schema JSON condiviso in
+`config/schemas/trait.schema.json` ed è applicato sia ai file singoli sia
+all'indice aggregato `data/traits/index.json`.
 
-## File di riferimento
+Gli obiettivi principali del template sono:
 
-- `packs/evo_tactics_pack/docs/catalog/trait_catalog.schema.json` — schema per l'intero catalogo.
-- `packs/evo_tactics_pack/docs/catalog/trait_entry.schema.json` — schema per il singolo trait.
-- `data/traits/index.json` — catalogo principale validato.
-- `tools/py/trait_template_validator.py` — CLI per convalida e riepilogo dei campi.
+- garantire un set minimo di campi obbligatori e coerenti fra tutte le
+  tipologie;
+- isolare le sezioni opzionali così da espandere il modello senza rompere le
+  pipeline esistenti;
+- documentare esempi rappresentativi per ogni macro-tipologia.
 
-## Campi richiesti (per trait)
+## Schema base obbligatorio
 
-| Campo                               | Tipo     | Vincoli principali                                 | Note |
-|-------------------------------------|----------|-----------------------------------------------------|------|
-| `label`                             | string   | lunghezza minima 3                                  | Nome visualizzato. |
-| `famiglia_tipologia`                | string   | —                                                   | Cluster funzionale. |
-| `fattore_mantenimento_energetico`   | string   | —                                                   | Costo narrativo/energetico. |
-| `tier`                              | string   | enum `T1`…`T6`                                      | Scala Sentience Track estesa. |
-| `slot`                              | array    | elementi stringa (`pattern "^[A-Z]$"`)            | Sigle slot funzionali. |
-| `slot_profile`                      | object   | chiavi consentite `core`, `complementare`           | Entrambe opzionali ma l'oggetto è presente. |
-| `sinergie`                          | array    | elementi stringa non vuoti                          | ID di trait complementari. |
-| `conflitti`                         | array    | elementi stringa non vuoti                          | ID di trait incompatibili. |
-| `requisiti_ambientali`              | array    | oggetti strutturati (vedi sotto)                    | Vincoli ambientali opzionali. |
-| `mutazione_indotta`                 | string   | —                                                   | Sintesi dell'adattamento biologico. |
-| `uso_funzione`                      | string   | —                                                   | Applicazione principale in gioco. |
-| `spinta_selettiva`                  | string   | —                                                   | Motivazione evolutiva o tattica. |
-| `debolezza`                         | string   | —                                                   | Controindicazioni o limiti intrinseci. |
-| `sinergie_pi`                       | object   | campi strutturati PI (vedi sotto)                   | Indici per co-occorrenze, forme e tabelle. |
+Il blocco sottostante riassume i campi obbligatori. Tutti i valori devono
+rispettare le regole indicate e sono validati automaticamente dal comando
+`python tools/py/trait_template_validator.py`.
 
-## Campi opzionali e strutture annidate
+| Campo                           | Tipo         | Vincoli principali                                       | Descrizione |
+|---------------------------------|--------------|-----------------------------------------------------------|-------------|
+| `id`                            | string       | `^[a-z0-9_]+$`, deve coincidere con il nome del file      | Identificatore canonico. |
+| `label`                         | string       | non vuota                                                 | Nome visualizzato. |
+| `famiglia_tipologia`            | string       | non vuota (`Macro/Sub-tipo`)                              | Cluster funzionale. |
+| `fattore_mantenimento_energetico` | string     | non vuota                                                 | Costo narrativo/energetico. |
+| `tier`                          | string       | `T1`…`T6`                                                 | Gradino di progressione. |
+| `slot`                          | array[string]| ciascun elemento `^[A-Z]$`, array vuoto consentito        | Slot occupati. |
+| `sinergie`                      | array[string]| elementi `^[a-z0-9_]+$`                                   | Trait compatibili. |
+| `conflitti`                     | array[string]| elementi `^[a-z0-9_]+$`                                   | Trait incompatibili. |
+| `mutazione_indotta`             | string       | non vuota                                                 | Sintesi dell'adattamento. |
+| `uso_funzione`                  | string       | non vuota                                                 | Funzione in gioco. |
+| `spinta_selettiva`              | string       | non vuota                                                 | Motivazione evolutiva/tattica. |
 
-### Identificativi e versionamento
-
-- `trait_code`: codice opzionale (`pattern "^TR-\d{4}$"`) per progetti che vogliono adottare
-  un identificativo numerico agnostico rispetto alla specie.
-- `version`: stringa SemVer (2.0.0) per tracciare revisioni significative.
-- `versioning`: oggetto con `created`, `updated`, `author` (date ISO `YYYY-MM-DD`) quando si vuole
-  storicizzare le modifiche.
-
-### Liste e vettori
-
-- `limits`: array di stringhe per vincoli o cap applicativi.
-- `output_effects`: array di stringhe per output addizionali del tratto.
-
-### Oggetti semplici
-
-- `cost_profile`: oggetto con chiavi opzionali `rest`, `burst`, `sustained` (stringhe descrittive).
-- `testability`: oggetto con `observable` e `scene_prompt` (entrambi string).
-- `applicability`: oggetto opzionale con:
-  - `clades`: array di stringhe libere.
-  - `envo_terms`: array di URI ENVO (pattern `http://purl.obolibrary.org/obo/ENVO_\d+`).
-  - `notes`: string opzionale.
-
-### Blocchi descrittivi
-
-I seguenti campi sono stringhe facoltative: `debolezza` (già richiesto), `morph_structure`,
-`primary_function`, `cryptozoo_name`, `functional_description`, `trigger`, `ecological_impact`,
-`notes`.
-
-### Requisiti ambientali
-
-`requisiti_ambientali` è un array di oggetti con la struttura seguente:
-
-| Campo                 | Tipo          | Dettagli |
-|-----------------------|---------------|----------|
-| `capacita_richieste`  | array[string] | Lista di capacità necessarie. |
-| `condizioni`          | object        | Nessuna proprietà extra; supporta `biome_class` (string). |
-| `fonte`               | string        | Origine del vincolo. |
-| `meta`                | object        | Proprietà opzionali `expansion` (string), `tier` (`T1`…`T6`), `notes` (string). |
-
-### Sinergie PI
-
-`sinergie_pi` contiene fino a quattro campi:
-
-- `co_occorrenze`: array di stringhe (ID di pacchetti o riferimenti di gioco).
-- `forme`: array di stringhe per layout o trasformazioni.
-- `tabelle_random`: array di stringhe per riferimenti a tabelle casuali.
-- `combo_totale`: intero >= 0 che riassume il numero di combinazioni predefinite.
-
-### Metriche misurabili
-
-`metrics` è un array di oggetti con campi obbligatori `name`, `value`, `unit` e opzionale
-`conditions`:
-
-- `value` accetta numero o stringa per coprire valori qualitativi o quantitativi.
-- `unit` dovrebbe seguire UCUM (es. `m/s`, `1`, `Cel`).
-
-## Catalogo di riferimento
-
-Il file `data/traits/index.json` contiene 174 voci aggregate dalle sottocartelle. Esempio abbreviato (slug `artigli_sette_vie`):
+### Scheletro minimo
 
 ```json
 {
-  "label": "Artigli a Sette Vie",
-  "famiglia_tipologia": "Locomotorio/Prensile",
+  "id": "example_trait",
+  "label": "Example Trait",
+  "famiglia_tipologia": "Offensivo/Assalto",
   "fattore_mantenimento_energetico": "Basso (Passivo)",
   "tier": "T1",
   "slot": [],
-  "slot_profile": {"core": "locomotorio", "complementare": "prensile"},
-  "sinergie": ["coda_frusta_cinetica", "mimetismo_cromatico_passivo", "struttura_elastica_amorfa", "tattiche_di_branco"],
+  "sinergie": [],
   "conflitti": [],
+  "mutazione_indotta": "Descrizione sintetica.",
+  "uso_funzione": "Uso principale.",
+  "spinta_selettiva": "Motivazione principale."
+}
+```
+
+## Sezioni opzionali
+
+| Campo/Blocco         | Dettagli |
+|----------------------|----------|
+| `slot_profile`       | Oggetto con chiavi obbligatorie `core` e `complementare`. Descrive la specializzazione primaria e secondaria del tratto. |
+| `requisiti_ambientali` | Array di vincoli contestuali. Ogni elemento include `condizioni.biome_class`, la sorgente (`fonte`) e facoltativamente `capacita_richieste` e `meta` (`expansion`, `tier`, `notes`). |
+| `debolezza`          | Stringa opzionale per limiti intrinseci o vulnerabilità. |
+| `sinergie_pi`        | Oggetto con `co_occorrenze`, `forme`, `tabelle_random`, `combo_totale`. Serve per gli strumenti di pianificazione PI. |
+
+### Sezioni annidate
+
+```json
+{
+  "slot_profile": {
+    "core": "offensivo",
+    "complementare": "assalto"
+  },
   "requisiti_ambientali": [
     {
-      "condizioni": {"biome_class": "caverna_risonante"},
+      "condizioni": {"biome_class": "foresta_acida"},
       "fonte": "env_to_traits",
-      "meta": {"expansion": "controllo_psionico", "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."}
+      "meta": {
+        "expansion": "coverage_q4_2025",
+        "tier": "T1",
+        "notes": "Contestualizza il debutto narrativo."
+      }
     }
   ],
-  "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
-  "uso_funzione": "Afferrare superfici irregolari o oggetti multipli.",
-  "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
-  "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
+  "debolezza": "Indicazioni su trade-off o limiti.",
   "sinergie_pi": {
-    "co_occorrenze": ["boardgame:Evolution/Aggression-Camouflage", "boardgame:DominantSpecies/Competition", "hud:GripNode_Psion"],
-    "forme": ["Forma:Predatore_Tessuto", "HUD:GrappleBurst"],
-    "tabelle_random": ["tabella:predazione_multicanale"],
-    "combo_totale": 4
+    "co_occorrenze": [],
+    "forme": [],
+    "tabelle_random": [],
+    "combo_totale": 0
   }
 }
 ```
 
-## Validazione automatica
+## Riepilogo dei campi per tipologia
 
-Esegui lo script Python per verificare che il catalogo rispetti gli schemi:
+Lo script `tools/py/collect_trait_fields.py` genera il file
+`reports/trait_fields_by_type.json`, che riporta per ogni tipologia
+(`famiglia_tipologia`) il numero di trait e l'elenco dei campi attualmente in
+uso. È utile per controllare quando nuove proprietà vengono introdotte in una
+sola sezione.
 
-```bash
-python tools/py/trait_template_validator.py          # valida il catalogo di riferimento
-python tools/py/trait_template_validator.py --summary # aggiunge il riepilogo dei campi
+Esempio estratto:
+
+```json
+{
+  "Offensivo/Assalto": {
+    "trait_count": 9,
+    "fields": [
+      "conflitti",
+      "debolezza",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "sinergie_pi",
+      "slot",
+      "slot_profile",
+      "spinta_selettiva",
+      "tier",
+      "uso_funzione"
+    ]
+  }
+}
 ```
 
-Exit code:
+Rigenerare il riepilogo dopo ogni modifica sostanziale:
 
-- `0` — validazione riuscita
-- `1` — errori di schema sui dati
-- `2` — file mancanti o errori IO
+```bash
+python tools/py/collect_trait_fields.py -o reports/trait_fields_by_type.json
+```
 
-Integrare il comando nella CI (workflow `validate_traits.yml`) assicura la conformità a ogni push o
-pull request.
+## Esempi per macro-tipologia
+
+La tabella seguente collega ogni macro-tipologia a un trait reale nel
+repository. Tutti gli esempi rispettano lo schema base e includono le sezioni
+opzionali quando rilevanti.
+
+| Macro-tipologia | Sottotipi disponibili | Trait di esempio (ID — Label) | Percorso | Uso/funzione |
+|-----------------|-----------------------|-------------------------------|----------|--------------|
+| Difesa | Strutturale, Termoregolazione | `armatura_pietra_planare` — Armatura di Pietra Planare | `data/traits/difesa/armatura_pietra_planare.json` | Offre schermatura massiva e ancoraggio durante le aperture dimensionali. |
+| Digestivo | Alimentare, Escretorio, Metabolico | `filamenti_digestivi_compattanti` — Filamento materiali digeriti | `data/traits/digestivo/filamenti_digestivi_compattanti.json` | Espulsione compatta e ordinata di scorie. |
+| Escretorio | Psichico | `spore_psichiche_silenziate` — Spora Psichica Silenziosa | `data/traits/escretorio/spore_psichiche_silenziate.json` | Indurre uno stato di confusione o letargia negli individui vicini. |
+| Esplorazione | Tattico | `pathfinder` — Pathfinder | `data/traits/strategia/pathfinder.json` | Ottimizza esplorazione e controllo mappe multi-bioma. |
+| Flessibile | Generico | `random` — Trait Random | `data/traits/strategia/random.json` | Slot jolly per testing o pareggiare budget PI quando serve varietà. |
+| Idrostatico | Locomotorio | `sacche_galleggianti_ascensoriali` — Sacche galleggianti ascensoriali | `data/traits/idrostatico/sacche_galleggianti_ascensoriali.json` | Controllo preciso della profondità e del movimento verticale. |
+| Locomotorio | Adattivo, Difensivo, Mobilità, Predatorio, Prensile, Supporto | `ali_ioniche` — Ali Ioniche | `data/traits/locomotorio/ali_ioniche.json` | Ottimizza scatti direzionali e transizioni rapide fra livelli verticali. |
+| Metabolico | Difensivo, Resilienza | `circolazione_bifasica_palude` — Circolazione Bifasica di Palude | `data/traits/metabolico/circolazione_bifasica_palude.json` | Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate. |
+| Mobilità | Cinetico | `zampe_a_molla` — Zampe a Molla | `data/traits/locomotorio/zampe_a_molla.json` | Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno. |
+| Nervoso | Omeostatico | `sonno_emisferico_alternato` — Dormire con solo metà cervello alla volta | `data/traits/nervoso/sonno_emisferico_alternato.json` | Vigilanza continua pur garantendo riposo. |
+| Offensivo | Assalto, Chimico, Cinetico, Controllo | `antenne_flusso_mareale` — Antenne Flusso Mareale | `data/traits/offensivo/antenne_flusso_mareale.json` | Aumenta penetrazione e burst durante finestre di vulnerabilità. |
+| Respiratorio | Aerobico, Osmoregolazione, Propulsivo, Protezione, Termoregolazione | `branchie_osmotiche_salmastra` — Branchie Osmotiche Salmastre | `data/traits/respiratorio/branchie_osmotiche_salmastra.json` | Bilancia sali e tossine sfruttando microvalvole controllate psionicamente. |
+| Riproduttivo | Locomotorio | `nucleo_ovomotore_rotante` — Uovo rotaia, uovo grande e uova piccole dentro... | `data/traits/riproduttivo/nucleo_ovomotore_rotante.json` | Organo motorio rotante per spostamenti rapidi in assetto riproduttivo. |
+| Sensoriale | Alimentare, Analitico, Navigazione, Nervoso, Offensivo, Supporto, Visivo | `ali_fulminee` — Ali Fulminee | `data/traits/sensoriale/ali_fulminee.json` | Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato. |
+| Simbiotico | Comunicazione, Cooperativo, Difensivo, Nervoso, Nutrizione, Supporto, Utility | `antenne_reagenti` — Antenne Reagenti | `data/traits/simbiotico/antenne_reagenti.json` | Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici. |
+| Strategico | Psionico, Tattico | `antenne_microonde_cavernose` — Antenne Microonde Cavernose | `data/traits/strategia/antenne_microonde_cavernose.json` | Sblocca pattern predittivi per trappole e imboscate coordinate. |
+| Strutturale | Adattivo, Difensivo, Locomotorio, Omeostatico, Sensoriale | `antenne_tesla` — Antenne Tesla | `data/traits/strutturale/antenne_tesla.json` | Regola densità e flessibilità per sopportare cambi repentini. |
+| Supporto | Coordinativo, Difesa, Empatico, Logistico | `antenne_eco_turbina` — Antenne Eco Turbina | `data/traits/supporto/antenne_eco_turbina.json` | Distribuisce riserve e modulazioni ritmiche per mantenere coesione. |
+| Tegumentario | Difensivo, Energetico, Idratazione | `ali_membrana_sonica` — Ali Membrana Sonica | `data/traits/difensivo/ali_membrana_sonica.json` | Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali. |
+
+## Strumenti di validazione
+
+- `python tools/py/trait_template_validator.py` — valida tutti i file in
+  `data/traits` e l'indice `index.json` rispetto allo schema aggiornato.
+  Utilizzare `--summary` per stampare il riepilogo dei campi per tipologia.
+- `python tools/py/collect_trait_fields.py -o reports/trait_fields_by_type.json`
+  — aggiorna il report dei campi utilizzato per la documentazione e per il
+  monitoraggio delle variazioni.
+
+Integrare entrambi i comandi nella pipeline di sviluppo riduce il rischio di
+incongruenze tra tipologie e assicura che ogni nuovo tratto rispetti il template
+stabilito.

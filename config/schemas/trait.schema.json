@@ -1,11 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://game.schemas.local/trait.schema.json",
-  "title": "Trait",
-  "description": "Definizione canonica di un tratto biologico per i cataloghi di gioco.",
+  "title": "Trait (definizione base)",
+  "description": "Schema canonico per le voci in data/traits.",
   "type": "object",
   "additionalProperties": false,
   "required": [
+    "id",
     "label",
     "famiglia_tipologia",
     "fattore_mantenimento_energetico",
@@ -15,33 +16,92 @@
     "conflitti",
     "mutazione_indotta",
     "uso_funzione",
-    "spinta_selettiva",
-    "sinergie_pi"
+    "spinta_selettiva"
   ],
   "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Identificatore canonico uguale al nome file."
+    },
     "label": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Nome localizzato del tratto."
     },
     "famiglia_tipologia": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Macro-tipologia funzionale (es. Offensivo/Assalto)."
     },
     "fattore_mantenimento_energetico": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Costo narrativo/energetico del tratto."
     },
     "tier": {
       "type": "string",
-      "pattern": "^T[1-5]$"
+      "pattern": "^T[1-6]$",
+      "description": "Tier di progressione (formato Tn)."
     },
     "slot": {
       "type": "array",
+      "description": "Slot occupati dal tratto (può essere vuoto).",
       "items": {
         "type": "string",
         "pattern": "^[A-Z]$"
       }
     },
+    "slot_profile": {
+      "$ref": "#/$defs/slot_profile"
+    },
+    "sinergie": {
+      "type": "array",
+      "description": "Lista di ID di trait sinergici.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]+$"
+      }
+    },
+    "conflitti": {
+      "type": "array",
+      "description": "Lista di ID di trait in conflitto.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]+$"
+      }
+    },
+    "requisiti_ambientali": {
+      "type": "array",
+      "description": "Vincoli ambientali opzionali.",
+      "items": {
+        "$ref": "#/$defs/requisito_ambientale"
+      }
+    },
+    "mutazione_indotta": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Descrizione sintetica della mutazione."
+    },
+    "uso_funzione": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Uso o funzione principale."
+    },
+    "spinta_selettiva": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Motivazione evolutiva o tattica."
+    },
+    "debolezza": {
+      "type": "string",
+      "description": "Limitazioni o vulnerabilità note."
+    },
+    "sinergie_pi": {
+      "$ref": "#/$defs/sinergie_pi"
+    }
+  },
+  "$defs": {
     "slot_profile": {
       "type": "object",
       "additionalProperties": false,
@@ -60,88 +120,56 @@
         }
       }
     },
-    "sinergie": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
-    },
-    "conflitti": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
-    },
-    "requisiti_ambientali": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "condizioni",
-          "fonte"
-        ],
-        "properties": {
-          "capacita_richieste": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "condizioni": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "biome_class"
-            ],
-            "properties": {
-              "biome_class": {
-                "type": "string",
-                "pattern": "^[a-z0-9_]+$"
-              }
-            }
-          },
-          "fonte": {
+    "requisito_ambientale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "condizioni",
+        "fonte"
+      ],
+      "properties": {
+        "capacita_richieste": {
+          "type": "array",
+          "items": {
             "type": "string",
             "minLength": 1
-          },
-          "meta": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "expansion": {
-                "type": "string",
-                "minLength": 1
-              },
-              "tier": {
-                "type": "string",
-                "pattern": "^T[1-5]$"
-              },
-              "notes": {
-                "type": "string"
-              }
+          }
+        },
+        "condizioni": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "biome_class"
+          ],
+          "properties": {
+            "biome_class": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          }
+        },
+        "fonte": {
+          "type": "string",
+          "minLength": 1
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "expansion": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tier": {
+              "type": "string",
+              "pattern": "^T[1-6]$"
+            },
+            "notes": {
+              "type": "string"
             }
           }
         }
       }
-    },
-    "mutazione_indotta": {
-      "type": "string",
-      "minLength": 1
-    },
-    "uso_funzione": {
-      "type": "string",
-      "minLength": 1
-    },
-    "spinta_selettiva": {
-      "type": "string",
-      "minLength": 1
-    },
-    "debolezza": {
-      "type": "string"
     },
     "sinergie_pi": {
       "type": "object",

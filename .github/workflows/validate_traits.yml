@@ -3,11 +3,17 @@ name: Validate Trait Catalog
 on:
   push:
     paths:
-      - 'packs/evo_tactics_pack/docs/catalog/**.json'
+      - 'data/traits/**'
+      - 'config/schemas/trait.schema.json'
+      - 'docs/traits_template.md'
+      - 'reports/trait_fields_by_type.json'
       - 'tools/py/**.py'
   pull_request:
     paths:
-      - 'packs/evo_tactics_pack/docs/catalog/**.json'
+      - 'data/traits/**'
+      - 'config/schemas/trait.schema.json'
+      - 'docs/traits_template.md'
+      - 'reports/trait_fields_by_type.json'
       - 'tools/py/**.py'
 
 jobs:
@@ -22,6 +28,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install jsonschema
-      - name: Validate catalog
+      - name: Validate trait dataset
         run: |
           python tools/py/trait_template_validator.py --summary

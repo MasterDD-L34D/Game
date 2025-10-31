@@ -40,7 +40,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ali_fulminee"
     },
     "ali_ioniche": {
       "label": "Ali Ioniche",
@@ -80,7 +81,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ali_ioniche"
     },
     "ali_membrana_sonica": {
       "label": "Ali Membrana Sonica",
@@ -120,7 +122,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ali_membrana_sonica"
     },
     "antenne_dustsense": {
       "label": "Antenne Dustsense",
@@ -160,7 +163,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "antenne_dustsense"
     },
     "antenne_eco_turbina": {
       "label": "Antenne Eco Turbina",
@@ -200,7 +204,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "antenne_eco_turbina"
     },
     "antenne_flusso_mareale": {
       "label": "Antenne Flusso Mareale",
@@ -240,7 +245,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "antenne_flusso_mareale"
     },
     "antenne_microonde_cavernose": {
       "label": "Antenne Microonde Cavernose",
@@ -280,7 +286,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "antenne_microonde_cavernose"
     },
     "antenne_plasmatiche_tempesta": {
       "label": "Antenne Plasmatiche di Tempesta",
@@ -330,7 +337,8 @@
         "tabelle_random": [
           "tabella:fulmini_empatici"
         ]
-      }
+      },
+      "id": "antenne_plasmatiche_tempesta"
     },
     "antenne_reagenti": {
       "label": "Antenne Reagenti",
@@ -370,7 +378,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "antenne_reagenti"
     },
     "antenne_tesla": {
       "label": "Antenne Tesla",
@@ -410,7 +419,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "antenne_tesla"
     },
     "antenne_waveguide": {
       "label": "Antenne Waveguide",
@@ -450,7 +460,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "antenne_waveguide"
     },
     "antenne_wideband": {
       "label": "Antenne Wideband",
@@ -490,7 +501,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "antenne_wideband"
     },
     "appendici_risonanti_marea": {
       "label": "Appendici Risonanti Marea",
@@ -530,7 +542,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "appendici_risonanti_marea"
     },
     "appendici_thermotattiche": {
       "label": "Appendici Thermotattiche",
@@ -570,7 +583,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "appendici_thermotattiche"
     },
     "armatura_pietra_planare": {
       "label": "Armatura di Pietra Planare",
@@ -613,7 +627,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "armatura_pietra_planare"
     },
     "artigli_acidofagi": {
       "label": "Artigli Acidofagi",
@@ -653,7 +668,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "artigli_acidofagi"
     },
     "artigli_induzione": {
       "label": "Artigli Induzione",
@@ -693,7 +709,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "artigli_induzione"
     },
     "artigli_radice": {
       "label": "Artigli Radice",
@@ -733,7 +750,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "artigli_radice"
     },
     "artigli_scivolo_silente": {
       "label": "Artigli Scivolo Silente",
@@ -773,7 +791,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "artigli_scivolo_silente"
     },
     "artigli_sette_vie": {
       "label": "Artigli a Sette Vie",
@@ -823,7 +842,8 @@
         "tabelle_random": [
           "tabella:predazione_multicanale"
         ]
-      }
+      },
+      "id": "artigli_sette_vie"
     },
     "artigli_sghiaccio_glaciale": {
       "label": "Artigli Sghiaccio Glaciale",
@@ -871,7 +891,8 @@
         "tabelle_random": [
           "tabella:presa_criostatica"
         ]
-      }
+      },
+      "id": "artigli_sghiaccio_glaciale"
     },
     "artigli_vetrificati": {
       "label": "Artigli Vetrificati",
@@ -911,7 +932,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "artigli_vetrificati"
     },
     "aura_scudo_radianza": {
       "label": "Aura Scudo di Radianza",
@@ -955,7 +977,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "aura_scudo_radianza"
     },
     "baffi_mareomotori": {
       "label": "Baffi Mareomotori",
@@ -995,7 +1018,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "baffi_mareomotori"
     },
     "barbigli_sensori_plasma": {
       "label": "Barbigli Sensori Plasma",
@@ -1035,7 +1059,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "barbigli_sensori_plasma"
     },
     "barriere_miasma_glaciale": {
       "label": "Barriere Miasma Glaciale",
@@ -1075,7 +1100,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "barriere_miasma_glaciale"
     },
     "batteri_endosimbionti_chemio": {
       "label": "Batteri Endosimbionti Chemio",
@@ -1115,7 +1141,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "batteri_endosimbionti_chemio"
     },
     "batteri_termofili_endosimbiosi": {
       "label": "Batteri Termofili Endosimbiosi",
@@ -1155,7 +1182,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "batteri_termofili_endosimbiosi"
     },
     "biochip_memoria": {
       "label": "Biochip Memoria",
@@ -1195,7 +1223,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "biochip_memoria"
     },
     "biofilm_glow": {
       "label": "Biofilm Glow",
@@ -1235,7 +1264,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "biofilm_glow"
     },
     "biofilm_iperarido": {
       "label": "Biofilm Iperarido",
@@ -1275,7 +1305,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "biofilm_iperarido"
     },
     "branchie_dual_mode": {
       "label": "Branchie Dual Mode",
@@ -1315,7 +1346,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "branchie_dual_mode"
     },
     "branchie_eoliche": {
       "label": "Branchie Eoliche",
@@ -1355,7 +1387,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "branchie_eoliche"
     },
     "branchie_metalloidi": {
       "label": "Branchie Metalloidi",
@@ -1395,7 +1428,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "branchie_metalloidi"
     },
     "branchie_microfiltri": {
       "label": "Branchie Microfiltri",
@@ -1435,7 +1469,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "branchie_microfiltri"
     },
     "branchie_osmotiche_salmastra": {
       "label": "Branchie Osmotiche Salmastre",
@@ -1484,7 +1519,8 @@
         "tabelle_random": [
           "tabella:osmosi_psionica"
         ]
-      }
+      },
+      "id": "branchie_osmotiche_salmastra"
     },
     "branchie_solfatiche": {
       "label": "Branchie Solfatiche",
@@ -1524,7 +1560,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "branchie_solfatiche"
     },
     "branchie_turbina": {
       "label": "Branchie Turbina",
@@ -1564,7 +1601,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "branchie_turbina"
     },
     "bulbi_radici_permafrost": {
       "label": "Bulbi Radici del Permafrost",
@@ -1613,7 +1651,8 @@
         "tabelle_random": [
           "tabella:riserva_empatica"
         ]
-      }
+      },
+      "id": "bulbi_radici_permafrost"
     },
     "camere_anticorrosione": {
       "label": "Camere Anticorrosione",
@@ -1653,7 +1692,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "camere_anticorrosione"
     },
     "camere_mirage": {
       "label": "Camere Mirage",
@@ -1693,7 +1733,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "camere_mirage"
     },
     "camere_nutrienti_vent": {
       "label": "Camere Nutrienti Vent",
@@ -1733,7 +1774,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "camere_nutrienti_vent"
     },
     "capillari_criogenici": {
       "label": "Capillari Criogenici",
@@ -1773,7 +1815,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "capillari_criogenici"
     },
     "capillari_fluoridici": {
       "label": "Capillari Fluoridici",
@@ -1813,7 +1856,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "capillari_fluoridici"
     },
     "capillari_fotovoltaici": {
       "label": "Capillari Fotovoltaici",
@@ -1853,7 +1897,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "capillari_fotovoltaici"
     },
     "capsule_paracadute": {
       "label": "Capsule Paracadute",
@@ -1893,7 +1938,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "capsule_paracadute"
     },
     "carapace_fase_variabile": {
       "label": "Carapace a Variazione di Fase",
@@ -1972,7 +2018,8 @@
         "tabelle_random": [
           "tabella:assetto_fase"
         ]
-      }
+      },
+      "id": "carapace_fase_variabile"
     },
     "carapace_luminiscente_abissale": {
       "label": "Carapace Luminiscente Abissale",
@@ -2023,7 +2070,8 @@
         "tabelle_random": [
           "tabella:segnali_bioluminosi"
         ]
-      }
+      },
+      "id": "carapace_luminiscente_abissale"
     },
     "carapace_segmenti_logici": {
       "label": "Carapace Segmenti Logici",
@@ -2063,7 +2111,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "carapace_segmenti_logici"
     },
     "carapaci_ferruginosi": {
       "label": "Carapaci Ferruginosi",
@@ -2103,7 +2152,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "carapaci_ferruginosi"
     },
     "cartilagine_flessotermica_venti": {
       "label": "Cartilagine Flessotermica dei Venti",
@@ -2154,7 +2204,8 @@
         "tabelle_random": [
           "tabella:assetto_eolico"
         ]
-      }
+      },
+      "id": "cartilagine_flessotermica_venti"
     },
     "cartilagini_biofibre": {
       "label": "Cartilagini Biofibre",
@@ -2194,7 +2245,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cartilagini_biofibre"
     },
     "cartilagini_desertiche": {
       "label": "Cartilagini Desertiche",
@@ -2234,7 +2286,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cartilagini_desertiche"
     },
     "cartilagini_flessoacustiche": {
       "label": "Cartilagini Flessoacustiche",
@@ -2274,7 +2327,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cartilagini_flessoacustiche"
     },
     "cartilagini_pseudometalliche": {
       "label": "Cartilagini Pseudometalliche",
@@ -2314,7 +2368,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cartilagini_pseudometalliche"
     },
     "cavita_risonanti_tundra": {
       "label": "Cavità Risonanti della Tundra",
@@ -2364,7 +2419,8 @@
         "tabelle_random": [
           "tabella:canti_ipersonici"
         ]
-      }
+      },
+      "id": "cavita_risonanti_tundra"
     },
     "cervelletto_equilibrio_statico": {
       "label": "Cervelletto Equilibrio Statico",
@@ -2404,7 +2460,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cervelletto_equilibrio_statico"
     },
     "chemiorecettori_bromuro": {
       "label": "Chemiorecettori Bromuro",
@@ -2444,7 +2501,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "chemiorecettori_bromuro"
     },
     "chioma_parassita_canopica": {
       "label": "Chioma Parassita Canopica",
@@ -2483,7 +2541,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "chioma_parassita_canopica"
     },
     "circolazione_bifasica": {
       "label": "Circolazione Bifasica",
@@ -2523,7 +2582,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "circolazione_bifasica"
     },
     "circolazione_bifasica_palude": {
       "label": "Circolazione Bifasica di Palude",
@@ -2563,7 +2623,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "circolazione_bifasica_palude"
     },
     "circolazione_cooling_loop": {
       "label": "Circolazione Cooling Loop",
@@ -2603,7 +2664,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "circolazione_cooling_loop"
     },
     "circolazione_doppia": {
       "label": "Circolazione Doppia",
@@ -2643,7 +2705,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "circolazione_doppia"
     },
     "circolazione_supercritica": {
       "label": "Circolazione Supercritica",
@@ -2683,7 +2746,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "circolazione_supercritica"
     },
     "ciste_riduttive": {
       "label": "Ciste Riduttive",
@@ -2723,7 +2787,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ciste_riduttive"
     },
     "ciste_salmastre": {
       "label": "Ciste Salmastre",
@@ -2763,7 +2828,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ciste_salmastre"
     },
     "cisti_iperbariche": {
       "label": "Cisti Iperbariche",
@@ -2803,7 +2869,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cisti_iperbariche"
     },
     "coda_balanciere": {
       "label": "Coda Balanciere",
@@ -2843,7 +2910,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "coda_balanciere"
     },
     "coda_contrappeso": {
       "label": "Coda Contrappeso",
@@ -2883,7 +2951,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "coda_contrappeso"
     },
     "coda_coppia_retroattiva": {
       "label": "Coda Coppia Retroattiva",
@@ -2923,7 +2992,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "coda_coppia_retroattiva"
     },
     "coda_frusta_cinetica": {
       "label": "Coda a Frusta Cinetica",
@@ -3001,7 +3071,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "coda_frusta_cinetica"
     },
     "coda_stabilizzatrice_filo": {
       "label": "Coda Stabilizzatrice Filo",
@@ -3041,7 +3112,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "coda_stabilizzatrice_filo"
     },
     "coda_stabilizzatrice_geiser": {
       "label": "Coda Stabilizzatrice Geiser",
@@ -3081,7 +3153,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "coda_stabilizzatrice_geiser"
     },
     "coda_stabilizzatrice_vortex": {
       "label": "Coda Stabilizzatrice Vortex",
@@ -3121,7 +3194,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "coda_stabilizzatrice_vortex"
     },
     "colonne_vibromagnetiche": {
       "label": "Colonne Vibromagnetiche",
@@ -3161,7 +3235,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "colonne_vibromagnetiche"
     },
     "coralli_partner": {
       "label": "Coralli Partner",
@@ -3201,7 +3276,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "coralli_partner"
     },
     "criostasi_adattiva": {
       "label": "Criostasi",
@@ -3255,7 +3331,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "criostasi_adattiva"
     },
     "cromofori_alert_acido": {
       "label": "Cromofori Alert Acido",
@@ -3295,7 +3372,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cromofori_alert_acido"
     },
     "cuore_multicamera_bassa_pressione": {
       "label": "Cuore Multicamera Bassa Pressione",
@@ -3335,7 +3413,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cuore_multicamera_bassa_pressione"
     },
     "cuscinetti_elettrostatici": {
       "label": "Cuscinetti Elettrostatici",
@@ -3375,7 +3454,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cuscinetti_elettrostatici"
     },
     "cute_resistente_sali": {
       "label": "Cute Resistente Sali",
@@ -3415,7 +3495,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cute_resistente_sali"
     },
     "cuticole_cerose": {
       "label": "Cuticole Cerose",
@@ -3442,7 +3523,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cuticole_cerose"
     },
     "cuticole_neutralizzanti": {
       "label": "Cuticole Neutralizzanti",
@@ -3482,7 +3564,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "cuticole_neutralizzanti"
     },
     "denti_chelatanti": {
       "label": "Denti Chelatanti",
@@ -3522,7 +3605,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "denti_chelatanti"
     },
     "denti_ossidoferro": {
       "label": "Denti Ossidoferro",
@@ -3562,7 +3646,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "denti_ossidoferro"
     },
     "denti_silice_termici": {
       "label": "Denti Silice Termici",
@@ -3602,7 +3687,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "denti_silice_termici"
     },
     "denti_tuning_fork": {
       "label": "Denti Tuning Fork",
@@ -3642,7 +3728,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "denti_tuning_fork"
     },
     "echi_risonanti": {
       "label": "Echi Risonanti",
@@ -3682,7 +3769,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "echi_risonanti"
     },
     "eco_interno_riflesso": {
       "label": "Riflesso dell'Eco Interno",
@@ -3735,7 +3823,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "eco_interno_riflesso"
     },
     "empatia_coordinativa": {
       "label": "Empatia Coordinativa",
@@ -3781,7 +3870,8 @@
           "INFP"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "empatia_coordinativa"
     },
     "enzimi_antifase_termica": {
       "label": "Enzimi Antifase Termica",
@@ -3821,7 +3911,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "enzimi_antifase_termica"
     },
     "enzimi_antipredatori_algali": {
       "label": "Enzimi Antipredatori Algali",
@@ -3861,7 +3952,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "enzimi_antipredatori_algali"
     },
     "enzimi_chelanti": {
       "label": "Enzimi Chelanti",
@@ -3888,7 +3980,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "enzimi_chelanti"
     },
     "enzimi_chelatori_rapidi": {
       "label": "Enzimi Chelatori Rapidi",
@@ -3928,7 +4021,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "enzimi_chelatori_rapidi"
     },
     "enzimi_metanoossidanti": {
       "label": "Enzimi Metanoossidanti",
@@ -3968,7 +4062,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "enzimi_metanoossidanti"
     },
     "epidermide_dielettrica": {
       "label": "Epidermide Dielettrica",
@@ -4008,7 +4103,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "epidermide_dielettrica"
     },
     "epitelio_fosforescente": {
       "label": "Epitelio Fosforescente",
@@ -4048,7 +4144,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "epitelio_fosforescente"
     },
     "filamenti_digestivi_compattanti": {
       "label": "Filamento materiali digeriti",
@@ -4112,7 +4209,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "filamenti_digestivi_compattanti"
     },
     "filamenti_magnetotrofi": {
       "label": "Filamenti Magnetotrofi",
@@ -4152,7 +4250,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "filamenti_magnetotrofi"
     },
     "filamenti_superconduttivi": {
       "label": "Filamenti Superconduttivi",
@@ -4192,7 +4291,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "filamenti_superconduttivi"
     },
     "filamenti_termoconduzione": {
       "label": "Filamenti Termoconduzione",
@@ -4232,7 +4332,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "filamenti_termoconduzione"
     },
     "filtri_planctonici": {
       "label": "Filtri Planctonici",
@@ -4272,7 +4373,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "filtri_planctonici"
     },
     "flagelli_ancoranti": {
       "label": "Flagelli Ancoranti",
@@ -4312,7 +4414,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "flagelli_ancoranti"
     },
     "focus_frazionato": {
       "label": "Focus Frazionato",
@@ -4366,7 +4469,8 @@
           "INTP"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "focus_frazionato"
     },
     "foliage_fotocatodico": {
       "label": "Foliage Fotocatodico",
@@ -4406,7 +4510,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "foliage_fotocatodico"
     },
     "foliaggio_spugna": {
       "label": "Foliaggio Spugna",
@@ -4446,7 +4551,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "foliaggio_spugna"
     },
     "frusta_fiammeggiante": {
       "label": "Frusta Fiammeggiante",
@@ -4490,7 +4596,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "frusta_fiammeggiante"
     },
     "ghiaccio_piezoelettrico": {
       "label": "Ghiaccio Piezoelettrico",
@@ -4530,7 +4637,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiaccio_piezoelettrico"
     },
     "ghiandola_caustica": {
       "label": "Ghiandola Caustica",
@@ -4561,7 +4669,8 @@
           "ISTP"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandola_caustica"
     },
     "ghiandole_cambio_salino": {
       "label": "Ghiandole Cambio Salino",
@@ -4601,7 +4710,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_cambio_salino"
     },
     "ghiandole_condensa_ozono": {
       "label": "Ghiandole Condensa Ozono",
@@ -4641,7 +4751,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_condensa_ozono"
     },
     "ghiandole_eco_mappanti": {
       "label": "Ghiandole Eco Mappanti",
@@ -4681,7 +4792,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_eco_mappanti"
     },
     "ghiandole_fango_calde": {
       "label": "Ghiandole Fango Calde",
@@ -4721,7 +4833,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_fango_calde"
     },
     "ghiandole_fango_coesivo": {
       "label": "Ghiandole Fango Coesivo",
@@ -4761,7 +4874,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_fango_coesivo"
     },
     "ghiandole_grafene": {
       "label": "Ghiandole Grafene",
@@ -4801,7 +4915,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_grafene"
     },
     "ghiandole_inchiostro_luce": {
       "label": "Ghiandole Inchiostro Luce",
@@ -4841,7 +4956,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_inchiostro_luce"
     },
     "ghiandole_iodoattive": {
       "label": "Ghiandole Iodoattive",
@@ -4881,7 +4997,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_iodoattive"
     },
     "ghiandole_minerali": {
       "label": "Ghiandole Minerali",
@@ -4921,7 +5038,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_minerali"
     },
     "ghiandole_nebbia_acida": {
       "label": "Ghiandole Nebbia Acida",
@@ -4961,7 +5079,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_nebbia_acida"
     },
     "ghiandole_nebbia_ionica": {
       "label": "Ghiandole Nebbia Ionica",
@@ -5001,7 +5120,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_nebbia_ionica"
     },
     "ghiandole_resina_conduttiva": {
       "label": "Ghiandole Resina Conduttiva",
@@ -5041,7 +5161,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_resina_conduttiva"
     },
     "ghiandole_ventosa": {
       "label": "Ghiandole Ventosa",
@@ -5081,7 +5202,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ghiandole_ventosa"
     },
     "giunti_antitorsione": {
       "label": "Giunti Antitorsione",
@@ -5121,7 +5243,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "giunti_antitorsione"
     },
     "grassi_termici": {
       "label": "Grassi Termici",
@@ -5148,7 +5271,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "grassi_termici"
     },
     "gusci_criovetro": {
       "label": "Gusci Criovetro",
@@ -5188,7 +5312,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "gusci_criovetro"
     },
     "gusci_magnesio": {
       "label": "Gusci Magnesio",
@@ -5228,7 +5353,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "gusci_magnesio"
     },
     "lamelle_shear": {
       "label": "Lamelle Shear",
@@ -5268,7 +5394,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "lamelle_shear"
     },
     "lamelle_sincroniche": {
       "label": "Lamelle Sincroniche",
@@ -5308,7 +5435,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "lamelle_sincroniche"
     },
     "lamelle_termoforetiche": {
       "label": "Lamelle Termoforetiche",
@@ -5348,7 +5476,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "lamelle_termoforetiche"
     },
     "lamine_filtranti_aeree": {
       "label": "Lamine Filtranti Aeree",
@@ -5388,7 +5517,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "lamine_filtranti_aeree"
     },
     "lamine_scudo_silice": {
       "label": "Lamine Scudo Silice",
@@ -5428,7 +5558,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "lamine_scudo_silice"
     },
     "linfa_tampone": {
       "label": "Linfa Tampone",
@@ -5468,7 +5599,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "linfa_tampone"
     },
     "lingua_cristallina": {
       "label": "Lingua Cristallina",
@@ -5508,7 +5640,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "lingua_cristallina"
     },
     "lingua_tattile_trama": {
       "label": "Lingua Tattile Trama-Sensibile",
@@ -5546,7 +5679,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "lingua_tattile_trama"
     },
     "luminescenza_aurorale": {
       "label": "Luminescenza Aurorale",
@@ -5586,7 +5720,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "luminescenza_aurorale"
     },
     "luminescenza_hydrotermica": {
       "label": "Luminescenza Hydrotermica",
@@ -5626,7 +5761,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "luminescenza_hydrotermica"
     },
     "mantelli_geotermici": {
       "label": "Mantelli Geotermici",
@@ -5666,7 +5802,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "mantelli_geotermici"
     },
     "mantello_meteoritico": {
       "label": "Mantello Meteoritico",
@@ -5710,7 +5847,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "mantello_meteoritico"
     },
     "membrane_captura_rugiada": {
       "label": "Membrane Captura Rugiada",
@@ -5750,7 +5888,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "membrane_captura_rugiada"
     },
     "membrane_eliofiltranti": {
       "label": "Membrane Eliofiltranti",
@@ -5789,7 +5928,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "membrane_eliofiltranti"
     },
     "membrane_planata_vectored": {
       "label": "Membrane Planata Vectored",
@@ -5829,7 +5969,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "membrane_planata_vectored"
     },
     "membrane_pneumatofori": {
       "label": "Membrane Pneumatofori",
@@ -5869,7 +6010,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "membrane_pneumatofori"
     },
     "midollo_antivibrazione": {
       "label": "Midollo Antivibrazione",
@@ -5909,7 +6051,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "midollo_antivibrazione"
     },
     "mimetismo_cromatico_passivo": {
       "label": "Ghiandole di Mimetismo Cromatico Passivo",
@@ -5975,7 +6118,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "mimetismo_cromatico_passivo"
     },
     "mucillagine_simbionte_mangrovie": {
       "label": "Mucillagine Simbionte delle Mangrovie",
@@ -6030,7 +6174,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "mucillagine_simbionte_mangrovie"
     },
     "mucose_aderenza_sonica": {
       "label": "Mucose Aderenza Sonica",
@@ -6070,7 +6215,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "mucose_aderenza_sonica"
     },
     "mucose_barofile": {
       "label": "Mucose Barofile",
@@ -6110,7 +6256,8 @@
         "combo_totale": 2,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "mucose_barofile"
     },
     "nodi_micorrizici_oracolari": {
       "label": "Nodi Micorrizici Oracolari",
@@ -6165,7 +6312,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "nodi_micorrizici_oracolari"
     },
     "nucleo_ovomotore_rotante": {
       "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
@@ -6203,7 +6351,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "nucleo_ovomotore_rotante"
     },
     "occhi_infrarosso_composti": {
       "label": "Occhi Composti ad Infrarosso",
@@ -6241,7 +6390,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "occhi_infrarosso_composti"
     },
     "olfatto_risonanza_magnetica": {
       "label": "Olfatto di Risonanza Magnetica",
@@ -6293,7 +6443,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "olfatto_risonanza_magnetica"
     },
     "pathfinder": {
       "label": "Pathfinder",
@@ -6325,7 +6476,8 @@
           "ENFP"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "pathfinder"
     },
     "pianificatore": {
       "label": "Pianificatore",
@@ -6378,7 +6530,8 @@
           "ISTJ"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "pianificatore"
     },
     "piume_solari_fotovoltaiche": {
       "label": "Piume Solari Fotovoltaiche",
@@ -6419,7 +6572,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "piume_solari_fotovoltaiche"
     },
     "polmoni_cristallini_alta_quota": {
       "label": "Polmoni Cristallini d'Alta Quota",
@@ -6459,7 +6613,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "polmoni_cristallini_alta_quota"
     },
     "random": {
       "label": "Trait Random",
@@ -6492,7 +6647,8 @@
           "NEUTRA"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "random"
     },
     "respiro_a_scoppio": {
       "label": "Respiro a scoppio",
@@ -6531,7 +6687,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "respiro_a_scoppio"
     },
     "risonanza_di_branco": {
       "label": "Risonanza di Branco",
@@ -6586,7 +6743,8 @@
           "ISFJ"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "risonanza_di_branco"
     },
     "sacche_galleggianti_ascensoriali": {
       "label": "Sacche galleggianti ascensoriali",
@@ -6640,7 +6798,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "sacche_galleggianti_ascensoriali"
     },
     "sacche_spore_stratosferiche": {
       "label": "Sacche di Spore Stratosferiche",
@@ -6680,7 +6839,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "sacche_spore_stratosferiche"
     },
     "sangue_piroforico": {
       "label": "Sangue che prende fuoco a contatto con l'ossigeno",
@@ -6734,7 +6894,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "sangue_piroforico"
     },
     "scheletro_idro_regolante": {
       "label": "Scheletro Idro-Regolante",
@@ -6789,7 +6950,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "scheletro_idro_regolante"
     },
     "secrezione_rallentante_palmi": {
       "label": "Mani secernano liquido rallentante",
@@ -6828,7 +6990,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "secrezione_rallentante_palmi"
     },
     "sensori_geomagnetici": {
       "label": "Sensori Geomagnetici",
@@ -6867,7 +7030,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "sensori_geomagnetici"
     },
     "sinapsi_coraline_polifoniche": {
       "label": "Sinapsi Coraline Polifoniche",
@@ -6922,7 +7086,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "sinapsi_coraline_polifoniche"
     },
     "sonno_emisferico_alternato": {
       "label": "Dormire con solo metà cervello alla volta",
@@ -6961,7 +7126,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "sonno_emisferico_alternato"
     },
     "spore_psichiche_silenziate": {
       "label": "Spora Psichica Silenziosa",
@@ -6999,7 +7165,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "spore_psichiche_silenziate"
     },
     "squame_rifrangenti_deserto": {
       "label": "Squame Rifrangenti del Deserto",
@@ -7039,7 +7206,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "squame_rifrangenti_deserto"
     },
     "struttura_elastica_amorfa": {
       "label": "Struttura elastica, allungabile, amorfa, retrattile",
@@ -7106,7 +7274,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "struttura_elastica_amorfa"
     },
     "tattiche_di_branco": {
       "label": "Tattiche di Branco",
@@ -7156,7 +7325,8 @@
           "ESFP"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "tattiche_di_branco"
     },
     "vello_condensatore_nebbie": {
       "label": "Vello Condensatore di Nebbie",
@@ -7194,7 +7364,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "vello_condensatore_nebbie"
     },
     "ventriglio_gastroliti": {
       "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
@@ -7245,7 +7416,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "ventriglio_gastroliti"
     },
     "zampe_a_molla": {
       "label": "Zampe a Molla",
@@ -7295,7 +7467,8 @@
           "ISFP"
         ],
         "tabelle_random": []
-      }
+      },
+      "id": "zampe_a_molla"
     },
     "zoccoli_risonanti_steppe": {
       "label": "Zoccoli Risonanti delle Steppe",
@@ -7335,7 +7508,8 @@
         "combo_totale": 0,
         "forme": [],
         "tabelle_random": []
-      }
+      },
+      "id": "zoccoli_risonanti_steppe"
     }
   },
   "types": {
