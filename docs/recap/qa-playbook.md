@@ -24,7 +24,7 @@ python -m pip install -r tools/py/requirements.txt
 npm run export:qa
 ```
 
-Il comando è un wrapper di `node scripts/export-qa-report.js` e aggiorna i file in `reports/`. Lo stesso script gira in CI (`.github/workflows/qa-reports.yml`) e fallisce se i report non sono in sync: se vedi il job rosso, esegui i comandi sopra e committa i JSON aggiornati.
+Il comando è un wrapper di `node scripts/export-qa-report.js` e aggiorna i file in `reports/`. Lo stesso script gira in CI (`.github/workflows/qa-reports.yml`) e fallisce se i report non sono in sync: se vedi il job rosso, esegui i comandi sopra e committa i JSON aggiornati. Il bridge Node avvia automaticamente l'orchestrator Python e chiude il pool al termine, quindi non servono processi manuali aggiuntivi.
 
 ## Esportare i log dalla console UI
 
@@ -32,6 +32,8 @@ Nella sezione **Log runtime** della `QualityReleaseView` sono disponibili due pu
 
 * **Esporta JSON QA** – esporta l'elenco filtrato in JSON.
 * **Esporta CSV QA** – esporta lo stesso set in CSV, utile per spreadsheet e share rapide.
+
+I pulsanti restano disabilitati quando non ci sono log visibili per evitare export vuoti. Ogni azione produce un evento `quality.logs.exported` che include formato, filename generato e numero di righe esportate (`data.count`).
 
 Il filtro scope applicato nella toolbar (Tutti/Specie/Biomi/Foodweb/Publishing) determina le righe esportate. Ogni azione viene tracciata nei log client per audit (`quality.logs.exported`).
 

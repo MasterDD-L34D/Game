@@ -324,10 +324,20 @@
           </button>
         </div>
         <div class="quality-logs__actions">
-          <button type="button" class="quality-logs__export" @click="exportQaLogs('json')">
+          <button
+            type="button"
+            class="quality-logs__export"
+            :disabled="!filteredLogs.length"
+            @click="exportQaLogs('json')"
+          >
             Esporta JSON QA
           </button>
-          <button type="button" class="quality-logs__export" @click="exportQaLogs('csv')">
+          <button
+            type="button"
+            class="quality-logs__export"
+            :disabled="!filteredLogs.length"
+            @click="exportQaLogs('csv')"
+          >
             Esporta CSV QA
           </button>
         </div>
@@ -1092,10 +1102,13 @@ async function applySuggestion(suggestion) {
 }
 
 function exportQaLogs(format = 'json') {
+  if (!filteredLogs.value.length) {
+    return;
+  }
   const scope = scopeFilter.value;
   const filenameScope = scope === 'all' ? 'all-scopes' : scope;
   const extension = format === 'csv' ? 'csv' : 'json';
-  clientLogger.exportLogs({
+  const exportResult = clientLogger.exportLogs({
     filename: `qa-flow-logs-${filenameScope}.${extension}`,
     filter: scope === 'all' ? undefined : (entry) => entry.scope === scope,
     format,
@@ -1107,8 +1120,12 @@ function exportQaLogs(format = 'json') {
   logClientEvent('quality.logs.exported', {
     scope,
     level: 'info',
-    message: `${scopeMessage} (${extension.toUpperCase()})`,
-    data: { format: extension },
+    message: `${scopeMessage} (${exportResult.format.toUpperCase()})`,
+    data: {
+      format: exportResult.format,
+      filename: exportResult.filename,
+      count: exportResult.entries.length,
+    },
     source: 'quality-console',
   });
 }
