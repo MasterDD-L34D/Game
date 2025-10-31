@@ -1,6 +1,10 @@
 # Canale `#incoming-triage-agenti` — Registro aggiornamenti
 
 <!-- incoming_triage_log:start -->
+## 2025-10-30T13:45:00Z · Aggiornamento report sessione-2025-11-14
+- **Messaggio Slack**: comunicata nel canale `#incoming-triage-agenti` la riesecuzione di `./scripts/report_incoming.sh --destination sessione-2025-11-14` e la disponibilità del nuovo report HTML/JSON.
+- **Contenuto condiviso**: link a `reports/incoming/sessione-2025-11-14/report.html` insieme ai log `reports/incoming/validation/*-20251030-133350` per `evo_pacchetto_minimo_v7` e `ancestors_integration_pack_v0_5`, tutti con exit code `0` sui validator.
+- **Bloccanti**: ribadito il fallimento su `evo_tactics_param_synergy_v8_3.zip` (`error: estrazione fallita`) e richiesto l'intervento di `AG-Toolsmith` per aggiungere `unzip -o`, rimandando ai follow-up registrati in `docs/process/incoming_review_log.md`.
 ## 2025-11-13T18:30:00Z · Pubblicazione tabella di marcia settimana 2025-11-14
 - **Messaggio Slack**: condivisa nel canale `#incoming-triage-agenti` la pianificazione a tre slot per il 14 novembre, con richiamo alla checklist triage e ai ruoli caretaker attivi.
 - **Contenuto condiviso**: link diretti al backlog aggiornato (`docs/process/incoming_agent_backlog.md`) e alla roadmap operativa (`docs/piani/roadmap.md`) per la finestra settimanale.
