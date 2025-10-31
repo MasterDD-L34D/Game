@@ -13,6 +13,11 @@
           {{ link.label }}
         </RouterLink>
       </nav>
+      <AppBreadcrumbs
+        :items="breadcrumbItems"
+        :description="pageDescription"
+        :demo="isDemoMode"
+      />
     </header>
 
     <main class="app-shell__main">
@@ -27,7 +32,11 @@
 import { computed } from 'vue';
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 
+import AppBreadcrumbs from './components/layout/AppBreadcrumbs.vue';
+import { useNavigationMeta } from './state/navigationMeta.js';
+
 const route = useRoute();
+const { breadcrumbs: breadcrumbItems, description: pageDescription, demo: isDemoMode } = useNavigationMeta();
 
 const mainLinks = computed(() => {
   const currentName = route.name;

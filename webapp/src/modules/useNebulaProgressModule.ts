@@ -305,6 +305,17 @@ export function useNebulaProgressModule(
     }
   }
 
+  async function activateDemoTelemetry() {
+    try {
+      await loadTelemetryMock();
+      return;
+    } catch (mockError) {
+      const mapped = toError(mockError);
+      error.value = mapped;
+      throw mapped;
+    }
+  }
+
   function startPolling() {
     if (pollIntervalMs <= 0 || typeof setInterval !== 'function') {
       return;
@@ -643,5 +654,6 @@ export function useNebulaProgressModule(
     error,
     lastUpdated,
     refresh: () => loadAtlas(),
+    activateDemoTelemetry,
   };
 }
