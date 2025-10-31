@@ -1,18 +1,8 @@
 import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from './apiEndpoints.js';
 import { fetchJsonWithFallback } from './fetchWithFallback.js';
+import { resolveDataSource } from '../config/dataSources.js';
 
-const DEFAULT_ENDPOINT = '/api/traits/diagnostics';
-const DEFAULT_FALLBACK = 'api-mock/traits/diagnostics.json';
-
-function resolveFetch() {
-  if (typeof fetch === 'function') return fetch;
-  if (typeof globalThis !== 'undefined' && typeof globalThis.fetch === 'function') {
-    return globalThis.fetch;
-  }
-  throw new Error('fetch non disponibile per trait diagnostics');
-}
-
-function resolveFallback(options) {
+function resolveFallback(options, fallback) {
   if (options && Object.prototype.hasOwnProperty.call(options, 'fallback')) {
     if (options.fallback === null) {
       return null;
@@ -21,7 +11,7 @@ function resolveFallback(options) {
       return options.fallback.trim();
     }
   }
-  return DEFAULT_FALLBACK;
+  return fallback;
 }
 
 function resolveAllowFallback(options) {
@@ -32,14 +22,17 @@ function resolveAllowFallback(options) {
 }
 
 export async function fetchTraitDiagnostics(options = {}) {
-  const endpoint = resolveApiUrl(options.endpoint || DEFAULT_ENDPOINT);
+  const config = resolveDataSource('traitDiagnostics', {
+    endpoint: Object.prototype.hasOwnProperty.call(options, 'endpoint') ? options.endpoint : undefined,
+    fallback: Object.prototype.hasOwnProperty.call(options, 'fallback') ? options.fallback : undefined,
+  });
+  const endpoint = resolveApiUrl(options.endpoint || config.endpoint);
   const refresh = options.refresh ? '?refresh=true' : '';
   const targetUrl = `${endpoint}${refresh}`;
-  const fallbackPath = resolveFallback(options);
+  const fallbackPath = resolveFallback(options, config.fallback);
   const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
-  const fetchImpl = resolveFetch();
-  const { data, source, error } = await fetchJsonWithFallback(targetUrl, {
-    fetchImpl,
+  const response = await fetchJsonWithFallback(targetUrl, {
+    fetchImpl: options.fetchImpl,
     requestInit: {
       method: 'GET',
       headers: { Accept: 'application/json' },
@@ -50,12 +43,14 @@ export async function fetchTraitDiagnostics(options = {}) {
     errorMessage: 'Errore caricamento trait diagnostics',
     fallbackErrorMessage: 'Trait diagnostics locali non disponibili',
   });
+  const { data, error } = response;
+  const endpointSource = response.source;
   const payload = data || {};
   const diagnostics = payload?.diagnostics || payload || {};
   const meta = { ...(payload?.meta || {}) };
-  meta.endpoint_source = source;
-  meta.endpoint_url = source === 'fallback' && fallbackUrl ? fallbackUrl : endpoint;
-  if (source === 'fallback') {
+  meta.endpoint_source = endpointSource;
+  meta.endpoint_url = endpointSource === 'fallback' && fallbackUrl ? fallbackUrl : endpoint;
+  if (endpointSource === 'fallback') {
     meta.fallback_error = error ? error.message : 'Richiesta remota non disponibile';
   }
   return {
@@ -64,4 +59,4 @@ export async function fetchTraitDiagnostics(options = {}) {
   };
 }
 
-export const __internals__ = { resolveFetch };
+export const __internals__ = { resolveFallback };

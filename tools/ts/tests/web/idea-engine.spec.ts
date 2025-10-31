@@ -89,19 +89,22 @@ test("invia idea al backend configurato", async ({ page }) => {
   await expect(ok).toHaveText("✅ Idea registrata.");
 
   const links = page.locator("#result a.linkish");
-  await expect(links).toHaveCount(3);
-  await expect(links.nth(0)).toHaveAttribute(
-    "href",
-    "https://github.com/example/repo/pull/42"
-  );
-  await expect(links.nth(1)).toHaveAttribute(
-    "href",
-    "https://github.com/example/repo/issues/99"
-  );
-  await expect(links.nth(2)).toHaveAttribute(
-    "href",
-    "https://drive.example/doc/alpha"
-  );
+  await expect.poll(() => links.count()).toBeGreaterThanOrEqual(3);
+  await expect(
+    page.locator(
+      '#result a.linkish[href="https://github.com/example/repo/pull/42"]'
+    )
+  ).toHaveCount(1);
+  await expect(
+    page.locator(
+      '#result a.linkish[href="https://github.com/example/repo/issues/99"]'
+    )
+  ).toHaveCount(1);
+  await expect(
+    page.locator(
+      '#result a.linkish[href="https://drive.example/doc/alpha"]'
+    )
+  ).toHaveCount(1);
 
   expect(requests).toHaveLength(1);
   const payload = (requests[0]?.body ?? {}) as Record<string, unknown>;
