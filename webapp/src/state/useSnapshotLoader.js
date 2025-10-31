@@ -246,7 +246,7 @@ export function useSnapshotLoader(options = {}) {
 
   const loading = computed(() => state.loading);
   const error = computed(() => state.error);
-  const source = computed(() => state.source);
+  const snapshotSource = computed(() => state.source);
   const fallbackLabel = computed(() => state.fallbackLabel);
   const lastUpdatedAt = computed(() => state.lastUpdatedAt);
 
@@ -269,7 +269,7 @@ export function useSnapshotLoader(options = {}) {
     metrics,
     loading,
     error,
-    source,
+    source: snapshotSource,
     fallbackLabel,
     lastUpdatedAt,
     fetchSnapshot,
