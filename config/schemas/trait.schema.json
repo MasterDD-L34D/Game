@@ -93,6 +93,13 @@
       "minLength": 1,
       "description": "Motivazione evolutiva o tattica."
     },
+    "species_affinity": {
+      "type": "array",
+      "description": "Elenco di specie associate al tratto con ruoli e pesi normalizzati.",
+      "items": {
+        "$ref": "#/$defs/species_affinity_entry"
+      }
+    },
     "debolezza": {
       "type": "string",
       "description": "Limitazioni o vulnerabilità note."
@@ -102,6 +109,32 @@
     }
   },
   "$defs": {
+    "species_affinity_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "species_id",
+        "roles",
+        "weight"
+      ],
+      "properties": {
+        "species_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
     "slot_profile": {
       "type": "object",
       "additionalProperties": false,

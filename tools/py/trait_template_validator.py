@@ -50,6 +50,8 @@ def validate_trait_files(
     for path in sorted(directory.rglob("*.json")):
         if path.name == "index.json":
             continue
+        if path.name == "species_affinity.json":
+            continue
         rel_path = str(path.relative_to(ROOT))
         try:
             payload = load_json(path)
