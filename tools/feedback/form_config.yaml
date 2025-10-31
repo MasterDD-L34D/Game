@@ -1,0 +1,164 @@
+metadata:
+  name: evo_tactics_feedback
+  version: 1.0.0
+  description: >-
+    Form unificato per raccogliere feedback da playtest, regressioni e sessioni sandbox
+    del progetto Evo-Tactics. La configurazione è condivisa da webapp, documentazione
+    e CLI ed espone campi obbligatori per build, scenario e severità.
+  distribution_channels:
+    - docs_portal
+    - webapp_overlay
+    - cli_launcher
+  notifications:
+    slack_channel: "#feedback-intake"
+    email_digest: "playtest-producer@evo-tactics.dev"
+    auto_reply_template: templates/auto_reply_feedback.md
+form:
+  sections:
+    - id: build_context
+      title: "Contesto build"
+      description: "Identifica build e ambiente per riproducibilità."
+      fields:
+        - id: build_version
+          label: "Build in test"
+          type: select
+          required: true
+          placeholder: "Seleziona build"
+          options_source:
+            type: file
+            path: ../../config/builds/latest_builds.yaml
+        - id: platform
+          label: "Piattaforma"
+          type: select
+          required: true
+          options:
+            - pc
+            - steamdeck
+            - cloud
+        - id: session_type
+          label: "Tipo sessione"
+          type: select
+          required: true
+          options:
+            - playtest_guidato
+            - regressione
+            - sandbox
+        - id: environment
+          label: "Ambiente"
+          type: select
+          required: false
+          options:
+            - staging
+            - production
+            - local
+    - id: scenario_feature
+      title: "Scenario e feature"
+      description: "Dettagli sul contenuto o feature testata."
+      fields:
+        - id: scenario_slug
+          label: "Scenario"
+          type: text
+          required: true
+          validation:
+            pattern: "^[a-z0-9_\-]{3,40}$"
+            message: "Usa slug minuscoli con trattini o underscore."
+        - id: feature_area
+          label: "Area"
+          type: select
+          required: true
+          options:
+            - gameplay
+            - tecnica
+            - narrativa
+            - ux
+        - id: mutations_tested
+          label: "Mutazioni/trait"
+          type: textarea
+          required: false
+          placeholder: "Elenca trait o mutazioni principali"
+    - id: evaluation
+      title: "Valutazione"
+      description: "Classifica severità, impatto e confidenza."
+      fields:
+        - id: severity
+          label: "Severità"
+          type: select
+          required: true
+          options:
+            - 1
+            - 2
+            - 3
+            - 4
+          help: "1 = suggerimento, 4 = blocco"
+        - id: impact_scope
+          label: "Impatto"
+          type: select
+          required: true
+          options:
+            - solo_party
+            - biome
+            - metagame
+        - id: confidence
+          label: "Confidenza"
+          type: slider
+          required: true
+          min: 1
+          max: 5
+          step: 1
+    - id: details
+      title: "Dettagli"
+      description: "Descrivi comportamento atteso e osservato."
+      fields:
+        - id: summary
+          label: "Sommario"
+          type: text
+          required: true
+          max_length: 120
+        - id: description
+          label: "Descrizione"
+          type: textarea
+          required: true
+          min_length: 50
+        - id: attachments
+          label: "Allegati"
+          type: url_list
+          required: false
+          max_items: 5
+    - id: follow_up
+      title: "Follow-up"
+      description: "Opzioni per contatto e visibilità."
+      fields:
+        - id: requires_followup
+          label: "Richiede follow-up"
+          type: checkbox
+          required: false
+        - id: contact
+          label: "Contatto"
+          type: text
+          required: false
+          validation:
+            pattern: "^.{0,120}$"
+            message: "Inserisci email o handle (max 120 caratteri)."
+workflow:
+  storage:
+    driver: notion
+    database_id: "notion-db-feedback"
+  automations:
+    - name: publish_to_slack
+      trigger: on_submit
+      action: slack.post_message
+      config:
+        channel: "#feedback-intake"
+        template: templates/slack_notification.md
+    - name: open_triage_ticket
+      trigger: severity>=3
+      action: scripts.create_ticket
+      config:
+        script: sync_tasks.py
+        args:
+          priority_map:
+            "3": P1
+            "4": P0
+  sla:
+    triage_hours: 12
+    followup_days: 5

@@ -17,6 +17,7 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 - [QA & test](#qa--test)
 - [Integrazioni esterne](#integrazioni-esterne)
 - [Distribuzione & condivisione](#distribuzione--condivisione)
+- [In arrivo](#in-arrivo)
 - [Licenza](#licenza)
 
 ## Panoramica
@@ -272,6 +273,13 @@ git push -u origin main
 - Comprimi la cartella del progetto o utilizza lo script `scripts/driveSync.gs` per automatizzare l'upload.
 - Per invii manuali, mantieni sincronizzati gli artifact rigenerati (`docs/presentations/showcase/*`, report in `packs/.../out/`).
 - Consulta `docs/drive-sync.md` per setup credenziali, test e trigger automatici.
+
+## In arrivo
+- **Feedback toolkit**: lancio del pacchetto `tools/feedback` con form centralizzato e workflow di triage automatizzato.
+- **Dashboard insight**: report settimanale generato da `tools/feedback/report_generator.py` e pubblicato in `reports/feedback/`.
+- **Documentazione aggiornata**: guide operative in `docs/process/feedback_collection_pipeline.md` e `docs/tutorials/feedback-form.md`.
+
+Condividi suggerimenti e richieste tramite il [form di feedback](docs/tutorials/feedback-form.md).
 
 ## Licenza
 MIT — vedi [`LICENSE`](LICENSE).
