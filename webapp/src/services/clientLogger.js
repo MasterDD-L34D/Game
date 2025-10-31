@@ -52,6 +52,18 @@ function collectEntries(filter) {
   return state.entries.slice();
 }
 
+function cloneEntry(entry) {
+  if (!entry || typeof entry !== 'object') {
+    return entry;
+  }
+  return {
+    ...entry,
+    meta: serialise(entry.meta),
+    validation: serialise(entry.validation),
+    data: serialise(entry.data),
+  };
+}
+
 function toCsvValue(value) {
   const text = value == null ? '' : String(value);
   if (!text.length) {
@@ -63,21 +75,50 @@ function toCsvValue(value) {
   return text;
 }
 
-function exportAsCsv(entries, filename) {
+function createCsvContent(entries) {
   const header = CSV_FIELDS.map(([label]) => label).join(',');
   const rows = entries.map((entry) =>
     CSV_FIELDS.map(([, projector]) => toCsvValue(projector(entry))).join(','),
   );
-  const content = [header, ...rows].join('\r\n');
-  const blob = new Blob([content], { type: 'text/csv;charset=utf-8' });
-  downloadBlob(blob, filename || 'qa-flow-logs.csv');
+  return [header, ...rows].join('\r\n');
 }
 
-function exportAsJson(entries, filename) {
-  const blob = new Blob([JSON.stringify(entries, null, 2)], {
-    type: 'application/json',
-  });
-  downloadBlob(blob, filename || 'qa-flow-logs.json');
+function createBlob(content, type) {
+  if (typeof Blob === 'function') {
+    return new Blob([content], { type });
+  }
+  return null;
+}
+
+function createJsonContent(entries) {
+  return JSON.stringify(entries, null, 2);
+}
+
+function buildExport(entries, { filename, format }) {
+  const resolvedFormat = String(format || 'json').toLowerCase() === 'csv' ? 'csv' : 'json';
+  const normalisedEntries = entries.map((entry) => cloneEntry(entry));
+  if (resolvedFormat === 'csv') {
+    const content = createCsvContent(normalisedEntries);
+    const contentType = 'text/csv;charset=utf-8';
+    return {
+      entries: normalisedEntries,
+      format: 'csv',
+      filename: filename || 'qa-flow-logs.csv',
+      content,
+      contentType,
+      blob: createBlob(content, contentType),
+    };
+  }
+  const content = createJsonContent(normalisedEntries);
+  const contentType = 'application/json';
+  return {
+    entries: normalisedEntries,
+    format: 'json',
+    filename: filename || 'qa-flow-logs.json',
+    content,
+    contentType,
+    blob: createBlob(content, contentType),
+  };
 }
 
 export function logEvent(event, payload = {}) {
@@ -108,7 +149,7 @@ export function clearLogs() {
 }
 
 function downloadBlob(blob, filename) {
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
+  if (!blob || typeof window === 'undefined' || typeof document === 'undefined') {
     return;
   }
   const url = URL.createObjectURL(blob);
@@ -123,14 +164,20 @@ function downloadBlob(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
-export function exportLogs({ filename, filter, format = 'json' } = {}) {
+export function getLogsSnapshot({ filter } = {}) {
   const entries = collectEntries(filter);
-  const resolvedFormat = String(format || 'json').toLowerCase();
-  if (resolvedFormat === 'csv') {
-    exportAsCsv(entries, filename);
-    return;
-  }
-  exportAsJson(entries, filename);
+  return entries.map((entry) => cloneEntry(entry));
+}
+
+export function createLogExport({ filename, filter, format = 'json' } = {}) {
+  const entries = collectEntries(filter);
+  return buildExport(entries, { filename, format });
+}
+
+export function exportLogs(options = {}) {
+  const exportResult = createLogExport(options);
+  downloadBlob(exportResult.blob, exportResult.filename);
+  return exportResult;
 }
 
 export function exportLogsAsJson(options = {}) {
@@ -146,6 +193,8 @@ export function useClientLogger() {
     entries: readonly(state.entries),
     total: computed(() => state.entries.length),
     list: (filter) => collectEntries(filter),
+    snapshot: (options) => getLogsSnapshot(options),
+    createLogExport,
     exportLogs,
     exportLogsAsJson,
     exportLogsAsCsv,
