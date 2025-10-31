@@ -1,0 +1,33 @@
+id: "spore__stage_gated_progression"
+source_game: "spore"
+title: "Progressione ad archi con carry-over"
+category: "Progression|Structure|Meta"
+summary: "Fasi distinte con soglie di avanzamento e trasferimento parziale di scelte pregresse."
+adopt_adapt_avoid: "Adapt"
+spec:
+  mechanics: |
+    Il percorso è suddiviso in archi con set di obiettivi e sistemi parzialmente differenti.
+    Il passaggio avviene a soglia; carry-over selettivo (X% di stats/feature).
+  parameters:
+    - { name: "stage_threshold", type: "int", formula: "soglia progresso", range: { min: 1, max: 100, step: 1 } }
+    - { name: "carry_over_ratio", type: "percent", formula: "percentuale trasferita", range: { min: 0, max: 100, step: 5 } }
+ux:
+  notes: "Roadmap archi; elenco chiaro di cosa viene trasferito."
+  accessibility: "Suggerimenti se build penalizza archi futuri."
+telemetry_map:
+  events: [ "stage_threshold_reached", "stage_transition" ]
+  axes_impact: { E: 4, N: 2, T: 4, P: 4 }
+impact:
+  catalogs: [ "rules/stages.yaml" ]
+  dependencies: [ "telemetry/stage_events.yaml" ]
+  risks: [ "Scope creep tra sistemi eterogenei" ]
+  open_questions: [ "Quanti archi minimi senza diluire il focus?" ]
+score:
+  coerenza: 4
+  innovazione: 4
+  compatibilita_telemetria: 5
+  drift_risk: 3
+  elasticita: 3
+  costo: 2
+  rischio_tecnico: 3
+  weighted: 41

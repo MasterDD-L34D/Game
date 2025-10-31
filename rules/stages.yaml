@@ -1,0 +1,15 @@
+version: 1
+system: stages
+description: "Archi di progressione con soglie e carry-over selettivo."
+stages:
+  - id: arc01
+    label: "Seme"
+    threshold: 10
+    carry_over_ratio: 25
+  - id: arc02
+    label: "Fioritura"
+    threshold: 25
+    carry_over_ratio: 35
+telemetry:
+  events: [stage_threshold_reached, stage_transition]
+TODO: "Definire numero archi e mapping narrativo per biomi."

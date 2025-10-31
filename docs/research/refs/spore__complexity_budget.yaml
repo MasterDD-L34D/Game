@@ -1,0 +1,38 @@
+id: "spore__complexity_budget"
+source_game: "spore"
+title: "Budget di complessità per build"
+category: "Progression|Buildcraft|UX"
+summary: "Un misuratore di complessità limita numero e livello delle parti, imponendo trade-off di design."
+adopt_adapt_avoid: "Adopt"
+spec:
+  mechanics: |
+    Ogni parte/modulo ha un costo di complessità c_p.
+    La build è valida se Σ c_p ≤ C_max (dipende da bioma/stadio/tech).
+    Sblocchi o set riducono c_p o aumentano C_max.
+  parameters:
+    - { name: "C_max", type: "int", formula: "limite complessità per contesto", range: { min: 5, max: 100, step: 1 } }
+    - { name: "c_p",   type: "int", formula: "costo unitario per parte/modulo", range: { min: 1, max: 10, step: 1 } }
+    - { name: "discount_set", type: "percent", formula: "riduzione costo per set sinergico", range: { min: 0, max: 50, step: 5 } }
+ux:
+  notes: "Gauge visibile; warning vicino alla soglia; suggerimenti trade-off."
+  accessibility: "Tooltip con impatto statistico per parte."
+telemetry_map:
+  events: [ "build_opened", "part_added", "part_removed", "build_committed" ]
+  axes_impact: { E: 2, N: 1, T: 4, P: 3 }
+impact:
+  catalogs: [ "rules/build_budget.yaml" ]
+  dependencies: [ "traits/parts_index.yaml" ]
+  risks:
+    - "Over-tuning di C_max frena creatività"
+    - "Meta su set a basso costo"
+  open_questions:
+    - "C_max fisso per bioma o scalato per progressione?"
+score:
+  coerenza: 5
+  innovazione: 4
+  compatibilita_telemetria: 5
+  drift_risk: 4
+  elasticita: 5
+  costo: 3
+  rischio_tecnico: 3
+  weighted: 55

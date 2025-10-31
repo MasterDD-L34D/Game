@@ -1,0 +1,12 @@
+version: 1
+system: terraforming_bands
+description: "Bande di vitalità del bioma e sblocco slot."
+bands:
+  T0: { slots: 0, stable: false }
+  T1: { slots: 1, stable: true }
+  T2: { slots: 2, stable: true }
+  T3: { slots: 3, stable: true }
+env_params: [temperature, atmosphere, biomass, humidity]
+telemetry:
+  events: [biome_param_changed, band_reached, slot_unlocked]
+TODO: "Definire funzioni di drift e strumenti ambientali."

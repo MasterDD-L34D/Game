@@ -1,0 +1,13 @@
+version: 1
+system: build_budget
+description: "Regole e soglie per il budget di complessità delle build."
+params:
+  C_max_by_context:
+    default: 20
+    by_biome: {}
+    by_stage: {}
+  discounts:
+    set_completed: 0
+telemetry:
+  events: [build_opened, part_added, part_removed, build_committed]
+TODO: "Definire mapping da parti (traits) a c_p e bonus set."

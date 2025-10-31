@@ -1,0 +1,33 @@
+id: "spore__part_based_scaling"
+source_game: "spore"
+title: "Scaling statistico basato su parti"
+category: "Combat|Buildcraft|Status"
+summary: "Stats e abilità derivano da parti equipaggiate e dai loro livelli."
+adopt_adapt_avoid: "Adopt"
+spec:
+  mechanics: |
+    Le stats si calcolano dalla somma e dal livello delle parti attive.
+    Le abilità esistono solo se la parte è presente; i livelli aumentano efficacia/CD/range.
+  parameters:
+    - { name: "level_max", type: "int", formula: "livello massimo parte", range: { min: 1, max: 5, step: 1 } }
+    - { name: "part_multiplier", type: "float", formula: "moltiplicatore per livello su stat", range: { min: 1.0, max: 3.0, step: 0.1 } }
+ux:
+  notes: "Anteprima in editor con breakdown per parte; icone abilità attive."
+  accessibility: "Requisiti di attivazione chiari."
+telemetry_map:
+  events: [ "stat_preview_opened", "ability_unlocked", "ability_used" ]
+  axes_impact: { E: 2, N: 1, T: 5, P: 3 }
+impact:
+  catalogs: [ "traits/parts_scaling.yaml" ]
+  dependencies: [ "rules/build_budget.yaml" ]
+  risks: [ "Overlay di stats tra famiglie di parti" ]
+  open_questions: [ "Hard caps vs diminishing returns?" ]
+score:
+  coerenza: 5
+  innovazione: 4
+  compatibilita_telemetria: 5
+  drift_risk: 4
+  elasticita: 4
+  costo: 3
+  rischio_tecnico: 3
+  weighted: 52
