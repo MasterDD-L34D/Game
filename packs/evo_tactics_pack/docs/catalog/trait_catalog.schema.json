@@ -31,6 +31,34 @@
       "propertyNames": {
         "pattern": "^[a-z0-9_]+$"
       }
+    },
+    "types": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "traits"],
+        "properties": {
+          "index": {
+            "type": "string",
+            "minLength": 1
+          },
+          "traits": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          },
+          "type": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        }
+      },
+      "propertyNames": {
+        "pattern": "^[a-z0-9_]+$"
+      }
     }
   }
 }
