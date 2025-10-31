@@ -191,28 +191,29 @@ def generate_trait_coverage(
                 foodweb_roles[trophic_role][biome].append(entry)
         if not traits:
             continue
-        combos = []
+        combos: list[tuple[str | None, str | None]]
         if biomes:
             combos = [(biome, morph) for biome in biomes]
         else:
             combos = [(None, morph)]
-            for trait_id in traits:
-                rule_counter = rule_matrix.get(trait_id, Counter())
-                for combo in combos:
-                    species_matrix[trait_id][combo] += 1
-                    species_examples[trait_id][combo].add(species_id)
-                    species_seen[trait_id].add(species_id)
 
-                    biome, morph_combo = combo
-                    if (
-                        morph_combo is not None
-                        and rule_counter
-                        and (biome, None) in rule_counter
-                    ):
-                        wildcard_combo = (biome, None)
-                        species_matrix[trait_id][wildcard_combo] += 1
-                        species_examples[trait_id][wildcard_combo].add(species_id)
-                        species_seen[trait_id].add(species_id)
+        for trait_id in traits:
+            rule_counter = rule_matrix.get(trait_id, Counter())
+            for combo in combos:
+                species_matrix[trait_id][combo] += 1
+                species_examples[trait_id][combo].add(species_id)
+                species_seen[trait_id].add(species_id)
+
+                biome, morph_combo = combo
+                if (
+                    morph_combo is not None
+                    and rule_counter
+                    and (biome, None) in rule_counter
+                ):
+                    wildcard_combo = (biome, None)
+                    species_matrix[trait_id][wildcard_combo] += 1
+                    species_examples[trait_id][wildcard_combo].add(species_id)
+                    species_seen[trait_id].add(species_id)
 
     summary = {
         "traits_total": len(target_traits),

@@ -47,8 +47,10 @@ def validate_trait_files(
     errors: Dict[str, List[str]] = {}
     registry: Dict[str, Path] = {}
 
+    ignored_files = {"index.json", "species_affinity.json"}
+
     for path in sorted(directory.rglob("*.json")):
-        if path.name == "index.json":
+        if path.name in ignored_files:
             continue
         rel_path = str(path.relative_to(ROOT))
         try:
