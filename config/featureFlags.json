@@ -1,0 +1,46 @@
+{
+  "featureFlags": {
+    "rollout": {
+      "qaMetricsMonitoring": {
+        "description": "Abilita il monitoraggio automatizzato delle metriche di rollout Mission Control.",
+        "default": false,
+        "rollout": {
+          "phase": "canary",
+          "stageGate": "qa-approval",
+          "start": "2025-11-20",
+          "target": "2025-12-05",
+          "cohorts": ["qa-bravo", "qa-delta", "ops-foxtrot"],
+          "pipeline": {
+            "jobId": "qa-rollout-metrics",
+            "config": "config/jobs/monitoring.yaml"
+          }
+        },
+        "owner": {
+          "team": "qa-insights",
+          "contact": "qa-insights@gamestudio.local"
+        },
+        "playbook": "docs/qa/rollout_checklist.md",
+        "metrics": [
+          {
+            "name": "mission_control_uptime",
+            "threshold": ">=99.5%",
+            "window": "24h",
+            "alertChannel": "ops-oncall"
+          },
+          {
+            "name": "hud_action_latency_p95",
+            "threshold": "<=3800ms",
+            "window": "6h",
+            "alertChannel": "qa-rollout"
+          },
+          {
+            "name": "playtest_squad_engagement",
+            "threshold": ">=0.62",
+            "window": "7d",
+            "alertChannel": "analytics-duty"
+          }
+        ]
+      }
+    }
+  }
+}
