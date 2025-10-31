@@ -12,7 +12,7 @@
     "drive:push-approved": "node tools/drive/push-approved-assets.mjs",
     "drive-sync": "node tools/drive/sync-approved-assets.mjs",
     "stage:publishing": "node services/publishing/staging.js",
-    "export:qa": "node scripts/export-qa-report.js"
+    "export:qa": "python tools/py/export_qa_reports.py"
   },
   "dependencies": {
     "cors": "^2.8.5",
