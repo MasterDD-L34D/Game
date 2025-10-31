@@ -1,7 +1,7 @@
 <template>
   <svg
     v-if="points.length"
-    class="sparkline"
+    :class="['sparkline', variantClass]"
     :viewBox="`0 0 ${viewBoxWidth} ${viewBoxHeight}`"
     role="img"
     aria-label="Andamento metriche"
@@ -15,6 +15,7 @@
       :stroke-width="strokeWidth"
       stroke-linecap="round"
       stroke-linejoin="round"
+      :stroke-dasharray="variant === 'demo' ? '6 6' : undefined"
     />
     <circle
       v-if="lastPoint"
@@ -25,7 +26,7 @@
       :fill="color"
     />
   </svg>
-  <div v-else class="sparkline sparkline--empty" aria-hidden="true"></div>
+  <div v-else :class="['sparkline', 'sparkline--empty', variantClass]" aria-hidden="true"></div>
 </template>
 
 <script setup>
@@ -44,9 +45,15 @@ const props = defineProps({
     type: Number,
     default: 2,
   },
+  variant: {
+    type: String,
+    default: 'live',
+  },
 });
 
 const viewBoxHeight = 40;
+
+const variantClass = computed(() => (props.variant === 'demo' ? 'sparkline--demo' : ''));
 
 const validPoints = computed(() =>
   (props.points || [])
@@ -99,5 +106,14 @@ const lastPoint = computed(() => {
 .sparkline__pivot {
   stroke: rgba(5, 8, 13, 0.8);
   stroke-width: 1.25;
+}
+
+.sparkline--demo .sparkline__line {
+  filter: drop-shadow(0 0 4px rgba(244, 192, 96, 0.35));
+}
+
+.sparkline--demo .sparkline__pivot {
+  stroke: rgba(5, 8, 13, 0.6);
+  opacity: 0.85;
 }
 </style>

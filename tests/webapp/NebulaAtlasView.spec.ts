@@ -60,6 +60,7 @@ describe('NebulaAtlasView', () => {
     const originalFetch = global.fetch;
     const fetchStub = createFetchStub();
     global.fetch = fetchStub;
+    const dateSpy = vi.spyOn(Date, 'now').mockReturnValue(new Date('2024-05-18T11:00:00Z').getTime());
 
     try {
       const wrapper = mount(NebulaAtlasView, {
@@ -85,6 +86,7 @@ describe('NebulaAtlasView', () => {
       expect(fetchStub).toHaveBeenCalled();
     } finally {
       global.fetch = originalFetch;
+      dateSpy.mockRestore();
     }
   });
 });

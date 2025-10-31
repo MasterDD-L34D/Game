@@ -35,20 +35,38 @@
 
     <div class="nebula-progress__grid">
       <NebulaProgressTimeline :entries="timelineEntries" />
-      <section class="nebula-progress__telemetry">
+      <section class="nebula-progress__telemetry" :data-mode="telemetryStatus.offline ? 'demo' : 'live'">
         <header>
           <h3>Progress bar evolutiva</h3>
           <p>Telemetria &amp; readiness sincronizzate con orchestrator.</p>
+          <span
+            v-if="telemetryStatus.offline"
+            class="nebula-progress__badge nebula-progress__badge--demo"
+            data-tone="offline"
+          >
+            {{ telemetryStatus.label }}
+          </span>
         </header>
         <ul>
-          <li v-for="entry in evolutionMatrix" :key="entry.id">
+          <li v-for="entry in evolutionMatrix" :key="entry.id" :data-mode="entry.telemetryMode === 'live' ? 'live' : 'demo'">
             <header class="nebula-progress__telemetry-header">
               <span class="nebula-progress__species">{{ entry.name }}</span>
               <span class="nebula-progress__badge" :data-tone="entry.readinessTone">
                 {{ entry.stage }} · {{ entry.readiness }}
               </span>
+              <span
+                v-if="entry.telemetryMode !== 'live'"
+                class="nebula-progress__badge nebula-progress__badge--demo"
+                data-tone="offline"
+              >
+                Demo
+              </span>
             </header>
-            <SparklineChart :points="entry.telemetryHistory" :color="sparklineColor(entry.readinessTone)" />
+            <SparklineChart
+              :points="entry.telemetryHistory"
+              :color="sparklineColor(entry.readinessTone)"
+              :variant="entry.telemetryMode !== 'live' ? 'demo' : 'live'"
+            />
             <div class="nebula-progress__evolution">
               <div class="nebula-progress__evolution-fill" :style="{ width: `${entry.telemetryCoverage}%` }"></div>
               <span class="nebula-progress__evolution-label">{{ entry.telemetryLabel }}</span>
@@ -95,6 +113,10 @@ const props = defineProps({
   share: {
     type: Object,
     required: true,
+  },
+  telemetryStatus: {
+    type: Object,
+    default: () => ({ mode: 'live', offline: false, label: 'Telemetry live', variant: 'live' }),
   },
 });
 
@@ -306,6 +328,11 @@ function sparklineColor(tone) {
   gap: 1rem;
 }
 
+.nebula-progress__telemetry[data-mode='demo'] {
+  border-color: rgba(244, 192, 96, 0.4);
+  background: rgba(10, 15, 22, 0.55);
+}
+
 .nebula-progress__telemetry header h3 {
   margin: 0;
   text-transform: uppercase;
@@ -334,6 +361,12 @@ function sparklineColor(tone) {
   flex-wrap: wrap;
 }
 
+.nebula-progress__telemetry li[data-mode='demo'] {
+  border: 1px dashed rgba(244, 192, 96, 0.35);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
 .nebula-progress__species {
   font-size: 1.05rem;
   font-weight: 600;
@@ -347,6 +380,17 @@ function sparklineColor(tone) {
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid transparent;
+}
+
+.nebula-progress__badge[data-tone='offline'] {
+  border-color: rgba(244, 192, 96, 0.5);
+  color: rgba(255, 232, 198, 0.95);
+  background: rgba(244, 192, 96, 0.12);
+}
+
+.nebula-progress__badge--demo {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
 }
 
 .nebula-progress__badge[data-tone='success'] {

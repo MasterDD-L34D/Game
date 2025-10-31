@@ -6,6 +6,7 @@
       :timeline-entries="moduleState.timelineEntries"
       :evolution-matrix="moduleState.evolutionMatrix"
       :share="moduleState.share"
+      :telemetry-status="moduleState.telemetryStatus.value"
     />
 
     <section class="nebula-atlas-view__live" aria-live="polite">
@@ -15,9 +16,8 @@
           <p>Indicatori dal generatore Nebula combinati con il dataset atlas.</p>
         </div>
         <div class="nebula-atlas-view__status">
-          <span v-if="moduleState.loading" class="nebula-atlas-view__badge">Aggiornamento…</span>
-          <span v-else class="nebula-atlas-view__badge" :data-tone="statusTone">{{ statusLabel }}</span>
-          <small>Ultimo sync: {{ moduleState.telemetrySummary.updatedAt ? moduleState.telemetrySummary.updatedAt : '—' }}</small>
+          <span class="nebula-atlas-view__badge" :data-tone="statusTone">{{ statusLabel }}</span>
+          <small>Ultimo sync: {{ statusMeta }}</small>
         </div>
       </header>
 
@@ -36,8 +36,16 @@
         <div class="nebula-atlas-view__readiness">
           <h4>Readiness branchi</h4>
           <ul>
-            <li v-for="chip in readinessChips" :key="chip.id" :data-tone="chip.tone">
-              <span>{{ chip.label }}</span>
+            <li
+              v-for="chip in readinessChips"
+              :key="chip.id"
+              :data-tone="chip.tone"
+              :data-mode="chip.demo ? 'demo' : 'live'"
+            >
+              <div class="nebula-atlas-view__chip-label">
+                <span>{{ chip.label }}</span>
+                <small v-if="chip.demo">{{ chip.badge }}</small>
+              </div>
               <strong>{{ chip.value }}</strong>
             </li>
           </ul>
@@ -48,7 +56,7 @@
             <h4>Copertura QA media</h4>
             <span>{{ moduleState.telemetryCoverageAverage }}%</span>
           </header>
-          <SparklineChart :points="coverageStream" color="#61d5ff" />
+          <SparklineChart :points="coverageStream" color="#61d5ff" :variant="chartVariant" />
         </div>
 
         <div class="nebula-atlas-view__chart" aria-label="Incidenti telemetria">
@@ -56,7 +64,7 @@
             <h4>Incidenti ultimi 7 giorni</h4>
             <span>{{ incidentStream.reduce((acc, value) => acc + value, 0) }}</span>
           </header>
-          <SparklineChart :points="incidentStream" color="#ff6982" />
+          <SparklineChart :points="incidentStream" color="#ff6982" :variant="chartVariant" />
         </div>
 
         <div class="nebula-atlas-view__chart" aria-label="High priority">
@@ -64,7 +72,7 @@
             <h4>High priority</h4>
             <span>{{ highPriorityStream.reduce((acc, value) => acc + value, 0) }}</span>
           </header>
-          <SparklineChart :points="highPriorityStream" color="#f4c060" />
+          <SparklineChart :points="highPriorityStream" color="#f4c060" :variant="chartVariant" />
         </div>
       </div>
 
@@ -84,6 +92,8 @@ import { useNebulaProgressModule } from '../modules/useNebulaProgressModule';
 
 const moduleState = useNebulaProgressModule();
 
+const telemetryStatus = computed(() => moduleState.telemetryStatus.value);
+
 const summaryCards = computed(() => {
   const summary = moduleState.telemetrySummary.value;
   return [
@@ -96,22 +106,51 @@ const summaryCards = computed(() => {
 
 const readinessChips = computed(() => {
   const distribution = moduleState.telemetryDistribution.value;
-  return [
+  const status = telemetryStatus.value;
+  const chips = [
     { id: 'success', label: 'Pronte', tone: 'success', value: distribution.success },
     { id: 'warning', label: 'In attesa', tone: 'warning', value: distribution.warning },
     { id: 'neutral', label: 'Neutrali', tone: 'neutral', value: distribution.neutral },
     { id: 'critical', label: 'Bloccate', tone: 'critical', value: distribution.critical },
   ];
+  if (status.offline) {
+    const badge = status.mode === 'fallback' ? 'Offline fallback' : 'Offline demo';
+    return chips.map((chip) => ({ ...chip, demo: true, badge }));
+  }
+  return chips.map((chip) => ({ ...chip, demo: false, badge: '' }));
 });
 
 const coverageStream = computed(() => moduleState.telemetryStreams.value.coverage);
 const incidentStream = computed(() => moduleState.telemetryStreams.value.incidents);
 const highPriorityStream = computed(() => moduleState.telemetryStreams.value.highPriority);
 
-const statusTone = computed(() => (moduleState.telemetrySummary.value.open > 0 ? 'warning' : 'success'));
-const statusLabel = computed(() =>
-  moduleState.loading.value ? 'Aggiornamento…' : moduleState.telemetrySummary.value.lastEventLabel,
-);
+const statusTone = computed(() => {
+  if (moduleState.loading.value) {
+    return 'neutral';
+  }
+  if (telemetryStatus.value.offline) {
+    return 'offline';
+  }
+  return moduleState.telemetrySummary.value.open > 0 ? 'warning' : 'success';
+});
+
+const statusLabel = computed(() => {
+  if (moduleState.loading.value) {
+    return 'Aggiornamento…';
+  }
+  if (telemetryStatus.value.offline) {
+    return telemetryStatus.value.label;
+  }
+  return moduleState.telemetrySummary.value.lastEventLabel;
+});
+
+const statusMeta = computed(() => {
+  const summary = moduleState.telemetrySummary.value;
+  const base = summary.updatedAt ? summary.updatedAt : '—';
+  return summary.isDemo ? `${base} · ${summary.sourceLabel}` : base;
+});
+
+const chartVariant = computed(() => telemetryStatus.value.variant);
 
 const refresh = () => moduleState.refresh();
 </script>
@@ -165,6 +204,18 @@ const refresh = () => moduleState.refresh();
 .nebula-atlas-view__badge[data-tone='success'] {
   background: rgba(115, 255, 206, 0.18);
   color: #73ffce;
+}
+
+.nebula-atlas-view__badge[data-tone='offline'] {
+  background: rgba(244, 192, 96, 0.12);
+  color: #fbd89a;
+  border: 1px dashed rgba(244, 192, 96, 0.45);
+}
+
+.nebula-atlas-view__badge[data-tone='neutral'] {
+  background: rgba(224, 237, 255, 0.12);
+  color: rgba(224, 237, 255, 0.75);
+  border: 1px solid rgba(224, 237, 255, 0.2);
 }
 
 .nebula-atlas-view__grid {
@@ -245,6 +296,28 @@ const refresh = () => moduleState.refresh();
   border-radius: 12px;
   background: rgba(230, 243, 255, 0.05);
   border: 1px solid rgba(97, 213, 255, 0.12);
+}
+
+.nebula-atlas-view__readiness li[data-mode='demo'] {
+  border-style: dashed;
+  border-color: rgba(244, 192, 96, 0.35);
+  background: rgba(244, 192, 96, 0.08);
+}
+
+.nebula-atlas-view__chip-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  flex: 1;
+}
+
+.nebula-atlas-view__chip-label small {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(244, 192, 96, 0.85);
 }
 
 .nebula-atlas-view__readiness li[data-tone='warning'] {
