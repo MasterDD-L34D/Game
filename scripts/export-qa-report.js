@@ -4,7 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const process = require('node:process');
 
-const { createGenerationOrchestratorBridge } = require('../services/generation/orchestratorBridge');
+const { createGenerationOrchestratorBridge } = require('../server/services/orchestratorBridge');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(REPO_ROOT, 'reports');

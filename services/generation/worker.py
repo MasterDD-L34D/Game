@@ -96,7 +96,7 @@ def _handle_request(
     return response
 
 
-def main() -> int:
+def _serve_once() -> int:
     orchestrator = GenerationOrchestrator()
     _emit({"type": "ready", "pid": os.getpid()})
 
@@ -133,11 +133,26 @@ def main() -> int:
             _emit(response)
     except KeyboardInterrupt:  # pragma: no cover - terminazione esterna
         return 0
+    except Exception:
+        raise
     finally:
         stop_event.set()
         heartbeat_thread.join(timeout=1.0)
 
     return 0
+
+
+def main() -> int:
+    backoff_seconds = 0.5
+    while True:
+        try:
+            return _serve_once()
+        except KeyboardInterrupt:  # pragma: no cover - terminazione esterna
+            return 0
+        except Exception:  # pragma: no cover - condizioni di crash inattese
+            traceback.print_exc()
+            time.sleep(backoff_seconds)
+            backoff_seconds = min(backoff_seconds * 2, 5.0)
 
 
 if __name__ == "__main__":  # pragma: no cover
