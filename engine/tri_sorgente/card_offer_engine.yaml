@@ -1,0 +1,28 @@
+engine:
+  offer_mode: "3-pick+skip"
+  context_trigger: "post-scontro-minore"
+  steps:
+    - name: "Selezione Tabella"
+      input: ["bioma","tier","stato_party"]
+      rule: "scegli 1 roll_table pertinente"
+    - name: "Tiro di Dado"
+      rule: "esegui tiro (es. d100) -> entry -> grants"
+    - name: "Pool da Roll (R)"
+      rule: "espandi grants e, se scarso, includi entry adiacenti (R≈4–6)"
+    - name: "Pool da Azioni (A)"
+      rule: "mappa recent_actions alle carte con affinità (A≈3–5)"
+    - name: "Pool da Personalità (P)"
+      rule: "seleziona carte con personality_weights alti (P≈3–5)"
+    - name: "Merge & Dedupe"
+    - name: "Scoring & Pesi"
+      rule: "applica formula score e pesi globali"
+    - name: "Diversità & Sinergia"
+      rule: "≥1 carta sinergica; soft-cap tag ripetuti; ≥2 macro-ruoli"
+    - name: "Sampling"
+      rule: "softmax(T=0.7) sui punteggi z-normalizzati -> 3 carte"
+    - name: "Skip"
+      rule: "Skip => Frammenti Genetici (tier-based) con cap per atto"
+  limits:
+    max_picks_per_bioma: 3
+    max_duplicates_per_card: 1
+    offer_cooldown_encounters: 2

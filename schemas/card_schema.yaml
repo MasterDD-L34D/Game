@@ -1,0 +1,21 @@
+# card_schema.yaml — schema minimo per carte abilità
+card:
+  id: "CARD-ID-1"
+  name: "Nome Carta"
+  rarity: "comune"      # comune|non_comune|rara|epica
+  tags: []
+  synergy_tags: []
+  description: "Testo breve."
+  effect:
+    rules: []           # righe effetto
+  requirements:
+    level_min: 1
+    exclusions: []      # card_id incompatibili
+  personality_weights:  # -1.0 .. +1.0
+    enneagram: {}       # es. {"8": 0.4}
+    mbti: {}            # es. {"ENTP": 0.2}
+  action_affinity:
+    recent_actions: {}  # es. { cariche_effettuate: {per_event: 0.1, cap: 0.2} }
+  balance:
+    max_copies: 1
+    offer_cooldown_encounters: 2
