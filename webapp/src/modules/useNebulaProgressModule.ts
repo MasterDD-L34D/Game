@@ -295,6 +295,8 @@ export function useNebulaProgressModule(
       }
       if (data?.generator) {
         generator.value = data.generator;
+      } else {
+        generator.value = null;
       }
       error.value = null;
       if (endpointSource === 'fallback') {
@@ -307,6 +309,7 @@ export function useNebulaProgressModule(
       }
     } catch (err) {
       const loadError = toError(err);
+      generator.value = null;
       try {
         await loadTelemetryMock(loadError);
       } catch (mockError) {
