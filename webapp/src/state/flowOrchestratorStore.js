@@ -196,6 +196,8 @@ export function useFlowOrchestrator(options = {}) {
       fallbackSnapshotUrl !== snapshotUrl &&
       isRelativeBase(RAW_BASE_URL);
 
+    let fallbackLoaded = false;
+
     const loadFallbackSnapshot = async ({ event, level, message }) => {
       const fallbackResponse = await fetchImpl(fallbackSnapshotUrl, { cache: 'no-store' });
       if (!fallbackResponse.ok) {
@@ -203,6 +205,7 @@ export function useFlowOrchestrator(options = {}) {
       }
       const fallbackData = await fallbackResponse.json();
       state.snapshot = fallbackData || {};
+      fallbackLoaded = true;
       pushLog(state, event, {
         scope: 'flow',
         level,
@@ -215,7 +218,7 @@ export function useFlowOrchestrator(options = {}) {
     try {
       if (preferLocalFallbackFirst) {
         try {
-          return await loadFallbackSnapshot({
+          await loadFallbackSnapshot({
             event: 'snapshot.fallback',
             level: 'info',
             message: `Base relativa rilevata (${RAW_BASE_URL || './'}), utilizzo snapshot locale`,
@@ -250,6 +253,15 @@ export function useFlowOrchestrator(options = {}) {
         const err = toError(error);
         if (fallbackSnapshotUrl && fallbackSnapshotUrl !== snapshotUrl) {
           try {
+            if (fallbackLoaded) {
+              pushLog(state, 'snapshot.fallback', {
+                scope: 'flow',
+                level: 'warning',
+                message: `Endpoint snapshot non disponibile (${err.message}), utilizzo snapshot locale già caricato`,
+                meta: { source: fallbackSnapshotUrl, fallback: true },
+              });
+              return state.snapshot;
+            }
             return await loadFallbackSnapshot({
               event: 'snapshot.fallback',
               level: 'warning',
