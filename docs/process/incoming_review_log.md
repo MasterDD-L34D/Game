@@ -6,6 +6,18 @@
 
 ---
 
+## 2025-10-30 — Facilitatore: `AG-Orchestrator`
+- Report: `reports/incoming/sessione-2025-11-14/report.html`
+- Agenti coinvolti: `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`
+- Decisioni chiave:
+  - Rieseguito `./scripts/report_incoming.sh --destination sessione-2025-11-14`, producendo 45 log di validazione con timestamp `20251030-133350` in `reports/incoming/validation/` e aggiornando il widget Support Hub tramite `reports/incoming/latest/`.
+  - `evo_pacchetto_minimo_v7` e `ancestors_integration_pack_v0_5` hanno superato i validator dataset/ecosistema (exit code `0`), permettendo di spostare le card Kanban in `In validazione` con allegati i log dedicati.
+  - Confermato il blocco su `evo_tactics_param_synergy_v8_3.zip`: l'estrazione resta interattiva e termina con `error: estrazione fallita`, arrestando l'elaborazione automatica prima dei validator.
+- Follow-up:
+  - `AG-Toolsmith` (urgente): aggiornare `scripts/report_incoming.sh` per forzare `unzip -o` sugli archivi con conflitti e registrare la patch in `docs/process/tooling_maintenance_log.md`.
+  - `AG-Validation`: ripetere i validator sul pacchetto `evo_tactics_param_synergy_v8_3.zip` dopo la patch e allegare l'esito in `reports/incoming/validation/` e alla card Kanban.
+  - `AG-Orchestrator`: notificare i caretaker nel canale `#incoming-triage-agenti` con link al report HTML `sessione-2025-11-14` e alla cartella di log `20251030-133350` per la revisione asincrona.
+
 ## 2025-11-13 — Facilitatore: `AG-Orchestrator`
 - Report: `docs/process/incoming_agent_streams.md`
 - Agenti coinvolti: `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith`

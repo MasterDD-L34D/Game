@@ -1,0 +1,306 @@
+{
+  "generated_at": "2025-10-29T23:16:07Z",
+  "status": "error",
+  "datasets": [
+    {
+      "path": "data/derived/analysis/trait_baseline.yaml",
+      "format": "yaml",
+      "description": "Trait baseline compiled from catalog + glossary references.",
+      "expected_schema": "1.0",
+      "dependencies": [
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/core/traits/glossary.json"
+      ],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "1.0"
+    },
+    {
+      "path": "data/derived/analysis/trait_coverage_report.json",
+      "format": "json",
+      "description": "Coverage metrics computed by ETL pipeline.",
+      "expected_schema": "1.0",
+      "dependencies": [
+        "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "data/core/traits/glossary.json",
+        "packs/evo_tactics_pack/data/species"
+      ],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "1.0"
+    },
+    {
+      "path": "data/derived/analysis/trait_coverage_matrix.csv",
+      "format": "csv",
+      "description": "Flattened matrix backing dashboard exports.",
+      "expected_schema": null,
+      "dependencies": [
+        "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+        "packs/evo_tactics_pack/data/species"
+      ],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/derived/analysis/trait_env_mapping.json",
+      "format": "json",
+      "description": "Crosswalk between environment-driven and PI traits.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "1.0"
+    },
+    {
+      "path": "data/derived/analysis/trait_gap_report.json",
+      "format": "json",
+      "description": "Gap analysis comparing ETL and reference registries.",
+      "expected_schema": "1.0",
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "1.0"
+    },
+    {
+      "path": "data/core/traits/glossary.json",
+      "format": "json",
+      "description": "Canonical PI trait glossary consumed by tooling.",
+      "expected_schema": "1.0",
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "1.0"
+    },
+    {
+      "path": "data/core/traits/biome_pools.json",
+      "format": "json",
+      "description": "Biome trait pools used for synthetic biomes.",
+      "expected_schema": "1.0",
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "1.0"
+    },
+    {
+      "path": "data/packs.yaml",
+      "format": "yaml",
+      "description": "Pack tables for MBTI forms and PI shop economy.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/species.yaml",
+      "format": "yaml",
+      "description": "Slot catalog + synergies for species builder.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/biomes.yaml",
+      "format": "yaml",
+      "description": "Canonical biome definitions and hazard knobs.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/biome_aliases.yaml",
+      "format": "yaml",
+      "description": "Legacy biome alias resolution table.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/mating.yaml",
+      "format": "yaml",
+      "description": "Forma compatibility matrix for matchmaking.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/game_functions.yaml",
+      "format": "yaml",
+      "description": "Idea Intake functional taxonomy.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/telemetry.yaml",
+      "format": "yaml",
+      "description": "Telemetry weights and PE economy knobs.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/core/hud/layout.yaml",
+      "format": "yaml",
+      "description": "HUD overlay layout for smart alerts.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_version": "1"
+    },
+    {
+      "path": "data/core/missions/skydock_siege.yaml",
+      "format": "yaml",
+      "description": "Mission tuning log derived from telemetry.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_version": "2025-02-15-vc-hotfix"
+    },
+    {
+      "path": "data/external/pathfinder_bestiary_1e.json",
+      "format": "json",
+      "description": "Normalized Pathfinder SRD statblocks.",
+      "expected_schema": null,
+      "dependencies": [
+        "incoming/pathfinder/bestiary1e_index.csv"
+      ],
+      "issues": [],
+      "status": "ok",
+      "detected_version": "incoming/pathfinder/bestiary1e_index.csv"
+    },
+    {
+      "path": "data/external/auto_external_sources.yaml",
+      "format": "yaml",
+      "description": "Manifest of auxiliary fetchable sources.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/external/chatgpt_sources.yaml",
+      "format": "yaml",
+      "description": "ChatGPT sync configuration.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "data/external/drive/approved_assets.json",
+      "format": "json",
+      "description": "Drive sync manifest for approved assets.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "packs/evo_tactics_pack/data/core/species.yaml",
+      "format": "yaml",
+      "description": "Pack-level species catalog meta + global rules.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [
+        "Missing file: packs/evo_tactics_pack/data/core/species.yaml"
+      ],
+      "status": "missing"
+    },
+    {
+      "path": "packs/evo_tactics_pack/docs/catalog/trait_reference.json",
+      "format": "json",
+      "description": "Authoritative trait registry for the pack.",
+      "expected_schema": "2.0",
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "2.0"
+    },
+    {
+      "path": "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
+      "format": "json",
+      "description": "Localized trait glossary distributed with the pack.",
+      "expected_schema": "1.0",
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "1.0"
+    },
+    {
+      "path": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
+      "format": "json",
+      "description": "Biome/trait recommendation rules for the pack.",
+      "expected_schema": "1.0",
+      "dependencies": [],
+      "issues": [],
+      "status": "ok",
+      "detected_schema": "1.0"
+    },
+    {
+      "path": "packs/evo_tactics_pack/docs/catalog/catalog_data.json",
+      "format": "json",
+      "description": "Bundle summary for Evo Tactics ecosystem pack.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    },
+    {
+      "path": "incoming/pathfinder/bestiary1e_index.csv",
+      "format": "csv",
+      "description": "Source index for Pathfinder bestiary ETL.",
+      "expected_schema": null,
+      "dependencies": [],
+      "issues": [],
+      "status": "ok"
+    }
+  ],
+  "incoming_duplicates": [
+    {
+      "key": "compat_map.json",
+      "paths": [
+        "incoming/compat_map.json",
+        "incoming/compat_map (1).json"
+      ]
+    },
+    {
+      "key": "evo-tactics-final.zip",
+      "paths": [
+        "incoming/evo-tactics-final (1).zip",
+        "incoming/evo-tactics-final.zip"
+      ]
+    },
+    {
+      "key": "evo_tactics_ancestors_repo_pack_v1.0.zip",
+      "paths": [
+        "incoming/evo_tactics_ancestors_repo_pack_v1.0.zip",
+        "incoming/evo_tactics_ancestors_repo_pack_v1.0 (1).zip"
+      ]
+    },
+    {
+      "key": "index.html",
+      "paths": [
+        "incoming/index (1).html",
+        "incoming/index.html"
+      ]
+    },
+    {
+      "key": "readme.md",
+      "paths": [
+        "incoming/README.md",
+        "incoming/decompressed/README.md",
+        "incoming/docs/readme.md"
+      ]
+    }
+  ]
+}

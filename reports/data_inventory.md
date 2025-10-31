@@ -141,11 +141,4 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 
 Lo script `tools/audit/data_health.py --incoming` evidenzia duplicati da gestire (`compat_map`, `evo-tactics-final`, `evo_tactics_ancestors_repo_pack_v1.0`, `index.html`, `README`).【9688a7†L1-L7】
 
-### Audit caretaker 2025-11-08
-
-- Verifica manuale degli assignment confrontando la tabella caretaker del playbook.【F:docs/process/incoming_triage_pipeline.md†L70-L88】
-- Allineati gli owner per gli asset prioritari del ciclo 2025-10-29:
-  - `incoming/ancestors_integration_pack_v0_5.zip` → `AG-Core` (ecosistema completo da integrare nelle regole principali).【F:reports/data_inventory.md†L96-L124】【F:docs/process/incoming_review_log.md†L15-L19】
-  - `incoming/evo_pacchetto_minimo_v7.zip` → `AG-Biome` (hook biomi e contenuti ambientali).【F:reports/data_inventory.md†L109-L124】【F:docs/process/incoming_review_log.md†L15-L19】
-  - `incoming/recon_meccaniche.json` → `AG-Validation` (ricognizione su nuove regole evento).【F:reports/data_inventory.md†L133-L139】【F:docs/process/incoming_review_log.md†L15-L19】
-- Non sono emerse ulteriori discrepanze rispetto alla snapshot `reports/incoming/latest/report.json` al 2025-10-29.【F:reports/incoming/latest/report.json†L13181-L20070】
+Lanciando lo stesso audit con l'opzione `--report` viene generato `reports/data_health_summary.json`, utile per integrare il controllo nei workflow CI o nelle dashboard editoriali.

@@ -1,0 +1,8 @@
+zip_file: evo_sentience_branch_layout_v0_1.zip
+timestamp: 20251030-133350
+cli_origin: repository
+working_directory: /tmp/incoming_validation.JMtgZN/evo_sentience_branch_layout_v0_1
+validate_datasets_exit_code: 0
+validate_datasets_log: reports/incoming/validation/evo_sentience_branch_layout_v0_1-20251030-133350/validate-datasets.log
+validate_ecosystem_pack_exit_code: 0
+validate_ecosystem_pack_log: reports/incoming/validation/evo_sentience_branch_layout_v0_1-20251030-133350/validate-ecosystem-pack.log
