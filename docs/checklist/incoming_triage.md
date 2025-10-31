@@ -26,4 +26,5 @@
 ## Controlli periodici
 - [ ] Ogni sprint: `AG-Orchestrator` rivede backlog `In integrazione` e pianifica sprint tematici.
 - [ ] Ogni mese: `AG-Toolsmith` aggiorna lo stato manutenzione tool (log in `docs/process/tooling_maintenance_log.md`).
+- [ ] Ogni mese: `AG-Orchestrator` conduce la retrospettiva incoming (vedi §13 playbook) aggregando gli ultimi report e log (`docs/process/incoming_review_log.md`, `logs/incoming_triage_agenti.md`).
 - [ ] Ogni quarter: `AG-Orchestrator` + agenti di dominio conducono retrospettiva asset in `Archivio`.
