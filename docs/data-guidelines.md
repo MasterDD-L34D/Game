@@ -71,6 +71,23 @@ python scripts/trait_audit.py
 
 Il report JSON riporta, per ogni dataset, lo stato (`ok`, `warning`, `error`) e l'elenco dei problemi rilevati. Viene verificato automaticamente con `python scripts/trait_audit.py --check` durante le review.
 
+### Inventario dataset e duplicati incoming
+
+Per avere una fotografia dello stato dei dataset e individuare eventuali file duplicati in `incoming/` è disponibile lo script `tools/audit/data_health.py`. Il comando seguente produce l'elenco degli errori a terminale e salva un riepilogo strutturato in `reports/data_health_summary.json`:
+
+```bash
+python tools/audit/data_health.py --incoming --report reports/data_health_summary.json
+```
+
+Il report contiene per ogni regola monitorata:
+
+* percorso relativo, formato e descrizione;
+* eventuale `schema_version` rilevata e quella attesa;
+* lista di problemi riscontrati (chiavi mancanti, dipendenze assenti, errori di parsing);
+* l'elenco dei duplicati trovati nella cartella `incoming/`, utile per ripulire le fonti prima dell'ingestione.
+
+Il campo `status` sintetizza il risultato complessivo (`ok`, `error` o `missing`) e può essere utilizzato dal CI o dagli script editoriali per bloccare la pubblicazione se l'audit fallisce.
+
 ## Sincronizzazione con Google Sheet
 
 Per mantenere allineati gli spreadsheet collaborativi con gli YAML:
