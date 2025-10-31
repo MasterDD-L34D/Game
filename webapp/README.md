@@ -11,3 +11,10 @@ La dashboard viene distribuita con Vite e supporta il deploy su hosting statico.
 Il file di fallback di default (`demo/flow-shell-snapshot.json`) è incluso in `webapp/public/demo/`, quindi viene copiato automaticamente in fase di build e servito in base al valore di `import.meta.env.BASE_URL`. Quando `base` è relativo (ad esempio `vite build --base=./`), il loader prova per prima cosa il fallback locale e registra nei log il passaggio allo snapshot statico prima di contattare l'endpoint remoto. Lo stesso meccanismo è disponibile per gli altri servizi (generazione, anteprime, validatori, quality release, trait diagnostics, modulo Nebula) con i JSON presenti sotto `webapp/public/api-mock/`. È possibile sostituire i file oppure puntare a percorsi personalizzati tramite le opzioni dei singoli store/servizi.
 
 Per deploy statici è sufficiente mantenere `base: './'` in `vite.config.ts` (o passare `--base=./` al comando di build) così che tutti gli asset, inclusi quelli nella cartella `public/`, vengano risolti in maniera relativa.
+
+## Telemetria Nebula offline
+
+Il modulo Nebula ora include un payload di telemetria mock (`public/nebula/telemetry.json`) che viene caricato automaticamente
+quando la fetch remota fallisce. In questo scenario l'interfaccia mostra badge "offline/demo" su sparkline, readiness chips e
+progress bar evolutive per distinguere i dati mock dai dati live. L'intervallo di polling può essere personalizzato passando
+`pollIntervalMs` a `useNebulaProgressModule`; per impostazione predefinita il modulo effettua un aggiornamento ogni 15 secondi.

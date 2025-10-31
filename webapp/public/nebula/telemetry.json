@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "totalEvents": 42,
+    "openEvents": 1,
+    "acknowledgedEvents": 38,
+    "highPriorityEvents": 3,
+    "lastEventAt": "2024-05-18T09:45:00Z"
+  },
+  "coverage": {
+    "average": 78,
+    "history": [62, 68, 73, 78],
+    "distribution": {
+      "success": 3,
+      "warning": 2,
+      "neutral": 1,
+      "critical": 0
+    }
+  },
+  "incidents": {
+    "timeline": [
+      { "date": "2024-05-12", "total": 2, "highPriority": 1 },
+      { "date": "2024-05-13", "total": 1, "highPriority": 0 },
+      { "date": "2024-05-14", "total": 0, "highPriority": 0 },
+      { "date": "2024-05-15", "total": 3, "highPriority": 1 },
+      { "date": "2024-05-16", "total": 1, "highPriority": 0 },
+      { "date": "2024-05-17", "total": 2, "highPriority": 1 },
+      { "date": "2024-05-18", "total": 1, "highPriority": 0 }
+    ]
+  },
+  "updatedAt": "2024-05-18T10:15:00Z",
+  "sample": [
+    { "id": "nebula-alpha", "label": "Sync QA freeze completato", "severity": "info" },
+    { "id": "mist-reclaimer", "label": "Validazione metabolica demo", "severity": "success" },
+    { "id": "veil-harbinger", "label": "Scenario narrativo in mock", "severity": "warning" }
+  ]
+}

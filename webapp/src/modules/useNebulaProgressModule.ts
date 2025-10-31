@@ -74,6 +74,8 @@ type NebulaTelemetry = {
   sample: unknown[];
 };
 
+type TelemetryMode = 'live' | 'fallback' | 'mock';
+
 type NebulaApiResponse = {
   dataset?: NebulaDataset;
   telemetry?: NebulaTelemetry;
@@ -91,10 +93,12 @@ type UseNebulaProgressOptions = {
   allowFallback?: boolean;
   pollIntervalMs?: number;
   fetcher?: typeof fetch;
+  telemetryMock?: string | null;
 };
 
 const DEFAULT_ENDPOINT = '/api/nebula/atlas';
 const DEFAULT_FALLBACK = 'api-mock/nebula/atlas.json';
+const DEFAULT_TELEMETRY_MOCK = 'nebula/telemetry.json';
 
 function normaliseArray(values: unknown): string[] {
   if (!Array.isArray(values)) {
@@ -208,6 +212,13 @@ export function useNebulaProgressModule(
     typeof fallbackPath === 'string' && fallbackPath.trim()
       ? resolveAssetUrl(fallbackPath.trim())
       : null;
+  let telemetryMockUrl: string | null = null;
+  if (options && Object.prototype.hasOwnProperty.call(options, 'telemetryMock')) {
+    const mockValue = options.telemetryMock;
+    telemetryMockUrl = typeof mockValue === 'string' && mockValue.trim().length > 0 ? resolveAssetUrl(mockValue.trim()) : null;
+  } else {
+    telemetryMockUrl = resolveAssetUrl(DEFAULT_TELEMETRY_MOCK);
+  }
   const allowFallback =
     options && Object.prototype.hasOwnProperty.call(options, 'allowFallback')
       ? Boolean(options.allowFallback)
@@ -220,6 +231,7 @@ export function useNebulaProgressModule(
   const loading = ref(false);
   const error = ref<Error | null>(null);
   const lastUpdated = ref<string | null>(null);
+  const telemetryMode = ref<TelemetryMode>('live');
   let pollHandle: ReturnType<typeof setInterval> | null = null;
 
   const overview = computed(() => (unref(sources.overview) as Record<string, unknown>) || {});
@@ -227,6 +239,26 @@ export function useNebulaProgressModule(
   const timelineState = computed(() => (unref(sources.timeline) as Record<string, unknown>) || {});
 
   const activeDataset = computed<NebulaDataset>(() => dataset.value || staticDataset);
+
+  async function loadTelemetryMock(reason?: Error) {
+    if (!telemetryMockUrl) {
+      throw reason || new Error('Mock telemetria non configurato');
+    }
+    const response = await fetchImpl(telemetryMockUrl, { cache: 'no-store' });
+    if (!response.ok) {
+      const message = `Mock telemetria non disponibile (${response.status})`;
+      throw new Error(message);
+    }
+    const payload = (await response.json()) as NebulaTelemetry;
+    telemetry.value = payload;
+    telemetryMode.value = 'mock';
+    lastUpdated.value = payload?.updatedAt || new Date().toISOString();
+    error.value = null;
+    console.warn('[nebula-progress] Telemetria mock attiva', {
+      source: telemetryMockUrl,
+      reason: reason?.message || 'caricamento remoto non disponibile',
+    });
+  }
 
   async function loadAtlas() {
     loading.value = true;
@@ -246,8 +278,10 @@ export function useNebulaProgressModule(
       if (data?.telemetry) {
         telemetry.value = data.telemetry;
         lastUpdated.value = data.telemetry.updatedAt || new Date().toISOString();
+        telemetryMode.value = source === 'fallback' ? 'fallback' : 'live';
       } else {
         lastUpdated.value = new Date().toISOString();
+        telemetryMode.value = source === 'fallback' ? 'fallback' : 'live';
       }
       error.value = null;
       if (source === 'fallback') {
@@ -259,7 +293,13 @@ export function useNebulaProgressModule(
         console.info('[nebula-progress] Dataset sincronizzato da endpoint remoto', { source: endpoint });
       }
     } catch (err) {
-      error.value = toError(err);
+      const loadError = toError(err);
+      try {
+        await loadTelemetryMock(loadError);
+      } catch (mockError) {
+        error.value = toError(mockError);
+        telemetryMode.value = 'live';
+      }
     } finally {
       loading.value = false;
     }
@@ -387,6 +427,7 @@ export function useNebulaProgressModule(
         telemetryLabel: `${percent}% copertura`,
         telemetryTimestamp: formatRelativeTime(entry?.telemetry?.lastValidation || null),
         stage: coverageStage(percent),
+        telemetryMode: telemetryMode.value,
       };
     });
   });
@@ -465,6 +506,7 @@ export function useNebulaProgressModule(
     const payload = {
       datasetId: activeDataset.value.id,
       generatedAt: new Date().toISOString(),
+      telemetryMode: telemetryMode.value,
       overview: {
         objectives: objectives.value,
         blockers: blockers.value,
@@ -497,6 +539,7 @@ export function useNebulaProgressModule(
           owner: entry.telemetryOwner,
           label: entry.telemetryLabel,
           lastSync: entry.telemetryTimestamp,
+          mode: entry.telemetryMode,
         },
       })),
     };
@@ -518,9 +561,20 @@ export function useNebulaProgressModule(
     lastEventAt: string | null;
     lastEventLabel: string;
     updatedAt: string | null;
+    mode: TelemetryMode;
+    isDemo: boolean;
+    sourceLabel: string;
   }> = computed(() => {
     const summary = telemetry.value?.summary;
     const lastEventAt = summary?.lastEventAt || null;
+    const mode = telemetryMode.value;
+    const isDemo = mode !== 'live';
+    const sourceLabel =
+      mode === 'live'
+        ? 'Telemetria live'
+        : mode === 'fallback'
+          ? 'Telemetria offline · fallback'
+          : 'Telemetria offline · demo';
     return {
       total: summary?.totalEvents ?? 0,
       open: summary?.openEvents ?? 0,
@@ -529,6 +583,9 @@ export function useNebulaProgressModule(
       lastEventAt,
       lastEventLabel: lastEventAt ? formatRelativeTime(lastEventAt) : 'Nessun evento',
       updatedAt: telemetry.value?.updatedAt || lastUpdated.value,
+      mode,
+      isDemo,
+      sourceLabel,
     };
   });
 
@@ -554,6 +611,23 @@ export function useNebulaProgressModule(
 
   const telemetryCoverageAverage = computed(() => telemetry.value?.coverage?.average ?? 0);
 
+  const telemetryStatus = computed(() => {
+    const mode = telemetryMode.value;
+    const offline = mode !== 'live';
+    const label =
+      mode === 'live'
+        ? 'Telemetria live'
+        : mode === 'fallback'
+          ? 'Telemetria offline · fallback'
+          : 'Telemetria offline · demo';
+    return {
+      mode,
+      offline,
+      variant: offline ? 'demo' : 'live',
+      label,
+    };
+  });
+
   return {
     header,
     cards,
@@ -564,6 +638,7 @@ export function useNebulaProgressModule(
     telemetryStreams,
     telemetryDistribution,
     telemetryCoverageAverage,
+    telemetryStatus,
     loading,
     error,
     lastUpdated,

@@ -2,14 +2,14 @@
 
 exports[`NebulaAtlasView > renderizza indicatori live e snapshot coerente 1`] = `
 "<section data-v-43e6e8ac="" class="nebula-atlas-view">
-  <section data-v-43e6e8ac="" class="stub-progress" header="[object Object]" cards="[object Object]" timeline-entries="[object Object]" evolution-matrix="[object Object]" share="[object Object]">progress</section>
+  <section data-v-43e6e8ac="" class="stub-progress" header="[object Object]" cards="[object Object]" timeline-entries="[object Object]" evolution-matrix="[object Object]" share="[object Object]" telemetry-status="[object Object]">progress</section>
   <section data-v-43e6e8ac="" class="nebula-atlas-view__live" aria-live="polite">
     <header data-v-43e6e8ac="" class="nebula-atlas-view__live-header">
       <div data-v-43e6e8ac="">
         <h3 data-v-43e6e8ac="">Telemetria live</h3>
         <p data-v-43e6e8ac="">Indicatori dal generatore Nebula combinati con il dataset atlas.</p>
       </div>
-      <div data-v-43e6e8ac="" class="nebula-atlas-view__status"><span data-v-43e6e8ac="" class="nebula-atlas-view__badge">Aggiornamento…</span><small data-v-43e6e8ac="">Ultimo sync: —</small></div>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__status"><span data-v-43e6e8ac="" class="nebula-atlas-view__badge" data-tone="warning">Sync 30 min fa</span><small data-v-43e6e8ac="">Ultimo sync: 2024-05-18T10:45:00Z</small></div>
     </header>
     <div data-v-43e6e8ac="" class="nebula-atlas-view__error" role="status"></div>
     <footer data-v-43e6e8ac="" class="nebula-atlas-view__footer"><span data-v-43e6e8ac=""></span><button data-v-43e6e8ac="" type="button" class="nebula-atlas-view__refresh">Aggiorna ora</button></footer>
