@@ -6,7 +6,18 @@
   "id": "risonanza_di_branco",
   "label": "Risonanza di Branco",
   "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
-  "requisiti_ambientali": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico"
+      }
+    }
+  ],
   "sinergie": [
     "antenne_eco_turbina",
     "antenne_plasmatiche_tempesta",

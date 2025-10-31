@@ -6,7 +6,18 @@
   "id": "pianificatore",
   "label": "Pianificatore",
   "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
-  "requisiti_ambientali": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico"
+      }
+    }
+  ],
   "sinergie": [
     "antenne_microonde_cavernose",
     "artigli_radice",

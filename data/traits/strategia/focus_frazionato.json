@@ -6,7 +6,18 @@
   "id": "focus_frazionato",
   "label": "Focus Frazionato",
   "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
-  "requisiti_ambientali": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico"
+      }
+    }
+  ],
   "sinergie": [
     "ali_fulminee",
     "antenne_plasmatiche_tempesta",

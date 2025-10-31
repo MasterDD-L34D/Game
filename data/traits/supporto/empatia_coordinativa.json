@@ -6,7 +6,18 @@
   "id": "empatia_coordinativa",
   "label": "Empatia Coordinativa",
   "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
-  "requisiti_ambientali": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico"
+      }
+    }
+  ],
   "sinergie": [
     "antenne_eco_turbina",
     "artigli_acidofagi",
