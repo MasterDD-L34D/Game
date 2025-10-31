@@ -15,6 +15,14 @@ async function loadJson(filePath) {
   return JSON.parse(content);
 }
 
+function shouldRefreshDataset(req) {
+  const refresh = String(req?.query?.refresh || '').trim().toLowerCase();
+  if (!refresh) {
+    return false;
+  }
+  return refresh === '1' || refresh === 'true' || refresh === 'yes' || refresh === 'force';
+}
+
 function cloneDataset(dataset) {
   return JSON.parse(JSON.stringify(dataset));
 }
@@ -128,7 +136,10 @@ function createGenerationSnapshotHandler(options = {}) {
   const orchestrator = options.orchestrator;
   let datasetCache = null;
 
-  async function ensureDataset() {
+  async function ensureDataset(force = false) {
+    if (force) {
+      datasetCache = null;
+    }
     if (!datasetCache) {
       datasetCache = await loadJson(datasetPath);
     }
@@ -137,7 +148,7 @@ function createGenerationSnapshotHandler(options = {}) {
 
   return async function generationSnapshotHandler(req, res) {
     try {
-      const dataset = await ensureDataset();
+      const dataset = await ensureDataset(shouldRefreshDataset(req));
       let diagnostics = null;
       if (traitDiagnosticsSync && typeof traitDiagnosticsSync.ensureLoaded === 'function') {
         try {
@@ -188,5 +199,6 @@ module.exports = {
     buildQualityRelease,
     buildRuntimeSummary,
     buildSnapshot,
+    shouldRefreshDataset,
   },
 };

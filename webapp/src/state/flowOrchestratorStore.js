@@ -16,6 +16,14 @@ const speciesCache = new Map();
 const batchCache = new Map();
 let logSequence = 0;
 
+function buildSnapshotUrl(baseUrl, { refresh = false } = {}) {
+  if (!refresh) {
+    return baseUrl;
+  }
+  const separator = baseUrl.includes('?') ? '&' : '?';
+  return `${baseUrl}${separator}refresh=1`;
+}
+
 function ensureFetch() {
   if (typeof fetch === 'function') {
     return fetch;
@@ -127,7 +135,8 @@ export function useFlowOrchestrator(options = {}) {
     state.error = null;
     const fetchImpl = ensureFetch();
     try {
-      const response = await fetchImpl(snapshotUrl, { cache: 'no-store' });
+      const targetUrl = buildSnapshotUrl(snapshotUrl, { refresh: force });
+      const response = await fetchImpl(targetUrl, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error(`Impossibile caricare snapshot orchestrator (${response.status})`);
       }
@@ -137,7 +146,7 @@ export function useFlowOrchestrator(options = {}) {
         scope: 'flow',
         level: 'info',
         message: 'Snapshot orchestrator caricato',
-        meta: { source: snapshotUrl, fallback: false },
+        meta: { source: targetUrl, fallback: false },
       });
       return state.snapshot;
     } catch (error) {
