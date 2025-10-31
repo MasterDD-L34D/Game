@@ -113,6 +113,22 @@ function run(command, args, options) {
   return result;
 }
 
+async function installSystemDependencies({ quiet = false } = {}) {
+  if (process.platform !== 'linux') {
+    return { attempted: false, status: 0 };
+  }
+  const depsEnv = { ...process.env };
+  const args = ['--yes', 'playwright', 'install-deps', 'chromium'];
+  if (!quiet) {
+    console.log('[ensure-chromium] Installing Playwright system dependencies for Chromium...');
+  }
+  const result = run('npx', args, { env: depsEnv });
+  if (result.status !== 0 && !quiet) {
+    console.warn('[ensure-chromium] Failed to install Playwright system dependencies (continuing)...');
+  }
+  return { attempted: true, status: result.status ?? 0 };
+}
+
 async function installWithPlaywright() {
   const installEnv = { ...process.env };
   if (!installEnv.PLAYWRIGHT_DOWNLOAD_HOST) {
@@ -147,6 +163,7 @@ async function installWithPuppeteer() {
 }
 
 export async function ensureChromiumExecutable({ quiet = false } = {}) {
+  await installSystemDependencies({ quiet });
   let { executable } = await findChromiumExecutable();
   if (executable) {
     if (!quiet) {
@@ -154,7 +171,6 @@ export async function ensureChromiumExecutable({ quiet = false } = {}) {
     }
     return executable;
   }
-
   if (!quiet) {
     console.log('[ensure-chromium] Attempting Playwright-managed browser install...');
   }

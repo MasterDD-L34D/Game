@@ -1,0 +1,11 @@
+{
+  "generated_at": "2025-10-31T12:59:53.986031Z",
+  "trait_catalog": {
+    "schema_version": "2.0",
+    "total_traits": 174
+  },
+  "baseline_summary": {
+    "total_traits": 306,
+    "missing_metadata": 132
+  }
+}

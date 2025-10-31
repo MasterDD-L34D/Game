@@ -11,7 +11,8 @@
     "drive:generate-approved": "node tools/drive/generate-approved-assets.mjs",
     "drive:push-approved": "node tools/drive/push-approved-assets.mjs",
     "drive-sync": "node tools/drive/sync-approved-assets.mjs",
-    "stage:publishing": "node services/publishing/staging.js"
+    "stage:publishing": "node services/publishing/staging.js",
+    "export:qa": "python tools/py/export_qa_reports.py"
   },
   "dependencies": {
     "cors": "^2.8.5",
