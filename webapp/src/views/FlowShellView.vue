@@ -12,6 +12,7 @@
         >
           <header class="status-card__header">
             <span class="status-card__label">{{ status.label }}</span>
+            <span v-if="status.loading" class="status-card__spinner" aria-hidden="true"></span>
             <span
               v-if="status.fallbackLabel"
               class="status-card__badge"
@@ -234,6 +235,25 @@ function normaliseErrorMessage(error) {
   return 'errors.generic';
 }
 
+function isOfflineError(error) {
+  if (!error) {
+    return false;
+  }
+  if (typeof error === 'string') {
+    return error === 'errors.network.offline';
+  }
+  if (error?.message === 'errors.network.offline') {
+    return true;
+  }
+  if (typeof error?.status === 'number' && error.status === 0) {
+    return true;
+  }
+  if (typeof error?.code === 'string' && error.code.toUpperCase() === 'ERR_NETWORK') {
+    return true;
+  }
+  return false;
+}
+
 function formatStatusTime(timestamp) {
   if (!timestamp) {
     return '—';
@@ -278,17 +298,24 @@ const retryTraitDiagnostics = async () => {
 
 const statuses = computed(() => {
   const snapshotFallback = snapshotStore.source.value === 'fallback';
+  const snapshotOffline = isOfflineError(snapshotStore.error.value);
   const snapshotStatus = {
     id: 'snapshot',
     label: 'Snapshot',
     loading: snapshotStore.loading.value,
     error: snapshotStore.error.value,
     errorMessage: normaliseErrorMessage(snapshotStore.error.value),
-    message: snapshotFallback
-      ? 'Snapshot fallback attivo'
-      : `Aggiornato ${formatStatusTime(snapshotStore.lastUpdatedAt.value)}`,
-    fallbackLabel: snapshotFallback ? snapshotStore.fallbackLabel.value || 'fallback' : null,
-    canRetry: Boolean(snapshotStore.error.value || snapshotFallback),
+    message: snapshotOffline
+      ? 'Connessione assente'
+      : snapshotFallback
+        ? 'Snapshot fallback attivo'
+        : `Aggiornato ${formatStatusTime(snapshotStore.lastUpdatedAt.value)}`,
+    fallbackLabel: snapshotFallback
+      ? snapshotStore.fallbackLabel.value || 'fallback'
+      : snapshotOffline
+        ? 'offline'
+        : null,
+    canRetry: Boolean(snapshotStore.error.value || snapshotFallback || snapshotOffline),
     onRetry: retrySnapshot,
     state: snapshotStore.error.value
       ? 'error'
@@ -298,16 +325,21 @@ const statuses = computed(() => {
   };
 
   const speciesFallback = speciesStore.fallbackActive.value;
+  const speciesOffline = isOfflineError(speciesStore.error.value);
   const speciesStatus = {
     id: 'species',
     label: 'Specie',
     loading: speciesStore.loading.value,
     error: speciesStore.error.value,
     errorMessage: normaliseErrorMessage(speciesStore.error.value),
-    message: speciesStore.blueprint.value?.name
-      || (speciesStore.requestId.value ? `Richiesta ${speciesStore.requestId.value}` : 'In attesa richiesta'),
-    fallbackLabel: speciesFallback ? 'fallback' : null,
-    canRetry: Boolean(speciesStore.error.value || speciesFallback || speciesStore.canRetry()),
+    message: speciesOffline
+      ? 'Connessione assente'
+      : speciesStore.blueprint.value?.name
+        || (speciesStore.requestId.value ? `Richiesta ${speciesStore.requestId.value}` : 'In attesa richiesta'),
+    fallbackLabel: speciesFallback ? 'fallback' : speciesOffline ? 'offline' : null,
+    canRetry: Boolean(
+      speciesStore.error.value || speciesFallback || speciesOffline || speciesStore.canRetry(),
+    ),
     onRetry: retrySpecies,
     state: speciesStore.error.value
       ? 'error'
@@ -319,19 +351,24 @@ const statuses = computed(() => {
   };
 
   const diagnosticsFallback = traitDiagnosticsStore.source.value === 'fallback';
+  const diagnosticsOffline = isOfflineError(traitDiagnosticsStore.error.value);
   const traitStatus = {
     id: 'traitDiagnostics',
     label: 'Trait diagnostics',
     loading: traitDiagnosticsStore.loading.value,
     error: traitDiagnosticsStore.error.value,
     errorMessage: normaliseErrorMessage(traitDiagnosticsStore.error.value),
-    message: diagnosticsFallback
-      ? 'Trait diagnostics fallback attivo'
-      : `Aggiornati ${formatStatusTime(traitDiagnosticsStore.lastUpdatedAt.value)}`,
+    message: diagnosticsOffline
+      ? 'Connessione assente'
+      : diagnosticsFallback
+        ? 'Trait diagnostics fallback attivo'
+        : `Aggiornati ${formatStatusTime(traitDiagnosticsStore.lastUpdatedAt.value)}`,
     fallbackLabel: diagnosticsFallback
       ? traitDiagnosticsStore.fallbackLabel.value || 'fallback'
-      : null,
-    canRetry: Boolean(traitDiagnosticsStore.error.value || diagnosticsFallback),
+      : diagnosticsOffline
+        ? 'offline'
+        : null,
+    canRetry: Boolean(traitDiagnosticsStore.error.value || diagnosticsFallback || diagnosticsOffline),
     onRetry: retryTraitDiagnostics,
     state: traitDiagnosticsStore.error.value
       ? 'error'
@@ -399,6 +436,15 @@ const goPrevious = () => flow.previous();
   gap: 0.5rem;
 }
 
+.status-card__spinner {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-top-color: rgba(96, 213, 255, 0.85);
+  animation: spin 1s linear infinite;
+}
+
 .status-card__label {
   font-size: 0.85rem;
   font-weight: 600;
@@ -420,6 +466,16 @@ const goPrevious = () => flow.previous();
 .status-card__badge[data-variant='demo'] {
   background: rgba(96, 213, 255, 0.15);
   color: rgba(96, 213, 255, 0.9);
+}
+
+.status-card__badge[data-variant='fallback'] {
+  background: rgba(244, 96, 96, 0.2);
+  color: rgba(255, 189, 189, 0.92);
+}
+
+.status-card__badge[data-variant='offline'] {
+  background: rgba(255, 153, 0, 0.2);
+  color: rgba(255, 205, 143, 0.9);
 }
 
 .status-card__message {
@@ -448,6 +504,15 @@ const goPrevious = () => flow.previous();
 .status-card__retry:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .flow-shell__main {
