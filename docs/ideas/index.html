@@ -139,6 +139,7 @@
         defaultFunctions: "",
         defaultPriority: "P2",
         categoriesUrl: "../config/idea_engine_taxonomy.json",
+        feedbackChannel: "#feedback-enhancements",
       };
 
       if (!window.IDEA_WIDGET_CONFIG.apiBase && window.location.hostname === "localhost") {
@@ -162,6 +163,7 @@
           if (params.has("functions")) window.IDEA_WIDGET_CONFIG.defaultFunctions = params.get("functions") || "";
           if (params.has("priority")) window.IDEA_WIDGET_CONFIG.defaultPriority = params.get("priority") || "P2";
           if (params.has("categoriesUrl")) window.IDEA_WIDGET_CONFIG.categoriesUrl = params.get("categoriesUrl") || "";
+          if (params.has("feedbackChannel")) window.IDEA_WIDGET_CONFIG.feedbackChannel = params.get("feedbackChannel") || "";
         } catch (error) {
           console.warn("Impossibile applicare gli override del widget", error);
         }

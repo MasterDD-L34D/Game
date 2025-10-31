@@ -76,3 +76,22 @@ groups:
         days: [sun]
         start: "07:00"
         end: "09:00"
+  - id: feedback_enhancements
+    label: "Feedback Enhancements"
+    description: "Canale di raccolta rapida per follow-up Idea Engine e tutorial multimediali."
+    recipients:
+      - idea.engine
+      - qa.support.bridge
+      - webapp.showcase
+    channels:
+      slack: "#feedback-enhancements"
+      email: "feedback-enhancements@gamestudio.local"
+    schedule:
+      - label: "Finestra quotidiana"
+        days: [mon, tue, wed, thu, fri]
+        start: "09:00"
+        end: "18:00"
+      - label: "Check rapido post-release"
+        days: [mon, wed]
+        start: "18:00"
+        end: "19:00"

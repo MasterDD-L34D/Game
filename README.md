@@ -90,6 +90,11 @@ python3 roll_pack.py ENTP invoker
 python3 generate_encounter.py savana
 ```
 
+#### Tutorial rapido · CLI Evo Tactics
+- Segui il [tutorial dedicato](docs/tutorials/cli-quickstart.md) per completare setup, validazione e roll demo.
+- ![CLI quickstart](assets/tutorials/cli-quickstart.svg)
+- Condividi anomalie o log significativi nel canale Slack `#feedback-enhancements`.
+
 ### Strumenti TypeScript (`tools/ts`)
 - Build e roll pack demo:
   ```bash
@@ -148,6 +153,11 @@ node dist/roll_pack.js ENTP invoker --seed demo
   fallback, numero di tentativi) così che Vue possa renderizzare
   immediatamente alert e summary coerenti.
 
+### Tutorial rapido · Feedback Idea Engine
+- Abilita il backend seguendo il [tutorial passo-passo](docs/tutorials/idea-engine-feedback.md).
+- ![Idea Engine feedback](assets/tutorials/idea-engine-feedback.svg)
+- Dopo ogni invio, annota follow-up o richieste extra in `#feedback-enhancements` (modulo Slack ora attivo di default).
+
 ## Dashboard web & showcase
 - **Dashboard test interface** (`docs/test-interface/`): carica YAML da `data/`, consente smoke test dei dataset e fetch manuali. Avvia un server statico locale con `python3 -m http.server 8000` e visita `http://localhost:8000/docs/test-interface/`.
 - **Deploy continuo**: il workflow GitHub Actions `deploy-test-interface` pubblica la dashboard su GitHub Pages. Imposta una sola volta Pages (`Settings → Pages → GitHub Actions`).
@@ -158,6 +168,10 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ### Showcase demo · preset "Bundle demo pubblico"
 ![Anteprima dossier showcase](public/showcase-dossier.svg)
+
+- **Tutorial rapido · Dashboard & Showcase** — [Guida sintetica](docs/tutorials/dashboard-tour.md) per avviare Vite e raccogliere materiale.
+  ![Dashboard tour](assets/tutorials/dashboard-tour.svg)
+  Condividi sempre risultati e note in `#feedback-enhancements` specificando seed, branch e dataset.
 
 - **Dossier HTML** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.html`](docs/presentations/showcase/evo-tactics-showcase-dossier.html) riutilizza il template export del generatore mantenendo i token cromatici (`--color-accent-400`, palette `public/`).
 - **Press kit PDF** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64`](docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64) conserva l'export in formato Base64; decodificalo con `python -m base64 -d docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64 > docs/presentations/showcase/dist/evo-tactics-showcase-dossier.pdf` (o con `base64 --decode`) per ottenere il PDF pronto alla distribuzione.
@@ -179,9 +193,10 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
 
 ## Storico aggiornamenti & archivio
+- **Release 2025-12-02 — Feedback & Tutorial boost** — integrazione changelog nel README, attivazione del modulo feedback con Slack `#feedback-enhancements` e nuovi tutorial multimediali. Dettagli completi in [`docs/changelog.md`](docs/changelog.md#2025-12-02).
 - **Suite Badlands riallineata (2025-11-16)** — i YAML aggiornati in `packs/evo_tactics_pack/data/species/badlands/` sono stati verificati con `python tools/py/report_trait_coverage.py` riportando `traits_with_species = 27/29` e nessuna regola senza specie (`rules_missing_species_total = 0`). Consulta `data/analysis/trait_coverage_report.json`, `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv` per il dettaglio e i pairing core/opzionali.
 - **Checklist rollout trait** — il log operativo [`logs/traits_tracking.md`](logs/traits_tracking.md) conserva le note di QA e i gate da rieseguire prima dei prossimi playtest; usa la sezione commenti per nuovi feedback rapidi e aggiorna la casella QA Lead entro le scadenze indicate.
-- **Idea Engine — novità 2025-12-01** — il widget embed (`docs/public/embed.js`) propone il modulo feedback immediato dopo l'invio delle idee e il backend espone `POST /api/ideas/:id/feedback`. Il changelog completo è in [`docs/ideas/changelog.md`](docs/ideas/changelog.md), mentre il modulo espresso resta disponibile [qui](https://forms.gle/evoTacticsIdeaFeedback).
+- **Idea Engine — modulo feedback sempre attivo** — il widget embed (`docs/public/embed.js`) ora propone il modulo feedback anche offline, reindirizzando al canale `#feedback-enhancements` quando l'API non è configurata. Per la cronologia dettagliata consulta [`docs/ideas/changelog.md`](docs/ideas/changelog.md).
 
 ## Stato operativo & tracker
 - **Indice tracker & stato**: usa `docs/00-INDEX.md` per checklist quotidiane, log e roadmap; la sezione viene aggiornata automaticamente da [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py) tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml).

@@ -8,6 +8,11 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 - `SistemaNPG-PF-Mutazioni.md` — NPG reattivi, PF, mutazioni T0/T1/T2, fusioni (Canvas C).
 - `Mating-Reclutamento-Nido.md` — Attrazione, Affinità/Fiducia, standard di nido, eredità (Canvas D).
 
+## Aggiornamenti rapidi
+- **Changelog** — la sintesi delle ultime release è integrata nel [README principale](../README.md#storico-aggiornamenti--archivio) e centralizzata in [`changelog.md`](changelog.md).
+- **Tutorial multimediali** — consulta `tutorials/` per schede SVG e passaggi rapidi dedicati a CLI, Idea Engine e dashboard (`docs/tutorials/*.md`).
+- **Feedback potenziato** — il modulo in `docs/public/embed.js` è attivo di default e rimanda al canale Slack `#feedback-enhancements` quando l'API non è configurata.
+
 ## Procedure post-ottobre 2025
 Dal ciclo VC-2025-10 in avanti utilizziamo un flusso documentale condiviso con Support/QA e Telemetria. Con l'estensione di novembre 2025 il refactor della CLI introduce anche un percorso di approvazione per i profili `playtest`, `telemetry` e `support`.
 
