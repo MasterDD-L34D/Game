@@ -73,7 +73,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | incoming/ancestors_integration_pack_v0_2.zip | 3.50 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_integration_pack_v0_3.zip | 3.85 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_integration_pack_v0_4.zip | 3.11 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
-| incoming/ancestors_integration_pack_v0_5.zip | 4.21 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
+| incoming/ancestors_integration_pack_v0_5.zip | 4.21 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
 | incoming/ancestors_neuronal_v0_3.zip | 4.30 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_neurons_dump_v0.3__DEXTERITY.csv | 7.38 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_neurons_dump_v0_6.zip | 7.33 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
@@ -106,7 +106,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | incoming/evo_pacchetto_minimo_v4.zip | 31.47 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
 | incoming/evo_pacchetto_minimo_v5.zip | 41.64 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
 | incoming/evo_pacchetto_minimo_v6.zip | 45.51 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
-| incoming/evo_pacchetto_minimo_v7.zip | 65.24 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
+| incoming/evo_pacchetto_minimo_v7.zip | 65.24 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/evo_pacchetto_minimo_v8.zip | 71.60 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
 | incoming/evo_sentience_branch_layout_v0_1.zip | 3.64 KB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
 | incoming/evo_sentience_rfc_pack_v0_1.zip | 5.04 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
@@ -132,7 +132,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | incoming/logs_48354746845.zip | 9.23 KB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
 | incoming/pack_biome_jobs_v8_alt.json | 20.48 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/personality_module.v1.json | 24.16 KB | 2025-10-29T18:47:07 | AG-Personality | N/D (grezzo) |
-| incoming/recon_meccaniche.json | 1.82 KB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
+| incoming/recon_meccaniche.json | 1.82 KB | 2025-10-29T18:47:07 | AG-Validation | N/D (grezzo) |
 | incoming/scan_engine_idents.py | 2.97 KB | 2025-10-29T18:47:07 | AG-Toolsmith | N/D (grezzo) |
 | incoming/sensienti_traits_v0.1.yaml | 3.77 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/species_index.html | 3.52 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |

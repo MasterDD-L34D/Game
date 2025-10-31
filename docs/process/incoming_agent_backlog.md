@@ -10,6 +10,34 @@ Questo backlog traduce le iniziative prioritarie emerse dal report di triage in 
   2. Notificare gli agenti in `#incoming-triage-agenti` includendo riepilogo validazioni e scadenze follow-up.
   3. Registrare l'incidente unzip (`evo_tactics_param_synergy_v8_3.zip`) e aprire ticket manutenzione per `AG-Toolsmith`.
 
+### Note Kanban 2025-11-08
+
+Consultare l'[inventario aggiornato al 2025-10-30](../../reports/incoming/inventory-2025-10-30.md) per il dettaglio completo degli asset presenti in `incoming/` prima di procedere con i task.
+
+| Card | Colonna | Caretaker | Prerequisiti accodati | Next step | Riferimento pre-esecuzione |
+| --- | --- | --- | --- | --- | --- |
+| `evo_pacchetto_minimo_v7` | In validazione | `AG-Biome` | Annotato fix `unzip -o` come blocco con allegato il log `reports/incoming/validation/evo_pacchetto_minimo_v7-20251030-133350/`. | Condividere ai caretaker l'esito dei validator e preparare il passaggio a `In integrazione` dopo la patch unzip. | [Report sessione-2025-11-14](../../reports/incoming/sessione-2025-11-14/report.html) |
+| `ancestors_integration_pack_v0_5` | In validazione | `AG-Core` | Validazioni dataset/ecosistema salvate in `reports/incoming/validation/ancestors_integration_pack_v0_5-20251030-133350/`; resta da completare lo smoke test CLI (`config/cli/staging_incoming.yaml`). | Eseguire `scripts/cli_smoke.sh --profile staging_incoming` con log in `logs/incoming_smoke/` per sbloccare il passaggio a `In integrazione`. | [`scripts/cli_smoke.sh`](../scripts/cli_smoke.sh) |
+| `recon_meccaniche.json` | In validazione | `AG-Validation` | Segnato bisogno raccolta stime tempo-analisi e confronto con hook evento correnti. | Consolidare report e passare outcome a `AG-Orchestrator` per decisione. | [Report latest](../../reports/incoming/latest/report.html) |
+
+### Slot calendario condiviso · settimana 2025-11-10
+
+Prima di ogni blocco `AG-Orchestrator` verifica i prerequisiti indicati per evitare blocchi operativi; al termine applica i controlli post-processo per mantenere sincronizzati board, log e knowledge base.
+
+| Slot (CET) | Card Kanban | Prerequisiti da verificare (pre-slot) | Controlli post-processo |
+| --- | --- | --- | --- |
+| 2025-11-10 10:00–10:45 | `evo_pacchetto_minimo_v7` → focus validazioni | Confermare merge del fix `unzip -o` su `scripts/report_incoming.sh`, rieseguire `./scripts/report_incoming.sh --destination sessione-2025-11-10` e raccogliere i log in `reports/incoming/sessione-2025-11-10/`. | Spostare la card in `In validazione`, allegare il nuovo log nella board, registrare l'esito in `logs/incoming_triage_agenti.md` e aggiornare la sezione corrente di `docs/process/incoming_review_log.md` con summary e link. |
+| 2025-11-10 14:30–15:30 | `ancestors_integration_pack_v0_5` → tuning core | Garantire disponibilità ambiente CLI `staging_incoming`, completare smoke test `scripts/cli_smoke.sh --profile staging_incoming` con output salvato in `logs/incoming_smoke/` e confermare caretaker `AG-Core` reperibile. | Aggiornare la card a `In integrazione` con link al risultato dello smoke test, annotare la decisione e il tuning previsto nel log agentico, integrare il follow-up nel knowledge base (`incoming_review_log.md`). |
+| 2025-11-11 11:00–12:00 | `recon_meccaniche.json` → consolidamento report | Raccogliere le stime tempo-analisi dagli agenti di dominio, esportare i confronti con gli hook evento correnti e predisporre il report `reports/incoming/latest/report.html` per la review finale. | Applicare l'esito (integrazione o archivio) sulla card Kanban, allegare il report consolidato, aggiornare `logs/incoming_triage_agenti.md` con decisione e follow-up e sintetizzare nel knowledge base con eventuali ticket aperti. |
+
+### Slot calendario condiviso · settimana 2025-11-14
+
+| Slot (CET) | Card / Focus | Dipendenze dichiarate | Checklist / Prerequisiti | Comandi / Script pianificati | Log / Registri da aggiornare |
+| --- | --- | --- | --- | --- | --- |
+| 2025-11-14 09:30–10:15 | `evo_pacchetto_minimo_v7` → riesecuzione validazioni post-fix unzip | Patch `unzip -o` registrata nel maintenance log (`docs/process/tooling_maintenance_log.md`) e conferma sessione 2025-11-13 nel registro review. Richiede che `AG-Orchestrator` abbia lanciato il Support Hub e preparato il report preliminare. | Checklist triage — sezione Pre-sync (`docs/checklist/incoming_triage.md`) con verifica spazio temporaneo e creazione card. | `./scripts/report_incoming.sh --destination sessione-2025-11-14`<br>`python tools/py/game_cli.py --profile staging_incoming validate-datasets` | `reports/incoming/sessione-2025-11-14/` per HTML/JSON e log validazione · `logs/incoming_triage_agenti.md` per annuncio · `docs/process/incoming_review_log.md` per sintesi slot. |
+| 2025-11-14 11:00–12:00 | `ancestors_integration_pack_v0_5` → validazione ecosistema e tuning core | Dipende dal completamento dello slot precedente (log aggiornati) e dalla reperibilità di `AG-Core`/`AG-Validation` come da ruoli caretaker (`docs/process/incoming_triage_pipeline.md`). Necessita smoke test CLI `staging_incoming`. | Checklist triage — sezione Durante la sync (`docs/checklist/incoming_triage.md`) per ownership e note dipendenze + checklist smoke CLI (`scripts/cli_smoke.sh`). | `./scripts/cli_smoke.sh --profile staging_incoming`<br>`python tools/py/game_cli.py --profile staging_incoming validate-ecosystem-pack --json-out reports/incoming/sessione-2025-11-14/ancestors_v0_5.json --html-out reports/incoming/sessione-2025-11-14/ancestors_v0_5.html` | Appendere output smoke in `logs/incoming_smoke/2025-11-14/` · Allegare report pack nella card Kanban · Aggiornare `docs/process/incoming_review_log.md` con decisione tuning. |
+| 2025-11-14 15:00–16:00 | `recon_meccaniche.json` → consolidamento insight e handoff knowledge base | Richiede completamento slot mattutini e raccolta stime dominio (vedi note card) più disponibilità `AG-Validation` per confronto con hook evento (`docs/process/incoming_triage_pipeline.md`). | Checklist triage — sezione Post-sync (`docs/checklist/incoming_triage.md`) per aggiornare board, knowledge base e archivio. | `python tools/py/game_cli.py --profile staging_incoming investigate incoming/recon_meccaniche.json --destination analisi-recon-2025-11-14 --html` | Salvare report in `reports/incoming/analisi-recon-2025-11-14/` · Aggiornare `logs/incoming_triage_agenti.md` con outcome · Registrare decisione e follow-up in `docs/process/incoming_review_log.md` e knowledge base. |
+
 ## 0. Collegare il Support Hub alla pipeline incoming
 - **Agente owner**: `AG-Orchestrator`
 - **Supporto**: `AG-Toolsmith`

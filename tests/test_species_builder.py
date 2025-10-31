@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from services.generation.species_builder import SpeciesBuilder, TraitCatalog
+from services.generation.species_builder import build_trait_diagnostics
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SNAPSHOT_PATH = REPO_ROOT / "tests" / "snapshots" / "species_builder_predatore.json"
@@ -32,6 +33,14 @@ class SpeciesBuilderTests(unittest.TestCase):
         )
         snapshot = json.loads(SNAPSHOT_PATH.read_text(encoding="utf-8"))
         self.assertDictEqual(profile, snapshot)
+
+    def test_trait_diagnostics_summary(self) -> None:
+        diagnostics = build_trait_diagnostics()
+        self.assertIn("summary", diagnostics)
+        summary = diagnostics["summary"]
+        self.assertGreater(summary.get("total_traits", 0), 0)
+        self.assertIn("traits", diagnostics)
+        self.assertIsInstance(diagnostics["traits"], list)
 
 
 if __name__ == "__main__":  # pragma: no cover - esecuzione manuale

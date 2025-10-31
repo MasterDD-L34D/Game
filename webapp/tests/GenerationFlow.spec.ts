@@ -64,7 +64,7 @@ function orchestrateSpeciesBatch() {
 }
 
 describe('Generation flow orchestrato', () => {
-  it('renderizza il blueprint orchestrato', () => {
+  it('renderizza il blueprint orchestrato', async () => {
     const response = orchestrateSpecies();
     const batch = orchestrateSpeciesBatch();
     const wrapper = mount(SpeciesPanel, {
@@ -80,6 +80,15 @@ describe('Generation flow orchestrato', () => {
     expect(wrapper.text()).toContain('Predatore Snapshot');
     expect(response.meta.fallback_used).toBe(false);
     expect(Array.isArray(response.validation.messages)).toBe(true);
+
+    const synergyTab = wrapper
+      .findAll('button')
+      .find((button) => button.text().toLowerCase().includes('sinergie'));
+    expect(synergyTab).toBeDefined();
+    if (synergyTab) {
+      await synergyTab.trigger('click');
+    }
+
     expect(wrapper.text()).toContain('Anteprime sintetiche');
     expect(wrapper.html()).toMatchSnapshot();
   });

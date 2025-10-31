@@ -4,9 +4,9 @@
       <h4>Filtra tratti core</h4>
       <ul>
         <li v-for="trait in coreOptions" :key="trait">
-          <label>
+          <label :class="{ 'trait-filter-panel__option--highlight': highlightSet.has(trait) }">
             <input type="checkbox" :value="trait" :checked="model.core.includes(trait)" @change="toggleTrait('core', trait, $event)" />
-            {{ trait }}
+            {{ formatLabel(trait) }}
           </label>
         </li>
       </ul>
@@ -15,14 +15,14 @@
       <h4>Filtra tratti derivati</h4>
       <ul>
         <li v-for="trait in derivedOptions" :key="trait">
-          <label>
+          <label :class="{ 'trait-filter-panel__option--highlight': highlightSet.has(trait) }">
             <input
               type="checkbox"
               :value="trait"
               :checked="model.derived.includes(trait)"
               @change="toggleTrait('derived', trait, $event)"
             />
-            {{ trait }}
+            {{ formatLabel(trait) }}
           </label>
         </li>
       </ul>
@@ -42,6 +42,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  labels: {
+    type: Object,
+    default: () => ({}),
+  },
+  highlight: {
+    type: Array,
+    default: () => [],
+  },
   modelValue: {
     type: Object,
     default: () => ({ core: [], derived: [] }),
@@ -49,6 +57,9 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
+
+const labelMap = computed(() => props.labels || {});
+const highlightSet = computed(() => new Set(props.highlight || []));
 
 const model = computed({
   get() {
@@ -61,6 +72,17 @@ const model = computed({
     emit('update:modelValue', value);
   },
 });
+
+function formatLabel(trait) {
+  if (!trait) {
+    return '';
+  }
+  const label = labelMap.value?.[trait];
+  if (label && label !== trait) {
+    return `${trait} · ${label}`;
+  }
+  return trait;
+}
 
 function toggleTrait(bucket, trait, event) {
   const checked = event?.target?.checked;
@@ -105,5 +127,11 @@ function toggleTrait(bucket, trait, event) {
   align-items: center;
   gap: 0.45rem;
   font-size: 0.85rem;
+}
+
+.trait-filter-panel__option--highlight {
+  background: rgba(39, 121, 255, 0.12);
+  border-radius: 6px;
+  padding: 0.2rem 0.35rem;
 }
 </style>

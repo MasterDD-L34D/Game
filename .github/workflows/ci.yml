@@ -185,9 +185,23 @@ jobs:
       - name: Audit trait catalog consistency
         run: python3 scripts/trait_audit.py --check
 
-      - name: Enforce trait coverage baseline
+      - name: Regenerate trait baseline
         run: |
-          python3 tools/py/report_trait_coverage.py --species-root packs/evo_tactics_pack/data/species --out-csv data/derived/analysis/trait_coverage_matrix.csv
+          python3 tools/py/build_trait_baseline.py \
+            packs/evo_tactics_pack/docs/catalog/env_traits.json \
+            packs/evo_tactics_pack/docs/catalog/trait_reference.json \
+            --trait-glossary data/core/traits/glossary.json \
+            --out data/derived/analysis/trait_baseline.yaml
+
+      - name: Regenerate trait coverage reports
+        run: |
+          python3 tools/py/report_trait_coverage.py \
+            --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json \
+            --trait-reference packs/evo_tactics_pack/docs/catalog/trait_reference.json \
+            --species-root packs/evo_tactics_pack/data/species \
+            --trait-glossary data/core/traits/glossary.json \
+            --out-json data/derived/analysis/trait_coverage_report.json \
+            --out-csv data/derived/analysis/trait_coverage_matrix.csv
           python3 - <<'PY'
           import json, sys
 

@@ -1,83 +1,98 @@
 <template>
-  <section class="flow-view biome-setup">
-    <header class="flow-view__header">
-      <h2>Pre-sintesi biomi</h2>
-      <p>Definisci vincoli critici e ruoli necessari prima di invocare il biomeSynthesizer.</p>
-    </header>
+  <section class="biome-setup">
+    <NebulaShell :tabs="tabs" v-model="activeTab" :status-indicators="statusIndicators">
+      <template #cards>
+        <div class="biome-setup__chips">
+          <TraitChip v-if="state.hazard" :label="state.hazard" variant="hazard" />
+          <TraitChip v-if="state.climate" :label="state.climate" variant="climate" />
+          <TraitChip
+            v-for="role in state.requiredRoles"
+            :key="role"
+            :label="role"
+            variant="role"
+            icon="⚙"
+          />
+        </div>
+      </template>
 
-    <div class="biome-setup__grid">
-      <form class="biome-setup__panel" @submit.prevent="queueSynthesis">
-        <fieldset>
-          <legend>Perimetro ambientale</legend>
-          <label>
-            <span>Hazard dominante</span>
-            <select v-model="state.hazard">
-              <option v-for="option in hazardOptions" :key="option" :value="option">{{ option }}</option>
-            </select>
-          </label>
-          <label>
-            <span>Clima operativo</span>
-            <select v-model="state.climate">
-              <option v-for="option in climateOptions" :key="option" :value="option">{{ option }}</option>
-            </select>
-          </label>
-        </fieldset>
+      <template #default="{ activeTab: currentTab }">
+        <div v-if="currentTab === 'setup'" class="biome-setup__panel">
+          <form class="biome-setup__form" @submit.prevent="queueSynthesis">
+            <fieldset>
+              <legend>Perimetro ambientale</legend>
+              <label>
+                <span>Hazard dominante</span>
+                <select v-model="state.hazard">
+                  <option v-for="option in hazardOptions" :key="option" :value="option">{{ option }}</option>
+                </select>
+              </label>
+              <label>
+                <span>Clima operativo</span>
+                <select v-model="state.climate">
+                  <option v-for="option in climateOptions" :key="option" :value="option">{{ option }}</option>
+                </select>
+              </label>
+            </fieldset>
 
-        <fieldset>
-          <legend>Ruoli richiesti</legend>
-          <div class="role-grid">
-            <label v-for="role in roleCatalog" :key="role">
-              <input type="checkbox" :value="role" v-model="state.requiredRoles" />
-              <span>{{ role }}</span>
-            </label>
-          </div>
-        </fieldset>
+            <fieldset>
+              <legend>Ruoli richiesti</legend>
+              <div class="biome-setup__roles">
+                <label v-for="role in roleCatalog" :key="role">
+                  <input type="checkbox" :value="role" v-model="state.requiredRoles" />
+                  <TraitChip :label="role" variant="role" />
+                </label>
+              </div>
+            </fieldset>
 
-        <fieldset>
-          <legend>Seed grafico</legend>
-          <div class="seed-row">
-            <input v-model="state.graphicSeed" type="text" placeholder="Inserisci seed procedurale" />
-            <button type="button" @click="randomizeSeed">Random</button>
-          </div>
-        </fieldset>
+            <fieldset>
+              <legend>Seed grafico</legend>
+              <div class="biome-setup__seed">
+                <input v-model="state.graphicSeed" type="text" placeholder="Inserisci seed procedurale" />
+                <button type="button" @click="randomizeSeed">Random</button>
+              </div>
+            </fieldset>
 
-        <footer class="biome-setup__actions">
-          <button type="submit" :disabled="!canSynthesize">Invoca biomeSynthesizer</button>
-          <p class="biome-setup__hint">
-            Il seed e i ruoli selezionati verranno passati come contesto obbligatorio per i nodi rigenerati.
-          </p>
-        </footer>
-      </form>
+            <footer class="biome-setup__actions">
+              <button type="submit" :disabled="!canSynthesize">Invoca biomeSynthesizer</button>
+              <p>Il seed e i ruoli selezionati verranno passati come contesto obbligatorio per i nodi rigenerati.</p>
+            </footer>
+          </form>
+        </div>
 
-      <BiomeSynthesisMap
-        :nodes="graphState.nodes"
-        :connections="graphState.connections"
-        @regenerate:layout="regenerateLayout"
-        @regenerate:node="regenerateNode"
-        @regenerate:connection="regenerateConnection"
-      />
-    </div>
+        <div v-else-if="currentTab === 'graph'" class="biome-setup__graph">
+          <BiomeSynthesisMap
+            :nodes="graphState.nodes"
+            :connections="graphState.connections"
+            @regenerate:layout="regenerateLayout"
+            @regenerate:node="regenerateNode"
+            @regenerate:connection="regenerateConnection"
+          />
+        </div>
 
-    <section class="biome-setup__validators">
-      <header>
-        <h3>Feedback dai validator runtime</h3>
-        <p>Monitoraggio in tempo reale delle anomalie per bioma.</p>
-      </header>
-      <ul>
-        <li v-for="item in validationDigest" :key="item.id" :class="`status-${item.status}`">
-          <div class="biome-setup__validator-title">
-            <strong>{{ item.biome }}</strong>
-            <span>{{ item.label }}</span>
-          </div>
-          <p>{{ item.message }}</p>
-        </li>
-      </ul>
-    </section>
+        <div v-else class="biome-setup__validators">
+          <header>
+            <h3>Feedback dai validator runtime</h3>
+            <p>Monitoraggio in tempo reale delle anomalie per bioma.</p>
+          </header>
+          <ul>
+            <li v-for="item in validationDigest" :key="item.id" :class="`status-${item.status}`">
+              <div class="biome-setup__validator-title">
+                <TraitChip :label="item.biome" variant="validator" :icon="statusIcon(item.status)" />
+                <span>{{ item.label }}</span>
+              </div>
+              <p>{{ item.message }}</p>
+            </li>
+          </ul>
+        </div>
+      </template>
+    </NebulaShell>
   </section>
 </template>
 
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
+import NebulaShell from '../components/layout/NebulaShell.vue';
+import TraitChip from '../components/shared/TraitChip.vue';
 import BiomeSynthesisMap from '../components/biomes/BiomeSynthesisMap.vue';
 
 const props = defineProps({
@@ -109,13 +124,36 @@ const graphState = reactive({
   connections: [],
 });
 
+const activeTab = ref('setup');
+
+const tabs = [
+  { id: 'setup', label: 'Setup', icon: '🛠' },
+  { id: 'graph', label: 'Synth map', icon: '🛰' },
+  { id: 'validators', label: 'Validatori', icon: '🛡' },
+];
+
 const hazardOptions = computed(() => props.config?.hazardOptions || []);
 const climateOptions = computed(() => props.config?.climateOptions || []);
 const roleCatalog = computed(() => props.config?.roleCatalog || []);
 
 const canSynthesize = computed(
-  () => state.hazard && state.climate && state.requiredRoles.length > 0 && state.graphicSeed
+  () => state.hazard && state.climate && state.requiredRoles.length > 0 && state.graphicSeed,
 );
+
+const statusIndicators = computed(() => {
+  const items = [];
+  if (state.hazard) {
+    items.push({ id: 'hazard', label: 'Hazard', value: state.hazard, tone: 'warning' });
+  }
+  if (state.climate) {
+    items.push({ id: 'climate', label: 'Clima', value: state.climate, tone: 'neutral' });
+  }
+  items.push({ id: 'roles', label: 'Ruoli', value: state.requiredRoles.length || 0, tone: 'success' });
+  if (graphState.nodes.length) {
+    items.push({ id: 'nodes', label: 'Nodi mappa', value: graphState.nodes.length, tone: 'neutral' });
+  }
+  return items;
+});
 
 const validationDigest = computed(() => {
   return props.validators.flatMap((biome) => {
@@ -152,9 +190,7 @@ const createConnectionState = (connection) => ({
 
 const syncGraph = () => {
   graphState.nodes = (props.graph?.nodes || []).map((node) => createNodeState(node));
-  graphState.connections = (props.graph?.connections || []).map((connection) =>
-    createConnectionState(connection)
-  );
+  graphState.connections = (props.graph?.connections || []).map((connection) => createConnectionState(connection));
 };
 
 const bumpIntensity = (node) => {
@@ -219,7 +255,7 @@ const queueSynthesis = () => {
 watch(
   () => [props.config?.hazard, props.config?.climate, props.config?.graphicSeed],
   syncConfig,
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(
@@ -227,14 +263,22 @@ watch(
   () => {
     state.requiredRoles = [...(props.config?.requiredRoles || [])];
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(
   () => [props.graph?.nodes?.length, props.graph?.connections?.length],
   syncGraph,
-  { immediate: true }
+  { immediate: true },
 );
+
+function statusIcon(status) {
+  if (!status) return '◈';
+  if (status === 'passed') return '✔';
+  if (status === 'warning') return '⚠';
+  if (status === 'failed') return '✖';
+  return '◈';
+}
 </script>
 
 <style scoped>
@@ -243,30 +287,31 @@ watch(
   gap: 1.5rem;
 }
 
-.biome-setup__grid {
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+.biome-setup__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
 }
 
 .biome-setup__panel {
-  background: rgba(9, 14, 20, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 1.2rem;
   display: grid;
-  gap: 1.1rem;
 }
 
-.biome-setup__panel fieldset {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 0.95rem;
+.biome-setup__form {
   display: grid;
-  gap: 0.8rem;
+  gap: 1.2rem;
 }
 
-.biome-setup__panel legend {
+.biome-setup__form fieldset {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.biome-setup__form legend {
   padding: 0 0.4rem;
   font-size: 0.85rem;
   text-transform: uppercase;
@@ -274,14 +319,14 @@ watch(
   color: rgba(240, 244, 255, 0.6);
 }
 
-.biome-setup__panel label {
+.biome-setup__form label {
   display: grid;
   gap: 0.35rem;
   font-size: 0.85rem;
 }
 
-.biome-setup__panel select,
-.biome-setup__panel input[type='text'] {
+.biome-setup__form select,
+.biome-setup__form input[type='text'] {
   background: rgba(16, 24, 34, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 10px;
@@ -289,32 +334,32 @@ watch(
   color: #f0f4ff;
 }
 
-.role-grid {
+.biome-setup__roles {
   display: grid;
   gap: 0.45rem;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 }
 
-.role-grid label {
+.biome-setup__roles label {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.35rem 0.45rem;
-  border-radius: 10px;
+  padding: 0.4rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(16, 24, 34, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.role-grid input {
+.biome-setup__roles input {
   accent-color: #61d5ff;
 }
 
-.seed-row {
+.biome-setup__seed {
   display: flex;
   gap: 0.6rem;
 }
 
-.seed-row button {
+.biome-setup__seed button {
   background: rgba(16, 24, 34, 0.92);
   border: 1px solid rgba(207, 145, 255, 0.35);
   border-radius: 10px;
@@ -348,17 +393,18 @@ watch(
   transform: translateY(-1px);
 }
 
-.biome-setup__hint {
+.biome-setup__actions p {
   margin: 0;
   font-size: 0.75rem;
   color: rgba(240, 244, 255, 0.6);
 }
 
+.biome-setup__graph {
+  display: grid;
+  min-height: 320px;
+}
+
 .biome-setup__validators {
-  background: rgba(9, 14, 20, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 1.2rem;
   display: grid;
   gap: 1rem;
 }
@@ -393,17 +439,8 @@ watch(
 .biome-setup__validator-title {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 0.75rem;
-}
-
-.biome-setup__validator-title strong {
-  font-size: 0.9rem;
-}
-
-.biome-setup__validator-title span {
-  font-size: 0.75rem;
-  color: rgba(240, 244, 255, 0.65);
 }
 
 .biome-setup__validators li p {

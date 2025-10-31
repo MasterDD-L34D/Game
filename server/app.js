@@ -6,6 +6,9 @@ const { buildCodexReport } = require('./report');
 const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesizer');
 const { createRuntimeValidator } = require('../services/generation/runtimeValidator');
 const { createGenerationOrchestratorBridge } = require('../services/generation/orchestratorBridge');
+const { createTraitDiagnosticsSync } = require('./traitDiagnostics');
+const { createGenerationSnapshotHandler } = require('./routes/generationSnapshot');
+const { createNebulaRouter } = require('./routes/nebula');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -220,6 +223,12 @@ function createApp(options = {}) {
   const generationOrchestrator =
     options.generationOrchestrator ||
     createGenerationOrchestratorBridge(options.orchestratorOptions || {});
+  const traitDiagnosticsSync =
+    options.traitDiagnosticsSync ||
+    createTraitDiagnosticsSync({
+      orchestrator: generationOrchestrator,
+      suppressErrors: true,
+    });
   const app = express();
 
   app.use(cors({ origin: options.corsOrigin || '*' }));
@@ -231,8 +240,49 @@ function createApp(options = {}) {
     });
   }
 
+  traitDiagnosticsSync.load().catch((error) => {
+    console.warn('[trait-diagnostics] preload fallito', error);
+  });
+
+  const generationSnapshotHandler = createGenerationSnapshotHandler({
+    orchestrator: generationOrchestrator,
+    traitDiagnostics: traitDiagnosticsSync,
+    datasetPath: options.generationSnapshot?.datasetPath,
+  });
+
+  app.get('/api/generation/snapshot', generationSnapshotHandler);
+
+  const nebulaRouter = createNebulaRouter({
+    telemetryPath: options?.nebula?.telemetryPath,
+  });
+  app.use('/api/nebula', nebulaRouter);
+
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'idea-engine' });
+  });
+
+  app.get('/api/traits/diagnostics', async (req, res) => {
+    const refresh = String(req.query.refresh || '').toLowerCase();
+    const shouldRefresh = refresh === 'true' || refresh === '1';
+    try {
+      if (shouldRefresh) {
+        await traitDiagnosticsSync.load();
+      } else {
+        await traitDiagnosticsSync.ensureLoaded();
+      }
+      const diagnostics = traitDiagnosticsSync.getDiagnostics() || {};
+      const status = traitDiagnosticsSync.getStatus();
+      res.json({
+        diagnostics,
+        meta: {
+          fetched_at: status.fetchedAt,
+          loading: Boolean(status.loading),
+          error: status.error,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message || 'Errore diagnostica tratti' });
+    }
   });
 
   app.get('/api/ideas', async (req, res) => {

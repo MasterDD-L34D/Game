@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import FlowShellView from '../views/FlowShellView.vue';
+import NebulaAtlasView from '../views/NebulaAtlasView.vue';
 import AtlasLayoutView from '../views/atlas/AtlasLayoutView.vue';
 import AtlasPokedexView from '../views/atlas/AtlasPokedexView.vue';
 import AtlasWorldBuilderView from '../views/atlas/AtlasWorldBuilderView.vue';
@@ -12,6 +13,11 @@ const router = createRouter({
       path: '/',
       name: 'workflow',
       component: FlowShellView,
+    },
+    {
+      path: '/nebula-atlas',
+      name: 'nebula-atlas',
+      component: NebulaAtlasView,
     },
     {
       path: '/atlas',

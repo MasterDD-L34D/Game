@@ -14,6 +14,7 @@ import json
 import hashlib
 import random
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
@@ -66,6 +67,7 @@ class TraitProfile:
     weakness: Optional[str]
     dataset_sources: List[str]
     usage_map: TraitUsage
+    glossary_ok: bool = False
 
     def to_payload(self) -> Dict[str, Any]:
         return {
@@ -83,6 +85,7 @@ class TraitProfile:
             "weakness": self.weakness,
             "dataset_sources": self.dataset_sources,
             "usage_map": self.usage_map.to_payload(),
+            "glossary_ok": self.glossary_ok,
         }
 
 
@@ -194,6 +197,8 @@ def build_trait_catalog_map(
             label = glossary_entry.get("label_it") or glossary_entry.get("label_en")
         label = label or raw.get("label") or trait_id
 
+        has_glossary_entry = isinstance(glossary_entry, Mapping) and bool(glossary_entry)
+
         profile = TraitProfile(
             id=str(trait_id),
             label=str(label),
@@ -211,6 +216,7 @@ def build_trait_catalog_map(
             weakness=str(raw.get("debolezza")) if raw.get("debolezza") else None,
             dataset_sources=sorted(set(resource_paths)),
             usage_map=TraitUsage.from_mapping(usage_map.get(trait_id, {})),
+            glossary_ok=has_glossary_entry,
         )
         catalog_traits[trait_id] = profile
 
@@ -236,6 +242,122 @@ def build_trait_catalog_map(
             json.dump(catalog_payload, handle, ensure_ascii=False, indent=2, sort_keys=True)
 
     return catalog_traits
+
+
+def _collect_matrix_traits(matrix: Mapping[str, Any]) -> set[str]:
+    trait_ids: set[str] = set()
+    for bucket_key in ("species", "events"):
+        entries = matrix.get(bucket_key) if isinstance(matrix, Mapping) else {}
+        if not isinstance(entries, Mapping):
+            continue
+        for payload in entries.values():
+            if not isinstance(payload, Mapping):
+                continue
+            for trait_id in _normalise_sequence(payload.get("core_traits")):
+                trait_ids.add(str(trait_id))
+            for trait_id in _normalise_sequence(payload.get("optional_traits")):
+                trait_ids.add(str(trait_id))
+            for trait_id in _normalise_sequence(payload.get("synergy_traits")):
+                trait_ids.add(str(trait_id))
+    return trait_ids
+
+
+def build_trait_diagnostics(
+    *,
+    trait_reference_path: Path = DEFAULT_TRAIT_REFERENCE_PATH,
+    trait_glossary_path: Path = DEFAULT_TRAIT_GLOSSARY_PATH,
+    trait_matrix_path: Path = DEFAULT_MATRIX_PATH,
+    inventory_path: Path = DEFAULT_INVENTORY_PATH,
+) -> Dict[str, Any]:
+    """Raccoglie statistiche di coverage e conflitti sui tratti."""
+
+    catalog = build_trait_catalog_map(
+        catalog_path=None,
+        trait_reference_path=trait_reference_path,
+        trait_glossary_path=trait_glossary_path,
+        trait_matrix_path=trait_matrix_path,
+        inventory_path=inventory_path,
+    )
+
+    matrix_payload: Mapping[str, Any] = {}
+    if trait_matrix_path.exists():
+        matrix_payload = _load_json(trait_matrix_path)
+
+    matrix_trait_ids = _collect_matrix_traits(matrix_payload) if matrix_payload else set()
+    catalog_trait_ids = set(catalog.keys())
+
+    traits_payload: List[Dict[str, Any]] = []
+    glossary_ok = 0
+    matrix_ok = 0
+    matrix_mismatch = 0
+    conflicts_total = 0
+
+    for trait_id in sorted(catalog.keys()):
+        profile = catalog[trait_id]
+        usage_payload = profile.usage_map.to_payload()
+        coverage = {
+            "core": len(usage_payload.get("core", [])),
+            "optional": len(usage_payload.get("optional", [])),
+            "synergy": len(usage_payload.get("synergy", [])),
+        }
+        total_coverage = coverage["core"] + coverage["optional"] + coverage["synergy"]
+        matrix_status = "ok" if total_coverage > 0 else "mismatch"
+        if matrix_status == "ok":
+            matrix_ok += 1
+        else:
+            matrix_mismatch += 1
+
+        if profile.glossary_ok:
+            glossary_ok += 1
+
+        conflicts = [value for value in profile.conflicts if value]
+        if conflicts:
+            conflicts_total += 1
+
+        traits_payload.append(
+            {
+                "id": profile.id,
+                "label": profile.label,
+                "tier": profile.tier,
+                "coverage": coverage,
+                "total_coverage": total_coverage,
+                "statuses": {
+                    "glossary": "ok" if profile.glossary_ok else "missing",
+                    "matrix": matrix_status,
+                },
+                "conflicts": conflicts,
+                "synergies": [value for value in profile.synergies if value],
+                "dataset_sources": profile.dataset_sources,
+            }
+        )
+
+    orphan_matrix_traits = sorted(matrix_trait_ids - catalog_trait_ids)
+
+    summary = {
+        "total_traits": len(catalog),
+        "glossary_ok": glossary_ok,
+        "glossary_missing": max(len(catalog) - glossary_ok, 0),
+        "matrix_ok": matrix_ok,
+        "matrix_mismatch": matrix_mismatch,
+        "with_conflicts": conflicts_total,
+        "matrix_only_traits": len(orphan_matrix_traits),
+    }
+
+    return {
+        "generated_at": datetime.utcnow().isoformat() + "Z",
+        "traits": traits_payload,
+        "summary": summary,
+        "matrix_only_traits": orphan_matrix_traits,
+        "sources": {
+            "trait_reference": str(trait_reference_path.relative_to(REPO_ROOT)),
+            "trait_matrix": str(trait_matrix_path.relative_to(REPO_ROOT))
+            if trait_matrix_path.exists()
+            else None,
+            "trait_glossary": str(trait_glossary_path.relative_to(REPO_ROOT))
+            if trait_glossary_path.exists()
+            else None,
+        },
+    }
 
 
 class TraitCatalog:
@@ -270,6 +392,7 @@ class TraitCatalog:
                     weakness=str(raw.get("weakness")) if raw.get("weakness") else None,
                     dataset_sources=_normalise_sequence(raw.get("dataset_sources")),
                     usage_map=TraitUsage.from_mapping(raw.get("usage_map", {})),
+                    glossary_ok=bool(raw.get("glossary_ok")),
                 )
             if traits:
                 return cls(traits)
@@ -843,6 +966,7 @@ __all__ = [
     "TraitProfile",
     "TraitUsage",
     "build_trait_catalog_map",
+    "build_trait_diagnostics",
     "load_builder",
     "PathfinderTraitFormula",
     "PathfinderProfileTranslator",
