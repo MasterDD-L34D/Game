@@ -1,0 +1,55 @@
+{
+  "metadata": {
+    "season": "v0.9-playtest-05",
+    "generated_at": "2025-11-12T09:45:00Z",
+    "source": "playtest_telemetry_batch_512"
+  },
+  "rules": {
+    "defaults": {
+      "tolerance": 0.02,
+      "weight": 1
+    },
+    "metrics": {
+      "win_rate": { "tolerance": 0.015, "weight": 2.5 },
+      "pick_rate": { "tolerance": 0.01, "weight": 1.2 },
+      "avg_damage": { "tolerance": 12, "weight": 0.8 }
+    }
+  },
+  "items": [
+    {
+      "id": "ember_wand",
+      "name": "Ember Wand",
+      "role": "caster",
+      "rarity": "rare",
+      "notes": "Burst mage loadout underperforming in late game.",
+      "metrics": {
+        "win_rate": { "current": 0.46, "target": 0.52 },
+        "pick_rate": { "current": 0.11, "target": 0.14 },
+        "avg_damage": { "current": 118, "target": 140 }
+      }
+    },
+    {
+      "id": "glacial_aegis",
+      "name": "Glacial Aegis",
+      "role": "tank",
+      "rarity": "epic",
+      "metrics": {
+        "win_rate": { "current": 0.57, "target": 0.52 },
+        "pick_rate": { "current": 0.21, "target": 0.18 },
+        "avg_damage": { "current": 84, "target": 80 }
+      }
+    },
+    {
+      "id": "verdant_surge",
+      "name": "Verdant Surge",
+      "role": "support",
+      "rarity": "uncommon",
+      "notes": "Healing numbers inflated by duo queue stacking.",
+      "metrics": {
+        "win_rate": { "current": 0.51, "target": 0.5 },
+        "pick_rate": { "current": 0.19, "target": 0.17 },
+        "avg_damage": { "current": 63, "target": 60 }
+      }
+    }
+  ]
+}
