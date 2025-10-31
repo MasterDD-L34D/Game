@@ -1,4 +1,8 @@
+import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from './apiEndpoints.js';
+import { fetchJsonWithFallback } from './fetchWithFallback.js';
+
 const DEFAULT_ENDPOINT = '/api/generation/species/batch';
+const DEFAULT_FALLBACK = 'api-mock/generation/species-preview.json';
 
 function ensureFetch() {
   if (typeof fetch === 'function') {
@@ -8,6 +12,25 @@ function ensureFetch() {
     return globalThis.fetch;
   }
   throw new Error('fetch non disponibile nell\'ambiente corrente');
+}
+
+function resolveFallback(options) {
+  if (options && Object.prototype.hasOwnProperty.call(options, 'fallback')) {
+    if (options.fallback === null) {
+      return null;
+    }
+    if (typeof options.fallback === 'string' && options.fallback.trim()) {
+      return options.fallback.trim();
+    }
+  }
+  return DEFAULT_FALLBACK;
+}
+
+function resolveAllowFallback(options) {
+  if (options && Object.prototype.hasOwnProperty.call(options, 'allowFallback')) {
+    return Boolean(options.allowFallback);
+  }
+  return isStaticDeployment();
 }
 
 function normaliseEntries(entries) {
@@ -31,23 +54,33 @@ export async function requestSpeciesPreviewBatch(entries, options = {}) {
   if (!batch.length) {
     return { previews: [], errors: [] };
   }
-  const endpoint = options.endpoint || DEFAULT_ENDPOINT;
+  const endpoint = resolveApiUrl(options.endpoint || DEFAULT_ENDPOINT);
+  const fallbackPath = resolveFallback(options);
+  const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
   const fetchImpl = ensureFetch();
-  const response = await fetchImpl(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ batch }),
+  const { data: payload, source, error } = await fetchJsonWithFallback(endpoint, {
+    fetchImpl,
+    requestInit: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ batch }),
+    },
+    fallbackUrl,
+    allowFallback: resolveAllowFallback(options),
+    errorMessage: 'Errore richiesta anteprime specie',
+    fallbackErrorMessage: 'Anteprime specie locali non disponibili',
   });
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(errorBody || 'Errore richiesta anteprime specie');
-  }
-  const payload = await response.json();
   const previews = Array.isArray(payload.results)
     ? payload.results
     : Array.isArray(payload.previews)
       ? payload.previews
       : [];
   const errors = Array.isArray(payload.errors) ? payload.errors : [];
-  return { previews, errors };
+  return {
+    previews,
+    errors,
+    endpoint_source: source,
+    endpoint_url: source === 'fallback' && fallbackUrl ? fallbackUrl : endpoint,
+    fallback_error: source === 'fallback' && error ? error.message : undefined,
+  };
 }

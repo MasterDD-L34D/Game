@@ -1,5 +1,10 @@
+import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from './apiEndpoints.js';
+import { fetchJsonWithFallback } from './fetchWithFallback.js';
+
 const DEFAULT_SPECIES_ENDPOINT = '/api/generation/species';
+const DEFAULT_SPECIES_FALLBACK = 'api-mock/generation/species.json';
 const DEFAULT_BATCH_ENDPOINT = '/api/generation/species/batch';
+const DEFAULT_BATCH_FALLBACK = 'api-mock/generation/species-batch.json';
 
 function ensureFetch() {
   if (typeof fetch === 'function') {
@@ -123,30 +128,23 @@ function resolveEndpoint(options, fallback) {
   return fallback;
 }
 
-async function postJson(endpoint, body, options = {}) {
-  const fetchImpl = ensureFetch();
-  const response = await fetchImpl(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-    signal: options.signal,
-  });
-  if (!response.ok) {
-    let message = `Richiesta fallita (${response.status})`;
-    try {
-      const errorBody = await response.json();
-      if (errorBody && errorBody.error) {
-        message = errorBody.error;
-      }
-    } catch (error) {
-      const fallbackText = await response.text();
-      if (fallbackText) {
-        message = fallbackText;
-      }
+function resolveFallback(options, fallback) {
+  if (options && Object.prototype.hasOwnProperty.call(options, 'fallback')) {
+    if (options.fallback === null) {
+      return null;
     }
-    throw new Error(message);
+    if (typeof options.fallback === 'string' && options.fallback.trim()) {
+      return options.fallback.trim();
+    }
   }
-  return response.json();
+  return fallback;
+}
+
+function resolveAllowFallback(options) {
+  if (options && Object.prototype.hasOwnProperty.call(options, 'allowFallback')) {
+    return Boolean(options.allowFallback);
+  }
+  return isStaticDeployment();
 }
 
 export async function generateSpecies(request, options = {}) {
@@ -154,9 +152,34 @@ export async function generateSpecies(request, options = {}) {
   if (!payload.trait_ids.length) {
     throw new Error('trait_ids richiesti per la generazione specie');
   }
-  const endpoint = resolveEndpoint(options, DEFAULT_SPECIES_ENDPOINT);
-  const result = await postJson(endpoint, payload, options);
-  return toGenerationResult(result);
+  const endpoint = resolveApiUrl(resolveEndpoint(options, DEFAULT_SPECIES_ENDPOINT));
+  const fallbackPath = resolveFallback(options, DEFAULT_SPECIES_FALLBACK);
+  const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
+  const fetchImpl = ensureFetch();
+  const { data, source, error } = await fetchJsonWithFallback(endpoint, {
+    fetchImpl,
+    requestInit: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: options.signal,
+    },
+    fallbackUrl,
+    allowFallback: resolveAllowFallback(options),
+    errorMessage: 'Errore generazione specie',
+    fallbackErrorMessage: 'Snapshot specie di fallback non disponibile',
+  });
+  const result = toGenerationResult(data);
+  const meta = { ...(result.meta || {}) };
+  meta.endpoint_source = source;
+  meta.endpoint_url = source === 'fallback' && fallbackUrl ? fallbackUrl : endpoint;
+  if (source === 'fallback') {
+    meta.fallback_used = true;
+    meta.fallback_active = true;
+    meta.fallback_error = error ? error.message : 'Richiesta remota non disponibile';
+  }
+  result.meta = meta;
+  return result;
 }
 
 function normaliseBatchEntries(entries) {
@@ -175,14 +198,41 @@ export async function generateSpeciesBatch(batchPayload, options = {}) {
   if (!entries.length) {
     return { results: [], errors: [] };
   }
-  const endpoint = resolveEndpoint(options, DEFAULT_BATCH_ENDPOINT);
+  const endpoint = resolveApiUrl(resolveEndpoint(options, DEFAULT_BATCH_ENDPOINT));
+  const fallbackPath = resolveFallback(options, DEFAULT_BATCH_FALLBACK);
+  const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
   const body = { batch: entries };
-  const payload = await postJson(endpoint, body, options);
+  const fetchImpl = ensureFetch();
+  const { data: payload, source, error } = await fetchJsonWithFallback(endpoint, {
+    fetchImpl,
+    requestInit: {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: options.signal,
+    },
+    fallbackUrl,
+    allowFallback: resolveAllowFallback(options),
+    errorMessage: 'Errore generazione batch specie',
+    fallbackErrorMessage: 'Batch di fallback non disponibile',
+  });
   const results = Array.isArray(payload?.results)
     ? payload.results.map((item) => toGenerationResult(item))
     : [];
   const errors = Array.isArray(payload?.errors) ? payload.errors.map((item) => toBatchError(item)) : [];
-  return { results, errors };
+  const endpointUrl = source === 'fallback' && fallbackUrl ? fallbackUrl : endpoint;
+  const decoratedResults = results.map((item) => {
+    const meta = { ...(item.meta || {}) };
+    meta.endpoint_source = source;
+    meta.endpoint_url = endpointUrl;
+    if (source === 'fallback') {
+      meta.fallback_used = true;
+      meta.fallback_active = true;
+      meta.fallback_error = error ? error.message : 'Richiesta remota non disponibile';
+    }
+    return { ...item, meta };
+  });
+  return { results: decoratedResults, errors, endpoint_source: source, endpoint_url: endpointUrl };
 }
 
 export function summariseValidation(validation = {}) {
