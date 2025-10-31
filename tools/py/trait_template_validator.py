@@ -77,6 +77,19 @@ def validate() -> int:
         else:
             print(f"[TRAIT] {trait_key}: OK")
 
+    types_section = catalog.get("types")
+    if isinstance(types_section, dict):
+        for type_key, payload in types_section.items():
+            trait_ids = payload.get("traits", [])
+            missing_traits = [trait_id for trait_id in trait_ids if trait_id not in traits]
+            if missing_traits:
+                has_errors = True
+                print(f"[TYPE] {type_key}: FAIL")
+                for trait_id in missing_traits:
+                    print(f" - trait '{trait_id}' is not defined in catalog")
+            else:
+                print(f"[TYPE] {type_key}: OK")
+
     return 1 if has_errors else 0
 
 

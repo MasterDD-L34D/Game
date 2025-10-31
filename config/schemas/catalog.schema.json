@@ -28,6 +28,37 @@
         }
       },
       "additionalProperties": false
+    },
+    "types": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-z0-9_]+$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "index",
+            "traits"
+          ],
+          "properties": {
+            "index": {
+              "type": "string",
+              "minLength": 1
+            },
+            "traits": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              }
+            },
+            "type": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
     }
   }
 }
