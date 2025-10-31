@@ -6,7 +6,18 @@
   "id": "tattiche_di_branco",
   "label": "Tattiche di Branco",
   "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
-  "requisiti_ambientali": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico"
+      }
+    }
+  ],
   "sinergie": [
     "antenne_microonde_cavernose",
     "artigli_radice",

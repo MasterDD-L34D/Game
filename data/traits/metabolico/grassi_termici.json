@@ -6,7 +6,18 @@
   "id": "grassi_termici",
   "label": "Grassi Termici",
   "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
-  "requisiti_ambientali": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico"
+      }
+    }
+  ],
   "sinergie": [
     "filamenti_digestivi_compattanti",
     "ventriglio_gastroliti"

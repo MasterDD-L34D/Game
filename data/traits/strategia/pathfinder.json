@@ -6,7 +6,18 @@
   "id": "pathfinder",
   "label": "Pathfinder",
   "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
-  "requisiti_ambientali": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico"
+      }
+    }
+  ],
   "sinergie": [],
   "sinergie_pi": {
     "co_occorrenze": [

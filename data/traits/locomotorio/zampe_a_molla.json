@@ -6,7 +6,18 @@
   "id": "zampe_a_molla",
   "label": "Zampe a Molla",
   "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
-  "requisiti_ambientali": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "foresta_miceliale"
+      },
+      "fonte": "env_to_traits",
+      "meta": {
+        "expansion": "controllo_psionico"
+      }
+    }
+  ],
   "sinergie": [
     "ali_ioniche",
     "antenne_wideband",
