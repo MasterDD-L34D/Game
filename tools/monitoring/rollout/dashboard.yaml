@@ -1,0 +1,156 @@
+version: '1.0'
+dashboard: mission-control-rollout
+owner: qa-insights
+refreshInterval: 60
+panels:
+  - id: eventi-live
+    title: "Eventi Live - Stato"
+    description: "Monitoraggio salute orchestrazione eventi live nelle coorti canary."
+    layout:
+      row: 1
+      column: 1
+      width: 6
+      height: 8
+    queries:
+      - metric: eventi_active_instances
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: below
+            value: 0.97
+          - level: critical
+            condition: below
+            value: 0.95
+        annotations:
+          - text: "Soglia minima 95% istanze attive"
+      - metric: eventi_sync_drift_ms
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: above
+            value: 220
+          - level: critical
+            condition: above
+            value: 250
+        annotations:
+          - text: "Drift massimo 250ms"
+      - metric: eventi_player_drop_rate
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: above
+            value: 0.025
+          - level: critical
+            condition: above
+            value: 0.03
+        annotations:
+          - text: "Monitorare abbandoni durante evento"
+  - id: loadout-dinamici
+    title: "Loadout Dinamici - Stabilità"
+    description: "Performance pubblicazione loadout e rollback per coorti pilota."
+    layout:
+      row: 1
+      column: 7
+      width: 6
+      height: 8
+    queries:
+      - metric: loadout_publish_success_rate
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: below
+            value: 0.985
+          - level: critical
+            condition: below
+            value: 0.98
+        annotations:
+          - text: "Soglia accettazione 98%"
+      - metric: loadout_build_time_p95
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: above
+            value: 4000
+          - level: critical
+            condition: above
+            value: 4200
+        annotations:
+          - text: "Target tempo build 4.2s"
+      - metric: loadout_rollbacks
+        visualization: bar
+        thresholds:
+          - level: critical
+            condition: above
+            value: 1
+        annotations:
+          - text: "Rollback massimo 1 per giorno"
+  - id: moderazione-assistita
+    title: "Moderazione Assistita - Efficienza"
+    description: "Tassi di adozione e tempi di risposta per il pannello assistito."
+    layout:
+      row: 9
+      column: 1
+      width: 12
+      height: 8
+    queries:
+      - metric: moderation_assist_accept_rate
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: below
+            value: 0.68
+          - level: critical
+            condition: below
+            value: 0.65
+        annotations:
+          - text: "Accettazione minima 65%"
+      - metric: moderation_triage_latency_p95
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: above
+            value: 750
+          - level: critical
+            condition: above
+            value: 900
+        annotations:
+          - text: "Tempo triage massimo 15m"
+      - metric: moderation_manual_escalations
+        visualization: table
+        thresholds:
+          - level: warning
+            condition: above
+            value: 10
+          - level: critical
+            condition: above
+            value: 12
+        annotations:
+          - text: "Escalation >12 richiedono root cause"
+alerts:
+  - id: eventi-sla
+    panel: eventi-live
+    metric: eventi_active_instances
+    condition: below
+    value: 0.95
+    for: 10m
+    channels:
+      - slack:#eventi-control-room
+      - pagerduty:ops-oncall
+  - id: loadout-build-latency
+    panel: loadout-dinamici
+    metric: loadout_build_time_p95
+    condition: above
+    value: 4200
+    for: 15m
+    channels:
+      - slack:#loadout-updates
+      - jira:OPS-LOADOUT
+  - id: moderation-triage-breach
+    panel: moderazione-assistita
+    metric: moderation_triage_latency_p95
+    condition: above
+    value: 900
+    for: 20m
+    channels:
+      - slack:#moderation-ops
+      - pagerduty:moderation-oncall

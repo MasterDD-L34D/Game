@@ -1,76 +1,217 @@
 {
-  "featureFlags": {
-    "rollout": {
-      "qaMetricsMonitoring": {
-        "description": "Abilita il monitoraggio automatizzato delle metriche di rollout Mission Control.",
-        "default": false,
+    "featureFlags": {
         "rollout": {
-          "phase": "canary",
-          "stageGate": "qa-approval",
-          "start": "2025-11-20",
-          "target": "2025-12-05",
-          "cohorts": ["qa-bravo", "qa-delta", "ops-foxtrot"],
-          "pipeline": {
-            "jobId": "qa-rollout-metrics",
-            "config": "config/jobs/monitoring.yaml"
-          }
-        },
-        "owner": {
-          "team": "qa-insights",
-          "contact": "qa-insights@gamestudio.local"
-        },
-        "playbook": "docs/qa/rollout_checklist.md",
-        "metrics": [
-          {
-            "name": "mission_control_uptime",
-            "threshold": ">=99.5%",
-            "window": "24h",
-            "alertChannel": "ops-oncall"
-          },
-          {
-            "name": "hud_action_latency_p95",
-            "threshold": "<=3800ms",
-            "window": "6h",
-            "alertChannel": "qa-rollout"
-          },
-          {
-            "name": "playtest_squad_engagement",
-            "threshold": ">=0.62",
-            "window": "7d",
-            "alertChannel": "analytics-duty"
-          }
-        ]
-      },
-      "ideaEngineFeedback": {
-        "description": "Attiva il modulo feedback Idea Engine con canale Slack #feedback-enhancements.",
-        "default": true,
-        "rollout": {
-          "phase": "general_availability",
-          "cohorts": ["idea-engine", "qa-support", "webapp"],
-          "start": "2025-12-02",
-          "target": "2025-12-09"
-        },
-        "owner": {
-          "team": "support-qa",
-          "contact": "support-qa@gamestudio.local",
-          "slack": "#feedback-enhancements"
-        },
-        "playbook": "docs/tutorials/idea-engine-feedback.md",
-        "metrics": [
-          {
-            "name": "feedback_response_time_hours",
-            "threshold": "<=24",
-            "window": "7d",
-            "alertChannel": "#feedback-enhancements"
-          },
-          {
-            "name": "tutorial_views_weekly",
-            "threshold": ">=12",
-            "window": "7d",
-            "alertChannel": "analytics-duty"
-          }
-        ]
-      }
+            "qaMetricsMonitoring": {
+                "description": "Abilita il monitoraggio automatizzato delle metriche di rollout Mission Control.",
+                "default": false,
+                "rollout": {
+                    "phase": "canary",
+                    "stageGate": "qa-approval",
+                    "start": "2025-11-20",
+                    "target": "2025-12-05",
+                    "cohorts": [
+                        "qa-bravo",
+                        "qa-delta",
+                        "ops-foxtrot"
+                    ],
+                    "pipeline": {
+                        "jobId": "qa-rollout-metrics",
+                        "config": "config/jobs/monitoring.yaml"
+                    }
+                },
+                "owner": {
+                    "team": "qa-insights",
+                    "contact": "qa-insights@gamestudio.local"
+                },
+                "playbook": "docs/qa/rollout_checklist.md",
+                "metrics": [
+                    {
+                        "name": "mission_control_uptime",
+                        "threshold": ">=99.5%",
+                        "window": "24h",
+                        "alertChannel": "ops-oncall"
+                    },
+                    {
+                        "name": "hud_action_latency_p95",
+                        "threshold": "<=3800ms",
+                        "window": "6h",
+                        "alertChannel": "qa-rollout"
+                    },
+                    {
+                        "name": "playtest_squad_engagement",
+                        "threshold": ">=0.62",
+                        "window": "7d",
+                        "alertChannel": "analytics-duty"
+                    }
+                ]
+            },
+            "ideaEngineFeedback": {
+                "description": "Attiva il modulo feedback Idea Engine con canale Slack #feedback-enhancements.",
+                "default": true,
+                "rollout": {
+                    "phase": "general_availability",
+                    "cohorts": [
+                        "idea-engine",
+                        "qa-support",
+                        "webapp"
+                    ],
+                    "start": "2025-12-02",
+                    "target": "2025-12-09"
+                },
+                "owner": {
+                    "team": "support-qa",
+                    "contact": "support-qa@gamestudio.local",
+                    "slack": "#feedback-enhancements"
+                },
+                "playbook": "docs/tutorials/idea-engine-feedback.md",
+                "metrics": [
+                    {
+                        "name": "feedback_response_time_hours",
+                        "threshold": "<=24",
+                        "window": "7d",
+                        "alertChannel": "#feedback-enhancements"
+                    },
+                    {
+                        "name": "tutorial_views_weekly",
+                        "threshold": ">=12",
+                        "window": "7d",
+                        "alertChannel": "analytics-duty"
+                    }
+                ]
+            },
+            "eventiLiveOrchestration": {
+                "description": "Abilita il sistema di regia eventi live con sincronizzazione cross-shard.",
+                "default": false,
+                "rollout": {
+                    "phase": "canary",
+                    "stageGate": "eventi-go",
+                    "start": "2026-01-05",
+                    "target": "2026-01-19",
+                    "cohorts": [
+                        "eventi-internal",
+                        "eventi-beta"
+                    ],
+                    "pipeline": {
+                        "jobId": "eventi-rollout-health",
+                        "config": "config/jobs/eventi-rollout.yaml"
+                    }
+                },
+                "owner": {
+                    "team": "live-ops",
+                    "contact": "live-ops@gamestudio.local",
+                    "slack": "#eventi-control-room"
+                },
+                "playbook": "docs/qa/playbooks/eventi.md",
+                "metrics": [
+                    {
+                        "name": "eventi_active_instances",
+                        "threshold": ">=95%",
+                        "window": "1h",
+                        "alertChannel": "#eventi-control-room"
+                    },
+                    {
+                        "name": "eventi_sync_drift_ms",
+                        "threshold": "<=250",
+                        "window": "30m",
+                        "alertChannel": "ops-oncall"
+                    },
+                    {
+                        "name": "eventi_player_drop_rate",
+                        "threshold": "<=3%",
+                        "window": "2h",
+                        "alertChannel": "analytics-duty"
+                    }
+                ]
+            },
+            "loadoutDynamicTemplates": {
+                "description": "Rende disponibili i loadout dinamici con template stagionali e progressione QA.",
+                "default": false,
+                "rollout": {
+                    "phase": "limited_availability",
+                    "stageGate": "loadout-qa",
+                    "start": "2026-02-10",
+                    "target": "2026-02-24",
+                    "cohorts": [
+                        "qa-delta",
+                        "squad-alpha",
+                        "creators-program"
+                    ],
+                    "pipeline": {
+                        "jobId": "loadout-rollout-health",
+                        "config": "config/jobs/loadout-rollout.yaml"
+                    }
+                },
+                "owner": {
+                    "team": "progression-design",
+                    "contact": "progression-design@gamestudio.local",
+                    "slack": "#loadout-updates"
+                },
+                "playbook": "docs/qa/playbooks/loadout.md",
+                "metrics": [
+                    {
+                        "name": "loadout_publish_success_rate",
+                        "threshold": ">=98%",
+                        "window": "4h",
+                        "alertChannel": "#loadout-updates"
+                    },
+                    {
+                        "name": "loadout_build_time_p95",
+                        "threshold": "<=4200ms",
+                        "window": "2h",
+                        "alertChannel": "ops-oncall"
+                    },
+                    {
+                        "name": "loadout_rollbacks",
+                        "threshold": "<=1",
+                        "window": "24h",
+                        "alertChannel": "progression-oncall"
+                    }
+                ]
+            },
+            "moderazioneAssistedOps": {
+                "description": "Attiva il pannello di moderazione assistita con suggerimenti ML in tempo reale.",
+                "default": true,
+                "rollout": {
+                    "phase": "canary",
+                    "stageGate": "moderation-ops",
+                    "start": "2026-01-22",
+                    "target": "2026-02-05",
+                    "cohorts": [
+                        "moderation-core",
+                        "moderation-emea"
+                    ],
+                    "pipeline": {
+                        "jobId": "moderation-rollout-health",
+                        "config": "config/jobs/moderation-rollout.yaml"
+                    }
+                },
+                "owner": {
+                    "team": "moderation-ops",
+                    "contact": "moderation-ops@gamestudio.local",
+                    "slack": "#moderation-ops"
+                },
+                "playbook": "docs/qa/playbooks/moderazione.md",
+                "metrics": [
+                    {
+                        "name": "moderation_assist_accept_rate",
+                        "threshold": ">=0.65",
+                        "window": "6h",
+                        "alertChannel": "#moderation-ops"
+                    },
+                    {
+                        "name": "moderation_triage_latency_p95",
+                        "threshold": "<=900s",
+                        "window": "3h",
+                        "alertChannel": "ops-oncall"
+                    },
+                    {
+                        "name": "moderation_manual_escalations",
+                        "threshold": "<=12",
+                        "window": "24h",
+                        "alertChannel": "moderation-oncall"
+                    }
+                ]
+            }
+        }
     }
-  }
 }
