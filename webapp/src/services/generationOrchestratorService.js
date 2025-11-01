@@ -1,4 +1,4 @@
-import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from './apiEndpoints.js';
+import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from './apiEndpoints';
 import { fetchJsonWithFallback } from './fetchWithFallback.js';
 import { resolveDataSource } from '../config/dataSources.js';
 

@@ -1,8 +1,12 @@
 import { computed, reactive, onScopeDispose, getCurrentScope, type ComputedRef } from 'vue';
-import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/apiEndpoints.js';
+import { ZodError } from 'zod';
+
+import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/apiEndpoints';
 import { resolveFetchImplementation } from '../services/fetchWithFallback.js';
-import { resolveDataSource } from '../config/dataSources.js';
-import { resolveWithFallback } from '../services/fallbackRegistry.js';
+import { resolveDataSource } from '../config/dataSources';
+import { resolveWithFallback } from '../services/fallbackRegistry';
+import { fromZodError, toServiceError } from '../services/errorHandling';
+import { parseFlowSnapshot, type ParsedSnapshot } from '../validation/snapshot';
 
 type FlowLogger = {
   log?: (event: string, payload?: Record<string, unknown>) => void;
@@ -15,7 +19,7 @@ type SnapshotMeta = {
   [key: string]: unknown;
 };
 
-type FlowSnapshot = Record<string, any>;
+type FlowSnapshot = ParsedSnapshot & Record<string, unknown>;
 
 type SnapshotAttemptResult = {
   data: FlowSnapshot;
@@ -144,7 +148,15 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
             throw error;
           }
           const data = await response.json();
-          return { data, meta: { url: targetUrl } };
+          try {
+            const parsed = parseFlowSnapshot(data as Record<string, unknown>);
+            return { data: parsed as FlowSnapshot, meta: { url: targetUrl } };
+          } catch (parseError) {
+            if (parseError instanceof ZodError) {
+              throw fromZodError(parseError, 'Snapshot remoto non valido', { code: 'snapshot.invalid' });
+            }
+            throw toServiceError(parseError, 'Snapshot remoto non valido', { code: 'snapshot.invalid' });
+          }
         },
         attemptFallback: fallbackSnapshotUrl
           ? async () => {
@@ -155,7 +167,15 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
                 throw error;
               }
               const data = await response.json();
-              return { data, meta: { url: fallbackSnapshotUrl } };
+              try {
+                const parsed = parseFlowSnapshot(data as Record<string, unknown>);
+                return { data: parsed as FlowSnapshot, meta: { url: fallbackSnapshotUrl } };
+              } catch (parseError) {
+                if (parseError instanceof ZodError) {
+                  throw fromZodError(parseError, 'Snapshot fallback non valido', { code: 'snapshot.invalid' });
+                }
+                throw toServiceError(parseError, 'Snapshot fallback non valido', { code: 'snapshot.invalid' });
+              }
             }
           : null,
         preferFallbackFirst: preferFallback,
@@ -199,7 +219,7 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
         },
       });
 
-      state.snapshot = result?.data || {};
+      state.snapshot = result?.data ?? ({} as FlowSnapshot);
       state.meta = result?.meta || {};
       state.source = result?.source ?? 'remote';
       state.error = null;

@@ -1,6 +1,8 @@
 import { computed, reactive } from 'vue';
 
-const baseDataset = reactive({
+import type { NebulaDataset, NebulaSpecies } from '../types/nebula';
+
+const baseDataset = reactive<NebulaDataset>({
   id: 'nebula-atlas',
   title: 'Nebula Predation Initiative',
   summary:
@@ -269,20 +271,26 @@ const baseDataset = reactive({
       approvals: ['Creative Lead', 'QA Core'],
     },
   ],
-});
+} as NebulaDataset);
 
 export const atlasDataset = baseDataset;
 
 export const atlasTotals = computed(() => ({
-  species: baseDataset.metrics?.species || baseDataset.species.length,
-  biomes: baseDataset.metrics?.biomes || baseDataset.biomes.length,
-  encounters: baseDataset.metrics?.encounters || baseDataset.encounters.length,
+  species: baseDataset.metrics?.species ?? baseDataset.species.length,
+  biomes: baseDataset.metrics?.biomes ?? baseDataset.biomes.length,
+  encounters: baseDataset.metrics?.encounters ?? baseDataset.encounters.length,
 }));
 
-export const atlasActiveSpecies = computed(() =>
-  baseDataset.species.filter((entry) => entry.readiness && !entry.readiness.toLowerCase().includes('richiede'))
+export const atlasActiveSpecies = computed<NebulaSpecies[]>(() =>
+  baseDataset.species.filter(
+    (entry) => entry.readiness && !entry.readiness.toLowerCase().includes('richiede'),
+  ),
 );
 
 export const atlasPendingApprovals = computed(() =>
-  baseDataset.encounters.filter((encounter) => encounter.readiness && encounter.readiness.toLowerCase().includes('approvazione'))
+  baseDataset.encounters.filter(
+    (encounter) =>
+      typeof encounter.readiness === 'string' &&
+      encounter.readiness.toLowerCase().includes('approvazione'),
+  ),
 );

@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 
-vi.mock('../../src/services/apiEndpoints.js', () => ({
+vi.mock('../../src/services/apiEndpoints', () => ({
   resolveApiUrl: vi.fn((value: string) => value),
   resolveAssetUrl: vi.fn((value: string) => value),
   isStaticDeployment: vi.fn(() => false),
@@ -44,7 +44,7 @@ const dataSourceMock = vi.hoisted(() => {
   };
 });
 
-vi.mock('../../src/config/dataSources.js', () => dataSourceMock);
+vi.mock('../../src/config/dataSources', () => dataSourceMock);
 
 const orchestratorMocks = vi.hoisted(() => {
   const summarise = vi.fn((validation: any = {}) => {
@@ -94,9 +94,9 @@ vi.mock('../../src/services/generationOrchestratorService.js', () => ({
 
 const { generateSpecies, generateSpeciesBatch, summariseValidation } = orchestratorMocks;
 
-import { useSnapshotLoader } from '../../src/state/useSnapshotLoader.js';
-import { useSpeciesGenerator, __internals__ as speciesInternals } from '../../src/state/useSpeciesGenerator.js';
-import { useTraitDiagnostics } from '../../src/state/useTraitDiagnostics.js';
+import { useSnapshotLoader } from '../../src/state/useSnapshotLoader';
+import { useSpeciesGenerator, __internals__ as speciesInternals } from '../../src/state/useSpeciesGenerator';
+import { useTraitDiagnostics } from '../../src/state/useTraitDiagnostics';
 
 describe('flow stores', () => {
   beforeEach(() => {
@@ -156,6 +156,34 @@ describe('flow stores', () => {
       expect(store.source.value).toBe('fallback');
       expect(store.fallbackLabel.value).toBe('demo');
       expect(store.overview.value.completion.total).toBe(5);
+      expect(logger.log).toHaveBeenCalledWith('snapshot.load.fallback.success', expect.any(Object));
+    });
+
+    it('usa il fallback quando il payload remoto è malformato', async () => {
+      const fetchMock = vi.fn(async (url: string) => {
+        if (url === '/api/v1/generation/snapshot') {
+          return { ok: true, status: 200, json: async () => 42 };
+        }
+        if (url === 'data/flow/snapshots/flow-shell-snapshot.json') {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({ overview: { completion: { total: 4, completed: 1 } } }),
+          };
+        }
+        throw new Error(`unexpected url ${url}`);
+      });
+      const logger = { log: vi.fn() };
+      const store = useSnapshotLoader({
+        logger,
+        fetch: fetchMock as unknown as typeof fetch,
+        snapshotUrl: '/api/v1/generation/snapshot',
+        fallbackSnapshotUrl: 'data/flow/snapshots/flow-shell-snapshot.json',
+      });
+      await store.fetchSnapshot();
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(store.source.value).toBe('fallback');
+      expect(store.overview.value.completion.total).toBe(4);
       expect(logger.log).toHaveBeenCalledWith('snapshot.load.fallback.success', expect.any(Object));
     });
   });

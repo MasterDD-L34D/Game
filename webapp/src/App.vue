@@ -34,7 +34,7 @@ import { computed } from 'vue';
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 
 import AppBreadcrumbs from './components/navigation/AppBreadcrumbs.vue';
-import { useNavigationMeta } from './state/navigationMeta.js';
+import { useNavigationMeta } from './state/navigationMeta';
 
 const route = useRoute();
 const { breadcrumbs: breadcrumbItems, description: pageDescription, tokens: stateTokens } = useNavigationMeta();
