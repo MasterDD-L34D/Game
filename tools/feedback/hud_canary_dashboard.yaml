@@ -25,7 +25,7 @@ dashboard:
     - id: adaptive_spike_delta
       title: "Adaptive spike — Delta"
       type: callout
-      source: analytics/squadsync/canary.json
+      source: public/analytics/squadsync/canary.json
       fields:
         - name: squad
           label: "Squadra"
