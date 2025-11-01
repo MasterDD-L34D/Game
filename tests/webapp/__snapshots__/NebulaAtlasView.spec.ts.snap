@@ -10,7 +10,9 @@ exports[`NebulaAtlasView > renderizza indicatori live e snapshot coerente 1`] = 
         <h3 data-v-43e6e8ac="">Telemetria live</h3>
         <p data-v-43e6e8ac="">Indicatori dal generatore Nebula combinati con il dataset atlas.</p>
       </div>
-      <div data-v-43e6e8ac="" class="nebula-atlas-view__status"><span data-v-43e6e8ac="" class="nebula-atlas-view__badge" data-tone="warning">Sync 30 min fa</span><small data-v-43e6e8ac="">Ultimo sync: 2024-05-18T10:45:00Z</small></div>
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__status">
+        <div data-v-43e6e8ac="" class="nebula-atlas-view__status-badges"><span data-v-43e6e8ac="" class="nebula-atlas-view__badge nebula-atlas-view__badge--live" data-state="live" data-tone="success">LIVE</span><span data-v-43e6e8ac="" class="nebula-atlas-view__badge" data-tone="warning">Sync 30 min fa</span></div><small data-v-43e6e8ac="">Ultimo sync: 2024-05-18T10:45:00Z</small>
+      </div>
     </header>
     <div data-v-43e6e8ac="" class="nebula-atlas-view__grid">
       <div data-v-43e6e8ac="" class="nebula-atlas-view__metrics">
@@ -52,19 +54,19 @@ exports[`NebulaAtlasView > renderizza indicatori live e snapshot coerente 1`] = 
           </li>
         </ul>
       </div>
-      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="Copertura QA">
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" data-live="true" aria-label="Copertura QA">
         <header data-v-43e6e8ac="">
           <h4 data-v-43e6e8ac="">Copertura QA media</h4><span data-v-43e6e8ac="">78%</span>
         </header>
         <div data-v-43e6e8ac="" class="sparkline-stub" color="#61d5ff" variant="live">60,70,80</div>
       </div>
-      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="Incidenti telemetria">
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" data-live="true" aria-label="Incidenti telemetria">
         <header data-v-43e6e8ac="">
           <h4 data-v-43e6e8ac="">Incidenti ultimi 7 giorni</h4><span data-v-43e6e8ac="">4</span>
         </header>
         <div data-v-43e6e8ac="" class="sparkline-stub" color="#ff6982" variant="live">1,2,1</div>
       </div>
-      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" aria-label="High priority">
+      <div data-v-43e6e8ac="" class="nebula-atlas-view__chart" data-live="true" aria-label="High priority">
         <header data-v-43e6e8ac="">
           <h4 data-v-43e6e8ac="">High priority</h4><span data-v-43e6e8ac="">1</span>
         </header>
