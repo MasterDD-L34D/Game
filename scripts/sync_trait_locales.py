@@ -105,6 +105,7 @@ def sync_trait(
     *,
     language: str,
     source_language: str,
+    source_entries_snapshot: Dict[str, Dict[str, str]] | None,
 ) -> TraitSyncOutcome:
     """Aggiorna un singolo trait e restituisce lo stato dettagliato."""
 
@@ -138,7 +139,15 @@ def sync_trait(
                         entry[field] = stripped
                         locale_updated = True
                 else:
-                    if current_value is None:
+                    previous_source_value = None
+                    if source_entries_snapshot is not None:
+                        previous_source_value = (
+                            source_entries_snapshot
+                            .get(trait_id, {})
+                            .get(field)
+                        )
+
+                    if current_value is None or current_value == previous_source_value:
                         entry[field] = stripped
                         locale_updated = True
             else:
@@ -186,6 +195,16 @@ def sync_locales(
     valid_ids: set[str] = set()
     locale_dirty = False
     source_language = DEFAULT_LANGUAGE
+    source_entries_snapshot: Dict[str, Dict[str, str]] | None
+    if language == source_language:
+        source_entries_snapshot = None
+    else:
+        source_locale_path = locales_dir / source_language / "traits.json"
+        if source_locale_path.exists():
+            source_bundle = load_json(source_locale_path)
+            source_entries_snapshot = source_bundle.get("entries", {})
+        else:
+            source_entries_snapshot = {}
     for trait_path in iter_trait_files(traits_dir):
         outcome = sync_trait(
             trait_path,
@@ -193,6 +212,7 @@ def sync_locales(
             dry_run=dry_run,
             language=language,
             source_language=source_language,
+            source_entries_snapshot=source_entries_snapshot,
         )
         valid_ids.add(outcome.trait_id)
         if outcome.trait_updated:
