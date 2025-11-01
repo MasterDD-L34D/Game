@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('node:path');
+const fs = require('node:fs/promises');
 const { IdeaRepository, normaliseList } = require('./storage');
 const { buildCodexReport } = require('./report');
 const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesizer');
@@ -143,6 +144,27 @@ const SLUG_CONFIG = {
   game_functions: buildSlugConfig('gameFunctions')
 };
 
+const DEFAULT_STATUS_REPORT = path.resolve(__dirname, '..', 'reports', 'status.json');
+const DEFAULT_QA_STATUS = path.resolve(__dirname, '..', 'reports', 'qa_badges.json');
+
+async function readJsonFile(filePath, fallback) {
+  try {
+    const content = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(content);
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      return fallback;
+    }
+    throw error;
+  }
+}
+
+async function writeJsonFile(filePath, payload) {
+  const targetDir = path.dirname(filePath);
+  await fs.mkdir(targetDir, { recursive: true });
+  await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+}
+
 function normaliseSlugList(values, config) {
   const items = normaliseList(values);
   const seen = new Set();
@@ -212,6 +234,54 @@ function validateIdeaPayload(payload) {
   return '';
 }
 
+function normaliseDeploymentEntry(payload) {
+  const deployedAt = payload.deployedAt || payload.deployed_at || new Date().toISOString();
+  const entry = {
+    version: payload.version || payload.release || payload.tag || null,
+    releaseId: payload.releaseId || payload.release_id || null,
+    environment: payload.environment || payload.env || 'production',
+    status: payload.status || 'deployed',
+    deployedAt,
+    releaseUrl: payload.releaseUrl || payload.release_url || null,
+    notes: payload.notes || null,
+  };
+  if (!entry.version) {
+    return { error: "Campo 'version' o 'release' richiesto" };
+  }
+  const date = new Date(entry.deployedAt);
+  entry.deployedAt = Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
+  entry.environment = String(entry.environment).trim() || 'production';
+  entry.status = String(entry.status || 'deployed').trim() || 'deployed';
+  if (entry.releaseUrl) {
+    entry.releaseUrl = String(entry.releaseUrl);
+  }
+  if (entry.notes) {
+    entry.notes = String(entry.notes);
+  }
+  if (entry.releaseId) {
+    entry.releaseId = String(entry.releaseId);
+  }
+  entry.version = String(entry.version);
+  return { entry };
+}
+
+async function updateDeploymentStatus(filePath, payload) {
+  const { entry, error } = normaliseDeploymentEntry(payload || {});
+  if (error) {
+    const err = new Error(error);
+    err.statusCode = 400;
+    throw err;
+  }
+  const status = await readJsonFile(filePath, { deployments: [], updatedAt: null });
+  const deployments = Array.isArray(status.deployments) ? status.deployments : [];
+  deployments.unshift(entry);
+  const limit = Number.isFinite(payload.keepLast) ? Number(payload.keepLast) : 20;
+  status.deployments = deployments.slice(0, Math.max(limit, 1));
+  status.updatedAt = new Date().toISOString();
+  await writeJsonFile(filePath, status);
+  return { status, entry };
+}
+
 function createApp(options = {}) {
   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', 'data');
   const databasePath = options.databasePath || path.resolve(dataRoot, 'idea_engine.db');
@@ -229,6 +299,10 @@ function createApp(options = {}) {
       orchestrator: generationOrchestrator,
       suppressErrors: true,
     });
+  const qaStatusPath = options.qaStatusPath || DEFAULT_QA_STATUS;
+  const deploymentOptions = options.deployment || {};
+  const statusReportPath = deploymentOptions.statusReportPath || DEFAULT_STATUS_REPORT;
+  const deploymentNotifier = deploymentOptions.notifier;
   const app = express();
 
   app.use(cors({ origin: options.corsOrigin || '*' }));
@@ -261,6 +335,19 @@ function createApp(options = {}) {
     res.json({ status: 'ok', service: 'idea-engine' });
   });
 
+  app.get('/api/qa/status', async (req, res) => {
+    try {
+      const report = await readJsonFile(qaStatusPath, null);
+      if (!report) {
+        res.status(404).json({ error: 'QA report non disponibile' });
+        return;
+      }
+      res.json(report);
+    } catch (error) {
+      res.status(500).json({ error: error.message || 'Errore caricamento QA report' });
+    }
+  });
+
   app.get('/api/traits/diagnostics', async (req, res) => {
     const refresh = String(req.query.refresh || '').toLowerCase();
     const shouldRefresh = refresh === 'true' || refresh === '1';
@@ -282,6 +369,36 @@ function createApp(options = {}) {
       });
     } catch (error) {
       res.status(500).json({ error: error.message || 'Errore diagnostica tratti' });
+    }
+  });
+
+  app.get('/api/deployments/status', async (req, res) => {
+    try {
+      const status = await readJsonFile(statusReportPath, { deployments: [], updatedAt: null });
+      res.json(status);
+    } catch (error) {
+      res.status(500).json({ error: error.message || 'Errore caricamento status deploy' });
+    }
+  });
+
+  app.post('/api/deployments/hook', async (req, res) => {
+    try {
+      const payload = { ...(req.body || {}) };
+      if (deploymentOptions.keepLast !== undefined && payload.keepLast === undefined) {
+        payload.keepLast = deploymentOptions.keepLast;
+      }
+      const { status, entry } = await updateDeploymentStatus(statusReportPath, payload);
+      if (typeof deploymentNotifier === 'function') {
+        try {
+          await deploymentNotifier(entry, status);
+        } catch (notifyError) {
+          console.warn('[deploy-hook] notifica fallita', notifyError);
+        }
+      }
+      res.status(201).json({ entry, updatedAt: status.updatedAt });
+    } catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).json({ error: error.message || 'Errore registrazione deploy' });
     }
   });
 
