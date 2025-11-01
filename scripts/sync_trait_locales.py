@@ -102,6 +102,9 @@ def sync_trait(
     path: Path,
     bundle_entries: Dict[str, Dict[str, str]],
     dry_run: bool,
+    *,
+    language: str,
+    source_language: str,
 ) -> TraitSyncOutcome:
     """Aggiorna un singolo trait e restituisce lo stato dettagliato."""
 
@@ -110,6 +113,8 @@ def sync_trait(
     entry = bundle_entries.setdefault(trait_id, {})
     trait_updated = False
     locale_updated = False
+
+    is_source_language = language == source_language
 
     for field in TEXT_FIELDS:
         value = data.get(field)
@@ -126,9 +131,16 @@ def sync_trait(
                 continue
 
             if stripped:
-                if entry.get(field) != stripped:
-                    entry[field] = stripped
-                    locale_updated = True
+                current_value = entry.get(field)
+
+                if is_source_language:
+                    if current_value != stripped:
+                        entry[field] = stripped
+                        locale_updated = True
+                else:
+                    if current_value is None:
+                        entry[field] = stripped
+                        locale_updated = True
             else:
                 if field in entry:
                     entry.pop(field)
@@ -173,8 +185,15 @@ def sync_locales(
     updated_traits: List[Path] = []
     valid_ids: set[str] = set()
     locale_dirty = False
+    source_language = DEFAULT_LANGUAGE
     for trait_path in iter_trait_files(traits_dir):
-        outcome = sync_trait(trait_path, entries, dry_run=dry_run)
+        outcome = sync_trait(
+            trait_path,
+            entries,
+            dry_run=dry_run,
+            language=language,
+            source_language=source_language,
+        )
         valid_ids.add(outcome.trait_id)
         if outcome.trait_updated:
             updated_traits.append(trait_path)
