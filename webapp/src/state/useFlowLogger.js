@@ -3,6 +3,65 @@ import { createLogger } from '../utils/logger.ts';
 
 const MAX_ENTRIES = 200;
 
+function createListenerMap() {
+  const map = new Map();
+
+  const on = (event, handler) => {
+    if (!event || typeof handler !== 'function') {
+      return () => {};
+    }
+    const key = String(event);
+    if (!map.has(key)) {
+      map.set(key, new Set());
+    }
+    const listeners = map.get(key);
+    listeners.add(handler);
+    return () => {
+      listeners.delete(handler);
+      if (listeners.size === 0) {
+        map.delete(key);
+      }
+    };
+  };
+
+  const off = (event, handler) => {
+    if (!event) {
+      return;
+    }
+    const listeners = map.get(String(event));
+    if (!listeners) {
+      return;
+    }
+    if (typeof handler === 'function') {
+      listeners.delete(handler);
+    } else {
+      listeners.clear();
+    }
+    if (listeners.size === 0) {
+      map.delete(String(event));
+    }
+  };
+
+  const emit = (event, payload) => {
+    if (!event) {
+      return;
+    }
+    const listeners = map.get(String(event));
+    if (!listeners || listeners.size === 0) {
+      return;
+    }
+    [...listeners].forEach((listener) => {
+      try {
+        listener(payload);
+      } catch (error) {
+        // Evitiamo che errori nei listener interrompano il logging
+      }
+    });
+  };
+
+  return { on, off, emit };
+}
+
 function normaliseEntry(entry) {
   return {
     id: entry.id,
@@ -15,26 +74,37 @@ function normaliseEntry(entry) {
     meta: entry.meta,
     validation: entry.validation,
     source: entry.source,
+    ...(entry.data !== undefined ? { data: entry.data } : {}),
+    ...(entry.context !== undefined ? { context: entry.context } : {}),
   };
 }
 
 export function useFlowLogger() {
   const state = reactive({ entries: [] });
+  const events = createListenerMap();
 
   const baseLogger = createLogger('flow', {
     sink(entry) {
-      state.entries.unshift(normaliseEntry(entry));
+      const normalised = normaliseEntry(entry);
+      state.entries.unshift(normalised);
       if (state.entries.length > MAX_ENTRIES) {
         state.entries.length = MAX_ENTRIES;
       }
+      events.emit(entry.event, normalised);
     },
   });
 
-  const log = (event, details = {}) => baseLogger.log(event, details);
+  const log = (event, details = {}) => baseLogger.log(event, { source: 'flow', ...details });
+  const info = (event, details = {}) => baseLogger.info(event, { source: 'flow', ...details });
+  const warn = (event, details = {}) => baseLogger.warn(event, { source: 'flow', ...details });
+  const error = (event, details = {}) => baseLogger.error(event, { source: 'flow', ...details });
 
   const logs = computed(() => state.entries.map((entry) => ({ ...entry })));
 
-  return { log, logs };
+  const on = (event, handler) => events.on(event, handler);
+  const off = (event, handler) => events.off(event, handler);
+
+  return { log, info, warn, error, logs, on, off };
 }
 
 export const __internals__ = {
