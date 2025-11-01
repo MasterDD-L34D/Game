@@ -4,6 +4,8 @@ import { determineFallbackLabel } from './useSnapshotLoader.js';
 
 type FlowLogger = {
   log?: (event: string, payload?: Record<string, unknown>) => void;
+  on?: (event: string, handler: (payload?: unknown) => void) => (() => void) | void;
+  off?: (event: string, handler?: (payload?: unknown) => void) => void;
 };
 
 type TraitDiagnosticsResponse = {

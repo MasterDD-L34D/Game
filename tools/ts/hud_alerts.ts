@@ -49,7 +49,13 @@ export interface TelemetryRecorder {
   record(event: RiskHudAlertLog): void;
 }
 
-export type RiskHudAlertStatus = 'raised' | 'cleared' | 'filtered' | 'acknowledged';
+export type RiskHudAlertStatus =
+  | 'raised'
+  | 'cleared'
+  | 'filtered'
+  | 'acknowledged'
+  | 'overlay.displayed'
+  | 'overlay.dismissed';
 
 export interface RiskHudAlertLog {
   alertId: string;
@@ -67,6 +73,8 @@ export interface RiskHudAlertLog {
   lastAckTimestamp?: string;
   filterName?: string;
   filterCount?: number;
+  cohesionDelta?: number | null;
+  supportActions?: number | null;
 }
 
 export interface RiskHudAlertOptions {
@@ -142,6 +150,36 @@ function getTimeLowHpTurns(payload: EmaUpdatePayload): number | null {
     return null;
   }
   return value;
+}
+
+function getCohesionDelta(payload: EmaUpdatePayload): number | null {
+  const source = payload?.indices && typeof payload.indices === 'object'
+    ? (payload.indices as Record<string, unknown>)?.cohesion
+    : undefined;
+  if (!source || typeof source !== 'object') {
+    return null;
+  }
+
+  const delta = (source as { delta?: unknown }).delta;
+  if (typeof delta !== 'number') {
+    return null;
+  }
+  return delta;
+}
+
+function getSupportActions(payload: EmaUpdatePayload): number | null {
+  const source = payload?.indices && typeof payload.indices === 'object'
+    ? (payload.indices as Record<string, unknown>)?.support
+    : undefined;
+  if (!source || typeof source !== 'object') {
+    return null;
+  }
+
+  const actions = (source as { actions?: unknown }).actions;
+  if (typeof actions !== 'number') {
+    return null;
+  }
+  return actions;
 }
 
 function resolveMissionTag(
@@ -302,6 +340,8 @@ export function registerRiskHudAlertSystem({
     const weightedIndex = getWeightedIndex(payload);
     const timeLowHpTurns = getTimeLowHpTurns(payload);
     const missionTag = resolveMissionTag(payload, options?.missionTags, options?.missionTagger);
+    const cohesionDelta = getCohesionDelta(payload);
+    const supportActions = getSupportActions(payload);
 
     for (const filter of filters) {
       let passes = true;
@@ -330,6 +370,8 @@ export function registerRiskHudAlertSystem({
             timestamp: toIsoTimestamp(),
             filterName,
             filterCount: currentCount,
+            cohesionDelta,
+            supportActions,
           });
         }
 
@@ -364,6 +406,8 @@ export function registerRiskHudAlertSystem({
           turn: payload.turn,
           weightedIndex,
           timeLowHpTurns,
+          cohesionDelta,
+          supportActions,
         },
       };
 
@@ -377,6 +421,19 @@ export function registerRiskHudAlertSystem({
           turn: payload.turn,
           weightedIndex,
           missionTag,
+          cohesionDelta,
+          supportActions,
+        });
+        commandBus.emit('hud.overlay.displayed', {
+          alertId,
+          missionId: payload.missionId,
+          roster: payload.roster,
+          missionTag,
+          turn: payload.turn,
+          weightedIndex,
+          timeLowHpTurns,
+          cohesionDelta,
+          supportActions,
         });
       }
 
@@ -393,6 +450,21 @@ export function registerRiskHudAlertSystem({
           timestamp: toIsoTimestamp(),
           ackCount: 0,
           ackRecipients: [],
+          cohesionDelta,
+          supportActions,
+        });
+        telemetryRecorder.record({
+          alertId: alert.id,
+          status: 'overlay.displayed',
+          missionId: payload.missionId,
+          missionTag,
+          turn: payload.turn,
+          weightedIndex,
+          timeLowHpTurns,
+          roster: payload.roster,
+          timestamp: toIsoTimestamp(),
+          cohesionDelta,
+          supportActions,
         });
       }
 
@@ -402,6 +474,8 @@ export function registerRiskHudAlertSystem({
           turn: payload.turn,
           alert,
           missionTag,
+          cohesionDelta,
+          supportActions,
         });
       }
       return;
@@ -422,6 +496,7 @@ export function registerRiskHudAlertSystem({
 
         if (telemetryRecorder) {
           const ackInfo = ackMetrics.get(alertId);
+          const timestamp = toIsoTimestamp();
           telemetryRecorder.record({
             alertId,
             status: 'cleared',
@@ -431,10 +506,42 @@ export function registerRiskHudAlertSystem({
             weightedIndex,
             timeLowHpTurns,
             roster: payload.roster,
-            timestamp: toIsoTimestamp(),
+            timestamp,
             ackCount: ackInfo?.count,
             ackRecipients: ackInfo ? Array.from(ackInfo.recipients) : undefined,
             lastAckTimestamp: ackInfo?.lastTimestamp,
+            cohesionDelta,
+            supportActions,
+          });
+          telemetryRecorder.record({
+            alertId,
+            status: 'overlay.dismissed',
+            missionId: payload.missionId,
+            missionTag,
+            turn: payload.turn,
+            weightedIndex,
+            timeLowHpTurns,
+            roster: payload.roster,
+            timestamp,
+            ackCount: ackInfo?.count,
+            ackRecipients: ackInfo ? Array.from(ackInfo.recipients) : undefined,
+            lastAckTimestamp: ackInfo?.lastTimestamp,
+            cohesionDelta,
+            supportActions,
+          });
+        }
+
+        if (typeof commandBus.emit === 'function') {
+          commandBus.emit('hud.overlay.dismissed', {
+            alertId,
+            missionId: payload.missionId,
+            roster: payload.roster,
+            missionTag,
+            turn: payload.turn,
+            weightedIndex,
+            timeLowHpTurns,
+            cohesionDelta,
+            supportActions,
           });
         }
       }
