@@ -6,10 +6,20 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 import sys
 from pathlib import Path
 
 from game_utils.trait_coverage import generate_trait_coverage, iter_matrix_rows
+
+try:  # pragma: no cover - ambienti minimal
+    import yaml
+except ModuleNotFoundError:  # pragma: no cover
+    yaml = None
+
+
+SPECIES_ID_PATTERN = re.compile(r"^[a-z0-9_-]+$")
+SLUG_PATTERN = re.compile(r"^[a-z0-9_]+$")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -104,6 +114,98 @@ def write_csv(path: Path, rows: list[dict[str, str | int | None]]) -> None:
             writer.writerow(row)
 
 
+def load_species_catalog(root: Path) -> tuple[set[str], list[str]]:
+    warnings: list[str] = []
+    if yaml is None:
+        warnings.append(
+            "Validazione species_affinity saltata: PyYAML non disponibile nell'ambiente."
+        )
+        return set(), warnings
+
+    resolved = root
+    if not resolved.exists():
+        warnings.append(f"Directory/specie non trovata: {resolved}")
+        return set(), warnings
+
+    if resolved.is_file():
+        candidate_paths = [resolved]
+    else:
+        candidate_paths = sorted(path for path in resolved.rglob("*.yaml") if path.is_file())
+
+    species_ids: set[str] = set()
+    for path in candidate_paths:
+        try:
+            data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        except Exception as exc:  # pragma: no cover - errori IO rari
+            warnings.append(f"Impossibile leggere {path}: {exc}")
+            continue
+        if isinstance(data, dict):
+            species_id = data.get("id")
+            if isinstance(species_id, str):
+                species_ids.add(species_id)
+
+    return species_ids, warnings
+
+
+def validate_trait_affinity(
+    trait_reference_path: Path, species_ids: set[str]
+) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+
+    try:
+        payload = json.loads(trait_reference_path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        errors.append(f"File trait reference non trovato: {trait_reference_path}")
+        return errors, warnings
+    except json.JSONDecodeError as exc:
+        errors.append(f"{trait_reference_path}: JSON non valido ({exc})")
+        return errors, warnings
+
+    traits = payload.get("traits")
+    if not isinstance(traits, dict):
+        errors.append("Campo 'traits' mancante o non valido nel trait reference.")
+        return errors, warnings
+
+    known_species = set(species_ids)
+    affinity_present = False
+
+    for trait_id, trait_payload in sorted(traits.items()):
+        entries = trait_payload.get("species_affinity") if isinstance(trait_payload, dict) else None
+        if not isinstance(entries, list):
+            continue
+        affinity_present = affinity_present or bool(entries)
+        for index, entry in enumerate(entries):
+            if not isinstance(entry, dict):
+                errors.append(
+                    f"traits/{trait_id}/species_affinity[{index}]: voce non è un oggetto valido"
+                )
+                continue
+            species_id = entry.get("species_id")
+            if not isinstance(species_id, str):
+                errors.append(
+                    f"traits/{trait_id}/species_affinity[{index}].species_id mancante o non è una stringa"
+                )
+            elif known_species and species_id not in known_species:
+                errors.append(
+                    f"traits/{trait_id}/species_affinity[{index}].species_id '{species_id}' non corrisponde a nessuna specie nota"
+                )
+            roles = entry.get("roles")
+            if isinstance(roles, list):
+                for role_index, role in enumerate(roles):
+                    if isinstance(role, str) and not SLUG_PATTERN.fullmatch(role):
+                        errors.append(
+                            f"traits/{trait_id}/species_affinity[{index}].roles[{role_index}] deve essere uno slug (^[a-z0-9_]+$)"
+                        )
+
+    if affinity_present and not known_species:
+        warnings.append(
+            "Validazione species_affinity: impossibile verificare ID specie perché il catalogo non contiene elementi."
+        )
+
+    return errors, warnings
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -121,6 +223,14 @@ def main(argv: list[str] | None = None) -> int:
     if args.out_csv:
         rows = iter_matrix_rows(report)
         write_csv(args.out_csv, rows)
+
+    species_ids, species_warnings = load_species_catalog(args.species_root)
+    affinity_errors, affinity_warnings = validate_trait_affinity(
+        args.trait_reference, species_ids
+    )
+
+    for message in species_warnings + affinity_warnings:
+        print(message, file=sys.stderr)
 
     if args.strict:
         summary = report.get("summary", {}) if isinstance(report, dict) else {}
@@ -145,6 +255,11 @@ def main(argv: list[str] | None = None) -> int:
             for message in errors:
                 print(message, file=sys.stderr)
             return 1
+
+    if affinity_errors:
+        for message in affinity_errors:
+            print(message, file=sys.stderr)
+        return 1
 
     print(f"Report coverage generato in {args.out_json}")
     if args.out_csv:
