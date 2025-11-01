@@ -315,11 +315,11 @@ function createEmptyTelemetry(updatedAt?: string | null): NebulaTelemetry {
   };
 }
 
-function toError(value: unknown): Error {
+function toError(value: unknown, fallbackMessage = 'Errore sconosciuto'): Error {
   if (value instanceof Error) {
     return value;
   }
-  const message = typeof value === 'string' ? value : 'Errore sconosciuto';
+  const message = typeof value === 'string' && value.trim().length > 0 ? value : fallbackMessage;
   return new Error(message);
 }
 
