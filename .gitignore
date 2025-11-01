@@ -11,3 +11,6 @@ data/idea_engine.db
 
 # Generated UI artifacts
 logs/tooling/*.png
+
+# Generated analytics outputs
+reports/trait_balance/*.png
