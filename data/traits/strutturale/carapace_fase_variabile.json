@@ -2,12 +2,12 @@
   "conflitti": [
     "struttura_elastica_amorfa"
   ],
-  "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza.",
+  "debolezza": "i18n:traits.carapace_fase_variabile.debolezza",
   "famiglia_tipologia": "Strutturale/Difensivo",
-  "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
+  "fattore_mantenimento_energetico": "i18n:traits.carapace_fase_variabile.fattore_mantenimento_energetico",
   "id": "carapace_fase_variabile",
-  "label": "Carapace a Variazione di Fase",
-  "mutazione_indotta": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
+  "label": "i18n:traits.carapace_fase_variabile.label",
+  "mutazione_indotta": "i18n:traits.carapace_fase_variabile.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -74,7 +74,7 @@
     "complementare": "difensivo",
     "core": "strutturale"
   },
-  "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
+  "spinta_selettiva": "i18n:traits.carapace_fase_variabile.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+  "uso_funzione": "i18n:traits.carapace_fase_variabile.uso_funzione"
 }

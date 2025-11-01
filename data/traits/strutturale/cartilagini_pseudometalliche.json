@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Risonanze errate possono generare microfratture.",
+  "debolezza": "i18n:traits.cartilagini_pseudometalliche.debolezza",
   "famiglia_tipologia": "Strutturale/Adattivo",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.cartilagini_pseudometalliche.fattore_mantenimento_energetico",
   "id": "cartilagini_pseudometalliche",
-  "label": "Cartilagini Pseudometalliche",
-  "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+  "label": "i18n:traits.cartilagini_pseudometalliche.label",
+  "mutazione_indotta": "i18n:traits.cartilagini_pseudometalliche.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "resilienza",
     "core": "strutturale"
   },
-  "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+  "spinta_selettiva": "i18n:traits.cartilagini_pseudometalliche.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+  "uso_funzione": "i18n:traits.cartilagini_pseudometalliche.uso_funzione"
 }

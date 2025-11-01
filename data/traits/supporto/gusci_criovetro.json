@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+  "debolezza": "i18n:traits.gusci_criovetro.debolezza",
   "famiglia_tipologia": "Supporto/Logistico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.gusci_criovetro.fattore_mantenimento_energetico",
   "id": "gusci_criovetro",
-  "label": "Gusci Criovetro",
-  "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+  "label": "i18n:traits.gusci_criovetro.label",
+  "mutazione_indotta": "i18n:traits.gusci_criovetro.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "logistico",
     "core": "supporto"
   },
-  "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+  "spinta_selettiva": "i18n:traits.gusci_criovetro.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+  "uso_funzione": "i18n:traits.gusci_criovetro.uso_funzione"
 }

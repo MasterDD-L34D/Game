@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+  "debolezza": "i18n:traits.cuticole_cerose.debolezza",
   "famiglia_tipologia": "Digestivo/Metabolico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.cuticole_cerose.fattore_mantenimento_energetico",
   "id": "cuticole_cerose",
-  "label": "Cuticole Cerose",
-  "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+  "label": "i18n:traits.cuticole_cerose.label",
+  "mutazione_indotta": "i18n:traits.cuticole_cerose.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -33,7 +33,7 @@
     "complementare": "energia",
     "core": "metabolico"
   },
-  "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+  "spinta_selettiva": "i18n:traits.cuticole_cerose.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+  "uso_funzione": "i18n:traits.cuticole_cerose.uso_funzione"
 }

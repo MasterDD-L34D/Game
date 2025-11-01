@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+  "debolezza": "i18n:traits.filtri_planctonici.debolezza",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.filtri_planctonici.fattore_mantenimento_energetico",
   "id": "filtri_planctonici",
-  "label": "Filtri Planctonici",
-  "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+  "label": "i18n:traits.filtri_planctonici.label",
+  "mutazione_indotta": "i18n:traits.filtri_planctonici.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "protezione",
     "core": "difensivo"
   },
-  "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+  "spinta_selettiva": "i18n:traits.filtri_planctonici.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+  "uso_funzione": "i18n:traits.filtri_planctonici.uso_funzione"
 }

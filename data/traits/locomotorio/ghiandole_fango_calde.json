@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+  "debolezza": "i18n:traits.ghiandole_fango_calde.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.ghiandole_fango_calde.fattore_mantenimento_energetico",
   "id": "ghiandole_fango_calde",
-  "label": "Ghiandole Fango Calde",
-  "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+  "label": "i18n:traits.ghiandole_fango_calde.label",
+  "mutazione_indotta": "i18n:traits.ghiandole_fango_calde.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "mobilita",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+  "spinta_selettiva": "i18n:traits.ghiandole_fango_calde.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+  "uso_funzione": "i18n:traits.ghiandole_fango_calde.uso_funzione"
 }

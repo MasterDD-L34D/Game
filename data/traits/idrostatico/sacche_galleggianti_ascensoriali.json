@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente.",
+  "debolezza": "i18n:traits.sacche_galleggianti_ascensoriali.debolezza",
   "famiglia_tipologia": "Idrostatico/Locomotorio",
-  "fattore_mantenimento_energetico": "Medio (Per il controllo della pressione)",
+  "fattore_mantenimento_energetico": "i18n:traits.sacche_galleggianti_ascensoriali.fattore_mantenimento_energetico",
   "id": "sacche_galleggianti_ascensoriali",
-  "label": "Sacche galleggianti ascensoriali",
-  "mutazione_indotta": "Sacche ripiene di gas leggeri con pompe muscolari.",
+  "label": "i18n:traits.sacche_galleggianti_ascensoriali.label",
+  "mutazione_indotta": "i18n:traits.sacche_galleggianti_ascensoriali.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -49,7 +49,7 @@
     "complementare": "locomotorio",
     "core": "idrostatico"
   },
-  "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
+  "spinta_selettiva": "i18n:traits.sacche_galleggianti_ascensoriali.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+  "uso_funzione": "i18n:traits.sacche_galleggianti_ascensoriali.uso_funzione"
 }

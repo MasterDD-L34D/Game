@@ -3,12 +3,12 @@
     "criostasi_adattiva",
     "scheletro_idro_regolante"
   ],
-  "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno.",
+  "debolezza": "i18n:traits.sangue_piroforico.debolezza",
   "famiglia_tipologia": "Offensivo/Cinetico",
-  "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
+  "fattore_mantenimento_energetico": "i18n:traits.sangue_piroforico.fattore_mantenimento_energetico",
   "id": "sangue_piroforico",
-  "label": "Sangue che prende fuoco a contatto con l'ossigeno",
-  "mutazione_indotta": "Presenza di composti piroforici nel sangue.",
+  "label": "i18n:traits.sangue_piroforico.label",
+  "mutazione_indotta": "i18n:traits.sangue_piroforico.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -49,7 +49,7 @@
     "complementare": "impatto",
     "core": "offensivo"
   },
-  "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
+  "spinta_selettiva": "i18n:traits.sangue_piroforico.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria."
+  "uso_funzione": "i18n:traits.sangue_piroforico.uso_funzione"
 }

@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato.",
+  "debolezza": "i18n:traits.pathfinder.debolezza",
   "famiglia_tipologia": "Esplorazione/Tattico",
-  "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
+  "fattore_mantenimento_energetico": "i18n:traits.pathfinder.fattore_mantenimento_energetico",
   "id": "pathfinder",
-  "label": "Pathfinder",
-  "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
+  "label": "i18n:traits.pathfinder.label",
+  "mutazione_indotta": "i18n:traits.pathfinder.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -52,7 +52,7 @@
     "has_species_link": true,
     "has_usage_tags": true
   },
-  "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
+  "spinta_selettiva": "i18n:traits.pathfinder.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+  "uso_funzione": "i18n:traits.pathfinder.uso_funzione"
 }

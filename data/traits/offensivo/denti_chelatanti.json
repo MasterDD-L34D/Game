@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+  "debolezza": "i18n:traits.denti_chelatanti.debolezza",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.denti_chelatanti.fattore_mantenimento_energetico",
   "id": "denti_chelatanti",
-  "label": "Denti Chelatanti",
-  "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+  "label": "i18n:traits.denti_chelatanti.label",
+  "mutazione_indotta": "i18n:traits.denti_chelatanti.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "assalto",
     "core": "offensivo"
   },
-  "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+  "spinta_selettiva": "i18n:traits.denti_chelatanti.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+  "uso_funzione": "i18n:traits.denti_chelatanti.uso_funzione"
 }

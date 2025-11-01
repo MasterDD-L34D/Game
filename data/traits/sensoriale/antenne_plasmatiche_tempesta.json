@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Scariche elettriche massicce possono bruciare i recettori e compromettere la coordinazione.",
+  "debolezza": "i18n:traits.antenne_plasmatiche_tempesta.debolezza",
   "famiglia_tipologia": "Sensoriale/Offensivo",
-  "fattore_mantenimento_energetico": "Alto (Canalizzazione costante di plasma atmosferico)",
+  "fattore_mantenimento_energetico": "i18n:traits.antenne_plasmatiche_tempesta.fattore_mantenimento_energetico",
   "id": "antenne_plasmatiche_tempesta",
-  "label": "Antenne Plasmatiche di Tempesta",
-  "mutazione_indotta": "Flagelli coronati da nodi plasma-sensibili che captano e deviano fulmini.",
+  "label": "i18n:traits.antenne_plasmatiche_tempesta.label",
+  "mutazione_indotta": "i18n:traits.antenne_plasmatiche_tempesta.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -45,7 +45,7 @@
     "complementare": "offensivo",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
+  "spinta_selettiva": "i18n:traits.antenne_plasmatiche_tempesta.spinta_selettiva",
   "tier": "T3",
-  "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+  "uso_funzione": "i18n:traits.antenne_plasmatiche_tempesta.uso_funzione"
 }

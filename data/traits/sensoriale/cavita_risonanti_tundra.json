@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "In ambienti temperati l'eco interna produce rumori udibili che rivelano la posizione.",
+  "debolezza": "i18n:traits.cavita_risonanti_tundra.debolezza",
   "famiglia_tipologia": "Sensoriale/Supporto",
-  "fattore_mantenimento_energetico": "Basso (Camere di risonanza statiche)",
+  "fattore_mantenimento_energetico": "i18n:traits.cavita_risonanti_tundra.fattore_mantenimento_energetico",
   "id": "cavita_risonanti_tundra",
-  "label": "Cavità Risonanti della Tundra",
-  "mutazione_indotta": "Camere toraciche espanse che amplificano vibrazioni subsoniche nel permafrost.",
+  "label": "i18n:traits.cavita_risonanti_tundra.label",
+  "mutazione_indotta": "i18n:traits.cavita_risonanti_tundra.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -45,7 +45,7 @@
     "complementare": "supporto",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
+  "spinta_selettiva": "i18n:traits.cavita_risonanti_tundra.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo."
+  "uso_funzione": "i18n:traits.cavita_risonanti_tundra.uso_funzione"
 }

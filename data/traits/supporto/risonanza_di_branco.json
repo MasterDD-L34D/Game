@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Stress elevato se la coesione cala sotto i target di telemetria.",
+  "debolezza": "i18n:traits.risonanza_di_branco.debolezza",
   "famiglia_tipologia": "Supporto/Coordinativo",
-  "fattore_mantenimento_energetico": "Basso (Richiede mantenimento empatico)",
+  "fattore_mantenimento_energetico": "i18n:traits.risonanza_di_branco.fattore_mantenimento_energetico",
   "id": "risonanza_di_branco",
-  "label": "Risonanza di Branco",
-  "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
+  "label": "i18n:traits.risonanza_di_branco.label",
+  "mutazione_indotta": "i18n:traits.risonanza_di_branco.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -61,7 +61,7 @@
     "complementare": "coordinazione",
     "core": "supporto"
   },
-  "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
+  "spinta_selettiva": "i18n:traits.risonanza_di_branco.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
+  "uso_funzione": "i18n:traits.risonanza_di_branco.uso_funzione"
 }

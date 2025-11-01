@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione).",
+  "debolezza": "i18n:traits.struttura_elastica_amorfa.debolezza",
   "famiglia_tipologia": "Strutturale/Locomotorio",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.struttura_elastica_amorfa.fattore_mantenimento_energetico",
   "id": "struttura_elastica_amorfa",
-  "label": "Struttura elastica, allungabile, amorfa, retrattile",
-  "mutazione_indotta": "Tessuto con matrice di proteine elastiche iper-modificate.",
+  "label": "i18n:traits.struttura_elastica_amorfa.label",
+  "mutazione_indotta": "i18n:traits.struttura_elastica_amorfa.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -62,7 +62,7 @@
     "complementare": "locomotorio",
     "core": "strutturale"
   },
-  "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
+  "spinta_selettiva": "i18n:traits.struttura_elastica_amorfa.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse."
+  "uso_funzione": "i18n:traits.struttura_elastica_amorfa.uso_funzione"
 }

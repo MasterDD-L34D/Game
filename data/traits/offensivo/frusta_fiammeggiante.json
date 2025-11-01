@@ -2,12 +2,12 @@
   "conflitti": [
     "armatura_pietra_planare"
   ],
-  "debolezza": "Consumante: richiede costante dissipazione termica per non bruciare la matrice portante.",
+  "debolezza": "i18n:traits.frusta_fiammeggiante.debolezza",
   "famiglia_tipologia": "Offensivo/Controllo",
-  "fattore_mantenimento_energetico": "Medio (Filamenti di plasma vincolato)",
+  "fattore_mantenimento_energetico": "i18n:traits.frusta_fiammeggiante.fattore_mantenimento_energetico",
   "id": "frusta_fiammeggiante",
-  "label": "Frusta Fiammeggiante",
-  "mutazione_indotta": "Genera appendici tentacolari avvolte da plasma infernale controllato.",
+  "label": "i18n:traits.frusta_fiammeggiante.label",
+  "mutazione_indotta": "i18n:traits.frusta_fiammeggiante.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [
@@ -39,7 +39,7 @@
     "complementare": "controllo",
     "core": "offensivo"
   },
-  "spinta_selettiva": "Creare distanza di sicurezza contro predatori d'élite nelle zone instabili.",
+  "spinta_selettiva": "i18n:traits.frusta_fiammeggiante.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia."
+  "uso_funzione": "i18n:traits.frusta_fiammeggiante.uso_funzione"
 }
