@@ -33,7 +33,7 @@ function createStubDiagnostics(summary = {}) {
   };
 }
 
-test('GET /api/generation/snapshot aggrega dataset, diagnostics e orchestrator', async () => {
+test('GET /api/v1/generation/snapshot aggrega dataset, diagnostics e orchestrator', async () => {
   const diagnosticsSummary = {
     total_traits: 12,
     glossary_ok: 10,
@@ -65,7 +65,7 @@ test('GET /api/generation/snapshot aggrega dataset, diagnostics e orchestrator',
     repo: {},
   });
 
-  const response = await request(app).get('/api/generation/snapshot').expect(200);
+  const response = await request(app).get('/api/v1/generation/snapshot').expect(200);
   const snapshot = response.body;
 
   assert.ok(Array.isArray(snapshot?.overview?.objectives), 'overview deve essere presente');
@@ -83,7 +83,7 @@ test('GET /api/generation/snapshot aggrega dataset, diagnostics e orchestrator',
   );
 });
 
-test('GET /api/generation/snapshot?refresh=1 ricarica il dataset da disco', async (t) => {
+test('GET /api/v1/generation/snapshot?refresh=1 ricarica il dataset da disco', async (t) => {
   const tempDir = await mkdtemp(path.join(tmpdir(), 'flow-shell-'));
   t.after(async () => {
     await rm(tempDir, { recursive: true, force: true });
@@ -126,7 +126,7 @@ test('GET /api/generation/snapshot?refresh=1 ricarica il dataset da disco', asyn
     repo: {},
   });
 
-  const responseV1 = await request(app).get('/api/generation/snapshot').expect(200);
+  const responseV1 = await request(app).get('/api/v1/generation/snapshot').expect(200);
   assert.equal(responseV1.body.overview.title, 'Versione 1');
   assert.equal(responseV1.body.runtime.lastBlueprintId, 'blueprint-req-v1');
   assert.equal(orchestratorCalls.length, 1);
@@ -147,14 +147,14 @@ test('GET /api/generation/snapshot?refresh=1 ricarica il dataset da disco', asyn
   };
   await writeFile(datasetPath, JSON.stringify(datasetV2, null, 2));
 
-  const cachedResponse = await request(app).get('/api/generation/snapshot').expect(200);
+  const cachedResponse = await request(app).get('/api/v1/generation/snapshot').expect(200);
   assert.equal(cachedResponse.body.overview.title, 'Versione 1');
   assert.equal(cachedResponse.body.runtime.lastBlueprintId, 'blueprint-req-v1');
   assert.equal(orchestratorCalls.length, 2);
   assert.deepEqual(orchestratorCalls[1].trait_ids, datasetV1.initialSpeciesRequest.trait_ids);
 
   const refreshedResponse = await request(app)
-    .get('/api/generation/snapshot?refresh=1')
+    .get('/api/v1/generation/snapshot?refresh=1')
     .expect(200);
   assert.equal(refreshedResponse.body.overview.title, 'Versione 2');
   assert.equal(refreshedResponse.body.runtime.lastBlueprintId, 'blueprint-req-v2');

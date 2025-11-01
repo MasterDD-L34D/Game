@@ -15,11 +15,11 @@ const speciesEntry = {
   balance: {},
 };
 
-test('POST /api/quality/suggestions/apply esegue fix specie via runtime validator', async () => {
+test('POST /api/v1/quality/suggestions/apply esegue fix specie via runtime validator', async () => {
   const { app } = createApp();
 
   const response = await request(app)
-    .post('/api/quality/suggestions/apply')
+    .post('/api/v1/quality/suggestions/apply')
     .send({
       suggestion: {
         id: 'spec-fix',
@@ -39,11 +39,11 @@ test('POST /api/quality/suggestions/apply esegue fix specie via runtime validato
   assert.ok(logs.every((log) => log.scope === 'species'), 'i log devono essere marcati come specie');
 });
 
-test('POST /api/quality/suggestions/apply rigenera batch tramite orchestrator', async () => {
+test('POST /api/v1/quality/suggestions/apply rigenera batch tramite orchestrator', async () => {
   const { app } = createApp();
 
   const response = await request(app)
-    .post('/api/quality/suggestions/apply')
+    .post('/api/v1/quality/suggestions/apply')
     .send({
       suggestion: {
         id: 'spec-regenerate',

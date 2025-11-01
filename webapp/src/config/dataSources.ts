@@ -62,7 +62,7 @@ function buildEntry(id: DataSourceId, defaults: DataSourceDefaults): DataSourceE
 
 const defaults: Record<DataSourceId, DataSourceDefaults> = {
   flowSnapshot: {
-    endpoint: '/api/generation/snapshot',
+    endpoint: '/api/v1/generation/snapshot',
     fallback: 'data/flow/snapshots/flow-shell-snapshot.json',
     env: {
       endpoint: 'VITE_FLOW_SNAPSHOT_URL',
@@ -94,7 +94,7 @@ const defaults: Record<DataSourceId, DataSourceDefaults> = {
     },
   },
   runtimeValidatorSpecies: {
-    endpoint: '/api/validators/runtime',
+    endpoint: '/api/v1/validators/runtime',
     fallback: 'data/flow/validators/species.json',
     env: {
       endpoint: 'VITE_RUNTIME_VALIDATION_URL',
@@ -102,7 +102,7 @@ const defaults: Record<DataSourceId, DataSourceDefaults> = {
     },
   },
   runtimeValidatorBiome: {
-    endpoint: '/api/validators/runtime',
+    endpoint: '/api/v1/validators/runtime',
     fallback: 'data/flow/validators/biome.json',
     env: {
       endpoint: 'VITE_RUNTIME_VALIDATION_URL',
@@ -110,7 +110,7 @@ const defaults: Record<DataSourceId, DataSourceDefaults> = {
     },
   },
   runtimeValidatorFoodweb: {
-    endpoint: '/api/validators/runtime',
+    endpoint: '/api/v1/validators/runtime',
     fallback: 'data/flow/validators/foodweb.json',
     env: {
       endpoint: 'VITE_RUNTIME_VALIDATION_URL',
@@ -118,7 +118,7 @@ const defaults: Record<DataSourceId, DataSourceDefaults> = {
     },
   },
   qualitySuggestionsApply: {
-    endpoint: '/api/quality/suggestions/apply',
+    endpoint: '/api/v1/quality/suggestions/apply',
     fallback: 'data/flow/quality/suggestions/apply.json',
     env: {
       endpoint: 'VITE_QUALITY_SUGGESTIONS_URL',
