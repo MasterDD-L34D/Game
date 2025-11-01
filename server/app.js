@@ -13,6 +13,8 @@ const {
 } = require('./routes/generationSnapshot');
 const { createGenerationSnapshotStore } = require('./services/generationSnapshotStore');
 const { createNebulaRouter } = require('./routes/nebula');
+const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
+const { createReleaseReporter } = require('./services/releaseReporter');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
@@ -268,7 +270,7 @@ function normaliseDeploymentEntry(payload) {
   return { entry };
 }
 
-async function updateDeploymentStatus(filePath, payload) {
+async function updateDeploymentStatus(filePath, payload, options = {}) {
   const { entry, error } = normaliseDeploymentEntry(payload || {});
   if (error) {
     const err = new Error(error);
@@ -281,8 +283,22 @@ async function updateDeploymentStatus(filePath, payload) {
   const limit = Number.isFinite(payload.keepLast) ? Number(payload.keepLast) : 20;
   status.deployments = deployments.slice(0, Math.max(limit, 1));
   status.updatedAt = new Date().toISOString();
+  const reporter = options.releaseReporter;
+  if (reporter && typeof reporter.buildReport === 'function') {
+    const enriched = await reporter.buildReport(status);
+    await writeJsonFile(filePath, enriched);
+    return { status: enriched, entry };
+  }
   await writeJsonFile(filePath, status);
   return { status, entry };
+}
+
+function shouldRefreshStatusFlag(value) {
+  const token = String(value || '').trim().toLowerCase();
+  if (!token) {
+    return false;
+  }
+  return token === '1' || token === 'true' || token === 'yes' || token === 'force' || token === 'refresh';
 }
 
 function createApp(options = {}) {
@@ -341,10 +357,48 @@ function createApp(options = {}) {
 
   app.get('/api/generation/snapshot', generationSnapshotHandler);
 
+  const nebulaOptions = options?.nebula || {};
+  const nebulaAggregator =
+    nebulaOptions.aggregator ||
+    createNebulaTelemetryAggregator({
+      telemetryPath: nebulaOptions.telemetryPath,
+      generatorTelemetryPath: nebulaOptions.generatorTelemetryPath,
+      cacheTTL: nebulaOptions.cacheTTL,
+      telemetry: nebulaOptions.telemetry,
+      orchestrator: nebulaOptions.orchestrator,
+      staticDataset: nebulaOptions.staticDataset,
+    });
+
   const nebulaRouter = createNebulaRouter({
-    telemetryPath: options?.nebula?.telemetryPath,
+    telemetryPath: nebulaOptions.telemetryPath,
+    generatorTelemetryPath: nebulaOptions.generatorTelemetryPath,
+    configPath: nebulaOptions.configPath,
+    config: nebulaOptions.config,
+    aggregator: nebulaAggregator,
   });
   app.use('/api/nebula', nebulaRouter);
+
+  const releaseReporter = createReleaseReporter({
+    snapshotStore: generationSnapshotStore,
+    traitDiagnostics: traitDiagnosticsSync,
+    nebulaAggregator,
+  });
+
+  async function refreshStatusReport(baseStatus) {
+    const existing =
+      baseStatus || (await readJsonFile(statusReportPath, { deployments: [], updatedAt: null }));
+    if (releaseReporter && typeof releaseReporter.buildReport === 'function') {
+      const enriched = await releaseReporter.buildReport(existing);
+      await writeJsonFile(statusReportPath, enriched);
+      return enriched;
+    }
+    await writeJsonFile(statusReportPath, existing);
+    return existing;
+  }
+
+  refreshStatusReport().catch((error) => {
+    console.warn('[release-reporter] preload fallito', error);
+  });
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'idea-engine' });
@@ -389,7 +443,18 @@ function createApp(options = {}) {
 
   app.get('/api/deployments/status', async (req, res) => {
     try {
+      const refresh = shouldRefreshStatusFlag(req.query.refresh);
+      if (refresh) {
+        const status = await refreshStatusReport();
+        res.json(status);
+        return;
+      }
       const status = await readJsonFile(statusReportPath, { deployments: [], updatedAt: null });
+      if (!status.telemetry || !status.goNoGo) {
+        const enriched = await refreshStatusReport(status);
+        res.json(enriched);
+        return;
+      }
       res.json(status);
     } catch (error) {
       res.status(500).json({ error: error.message || 'Errore caricamento status deploy' });
@@ -402,7 +467,9 @@ function createApp(options = {}) {
       if (deploymentOptions.keepLast !== undefined && payload.keepLast === undefined) {
         payload.keepLast = deploymentOptions.keepLast;
       }
-      const { status, entry } = await updateDeploymentStatus(statusReportPath, payload);
+      const { status, entry } = await updateDeploymentStatus(statusReportPath, payload, {
+        releaseReporter,
+      });
       if (typeof deploymentNotifier === 'function') {
         try {
           await deploymentNotifier(entry, status);
