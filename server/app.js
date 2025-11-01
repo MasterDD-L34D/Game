@@ -8,7 +8,10 @@ const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesi
 const { createRuntimeValidator } = require('../services/generation/runtimeValidator');
 const { createGenerationOrchestratorBridge } = require('./services/orchestratorBridge');
 const { createTraitDiagnosticsSync } = require('./traitDiagnostics');
-const { createGenerationSnapshotHandler } = require('./routes/generationSnapshot');
+const {
+  createGenerationSnapshotHandler,
+} = require('./routes/generationSnapshot');
+const { createGenerationSnapshotStore } = require('./services/generationSnapshotStore');
 const { createNebulaRouter } = require('./routes/nebula');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
@@ -290,9 +293,20 @@ function createApp(options = {}) {
     options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
   const biomeSynthesizer =
     options.biomeSynthesizer || createBiomeSynthesizer({ dataRoot, runtimeValidator });
+  const generationSnapshotOptions = options.generationSnapshot || {};
+  const generationSnapshotStore =
+    generationSnapshotOptions.store ||
+    createGenerationSnapshotStore({
+      datasetPath: generationSnapshotOptions.datasetPath,
+      staticDataset: generationSnapshotOptions.staticDataset,
+    });
+  const orchestratorOptions = {
+    ...(options.orchestratorOptions || {}),
+    snapshotStore: generationSnapshotStore,
+  };
   const generationOrchestrator =
     options.generationOrchestrator ||
-    createGenerationOrchestratorBridge(options.orchestratorOptions || {});
+    createGenerationOrchestratorBridge(orchestratorOptions);
   const traitDiagnosticsSync =
     options.traitDiagnosticsSync ||
     createTraitDiagnosticsSync({
@@ -321,7 +335,8 @@ function createApp(options = {}) {
   const generationSnapshotHandler = createGenerationSnapshotHandler({
     orchestrator: generationOrchestrator,
     traitDiagnostics: traitDiagnosticsSync,
-    datasetPath: options.generationSnapshot?.datasetPath,
+    datasetPath: generationSnapshotOptions.datasetPath,
+    snapshotStore: generationSnapshotStore,
   });
 
   app.get('/api/generation/snapshot', generationSnapshotHandler);

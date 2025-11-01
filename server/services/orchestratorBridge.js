@@ -531,6 +531,7 @@ function createGenerationOrchestratorBridge(options = {}) {
     ...options,
   };
 
+  const snapshotStore = merged.snapshotStore || null;
   const resolved = {
     pythonPath: merged.pythonPath || DEFAULT_CONFIG.pythonPath,
     workerScript: merged.workerScript || DEFAULT_WORKER_SCRIPT,
@@ -603,6 +604,17 @@ function createGenerationOrchestratorBridge(options = {}) {
 
   ['beforeExit', 'SIGINT', 'SIGTERM', 'SIGQUIT'].forEach(registerCleanup);
 
+  async function persistRuntime(result, error) {
+    if (!snapshotStore || typeof snapshotStore.recordRuntime !== 'function') {
+      return;
+    }
+    try {
+      await snapshotStore.recordRuntime(result, error);
+    } catch (storeError) {
+      console.warn('[orchestrator-bridge] aggiornamento runtime snapshot fallito', storeError);
+    }
+  }
+
   async function generateSpecies(requestPayload) {
     const payload = normaliseRequestPayload(requestPayload);
     if (!payload.trait_ids.length) {
@@ -614,7 +626,11 @@ function createGenerationOrchestratorBridge(options = {}) {
     cancelAutoShutdown();
     try {
       const result = await pool.run('generate-species', payload, resolved.requestTimeoutMs);
+      await persistRuntime(result, null);
       return result;
+    } catch (error) {
+      await persistRuntime(null, error);
+      throw error;
     } finally {
       scheduleAutoShutdown();
     }
@@ -642,7 +658,18 @@ function createGenerationOrchestratorBridge(options = {}) {
         { batch },
         resolved.requestTimeoutMs,
       );
+      const results = Array.isArray(result?.results) ? result.results : [];
+      if (results.length) {
+        await persistRuntime(results[results.length - 1], null);
+      } else if (Array.isArray(result?.errors) && result.errors.length) {
+        const firstError = result.errors[0];
+        const batchError = new Error(firstError?.error || 'Errore generazione batch specie');
+        await persistRuntime(null, batchError);
+      }
       return result;
+    } catch (error) {
+      await persistRuntime(null, error);
+      throw error;
     } finally {
       scheduleAutoShutdown();
     }

@@ -58,11 +58,11 @@ test('GET /api/generation/snapshot aggrega dataset, diagnostics e orchestrator',
     'flow-shell',
     'atlas-snapshot.json',
   );
-
   const { app } = createApp({
     generationOrchestrator: stubOrchestrator,
     traitDiagnosticsSync,
     generationSnapshot: { datasetPath },
+    repo: {},
   });
 
   const response = await request(app).get('/api/generation/snapshot').expect(200);
@@ -123,6 +123,7 @@ test('GET /api/generation/snapshot?refresh=1 ricarica il dataset da disco', asyn
     generationOrchestrator: stubOrchestrator,
     traitDiagnosticsSync,
     generationSnapshot: { datasetPath },
+    repo: {},
   });
 
   const responseV1 = await request(app).get('/api/generation/snapshot').expect(200);
