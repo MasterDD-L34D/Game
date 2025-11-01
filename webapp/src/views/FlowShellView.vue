@@ -63,6 +63,17 @@
         Avanti →
       </button>
     </template>
+
+    <template #sidebar>
+      <FlowShellTelemetryPanel
+        :logs="telemetryLogs"
+        :metrics="qaMetrics"
+        :stream="telemetryStreamState"
+        @export-json="exportTelemetry('json')"
+        @export-csv="exportTelemetry('csv')"
+        @refresh-stream="refreshTelemetryStream"
+      />
+    </template>
   </PokedexShell>
 </template>
 
@@ -84,6 +95,8 @@ import PublishingView from './PublishingView.vue';
 import QualityReleaseView from './QualityReleaseView.vue';
 import PokedexShell from '../components/pokedex/PokedexShell.vue';
 import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
+import FlowShellTelemetryPanel from '../components/flow/FlowShellTelemetryPanel.vue';
+import { useClientLogger } from '../services/clientLogger.ts';
 
 const flow = useGeneratorFlow();
 const steps = flow.steps;
@@ -92,6 +105,7 @@ const currentStep = flow.currentStep;
 const summary = flow.summary;
 
 const logger = useFlowLogger();
+const clientLogger = useClientLogger();
 const snapshotStore = useSnapshotLoader({ logger });
 const speciesStore = useSpeciesGenerator({ logger });
 const traitDiagnosticsStore = useTraitDiagnostics({ logger });
@@ -214,7 +228,7 @@ const activeProps = computed(() => {
     return {
       snapshot: snapshotStore.qualityRelease.value,
       context: snapshotStore.qualityContext.value,
-      orchestratorLogs: logger.logs.value,
+      orchestratorLogs: telemetryEntries.value,
     };
   }
   if (id === 'publishing') {
@@ -404,15 +418,229 @@ const statusLights = computed(() =>
   })),
 );
 
-const missionLogs = computed(() =>
-  logger.logs.value.map((entry, index) => ({
-    id: entry.id ?? `${entry.event || 'log'}-${index}`,
-    level: entry.level || 'info',
-    scope: entry.scope || entry.event || 'flow',
-    message: entry.message || entry.event || 'Evento registrato',
-    timestamp: entry.timestamp || entry.meta?.timestamp || Date.now(),
-  })),
+function formatLogTimestamp(timestamp) {
+  if (!timestamp) {
+    return '—';
+  }
+  try {
+    const date = new Date(timestamp);
+    if (Number.isNaN(date.getTime())) {
+      throw new Error('Invalid timestamp');
+    }
+    return date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  } catch (error) {
+    return String(timestamp).slice(0, 8);
+  }
+}
+
+const telemetryEntries = computed(() => clientLogger.list());
+
+const telemetryLogs = computed(() =>
+  telemetryEntries.value.map((entry, index) => {
+    const metaTimestamp =
+      entry.meta && typeof entry.meta === 'object' && entry.meta !== null
+        ? entry.meta.timestamp
+        : undefined;
+    const resolvedMetaTimestamp =
+      typeof metaTimestamp === 'string' && metaTimestamp.length ? metaTimestamp : null;
+    const timestamp = entry.timestamp || resolvedMetaTimestamp || new Date().toISOString();
+    return {
+      id: entry.id ?? `${entry.event || 'log'}-${index}`,
+      level: entry.level || 'info',
+      scope: entry.scope || entry.event || 'quality',
+      message: entry.message || entry.event || 'Evento registrato',
+      timestamp,
+      time: formatLogTimestamp(timestamp),
+    };
+  }),
 );
+
+const missionLogs = telemetryLogs;
+
+const telemetryStreamState = computed(() => ({
+  status: clientLogger.streamStatus.value,
+  error: clientLogger.streamError.value,
+  lastEventAt: clientLogger.streamLastEventAt.value,
+  attempts: clientLogger.streamAttempts.value,
+}));
+
+function countValidatorWarnings(snapshot) {
+  const logs = Array.isArray(snapshot?.qualityRelease?.logs) ? snapshot.qualityRelease.logs : [];
+  return logs.filter((log) => String(log?.level || '').toLowerCase() === 'warning').length;
+}
+
+function extractFallbackCount(snapshot) {
+  let total = 0;
+  const initialFallback = snapshot?.initialSpeciesRequest?.fallback_trait_ids;
+  if (Array.isArray(initialFallback) && initialFallback.length) {
+    total += 1;
+  }
+
+  const batchEntries = snapshot?.qualityReleaseContext?.speciesBatch?.entries;
+  if (Array.isArray(batchEntries)) {
+    batchEntries.forEach((entry) => {
+      if (Array.isArray(entry?.fallback_trait_ids) && entry.fallback_trait_ids.length) {
+        total += 1;
+      }
+    });
+  }
+
+  const suggestionEntries = [];
+  if (Array.isArray(snapshot?.suggestions)) {
+    snapshot.suggestions.forEach((suggestion) => {
+      const payloadEntries = suggestion?.payload?.entries;
+      if (Array.isArray(payloadEntries)) {
+        payloadEntries.forEach((entry) => suggestionEntries.push(entry));
+      }
+    });
+  }
+  suggestionEntries.forEach((entry) => {
+    if (entry && typeof entry === 'object') {
+      const fallback = entry.fallback_trait_ids;
+      if (Array.isArray(fallback) && fallback.length) {
+        total += 1;
+      }
+    }
+  });
+
+  const logFallbacks = Array.isArray(snapshot?.qualityRelease?.logs)
+    ? snapshot.qualityRelease.logs.filter((log) =>
+        String(log?.message || '').toLowerCase().includes('fallback'),
+      ).length
+    : 0;
+
+  return total + logFallbacks;
+}
+
+function resolveSnapshotRequestId(snapshot) {
+  if (snapshot?.initialSpeciesRequest?.request_id) {
+    return snapshot.initialSpeciesRequest.request_id;
+  }
+  const batchEntries = snapshot?.qualityReleaseContext?.speciesBatch?.entries;
+  if (Array.isArray(batchEntries)) {
+    const match = batchEntries.find((entry) => entry?.request_id);
+    if (match?.request_id) {
+      return match.request_id;
+    }
+  }
+  if (Array.isArray(snapshot?.suggestions)) {
+    for (const suggestion of snapshot.suggestions) {
+      const entries = suggestion?.payload?.entries;
+      if (Array.isArray(entries)) {
+        const match = entries.find((entry) => entry?.request_id);
+        if (match?.request_id) {
+          return match.request_id;
+        }
+      }
+    }
+  }
+  return null;
+}
+
+const qaMetrics = computed(() => {
+  const snapshot = snapshotStore.snapshot.value;
+  const metrics = snapshot?.qualityRelease?.metrics || {};
+  const warningsCandidate = Number(
+    metrics.validatorWarnings ?? metrics.validator_warnings ?? metrics.warnings ?? Number.NaN,
+  );
+  const fallbackCandidate = Number(
+    metrics.fallbackCount ?? metrics.fallback_count ?? metrics.fallbacks ?? Number.NaN,
+  );
+  const warnings = Number.isFinite(warningsCandidate)
+    ? warningsCandidate
+    : countValidatorWarnings(snapshot);
+  const fallbackCount = Number.isFinite(fallbackCandidate)
+    ? fallbackCandidate
+    : extractFallbackCount(snapshot);
+  const requestId =
+    metrics.lastRequestId ??
+    metrics.requestId ??
+    resolveSnapshotRequestId(snapshot) ??
+    speciesStore.requestId.value ??
+    null;
+  return {
+    validatorWarnings: warnings,
+    fallbackCount,
+    requestId,
+  };
+});
+
+const qaBadgeEntries = computed(() => [
+  {
+    id: 'validator-warnings',
+    label: 'Validator warnings',
+    value: qaMetrics.value.validatorWarnings,
+  },
+  {
+    id: 'fallback-count',
+    label: 'Fallback attivi',
+    value: qaMetrics.value.fallbackCount,
+  },
+  {
+    id: 'request-id',
+    label: 'Request ID',
+    value: qaMetrics.value.requestId || '—',
+  },
+]);
+
+let lastBadgeSignature = '';
+watch(
+  qaBadgeEntries,
+  (badges) => {
+    const signature = JSON.stringify(badges);
+    if (signature === lastBadgeSignature) {
+      return;
+    }
+    lastBadgeSignature = signature;
+    clientLogger.logQaBadgeSummary(badges, { scope: 'quality' });
+  },
+  { deep: true, immediate: true },
+);
+
+const logStreamUrl = computed(() => {
+  const qualityRelease = snapshotStore.snapshot.value?.qualityRelease || {};
+  if (typeof qualityRelease.logStreamUrl === 'string' && qualityRelease.logStreamUrl.trim()) {
+    return qualityRelease.logStreamUrl.trim();
+  }
+  if (qualityRelease.logStream && typeof qualityRelease.logStream.url === 'string') {
+    const nested = qualityRelease.logStream.url.trim();
+    if (nested) {
+      return nested;
+    }
+  }
+  return clientLogger.defaultStreamUrl;
+});
+
+watch(
+  () => logStreamUrl.value,
+  (url) => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    if (!url) {
+      clientLogger.disconnectStream();
+      return;
+    }
+    const currentUrl = clientLogger.streamUrl.value;
+    if (currentUrl === url && clientLogger.streamStatus.value === 'open') {
+      return;
+    }
+    clientLogger.connectStream({ url, scope: 'quality' });
+  },
+  { immediate: true },
+);
+
+function exportTelemetry(format) {
+  if (format === 'csv') {
+    clientLogger.exportLogsAsCsv();
+  } else {
+    clientLogger.exportLogsAsJson();
+  }
+}
+
+function refreshTelemetryStream() {
+  clientLogger.reconnectStream();
+}
 
 function fallbackTone(label) {
   if (!label) {

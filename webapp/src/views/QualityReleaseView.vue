@@ -368,11 +368,9 @@
 
 <script setup>
 import { computed, reactive, ref, toRefs, watch } from 'vue';
-
-import SafeContent from '../components/common/SafeContent.vue';
-import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService';
-import { applyQualitySuggestion } from '../services/qualityReleaseService';
-import { logEvent as logClientEvent, useClientLogger } from '../services/clientLogger.js';
+import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService.js';
+import { applyQualitySuggestion } from '../services/qualityReleaseService.js';
+import { logEvent as logClientEvent, useClientLogger } from '../services/clientLogger.ts';
 
 const props = defineProps({
   snapshot: {

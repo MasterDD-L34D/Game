@@ -1,4 +1,4 @@
-import { logEvent as clientLogEvent } from '../services/clientLogger.js';
+import { logEvent as clientLogEvent } from '../services/clientLogger.ts';
 
 export type LoggerLevel = 'info' | 'warn' | 'warning' | 'error' | 'success' | string;
 

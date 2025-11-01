@@ -292,6 +292,12 @@
         "total": 1
       }
     },
+    "metrics": {
+      "validatorWarnings": 1,
+      "fallbackCount": 1,
+      "lastRequestId": "nebula-priority"
+    },
+    "logStreamUrl": "/api/v1/quality/logs/stream",
     "lastRun": "2024-05-18T09:20:00Z",
     "owners": [
       "QA Core",
