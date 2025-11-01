@@ -111,6 +111,17 @@ const MOCK_REPORT: SquadSyncReport = {
     averageActiveMembers: 7,
     averageEngagement: 0.614,
   },
+  adaptive: {
+    responses: [],
+    summary: {
+      total: 0,
+      critical: 0,
+      warning: 0,
+      info: 0,
+      variants: [],
+      squads: [],
+    },
+  },
 };
 
 test('schema contiene il type SquadSyncReport', () => {
@@ -130,6 +141,7 @@ test('resolver restituisce il report completo senza filtro range', async () => {
   assert.equal(result.totals.deployments, 10);
   assert.equal(result.squads[0].summary.engagementScore, 0.744);
   assert.equal(result.squads[1].daily[0].engagement, 0.333);
+  assert.equal(result.adaptive.summary.total, 0);
 });
 
 test('filterReportByRange riduce correttamente le squadre', () => {

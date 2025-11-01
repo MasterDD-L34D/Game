@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "quality://suggestion",
+  "title": "Quality Suggestion",
+  "type": "object",
+  "required": ["id"],
+  "additionalProperties": true,
+  "properties": {
+    "id": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "number" }
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["general", "species", "biome", "biomes", "foodweb"]
+    },
+    "action": {
+      "type": "string",
+      "enum": ["fix", "regenerate"]
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "biomeId": {
+          "type": ["string", "null"]
+        },
+        "biome": {
+          "type": ["object", "null"]
+        },
+        "defaultHazard": {
+          "type": ["string", "null"]
+        },
+        "foodweb": {
+          "type": ["object", "null"]
+        }
+      }
+    }
+  }
+}
