@@ -17,7 +17,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    include: ['tests/**/*.spec.ts', '../tests/webapp/**/*.spec.ts', '../tests/analytics/**/*.test.ts'],
+    include: ['tests/**/*.spec.ts', '../tests/webapp/**/*.spec.ts', '../tests/vfx/**/*.spec.ts', '../tests/analytics/**/*.test.ts'],
     root: __dirname,
   },
 });

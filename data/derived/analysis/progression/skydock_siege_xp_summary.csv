@@ -1,0 +1,10 @@
+difficulty,class_id,total_xp,target_xp,delta_vs_target_pct,xp_per_minute
+story,sentinel,1197.2,1200,-0.2333,51.382
+story,helix,1292.976,1200,7.748,55.4925
+story,cipher,1101.424,1200,-8.2147,47.2714
+standard,sentinel,1460.0,1425,2.4561,62.6609
+standard,helix,1576.8,1425,10.6526,67.6738
+standard,cipher,1343.2,1425,-5.7404,57.6481
+veteran,sentinel,1708.2,1685,1.3769,73.3133
+veteran,helix,1844.856,1685,9.487,79.1784
+veteran,cipher,1571.544,1685,-6.7333,67.4482
