@@ -70,7 +70,7 @@ const defaults: Record<DataSourceId, DataSourceDefaults> = {
     },
   },
   generationSpecies: {
-    endpoint: '/api/generation/species',
+    endpoint: '/api/v1/generation/species',
     fallback: 'data/flow/generation/species.json',
     env: {
       endpoint: 'VITE_GENERATION_SPECIES_URL',
@@ -78,7 +78,7 @@ const defaults: Record<DataSourceId, DataSourceDefaults> = {
     },
   },
   generationSpeciesBatch: {
-    endpoint: '/api/generation/species/batch',
+    endpoint: '/api/v1/generation/species/batch',
     fallback: 'data/flow/generation/species-batch.json',
     env: {
       endpoint: 'VITE_GENERATION_SPECIES_BATCH_URL',
@@ -86,7 +86,7 @@ const defaults: Record<DataSourceId, DataSourceDefaults> = {
     },
   },
   generationSpeciesPreview: {
-    endpoint: '/api/generation/species/batch',
+    endpoint: '/api/v1/generation/species/batch',
     fallback: 'data/flow/generation/species-preview.json',
     env: {
       endpoint: 'VITE_GENERATION_SPECIES_PREVIEW_URL',

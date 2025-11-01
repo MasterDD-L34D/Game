@@ -145,14 +145,14 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - `POST /api/v1/generation/biomes` (`/api/biomes/generate` legacy) – genera sintesi bioma via `createBiomeSynthesizer`.
   - `POST /api/v1/validators/runtime` (`/api/validators/runtime` legacy) – esegue validator runtime sul payload fornito.
   - `POST /api/v1/quality/suggestions/apply` (`/api/quality/suggestions/apply` legacy) – applica suggerimenti qualità sul dataset ricevuto.
-  - `POST /api/v1/generation/species` e `/api/v1/generation/species/batch` (alias legacy `/api/generation/species[*]`) – orchestrano la generazione specie integrando `SpeciesBuilder`, `TraitCatalog` e validator pack.
+  - `POST /api/v1/generation/species` e `/api/v1/generation/species/batch` (`/api/generation/species[*]` legacy) – orchestrano la generazione specie integrando `SpeciesBuilder`, `TraitCatalog` e validator pack.
   - `GET /api/v1/atlas/dataset`, `/api/v1/atlas/telemetry`, `/api/v1/atlas/generator` – bundle dataset e telemetria Nebula (alias legacy aggregato `/api/nebula/atlas`).
   - `GET /api/v1/qa/status` (`/api/qa/status` legacy) – report QA corrente.
   - `GET /api/ideas/:id/report` – produce report Codex in HTML/JSON usando `server/report.js`.
 - **Orchestrazione**: la pipeline combina normalizzazione slug, fallback automatici per trait non validi e log strutturati (vedi `services/generation/*`).
 
 ### Pipeline generazione orchestrata
-- **Endpoint backend** – `POST /api/generation/species` instrada le richieste
+- **Endpoint backend** – `POST /api/v1/generation/species` (alias legacy `/api/generation/species`) instrada le richieste
   dell'UI verso l'orchestratore Python (`services/generation/orchestrator.py`),
   normalizzando gli input (`trait_ids`, `seed`, `biome_id`).
 - **Orchestratore Python** – carica il `TraitCatalog`, costruisce il blueprint

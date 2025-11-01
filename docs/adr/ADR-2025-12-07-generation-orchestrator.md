@@ -38,7 +38,7 @@ con responsabilità di:
    `validation_outcome`) così da alimentare alerting e dashboard QA.
 
 Il server Express (`server/app.js`) espone il nuovo endpoint
-`POST /api/generation/species` che delega all’orchestratore via bridge
+`POST /api/v1/generation/species` (alias legacy `/api/generation/species`) che delega all’orchestratore via bridge
 Node↔Python, garantendo un’API omogenea alla UI Vue.
 
 ## Conseguenze

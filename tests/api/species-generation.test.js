@@ -4,11 +4,11 @@ const request = require('supertest');
 
 const { createApp } = require('../../server/app');
 
-test('POST /api/generation/species restituisce blueprint validato', async () => {
+test('POST /api/v1/generation/species restituisce blueprint validato', async () => {
   const { app } = createApp();
 
   const response = await request(app)
-    .post('/api/generation/species')
+    .post('/api/v1/generation/species')
     .send({
       trait_ids: ['artigli_sette_vie', 'coda_frusta_cinetica', 'scheletro_idro_regolante'],
       seed: 99,
@@ -25,11 +25,11 @@ test('POST /api/generation/species restituisce blueprint validato', async () => 
   assert.equal(meta.fallback_used, false, 'non deve essere necessario il fallback');
 });
 
-test('POST /api/generation/species ritorna 400 senza trait', async () => {
+test('POST /api/v1/generation/species ritorna 400 senza trait', async () => {
   const { app } = createApp();
 
   const response = await request(app)
-    .post('/api/generation/species')
+    .post('/api/v1/generation/species')
     .send({ trait_ids: [] })
     .expect(400);
 
