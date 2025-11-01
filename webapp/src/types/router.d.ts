@@ -10,5 +10,6 @@ declare module 'vue-router' {
     demo?: boolean;
     offline?: boolean;
     stateTokens?: Array<{ id?: string; label?: string; variant?: string; icon?: string }>;
+    prefetchSections?: Array<'flow' | 'nebula' | 'atlas'>;
   }
 }

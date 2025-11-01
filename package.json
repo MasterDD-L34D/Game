@@ -14,7 +14,8 @@
     "stage:publishing": "node services/publishing/staging.js",
     "export:qa": "node scripts/export-qa-report.js",
     "webapp:deploy": "npm --prefix webapp install && npm --prefix webapp run build && npm --prefix webapp run preview",
-    "webapp:qa": "npm --prefix webapp run qa"
+    "webapp:qa": "npm --prefix webapp run qa",
+    "webapp:analyze": "npm --prefix webapp run analyze"
   },
   "dependencies": {
     "ajv": "^8.17.1",

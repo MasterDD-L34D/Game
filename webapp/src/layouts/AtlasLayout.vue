@@ -52,14 +52,14 @@
 </template>
 
 <script setup>
-import { computed, provide } from 'vue';
+import { computed, onMounted, provide } from 'vue';
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router';
 
 import AtlasCollectionProgress from '../components/atlas/AtlasCollectionProgress.vue';
 import StateBanner from '../components/metrics/StateBanner.vue';
 import MetricCard from '../components/metrics/MetricCard.vue';
 import { atlasLayoutKey } from '../composables/useAtlasLayout';
-import { atlasDataset, atlasTotals } from '../state/atlasDataset';
+import { atlasDataset, atlasTotals, ensureAtlasDatasetLoaded } from '../state/atlasDataset';
 import { useNavigationMeta } from '../state/navigationMeta';
 
 const props = defineProps({
@@ -82,6 +82,12 @@ const { title: navigationTitle, description: navigationDescription, breadcrumbs,
 
 const dataset = atlasDataset;
 const totals = atlasTotals;
+
+onMounted(() => {
+  ensureAtlasDatasetLoaded().catch((error) => {
+    console.warn('[AtlasLayout] caricamento dataset demo fallito', error);
+  });
+});
 
 const headerTitle = computed(() => navigationTitle.value || dataset.title || 'Nebula Atlas');
 const headerSummary = computed(() => navigationDescription.value || dataset.summary || '');
