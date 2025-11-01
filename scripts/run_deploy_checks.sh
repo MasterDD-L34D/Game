@@ -15,6 +15,8 @@ if [ ! -d "$DATA_SOURCE_DIR" ]; then
 fi
 export DATA_SOURCE_DIR
 
+STATUS_REPORT="$ROOT_DIR/reports/status.json"
+
 SMOKE_TEST_MESSAGE=""
 SMOKE_TEST_DETAILS=()
 
@@ -60,6 +62,66 @@ if [ -n "$GENERATOR_SUMMARY" ]; then
   while IFS= read -r line; do
     [ -n "$line" ] && SMOKE_TEST_DETAILS+=("$line")
   done <<<"$GENERATOR_SUMMARY"
+fi
+
+log "Checking release telemetry status ($STATUS_REPORT)"
+set +e
+GO_NO_GO_OUTPUT=$(
+  node - "$STATUS_REPORT" "$ROOT_DIR" <<'NODE'
+const fs = require('node:fs');
+const path = require('node:path');
+
+function fail(message, code = 1) {
+  console.error(message);
+  process.exit(code);
+}
+
+try {
+  const [reportPath, rootDir] = process.argv.slice(2);
+  if (!reportPath) {
+    fail('Percorso status report non fornito');
+  }
+  if (!fs.existsSync(reportPath)) {
+    fail(`Status report non trovato: ${reportPath}`);
+  }
+  const raw = fs.readFileSync(reportPath, 'utf8');
+  let report;
+  try {
+    report = JSON.parse(raw);
+  } catch (error) {
+    fail(`Status report non valido: ${error.message || error}`);
+  }
+  const goNoGo = report?.goNoGo;
+  if (!goNoGo || !Array.isArray(goNoGo.checks)) {
+    fail('Dati go/no-go non disponibili in reports/status.json');
+  }
+  const formatter = require(path.join(rootDir, 'tools', 'deploy', 'goNoGo.js'));
+  const summary = formatter.formatGoNoGoSummary(goNoGo);
+  console.log(summary.summaryLine);
+  for (const line of summary.detailLines || []) {
+    console.log(line);
+  }
+  if (summary.status === 'no-go') {
+    fail('Flow Shell go/no-go in stato NO-GO: risolvere i blocchi prima del deploy.');
+  }
+} catch (error) {
+  fail(error?.message || String(error));
+}
+NODE
+)
+STATUS_EXIT=$?
+set -e
+if [ "$STATUS_EXIT" -ne 0 ]; then
+  log "Release telemetry check failed"
+  if [ -n "$GO_NO_GO_OUTPUT" ]; then
+    printf '%s\n' "$GO_NO_GO_OUTPUT"
+  fi
+  exit "$STATUS_EXIT"
+fi
+if [ -n "$GO_NO_GO_OUTPUT" ]; then
+  while IFS= read -r line; do
+    [ -n "$line" ] && SMOKE_TEST_DETAILS+=("$line")
+  done <<<"$GO_NO_GO_OUTPUT"
 fi
 
 # The CI workflow already runs the full TypeScript and Python test suites.

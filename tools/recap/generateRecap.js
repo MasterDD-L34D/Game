@@ -16,6 +16,13 @@ const NEBULA_LEGACY_ENDPOINT =
   process.env.RECAP_NEBULA_ENDPOINT || 'http://localhost:3000/api/nebula/atlas';
 const QA_ENDPOINT = process.env.RECAP_QA_ENDPOINT || 'http://localhost:3000/api/qa/status';
 
+const REPORTS_ROOT = path.resolve(__dirname, '../../reports');
+const QA_BASELINE_PATH = path.join(REPORTS_ROOT, 'trait_baseline.json');
+const QA_VALIDATION_PATH = path.join(REPORTS_ROOT, 'generator_validation.json');
+const QA_CHANGELOG_PATH = path.join(REPORTS_ROOT, 'qa-changelog.md');
+const QA_BADGES_PATH = path.join(REPORTS_ROOT, 'qa_badges.json');
+const STATUS_REPORT_PATH = path.join(REPORTS_ROOT, 'status.json');
+
 const FETCH_TIMEOUT_MS = Number(process.env.RECAP_FETCH_TIMEOUT_MS || 8000);
 
 function abortableFetch(url, options = {}) {
@@ -122,6 +129,36 @@ function formatDate(value) {
 
 function ensureArray(value) {
   return Array.isArray(value) ? value : [];
+}
+
+function buildGoNoGoSection(goNoGo) {
+  if (!goNoGo || !Array.isArray(goNoGo.checks)) {
+    return [
+      '## Flow Shell Go / No-Go',
+      'Dati go/no-go non disponibili. Aggiorna `reports/status.json` eseguendo un refresh dello status deploy.',
+    ].join('\n');
+  }
+  const stats = goNoGo.stats || {};
+  const total = stats.total ?? goNoGo.checks.length;
+  const failed = stats.failed ?? goNoGo.checks.filter((entry) => entry.status === 'failed').length;
+  const warnings = stats.warnings ?? goNoGo.checks.filter((entry) => entry.status === 'warning').length;
+  const passed = stats.passed ?? (total - failed - warnings);
+  const lines = ['## Flow Shell Go / No-Go'];
+  if (goNoGo.generatedAt) {
+    lines.push(`- Ultimo aggiornamento: ${goNoGo.generatedAt}`);
+  }
+  lines.push(`- Stato complessivo: **${(goNoGo.status || 'nd').toUpperCase()}**`);
+  lines.push(`- Risultati: ${passed}/${total} ok · ${warnings} warning · ${failed} fail`);
+  lines.push('', '### Checklist');
+  for (const check of goNoGo.checks) {
+    const status = check.status || 'warning';
+    const checkbox = status === 'passed' ? '[x]' : '[ ]';
+    const icon = status === 'failed' ? '❌' : status === 'warning' ? '⚠️' : '✅';
+    const flowRef = check.flowReference || check.title || check.id || 'Flow Shell step';
+    const summary = check.summary || 'Verifica richiesta.';
+    lines.push(`- ${checkbox} ${icon} ${flowRef}: ${summary}`);
+  }
+  return lines.join('\n');
 }
 
 function buildSnapshotSection(snapshot) {
@@ -331,16 +368,47 @@ async function main() {
     }
   }
 
-  const [snapshot, nebula, qa] = await Promise.all([
-    fetchJson(SNAPSHOT_ENDPOINT, 'snapshot'),
-    loadNebulaBundle(),
-    fetchJson(QA_ENDPOINT, 'QA'),
+  const highlightBuilder = await loadQaHighlightBuilder();
+
+  const statusReport = await readJsonMaybe(STATUS_REPORT_PATH);
+  let snapshot = statusReport?.telemetry?.snapshot?.data || null;
+  let nebula = statusReport?.telemetry?.nebula?.atlas || null;
+  const goNoGo = statusReport?.goNoGo || null;
+
+  const snapshotPromise = snapshot ? Promise.resolve(null) : fetchJson(SNAPSHOT_ENDPOINT, 'snapshot');
+  const nebulaPromise = nebula ? Promise.resolve(null) : fetchJson(NEBULA_ENDPOINT, 'nebula');
+  const qaPromise = fetchJson(QA_ENDPOINT, 'QA');
+  const [snapshotFallback, nebulaFallback, qaFromEndpoint] = await Promise.all([
+    snapshotPromise,
+    nebulaPromise,
+    qaPromise,
   ]);
+  snapshot = snapshot || snapshotFallback;
+  nebula = nebula || nebulaFallback;
+
+  const [qaBaseline, generatorValidation, qaChangelog, qaBadgesFallback] = await Promise.all([
+    readJsonMaybe(QA_BASELINE_PATH),
+    readJsonMaybe(QA_VALIDATION_PATH),
+    readTextMaybe(QA_CHANGELOG_PATH),
+    readJsonMaybe(QA_BADGES_PATH),
+  ]);
+
+  const qaFromStatus = statusReport?.telemetry?.traitDiagnostics?.diagnostics || null;
+  const qaBadges = qaFromEndpoint || qaFromStatus || qaBadgesFallback;
+  const qaSection = buildQaSection({
+    badges: qaBadges,
+    baseline: qaBaseline,
+    generatorValidation,
+    changelog: qaChangelog,
+    highlightBuilder,
+  });
 
   const sections = [
     '# Live operations recap',
     '',
     `Generato: ${new Date().toISOString()}`,
+    '',
+    buildGoNoGoSection(goNoGo),
     '',
     buildSnapshotSection(snapshot),
     '',
