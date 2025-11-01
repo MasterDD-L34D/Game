@@ -1,10 +1,11 @@
 # Feedback toolkit
 
-Questo modulo raccoglie configurazioni, script e flussi operativi per centralizzare la raccolta feedback. I file sono pensati per essere consumati dalla webapp, dalla documentazione e dagli script CLI.
+Questo modulo raccoglie configurazioni, script e flussi operativi per centralizzare la raccolta feedback. I file sono pensati per essere consumati dalla webapp, dalla documentazione e dagli script CLI e ora includono la pipeline canary collegata all'HUD Smart Alerts.
 
 ## Struttura
 - `form_config.yaml`: definizione del form (sezioni, campi, vincoli).
 - `collection_pipeline.yaml`: processi post-intake e stati operativi.
+- `hud_canary_dashboard.yaml`: layout e routing della dashboard canary condivisa con SquadSync.
 - `sync_tasks.py`: sincronizza i feedback prioritari con il backlog incoming.
 - `report_generator.py`: compila report settimanali in HTML/CSV.
 - `cleanup.py`: archivia e ripulisce le submission storiche.
@@ -18,3 +19,4 @@ Questo modulo raccoglie configurazioni, script e flussi operativi per centralizz
 Per istruzioni operative consulta:
 - [Pipeline di raccolta feedback](../../docs/process/feedback_collection_pipeline.md)
 - [Tutorial form feedback](../../docs/tutorials/feedback-form.md)
+- [Guida overlay HUD canary](../../docs/tutorials/hud-overlay-quickstart.md)

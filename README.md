@@ -181,12 +181,18 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - `docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64` (decodifica con `python -m base64 -d ...`)
   - Rigenera asset con `python tools/py/build_showcase_materials.py`, che aggiorna HTML, Base64 del PDF e cover SVG in `public/showcase-dossier.svg`.
 
+- **Overlay HUD Smart Alerts** — Il componente `public/hud/Overlay.tsx` espone i filtri canary con routing automatico verso `#feedback-enhancements`. Consulta il mock aggiornato (`assets/hud/overlay/mock-timeline.svg`) e il Canvas [Sync HUD · dicembre 2025](docs/Canvas/feature-updates.md#sync-hud--dicembre-2025) per mantenere la UX allineata con i materiali condivisi.【F:public/hud/Overlay.tsx†L1-L151】【F:assets/hud/overlay/mock-timeline.svg†L1-L33】【F:docs/Canvas/feature-updates.md†L23-L39】
+- **Analytics SquadSync adaptive** — La pagina `/analytics/squadsync/` mette in evidenza le risposte adaptive e i picchi Delta provenienti dall'HUD; usa il mock aggiornato (`assets/analytics/squadsync_mock.svg`) e la dashboard canary (`tools/feedback/hud_canary_dashboard.yaml`) per condividere rapidamente KPI e follow-up.【F:public/analytics/squadsync/index.tsx†L1-L320】【F:assets/analytics/squadsync_mock.svg†L1-L58】【F:tools/feedback/hud_canary_dashboard.yaml†L1-L53】
+
 ### Showcase demo · preset "Bundle demo pubblico"
 ![Anteprima dossier showcase](public/showcase-dossier.svg)
 
 - **Tutorial rapido · Dashboard & Showcase** — [Guida sintetica](docs/tutorials/dashboard-tour.md) per avviare Vite e raccogliere materiale.
   ![Dashboard tour](assets/tutorials/dashboard-tour.svg)
   Condividi sempre risultati e note in `#feedback-enhancements` specificando seed, branch e dataset.
+
+- **Tutorial rapido · Overlay HUD canary** — [Quick guide](docs/tutorials/hud-overlay-quickstart.md) per attivare l'overlay Smart Alerts, configurare i tag `hud_canary` e validare il refresh della dashboard canary durante i playtest.【F:docs/tutorials/hud-overlay-quickstart.md†L1-L116】
+- **Tutorial rapido · Adaptive engine SquadSync** — [Procedura rapida](docs/tutorials/adaptive-engine-quickstart.md) per estrarre il payload adaptive dall'ETL, lanciare i test (`tests/analytics/squadsync_responses.test.ts`) e instradare i follow-up su `#feedback-enhancements`.【F:docs/tutorials/adaptive-engine-quickstart.md†L1-L129】【F:tests/analytics/squadsync_responses.test.ts†L1-L210】
 
 - **Dossier HTML** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.html`](docs/presentations/showcase/evo-tactics-showcase-dossier.html) riutilizza il template export del generatore mantenendo i token cromatici (`--color-accent-400`, palette `public/`).
 - **Press kit PDF** — [`docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64`](docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64) conserva l'export in formato Base64; decodificalo con `python -m base64 -d docs/presentations/showcase/evo-tactics-showcase-dossier.pdf.base64 > docs/presentations/showcase/dist/evo-tactics-showcase-dossier.pdf` (o con `base64 --decode`) per ottenere il PDF pronto alla distribuzione.
@@ -208,7 +214,8 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
 
 ## Storico aggiornamenti & archivio
-- **Release 2025-12-02 — Feedback & Tutorial boost** — integrazione changelog nel README, attivazione del modulo feedback con Slack `#feedback-enhancements` e nuovi tutorial multimediali. Dettagli completi in [`docs/changelog.md`](docs/changelog.md#2025-12-02).
+- **Release 2025-12-06 — HUD Smart Alerts & SquadSync bridge** — aggiornato il Canvas con mock HUD/SquadSync, integrata la dashboard canary (`tools/feedback/hud_canary_dashboard.yaml`) e instradati i feedback overlay su `#feedback-enhancements`. Include i nuovi tutorial rapidi overlay/adaptive e refresh del changelog centrale.【F:docs/Canvas/feature-updates.md†L23-L39】【F:tools/feedback/hud_canary_dashboard.yaml†L1-L53】【F:docs/tutorials/hud-overlay-quickstart.md†L1-L116】【F:docs/tutorials/adaptive-engine-quickstart.md†L1-L129】 Dettagli completi in [`docs/changelog.md`](docs/changelog.md#2025-12-06-hud-smart-alerts--squadsync-bridge).
+- **Release 2025-12-02 — Feedback & Tutorial boost** — integrazione changelog nel README, attivazione del modulo feedback con Slack `#feedback-enhancements` e nuovi tutorial multimediali. Dettagli completi in [`docs/changelog.md`](docs/changelog.md#2025-12-02-feedback--tutorial-boost).
 - **Suite Badlands riallineata (2025-11-16)** — i YAML aggiornati in `packs/evo_tactics_pack/data/species/badlands/` sono stati verificati con `python tools/py/report_trait_coverage.py` riportando `traits_with_species = 27/29` e nessuna regola senza specie (`rules_missing_species_total = 0`). Consulta `data/analysis/trait_coverage_report.json`, `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv` per il dettaglio e i pairing core/opzionali.
 - **Checklist rollout trait** — il log operativo [`logs/traits_tracking.md`](logs/traits_tracking.md) conserva le note di QA e i gate da rieseguire prima dei prossimi playtest; usa la sezione commenti per nuovi feedback rapidi e aggiorna la casella QA Lead entro le scadenze indicate.
 - **Idea Engine — modulo feedback sempre attivo** — il widget embed (`docs/public/embed.js`) ora propone il modulo feedback anche offline, reindirizzando al canale `#feedback-enhancements` quando l'API non è configurata. Per la cronologia dettagliata consulta [`docs/ideas/changelog.md`](docs/ideas/changelog.md).
