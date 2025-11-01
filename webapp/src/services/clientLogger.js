@@ -1,5 +1,7 @@
 import { computed, reactive, readonly } from 'vue';
 
+import { buildQaHighlightsSummary } from './qaHighlightFormatter.js';
+
 const MAX_ENTRIES = 500;
 const CSV_FIELDS = [
   ['id', (entry) => entry.id || ''],
@@ -144,6 +146,29 @@ export function logEvent(event, payload = {}) {
   return entry;
 }
 
+export function logQaBadgeSummary(badges, options = {}) {
+  const summary = buildQaHighlightsSummary(badges, options);
+  if (!summary) {
+    return null;
+  }
+  const metrics = summary.metrics || {};
+  const hasAlerts = Boolean(metrics.conflicts || metrics.matrixMismatch || metrics.zeroCoverage);
+  logEvent('quality.qa.badges', {
+    scope: 'quality',
+    level: hasAlerts ? 'warn' : 'info',
+    message: 'Aggiornati badge QA',
+    data: {
+      metrics,
+      badges: summary.badges,
+      sections: Array.isArray(summary.sections)
+        ? summary.sections.map((section) => ({ key: section.key, total: section.total }))
+        : [],
+      checks: summary.checks,
+    },
+  });
+  return summary;
+}
+
 export function clearLogs() {
   state.entries.splice(0, state.entries.length);
 }
@@ -199,6 +224,9 @@ export function useClientLogger() {
     exportLogsAsJson,
     exportLogsAsCsv,
     logEvent,
+    logQaBadgeSummary,
     clear: clearLogs,
   };
 }
+
+export { buildQaHighlightsSummary };
