@@ -518,6 +518,29 @@ export function useNebulaProgressModule(
         } catch (err) {
           remoteDatasetError = toError(err);
         }
+      } else if (aggregateEndpoint) {
+        const aggregate = await fetchAggregateRemote();
+        if (aggregate) {
+          aggregatedPayload = aggregate;
+          datasetSourceKind = 'remote';
+          if (aggregate.dataset) {
+            dataset.value = aggregate.dataset;
+          }
+          if (aggregate.telemetry) {
+            telemetry.value = aggregate.telemetry;
+            telemetryMode.value = 'live';
+            lastUpdated.value = aggregate.telemetry.updatedAt || lastUpdated.value || new Date().toISOString();
+          }
+          if (aggregate.generator) {
+            generator.value = aggregate.generator;
+          }
+          logger.info('nebula.dataset.remote', {
+            message: 'log.nebula.dataset.remote',
+            meta: { source: aggregateEndpoint },
+          });
+        } else {
+          remoteDatasetError = new Error('Aggregato Nebula non disponibile');
+        }
       } else {
         remoteDatasetError = new Error('Endpoint dataset Nebula non configurato');
       }
