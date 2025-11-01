@@ -42,16 +42,22 @@ const mainLinks = computed(() => {
   const currentName = route.name;
   return [
     {
-      name: 'workflow',
-      to: { name: 'workflow' },
-      label: 'Workflow Orchestrator',
-      active: currentName === 'workflow',
+      name: 'console-home',
+      to: { name: 'console-home' },
+      label: 'Mission Console',
+      active: currentName === 'console-home',
     },
     {
-      name: 'atlas',
-      to: { name: 'atlas-pokedex' },
-      label: 'Atlas Nebula Dataset',
-      active: (currentName && String(currentName).startsWith('atlas-')) || currentName === 'atlas',
+      name: 'console-flow',
+      to: { name: 'console-flow' },
+      label: 'Workflow Orchestrator',
+      active: currentName === 'console-flow',
+    },
+    {
+      name: 'console-atlas',
+      to: { name: 'console-atlas-overview' },
+      label: 'Nebula Atlas',
+      active: currentName ? String(currentName).startsWith('console-atlas') : false,
     },
   ];
 });

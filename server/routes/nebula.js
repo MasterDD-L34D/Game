@@ -282,12 +282,11 @@ function buildGeneratorPayload(dataset, generatorProfile) {
   };
 }
 
-function createNebulaRouter(options = {}) {
-  const router = express.Router();
+function createAtlasLoader(options = {}) {
   const telemetryPath = options.telemetryPath || DEFAULT_TELEMETRY_EXPORT;
   const generatorPath = options.generatorTelemetryPath || DEFAULT_GENERATOR_TELEMETRY;
 
-  async function loadData() {
+  return async function loadAtlasData() {
     const dataset = cloneDataset();
     const records = await loadTelemetryRecords(telemetryPath).catch((error) => {
       console.warn('[nebula-route] impossibile caricare telemetria', error);
@@ -300,11 +299,18 @@ function createNebulaRouter(options = {}) {
     const telemetry = buildTelemetryPayload(dataset, records);
     const generator = buildGeneratorPayload(dataset, generatorProfile);
     return { dataset, telemetry, generator };
-  }
+  };
+}
+
+function createNebulaRouter(options = {}) {
+  const router = express.Router();
+  const loadData = createAtlasLoader(options);
 
   router.get('/atlas', async (req, res) => {
     try {
       const payload = await loadData();
+      res.set('Deprecation', 'true');
+      res.set('Link', '</api/v1/atlas/dataset>; rel="successor-version"');
       res.json(payload);
     } catch (error) {
       console.error('[nebula-route] errore aggregazione dataset', error);
@@ -341,9 +347,58 @@ function createNebulaRouter(options = {}) {
   return router;
 }
 
+function createAtlasV1Router(options = {}) {
+  const router = express.Router();
+  const loadData = createAtlasLoader(options);
+
+  router.get('/dataset', async (req, res) => {
+    try {
+      const { dataset } = await loadData();
+      res.json(dataset);
+    } catch (error) {
+      console.error('[atlas-v1] errore caricamento dataset', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento dataset Nebula' });
+    }
+  });
+
+  router.get('/telemetry', async (req, res) => {
+    try {
+      const { telemetry } = await loadData();
+      res.json(telemetry);
+    } catch (error) {
+      console.error('[atlas-v1] errore caricamento telemetria', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento telemetria Nebula' });
+    }
+  });
+
+  router.get('/generator', async (req, res) => {
+    try {
+      const { generator } = await loadData();
+      res.json(generator);
+    } catch (error) {
+      console.error('[atlas-v1] errore caricamento telemetria generatore', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento telemetria generatore Nebula' });
+    }
+  });
+
+  router.get('/', async (req, res) => {
+    try {
+      const payload = await loadData();
+      res.json(payload);
+    } catch (error) {
+      console.error('[atlas-v1] errore aggregazione dataset', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento dataset Nebula' });
+    }
+  });
+
+  return router;
+}
+
 module.exports = {
   createNebulaRouter,
+  createAtlasV1Router,
   __internals__: {
+    createAtlasLoader,
     cloneDataset,
     loadTelemetryRecords,
     loadGeneratorTelemetry,

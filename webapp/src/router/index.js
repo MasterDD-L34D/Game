@@ -1,15 +1,18 @@
-import { defineAsyncComponent } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { updateNavigationMeta } from '../state/navigationMeta.js';
 
 const APP_TITLE = 'Evo-Tactics Mission Console';
 
-const FlowShellView = defineAsyncComponent(() => import('../views/FlowShellView.vue'));
-const NebulaAtlasView = defineAsyncComponent(() => import('../views/NebulaAtlasView.vue'));
-const AtlasLayout = defineAsyncComponent(() => import('../layouts/AtlasLayout.vue'));
-const AtlasPokedexView = defineAsyncComponent(() => import('../views/atlas/AtlasPokedexView.vue'));
-const AtlasWorldBuilderView = defineAsyncComponent(() => import('../views/atlas/AtlasWorldBuilderView.vue'));
-const AtlasEncounterLabView = defineAsyncComponent(() => import('../views/atlas/AtlasEncounterLabView.vue'));
+const ConsoleHubView = () => import('../views/ConsoleHubView.vue');
+const FlowShellView = () => import('../views/FlowShellView.vue');
+const AtlasLayout = () => import('../layouts/AtlasLayout.vue');
+const AtlasOverviewView = () => import('../views/atlas/AtlasOverviewView.vue');
+const AtlasPokedexView = () => import('../views/atlas/AtlasPokedexView.vue');
+const AtlasWorldBuilderView = () => import('../views/atlas/AtlasWorldBuilderView.vue');
+const AtlasEncounterLabView = () => import('../views/atlas/AtlasEncounterLabView.vue');
+const AtlasTelemetryView = () => import('../views/atlas/AtlasTelemetryView.vue');
+const AtlasGeneratorView = () => import('../views/atlas/AtlasGeneratorView.vue');
+const NotFoundView = () => import('../views/NotFoundView.vue');
 
 function buildBreadcrumbs(to, router) {
   return to.matched
@@ -42,29 +45,31 @@ export function createAppRouter({ base, history } = {}) {
     routes: [
       {
         path: '/',
-        name: 'workflow',
+        redirect: { name: 'console-home' },
+      },
+      {
+        path: '/console',
+        name: 'console-home',
+        component: ConsoleHubView,
+        meta: {
+          title: 'Mission Console',
+          description: 'Hub centrale per il coordinamento dei workflow e dei moduli Nebula.',
+          breadcrumb: { label: 'Mission Console' },
+        },
+      },
+      {
+        path: '/console/flow',
+        name: 'console-flow',
         component: FlowShellView,
         meta: {
           title: 'Workflow Orchestrator',
           description: 'Coordina i passaggi del generatore Nebula e monitora lo stato delle pipeline.',
-          breadcrumb: { label: 'Workflow Orchestrator' },
-          demo: false,
+          breadcrumb: { label: 'Workflow Orchestrator', to: { name: 'console-home' } },
         },
       },
       {
-        path: '/nebula-atlas',
-        name: 'nebula-atlas',
-        component: NebulaAtlasView,
-        meta: {
-          title: 'Nebula Atlas Overview',
-          description: 'Monitoraggio dataset e telemetria Nebula con fallback in modalità demo.',
-          breadcrumb: { label: 'Nebula Atlas Overview' },
-          demo: true,
-        },
-      },
-      {
-        path: '/atlas',
-        name: 'atlas',
+        path: '/console/atlas',
+        name: 'console-atlas',
         component: AtlasLayout,
         props: (route) => ({
           isDemo: Boolean(route.meta?.demo),
@@ -72,30 +77,60 @@ export function createAppRouter({ base, history } = {}) {
         }),
         meta: {
           title: 'Nebula Atlas',
-          description: 'Esplora il dataset Nebula Atlas e le sue sottosezioni operative.',
-          breadcrumb: { label: 'Nebula Atlas', to: { name: 'nebula-atlas' } },
+          description: 'Panoramica dataset, telemetria e strumenti Atlas.',
+          breadcrumb: { label: 'Nebula Atlas', to: { name: 'console-home' } },
           demo: true,
           offline: true,
         },
+        redirect: { name: 'console-atlas-overview' },
         children: [
           {
-            path: '',
-            redirect: { name: 'atlas-pokedex' },
+            path: 'overview',
+            name: 'console-atlas-overview',
+            component: AtlasOverviewView,
+            meta: {
+              title: 'Atlas · Overview',
+              description: 'Stato generale del dataset e sincronizzazioni Nebula.',
+              breadcrumb: { label: 'Overview' },
+              demo: true,
+            },
           },
           {
             path: 'pokedex',
-            name: 'atlas-pokedex',
+            name: 'console-atlas-pokedex',
             component: AtlasPokedexView,
             meta: {
               title: 'Atlas · Pokédex Nebula',
               description: 'Catalogo delle specie Nebula pronte per la convalida.',
-              breadcrumb: { label: 'Pokédex Nebula' },
+              breadcrumb: { label: 'Pokédex' },
+              demo: true,
+            },
+          },
+          {
+            path: 'telemetry',
+            name: 'console-atlas-telemetry',
+            component: AtlasTelemetryView,
+            meta: {
+              title: 'Atlas · Telemetria',
+              description: 'Monitoraggio eventi, readiness e sincronizzazioni QA.',
+              breadcrumb: { label: 'Telemetria' },
+              demo: true,
+            },
+          },
+          {
+            path: 'generator',
+            name: 'console-atlas-generator',
+            component: AtlasGeneratorView,
+            meta: {
+              title: 'Atlas · Generatore',
+              description: 'Stato e performance del generatore Nebula.',
+              breadcrumb: { label: 'Generatore' },
               demo: true,
             },
           },
           {
             path: 'world-builder',
-            name: 'atlas-world-builder',
+            name: 'console-atlas-world-builder',
             component: AtlasWorldBuilderView,
             meta: {
               title: 'Atlas · World Builder',
@@ -106,7 +141,7 @@ export function createAppRouter({ base, history } = {}) {
           },
           {
             path: 'encounter-lab',
-            name: 'atlas-encounter-lab',
+            name: 'console-atlas-encounter-lab',
             component: AtlasEncounterLabView,
             meta: {
               title: 'Atlas · Encounter Lab',
@@ -119,8 +154,11 @@ export function createAppRouter({ base, history } = {}) {
       },
       {
         path: '/:pathMatch(.*)*',
-        redirect: { name: 'workflow' },
+        name: 'not-found',
+        component: NotFoundView,
         meta: {
+          title: 'Pagina non trovata',
+          description: 'La risorsa richiesta non è disponibile.',
           breadcrumb: false,
         },
       },

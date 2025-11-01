@@ -122,6 +122,10 @@ type NebulaModuleSources = {
 
 type UseNebulaProgressOptions = {
   endpoint?: string;
+  datasetEndpoint?: string | null;
+  telemetryEndpoint?: string | null;
+  generatorEndpoint?: string | null;
+  aggregateEndpoint?: string | null;
   fallback?: string | null;
   allowFallback?: boolean;
   pollIntervalMs?: number;
@@ -130,6 +134,62 @@ type UseNebulaProgressOptions = {
 };
 
 type DatasetSource = 'remote' | 'fallback' | 'static';
+
+function normaliseOptionalString(value: unknown): string | null | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  if (value === null) {
+    return null;
+  }
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  return trimmed ? trimmed : null;
+}
+
+function isAggregateEndpoint(value: string | null | undefined): boolean {
+  if (!value || typeof value !== 'string') {
+    return false;
+  }
+  const lower = value.trim().toLowerCase();
+  return lower.includes('/api/nebula/atlas') || lower.endsWith('atlas.json');
+}
+
+function stripKnownSegments(value: string): string {
+  return value.replace(/\/(?:dataset|telemetry|generator)\/?$/i, '');
+}
+
+function deriveSegmentEndpoint(base: string | null | undefined, segment: string): string | null {
+  if (!base || typeof base !== 'string') {
+    return null;
+  }
+  const trimmed = base.trim();
+  if (!trimmed) {
+    return null;
+  }
+  const normalised = trimmed.replace(/\/+$/, '');
+  const lower = normalised.toLowerCase();
+  if (lower.endsWith(`/${segment}`)) {
+    return normalised;
+  }
+  if (isAggregateEndpoint(normalised)) {
+    return null;
+  }
+  if (/(?:\/dataset|\/telemetry|\/generator)\/?$/i.test(lower)) {
+    const basePath = stripKnownSegments(normalised);
+    return `${basePath}/${segment}`;
+  }
+  return `${normalised}/${segment}`;
+}
+
+function resolveEndpointUrl(value: string | null | undefined): string | null {
+  if (!value || typeof value !== 'string') {
+    return null;
+  }
+  return resolveApiUrl(value);
+}
 
 function normaliseArray(values: unknown): string[] {
   if (!Array.isArray(values)) {
@@ -251,7 +311,25 @@ export function useNebulaProgressModule(
     fallback: Object.prototype.hasOwnProperty.call(options, 'fallback') ? options.fallback : undefined,
     mock: Object.prototype.hasOwnProperty.call(options, 'telemetryMock') ? options.telemetryMock : undefined,
   });
-  const endpoint = resolveApiUrl(options.endpoint || dataSource.endpoint);
+  const baseEndpoint = normaliseOptionalString(dataSource.endpoint) ?? null;
+  const baseAggregateEndpoint = baseEndpoint ? stripKnownSegments(baseEndpoint) : null;
+  const datasetEndpointCandidate = Object.prototype.hasOwnProperty.call(options, 'datasetEndpoint')
+    ? normaliseOptionalString(options.datasetEndpoint)
+    : deriveSegmentEndpoint(baseEndpoint, 'dataset');
+  const telemetryEndpointCandidate = Object.prototype.hasOwnProperty.call(options, 'telemetryEndpoint')
+    ? normaliseOptionalString(options.telemetryEndpoint)
+    : deriveSegmentEndpoint(baseEndpoint, 'telemetry');
+  const generatorEndpointCandidate = Object.prototype.hasOwnProperty.call(options, 'generatorEndpoint')
+    ? normaliseOptionalString(options.generatorEndpoint)
+    : deriveSegmentEndpoint(baseEndpoint, 'generator');
+  const aggregateEndpointCandidate = Object.prototype.hasOwnProperty.call(options, 'aggregateEndpoint')
+    ? normaliseOptionalString(options.aggregateEndpoint)
+    : baseAggregateEndpoint;
+
+  const datasetEndpoint = resolveEndpointUrl(datasetEndpointCandidate);
+  const telemetryEndpoint = resolveEndpointUrl(telemetryEndpointCandidate);
+  const generatorEndpoint = resolveEndpointUrl(generatorEndpointCandidate);
+  const aggregateEndpoint = resolveEndpointUrl(aggregateEndpointCandidate);
   const fallbackUrl = dataSource.fallback ? resolveAssetUrl(dataSource.fallback) : null;
   const telemetryMockUrl = dataSource.mock ? resolveAssetUrl(dataSource.mock) : null;
   const allowFallback =
@@ -335,6 +413,31 @@ export function useNebulaProgressModule(
     return source;
   }
 
+  async function fetchAggregateRemote(): Promise<NebulaApiResponse | null> {
+    if (!aggregateEndpoint) {
+      return null;
+    }
+    try {
+      const response = await fetchImpl(aggregateEndpoint, { cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error(`Aggregato Nebula non disponibile (${response.status})`);
+      }
+      const payload = (await response.json()) as NebulaApiResponse;
+      logger.info('nebula.dataset.aggregate', {
+        message: 'log.nebula.dataset.aggregate',
+        meta: { source: aggregateEndpoint },
+      });
+      return payload;
+    } catch (aggregateError) {
+      const mapped = toError(aggregateError, 'Aggregato Nebula non disponibile');
+      logger.warn('nebula.dataset.aggregate_unavailable', {
+        message: 'log.nebula.dataset.aggregate_unavailable',
+        meta: { reason: mapped.message, source: aggregateEndpoint },
+      });
+      return null;
+    }
+  }
+
   async function loadTelemetryMock(reason?: Error) {
     if (!telemetryMockUrl) {
       throw reason || new Error('Mock telemetria non configurato');
@@ -362,70 +465,183 @@ export function useNebulaProgressModule(
   async function loadAtlas() {
     loading.value = true;
     try {
-      const response = await fetchJsonWithFallback(endpoint, {
-        fetchImpl,
-        requestInit: { cache: 'no-store' },
-        fallbackUrl,
-        allowFallback,
-        errorMessage: 'Impossibile caricare dataset Nebula',
-        fallbackErrorMessage: 'Dataset Nebula locale non disponibile',
-      });
-      const { data: payload, error: remoteError } = response;
-      const endpointSource = response.source;
-      const data = (payload ?? {}) as NebulaApiResponse;
-      if (data?.dataset) {
-        dataset.value = data.dataset;
-      }
-      datasetSource.value = endpointSource === 'fallback' ? 'fallback' : 'remote';
-      if (data?.telemetry) {
-        telemetry.value = data.telemetry;
-        lastUpdated.value = data.telemetry.updatedAt || new Date().toISOString();
-        telemetryMode.value = endpointSource === 'fallback' ? 'fallback' : 'live';
-      } else {
-        lastUpdated.value = new Date().toISOString();
-        telemetryMode.value = endpointSource === 'fallback' ? 'fallback' : 'live';
-        if (!telemetry.value) {
-          telemetry.value = createEmptyTelemetry(lastUpdated.value);
-        }
-      }
-      if (data?.generator) {
-        generator.value = data.generator;
-      }
-      error.value = null;
-      if (endpointSource === 'fallback') {
-        logger.warn('nebula.dataset.remote_fallback', {
-          message: 'log.nebula.dataset.remote_fallback',
-          meta: {
-            source: fallbackUrl,
-            reason: remoteError?.message || 'endpoint remoto non disponibile',
-          },
-        });
-      } else {
-        logger.info('nebula.dataset.remote', {
-          message: 'log.nebula.dataset.remote',
-          meta: { source: endpoint },
-        });
-      }
-    } catch (err) {
-      const loadError = toError(err);
-      logger.warn('nebula.dataset.remote_unavailable', {
-        message: 'log.nebula.dataset.remote_unavailable',
-        meta: { reason: loadError.message },
-      });
-      const source = await loadDatasetFallback(loadError);
-      if (source === 'static') {
+      let aggregatedPayload: NebulaApiResponse | null = null;
+      let datasetSourceKind: DatasetSource = datasetSource.value || 'static';
+      let remoteDatasetError: Error | null = null;
+
+      if (datasetEndpoint) {
         try {
-          await loadTelemetryMock(loadError);
-        } catch (mockError) {
-          const mapped = toError(mockError);
-          logger.error('nebula.telemetry.mock.failed', {
-            message: 'log.nebula.telemetry.mock_failed',
-            meta: { reason: mapped.message },
+          const response = await fetchJsonWithFallback(datasetEndpoint, {
+            fetchImpl,
+            requestInit: { cache: 'no-store' },
+            fallbackUrl,
+            allowFallback,
+            errorMessage: 'Impossibile caricare dataset Nebula',
+            fallbackErrorMessage: 'Dataset Nebula locale non disponibile',
           });
-          if (!telemetry.value) {
-            telemetry.value = createEmptyTelemetry(lastUpdated.value);
+          const { data: payload, source, error: fallbackError } = response;
+          const resolved = (payload ?? {}) as NebulaApiResponse | NebulaDataset;
+          datasetSourceKind = source === 'fallback' ? 'fallback' : 'remote';
+          if (resolved && typeof resolved === 'object' && 'dataset' in resolved) {
+            const bundle = resolved as NebulaApiResponse;
+            aggregatedPayload = bundle;
+            if (bundle.dataset) {
+              dataset.value = bundle.dataset;
+            }
+            if (bundle.telemetry) {
+              telemetry.value = bundle.telemetry;
+              telemetryMode.value = source === 'fallback' ? 'fallback' : 'live';
+              lastUpdated.value = bundle.telemetry.updatedAt || new Date().toISOString();
+            }
+            if (bundle.generator) {
+              generator.value = bundle.generator;
+            }
+          } else if (resolved && typeof resolved === 'object') {
+            dataset.value = resolved as NebulaDataset;
+          }
+          datasetSource.value = datasetSourceKind;
+          error.value = null;
+          if (source === 'fallback') {
+            logger.warn('nebula.dataset.remote_fallback', {
+              message: 'log.nebula.dataset.remote_fallback',
+              meta: {
+                source: fallbackUrl,
+                reason: fallbackError?.message || 'endpoint remoto non disponibile',
+              },
+            });
+          } else {
+            logger.info('nebula.dataset.remote', {
+              message: 'log.nebula.dataset.remote',
+              meta: { source: datasetEndpoint },
+            });
+          }
+        } catch (err) {
+          remoteDatasetError = toError(err);
+        }
+      } else {
+        remoteDatasetError = new Error('Endpoint dataset Nebula non configurato');
+      }
+
+      if (remoteDatasetError) {
+        logger.warn('nebula.dataset.remote_unavailable', {
+          message: 'log.nebula.dataset.remote_unavailable',
+          meta: { reason: remoteDatasetError.message },
+        });
+        datasetSourceKind = await loadDatasetFallback(remoteDatasetError);
+        aggregatedPayload = null;
+        if (datasetSourceKind === 'static') {
+          try {
+            await loadTelemetryMock(remoteDatasetError);
+          } catch (mockError) {
+            const mapped = toError(mockError);
+            logger.error('nebula.telemetry.mock.failed', {
+              message: 'log.nebula.telemetry.mock_failed',
+              meta: { reason: mapped.message },
+            });
+            if (!telemetry.value) {
+              telemetry.value = createEmptyTelemetry(lastUpdated.value);
+            }
           }
         }
+      }
+
+      if (!dataset.value) {
+        dataset.value = staticDataset;
+      }
+
+      datasetSource.value = datasetSourceKind;
+      if (!lastUpdated.value) {
+        lastUpdated.value = new Date().toISOString();
+      }
+
+      const ensureAggregatePayload = async () => {
+        if (aggregatedPayload) {
+          return aggregatedPayload;
+        }
+        const remote = await fetchAggregateRemote();
+        if (remote) {
+          aggregatedPayload = remote;
+        }
+        return aggregatedPayload;
+      };
+
+      let telemetryLoaded = false;
+      if (telemetryEndpoint) {
+        try {
+          const telemetryResponse = await fetchJsonWithFallback(telemetryEndpoint, {
+            fetchImpl,
+            requestInit: { cache: 'no-store' },
+            allowFallback: false,
+            errorMessage: 'Impossibile caricare telemetria Nebula',
+          });
+          const payload = telemetryResponse.data as NebulaTelemetry;
+          telemetry.value = payload;
+          telemetryMode.value = 'live';
+          lastUpdated.value = payload?.updatedAt || lastUpdated.value || new Date().toISOString();
+          telemetryLoaded = true;
+        } catch (telemetryError) {
+          const mapped = toError(telemetryError);
+          logger.warn('nebula.telemetry.remote_unavailable', {
+            message: 'log.nebula.telemetry.remote_unavailable',
+            meta: { reason: mapped.message },
+          });
+        }
+      }
+
+      if (!telemetryLoaded) {
+        if (!telemetry.value) {
+          const aggregate = await ensureAggregatePayload();
+          if (aggregate?.telemetry) {
+            telemetry.value = aggregate.telemetry;
+            telemetryMode.value = datasetSourceKind === 'remote' ? 'live' : 'fallback';
+            lastUpdated.value = aggregate.telemetry.updatedAt || lastUpdated.value || new Date().toISOString();
+          } else {
+            telemetry.value = createEmptyTelemetry(lastUpdated.value);
+            telemetryMode.value = datasetSourceKind === 'remote' ? 'live' : 'fallback';
+          }
+        } else if (telemetryMode.value === 'live' && datasetSourceKind !== 'remote') {
+          telemetryMode.value = 'fallback';
+        }
+      }
+
+      let generatorLoaded = false;
+      if (generatorEndpoint) {
+        try {
+          const generatorResponse = await fetchJsonWithFallback(generatorEndpoint, {
+            fetchImpl,
+            requestInit: { cache: 'no-store' },
+            allowFallback: false,
+            errorMessage: 'Impossibile caricare telemetria generatore',
+          });
+          generator.value = generatorResponse.data as NebulaGeneratorTelemetry;
+          generatorLoaded = true;
+        } catch (generatorError) {
+          const mapped = toError(generatorError);
+          logger.warn('nebula.generator.remote_unavailable', {
+            message: 'log.nebula.generator.remote_unavailable',
+            meta: { reason: mapped.message },
+          });
+        }
+      }
+
+      if (!generatorLoaded && !generator.value) {
+        const aggregate = await ensureAggregatePayload();
+        if (aggregate?.generator) {
+          generator.value = aggregate.generator;
+        }
+      }
+
+      error.value = null;
+    } catch (err) {
+      const loadError = toError(err);
+      error.value = loadError;
+      logger.error('nebula.dataset.load_failed', {
+        message: 'log.nebula.dataset.load_failed',
+        meta: { reason: loadError.message },
+      });
+      if (!telemetry.value) {
+        telemetry.value = createEmptyTelemetry(lastUpdated.value);
+        telemetryMode.value = 'fallback';
       }
     } finally {
       loading.value = false;

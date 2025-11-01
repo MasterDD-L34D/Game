@@ -33,7 +33,7 @@ describe('data sources registry', () => {
     });
 
     const nebula = getDataSource('nebulaAtlas');
-    expect(nebula.endpoint).toBe('/api/nebula/atlas');
+    expect(nebula.endpoint).toBe('/api/v1/atlas');
     expect(nebula.fallback).toBe('data/nebula/atlas.json');
     expect(nebula.mock).toBe('data/nebula/telemetry.json');
   });

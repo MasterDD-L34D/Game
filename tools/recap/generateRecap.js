@@ -5,7 +5,14 @@ const path = require('node:path');
 
 const SNAPSHOT_ENDPOINT =
   process.env.RECAP_SNAPSHOT_ENDPOINT || 'http://localhost:3000/api/generation/snapshot';
-const NEBULA_ENDPOINT =
+const NEBULA_BASE = process.env.RECAP_NEBULA_BASE || 'http://localhost:3000/api/v1/atlas';
+const NEBULA_DATASET_ENDPOINT =
+  process.env.RECAP_NEBULA_DATASET_ENDPOINT || `${NEBULA_BASE.replace(/\/$/, '')}/dataset`;
+const NEBULA_TELEMETRY_ENDPOINT =
+  process.env.RECAP_NEBULA_TELEMETRY_ENDPOINT || `${NEBULA_BASE.replace(/\/$/, '')}/telemetry`;
+const NEBULA_GENERATOR_ENDPOINT =
+  process.env.RECAP_NEBULA_GENERATOR_ENDPOINT || `${NEBULA_BASE.replace(/\/$/, '')}/generator`;
+const NEBULA_LEGACY_ENDPOINT =
   process.env.RECAP_NEBULA_ENDPOINT || 'http://localhost:3000/api/nebula/atlas';
 const QA_ENDPOINT = process.env.RECAP_QA_ENDPOINT || 'http://localhost:3000/api/qa/status';
 
@@ -35,6 +42,62 @@ async function fetchJson(url, label) {
     console.warn(`[recap] impossibile recuperare ${label || url}:`, error.message || error);
     return null;
   }
+}
+
+function unwrapNebulaDataset(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return null;
+  }
+  if (payload.dataset && typeof payload.dataset === 'object' && !Array.isArray(payload.dataset)) {
+    return payload.dataset;
+  }
+  return payload;
+}
+
+async function loadNebulaBundle() {
+  const [datasetPayload, telemetryPayload, generatorPayload] = await Promise.all([
+    fetchJson(NEBULA_DATASET_ENDPOINT, 'nebula dataset'),
+    fetchJson(NEBULA_TELEMETRY_ENDPOINT, 'nebula telemetry'),
+    fetchJson(NEBULA_GENERATOR_ENDPOINT, 'nebula generator'),
+  ]);
+
+  const bundle = {
+    dataset: null,
+    telemetry: null,
+    generator: null,
+  };
+
+  if (datasetPayload) {
+    const dataset = unwrapNebulaDataset(datasetPayload);
+    if (dataset && typeof dataset === 'object') {
+      bundle.dataset = dataset;
+    }
+    if (!bundle.telemetry && datasetPayload.telemetry) {
+      bundle.telemetry = datasetPayload.telemetry;
+    }
+    if (!bundle.generator && datasetPayload.generator) {
+      bundle.generator = datasetPayload.generator;
+    }
+  }
+
+  if (telemetryPayload) {
+    bundle.telemetry = telemetryPayload;
+  }
+
+  if (generatorPayload) {
+    bundle.generator = generatorPayload;
+  }
+
+  if (!bundle.dataset && !bundle.telemetry && !bundle.generator) {
+    const legacy = await fetchJson(NEBULA_LEGACY_ENDPOINT, 'nebula legacy bundle');
+    if (legacy && typeof legacy === 'object') {
+      bundle.dataset = unwrapNebulaDataset(legacy);
+      bundle.telemetry = legacy.telemetry || null;
+      bundle.generator = legacy.generator || null;
+    }
+  }
+
+  return bundle;
 }
 
 function formatPercent(part, total) {
@@ -270,7 +333,7 @@ async function main() {
 
   const [snapshot, nebula, qa] = await Promise.all([
     fetchJson(SNAPSHOT_ENDPOINT, 'snapshot'),
-    fetchJson(NEBULA_ENDPOINT, 'nebula'),
+    loadNebulaBundle(),
     fetchJson(QA_ENDPOINT, 'QA'),
   ]);
 
