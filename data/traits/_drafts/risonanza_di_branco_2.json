@@ -1,0 +1,21 @@
+{
+  "id": "risonanza_di_branco_2",
+  "label": "Risonanza di Branco",
+  "famiglia_tipologia": "TODO/import_esterno",
+  "fattore_mantenimento_energetico": "Da definire (import esterno)",
+  "tier": "T1",
+  "slot": [],
+  "slot_profile": {
+    "core": "da_definire",
+    "complementare": "da_definire"
+  },
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Sinergie Tier 1.",
+  "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Risonanza di Branco'.",
+  "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+  "completion_flags": {
+    "external_source": true
+  },
+  "data_origin": "appendix::A-CANVAS_ORIGINALE.txt"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "echoic_trace",
+  "label": "Echoic Trace",
+  "famiglia_tipologia": "TODO/import_esterno",
+  "fattore_mantenimento_energetico": "Da definire (import esterno)",
+  "tier": "T3",
+  "slot": [],
+  "slot_profile": {
+    "core": "da_definire",
+    "complementare": "da_definire"
+  },
+  "sinergie": [],
+  "conflitti": [],
+  "mutazione_indotta": "Memorizza 1 target uditivo addizionale (sinergia BB SS 01).",
+  "uso_funzione": "Tier Senziente Emergente (T3). Richiede neuroni: WA 03, DE 05, SS 04, SO 06",
+  "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+  "completion_flags": {
+    "external_source": true
+  },
+  "data_origin": "incoming::sensienti_traits_v0.1.yaml::T3_emergente"
+}
