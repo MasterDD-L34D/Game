@@ -11,7 +11,7 @@ import { ZodError } from 'zod';
 
 import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/apiEndpoints';
 import { fetchJsonWithFallback, resolveFetchImplementation } from '../services/fetchWithFallback.js';
-import { atlasDataset as staticDataset } from '../state/atlasDataset';
+import { atlasDataset as staticDataset, ensureAtlasDatasetLoaded } from '../state/atlasDataset';
 import { resolveDataSource } from '../config/dataSources';
 import { createLogger } from '../utils/logger';
 import { fromZodError, toServiceError } from '../services/errorHandling';
@@ -278,6 +278,13 @@ export function useNebulaProgressModule(
   const activeDataset = computed<NebulaDataset>(() => dataset.value || staticDataset);
 
   async function loadDatasetFallback(reason?: Error): Promise<DatasetSource> {
+    await ensureAtlasDatasetLoaded().catch((error) => {
+      logger.warn('nebula.dataset.static_unavailable', {
+        message: 'log.nebula.dataset.static_unavailable',
+        meta: { reason: error instanceof Error ? error.message : String(error) },
+      });
+    });
+
     let source: DatasetSource = 'static';
     if (fallbackUrl) {
       try {

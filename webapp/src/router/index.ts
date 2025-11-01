@@ -12,18 +12,97 @@ import { updateNavigationMeta } from '../state/navigationMeta';
 const APP_TITLE = 'Evo-Tactics Mission Console';
 const enableLegacyRoutes = import.meta.env.VITE_ENABLE_LEGACY_CONSOLE_ROUTES === 'true';
 
-const ConsoleLayout = () => import('../layouts/ConsoleLayout.vue');
-const ConsoleHubView = () => import('../views/ConsoleHubView.vue');
-const FlowShellView = () => import('../views/FlowShellView.vue');
-const TraitEditorView = () => import('../views/traits/TraitEditorView.vue');
-const AtlasLayout = () => import('../layouts/AtlasLayout.vue');
-const AtlasOverviewView = () => import('../views/atlas/AtlasOverviewView.vue');
-const AtlasPokedexView = () => import('../views/atlas/AtlasPokedexView.vue');
-const AtlasWorldBuilderView = () => import('../views/atlas/AtlasWorldBuilderView.vue');
-const AtlasEncounterLabView = () => import('../views/atlas/AtlasEncounterLabView.vue');
-const AtlasTelemetryView = () => import('../views/atlas/AtlasTelemetryView.vue');
-const AtlasGeneratorView = () => import('../views/atlas/AtlasGeneratorView.vue');
-const NotFoundView = () => import('../views/NotFound.vue');
+type AsyncViewFactory<T> = (() => Promise<T>) & { preload: () => Promise<T> };
+
+function createLazyView<T>(loader: () => Promise<T>): AsyncViewFactory<T> {
+  let promise: Promise<T> | null = null;
+  const load = () => (promise ??= loader());
+  const factory = (() => load()) as AsyncViewFactory<T>;
+  factory.preload = () => load();
+  return factory;
+}
+
+function warmup(loader: () => Promise<unknown>): Promise<void> {
+  try {
+    const result = loader();
+    if (result && typeof (result as Promise<unknown>).then === 'function') {
+      return (result as Promise<unknown>).then(() => undefined).catch(() => undefined);
+    }
+  } catch {
+    // ignorato
+  }
+  return Promise.resolve();
+}
+
+type PrefetchSection = 'flow' | 'nebula' | 'atlas';
+
+const ConsoleLayout = createLazyView(() => import('../layouts/ConsoleLayout.vue'));
+const ConsoleHubView = createLazyView(() => import('../views/ConsoleHubView.vue'));
+const FlowShellView = createLazyView(() => import('../views/FlowShellView.vue'));
+const TraitEditorView = createLazyView(() => import('../views/traits/TraitEditorView.vue'));
+const AtlasLayout = createLazyView(() => import('../layouts/AtlasLayout.vue'));
+const AtlasOverviewView = createLazyView(() => import('../views/atlas/AtlasOverviewView.vue'));
+const AtlasPokedexView = createLazyView(() => import('../views/atlas/AtlasPokedexView.vue'));
+const AtlasWorldBuilderView = createLazyView(() => import('../views/atlas/AtlasWorldBuilderView.vue'));
+const AtlasEncounterLabView = createLazyView(() => import('../views/atlas/AtlasEncounterLabView.vue'));
+const AtlasTelemetryView = createLazyView(() => import('../views/atlas/AtlasTelemetryView.vue'));
+const AtlasGeneratorView = createLazyView(() => import('../views/atlas/AtlasGeneratorView.vue'));
+const NotFoundView = createLazyView(() => import('../views/NotFound.vue'));
+
+const prefetchedSections = new Set<PrefetchSection>();
+
+const sectionPreloaders: Record<PrefetchSection, () => Promise<void>> = {
+  flow: () => warmup(() => FlowShellView.preload()),
+  nebula: () =>
+    Promise.all([warmup(() => ConsoleHubView.preload()), warmup(() => TraitEditorView.preload())]).then(
+      () => undefined,
+    ),
+  atlas: () =>
+    Promise.all([
+      warmup(() => AtlasLayout.preload()),
+      warmup(() => AtlasOverviewView.preload()),
+      warmup(() => AtlasPokedexView.preload()),
+      warmup(() => AtlasTelemetryView.preload()),
+      warmup(() => AtlasGeneratorView.preload()),
+      warmup(() => AtlasWorldBuilderView.preload()),
+      warmup(() => AtlasEncounterLabView.preload()),
+      warmup(async () => {
+        const module = await import('../state/atlasDataset');
+        if (typeof module.preloadAtlasDataset === 'function') {
+          await module.preloadAtlasDataset();
+        }
+      }),
+    ]).then(() => undefined),
+};
+
+function schedulePrefetch(sections: PrefetchSection[]) {
+  const targets = sections.filter((section) => !prefetchedSections.has(section));
+  if (!targets.length) {
+    return;
+  }
+
+  const runner = () => {
+    targets.forEach((section) => {
+      const loader = sectionPreloaders[section];
+      if (loader) {
+        prefetchedSections.add(section);
+        void loader();
+      }
+    });
+  };
+
+  if (typeof window !== 'undefined') {
+    const win = window as typeof window & { requestIdleCallback?: (cb: () => void) => number };
+    if (typeof win.requestIdleCallback === 'function') {
+      win.requestIdleCallback(() => runner());
+      return;
+    }
+    win.setTimeout(() => runner(), 120);
+    return;
+  }
+
+  runner();
+}
 
 type BreadcrumbEntry = {
   key: string;
@@ -110,6 +189,7 @@ export function createAppRouter({ base, history }: { base?: string; history?: Ro
             title: 'Mission Console',
             description: 'Hub centrale per il coordinamento dei workflow e dei moduli Nebula.',
             breadcrumb: false,
+            prefetchSections: ['flow', 'atlas', 'nebula'],
           },
         },
         {
@@ -123,6 +203,7 @@ export function createAppRouter({ base, history }: { base?: string; history?: Ro
             stateTokens: [
               { id: 'flow-live', label: 'Pipeline live', variant: 'info', icon: '⟳' },
             ],
+            prefetchSections: ['atlas'],
           },
         },
         {
@@ -139,6 +220,7 @@ export function createAppRouter({ base, history }: { base?: string; history?: Ro
             stateTokens: [
               { id: 'traits-editor', label: 'Dataset live', variant: 'warning', icon: '✎' },
             ],
+            prefetchSections: ['flow'],
           },
         },
         {
@@ -159,6 +241,7 @@ export function createAppRouter({ base, history }: { base?: string; history?: Ro
               { id: 'atlas-demo', label: 'Modalità demo', variant: 'info', icon: '◎' },
               { id: 'atlas-offline', label: 'Dataset offline', variant: 'warning', icon: '⚠' },
             ],
+            prefetchSections: ['atlas'],
           },
           redirect: { name: 'console-atlas-overview' },
           children: [
@@ -269,6 +352,21 @@ export function createAppRouter({ base, history }: { base?: string; history?: Ro
       breadcrumbs: buildBreadcrumbs(to, router),
       tokens: buildStateTokens(to),
     });
+
+    const sectionsToPrefetch = new Set<PrefetchSection>();
+    to.matched.forEach((record) => {
+      const recordSections = record.meta?.prefetchSections as PrefetchSection[] | undefined;
+      if (!Array.isArray(recordSections)) {
+        return;
+      }
+      recordSections
+        .map((section) => section as PrefetchSection)
+        .filter((section) => sectionPreloaders[section])
+        .forEach((section) => sectionsToPrefetch.add(section));
+    });
+    if (sectionsToPrefetch.size) {
+      schedulePrefetch(Array.from(sectionsToPrefetch));
+    }
   });
 
   return router;

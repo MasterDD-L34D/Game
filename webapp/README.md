@@ -62,6 +62,9 @@ dati live. L'intervallo di polling può essere personalizzato passando `pollInte
 
 - `npm run check:data` verifica la presenza dei JSON di fallback richiesti dal registry ed esce con errore
   se uno o più file non sono raggiungibili.
+- `npm run analyze` genera la build in modalità "analyze" producendo un report `dist/analyze.html` con la
+  composizione dei bundle (usa internamente `rollup-plugin-visualizer`). Nel monorepo puoi richiamare lo stesso
+  comando tramite `npm run webapp:analyze`.
 
 ## Static hosting
 
@@ -83,6 +86,15 @@ La dashboard è pensata per essere distribuita anche come bundle statico (es. Gi
   di anteprima con gli stessi asset fingerprintati.
 - **Asset fingerprint** – La configurazione Vite produce bundle hashati (`assets/[name]-[hash].*`) così da poter impostare
   header di cache aggressivi in hosting statico senza rischiare inconsistenze.
+- **CDN e caching avanzato** – Pubblica la cartella `dist/` dietro un CDN impostando per gli asset fingerprintati header
+  `Cache-Control: public, max-age=31536000, immutable` (o equivalenti `Surrogate-Control`). Mantieni invece `index.html`
+  con cache breve (`max-age=60`, `stale-while-revalidate`) o `no-cache` così che i client ricevano rapidamente nuovi
+  riferimenti alle risorse hashate.
+- **Invalidamento mirato** – Quando rilasci una build è sufficiente invalidare il solo documento `index.html` (o la
+  surrogate-key associata all'app shell). Gli asset hashati cambiano nome a ogni build e non richiedono purge manuali;
+  per cleanup straordinari utilizza invalidazioni su pattern (`assets/*`) fuori banda.
+- **Distribuzione su CDN** – Se usi CloudFront/Cloudflare imposta compressione Brotli/Gzip lato edge e abilita HTTP/2 per
+  massimizzare l'efficacia del prefetch delle route principali introdotto nel router.
 
 > Suggerimento: il server `preview` di Vite espone la build ottimizzata su `http://localhost:4173` con gli stessi header
 > e rewrites che troveresti in hosting statico, così da verificare path relativi e fallback prima del deploy.
