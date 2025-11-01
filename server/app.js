@@ -285,9 +285,13 @@ async function updateDeploymentStatus(filePath, payload, options = {}) {
   status.updatedAt = new Date().toISOString();
   const reporter = options.releaseReporter;
   if (reporter && typeof reporter.buildReport === 'function') {
-    const enriched = await reporter.buildReport(status);
-    await writeJsonFile(filePath, enriched);
-    return { status: enriched, entry };
+    try {
+      const enriched = await reporter.buildReport(status);
+      await writeJsonFile(filePath, enriched);
+      return { status: enriched, entry };
+    } catch (error) {
+      console.warn('[release-reporter] buildReport fallito, utilizzo status base', error);
+    }
   }
   await writeJsonFile(filePath, status);
   return { status, entry };
