@@ -8,13 +8,17 @@ fallback statici e payload mock. Il registry legge `import.meta.env` all'avvio d
 normalizza automaticamente stringhe vuote o il valore letterale `null` per consentire la disattivazione
 dei fallback locali. Tutti i servizi e gli store (inclusi `useSnapshotLoader` e
 `useNebulaProgressModule`) consumano il registry, quindi non è più necessario passare manualmente gli
-endpoint o il `fetch` di default.
+endpoint o il `fetch` di default. L'ordine di risoluzione è **API remota → fallback dichiarato → mock
+di progetto**; quando un passaggio fallisce si passa al successivo e, se tutti risultano indisponibili,
+vengono emessi warning nel log della console.
 
 ### Variabili d'ambiente disponibili
 
 Oltre a `VITE_API_BASE` (opzionale) per definire una base comune agli endpoint remoti, sono disponibili
 variabili dedicate per ogni feature. Tutti i valori possono essere URL assoluti oppure path relativi
-rispetto a `BASE_URL`.
+rispetto a `BASE_URL`. Se non viene definito `VITE_API_BASE`, ogni endpoint può specificare un URL
+completo; in alternativa il registry concatena automaticamente la base ai path forniti dalle variabili
+di feature.
 
 - Flow snapshot: `VITE_FLOW_SNAPSHOT_URL`, `VITE_FLOW_SNAPSHOT_FALLBACK`.
 - Generazione: `VITE_GENERATION_SPECIES_URL`, `VITE_GENERATION_SPECIES_FALLBACK`,
@@ -41,7 +45,10 @@ I JSON di fallback sono stati riorganizzati sotto `webapp/public/data/` per cate
 
 In fase di build gli asset vengono copiati automaticamente e serviti in base al valore di
 `import.meta.env.BASE_URL`. Per deploy statici è sufficiente mantenere `base: './'` in `vite.config.ts`
-(o passare `--base=./` al comando di build) così che tutti gli asset vengano risolti in maniera relativa.
+(o passare `--base=./` al comando di build) così che tutti gli asset vengano risolti in maniera
+relativa. L'entrypoint (`index.html`) dichiara il modulo principale con `src="/src/main.js"`; Vite lo
+riscrive durante la build in `assets/[name]-[hash].js`, rispettando `BASE_URL` e garantendo che gli
+asset fingerprintati vengano serviti correttamente anche da sottocartelle.
 
 ## Telemetria Nebula offline
 
@@ -63,15 +70,17 @@ La dashboard è pensata per essere distribuita anche come bundle statico (es. Gi
 - **Configurazione `base`** – La build di produzione utilizza `base: './'` (vedi `vite.config.ts`) così che gli asset
   vengano risolti in maniera relativa. In ambienti con path personalizzato imposta `VITE_BASE_PATH` o avvia la build
   con `npm run build -- --base=/percorso/`.
-- **`import.meta.env.BASE_URL`** – L'entrypoint (`index.html`) carica l'applicazione tramite `import.meta.env.BASE_URL`,
-  perciò tutti i percorsi generati (router, asset, fallback) rispettano la `base` configurata.
+- **`import.meta.env.BASE_URL`** – L'entrypoint (`index.html`) dichiara il modulo principale con un `src`
+  gestito da Vite, che in fase di build riscrive automaticamente il path (`assets/[name]-[hash].js`) e
+  inserisce la `BASE_URL` corretta in modo che router, asset e fallback condividano lo stesso prefisso.
 - **Variabili d'ambiente** – Oltre agli endpoint descritti sopra puoi definire `VITE_API_BASE` o URL specifici per ciascun
   modulo. In ambienti statici è possibile precompilare questi valori creando un file `.env.production` prima della build.
 - **Fallback HTML** – Quando ospiti la webapp dietro CDN o Pages abilita il fallback su `index.html` per supportare il router
   history di Vue (`404.html` su GitHub Pages, regola di rewrite su Netlify/S3/CloudFront).
-- **Test locale della build** – Esegui `npm run build && npm run preview` all'interno di `webapp/` oppure
-  il comando monorepo `npm run webapp:deploy` per installare le dipendenze, generare la build e avviare un server di
-  anteprima.
+- **Test locale della build** – Esegui `npm run build && npm run preview` all'interno di `webapp/` (il
+  server preview serve direttamente la build hashata su `http://localhost:4173`). In alternativa usa il
+  comando monorepo `npm run webapp:deploy` che installa le dipendenze, genera la build e avvia un server
+  di anteprima con gli stessi asset fingerprintati.
 - **Asset fingerprint** – La configurazione Vite produce bundle hashati (`assets/[name]-[hash].*`) così da poter impostare
   header di cache aggressivi in hosting statico senza rischiare inconsistenze.
 

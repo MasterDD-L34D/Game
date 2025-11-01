@@ -248,6 +248,9 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **TypeScript**: `npm --prefix tools/ts test` (include unit test Node e Playwright UI export modal).
 - **API Node**: `npm run test:api` lancia `node --test tests/api/*.test.js`.
 - **Webapp**: `npm --prefix webapp test` esegue la suite Vitest/JSDOM.
+- **Webapp build & preview**: `npm --prefix webapp run build && npm --prefix webapp run preview`
+  serve la build hashata su `http://localhost:4173`; in alternativa usa lo shortcut monorepo
+  `npm run webapp:deploy` per installare dipendenze, buildare e avviare il preview in un solo comando.
 - **HUD & dashboard**: test Playwright dedicati (`tools/ts/tests`, `tests/hud_alerts.spec.ts`) e `tests/validate_dashboard.py` per smoke test.
 
 ## Integrazioni esterne
@@ -258,6 +261,17 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - Verifica gli snapshot in `docs/chatgpt_changes/<namespace>/` e aggiorna `docs/chatgpt_sync_status.md` con esiti.
 
 ## Distribuzione & condivisione
+### Hosting statico webapp
+- **Base path**: configura `VITE_BASE_PATH` (o `BASE_PATH`) prima della build quando la dashboard viene
+  servita da una sottocartella. Senza override viene usato `./` così che gli asset fingerprintati
+  generati da Vite (`assets/[name]-[hash].*`) funzionino anche su bucket e Pages.
+- **Variabili API**: imposta `VITE_API_BASE` per definire una base comune agli endpoint remoti oppure
+  valorizza i singoli `VITE_*_URL` con percorsi assoluti. Se una variabile viene lasciata vuota o a
+  `null`, il registry passa automaticamente al fallback successivo (JSON locale in `public/data`).
+- **Verifica locale**: esegui `npm --prefix webapp run build && npm --prefix webapp run preview` (o lo
+  shortcut `npm run webapp:deploy`) per controllare la build ottimizzata e le rewrite gestite da
+  `import.meta.env.BASE_URL` prima di caricare gli asset su hosting statico.
+
 ### Pubblicazione GitHub
 ```bash
 cd /path/alla/cartella/evo-tactics
