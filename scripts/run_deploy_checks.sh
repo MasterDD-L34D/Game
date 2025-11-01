@@ -66,38 +66,49 @@ fi
 
 log "Checking release telemetry status ($STATUS_REPORT)"
 set +e
-GO_NO_GO_OUTPUT=$(node - <<'NODE' "$STATUS_REPORT" "$ROOT_DIR")
+GO_NO_GO_OUTPUT=$(
+  node - "$STATUS_REPORT" "$ROOT_DIR" <<'NODE'
 const fs = require('node:fs');
 const path = require('node:path');
 
-const [reportPath, rootDir] = process.argv.slice(2);
-if (!reportPath) {
-  throw new Error('Percorso status report non fornito');
+function fail(message, code = 1) {
+  console.error(message);
+  process.exit(code);
 }
-if (!fs.existsSync(reportPath)) {
-  throw new Error(`Status report non trovato: ${reportPath}`);
-}
-const raw = fs.readFileSync(reportPath, 'utf8');
-let report;
+
 try {
-  report = JSON.parse(raw);
+  const [reportPath, rootDir] = process.argv.slice(2);
+  if (!reportPath) {
+    fail('Percorso status report non fornito');
+  }
+  if (!fs.existsSync(reportPath)) {
+    fail(`Status report non trovato: ${reportPath}`);
+  }
+  const raw = fs.readFileSync(reportPath, 'utf8');
+  let report;
+  try {
+    report = JSON.parse(raw);
+  } catch (error) {
+    fail(`Status report non valido: ${error.message || error}`);
+  }
+  const goNoGo = report?.goNoGo;
+  if (!goNoGo || !Array.isArray(goNoGo.checks)) {
+    fail('Dati go/no-go non disponibili in reports/status.json');
+  }
+  const formatter = require(path.join(rootDir, 'tools', 'deploy', 'goNoGo.js'));
+  const summary = formatter.formatGoNoGoSummary(goNoGo);
+  console.log(summary.summaryLine);
+  for (const line of summary.detailLines || []) {
+    console.log(line);
+  }
+  if (summary.status === 'no-go') {
+    fail('Flow Shell go/no-go in stato NO-GO: risolvere i blocchi prima del deploy.');
+  }
 } catch (error) {
-  throw new Error(`Status report non valido: ${error.message || error}`);
+  fail(error?.message || String(error));
 }
-const goNoGo = report?.goNoGo;
-if (!goNoGo || !Array.isArray(goNoGo.checks)) {
-  throw new Error('Dati go/no-go non disponibili in reports/status.json');
-}
-const formatter = require(path.join(rootDir, 'tools', 'deploy', 'goNoGo.js'));
-const summary = formatter.formatGoNoGoSummary(goNoGo);
-console.log(summary.summaryLine);
-for (const line of summary.detailLines || []) {
-  console.log(line);
-}
-if (summary.status === 'no-go') {
-  throw new Error('Flow Shell go/no-go in stato NO-GO: risolvere i blocchi prima del deploy.');
-}
-NODE)
+NODE
+)
 STATUS_EXIT=$?
 set -e
 if [ "$STATUS_EXIT" -ne 0 ]; then

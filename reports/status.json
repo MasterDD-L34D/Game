@@ -1,4 +1,152 @@
 {
   "deployments": [],
-  "updatedAt": null
+  "updatedAt": null,
+  "telemetry": {
+    "snapshot": {
+      "qualityChecks": [],
+      "runtime": null,
+      "biomes": {
+        "total": 0,
+        "validated": 0,
+        "pending": 0
+      },
+      "encounters": {
+        "variants": 0,
+        "warnings": 0,
+        "seeds": 0
+      }
+    },
+    "traitDiagnostics": {
+      "summary": {
+        "total_traits": 0,
+        "glossary_ok": 0,
+        "with_conflicts": 0,
+        "matrix_mismatch": 0,
+        "glossary_missing": 0
+      },
+      "status": {
+        "fetchedAt": null,
+        "error": null
+      },
+      "collectedAt": null
+    },
+    "nebula": {
+      "telemetry": {
+        "summary": {
+          "totalEvents": 0,
+          "openEvents": 0,
+          "acknowledgedEvents": 0,
+          "highPriorityEvents": 0,
+          "lastEventAt": null
+        }
+      },
+      "generator": {
+        "status": "unknown",
+        "label": null,
+        "metrics": {
+          "generationTimeMs": null,
+          "speciesTotal": null,
+          "enrichedSpecies": null,
+          "coverageAverage": null
+        },
+        "updatedAt": null
+      },
+      "orchestrator": {
+        "summary": {
+          "totalEntries": 0,
+          "errorCount": 0,
+          "warningCount": 0,
+          "infoCount": 0,
+          "lastEventAt": null
+        }
+      },
+      "error": null,
+      "collectedAt": null
+    }
+  },
+  "goNoGo": {
+    "status": "review",
+    "checks": [
+      {
+        "id": "snapshot-quality",
+        "title": "Quality Release · Snapshot",
+        "flowReference": "Quality Release → Snapshot",
+        "severity": "warning",
+        "passed": false,
+        "summary": "Snapshot di riferimento non ancora generato.",
+        "details": {
+          "total": 0,
+          "blocking": 0
+        },
+        "status": "warning"
+      },
+      {
+        "id": "trait-diagnostics",
+        "title": "Quality Release · Trait diagnostics",
+        "flowReference": "Quality Release → Trait diagnostics",
+        "severity": "critical",
+        "passed": true,
+        "summary": "Conflitti attivi: 0 · Mismatch matrice: 0",
+        "details": {
+          "conflicts": 0,
+          "matrixMismatch": 0,
+          "missingGlossary": 0,
+          "fetchedAt": null
+        },
+        "status": "passed"
+      },
+      {
+        "id": "nebula-telemetry",
+        "title": "Nebula Atlas · Telemetry",
+        "flowReference": "Nebula Atlas → Telemetry",
+        "severity": "critical",
+        "passed": true,
+        "summary": "Incidenti alta priorità: 0 · Incidenti aperti: 0",
+        "details": {
+          "highPriority": 0,
+          "openEvents": 0,
+          "acknowledgedEvents": 0,
+          "lastEventAt": null
+        },
+        "status": "passed"
+      },
+      {
+        "id": "nebula-generator",
+        "title": "Nebula Atlas · Generator",
+        "flowReference": "Nebula Atlas → Generator",
+        "severity": "warning",
+        "passed": false,
+        "summary": "Stato generatore: unknown",
+        "details": {
+          "status": "unknown",
+          "generationTimeMs": null,
+          "coverageAverage": null
+        },
+        "status": "warning"
+      },
+      {
+        "id": "runtime-health",
+        "title": "Quality Release · Runtime log",
+        "flowReference": "Quality Release → Log runtime",
+        "severity": "warning",
+        "passed": true,
+        "summary": "Runtime stabile (nessun fallback)",
+        "details": {
+          "fallbackUsed": false,
+          "error": null,
+          "validationMessages": null,
+          "lastBlueprintId": null,
+          "lastRequestId": null
+        },
+        "status": "passed"
+      }
+    ],
+    "stats": {
+      "total": 5,
+      "failed": 0,
+      "warnings": 2,
+      "passed": 3
+    },
+    "generatedAt": null
+  }
 }
