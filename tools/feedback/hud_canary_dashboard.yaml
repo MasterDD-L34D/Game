@@ -1,0 +1,61 @@
+# Dashboard di raccolta HUD canary — SquadSync bridge
+# Utilizzato da QA e UX per monitorare ack rate, spike adaptive e follow-up.
+dashboard:
+  name: hud_canary_dashboard
+  version: 0.2.0
+  description: >-
+    Configurazione centrale per la dashboard di raccolta feedback HUD Smart Alerts.
+    Aggrega ack rate, eventi adaptive e follow-up aperti collegati al canale Slack
+    #feedback-enhancements e al report settimanale generato da tools/feedback/report_generator.py.
+  layout:
+    columns: 2
+    refresh_minutes: 10
+  widgets:
+    - id: hud_ack_rate
+      title: "Ack rate Smart Alerts"
+      type: timeseries
+      source: logs/playtests/**/hud_alert_log.json
+      metrics:
+        - field: ack_rate
+          label: "Ack %"
+          formatter: percentage
+      thresholds:
+        warning: 0.8
+        critical: 0.7
+    - id: adaptive_spike_delta
+      title: "Adaptive spike — Delta"
+      type: callout
+      source: analytics/squadsync/canary.json
+      fields:
+        - name: squad
+          label: "Squadra"
+        - name: priority
+          label: "Priorità"
+        - name: response_time_minutes
+          label: "Tempo risposta (m)"
+        - name: followups_open
+          label: "Follow-up aperti"
+    - id: followup_tracker
+      title: "Follow-up aperti"
+      type: table
+      source: data/feedback/intake.jsonl
+      columns:
+        - key: feedback_id
+          label: "ID"
+        - key: summary
+          label: "Titolo"
+        - key: severity
+          label: "Severità"
+        - key: status
+          label: "Stato"
+        - key: owner
+          label: "Owner"
+  routing:
+    slack_channel: "#feedback-enhancements"
+    documentation: "docs/Canvas/feature-updates.md#sync-hud--dicembre-2025"
+    escalation:
+      severity_gte: 3
+      target: "incoming/FEATURE_MAP_EVO_TACTICS.md"
+  exports:
+    markdown: reports/feedback/hud_canary_snapshot.md
+    csv: reports/feedback/hud_canary_snapshot.csv

@@ -2,7 +2,8 @@ pipeline:
   version: 1.0.0
   description: >-
     Definizione dei passaggi di raccolta e triage feedback dopo l'intake automatico.
-    Utilizzato dagli owner per tracciare stato e responsabilità.
+    Utilizzato dagli owner per tracciare stato e responsabilità, con routing canary
+    verso il canale #feedback-enhancements e dashboard HUD dedicate.
   states:
     - id: new
       label: "Nuovo"
@@ -77,11 +78,19 @@ pipeline:
         - "Review nuove submission"
         - "Aggiornare stato in_progress"
         - "Identificare blocchi"
+    canary_sync:
+      time: "14:00"
+      timezone: "Europe/Rome"
+      focus:
+        - "Verificare ack rate HUD Smart Alerts"
+        - "Allineare spike adaptive con SquadSync"
+        - "Instradare follow-up su #feedback-enhancements"
     weekly_digest:
       day: "Friday"
       time: "16:00"
       deliverable: "Report generato da tools/feedback/report_generator.py"
   reporting:
     dashboard: "analytics/feedback/weekly_summary.csv"
+    hud_canary_dashboard: "tools/feedback/hud_canary_dashboard.yaml"
     changelog: "docs/changelog.md"
     archive_path: "data/feedback/archive/"

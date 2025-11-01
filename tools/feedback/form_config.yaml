@@ -9,8 +9,9 @@ metadata:
     - docs_portal
     - webapp_overlay
     - cli_launcher
+    - hud_overlay_canary
   notifications:
-    slack_channel: "#feedback-intake"
+    slack_channel: "#feedback-enhancements"
     email_digest: "playtest-producer@evo-tactics.dev"
     auto_reply_template: templates/auto_reply_feedback.md
 form:
@@ -148,7 +149,7 @@ workflow:
       trigger: on_submit
       action: slack.post_message
       config:
-        channel: "#feedback-intake"
+        channel: "#feedback-enhancements"
         template: templates/slack_notification.md
     - name: open_triage_ticket
       trigger: severity>=3
@@ -159,6 +160,12 @@ workflow:
           priority_map:
             "3": P1
             "4": P0
+    - name: notify_hud_dashboard
+      trigger: tags~="hud_canary"
+      action: dashboards.enqueue_refresh
+      config:
+        dashboard_config: hud_canary_dashboard.yaml
+        notes: "Refresh automatico dashboard HUD canary dopo feedback overlay"
   sla:
     triage_hours: 12
     followup_days: 5
