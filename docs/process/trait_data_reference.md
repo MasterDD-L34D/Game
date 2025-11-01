@@ -30,7 +30,7 @@ python tools/py/import_external_traits.py \
   --output-dir data/traits/_drafts
 ```
 
-Il comando sovrascrive la directory di destinazione generando bozze conformi allo schema trait, già etichettate con `data_origin` e `completion_flags.external_source = true`. Le bozze vanno poi integrate manualmente nel catalogo principale o scartate dopo la revisione.
+Il comando sovrascrive la directory di destinazione generando bozze conformi allo schema trait, già etichettate con `data_origin` e `completion_flags.external_source = true`. Gli identificatori `data_origin` vengono normalizzati in slug (`^[a-z0-9_]+$`), ad esempio `incoming_sensienti_traits_v0_1_t3_emergente`, così da rispettare il vincolo imposto dallo schema. Le bozze vanno poi integrate manualmente nel catalogo principale o scartate dopo la revisione.
 
 Per includere il controllo nel workflow di audit è possibile avviare:
 

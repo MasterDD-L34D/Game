@@ -61,6 +61,14 @@ def slugify(value: str) -> str:
     return replaced.strip("_")
 
 
+def build_data_origin(*parts: str) -> str:
+    """Compose a schema-compliant ``data_origin`` tag from source fragments."""
+
+    tokens = [slugify(part) for part in parts if part]
+    tokens = [token for token in tokens if token]
+    return "_".join(tokens) or "external"
+
+
 def load_existing_trait_ids() -> set[str]:
     if not TRAIT_INDEX_PATH.exists():
         return set()
@@ -155,7 +163,7 @@ def iter_appendix_seeds(directory: Path) -> Iterable[TraitSeed]:
                 impetus = (
                     f"Origine esterna: {source_label}. Validare integrazione prima del catalogo."
                 )
-                data_origin = f"appendix::{appendix_path.name}"
+                data_origin = build_data_origin("appendix", appendix_path.stem)
                 yield TraitSeed(trait_id, label, tier, description, usage, impetus, data_origin)
 
 
@@ -239,7 +247,7 @@ def iter_yaml_seeds(path: Path) -> Iterable[TraitSeed]:
                 )
             usage = " ".join(usage_parts)
             impetus = f"Origine esterna: {namespace}. Validare allineamento con catalogo principale."
-            data_origin = f"incoming::{path.name}::{tier_key}"
+            data_origin = build_data_origin("incoming", path.stem, tier_key)
             yield TraitSeed(trait_id, label, tier, description, usage, impetus, data_origin)
 
 
@@ -301,9 +309,9 @@ def write_drafts(output_dir: Path, seeds: Sequence[TraitSeed]) -> None:
 
 
 def run_import(args: argparse.Namespace) -> Tuple[int, Path, List[Path]]:
-    appendix_dir = Path(args.appendix_dir or DEFAULT_APPENDIX_DIR)
-    incoming_path = Path(args.incoming or DEFAULT_INCOMING_PATH)
-    output_dir = Path(args.output_dir or DEFAULT_OUTPUT_DIR)
+    appendix_dir = (Path(args.appendix_dir).resolve() if args.appendix_dir else DEFAULT_APPENDIX_DIR)
+    incoming_path = (Path(args.incoming).resolve() if args.incoming else DEFAULT_INCOMING_PATH)
+    output_dir = (Path(args.output_dir).resolve() if args.output_dir else DEFAULT_OUTPUT_DIR)
 
     seeds: List[TraitSeed] = []
     seeds.extend(iter_appendix_seeds(appendix_dir))
