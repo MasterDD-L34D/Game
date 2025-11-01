@@ -1,35 +1,39 @@
 <template>
-  <div class="flow-shell">
-    <header class="flow-shell__header">
-      <FlowBreadcrumb :steps="breadcrumb" :current="currentStep" @navigate="goToStep" />
-      <ProgressTracker :steps="steps" :summary="summary" @navigate="goToStep" />
-      <section class="flow-shell__status-bar">
+  <PokedexShell :lights="statusLights" :logs="missionLogs">
+    <template #header>
+      <div class="flow-shell__header-grid">
+        <FlowBreadcrumb :steps="breadcrumb" :current="currentStep" @navigate="goToStep" />
+        <ProgressTracker :steps="steps" :summary="summary" @navigate="goToStep" />
+      </div>
+    </template>
+
+    <template #status>
+      <div class="pokedex-status-grid">
         <article
           v-for="status in statuses"
           :key="status.id"
-          class="status-card"
+          class="pokedex-status-card"
           :data-state="status.state"
         >
-          <header class="status-card__header">
-            <span class="status-card__label">{{ status.label }}</span>
-            <span v-if="status.loading" class="status-card__spinner" aria-hidden="true"></span>
-            <span
+          <header class="pokedex-status-card__header">
+            <span class="pokedex-status-card__label">{{ status.label }}</span>
+            <span v-if="status.loading" class="pokedex-status-card__spinner" aria-hidden="true"></span>
+            <PokedexTelemetryBadge
               v-if="status.fallbackLabel"
-              class="status-card__badge"
-              :data-variant="status.fallbackLabel"
-            >
-              {{ status.fallbackLabel }}
-            </span>
+              label="Modalità"
+              :value="status.fallbackLabel"
+              :tone="fallbackTone(status.fallbackLabel)"
+            />
           </header>
-          <p class="status-card__message">
+          <p class="pokedex-status-card__message">
             <span v-if="status.loading">{{ status.loadingMessage || 'Caricamento…' }}</span>
             <span v-else-if="status.error">{{ status.errorMessage }}</span>
             <span v-else>{{ status.message }}</span>
           </p>
-          <footer v-if="status.canRetry" class="status-card__actions">
+          <footer v-if="status.canRetry" class="pokedex-status-card__actions">
             <button
               type="button"
-              class="status-card__retry"
+              class="pokedex-status-card__retry"
               :disabled="status.loading"
               @click="status.onRetry"
             >
@@ -37,10 +41,10 @@
             </button>
           </footer>
         </article>
-      </section>
-    </header>
+      </div>
+    </template>
 
-    <main class="flow-shell__main">
+    <template #default>
       <div v-if="isLoading" class="flow-shell__placeholder">
         Caricamento orchestratore…
       </div>
@@ -48,18 +52,18 @@
         {{ loadError }}
       </div>
       <component v-else :is="activeView" v-bind="activeProps" />
-    </main>
+    </template>
 
-    <footer class="flow-shell__footer">
-      <button type="button" class="flow-shell__nav" :disabled="!canGoBack" @click="goPrevious">
+    <template #footer>
+      <button type="button" class="pokedex-button" :disabled="!canGoBack" @click="goPrevious">
         ← Indietro
       </button>
-      <span class="flow-shell__step-indicator">{{ currentStep.index + 1 }} / {{ steps.length }}</span>
-      <button type="button" class="flow-shell__nav" :disabled="!canGoForward" @click="goNext">
+      <span class="pokedex-step-indicator">{{ currentStep.index + 1 }} / {{ steps.length }}</span>
+      <button type="button" class="pokedex-button" :disabled="!canGoForward" @click="goNext">
         Avanti →
       </button>
-    </footer>
-  </div>
+    </template>
+  </PokedexShell>
 </template>
 
 <script setup>
@@ -78,6 +82,8 @@ import BiomesView from './BiomesView.vue';
 import EncounterView from './EncounterView.vue';
 import PublishingView from './PublishingView.vue';
 import QualityReleaseView from './QualityReleaseView.vue';
+import PokedexShell from '../components/pokedex/PokedexShell.vue';
+import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
 
 const flow = useGeneratorFlow();
 const steps = flow.steps;
@@ -389,188 +395,58 @@ const statuses = computed(() => {
 const goToStep = (stepId) => flow.goTo(stepId);
 const goNext = () => flow.next();
 const goPrevious = () => flow.previous();
+
+const statusLights = computed(() =>
+  statuses.value.map((status) => ({
+    id: status.id,
+    label: status.label,
+    state: status.state,
+  })),
+);
+
+const missionLogs = computed(() =>
+  logger.logs.value.map((entry, index) => ({
+    id: entry.id ?? `${entry.event || 'log'}-${index}`,
+    level: entry.level || 'info',
+    scope: entry.scope || entry.event || 'flow',
+    message: entry.message || entry.event || 'Evento registrato',
+    timestamp: entry.timestamp || entry.meta?.timestamp || Date.now(),
+  })),
+);
+
+function fallbackTone(label) {
+  if (!label) {
+    return 'neutral';
+  }
+  const normalised = String(label).toLowerCase();
+  if (normalised.includes('fallback')) return 'warning';
+  if (normalised.includes('offline')) return 'critical';
+  if (normalised.includes('demo')) return 'success';
+  return 'neutral';
+}
 </script>
 
 <style scoped>
-.flow-shell {
+.flow-shell__header-grid {
   display: grid;
-  gap: 1.5rem;
-  padding: 2rem;
-  background: radial-gradient(circle at top left, rgba(96, 213, 255, 0.08), transparent 55%),
-    radial-gradient(circle at bottom right, rgba(159, 123, 255, 0.08), transparent 45%),
-    #05080d;
-  min-height: 100vh;
-  color: #f0f4ff;
-}
-
-.flow-shell__header {
-  display: grid;
-  gap: 1.25rem;
-}
-
-.flow-shell__status-bar {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-}
-
-.status-card {
-  display: grid;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(8, 12, 21, 0.65);
-  box-shadow: inset 0 0 0 1px rgba(120, 164, 255, 0.08);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.status-card[data-state='error'] {
-  border-color: rgba(244, 96, 96, 0.6);
-  box-shadow: inset 0 0 0 1px rgba(244, 96, 96, 0.25);
-}
-
-.status-card[data-state='loading'] {
-  border-color: rgba(96, 213, 255, 0.4);
-  box-shadow: inset 0 0 0 1px rgba(96, 213, 255, 0.18);
-}
-
-.status-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.status-card__spinner {
-  width: 0.85rem;
-  height: 0.85rem;
-  border-radius: 999px;
-  border: 2px solid rgba(255, 255, 255, 0.18);
-  border-top-color: rgba(96, 213, 255, 0.85);
-  animation: spin 1s linear infinite;
-}
-
-.status-card__label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: rgba(240, 244, 255, 0.85);
-}
-
-.status-card__badge {
-  padding: 0.1rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  background: rgba(255, 215, 0, 0.12);
-  color: rgba(255, 215, 0, 0.8);
-}
-
-.status-card__badge[data-variant='demo'] {
-  background: rgba(96, 213, 255, 0.15);
-  color: rgba(96, 213, 255, 0.9);
-}
-
-.status-card__badge[data-variant='fallback'] {
-  background: rgba(244, 96, 96, 0.2);
-  color: rgba(255, 189, 189, 0.92);
-}
-
-.status-card__badge[data-variant='offline'] {
-  background: rgba(255, 153, 0, 0.2);
-  color: rgba(255, 205, 143, 0.9);
-}
-
-.status-card__message {
-  font-size: 0.9rem;
-  color: rgba(240, 244, 255, 0.82);
-  min-height: 1.5rem;
-}
-
-.status-card__actions {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.status-card__retry {
-  border: none;
-  border-radius: 6px;
-  padding: 0.35rem 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  background: rgba(96, 213, 255, 0.15);
-  color: rgba(96, 213, 255, 0.9);
-  cursor: pointer;
-}
-
-.status-card__retry:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.flow-shell__main {
-  display: grid;
+  gap: 1.4rem;
 }
 
 .flow-shell__placeholder {
   display: grid;
   place-items: center;
   min-height: 320px;
-  border: 1px dashed rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  color: rgba(240, 244, 255, 0.75);
-  background: rgba(5, 8, 13, 0.6);
-  font-size: 1.05rem;
-  letter-spacing: 0.02em;
+  border-radius: 1.2rem;
+  border: 1px dashed rgba(77, 208, 255, 0.22);
+  background: rgba(7, 23, 39, 0.45);
+  color: var(--pokedex-text-secondary);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .flow-shell__placeholder--error {
-  border-color: rgba(244, 96, 96, 0.45);
-  color: rgba(255, 180, 180, 0.9);
-}
-
-.flow-shell__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.flow-shell__nav {
-  background: rgba(9, 14, 20, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  padding: 0.6rem 1.1rem;
-  color: inherit;
-  cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.flow-shell__nav:hover:enabled {
-  border-color: rgba(96, 213, 255, 0.6);
-  transform: translateY(-1px);
-}
-
-.flow-shell__nav:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.flow-shell__step-indicator {
-  font-size: 0.95rem;
-  color: rgba(240, 244, 255, 0.7);
+  border-color: rgba(255, 91, 107, 0.45);
+  color: rgba(255, 188, 201, 0.92);
 }
 </style>

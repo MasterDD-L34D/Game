@@ -6,10 +6,16 @@
         <p>Configura template, parametri e slot prima della visualizzazione finale.</p>
       </div>
       <div class="encounter-workspace__summary">
-        <span><strong>{{ summary.seeds }}</strong> seed</span>
-        <span><strong>{{ summary.variants }}</strong> varianti</span>
-        <span><strong>{{ summary.warnings }}</strong> warning</span>
-        <span v-if="lastExportMessage" class="encounter-workspace__export">{{ lastExportMessage }}</span>
+        <PokedexTelemetryBadge label="Seed" :value="summary.seeds" />
+        <PokedexTelemetryBadge label="Varianti" :value="summary.variants" />
+        <PokedexTelemetryBadge
+          label="Warning"
+          :value="summary.warnings"
+          :tone="summary.warnings ? 'warning' : 'success'"
+        />
+        <PokedexTelemetryBadge v-if="lastExportMessage" label="Ultimo export" tone="success">
+          {{ lastExportMessage }}
+        </PokedexTelemetryBadge>
       </div>
     </header>
     <div class="encounter-workspace__grid">
@@ -48,6 +54,7 @@ import EncounterPanel from '../components/EncounterPanel.vue';
 import EncounterEditor from '../components/encounter/EncounterEditor.vue';
 import EncounterMetricsPanel from '../components/encounter/EncounterMetricsPanel.vue';
 import VariantComparison from '../components/encounter/VariantComparison.vue';
+import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
 import { ENCOUNTER_BLUEPRINTS } from '../state/generator/encounters.js';
 import { calculateEncounterMetrics, buildEncounterSuggestions } from '../services/encounterMetrics.js';
 
@@ -252,21 +259,18 @@ function handleExport({ variantId, target }) {
 
 .encounter-workspace__header p {
   margin: 0.35rem 0 0;
-  color: rgba(240, 244, 255, 0.7);
+  color: var(--pokedex-text-secondary);
 }
 
 .encounter-workspace__summary {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  font-size: 0.95rem;
-  color: rgba(240, 244, 255, 0.75);
+  align-items: center;
 }
 
-.encounter-workspace__export {
-  background: rgba(96, 213, 255, 0.12);
-  border-radius: 999px;
-  padding: 0.25rem 0.75rem;
+.encounter-workspace__summary .pokedex-telemetry {
+  min-width: 130px;
 }
 
 .encounter-workspace__grid {
