@@ -5,7 +5,30 @@ import { fileURLToPath } from 'node:url';
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDir, '..');
 const distDir = path.join(projectRoot, 'dist');
-const tsDistDir = path.join(distDir, 'ts');
+
+async function resolveTsDistDir() {
+  const candidates = [
+    path.join(distDir, 'ts'),
+    path.join(distDir, 'tools', 'ts'),
+  ];
+
+  for (const candidate of candidates) {
+    try {
+      const stat = await fs.stat(candidate);
+      if (stat.isDirectory()) {
+        return candidate;
+      }
+    } catch (error) {
+      if (!error || error.code !== 'ENOENT') {
+        throw error;
+      }
+    }
+  }
+
+  throw new Error(
+    `postbuild: could not locate TypeScript output directory. Checked ${candidates.join(', ')}`,
+  );
+}
 
 async function copyFileIfExists(source, target) {
   try {
@@ -25,6 +48,8 @@ async function syncTopLevelEntries() {
     ['validate_species.js', 'validate_species.js'],
     ['playwright.config.js', 'playwright.config.js'],
   ];
+
+  const tsDistDir = await resolveTsDistDir();
 
   await Promise.all(
     mappings.map(([sourceName, targetName]) =>
