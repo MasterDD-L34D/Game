@@ -514,7 +514,7 @@ const TRAIT_CATEGORY_LABELS = {
 };
 
 const API_ENDPOINTS = {
-  biomeGeneration: "/api/biomes/generate",
+  biomeGeneration: "/api/v1/generation/biomes",
 };
 
 const CLIMATE_HINTS = [

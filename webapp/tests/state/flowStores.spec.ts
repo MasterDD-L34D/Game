@@ -13,9 +13,9 @@ const dataSourceMock = vi.hoisted(() => {
       'flowSnapshot',
       { endpoint: '/api/generation/snapshot', fallback: 'data/flow/snapshots/flow-shell-snapshot.json', mock: null },
     ],
-    ['generationSpecies', { endpoint: '/api/generation/species', fallback: null, mock: null }],
-    ['generationSpeciesBatch', { endpoint: '/api/generation/species/batch', fallback: null, mock: null }],
-    ['generationSpeciesPreview', { endpoint: '/api/generation/species/batch', fallback: null, mock: null }],
+    ['generationSpecies', { endpoint: '/api/v1/generation/species', fallback: null, mock: null }],
+    ['generationSpeciesBatch', { endpoint: '/api/v1/generation/species/batch', fallback: null, mock: null }],
+    ['generationSpeciesPreview', { endpoint: '/api/v1/generation/species/batch', fallback: null, mock: null }],
     [
       'traitDiagnostics',
       { endpoint: '/api/traits/diagnostics', fallback: 'data/flow/traits/diagnostics.json', mock: null },

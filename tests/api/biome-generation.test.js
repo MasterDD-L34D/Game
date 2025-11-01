@@ -11,12 +11,12 @@ function hasRole(species, role) {
   return Boolean(species.flags[role]);
 }
 
-test('POST /api/biomes/generate produce biomi sintetici coerenti con i vincoli', async () => {
+test('POST /api/v1/generation/biomes produce biomi sintetici coerenti con i vincoli', async () => {
   const dataRoot = path.resolve(__dirname, '..', '..', 'data');
   const { app } = createApp({ dataRoot });
 
   const response = await request(app)
-    .post('/api/biomes/generate')
+    .post('/api/v1/generation/biomes')
     .send({
       count: 3,
       constraints: {

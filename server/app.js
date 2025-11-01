@@ -13,6 +13,7 @@ const {
 } = require('./routes/generationSnapshot');
 const { createGenerationSnapshotStore } = require('./services/generationSnapshotStore');
 const { createNebulaRouter, createAtlasV1Router } = require('./routes/nebula');
+const { createGenerationRouter, createGenerationRoutes } = require('./routes/generation');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
@@ -509,23 +510,6 @@ function createApp(options = {}) {
     }
   });
 
-  async function handleBiomeGeneration(req, res) {
-    const payload = req.body || {};
-    try {
-      const result = await biomeSynthesizer.generate({
-        count: payload.count,
-        constraints: payload.constraints || {},
-        seed: payload.seed,
-      });
-      res.json({ biomes: result.biomes, meta: result.constraints });
-    } catch (error) {
-      res.status(500).json({ error: error.message || 'Errore generazione biomi' });
-    }
-  }
-
-  app.post('/api/biomes/generate', handleBiomeGeneration);
-  app.post('/api/v1/generation/biomes', handleBiomeGeneration);
-
   app.get('/api/ideas/:id', async (req, res) => {
     const id = Number.parseInt(req.params.id, 10);
     if (!Number.isFinite(id)) {
@@ -695,35 +679,18 @@ function createApp(options = {}) {
   app.post('/api/quality/suggestions/apply', handleQualitySuggestion);
   app.post('/api/v1/quality/suggestions/apply', handleQualitySuggestion);
 
-  async function handleSpeciesGeneration(req, res) {
-    const payload = req.body || {};
-    try {
-      const result = await generationOrchestrator.generateSpecies(payload);
-      res.json(result);
-    } catch (error) {
-      if (error && error.message && error.message.includes('trait_ids')) {
-        res.status(400).json({ error: error.message });
-        return;
-      }
-      res.status(500).json({ error: error.message || 'Errore generazione specie' });
-    }
-  }
+  const generationRoutes = createGenerationRoutes({
+    biomeSynthesizer,
+    generationOrchestrator,
+  });
+  const generationRouter = createGenerationRouter({
+    biomeSynthesizer,
+    generationOrchestrator,
+  });
 
-  async function handleSpeciesBatchGeneration(req, res) {
-    const payload = req.body || {};
-    try {
-      const result = await generationOrchestrator.generateSpeciesBatch(payload);
-      res.json(result);
-    } catch (error) {
-      const status = error && error.message && error.message.includes('trait_ids') ? 400 : 500;
-      res.status(status).json({ error: error.message || 'Errore generazione batch specie' });
-    }
-  }
-
-  app.post('/api/generation/species', handleSpeciesGeneration);
-  app.post('/api/v1/generation/species', handleSpeciesGeneration);
-  app.post('/api/generation/species/batch', handleSpeciesBatchGeneration);
-  app.post('/api/v1/generation/species/batch', handleSpeciesBatchGeneration);
+  app.use('/api/v1/generation', generationRouter);
+  app.use('/api/generation', generationRouter);
+  app.post('/api/biomes/generate', generationRoutes.biomes);
 
   return { app, repo };
 }
