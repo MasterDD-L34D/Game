@@ -40,7 +40,7 @@ jobs:
 
       - name: Run adaptive engine TAP tests
         working-directory: tools/ts
-        run: npx tsx ../tests/analytics/squadsync_responses.test.ts
+        run: npx tsx "$GITHUB_WORKSPACE/tests/analytics/squadsync_responses.test.ts"
 
       - name: Set up Python
         uses: actions/setup-python@v5
