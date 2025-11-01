@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import hashlib
 import random
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -67,6 +68,9 @@ class TraitProfile:
     weakness: Optional[str]
     dataset_sources: List[str]
     usage_map: TraitUsage
+    species_affinity: List[SpeciesAffinityEntry] = field(default_factory=list)
+    usage_tags: List[str] = field(default_factory=list)
+    completion_flags: Dict[str, bool] = field(default_factory=dict)
     glossary_ok: bool = False
 
     def to_payload(self) -> Dict[str, Any]:
@@ -85,6 +89,9 @@ class TraitProfile:
             "weakness": self.weakness,
             "dataset_sources": self.dataset_sources,
             "usage_map": self.usage_map.to_payload(),
+            "species_affinity": [entry.to_payload() for entry in self.species_affinity],
+            "usage_tags": list(self.usage_tags),
+            "completion_flags": dict(self.completion_flags),
             "glossary_ok": self.glossary_ok,
         }
 
@@ -106,6 +113,54 @@ def _normalise_sequence(value: Any) -> List[str]:
     if isinstance(value, str) and value.strip():
         return [value.strip()]
     return []
+
+
+def _normalise_usage_tags(value: Any) -> List[str]:
+    tags: set[str] = set()
+    for entry in _normalise_sequence(value):
+        lowered = entry.lower()
+        if USAGE_TAG_PATTERN.match(lowered):
+            tags.add(lowered)
+    return sorted(tags)
+
+
+def _normalise_completion_flags(value: Any) -> Dict[str, bool]:
+    if not isinstance(value, Mapping):
+        return {}
+    flags: Dict[str, bool] = {}
+    for key, raw in value.items():
+        key_str = str(key).strip()
+        if not key_str:
+            continue
+        if isinstance(raw, bool):
+            flags[key_str] = raw or flags.get(key_str, False)
+    return flags
+
+
+def _parse_species_affinity(entries: Any) -> List[SpeciesAffinityEntry]:
+    if not isinstance(entries, Sequence):
+        return []
+    affinity: List[SpeciesAffinityEntry] = []
+    for item in entries:
+        if not isinstance(item, Mapping):
+            continue
+        species_id = str(item.get("species_id") or "").strip()
+        if not species_id:
+            continue
+        roles = [role for role in _normalise_sequence(item.get("roles")) if role]
+        weight_raw = item.get("weight", 0)
+        try:
+            weight = float(weight_raw)
+        except (TypeError, ValueError):
+            weight = 0.0
+        affinity.append(
+            SpeciesAffinityEntry(
+                species_id=species_id,
+                roles=roles,
+                weight=weight,
+            )
+        )
+    return affinity
 
 
 def _split_families(value: Optional[str]) -> List[str]:
@@ -216,6 +271,9 @@ def build_trait_catalog_map(
             weakness=str(raw.get("debolezza")) if raw.get("debolezza") else None,
             dataset_sources=sorted(set(resource_paths)),
             usage_map=TraitUsage.from_mapping(usage_map.get(trait_id, {})),
+            species_affinity=_parse_species_affinity(raw.get("species_affinity")),
+            usage_tags=_normalise_usage_tags(raw.get("usage_tags")),
+            completion_flags=_normalise_completion_flags(raw.get("completion_flags")),
             glossary_ok=has_glossary_entry,
         )
         catalog_traits[trait_id] = profile
@@ -328,6 +386,9 @@ def build_trait_diagnostics(
                 "conflicts": conflicts,
                 "synergies": [value for value in profile.synergies if value],
                 "dataset_sources": profile.dataset_sources,
+                "usage_tags": list(profile.usage_tags),
+                "species_affinity": [entry.to_payload() for entry in profile.species_affinity],
+                "completion_flags": dict(profile.completion_flags),
             }
         )
 
@@ -360,6 +421,63 @@ def build_trait_diagnostics(
     }
 
 
+def _aggregate_usage_tags(profiles: Sequence[TraitProfile]) -> List[str]:
+    tags: set[str] = set()
+    for profile in profiles:
+        for tag in profile.usage_tags:
+            if tag:
+                tags.add(tag)
+    return sorted(tags)
+
+
+def _aggregate_species_affinity(profiles: Sequence[TraitProfile]) -> List[Dict[str, Any]]:
+    combined: Dict[str, Dict[str, Any]] = {}
+    for profile in profiles:
+        for entry in profile.species_affinity:
+            species_id = entry.species_id
+            if not species_id:
+                continue
+            bucket = combined.setdefault(
+                species_id,
+                {"species_id": species_id, "roles": set(), "weight": 0.0},
+            )
+            bucket["weight"] += entry.weight
+            for role in entry.roles:
+                if role:
+                    bucket["roles"].add(role)
+    result: List[Dict[str, Any]] = []
+    for value in combined.values():
+        result.append(
+            {
+                "species_id": value["species_id"],
+                "roles": sorted(value["roles"]),
+                "weight": round(value["weight"], 3),
+            }
+        )
+    result.sort(key=lambda item: (-item["weight"], item["species_id"]))
+    return result
+
+
+def _aggregate_completion_flags(profiles: Sequence[TraitProfile]) -> Dict[str, bool]:
+    flags: Dict[str, bool] = {}
+    for profile in profiles:
+        for key, value in profile.completion_flags.items():
+            if isinstance(value, bool):
+                flags[key] = flags.get(key, False) or value
+    return flags
+
+
+def _build_trait_metadata_map(profiles: Sequence[TraitProfile]) -> Dict[str, Any]:
+    metadata: Dict[str, Any] = {}
+    for profile in profiles:
+        metadata[profile.id] = {
+            "usage_tags": list(profile.usage_tags),
+            "species_affinity": [entry.to_payload() for entry in profile.species_affinity],
+            "completion_flags": dict(profile.completion_flags),
+        }
+    return metadata
+
+
 class TraitCatalog:
     """In-memory catalog accessor."""
 
@@ -371,6 +489,19 @@ class TraitCatalog:
         if path.exists():
             payload = _load_json(path)
             traits_payload = payload.get("traits") if isinstance(payload, Mapping) else {}
+            has_enhanced_fields = False
+            if isinstance(traits_payload, Mapping):
+                for raw in traits_payload.values():
+                    if isinstance(raw, Mapping) and (
+                        "usage_tags" in raw or "species_affinity" in raw or "completion_flags" in raw
+                    ):
+                        has_enhanced_fields = True
+                        break
+            else:
+                traits_payload = {}
+            if not has_enhanced_fields:
+                traits = build_trait_catalog_map()
+                return cls(traits)
             traits: Dict[str, TraitProfile] = {}
             for trait_id, raw in traits_payload.items():
                 if not isinstance(raw, Mapping):
@@ -392,6 +523,9 @@ class TraitCatalog:
                     weakness=str(raw.get("weakness")) if raw.get("weakness") else None,
                     dataset_sources=_normalise_sequence(raw.get("dataset_sources")),
                     usage_map=TraitUsage.from_mapping(raw.get("usage_map", {})),
+                    species_affinity=_parse_species_affinity(raw.get("species_affinity")),
+                    usage_tags=_normalise_usage_tags(raw.get("usage_tags")),
+                    completion_flags=_normalise_completion_flags(raw.get("completion_flags")),
                     glossary_ok=bool(raw.get("glossary_ok")),
                 )
             if traits:
@@ -863,6 +997,9 @@ class SpeciesBuilder:
                 for token, label in BEHAVIOUR_KEYWORDS.items():
                     if token in lowered and label not in tags:
                         tags.append(label)
+            for tag in trait.usage_tags:
+                if tag and tag not in tags:
+                    tags.append(tag)
         return {
             "tags": tags,
             "drives": drives,
@@ -921,6 +1058,10 @@ class SpeciesBuilder:
         synergy_score = _synergy_score(profiles)
         summary = self._compose_summary(profiles)
         description = self._compose_description(profiles, morphology, behaviour)
+        aggregated_usage_tags = _aggregate_usage_tags(profiles)
+        aggregated_species_affinity = _aggregate_species_affinity(profiles)
+        aggregated_completion_flags = _aggregate_completion_flags(profiles)
+        per_trait_metadata = _build_trait_metadata_map(profiles)
 
         display_name = base_name or profiles[0].label
         if len(profiles) > 1:
@@ -951,6 +1092,12 @@ class SpeciesBuilder:
                 "core": [profile.id for profile in profiles],
                 "derived": derived_traits,
                 "conflicts": conflicting,
+                "metadata": {
+                    "usage_tags": aggregated_usage_tags,
+                    "species_affinity": aggregated_species_affinity,
+                    "completion_flags": aggregated_completion_flags,
+                    "per_trait": per_trait_metadata,
+                },
             },
         }
 
@@ -971,3 +1118,21 @@ __all__ = [
     "PathfinderTraitFormula",
     "PathfinderProfileTranslator",
 ]
+USAGE_TAG_PATTERN = re.compile(r"^[a-z0-9_]+$")
+
+
+@dataclass(slots=True)
+class SpeciesAffinityEntry:
+    """Represents the affinity between a trait and a species."""
+
+    species_id: str
+    roles: List[str] = field(default_factory=list)
+    weight: float = 0.0
+
+    def to_payload(self) -> Dict[str, Any]:
+        return {
+            "species_id": self.species_id,
+            "roles": list(self.roles),
+            "weight": self.weight,
+        }
+
