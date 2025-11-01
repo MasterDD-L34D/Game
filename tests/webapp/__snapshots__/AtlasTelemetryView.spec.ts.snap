@@ -1,0 +1,60 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AtlasTelemetryView > visualizza metriche principali e consente il refresh manuale 1`] = `
+"<section data-v-386358bc="" class="atlas-telemetry" aria-live="polite">
+  <header data-v-386358bc="" class="atlas-telemetry__header">
+    <div data-v-386358bc="">
+      <h2 data-v-386358bc="">Telemetria Nebula</h2>
+      <p data-v-386358bc="" class="atlas-telemetry__status" data-mode="live">Telemetria live · Dataset live</p>
+    </div>
+    <div data-v-386358bc="" class="atlas-telemetry__actions"><button data-v-386358bc="" type="button">Aggiorna ora</button><button data-v-386358bc="" type="button">Modalità demo</button></div>
+  </header>
+  <section data-v-386358bc="" class="atlas-telemetry__grid">
+    <article data-v-386358bc="" class="atlas-telemetry__panel">
+      <h3 data-v-386358bc="">Riepilogo eventi</h3>
+      <ul data-v-386358bc="" class="atlas-telemetry__summary">
+        <li data-v-386358bc=""><span data-v-386358bc="">Eventi totali</span><strong data-v-386358bc="">12</strong></li>
+        <li data-v-386358bc=""><span data-v-386358bc="">Eventi aperti</span><strong data-v-386358bc="" data-tone="warning">3</strong></li>
+        <li data-v-386358bc=""><span data-v-386358bc="">Priorità alta</span><strong data-v-386358bc="" data-tone="critical">2</strong></li>
+        <li data-v-386358bc=""><span data-v-386358bc="">Acknowledged</span><strong data-v-386358bc="">7</strong></li>
+      </ul>
+      <p data-v-386358bc="" class="atlas-telemetry__updated">Ultimo evento: Aggiornato 5m fa</p>
+    </article>
+    <article data-v-386358bc="" class="atlas-telemetry__panel">
+      <h3 data-v-386358bc="">Distribuzione readiness</h3>
+      <ul data-v-386358bc="" class="atlas-telemetry__chips">
+        <li data-v-386358bc="" data-tone="success"><span data-v-386358bc="">Pronte</span><strong data-v-386358bc="">5</strong>
+          <!--v-if-->
+        </li>
+        <li data-v-386358bc="" data-tone="warning"><span data-v-386358bc="">In attesa</span><strong data-v-386358bc="">2</strong>
+          <!--v-if-->
+        </li>
+        <li data-v-386358bc="" data-tone="neutral"><span data-v-386358bc="">Neutrali</span><strong data-v-386358bc="">3</strong>
+          <!--v-if-->
+        </li>
+        <li data-v-386358bc="" data-tone="critical"><span data-v-386358bc="">Bloccate</span><strong data-v-386358bc="">2</strong>
+          <!--v-if-->
+        </li>
+      </ul>
+    </article>
+    <article data-v-386358bc="" class="atlas-telemetry__panel atlas-telemetry__panel--chart">
+      <header data-v-386358bc="">
+        <h3 data-v-386358bc="">Copertura QA</h3><span data-v-386358bc="">78%</span>
+      </header>
+      <div data-v-386358bc="" class="sparkline-stub" color="#4f46e5">62,68,74,81</div>
+    </article>
+    <article data-v-386358bc="" class="atlas-telemetry__panel atlas-telemetry__panel--chart">
+      <header data-v-386358bc="">
+        <h3 data-v-386358bc="">Timeline incidenti</h3><span data-v-386358bc="">7 giorni</span>
+      </header>
+      <div data-v-386358bc="" class="sparkline-stub" color="#0ea5e9">1,0,2,1</div>
+    </article>
+    <article data-v-386358bc="" class="atlas-telemetry__panel atlas-telemetry__panel--chart">
+      <header data-v-386358bc="">
+        <h3 data-v-386358bc="">High priority</h3><span data-v-386358bc="">Ticket giornalieri</span>
+      </header>
+      <div data-v-386358bc="" class="sparkline-stub" color="#f97316">0,1,1,0</div>
+    </article>
+  </section>
+</section>"
+`;

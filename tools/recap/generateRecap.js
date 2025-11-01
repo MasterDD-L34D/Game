@@ -2,11 +2,17 @@
 
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { pathToFileURL } = require('node:url');
 
 const SNAPSHOT_ENDPOINT =
   process.env.RECAP_SNAPSHOT_ENDPOINT || 'http://localhost:3000/api/generation/snapshot';
-const NEBULA_ENDPOINT =
+const NEBULA_BASE = process.env.RECAP_NEBULA_BASE || 'http://localhost:3000/api/v1/atlas';
+const NEBULA_DATASET_ENDPOINT =
+  process.env.RECAP_NEBULA_DATASET_ENDPOINT || `${NEBULA_BASE.replace(/\/$/, '')}/dataset`;
+const NEBULA_TELEMETRY_ENDPOINT =
+  process.env.RECAP_NEBULA_TELEMETRY_ENDPOINT || `${NEBULA_BASE.replace(/\/$/, '')}/telemetry`;
+const NEBULA_GENERATOR_ENDPOINT =
+  process.env.RECAP_NEBULA_GENERATOR_ENDPOINT || `${NEBULA_BASE.replace(/\/$/, '')}/generator`;
+const NEBULA_LEGACY_ENDPOINT =
   process.env.RECAP_NEBULA_ENDPOINT || 'http://localhost:3000/api/nebula/atlas';
 const QA_ENDPOINT = process.env.RECAP_QA_ENDPOINT || 'http://localhost:3000/api/qa/status';
 
@@ -45,40 +51,60 @@ async function fetchJson(url, label) {
   }
 }
 
-async function readJsonMaybe(filePath) {
-  try {
-    const text = await fs.readFile(filePath, 'utf8');
-    return JSON.parse(text);
-  } catch (error) {
-    if (error && error.code !== 'ENOENT') {
-      console.warn(`[recap] impossibile leggere ${filePath}:`, error.message || error);
-    }
+function unwrapNebulaDataset(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
     return null;
   }
+  if (payload.dataset && typeof payload.dataset === 'object' && !Array.isArray(payload.dataset)) {
+    return payload.dataset;
+  }
+  return payload;
 }
 
-async function readTextMaybe(filePath) {
-  try {
-    return await fs.readFile(filePath, 'utf8');
-  } catch (error) {
-    if (error && error.code !== 'ENOENT') {
-      console.warn(`[recap] impossibile leggere ${filePath}:`, error.message || error);
-    }
-    return null;
-  }
-}
+async function loadNebulaBundle() {
+  const [datasetPayload, telemetryPayload, generatorPayload] = await Promise.all([
+    fetchJson(NEBULA_DATASET_ENDPOINT, 'nebula dataset'),
+    fetchJson(NEBULA_TELEMETRY_ENDPOINT, 'nebula telemetry'),
+    fetchJson(NEBULA_GENERATOR_ENDPOINT, 'nebula generator'),
+  ]);
 
-async function loadQaHighlightBuilder() {
-  const modulePath = pathToFileURL(path.join(__dirname, '../../webapp/src/services/qaHighlightFormatter.js'));
-  try {
-    const mod = await import(modulePath.href);
-    if (mod && typeof mod.buildQaHighlightsSummary === 'function') {
-      return mod.buildQaHighlightsSummary;
+  const bundle = {
+    dataset: null,
+    telemetry: null,
+    generator: null,
+  };
+
+  if (datasetPayload) {
+    const dataset = unwrapNebulaDataset(datasetPayload);
+    if (dataset && typeof dataset === 'object') {
+      bundle.dataset = dataset;
     }
-  } catch (error) {
-    console.warn('[recap] impossibile caricare il formatter QA', error.message || error);
+    if (!bundle.telemetry && datasetPayload.telemetry) {
+      bundle.telemetry = datasetPayload.telemetry;
+    }
+    if (!bundle.generator && datasetPayload.generator) {
+      bundle.generator = datasetPayload.generator;
+    }
   }
-  return null;
+
+  if (telemetryPayload) {
+    bundle.telemetry = telemetryPayload;
+  }
+
+  if (generatorPayload) {
+    bundle.generator = generatorPayload;
+  }
+
+  if (!bundle.dataset && !bundle.telemetry && !bundle.generator) {
+    const legacy = await fetchJson(NEBULA_LEGACY_ENDPOINT, 'nebula legacy bundle');
+    if (legacy && typeof legacy === 'object') {
+      bundle.dataset = unwrapNebulaDataset(legacy);
+      bundle.telemetry = legacy.telemetry || null;
+      bundle.generator = legacy.generator || null;
+    }
+  }
+
+  return bundle;
 }
 
 function formatPercent(part, total) {
@@ -279,145 +305,51 @@ function buildNebulaSection(nebulaPayload) {
   return lines.join('\n');
 }
 
-function extractChangelogHighlights(markdown, limit = 5) {
-  if (!markdown) {
-    return [];
-  }
-  const lines = markdown
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line.startsWith('-') || line.startsWith('*'));
-  return lines.slice(0, limit);
-}
-
-function buildQaSection({ badges, baseline, generatorValidation, changelog, highlightBuilder }) {
-  if (!badges && !baseline && !generatorValidation) {
+function buildQaSection(qaPayload) {
+  if (!qaPayload || typeof qaPayload !== 'object') {
     return '## QA Highlights\nDati QA non disponibili.';
   }
-  const qaBadges = badges || baseline || {};
-  const summary = qaBadges.summary || qaBadges.baseline_summary || qaBadges.diagnostics?.summary || {};
-  const checks = qaBadges.checks || qaBadges.diagnostics?.checks || {};
-  const highlights = qaBadges.highlights || qaBadges.diagnostics?.highlights || {};
+  const summary = qaPayload.summary || qaPayload.diagnostics?.summary || {};
+  const checks = qaPayload.checks || qaPayload.diagnostics?.checks || {};
+  const highlights = qaPayload.highlights || qaPayload.diagnostics?.highlights || {};
   const lines = ['## QA Highlights'];
 
-  let highlightSummary = null;
-  if (typeof highlightBuilder === 'function') {
-    try {
-      highlightSummary = highlightBuilder(qaBadges, { limit: 6 });
-    } catch (error) {
-      console.warn('[recap] formatter QA non disponibile', error.message || error);
+  const totalTraits = Number(summary.total_traits || summary.totalTraits || 0);
+  const glossaryOk = Number(summary.glossary_ok || summary.glossaryOk || 0);
+  const conflicts = Number(summary.with_conflicts || summary.conflicts || 0);
+  const matrixMismatch = Number(summary.matrix_mismatch || summary.matrixMismatch || 0);
+  const zeroCoverage = ensureArray(highlights.zero_coverage_traits || highlights.zeroCoverageTraits).length;
+
+  if (totalTraits) {
+    lines.push('', `- Glossario validato: ${glossaryOk}/${totalTraits} (${formatPercent(glossaryOk, totalTraits)})`);
+  }
+  if (conflicts) {
+    lines.push(`- Conflitti attivi: ${conflicts}`);
+  }
+  if (matrixMismatch) {
+    lines.push(`- Mismatch matrice: ${matrixMismatch}`);
+  }
+  if (zeroCoverage) {
+    lines.push(`- Tratti senza copertura QA: ${zeroCoverage}`);
+  }
+
+  if (checks.traits) {
+    const traitCheck = checks.traits;
+    const passed = Number(traitCheck.passed || 0);
+    const total = Number(traitCheck.total || 0);
+    const conflictsCount = Number(traitCheck.conflicts || 0);
+    lines.push('', '### Check tratti', `- Passed: ${passed}/${total || 'n/d'} (${formatPercent(passed, total)})`, `- Conflitti: ${conflictsCount}`);
+    if (traitCheck.missing_glossary !== undefined) {
+      lines.push(`- Glossario mancanti: ${traitCheck.missing_glossary}`);
+    }
+    if (traitCheck.matrix_mismatch !== undefined) {
+      lines.push(`- Mismatch matrice: ${traitCheck.matrix_mismatch}`);
     }
   }
 
-  if (highlightSummary && highlightSummary.metrics) {
-    const metrics = highlightSummary.metrics;
-    if (metrics.totalTraits) {
-      lines.push(
-        '',
-        `- Glossario validato: ${metrics.glossaryOk}/${metrics.totalTraits} (${formatPercent(metrics.glossaryOk, metrics.totalTraits)})`,
-      );
-    }
-    lines.push(
-      `- Conflitti attivi: ${metrics.conflicts} · Mismatch matrice: ${metrics.matrixMismatch} · Solo matrice: ${metrics.matrixOnly} · Zero coverage: ${metrics.zeroCoverage}`,
-    );
-    if (Array.isArray(highlightSummary.sections) && highlightSummary.sections.length) {
-      lines.push('', '### Highlights');
-      for (const section of highlightSummary.sections) {
-        if (!section.items || !section.items.length) {
-          continue;
-        }
-        lines.push(`- **${section.title} (${section.total})**: ${section.items.join(', ')}`);
-      }
-    }
-  } else {
-    const totalTraits = Number(summary.total_traits || summary.totalTraits || 0);
-    const glossaryOk = Number(summary.glossary_ok || summary.glossaryOk || 0);
-    const conflicts = Number(summary.with_conflicts || summary.conflicts || 0);
-    const matrixMismatch = Number(summary.matrix_mismatch || summary.matrixMismatch || 0);
-    const zeroCoverage = ensureArray(highlights.zero_coverage_traits || highlights.zeroCoverageTraits).length;
-
-    if (totalTraits) {
-      lines.push('', `- Glossario validato: ${glossaryOk}/${totalTraits} (${formatPercent(glossaryOk, totalTraits)})`);
-    }
-    if (conflicts) {
-      lines.push(`- Conflitti attivi: ${conflicts}`);
-    }
-    if (matrixMismatch) {
-      lines.push(`- Mismatch matrice: ${matrixMismatch}`);
-    }
-    if (zeroCoverage) {
-      lines.push(`- Tratti senza copertura QA: ${zeroCoverage}`);
-    }
-
-    if (checks.traits) {
-      const traitCheck = checks.traits;
-      const passed = Number(traitCheck.passed || 0);
-      const total = Number(traitCheck.total || 0);
-      const conflictsCount = Number(traitCheck.conflicts || 0);
-      lines.push(
-        '',
-        '### Check tratti',
-        `- Passed: ${passed}/${total || 'n/d'} (${formatPercent(passed, total)})`,
-        `- Conflitti: ${conflictsCount}`,
-      );
-      if (traitCheck.missing_glossary !== undefined) {
-        lines.push(`- Glossario mancanti: ${traitCheck.missing_glossary}`);
-      }
-      if (traitCheck.matrix_mismatch !== undefined) {
-        lines.push(`- Mismatch matrice: ${traitCheck.matrix_mismatch}`);
-      }
-    }
-
-    const topConflicts = ensureArray(highlights.top_conflicts || highlights.topConflicts).slice(0, 5);
-    if (topConflicts.length) {
-      lines.push('', '### Top conflitti', ...topConflicts.map((entry) => `- ${entry.id || entry.name}: ${entry.conflicts || entry.count}`));
-    }
-  }
-
-  if (baseline && baseline.summary) {
-    const baselineSummary = baseline.summary;
-    lines.push('', '### Baseline tratti');
-    lines.push(`- Glossario mancanti: ${baselineSummary.glossary_missing || 0}`);
-    lines.push(`- Conflitti totali: ${baselineSummary.with_conflicts || 0}`);
-    lines.push(`- Mismatch matrice: ${baselineSummary.matrix_mismatch || 0}`);
-    lines.push(`- Tratti solo matrice: ${baselineSummary.matrix_only_traits || 0}`);
-  }
-
-  if (generatorValidation) {
-    const validationSummary = generatorValidation.summary || {};
-    const checksTotal = validationSummary.checks_total || 0;
-    const checksPassed = validationSummary.checks_passed || 0;
-    const checksFailed = validationSummary.checks_failed || 0;
-    lines.push('', '### Validazione generatore');
-    if (checksTotal) {
-      lines.push(`- Check passati: ${checksPassed}/${checksTotal} (${formatPercent(checksPassed, checksTotal)})`);
-    }
-    if (validationSummary.validated_traits !== null && validationSummary.validated_traits !== undefined) {
-      lines.push(`- Tratti validati: ${validationSummary.validated_traits}`);
-    }
-    if (checksFailed) {
-      const failing = (Array.isArray(generatorValidation.checks) ? generatorValidation.checks : [])
-        .filter((entry) => !entry.passed)
-        .slice(0, 5)
-        .map((entry) => entry.label || entry.id || 'check');
-      if (failing.length) {
-        lines.push(`- Check critici: ${failing.join(', ')}`);
-      }
-    }
-    if (Array.isArray(generatorValidation.warnings) && generatorValidation.warnings.length) {
-      lines.push(`- Warnings: ${generatorValidation.warnings.slice(0, 5).join(' · ')}`);
-    }
-    if (Array.isArray(generatorValidation.errors) && generatorValidation.errors.length) {
-      lines.push(`- Errori: ${generatorValidation.errors.slice(0, 5).join(' · ')}`);
-    }
-  }
-
-  const changelogHighlights = extractChangelogHighlights(changelog, 5);
-  if (changelogHighlights.length) {
-    lines.push('', '### QA changelog');
-    for (const line of changelogHighlights) {
-      lines.push(line);
-    }
+  const topConflicts = ensureArray(highlights.top_conflicts || highlights.topConflicts).slice(0, 5);
+  if (topConflicts.length) {
+    lines.push('', '### Top conflitti', ...topConflicts.map((entry) => `- ${entry.id || entry.name}: ${entry.conflicts || entry.count}`));
   }
 
   return lines.join('\n');
@@ -482,7 +414,7 @@ async function main() {
     '',
     buildNebulaSection(nebula),
     '',
-    qaSection,
+    buildQaSection(qa),
     '',
     '_Script: tools/recap/generateRecap.js_',
   ];

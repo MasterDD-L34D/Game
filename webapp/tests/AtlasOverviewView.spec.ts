@@ -2,7 +2,7 @@ import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { computed, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 
-import NebulaAtlasView from '../src/views/NebulaAtlasView.vue';
+import AtlasOverviewView from '../src/views/atlas/AtlasOverviewView.vue';
 
 const refreshMock = vi.fn();
 const activateMock = vi.fn();
@@ -88,14 +88,14 @@ vi.mock('../src/modules/useNebulaProgressModule', () => ({
   }),
 }));
 
-describe('NebulaAtlasView', () => {
+describe('AtlasOverviewView', () => {
   beforeEach(() => {
     refreshMock.mockClear();
     activateMock.mockClear();
   });
 
   function mountView() {
-    return mount(NebulaAtlasView, {
+    return mount(AtlasOverviewView, {
       global: {
         stubs: {
           NebulaProgressModule: {

@@ -1,35 +1,35 @@
 <template>
   <section class="atlas-layout">
     <header class="atlas-layout__header">
-      <div>
-        <p class="atlas-layout__kicker" :data-offline="isOffline">{{ kickerLabel }}</p>
-        <h2>{{ headerTitle }}</h2>
-        <p v-if="headerSummary" class="atlas-layout__summary">{{ headerSummary }}</p>
-        <dl class="atlas-layout__metrics" aria-label="Metriche principali">
-          <div>
-            <dt>Specie</dt>
-            <dd>{{ totals.species }}</dd>
-          </div>
-          <div>
-            <dt>Biomi</dt>
-            <dd>{{ totals.biomes }}</dd>
-          </div>
-          <div>
-            <dt>Encounter</dt>
-            <dd>{{ totals.encounters }}</dd>
-          </div>
-        </dl>
+      <div class="atlas-layout__intro">
+        <StateBanner :tokens="stateTokens" :message="statusLabel" />
+        <div>
+          <h2>{{ headerTitle }}</h2>
+          <p v-if="headerSummary" class="atlas-layout__summary">{{ headerSummary }}</p>
+        </div>
       </div>
       <aside class="atlas-layout__aside">
-        <h3>Finestra di release</h3>
-        <p class="atlas-layout__release">{{ dataset.releaseWindow || 'Non pianificata' }}</p>
-        <p class="atlas-layout__curator">Curatori · {{ dataset.curator || 'Da definire' }}</p>
+        <MetricCard
+          title="Finestra di release"
+          :description="releaseWindowDescription"
+          :value="dataset.releaseWindow || 'Non pianificata'"
+          :tokens="releaseTokens"
+        />
       </aside>
     </header>
 
-    <p v-if="statusLabel" class="atlas-layout__status" :data-offline="isOffline">
-      {{ statusLabel }}
-    </p>
+    <section class="atlas-layout__metrics" aria-label="Progressione dataset">
+      <MetricCard
+        v-for="metric in overviewMetrics"
+        :key="metric.id"
+        :title="metric.title"
+        :caption="metric.caption"
+        :description="metric.description"
+        :value="metric.value"
+        :metrics="metric.metrics"
+        :state="metric.state"
+      />
+    </section>
 
     <AtlasCollectionProgress :metrics="dataset.metrics" :dataset="dataset" :highlights="dataset.highlights" />
 
@@ -40,7 +40,6 @@
         :to="link.to"
         class="atlas-layout__nav-link"
         :class="{ 'atlas-layout__nav-link--active': link.active }"
-        :data-demo="link.demo"
       >
         {{ link.label }}
       </RouterLink>
@@ -57,6 +56,8 @@ import { computed, provide } from 'vue';
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router';
 
 import AtlasCollectionProgress from '../components/atlas/AtlasCollectionProgress.vue';
+import StateBanner from '../components/metrics/StateBanner.vue';
+import MetricCard from '../components/metrics/MetricCard.vue';
 import { atlasLayoutKey } from '../composables/useAtlasLayout';
 import { atlasDataset, atlasTotals } from '../state/atlasDataset.js';
 import { useNavigationMeta } from '../state/navigationMeta.js';
@@ -76,61 +77,98 @@ const emit = defineEmits(['notify']);
 
 const route = useRoute();
 const router = useRouter();
-const { title: navigationTitle, description: navigationDescription, breadcrumbs } = useNavigationMeta();
+const { title: navigationTitle, description: navigationDescription, breadcrumbs, tokens: navigationTokens } =
+  useNavigationMeta();
 
 const dataset = atlasDataset;
 const totals = atlasTotals;
 
 const headerTitle = computed(() => navigationTitle.value || dataset.title || 'Nebula Atlas');
 const headerSummary = computed(() => navigationDescription.value || dataset.summary || '');
-const kickerLabel = computed(() => {
-  if (props.isOffline) {
-    return 'Dataset offline';
+
+const stateTokens = computed(() => {
+  const tokens = [...(navigationTokens.value || [])];
+  if (props.isDemo && !tokens.some((token) => token.id === 'atlas-demo')) {
+    tokens.push({ id: 'atlas-demo', label: 'Modalità demo', variant: 'info', icon: '◎' });
   }
-  if (props.isDemo) {
-    return 'Dataset demo';
+  if (props.isOffline && !tokens.some((token) => token.id === 'atlas-offline')) {
+    tokens.push({ id: 'atlas-offline', label: 'Dataset offline', variant: 'warning', icon: '⚠' });
   }
-  return 'Dataset dedicato';
+  return tokens;
 });
 
 const statusLabel = computed(() => {
-  if (!props.isDemo && !props.isOffline) {
-    return '';
-  }
   if (props.isOffline) {
     return 'Modalità demo · dataset offline sincronizzato da fallback';
   }
-  return 'Modalità demo attiva per le sezioni Atlas';
+  if (props.isDemo) {
+    return 'Modalità demo attiva per le sezioni Atlas';
+  }
+  return '';
+});
+
+const releaseTokens = computed(() =>
+  props.isOffline
+    ? [{ id: 'release-offline', label: 'Sync offline', variant: 'warning' }]
+    : [],
+);
+
+const releaseWindowDescription = computed(() => `Curatori · ${dataset.curator || 'Da definire'}`);
+
+const overviewMetrics = computed(() => {
+  const targetSpecies = Number(dataset.metrics?.species) || totals.species;
+  const currentSpecies = Array.isArray(dataset.species) ? dataset.species.length : totals.species;
+  const targetBiomes = Number(dataset.metrics?.biomes) || totals.biomes;
+  const currentBiomes = Array.isArray(dataset.biomes) ? dataset.biomes.length : totals.biomes;
+  const targetEncounters = Number(dataset.metrics?.encounters) || totals.encounters;
+  const currentEncounters = Array.isArray(dataset.encounters) ? dataset.encounters.length : totals.encounters;
+
+  return [
+    {
+      id: 'species',
+      title: 'Specie catalogate',
+      caption: 'Catalogo Nebula',
+      description: 'Blueprint specie pronte per staging.',
+      value: `${currentSpecies} / ${targetSpecies}`,
+      metrics: [
+        { label: 'Target', value: targetSpecies },
+        { label: 'Disponibili', value: currentSpecies },
+      ],
+      state: currentSpecies >= targetSpecies ? 'success' : 'default',
+    },
+    {
+      id: 'biomes',
+      title: 'Biomi sincronizzati',
+      caption: 'Setup ambientali',
+      description: 'Biomi coordinati con telemetria attiva.',
+      value: `${currentBiomes} / ${targetBiomes}`,
+      metrics: [
+        { label: 'Target', value: targetBiomes },
+        { label: 'Allineati', value: currentBiomes },
+      ],
+      state: currentBiomes >= targetBiomes ? 'success' : 'default',
+    },
+    {
+      id: 'encounters',
+      title: 'Encounter calibrati',
+      caption: 'Lab operativo',
+      description: 'Pattern missione pronti per QA freeze.',
+      value: `${currentEncounters} / ${targetEncounters}`,
+      metrics: [
+        { label: 'Target', value: targetEncounters },
+        { label: 'Disponibili', value: currentEncounters },
+      ],
+      state: currentEncounters >= targetEncounters ? 'success' : 'default',
+    },
+  ];
 });
 
 const links = computed(() => {
   const currentName = route.name ? String(route.name) : '';
-  const atlasRoute = router.getRoutes().find((record) => record.name === 'atlas');
+  const atlasRoute = router.getRoutes().find((record) => record.name === 'console-atlas');
   const childRoutes = atlasRoute?.children || [];
   if (!childRoutes.length) {
-    return [
-      {
-        name: 'atlas-pokedex',
-        label: 'Pokédex Nebula',
-        to: { name: 'atlas-pokedex' },
-        active: currentName === 'atlas-pokedex',
-        demo: true,
-      },
-      {
-        name: 'atlas-world-builder',
-        label: 'World Builder',
-        to: { name: 'atlas-world-builder' },
-        active: currentName === 'atlas-world-builder',
-        demo: true,
-      },
-      {
-        name: 'atlas-encounter-lab',
-        label: 'Encounter Lab',
-        to: { name: 'atlas-encounter-lab' },
-        active: currentName === 'atlas-encounter-lab',
-        demo: true,
-      },
-    ];
+    return [];
   }
   return childRoutes
     .filter((child) => child.meta?.breadcrumb !== false)
@@ -143,7 +181,6 @@ const links = computed(() => {
         label,
         to,
         active: name === currentName,
-        demo: Boolean(child.meta?.demo ?? props.isDemo),
       };
     });
 });
@@ -173,7 +210,7 @@ function forwardNotification(payload) {
 
 .atlas-layout__header {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   gap: 2rem;
   padding: 2.5rem clamp(2rem, 3vw, 3rem);
   background: linear-gradient(135deg, rgba(211, 224, 255, 0.85), rgba(187, 215, 255, 0.75));
@@ -181,83 +218,27 @@ function forwardNotification(payload) {
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
 }
 
-.atlas-layout__kicker {
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
-  color: rgba(15, 23, 42, 0.6);
-}
-
-.atlas-layout__kicker[data-offline='true'] {
-  color: rgba(180, 83, 9, 0.8);
+.atlas-layout__intro {
+  display: grid;
+  gap: 1.25rem;
 }
 
 .atlas-layout__summary {
-  margin-top: 1rem;
+  margin: 0;
   font-size: 1rem;
   line-height: 1.6;
   color: rgba(15, 23, 42, 0.8);
 }
 
-.atlas-layout__metrics {
-  display: flex;
-  gap: 2rem;
-  margin: 1.75rem 0 0;
-  padding: 0;
-}
-
-.atlas-layout__metrics div {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.atlas-layout__metrics dt {
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(15, 23, 42, 0.5);
-}
-
-.atlas-layout__metrics dd {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-
 .atlas-layout__aside {
-  padding: 1.75rem;
-  background: rgba(15, 23, 42, 0.08);
-  border-radius: 1rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  align-items: stretch;
 }
 
-.atlas-layout__release {
-  font-weight: 600;
-  font-size: 1.05rem;
-}
-
-.atlas-layout__curator {
-  font-size: 0.85rem;
-  color: rgba(15, 23, 42, 0.6);
-}
-
-.atlas-layout__status {
-  margin: -1rem 0 0;
-  padding: 0.85rem 1.25rem;
-  border-radius: 0.85rem;
-  background: rgba(59, 130, 246, 0.12);
-  color: rgba(15, 23, 42, 0.85);
-  font-weight: 600;
-}
-
-.atlas-layout__status[data-offline='true'] {
-  background: rgba(245, 158, 11, 0.18);
-  color: rgba(120, 53, 15, 0.9);
+.atlas-layout__metrics {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .atlas-layout__nav {
@@ -267,37 +248,23 @@ function forwardNotification(payload) {
 }
 
 .atlas-layout__nav-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.6rem 1.4rem;
+  padding: 0.6rem 1.1rem;
   border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  background: rgba(255, 255, 255, 0.8);
+  color: #1d4ed8;
   text-decoration: none;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  background: rgba(30, 64, 175, 0.12);
-  color: rgba(30, 41, 59, 0.85);
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  transition: background 0.18s ease, color 0.18s ease;
-}
-
-.atlas-layout__nav-link[data-demo='true']::after {
-  content: 'demo';
-  margin-left: 0.5rem;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(30, 64, 175, 0.7);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .atlas-layout__nav-link:hover {
-  background: rgba(59, 130, 246, 0.25);
-  color: #1e293b;
+  background: rgba(37, 99, 235, 0.15);
+  transform: translateY(-1px);
 }
 
 .atlas-layout__nav-link--active {
-  background: rgba(59, 130, 246, 0.32);
-  color: #0f172a;
-  border-color: rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(14, 165, 233, 0.18));
+  border-color: rgba(59, 130, 246, 0.45);
 }
 </style>

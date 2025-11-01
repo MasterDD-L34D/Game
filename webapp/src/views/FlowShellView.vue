@@ -64,8 +64,8 @@
 
 <script setup>
 import { computed, onMounted, watch } from 'vue';
-import FlowBreadcrumb from '../components/layout/FlowBreadcrumb.vue';
-import ProgressTracker from '../components/layout/ProgressTracker.vue';
+import FlowBreadcrumb from '../components/navigation/FlowBreadcrumb.vue';
+import ProgressTracker from '../components/navigation/ProgressTracker.vue';
 import { useGeneratorFlow } from '../state/flowMachine.js';
 import { useFlowLogger } from '../state/useFlowLogger.js';
 import { useSnapshotLoader } from '../state/useSnapshotLoader.js';

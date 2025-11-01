@@ -39,7 +39,7 @@
             <h2 class="progress-card__title">{{ step.title }}</h2>
           </div>
           <button type="button" class="progress-card__status" @click="$emit('navigate', step.id)">
-            <span>{{ statusLabel(step.status) }}</span>
+            <StateToken :label="statusLabel(step.status)" :variant="statusVariant(step.status)" compact />
             <span class="progress-card__index">#{{ step.index + 1 }}</span>
           </button>
         </header>
@@ -62,6 +62,8 @@
 <script setup>
 import { toRefs } from 'vue';
 
+import StateToken from '../metrics/StateToken.vue';
+
 const props = defineProps({
   steps: {
     type: Array,
@@ -78,13 +80,14 @@ const { steps, summary } = toRefs(props);
 defineEmits(['navigate']);
 
 const statusMap = {
-  done: 'Completo',
-  current: 'In corso',
-  pending: 'In attesa',
-  blocked: 'Bloccato',
+  done: { label: 'Completo', variant: 'success' },
+  current: { label: 'In corso', variant: 'info' },
+  pending: { label: 'In attesa', variant: 'neutral' },
+  blocked: { label: 'Bloccato', variant: 'danger' },
 };
 
-const statusLabel = (status) => statusMap[status] || statusMap.pending;
+const statusLabel = (status) => (statusMap[status] || statusMap.pending).label;
+const statusVariant = (status) => (statusMap[status] || statusMap.pending).variant;
 
 const completionPercent = (metrics) => {
   const total = Number.isFinite(metrics.total) ? metrics.total : 0;
@@ -217,54 +220,60 @@ const completionPercent = (metrics) => {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.2rem;
+  gap: 0.35rem;
   background: transparent;
   border: none;
   color: inherit;
   cursor: pointer;
-  font-size: 0.85rem;
-  text-align: right;
+  padding: 0;
 }
 
 .progress-card__status:hover {
-  color: #ffffff;
+  filter: brightness(1.05);
+}
+
+.progress-card__status:focus-visible {
+  outline: 2px solid rgba(96, 213, 255, 0.55);
+  outline-offset: 2px;
+}
+
+.progress-card__status:disabled {
+  cursor: default;
+  opacity: 0.6;
 }
 
 .progress-card__index {
-  font-size: 0.7rem;
-  opacity: 0.6;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .progress-card__description {
   margin: 0;
-  color: rgba(240, 244, 255, 0.7);
-  font-size: 0.9rem;
+  color: rgba(240, 244, 255, 0.75);
+  line-height: 1.5;
 }
 
 .progress-card__metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.5rem 1rem;
+  gap: 0.6rem;
   margin: 0;
+  padding: 0.5rem 0 0;
 }
 
 .progress-card__metrics div {
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 10px;
-  padding: 0.6rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .progress-card__metrics dt {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 0.25rem;
-  color: rgba(240, 244, 255, 0.6);
+  font-size: 0.8rem;
+  color: rgba(240, 244, 255, 0.65);
 }
 
 .progress-card__metrics dd {
   margin: 0;
-  font-size: 1.1rem;
   font-weight: 600;
 }
 </style>

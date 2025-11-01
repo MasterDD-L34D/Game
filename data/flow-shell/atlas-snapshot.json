@@ -744,5 +744,11 @@
     "seeds": 2,
     "variants": 4,
     "warnings": 1
+  },
+  "runtime": {
+    "lastBlueprintId": "synthetic-99",
+    "fallbackUsed": false,
+    "validationMessages": 1,
+    "lastRequestId": "nebula-priority"
   }
 }

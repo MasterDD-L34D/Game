@@ -356,6 +356,7 @@ function createApp(options = {}) {
   });
 
   app.get('/api/generation/snapshot', generationSnapshotHandler);
+  app.get('/api/v1/generation/snapshot', generationSnapshotHandler);
 
   const nebulaOptions = options?.nebula || {};
   const nebulaAggregator =
@@ -377,6 +378,7 @@ function createApp(options = {}) {
     aggregator: nebulaAggregator,
   });
   app.use('/api/nebula', nebulaRouter);
+  app.use('/api/v1/atlas', atlasV1Router);
 
   const releaseReporter = createReleaseReporter({
     snapshotStore: generationSnapshotStore,
@@ -404,7 +406,7 @@ function createApp(options = {}) {
     res.json({ status: 'ok', service: 'idea-engine' });
   });
 
-  app.get('/api/qa/status', async (req, res) => {
+  async function handleQaStatus(req, res) {
     try {
       const report = await readJsonFile(qaStatusPath, null);
       if (!report) {
@@ -415,9 +417,12 @@ function createApp(options = {}) {
     } catch (error) {
       res.status(500).json({ error: error.message || 'Errore caricamento QA report' });
     }
-  });
+  }
 
-  app.get('/api/traits/diagnostics', async (req, res) => {
+  app.get('/api/qa/status', handleQaStatus);
+  app.get('/api/v1/qa/status', handleQaStatus);
+
+  async function handleTraitDiagnostics(req, res) {
     const refresh = String(req.query.refresh || '').toLowerCase();
     const shouldRefresh = refresh === 'true' || refresh === '1';
     try {
@@ -439,7 +444,10 @@ function createApp(options = {}) {
     } catch (error) {
       res.status(500).json({ error: error.message || 'Errore diagnostica tratti' });
     }
-  });
+  }
+
+  app.get('/api/traits/diagnostics', handleTraitDiagnostics);
+  app.get('/api/v1/traits/diagnostics', handleTraitDiagnostics);
 
   app.get('/api/deployments/status', async (req, res) => {
     try {
@@ -493,7 +501,7 @@ function createApp(options = {}) {
     }
   });
 
-  app.post('/api/biomes/generate', async (req, res) => {
+  async function handleBiomeGeneration(req, res) {
     const payload = req.body || {};
     try {
       const result = await biomeSynthesizer.generate({
@@ -505,7 +513,10 @@ function createApp(options = {}) {
     } catch (error) {
       res.status(500).json({ error: error.message || 'Errore generazione biomi' });
     }
-  });
+  }
+
+  app.post('/api/biomes/generate', handleBiomeGeneration);
+  app.post('/api/v1/generation/biomes', handleBiomeGeneration);
 
   app.get('/api/ideas/:id', async (req, res) => {
     const id = Number.parseInt(req.params.id, 10);
@@ -588,7 +599,7 @@ function createApp(options = {}) {
     }
   });
 
-  app.post('/api/validators/runtime', async (req, res) => {
+  async function handleRuntimeValidation(req, res) {
     const { kind, payload } = req.body || {};
     if (!kind) {
       res.status(400).json({ error: "Campo 'kind' richiesto" });
@@ -615,9 +626,12 @@ function createApp(options = {}) {
     } catch (error) {
       res.status(500).json({ error: error.message || 'Errore validazione runtime' });
     }
-  });
+  }
 
-  app.post('/api/quality/suggestions/apply', async (req, res) => {
+  app.post('/api/validators/runtime', handleRuntimeValidation);
+  app.post('/api/v1/validators/runtime', handleRuntimeValidation);
+
+  async function handleQualitySuggestion(req, res) {
     const suggestion = req.body && req.body.suggestion;
     if (!suggestion || !suggestion.id) {
       res.status(400).json({ error: "Suggerimento richiesto per l'applicazione" });
@@ -668,9 +682,12 @@ function createApp(options = {}) {
     } catch (error) {
       res.status(500).json({ error: error.message || 'Errore applicazione suggerimento' });
     }
-  });
+  }
 
-  app.post('/api/generation/species', async (req, res) => {
+  app.post('/api/quality/suggestions/apply', handleQualitySuggestion);
+  app.post('/api/v1/quality/suggestions/apply', handleQualitySuggestion);
+
+  async function handleSpeciesGeneration(req, res) {
     const payload = req.body || {};
     try {
       const result = await generationOrchestrator.generateSpecies(payload);
@@ -682,9 +699,9 @@ function createApp(options = {}) {
       }
       res.status(500).json({ error: error.message || 'Errore generazione specie' });
     }
-  });
+  }
 
-  app.post('/api/generation/species/batch', async (req, res) => {
+  async function handleSpeciesBatchGeneration(req, res) {
     const payload = req.body || {};
     try {
       const result = await generationOrchestrator.generateSpeciesBatch(payload);
@@ -693,7 +710,12 @@ function createApp(options = {}) {
       const status = error && error.message && error.message.includes('trait_ids') ? 400 : 500;
       res.status(status).json({ error: error.message || 'Errore generazione batch specie' });
     }
-  });
+  }
+
+  app.post('/api/generation/species', handleSpeciesGeneration);
+  app.post('/api/v1/generation/species', handleSpeciesGeneration);
+  app.post('/api/generation/species/batch', handleSpeciesBatchGeneration);
+  app.post('/api/v1/generation/species/batch', handleSpeciesBatchGeneration);
 
   return { app, repo };
 }

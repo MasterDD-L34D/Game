@@ -142,10 +142,12 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Endpoint principali**:
   - `GET /api/health` – stato runtime.
   - `GET /api/ideas`, `POST /api/ideas`, `GET /api/ideas/:id`, `POST /api/ideas/:id/feedback` – gestione idee e feedback.
-  - `POST /api/biomes/generate` – genera sintesi bioma via `createBiomeSynthesizer`.
-  - `POST /api/validators/runtime` – esegue validator runtime sul payload fornito.
-  - `POST /api/quality/suggestions/apply` – applica suggerimenti qualità sul dataset ricevuto.
-  - `POST /api/generation/species` e `/api/generation/species/batch` – orchestrano la generazione specie integrando `SpeciesBuilder`, `TraitCatalog` e validator pack.
+  - `POST /api/v1/generation/biomes` (`/api/biomes/generate` legacy) – genera sintesi bioma via `createBiomeSynthesizer`.
+  - `POST /api/v1/validators/runtime` (`/api/validators/runtime` legacy) – esegue validator runtime sul payload fornito.
+  - `POST /api/v1/quality/suggestions/apply` (`/api/quality/suggestions/apply` legacy) – applica suggerimenti qualità sul dataset ricevuto.
+  - `POST /api/v1/generation/species` e `/api/v1/generation/species/batch` (alias legacy `/api/generation/species[*]`) – orchestrano la generazione specie integrando `SpeciesBuilder`, `TraitCatalog` e validator pack.
+  - `GET /api/v1/atlas/dataset`, `/api/v1/atlas/telemetry`, `/api/v1/atlas/generator` – bundle dataset e telemetria Nebula (alias legacy aggregato `/api/nebula/atlas`).
+  - `GET /api/v1/qa/status` (`/api/qa/status` legacy) – report QA corrente.
   - `GET /api/ideas/:id/report` – produce report Codex in HTML/JSON usando `server/report.js`.
 - **Orchestrazione**: la pipeline combina normalizzazione slug, fallback automatici per trait non validi e log strutturati (vedi `services/generation/*`).
 

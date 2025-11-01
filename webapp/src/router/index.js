@@ -1,15 +1,20 @@
-import { defineAsyncComponent } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { updateNavigationMeta } from '../state/navigationMeta.js';
 
 const APP_TITLE = 'Evo-Tactics Mission Console';
+const enableLegacyRoutes = import.meta.env.VITE_ENABLE_LEGACY_CONSOLE_ROUTES === 'true';
 
-const FlowShellView = defineAsyncComponent(() => import('../views/FlowShellView.vue'));
-const NebulaAtlasView = defineAsyncComponent(() => import('../views/NebulaAtlasView.vue'));
-const AtlasLayout = defineAsyncComponent(() => import('../layouts/AtlasLayout.vue'));
-const AtlasPokedexView = defineAsyncComponent(() => import('../views/atlas/AtlasPokedexView.vue'));
-const AtlasWorldBuilderView = defineAsyncComponent(() => import('../views/atlas/AtlasWorldBuilderView.vue'));
-const AtlasEncounterLabView = defineAsyncComponent(() => import('../views/atlas/AtlasEncounterLabView.vue'));
+const ConsoleLayout = () => import('../layouts/ConsoleLayout.vue');
+const ConsoleHubView = () => import('../views/ConsoleHubView.vue');
+const FlowShellView = () => import('../views/FlowShellView.vue');
+const AtlasLayout = () => import('../layouts/AtlasLayout.vue');
+const AtlasOverviewView = () => import('../views/atlas/AtlasOverviewView.vue');
+const AtlasPokedexView = () => import('../views/atlas/AtlasPokedexView.vue');
+const AtlasWorldBuilderView = () => import('../views/atlas/AtlasWorldBuilderView.vue');
+const AtlasEncounterLabView = () => import('../views/atlas/AtlasEncounterLabView.vue');
+const AtlasTelemetryView = () => import('../views/atlas/AtlasTelemetryView.vue');
+const AtlasGeneratorView = () => import('../views/atlas/AtlasGeneratorView.vue');
+const NotFoundView = () => import('../views/NotFound.vue');
 
 function buildBreadcrumbs(to, router) {
   return to.matched
@@ -29,102 +34,178 @@ function buildBreadcrumbs(to, router) {
         to: target,
         href: resolved ? resolved.href : null,
         current: index === array.length - 1,
-        demo: Boolean(record.meta?.demo),
       };
     });
+}
+
+function buildStateTokens(to) {
+  const seen = new Set();
+  const tokens = [];
+  to.matched.forEach((record) => {
+    const recordTokens = Array.isArray(record.meta?.stateTokens) ? record.meta.stateTokens : [];
+    recordTokens.forEach((token) => {
+      const id = token.id || token.label;
+      if (!id || seen.has(id)) {
+        return;
+      }
+      seen.add(id);
+      tokens.push({ id, label: token.label, variant: token.variant, icon: token.icon });
+    });
+  });
+  return tokens;
 }
 
 export function createAppRouter({ base, history } = {}) {
   const resolvedHistory = history || createWebHistory(base ?? import.meta.env.BASE_URL);
 
+  const routes = [
+    {
+      path: '/',
+      redirect: { name: 'console-home' },
+    },
+    {
+      path: '/console',
+      component: ConsoleLayout,
+      meta: {
+        breadcrumb: { label: 'Mission Console', to: { name: 'console-home' } },
+      },
+      children: [
+        {
+          path: '',
+          name: 'console-home',
+          component: ConsoleHubView,
+          meta: {
+            title: 'Mission Console',
+            description: 'Hub centrale per il coordinamento dei workflow e dei moduli Nebula.',
+            breadcrumb: false,
+          },
+        },
+        {
+          path: 'flow',
+          name: 'console-flow',
+          component: FlowShellView,
+          meta: {
+            title: 'Workflow Orchestrator',
+            description: 'Coordina i passaggi del generatore Nebula e monitora lo stato delle pipeline.',
+            breadcrumb: { label: 'Workflow Orchestrator' },
+            stateTokens: [
+              { id: 'flow-live', label: 'Pipeline live', variant: 'info', icon: '⟳' },
+            ],
+          },
+        },
+        {
+          path: 'atlas',
+          name: 'console-atlas',
+          component: AtlasLayout,
+          props: (route) => ({
+            isDemo: Boolean(route.meta?.demo),
+            isOffline: Boolean(route.meta?.offline),
+          }),
+          meta: {
+            title: 'Nebula Atlas',
+            description: 'Panoramica dataset, telemetria e strumenti Atlas.',
+            breadcrumb: { label: 'Nebula Atlas' },
+            demo: true,
+            offline: true,
+            stateTokens: [
+              { id: 'atlas-demo', label: 'Modalità demo', variant: 'info', icon: '◎' },
+              { id: 'atlas-offline', label: 'Dataset offline', variant: 'warning', icon: '⚠' },
+            ],
+          },
+          redirect: { name: 'console-atlas-overview' },
+          children: [
+            {
+              path: 'overview',
+              name: 'console-atlas-overview',
+              component: AtlasOverviewView,
+              meta: {
+                title: 'Atlas · Overview',
+                description: 'Stato generale del dataset e sincronizzazioni Nebula.',
+                breadcrumb: { label: 'Overview' },
+              },
+            },
+            {
+              path: 'pokedex',
+              name: 'console-atlas-pokedex',
+              component: AtlasPokedexView,
+              meta: {
+                title: 'Atlas · Pokédex Nebula',
+                description: 'Catalogo delle specie Nebula pronte per la convalida.',
+                breadcrumb: { label: 'Pokédex' },
+              },
+            },
+            {
+              path: 'telemetry',
+              name: 'console-atlas-telemetry',
+              component: AtlasTelemetryView,
+              meta: {
+                title: 'Atlas · Telemetria',
+                description: 'Monitoraggio eventi, readiness e sincronizzazioni QA.',
+                breadcrumb: { label: 'Telemetria' },
+              },
+            },
+            {
+              path: 'generator',
+              name: 'console-atlas-generator',
+              component: AtlasGeneratorView,
+              meta: {
+                title: 'Atlas · Generatore',
+                description: 'Stato e performance del generatore Nebula.',
+                breadcrumb: { label: 'Generatore' },
+              },
+            },
+            {
+              path: 'world-builder',
+              name: 'console-atlas-world-builder',
+              component: AtlasWorldBuilderView,
+              meta: {
+                title: 'Atlas · World Builder',
+                description: 'Setup dei biomi e dei builder per la generazione di mondi.',
+                breadcrumb: { label: 'World Builder' },
+              },
+            },
+            {
+              path: 'encounter-lab',
+              name: 'console-atlas-encounter-lab',
+              component: AtlasEncounterLabView,
+              meta: {
+                title: 'Atlas · Encounter Lab',
+                description: 'Laboratorio per combinare incontri e pattern di missione.',
+                breadcrumb: { label: 'Encounter Lab' },
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFoundView,
+      meta: {
+        title: 'Pagina non trovata',
+        description: 'La risorsa richiesta non è disponibile.',
+        breadcrumb: false,
+      },
+    },
+  ];
+
+  if (enableLegacyRoutes) {
+    routes.push(
+      { path: '/flow', redirect: { name: 'console-flow' } },
+      { path: '/atlas', redirect: { name: 'console-atlas-overview' } },
+      { path: '/atlas/overview', redirect: { name: 'console-atlas-overview' } },
+      { path: '/atlas/pokedex', redirect: { name: 'console-atlas-pokedex' } },
+      { path: '/atlas/telemetry', redirect: { name: 'console-atlas-telemetry' } },
+      { path: '/atlas/generator', redirect: { name: 'console-atlas-generator' } },
+      { path: '/atlas/world-builder', redirect: { name: 'console-atlas-world-builder' } },
+      { path: '/atlas/encounter-lab', redirect: { name: 'console-atlas-encounter-lab' } },
+    );
+  }
+
   const router = createRouter({
     history: resolvedHistory,
-    routes: [
-      {
-        path: '/',
-        name: 'workflow',
-        component: FlowShellView,
-        meta: {
-          title: 'Workflow Orchestrator',
-          description: 'Coordina i passaggi del generatore Nebula e monitora lo stato delle pipeline.',
-          breadcrumb: { label: 'Workflow Orchestrator' },
-          demo: false,
-        },
-      },
-      {
-        path: '/nebula-atlas',
-        name: 'nebula-atlas',
-        component: NebulaAtlasView,
-        meta: {
-          title: 'Nebula Atlas Overview',
-          description: 'Monitoraggio dataset e telemetria Nebula con fallback in modalità demo.',
-          breadcrumb: { label: 'Nebula Atlas Overview' },
-          demo: true,
-        },
-      },
-      {
-        path: '/atlas',
-        name: 'atlas',
-        component: AtlasLayout,
-        props: (route) => ({
-          isDemo: Boolean(route.meta?.demo),
-          isOffline: Boolean(route.meta?.offline),
-        }),
-        meta: {
-          title: 'Nebula Atlas',
-          description: 'Esplora il dataset Nebula Atlas e le sue sottosezioni operative.',
-          breadcrumb: { label: 'Nebula Atlas', to: { name: 'nebula-atlas' } },
-          demo: true,
-          offline: true,
-        },
-        children: [
-          {
-            path: '',
-            redirect: { name: 'atlas-pokedex' },
-          },
-          {
-            path: 'pokedex',
-            name: 'atlas-pokedex',
-            component: AtlasPokedexView,
-            meta: {
-              title: 'Atlas · Pokédex Nebula',
-              description: 'Catalogo delle specie Nebula pronte per la convalida.',
-              breadcrumb: { label: 'Pokédex Nebula' },
-              demo: true,
-            },
-          },
-          {
-            path: 'world-builder',
-            name: 'atlas-world-builder',
-            component: AtlasWorldBuilderView,
-            meta: {
-              title: 'Atlas · World Builder',
-              description: 'Setup dei biomi e dei builder per la generazione di mondi.',
-              breadcrumb: { label: 'World Builder' },
-              demo: true,
-            },
-          },
-          {
-            path: 'encounter-lab',
-            name: 'atlas-encounter-lab',
-            component: AtlasEncounterLabView,
-            meta: {
-              title: 'Atlas · Encounter Lab',
-              description: 'Laboratorio per combinare incontri e pattern di missione.',
-              breadcrumb: { label: 'Encounter Lab' },
-              demo: true,
-            },
-          },
-        ],
-      },
-      {
-        path: '/:pathMatch(.*)*',
-        redirect: { name: 'workflow' },
-        meta: {
-          breadcrumb: false,
-        },
-      },
-    ],
+    routes,
   });
 
   router.afterEach((to) => {
@@ -136,8 +217,9 @@ export function createAppRouter({ base, history } = {}) {
     updateNavigationMeta({
       title: meta.title || APP_TITLE,
       description: meta.description || '',
-      demo: Boolean(meta.demo),
+      demo: to.matched.some((record) => record.meta?.demo),
       breadcrumbs: buildBreadcrumbs(to, router),
+      tokens: buildStateTokens(to),
     });
   });
 

@@ -12,16 +12,16 @@ describe('App router metadata', () => {
   });
 
   it('rispetta il BASE_URL personalizzato nella risoluzione dei link', () => {
-    const router = createAppRouter({ history: createMemoryHistory('/console/') });
-    const resolved = router.resolve({ name: 'atlas-world-builder' });
-    expect(resolved.href).toBe('/console/atlas/world-builder');
+    const router = createAppRouter({ history: createMemoryHistory('/mission/') });
+    const resolved = router.resolve({ name: 'console-atlas-world-builder' });
+    expect(resolved.href).toBe('/mission/console/atlas/world-builder');
   });
 
   it('aggiorna document title e breadcrumb condivisi', async () => {
     const router = createAppRouter({ history: createMemoryHistory('/console/') });
     const { title, description, demo, breadcrumbs } = useNavigationMeta();
 
-    await router.push({ name: 'atlas-encounter-lab' });
+    await router.push({ name: 'console-atlas-encounter-lab' });
     await router.isReady();
     await nextTick();
 
