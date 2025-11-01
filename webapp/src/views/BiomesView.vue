@@ -2,29 +2,53 @@
   <section class="biomes-view">
     <NebulaShell :tabs="tabs" v-model="activeTab" :status-indicators="statusIndicators">
       <template #cards>
-        <div class="biomes-view__telemetry">
-          <PokedexTelemetryBadge
-            v-for="indicator in statusIndicators"
-            :key="indicator.id"
-            :label="indicator.label"
-            :value="indicator.value"
-            :tone="indicator.tone || 'neutral'"
-          />
-        </div>
-        <div class="biomes-view__hazards">
-          <TraitChip
-            v-for="highlight in hazardHighlights"
-            :key="highlight.key"
-            :label="highlight.label"
-            :variant="highlight.variant"
-            :icon="highlight.icon"
-          />
-        </div>
+        <InsightCard icon="🛰" title="Stato orchestrator">
+          <div class="biomes-view__telemetry">
+            <PokedexTelemetryBadge
+              v-for="indicator in statusIndicators"
+              :key="indicator.id"
+              :label="indicator.label"
+              :value="indicator.value"
+              :tone="indicator.tone || 'neutral'"
+            />
+          </div>
+        </InsightCard>
+        <InsightCard v-if="traitOptions.length" icon="🧬" title="Tratti & affinità">
+          <div class="biomes-view__filters">
+            <button
+              v-for="option in traitOptions"
+              :key="option.id"
+              type="button"
+              class="biomes-view__filter"
+              :data-active="isTraitActive(option.id)"
+              :aria-pressed="isTraitActive(option.id)"
+              @click="toggleTrait(option.id)"
+            >
+              <GlossaryTooltip :description="option.description">
+                <TraitChip :label="option.label" variant="trait" />
+              </GlossaryTooltip>
+            </button>
+          </div>
+          <button v-if="activeTraits.length" type="button" class="biomes-view__reset" @click="clearTraits">
+            Reset filtri
+          </button>
+        </InsightCard>
+        <InsightCard v-if="hazardHighlights.length" icon="⚠" title="Hazard principali">
+          <div class="biomes-view__hazards">
+            <TraitChip
+              v-for="highlight in hazardHighlights"
+              :key="highlight.key"
+              :label="highlight.label"
+              :variant="highlight.variant"
+              :icon="highlight.icon"
+            />
+          </div>
+        </InsightCard>
       </template>
 
       <template #default="{ activeTab: currentTab }">
         <div v-if="currentTab === 'grid'" class="biomes-view__grid">
-          <PokedexBiomeCard v-for="biome in biomes" :key="biome.id" :biome="biome">
+          <PokedexBiomeCard v-for="biome in filteredBiomes" :key="biome.id" :biome="biome">
             <template #footer>
               <div class="biomes-view__metrics">
                 <PokedexTelemetryBadge label="Readiness" :value="formatReadiness(biome)" :tone="readinessTone(biome)" />
@@ -70,6 +94,8 @@ import NebulaShell from '../components/layout/NebulaShell.vue';
 import TraitChip from '../components/shared/TraitChip.vue';
 import PokedexBiomeCard from '../components/pokedex/PokedexBiomeCard.vue';
 import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
+import InsightCard from '../components/shared/InsightCard.vue';
+import GlossaryTooltip from '../components/shared/GlossaryTooltip.vue';
 
 const props = defineProps({
   biomes: {
@@ -87,8 +113,56 @@ const tabs = [
   { id: 'validators', label: 'Validatori', icon: '🛡' },
 ];
 
-const totals = computed(() => {
+const traitOptions = computed(() => {
+  const map = new Map();
   const list = Array.isArray(biomes.value) ? biomes.value : [];
+  list.forEach((biome) => {
+    const entries = [
+      ...(Array.isArray(biome.traits) ? biome.traits : []),
+      ...(Array.isArray(biome.affinities) ? biome.affinities : []),
+    ];
+    entries.forEach((entry) => {
+      const id = typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name;
+      if (!id) return;
+      if (!map.has(id)) {
+        map.set(id, {
+          id,
+          label: typeof entry === 'string' ? entry : entry.label || entry.name || id,
+          description: typeof entry === 'string' ? '' : entry.description || entry.summary || entry.detail || '',
+        });
+      }
+    });
+  });
+  return Array.from(map.values());
+});
+
+const activeTraits = ref([]);
+
+const traitIdSet = (biome) => {
+  const values = [
+    ...(Array.isArray(biome.traits) ? biome.traits : []),
+    ...(Array.isArray(biome.affinities) ? biome.affinities : []),
+  ];
+  return new Set(
+    values
+      .map((entry) => (typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name))
+      .filter(Boolean),
+  );
+};
+
+const filteredBiomes = computed(() => {
+  const selection = new Set(activeTraits.value);
+  if (!selection.size) {
+    return Array.isArray(biomes.value) ? biomes.value : [];
+  }
+  return (biomes.value || []).filter((biome) => {
+    const tags = traitIdSet(biome);
+    return Array.from(selection).every((id) => tags.has(id));
+  });
+});
+
+const totals = computed(() => {
+  const list = Array.isArray(filteredBiomes.value) ? filteredBiomes.value : [];
   const readiness = list.reduce((acc, biome) => acc + (Number(biome.readiness) || 0), 0);
   const capacity = list.reduce((acc, biome) => acc + (Number(biome.total) || 0), 0);
   const risk = list.reduce((acc, biome) => acc + (Number(biome.risk) || 0), 0);
@@ -102,7 +176,7 @@ const totals = computed(() => {
 
 const statusIndicators = computed(() => {
   const items = [];
-  if (totals.value.count) {
+  if (totals.value.count || activeTraits.value.length) {
     items.push({ id: 'count', label: 'Biomi attivi', value: totals.value.count, tone: 'neutral' });
   }
   if (totals.value.capacity) {
@@ -113,13 +187,16 @@ const statusIndicators = computed(() => {
     items.push({ id: 'readiness', label: 'Copertura readiness', value: `${percent}%`, tone });
   }
   items.push({ id: 'risk', label: 'Rischio medio', value: totals.value.riskAverage || '0', tone: 'warning' });
+  if (activeTraits.value.length) {
+    items.push({ id: 'filters', label: 'Filtri attivi', value: activeTraits.value.length, tone: 'neutral' });
+  }
   return items;
 });
 
 const hazardHighlights = computed(() => {
   const seen = new Set();
   const list = [];
-  (biomes.value || []).forEach((biome) => {
+  (filteredBiomes.value || []).forEach((biome) => {
     const hazard = biome.hazard || 'Hazard n/d';
     if (seen.has(hazard)) return;
     seen.add(hazard);
@@ -132,7 +209,7 @@ const hazardHighlights = computed(() => {
 });
 
 const validatorDigest = computed(() => {
-  return (biomes.value || []).flatMap((biome) =>
+  return (filteredBiomes.value || []).flatMap((biome) =>
     (biome.validators || []).map((validator) => ({
       id: `${biome.id}-${validator.id}`,
       biome: biome.name,
@@ -142,6 +219,28 @@ const validatorDigest = computed(() => {
     })),
   );
 });
+
+function toggleTrait(id) {
+  if (!id) {
+    return;
+  }
+  const index = activeTraits.value.indexOf(id);
+  if (index === -1) {
+    activeTraits.value = [...activeTraits.value, id];
+  } else {
+    const next = [...activeTraits.value];
+    next.splice(index, 1);
+    activeTraits.value = next;
+  }
+}
+
+function isTraitActive(id) {
+  return activeTraits.value.includes(id);
+}
+
+function clearTraits() {
+  activeTraits.value = [];
+}
 
 function readinessPercent(biome) {
   const total = Number.isFinite(biome.total) ? biome.total : 0;
@@ -184,7 +283,36 @@ function statusIcon(status) {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 0.75rem;
+}
+
+.biomes-view__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.biomes-view__filter {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.biomes-view__filter[data-active='true'] {
+  transform: translateY(-2px);
+}
+
+.biomes-view__reset {
+  margin-top: 0.5rem;
+  align-self: flex-start;
+  background: rgba(96, 213, 255, 0.18);
+  border: 1px solid rgba(96, 213, 255, 0.35);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  color: var(--pokedex-text-primary);
+  cursor: pointer;
 }
 
 .biomes-view__hazards {

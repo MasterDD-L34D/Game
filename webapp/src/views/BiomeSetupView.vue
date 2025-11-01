@@ -2,17 +2,39 @@
   <section class="biome-setup">
     <NebulaShell :tabs="tabs" v-model="activeTab" :status-indicators="statusIndicators">
       <template #cards>
-        <div class="biome-setup__chips">
-          <TraitChip v-if="state.hazard" :label="state.hazard" variant="hazard" />
-          <TraitChip v-if="state.climate" :label="state.climate" variant="climate" />
-          <TraitChip
-            v-for="role in state.requiredRoles"
-            :key="role"
-            :label="role"
-            variant="role"
-            icon="⚙"
-          />
-        </div>
+        <InsightCard icon="🪐" title="Profilo ambientale">
+          <div class="biome-setup__chips">
+            <TraitChip v-if="state.hazard" :label="state.hazard" variant="hazard" />
+            <TraitChip v-if="state.climate" :label="state.climate" variant="climate" />
+            <TraitChip
+              v-for="role in state.requiredRoles"
+              :key="role"
+              :label="role"
+              variant="role"
+              icon="⚙"
+            />
+          </div>
+        </InsightCard>
+        <InsightCard v-if="traitFilterOptions.length" icon="🧬" title="Filtri tratti">
+          <div class="biome-setup__filters">
+            <button
+              v-for="option in traitFilterOptions"
+              :key="option.id"
+              type="button"
+              class="biome-setup__filter"
+              :data-active="isTraitFilterActive(option.id)"
+              :aria-pressed="isTraitFilterActive(option.id)"
+              @click="toggleTraitFilter(option.id)"
+            >
+              <GlossaryTooltip :description="option.description">
+                <TraitChip :label="option.label" variant="trait" />
+              </GlossaryTooltip>
+            </button>
+          </div>
+          <button v-if="activeTraitFilters.length" type="button" class="biome-setup__reset" @click="clearTraitFilters">
+            Reset filtri
+          </button>
+        </InsightCard>
       </template>
 
       <template #default="{ activeTab: currentTab }">
@@ -37,7 +59,7 @@
             <fieldset>
               <legend>Ruoli richiesti</legend>
               <div class="biome-setup__roles">
-                <label v-for="role in roleCatalog" :key="role">
+                <label v-for="role in filteredRoleCatalog" :key="role">
                   <input type="checkbox" :value="role" v-model="state.requiredRoles" />
                   <TraitChip :label="role" variant="role" />
                 </label>
@@ -94,6 +116,8 @@ import { computed, reactive, ref, watch } from 'vue';
 import NebulaShell from '../components/layout/NebulaShell.vue';
 import TraitChip from '../components/shared/TraitChip.vue';
 import BiomeSynthesisMap from '../components/biomes/BiomeSynthesisMap.vue';
+import InsightCard from '../components/shared/InsightCard.vue';
+import GlossaryTooltip from '../components/shared/GlossaryTooltip.vue';
 
 const props = defineProps({
   config: {
@@ -136,6 +160,97 @@ const hazardOptions = computed(() => props.config?.hazardOptions || []);
 const climateOptions = computed(() => props.config?.climateOptions || []);
 const roleCatalog = computed(() => props.config?.roleCatalog || []);
 
+const traitFilterOptions = computed(() => {
+  const map = new Map();
+  const glossarySources = [props.config?.traitGlossary, props.config?.glossary];
+  glossarySources.forEach((source) => {
+    if (!source || typeof source !== 'object') {
+      return;
+    }
+    Object.entries(source).forEach(([id, entry]) => {
+      if (!id) return;
+      const detail = entry || {};
+      map.set(id, {
+        id,
+        label: detail.label || detail.name || id,
+        description: detail.description || detail.summary || '',
+        roles: Array.isArray(detail.roles)
+          ? detail.roles
+          : Array.isArray(detail.requiredRoles)
+            ? detail.requiredRoles
+            : [],
+      });
+    });
+  });
+  const affinitySources = [props.config?.affinities, props.config?.affinityCatalog];
+  affinitySources.forEach((source) => {
+    if (!Array.isArray(source)) {
+      return;
+    }
+    source.forEach((entry) => {
+      const id = typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name;
+      if (!id) return;
+      if (!map.has(id)) {
+        map.set(id, {
+          id,
+          label: typeof entry === 'string' ? entry : entry.label || entry.name || id,
+          description: typeof entry === 'string' ? '' : entry.description || entry.summary || '',
+          roles: Array.isArray(entry.roles)
+            ? entry.roles
+            : Array.isArray(entry.requiredRoles)
+              ? entry.requiredRoles
+              : [],
+        });
+      }
+    });
+  });
+  return Array.from(map.values());
+});
+
+const activeTraitFilters = ref([]);
+
+const traitRoleMap = computed(() => {
+  const map = new Map();
+  traitFilterOptions.value.forEach((option) => {
+    if (Array.isArray(option.roles) && option.roles.length) {
+      map.set(option.id, option.roles);
+    }
+  });
+  const configMap = props.config?.traitRoleMap || props.config?.traitRoles || {};
+  if (configMap && typeof configMap === 'object') {
+    Object.entries(configMap).forEach(([traitId, roles]) => {
+      if (!traitId) return;
+      const list = Array.isArray(roles) ? roles : [];
+      if (!map.has(traitId)) {
+        map.set(traitId, list);
+      } else {
+        const merged = new Set(map.get(traitId));
+        list.forEach((role) => merged.add(role));
+        map.set(traitId, Array.from(merged));
+      }
+    });
+  }
+  return map;
+});
+
+const filteredRoleCatalog = computed(() => {
+  const base = Array.isArray(roleCatalog.value) ? roleCatalog.value : [];
+  if (!activeTraitFilters.value.length) {
+    return base;
+  }
+  const map = traitRoleMap.value;
+  const allowed = new Set();
+  activeTraitFilters.value.forEach((traitId) => {
+    (map.get(traitId) || []).forEach((role) => allowed.add(role));
+  });
+  if (!allowed.size) {
+    return base;
+  }
+  const visible = base.filter((role) => allowed.has(role));
+  const preserved = state.requiredRoles.filter((role) => !visible.includes(role));
+  return [...visible, ...preserved];
+});
+
 const canSynthesize = computed(
   () => state.hazard && state.climate && state.requiredRoles.length > 0 && state.graphicSeed,
 );
@@ -149,6 +264,9 @@ const statusIndicators = computed(() => {
     items.push({ id: 'climate', label: 'Clima', value: state.climate, tone: 'neutral' });
   }
   items.push({ id: 'roles', label: 'Ruoli', value: state.requiredRoles.length || 0, tone: 'success' });
+  if (activeTraitFilters.value.length) {
+    items.push({ id: 'filters', label: 'Filtri tratti', value: activeTraitFilters.value.length, tone: 'neutral' });
+  }
   if (graphState.nodes.length) {
     items.push({ id: 'nodes', label: 'Nodi mappa', value: graphState.nodes.length, tone: 'neutral' });
   }
@@ -197,6 +315,26 @@ const bumpIntensity = (node) => {
   const baseline = Number.isFinite(node.intensity) ? node.intensity : 0.55;
   const next = Math.max(0.35, Math.min(0.95, baseline + (Math.random() * 0.4 - 0.2)));
   node.intensity = Number(next.toFixed(2));
+};
+
+const toggleTraitFilter = (id) => {
+  if (!id) {
+    return;
+  }
+  const index = activeTraitFilters.value.indexOf(id);
+  if (index === -1) {
+    activeTraitFilters.value = [...activeTraitFilters.value, id];
+  } else {
+    const next = [...activeTraitFilters.value];
+    next.splice(index, 1);
+    activeTraitFilters.value = next;
+  }
+};
+
+const isTraitFilterActive = (id) => activeTraitFilters.value.includes(id);
+
+const clearTraitFilters = () => {
+  activeTraitFilters.value = [];
 };
 
 const regenerateNode = (nodeId) => {
@@ -291,6 +429,35 @@ function statusIcon(status) {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
+}
+
+.biome-setup__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.biome-setup__filter {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.biome-setup__filter[data-active='true'] {
+  transform: translateY(-2px);
+}
+
+.biome-setup__reset {
+  margin-top: 0.45rem;
+  background: rgba(96, 213, 255, 0.18);
+  border: 1px solid rgba(96, 213, 255, 0.35);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  color: #f0f4ff;
+  cursor: pointer;
 }
 
 .biome-setup__panel {
