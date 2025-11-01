@@ -3,6 +3,8 @@
     class="state-token"
     :class="[`state-token--${variantClass}`, { 'state-token--compact': compact }]"
     role="status"
+    aria-live="polite"
+    :data-variant="variantClass"
   >
     <span v-if="icon" class="state-token__icon" aria-hidden="true">{{ icon }}</span>
     <span class="state-token__label">{{ label }}</span>
@@ -62,32 +64,32 @@ const variantClass = computed(() =>
 }
 
 .state-token--info {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(96, 165, 250, 0.4);
-  color: #dbeafe;
+  background: rgba(122, 196, 255, 0.2);
+  border-color: rgba(122, 196, 255, 0.45);
+  color: var(--color-text-primary);
 }
 
 .state-token--success {
-  background: rgba(34, 197, 94, 0.2);
-  border-color: rgba(134, 239, 172, 0.45);
-  color: #bbf7d0;
+  background: rgba(98, 245, 181, 0.2);
+  border-color: rgba(98, 245, 181, 0.45);
+  color: #e8fff5;
 }
 
 .state-token--warning {
-  background: rgba(251, 191, 36, 0.2);
-  border-color: rgba(253, 224, 71, 0.4);
-  color: #fef08a;
+  background: rgba(255, 212, 101, 0.2);
+  border-color: rgba(255, 212, 101, 0.45);
+  color: #fff3cf;
 }
 
 .state-token--danger {
-  background: rgba(248, 113, 113, 0.2);
-  border-color: rgba(248, 113, 113, 0.45);
-  color: #fecaca;
+  background: rgba(255, 123, 143, 0.2);
+  border-color: rgba(255, 123, 143, 0.45);
+  color: #ffe4ea;
 }
 
 .state-token--neutral {
   background: rgba(148, 163, 184, 0.18);
-  border-color: rgba(203, 213, 225, 0.35);
-  color: #e2e8f0;
+  border-color: rgba(148, 163, 184, 0.4);
+  color: var(--color-text-secondary);
 }
 </style>

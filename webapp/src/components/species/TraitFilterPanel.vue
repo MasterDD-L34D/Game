@@ -1,19 +1,24 @@
 <template>
-  <div class="trait-filter-panel">
-    <div class="trait-filter-panel__group">
-      <h4>Filtra tratti core</h4>
-      <ul>
+  <section class="trait-filter-panel" aria-label="Filtri tratti">
+    <fieldset class="trait-filter-panel__group">
+      <legend>Filtra tratti core</legend>
+      <ul role="list">
         <li v-for="trait in coreOptions" :key="trait">
           <label :class="{ 'trait-filter-panel__option--highlight': highlightSet.has(trait) }">
-            <input type="checkbox" :value="trait" :checked="model.core.includes(trait)" @change="toggleTrait('core', trait, $event)" />
+            <input
+              type="checkbox"
+              :value="trait"
+              :checked="model.core.includes(trait)"
+              @change="toggleTrait('core', trait, $event)"
+            />
             {{ formatLabel(trait) }}
           </label>
         </li>
       </ul>
-    </div>
-    <div class="trait-filter-panel__group" v-if="derivedOptions.length">
-      <h4>Filtra tratti derivati</h4>
-      <ul>
+    </fieldset>
+    <fieldset class="trait-filter-panel__group" v-if="derivedOptions.length">
+      <legend>Filtra tratti derivati</legend>
+      <ul role="list">
         <li v-for="trait in derivedOptions" :key="trait">
           <label :class="{ 'trait-filter-panel__option--highlight': highlightSet.has(trait) }">
             <input
@@ -26,8 +31,8 @@
           </label>
         </li>
       </ul>
-    </div>
-  </div>
+    </fieldset>
+  </section>
 </template>
 
 <script setup>
@@ -107,11 +112,19 @@ function toggleTrait(bucket, trait, event) {
   gap: 0.75rem;
 }
 
-.trait-filter-panel__group h4 {
-  margin: 0 0 0.25rem;
+.trait-filter-panel__group {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.trait-filter-panel__group legend {
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  color: var(--color-text-secondary);
+  padding: 0 0.35rem;
 }
 
 .trait-filter-panel__group ul {
@@ -127,10 +140,11 @@ function toggleTrait(bucket, trait, event) {
   align-items: center;
   gap: 0.45rem;
   font-size: 0.85rem;
+  color: var(--color-text-secondary);
 }
 
 .trait-filter-panel__option--highlight {
-  background: rgba(39, 121, 255, 0.12);
+  background: rgba(122, 196, 255, 0.18);
   border-radius: 6px;
   padding: 0.2rem 0.35rem;
 }

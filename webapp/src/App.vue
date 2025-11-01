@@ -9,6 +9,7 @@
           :to="link.to"
           class="app-shell__nav-link"
           :class="{ 'app-shell__nav-link--active': link.active }"
+          :aria-current="link.active ? 'page' : undefined"
         >
           {{ link.label }}
         </RouterLink>
@@ -74,10 +75,10 @@ const mainLinks = computed(() => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: radial-gradient(circle at 0 0, rgba(23, 28, 61, 0.45), transparent 60%),
-    radial-gradient(circle at 100% 0, rgba(26, 51, 61, 0.4), transparent 55%),
-    #0a0d14;
-  color: #f2f4ff;
+  background: radial-gradient(circle at 0 0, rgba(46, 67, 112, 0.35), transparent 60%),
+    radial-gradient(circle at 100% 0, rgba(32, 58, 89, 0.35), transparent 55%),
+    var(--color-bg-body);
+  color: var(--color-text-primary);
 }
 
 .app-shell__header {
@@ -85,16 +86,16 @@ const mainLinks = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  background: linear-gradient(135deg, rgba(18, 21, 37, 0.95), rgba(12, 20, 32, 0.8));
-  border-bottom: 1px solid rgba(129, 161, 193, 0.1);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(135deg, rgba(16, 24, 40, 0.95), rgba(12, 19, 33, 0.85));
+  border-bottom: 1px solid var(--color-border-subtle);
+  box-shadow: 0 2px 12px rgba(8, 12, 20, 0.45);
 }
 
 .app-shell__title {
   font-size: clamp(1.75rem, 2vw, 2.25rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #9dc3ff;
+  color: var(--color-accent);
   margin: 0;
 }
 
@@ -113,22 +114,22 @@ const mainLinks = computed(() => {
   border-radius: 999px;
   font-size: 0.95rem;
   text-decoration: none;
-  color: rgba(226, 237, 255, 0.82);
-  background: rgba(34, 47, 79, 0.55);
-  border: 1px solid rgba(94, 145, 221, 0.35);
+  color: var(--color-text-secondary);
+  background: rgba(38, 52, 88, 0.55);
+  border: 1px solid var(--color-border-accent);
   transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
 }
 
 .app-shell__nav-link:hover {
-  background: rgba(94, 145, 221, 0.45);
-  color: #fff;
+  background: rgba(92, 153, 233, 0.55);
+  color: var(--color-text-primary);
   transform: translateY(-1px);
 }
 
 .app-shell__nav-link--active {
-  background: linear-gradient(135deg, rgba(94, 145, 221, 0.8), rgba(143, 197, 255, 0.65));
-  color: #050812;
-  box-shadow: 0 4px 14px rgba(94, 145, 221, 0.35);
+  background: linear-gradient(135deg, rgba(117, 173, 255, 0.9), rgba(154, 212, 255, 0.75));
+  color: #061121;
+  box-shadow: 0 4px 14px rgba(109, 169, 255, 0.35);
 }
 
 .app-shell__main {

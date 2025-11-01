@@ -23,7 +23,7 @@
       <div class="progress-tracker__bar-fill" :style="{ width: `${summary.percent}%` }"></div>
     </div>
 
-    <div class="progress-tracker__cards">
+    <div class="progress-tracker__cards" role="list">
       <article
         v-for="step in steps"
         :key="step.id"
@@ -32,13 +32,19 @@
           `progress-card--${step.status}`,
           { 'progress-card--active': step.id === summary.active?.id },
         ]"
+        role="listitem"
       >
         <header class="progress-card__header">
           <div>
             <p class="progress-card__caption">{{ step.caption }}</p>
             <h2 class="progress-card__title">{{ step.title }}</h2>
           </div>
-          <button type="button" class="progress-card__status" @click="$emit('navigate', step.id)">
+          <button
+            type="button"
+            class="progress-card__status"
+            @click="$emit('navigate', step.id)"
+            :aria-label="`Vai alla fase ${step.title}`"
+          >
             <StateToken :label="statusLabel(step.status)" :variant="statusVariant(step.status)" compact />
             <span class="progress-card__index">#{{ step.index + 1 }}</span>
           </button>
@@ -101,13 +107,13 @@ const completionPercent = (metrics) => {
 
 <style scoped>
 .progress-tracker {
-  background: rgba(6, 11, 18, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 18px;
   padding: 1.5rem;
   display: grid;
   gap: 1.25rem;
-  color: #f0f4ff;
+  color: var(--color-text-secondary);
 }
 
 .progress-tracker__header {
@@ -125,13 +131,13 @@ const completionPercent = (metrics) => {
 
 .progress-tracker__subtitle {
   margin: 0.35rem 0 0;
-  color: rgba(240, 244, 255, 0.7);
+  color: var(--color-text-muted);
   font-size: 0.95rem;
 }
 
 .progress-tracker__chip {
-  background: rgba(96, 213, 255, 0.15);
-  border: 1px solid rgba(96, 213, 255, 0.4);
+  background: rgba(122, 196, 255, 0.18);
+  border: 1px solid rgba(122, 196, 255, 0.45);
   border-radius: 12px;
   padding: 0.5rem 0.9rem;
   display: grid;
@@ -152,7 +158,7 @@ const completionPercent = (metrics) => {
 }
 
 .progress-tracker__bar {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 999px;
   overflow: hidden;
   height: 0.75rem;
@@ -173,8 +179,8 @@ const completionPercent = (metrics) => {
 }
 
 .progress-card {
-  background: rgba(10, 15, 22, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-surface-alt);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 16px;
   padding: 1rem;
   display: grid;
@@ -184,16 +190,16 @@ const completionPercent = (metrics) => {
 }
 
 .progress-card--active {
-  border-color: rgba(96, 213, 255, 0.7);
+  border-color: rgba(122, 196, 255, 0.7);
   transform: translateY(-2px);
 }
 
 .progress-card--done {
-  border-color: rgba(87, 202, 138, 0.6);
+  border-color: rgba(98, 245, 181, 0.6);
 }
 
 .progress-card--blocked {
-  border-color: rgba(244, 96, 96, 0.6);
+  border-color: rgba(255, 123, 143, 0.6);
 }
 
 .progress-card__header {
@@ -208,7 +214,7 @@ const completionPercent = (metrics) => {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(240, 244, 255, 0.65);
+  color: var(--color-text-muted);
 }
 
 .progress-card__title {
@@ -233,7 +239,7 @@ const completionPercent = (metrics) => {
 }
 
 .progress-card__status:focus-visible {
-  outline: 2px solid rgba(96, 213, 255, 0.55);
+  outline: var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -250,7 +256,7 @@ const completionPercent = (metrics) => {
 
 .progress-card__description {
   margin: 0;
-  color: rgba(240, 244, 255, 0.75);
+  color: var(--color-text-muted);
   line-height: 1.5;
 }
 
@@ -269,7 +275,7 @@ const completionPercent = (metrics) => {
 
 .progress-card__metrics dt {
   font-size: 0.8rem;
-  color: rgba(240, 244, 255, 0.65);
+  color: var(--color-text-muted);
 }
 
 .progress-card__metrics dd {

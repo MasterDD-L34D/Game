@@ -217,6 +217,15 @@ const liveState = computed<LiveBadgeState>(() => {
       telemetryOffline: Boolean(state.telemetryOffline),
     };
   }
+  if (!telemetryStatus.value.offline) {
+    return {
+      state: 'live',
+      label: 'LIVE',
+      offline: false,
+      datasetOffline: datasetStatus.value.offline,
+      telemetryOffline: false,
+    };
+  }
   return {
     state: 'offline',
     label: 'OFFLINE',
@@ -227,7 +236,13 @@ const liveState = computed<LiveBadgeState>(() => {
 });
 
 const liveBadgeTone = computed(() => (liveState.value.offline ? 'offline' : 'success'));
-const liveBadgeLabel = computed(() => liveState.value.label);
+const liveBadgeLabel = computed(() => {
+  if (liveState.value.state === 'live') {
+    return 'LIVE';
+  }
+  const label = liveState.value.label || 'OFFLINE';
+  return typeof label === 'string' ? label.toUpperCase() : 'OFFLINE';
+});
 const isLive = computed(() => liveState.value.state === 'live');
 
 const datasetStatus = computed(() => {
