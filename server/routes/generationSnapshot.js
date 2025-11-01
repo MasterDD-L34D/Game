@@ -1,6 +1,8 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
+const { createGenerationSnapshotStore, buildRuntimeSummary } = require('../services/generationSnapshotStore');
+
 const DEFAULT_DATASET_PATH = path.resolve(
   __dirname,
   '..',
@@ -25,6 +27,44 @@ function shouldRefreshDataset(req) {
 
 function cloneDataset(dataset) {
   return JSON.parse(JSON.stringify(dataset));
+}
+
+function parseJsonMaybe(value) {
+  if (typeof value !== 'string') {
+    return value;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+  try {
+    return JSON.parse(trimmed);
+  } catch (error) {
+    console.warn('[generation-snapshot] impossibile parsare speciesStatus', error);
+    return null;
+  }
+}
+
+function extractSpeciesStatusUpdate(req) {
+  if (!req) {
+    return null;
+  }
+  const sources = [
+    req.body?.speciesStatus,
+    req.body?.species,
+    req.query?.speciesStatus,
+    req.query?.species,
+  ];
+  for (const source of sources) {
+    if (source === undefined || source === null) {
+      continue;
+    }
+    const parsed = parseJsonMaybe(source);
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      return parsed;
+    }
+  }
+  return null;
 }
 
 function computeBiomeSummary(biomes, fallback = {}) {
@@ -92,33 +132,6 @@ function buildQualityRelease(baseQuality, diagnostics) {
   return quality;
 }
 
-function buildRuntimeSummary(result, error) {
-  if (error) {
-    return {
-      lastBlueprintId: null,
-      fallbackUsed: null,
-      validationMessages: 0,
-      lastRequestId: null,
-      error: error.message || String(error),
-    };
-  }
-  if (!result) {
-    return null;
-  }
-  const validationMessages = Array.isArray(result?.validation?.messages)
-    ? result.validation.messages.length
-    : 0;
-  const fallbackUsed = Boolean(
-    result?.meta?.fallback_used ?? result?.meta?.fallbackUsed ?? result?.meta?.fallback_active,
-  );
-  return {
-    lastBlueprintId: result?.blueprint?.id || null,
-    fallbackUsed,
-    validationMessages,
-    lastRequestId: result?.meta?.request_id || result?.meta?.requestId || null,
-  };
-}
-
 function buildSnapshot({ dataset, diagnostics, runtime }) {
   const snapshot = cloneDataset(dataset);
   snapshot.biomeSummary = computeBiomeSummary(snapshot.biomes, snapshot.biomeSummary);
@@ -134,21 +147,36 @@ function createGenerationSnapshotHandler(options = {}) {
   const datasetPath = options.datasetPath || DEFAULT_DATASET_PATH;
   const traitDiagnosticsSync = options.traitDiagnostics;
   const orchestrator = options.orchestrator;
+  const snapshotStore =
+    options.snapshotStore || createGenerationSnapshotStore({ datasetPath });
   let datasetCache = null;
 
-  async function ensureDataset(force = false) {
-    if (force) {
+  async function resolveDataset(req) {
+    const refresh = shouldRefreshDataset(req);
+    if (snapshotStore && typeof snapshotStore.getSnapshot === 'function') {
+      return snapshotStore.getSnapshot({ refresh });
+    }
+    if (refresh) {
       datasetCache = null;
     }
     if (!datasetCache) {
       datasetCache = await loadJson(datasetPath);
     }
-    return datasetCache;
+    return cloneDataset(datasetCache);
   }
 
   return async function generationSnapshotHandler(req, res) {
     try {
-      const dataset = await ensureDataset(shouldRefreshDataset(req));
+      const dataset = await resolveDataset(req);
+      const speciesStatusUpdate = extractSpeciesStatusUpdate(req);
+      const datasetForSnapshot = cloneDataset(dataset);
+      if (speciesStatusUpdate) {
+        datasetForSnapshot.species = {
+          ...(datasetForSnapshot.species || {}),
+          ...speciesStatusUpdate,
+        };
+      }
+
       let diagnostics = null;
       if (traitDiagnosticsSync && typeof traitDiagnosticsSync.ensureLoaded === 'function') {
         try {
@@ -179,7 +207,34 @@ function createGenerationSnapshotHandler(options = {}) {
         }
       }
 
-      const snapshot = buildSnapshot({ dataset, diagnostics, runtime: runtimeSummary });
+      const snapshot = buildSnapshot({
+        dataset: datasetForSnapshot,
+        diagnostics,
+        runtime: runtimeSummary,
+      });
+
+      if (snapshotStore && typeof snapshotStore.applyPatch === 'function') {
+        const patch = {};
+        if (runtimeSummary) {
+          patch.runtime = runtimeSummary;
+        }
+        if (speciesStatusUpdate) {
+          patch.speciesStatus = speciesStatusUpdate;
+        }
+        if (Object.keys(patch).length) {
+          try {
+            await snapshotStore.applyPatch(patch);
+          } catch (storeError) {
+            console.warn('[generation-snapshot] salvataggio snapshot fallito', storeError);
+          }
+        }
+      } else if (speciesStatusUpdate && datasetCache) {
+        datasetCache.species = {
+          ...(datasetCache.species || {}),
+          ...speciesStatusUpdate,
+        };
+      }
+
       res.json(snapshot);
     } catch (error) {
       console.error('[generation-snapshot] errore ricomposizione snapshot', error);
@@ -200,5 +255,7 @@ module.exports = {
     buildRuntimeSummary,
     buildSnapshot,
     shouldRefreshDataset,
+    extractSpeciesStatusUpdate,
+    parseJsonMaybe,
   },
 };
