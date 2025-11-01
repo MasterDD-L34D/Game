@@ -1,4 +1,4 @@
-import { isStaticDeployment } from './apiEndpoints.js';
+import { isStaticDeployment } from './apiEndpoints';
 
 export function resolveFetchImplementation(fetchImpl) {
   if (typeof fetchImpl === 'function') {

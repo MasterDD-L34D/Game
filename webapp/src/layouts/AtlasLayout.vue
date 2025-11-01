@@ -59,8 +59,8 @@ import AtlasCollectionProgress from '../components/atlas/AtlasCollectionProgress
 import StateBanner from '../components/metrics/StateBanner.vue';
 import MetricCard from '../components/metrics/MetricCard.vue';
 import { atlasLayoutKey } from '../composables/useAtlasLayout';
-import { atlasDataset, atlasTotals } from '../state/atlasDataset.js';
-import { useNavigationMeta } from '../state/navigationMeta.js';
+import { atlasDataset, atlasTotals } from '../state/atlasDataset';
+import { useNavigationMeta } from '../state/navigationMeta';
 
 const props = defineProps({
   isDemo: {

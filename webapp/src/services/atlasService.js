@@ -1,4 +1,4 @@
-import { resolveApiUrl } from './apiEndpoints.js';
+import { resolveApiUrl } from './apiEndpoints';
 import { fetchJsonWithFallback } from './fetchWithFallback.js';
 
 const DEFAULT_BASE = '/api/v1/atlas';

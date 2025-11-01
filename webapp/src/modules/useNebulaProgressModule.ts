@@ -7,112 +7,32 @@ import {
   type ComputedRef,
   type Ref,
 } from 'vue';
+import { ZodError } from 'zod';
 
-import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/apiEndpoints.js';
+import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/apiEndpoints';
 import { fetchJsonWithFallback, resolveFetchImplementation } from '../services/fetchWithFallback.js';
-import { atlasDataset as staticDataset } from '../state/atlasDataset.js';
-import { resolveDataSource } from '../config/dataSources.js';
-import { createLogger } from '../utils/logger.ts';
+import { atlasDataset as staticDataset } from '../state/atlasDataset';
+import { resolveDataSource } from '../config/dataSources';
+import { createLogger } from '../utils/logger';
+import { fromZodError, toServiceError } from '../services/errorHandling';
+import {
+  parseNebulaAggregate,
+  parseNebulaDataset,
+  parseNebulaGenerator,
+  parseNebulaTelemetry,
+} from '../validation/nebula';
+import type {
+  DatasetSource,
+  GeneratorMetrics,
+  GeneratorStreams,
+  NebulaApiResponse,
+  NebulaDataset,
+  NebulaGeneratorTelemetry,
+  NebulaTelemetry,
+  TelemetryMode,
+} from '../types/nebula';
 
 type MaybeRef<T> = Ref<T> | { value: T } | T | undefined;
-
-type NebulaTraits = {
-  core?: string[];
-  optional?: string[];
-  synergy?: string[];
-};
-
-type NebulaSpecies = {
-  id: string;
-  name: string;
-  readiness?: string;
-  archetype?: string;
-  telemetry?: {
-    coverage?: number;
-    lastValidation?: string;
-    curatedBy?: string;
-  };
-  traits?: NebulaTraits;
-};
-
-type NebulaDataset = {
-  id: string;
-  title: string;
-  summary: string;
-  releaseWindow?: string;
-  curator?: string;
-  species?: NebulaSpecies[];
-  highlights?: string[];
-  metrics?: {
-    species?: number;
-    biomes?: number;
-    encounters?: number;
-  };
-};
-
-type TelemetrySummary = {
-  totalEvents: number;
-  openEvents: number;
-  acknowledgedEvents: number;
-  highPriorityEvents: number;
-  lastEventAt: string | null;
-};
-
-type TelemetryCoverage = {
-  average: number;
-  history: number[];
-  distribution: Record<'success' | 'warning' | 'neutral' | 'critical', number>;
-};
-
-type TelemetryIncidents = {
-  timeline: Array<{ date: string; total: number; highPriority: number }>;
-};
-
-type NebulaTelemetry = {
-  summary: TelemetrySummary;
-  coverage: TelemetryCoverage;
-  incidents: TelemetryIncidents;
-  updatedAt: string | null;
-  sample: unknown[];
-};
-
-type GeneratorMetrics = {
-  generationTimeMs: number | null;
-  speciesTotal: number;
-  enrichedSpecies: number;
-  eventTotal: number;
-  datasetSpeciesTotal: number;
-  coverageAverage: number;
-  coreTraits: number;
-  optionalTraits: number;
-  synergyTraits: number;
-  expectedCoreTraits: number;
-};
-
-type GeneratorStreams = {
-  generationTime: number[];
-  species: number[];
-  enriched: number[];
-};
-
-type NebulaGeneratorTelemetry = {
-  status: string;
-  label: string;
-  generatedAt: string | null;
-  dataRoot?: string | null;
-  metrics: GeneratorMetrics;
-  streams: GeneratorStreams;
-  updatedAt: string | null;
-  sourceLabel: string;
-};
-
-type TelemetryMode = 'live' | 'fallback' | 'mock';
-
-type NebulaApiResponse = {
-  dataset?: NebulaDataset;
-  telemetry?: NebulaTelemetry;
-  generator?: NebulaGeneratorTelemetry;
-};
 
 type NebulaModuleSources = {
   overview?: MaybeRef<Record<string, unknown>>;
@@ -132,8 +52,6 @@ type UseNebulaProgressOptions = {
   fetcher?: typeof fetch;
   telemetryMock?: string | null;
 };
-
-type DatasetSource = 'remote' | 'fallback' | 'static';
 
 function normaliseOptionalString(value: unknown): string | null | undefined {
   if (value === undefined) {
@@ -294,12 +212,15 @@ function createEmptyTelemetry(updatedAt?: string | null): NebulaTelemetry {
   };
 }
 
-function toError(value: unknown): Error {
+function toError(value: unknown, fallback = 'Errore sconosciuto'): Error {
   if (value instanceof Error) {
+    if (!value.message && fallback) {
+      value.message = fallback;
+    }
     return value;
   }
-  const message = typeof value === 'string' ? value : 'Errore sconosciuto';
-  return new Error(message);
+  const message = typeof value === 'string' && value.trim() ? value.trim() : fallback;
+  return new Error(message || 'Errore sconosciuto');
 }
 
 export function useNebulaProgressModule(
@@ -364,18 +285,36 @@ export function useNebulaProgressModule(
         if (!response.ok) {
           throw new Error(`Dataset Nebula fallback non disponibile (${response.status})`);
         }
-        const payload = (await response.json()) as NebulaApiResponse;
-        if (payload?.dataset) {
-          dataset.value = payload.dataset;
+        const raw = await response.json();
+        const parsed = (() => {
+          try {
+            if (raw && typeof raw === 'object' && ('dataset' in raw || 'telemetry' in raw || 'generator' in raw)) {
+              return parseNebulaAggregate(raw as Record<string, unknown>);
+            }
+            const datasetOnly = parseNebulaDataset(raw as Record<string, unknown>);
+            return { dataset: datasetOnly, telemetry: null, generator: null };
+          } catch (parseError) {
+            if (parseError instanceof ZodError) {
+              throw fromZodError(parseError, 'Dataset Nebula fallback non valido', {
+                code: 'nebula.dataset.invalid',
+              });
+            }
+            throw toServiceError(parseError, 'Dataset Nebula fallback non valido', {
+              code: 'nebula.dataset.invalid',
+            });
+          }
+        })();
+        if (parsed?.dataset) {
+          dataset.value = parsed.dataset;
         } else {
           dataset.value = staticDataset;
         }
-        if (payload?.telemetry) {
-          telemetry.value = payload.telemetry;
-          lastUpdated.value = payload.telemetry.updatedAt || new Date().toISOString();
+        if (parsed?.telemetry) {
+          telemetry.value = parsed.telemetry;
+          lastUpdated.value = parsed.telemetry.updatedAt || new Date().toISOString();
         }
-        if (payload?.generator) {
-          generator.value = payload.generator;
+        if (parsed?.generator) {
+          generator.value = parsed.generator;
         }
         source = 'fallback';
         logger.warn('nebula.dataset.fallback', {
@@ -422,12 +361,25 @@ export function useNebulaProgressModule(
       if (!response.ok) {
         throw new Error(`Aggregato Nebula non disponibile (${response.status})`);
       }
-      const payload = (await response.json()) as NebulaApiResponse;
-      logger.info('nebula.dataset.aggregate', {
-        message: 'log.nebula.dataset.aggregate',
-        meta: { source: aggregateEndpoint },
-      });
-      return payload;
+      const raw = await response.json();
+      try {
+        const parsed = parseNebulaAggregate(raw as Record<string, unknown>);
+        logger.info('nebula.dataset.aggregate', {
+          message: 'log.nebula.dataset.aggregate',
+          meta: { source: aggregateEndpoint },
+        });
+        return parsed;
+      } catch (parseError) {
+        const mapped =
+          parseError instanceof ZodError
+            ? fromZodError(parseError, 'Aggregato Nebula non valido', { code: 'nebula.aggregate.invalid' })
+            : toServiceError(parseError, 'Aggregato Nebula non valido', { code: 'nebula.aggregate.invalid' });
+        logger.warn('nebula.dataset.aggregate_unavailable', {
+          message: 'log.nebula.dataset.aggregate_unavailable',
+          meta: { reason: mapped.message, source: aggregateEndpoint },
+        });
+        return null;
+      }
     } catch (aggregateError) {
       const mapped = toError(aggregateError, 'Aggregato Nebula non disponibile');
       logger.warn('nebula.dataset.aggregate_unavailable', {
@@ -447,10 +399,20 @@ export function useNebulaProgressModule(
       const message = `Mock telemetria non disponibile (${response.status})`;
       throw new Error(message);
     }
-    const payload = (await response.json()) as NebulaTelemetry;
-    telemetry.value = payload;
+    const raw = await response.json();
+    const parsed = (() => {
+      try {
+        return parseNebulaTelemetry(raw as Record<string, unknown>);
+      } catch (parseError) {
+        if (parseError instanceof ZodError) {
+          throw fromZodError(parseError, 'Telemetria mock non valida', { code: 'nebula.telemetry.invalid' });
+        }
+        throw toServiceError(parseError, 'Telemetria mock non valida', { code: 'nebula.telemetry.invalid' });
+      }
+    })();
+    telemetry.value = parsed;
     telemetryMode.value = 'mock';
-    lastUpdated.value = payload?.updatedAt || new Date().toISOString();
+    lastUpdated.value = parsed?.updatedAt || new Date().toISOString();
     error.value = null;
     logger.warn('nebula.telemetry.mock.active', {
       message: 'log.nebula.telemetry.mock_active',
@@ -458,7 +420,7 @@ export function useNebulaProgressModule(
         source: telemetryMockUrl,
         reason: reason?.message || 'caricamento remoto non disponibile',
       },
-      data: payload,
+      data: parsed,
     });
   }
 
@@ -496,24 +458,32 @@ export function useNebulaProgressModule(
             fallbackErrorMessage: 'Dataset Nebula locale non disponibile',
           });
           const { data: payload, source, error: fallbackError } = response;
-          const resolved = (payload ?? {}) as NebulaApiResponse | NebulaDataset;
+          const parsed = (() => {
+            try {
+              if (payload && typeof payload === 'object' && ('dataset' in payload || 'telemetry' in payload || 'generator' in payload)) {
+                return parseNebulaAggregate(payload as Record<string, unknown>);
+              }
+              const datasetOnly = parseNebulaDataset((payload ?? {}) as Record<string, unknown>);
+              return { dataset: datasetOnly, telemetry: null, generator: null };
+            } catch (parseError) {
+              if (parseError instanceof ZodError) {
+                throw fromZodError(parseError, 'Dataset Nebula non valido', { code: 'nebula.dataset.invalid' });
+              }
+              throw toServiceError(parseError, 'Dataset Nebula non valido', { code: 'nebula.dataset.invalid' });
+            }
+          })();
           datasetSourceKind = source === 'fallback' ? 'fallback' : 'remote';
-          if (resolved && typeof resolved === 'object' && 'dataset' in resolved) {
-            const bundle = resolved as NebulaApiResponse;
-            aggregatedPayload = bundle;
-            if (bundle.dataset) {
-              dataset.value = bundle.dataset;
-            }
-            if (bundle.telemetry) {
-              telemetry.value = bundle.telemetry;
-              telemetryMode.value = source === 'fallback' ? 'fallback' : 'live';
-              lastUpdated.value = bundle.telemetry.updatedAt || new Date().toISOString();
-            }
-            if (bundle.generator) {
-              generator.value = bundle.generator;
-            }
-          } else if (resolved && typeof resolved === 'object') {
-            dataset.value = resolved as NebulaDataset;
+          aggregatedPayload = parsed;
+          if (parsed?.dataset) {
+            dataset.value = parsed.dataset;
+          }
+          if (parsed?.telemetry) {
+            telemetry.value = parsed.telemetry;
+            telemetryMode.value = source === 'fallback' ? 'fallback' : 'live';
+            lastUpdated.value = parsed.telemetry.updatedAt || new Date().toISOString();
+          }
+          if (parsed?.generator) {
+            generator.value = parsed.generator;
           }
           datasetSource.value = datasetSourceKind;
           error.value = null;
@@ -608,11 +578,26 @@ export function useNebulaProgressModule(
             allowFallback: false,
             errorMessage: 'Impossibile caricare telemetria Nebula',
           });
-          const payload = telemetryResponse.data as NebulaTelemetry;
-          telemetry.value = payload;
-          telemetryMode.value = 'live';
-          lastUpdated.value = payload?.updatedAt || lastUpdated.value || new Date().toISOString();
-          telemetryLoaded = true;
+          try {
+            const parsed = parseNebulaTelemetry(telemetryResponse.data as Record<string, unknown>);
+            telemetry.value = parsed;
+            telemetryMode.value = 'live';
+            lastUpdated.value = parsed?.updatedAt || lastUpdated.value || new Date().toISOString();
+            telemetryLoaded = true;
+          } catch (telemetryParseError) {
+            const mapped =
+              telemetryParseError instanceof ZodError
+                ? fromZodError(telemetryParseError, 'Telemetria Nebula non valida', {
+                    code: 'nebula.telemetry.invalid',
+                  })
+                : toServiceError(telemetryParseError, 'Telemetria Nebula non valida', {
+                    code: 'nebula.telemetry.invalid',
+                  });
+            logger.warn('nebula.telemetry.remote_unavailable', {
+              message: 'log.nebula.telemetry.remote_unavailable',
+              meta: { reason: mapped.message },
+            });
+          }
         } catch (telemetryError) {
           const mapped = toError(telemetryError);
           logger.warn('nebula.telemetry.remote_unavailable', {
@@ -647,8 +632,24 @@ export function useNebulaProgressModule(
             allowFallback: false,
             errorMessage: 'Impossibile caricare telemetria generatore',
           });
-          generator.value = generatorResponse.data as NebulaGeneratorTelemetry;
-          generatorLoaded = true;
+          try {
+            const parsed = parseNebulaGenerator(generatorResponse.data as Record<string, unknown>);
+            generator.value = parsed;
+            generatorLoaded = true;
+          } catch (generatorParseError) {
+            const mapped =
+              generatorParseError instanceof ZodError
+                ? fromZodError(generatorParseError, 'Telemetria generatore non valida', {
+                    code: 'nebula.generator.invalid',
+                  })
+                : toServiceError(generatorParseError, 'Telemetria generatore non valida', {
+                    code: 'nebula.generator.invalid',
+                  });
+            logger.warn('nebula.generator.remote_unavailable', {
+              message: 'log.nebula.generator.remote_unavailable',
+              meta: { reason: mapped.message },
+            });
+          }
         } catch (generatorError) {
           const mapped = toError(generatorError);
           logger.warn('nebula.generator.remote_unavailable', {

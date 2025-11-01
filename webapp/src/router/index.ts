@@ -1,5 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import { updateNavigationMeta } from '../state/navigationMeta.js';
+import {
+  createRouter,
+  createWebHistory,
+  type RouteLocationNormalizedLoaded,
+  type RouteLocationRaw,
+  type Router,
+  type RouteRecordRaw,
+} from 'vue-router';
+
+import { updateNavigationMeta } from '../state/navigationMeta';
 
 const APP_TITLE = 'Evo-Tactics Mission Console';
 const enableLegacyRoutes = import.meta.env.VITE_ENABLE_LEGACY_CONSOLE_ROUTES === 'true';
@@ -17,20 +25,31 @@ const AtlasTelemetryView = () => import('../views/atlas/AtlasTelemetryView.vue')
 const AtlasGeneratorView = () => import('../views/atlas/AtlasGeneratorView.vue');
 const NotFoundView = () => import('../views/NotFound.vue');
 
-function buildBreadcrumbs(to, router) {
+type BreadcrumbEntry = {
+  key: string;
+  label: string;
+  to: RouteLocationRaw | null;
+  href: string | null;
+  current: boolean;
+};
+
+function buildBreadcrumbs(to: RouteLocationNormalizedLoaded, router: Router): BreadcrumbEntry[] {
   return to.matched
     .filter((record) => record.meta && record.meta.breadcrumb !== false)
     .map((record, index, array) => {
       const breadcrumbMeta = record.meta?.breadcrumb || {};
-      const label = breadcrumbMeta.label || record.meta?.title || record.name || record.path || '—';
-      const target =
-        breadcrumbMeta.to ||
-        (record.name
-          ? { name: record.name, params: to.params, query: to.query }
-          : { path: record.path });
+      const label =
+        breadcrumbMeta.label || record.meta?.title || record.name?.toString() || record.path || '—';
+      const target: RouteLocationRaw | null = breadcrumbMeta.to
+        ? breadcrumbMeta.to
+        : record.name
+        ? { name: record.name, params: to.params, query: to.query }
+        : record.path
+        ? { path: record.path }
+        : null;
       const resolved = target ? router.resolve(target) : null;
       return {
-        key: record.name || record.path || String(index),
+        key: record.name?.toString() || record.path || String(index),
         label,
         to: target,
         href: resolved ? resolved.href : null,
@@ -39,27 +58,39 @@ function buildBreadcrumbs(to, router) {
     });
 }
 
-function buildStateTokens(to) {
-  const seen = new Set();
-  const tokens = [];
+type NavigationToken = {
+  id: string;
+  label: string;
+  variant?: string;
+  icon?: string;
+};
+
+function buildStateTokens(to: RouteLocationNormalizedLoaded): NavigationToken[] {
+  const seen = new Set<string>();
+  const tokens: NavigationToken[] = [];
   to.matched.forEach((record) => {
     const recordTokens = Array.isArray(record.meta?.stateTokens) ? record.meta.stateTokens : [];
     recordTokens.forEach((token) => {
-      const id = token.id || token.label;
+      const id = token?.id || token?.label;
       if (!id || seen.has(id)) {
         return;
       }
       seen.add(id);
-      tokens.push({ id, label: token.label, variant: token.variant, icon: token.icon });
+      tokens.push({
+        id,
+        label: token?.label || id,
+        variant: token?.variant,
+        icon: token?.icon,
+      });
     });
   });
   return tokens;
 }
 
-export function createAppRouter({ base, history } = {}) {
+export function createAppRouter({ base, history }: { base?: string; history?: Router['history'] } = {}): Router {
   const resolvedHistory = history || createWebHistory(base ?? import.meta.env.BASE_URL);
 
-  const routes = [
+  const routes: RouteRecordRaw[] = [
     {
       path: '/',
       redirect: { name: 'console-home' },
