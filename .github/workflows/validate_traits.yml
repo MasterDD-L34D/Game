@@ -21,13 +21,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install Node.js dependencies
+        run: npm ci
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: requirements-dev.txt
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
           pip install jsonschema
       - name: Validate trait dataset
         run: |
           python tools/py/trait_template_validator.py --summary
+      - name: Build trait index
+        run: node scripts/build_trait_index.js
+      - name: Generate strict trait coverage report
+        run: python tools/py/report_trait_coverage.py --strict
+      - name: Upload trait reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trait-data-reports-${{ github.run_id }}
+          path: |
+            reports/**
+            data/derived/analysis/trait_coverage_report.json
+            data/derived/analysis/trait_coverage_matrix.csv
+          if-no-files-found: warn

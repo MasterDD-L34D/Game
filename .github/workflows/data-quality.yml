@@ -20,18 +20,47 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: requirements-dev.txt
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r tools/py/requirements.txt jsonschema
+          python -m pip install -r requirements-dev.txt
+          python -m pip install jsonschema
 
       - name: Validate YAML datasets
         run: python tools/py/validate_datasets.py
 
       - name: Run trait audit in check mode
         run: python scripts/trait_audit.py --check
+
+      - name: Build trait index
+        run: node scripts/build_trait_index.js
+
+      - name: Generate strict trait coverage report
+        run: python tools/py/report_trait_coverage.py --strict
+
+      - name: Upload trait reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trait-data-reports-${{ github.run_id }}
+          path: |
+            reports/**
+            data/derived/analysis/trait_coverage_report.json
+            data/derived/analysis/trait_coverage_matrix.csv
+          if-no-files-found: warn

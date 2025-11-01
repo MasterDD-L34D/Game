@@ -56,6 +56,26 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Percorso opzionale per esportare la matrice trait↔bioma↔forma",
     )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help=(
+            "Abilita controlli di coerenza: fallisce se la copertura dei trait non "
+            "raggiunge le soglie minime."
+        ),
+    )
+    parser.add_argument(
+        "--min-traits-with-species",
+        type=int,
+        default=27,
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--max-rules-missing-species",
+        type=int,
+        default=0,
+        help=argparse.SUPPRESS,
+    )
     return parser
 
 
@@ -102,9 +122,39 @@ def main(argv: list[str] | None = None) -> int:
         rows = iter_matrix_rows(report)
         write_csv(args.out_csv, rows)
 
+    if args.strict:
+        summary = report.get("summary", {}) if isinstance(report, dict) else {}
+        errors: list[str] = []
+
+        traits_with_species = summary.get("traits_with_species")
+        if traits_with_species is None or traits_with_species < args.min_traits_with_species:
+            errors.append(
+                "traits_with_species="
+                f"{traits_with_species!r} sotto la soglia {args.min_traits_with_species}"
+            )
+
+        rules_missing = summary.get("rules_missing_species_total")
+        if rules_missing is None or rules_missing > args.max_rules_missing_species:
+            errors.append(
+                "rules_missing_species_total="
+                f"{rules_missing!r} eccede il massimo consentito "
+                f"{args.max_rules_missing_species}"
+            )
+
+        if errors:
+            for message in errors:
+                print(message, file=sys.stderr)
+            return 1
+
     print(f"Report coverage generato in {args.out_json}")
     if args.out_csv:
         print(f"Matrice esportata in {args.out_csv}")
+    if args.strict:
+        print(
+            "Controlli strict superati:"
+            f" min_traits_with_species={args.min_traits_with_species}, "
+            f"max_rules_missing_species={args.max_rules_missing_species}"
+        )
     return 0
 
 
