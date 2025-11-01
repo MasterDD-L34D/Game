@@ -131,21 +131,36 @@ export function useTraitDiagnostics(options: TraitDiagnosticsOptions = {}) {
     const traits = Array.isArray(diagnostics.value?.traits)
       ? diagnostics.value.traits
       : [];
-    const labels = {};
-    const synergyMap = {};
-    for (const entry of traits) {
+    const labels: Record<string, string> = {};
+    const synergyMap: Record<string, string[]> = {};
+    const usageTags: Record<string, string[]> = {};
+    const completionFlags: Record<string, Record<string, boolean>> = {};
+    const speciesAffinity: Record<string, unknown[]> = {};
+    for (const entry of traits as Array<Record<string, unknown>>) {
       if (!entry || typeof entry !== 'object') continue;
-      const id = entry.id;
+      const id = (entry.id as string | undefined) || undefined;
       if (!id) continue;
-      labels[id] = entry.label || id;
+      labels[id] = (entry.label as string) || id;
       if (Array.isArray(entry.synergies)) {
-        synergyMap[id] = entry.synergies.filter(Boolean);
+        synergyMap[id] = (entry.synergies as string[]).filter(Boolean);
+      }
+      if (Array.isArray(entry.usage_tags)) {
+        usageTags[id] = (entry.usage_tags as string[]).filter(Boolean);
+      }
+      if (entry.completion_flags && typeof entry.completion_flags === 'object') {
+        completionFlags[id] = entry.completion_flags as Record<string, boolean>;
+      }
+      if (Array.isArray(entry.species_affinity)) {
+        speciesAffinity[id] = entry.species_affinity as unknown[];
       }
     }
     return {
       traits,
       labels,
       synergyMap,
+      usageTags,
+      completionFlags,
+      speciesAffinity,
     };
   });
   const traitCompliance = computed(() => {

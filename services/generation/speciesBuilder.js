@@ -33,6 +33,7 @@ const BEHAVIOUR_KEYWORDS = new Map([
 ]);
 
 const ENERGY_ORDER = ['basso', 'medio', 'alto', 'estremo'];
+const USAGE_TAG_PATTERN = /^[a-z0-9_]+$/;
 
 function normaliseList(value) {
   if (!value) return [];
@@ -49,6 +50,131 @@ function normaliseList(value) {
 
 function uniqueSorted(values) {
   return Array.from(new Set(values.filter(Boolean))).sort();
+}
+
+function normaliseUsageTags(value) {
+  const tags = new Set();
+  normaliseList(value).forEach((entry) => {
+    const lowered = entry.toLowerCase();
+    if (USAGE_TAG_PATTERN.test(lowered)) {
+      tags.add(lowered);
+    }
+  });
+  return Array.from(tags).sort();
+}
+
+function normaliseCompletionFlags(value) {
+  if (!value || typeof value !== 'object') {
+    return {};
+  }
+  const flags = {};
+  Object.entries(value).forEach(([key, raw]) => {
+    if (!key) return;
+    if (typeof raw === 'boolean') {
+      flags[key] = flags[key] || raw;
+    }
+  });
+  return flags;
+}
+
+function normaliseSpeciesAffinity(entries) {
+  if (!Array.isArray(entries)) {
+    return [];
+  }
+  return entries
+    .map((entry) => {
+      if (!entry || typeof entry !== 'object') return null;
+      const speciesId = String(entry.species_id || entry.speciesId || '').trim();
+      if (!speciesId) return null;
+      const roles = normaliseList(entry.roles || entry.role).map((role) => role.toLowerCase());
+      const weight = Number.parseFloat(entry.weight); // may be NaN
+      return {
+        species_id: speciesId,
+        roles,
+        weight: Number.isFinite(weight) ? weight : 0,
+      };
+    })
+    .filter(Boolean);
+}
+
+function aggregateUsageTags(traits) {
+  const tags = new Set();
+  traits.forEach((trait) => {
+    (trait.usage_tags || []).forEach((tag) => {
+      if (tag) {
+        tags.add(tag);
+      }
+    });
+  });
+  return Array.from(tags).sort();
+}
+
+function aggregateCompletionFlags(traits) {
+  const flags = {};
+  traits.forEach((trait) => {
+    const entries = trait.completion_flags || {};
+    Object.entries(entries).forEach(([key, value]) => {
+      if (typeof value === 'boolean') {
+        flags[key] = flags[key] || value;
+      }
+    });
+  });
+  return flags;
+}
+
+function aggregateSpeciesAffinity(traits) {
+  const combined = new Map();
+  traits.forEach((trait) => {
+    (trait.species_affinity || []).forEach((entry) => {
+      const speciesId = entry?.species_id;
+      if (!speciesId) return;
+      if (!combined.has(speciesId)) {
+        combined.set(speciesId, { species_id: speciesId, roles: new Set(), weight: 0 });
+      }
+      const bucket = combined.get(speciesId);
+      bucket.weight += Number.isFinite(entry.weight) ? entry.weight : 0;
+      (entry.roles || []).forEach((role) => {
+        if (role) bucket.roles.add(role);
+      });
+    });
+  });
+  return Array.from(combined.values())
+    .map((entry) => ({
+      species_id: entry.species_id,
+      roles: Array.from(entry.roles).sort(),
+      weight: Math.round(entry.weight * 1000) / 1000,
+    }))
+    .sort((a, b) => (b.weight - a.weight) || a.species_id.localeCompare(b.species_id));
+}
+
+function cloneAffinity(entries) {
+  if (!Array.isArray(entries)) return [];
+  return entries.map((entry) => ({
+    species_id: entry.species_id,
+    roles: Array.isArray(entry.roles) ? [...new Set(entry.roles.filter(Boolean))].sort() : [],
+    weight: Number.isFinite(entry.weight) ? entry.weight : 0,
+  }));
+}
+
+function computeTraitMetadata(traits) {
+  const usageTags = aggregateUsageTags(traits);
+  const completionFlags = aggregateCompletionFlags(traits);
+  const speciesAffinity = aggregateSpeciesAffinity(traits);
+  const perTrait = {};
+  traits.forEach((trait) => {
+    if (!trait || !trait.id) return;
+    perTrait[trait.id] = {
+      usage_tags: Array.isArray(trait.usage_tags) ? [...trait.usage_tags] : [],
+      species_affinity: cloneAffinity(trait.species_affinity),
+      completion_flags: { ...(trait.completion_flags || {}) },
+    };
+  });
+  return {
+    usage_tags: usageTags,
+    species_affinity: speciesAffinity,
+    completion_flags: completionFlags,
+    per_trait: perTrait,
+  };
 }
 
 function normaliseEnergy(value) {
@@ -165,6 +291,11 @@ function deriveBehaviour(traits) {
         if (lowered.includes(token)) {
           tags.add(label);
         }
+      }
+    });
+    (trait.usage_tags || []).forEach((tag) => {
+      if (tag) {
+        tags.add(tag);
       }
     });
   });
@@ -345,6 +476,9 @@ async function loadCatalog(catalogPath = DEFAULT_CATALOG_PATH) {
       conflicts: normaliseList(raw.conflicts),
       environments: normaliseList(raw.environments),
       weakness: raw.weakness || null,
+      usage_tags: normaliseUsageTags(raw.usage_tags),
+      species_affinity: normaliseSpeciesAffinity(raw.species_affinity),
+      completion_flags: normaliseCompletionFlags(raw.completion_flags),
     });
   });
   return traits;
@@ -386,6 +520,7 @@ function createSpeciesBuilder(options = {}) {
     const synergy = synergyScore(traits);
     const summary = composeSummary(traits);
     const description = composeDescription(traits, morphology, behaviour);
+    const traitMetadata = computeTraitMetadata(traits);
 
     const baseName = buildOptions.baseName || traits[0].label;
     let displayName = baseName;
@@ -423,6 +558,7 @@ function createSpeciesBuilder(options = {}) {
         core: traits.map((trait) => trait.id),
         derived,
         conflicts,
+        metadata: traitMetadata,
       },
     };
   }

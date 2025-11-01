@@ -21,6 +21,13 @@ class SpeciesBuilderTests(unittest.TestCase):
         self.assertIn("data/core/traits/glossary.json", trait.dataset_sources)
         self.assertIn("caverna_risonante", trait.environments)
 
+    def test_trait_profile_includes_new_metadata(self) -> None:
+        trait = self.catalog.require("pathfinder")
+        self.assertIn("scout", trait.usage_tags)
+        affinity_ids = {entry.species_id for entry in trait.species_affinity}
+        self.assertIn("sentinella-radice", affinity_ids)
+        self.assertTrue(trait.completion_flags.get("has_species_link"))
+
     def test_species_blueprint_matches_snapshot(self) -> None:
         profile = self.builder.build(
             [
@@ -33,6 +40,15 @@ class SpeciesBuilderTests(unittest.TestCase):
         )
         snapshot = json.loads(SNAPSHOT_PATH.read_text(encoding="utf-8"))
         self.assertDictEqual(profile, snapshot)
+
+    def test_species_blueprint_includes_trait_metadata(self) -> None:
+        profile = self.builder.build(["pathfinder", "artigli_sette_vie"], seed=7, base_name="Scout")
+        metadata = profile["traits"]["metadata"]
+        self.assertIn("usage_tags", metadata)
+        self.assertIn("scout", metadata["usage_tags"])
+        per_trait = metadata["per_trait"]
+        self.assertIn("pathfinder", per_trait)
+        self.assertTrue(per_trait["pathfinder"]["completion_flags"].get("has_species_link"))
 
     def test_trait_diagnostics_summary(self) -> None:
         diagnostics = build_trait_diagnostics()

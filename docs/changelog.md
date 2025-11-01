@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 ### Added
-- _Nessuna voce._
+- Trait metadata (`species_affinity`, `usage_tags`, `completion_flags`) now exposed across catalog loaders, generators e servizi API, con test automatici aggiornati.
 
 ### Changed
 - _Nessuna voce._

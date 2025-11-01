@@ -12,7 +12,7 @@ const {
   createGenerationSnapshotHandler,
 } = require('./routes/generationSnapshot');
 const { createGenerationSnapshotStore } = require('./services/generationSnapshotStore');
-const { createNebulaRouter } = require('./routes/nebula');
+const { createNebulaRouter, createAtlasV1Router } = require('./routes/nebula');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
@@ -373,6 +373,14 @@ function createApp(options = {}) {
   const nebulaRouter = createNebulaRouter({
     telemetryPath: nebulaOptions.telemetryPath,
     generatorTelemetryPath: nebulaOptions.generatorTelemetryPath,
+    configPath: nebulaOptions.configPath,
+    config: nebulaOptions.config,
+    aggregator: nebulaAggregator,
+  });
+  const atlasV1Router = createAtlasV1Router({
+    telemetryPath: nebulaOptions.telemetryPath,
+    generatorTelemetryPath: nebulaOptions.generatorTelemetryPath,
+    datasetPath: nebulaOptions.datasetPath,
     configPath: nebulaOptions.configPath,
     config: nebulaOptions.config,
     aggregator: nebulaAggregator,
