@@ -44,7 +44,16 @@
           <p>Indicatori dal generatore Nebula combinati con il dataset atlas.</p>
         </div>
         <div class="nebula-atlas-view__status">
-          <span class="nebula-atlas-view__badge" :data-tone="statusTone">{{ statusLabel }}</span>
+          <div class="nebula-atlas-view__status-badges">
+            <span
+              class="nebula-atlas-view__badge nebula-atlas-view__badge--live"
+              :data-state="liveState.state"
+              :data-tone="liveBadgeTone"
+            >
+              {{ liveBadgeLabel }}
+            </span>
+            <span class="nebula-atlas-view__badge" :data-tone="statusTone">{{ statusLabel }}</span>
+          </div>
           <small>Ultimo sync: {{ statusMeta }}</small>
         </div>
       </header>
@@ -79,7 +88,7 @@
           </ul>
         </div>
 
-        <div class="nebula-atlas-view__chart" aria-label="Copertura QA">
+        <div class="nebula-atlas-view__chart" :data-live="isLive ? 'true' : 'false'" aria-label="Copertura QA">
           <header>
             <h4>Copertura QA media</h4>
             <span>{{ moduleState.telemetryCoverageAverage }}%</span>
@@ -87,7 +96,7 @@
           <SparklineChart :points="coverageStream" color="#61d5ff" :variant="chartVariant" />
         </div>
 
-        <div class="nebula-atlas-view__chart" aria-label="Incidenti telemetria">
+        <div class="nebula-atlas-view__chart" :data-live="isLive ? 'true' : 'false'" aria-label="Incidenti telemetria">
           <header>
             <h4>Incidenti ultimi 7 giorni</h4>
             <span>{{ incidentStream.reduce((acc, value) => acc + value, 0) }}</span>
@@ -95,7 +104,7 @@
           <SparklineChart :points="incidentStream" color="#ff6982" :variant="chartVariant" />
         </div>
 
-        <div class="nebula-atlas-view__chart" aria-label="High priority">
+        <div class="nebula-atlas-view__chart" :data-live="isLive ? 'true' : 'false'" aria-label="High priority">
           <header>
             <h4>High priority</h4>
             <span>{{ highPriorityStream.reduce((acc, value) => acc + value, 0) }}</span>
@@ -176,13 +185,50 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import NebulaProgressModule from '../components/flow/NebulaProgressModule.vue';
 import SparklineChart from '../components/shared/SparklineChart.vue';
 import { useNebulaProgressModule } from '../modules/useNebulaProgressModule';
 
 const moduleState = useNebulaProgressModule();
+
+type LiveBadgeState = {
+  state: string;
+  label: string;
+  offline: boolean;
+  datasetOffline?: boolean;
+  telemetryOffline?: boolean;
+};
+
+const liveState = computed<LiveBadgeState>(() => {
+  const state = moduleState.liveState?.value as Partial<LiveBadgeState> | undefined;
+  if (state && typeof state === 'object') {
+    return {
+      state: typeof state.state === 'string' ? state.state : 'live',
+      label: typeof state.label === 'string' ? state.label : 'LIVE',
+      offline:
+        typeof state.offline === 'boolean'
+          ? state.offline
+          : typeof state.state === 'string'
+            ? state.state !== 'live'
+            : false,
+      datasetOffline: Boolean(state.datasetOffline),
+      telemetryOffline: Boolean(state.telemetryOffline),
+    };
+  }
+  return {
+    state: 'offline',
+    label: 'OFFLINE',
+    offline: true,
+    datasetOffline: true,
+    telemetryOffline: true,
+  };
+});
+
+const liveBadgeTone = computed(() => (liveState.value.offline ? 'offline' : 'success'));
+const liveBadgeLabel = computed(() => liveState.value.label);
+const isLive = computed(() => liveState.value.state === 'live');
 
 const datasetStatus = computed(() => {
   const status = moduleState.datasetStatus?.value;
@@ -204,7 +250,7 @@ const datasetInfo = computed(() => {
 });
 
 const telemetryStatus = computed(() => moduleState.telemetryStatus.value);
-const isDemoMode = computed(() => datasetStatus.value.offline || telemetryStatus.value.offline);
+const isDemoMode = computed(() => !isLive.value);
 const moduleError = computed(() => moduleState.error.value);
 const lastEventLabel = computed(() => moduleState.telemetrySummary.value.lastEventLabel);
 
@@ -355,7 +401,7 @@ const statusTone = computed(() => {
   if (moduleState.loading.value) {
     return 'neutral';
   }
-  if (isDemoMode.value) {
+  if (!isLive.value) {
     return 'offline';
   }
   return moduleState.telemetrySummary.value.open > 0 ? 'warning' : 'success';
@@ -382,6 +428,9 @@ const statusMeta = computed(() => {
   }
   if (summary.isDemo && summary.sourceLabel && summary.sourceLabel !== datasetStatus.value.label) {
     segments.push(summary.sourceLabel);
+  }
+  if (!isLive.value) {
+    segments.push(liveState.value.label);
   }
   return segments.filter(Boolean).join(' · ');
 });
@@ -494,6 +543,12 @@ const activateDemo = () => {
   gap: 0.4rem;
 }
 
+.nebula-atlas-view__status-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .nebula-atlas-view__badge {
   display: inline-flex;
   align-items: center;
@@ -523,6 +578,24 @@ const activateDemo = () => {
 .nebula-atlas-view__badge[data-tone='neutral'] {
   background: rgba(148, 163, 184, 0.18);
   color: #94a3b8;
+}
+
+.nebula-atlas-view__badge--live {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nebula-atlas-view__badge--live[data-state='live'] {
+  background: rgba(38, 171, 108, 0.24);
+  color: #4ade80;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.25);
+  animation: nebulaBadgePulse 4s ease-in-out infinite;
+}
+
+.nebula-atlas-view__badge--live[data-state='offline'] {
+  background: rgba(255, 153, 204, 0.2);
+  color: #ff99cc;
 }
 
 .nebula-atlas-view__error {
@@ -631,6 +704,21 @@ const activateDemo = () => {
   gap: 0.75rem;
 }
 
+.nebula-atlas-view__chart[data-live='true'] {
+  position: relative;
+  border-color: rgba(97, 213, 255, 0.35);
+  box-shadow: 0 0 18px rgba(97, 213, 255, 0.15);
+}
+
+.nebula-atlas-view__chart[data-live='true'] header span {
+  animation: nebulaBadgePulse 5s ease-in-out infinite;
+}
+
+.nebula-atlas-view__chart[data-live='true'] svg {
+  animation: nebulaTimelineSweep 8s ease-in-out infinite;
+  transform-origin: center;
+}
+
 .nebula-atlas-view__generator {
   grid-column: 1 / -1;
   display: grid;
@@ -703,5 +791,27 @@ const activateDemo = () => {
 .nebula-atlas-view__refresh:hover {
   background: rgba(6, 12, 21, 0.95);
   transform: translateY(-1px);
+}
+
+@keyframes nebulaBadgePulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes nebulaTimelineSweep {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 </style>

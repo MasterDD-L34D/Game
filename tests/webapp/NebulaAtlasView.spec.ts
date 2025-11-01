@@ -107,8 +107,10 @@ describe('NebulaAtlasView', () => {
       await Promise.resolve();
       expect(wrapper.text()).toContain('Telemetria live');
       expect(wrapper.text()).toContain('Generatore Nebula');
+      expect(wrapper.text()).toContain('LIVE');
       expect(wrapper.html()).toMatchSnapshot();
       expect(fetchStub).toHaveBeenCalled();
+      wrapper.unmount();
     } finally {
       global.fetch = originalFetch;
       dateSpy.mockRestore();
