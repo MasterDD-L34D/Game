@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 import textwrap
 import unicodedata
@@ -35,6 +36,7 @@ APPENDIX_PATH = REPO_ROOT / "appendici"
 DEFAULT_REPORT_PATH = REPO_ROOT / "logs" / "trait_audit.md"
 SCHEMA_DIR = REPO_ROOT / "config" / "schemas"
 SCHEMA_REPORT_PATH = REPO_ROOT / "reports" / "schema_validation.json"
+IMPORTER_PATH = REPO_ROOT / "tools" / "py" / "import_external_traits.py"
 
 
 def _resolve_dataset_path(filename: str) -> Path:
@@ -185,6 +187,35 @@ def slugify(value: str) -> str:
     while "__" in replaced:
         replaced = replaced.replace("__", "_")
     return replaced.strip("_")
+
+
+def run_external_importer() -> Tuple[List[Issue], Optional[str]]:
+    if not IMPORTER_PATH.exists():
+        message = (
+            "Script di import esterno non trovato: "
+            f"{IMPORTER_PATH.relative_to(REPO_ROOT)}"
+        )
+        return [Issue("warning", message)], None
+
+    try:
+        result = subprocess.run(
+            [sys.executable, str(IMPORTER_PATH)],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except OSError as exc:
+        return [Issue("blocking", f"Impossibile eseguire l'importer esterno: {exc}")], None
+
+    if result.returncode != 0:
+        snippet = result.stderr.strip() or result.stdout.strip()
+        message = (
+            "Esecuzione importer esterno fallita "
+            f"(exit {result.returncode}): {snippet}"
+        )
+        return [Issue("blocking", message)], result.stdout.strip() or None
+
+    return [], result.stdout.strip() or None
 
 
 def load_trait_reference() -> Tuple[Dict[str, dict], Dict[str, str], List[Issue]]:
@@ -423,12 +454,27 @@ def format_report(issues: Iterable[Issue]) -> str:
 
 
 def run(args: argparse.Namespace) -> int:
+    issues: List[Issue] = []
+
+    if getattr(args, "import_external_drafts", False):
+        if args.check:
+            print(
+                "Opzione --import-external-drafts ignorata in modalità --check (nessuna scrittura eseguita).",
+                file=sys.stderr,
+            )
+        else:
+            import_issues, import_output = run_external_importer()
+            issues.extend(import_issues)
+            if import_output:
+                print(import_output)
+
     trait_issues, report_text = check_traits()
     schema_entries, schema_issues = validate_schemas()
     schema_report = (
         build_schema_report(schema_entries) if schema_entries is not None else None
     )
-    issues = trait_issues + schema_issues
+    issues.extend(trait_issues)
+    issues.extend(schema_issues)
     blocking = [issue for issue in issues if issue.kind == "blocking"]
 
     if args.check:
@@ -539,6 +585,11 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", help="Percorso del report generato (default: logs/trait_audit.md)")
     parser.add_argument("--check", action="store_true", help="Verifica il report senza riscriverlo")
+    parser.add_argument(
+        "--import-external-drafts",
+        action="store_true",
+        help="Esegue l'importer dei tratti esterni prima dell'audit (riscrive data/traits/_drafts)",
+    )
     return parser.parse_args(argv)
 
 

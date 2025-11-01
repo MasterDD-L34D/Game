@@ -45,7 +45,8 @@ def validate_trait_files(
     directory: Path, validator: Draft202012Validator
 ) -> Tuple[Dict[str, List[str]], Dict[str, Path]]:
     errors: Dict[str, List[str]] = {}
-    registry: Dict[str, Path] = {}
+    coverage_registry: Dict[str, Path] = {}
+    seen_ids: Dict[str, Path] = {}
 
     for path in sorted(directory.rglob("*.json")):
         if path.name == "index.json":
@@ -53,6 +54,8 @@ def validate_trait_files(
         if path.name == "species_affinity.json":
             continue
         rel_path = str(path.relative_to(ROOT))
+        rel_parts = path.relative_to(directory).parts
+        in_drafts = "_drafts" in rel_parts
         try:
             payload = load_json(path)
         except json.JSONDecodeError as exc:
@@ -65,13 +68,15 @@ def validate_trait_files(
                 "Campo 'id' mancante o non valido (deve essere stringa non vuota)."
             )
         else:
-            if trait_id in registry:
-                existing = registry[trait_id]
+            if trait_id in seen_ids:
+                existing = seen_ids[trait_id]
                 errors.setdefault(rel_path, []).append(
                     f"ID duplicato: già definito in {existing.relative_to(ROOT)}"
                 )
             else:
-                registry[trait_id] = path
+                seen_ids[trait_id] = path
+                if not in_drafts:
+                    coverage_registry[trait_id] = path
             expected_id = path.stem
             if trait_id != expected_id:
                 errors.setdefault(rel_path, []).append(
@@ -85,7 +90,7 @@ def validate_trait_files(
             formatted = [format_error(err.path, err.message) for err in schema_errors]
             errors.setdefault(rel_path, []).extend(formatted)
 
-    return errors, registry
+    return errors, coverage_registry
 
 
 def validate_index(
