@@ -2,6 +2,15 @@
   <section class="biomes-view">
     <NebulaShell :tabs="tabs" v-model="activeTab" :status-indicators="statusIndicators">
       <template #cards>
+        <div class="biomes-view__telemetry">
+          <PokedexTelemetryBadge
+            v-for="indicator in statusIndicators"
+            :key="indicator.id"
+            :label="indicator.label"
+            :value="indicator.value"
+            :tone="indicator.tone || 'neutral'"
+          />
+        </div>
         <div class="biomes-view__hazards">
           <TraitChip
             v-for="highlight in hazardHighlights"
@@ -15,13 +24,10 @@
 
       <template #default="{ activeTab: currentTab }">
         <div v-if="currentTab === 'grid'" class="biomes-view__grid">
-          <BiomeCard v-for="biome in biomes" :key="biome.id" :biome="biome">
+          <PokedexBiomeCard v-for="biome in biomes" :key="biome.id" :biome="biome">
             <template #footer>
               <div class="biomes-view__metrics">
-                <div>
-                  <strong>Readiness</strong>
-                  <span>{{ formatReadiness(biome) }}</span>
-                </div>
+                <PokedexTelemetryBadge label="Readiness" :value="formatReadiness(biome)" :tone="readinessTone(biome)" />
                 <TraitChip :label="`Rischio ${biome.risk}`" variant="hazard" icon="⚠" />
               </div>
               <ul class="biomes-view__validators" v-if="(biome.validators || []).length">
@@ -35,7 +41,7 @@
                 </li>
               </ul>
             </template>
-          </BiomeCard>
+          </PokedexBiomeCard>
         </div>
 
         <div v-else class="biomes-view__validator-feed">
@@ -61,8 +67,9 @@
 <script setup>
 import { computed, ref, toRefs } from 'vue';
 import NebulaShell from '../components/layout/NebulaShell.vue';
-import BiomeCard from '../components/biomes/BiomeCard.vue';
 import TraitChip from '../components/shared/TraitChip.vue';
+import PokedexBiomeCard from '../components/pokedex/PokedexBiomeCard.vue';
+import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
 
 const props = defineProps({
   biomes: {
@@ -150,6 +157,13 @@ function formatReadiness(biome) {
   return `${biome.readiness || 0} / ${biome.total || 0} · ${percent}%`;
 }
 
+function readinessTone(biome) {
+  const percent = readinessPercent(biome);
+  if (percent >= 80) return 'success';
+  if (percent < 50) return 'critical';
+  return 'warning';
+}
+
 function statusIcon(status) {
   if (!status) return '◈';
   if (status === 'passed') return '✔';
@@ -163,6 +177,14 @@ function statusIcon(status) {
 .biomes-view {
   display: grid;
   gap: 1.5rem;
+}
+
+
+.biomes-view__telemetry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .biomes-view__hazards {
@@ -179,22 +201,14 @@ function statusIcon(status) {
 
 .biomes-view__metrics {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.biomes-view__metrics strong {
-  display: block;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(226, 232, 240, 0.7);
-}
-
-.biomes-view__metrics span {
-  font-size: 0.85rem;
-  color: rgba(226, 232, 240, 0.85);
+.biomes-view__metrics .trait-chip {
+  background: rgba(255, 91, 107, 0.18);
+  border-color: rgba(255, 91, 107, 0.25);
 }
 
 .biomes-view__validators {
@@ -205,26 +219,27 @@ function statusIcon(status) {
   gap: 0.65rem;
 }
 
+
 .validator {
   display: grid;
   gap: 0.4rem;
-  padding: 0.65rem 0.75rem;
-  border-radius: 0.9rem;
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  color: rgba(226, 232, 240, 0.85);
+  padding: 0.75rem 0.85rem;
+  border-radius: 1rem;
+  background: rgba(7, 23, 39, 0.75);
+  border: 1px solid rgba(77, 208, 255, 0.18);
+  color: var(--pokedex-text-primary);
 }
 
 .validator--passed {
-  border-color: rgba(129, 255, 199, 0.55);
+  border-color: rgba(94, 252, 159, 0.45);
 }
 
 .validator--warning {
-  border-color: rgba(255, 210, 130, 0.6);
+  border-color: rgba(255, 200, 87, 0.5);
 }
 
 .validator--failed {
-  border-color: rgba(255, 135, 135, 0.6);
+  border-color: rgba(255, 91, 107, 0.55);
 }
 
 .biomes-view__validator-feed {
@@ -232,17 +247,18 @@ function statusIcon(status) {
   gap: 1rem;
 }
 
+
 .biomes-view__validator-feed header h3 {
   margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   font-size: 0.9rem;
-  color: rgba(226, 232, 240, 0.75);
+  color: var(--pokedex-text-secondary);
 }
 
 .biomes-view__validator-feed header p {
   margin: 0;
-  color: rgba(226, 232, 240, 0.65);
+  color: var(--pokedex-text-muted);
 }
 
 .biomes-view__validator-feed ul {
@@ -254,10 +270,10 @@ function statusIcon(status) {
 }
 
 .biomes-view__validator-feed li {
-  padding: 0.85rem 1rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(15, 23, 42, 0.6);
+  padding: 0.95rem 1.1rem;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(77, 208, 255, 0.18);
+  background: rgba(7, 23, 39, 0.75);
   display: grid;
   gap: 0.4rem;
 }
@@ -265,17 +281,17 @@ function statusIcon(status) {
 .biomes-view__validator-feed li strong {
   display: block;
   font-size: 0.85rem;
-  color: rgba(226, 232, 240, 0.85);
+  color: var(--pokedex-text-primary);
 }
 
 .biomes-view__validator-feed li span {
   font-size: 0.75rem;
-  color: rgba(226, 232, 240, 0.65);
+  color: var(--pokedex-text-secondary);
 }
 
 .biomes-view__validator-feed li p {
   margin: 0;
   font-size: 0.8rem;
-  color: rgba(226, 232, 240, 0.75);
+  color: var(--pokedex-text-primary);
 }
 </style>
