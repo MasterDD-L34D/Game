@@ -26,6 +26,44 @@ const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
 const IDEA_CATEGORIES = new Set((ideaTaxonomy && Array.isArray(ideaTaxonomy.categories)) ? ideaTaxonomy.categories : []);
 
+function slugify(value) {
+  if (!value) return '';
+  return String(value)
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+}
+
+function buildSlugConfig(collectionKey, aliasKey) {
+  const canonicalSet = new Set();
+  const aliasMap = {};
+
+  const collection = Array.isArray(slugTaxonomy?.[collectionKey]) ? slugTaxonomy[collectionKey] : [];
+  for (const entry of collection) {
+    const slug = slugify(entry);
+    if (!slug) continue;
+    canonicalSet.add(slug);
+    aliasMap[slug] = slug;
+  }
+
+  if (aliasKey) {
+    const aliases = slugTaxonomy?.[aliasKey] || {};
+    if (aliases && typeof aliases === 'object') {
+      for (const [alias, target] of Object.entries(aliases)) {
+        const aliasSlug = slugify(alias);
+        const canonicalSlug = slugify(Array.isArray(target) ? target[0] : target);
+        if (!aliasSlug || !canonicalSlug) continue;
+        aliasMap[aliasSlug] = canonicalSlug;
+        canonicalSet.add(canonicalSlug);
+      }
+    }
+  }
+
+  return { canonicalSet, aliasMap };
+}
+
 const SLUG_CONFIG = {
   biomes: buildSlugConfig('biomes', 'biomeAliases'),
   ecosystems: buildSlugConfig('ecosystems'),
