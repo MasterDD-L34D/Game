@@ -94,6 +94,20 @@ Lo step richiama l'importer prima di eseguire le verifiche esistenti, così da p
    python3 scripts/trait_audit.py --check
    ```
 
+## Validazione automatica e riproduzione locale
+
+I workflow CI `data-quality` e `validate-traits` installano le dipendenze Node.js e Python dichiarate in `package.json` e `requirements-dev.txt`, ricostruiscono l'indice dei tratti e generano il report di coverage in modalità strict. Per riprodurre lo stesso flusso in locale:
+
+```bash
+npm ci
+python -m pip install -r requirements-dev.txt
+python -m pip install jsonschema
+node scripts/build_trait_index.js
+python tools/py/report_trait_coverage.py --strict
+```
+
+Il comando `report_trait_coverage.py --strict` fallisce se il numero di tratti coperti dalle specie scende sotto 27 oppure se esistono combinazioni regola→bioma prive di specie collegate (`rules_missing_species_total > 0`). I report principali vengono aggiornati in `data/derived/analysis/` (coverage JSON/CSV) e i riepiloghi pronti per la consultazione rimangono in `reports/`, gli stessi file che la CI archivia come artifact post-build.
+
 ## Suggerimenti
 
 - Le modifiche ai tratti spesso impattano più file; usa questo flusso come checklist per evitare omissioni.
