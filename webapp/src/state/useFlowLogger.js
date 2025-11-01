@@ -1,7 +1,7 @@
 import { computed, reactive } from 'vue';
-import { logEvent as logClientEvent } from '../services/clientLogger.js';
+import { createLogger } from '../utils/logger.ts';
 
-let logSequence = 0;
+const MAX_ENTRIES = 200;
 
 function createListenerMap() {
   const map = new Map();
@@ -54,7 +54,7 @@ function createListenerMap() {
       try {
         listener(payload);
       } catch (error) {
-        // Ignoriamo errori dei listener per non interrompere il logging
+        // Evitiamo che errori nei listener interrompano il logging
       }
     });
   };
@@ -62,79 +62,51 @@ function createListenerMap() {
   return { on, off, emit };
 }
 
-function normaliseScope(value) {
-  if (value === null || value === undefined) {
-    return 'flow';
-  }
-  return String(value || '').trim() || 'flow';
-}
-
-function normaliseLevel(value) {
-  if (!value) {
-    return 'info';
-  }
-  const text = String(value).toLowerCase();
-  if (['info', 'warning', 'error', 'success'].includes(text)) {
-    return text;
-  }
-  return 'info';
+function normaliseEntry(entry) {
+  return {
+    id: entry.id,
+    scope: entry.scope,
+    level: entry.level,
+    message: entry.message,
+    timestamp: entry.timestamp,
+    event: entry.event,
+    request_id: entry.request_id,
+    meta: entry.meta,
+    validation: entry.validation,
+    source: entry.source,
+    ...(entry.data !== undefined ? { data: entry.data } : {}),
+    ...(entry.context !== undefined ? { context: entry.context } : {}),
+  };
 }
 
 export function useFlowLogger() {
   const state = reactive({ entries: [] });
   const events = createListenerMap();
 
-  const log = (event, details = {}) => {
-    const entry = {
-      id: `flow-${Date.now()}-${logSequence++}`,
-      event: event || 'flow.event',
-      scope: normaliseScope(details.scope),
-      level: normaliseLevel(details.level),
-      message: details.message || '',
-      request_id: details.request_id || details.requestId || null,
-      meta: details.meta || null,
-      validation: details.validation || null,
-      timestamp: new Date().toISOString(),
-      source: details.source || 'flow',
-    };
-    state.entries.unshift(entry);
-    if (state.entries.length > 200) {
-      state.entries.length = 200;
-    }
-    logClientEvent(entry.event, {
-      id: entry.id,
-      scope: entry.scope,
-      level: entry.level,
-      message: entry.message,
-      request_id: entry.request_id,
-      meta: entry.meta,
-      validation: entry.validation,
-      timestamp: entry.timestamp,
-      source: entry.source,
-    });
-    events.emit(entry.event, entry);
-    return entry;
-  };
+  const baseLogger = createLogger('flow', {
+    sink(entry) {
+      const normalised = normaliseEntry(entry);
+      state.entries.unshift(normalised);
+      if (state.entries.length > MAX_ENTRIES) {
+        state.entries.length = MAX_ENTRIES;
+      }
+      events.emit(entry.event, normalised);
+    },
+  });
 
-  const logs = computed(() =>
-    state.entries.map((entry) => ({
-      id: entry.id,
-      scope: entry.scope,
-      level: entry.level,
-      message: entry.message,
-      timestamp: entry.timestamp,
-      event: entry.event,
-      request_id: entry.request_id,
-      meta: entry.meta,
-      validation: entry.validation,
-      source: entry.source,
-    })),
-  );
+  const log = (event, details = {}) => baseLogger.log(event, { source: 'flow', ...details });
+  const info = (event, details = {}) => baseLogger.info(event, { source: 'flow', ...details });
+  const warn = (event, details = {}) => baseLogger.warn(event, { source: 'flow', ...details });
+  const error = (event, details = {}) => baseLogger.error(event, { source: 'flow', ...details });
+
+  const logs = computed(() => state.entries.map((entry) => ({ ...entry })));
 
   const on = (event, handler) => events.on(event, handler);
   const off = (event, handler) => events.off(event, handler);
 
-  return { log, logs, on, off };
+  return { log, info, warn, error, logs, on, off };
 }
 
-export const __internals__ = { normaliseScope, normaliseLevel };
+export const __internals__ = {
+  MAX_ENTRIES,
+};

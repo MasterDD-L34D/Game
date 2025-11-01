@@ -12,6 +12,7 @@ import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/
 import { fetchJsonWithFallback, resolveFetchImplementation } from '../services/fetchWithFallback.js';
 import { atlasDataset as staticDataset } from '../state/atlasDataset.js';
 import { resolveDataSource } from '../config/dataSources.js';
+import { createLogger } from '../utils/logger.ts';
 
 type MaybeRef<T> = Ref<T> | { value: T } | T | undefined;
 
@@ -259,6 +260,7 @@ export function useNebulaProgressModule(
       : isStaticDeployment();
   const pollIntervalMs = Number.isFinite(options.pollIntervalMs) ? Number(options.pollIntervalMs) : 15000;
   const fetchImpl = resolveFetchImplementation(options.fetcher);
+  const logger = createLogger('nebula');
 
   const dataset = ref<NebulaDataset | null>(null);
   const datasetSource = ref<DatasetSource>('static');
@@ -298,15 +300,21 @@ export function useNebulaProgressModule(
           generator.value = payload.generator;
         }
         source = 'fallback';
-        console.warn('[nebula-progress] Dataset caricato da fallback locale', {
-          source: fallbackUrl,
-          reason: reason?.message || 'endpoint remoto non disponibile',
+        logger.warn('nebula.dataset.fallback', {
+          message: 'log.nebula.dataset.fallback',
+          meta: {
+            source: fallbackUrl,
+            reason: reason?.message || 'endpoint remoto non disponibile',
+          },
         });
       } catch (fallbackError) {
         const mapped = toError(fallbackError, 'Dataset Nebula locale non disponibile');
-        console.warn('[nebula-progress] Impossibile utilizzare il dataset fallback', {
-          source: fallbackUrl,
-          reason: mapped.message,
+        logger.error('nebula.dataset.fallback_failed', {
+          message: 'log.nebula.dataset.fallback_failed',
+          meta: {
+            source: fallbackUrl,
+            reason: mapped.message,
+          },
         });
         dataset.value = staticDataset;
         source = 'static';
@@ -341,9 +349,13 @@ export function useNebulaProgressModule(
     telemetryMode.value = 'mock';
     lastUpdated.value = payload?.updatedAt || new Date().toISOString();
     error.value = null;
-    console.warn('[nebula-progress] Telemetria mock attiva', {
-      source: telemetryMockUrl,
-      reason: reason?.message || 'caricamento remoto non disponibile',
+    logger.warn('nebula.telemetry.mock.active', {
+      message: 'log.nebula.telemetry.mock_active',
+      meta: {
+        source: telemetryMockUrl,
+        reason: reason?.message || 'caricamento remoto non disponibile',
+      },
+      data: payload,
     });
   }
 
@@ -381,17 +393,24 @@ export function useNebulaProgressModule(
       }
       error.value = null;
       if (endpointSource === 'fallback') {
-        console.warn(
-          '[nebula-progress] Dataset caricato da fallback locale',
-          { source: fallbackUrl, reason: remoteError?.message || 'endpoint remoto non disponibile' },
-        );
+        logger.warn('nebula.dataset.remote_fallback', {
+          message: 'log.nebula.dataset.remote_fallback',
+          meta: {
+            source: fallbackUrl,
+            reason: remoteError?.message || 'endpoint remoto non disponibile',
+          },
+        });
       } else {
-        console.info('[nebula-progress] Dataset sincronizzato da endpoint remoto', { source: endpoint });
+        logger.info('nebula.dataset.remote', {
+          message: 'log.nebula.dataset.remote',
+          meta: { source: endpoint },
+        });
       }
     } catch (err) {
       const loadError = toError(err);
-      console.warn('[nebula-progress] Endpoint Nebula non disponibile, attivo modalità demo', {
-        reason: loadError.message,
+      logger.warn('nebula.dataset.remote_unavailable', {
+        message: 'log.nebula.dataset.remote_unavailable',
+        meta: { reason: loadError.message },
       });
       const source = await loadDatasetFallback(loadError);
       if (source === 'static') {
@@ -399,8 +418,9 @@ export function useNebulaProgressModule(
           await loadTelemetryMock(loadError);
         } catch (mockError) {
           const mapped = toError(mockError);
-          console.warn('[nebula-progress] Telemetria mock non disponibile', {
-            reason: mapped.message,
+          logger.error('nebula.telemetry.mock.failed', {
+            message: 'log.nebula.telemetry.mock_failed',
+            meta: { reason: mapped.message },
           });
           if (!telemetry.value) {
             telemetry.value = createEmptyTelemetry(lastUpdated.value);
