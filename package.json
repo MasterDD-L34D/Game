@@ -13,6 +13,7 @@
     "drive-sync": "node tools/drive/sync-approved-assets.mjs",
     "stage:publishing": "node services/publishing/staging.js",
     "export:qa": "node scripts/export-qa-report.js",
+    "mock:generate": "node scripts/mock/generate-demo-data.js",
     "webapp:deploy": "npm --prefix webapp install && npm --prefix webapp run build && npm --prefix webapp run preview",
     "webapp:qa": "npm --prefix webapp run qa",
     "webapp:analyze": "npm --prefix webapp run analyze"

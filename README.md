@@ -46,6 +46,7 @@ evo-tactics/
 ├─ tools/ts/                  # CLI TypeScript + test Node/Playwright
 ├─ server/                    # API Express + orchestratore Idea Engine
 ├─ services/generation/       # Builder specie, runtime validator, bridge orchestrazione
+├─ packages/contracts/        # Contratti JSON schema + tipi condivisi per Flow/Atlas
 ├─ webapp/                    # Dashboard Vue 3 + Vite con test Vitest
 ├─ docs/                      # Canvas progettuali, checklist, changelog, presentazioni
 ├─ scripts/                   # Utility (report incoming, sync Drive, builder taxonomy)
@@ -147,9 +148,17 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - `POST /api/v1/quality/suggestions/apply` (`/api/quality/suggestions/apply` legacy) – applica suggerimenti qualità sul dataset ricevuto.
   - `POST /api/v1/generation/species` e `/api/v1/generation/species/batch` (`/api/generation/species[*]` legacy) – orchestrano la generazione specie integrando `SpeciesBuilder`, `TraitCatalog` e validator pack.
   - `GET /api/v1/atlas/dataset`, `/api/v1/atlas/telemetry`, `/api/v1/atlas/generator` – bundle dataset e telemetria Nebula (alias legacy aggregato `/api/nebula/atlas`).
+  - `GET /api/mock/generation/snapshot`, `/api/mock/v1/generation/snapshot`, `/api/mock/atlas/dataset`, `/api/mock/atlas/telemetry` – versioni mock validate contro i contratti condivisi (fallback per webapp e QA).
   - `GET /api/v1/qa/status` (`/api/qa/status` legacy) – report QA corrente.
   - `GET /api/ideas/:id/report` – produce report Codex in HTML/JSON usando `server/report.js`.
 - **Orchestrazione**: la pipeline combina normalizzazione slug, fallback automatici per trait non validi e log strutturati (vedi `services/generation/*`).
+
+### Flusso snapshot/telemetria demo (CLI → backend → webapp)
+1. **Generazione CLI** – esegui `npm run mock:generate` per ricreare lo snapshot Flow e il bundle Nebula demo. Lo script legge i dataset sorgente (`data/flow-shell/atlas-snapshot.json` + telemetria QA), valida payload e specie contro `packages/contracts` tramite AJV e scrive i JSON rigenerati in `webapp/public/data/flow/snapshots/` e `webapp/public/data/nebula/`.
+2. **Backend** – all'avvio Express registra gli stessi schemi (`generationSnapshot`, `species`, `telemetry`) e verifica ogni risposta sia live sia mock. Gli endpoint `/api/mock/*` servono direttamente i file generati dalla CLI garantendo coerenza con gli schemi condivisi.
+3. **Webapp** – la configurazione `webapp/src/config/dataSources.ts` punta alle nuove sorgenti fallback (`data/flow/...` e `data/nebula/...`). Dopo aver rigenerato i mock basta rilanciare la webapp per visualizzare gli aggiornamenti senza ulteriori passaggi manuali.
+
+> **Rigenera i mock** ogni volta che modifichi i dataset Flow/Nebula o i contratti: `npm run mock:generate` aggiorna snapshot e telemetria demo e fallisce immediatamente se lo schema non è rispettato.
 
 ### Pipeline generazione orchestrata
 - **Endpoint backend** – `POST /api/v1/generation/species` (alias legacy `/api/generation/species`) instrada le richieste

@@ -292,12 +292,6 @@
         "total": 1
       }
     },
-    "metrics": {
-      "validatorWarnings": 1,
-      "fallbackCount": 1,
-      "lastRequestId": "nebula-priority"
-    },
-    "logStreamUrl": "/api/v1/quality/logs/stream",
     "lastRun": "2024-05-18T09:20:00Z",
     "owners": [
       "QA Core",
@@ -750,5 +744,11 @@
     "seeds": 2,
     "variants": 4,
     "warnings": 1
+  },
+  "runtime": {
+    "lastBlueprintId": "synthetic-99",
+    "fallbackUsed": false,
+    "validationMessages": 1,
+    "lastRequestId": "nebula-priority"
   }
 }

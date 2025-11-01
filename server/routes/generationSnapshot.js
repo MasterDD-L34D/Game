@@ -1,7 +1,11 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const { createGenerationSnapshotStore, buildRuntimeSummary } = require('../services/generationSnapshotStore');
+const {
+  createGenerationSnapshotStore,
+  buildRuntimeSummary,
+} = require('../services/generationSnapshotStore');
+const { SchemaValidationError } = require('../middleware/schemaValidator');
 
 const DEFAULT_DATASET_PATH = path.resolve(
   __dirname,
@@ -143,6 +147,21 @@ function buildSnapshot({ dataset, diagnostics, runtime }) {
   return snapshot;
 }
 
+function validateSnapshotPayload(snapshot, validator, schemaId) {
+  if (!validator || !schemaId) {
+    return null;
+  }
+  try {
+    validator.validate(schemaId, snapshot);
+    return null;
+  } catch (error) {
+    if (error instanceof SchemaValidationError) {
+      return error;
+    }
+    throw error;
+  }
+}
+
 function createGenerationSnapshotHandler(options = {}) {
   const datasetPath = options.datasetPath || DEFAULT_DATASET_PATH;
   const traitDiagnosticsSync = options.traitDiagnostics;
@@ -150,6 +169,8 @@ function createGenerationSnapshotHandler(options = {}) {
   const snapshotStore =
     options.snapshotStore || createGenerationSnapshotStore({ datasetPath });
   let datasetCache = null;
+  const schemaValidator = options.schemaValidator;
+  const validationSchemaId = options.validationSchemaId;
 
   async function resolveDataset(req) {
     const refresh = shouldRefreshDataset(req);
@@ -233,6 +254,18 @@ function createGenerationSnapshotHandler(options = {}) {
           ...(datasetCache.species || {}),
           ...speciesStatusUpdate,
         };
+      }
+
+      const validationError = validateSnapshotPayload(snapshot, schemaValidator, validationSchemaId);
+      if (validationError) {
+        console.error('[generation-snapshot] snapshot non conforme allo schema', {
+          issues: validationError.details || [],
+        });
+        res.status(500).json({
+          error: 'Snapshot non conforme allo schema',
+          details: validationError.details || [],
+        });
+        return;
       }
 
       res.json(snapshot);

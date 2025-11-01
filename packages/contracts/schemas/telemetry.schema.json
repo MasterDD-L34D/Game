@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.game.local/telemetry.schema.json",
+  "title": "AtlasTelemetry",
+  "type": "object",
+  "required": ["summary", "coverage", "incidents", "updatedAt", "sample", "state"],
+  "properties": {
+    "summary": {
+      "type": "object",
+      "required": ["totalEvents", "openEvents", "acknowledgedEvents", "highPriorityEvents", "lastEventAt"],
+      "properties": {
+        "totalEvents": { "type": "number", "minimum": 0 },
+        "openEvents": { "type": "number", "minimum": 0 },
+        "acknowledgedEvents": { "type": "number", "minimum": 0 },
+        "highPriorityEvents": { "type": "number", "minimum": 0 },
+        "lastEventAt": { "type": ["string", "null"], "format": "date-time" }
+      },
+      "additionalProperties": true
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["average", "history", "distribution"],
+      "properties": {
+        "average": { "type": "number", "minimum": 0 },
+        "history": {
+          "type": "array",
+          "items": { "type": "number" }
+        },
+        "distribution": {
+          "type": "object",
+          "required": ["success", "warning", "neutral", "critical"],
+          "properties": {
+            "success": { "type": "number", "minimum": 0 },
+            "warning": { "type": "number", "minimum": 0 },
+            "neutral": { "type": "number", "minimum": 0 },
+            "critical": { "type": "number", "minimum": 0 }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "incidents": {
+      "type": "object",
+      "required": ["timeline"],
+      "properties": {
+        "timeline": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["date", "total", "highPriority"],
+            "properties": {
+              "date": { "type": "string" },
+              "total": { "type": "number", "minimum": 0 },
+              "highPriority": { "type": "number", "minimum": 0 }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "sample": {
+      "type": "array",
+      "items": { "type": "object", "additionalProperties": true }
+    },
+    "state": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": true
+}
