@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato.",
+  "debolezza": "i18n:traits.occhi_infrarosso_composti.debolezza",
   "famiglia_tipologia": "Sensoriale/Visivo",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.occhi_infrarosso_composti.fattore_mantenimento_energetico",
   "id": "occhi_infrarosso_composti",
-  "label": "Occhi Composti ad Infrarosso",
-  "mutazione_indotta": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
+  "label": "i18n:traits.occhi_infrarosso_composti.label",
+  "mutazione_indotta": "i18n:traits.occhi_infrarosso_composti.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -33,7 +33,7 @@
     "complementare": "visivo",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
+  "spinta_selettiva": "i18n:traits.occhi_infrarosso_composti.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+  "uso_funzione": "i18n:traits.occhi_infrarosso_composti.uso_funzione"
 }

@@ -2,12 +2,12 @@
   "conflitti": [
     "criostasi_adattiva"
   ],
-  "debolezza": "Rende instabile la fisiologia in ambienti a gelo improvviso, con rischio di microfratture vascolari.",
+  "debolezza": "i18n:traits.lamelle_termoforetiche.debolezza",
   "famiglia_tipologia": "Respiratorio/Termoregolazione",
-  "fattore_mantenimento_energetico": "Medio (Flusso continuo di fluidi caldi)",
+  "fattore_mantenimento_energetico": "i18n:traits.lamelle_termoforetiche.fattore_mantenimento_energetico",
   "id": "lamelle_termoforetiche",
-  "label": "Lamelle Termoforetiche",
-  "mutazione_indotta": "Canali lamellari mineralizzati che convogliano fluidi caldi tra branchie interne.",
+  "label": "i18n:traits.lamelle_termoforetiche.label",
+  "mutazione_indotta": "i18n:traits.lamelle_termoforetiche.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "termoregolazione",
     "core": "respiratorio"
   },
-  "spinta_selettiva": "Sopravvivere a fluidi tossici e temperature estreme nelle fumarole geotermiche.",
+  "spinta_selettiva": "i18n:traits.lamelle_termoforetiche.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati."
+  "uso_funzione": "i18n:traits.lamelle_termoforetiche.uso_funzione"
 }

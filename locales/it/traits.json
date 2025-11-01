@@ -1,0 +1,1546 @@
+{
+  "$schema": "../../config/i18n/trait_locales.schema.json",
+  "language": "it",
+  "fallback": null,
+  "entries": {
+    "ali_fulminee": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ali Fulminee",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ali_ioniche": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ali Ioniche",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "ali_membrana_sonica": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ali Membrana Sonica",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "antenne_dustsense": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Antenne Dustsense",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "antenne_eco_turbina": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Antenne Eco Turbina",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "antenne_flusso_mareale": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Antenne Flusso Mareale",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "antenne_microonde_cavernose": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Antenne Microonde Cavernose",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "antenne_plasmatiche_tempesta": {
+      "debolezza": "Scariche elettriche massicce possono bruciare i recettori e compromettere la coordinazione.",
+      "fattore_mantenimento_energetico": "Alto (Canalizzazione costante di plasma atmosferico)",
+      "label": "Antenne Plasmatiche di Tempesta",
+      "mutazione_indotta": "Flagelli coronati da nodi plasma-sensibili che captano e deviano fulmini.",
+      "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
+      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+    },
+    "antenne_reagenti": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Antenne Reagenti",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "antenne_tesla": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Antenne Tesla",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "antenne_waveguide": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Antenne Waveguide",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "antenne_wideband": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Antenne Wideband",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "appendici_risonanti_marea": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Appendici Risonanti Marea",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "appendici_thermotattiche": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Appendici Thermotattiche",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "armatura_pietra_planare": {
+      "debolezza": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità.",
+      "fattore_mantenimento_energetico": "Basso (Risonanza geodetica stabile)",
+      "label": "Armatura di Pietra Planare",
+      "mutazione_indotta": "Cristallizza il dermascheletro con nodi rune che deviano energia.",
+      "spinta_selettiva": "Stabilizzare varchi e proteggere infrastrutture dalle onde d'urto.",
+      "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali."
+    },
+    "artigli_a_sette_vie": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Artigli a Sette Vie",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Core Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Artigli a Sette Vie'."
+    },
+    "artigli_acidofagi": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Artigli Acidofagi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "artigli_induzione": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Artigli Induzione",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "artigli_radice": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Artigli Radice",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "artigli_scivolo_silente": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Artigli Scivolo Silente",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "artigli_sette_vie": {
+      "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Artigli a Sette Vie",
+      "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
+      "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
+      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
+    },
+    "artigli_sghiaccio_glaciale": {
+      "debolezza": "In ambienti temperati i tessuti subiscono microfratture e richiedono continue riparazioni.",
+      "fattore_mantenimento_energetico": "Medio (Raffreddamento endogeno controllato)",
+      "label": "Artigli Sghiaccio Glaciale",
+      "mutazione_indotta": "Falangi rivestite da ghiaccio strutturale che si espande creando lame traslucide.",
+      "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
+      "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
+    },
+    "artigli_vetrificati": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Artigli Vetrificati",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "aura_scudo_radianza": {
+      "debolezza": "Soffre saturazione se esposta a ombre gravitazionali o zone di antimagia.",
+      "fattore_mantenimento_energetico": "Alto (Canalizzazione fotonica continua)",
+      "label": "Aura Scudo di Radianza",
+      "mutazione_indotta": "Innesta organi fotoplasmatici che diffondono uno scudo radiante sugli alleati vicini.",
+      "spinta_selettiva": "Proteggere gli hub di evacuazione durante tempeste di energia planare.",
+      "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra."
+    },
+    "baffi_mareomotori": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Baffi Mareomotori",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "balance_reflex": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Balance Reflex",
+      "mutazione_indotta": "Riduce penalità in piedi; sinergia con WA 03, WA 05.",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Pre‑Sociale (T2). Richiede neuroni: WA 02, DE 01, DO 01"
+    },
+    "barbigli_sensori_plasma": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Barbigli Sensori Plasma",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "barriere_miasma_glaciale": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Barriere Miasma Glaciale",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "batteri_endosimbionti_chemio": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Batteri Endosimbionti Chemio",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "batteri_termofili_endosimbiosi": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Batteri Termofili Endosimbiosi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "biochip_memoria": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Biochip Memoria",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "biofilm_glow": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Biofilm Glow",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "biofilm_iperarido": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Biofilm Iperarido",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "branchie_dual_mode": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Branchie Dual Mode",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "branchie_eoliche": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Branchie Eoliche",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "branchie_metalloidi": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Branchie Metalloidi",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "branchie_microfiltri": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Branchie Microfiltri",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "branchie_osmotiche_salmastra": {
+      "debolezza": "Richiede accesso costante ad acqua salmastra; ambienti d'acqua dolce provocano stress ionico.",
+      "fattore_mantenimento_energetico": "Medio (Pompe ioniche attive)",
+      "label": "Branchie Osmotiche Salmastre",
+      "mutazione_indotta": "Lamelle branchiali multilivello con valvole che separano sali e tossine.",
+      "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
+      "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente."
+    },
+    "branchie_solfatiche": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Branchie Solfatiche",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "branchie_turbina": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Branchie Turbina",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "bulbi_radici_permafrost": {
+      "debolezza": "Disgeli improvvisi trasformano i bulbi in masse gelatinose che rallentano i movimenti.",
+      "fattore_mantenimento_energetico": "Medio (Accumulo e rilascio lento di nutrienti)",
+      "label": "Bulbi Radici del Permafrost",
+      "mutazione_indotta": "Bulbi radicali multipli che immagazzinano energia nelle stagioni fredde per rilasciarla durante le missioni.",
+      "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
+      "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
+    },
+    "camere_anticorrosione": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Camere Anticorrosione",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "camere_mirage": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Camere Mirage",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "camere_nutrienti_vent": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Camere Nutrienti Vent",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "capillari_criogenici": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Capillari Criogenici",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "capillari_fluoridici": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Capillari Fluoridici",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "capillari_fotovoltaici": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Capillari Fotovoltaici",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "capsule_paracadute": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Capsule Paracadute",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "carapace_fase_variabile": {
+      "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza.",
+      "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
+      "label": "Carapace a Variazione di Fase",
+      "mutazione_indotta": "Strutture minerali a legame reversibile o micro-strutture a rigidità controllata.",
+      "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
+      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+    },
+    "carapace_luminiscente_abissale": {
+      "debolezza": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile.",
+      "fattore_mantenimento_energetico": "Alto (Bioluminescenza controllata)",
+      "label": "Carapace Luminiscente Abissale",
+      "mutazione_indotta": "Placche chitino-minerali con microrganismi luminescenti che comunicano in pattern.",
+      "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
+      "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+    },
+    "carapace_segmenti_logici": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Carapace Segmenti Logici",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "carapaci_ferruginosi": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Carapaci Ferruginosi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "cartilagine_flessotermica_venti": {
+      "debolezza": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento.",
+      "fattore_mantenimento_energetico": "Medio (Richiede frequenti riallineamenti fibrosi)",
+      "label": "Cartilagine Flessotermica dei Venti",
+      "mutazione_indotta": "Giunzioni cartilaginee che cambiano rigidità in risposta a gradienti termici e eolici.",
+      "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
+      "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
+    },
+    "cartilagini_biofibre": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cartilagini Biofibre",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "cartilagini_desertiche": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cartilagini Desertiche",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "cartilagini_flessoacustiche": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cartilagini Flessoacustiche",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "cartilagini_pseudometalliche": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cartilagini Pseudometalliche",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "cavita_risonanti_tundra": {
+      "debolezza": "In ambienti temperati l'eco interna produce rumori udibili che rivelano la posizione.",
+      "fattore_mantenimento_energetico": "Basso (Camere di risonanza statiche)",
+      "label": "Cavità Risonanti della Tundra",
+      "mutazione_indotta": "Camere toraciche espanse che amplificano vibrazioni subsoniche nel permafrost.",
+      "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
+      "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo."
+    },
+    "cervelletto_equilibrio_statico": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cervelletto Equilibrio Statico",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "chemiorecettori_bromuro": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Chemiorecettori Bromuro",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "chioma_parassita_canopica": {
+      "debolezza": "Se la pianta ospite muore la chioma psionica collassa causando shock sistemico.",
+      "fattore_mantenimento_energetico": "Medio (Nutrimento condiviso con l'ospite arboreo)",
+      "label": "Chioma Parassita Canopica",
+      "mutazione_indotta": "Filamenti vegetali che si intrecciano con la canopia ospite fornendo punti d'ancoraggio e energia.",
+      "spinta_selettiva": "Stabilizzare piattaforme mobili e reti di trasporto tra gli alberi viventi.",
+      "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi."
+    },
+    "circolazione_bifasica": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Circolazione Bifasica",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "circolazione_bifasica_palude": {
+      "debolezza": "Zone asciutte e calde causano stagnazione del circuito linfatico portando a tossicosi.",
+      "fattore_mantenimento_energetico": "Medio (Doppio circuito emolinfa/linfa)",
+      "label": "Circolazione Bifasica di Palude",
+      "mutazione_indotta": "Cuori gemelli che pompano separatamente emolinfa ossigenata e linfa detossificante.",
+      "spinta_selettiva": "Resistere a tossine e anossia tipiche delle paludi psioniche.",
+      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate."
+    },
+    "circolazione_cooling_loop": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Circolazione Cooling Loop",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "circolazione_doppia": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Circolazione Doppia",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "circolazione_supercritica": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Circolazione Supercritica",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "ciste_riduttive": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ciste Riduttive",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ciste_salmastre": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ciste Salmastre",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "cisti_iperbariche": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cisti Iperbariche",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "coda_a_frusta_cinetica": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Coda a Frusta Cinetica",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Opzionali Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Coda a Frusta Cinetica'."
+    },
+    "coda_balanciere": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Coda Balanciere",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "coda_contrappeso": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Coda Contrappeso",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "coda_coppia_retroattiva": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Coda Coppia Retroattiva",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "coda_frusta_cinetica": {
+      "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno.",
+      "fattore_mantenimento_energetico": "Medio (Mantenimento dell'energia accumulata)",
+      "label": "Coda a Frusta Cinetica",
+      "mutazione_indotta": "Muscolatura della coda densa con tendini e fibre che agiscono come molle.",
+      "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
+      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
+    },
+    "coda_stabilizzatrice_filo": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Coda Stabilizzatrice Filo",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "coda_stabilizzatrice_geiser": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Coda Stabilizzatrice Geiser",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "coda_stabilizzatrice_vortex": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Coda Stabilizzatrice Vortex",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "colonne_vibromagnetiche": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Colonne Vibromagnetiche",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "coralli_partner": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Coralli Partner",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "craft_loop": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Craft Loop",
+      "mutazione_indotta": "Riduce di 1 i colpi richiesti con strumenti; si cumula con BB AL 01.",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Culturale (T5). Richiede neuroni: NE 01, IN 02, AL 07"
+    },
+    "criostasi": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Criostasi",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Opzionali Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Criostasi'."
+    },
+    "criostasi_adattiva": {
+      "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi.",
+      "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
+      "label": "Criostasi",
+      "mutazione_indotta": "Sviluppo di enzimi crioprotettivi e tessuto adiposo isolante.",
+      "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
+      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
+    },
+    "cromofori_alert_acido": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cromofori Alert Acido",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "cuore_multicamera_bassa_pressione": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cuore Multicamera Bassa Pressione",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "cuscinetti_elettrostatici": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cuscinetti Elettrostatici",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "cute_resistente_sali": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Medio (Attivazione situazionale)",
+      "label": "Cute Resistente Sali",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "cuticole_cerose": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cuticole Cerose",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "cuticole_neutralizzanti": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Cuticole Neutralizzanti",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "denti_chelatanti": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Denti Chelatanti",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "denti_ossidoferro": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Denti Ossidoferro",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "denti_silice_termici": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Denti Silice Termici",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "denti_tuning_fork": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Denti Tuning Fork",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "echi_risonanti": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Echi Risonanti",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "echoic_trace": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Echoic Trace",
+      "mutazione_indotta": "Memorizza 1 target uditivo addizionale (sinergia BB SS 01).",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Senziente Emergente (T3). Richiede neuroni: WA 03, DE 05, SS 04, SO 06"
+    },
+    "eco_interno_riflesso": {
+      "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue.",
+      "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
+      "label": "Riflesso dell'Eco Interno",
+      "mutazione_indotta": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
+      "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
+      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
+    },
+    "empatia_coordinativa": {
+      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+      "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
+      "label": "Empatia Coordinativa",
+      "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
+      "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
+      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
+    },
+    "enzimi_antifase_termica": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Enzimi Antifase Termica",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "enzimi_antipredatori_algali": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Enzimi Antipredatori Algali",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "enzimi_chelanti": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Enzimi Chelanti",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "enzimi_chelatori_rapidi": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Enzimi Chelatori Rapidi",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "enzimi_metanoossidanti": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Enzimi Metanoossidanti",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "epidermide_dielettrica": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Epidermide Dielettrica",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "epitelio_fosforescente": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Epitelio Fosforescente",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "executive_loop": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Executive Loop",
+      "mutazione_indotta": "Concatena 1 azione gratuita di 'focus' o 'memorizza' tra due compiti.",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Proto‑Umano (T6). Richiede neuroni: WA 05, WH 06, Intelligence_Core"
+    },
+    "filamenti_digestivi_compattanti": {
+      "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Filamento materiali digeriti",
+      "mutazione_indotta": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
+      "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
+      "uso_funzione": "Espulsione compatta e ordinata di scorie."
+    },
+    "filamenti_magnetotrofi": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Filamenti Magnetotrofi",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "filamenti_superconduttivi": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Filamenti Superconduttivi",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "filamenti_termoconduzione": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Filamenti Termoconduzione",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "filtri_planctonici": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Filtri Planctonici",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "flagelli_ancoranti": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Flagelli Ancoranti",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "focus_frazionato": {
+      "debolezza": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD.",
+      "fattore_mantenimento_energetico": "Medio (Dividere l'attenzione su più canali)",
+      "label": "Focus Frazionato",
+      "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
+      "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
+      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
+    },
+    "focus_frazionato_2": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Focus Frazionato",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Sinergie Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Focus Frazionato'."
+    },
+    "foliage_fotocatodico": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Foliage Fotocatodico",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "foliaggio_spugna": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Foliaggio Spugna",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "frusta_fiammeggiante": {
+      "debolezza": "Consumante: richiede costante dissipazione termica per non bruciare la matrice portante.",
+      "fattore_mantenimento_energetico": "Medio (Filamenti di plasma vincolato)",
+      "label": "Frusta Fiammeggiante",
+      "mutazione_indotta": "Genera appendici tentacolari avvolte da plasma infernale controllato.",
+      "spinta_selettiva": "Creare distanza di sicurezza contro predatori d'élite nelle zone instabili.",
+      "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia."
+    },
+    "ghiaccio_piezoelettrico": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiaccio Piezoelettrico",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ghiandola_caustica": {
+      "debolezza": "Gestione accurata delle riserve per non calare sotto i budget PE previsto.",
+      "fattore_mantenimento_energetico": "Medio (Produzione reagenti)",
+      "label": "Ghiandola Caustica",
+      "mutazione_indotta": "Sintesi rapida di composti caustici nei moduli d'attacco.",
+      "spinta_selettiva": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
+      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
+    },
+    "ghiandole_cambio_salino": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Cambio Salino",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ghiandole_condensa_ozono": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Condensa Ozono",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "ghiandole_eco_mappanti": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Eco Mappanti",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ghiandole_fango_calde": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Fango Calde",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "ghiandole_fango_coesivo": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Fango Coesivo",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "ghiandole_grafene": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Grafene",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "ghiandole_inchiostro_luce": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Inchiostro Luce",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "ghiandole_iodoattive": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Iodoattive",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "ghiandole_minerali": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Minerali",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ghiandole_nebbia_acida": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Nebbia Acida",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ghiandole_nebbia_ionica": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Nebbia Ionica",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "ghiandole_resina_conduttiva": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Resina Conduttiva",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ghiandole_ventosa": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Ghiandole Ventosa",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "giunti_antitorsione": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Giunti Antitorsione",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "grassi_termici": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Grassi Termici",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "group_form": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Group Form",
+      "mutazione_indotta": "Bonus posizionale con 2+ alleati adiacenti.",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Sociale (T4). Richiede neuroni: CM 06, DO 07, CO 1"
+    },
+    "gusci_criovetro": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Gusci Criovetro",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "gusci_magnesio": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Gusci Magnesio",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "interoception_seed": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Interoception Seed",
+      "mutazione_indotta": "+1 ai tiri di Consapevolezza Corporea; segnali anticipati di fame/sete.",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Proto‑Senziente (T1). Richiede neuroni: SO 01, SS 01, MS 01"
+    },
+    "lamelle_shear": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Lamelle Shear",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "lamelle_sincroniche": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Lamelle Sincroniche",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "lamelle_termoforetiche": {
+      "debolezza": "Rende instabile la fisiologia in ambienti a gelo improvviso, con rischio di microfratture vascolari.",
+      "fattore_mantenimento_energetico": "Medio (Flusso continuo di fluidi caldi)",
+      "label": "Lamelle Termoforetiche",
+      "mutazione_indotta": "Canali lamellari mineralizzati che convogliano fluidi caldi tra branchie interne.",
+      "spinta_selettiva": "Sopravvivere a fluidi tossici e temperature estreme nelle fumarole geotermiche.",
+      "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati."
+    },
+    "lamine_filtranti_aeree": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Lamine Filtranti Aeree",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "lamine_scudo_silice": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Lamine Scudo Silice",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "linfa_tampone": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Linfa Tampone",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "lingua_cristallina": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Lingua Cristallina",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "lingua_tattile_trama": {
+      "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Lingua Tattile Trama-Sensibile",
+      "mutazione_indotta": "Lingua sottile con papille tattili e meccanocettori avanzati.",
+      "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
+      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+    },
+    "luminescenza_aurorale": {
+      "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Luminescenza Aurorale",
+      "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+      "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "luminescenza_hydrotermica": {
+      "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Luminescenza Hydrotermica",
+      "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+      "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "mantelli_geotermici": {
+      "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Mantelli Geotermici",
+      "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
+      "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "mantello_meteoritico": {
+      "debolezza": "Vulnerabile a scariche di freddo gravitazionale che irrigidiscono il mantello.",
+      "fattore_mantenimento_energetico": "Alto (Rivestimento ablativo rigenerante)",
+      "label": "Mantello Meteoritico",
+      "mutazione_indotta": "Deposita strati sovrapposti di materiale meteorico che vaporizzano l'impatto e rilasciano radianza.",
+      "spinta_selettiva": "Sopravvivere a bombardamenti planari e piogge di meteore dimensionali.",
+      "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi."
+    },
+    "membrane_captura_rugiada": {
+      "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Membrane Captura Rugiada",
+      "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+      "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "membrane_eliofiltranti": {
+      "debolezza": "Atmosfere acide degradano rapidamente il film eliofiltrante.",
+      "fattore_mantenimento_energetico": "Basso (Auto-riparazione lenta)",
+      "label": "Membrane Eliofiltranti",
+      "mutazione_indotta": "Strati di mucopolisaccaridi trasparenti che filtrano radiazioni e microrganismi sospesi.",
+      "spinta_selettiva": "Proteggersi da radiazioni e agenti patogeni in altopiani ipersalini.",
+      "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
+    },
+    "membrane_planata_vectored": {
+      "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Membrane Planata Vectored",
+      "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+      "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "membrane_pneumatofori": {
+      "debolezza": "Risonanze errate possono generare microfratture.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Membrane Pneumatofori",
+      "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
+      "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "midollo_antivibrazione": {
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Midollo Antivibrazione",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "mimetismo_cromatico_passivo": {
+      "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato.",
+      "fattore_mantenimento_energetico": "Basso (Fase passiva)",
+      "label": "Ghiandole di Mimetismo Cromatico Passivo",
+      "mutazione_indotta": "Cromatofori che richiedono un input tattile prolungato per la ricarica.",
+      "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
+      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
+    },
+    "mimicry_basic": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Mimicry Basic",
+      "mutazione_indotta": "Il clan imita switch/alterazioni semplici (pieno con CM 06).",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Pre‑Sociale (T2). Richiede neuroni: WA 02, DE 01, DO 01"
+    },
+    "mucillagine_simbionte_mangrovie": {
+      "debolezza": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione.",
+      "fattore_mantenimento_energetico": "Medio (Coltura simbiotica costante)",
+      "label": "Mucillagine Simbionte delle Mangrovie",
+      "mutazione_indotta": "Strati mucosi che ospitano microfauna detossificante proveniente dalle radici di mangrovia.",
+      "spinta_selettiva": "Respinge tossine e predatori microbici tipici dei delta paludosi.",
+      "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
+    },
+    "mucose_aderenza_sonica": {
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Mucose Aderenza Sonica",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "mucose_barofile": {
+      "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Mucose Barofile",
+      "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+      "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "nodi_micorrizici_oracolari": {
+      "debolezza": "Se la rete micorrizica viene recisa, l'organismo soffre crisi percettive e perdita di orientamento.",
+      "fattore_mantenimento_energetico": "Medio (Scambio continuo di segnali con simbionti)",
+      "label": "Nodi Micorrizici Oracolari",
+      "mutazione_indotta": "Radici dermiche che intrecciano funghi psionici capaci di predire variazioni ambientali.",
+      "spinta_selettiva": "Anticipare frane psioniche e predatori guidati da reti vegetali senzienti.",
+      "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
+    },
+    "nucleo_ovomotore_rotante": {
+      "debolezza": "Impossibilità di muoversi su superfici irregolari o in salita ripida.",
+      "fattore_mantenimento_energetico": "Alto (Rotolamento)",
+      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
+      "mutazione_indotta": "Massa globulare rigida con giunto sferico al centro del petto.",
+      "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
+      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento."
+    },
+    "occhi_infrarosso_composti": {
+      "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato.",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Occhi Composti ad Infrarosso",
+      "mutazione_indotta": "Sviluppo di un secondo strato retinico sensibile all'infrarosso.",
+      "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
+      "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+    },
+    "olfatto_risonanza_magnetica": {
+      "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici).",
+      "fattore_mantenimento_energetico": "Medio (Elaborazione sensoriale costante)",
+      "label": "Olfatto di Risonanza Magnetica",
+      "mutazione_indotta": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
+      "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
+      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
+    },
+    "pathfinder": {
+      "debolezza": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato.",
+      "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
+      "label": "Pathfinder",
+      "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
+      "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
+      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+    },
+    "pianificatore": {
+      "debolezza": "Rigidità tattica se gli input di telemetria arrivano in ritardo.",
+      "fattore_mantenimento_energetico": "Medio (Analisi continua di stato squadre)",
+      "label": "Pianificatore",
+      "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
+      "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
+      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
+    },
+    "piume_solari_fotovoltaiche": {
+      "debolezza": "Ombre prolungate o polveri dense riducono drasticamente la produzione energetica.",
+      "fattore_mantenimento_energetico": "Alto (Richiede manutenzione delle lamine fotoreattive)",
+      "label": "Piume Solari Fotovoltaiche",
+      "mutazione_indotta": "Piumaggio stratificato con pigmenti piezo-fotovoltaici che immagazzinano luce.",
+      "spinta_selettiva": "Massimizzare l'autonomia energetica per migrazioni aeree sopra deserti e oceani.",
+      "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio."
+    },
+    "polmoni_cristallini_alta_quota": {
+      "debolezza": "Particolato pesante o sabbia vulcanica graffia i cristalli riducendo l'efficienza respiratoria.",
+      "fattore_mantenimento_energetico": "Medio (Pulizia periodica dei cristalli)",
+      "label": "Polmoni Cristallini d'Alta Quota",
+      "mutazione_indotta": "Sistemi alveolari irrobustiti da strutture cristalline che catturano ossigeno rarefatto.",
+      "spinta_selettiva": "Operare in missioni d'alta quota senza supporto logistico esterno.",
+      "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi."
+    },
+    "postural_endurance": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Postural Endurance",
+      "mutazione_indotta": "Riduce consumo energia in piedi/corsa.",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Proto‑Umano (T6). Richiede neuroni: WA 05, WH 06, Intelligence_Core"
+    },
+    "random": {
+      "debolezza": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli.",
+      "fattore_mantenimento_energetico": "Variabile (Dipende dal tratto estratto)",
+      "label": "Trait Random",
+      "mutazione_indotta": "Selezione casuale da pool controllata per esperimenti di build.",
+      "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
+      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
+    },
+    "respiro_a_scoppio": {
+      "debolezza": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica).",
+      "fattore_mantenimento_energetico": "Alto (Richiede ricarica polmonare)",
+      "label": "Respiro a scoppio",
+      "mutazione_indotta": "Polmoni o sacche aeree ad alta pressione con valvole di rilascio rapide.",
+      "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
+      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente."
+    },
+    "risonanza_di_branco": {
+      "debolezza": "Stress elevato se la coesione cala sotto i target di telemetria.",
+      "fattore_mantenimento_energetico": "Basso (Richiede mantenimento empatico)",
+      "label": "Risonanza di Branco",
+      "mutazione_indotta": "Reticolo empatico che collega i canali PI cooperativi.",
+      "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
+      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
+    },
+    "risonanza_di_branco_2": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Risonanza di Branco",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Sinergie Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Risonanza di Branco'."
+    },
+    "sacche_galleggianti_ascensoriali": {
+      "debolezza": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente.",
+      "fattore_mantenimento_energetico": "Medio (Per il controllo della pressione)",
+      "label": "Sacche galleggianti ascensoriali",
+      "mutazione_indotta": "Sacche ripiene di gas leggeri con pompe muscolari.",
+      "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
+      "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+    },
+    "sacche_galleggianti_ascensoriali_2": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Sacche Galleggianti Ascensoriali",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Opzionali Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Sacche Galleggianti Ascensoriali'."
+    },
+    "sacche_spore_stratosferiche": {
+      "debolezza": "Correnti ionizzate possono incendiare le sacche rendendo l'organismo instabile.",
+      "fattore_mantenimento_energetico": "Alto (Coltura continua di spore portanti)",
+      "label": "Sacche di Spore Stratosferiche",
+      "mutazione_indotta": "Vescicole dermiche che rilasciano spore portatrici capaci di galleggiare per chilometri.",
+      "spinta_selettiva": "Dispersone genetica rapida tra arcipelaghi aerei e piattaforme galleggianti.",
+      "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
+    },
+    "sangue_piroforico": {
+      "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno.",
+      "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
+      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
+      "mutazione_indotta": "Presenza di composti piroforici nel sangue.",
+      "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
+      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria."
+    },
+    "scheletro_idro_regolante": {
+      "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio.",
+      "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
+      "label": "Scheletro Idro-Regolante",
+      "mutazione_indotta": "Struttura ossea porosa capace di scambio rapido di fluidi.",
+      "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
+      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso."
+    },
+    "scheletro_idro_regolante_2": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Scheletro Idro-Regolante",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Core Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Scheletro Idro-Regolante'."
+    },
+    "secrezione_rallentante_palmi": {
+      "debolezza": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato.",
+      "fattore_mantenimento_energetico": "Medio (Produzione del liquido)",
+      "label": "Mani secernano liquido rallentante",
+      "mutazione_indotta": "Ghiandole mucose modificate sulle superfici prensili.",
+      "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
+      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
+    },
+    "sensori_geomagnetici": {
+      "debolezza": "Tempeste solari possono saturare il segnale magnetico, causando disorientamento prolungato.",
+      "fattore_mantenimento_energetico": "Basso (Ricettori passivi)",
+      "label": "Sensori Geomagnetici",
+      "mutazione_indotta": "Cristalli ferromagnetici allineati lungo il cranio che fungono da bussola psionica.",
+      "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
+      "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
+    },
+    "sheltering": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Sheltering",
+      "mutazione_indotta": "Riduce stress in pericolo vicino a costruzioni.",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Culturale (T5). Richiede neuroni: NE 01, IN 02, AL 07"
+    },
+    "sinapsi_coraline_polifoniche": {
+      "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
+      "fattore_mantenimento_energetico": "Medio (Scambio continuo di impulsi corallini)",
+      "label": "Sinapsi Coraline Polifoniche",
+      "mutazione_indotta": "Fibre nervose intrecciate con coralli sonori che trasmettono ordini tramite armoniche.",
+      "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
+      "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
+    },
+    "sonno_emisferico_alternato": {
+      "debolezza": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente.",
+      "fattore_mantenimento_energetico": "Medio (Mantenimento attivo di metà cervello)",
+      "label": "Dormire con solo metà cervello alla volta",
+      "mutazione_indotta": "Encefalizzazione asimmetrica o due lobi cerebrali separati.",
+      "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
+      "uso_funzione": "Vigilanza continua pur garantendo riposo."
+    },
+    "spore_psichiche_silenziate": {
+      "debolezza": "Funzionalità ridotta in presenza di vento forte o umidità elevata.",
+      "fattore_mantenimento_energetico": "Alto (Produzione e rilascio)",
+      "label": "Spora Psichica Silenziosa",
+      "mutazione_indotta": "Pori che rilasciano nano-particelle attive chimicamente o psichicamente.",
+      "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
+      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini."
+    },
+    "squame_rifrangenti_deserto": {
+      "debolezza": "Soffre danni da feedback termico se colpito da raggi concentrati o laser.",
+      "fattore_mantenimento_energetico": "Medio (Richiede riallineamento delle placche)",
+      "label": "Squame Rifrangenti del Deserto",
+      "mutazione_indotta": "Placche cristalline sovrapposte che deviano luce e calore lungo superfici multiple.",
+      "spinta_selettiva": "Sopravvivere a intensi flare termici e accecanti miraggi desertici.",
+      "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici."
+    },
+    "startle_reflex": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Startle Reflex",
+      "mutazione_indotta": "Reazioni di fuga più rapide (sinergia con MS 02 se presente).",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Proto‑Senziente (T1). Richiede neuroni: SO 01, SS 01, MS 01"
+    },
+    "struttura_elastica_amorfa": {
+      "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione).",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "label": "Struttura elastica, allungabile, amorfa, retrattile",
+      "mutazione_indotta": "Tessuto con matrice di proteine elastiche iper-modificate.",
+      "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
+      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse."
+    },
+    "struttura_elastica_amorfa_2": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Struttura Elastica Amorfa",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Core Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Struttura Elastica Amorfa'."
+    },
+    "tattiche_di_branco": {
+      "debolezza": "Richiede formazione stabile; cala se la coesione precipita sotto il target.",
+      "fattore_mantenimento_energetico": "Medio (Broadcast continuo di segnali)",
+      "label": "Tattiche di Branco",
+      "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
+      "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
+      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
+    },
+    "tattiche_di_branco_2": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Tattiche di Branco",
+      "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Sinergie Tier 1.",
+      "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
+      "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Tattiche di Branco'."
+    },
+    "teach_action": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Teach Action",
+      "mutazione_indotta": "Insegna 1 azione pratica al clan (switch/alter/transport).",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Sociale (T4). Richiede neuroni: CM 06, DO 07, CO 1"
+    },
+    "toolseed": {
+      "fattore_mantenimento_energetico": "Da definire (import esterno)",
+      "label": "Toolseed",
+      "mutazione_indotta": "Progetti Rozzi: +5% successo alterazioni; si cumula con AL 01–03.",
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Senziente Emergente (T3). Richiede neuroni: WA 03, DE 05, SS 04, SO 06"
+    },
+    "vello_condensatore_nebbie": {
+      "debolezza": "In ambienti aridi accumula detriti che riducono la capacità di condensa.",
+      "fattore_mantenimento_energetico": "Basso (Strutture passive a microfilo)",
+      "label": "Vello Condensatore di Nebbie",
+      "mutazione_indotta": "Peli cavi microstriati che catturano e canalizzano la bruma atmosferica.",
+      "spinta_selettiva": "Garantire idratazione in climi montani dove l'acqua liquida è scarsa ma la nebbia abbondante.",
+      "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo."
+    },
+    "ventriglio_gastroliti": {
+      "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci.",
+      "fattore_mantenimento_energetico": "Medio (Contrazione muscolare costante)",
+      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
+      "mutazione_indotta": "Sviluppo di un organo muscolare (ventriglio) con gastroliti.",
+      "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
+      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio."
+    },
+    "zampe_a_molla": {
+      "debolezza": "Perdita di valore su mappe con spazi stretti o controllo setup elevato.",
+      "fattore_mantenimento_energetico": "Basso (Carica elastica a turni alterni)",
+      "label": "Zampe a Molla",
+      "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
+      "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
+      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
+    },
+    "zoccoli_risonanti_steppe": {
+      "debolezza": "Suoli cedevoli come sabbie mobili annullano la vibrazione e riducono la trazione.",
+      "fattore_mantenimento_energetico": "Basso (Vibrazione passiva del suolo)",
+      "label": "Zoccoli Risonanti delle Steppe",
+      "mutazione_indotta": "Placche cornee cave che emettono onde sismiche ritmiche al contatto con il terreno.",
+      "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
+      "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
+    }
+  }
+}

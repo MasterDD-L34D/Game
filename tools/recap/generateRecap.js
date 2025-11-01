@@ -4,7 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 
 const SNAPSHOT_ENDPOINT =
-  process.env.RECAP_SNAPSHOT_ENDPOINT || 'http://localhost:3000/api/generation/snapshot';
+  process.env.RECAP_SNAPSHOT_ENDPOINT || 'http://localhost:3000/api/v1/generation/snapshot';
 const NEBULA_BASE = process.env.RECAP_NEBULA_BASE || 'http://localhost:3000/api/v1/atlas';
 const NEBULA_DATASET_ENDPOINT =
   process.env.RECAP_NEBULA_DATASET_ENDPOINT || `${NEBULA_BASE.replace(/\/$/, '')}/dataset`;

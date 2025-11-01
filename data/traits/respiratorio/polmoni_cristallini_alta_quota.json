@@ -2,12 +2,12 @@
   "conflitti": [
     "branchie_osmotiche_salmastra"
   ],
-  "debolezza": "Particolato pesante o sabbia vulcanica graffia i cristalli riducendo l'efficienza respiratoria.",
+  "debolezza": "i18n:traits.polmoni_cristallini_alta_quota.debolezza",
   "famiglia_tipologia": "Respiratorio/Aerobico",
-  "fattore_mantenimento_energetico": "Medio (Pulizia periodica dei cristalli)",
+  "fattore_mantenimento_energetico": "i18n:traits.polmoni_cristallini_alta_quota.fattore_mantenimento_energetico",
   "id": "polmoni_cristallini_alta_quota",
-  "label": "Polmoni Cristallini d'Alta Quota",
-  "mutazione_indotta": "Sistemi alveolari irrobustiti da strutture cristalline che catturano ossigeno rarefatto.",
+  "label": "i18n:traits.polmoni_cristallini_alta_quota.label",
+  "mutazione_indotta": "i18n:traits.polmoni_cristallini_alta_quota.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "aerobico",
     "core": "respiratorio"
   },
-  "spinta_selettiva": "Operare in missioni d'alta quota senza supporto logistico esterno.",
+  "spinta_selettiva": "i18n:traits.polmoni_cristallini_alta_quota.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi."
+  "uso_funzione": "i18n:traits.polmoni_cristallini_alta_quota.uso_funzione"
 }

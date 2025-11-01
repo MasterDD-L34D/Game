@@ -17,7 +17,7 @@ Questa guida illustra come accedere, compilare e monitorare il nuovo form di fee
 2. **Scenario e feature**
    - `scenario_slug`: inserisci l'identificativo scenario (`badlands_intro`, `nido_difensivo`).
    - `feature_area`: scegli la categoria (gameplay, tecnica, narrativa, ux).
-   - `mutations_tested`: elenca i trait o mutazioni principali coinvolte.
+   - `mutations_tested`: elenca i trait o mutazioni principali coinvolte e aggiungi tag come `hud_canary` o `squadsync_adaptive` se rilevanti.
 3. **Valutazione**
    - `severity`: scala 1-4 (1 = suggerimento, 4 = blocco).
    - `impact_scope`: indica se impatta `solo_party`, `biome`, `metagame`.
@@ -42,7 +42,7 @@ Questa guida illustra come accedere, compilare e monitorare il nuovo form di fee
 
 ## 5. Risoluzione dei problemi
 - **Il form non carica?** Verifica la VPN aziendale; il dominio Notion è accessibile solo da IP autorizzati.
-- **Non trovi la build in elenco?** Apri un ticket `#feedback-intake` con l'ID commit e l'ambiente.
+- **Non trovi la build in elenco?** Apri un ticket in `#feedback-enhancements` con l'ID commit e l'ambiente.
 - **Serve supporto audio/video?** Allegare file superiori a 50MB direttamente su Drive e incollare il link con permessi `comment`.
 
 ## 6. Link utili

@@ -27,7 +27,7 @@ describe('data sources registry', () => {
     const flowSnapshot = getDataSource('flowSnapshot');
     expect(flowSnapshot).toEqual({
       id: 'flowSnapshot',
-      endpoint: '/api/generation/snapshot',
+      endpoint: '/api/v1/generation/snapshot',
       fallback: 'data/flow/snapshots/flow-shell-snapshot.json',
       mock: null,
     });

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example/config/i18n/trait_locales.schema.json",
+  "title": "Trait locale bundle",
+  "description": "Schema per i file di localizzazione dei trait.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["language", "fallback", "entries"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$",
+      "description": "Codice della lingua secondo BCP 47 (es. it, en-US)."
+    },
+    "fallback": {
+      "type": ["string", "null"],
+      "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$",
+      "description": "Codice lingua da usare come fallback oppure null se non disponibile."
+    },
+    "entries": {
+      "type": "object",
+      "description": "Mappa trait → campi localizzati.",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "label": {"type": "string"},
+          "description": {"type": "string"},
+          "flavor_text": {"type": "string"},
+          "mutazione_indotta": {"type": "string"},
+          "spinta_selettiva": {"type": "string"},
+          "uso_funzione": {"type": "string"},
+          "debolezza": {"type": "string"},
+          "fattore_mantenimento_energetico": {"type": "string"}
+        }
+      }
+    }
+  }
+}

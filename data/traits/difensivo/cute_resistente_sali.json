@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
+  "debolezza": "i18n:traits.cute_resistente_sali.debolezza",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "Medio (Attivazione situazionale)",
+  "fattore_mantenimento_energetico": "i18n:traits.cute_resistente_sali.fattore_mantenimento_energetico",
   "id": "cute_resistente_sali",
-  "label": "Cute Resistente Sali",
-  "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
+  "label": "i18n:traits.cute_resistente_sali.label",
+  "mutazione_indotta": "i18n:traits.cute_resistente_sali.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "protezione",
     "core": "difensivo"
   },
-  "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
+  "spinta_selettiva": "i18n:traits.cute_resistente_sali.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+  "uso_funzione": "i18n:traits.cute_resistente_sali.uso_funzione"
 }

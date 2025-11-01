@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci.",
+  "debolezza": "i18n:traits.ventriglio_gastroliti.debolezza",
   "famiglia_tipologia": "Digestivo/Alimentare",
-  "fattore_mantenimento_energetico": "Medio (Contrazione muscolare costante)",
+  "fattore_mantenimento_energetico": "i18n:traits.ventriglio_gastroliti.fattore_mantenimento_energetico",
   "id": "ventriglio_gastroliti",
-  "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
-  "mutazione_indotta": "Sviluppo di un organo muscolare (ventriglio) con gastroliti.",
+  "label": "i18n:traits.ventriglio_gastroliti.label",
+  "mutazione_indotta": "i18n:traits.ventriglio_gastroliti.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -46,7 +46,7 @@
     "complementare": "alimentare",
     "core": "digestivo"
   },
-  "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
+  "spinta_selettiva": "i18n:traits.ventriglio_gastroliti.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio."
+  "uso_funzione": "i18n:traits.ventriglio_gastroliti.uso_funzione"
 }

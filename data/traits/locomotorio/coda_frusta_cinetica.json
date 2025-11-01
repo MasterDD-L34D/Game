@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno.",
+  "debolezza": "i18n:traits.coda_frusta_cinetica.debolezza",
   "famiglia_tipologia": "Locomotorio/Difensivo",
-  "fattore_mantenimento_energetico": "Medio (Mantenimento dell'energia accumulata)",
+  "fattore_mantenimento_energetico": "i18n:traits.coda_frusta_cinetica.fattore_mantenimento_energetico",
   "id": "coda_frusta_cinetica",
-  "label": "Coda a Frusta Cinetica",
-  "mutazione_indotta": "Muscolatura della coda densa con tendini e fibre che agiscono come molle.",
+  "label": "i18n:traits.coda_frusta_cinetica.label",
+  "mutazione_indotta": "i18n:traits.coda_frusta_cinetica.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -73,7 +73,7 @@
     "complementare": "difensivo",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
+  "spinta_selettiva": "i18n:traits.coda_frusta_cinetica.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
+  "uso_funzione": "i18n:traits.coda_frusta_cinetica.uso_funzione"
 }

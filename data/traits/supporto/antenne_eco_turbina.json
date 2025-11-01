@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
+  "debolezza": "i18n:traits.antenne_eco_turbina.debolezza",
   "famiglia_tipologia": "Supporto/Logistico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.antenne_eco_turbina.fattore_mantenimento_energetico",
   "id": "antenne_eco_turbina",
-  "label": "Antenne Eco Turbina",
-  "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
+  "label": "i18n:traits.antenne_eco_turbina.label",
+  "mutazione_indotta": "i18n:traits.antenne_eco_turbina.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "logistico",
     "core": "supporto"
   },
-  "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
+  "spinta_selettiva": "i18n:traits.antenne_eco_turbina.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+  "uso_funzione": "i18n:traits.antenne_eco_turbina.uso_funzione"
 }

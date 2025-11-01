@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+  "debolezza": "i18n:traits.antenne_waveguide.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.antenne_waveguide.fattore_mantenimento_energetico",
   "id": "antenne_waveguide",
-  "label": "Antenne Waveguide",
-  "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+  "label": "i18n:traits.antenne_waveguide.label",
+  "mutazione_indotta": "i18n:traits.antenne_waveguide.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "analitico",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+  "spinta_selettiva": "i18n:traits.antenne_waveguide.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+  "uso_funzione": "i18n:traits.antenne_waveguide.uso_funzione"
 }

@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
+  "debolezza": "i18n:traits.colonne_vibromagnetiche.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.colonne_vibromagnetiche.fattore_mantenimento_energetico",
   "id": "colonne_vibromagnetiche",
-  "label": "Colonne Vibromagnetiche",
-  "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
+  "label": "i18n:traits.colonne_vibromagnetiche.label",
+  "mutazione_indotta": "i18n:traits.colonne_vibromagnetiche.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "tattico",
     "core": "strategia"
   },
-  "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
+  "spinta_selettiva": "i18n:traits.colonne_vibromagnetiche.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+  "uso_funzione": "i18n:traits.colonne_vibromagnetiche.uso_funzione"
 }

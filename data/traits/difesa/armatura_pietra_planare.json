@@ -2,12 +2,12 @@
   "conflitti": [
     "frusta_fiammeggiante"
   ],
-  "debolezza": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità.",
+  "debolezza": "i18n:traits.armatura_pietra_planare.debolezza",
   "famiglia_tipologia": "Difesa/Strutturale",
-  "fattore_mantenimento_energetico": "Basso (Risonanza geodetica stabile)",
+  "fattore_mantenimento_energetico": "i18n:traits.armatura_pietra_planare.fattore_mantenimento_energetico",
   "id": "armatura_pietra_planare",
-  "label": "Armatura di Pietra Planare",
-  "mutazione_indotta": "Cristallizza il dermascheletro con nodi rune che deviano energia.",
+  "label": "i18n:traits.armatura_pietra_planare.label",
+  "mutazione_indotta": "i18n:traits.armatura_pietra_planare.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [
@@ -38,7 +38,7 @@
     "complementare": "strutturale",
     "core": "difesa"
   },
-  "spinta_selettiva": "Stabilizzare varchi e proteggere infrastrutture dalle onde d'urto.",
+  "spinta_selettiva": "i18n:traits.armatura_pietra_planare.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali."
+  "uso_funzione": "i18n:traits.armatura_pietra_planare.uso_funzione"
 }

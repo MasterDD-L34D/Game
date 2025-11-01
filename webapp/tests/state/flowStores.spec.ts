@@ -11,7 +11,7 @@ const dataSourceMock = vi.hoisted(() => {
   const defaults = new Map<string, { endpoint: string | null; fallback: string | null; mock: string | null }>([
     [
       'flowSnapshot',
-      { endpoint: '/api/generation/snapshot', fallback: 'data/flow/snapshots/flow-shell-snapshot.json', mock: null },
+      { endpoint: '/api/v1/generation/snapshot', fallback: 'data/flow/snapshots/flow-shell-snapshot.json', mock: null },
     ],
     ['generationSpecies', { endpoint: '/api/v1/generation/species', fallback: null, mock: null }],
     ['generationSpeciesBatch', { endpoint: '/api/v1/generation/species/batch', fallback: null, mock: null }],
@@ -108,7 +108,7 @@ describe('flow stores', () => {
   describe('useSnapshotLoader', () => {
     it('carica lo snapshot da endpoint remoto', async () => {
       const fetchMock = vi.fn(async (url: string) => {
-        if (url === '/api/generation/snapshot') {
+        if (url === '/api/v1/generation/snapshot') {
           return {
             ok: true,
             status: 200,
@@ -121,11 +121,11 @@ describe('flow stores', () => {
       const store = useSnapshotLoader({
         logger,
         fetch: fetchMock as unknown as typeof fetch,
-        snapshotUrl: '/api/generation/snapshot',
+        snapshotUrl: '/api/v1/generation/snapshot',
         fallbackSnapshotUrl: null,
       });
       await store.fetchSnapshot();
-      expect(fetchMock).toHaveBeenCalledWith('/api/generation/snapshot', { cache: 'no-store' });
+      expect(fetchMock).toHaveBeenCalledWith('/api/v1/generation/snapshot', { cache: 'no-store' });
       expect(store.source.value).toBe('remote');
       expect(store.overview.value.completion.total).toBe(10);
       expect(logger.log).toHaveBeenCalledWith('snapshot.load.success', expect.any(Object));
@@ -133,7 +133,7 @@ describe('flow stores', () => {
 
     it('applica il fallback locale se la richiesta remota fallisce', async () => {
       const fetchMock = vi.fn(async (url: string) => {
-        if (url === '/api/generation/snapshot') {
+        if (url === '/api/v1/generation/snapshot') {
           return { ok: false, status: 503, json: async () => ({}) };
         }
         if (url === 'data/flow/snapshots/flow-shell-snapshot.json') {
@@ -149,7 +149,7 @@ describe('flow stores', () => {
       const store = useSnapshotLoader({
         logger,
         fetch: fetchMock as unknown as typeof fetch,
-        snapshotUrl: '/api/generation/snapshot',
+        snapshotUrl: '/api/v1/generation/snapshot',
         fallbackSnapshotUrl: 'data/flow/snapshots/flow-shell-snapshot.json',
       });
       await store.fetchSnapshot();
