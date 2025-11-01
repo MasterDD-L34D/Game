@@ -1,76 +1,42 @@
 import { computed, reactive } from 'vue';
-import { logEvent as logClientEvent } from '../services/clientLogger.js';
+import { createLogger } from '../utils/logger.ts';
 
-let logSequence = 0;
+const MAX_ENTRIES = 200;
 
-function normaliseScope(value) {
-  if (value === null || value === undefined) {
-    return 'flow';
-  }
-  return String(value || '').trim() || 'flow';
-}
-
-function normaliseLevel(value) {
-  if (!value) {
-    return 'info';
-  }
-  const text = String(value).toLowerCase();
-  if (['info', 'warning', 'error', 'success'].includes(text)) {
-    return text;
-  }
-  return 'info';
+function normaliseEntry(entry) {
+  return {
+    id: entry.id,
+    scope: entry.scope,
+    level: entry.level,
+    message: entry.message,
+    timestamp: entry.timestamp,
+    event: entry.event,
+    request_id: entry.request_id,
+    meta: entry.meta,
+    validation: entry.validation,
+    source: entry.source,
+  };
 }
 
 export function useFlowLogger() {
   const state = reactive({ entries: [] });
 
-  const log = (event, details = {}) => {
-    const entry = {
-      id: `flow-${Date.now()}-${logSequence++}`,
-      event: event || 'flow.event',
-      scope: normaliseScope(details.scope),
-      level: normaliseLevel(details.level),
-      message: details.message || '',
-      request_id: details.request_id || details.requestId || null,
-      meta: details.meta || null,
-      validation: details.validation || null,
-      timestamp: new Date().toISOString(),
-      source: details.source || 'flow',
-    };
-    state.entries.unshift(entry);
-    if (state.entries.length > 200) {
-      state.entries.length = 200;
-    }
-    logClientEvent(entry.event, {
-      id: entry.id,
-      scope: entry.scope,
-      level: entry.level,
-      message: entry.message,
-      request_id: entry.request_id,
-      meta: entry.meta,
-      validation: entry.validation,
-      timestamp: entry.timestamp,
-      source: entry.source,
-    });
-    return entry;
-  };
+  const baseLogger = createLogger('flow', {
+    sink(entry) {
+      state.entries.unshift(normaliseEntry(entry));
+      if (state.entries.length > MAX_ENTRIES) {
+        state.entries.length = MAX_ENTRIES;
+      }
+    },
+  });
 
-  const logs = computed(() =>
-    state.entries.map((entry) => ({
-      id: entry.id,
-      scope: entry.scope,
-      level: entry.level,
-      message: entry.message,
-      timestamp: entry.timestamp,
-      event: entry.event,
-      request_id: entry.request_id,
-      meta: entry.meta,
-      validation: entry.validation,
-      source: entry.source,
-    })),
-  );
+  const log = (event, details = {}) => baseLogger.log(event, details);
+
+  const logs = computed(() => state.entries.map((entry) => ({ ...entry })));
 
   return { log, logs };
 }
 
-export const __internals__ = { normaliseScope, normaliseLevel };
+export const __internals__ = {
+  MAX_ENTRIES,
+};
