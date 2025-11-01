@@ -83,21 +83,34 @@ export function useFlowLogger() {
   const state = reactive({ entries: [] });
   const events = createListenerMap();
 
-  const baseLogger = createLogger('flow', {
-    sink(entry) {
-      const normalised = normaliseEntry(entry);
-      state.entries.unshift(normalised);
-      if (state.entries.length > MAX_ENTRIES) {
-        state.entries.length = MAX_ENTRIES;
-      }
-      events.emit(entry.event, normalised);
-    },
-  });
+  const loggers = new Map();
 
-  const log = (event, details = {}) => baseLogger.log(event, { source: 'flow', ...details });
-  const info = (event, details = {}) => baseLogger.info(event, { source: 'flow', ...details });
-  const warn = (event, details = {}) => baseLogger.warn(event, { source: 'flow', ...details });
-  const error = (event, details = {}) => baseLogger.error(event, { source: 'flow', ...details });
+  const sink = (entry) => {
+    const normalised = normaliseEntry(entry);
+    state.entries.unshift(normalised);
+    if (state.entries.length > MAX_ENTRIES) {
+      state.entries.length = MAX_ENTRIES;
+    }
+    events.emit(entry.event, normalised);
+  };
+
+  const getLogger = (scope) => {
+    const resolvedScope = typeof scope === 'string' && scope.trim().length ? scope : 'flow';
+    if (!loggers.has(resolvedScope)) {
+      loggers.set(resolvedScope, createLogger(resolvedScope, { sink }));
+    }
+    return loggers.get(resolvedScope);
+  };
+
+  const emit = (method, event, details = {}) => {
+    const { scope, ...rest } = details || {};
+    return getLogger(scope)[method](event, { source: 'flow', ...rest });
+  };
+
+  const log = (event, details) => emit('log', event, details);
+  const info = (event, details) => emit('info', event, details);
+  const warn = (event, details) => emit('warn', event, details);
+  const error = (event, details) => emit('error', event, details);
 
   const logs = computed(() => state.entries.map((entry) => ({ ...entry })));
 
