@@ -40,3 +40,19 @@ Lo script produce due artefatti:
 Il trend storico nel report mostra l'ultima decina di snapshot registrati: una
 linea crescente suggerisce una buona copertura, mentre plateau prolungati
 richiedono follow-up con i team di narrative e bilanciamento.
+
+
+## Analisi bilanciamento tratti
+
+1. Assicurati di avere le dipendenze grafiche installate (pandas, matplotlib, seaborn).
+   ```bash
+   pip install pandas matplotlib seaborn
+   ```
+2. Lancia l'analisi completa: 
+   ```bash
+   python analytics/trait_balance_analysis.py
+   ```
+   - Puoi personalizzare le sorgenti con `--index` e `--species-bridge` se stai lavorando su esportazioni alternative.
+3. I grafici sono salvati localmente in `reports/trait_balance/` (heatmap biomi/tier, top specie, sinergie per famiglia); la cartella è ignorata dal versionamento così da evitare di tracciare i PNG generati.
+4. Le note interpretative sono aggiornate in `reports/trait_balance_summary.md` e mettono in evidenza i biomi saturi, le specie con più accesso e le famiglie dominanti nelle sinergie.
+   - Usa questi punti come base per priorizzare interventi di bilanciamento: ridistribuisci tratti nei biomi poveri, amplia l'accesso delle specie marginali e riequilibra sinergie troppo concentrate.
