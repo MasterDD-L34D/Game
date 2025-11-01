@@ -46,6 +46,12 @@ test('risk HUD alert triggers once above threshold and notifies PI team', () => 
         weighted_index: 0.62,
         time_low_hp_turns: 7,
       },
+      cohesion: {
+        delta: 2,
+      },
+      support: {
+        actions: 5,
+      },
     },
   });
 
@@ -57,6 +63,12 @@ test('risk HUD alert triggers once above threshold and notifies PI team', () => 
       risk: {
         weighted_index: 0.65,
         time_low_hp_turns: 8,
+      },
+      cohesion: {
+        delta: 3,
+      },
+      support: {
+        actions: 6,
       },
     },
   });
@@ -72,6 +84,50 @@ test('risk HUD alert triggers once above threshold and notifies PI team', () => 
   );
   assert.equal(telemetryEvents.length, 1);
   assert.equal(telemetryEvents[0].alert.id, 'risk-high:skydock_siege');
+});
+
+test('risk HUD overlay events are skipped when cohesion/support metrics are absent', () => {
+  const telemetryBus = new EventEmitter();
+  const commandBus = new EventEmitter();
+  const recorded: any[] = [];
+
+  const hudLayer = {
+    raiseAlert: () => {
+      /* noop */
+    },
+    clearAlert: () => {
+      /* noop */
+    },
+    updateTrend: () => {
+      /* noop */
+    },
+  };
+
+  registerRiskHudAlertSystem({
+    telemetryBus,
+    hudLayer,
+    commandBus,
+    telemetryRecorder: {
+      record: (entry) => recorded.push(entry),
+    },
+  });
+
+  telemetryBus.emit('ema.update', {
+    missionId: 'skydock_siege',
+    roster: ['Sentinel', 'Vesper'],
+    turn: 11,
+    indices: {
+      risk: {
+        weighted_index: 0.62,
+        time_low_hp_turns: 7,
+      },
+    },
+  });
+
+  assert.deepEqual(
+    recorded.map((entry) => entry.status),
+    ['raised'],
+  );
 });
 
 test('risk HUD alert clears after two ticks below the clear threshold', () => {
@@ -108,6 +164,12 @@ test('risk HUD alert clears after two ticks below the clear threshold', () => {
         weighted_index: 0.64,
         time_low_hp_turns: 6,
       },
+      cohesion: {
+        delta: 1,
+      },
+      support: {
+        actions: 3,
+      },
     },
   });
 
@@ -119,6 +181,12 @@ test('risk HUD alert clears after two ticks below the clear threshold', () => {
         weighted_index: 0.57,
         time_low_hp_turns: 5,
       },
+      cohesion: {
+        delta: 1,
+      },
+      support: {
+        actions: 2,
+      },
     },
   });
 
@@ -129,6 +197,12 @@ test('risk HUD alert clears after two ticks below the clear threshold', () => {
       risk: {
         weighted_index: 0.56,
         time_low_hp_turns: 4,
+      },
+      cohesion: {
+        delta: 1,
+      },
+      support: {
+        actions: 1,
       },
     },
   });
@@ -237,6 +311,12 @@ test('risk HUD alert tracks acknowledgement events and exposes them in telemetry
         weighted_index: 0.65,
         time_low_hp_turns: 6,
       },
+      cohesion: {
+        delta: 4,
+      },
+      support: {
+        actions: 7,
+      },
     },
   });
 
@@ -254,6 +334,12 @@ test('risk HUD alert tracks acknowledgement events and exposes them in telemetry
         weighted_index: 0.57,
         time_low_hp_turns: 5,
       },
+      cohesion: {
+        delta: 2,
+      },
+      support: {
+        actions: 4,
+      },
     },
   });
 
@@ -264,6 +350,12 @@ test('risk HUD alert tracks acknowledgement events and exposes them in telemetry
       risk: {
         weighted_index: 0.55,
         time_low_hp_turns: 4,
+      },
+      cohesion: {
+        delta: 1,
+      },
+      support: {
+        actions: 2,
       },
     },
   });

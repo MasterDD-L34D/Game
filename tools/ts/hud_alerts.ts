@@ -342,6 +342,7 @@ export function registerRiskHudAlertSystem({
     const missionTag = resolveMissionTag(payload, options?.missionTags, options?.missionTagger);
     const cohesionDelta = getCohesionDelta(payload);
     const supportActions = getSupportActions(payload);
+    const hasOverlayMetrics = cohesionDelta !== null && supportActions !== null;
 
     for (const filter of filters) {
       let passes = true;
@@ -424,17 +425,19 @@ export function registerRiskHudAlertSystem({
           cohesionDelta,
           supportActions,
         });
-        commandBus.emit('hud.overlay.displayed', {
-          alertId,
-          missionId: payload.missionId,
-          roster: payload.roster,
-          missionTag,
-          turn: payload.turn,
-          weightedIndex,
-          timeLowHpTurns,
-          cohesionDelta,
-          supportActions,
-        });
+        if (hasOverlayMetrics) {
+          commandBus.emit('hud.overlay.displayed', {
+            alertId,
+            missionId: payload.missionId,
+            roster: payload.roster,
+            missionTag,
+            turn: payload.turn,
+            weightedIndex,
+            timeLowHpTurns,
+            cohesionDelta,
+            supportActions,
+          });
+        }
       }
 
       if (telemetryRecorder) {
@@ -453,19 +456,21 @@ export function registerRiskHudAlertSystem({
           cohesionDelta,
           supportActions,
         });
-        telemetryRecorder.record({
-          alertId: alert.id,
-          status: 'overlay.displayed',
-          missionId: payload.missionId,
-          missionTag,
-          turn: payload.turn,
-          weightedIndex,
-          timeLowHpTurns,
-          roster: payload.roster,
-          timestamp: toIsoTimestamp(),
-          cohesionDelta,
-          supportActions,
-        });
+        if (hasOverlayMetrics) {
+          telemetryRecorder.record({
+            alertId: alert.id,
+            status: 'overlay.displayed',
+            missionId: payload.missionId,
+            missionTag,
+            turn: payload.turn,
+            weightedIndex,
+            timeLowHpTurns,
+            roster: payload.roster,
+            timestamp: toIsoTimestamp(),
+            cohesionDelta,
+            supportActions,
+          });
+        }
       }
 
       if (typeof telemetryBus.emit === 'function') {
@@ -513,25 +518,27 @@ export function registerRiskHudAlertSystem({
             cohesionDelta,
             supportActions,
           });
-          telemetryRecorder.record({
-            alertId,
-            status: 'overlay.dismissed',
-            missionId: payload.missionId,
-            missionTag,
-            turn: payload.turn,
-            weightedIndex,
-            timeLowHpTurns,
-            roster: payload.roster,
-            timestamp,
-            ackCount: ackInfo?.count,
-            ackRecipients: ackInfo ? Array.from(ackInfo.recipients) : undefined,
-            lastAckTimestamp: ackInfo?.lastTimestamp,
-            cohesionDelta,
-            supportActions,
-          });
+          if (hasOverlayMetrics) {
+            telemetryRecorder.record({
+              alertId,
+              status: 'overlay.dismissed',
+              missionId: payload.missionId,
+              missionTag,
+              turn: payload.turn,
+              weightedIndex,
+              timeLowHpTurns,
+              roster: payload.roster,
+              timestamp,
+              ackCount: ackInfo?.count,
+              ackRecipients: ackInfo ? Array.from(ackInfo.recipients) : undefined,
+              lastAckTimestamp: ackInfo?.lastTimestamp,
+              cohesionDelta,
+              supportActions,
+            });
+          }
         }
 
-        if (typeof commandBus.emit === 'function') {
+        if (hasOverlayMetrics && typeof commandBus.emit === 'function') {
           commandBus.emit('hud.overlay.dismissed', {
             alertId,
             missionId: payload.missionId,
