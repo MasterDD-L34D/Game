@@ -1,6 +1,6 @@
 import { computed, reactive, type ComputedRef } from 'vue';
 import { fetchTraitDiagnostics } from '../services/traitDiagnosticsService.js';
-import { determineFallbackLabel } from './useSnapshotLoader.js';
+import { determineFallbackLabel } from './useSnapshotLoader';
 
 type FlowLogger = {
   log?: (event: string, payload?: Record<string, unknown>) => void;

@@ -1,4 +1,4 @@
-import { readEnvString } from '../services/apiEndpoints.js';
+import { readEnvString } from '../services/apiEndpoints';
 
 export type DataSourceId =
   | 'flowSnapshot'

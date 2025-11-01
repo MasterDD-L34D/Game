@@ -222,6 +222,14 @@
       </aside>
     </section>
 
+    <section v-if="releaseNotesHtml" class="quality-release__notes">
+      <header class="quality-release__section-header">
+        <h3>Release notes Nebula</h3>
+        <p>Note di accompagnamento sincronizzate dal runtime snapshot.</p>
+      </header>
+      <SafeContent class="quality-release__notes-body" :source="releaseNotesHtml" kind="html" />
+    </section>
+
     <section class="quality-release__validators">
       <header class="quality-release__section-header">
         <h3>Runtime checks</h3>
@@ -360,8 +368,10 @@
 
 <script setup>
 import { computed, reactive, ref, toRefs, watch } from 'vue';
-import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService.js';
-import { applyQualitySuggestion } from '../services/qualityReleaseService.js';
+
+import SafeContent from '../components/common/SafeContent.vue';
+import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService';
+import { applyQualitySuggestion } from '../services/qualityReleaseService';
 import { logEvent as logClientEvent, useClientLogger } from '../services/clientLogger.js';
 
 const props = defineProps({
@@ -503,6 +513,18 @@ watch(
   },
   { deep: true }
 );
+
+const releaseNotesHtml = computed(() => {
+  const contextNotes = context.value?.releaseNotesHtml;
+  if (typeof contextNotes === 'string' && contextNotes.trim()) {
+    return contextNotes;
+  }
+  const releaseNotes = snapshot.value?.releaseNotesHtml;
+  if (typeof releaseNotes === 'string' && releaseNotes.trim()) {
+    return releaseNotes;
+  }
+  return '';
+});
 
 const releasePackages = computed(() => releaseConsoleState.packages);
 
@@ -1461,13 +1483,24 @@ function exportQaLogs(format = 'json') {
 
 .quality-release__validators,
 .quality-release__suggestions,
-.quality-release__logs {
+.quality-release__logs,
+.quality-release__notes {
   background: rgba(9, 14, 20, 0.65);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
   padding: 1.2rem;
   display: grid;
   gap: 1rem;
+}
+
+.quality-release__notes-body :where(p, ul, ol) {
+  margin: 0 0 0.75rem;
+  color: rgba(240, 244, 255, 0.9);
+}
+
+.quality-release__notes-body ul,
+.quality-release__notes-body ol {
+  padding-left: 1.25rem;
 }
 
 .quality-release__section-header h3 {

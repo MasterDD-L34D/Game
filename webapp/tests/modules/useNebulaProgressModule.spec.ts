@@ -3,7 +3,7 @@ import { defineComponent, nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 
 import { useNebulaProgressModule } from '../../src/modules/useNebulaProgressModule';
-import { atlasDataset as staticDataset } from '../../src/state/atlasDataset.js';
+import { atlasDataset as staticDataset } from '../../src/state/atlasDataset';
 
 const flushAsync = async () => {
   await Promise.resolve();
@@ -95,6 +95,12 @@ describe('useNebulaProgressModule', () => {
     );
 
     await flushAsync();
+    if (moduleInstance?.loading.value) {
+      await flushAsync();
+    }
+    while (moduleInstance?.loading.value) {
+      await flushAsync();
+    }
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(moduleInstance).not.toBeNull();
@@ -109,6 +115,62 @@ describe('useNebulaProgressModule', () => {
       expect.objectContaining({ status: 'online', label: 'Generator live' }),
     );
 
+    await wrapper.unmount();
+  });
+
+  it('ripiega sul dataset statico quando il payload remoto è malformato', async () => {
+    const fetchMock = vi.fn(async (input: string | URL, init?: Record<string, unknown>) => {
+      const url = typeof input === 'string' ? input : input.toString();
+      if (url === '/api/v1/atlas/dataset') {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ dataset: { foo: 'bar' } }),
+        } as any;
+      }
+      if (url === '/api/v1/atlas/telemetry' || url === '/api/v1/atlas/generator') {
+        return { ok: false, status: 404, json: async () => ({}) } as any;
+      }
+      if (url === '/api/v1/atlas') {
+        return { ok: false, status: 500, json: async () => ({}) } as any;
+      }
+      if (url === '/data/nebula/atlas.json') {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ dataset: JSON.parse(JSON.stringify(staticDataset)) }),
+        } as any;
+      }
+      if (url === '/data/nebula/telemetry.json') {
+        return { ok: false, status: 404, json: async () => ({}) } as any;
+      }
+      throw new Error(`unexpected url ${url}`);
+    });
+
+    let moduleInstance: ReturnType<typeof useNebulaProgressModule> | null = null;
+    const wrapper = mount(
+      defineComponent({
+        name: 'NebulaModuleFallbackHarness',
+        setup() {
+          moduleInstance = useNebulaProgressModule(
+            {},
+            {
+              fetcher: fetchMock,
+              allowFallback: true,
+              pollIntervalMs: 0,
+            },
+          );
+          return () => null;
+        },
+      }),
+    );
+
+    await flushAsync();
+
+    expect(fetchMock).toHaveBeenCalled();
+    expect(moduleInstance).not.toBeNull();
+    expect(moduleInstance!.datasetStatus.value.source).not.toBe('remote');
+    expect(moduleInstance!.share.value.datasetId).toBe(staticDataset.id);
     await wrapper.unmount();
   });
 });

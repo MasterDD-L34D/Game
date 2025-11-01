@@ -1,10 +1,16 @@
 const hasImportMeta = typeof import.meta !== 'undefined' && typeof import.meta.env === 'object';
 
-function readEnvString(key) {
+export type ResolveUrlOverrides = {
+  apiBase?: string | null | undefined;
+  baseUrl?: string | null | undefined;
+};
+
+export function readEnvString(key: string): string | undefined {
   if (!hasImportMeta) {
     return undefined;
   }
-  const raw = import.meta.env[key];
+  const env = import.meta.env as Record<string, unknown>;
+  const raw = env[key];
   if (typeof raw !== 'string') {
     return undefined;
   }
@@ -12,14 +18,14 @@ function readEnvString(key) {
   return trimmed ? trimmed : undefined;
 }
 
-function isAbsoluteUrl(value) {
+function isAbsoluteUrl(value: unknown): value is string {
   if (!value || typeof value !== 'string') {
     return false;
   }
-  return /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:|\/\/)/.test(value);
+  return /^(?:[a-zA-Z][a-zA-Z0-9+.-]*:\/\/|[a-zA-Z][a-zA-Z0-9+.-]*:)/.test(value) || value.startsWith('//');
 }
 
-function normaliseBase(value, fallback = '') {
+function normaliseBase(value: unknown, fallback = ''): string {
   if (!value || typeof value !== 'string') {
     return fallback;
   }
@@ -42,7 +48,7 @@ function normaliseBase(value, fallback = '') {
   return `${trimmed}/`;
 }
 
-function joinUrl(base, path) {
+function joinUrl(base: string, path: string): string {
   if (!base) {
     return path;
   }
@@ -60,7 +66,7 @@ function joinUrl(base, path) {
   return base + path;
 }
 
-function isRelativeBase(value) {
+function isRelativeBase(value: unknown): boolean {
   if (!value || typeof value !== 'string') {
     return false;
   }
@@ -74,7 +80,7 @@ const NORMALISED_BASE_URL = normaliseBase(RAW_BASE_URL, '/');
 const NORMALISED_API_BASE = RAW_API_BASE ? normaliseBase(RAW_API_BASE, '') : '';
 const STATIC_BASE = isRelativeBase(RAW_BASE_URL);
 
-function resolveApiUrl(target, overrides = {}) {
+export function resolveApiUrl(target: string | null | undefined, overrides: ResolveUrlOverrides = {}): string {
   if (!target || typeof target !== 'string') {
     const base = overrides.apiBase ?? NORMALISED_API_BASE;
     if (base) {
@@ -95,7 +101,7 @@ function resolveApiUrl(target, overrides = {}) {
   return joinUrl(joinBase, trimmed);
 }
 
-function resolveAssetUrl(target, overrides = {}) {
+export function resolveAssetUrl(target: string | null | undefined, overrides: ResolveUrlOverrides = {}): string {
   if (!target || typeof target !== 'string') {
     return overrides.baseUrl ?? NORMALISED_BASE_URL;
   }
@@ -108,18 +114,12 @@ function resolveAssetUrl(target, overrides = {}) {
   return joinUrl(baseUrl, normalisedPath);
 }
 
-function isStaticDeployment() {
+export function isStaticDeployment(): boolean {
   return STATIC_BASE;
 }
 
-export {
-  resolveApiUrl,
-  resolveAssetUrl,
-  isStaticDeployment,
-  readEnvString,
-  NORMALISED_BASE_URL as baseUrl,
-  NORMALISED_API_BASE as apiBase,
-};
+export const baseUrl = NORMALISED_BASE_URL;
+export const apiBase = NORMALISED_API_BASE;
 
 export const __internals__ = {
   readEnvString,

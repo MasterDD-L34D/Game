@@ -2,8 +2,8 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import { nextTick } from 'vue';
 import { createMemoryHistory } from 'vue-router';
 
-import { createAppRouter } from '../../src/router/index.js';
-import { resetNavigationMeta, useNavigationMeta } from '../../src/state/navigationMeta.js';
+import { createAppRouter } from '../../src/router';
+import { resetNavigationMeta, useNavigationMeta } from '../../src/state/navigationMeta';
 
 describe('App router metadata', () => {
   beforeEach(() => {

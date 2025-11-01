@@ -4,7 +4,7 @@ const env = vi.hoisted(() => ({
   values: {} as Record<string, string | undefined>,
 }));
 
-vi.mock('../../src/services/apiEndpoints.js', () => ({
+vi.mock('../../src/services/apiEndpoints', () => ({
   readEnvString: (key: string) => env.values[key],
 }));
 

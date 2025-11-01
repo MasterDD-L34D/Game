@@ -1,4 +1,4 @@
-import { resolveApiUrl } from './apiEndpoints.js';
+import { resolveApiUrl } from './apiEndpoints';
 
 export interface TraitSummary {
   id: string;
