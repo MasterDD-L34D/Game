@@ -38,6 +38,10 @@ jobs:
         working-directory: tools/ts
         run: npm run build --if-present
 
+      - name: Run adaptive engine TAP tests
+        working-directory: tools/ts
+        run: npx tsx ../tests/analytics/squadsync_responses.test.ts
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -47,6 +51,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r tools/py/requirements.txt
+
+      - name: Validate HUD smart alert logs (TAP overlay)
+        run: |
+          python3 scripts/qa/hud_smart_alerts.py \
+            logs/playtests \
+            --json-report "$RUNNER_TEMP/hud_smart_alerts.json"
 
       - name: Run CLI smoke suite
         run: ./scripts/cli_smoke.sh
