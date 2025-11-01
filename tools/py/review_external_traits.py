@@ -176,7 +176,11 @@ def review_draft(
 ) -> ReviewOutcome:
     payload = load_json(path)
     trait_id = payload.get("id") or path.stem
-    origin = payload.get("data_origin") or "<sconosciuta>"
+    raw_origin = payload.get("data_origin")
+    if raw_origin is None:
+        origin = "<sconosciuta>"
+    else:
+        origin = str(raw_origin).strip() or "<sconosciuta>"
 
     missing_fields = detect_missing_fields(payload)
     schema_errors = collect_schema_errors(payload, validator)
