@@ -1,8 +1,8 @@
 {
   "id": "coda_a_frusta_cinetica",
-  "label": "i18n:traits.coda_a_frusta_cinetica.label",
+  "label": "Coda a Frusta Cinetica",
   "famiglia_tipologia": "TODO/import_esterno",
-  "fattore_mantenimento_energetico": "i18n:traits.coda_a_frusta_cinetica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Da definire (import esterno)",
   "tier": "T1",
   "slot": [],
   "slot_profile": {
@@ -11,9 +11,9 @@
   },
   "sinergie": [],
   "conflitti": [],
-  "mutazione_indotta": "i18n:traits.coda_a_frusta_cinetica.mutazione_indotta",
-  "uso_funzione": "i18n:traits.coda_a_frusta_cinetica.uso_funzione",
-  "spinta_selettiva": "i18n:traits.coda_a_frusta_cinetica.spinta_selettiva",
+  "mutazione_indotta": "Estratto da Canvas A — Originale — sezione Opzionali Tier 1.",
+  "uso_funzione": "Bozza generata automaticamente dalla fonte A-CANVAS_ORIGINALE.txt. Controllare requisiti e slot per 'Coda a Frusta Cinetica'.",
+  "spinta_selettiva": "Origine esterna: Canvas A — Originale. Validare integrazione prima del catalogo.",
   "completion_flags": {
     "external_source": true
   },

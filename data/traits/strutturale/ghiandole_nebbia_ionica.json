@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.ghiandole_nebbia_ionica.debolezza",
+  "debolezza": "Risonanze errate possono generare microfratture.",
   "famiglia_tipologia": "Strutturale/Adattivo",
-  "fattore_mantenimento_energetico": "i18n:traits.ghiandole_nebbia_ionica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ghiandole_nebbia_ionica",
-  "label": "i18n:traits.ghiandole_nebbia_ionica.label",
-  "mutazione_indotta": "i18n:traits.ghiandole_nebbia_ionica.mutazione_indotta",
+  "label": "Ghiandole Nebbia Ionica",
+  "mutazione_indotta": "compatta matrici scheletriche con fibre autoreattive.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "resilienza",
     "core": "strutturale"
   },
-  "spinta_selettiva": "i18n:traits.ghiandole_nebbia_ionica.spinta_selettiva",
+  "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.ghiandole_nebbia_ionica.uso_funzione"
+  "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
 }

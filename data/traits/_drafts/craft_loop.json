@@ -1,8 +1,8 @@
 {
   "id": "craft_loop",
-  "label": "i18n:traits.craft_loop.label",
+  "label": "Craft Loop",
   "famiglia_tipologia": "TODO/import_esterno",
-  "fattore_mantenimento_energetico": "i18n:traits.craft_loop.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Da definire (import esterno)",
   "tier": "T5",
   "slot": [],
   "slot_profile": {
@@ -11,9 +11,9 @@
   },
   "sinergie": [],
   "conflitti": [],
-  "mutazione_indotta": "i18n:traits.craft_loop.mutazione_indotta",
-  "uso_funzione": "i18n:traits.craft_loop.uso_funzione",
-  "spinta_selettiva": "i18n:traits.craft_loop.spinta_selettiva",
+  "mutazione_indotta": "Riduce di 1 i colpi richiesti con strumenti; si cumula con BB AL 01.",
+  "uso_funzione": "Tier Culturale (T5). Richiede neuroni: NE 01, IN 02, AL 07",
+  "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
   "completion_flags": {
     "external_source": true
   },

@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.ghiandola_caustica.debolezza",
+  "debolezza": "Gestione accurata delle riserve per non calare sotto i budget PE previsto.",
   "famiglia_tipologia": "Offensivo/Chimico",
-  "fattore_mantenimento_energetico": "i18n:traits.ghiandola_caustica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Produzione reagenti)",
   "id": "ghiandola_caustica",
-  "label": "i18n:traits.ghiandola_caustica.label",
-  "mutazione_indotta": "i18n:traits.ghiandola_caustica.mutazione_indotta",
+  "label": "Ghiandola Caustica",
+  "mutazione_indotta": "Sintesi rapida di composti caustici nei moduli d'attacco.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -37,7 +37,7 @@
     "complementare": "assalto",
     "core": "offensivo"
   },
-  "spinta_selettiva": "i18n:traits.ghiandola_caustica.spinta_selettiva",
+  "spinta_selettiva": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.ghiandola_caustica.uso_funzione"
+  "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
 }

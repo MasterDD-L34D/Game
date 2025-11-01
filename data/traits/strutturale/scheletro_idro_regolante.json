@@ -2,12 +2,12 @@
   "conflitti": [
     "sangue_piroforico"
   ],
-  "debolezza": "i18n:traits.scheletro_idro_regolante.debolezza",
+  "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio.",
   "famiglia_tipologia": "Strutturale/Omeostatico",
-  "fattore_mantenimento_energetico": "i18n:traits.scheletro_idro_regolante.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
   "id": "scheletro_idro_regolante",
-  "label": "i18n:traits.scheletro_idro_regolante.label",
-  "mutazione_indotta": "i18n:traits.scheletro_idro_regolante.mutazione_indotta",
+  "label": "Scheletro Idro-Regolante",
+  "mutazione_indotta": "Struttura ossea porosa capace di scambio rapido di fluidi.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -50,7 +50,7 @@
     "complementare": "omeostatico",
     "core": "strutturale"
   },
-  "spinta_selettiva": "i18n:traits.scheletro_idro_regolante.spinta_selettiva",
+  "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.scheletro_idro_regolante.uso_funzione"
+  "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso."
 }

@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.tattiche_di_branco.debolezza",
+  "debolezza": "Richiede formazione stabile; cala se la coesione precipita sotto il target.",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.tattiche_di_branco.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Broadcast continuo di segnali)",
   "id": "tattiche_di_branco",
-  "label": "i18n:traits.tattiche_di_branco.label",
-  "mutazione_indotta": "i18n:traits.tattiche_di_branco.mutazione_indotta",
+  "label": "Tattiche di Branco",
+  "mutazione_indotta": "Canale condiviso per marcature e ingaggi simultanei.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -56,7 +56,7 @@
     "complementare": "coordinazione",
     "core": "strategia"
   },
-  "spinta_selettiva": "i18n:traits.tattiche_di_branco.spinta_selettiva",
+  "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.tattiche_di_branco.uso_funzione"
+  "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
 }

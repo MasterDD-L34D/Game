@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.ali_fulminee.debolezza",
+  "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.ali_fulminee.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ali_fulminee",
-  "label": "i18n:traits.ali_fulminee.label",
-  "mutazione_indotta": "i18n:traits.ali_fulminee.mutazione_indotta",
+  "label": "Ali Fulminee",
+  "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "analitico",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "i18n:traits.ali_fulminee.spinta_selettiva",
+  "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.ali_fulminee.uso_funzione"
+  "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
 }

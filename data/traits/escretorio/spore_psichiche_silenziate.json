@@ -2,12 +2,12 @@
   "conflitti": [
     "respiro_a_scoppio"
   ],
-  "debolezza": "i18n:traits.spore_psichiche_silenziate.debolezza",
+  "debolezza": "Funzionalità ridotta in presenza di vento forte o umidità elevata.",
   "famiglia_tipologia": "Escretorio/Psichico",
-  "fattore_mantenimento_energetico": "i18n:traits.spore_psichiche_silenziate.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Produzione e rilascio)",
   "id": "spore_psichiche_silenziate",
-  "label": "i18n:traits.spore_psichiche_silenziate.label",
-  "mutazione_indotta": "i18n:traits.spore_psichiche_silenziate.mutazione_indotta",
+  "label": "Spora Psichica Silenziosa",
+  "mutazione_indotta": "Pori che rilasciano nano-particelle attive chimicamente o psichicamente.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -33,7 +33,7 @@
     "complementare": "psichico",
     "core": "escretorio"
   },
-  "spinta_selettiva": "i18n:traits.spore_psichiche_silenziate.spinta_selettiva",
+  "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.spore_psichiche_silenziate.uso_funzione"
+  "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini."
 }

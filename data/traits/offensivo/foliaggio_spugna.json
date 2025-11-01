@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.foliaggio_spugna.debolezza",
+  "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.foliaggio_spugna.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "foliaggio_spugna",
-  "label": "i18n:traits.foliaggio_spugna.label",
-  "mutazione_indotta": "i18n:traits.foliaggio_spugna.mutazione_indotta",
+  "label": "Foliaggio Spugna",
+  "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "assalto",
     "core": "offensivo"
   },
-  "spinta_selettiva": "i18n:traits.foliaggio_spugna.spinta_selettiva",
+  "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.foliaggio_spugna.uso_funzione"
+  "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
 }

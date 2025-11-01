@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.barriere_miasma_glaciale.debolezza",
+  "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.barriere_miasma_glaciale.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "barriere_miasma_glaciale",
-  "label": "i18n:traits.barriere_miasma_glaciale.label",
-  "mutazione_indotta": "i18n:traits.barriere_miasma_glaciale.mutazione_indotta",
+  "label": "Barriere Miasma Glaciale",
+  "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "protezione",
     "core": "difensivo"
   },
-  "spinta_selettiva": "i18n:traits.barriere_miasma_glaciale.spinta_selettiva",
+  "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.barriere_miasma_glaciale.uso_funzione"
+  "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
 }

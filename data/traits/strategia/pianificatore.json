@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.pianificatore.debolezza",
+  "debolezza": "Rigidità tattica se gli input di telemetria arrivano in ritardo.",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.pianificatore.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Analisi continua di stato squadre)",
   "id": "pianificatore",
-  "label": "i18n:traits.pianificatore.label",
-  "mutazione_indotta": "i18n:traits.pianificatore.mutazione_indotta",
+  "label": "Pianificatore",
+  "mutazione_indotta": "Protocollo decisionale adattivo con buffer informativi dedicati.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -59,7 +59,7 @@
     "complementare": "tattico",
     "core": "strategia"
   },
-  "spinta_selettiva": "i18n:traits.pianificatore.spinta_selettiva",
+  "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.pianificatore.uso_funzione"
+  "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
 }

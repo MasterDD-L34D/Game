@@ -2,12 +2,12 @@
   "conflitti": [
     "ghiandola_caustica"
   ],
-  "debolezza": "i18n:traits.mucillagine_simbionte_mangrovie.debolezza",
+  "debolezza": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione.",
   "famiglia_tipologia": "Simbiotico/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.mucillagine_simbionte_mangrovie.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Coltura simbiotica costante)",
   "id": "mucillagine_simbionte_mangrovie",
-  "label": "i18n:traits.mucillagine_simbionte_mangrovie.label",
-  "mutazione_indotta": "i18n:traits.mucillagine_simbionte_mangrovie.mutazione_indotta",
+  "label": "Mucillagine Simbionte delle Mangrovie",
+  "mutazione_indotta": "Strati mucosi che ospitano microfauna detossificante proveniente dalle radici di mangrovia.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -50,7 +50,7 @@
     "complementare": "difensivo",
     "core": "simbiotico"
   },
-  "spinta_selettiva": "i18n:traits.mucillagine_simbionte_mangrovie.spinta_selettiva",
+  "spinta_selettiva": "Respinge tossine e predatori microbici tipici dei delta paludosi.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.mucillagine_simbionte_mangrovie.uso_funzione"
+  "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
 }

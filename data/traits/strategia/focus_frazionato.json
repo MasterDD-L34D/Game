@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.focus_frazionato.debolezza",
+  "debolezza": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD.",
   "famiglia_tipologia": "Strategico/Psionico",
-  "fattore_mantenimento_energetico": "i18n:traits.focus_frazionato.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Dividere l'attenzione su più canali)",
   "id": "focus_frazionato",
-  "label": "i18n:traits.focus_frazionato.label",
-  "mutazione_indotta": "i18n:traits.focus_frazionato.mutazione_indotta",
+  "label": "Focus Frazionato",
+  "mutazione_indotta": "Processore di priorità multi-thread per bersagli e obiettivi.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -60,7 +60,7 @@
     "complementare": "psionico",
     "core": "strategia"
   },
-  "spinta_selettiva": "i18n:traits.focus_frazionato.spinta_selettiva",
+  "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.focus_frazionato.uso_funzione"
+  "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
 }

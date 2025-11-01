@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.sensori_geomagnetici.debolezza",
+  "debolezza": "Tempeste solari possono saturare il segnale magnetico, causando disorientamento prolungato.",
   "famiglia_tipologia": "Sensoriale/Navigazione",
-  "fattore_mantenimento_energetico": "i18n:traits.sensori_geomagnetici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Ricettori passivi)",
   "id": "sensori_geomagnetici",
-  "label": "i18n:traits.sensori_geomagnetici.label",
-  "mutazione_indotta": "i18n:traits.sensori_geomagnetici.mutazione_indotta",
+  "label": "Sensori Geomagnetici",
+  "mutazione_indotta": "Cristalli ferromagnetici allineati lungo il cranio che fungono da bussola psionica.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -34,7 +34,7 @@
     "complementare": "navigazione",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "i18n:traits.sensori_geomagnetici.spinta_selettiva",
+  "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.sensori_geomagnetici.uso_funzione"
+  "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
 }

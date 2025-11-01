@@ -2,12 +2,12 @@
   "conflitti": [
     "spore_psichiche_silenziate"
   ],
-  "debolezza": "i18n:traits.sinapsi_coraline_polifoniche.debolezza",
+  "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
   "famiglia_tipologia": "Simbiotico/Comunicazione",
-  "fattore_mantenimento_energetico": "i18n:traits.sinapsi_coraline_polifoniche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Scambio continuo di impulsi corallini)",
   "id": "sinapsi_coraline_polifoniche",
-  "label": "i18n:traits.sinapsi_coraline_polifoniche.label",
-  "mutazione_indotta": "i18n:traits.sinapsi_coraline_polifoniche.mutazione_indotta",
+  "label": "Sinapsi Coraline Polifoniche",
+  "mutazione_indotta": "Fibre nervose intrecciate con coralli sonori che trasmettono ordini tramite armoniche.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -50,7 +50,7 @@
     "complementare": "comunicazione",
     "core": "simbiotico"
   },
-  "spinta_selettiva": "i18n:traits.sinapsi_coraline_polifoniche.spinta_selettiva",
+  "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.sinapsi_coraline_polifoniche.uso_funzione"
+  "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
 }

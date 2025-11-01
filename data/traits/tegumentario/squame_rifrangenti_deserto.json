@@ -2,12 +2,12 @@
   "conflitti": [
     "mimetismo_cromatico_passivo"
   ],
-  "debolezza": "i18n:traits.squame_rifrangenti_deserto.debolezza",
+  "debolezza": "Soffre danni da feedback termico se colpito da raggi concentrati o laser.",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.squame_rifrangenti_deserto.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Richiede riallineamento delle placche)",
   "id": "squame_rifrangenti_deserto",
-  "label": "i18n:traits.squame_rifrangenti_deserto.label",
-  "mutazione_indotta": "i18n:traits.squame_rifrangenti_deserto.mutazione_indotta",
+  "label": "Squame Rifrangenti del Deserto",
+  "mutazione_indotta": "Placche cristalline sovrapposte che deviano luce e calore lungo superfici multiple.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "difensivo",
     "core": "tegumentario"
   },
-  "spinta_selettiva": "i18n:traits.squame_rifrangenti_deserto.spinta_selettiva",
+  "spinta_selettiva": "Sopravvivere a intensi flare termici e accecanti miraggi desertici.",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.squame_rifrangenti_deserto.uso_funzione"
+  "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici."
 }

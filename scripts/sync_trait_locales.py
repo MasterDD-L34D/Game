@@ -7,7 +7,7 @@ import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, Iterable, List
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_TRAITS_DIR = ROOT / "data" / "traits"
@@ -33,6 +33,15 @@ class SyncResult:
     """Risultato dell'operazione di sincronizzazione."""
 
     updated_traits: List[Path]
+    locale_updated: bool
+
+
+@dataclass
+class TraitSyncOutcome:
+    """Esito della sincronizzazione per un singolo tratto."""
+
+    trait_id: str
+    trait_updated: bool
     locale_updated: bool
 
 
@@ -93,32 +102,57 @@ def sync_trait(
     path: Path,
     bundle_entries: Dict[str, Dict[str, str]],
     dry_run: bool,
-) -> Tuple[str, bool]:
-    """Aggiorna un singolo trait e restituisce l'ID e lo stato di modifica."""
+) -> TraitSyncOutcome:
+    """Aggiorna un singolo trait e restituisce lo stato dettagliato."""
 
     data = load_json(path)
     trait_id = data.get("id") or path.stem
     entry = bundle_entries.setdefault(trait_id, {})
-    changes: List[str] = []
+    trait_updated = False
+    locale_updated = False
 
     for field in TEXT_FIELDS:
         value = data.get(field)
-        if isinstance(value, str) and not value.startswith("i18n:"):
-            entry[field] = value.strip()
-            data[field] = f"i18n:traits.{trait_id}.{field}"
-            changes.append(field)
-        elif isinstance(value, str) and value.startswith("i18n:"):
-            # Se il testo è già localizzato, manteniamo l'entry esistente.
-            continue
+
+        if isinstance(value, str):
+            stripped = value.strip()
+
+            if stripped.startswith("i18n:"):
+                localized = entry.get(field)
+                if localized and localized != value:
+                    trait_updated = True
+                    if not dry_run:
+                        data[field] = localized
+                continue
+
+            if stripped:
+                if entry.get(field) != stripped:
+                    entry[field] = stripped
+                    locale_updated = True
+            else:
+                if field in entry:
+                    entry.pop(field)
+                    locale_updated = True
         else:
-            entry.pop(field, None)
+            if field in entry:
+                entry.pop(field)
+                locale_updated = True
 
-    if not entry:
-        bundle_entries.pop(trait_id, None)
+    if entry:
+        bundle_entries[trait_id] = entry
+    else:
+        if trait_id in bundle_entries:
+            bundle_entries.pop(trait_id, None)
+            locale_updated = True
 
-    if changes and not dry_run:
+    if trait_updated and not dry_run:
         dump_json(path, data)
-    return trait_id, bool(changes)
+
+    return TraitSyncOutcome(
+        trait_id=trait_id,
+        trait_updated=trait_updated,
+        locale_updated=locale_updated,
+    )
 
 
 def sync_locales(
@@ -138,26 +172,28 @@ def sync_locales(
 
     updated_traits: List[Path] = []
     valid_ids: set[str] = set()
+    locale_dirty = False
     for trait_path in iter_trait_files(traits_dir):
-        trait_id, updated = sync_trait(trait_path, entries, dry_run=dry_run)
-        valid_ids.add(trait_id)
-        if updated:
+        outcome = sync_trait(trait_path, entries, dry_run=dry_run)
+        valid_ids.add(outcome.trait_id)
+        if outcome.trait_updated:
             updated_traits.append(trait_path)
+        if outcome.locale_updated:
+            locale_dirty = True
 
     # Rimuove eventuali ID non più presenti.
     for trait_id in list(entries.keys()):
         if trait_id not in valid_ids:
             entries.pop(trait_id)
+            locale_dirty = True
 
     bundle["entries"] = normalise_entries(entries)
-    locale_changed = True
-
     if dry_run:
-        locale_changed = False
-    else:
+        locale_dirty = False
+    elif locale_dirty:
         dump_json(locale_path, bundle)
 
-    return SyncResult(updated_traits=updated_traits, locale_updated=locale_changed)
+    return SyncResult(updated_traits=updated_traits, locale_updated=locale_dirty)
 
 
 def build_parser() -> argparse.ArgumentParser:

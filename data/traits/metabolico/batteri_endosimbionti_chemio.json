@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.batteri_endosimbionti_chemio.debolezza",
+  "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
   "famiglia_tipologia": "Digestivo/Metabolico",
-  "fattore_mantenimento_energetico": "i18n:traits.batteri_endosimbionti_chemio.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "batteri_endosimbionti_chemio",
-  "label": "i18n:traits.batteri_endosimbionti_chemio.label",
-  "mutazione_indotta": "i18n:traits.batteri_endosimbionti_chemio.mutazione_indotta",
+  "label": "Batteri Endosimbionti Chemio",
+  "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "energia",
     "core": "metabolico"
   },
-  "spinta_selettiva": "i18n:traits.batteri_endosimbionti_chemio.spinta_selettiva",
+  "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.batteri_endosimbionti_chemio.uso_funzione"
+  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
 }

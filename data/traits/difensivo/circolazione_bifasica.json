@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.circolazione_bifasica.debolezza",
+  "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.circolazione_bifasica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "circolazione_bifasica",
-  "label": "i18n:traits.circolazione_bifasica.label",
-  "mutazione_indotta": "i18n:traits.circolazione_bifasica.mutazione_indotta",
+  "label": "Circolazione Bifasica",
+  "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "protezione",
     "core": "difensivo"
   },
-  "spinta_selettiva": "i18n:traits.circolazione_bifasica.spinta_selettiva",
+  "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.circolazione_bifasica.uso_funzione"
+  "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
 }

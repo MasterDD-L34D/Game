@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.antenne_microonde_cavernose.debolezza",
+  "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.antenne_microonde_cavernose.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "antenne_microonde_cavernose",
-  "label": "i18n:traits.antenne_microonde_cavernose.label",
-  "mutazione_indotta": "i18n:traits.antenne_microonde_cavernose.mutazione_indotta",
+  "label": "Antenne Microonde Cavernose",
+  "mutazione_indotta": "espande gangli pianificatori e nodi logici distribuiti.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "tattico",
     "core": "strategia"
   },
-  "spinta_selettiva": "i18n:traits.antenne_microonde_cavernose.spinta_selettiva",
+  "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.antenne_microonde_cavernose.uso_funzione"
+  "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
 }

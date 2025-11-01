@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.lingua_cristallina.debolezza",
+  "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.lingua_cristallina.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "lingua_cristallina",
-  "label": "i18n:traits.lingua_cristallina.label",
-  "mutazione_indotta": "i18n:traits.lingua_cristallina.mutazione_indotta",
+  "label": "Lingua Cristallina",
+  "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "protezione",
     "core": "difensivo"
   },
-  "spinta_selettiva": "i18n:traits.lingua_cristallina.spinta_selettiva",
+  "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.lingua_cristallina.uso_funzione"
+  "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
 }

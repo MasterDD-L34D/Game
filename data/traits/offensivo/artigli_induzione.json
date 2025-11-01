@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.artigli_induzione.debolezza",
+  "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.artigli_induzione.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "artigli_induzione",
-  "label": "i18n:traits.artigli_induzione.label",
-  "mutazione_indotta": "i18n:traits.artigli_induzione.mutazione_indotta",
+  "label": "Artigli Induzione",
+  "mutazione_indotta": "forgia condotti muscolari che accumulano energia di impatto.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "assalto",
     "core": "offensivo"
   },
-  "spinta_selettiva": "i18n:traits.artigli_induzione.spinta_selettiva",
+  "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.artigli_induzione.uso_funzione"
+  "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
 }

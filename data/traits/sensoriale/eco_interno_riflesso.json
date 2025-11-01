@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.eco_interno_riflesso.debolezza",
+  "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue.",
   "famiglia_tipologia": "Sensoriale/Nervoso",
-  "fattore_mantenimento_energetico": "i18n:traits.eco_interno_riflesso.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
   "id": "eco_interno_riflesso",
-  "label": "i18n:traits.eco_interno_riflesso.label",
-  "mutazione_indotta": "i18n:traits.eco_interno_riflesso.mutazione_indotta",
+  "label": "Riflesso dell'Eco Interno",
+  "mutazione_indotta": "Organi interni che emettono ultrasuoni e li captano tramite lo scheletro.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -48,7 +48,7 @@
     "complementare": "nervoso",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "i18n:traits.eco_interno_riflesso.spinta_selettiva",
+  "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.eco_interno_riflesso.uso_funzione"
+  "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
 }

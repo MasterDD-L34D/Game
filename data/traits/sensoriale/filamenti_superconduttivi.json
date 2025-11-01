@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.filamenti_superconduttivi.debolezza",
+  "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.filamenti_superconduttivi.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "filamenti_superconduttivi",
-  "label": "i18n:traits.filamenti_superconduttivi.label",
-  "mutazione_indotta": "i18n:traits.filamenti_superconduttivi.mutazione_indotta",
+  "label": "Filamenti Superconduttivi",
+  "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "analitico",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "i18n:traits.filamenti_superconduttivi.spinta_selettiva",
+  "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.filamenti_superconduttivi.uso_funzione"
+  "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
 }
