@@ -1,7 +1,15 @@
+import { defineAsyncComponent } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { updateNavigationMeta } from '../state/navigationMeta.js';
 
 const APP_TITLE = 'Evo-Tactics Mission Console';
+
+const FlowShellView = defineAsyncComponent(() => import('../views/FlowShellView.vue'));
+const NebulaAtlasView = defineAsyncComponent(() => import('../views/NebulaAtlasView.vue'));
+const AtlasLayout = defineAsyncComponent(() => import('../layouts/AtlasLayout.vue'));
+const AtlasPokedexView = defineAsyncComponent(() => import('../views/atlas/AtlasPokedexView.vue'));
+const AtlasWorldBuilderView = defineAsyncComponent(() => import('../views/atlas/AtlasWorldBuilderView.vue'));
+const AtlasEncounterLabView = defineAsyncComponent(() => import('../views/atlas/AtlasEncounterLabView.vue'));
 
 function buildBreadcrumbs(to, router) {
   return to.matched
@@ -35,7 +43,7 @@ export function createAppRouter({ base, history } = {}) {
       {
         path: '/',
         name: 'workflow',
-        component: () => import('../views/FlowShellView.vue'),
+        component: FlowShellView,
         meta: {
           title: 'Workflow Orchestrator',
           description: 'Coordina i passaggi del generatore Nebula e monitora lo stato delle pipeline.',
@@ -46,7 +54,7 @@ export function createAppRouter({ base, history } = {}) {
       {
         path: '/nebula-atlas',
         name: 'nebula-atlas',
-        component: () => import('../views/NebulaAtlasView.vue'),
+        component: NebulaAtlasView,
         meta: {
           title: 'Nebula Atlas Overview',
           description: 'Monitoraggio dataset e telemetria Nebula con fallback in modalità demo.',
@@ -56,7 +64,8 @@ export function createAppRouter({ base, history } = {}) {
       },
       {
         path: '/atlas',
-        component: () => import('../views/atlas/AtlasLayoutView.vue'),
+        name: 'atlas',
+        component: AtlasLayout,
         props: (route) => ({
           isDemo: Boolean(route.meta?.demo),
           isOffline: Boolean(route.meta?.offline),
@@ -76,7 +85,7 @@ export function createAppRouter({ base, history } = {}) {
           {
             path: 'pokedex',
             name: 'atlas-pokedex',
-            component: () => import('../views/atlas/AtlasPokedexView.vue'),
+            component: AtlasPokedexView,
             meta: {
               title: 'Atlas · Pokédex Nebula',
               description: 'Catalogo delle specie Nebula pronte per la convalida.',
@@ -87,7 +96,7 @@ export function createAppRouter({ base, history } = {}) {
           {
             path: 'world-builder',
             name: 'atlas-world-builder',
-            component: () => import('../views/atlas/AtlasWorldBuilderView.vue'),
+            component: AtlasWorldBuilderView,
             meta: {
               title: 'Atlas · World Builder',
               description: 'Setup dei biomi e dei builder per la generazione di mondi.',
@@ -98,7 +107,7 @@ export function createAppRouter({ base, history } = {}) {
           {
             path: 'encounter-lab',
             name: 'atlas-encounter-lab',
-            component: () => import('../views/atlas/AtlasEncounterLabView.vue'),
+            component: AtlasEncounterLabView,
             meta: {
               title: 'Atlas · Encounter Lab',
               description: 'Laboratorio per combinare incontri e pattern di missione.',

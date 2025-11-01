@@ -128,6 +128,8 @@ type UseNebulaProgressOptions = {
   telemetryMock?: string | null;
 };
 
+type DatasetSource = 'remote' | 'fallback' | 'static';
+
 function normaliseArray(values: unknown): string[] {
   if (!Array.isArray(values)) {
     return [];
@@ -206,6 +208,31 @@ function formatRelativeTime(timestamp?: string | null): string {
   return `Sync ${days}g fa`;
 }
 
+function createEmptyTelemetry(updatedAt?: string | null): NebulaTelemetry {
+  return {
+    summary: {
+      totalEvents: 0,
+      openEvents: 0,
+      acknowledgedEvents: 0,
+      highPriorityEvents: 0,
+      lastEventAt: null,
+    },
+    coverage: {
+      average: 0,
+      history: [],
+      distribution: {
+        success: 0,
+        warning: 0,
+        neutral: 0,
+        critical: 0,
+      },
+    },
+    incidents: { timeline: [] },
+    updatedAt: updatedAt || new Date().toISOString(),
+    sample: [],
+  };
+}
+
 function toError(value: unknown): Error {
   if (value instanceof Error) {
     return value;
@@ -234,6 +261,7 @@ export function useNebulaProgressModule(
   const fetchImpl = resolveFetchImplementation(options.fetcher);
 
   const dataset = ref<NebulaDataset | null>(null);
+  const datasetSource = ref<DatasetSource>('static');
   const telemetry = ref<NebulaTelemetry | null>(null);
   const generator = ref<NebulaGeneratorTelemetry | null>(null);
   const loading = ref(false);
@@ -247,6 +275,57 @@ export function useNebulaProgressModule(
   const timelineState = computed(() => (unref(sources.timeline) as Record<string, unknown>) || {});
 
   const activeDataset = computed<NebulaDataset>(() => dataset.value || staticDataset);
+
+  async function loadDatasetFallback(reason?: Error): Promise<DatasetSource> {
+    let source: DatasetSource = 'static';
+    if (fallbackUrl) {
+      try {
+        const response = await fetchImpl(fallbackUrl, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`Dataset Nebula fallback non disponibile (${response.status})`);
+        }
+        const payload = (await response.json()) as NebulaApiResponse;
+        if (payload?.dataset) {
+          dataset.value = payload.dataset;
+        } else {
+          dataset.value = staticDataset;
+        }
+        if (payload?.telemetry) {
+          telemetry.value = payload.telemetry;
+          lastUpdated.value = payload.telemetry.updatedAt || new Date().toISOString();
+        }
+        if (payload?.generator) {
+          generator.value = payload.generator;
+        }
+        source = 'fallback';
+        console.warn('[nebula-progress] Dataset caricato da fallback locale', {
+          source: fallbackUrl,
+          reason: reason?.message || 'endpoint remoto non disponibile',
+        });
+      } catch (fallbackError) {
+        const mapped = toError(fallbackError, 'Dataset Nebula locale non disponibile');
+        console.warn('[nebula-progress] Impossibile utilizzare il dataset fallback', {
+          source: fallbackUrl,
+          reason: mapped.message,
+        });
+        dataset.value = staticDataset;
+        source = 'static';
+      }
+    } else {
+      dataset.value = staticDataset;
+      source = 'static';
+    }
+    datasetSource.value = source;
+    if (!lastUpdated.value) {
+      lastUpdated.value = new Date().toISOString();
+    }
+    if (!telemetry.value) {
+      telemetry.value = createEmptyTelemetry(lastUpdated.value);
+    }
+    telemetryMode.value = source === 'remote' ? 'live' : 'fallback';
+    error.value = null;
+    return source;
+  }
 
   async function loadTelemetryMock(reason?: Error) {
     if (!telemetryMockUrl) {
@@ -285,6 +364,7 @@ export function useNebulaProgressModule(
       if (data?.dataset) {
         dataset.value = data.dataset;
       }
+      datasetSource.value = endpointSource === 'fallback' ? 'fallback' : 'remote';
       if (data?.telemetry) {
         telemetry.value = data.telemetry;
         lastUpdated.value = data.telemetry.updatedAt || new Date().toISOString();
@@ -292,6 +372,9 @@ export function useNebulaProgressModule(
       } else {
         lastUpdated.value = new Date().toISOString();
         telemetryMode.value = endpointSource === 'fallback' ? 'fallback' : 'live';
+        if (!telemetry.value) {
+          telemetry.value = createEmptyTelemetry(lastUpdated.value);
+        }
       }
       if (data?.generator) {
         generator.value = data.generator;
@@ -307,11 +390,22 @@ export function useNebulaProgressModule(
       }
     } catch (err) {
       const loadError = toError(err);
-      try {
-        await loadTelemetryMock(loadError);
-      } catch (mockError) {
-        error.value = toError(mockError);
-        telemetryMode.value = 'live';
+      console.warn('[nebula-progress] Endpoint Nebula non disponibile, attivo modalità demo', {
+        reason: loadError.message,
+      });
+      const source = await loadDatasetFallback(loadError);
+      if (source === 'static') {
+        try {
+          await loadTelemetryMock(loadError);
+        } catch (mockError) {
+          const mapped = toError(mockError);
+          console.warn('[nebula-progress] Telemetria mock non disponibile', {
+            reason: mapped.message,
+          });
+          if (!telemetry.value) {
+            telemetry.value = createEmptyTelemetry(lastUpdated.value);
+          }
+        }
       }
     } finally {
       loading.value = false;
@@ -577,6 +671,32 @@ export function useNebulaProgressModule(
     };
   });
 
+  const datasetStatus = computed(() => {
+    const source = datasetSource.value;
+    if (source === 'remote') {
+      return {
+        source,
+        label: 'Dataset live',
+        offline: false,
+        demo: false,
+      } as const;
+    }
+    if (source === 'fallback') {
+      return {
+        source,
+        label: 'Dataset offline · fallback',
+        offline: true,
+        demo: true,
+      } as const;
+    }
+    return {
+      source,
+      label: 'Dataset statico · demo',
+      offline: true,
+      demo: true,
+    } as const;
+  });
+
   const telemetrySummary: ComputedRef<{
     total: number;
     open: number;
@@ -709,6 +829,7 @@ export function useNebulaProgressModule(
     timelineEntries,
     evolutionMatrix,
     share,
+    datasetStatus,
     telemetrySummary,
     telemetryStreams,
     telemetryDistribution,

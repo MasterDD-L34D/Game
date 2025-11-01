@@ -81,6 +81,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isDemo: {
+    type: Boolean,
+    default: false,
+  },
+  isOffline: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const species = computed(() => (Array.isArray(props.dataset.species) ? props.dataset.species : []));

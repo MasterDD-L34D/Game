@@ -71,6 +71,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isDemo: {
+    type: Boolean,
+    default: false,
+  },
+  isOffline: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const encounters = computed(() => (Array.isArray(props.dataset.encounters) ? props.dataset.encounters : []));
