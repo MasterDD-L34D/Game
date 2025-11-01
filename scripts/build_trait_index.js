@@ -5,6 +5,7 @@ const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
 const TRAITS_DIR = path.join(ROOT, 'data', 'traits');
+const SPECIES_AFFINITY_PATH = path.join(TRAITS_DIR, 'species_affinity.json');
 const DEFAULT_OUTPUT = path.join(TRAITS_DIR, 'index.csv');
 
 function readJson(filePath) {
@@ -119,7 +120,21 @@ function pickDataOrigin(trait) {
   return null;
 }
 
-function deriveCompletionFlags(trait, biomeTags, usageTags) {
+function loadSpeciesAffinityRegistry(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return new Map();
+  }
+
+  const payload = readJson(filePath);
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return new Map();
+  }
+
+  const entries = Object.entries(payload).filter(([, value]) => Array.isArray(value) && value.length > 0);
+  return new Map(entries);
+}
+
+function deriveCompletionFlags(traitId, trait, biomeTags, usageTags, speciesAffinityRegistry) {
   const flags = {};
   if (trait && typeof trait === 'object' && trait.completion_flags && typeof trait.completion_flags === 'object') {
     for (const [key, value] of Object.entries(trait.completion_flags)) {
@@ -136,8 +151,9 @@ function deriveCompletionFlags(trait, biomeTags, usageTags) {
   }
 
   const speciesAffinity = trait && Array.isArray(trait.species_affinity) ? trait.species_affinity : [];
+  const registryAffinity = speciesAffinityRegistry.get(traitId) || [];
   if (flags.has_species_link === undefined) {
-    flags.has_species_link = speciesAffinity.length > 0;
+    flags.has_species_link = speciesAffinity.length > 0 || registryAffinity.length > 0;
   }
 
   if (flags.has_usage_tags === undefined && usageTags.length > 0) {
@@ -262,6 +278,8 @@ function main() {
   const traitFiles = walkTraitFiles(TRAITS_DIR);
   traitFiles.sort((a, b) => a.localeCompare(b));
 
+  const speciesAffinityRegistry = loadSpeciesAffinityRegistry(SPECIES_AFFINITY_PATH);
+
   const records = [];
   for (const filePath of traitFiles) {
     let data;
@@ -276,9 +294,10 @@ function main() {
     const category = normalizeCategory(data.famiglia_tipologia);
     const biomeTags = normalizeStringArray(data.biome_tags);
     const usageTags = normalizeStringArray(data.usage_tags);
-    const completionFlags = deriveCompletionFlags(data, biomeTags, usageTags);
+    const traitId = data.id || path.basename(filePath, '.json');
+    const completionFlags = deriveCompletionFlags(traitId, data, biomeTags, usageTags, speciesAffinityRegistry);
     const record = {
-      id: data.id || path.basename(filePath, '.json'),
+      id: traitId,
       label: data.label || null,
       category,
       path: toRelative(filePath),
