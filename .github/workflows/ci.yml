@@ -225,6 +225,13 @@ jobs:
               sys.exit(1)
           PY
 
+      - name: Generate trait completion dashboard
+        run: |
+          python3 tools/py/trait_completion_dashboard.py \
+            --trait-reference data/traits/index.json \
+            --out-markdown reports/trait_progress.md \
+            --history-file logs/trait_audit/trait_progress_history.json
+
   deployment-checks:
     runs-on: ubuntu-latest
     needs:

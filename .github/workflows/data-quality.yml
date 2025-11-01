@@ -54,6 +54,13 @@ jobs:
       - name: Generate strict trait coverage report
         run: python tools/py/report_trait_coverage.py --strict
 
+      - name: Generate trait completion dashboard
+        run: |
+          python tools/py/trait_completion_dashboard.py \
+            --trait-reference data/traits/index.json \
+            --out-markdown reports/trait_progress.md \
+            --history-file logs/trait_audit/trait_progress_history.json
+
       - name: Upload trait reports
         if: always()
         uses: actions/upload-artifact@v4
@@ -61,6 +68,7 @@ jobs:
           name: trait-data-reports-${{ github.run_id }}
           path: |
             reports/**
+            logs/trait_audit/trait_progress_history.json
             data/derived/analysis/trait_coverage_report.json
             data/derived/analysis/trait_coverage_matrix.csv
           if-no-files-found: warn
