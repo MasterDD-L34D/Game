@@ -469,6 +469,22 @@ export function useNebulaProgressModule(
       let datasetSourceKind: DatasetSource = datasetSource.value || 'static';
       let remoteDatasetError: Error | null = null;
 
+      const seedFromAggregate = (aggregate: NebulaApiResponse) => {
+        aggregatedPayload = aggregate;
+        datasetSourceKind = 'remote';
+        if (aggregate.dataset) {
+          dataset.value = aggregate.dataset;
+        }
+        if (aggregate.telemetry) {
+          telemetry.value = aggregate.telemetry;
+          telemetryMode.value = 'live';
+          lastUpdated.value = aggregate.telemetry.updatedAt || lastUpdated.value || new Date().toISOString();
+        }
+        if (aggregate.generator) {
+          generator.value = aggregate.generator;
+        }
+      };
+
       if (datasetEndpoint) {
         try {
           const response = await fetchJsonWithFallback(datasetEndpoint, {
@@ -517,23 +533,18 @@ export function useNebulaProgressModule(
           }
         } catch (err) {
           remoteDatasetError = toError(err);
+          if (aggregateEndpoint) {
+            const aggregate = await fetchAggregateRemote();
+            if (aggregate) {
+              seedFromAggregate(aggregate);
+              remoteDatasetError = null;
+            }
+          }
         }
       } else if (aggregateEndpoint) {
         const aggregate = await fetchAggregateRemote();
         if (aggregate) {
-          aggregatedPayload = aggregate;
-          datasetSourceKind = 'remote';
-          if (aggregate.dataset) {
-            dataset.value = aggregate.dataset;
-          }
-          if (aggregate.telemetry) {
-            telemetry.value = aggregate.telemetry;
-            telemetryMode.value = 'live';
-            lastUpdated.value = aggregate.telemetry.updatedAt || lastUpdated.value || new Date().toISOString();
-          }
-          if (aggregate.generator) {
-            generator.value = aggregate.generator;
-          }
+          seedFromAggregate(aggregate);
           logger.info('nebula.dataset.remote', {
             message: 'log.nebula.dataset.remote',
             meta: { source: aggregateEndpoint },
