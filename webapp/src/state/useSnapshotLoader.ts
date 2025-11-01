@@ -1,4 +1,4 @@
-import { computed, reactive, type ComputedRef } from 'vue';
+import { computed, reactive, onScopeDispose, getCurrentScope, type ComputedRef } from 'vue';
 import { resolveApiUrl, resolveAssetUrl, isStaticDeployment } from '../services/apiEndpoints.js';
 import { resolveFetchImplementation } from '../services/fetchWithFallback.js';
 import { resolveDataSource } from '../config/dataSources.js';
@@ -6,6 +6,8 @@ import { resolveWithFallback } from '../services/fallbackRegistry.js';
 
 type FlowLogger = {
   log?: (event: string, payload?: Record<string, unknown>) => void;
+  on?: (event: string, handler: (payload?: unknown) => void) => (() => void) | void;
+  off?: (event: string, handler?: (payload?: unknown) => void) => void;
 };
 
 type SnapshotMeta = {
@@ -28,6 +30,7 @@ interface SnapshotState {
   fallbackLabel: string | null;
   lastUpdatedAt: number | null;
   meta: SnapshotMeta | null;
+  refreshing: boolean;
 }
 
 export interface SnapshotLoaderOptions {
@@ -105,6 +108,7 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
     fallbackLabel: null,
     lastUpdatedAt: null,
     meta: null,
+    refreshing: false,
   });
 
   const preferFallbackFirst =
@@ -116,11 +120,17 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
       fallbackSnapshotUrl !== snapshotUrl &&
       isStaticDeployment());
 
-  async function fetchSnapshot({ force = false, refresh = false }: { force?: boolean; refresh?: boolean } = {}) {
+  async function fetchSnapshot({
+    force = false,
+    refresh = false,
+  }: { force?: boolean; refresh?: boolean } = {}) {
     if (state.snapshot && !force && !refresh) {
       return state.snapshot;
     }
+    const hasExistingSnapshot = Boolean(state.snapshot);
+    const isRefreshAttempt = (refresh || force) && hasExistingSnapshot;
     state.loading = true;
+    state.refreshing = Boolean(isRefreshAttempt);
     state.error = null;
     const preferFallback = !force && !refresh && preferFallbackFirst;
     try {
@@ -205,7 +215,44 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
       throw error;
     } finally {
       state.loading = false;
+      state.refreshing = false;
     }
+  }
+
+  let invalidateTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const scheduleInvalidateRefresh = () => {
+    if (invalidateTimer) {
+      clearTimeout(invalidateTimer);
+    }
+    invalidateTimer = setTimeout(() => {
+      invalidateTimer = null;
+      if (state.loading) {
+        return;
+      }
+      void fetchSnapshot({ refresh: true }).catch(() => {});
+    }, 250);
+  };
+
+  let disposeLogger: (() => void) | void;
+  if (logger && typeof logger.on === 'function') {
+    disposeLogger = logger.on('snapshot.invalidate', scheduleInvalidateRefresh);
+  }
+
+  const cleanup = () => {
+    if (invalidateTimer) {
+      clearTimeout(invalidateTimer);
+      invalidateTimer = null;
+    }
+    if (disposeLogger) {
+      disposeLogger();
+    } else if (logger && typeof logger.off === 'function') {
+      logger.off('snapshot.invalidate', scheduleInvalidateRefresh);
+    }
+  };
+
+  if (getCurrentScope()) {
+    onScopeDispose(cleanup);
   }
 
   const snapshot: ComputedRef<FlowSnapshot> = computed(() => state.snapshot || {});
@@ -293,6 +340,8 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
   const sourceRef = computed(() => state.source);
   const fallbackLabel = computed(() => state.fallbackLabel);
   const lastUpdatedAt = computed(() => state.lastUpdatedAt);
+  const refreshing = computed(() => state.refreshing);
+  const hasSnapshot = computed(() => Boolean(state.snapshot));
 
   return {
     state,
@@ -316,6 +365,8 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
     source: sourceRef,
     fallbackLabel,
     lastUpdatedAt,
+    refreshing,
+    hasSnapshot,
     fetchSnapshot,
   };
 }

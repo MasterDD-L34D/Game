@@ -22,7 +22,7 @@
             </span>
           </header>
           <p class="status-card__message">
-            <span v-if="status.loading">Caricamento…</span>
+            <span v-if="status.loading">{{ status.loadingMessage || 'Caricamento…' }}</span>
             <span v-else-if="status.error">{{ status.errorMessage }}</span>
             <span v-else>{{ status.message }}</span>
           </p>
@@ -220,7 +220,10 @@ const activeProps = computed(() => {
 const canGoBack = computed(() => currentStep.value.index > 0);
 const canGoForward = computed(() => currentStep.value.index < steps.length - 1);
 
-const isLoading = computed(() => snapshotStore.loading.value);
+const isLoading = computed(
+  () => snapshotStore.loading.value && !snapshotStore.hasSnapshot.value,
+);
+const isRefreshing = computed(() => snapshotStore.refreshing.value);
 
 function normaliseErrorMessage(error) {
   if (!error) {
@@ -303,6 +306,7 @@ const statuses = computed(() => {
     id: 'snapshot',
     label: 'Snapshot',
     loading: snapshotStore.loading.value,
+    loadingMessage: isRefreshing.value ? 'Aggiornamento…' : 'Caricamento…',
     error: snapshotStore.error.value,
     errorMessage: normaliseErrorMessage(snapshotStore.error.value),
     message: snapshotOffline
@@ -330,6 +334,7 @@ const statuses = computed(() => {
     id: 'species',
     label: 'Specie',
     loading: speciesStore.loading.value,
+    loadingMessage: 'Generazione…',
     error: speciesStore.error.value,
     errorMessage: normaliseErrorMessage(speciesStore.error.value),
     message: speciesOffline
@@ -356,6 +361,7 @@ const statuses = computed(() => {
     id: 'traitDiagnostics',
     label: 'Trait diagnostics',
     loading: traitDiagnosticsStore.loading.value,
+    loadingMessage: 'Aggiornamento…',
     error: traitDiagnosticsStore.error.value,
     errorMessage: normaliseErrorMessage(traitDiagnosticsStore.error.value),
     message: diagnosticsOffline
