@@ -70,10 +70,13 @@ function determineFallbackLabel(url?: string | null): string | null {
   if (!url) {
     return null;
   }
+  const normalised = url.toLowerCase();
   if (
-    url.includes('/data/flow/snapshots/') ||
-    url.includes('data/flow/snapshots/') ||
-    url.includes('assets/demo/')
+    normalised.includes('/data/flow/') ||
+    normalised.includes('data/flow/') ||
+    normalised.includes('/data/nebula/') ||
+    normalised.includes('data/nebula/') ||
+    normalised.includes('assets/demo/')
   ) {
     return 'demo';
   }

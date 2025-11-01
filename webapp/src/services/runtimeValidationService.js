@@ -49,7 +49,6 @@ async function postRuntime(kind, payload, options = {}) {
   const fallbackPath = resolveFallback(kind, options, config.fallback);
   const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
   const response = await fetchJsonWithFallback(endpoint, {
-    fetchImpl: options.fetchImpl,
     requestInit: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

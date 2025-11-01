@@ -32,7 +32,6 @@ export async function fetchTraitDiagnostics(options = {}) {
   const fallbackPath = resolveFallback(options, config.fallback);
   const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
   const response = await fetchJsonWithFallback(targetUrl, {
-    fetchImpl: options.fetchImpl,
     requestInit: {
       method: 'GET',
       headers: { Accept: 'application/json' },

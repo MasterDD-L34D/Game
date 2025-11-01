@@ -9,11 +9,17 @@ vi.mock('../../src/services/apiEndpoints.js', () => ({
 
 const dataSourceMock = vi.hoisted(() => {
   const defaults = new Map<string, { endpoint: string | null; fallback: string | null; mock: string | null }>([
-    ['flowSnapshot', { endpoint: '/api/generation/snapshot', fallback: 'assets/demo/fallback.json', mock: null }],
+    [
+      'flowSnapshot',
+      { endpoint: '/api/generation/snapshot', fallback: 'data/flow/snapshots/flow-shell-snapshot.json', mock: null },
+    ],
     ['generationSpecies', { endpoint: '/api/generation/species', fallback: null, mock: null }],
     ['generationSpeciesBatch', { endpoint: '/api/generation/species/batch', fallback: null, mock: null }],
     ['generationSpeciesPreview', { endpoint: '/api/generation/species/batch', fallback: null, mock: null }],
-    ['traitDiagnostics', { endpoint: '/api/traits/diagnostics', fallback: 'assets/demo/traits.json', mock: null }],
+    [
+      'traitDiagnostics',
+      { endpoint: '/api/traits/diagnostics', fallback: 'data/flow/traits/diagnostics.json', mock: null },
+    ],
   ]);
   return {
     resolveDataSource(id: string, overrides: Record<string, unknown> = {}) {
@@ -130,7 +136,7 @@ describe('flow stores', () => {
         if (url === '/api/generation/snapshot') {
           return { ok: false, status: 503, json: async () => ({}) };
         }
-        if (url === 'assets/demo/fallback.json') {
+        if (url === 'data/flow/snapshots/flow-shell-snapshot.json') {
           return {
             ok: true,
             status: 200,
@@ -144,7 +150,7 @@ describe('flow stores', () => {
         logger,
         fetch: fetchMock as unknown as typeof fetch,
         snapshotUrl: '/api/generation/snapshot',
-        fallbackSnapshotUrl: 'assets/demo/fallback.json',
+        fallbackSnapshotUrl: 'data/flow/snapshots/flow-shell-snapshot.json',
       });
       await store.fetchSnapshot();
       expect(store.source.value).toBe('fallback');
@@ -213,7 +219,7 @@ describe('flow stores', () => {
         })
         .mockResolvedValueOnce({
           diagnostics: { summary: { total_traits: 2, glossary_ok: 2 } },
-          meta: { endpoint_source: 'fallback', endpoint_url: 'assets/demo/traits.json' },
+        meta: { endpoint_source: 'fallback', endpoint_url: 'data/flow/traits/diagnostics.json' },
         });
       const logger = { log: vi.fn() };
       const store = useTraitDiagnostics({ logger, service });

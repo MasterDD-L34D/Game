@@ -50,7 +50,6 @@ export async function requestSpeciesPreviewBatch(entries, options = {}) {
   const fallbackPath = resolveFallback(options, config.fallback);
   const fallbackUrl = fallbackPath ? resolveAssetUrl(fallbackPath) : null;
   const response = await fetchJsonWithFallback(endpoint, {
-    fetchImpl: options.fetchImpl,
     requestInit: {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
