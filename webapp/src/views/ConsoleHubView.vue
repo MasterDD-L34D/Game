@@ -15,6 +15,12 @@
         <span>Apri flusso →</span>
       </RouterLink>
 
+      <RouterLink class="console-hub__card" :to="{ name: 'console-traits-editor' }">
+        <h2>Trait Editor</h2>
+        <p>Modifica i tratti canonici con validazione schema in tempo reale.</p>
+        <span>Apri editor →</span>
+      </RouterLink>
+
       <RouterLink class="console-hub__card" :to="{ name: 'console-atlas-overview' }">
         <h2>Nebula Atlas</h2>
         <p>Consulta dataset, telemetria e strumenti di laboratorio dedicati.</p>
