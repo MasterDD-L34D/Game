@@ -37,7 +37,8 @@ async function fetchJson(url, label) {
     if (!response.ok) {
       throw new Error(`${label || 'request'} failed with status ${response.status}`);
     }
-    return await response.json();
+    const data = await response.json();
+    return { data, response };
   } catch (error) {
     console.warn(`[recap] impossibile recuperare ${label || url}:`, error.message || error);
     return null;
@@ -54,8 +55,17 @@ function unwrapNebulaDataset(payload) {
   return payload;
 }
 
+function warnIfDeprecated(result, label) {
+  const header = result?.response?.headers?.get('deprecation');
+  if (header) {
+    const link = result.response.headers.get('link');
+    const suffix = link ? ` (link: ${link})` : '';
+    console.warn(`[recap] endpoint ${label} deprecato${suffix}`);
+  }
+}
+
 async function loadNebulaBundle() {
-  const [datasetPayload, telemetryPayload, generatorPayload] = await Promise.all([
+  const [datasetResult, telemetryResult, generatorResult] = await Promise.all([
     fetchJson(NEBULA_DATASET_ENDPOINT, 'nebula dataset'),
     fetchJson(NEBULA_TELEMETRY_ENDPOINT, 'nebula telemetry'),
     fetchJson(NEBULA_GENERATOR_ENDPOINT, 'nebula generator'),
@@ -67,33 +77,37 @@ async function loadNebulaBundle() {
     generator: null,
   };
 
-  if (datasetPayload) {
-    const dataset = unwrapNebulaDataset(datasetPayload);
+  if (datasetResult) {
+    warnIfDeprecated(datasetResult, NEBULA_DATASET_ENDPOINT);
+    const dataset = unwrapNebulaDataset(datasetResult.data);
     if (dataset && typeof dataset === 'object') {
       bundle.dataset = dataset;
     }
-    if (!bundle.telemetry && datasetPayload.telemetry) {
-      bundle.telemetry = datasetPayload.telemetry;
+    if (!bundle.telemetry && datasetResult.data?.telemetry) {
+      bundle.telemetry = datasetResult.data.telemetry;
     }
-    if (!bundle.generator && datasetPayload.generator) {
-      bundle.generator = datasetPayload.generator;
+    if (!bundle.generator && datasetResult.data?.generator) {
+      bundle.generator = datasetResult.data.generator;
     }
   }
 
-  if (telemetryPayload) {
-    bundle.telemetry = telemetryPayload;
+  if (telemetryResult) {
+    warnIfDeprecated(telemetryResult, NEBULA_TELEMETRY_ENDPOINT);
+    bundle.telemetry = telemetryResult.data;
   }
 
-  if (generatorPayload) {
-    bundle.generator = generatorPayload;
+  if (generatorResult) {
+    warnIfDeprecated(generatorResult, NEBULA_GENERATOR_ENDPOINT);
+    bundle.generator = generatorResult.data;
   }
 
   if (!bundle.dataset && !bundle.telemetry && !bundle.generator) {
-    const legacy = await fetchJson(NEBULA_LEGACY_ENDPOINT, 'nebula legacy bundle');
-    if (legacy && typeof legacy === 'object') {
-      bundle.dataset = unwrapNebulaDataset(legacy);
-      bundle.telemetry = legacy.telemetry || null;
-      bundle.generator = legacy.generator || null;
+    const legacyResult = await fetchJson(NEBULA_LEGACY_ENDPOINT, 'nebula legacy bundle');
+    if (legacyResult && typeof legacyResult.data === 'object') {
+      warnIfDeprecated(legacyResult, NEBULA_LEGACY_ENDPOINT);
+      bundle.dataset = unwrapNebulaDataset(legacyResult.data);
+      bundle.telemetry = legacyResult.data.telemetry || null;
+      bundle.generator = legacyResult.data.generator || null;
     }
   }
 
@@ -331,11 +345,14 @@ async function main() {
     }
   }
 
-  const [snapshot, nebula, qa] = await Promise.all([
+  const [snapshotResult, nebula, qaResult] = await Promise.all([
     fetchJson(SNAPSHOT_ENDPOINT, 'snapshot'),
     loadNebulaBundle(),
     fetchJson(QA_ENDPOINT, 'QA'),
   ]);
+
+  const snapshot = snapshotResult?.data ?? null;
+  const qa = qaResult?.data ?? null;
 
   const sections = [
     '# Live operations recap',
