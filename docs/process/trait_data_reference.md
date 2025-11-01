@@ -8,7 +8,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 | --- | --- | --- |
 | `data/core/traits/glossary.json` | Glossario condiviso con label ufficiali, descrizioni sintetiche e collegamento al reference principale. | Usato da strumenti ETL e validazione. |
 | `data/traits/index.json` | Sorgente autorevole per tier, slot, sinergie, requisiti ambientali e metadati PI. | Duplicato in `docs/evo-tactics-pack/trait-reference.json` (web) e `packs/evo_tactics_pack/docs/catalog/trait_reference.json` (bundle pack); **tutte le copie vanno aggiornate insieme**. |
-| `data/traits/index.csv` | Indice rapido dei file trait con label, categoria/tipo, percorso e flag di completezza. | Generato da `node scripts/build_trait_index.js` per facilitare audit e inventari. |
+| `data/traits/index.csv` | Indice rapido dei file trait con label, categoria/tipo, percorso, flag di completezza e nuovi campi `data_origin`, `biome_tags`, `usage_tags`, `has_biome`, `has_species_link`. | Generato da `node scripts/build_trait_index.js` per facilitare audit e inventari. |
 | `packs/evo_tactics_pack/docs/catalog/env_traits.json` | Mappa le condizioni ambientali (biomi, hazard, ecc.) ai tratti disponibili. | Necessario per report di coverage. |
 | `logs/trait_audit.md` | Output dell'audit di coerenza; deve essere privo di warning prima di aprire una PR. | Generato da `scripts/trait_audit.py`. |
 | `data/derived/analysis/trait_baseline.yaml` & `data/derived/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL. | Utili per verificare la copertura sui nove assi. |

@@ -16,7 +16,7 @@ def load_traits(directory: Path) -> tuple[Dict[str, Dict[str, Set[str]]], Dict[s
     grouped: Dict[str, Dict[str, Set[str]]] = defaultdict(lambda: defaultdict(set))
     type_files: Dict[str, Set[str]] = defaultdict(set)
     for path in sorted(directory.rglob("*.json")):
-        if path.name == "index.json":
+        if path.name in {"index.json", "species_affinity.json"}:
             continue
         with path.open("r", encoding="utf-8") as fh:
             data = json.load(fh)

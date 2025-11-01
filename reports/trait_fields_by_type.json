@@ -122,7 +122,10 @@
   "Esplorazione/Tattico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
+      "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -136,6 +139,7 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },

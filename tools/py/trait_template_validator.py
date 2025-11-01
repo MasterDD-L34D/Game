@@ -158,11 +158,18 @@ def compare_registries(
 
 def print_summary(directory: Path) -> None:
     grouped, type_files = load_traits(directory)
-    print("== Campi per tipologia ==")
+    print("== Summary of fields (Campi per tipologia) ==")
     for trait_type in sorted(grouped):
         fields = sorted(grouped[trait_type])
         count = len(type_files.get(trait_type, []))
         print(f"- {trait_type} ({count} trait): {', '.join(fields)}")
+    all_fields = sorted({field for fields in grouped.values() for field in fields})
+    if all_fields:
+        print("\n== Field inventory ==")
+        for field in all_fields:
+            print(f" - {field}")
+    total_traits = sum(len(paths) for paths in type_files.values())
+    print(f"\nTotal traits: {total_traits}")
 
 
 def main() -> None:
@@ -235,6 +242,8 @@ def main() -> None:
         sys.exit(1)
 
     print("[VALIDATION] Tutti i trait rispettano lo schema.")
+    for trait_id in sorted(file_registry):
+        print(f"[TRAIT] {trait_id}: OK")
     if args.summary:
         print_summary(traits_dir)
 

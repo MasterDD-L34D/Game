@@ -57,6 +57,10 @@ rispettare le regole indicate e sono validati automaticamente dal comando
 |----------------------|----------|
 | `slot_profile`       | Oggetto con chiavi obbligatorie `core` e `complementare`. Descrive la specializzazione primaria e secondaria del tratto. |
 | `requisiti_ambientali` | Array di vincoli contestuali. Ogni elemento include `condizioni.biome_class`, la sorgente (`fonte`) e facoltativamente `capacita_richieste` e `meta` (`expansion`, `tier`, `notes`). |
+| `biome_tags`         | Array di biomi affini (stringhe `^[a-z0-9_]+$`) usati per indicare ambienti secondari o sinergie narrative. |
+| `usage_tags`         | Array di tag tattici (`scout`, `breaker`, `tank`, ecc.) normalizzati (`^[a-z0-9_]+$`) per filtri UI e analytics. |
+| `data_origin`        | Stringa (`^[a-z0-9_]+$`) che identifica il pacchetto o la fonte editoriale (es. `controllo_psionico`, `coverage_q4_2025`). |
+| `completion_flags`   | Oggetto di flag booleani (es. `has_biome`, `has_species_link`) per tracciare rapidamente lacune editoriali. |
 | `debolezza`          | Stringa opzionale per limiti intrinseci o vulnerabilità. |
 | `sinergie_pi`        | Oggetto con `co_occorrenze`, `forme`, `tabelle_random`, `combo_totale`. Serve per gli strumenti di pianificazione PI. |
 
@@ -68,6 +72,7 @@ rispettare le regole indicate e sono validati automaticamente dal comando
     "core": "offensivo",
     "complementare": "assalto"
   },
+  "biome_tags": ["laguna_bioreattiva", "foresta_miceliale"],
   "requisiti_ambientali": [
     {
       "condizioni": {"biome_class": "foresta_acida"},
@@ -79,6 +84,12 @@ rispettare le regole indicate e sono validati automaticamente dal comando
       }
     }
   ],
+  "usage_tags": ["scout"],
+  "data_origin": "coverage_q4_2025",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  },
   "debolezza": "Indicazioni su trade-off o limiti.",
   "sinergie_pi": {
     "co_occorrenze": [],
