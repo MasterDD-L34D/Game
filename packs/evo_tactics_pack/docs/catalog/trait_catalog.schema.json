@@ -37,11 +37,46 @@
       "additionalProperties": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["index", "traits"],
+        "required": ["query", "traits"],
         "properties": {
-          "index": {
-            "type": "string",
-            "minLength": 1
+          "query": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "filters"],
+            "properties": {
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "filters": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "type": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_]+$"
+                    }
+                  },
+                  "biomes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_]+$"
+                    }
+                  },
+                  "species": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_-]+$"
+                    }
+                  }
+                }
+              }
+            }
           },
           "traits": {
             "type": "array",
