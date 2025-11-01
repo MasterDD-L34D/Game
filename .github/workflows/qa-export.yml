@@ -41,6 +41,7 @@ jobs:
         run: node scripts/export-qa-report.js
 
       - name: Upload QA artifacts
+        id: upload_qa_artifacts
         uses: actions/upload-artifact@v4
         with:
           name: qa-reports-${{ github.run_id }}
@@ -55,6 +56,9 @@ jobs:
         uses: actions/github-script@v7
         env:
           PR_NUMBER: ${{ inputs.pr_number }}
+          ARTIFACT_ID: ${{ steps.upload_qa_artifacts.outputs.artifact-id }}
+          ARTIFACT_URL: ${{ steps.upload_qa_artifacts.outputs.artifact-url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -110,11 +114,25 @@ jobs:
               : [];
 
             const generatedAt = highlightSummary?.generatedAt || badgePayload.generated_at || new Date().toISOString();
-            const artifactLinks = [
-              `[Trait baseline](./reports/trait_baseline.json)`,
-              `[Generator validation](./reports/generator_validation.json)`,
-              `[QA changelog](./reports/qa-changelog.md)`,
-            ].join(' · ');
+            const artifactUrl = process.env.ARTIFACT_URL;
+            const runUrl = process.env.RUN_URL;
+            const artifactLinkParts = [];
+
+            if (artifactUrl) {
+              const artifactId = process.env.ARTIFACT_ID;
+              const labelSuffix = artifactId ? ` (bundle #${artifactId})` : '';
+              artifactLinkParts.push(`[_Scarica QA reports_${labelSuffix}](${artifactUrl})`);
+            }
+
+            if (runUrl) {
+              artifactLinkParts.push(`[Dettagli esecuzione workflow](${runUrl})`);
+            }
+
+            if (!artifactLinkParts.length) {
+              artifactLinkParts.push('_Artefatti non disponibili_');
+            }
+
+            const artifactLinks = artifactLinkParts.join(' · ');
 
             const bodyLines = [
               '<!-- qa-export-comment -->',
