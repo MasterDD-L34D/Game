@@ -21,6 +21,17 @@ Questa checklist coordina QA, Ops e Analytics durante il rollout canary di Missi
   - `hud_action_latency_p95` ≤ 3800 ms (6h) → apri ticket nel board QA rollout.
   - `playtest_squad_engagement` ≥ 0.62 (7d) → sync con Analytics Duty.
 
+## Scenari overlay & adaptive response
+- [ ] Simula alert risk > 0.60 su coorti TAP e verifica che l'overlay HUD mostri soglie risk/cohesion aggiornate.
+- [ ] Conferma ack entro 2 turni medi e registra recipient in `hud_alert_log.json` per ogni overlay mostrato.
+- [ ] Valida che l'Adaptive Engine generi risposte `critical` e `warning` per squadre TAP con delta engagement coerente.
+- [ ] Riesegui `npx tsx tests/analytics/squadsync_responses.test.ts` per garantire compatibilità REST/GraphQL delle risposte adaptive.
+
+## Criteri di rollback
+- [ ] Ack rate < 0.82 su finestra 24h o durata alert P95 > 2 turni → rollback immediato dell'overlay TAP.
+- [ ] Tilt medio > 0.50 dopo 3 cicli consecutivi → disattiva flag `hud.smart_overlay_tap` e notifica `#hud-alerts`.
+- [ ] Adaptive Engine con delta engagement negativo > 12% per due squadre TAP → ripristina configurazione precedente e avvia post-mortem.
+
 ## Gate di avanzamento
 - [ ] Approvazione QA Insights dopo 24h di stabilità.
 - [ ] Validazione Ops per uptime costante.

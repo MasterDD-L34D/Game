@@ -84,11 +84,53 @@ panels:
             value: 1
         annotations:
           - text: "Rollback massimo 1 per giorno"
+  - id: hud-tap-overlay
+    title: "HUD TAP Overlay - Stabilità"
+    description: "Durata alert, ack rate e tilt per il programma Smart HUD TAP."
+    layout:
+      row: 9
+      column: 1
+      width: 12
+      height: 8
+    queries:
+      - metric: hud_alert_duration_turns_p95
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: above
+            value: 1.8
+          - level: critical
+            condition: above
+            value: 2.0
+        annotations:
+          - text: "Durata alert target ≤2 turni"
+      - metric: hud_ack_rate
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: below
+            value: 0.85
+          - level: critical
+            condition: below
+            value: 0.82
+        annotations:
+          - text: "Ack rate minimo TAP 82%"
+      - metric: hud_tilt_index
+        visualization: timeseries
+        thresholds:
+          - level: warning
+            condition: above
+            value: 0.48
+          - level: critical
+            condition: above
+            value: 0.5
+        annotations:
+          - text: "Tilt medio deve restare <0.50"
   - id: moderazione-assistita
     title: "Moderazione Assistita - Efficienza"
     description: "Tassi di adozione e tempi di risposta per il pannello assistito."
     layout:
-      row: 9
+      row: 17
       column: 1
       width: 12
       height: 8
@@ -154,3 +196,21 @@ alerts:
     channels:
       - slack:#moderation-ops
       - pagerduty:moderation-oncall
+  - id: hud-tap-ack-drop
+    panel: hud-tap-overlay
+    metric: hud_ack_rate
+    condition: below
+    value: 0.82
+    for: 30m
+    channels:
+      - slack:#hud-alerts
+      - pagerduty:ui-systems
+  - id: hud-tap-tilt-spike
+    panel: hud-tap-overlay
+    metric: hud_tilt_index
+    condition: above
+    value: 0.5
+    for: 45m
+    channels:
+      - slack:#hud-alerts
+      - jira:HUD-TAP
