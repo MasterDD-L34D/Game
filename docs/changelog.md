@@ -3,9 +3,11 @@
 ## [Unreleased]
 ### Added
 - Trait metadata (`species_affinity`, `usage_tags`, `completion_flags`) now exposed across catalog loaders, generators e servizi API, con test automatici aggiornati.
+- Piano di rollout trait (`docs/process/trait_rollout_plan.md`) con fasi, checklist e calendario versioni condivisi con i team coinvolti.
+- Calendario training per il team di gioco e canali di monitoraggio dedicati (`#trait-rollout`, report settimanali).
 
 ### Changed
-- _Nessuna voce._
+- Note di rilascio aggiornate con canali di comunicazione e monitoraggio post-rollout, includendo reminder per `docs/publishing_calendar.md`.
 
 ### Fixed
 - _Nessuna voce._
