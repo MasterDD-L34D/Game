@@ -96,7 +96,7 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
       ? normaliseOverride(options.fallbackSnapshotUrl)
       : undefined,
   }) as { endpoint?: string | null; fallback?: string | null };
-  const snapshotEndpoint = source.endpoint || '/api/generation/snapshot';
+  const snapshotEndpoint = source.endpoint || '/api/v1/generation/snapshot';
   const snapshotUrl = resolveApiUrl(snapshotEndpoint);
   const fallbackSnapshotUrl = source.fallback ? resolveAssetUrl(source.fallback) : null;
   const fetchImpl = resolveFetchImplementation(options.fetch);
