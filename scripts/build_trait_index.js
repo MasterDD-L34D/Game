@@ -28,6 +28,7 @@ function walkTraitFiles(startDir) {
   if (!fs.existsSync(startDir)) {
     return result;
   }
+  const ignoredFiles = new Set(['index.json', 'species_affinity.json']);
   const stack = [startDir];
   while (stack.length > 0) {
     const currentDir = stack.pop();
@@ -38,7 +39,7 @@ function walkTraitFiles(startDir) {
         stack.push(fullPath);
       } else if (entry.isFile() && entry.name.endsWith('.json')) {
         const baseName = entry.name.toLowerCase();
-        if (baseName === 'index.json') {
+        if (ignoredFiles.has(baseName)) {
           continue;
         }
         result.push(fullPath);

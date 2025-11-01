@@ -44,6 +44,13 @@ def load_json(path: Path) -> object:
         return json.load(fh)
 
 
+def to_repo_relative(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def format_error(path: Iterable[object], message: str) -> str:
     location = "/".join(str(part) for part in path) or "<root>"
     return f"{location}: {message}"
@@ -122,7 +129,7 @@ def validate_trait_files(
             continue
         if path.name == "species_affinity.json":
             continue
-        rel_path = str(path.relative_to(ROOT))
+        rel_path = to_repo_relative(path)
         rel_parts = path.relative_to(directory).parts
         in_drafts = "_drafts" in rel_parts
         try:
@@ -140,7 +147,7 @@ def validate_trait_files(
             if trait_id in seen_ids:
                 existing = seen_ids[trait_id]
                 errors.setdefault(rel_path, []).append(
-                    f"ID duplicato: già definito in {existing.relative_to(ROOT)}"
+                    f"ID duplicato: già definito in {to_repo_relative(existing)}"
                 )
             else:
                 seen_ids[trait_id] = path

@@ -44,7 +44,7 @@ properties:
             name:
               type: string
               minLength: 1
-              pattern: '^\\S(?:.*\\S)?$'
+              pattern: '^\S(?:.*\S)?$'
             when_all:
               type: array
               minItems: 1
@@ -123,7 +123,7 @@ properties:
         display_name:
           type: string
           minLength: 1
-          pattern: '^\\S(?:.*\\S)?$'
+          pattern: '^\S(?:.*\S)?$'
         estimated_weight:
           type: number
           minimum: 0
@@ -187,7 +187,7 @@ properties:
                 rationale:
                   type: string
                   minLength: 1
-                  pattern: '^\\S(?:.*\\S)?$'
+                  pattern: '^\S(?:.*\S)?$'
 $defs:
   partDefinition:
     type: object
