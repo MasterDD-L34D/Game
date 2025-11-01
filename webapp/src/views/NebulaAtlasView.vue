@@ -1,15 +1,22 @@
 <template>
   <section class="nebula-atlas-view">
-    <aside v-if="telemetryStatus.offline" class="nebula-atlas-view__banner" role="status">
+    <aside v-if="isDemoMode" class="nebula-atlas-view__banner" role="status">
       <div>
         <h2>Modalità demo attiva</h2>
         <p>
-          Il dataset statico {{ datasetInfo.title }} è disponibile offline mentre la telemetria live è
-          temporaneamente sospesa. I grafici mostrano una sincronizzazione mock per mantenere la console operativa.
+          Il dataset {{ datasetInfo.title }} è disponibile in modalità offline coordinata e la console mantiene
+          sincronizzazioni di supporto per garantire la continuità operativa.
         </p>
-        <p class="nebula-atlas-view__banner-meta">
-          Origine dati: <strong>{{ datasetInfo.sourceLabel }}</strong>
-        </p>
+        <ul class="nebula-atlas-view__banner-meta">
+          <li>
+            <span>Dataset</span>
+            <strong>{{ datasetInfo.datasetLabel }}</strong>
+          </li>
+          <li>
+            <span>Telemetria</span>
+            <strong>{{ telemetryStatus.label }}</strong>
+          </li>
+        </ul>
       </div>
       <div class="nebula-atlas-view__banner-actions">
         <button type="button" class="nebula-atlas-view__banner-button" @click="refresh">
@@ -177,17 +184,27 @@ import { useNebulaProgressModule } from '../modules/useNebulaProgressModule';
 
 const moduleState = useNebulaProgressModule();
 
+const datasetStatus = computed(() => {
+  const status = moduleState.datasetStatus?.value;
+  if (status) {
+    return status;
+  }
+  return { source: 'remote', label: 'Dataset live', offline: false, demo: false };
+});
+
 const datasetInfo = computed(() => {
   const header = moduleState.header.value || {};
   const summary = moduleState.telemetrySummary.value;
   return {
     title: header.title || 'Nebula Atlas Dataset',
     summary: header.summary || '',
-    sourceLabel: summary.sourceLabel,
+    datasetLabel: datasetStatus.value.label,
+    telemetryLabel: summary.sourceLabel,
   };
 });
 
 const telemetryStatus = computed(() => moduleState.telemetryStatus.value);
+const isDemoMode = computed(() => datasetStatus.value.offline || telemetryStatus.value.offline);
 const moduleError = computed(() => moduleState.error.value);
 const lastEventLabel = computed(() => moduleState.telemetrySummary.value.lastEventLabel);
 
@@ -204,14 +221,22 @@ const summaryCards = computed(() => {
 const readinessChips = computed(() => {
   const distribution = moduleState.telemetryDistribution.value;
   const status = telemetryStatus.value;
+  const datasetMode = datasetStatus.value;
   const chips = [
     { id: 'success', label: 'Pronte', tone: 'success', value: distribution.success },
     { id: 'warning', label: 'In attesa', tone: 'warning', value: distribution.warning },
     { id: 'neutral', label: 'Neutrali', tone: 'neutral', value: distribution.neutral },
     { id: 'critical', label: 'Bloccate', tone: 'critical', value: distribution.critical },
   ];
-  if (status.offline) {
-    const badge = status.mode === 'fallback' ? 'Offline fallback' : 'Offline demo';
+  if (isDemoMode.value) {
+    let badge = 'Modalità demo';
+    if (status.offline) {
+      badge = status.mode === 'fallback' ? 'Offline fallback' : 'Telemetria demo';
+    } else if (datasetMode.source === 'fallback') {
+      badge = 'Dataset fallback';
+    } else if (datasetMode.source === 'static') {
+      badge = 'Dataset demo';
+    }
     return chips.map((chip) => ({ ...chip, demo: true, badge }));
   }
   return chips.map((chip) => ({ ...chip, demo: false, badge: '' }));
@@ -330,7 +355,7 @@ const statusTone = computed(() => {
   if (moduleState.loading.value) {
     return 'neutral';
   }
-  if (telemetryStatus.value.offline) {
+  if (isDemoMode.value) {
     return 'offline';
   }
   return moduleState.telemetrySummary.value.open > 0 ? 'warning' : 'success';
@@ -343,13 +368,22 @@ const statusLabel = computed(() => {
   if (telemetryStatus.value.offline) {
     return telemetryStatus.value.label;
   }
+  if (datasetStatus.value.offline) {
+    return datasetStatus.value.label;
+  }
   return moduleState.telemetrySummary.value.lastEventLabel;
 });
 
 const statusMeta = computed(() => {
   const summary = moduleState.telemetrySummary.value;
-  const base = summary.updatedAt ? summary.updatedAt : '—';
-  return summary.isDemo ? `${base} · ${summary.sourceLabel}` : base;
+  const segments = [summary.updatedAt ? summary.updatedAt : '—'];
+  if (datasetStatus.value.offline) {
+    segments.push(datasetStatus.value.label);
+  }
+  if (summary.isDemo && summary.sourceLabel && summary.sourceLabel !== datasetStatus.value.label) {
+    segments.push(summary.sourceLabel);
+  }
+  return segments.filter(Boolean).join(' · ');
 });
 
 const chartVariant = computed(() => telemetryStatus.value.variant);
@@ -387,9 +421,31 @@ const activateDemo = () => {
 }
 
 .nebula-atlas-view__banner-meta {
-  margin: 0;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
   font-size: 0.85rem;
-  opacity: 0.85;
+  opacity: 0.9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.nebula-atlas-view__banner-meta li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.nebula-atlas-view__banner-meta span {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.nebula-atlas-view__banner-meta strong {
+  font-size: 0.95rem;
 }
 
 .nebula-atlas-view__banner-actions {

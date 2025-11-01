@@ -20,6 +20,12 @@ vi.mock('../src/modules/useNebulaProgressModule', () => ({
     timelineEntries: computed(() => []),
     evolutionMatrix: computed(() => []),
     share: computed(() => ({})),
+    datasetStatus: computed(() => ({
+      source: 'fallback',
+      label: 'Dataset offline · fallback',
+      offline: true,
+      demo: true,
+    })),
     telemetrySummary: computed(() => ({
       total: 128,
       open: 4,
