@@ -1,8 +1,8 @@
 const express = require('express');
-const fs = require('node:fs');
+const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const { createNebulaTelemetryAggregator } = require('../services/nebulaTelemetryAggregator');
+const { atlasDataset } = require('../../data/nebula/atlasDataset.js');
 
 const DEFAULT_TELEMETRY_EXPORT = path.resolve(
   __dirname,
@@ -23,117 +23,294 @@ const DEFAULT_GENERATOR_TELEMETRY = path.resolve(
   'generator_run_profile.json',
 );
 
-const DEFAULT_ORCHESTRATOR_LOG_DIR = path.resolve(__dirname, '..', '..', 'logs', 'tooling');
-const DEFAULT_CONFIG_PATH = path.resolve(__dirname, '..', '..', 'config', 'nebula.json');
-
-const DEFAULT_CONFIG = {
-  cache: { ttlMs: 30_000 },
-  telemetry: { defaultLimit: 200, timelineDays: 7 },
-  orchestrator: {
-    logDirectory: DEFAULT_ORCHESTRATOR_LOG_DIR,
-    filePattern: '*.jsonl',
-    maxEvents: 250,
-  },
-};
-
-function mergeConfig(base, override) {
-  const result = { ...base };
-  for (const [key, value] of Object.entries(override || {})) {
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      result[key] = mergeConfig(base[key] || {}, value);
-    } else {
-      result[key] = value;
-    }
-  }
-  return result;
+function cloneDataset() {
+  return JSON.parse(JSON.stringify(atlasDataset));
 }
 
-function loadConfig(configPath, inlineConfig) {
-  if (inlineConfig && typeof inlineConfig === 'object') {
-    return mergeConfig(DEFAULT_CONFIG, inlineConfig);
-  }
+async function loadTelemetryRecords(filePath) {
   try {
-    const content = fs.readFileSync(configPath, 'utf8');
+    const content = await fs.readFile(filePath, 'utf8');
     const parsed = JSON.parse(content);
-    return mergeConfig(DEFAULT_CONFIG, parsed);
+    return Array.isArray(parsed) ? parsed : [];
   } catch (error) {
-    if (error && error.code !== 'ENOENT') {
-      console.warn('[nebula-route] impossibile leggere config Nebula', error);
+    if (error && error.code === 'ENOENT') {
+      return [];
     }
-    return { ...DEFAULT_CONFIG };
+    throw error;
   }
 }
 
-function resolveOrchestratorDir(dirPath) {
-  if (!dirPath) {
-    return DEFAULT_ORCHESTRATOR_LOG_DIR;
+async function loadGeneratorTelemetry(filePath) {
+  try {
+    const content = await fs.readFile(filePath, 'utf8');
+    const parsed = JSON.parse(content);
+    return parsed && typeof parsed === 'object' ? parsed : null;
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      return null;
+    }
+    throw error;
   }
-  if (path.isAbsolute(dirPath)) {
-    return dirPath;
-  }
-  return path.resolve(__dirname, '..', '..', dirPath);
 }
 
-function parseLimit(value, defaultLimit, maxEvents) {
-  const fallback = Number.isFinite(defaultLimit) && defaultLimit > 0 ? Math.floor(defaultLimit) : 50;
-  if (value === undefined) {
-    return fallback;
+function readinessTone(readiness) {
+  if (!readiness) {
+    return 'neutral';
   }
-  const parsed = Number.parseInt(String(value), 10);
-  if (!Number.isFinite(parsed) || parsed <= 0) {
-    return fallback;
+  const value = String(readiness).toLowerCase();
+  if (value.includes('richiede')) {
+    return 'critical';
   }
-  const hardLimit = Number.isFinite(maxEvents) && maxEvents > 0 ? Math.floor(maxEvents) : fallback;
-  return Math.min(parsed, hardLimit);
+  if (value.includes('approvazione') || value.includes('attesa')) {
+    return 'warning';
+  }
+  if (value.includes('freeze') || value.includes('validazione completata') || value.includes('pronto')) {
+    return 'success';
+  }
+  return 'neutral';
 }
 
-function parseSince(value) {
-  if (!value) {
-    return null;
+function averageCoveragePercent(species) {
+  if (!Array.isArray(species) || !species.length) {
+    return 0;
   }
-  const date = new Date(String(value));
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
-  return date.toISOString();
+  const total = species.reduce((acc, entry) => acc + (Number(entry?.telemetry?.coverage) || 0), 0);
+  return Math.round((total / species.length) * 100);
 }
 
-function extractRequestParams(query, config) {
-  const defaultLimit = config.telemetry?.defaultLimit ?? DEFAULT_CONFIG.telemetry.defaultLimit;
-  const maxEvents = config.orchestrator?.maxEvents ?? DEFAULT_CONFIG.orchestrator.maxEvents;
+function buildCoverageHistory(species) {
+  const average = averageCoveragePercent(species);
+  if (!average) {
+    return [0, 0, 0, 0];
+  }
+  const base = Math.max(average - 15, 0);
+  return [
+    Math.max(Math.round(average * 0.55), 0),
+    Math.max(Math.round((base + average * 0.75) / 2), 0),
+    Math.max(Math.round((average + base) / 2), 0),
+    average,
+  ];
+}
+
+function buildReadinessDistribution(species) {
+  const distribution = { success: 0, warning: 0, neutral: 0, critical: 0 };
+  if (!Array.isArray(species)) {
+    return distribution;
+  }
+  for (const entry of species) {
+    const tone = readinessTone(entry?.readiness);
+    if (distribution[tone] !== undefined) {
+      distribution[tone] += 1;
+    }
+  }
+  return distribution;
+}
+
+function buildTelemetrySummary(records) {
+  const summary = {
+    totalEvents: 0,
+    openEvents: 0,
+    acknowledgedEvents: 0,
+    highPriorityEvents: 0,
+    lastEventAt: null,
+  };
+  if (!Array.isArray(records)) {
+    return summary;
+  }
+  let lastTimestamp = null;
+  for (const record of records) {
+    summary.totalEvents += 1;
+    const priority = String(record?.priority || '').toLowerCase();
+    if (priority === 'high') {
+      summary.highPriorityEvents += 1;
+    }
+    const status = String(record?.status || '').toLowerCase();
+    const isClosed = status.includes('closed') || status.includes('risolto');
+    const isAcknowledged =
+      status.includes('ack') || status.includes('resolved') || status.includes('triaged') || status.includes('chiuso');
+    if (!isClosed) {
+      summary.openEvents += 1;
+    }
+    if (isAcknowledged) {
+      summary.acknowledgedEvents += 1;
+    }
+    const timestamp = record?.event_timestamp || record?.timestamp || record?.created_at;
+    if (timestamp) {
+      const date = new Date(timestamp);
+      if (!Number.isNaN(date.getTime())) {
+        if (!lastTimestamp || date.getTime() > lastTimestamp.getTime()) {
+          lastTimestamp = date;
+        }
+      }
+    }
+  }
+  summary.lastEventAt = lastTimestamp ? lastTimestamp.toISOString() : null;
+  return summary;
+}
+
+function buildIncidentTimeline(records, days = 7) {
+  const now = new Date();
+  const buckets = [];
+  const bucketMap = new Map();
+  for (let offset = days - 1; offset >= 0; offset -= 1) {
+    const bucketDate = new Date(now);
+    bucketDate.setUTCDate(bucketDate.getUTCDate() - offset);
+    const key = bucketDate.toISOString().slice(0, 10);
+    const bucket = { date: key, total: 0, highPriority: 0 };
+    buckets.push(bucket);
+    bucketMap.set(key, bucket);
+  }
+  if (!Array.isArray(records)) {
+    return buckets;
+  }
+  for (const record of records) {
+    const timestamp = record?.event_timestamp || record?.timestamp || record?.created_at;
+    if (!timestamp) {
+      continue;
+    }
+    const date = new Date(timestamp);
+    if (Number.isNaN(date.getTime())) {
+      continue;
+    }
+    const key = date.toISOString().slice(0, 10);
+    const bucket = bucketMap.get(key);
+    if (!bucket) {
+      continue;
+    }
+    bucket.total += 1;
+    const priority = String(record?.priority || '').toLowerCase();
+    if (priority === 'high') {
+      bucket.highPriority += 1;
+    }
+  }
+  return buckets;
+}
+
+function buildTelemetryPayload(dataset, records) {
+  const species = Array.isArray(dataset?.species) ? dataset.species : [];
+  const coverageHistory = buildCoverageHistory(species);
+  const distribution = buildReadinessDistribution(species);
+  const summary = buildTelemetrySummary(records);
+  const incidentTimeline = buildIncidentTimeline(records);
   return {
-    since: parseSince(query?.since),
-    limit: parseLimit(query?.limit, defaultLimit, maxEvents),
+    summary,
+    coverage: {
+      average: averageCoveragePercent(species),
+      history: coverageHistory,
+      distribution,
+    },
+    incidents: {
+      timeline: incidentTimeline,
+    },
+    updatedAt: new Date().toISOString(),
+    sample: Array.isArray(records) ? records.slice(0, 20) : [],
+  };
+}
+
+function normaliseNumber(value, fallback = 0) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : fallback;
+}
+
+function buildTrendSeries(latest, { points = 6, baseline } = {}) {
+  const totalPoints = Math.max(points, 2);
+  const value = normaliseNumber(latest, 0);
+  if (!value) {
+    return Array.from({ length: totalPoints }, () => 0);
+  }
+  const resolvedBaseline = baseline !== undefined ? baseline : Math.round(value * 0.6);
+  let start = normaliseNumber(resolvedBaseline, value);
+  if (start <= 0 || start >= value) {
+    start = Math.max(Math.round(value * 0.55), Math.max(Math.round(value * 0.35), 1));
+  }
+  const step = (value - start) / (totalPoints - 1);
+  const series = [];
+  for (let index = 0; index < totalPoints; index += 1) {
+    const point = start + step * index;
+    series.push(Math.max(Math.round(point), 0));
+  }
+  return series;
+}
+
+function buildGeneratorPayload(dataset, generatorProfile) {
+  const species = Array.isArray(dataset?.species) ? dataset.species : [];
+  const metrics = generatorProfile?.metrics || {};
+  const status = String(generatorProfile?.status || 'unknown').toLowerCase();
+  const generationTimeMs = normaliseNumber(metrics.generation_time_ms, null);
+  const speciesTotal = normaliseNumber(metrics.species_total, species.length);
+  const enrichedSpecies = normaliseNumber(metrics.enriched_species, Math.round(species.length * 0.6));
+  const eventTotal = normaliseNumber(metrics.event_total, 0);
+  const coreTraits = normaliseNumber(metrics.core_traits_total, 0);
+  const optionalTraits = normaliseNumber(metrics.optional_traits_total, 0);
+  const synergyTraits = normaliseNumber(metrics.synergy_traits_total, 0);
+  const expectedCoreTraits = normaliseNumber(metrics.expected_core_traits, 0);
+
+  const trendOptions = { points: 6 };
+  const streams = {
+    generationTime: buildTrendSeries(generationTimeMs || 0, trendOptions),
+    species: buildTrendSeries(speciesTotal, { ...trendOptions, baseline: species.length }),
+    enriched: buildTrendSeries(enrichedSpecies, { ...trendOptions, baseline: Math.round(species.length * 0.5) || 1 }),
+  };
+
+  const label =
+    status === 'success'
+      ? 'Generatore online'
+      : status === 'warning' || status === 'degraded'
+        ? 'Generatore in osservazione'
+        : 'Generatore offline';
+
+  return {
+    status,
+    label,
+    generatedAt: generatorProfile?.generated_at || generatorProfile?.generatedAt || null,
+    dataRoot: generatorProfile?.data_root || generatorProfile?.dataRoot || null,
+    metrics: {
+      generationTimeMs: generationTimeMs !== null ? generationTimeMs : null,
+      speciesTotal,
+      enrichedSpecies,
+      eventTotal,
+      datasetSpeciesTotal: species.length,
+      coverageAverage: averageCoveragePercent(species),
+      coreTraits,
+      optionalTraits,
+      synergyTraits,
+      expectedCoreTraits,
+    },
+    streams,
+    updatedAt: new Date().toISOString(),
+    sourceLabel: 'Generator telemetry',
+  };
+}
+
+function createAtlasLoader(options = {}) {
+  const telemetryPath = options.telemetryPath || DEFAULT_TELEMETRY_EXPORT;
+  const generatorPath = options.generatorTelemetryPath || DEFAULT_GENERATOR_TELEMETRY;
+
+  return async function loadAtlasData() {
+    const dataset = cloneDataset();
+    const records = await loadTelemetryRecords(telemetryPath).catch((error) => {
+      console.warn('[nebula-route] impossibile caricare telemetria', error);
+      return [];
+    });
+    const generatorProfile = await loadGeneratorTelemetry(generatorPath).catch((error) => {
+      console.warn('[nebula-route] impossibile caricare telemetria generatore', error);
+      return null;
+    });
+    const telemetry = buildTelemetryPayload(dataset, records);
+    const generator = buildGeneratorPayload(dataset, generatorProfile);
+    return { dataset, telemetry, generator };
   };
 }
 
 function createNebulaRouter(options = {}) {
   const router = express.Router();
-
-  const configPath = options.configPath || DEFAULT_CONFIG_PATH;
-  const config = loadConfig(configPath, options.config);
-
-  const aggregator =
-    options.aggregator ||
-    createNebulaTelemetryAggregator({
-      telemetryPath: options.telemetryPath || DEFAULT_TELEMETRY_EXPORT,
-      generatorTelemetryPath: options.generatorTelemetryPath || DEFAULT_GENERATOR_TELEMETRY,
-      cacheTTL: config.cache?.ttlMs,
-      telemetry: {
-        defaultLimit: config.telemetry?.defaultLimit,
-        timelineDays: config.telemetry?.timelineDays,
-      },
-      orchestrator: {
-        logDir: resolveOrchestratorDir(config.orchestrator?.logDirectory),
-        filePattern: config.orchestrator?.filePattern,
-        maxEvents: config.orchestrator?.maxEvents,
-      },
-    });
+  const loadData = createAtlasLoader(options);
 
   router.get('/atlas', async (req, res) => {
-    const params = extractRequestParams(req.query, config);
     try {
-      const payload = await aggregator.getAtlas(params);
+      const payload = await loadData();
+      res.set('Deprecation', 'true');
+      res.set('Link', '</api/v1/atlas/dataset>; rel="successor-version"');
       res.json(payload);
     } catch (error) {
       console.error('[nebula-route] errore aggregazione dataset', error);
@@ -144,9 +321,8 @@ function createNebulaRouter(options = {}) {
   });
 
   router.get('/atlas/telemetry', async (req, res) => {
-    const params = extractRequestParams(req.query, config);
     try {
-      const telemetry = await aggregator.getTelemetry(params);
+      const { telemetry } = await loadData();
       res.json(telemetry);
     } catch (error) {
       console.error('[nebula-route] errore aggregazione telemetria', error);
@@ -158,7 +334,7 @@ function createNebulaRouter(options = {}) {
 
   router.get('/atlas/generator', async (req, res) => {
     try {
-      const generator = await aggregator.getGenerator();
+      const { generator } = await loadData();
       res.json(generator);
     } catch (error) {
       console.error('[nebula-route] errore aggregazione telemetria generatore', error);
@@ -168,16 +344,50 @@ function createNebulaRouter(options = {}) {
     }
   });
 
-  router.get('/atlas/orchestrator', async (req, res) => {
-    const params = extractRequestParams(req.query, config);
+  return router;
+}
+
+function createAtlasV1Router(options = {}) {
+  const router = express.Router();
+  const loadData = createAtlasLoader(options);
+
+  router.get('/dataset', async (req, res) => {
     try {
-      const orchestrator = await aggregator.getOrchestrator(params);
-      res.json(orchestrator);
+      const { dataset } = await loadData();
+      res.json(dataset);
     } catch (error) {
-      console.error('[nebula-route] errore aggregazione orchestratore', error);
-      res.status(500).json({
-        error: error?.message || 'Errore caricamento orchestratore Nebula',
-      });
+      console.error('[atlas-v1] errore caricamento dataset', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento dataset Nebula' });
+    }
+  });
+
+  router.get('/telemetry', async (req, res) => {
+    try {
+      const { telemetry } = await loadData();
+      res.json(telemetry);
+    } catch (error) {
+      console.error('[atlas-v1] errore caricamento telemetria', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento telemetria Nebula' });
+    }
+  });
+
+  router.get('/generator', async (req, res) => {
+    try {
+      const { generator } = await loadData();
+      res.json(generator);
+    } catch (error) {
+      console.error('[atlas-v1] errore caricamento telemetria generatore', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento telemetria generatore Nebula' });
+    }
+  });
+
+  router.get('/', async (req, res) => {
+    try {
+      const payload = await loadData();
+      res.json(payload);
+    } catch (error) {
+      console.error('[atlas-v1] errore aggregazione dataset', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento dataset Nebula' });
     }
   });
 
@@ -186,12 +396,20 @@ function createNebulaRouter(options = {}) {
 
 module.exports = {
   createNebulaRouter,
+  createAtlasV1Router,
   __internals__: {
-    loadConfig,
-    mergeConfig,
-    extractRequestParams,
-    parseSince,
-    parseLimit,
-    resolveOrchestratorDir,
+    createAtlasLoader,
+    cloneDataset,
+    loadTelemetryRecords,
+    loadGeneratorTelemetry,
+    readinessTone,
+    averageCoveragePercent,
+    buildCoverageHistory,
+    buildReadinessDistribution,
+    buildTelemetrySummary,
+    buildIncidentTimeline,
+    buildTelemetryPayload,
+    buildGeneratorPayload,
+    buildTrendSeries,
   },
 };
