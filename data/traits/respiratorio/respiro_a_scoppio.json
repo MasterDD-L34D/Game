@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.respiro_a_scoppio.debolezza",
+  "debolezza": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica).",
   "famiglia_tipologia": "Respiratorio/Propulsivo",
-  "fattore_mantenimento_energetico": "i18n:traits.respiro_a_scoppio.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Richiede ricarica polmonare)",
   "id": "respiro_a_scoppio",
-  "label": "i18n:traits.respiro_a_scoppio.label",
-  "mutazione_indotta": "i18n:traits.respiro_a_scoppio.mutazione_indotta",
+  "label": "Respiro a scoppio",
+  "mutazione_indotta": "Polmoni o sacche aeree ad alta pressione con valvole di rilascio rapide.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -34,7 +34,7 @@
     "complementare": "propulsivo",
     "core": "respiratorio"
   },
-  "spinta_selettiva": "i18n:traits.respiro_a_scoppio.spinta_selettiva",
+  "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.respiro_a_scoppio.uso_funzione"
+  "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente."
 }

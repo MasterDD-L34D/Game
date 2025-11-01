@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.chemiorecettori_bromuro.debolezza",
+  "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "i18n:traits.chemiorecettori_bromuro.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "chemiorecettori_bromuro",
-  "label": "i18n:traits.chemiorecettori_bromuro.label",
-  "mutazione_indotta": "i18n:traits.chemiorecettori_bromuro.mutazione_indotta",
+  "label": "Chemiorecettori Bromuro",
+  "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "mobilita",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "i18n:traits.chemiorecettori_bromuro.spinta_selettiva",
+  "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.chemiorecettori_bromuro.uso_funzione"
+  "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
 }

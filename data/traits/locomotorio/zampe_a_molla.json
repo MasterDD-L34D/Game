@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.zampe_a_molla.debolezza",
+  "debolezza": "Perdita di valore su mappe con spazi stretti o controllo setup elevato.",
   "famiglia_tipologia": "Mobilità/Cinetico",
-  "fattore_mantenimento_energetico": "i18n:traits.zampe_a_molla.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Carica elastica a turni alterni)",
   "id": "zampe_a_molla",
-  "label": "i18n:traits.zampe_a_molla.label",
-  "mutazione_indotta": "i18n:traits.zampe_a_molla.mutazione_indotta",
+  "label": "Zampe a Molla",
+  "mutazione_indotta": "Arti potenziati con ammortizzatori ad alta compressione.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -56,7 +56,7 @@
     "complementare": "propulsione",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "i18n:traits.zampe_a_molla.spinta_selettiva",
+  "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.zampe_a_molla.uso_funzione"
+  "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
 }

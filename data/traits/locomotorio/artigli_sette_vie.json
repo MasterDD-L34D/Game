@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.artigli_sette_vie.debolezza",
+  "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
   "famiglia_tipologia": "Locomotorio/Prensile",
-  "fattore_mantenimento_energetico": "i18n:traits.artigli_sette_vie.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "artigli_sette_vie",
-  "label": "i18n:traits.artigli_sette_vie.label",
-  "mutazione_indotta": "i18n:traits.artigli_sette_vie.mutazione_indotta",
+  "label": "Artigli a Sette Vie",
+  "mutazione_indotta": "Dita lunghe e segmentate con punte a uncino multiplo.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -45,7 +45,7 @@
     "complementare": "prensile",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "i18n:traits.artigli_sette_vie.spinta_selettiva",
+  "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.artigli_sette_vie.uso_funzione"
+  "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
 }

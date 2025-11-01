@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.membrane_eliofiltranti.debolezza",
+  "debolezza": "Atmosfere acide degradano rapidamente il film eliofiltrante.",
   "famiglia_tipologia": "Respiratorio/Protezione",
-  "fattore_mantenimento_energetico": "i18n:traits.membrane_eliofiltranti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Auto-riparazione lenta)",
   "id": "membrane_eliofiltranti",
-  "label": "i18n:traits.membrane_eliofiltranti.label",
-  "mutazione_indotta": "i18n:traits.membrane_eliofiltranti.mutazione_indotta",
+  "label": "Membrane Eliofiltranti",
+  "mutazione_indotta": "Strati di mucopolisaccaridi trasparenti che filtrano radiazioni e microrganismi sospesi.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -34,7 +34,7 @@
     "complementare": "protezione",
     "core": "respiratorio"
   },
-  "spinta_selettiva": "i18n:traits.membrane_eliofiltranti.spinta_selettiva",
+  "spinta_selettiva": "Proteggersi da radiazioni e agenti patogeni in altopiani ipersalini.",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.membrane_eliofiltranti.uso_funzione"
+  "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
 }

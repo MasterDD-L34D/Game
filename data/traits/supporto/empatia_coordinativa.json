@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.empatia_coordinativa.debolezza",
+  "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
   "famiglia_tipologia": "Supporto/Empatico",
-  "fattore_mantenimento_energetico": "i18n:traits.empatia_coordinativa.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
   "id": "empatia_coordinativa",
-  "label": "i18n:traits.empatia_coordinativa.label",
-  "mutazione_indotta": "i18n:traits.empatia_coordinativa.mutazione_indotta",
+  "label": "Empatia Coordinativa",
+  "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -52,7 +52,7 @@
     "complementare": "coordinazione",
     "core": "supporto"
   },
-  "spinta_selettiva": "i18n:traits.empatia_coordinativa.spinta_selettiva",
+  "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.empatia_coordinativa.uso_funzione"
+  "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
 }

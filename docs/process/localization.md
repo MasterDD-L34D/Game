@@ -51,8 +51,9 @@ Lo script esegue tre operazioni:
 1. Esplora tutti i trait (`*.json`, esclusi gli indici) e raccoglie i valori dei
    campi testuali.
 2. Popola `locales/<lingua>/traits.json` con i testi normalizzati e ordinati.
-3. Sostituisce i valori testuali nei trait con chiavi `i18n:traits.<id>.<campo>`
-   che puntano alla voce nel bundle.
+3. Aggiorna (o crea) le voci del bundle lasciando invariati i testi nei file
+   dei trait; le traduzioni vengono quindi gestite tramite i bundle senza
+   impattare gli strumenti esistenti.
 
 Usare `--dry-run` per verificare le modifiche senza applicarle. Lo script è
 idempotente: eseguendolo più volte non produce diff aggiuntivi se i contenuti non

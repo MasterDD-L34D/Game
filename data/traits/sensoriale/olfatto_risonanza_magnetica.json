@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.olfatto_risonanza_magnetica.debolezza",
+  "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici).",
   "famiglia_tipologia": "Sensoriale/Nervoso",
-  "fattore_mantenimento_energetico": "i18n:traits.olfatto_risonanza_magnetica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Elaborazione sensoriale costante)",
   "id": "olfatto_risonanza_magnetica",
-  "label": "i18n:traits.olfatto_risonanza_magnetica.label",
-  "mutazione_indotta": "i18n:traits.olfatto_risonanza_magnetica.mutazione_indotta",
+  "label": "Olfatto di Risonanza Magnetica",
+  "mutazione_indotta": "Organi sensoriali elettrorecettori concentrati su muso o antenne.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -47,7 +47,7 @@
     "complementare": "nervoso",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "i18n:traits.olfatto_risonanza_magnetica.spinta_selettiva",
+  "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.olfatto_risonanza_magnetica.uso_funzione"
+  "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
 }

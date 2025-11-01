@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.chioma_parassita_canopica.debolezza",
+  "debolezza": "Se la pianta ospite muore la chioma psionica collassa causando shock sistemico.",
   "famiglia_tipologia": "Simbiotico/Utility",
-  "fattore_mantenimento_energetico": "i18n:traits.chioma_parassita_canopica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Nutrimento condiviso con l'ospite arboreo)",
   "id": "chioma_parassita_canopica",
-  "label": "i18n:traits.chioma_parassita_canopica.label",
-  "mutazione_indotta": "i18n:traits.chioma_parassita_canopica.mutazione_indotta",
+  "label": "Chioma Parassita Canopica",
+  "mutazione_indotta": "Filamenti vegetali che si intrecciano con la canopia ospite fornendo punti d'ancoraggio e energia.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -34,7 +34,7 @@
     "complementare": "utility",
     "core": "simbiotico"
   },
-  "spinta_selettiva": "i18n:traits.chioma_parassita_canopica.spinta_selettiva",
+  "spinta_selettiva": "Stabilizzare piattaforme mobili e reti di trasporto tra gli alberi viventi.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.chioma_parassita_canopica.uso_funzione"
+  "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi."
 }

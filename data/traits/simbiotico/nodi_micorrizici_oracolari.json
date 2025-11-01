@@ -2,12 +2,12 @@
   "conflitti": [
     "spore_psichiche_silenziate"
   ],
-  "debolezza": "i18n:traits.nodi_micorrizici_oracolari.debolezza",
+  "debolezza": "Se la rete micorrizica viene recisa, l'organismo soffre crisi percettive e perdita di orientamento.",
   "famiglia_tipologia": "Simbiotico/Nervoso",
-  "fattore_mantenimento_energetico": "i18n:traits.nodi_micorrizici_oracolari.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Scambio continuo di segnali con simbionti)",
   "id": "nodi_micorrizici_oracolari",
-  "label": "i18n:traits.nodi_micorrizici_oracolari.label",
-  "mutazione_indotta": "i18n:traits.nodi_micorrizici_oracolari.mutazione_indotta",
+  "label": "Nodi Micorrizici Oracolari",
+  "mutazione_indotta": "Radici dermiche che intrecciano funghi psionici capaci di predire variazioni ambientali.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -50,7 +50,7 @@
     "complementare": "nervoso",
     "core": "simbiotico"
   },
-  "spinta_selettiva": "i18n:traits.nodi_micorrizici_oracolari.spinta_selettiva",
+  "spinta_selettiva": "Anticipare frane psioniche e predatori guidati da reti vegetali senzienti.",
   "tier": "T3",
-  "uso_funzione": "i18n:traits.nodi_micorrizici_oracolari.uso_funzione"
+  "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
 }

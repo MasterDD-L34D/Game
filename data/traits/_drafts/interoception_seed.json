@@ -1,8 +1,8 @@
 {
   "id": "interoception_seed",
-  "label": "i18n:traits.interoception_seed.label",
+  "label": "Interoception Seed",
   "famiglia_tipologia": "TODO/import_esterno",
-  "fattore_mantenimento_energetico": "i18n:traits.interoception_seed.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Da definire (import esterno)",
   "tier": "T1",
   "slot": [],
   "slot_profile": {
@@ -11,9 +11,9 @@
   },
   "sinergie": [],
   "conflitti": [],
-  "mutazione_indotta": "i18n:traits.interoception_seed.mutazione_indotta",
-  "uso_funzione": "i18n:traits.interoception_seed.uso_funzione",
-  "spinta_selettiva": "i18n:traits.interoception_seed.spinta_selettiva",
+  "mutazione_indotta": "+1 ai tiri di Consapevolezza Corporea; segnali anticipati di fame/sete.",
+  "uso_funzione": "Tier Proto‑Senziente (T1). Richiede neuroni: SO 01, SS 01, MS 01",
+  "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
   "completion_flags": {
     "external_source": true
   },

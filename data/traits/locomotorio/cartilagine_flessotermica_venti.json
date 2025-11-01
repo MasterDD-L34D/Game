@@ -2,12 +2,12 @@
   "conflitti": [
     "scheletro_idro_regolante"
   ],
-  "debolezza": "i18n:traits.cartilagine_flessotermica_venti.debolezza",
+  "debolezza": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento.",
   "famiglia_tipologia": "Locomotorio/Adattivo",
-  "fattore_mantenimento_energetico": "i18n:traits.cartilagine_flessotermica_venti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Richiede frequenti riallineamenti fibrosi)",
   "id": "cartilagine_flessotermica_venti",
-  "label": "i18n:traits.cartilagine_flessotermica_venti.label",
-  "mutazione_indotta": "i18n:traits.cartilagine_flessotermica_venti.mutazione_indotta",
+  "label": "Cartilagine Flessotermica dei Venti",
+  "mutazione_indotta": "Giunzioni cartilaginee che cambiano rigidità in risposta a gradienti termici e eolici.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -46,7 +46,7 @@
     "complementare": "adattivo",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "i18n:traits.cartilagine_flessotermica_venti.spinta_selettiva",
+  "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.cartilagine_flessotermica_venti.uso_funzione"
+  "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
 }

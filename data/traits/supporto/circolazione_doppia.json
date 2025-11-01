@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.circolazione_doppia.debolezza",
+  "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
   "famiglia_tipologia": "Supporto/Logistico",
-  "fattore_mantenimento_energetico": "i18n:traits.circolazione_doppia.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "circolazione_doppia",
-  "label": "i18n:traits.circolazione_doppia.label",
-  "mutazione_indotta": "i18n:traits.circolazione_doppia.mutazione_indotta",
+  "label": "Circolazione Doppia",
+  "mutazione_indotta": "intreccia canali biochimici condivisi che bilanciano stress collettivo.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "logistico",
     "core": "supporto"
   },
-  "spinta_selettiva": "i18n:traits.circolazione_doppia.spinta_selettiva",
+  "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.circolazione_doppia.uso_funzione"
+  "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
 }

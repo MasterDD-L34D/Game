@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.artigli_sghiaccio_glaciale.debolezza",
+  "debolezza": "In ambienti temperati i tessuti subiscono microfratture e richiedono continue riparazioni.",
   "famiglia_tipologia": "Locomotorio/Predatorio",
-  "fattore_mantenimento_energetico": "i18n:traits.artigli_sghiaccio_glaciale.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Raffreddamento endogeno controllato)",
   "id": "artigli_sghiaccio_glaciale",
-  "label": "i18n:traits.artigli_sghiaccio_glaciale.label",
-  "mutazione_indotta": "i18n:traits.artigli_sghiaccio_glaciale.mutazione_indotta",
+  "label": "Artigli Sghiaccio Glaciale",
+  "mutazione_indotta": "Falangi rivestite da ghiaccio strutturale che si espande creando lame traslucide.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -43,7 +43,7 @@
     "complementare": "predatorio",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "i18n:traits.artigli_sghiaccio_glaciale.spinta_selettiva",
+  "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.artigli_sghiaccio_glaciale.uso_funzione"
+  "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
 }

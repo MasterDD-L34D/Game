@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.sonno_emisferico_alternato.debolezza",
+  "debolezza": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente.",
   "famiglia_tipologia": "Nervoso/Omeostatico",
-  "fattore_mantenimento_energetico": "i18n:traits.sonno_emisferico_alternato.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Mantenimento attivo di metà cervello)",
   "id": "sonno_emisferico_alternato",
-  "label": "i18n:traits.sonno_emisferico_alternato.label",
-  "mutazione_indotta": "i18n:traits.sonno_emisferico_alternato.mutazione_indotta",
+  "label": "Dormire con solo metà cervello alla volta",
+  "mutazione_indotta": "Encefalizzazione asimmetrica o due lobi cerebrali separati.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -34,7 +34,7 @@
     "complementare": "omeostatico",
     "core": "nervoso"
   },
-  "spinta_selettiva": "i18n:traits.sonno_emisferico_alternato.spinta_selettiva",
+  "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.sonno_emisferico_alternato.uso_funzione"
+  "uso_funzione": "Vigilanza continua pur garantendo riposo."
 }

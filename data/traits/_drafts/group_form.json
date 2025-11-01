@@ -1,8 +1,8 @@
 {
   "id": "group_form",
-  "label": "i18n:traits.group_form.label",
+  "label": "Group Form",
   "famiglia_tipologia": "TODO/import_esterno",
-  "fattore_mantenimento_energetico": "i18n:traits.group_form.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Da definire (import esterno)",
   "tier": "T4",
   "slot": [],
   "slot_profile": {
@@ -11,9 +11,9 @@
   },
   "sinergie": [],
   "conflitti": [],
-  "mutazione_indotta": "i18n:traits.group_form.mutazione_indotta",
-  "uso_funzione": "i18n:traits.group_form.uso_funzione",
-  "spinta_selettiva": "i18n:traits.group_form.spinta_selettiva",
+  "mutazione_indotta": "Bonus posizionale con 2+ alleati adiacenti.",
+  "uso_funzione": "Tier Sociale (T4). Richiede neuroni: CM 06, DO 07, CO 1",
+  "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
   "completion_flags": {
     "external_source": true
   },

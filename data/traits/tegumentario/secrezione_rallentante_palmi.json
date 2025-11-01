@@ -3,12 +3,12 @@
     "carapace_fase_variabile",
     "nucleo_ovomotore_rotante"
   ],
-  "debolezza": "i18n:traits.secrezione_rallentante_palmi.debolezza",
+  "debolezza": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato.",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.secrezione_rallentante_palmi.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Produzione del liquido)",
   "id": "secrezione_rallentante_palmi",
-  "label": "i18n:traits.secrezione_rallentante_palmi.label",
-  "mutazione_indotta": "i18n:traits.secrezione_rallentante_palmi.mutazione_indotta",
+  "label": "Mani secernano liquido rallentante",
+  "mutazione_indotta": "Ghiandole mucose modificate sulle superfici prensili.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -34,7 +34,7 @@
     "complementare": "difensivo",
     "core": "tegumentario"
   },
-  "spinta_selettiva": "i18n:traits.secrezione_rallentante_palmi.spinta_selettiva",
+  "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.secrezione_rallentante_palmi.uso_funzione"
+  "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
 }

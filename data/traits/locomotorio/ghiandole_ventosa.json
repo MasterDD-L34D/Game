@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.ghiandole_ventosa.debolezza",
+  "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "i18n:traits.ghiandole_ventosa.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ghiandole_ventosa",
-  "label": "i18n:traits.ghiandole_ventosa.label",
-  "mutazione_indotta": "i18n:traits.ghiandole_ventosa.mutazione_indotta",
+  "label": "Ghiandole Ventosa",
+  "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "mobilita",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "i18n:traits.ghiandole_ventosa.spinta_selettiva",
+  "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.ghiandole_ventosa.uso_funzione"
+  "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
 }

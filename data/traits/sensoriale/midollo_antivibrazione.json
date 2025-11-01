@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.midollo_antivibrazione.debolezza",
+  "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.midollo_antivibrazione.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "midollo_antivibrazione",
-  "label": "i18n:traits.midollo_antivibrazione.label",
-  "mutazione_indotta": "i18n:traits.midollo_antivibrazione.mutazione_indotta",
+  "label": "Midollo Antivibrazione",
+  "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "analitico",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "i18n:traits.midollo_antivibrazione.spinta_selettiva",
+  "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.midollo_antivibrazione.uso_funzione"
+  "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
 }

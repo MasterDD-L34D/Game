@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "i18n:traits.bulbi_radici_permafrost.debolezza",
+  "debolezza": "Disgeli improvvisi trasformano i bulbi in masse gelatinose che rallentano i movimenti.",
   "famiglia_tipologia": "Simbiotico/Nutrizione",
-  "fattore_mantenimento_energetico": "i18n:traits.bulbi_radici_permafrost.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Accumulo e rilascio lento di nutrienti)",
   "id": "bulbi_radici_permafrost",
-  "label": "i18n:traits.bulbi_radici_permafrost.label",
-  "mutazione_indotta": "i18n:traits.bulbi_radici_permafrost.mutazione_indotta",
+  "label": "Bulbi Radici del Permafrost",
+  "mutazione_indotta": "Bulbi radicali multipli che immagazzinano energia nelle stagioni fredde per rilasciarla durante le missioni.",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -44,7 +44,7 @@
     "complementare": "nutrizione",
     "core": "simbiotico"
   },
-  "spinta_selettiva": "i18n:traits.bulbi_radici_permafrost.spinta_selettiva",
+  "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.bulbi_radici_permafrost.uso_funzione"
+  "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
 }
