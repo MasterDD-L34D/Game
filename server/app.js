@@ -14,133 +14,17 @@ const {
 const { createGenerationSnapshotStore } = require('./services/generationSnapshotStore');
 const { createNebulaRouter, createAtlasV1Router } = require('./routes/nebula');
 const { createGenerationRouter, createGenerationRoutes } = require('./routes/generation');
+const { createValidatorsRouter } = require('./routes/validators');
+const { createQualityRouter } = require('./routes/quality');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
+const { createSchemaValidator } = require('./middleware/schemaValidator');
+const qualitySuggestionSchema = require('../schemas/quality/suggestion.schema.json');
+const qualitySuggestionApplySchema = require('../schemas/quality/suggestions-apply-request.schema.json');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
 const IDEA_CATEGORIES = new Set((ideaTaxonomy && Array.isArray(ideaTaxonomy.categories)) ? ideaTaxonomy.categories : []);
-
-function createLogEntry(scope, level, message) {
-  return {
-    scope,
-    level,
-    message,
-    timestamp: new Date().toISOString(),
-  };
-}
-
-function validationLogs(scope, result = {}) {
-  const logs = [];
-  const messages = Array.isArray(result.messages) ? result.messages : [];
-  for (const entry of messages) {
-    if (!entry) continue;
-    if (typeof entry === 'string') {
-      logs.push(createLogEntry(scope, 'info', entry));
-      continue;
-    }
-    const level = entry.level || entry.severity || 'info';
-    const text = entry.message || entry.text || '';
-    if (text) {
-      logs.push(createLogEntry(scope, level, text));
-    }
-  }
-  if (Array.isArray(result.discarded) && result.discarded.length) {
-    logs.push(
-      createLogEntry(
-        scope,
-        'warning',
-        `Elementi scartati: ${result.discarded.length}`,
-      ),
-    );
-  }
-  if (Array.isArray(result.corrected) && result.corrected.length) {
-    logs.push(
-      createLogEntry(
-        scope,
-        'success',
-        `Correzioni applicate: ${result.corrected.length}`,
-      ),
-    );
-  }
-  return logs;
-}
-
-function generationLogs(scope, batch = {}) {
-  const logs = [];
-  const results = Array.isArray(batch.results) ? batch.results : [];
-  for (const result of results) {
-    const meta = result && result.meta ? result.meta : {};
-    const requestId = meta.request_id || meta.requestId || 'entry';
-    logs.push(
-      createLogEntry(
-        scope,
-        'success',
-        `Rigenerazione completata per ${requestId}`,
-      ),
-    );
-    const messages = result && result.validation ? result.validation.messages : [];
-    if (Array.isArray(messages) && messages.length) {
-      logs.push(
-        createLogEntry(
-          scope,
-          'info',
-          `${messages.length} messaggi di validazione disponibili`,
-        ),
-      );
-    }
-  }
-  const errors = Array.isArray(batch.errors) ? batch.errors : [];
-  for (const error of errors) {
-    if (!error) continue;
-    const requestId = error.request_id || error.requestId || error.index;
-    logs.push(
-      createLogEntry(
-        scope,
-        'error',
-        `Rigenerazione fallita (${requestId}): ${error.error || 'errore sconosciuto'}`,
-      ),
-    );
-  }
-  if (!logs.length) {
-    logs.push(createLogEntry(scope, 'info', 'Rigenerazione completata'));
-  }
-  return logs;
-}
-
-function slugify(value) {
-  if (!value) return '';
-  return String(value)
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9_-]+/g, '_')
-    .replace(/_{2,}/g, '_')
-    .replace(/^_+|_+$/g, '')
-    .replace(/^-+|-+$/g, '');
-}
-
-function buildSlugConfig(listKey, aliasKey) {
-  const taxonomy = slugTaxonomy && typeof slugTaxonomy === 'object' ? slugTaxonomy : {};
-  const canonicalList = Array.isArray(taxonomy[listKey]) ? taxonomy[listKey] : [];
-  const aliasSource = aliasKey ? taxonomy[aliasKey] : undefined;
-  const canonicalSet = new Set();
-  canonicalList.forEach((item) => {
-    const slug = slugify(item);
-    if (slug) {
-      canonicalSet.add(slug);
-    }
-  });
-  const aliasMap = {};
-  Object.entries(aliasSource || {}).forEach(([alias, canonical]) => {
-    const aliasSlug = slugify(alias);
-    const canonicalSlug = slugify(canonical);
-    if (aliasSlug && canonicalSlug) {
-      aliasMap[aliasSlug] = canonicalSlug;
-      canonicalSet.add(canonicalSlug);
-    }
-  });
-  return { canonicalSet, aliasMap };
-}
 
 const SLUG_CONFIG = {
   biomes: buildSlugConfig('biomes', 'biomeAliases'),
@@ -324,6 +208,14 @@ function createApp(options = {}) {
   const generationOrchestrator =
     options.generationOrchestrator ||
     createGenerationOrchestratorBridge(orchestratorOptions);
+  const schemaValidator =
+    options.schemaValidator ||
+    createSchemaValidator(options.schemaValidatorOptions || {});
+  schemaValidator.registerSchema('quality://suggestion', qualitySuggestionSchema);
+  schemaValidator.registerSchema(
+    'quality://suggestions/apply/request',
+    qualitySuggestionApplySchema,
+  );
   const traitDiagnosticsSync =
     options.traitDiagnosticsSync ||
     createTraitDiagnosticsSync({
@@ -591,93 +483,17 @@ function createApp(options = {}) {
     }
   });
 
-  async function handleRuntimeValidation(req, res) {
-    const { kind, payload } = req.body || {};
-    if (!kind) {
-      res.status(400).json({ error: "Campo 'kind' richiesto" });
-      return;
-    }
-    try {
-      let result = {};
-      if (kind === 'species') {
-        const entries = (payload && payload.entries) || [];
-        result = await runtimeValidator.validateSpeciesBatch(entries, {
-          biomeId: payload && payload.biomeId,
-        });
-      } else if (kind === 'biome') {
-        result = await runtimeValidator.validateBiome(payload && payload.biome, {
-          defaultHazard: payload && payload.defaultHazard,
-        });
-      } else if (kind === 'foodweb') {
-        result = await runtimeValidator.validateFoodweb(payload && payload.foodweb);
-      } else {
-        res.status(400).json({ error: `kind non supportato: ${kind}` });
-        return;
-      }
-      res.json({ result });
-    } catch (error) {
-      res.status(500).json({ error: error.message || 'Errore validazione runtime' });
-    }
-  }
+  const validatorsRouter = createValidatorsRouter({ runtimeValidator });
+  app.use('/api/v1/validators', validatorsRouter);
+  app.use('/api/validators', validatorsRouter);
 
-  app.post('/api/validators/runtime', handleRuntimeValidation);
-  app.post('/api/v1/validators/runtime', handleRuntimeValidation);
-
-  async function handleQualitySuggestion(req, res) {
-    const suggestion = req.body && req.body.suggestion;
-    if (!suggestion || !suggestion.id) {
-      res.status(400).json({ error: "Suggerimento richiesto per l'applicazione" });
-      return;
-    }
-    const scope = suggestion.scope || 'general';
-    const action = suggestion.action || 'fix';
-    const payload = suggestion.payload || {};
-    const logScope = scope === 'biomes' ? 'biome' : scope;
-    try {
-      let result = {};
-      let logs = [];
-      if (action === 'fix') {
-        if (scope === 'species') {
-          const entries = Array.isArray(payload.entries) ? payload.entries : [];
-          result = await runtimeValidator.validateSpeciesBatch(entries, {
-            biomeId: payload.biomeId,
-          });
-        } else if (scope === 'biome' || scope === 'biomes') {
-          result = await runtimeValidator.validateBiome(payload.biome, {
-            defaultHazard: payload.defaultHazard,
-          });
-        } else if (scope === 'foodweb') {
-          result = await runtimeValidator.validateFoodweb(payload.foodweb);
-        } else {
-          res.status(400).json({ error: `Scope non supportato per fix: ${scope}` });
-          return;
-        }
-        logs = validationLogs(logScope, result);
-      } else if (action === 'regenerate') {
-        if (scope === 'species') {
-          const entries = Array.isArray(payload.entries) ? payload.entries : [];
-          result = await generationOrchestrator.generateSpeciesBatch({ batch: entries });
-          logs = generationLogs(logScope, result);
-        } else {
-          result = { status: 'scheduled', scope };
-          logs = [createLogEntry(logScope, 'info', 'Rigenerazione pianificata')];
-        }
-      } else {
-        res.status(400).json({ error: `Azione non supportata: ${action}` });
-        return;
-      }
-      res.json({
-        suggestion: { id: suggestion.id, scope, action },
-        result,
-        logs,
-      });
-    } catch (error) {
-      res.status(500).json({ error: error.message || 'Errore applicazione suggerimento' });
-    }
-  }
-
-  app.post('/api/quality/suggestions/apply', handleQualitySuggestion);
-  app.post('/api/v1/quality/suggestions/apply', handleQualitySuggestion);
+  const qualityRouter = createQualityRouter({
+    runtimeValidator,
+    generationOrchestrator,
+    schemaValidator,
+  });
+  app.use('/api/v1/quality', qualityRouter);
+  app.use('/api/quality', qualityRouter);
 
   const generationRoutes = createGenerationRoutes({
     biomeSynthesizer,
