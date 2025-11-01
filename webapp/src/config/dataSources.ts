@@ -134,7 +134,7 @@ const defaults: Record<DataSourceId, DataSourceDefaults> = {
     },
   },
   nebulaAtlas: {
-    endpoint: '/api/nebula/atlas',
+    endpoint: '/api/v1/atlas',
     fallback: 'data/nebula/atlas.json',
     mock: 'data/nebula/telemetry.json',
     env: {

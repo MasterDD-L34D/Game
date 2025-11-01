@@ -105,29 +105,29 @@ const statusLabel = computed(() => {
 
 const links = computed(() => {
   const currentName = route.name ? String(route.name) : '';
-  const atlasRoute = router.getRoutes().find((record) => record.name === 'atlas');
+  const atlasRoute = router.getRoutes().find((record) => record.name === 'console-atlas');
   const childRoutes = atlasRoute?.children || [];
   if (!childRoutes.length) {
     return [
       {
-        name: 'atlas-pokedex',
+        name: 'console-atlas-pokedex',
         label: 'Pokédex Nebula',
-        to: { name: 'atlas-pokedex' },
-        active: currentName === 'atlas-pokedex',
+        to: { name: 'console-atlas-pokedex' },
+        active: currentName === 'console-atlas-pokedex',
         demo: true,
       },
       {
-        name: 'atlas-world-builder',
+        name: 'console-atlas-world-builder',
         label: 'World Builder',
-        to: { name: 'atlas-world-builder' },
-        active: currentName === 'atlas-world-builder',
+        to: { name: 'console-atlas-world-builder' },
+        active: currentName === 'console-atlas-world-builder',
         demo: true,
       },
       {
-        name: 'atlas-encounter-lab',
+        name: 'console-atlas-encounter-lab',
         label: 'Encounter Lab',
-        to: { name: 'atlas-encounter-lab' },
-        active: currentName === 'atlas-encounter-lab',
+        to: { name: 'console-atlas-encounter-lab' },
+        active: currentName === 'console-atlas-encounter-lab',
         demo: true,
       },
     ];

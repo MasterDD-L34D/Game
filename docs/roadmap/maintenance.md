@@ -4,7 +4,7 @@ La roadmap live è alimentata da snapshot di generazione, telemetria Nebula e ve
 
 ## Procedura di aggiornamento
 1. Esegui `node tools/recap/generateRecap.js --output docs/recap/live-ops.md` per produrre il recap aggiornato con snapshot, atlas Nebula e risultati QA live.
-2. Avvia (o riavvia) il backend `npm run start:api` assicurandoti che gli endpoint `/api/generation/snapshot`, `/api/nebula/atlas` e `/api/qa/status` rispondano con payload coerenti.
+2. Avvia (o riavvia) il backend `npm run start:api` assicurandoti che gli endpoint `/api/v1/generation/snapshot`, `/api/v1/atlas/dataset`, `/api/v1/atlas/telemetry` e `/api/v1/qa/status` rispondano con payload coerenti.
 3. Effettua il deploy e, una volta completato, invoca l'hook `POST /api/deployments/hook` con `version`, `environment` e note del rilascio per aggiornare `reports/status.json` e inviare le notifiche configurate.
 4. Verifica che `GET /api/deployments/status` restituisca l'ultima voce registrata e allega il link al recap nella comunicazione di release.
 
