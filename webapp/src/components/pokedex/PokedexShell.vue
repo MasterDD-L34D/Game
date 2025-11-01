@@ -31,33 +31,35 @@
         </div>
 
         <aside class="pokedex-shell__logs" aria-live="polite">
-          <div class="pokedex-logs">
-            <header class="pokedex-logs__header">
-              <span class="pokedex-logs__title">Mission Log</span>
-              <span class="pokedex-logs__count">{{ previewLogs.length }}</span>
-            </header>
-            <ol class="pokedex-logs__feed">
-              <li
-                v-for="entry in previewLogs"
-                :key="entry.id"
-                class="pokedex-logs__entry"
-                :data-level="entry.level"
-              >
-                <span class="pokedex-logs__timestamp">{{ entry.time }}</span>
-                <p class="pokedex-logs__message">
-                  <strong>{{ entry.scope }}</strong>
-                  <span>{{ entry.message }}</span>
-                </p>
-              </li>
-              <li v-if="!previewLogs.length" class="pokedex-logs__entry pokedex-logs__entry--empty">
-                <span class="pokedex-logs__timestamp">—</span>
-                <p class="pokedex-logs__message">
-                  <strong>Nessun log</strong>
-                  <span>In attesa dei segnali dell'orchestratore…</span>
-                </p>
-              </li>
-            </ol>
-          </div>
+          <slot name="sidebar">
+            <div class="pokedex-logs">
+              <header class="pokedex-logs__header">
+                <span class="pokedex-logs__title">Mission Log</span>
+                <span class="pokedex-logs__count">{{ previewLogs.length }}</span>
+              </header>
+              <ol class="pokedex-logs__feed">
+                <li
+                  v-for="entry in previewLogs"
+                  :key="entry.id"
+                  class="pokedex-logs__entry"
+                  :data-level="entry.level"
+                >
+                  <span class="pokedex-logs__timestamp">{{ entry.time }}</span>
+                  <p class="pokedex-logs__message">
+                    <strong>{{ entry.scope }}</strong>
+                    <span>{{ entry.message }}</span>
+                  </p>
+                </li>
+                <li v-if="!previewLogs.length" class="pokedex-logs__entry pokedex-logs__entry--empty">
+                  <span class="pokedex-logs__timestamp">—</span>
+                  <p class="pokedex-logs__message">
+                    <strong>Nessun log</strong>
+                    <span>In attesa dei segnali dell'orchestratore…</span>
+                  </p>
+                </li>
+              </ol>
+            </div>
+          </slot>
         </aside>
       </div>
     </div>

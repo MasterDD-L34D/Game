@@ -362,7 +362,7 @@
 import { computed, reactive, ref, toRefs, watch } from 'vue';
 import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService.js';
 import { applyQualitySuggestion } from '../services/qualityReleaseService.js';
-import { logEvent as logClientEvent, useClientLogger } from '../services/clientLogger.js';
+import { logEvent as logClientEvent, useClientLogger } from '../services/clientLogger.ts';
 
 const props = defineProps({
   snapshot: {
