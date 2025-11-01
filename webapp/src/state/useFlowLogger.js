@@ -3,6 +3,65 @@ import { logEvent as logClientEvent } from '../services/clientLogger.js';
 
 let logSequence = 0;
 
+function createListenerMap() {
+  const map = new Map();
+
+  const on = (event, handler) => {
+    if (!event || typeof handler !== 'function') {
+      return () => {};
+    }
+    const key = String(event);
+    if (!map.has(key)) {
+      map.set(key, new Set());
+    }
+    const listeners = map.get(key);
+    listeners.add(handler);
+    return () => {
+      listeners.delete(handler);
+      if (listeners.size === 0) {
+        map.delete(key);
+      }
+    };
+  };
+
+  const off = (event, handler) => {
+    if (!event) {
+      return;
+    }
+    const listeners = map.get(String(event));
+    if (!listeners) {
+      return;
+    }
+    if (typeof handler === 'function') {
+      listeners.delete(handler);
+    } else {
+      listeners.clear();
+    }
+    if (listeners.size === 0) {
+      map.delete(String(event));
+    }
+  };
+
+  const emit = (event, payload) => {
+    if (!event) {
+      return;
+    }
+    const listeners = map.get(String(event));
+    if (!listeners || listeners.size === 0) {
+      return;
+    }
+    [...listeners].forEach((listener) => {
+      try {
+        listener(payload);
+      } catch (error) {
+        // Ignoriamo errori dei listener per non interrompere il logging
+      }
+    });
+  };
+
+  return { on, off, emit };
+}
+
 function normaliseScope(value) {
   if (value === null || value === undefined) {
     return 'flow';
@@ -23,6 +82,7 @@ function normaliseLevel(value) {
 
 export function useFlowLogger() {
   const state = reactive({ entries: [] });
+  const events = createListenerMap();
 
   const log = (event, details = {}) => {
     const entry = {
@@ -52,6 +112,7 @@ export function useFlowLogger() {
       timestamp: entry.timestamp,
       source: entry.source,
     });
+    events.emit(entry.event, entry);
     return entry;
   };
 
@@ -70,7 +131,10 @@ export function useFlowLogger() {
     })),
   );
 
-  return { log, logs };
+  const on = (event, handler) => events.on(event, handler);
+  const off = (event, handler) => events.off(event, handler);
+
+  return { log, logs, on, off };
 }
 
 export const __internals__ = { normaliseScope, normaliseLevel };

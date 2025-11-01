@@ -10,6 +10,8 @@ const { normaliseRequest, normaliseBatchEntries } = orchestratorInternals;
 
 type FlowLogger = {
   log?: (event: string, payload?: Record<string, unknown>) => void;
+  on?: (event: string, handler: (payload?: unknown) => void) => (() => void) | void;
+  off?: (event: string, handler?: (payload?: unknown) => void) => void;
 };
 
 type GenerationOptions = {
@@ -233,6 +235,16 @@ export function useSpeciesGenerator(options: SpeciesGeneratorOptions = {}) {
           message: 'log.species.validation_warning',
           request_id: result.meta?.request_id || normalised.request_id || null,
           validation: summary,
+        });
+      }
+      if (logger && typeof logger.log === 'function') {
+        logger.log('snapshot.invalidate', {
+          scope: 'snapshot',
+          level: 'info',
+          meta: {
+            source: 'species',
+            request_id: result.meta?.request_id || normalised.request_id || null,
+          },
         });
       }
       return result;
