@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.game.local/species.schema.json",
+  "title": "AtlasSpecies",
+  "type": "object",
+  "required": ["id", "name"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "archetype": { "type": "string" },
+    "rarity": { "type": "string" },
+    "threatTier": { "type": "string" },
+    "energyProfile": { "type": "string" },
+    "synopsis": { "type": "string" },
+    "traits": {
+      "type": "object",
+      "required": ["core"],
+      "properties": {
+        "core": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "optional": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "synergy": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "habitats": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "readiness": { "type": "string" },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "coverage": { "type": "number", "minimum": 0 },
+        "lastValidation": { "type": ["string", "null"], "format": "date-time" },
+        "curatedBy": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": true
+}

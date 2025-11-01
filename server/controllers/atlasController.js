@@ -2,6 +2,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 
 const { atlasDataset } = require('../../data/nebula/atlasDataset.js');
+const { SchemaValidationError } = require('../middleware/schemaValidator');
 
 const DEFAULT_TELEMETRY_EXPORT = path.resolve(
   __dirname,
@@ -339,21 +340,67 @@ function buildAggregatorParams(req) {
 function createAtlasController(options = {}) {
   const loadData = createAtlasLoader(options);
   const aggregator = options.aggregator;
+  const schemaValidator = options.schemaValidator;
+  const telemetrySchemaId = options.telemetrySchemaId;
+  const speciesSchemaId = options.speciesSchemaId;
   const useAggregator =
     aggregator &&
     typeof aggregator.getAtlas === 'function' &&
     typeof aggregator.getTelemetry === 'function' &&
     typeof aggregator.getGenerator === 'function';
 
+  function validateTelemetryPayload(payload) {
+    if (!schemaValidator || !telemetrySchemaId || !payload) {
+      return;
+    }
+    try {
+      schemaValidator.validate(telemetrySchemaId, payload);
+    } catch (error) {
+      if (error instanceof SchemaValidationError) {
+        const validationError = new Error('Telemetria Nebula non conforme allo schema');
+        validationError.statusCode = 500;
+        validationError.details = error.details || [];
+        throw validationError;
+      }
+      throw error;
+    }
+  }
+
+  function validateSpeciesCollection(species) {
+    if (!schemaValidator || !speciesSchemaId || !Array.isArray(species)) {
+      return;
+    }
+    try {
+      for (const entry of species) {
+        schemaValidator.validate(speciesSchemaId, entry);
+      }
+    } catch (error) {
+      if (error instanceof SchemaValidationError) {
+        const validationError = new Error('Specie Nebula non conformi allo schema');
+        validationError.statusCode = 500;
+        validationError.details = error.details || [];
+        throw validationError;
+      }
+      throw error;
+    }
+  }
+
   return {
     async dataset(req, res) {
       try {
         if (useAggregator) {
           const atlas = await aggregator.getAtlas(buildAggregatorParams(req));
+          if (atlas?.dataset) {
+            validateSpeciesCollection(atlas.dataset.species);
+          }
+          if (atlas?.telemetry) {
+            validateTelemetryPayload(atlas.telemetry);
+          }
           res.json(atlas?.dataset || null);
           return;
         }
         const { dataset } = await loadData();
+        validateSpeciesCollection(dataset?.species);
         res.json(dataset);
       } catch (error) {
         console.error('[atlas-controller] errore caricamento dataset', error);
@@ -365,10 +412,14 @@ function createAtlasController(options = {}) {
       try {
         if (useAggregator) {
           const telemetry = await aggregator.getTelemetry(buildAggregatorParams(req));
+          if (telemetry) {
+            validateTelemetryPayload(telemetry);
+          }
           res.json(telemetry);
           return;
         }
         const { telemetry } = await loadData();
+        validateTelemetryPayload(telemetry);
         res.json(telemetry);
       } catch (error) {
         console.error('[atlas-controller] errore caricamento telemetria', error);
@@ -395,10 +446,22 @@ function createAtlasController(options = {}) {
       try {
         if (useAggregator) {
           const payload = await aggregator.getAtlas(buildAggregatorParams(req));
+          if (payload?.dataset) {
+            validateSpeciesCollection(payload.dataset.species);
+          }
+          if (payload?.telemetry) {
+            validateTelemetryPayload(payload.telemetry);
+          }
           res.json(payload);
           return;
         }
         const payload = await loadData();
+        if (payload?.dataset) {
+          validateSpeciesCollection(payload.dataset.species);
+        }
+        if (payload?.telemetry) {
+          validateTelemetryPayload(payload.telemetry);
+        }
         res.json(payload);
       } catch (error) {
         console.error('[atlas-controller] errore aggregazione dataset', error);

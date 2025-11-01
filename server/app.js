@@ -15,9 +15,16 @@ const { createGenerationSnapshotStore } = require('./services/generationSnapshot
 const { createNebulaRouter, createAtlasV1Router } = require('./routes/nebula');
 const { createGenerationRouter, createGenerationRoutes } = require('./routes/generation');
 const { createTraitRouter } = require('./routes/traits');
+const { createQualityRouter } = require('./routes/quality');
+const { createValidatorsRouter } = require('./routes/validators');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
-const { createSchemaValidator } = require('./middleware/schemaValidator');
+const { createSchemaValidator, SchemaValidationError } = require('./middleware/schemaValidator');
+const {
+  generationSnapshotSchema,
+  speciesSchema,
+  telemetrySchema,
+} = require('../packages/contracts');
 const qualitySuggestionSchema = require('../schemas/quality/suggestion.schema.json');
 const qualitySuggestionApplySchema = require('../schemas/quality/suggestions-apply-request.schema.json');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
@@ -35,6 +42,50 @@ const SLUG_CONFIG = {
 
 const DEFAULT_STATUS_REPORT = path.resolve(__dirname, '..', 'reports', 'status.json');
 const DEFAULT_QA_STATUS = path.resolve(__dirname, '..', 'reports', 'qa_badges.json');
+
+function slugify(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+function buildSlugConfig(sectionKey, aliasKey) {
+  const canonicalEntries = Array.isArray(slugTaxonomy?.[sectionKey])
+    ? slugTaxonomy[sectionKey]
+    : [];
+  const canonicalSet = new Set();
+  const aliasMap = {};
+  for (const entry of canonicalEntries) {
+    const canonicalValue = String(entry || '').trim();
+    if (!canonicalValue) {
+      continue;
+    }
+    canonicalSet.add(canonicalValue);
+    const slug = slugify(canonicalValue);
+    if (slug) {
+      aliasMap[slug] = canonicalValue;
+    }
+  }
+  const aliasSource = aliasKey && slugTaxonomy ? slugTaxonomy[aliasKey] : null;
+  if (aliasSource && typeof aliasSource === 'object') {
+    for (const [alias, target] of Object.entries(aliasSource)) {
+      const canonicalValue = String(target || '').trim();
+      if (!canonicalValue) {
+        continue;
+      }
+      const slug = slugify(alias);
+      if (!slug) {
+        continue;
+      }
+      aliasMap[slug] = canonicalValue;
+    }
+  }
+  return { canonicalSet, aliasMap };
+}
 
 async function readJsonFile(filePath, fallback) {
   try {
@@ -215,6 +266,46 @@ function createApp(options = {}) {
     'quality://suggestions/apply/request',
     qualitySuggestionApplySchema,
   );
+  const generationSnapshotSchemaId = schemaValidator.registerSchema(
+    generationSnapshotSchema.$id || 'contract://generation/snapshot',
+    generationSnapshotSchema,
+  );
+  const telemetrySchemaId = schemaValidator.registerSchema(
+    telemetrySchema.$id || 'contract://atlas/telemetry',
+    telemetrySchema,
+  );
+  const speciesSchemaId = schemaValidator.registerSchema(
+    speciesSchema.$id || 'contract://atlas/species',
+    speciesSchema,
+  );
+
+  function validateWithSchema(payload, schemaId) {
+    if (!schemaValidator || !schemaId) {
+      return null;
+    }
+    try {
+      schemaValidator.validate(schemaId, payload);
+      return null;
+    } catch (error) {
+      if (error instanceof SchemaValidationError) {
+        return error;
+      }
+      throw error;
+    }
+  }
+
+  function validateSpeciesEntries(entries) {
+    if (!Array.isArray(entries) || !entries.length) {
+      return null;
+    }
+    for (const entry of entries) {
+      const validationError = validateWithSchema(entry, speciesSchemaId);
+      if (validationError) {
+        return validationError;
+      }
+    }
+    return null;
+  }
   const traitDiagnosticsSync =
     options.traitDiagnosticsSync ||
     createTraitDiagnosticsSync({
@@ -245,12 +336,158 @@ function createApp(options = {}) {
     traitDiagnostics: traitDiagnosticsSync,
     datasetPath: generationSnapshotOptions.datasetPath,
     snapshotStore: generationSnapshotStore,
+    schemaValidator,
+    validationSchemaId: generationSnapshotSchemaId,
+  });
+
+  const mockSnapshotPath =
+    generationSnapshotOptions.mockDatasetPath ||
+    path.resolve(
+      __dirname,
+      '..',
+      'webapp',
+      'public',
+      'data',
+      'flow',
+      'snapshots',
+      'flow-shell-snapshot.json',
+    );
+  let mockSnapshotCache = null;
+  const mockSnapshotStore =
+    generationSnapshotOptions.mockStore ||
+    ({
+      async getSnapshot({ refresh = false } = {}) {
+        if (refresh) {
+          mockSnapshotCache = null;
+        }
+        if (mockSnapshotCache) {
+          return JSON.parse(JSON.stringify(mockSnapshotCache));
+        }
+        const snapshot = await readJsonFile(mockSnapshotPath, null);
+        if (!snapshot) {
+          return {};
+        }
+        mockSnapshotCache = snapshot;
+        return JSON.parse(JSON.stringify(snapshot));
+      },
+    });
+  const generationSnapshotMockHandler = createGenerationSnapshotHandler({
+    datasetPath: mockSnapshotPath,
+    snapshotStore: mockSnapshotStore,
+    traitDiagnostics: null,
+    orchestrator: null,
+    schemaValidator,
+    validationSchemaId: generationSnapshotSchemaId,
   });
 
   app.get('/api/generation/snapshot', generationSnapshotHandler);
   app.get('/api/v1/generation/snapshot', generationSnapshotHandler);
+  app.get('/api/mock/generation/snapshot', generationSnapshotMockHandler);
+  app.get('/api/mock/v1/generation/snapshot', generationSnapshotMockHandler);
 
   const nebulaOptions = options?.nebula || {};
+  const mockDataRoot =
+    options.mockDataRoot ||
+    path.resolve(__dirname, '..', 'webapp', 'public', 'data');
+  const mockAtlasBundlePath =
+    nebulaOptions.mockAtlasPath || path.join(mockDataRoot, 'nebula', 'atlas.json');
+  const mockTelemetryPath =
+    nebulaOptions.mockTelemetryPath || path.join(mockDataRoot, 'nebula', 'telemetry.json');
+
+  async function loadMockAtlasBundle() {
+    return readJsonFile(mockAtlasBundlePath, null);
+  }
+
+  async function loadMockTelemetry() {
+    const explicit = await readJsonFile(mockTelemetryPath, null);
+    if (explicit) {
+      return explicit;
+    }
+    const bundle = await loadMockAtlasBundle();
+    if (bundle && typeof bundle === 'object') {
+      return bundle.telemetry || null;
+    }
+    return null;
+  }
+
+  async function handleMockAtlasBundle(req, res) {
+    try {
+      const bundle = await loadMockAtlasBundle();
+      if (!bundle) {
+        res.status(404).json({ error: 'Atlas mock non disponibile' });
+        return;
+      }
+      const dataset = bundle.dataset || null;
+      const telemetry = bundle.telemetry || null;
+      const speciesValidation = dataset ? validateSpeciesEntries(dataset.species) : null;
+      if (speciesValidation) {
+        res.status(500).json({
+          error: 'Dataset mock Nebula non conforme allo schema specie',
+          details: speciesValidation.details || [],
+        });
+        return;
+      }
+      const telemetryValidation = telemetry
+        ? validateWithSchema(telemetry, telemetrySchemaId)
+        : null;
+      if (telemetryValidation) {
+        res.status(500).json({
+          error: 'Telemetria mock Nebula non conforme allo schema',
+          details: telemetryValidation.details || [],
+        });
+        return;
+      }
+      res.json(bundle);
+    } catch (error) {
+      console.error('[atlas-mock] errore caricamento bundle', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento atlas mock' });
+    }
+  }
+
+  async function handleMockAtlasDataset(req, res) {
+    try {
+      const bundle = await loadMockAtlasBundle();
+      const dataset = bundle?.dataset || null;
+      if (!dataset) {
+        res.status(404).json({ error: 'Dataset mock Nebula non disponibile' });
+        return;
+      }
+      const validationError = validateSpeciesEntries(dataset.species);
+      if (validationError) {
+        res.status(500).json({
+          error: 'Dataset mock Nebula non conforme allo schema specie',
+          details: validationError.details || [],
+        });
+        return;
+      }
+      res.json(dataset);
+    } catch (error) {
+      console.error('[atlas-mock] errore caricamento dataset', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento dataset mock' });
+    }
+  }
+
+  async function handleMockAtlasTelemetry(req, res) {
+    try {
+      const telemetry = await loadMockTelemetry();
+      if (!telemetry) {
+        res.status(404).json({ error: 'Telemetria mock Nebula non disponibile' });
+        return;
+      }
+      const validationError = validateWithSchema(telemetry, telemetrySchemaId);
+      if (validationError) {
+        res.status(500).json({
+          error: 'Telemetria mock Nebula non conforme allo schema',
+          details: validationError.details || [],
+        });
+        return;
+      }
+      res.json(telemetry);
+    } catch (error) {
+      console.error('[atlas-mock] errore caricamento telemetria', error);
+      res.status(500).json({ error: error?.message || 'Errore caricamento telemetria mock' });
+    }
+  }
   const nebulaAggregator =
     nebulaOptions.aggregator ||
     createNebulaTelemetryAggregator({
@@ -268,6 +505,9 @@ function createApp(options = {}) {
     configPath: nebulaOptions.configPath,
     config: nebulaOptions.config,
     aggregator: nebulaAggregator,
+    schemaValidator,
+    telemetrySchemaId,
+    speciesSchemaId,
   });
   const atlasV1Router = createAtlasV1Router({
     telemetryPath: nebulaOptions.telemetryPath,
@@ -276,7 +516,16 @@ function createApp(options = {}) {
     configPath: nebulaOptions.configPath,
     config: nebulaOptions.config,
     aggregator: nebulaAggregator,
+    schemaValidator,
+    telemetrySchemaId,
+    speciesSchemaId,
   });
+  app.get('/api/mock/nebula/atlas', handleMockAtlasBundle);
+  app.get('/api/mock/v1/atlas', handleMockAtlasBundle);
+  app.get('/api/mock/atlas/dataset', handleMockAtlasDataset);
+  app.get('/api/mock/v1/atlas/dataset', handleMockAtlasDataset);
+  app.get('/api/mock/atlas/telemetry', handleMockAtlasTelemetry);
+  app.get('/api/mock/v1/atlas/telemetry', handleMockAtlasTelemetry);
   app.use('/api/nebula', nebulaRouter);
   app.use('/api/v1/atlas', atlasV1Router);
 

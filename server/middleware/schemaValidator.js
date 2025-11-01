@@ -1,6 +1,7 @@
 'use strict';
 
-const Ajv = require('ajv');
+const Ajv = require('ajv/dist/2020');
+const draft7MetaSchema = require('ajv/dist/refs/json-schema-draft-07.json');
 
 class SchemaValidationError extends Error {
   constructor(message, details = []) {
@@ -17,6 +18,8 @@ function createSchemaValidator(options = {}) {
     strict: false,
     ...options.ajv,
   });
+  ajv.addFormat('date-time', true);
+  ajv.addMetaSchema(draft7MetaSchema);
   const validators = new Map();
 
   function registerSchema(id, schema) {
