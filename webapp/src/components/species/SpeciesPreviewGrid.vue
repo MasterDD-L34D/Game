@@ -1,16 +1,24 @@
 <template>
-  <section class="species-preview-grid">
+  <section class="species-preview-grid" :aria-busy="loading">
     <header class="species-preview-grid__header">
       <h3>Anteprime sintetiche</h3>
       <slot name="filters"></slot>
     </header>
-    <p v-if="error" class="species-preview-grid__error">{{ error }}</p>
-    <p v-else-if="loading" class="species-preview-grid__loading">Generazione in corso...</p>
-    <div v-else-if="previews.length" class="species-preview-grid__cards">
+    <p v-if="error" class="species-preview-grid__error" role="alert">{{ error }}</p>
+    <p
+      v-else-if="loading"
+      class="species-preview-grid__loading"
+      role="status"
+      aria-live="polite"
+    >
+      Generazione in corso...
+    </p>
+    <div v-else-if="previews.length" class="species-preview-grid__cards" role="list">
       <article
         v-for="preview in previews"
         :key="preview.blueprint?.id || preview.meta?.request_id"
         class="species-preview-card"
+        role="listitem"
       >
         <header class="species-preview-card__header">
           <h4>{{ preview.blueprint?.display_name || preview.blueprint?.id }}</h4>
@@ -32,7 +40,9 @@
         </p>
       </article>
     </div>
-    <p v-else class="species-preview-grid__empty">Nessuna anteprima disponibile.</p>
+    <p v-else class="species-preview-grid__empty" role="status" aria-live="polite">
+      Nessuna anteprima disponibile.
+    </p>
   </section>
 </template>
 
@@ -55,7 +65,7 @@ defineProps({
 
 <style scoped>
 .species-preview-grid {
-  background: rgba(10, 15, 22, 0.6);
+  background: var(--color-bg-surface-alt);
   padding: 1rem;
   border-radius: 10px;
   display: grid;
@@ -73,6 +83,7 @@ defineProps({
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
 }
 
 .species-preview-grid__cards {
@@ -82,8 +93,8 @@ defineProps({
 }
 
 .species-preview-card {
-  background: rgba(9, 12, 18, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 10px;
   padding: 0.85rem;
   display: grid;
@@ -98,7 +109,7 @@ defineProps({
 }
 
 .species-preview-card__badge {
-  background: rgba(39, 121, 255, 0.35);
+  background: rgba(122, 196, 255, 0.35);
   border-radius: 6px;
   padding: 0.1rem 0.45rem;
   font-size: 0.75rem;
@@ -108,6 +119,7 @@ defineProps({
   margin: 0;
   font-size: 0.85rem;
   line-height: 1.4;
+  color: var(--color-text-muted);
 }
 
 .species-preview-card__stats {
@@ -135,13 +147,13 @@ defineProps({
 }
 
 .species-preview-grid__error {
-  color: #ff6070;
+  color: var(--color-danger);
   margin: 0;
 }
 
 .species-preview-grid__loading,
 .species-preview-grid__empty {
   margin: 0;
-  color: rgba(240, 244, 255, 0.75);
+  color: var(--color-text-muted);
 }
 </style>

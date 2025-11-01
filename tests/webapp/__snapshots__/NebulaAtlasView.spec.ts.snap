@@ -11,7 +11,7 @@ exports[`NebulaAtlasView > renderizza indicatori live e snapshot coerente 1`] = 
         <p data-v-43e6e8ac="">Indicatori dal generatore Nebula combinati con il dataset atlas.</p>
       </div>
       <div data-v-43e6e8ac="" class="nebula-atlas-view__status">
-        <div data-v-43e6e8ac="" class="nebula-atlas-view__status-badges"><span data-v-43e6e8ac="" class="nebula-atlas-view__badge nebula-atlas-view__badge--live" data-state="live" data-tone="success">LIVE</span><span data-v-43e6e8ac="" class="nebula-atlas-view__badge" data-tone="warning">Sync 30 min fa</span></div><small data-v-43e6e8ac="">Ultimo sync: 2024-05-18T10:45:00Z</small>
+        <div data-v-43e6e8ac="" class="nebula-atlas-view__status-badges"><span data-v-43e6e8ac="" class="nebula-atlas-view__badge nebula-atlas-view__badge--live" data-state="live" data-tone="success">LIVE</span><span data-v-43e6e8ac="" class="nebula-atlas-view__badge" data-tone="neutral">Aggiornamento…</span></div><small data-v-43e6e8ac="">Ultimo sync: 2024-05-18T10:45:00Z</small>
       </div>
     </header>
     <div data-v-43e6e8ac="" class="nebula-atlas-view__grid">

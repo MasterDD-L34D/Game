@@ -50,6 +50,7 @@
                     type="button"
                     class="species-panel__suggestion"
                     @click="applySynergySuggestion(suggestion)"
+                    :aria-label="`Applica suggerimento sinergia ${formatTraitLabel(suggestion)}`"
                   >
                     <TraitChip :label="formatTraitLabel(suggestion)" variant="synergy" />
                   </button>
@@ -73,7 +74,7 @@
               </li>
             </ul>
           </div>
-          <div v-if="previewError" class="species-panel__error">{{ previewError }}</div>
+          <div v-if="previewError" class="species-panel__error" role="alert">{{ previewError }}</div>
         </div>
 
         <div v-else-if="currentTab === 'synergies'" class="species-panel__section species-panel__section--synergy">
@@ -618,9 +619,9 @@ function handleSave() {
 }
 
 .species-panel__refresh {
-  background: transparent;
-  color: #f0f4ff;
-  border: 1px solid rgba(240, 244, 255, 0.35);
+  background: rgba(38, 52, 88, 0.4);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 8px;
   padding: 0.4rem 0.9rem;
   cursor: pointer;
@@ -629,7 +630,7 @@ function handleSave() {
 }
 
 .species-panel__refresh:hover:enabled {
-  background: rgba(39, 121, 255, 0.18);
+  background: rgba(122, 196, 255, 0.18);
 }
 
 .species-panel__refresh:disabled {
@@ -638,7 +639,7 @@ function handleSave() {
 }
 
 .species-panel__error {
-  color: rgba(248, 113, 113, 0.9);
+  color: var(--color-danger);
   font-size: 0.85rem;
 }
 
@@ -653,7 +654,7 @@ function handleSave() {
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(226, 232, 240, 0.7);
+  color: var(--color-text-muted);
 }
 
 .species-panel__suggestions-list {

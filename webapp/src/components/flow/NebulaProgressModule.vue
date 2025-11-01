@@ -35,7 +35,11 @@
 
     <div class="nebula-progress__grid">
       <NebulaProgressTimeline :entries="timelineEntries" />
-      <section class="nebula-progress__telemetry" :data-mode="telemetryStatus.offline ? 'demo' : 'live'">
+      <section
+        class="nebula-progress__telemetry"
+        :data-mode="telemetryStatus.offline ? 'demo' : 'live'"
+        aria-live="polite"
+      >
         <header>
           <h3>Progress bar evolutiva</h3>
           <p>Telemetria &amp; readiness sincronizzate con orchestrator.</p>
@@ -47,7 +51,8 @@
             {{ telemetryStatus.label }}
           </span>
         </header>
-        <ul>
+        <p v-if="telemetryAnnouncement" class="visually-hidden">{{ telemetryAnnouncement }}</p>
+        <ul role="list">
           <li v-for="entry in evolutionMatrix" :key="entry.id" :data-mode="entry.telemetryMode === 'live' ? 'live' : 'demo'">
             <header class="nebula-progress__telemetry-header">
               <span class="nebula-progress__species">{{ entry.name }}</span>
@@ -66,6 +71,7 @@
               :points="entry.telemetryHistory"
               :color="sparklineColor(entry.readinessTone)"
               :variant="entry.telemetryMode !== 'live' ? 'demo' : 'live'"
+              :summary-label="`Telemetria ${entry.name}`"
             />
             <div class="nebula-progress__evolution">
               <div class="nebula-progress__evolution-fill" :style="{ width: `${entry.telemetryCoverage}%` }"></div>
@@ -83,13 +89,13 @@
     <footer class="nebula-progress__share">
       <button type="button" @click="copyEmbed">Copia snippet Canvas</button>
       <button type="button" @click="downloadJson">Export JSON</button>
-      <output v-if="shareStatus" role="status">{{ shareStatus }}</output>
+      <output v-if="shareStatus" role="status" aria-live="polite">{{ shareStatus }}</output>
     </footer>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import NebulaProgressTimeline from './NebulaProgressTimeline.vue';
 import SparklineChart from '../metrics/SparklineChart.vue';
 
@@ -122,6 +128,21 @@ const props = defineProps({
 
 const shareStatus = ref('');
 let shareTimeout = null;
+
+const telemetryAnnouncement = computed(() => {
+  const offlineEntries = (props.evolutionMatrix || []).filter((entry) => entry.telemetryMode !== 'live');
+  if (props.telemetryStatus?.offline) {
+    const label = props.telemetryStatus.label || 'Telemetria in modalità demo';
+    if (offlineEntries.length) {
+      return `${label}. Dataset demo per ${offlineEntries.map((entry) => entry.name).join(', ')}.`;
+    }
+    return `${label}.`;
+  }
+  if (offlineEntries.length) {
+    return `Telemetria demo attiva per ${offlineEntries.map((entry) => entry.name).join(', ')}.`;
+  }
+  return '';
+});
 
 function setShareStatus(message) {
   shareStatus.value = message;
@@ -198,12 +219,13 @@ function sparklineColor(tone) {
 .nebula-progress {
   display: grid;
   gap: 1.5rem;
-  background: radial-gradient(circle at top left, rgba(97, 213, 255, 0.08), transparent 55%),
-    radial-gradient(circle at bottom right, rgba(159, 123, 255, 0.08), transparent 45%),
-    rgba(5, 8, 13, 0.85);
+  background: radial-gradient(circle at top left, rgba(122, 196, 255, 0.12), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(158, 123, 255, 0.12), transparent 45%),
+    var(--color-bg-surface);
   padding: 2rem;
   border-radius: 24px;
-  border: 1px solid rgba(97, 213, 255, 0.25);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
 }
 
 .nebula-progress__header {
@@ -219,7 +241,7 @@ function sparklineColor(tone) {
   font-size: 0.8rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(224, 237, 255, 0.6);
+  color: var(--color-text-muted);
 }
 
 .nebula-progress__header h2 {
@@ -229,7 +251,7 @@ function sparklineColor(tone) {
 
 .nebula-progress__summary {
   margin: 0;
-  color: rgba(224, 237, 255, 0.75);
+  color: var(--color-text-muted);
   max-width: 36rem;
 }
 
@@ -247,7 +269,7 @@ function sparklineColor(tone) {
 .nebula-progress__meta dt {
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: rgba(224, 237, 255, 0.55);
+  color: var(--color-text-muted);
 }
 
 .nebula-progress__meta dd {
@@ -262,8 +284,8 @@ function sparklineColor(tone) {
 }
 
 .nebula-progress__card {
-  background: rgba(10, 15, 24, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-surface-alt);
+  border: 1px solid var(--color-border-subtle);
   border-radius: 16px;
   padding: 1rem;
   display: grid;
@@ -292,13 +314,13 @@ function sparklineColor(tone) {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(224, 237, 255, 0.7);
+  color: var(--color-text-muted);
 }
 
 .nebula-progress__card p {
   margin: 0;
   font-size: 1rem;
-  color: #f0f4ff;
+  color: var(--color-text-secondary);
 }
 
 .nebula-progress__bar {
@@ -320,8 +342,8 @@ function sparklineColor(tone) {
 }
 
 .nebula-progress__telemetry {
-  background: rgba(10, 15, 22, 0.65);
-  border: 1px solid rgba(159, 123, 255, 0.35);
+  background: rgba(20, 28, 46, 0.7);
+  border: 1px solid rgba(158, 123, 255, 0.35);
   border-radius: 16px;
   padding: 1.25rem;
   display: grid;
@@ -329,8 +351,8 @@ function sparklineColor(tone) {
 }
 
 .nebula-progress__telemetry[data-mode='demo'] {
-  border-color: rgba(244, 192, 96, 0.4);
-  background: rgba(10, 15, 22, 0.55);
+  border-color: rgba(255, 212, 101, 0.45);
+  background: rgba(20, 28, 46, 0.6);
 }
 
 .nebula-progress__telemetry header h3 {
@@ -342,7 +364,7 @@ function sparklineColor(tone) {
 
 .nebula-progress__telemetry header p {
   margin: 0.25rem 0 0;
-  color: rgba(224, 237, 255, 0.7);
+  color: var(--color-text-muted);
 }
 
 .nebula-progress__telemetry ul {
@@ -362,7 +384,7 @@ function sparklineColor(tone) {
 }
 
 .nebula-progress__telemetry li[data-mode='demo'] {
-  border: 1px dashed rgba(244, 192, 96, 0.35);
+  border: 1px dashed rgba(255, 212, 101, 0.35);
   border-radius: 14px;
   padding: 1rem;
 }
@@ -380,12 +402,13 @@ function sparklineColor(tone) {
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid transparent;
+  color: var(--color-text-secondary);
 }
 
 .nebula-progress__badge[data-tone='offline'] {
-  border-color: rgba(244, 192, 96, 0.5);
-  color: rgba(255, 232, 198, 0.95);
-  background: rgba(244, 192, 96, 0.12);
+  border-color: rgba(255, 212, 101, 0.5);
+  color: #312408;
+  background: rgba(255, 212, 101, 0.18);
 }
 
 .nebula-progress__badge--demo {
@@ -394,18 +417,18 @@ function sparklineColor(tone) {
 }
 
 .nebula-progress__badge[data-tone='success'] {
-  border-color: rgba(115, 255, 206, 0.45);
-  color: rgba(180, 255, 230, 0.9);
+  border-color: rgba(98, 245, 181, 0.45);
+  color: #08402a;
 }
 
 .nebula-progress__badge[data-tone='warning'] {
-  border-color: rgba(255, 196, 96, 0.5);
-  color: rgba(255, 223, 170, 0.95);
+  border-color: rgba(255, 212, 101, 0.5);
+  color: #3a2a05;
 }
 
 .nebula-progress__badge[data-tone='critical'] {
   border-color: rgba(255, 105, 130, 0.6);
-  color: rgba(255, 190, 200, 0.95);
+  color: #3b1019;
 }
 
 .nebula-progress__evolution {
