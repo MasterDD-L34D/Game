@@ -91,7 +91,7 @@
 <script setup>
 import { ref } from 'vue';
 import NebulaProgressTimeline from './NebulaProgressTimeline.vue';
-import SparklineChart from '../shared/SparklineChart.vue';
+import SparklineChart from '../metrics/SparklineChart.vue';
 
 const props = defineProps({
   header: {
