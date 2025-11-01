@@ -188,7 +188,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import NebulaProgressModule from '../components/flow/NebulaProgressModule.vue';
-import SparklineChart from '../components/shared/SparklineChart.vue';
+import SparklineChart from '../components/metrics/SparklineChart.vue';
 import { useNebulaProgressModule } from '../modules/useNebulaProgressModule';
 
 const moduleState = useNebulaProgressModule();

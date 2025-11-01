@@ -17,7 +17,11 @@
 
     <div class="app-breadcrumbs__meta">
       <p v-if="description" class="app-breadcrumbs__description">{{ description }}</p>
-      <span v-if="demo" class="app-breadcrumbs__badge">Modalità demo</span>
+      <ul v-if="tokens.length" class="app-breadcrumbs__tokens" aria-label="Stato contesto">
+        <li v-for="token in tokens" :key="token.id">
+          <StateToken :label="token.label" :variant="token.variant" :icon="token.icon" />
+        </li>
+      </ul>
     </div>
   </section>
 </template>
@@ -25,6 +29,8 @@
 <script setup>
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
+
+import StateToken from '../metrics/StateToken.vue';
 
 const props = defineProps({
   items: {
@@ -35,9 +41,9 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  demo: {
-    type: Boolean,
-    default: false,
+  tokens: {
+    type: Array,
+    default: () => [],
   },
 });
 
@@ -51,8 +57,10 @@ const items = computed(() =>
 );
 
 const description = computed(() => props.description);
-const demo = computed(() => props.demo);
-const hasContent = computed(() => items.value.length > 0 || Boolean(description.value) || demo.value);
+const tokens = computed(() => props.tokens);
+const hasContent = computed(
+  () => items.value.length > 0 || Boolean(description.value) || tokens.value.length > 0,
+);
 </script>
 
 <style scoped>
@@ -123,16 +131,15 @@ const hasContent = computed(() => items.value.length > 0 || Boolean(description.
   color: rgba(209, 224, 255, 0.75);
 }
 
-.app-breadcrumbs__badge {
+.app-breadcrumbs__tokens {
   display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  background: rgba(255, 204, 102, 0.2);
-  color: #ffdd8a;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0.5rem;
+}
+
+.app-breadcrumbs__tokens li {
+  display: flex;
 }
 </style>

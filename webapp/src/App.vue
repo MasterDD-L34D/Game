@@ -16,7 +16,7 @@
       <AppBreadcrumbs
         :items="breadcrumbItems"
         :description="pageDescription"
-        :demo="isDemoMode"
+        :tokens="stateTokens"
       />
     </header>
 
@@ -32,11 +32,11 @@
 import { computed } from 'vue';
 import { RouterLink, RouterView, useRoute } from 'vue-router';
 
-import AppBreadcrumbs from './components/layout/AppBreadcrumbs.vue';
+import AppBreadcrumbs from './components/navigation/AppBreadcrumbs.vue';
 import { useNavigationMeta } from './state/navigationMeta.js';
 
 const route = useRoute();
-const { breadcrumbs: breadcrumbItems, description: pageDescription, demo: isDemoMode } = useNavigationMeta();
+const { breadcrumbs: breadcrumbItems, description: pageDescription, tokens: stateTokens } = useNavigationMeta();
 
 const mainLinks = computed(() => {
   const currentName = route.name;
