@@ -1,45 +1,18 @@
 {
   "schema_version": "2.0",
-  "traits": {
-    "nucleo_ovomotore_rotante": {
-      "conflitti": [
-        "secrezione_rallentante_palmi"
-      ],
-      "debolezza": "Impossibilità di muoversi su superfici irregolari o in salita ripida.",
-      "famiglia_tipologia": "Riproduttivo/Locomotorio",
-      "fattore_mantenimento_energetico": "Alto (Rotolamento)",
-      "id": "nucleo_ovomotore_rotante",
-      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
-      "mutazione_indotta": "Massa globulare rigida con giunto sferico al centro del petto.",
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "caverna_risonante"
-          },
-          "fonte": "env_to_traits",
-          "meta": {
-            "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
-          }
-        }
-      ],
-      "sinergie": [],
-      "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
-      },
-      "slot": [],
-      "slot_profile": {
-        "complementare": "locomotorio",
-        "core": "riproduttivo"
-      },
-      "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
-      "tier": "T1",
-      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento."
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "riproduttivo"
+      ]
     }
   },
+  "traits": [
+    "nucleo_ovomotore_rotante"
+  ],
   "type": "riproduttivo"
 }

@@ -10172,7 +10172,14 @@
   },
   "types": {
     "difensivo": {
-      "index": "difensivo/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "difensivo"
+          ]
+        }
+      },
       "traits": [
         "ali_membrana_sonica",
         "appendici_risonanti_marea",
@@ -10192,7 +10199,14 @@
       "type": "difensivo"
     },
     "difesa": {
-      "index": "difesa/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "difesa"
+          ]
+        }
+      },
       "traits": [
         "armatura_pietra_planare",
         "mantello_meteoritico"
@@ -10200,7 +10214,14 @@
       "type": "difesa"
     },
     "digestivo": {
-      "index": "digestivo/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "digestivo"
+          ]
+        }
+      },
       "traits": [
         "filamenti_digestivi_compattanti",
         "ventriglio_gastroliti"
@@ -10208,21 +10229,42 @@
       "type": "digestivo"
     },
     "escretorio": {
-      "index": "escretorio/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "escretorio"
+          ]
+        }
+      },
       "traits": [
         "spore_psichiche_silenziate"
       ],
       "type": "escretorio"
     },
     "idrostatico": {
-      "index": "idrostatico/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "idrostatico"
+          ]
+        }
+      },
       "traits": [
         "sacche_galleggianti_ascensoriali"
       ],
       "type": "idrostatico"
     },
     "locomotorio": {
-      "index": "locomotorio/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "locomotorio"
+          ]
+        }
+      },
       "traits": [
         "ali_ioniche",
         "antenne_wideband",
@@ -10248,7 +10290,14 @@
       "type": "locomotorio"
     },
     "metabolico": {
-      "index": "metabolico/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "metabolico"
+          ]
+        }
+      },
       "traits": [
         "antenne_dustsense",
         "appendici_thermotattiche",
@@ -10269,14 +10318,28 @@
       "type": "metabolico"
     },
     "nervoso": {
-      "index": "nervoso/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "nervoso"
+          ]
+        }
+      },
       "traits": [
         "sonno_emisferico_alternato"
       ],
       "type": "nervoso"
     },
     "offensivo": {
-      "index": "offensivo/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "offensivo"
+          ]
+        }
+      },
       "traits": [
         "antenne_flusso_mareale",
         "artigli_induzione",
@@ -10298,7 +10361,14 @@
       "type": "offensivo"
     },
     "respiratorio": {
-      "index": "respiratorio/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "respiratorio"
+          ]
+        }
+      },
       "traits": [
         "branchie_osmotiche_salmastra",
         "lamelle_termoforetiche",
@@ -10309,14 +10379,28 @@
       "type": "respiratorio"
     },
     "riproduttivo": {
-      "index": "riproduttivo/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "riproduttivo"
+          ]
+        }
+      },
       "traits": [
         "nucleo_ovomotore_rotante"
       ],
       "type": "riproduttivo"
     },
     "sensoriale": {
-      "index": "sensoriale/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "sensoriale"
+          ]
+        }
+      },
       "traits": [
         "ali_fulminee",
         "antenne_plasmatiche_tempesta",
@@ -10343,7 +10427,14 @@
       "type": "sensoriale"
     },
     "simbiotico": {
-      "index": "simbiotico/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "simbiotico"
+          ]
+        }
+      },
       "traits": [
         "antenne_reagenti",
         "artigli_scivolo_silente",
@@ -10368,7 +10459,14 @@
       "type": "simbiotico"
     },
     "strategia": {
-      "index": "strategia/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "strategia"
+          ]
+        }
+      },
       "traits": [
         "antenne_microonde_cavernose",
         "artigli_radice",
@@ -10392,7 +10490,14 @@
       "type": "strategia"
     },
     "strutturale": {
-      "index": "strutturale/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "strutturale"
+          ]
+        }
+      },
       "traits": [
         "antenne_tesla",
         "artigli_vetrificati",
@@ -10415,7 +10520,14 @@
       "type": "strutturale"
     },
     "supporto": {
-      "index": "supporto/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "supporto"
+          ]
+        }
+      },
       "traits": [
         "antenne_eco_turbina",
         "artigli_acidofagi",
@@ -10437,7 +10549,14 @@
       "type": "supporto"
     },
     "tegumentario": {
-      "index": "tegumentario/index.json",
+      "query": {
+        "source": "data/traits/index.json",
+        "filters": {
+          "type": [
+            "tegumentario"
+          ]
+        }
+      },
       "traits": [
         "mimetismo_cromatico_passivo",
         "piume_solari_fotovoltaiche",

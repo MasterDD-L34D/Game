@@ -1,95 +1,19 @@
 {
   "schema_version": "2.0",
-  "traits": {
-    "armatura_pietra_planare": {
-      "conflitti": [
-        "frusta_fiammeggiante"
-      ],
-      "debolezza": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità.",
-      "famiglia_tipologia": "Difesa/Strutturale",
-      "fattore_mantenimento_energetico": "Basso (Risonanza geodetica stabile)",
-      "id": "armatura_pietra_planare",
-      "label": "Armatura di Pietra Planare",
-      "mutazione_indotta": "Cristallizza il dermascheletro con nodi rune che deviano energia.",
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [
-            "deploy_barrier"
-          ],
-          "condizioni": {
-            "biome_class": "rovine_planari"
-          },
-          "fonte": "pathfinder_import",
-          "meta": {
-            "expansion": "pathfinder_dataset",
-            "notes": "Plasmazione del substrato lapideo proveniente da fratture planari.",
-            "tier": "T2"
-          }
-        }
-      ],
-      "sinergie": [
-        "carapace_fase_variabile"
-      ],
-      "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
-      },
-      "slot": [],
-      "slot_profile": {
-        "complementare": "strutturale",
-        "core": "difesa"
-      },
-      "spinta_selettiva": "Stabilizzare varchi e proteggere infrastrutture dalle onde d'urto.",
-      "tier": "T2",
-      "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali."
-    },
-    "mantello_meteoritico": {
-      "conflitti": [
-        "aura_scudo_radianza"
-      ],
-      "debolezza": "Vulnerabile a scariche di freddo gravitazionale che irrigidiscono il mantello.",
-      "famiglia_tipologia": "Difesa/Termoregolazione",
-      "fattore_mantenimento_energetico": "Alto (Rivestimento ablativo rigenerante)",
-      "id": "mantello_meteoritico",
-      "label": "Mantello Meteoritico",
-      "mutazione_indotta": "Deposita strati sovrapposti di materiale meteorico che vaporizzano l'impatto e rilasciano radianza.",
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [
-            "fire_resist"
-          ],
-          "condizioni": {
-            "biome_class": "rovine_planari"
-          },
-          "fonte": "pathfinder_import",
-          "meta": {
-            "expansion": "pathfinder_dataset",
-            "notes": "Richiede continue docce di plasma per mantenere la matrice ablativa.",
-            "tier": "T3"
-          }
-        }
-      ],
-      "sinergie": [
-        "frusta_fiammeggiante",
-        "carapace_fase_variabile"
-      ],
-      "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
-      },
-      "slot": [],
-      "slot_profile": {
-        "complementare": "termico",
-        "core": "difesa"
-      },
-      "spinta_selettiva": "Sopravvivere a bombardamenti planari e piogge di meteore dimensionali.",
-      "tier": "T3",
-      "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi."
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "difesa"
+      ]
     }
   },
+  "traits": [
+    "armatura_pietra_planare",
+    "mantello_meteoritico"
+  ],
   "type": "difesa"
 }

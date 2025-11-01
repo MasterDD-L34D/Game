@@ -77,7 +77,7 @@
       "path": "data/traits/index.json",
       "type": "reference",
       "state": "core",
-      "notes": "Catalogo principale con 29 tratti dettagliati e fonti env_to_traits."
+      "notes": "Catalogo principale con 29 tratti dettagliati e fonti env_to_traits. Le liste per tipologia ora si ricostruiscono interrogando l'indice unico tramite `scripts/sync_trait_lists.js`; i vecchi index di cartella sono deprecati e reindirizzano qui."
     },
     {
       "path": "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",

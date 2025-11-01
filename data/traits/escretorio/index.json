@@ -1,45 +1,18 @@
 {
   "schema_version": "2.0",
-  "traits": {
-    "spore_psichiche_silenziate": {
-      "conflitti": [
-        "respiro_a_scoppio"
-      ],
-      "debolezza": "Funzionalità ridotta in presenza di vento forte o umidità elevata.",
-      "famiglia_tipologia": "Escretorio/Psichico",
-      "fattore_mantenimento_energetico": "Alto (Produzione e rilascio)",
-      "id": "spore_psichiche_silenziate",
-      "label": "Spora Psichica Silenziosa",
-      "mutazione_indotta": "Pori che rilasciano nano-particelle attive chimicamente o psichicamente.",
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "caverna_risonante"
-          },
-          "fonte": "env_to_traits",
-          "meta": {
-            "expansion": "controllo_psionico",
-            "notes": "Pacchetto di controllo sensoriale e psichico per specie iperadattive."
-          }
-        }
-      ],
-      "sinergie": [],
-      "sinergie_pi": {
-        "co_occorrenze": [],
-        "combo_totale": 0,
-        "forme": [],
-        "tabelle_random": []
-      },
-      "slot": [],
-      "slot_profile": {
-        "complementare": "psichico",
-        "core": "escretorio"
-      },
-      "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
-      "tier": "T1",
-      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini."
+  "deprecated": true,
+  "note": "Le liste per tipologia sono state unificate in data/traits/index.json. Utilizzare questo file solo come reindirizzamento.",
+  "redirect": "data/traits/index.json",
+  "query": {
+    "source": "data/traits/index.json",
+    "filters": {
+      "type": [
+        "escretorio"
+      ]
     }
   },
+  "traits": [
+    "spore_psichiche_silenziate"
+  ],
   "type": "escretorio"
 }
