@@ -10,7 +10,7 @@ import argparse
 import csv
 import json
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Mapping, Optional, Sequence
 
@@ -222,6 +222,8 @@ def build_squadsync_report(
         },
     }
 
+    payload["adaptive"] = _build_adaptive_payload(payload)
+
     return payload
 
 
@@ -270,6 +272,189 @@ def _compute_engagement(record: SquadSyncRecord, maxima: Mapping[str, int]) -> f
 
 def _round(value: float, digits: int) -> float:
     return float(f"{value:.{digits}f}")
+
+
+def _build_adaptive_payload(report: Mapping[str, Any]) -> Dict[str, Any]:
+    squads = report.get("squads", [])
+    if not squads:
+        return {
+            "responses": [],
+            "summary": {
+                "total": 0,
+                "critical": 0,
+                "warning": 0,
+                "info": 0,
+                "variants": [],
+                "squads": [],
+            },
+        }
+
+    totals = report.get("totals", {}) or {}
+    range_info = report.get("range", {}) or {}
+    generated_at = report.get("generatedAt") or datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    expires_at = (datetime.utcnow() + timedelta(hours=12)).replace(microsecond=0).isoformat() + "Z"
+
+    average_engagement = float(totals.get("averageEngagement", 0.0))
+    squad_count = len(squads) or 1
+    average_incidents = float(totals.get("incidents", 0.0)) / squad_count
+    average_deployments = float(totals.get("deployments", 0.0)) / squad_count
+    average_standups = float(totals.get("standups", 0.0)) / squad_count
+
+    responses: List[Dict[str, Any]] = []
+    per_squad_counts: Dict[str, int] = {}
+
+    def _response_id(squad_name: str, metric: str) -> str:
+        count = per_squad_counts.get(squad_name, 0)
+        per_squad_counts[squad_name] = count + 1
+        slug = squad_name.strip().lower().replace(" ", "-")
+        return f"{slug or 'squad'}-{metric}-{count + 1}"
+
+    for squad in squads:
+        name = str(squad.get("name", "Unknown"))
+        summary = squad.get("summary", {}) or {}
+        engagement = float(summary.get("engagementScore", 0.0))
+        incidents = int(summary.get("totalIncidents", 0))
+        deployments = int(summary.get("totalDeployments", 0))
+        standups = int(summary.get("totalStandups", 0))
+
+        engagement_delta = engagement - average_engagement
+        if average_engagement > 0 and engagement < average_engagement - 0.05:
+            priority = "CRITICAL" if engagement < average_engagement - 0.15 else "WARNING"
+            responses.append(
+                {
+                    "id": _response_id(name, "engagement"),
+                    "squad": name,
+                    "priority": priority,
+                    "metric": "engagement",
+                    "title": f"Potenziamento engagement squadra {name}",
+                    "message": (
+                        "Coordina mentoring tra veterani e nuove reclute; "
+                        "calibra i briefing giornalieri sulle esigenze della squadra."
+                    ),
+                    "value": _round(engagement, 3),
+                    "baseline": _round(average_engagement, 3),
+                    "delta": _round(engagement_delta, 3),
+                    "createdAt": generated_at,
+                    "expiresAt": expires_at,
+                    "tags": ["engagement", priority.lower(), "adaptive"],
+                    "source": "etl",
+                    "variant": "adaptive",
+                    "range": {"start": range_info.get("start"), "end": range_info.get("end")},
+                }
+            )
+
+        if incidents > average_incidents * 1.1 and incidents >= 3:
+            responses.append(
+                {
+                    "id": _response_id(name, "incidents"),
+                    "squad": name,
+                    "priority": "CRITICAL",
+                    "metric": "incidents",
+                    "title": f"Riduci incidenti operativi per {name}",
+                    "message": (
+                        "Assegna un supporto tattico dedicato e rivedi i protocolli di escalation; "
+                        "programma un dry-run con focus su crowd-control."
+                    ),
+                    "value": incidents,
+                    "baseline": _round(average_incidents, 2),
+                    "delta": _round(incidents - average_incidents, 2),
+                    "createdAt": generated_at,
+                    "expiresAt": expires_at,
+                    "tags": ["incidents", "critical", "adaptive"],
+                    "source": "etl",
+                    "variant": "adaptive",
+                    "range": {"start": range_info.get("start"), "end": range_info.get("end")},
+                }
+            )
+
+        if average_standups > 0 and standups < average_standups * 0.9:
+            responses.append(
+                {
+                    "id": _response_id(name, "standups"),
+                    "squad": name,
+                    "priority": "WARNING",
+                    "metric": "standups",
+                    "title": f"Riallinea i rituali di stand-up per {name}",
+                    "message": (
+                        "Riduci il rumore asincrono fissando stand-up da 10 minuti; "
+                        "introduci turni di facilitazione a rotazione."
+                    ),
+                    "value": standups,
+                    "baseline": _round(average_standups, 2),
+                    "delta": _round(standups - average_standups, 2),
+                    "createdAt": generated_at,
+                    "expiresAt": expires_at,
+                    "tags": ["standups", "warning", "adaptive"],
+                    "source": "etl",
+                    "variant": "adaptive",
+                    "range": {"start": range_info.get("start"), "end": range_info.get("end")},
+                }
+            )
+
+        if deployments >= max(1, average_deployments * 1.1):
+            responses.append(
+                {
+                    "id": _response_id(name, "deployments"),
+                    "squad": name,
+                    "priority": "INFO",
+                    "metric": "deployments",
+                    "title": f"Celebra l'efficienza operativa di {name}",
+                    "message": (
+                        "Mantieni il ritmo attuale con retrospettive brevi post-deployment; "
+                        "condividi le best practice nel canale cross-squad."
+                    ),
+                    "value": deployments,
+                    "baseline": _round(average_deployments, 2),
+                    "delta": _round(deployments - average_deployments, 2),
+                    "createdAt": generated_at,
+                    "expiresAt": expires_at,
+                    "tags": ["deployments", "info", "adaptive"],
+                    "source": "etl",
+                    "variant": "adaptive",
+                    "range": {"start": range_info.get("start"), "end": range_info.get("end")},
+                }
+            )
+
+    if not responses:
+        return {
+            "responses": [],
+            "summary": {
+                "total": 0,
+                "critical": 0,
+                "warning": 0,
+                "info": 0,
+                "variants": [],
+                "squads": [],
+            },
+        }
+
+    priority_order = {"CRITICAL": 0, "WARNING": 1, "INFO": 2}
+    responses.sort(key=lambda item: (priority_order.get(item["priority"], 3), item["id"]))
+
+    summary: Dict[str, Any] = {
+        "total": len(responses),
+        "critical": sum(1 for item in responses if item["priority"] == "CRITICAL"),
+        "warning": sum(1 for item in responses if item["priority"] == "WARNING"),
+        "info": sum(1 for item in responses if item["priority"] == "INFO"),
+        "variants": [{"key": "adaptive", "total": len(responses)}],
+        "squads": [],
+    }
+
+    squads_summary: Dict[str, Dict[str, Any]] = {}
+    for response in responses:
+        bucket = squads_summary.setdefault(
+            response["squad"],
+            {"squad": response["squad"], "total": 0, "critical": 0, "warning": 0, "info": 0, "latestResponseAt": generated_at},
+        )
+        bucket["total"] += 1
+        bucket[response["priority"].lower()] += 1
+
+    summary["squads"] = sorted(
+        squads_summary.values(),
+        key=lambda item: (-item["total"], item["squad"]),
+    )
+
+    return {"responses": responses, "summary": summary}
 
 
 def _iter_records_from_args(args: argparse.Namespace) -> Iterator[SquadSyncRecord]:

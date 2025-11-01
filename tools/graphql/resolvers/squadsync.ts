@@ -3,6 +3,10 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import type {
+  SquadSyncAdaptivePayload,
+  SquadSyncAdaptivePriority,
+  SquadSyncAdaptiveResponse,
+  SquadSyncAdaptiveSummary,
   SquadSyncAggregate,
   SquadSyncRange,
   SquadSyncRangeInput,
@@ -10,10 +14,26 @@ import type {
   SquadSyncSquad,
   SquadSyncSquadSummary,
 } from '../schema.js';
+import { createAdaptiveEngine } from '../../../services/squadsync/adaptiveEngine.js';
+import type { AdaptivePriority, AdaptiveResponseInput } from '../../../services/squadsync/adaptiveEngine.js';
 
 const moduleDir = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(moduleDir, '../../..');
 export const DEFAULT_REPORT_PATH = resolve(PROJECT_ROOT, 'data/derived/analysis/squadsync_report.json');
+
+function createEmptyAdaptive(): SquadSyncAdaptivePayload {
+  return {
+    responses: [],
+    summary: {
+      total: 0,
+      critical: 0,
+      warning: 0,
+      info: 0,
+      variants: [],
+      squads: [],
+    },
+  };
+}
 
 export interface SquadSyncResolverOptions {
   reportPath?: string;
@@ -22,7 +42,23 @@ export interface SquadSyncResolverOptions {
 
 async function defaultReadReport(path: string): Promise<SquadSyncReport> {
   const raw = await readFile(path, 'utf-8');
-  return JSON.parse(raw) as SquadSyncReport;
+  const parsed = JSON.parse(raw) as Partial<SquadSyncReport>;
+  if (!parsed.adaptive) {
+    parsed.adaptive = createEmptyAdaptive();
+  }
+  if (!parsed.squads) {
+    parsed.squads = [];
+  }
+  if (!parsed.totals) {
+    parsed.totals = {
+      deployments: 0,
+      standups: 0,
+      incidents: 0,
+      averageActiveMembers: 0,
+      averageEngagement: 0,
+    };
+  }
+  return parsed as SquadSyncReport;
 }
 
 function normaliseRange(range: SquadSyncRangeInput | undefined, fallback: SquadSyncRange): SquadSyncRange {
@@ -47,6 +83,78 @@ function normaliseRange(range: SquadSyncRangeInput | undefined, fallback: SquadS
 interface SquadAccumulator {
   daily: SquadSyncSquad['daily'];
   summary: SquadSyncSquadSummary;
+}
+
+function toEnginePriority(priority: string | undefined): AdaptivePriority {
+  const token = (priority || '').toLowerCase();
+  if (token === 'critical' || token === 'warning' || token === 'info') {
+    return token;
+  }
+  return 'info';
+}
+
+function buildAdaptivePayload(
+  adaptive: SquadSyncReport['adaptive'] | undefined,
+  range: SquadSyncRange,
+): SquadSyncAdaptivePayload {
+  const engine = createAdaptiveEngine({ ttlMs: 0, maxTotal: 500, maxPerSquad: 50 });
+  const responses: AdaptiveResponseInput[] = Array.isArray(adaptive?.responses)
+    ? (adaptive?.responses ?? []).map((response) => ({
+        id: response.id,
+        squad: response.squad,
+        priority: toEnginePriority(response.priority),
+        metric: response.metric,
+        title: response.title,
+        message: response.message,
+        value: response.value,
+        baseline: response.baseline ?? null,
+        delta: response.delta ?? null,
+        createdAt: response.createdAt,
+        expiresAt: response.expiresAt ?? null,
+        tags: response.tags ?? [],
+        source: response.source ?? 'etl',
+        variant: response.variant ?? 'adaptive',
+        range: response.range ?? range,
+        ttlMs: 0,
+      }))
+    : [];
+  if (responses.length > 0) {
+    engine.ingestMany(responses);
+  }
+  const snapshot = engine.snapshot({ range });
+  const payloadResponses: SquadSyncAdaptiveResponse[] = snapshot.responses.map((item) => ({
+    id: item.id,
+    squad: item.squad,
+    priority: item.priority.toUpperCase() as SquadSyncAdaptivePriority,
+    metric: item.metric,
+    title: item.title,
+    message: item.message,
+    value: item.value,
+    baseline: item.baseline,
+    delta: item.delta,
+    createdAt: item.createdAt,
+    expiresAt: item.expiresAt,
+    tags: item.tags,
+    source: item.source,
+    variant: item.variant,
+    range: item.range ?? null,
+  }));
+  const variants = Object.entries(snapshot.summary.variant)
+    .map(([key, total]) => ({ key, total }))
+    .sort((a, b) => b.total - a.total || a.key.localeCompare(b.key));
+  const summary: SquadSyncAdaptiveSummary = {
+    total: snapshot.summary.total,
+    critical: snapshot.summary.critical,
+    warning: snapshot.summary.warning,
+    info: snapshot.summary.info,
+    variants,
+    squads: snapshot.summary.squads,
+  };
+  const payload: SquadSyncAdaptivePayload = {
+    responses: payloadResponses,
+    summary,
+  };
+  return payload;
 }
 
 function summariseSquad(squad: SquadSyncSquad, start: string, end: string): SquadAccumulator | null {
@@ -138,6 +246,7 @@ export function filterReportByRange(report: SquadSyncReport, range?: SquadSyncRa
       averageActiveMembers,
       averageEngagement,
     },
+    adaptive: buildAdaptivePayload(report.adaptive, normalisedRange),
   };
 
   return filteredReport;
@@ -153,5 +262,51 @@ export function createSquadSyncResolver(options?: SquadSyncResolverOptions) {
   ): Promise<SquadSyncReport> {
     const report = await reader(reportPath);
     return filterReportByRange(report, args.range);
+  };
+}
+
+interface RestLikeRequest {
+  query?: Record<string, string | string[]>;
+}
+
+interface RestLikeResponse {
+  status?: (code: number) => RestLikeResponse;
+  json: (payload: unknown) => void;
+}
+
+function parseRangeFromQuery(query: Record<string, string | string[]> | undefined): SquadSyncRangeInput | undefined {
+  if (!query) {
+    return undefined;
+  }
+  const startRaw = query.start;
+  const endRaw = query.end;
+  const range: SquadSyncRangeInput = {};
+  if (typeof startRaw === 'string' && startRaw.trim()) {
+    range.start = startRaw.trim();
+  }
+  if (typeof endRaw === 'string' && endRaw.trim()) {
+    range.end = endRaw.trim();
+  }
+  return Object.keys(range).length > 0 ? range : undefined;
+}
+
+export function createSquadSyncAdaptiveRestHandler(options?: SquadSyncResolverOptions) {
+  const resolver = createSquadSyncResolver(options);
+  return async function squadSyncAdaptiveHandler(req: RestLikeRequest, res: RestLikeResponse) {
+    try {
+      const range = parseRangeFromQuery(req.query);
+      const report = await resolver(undefined, { range });
+      res.json({
+        range: report.range,
+        generatedAt: report.generatedAt,
+        adaptive: report.adaptive,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Errore sconosciuto';
+      const status =
+        error instanceof Error && /Intervallo SquadSync/i.test(error.message) ? 400 : 500;
+      const statusWriter = typeof res.status === 'function' ? res.status(status) : res;
+      statusWriter.json({ error: message });
+    }
   };
 }

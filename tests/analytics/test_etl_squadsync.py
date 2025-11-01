@@ -152,6 +152,16 @@ def test_build_report_summary(mock_csv: Path) -> None:
     assert delta["summary"]["engagementScore"] == 0.611
     assert delta["daily"][-1]["engagement"] == 0.535
 
+    adaptive = report["adaptive"]
+    assert adaptive["summary"]["total"] >= 3
+    priorities = {entry["priority"] for entry in adaptive["responses"]}
+    assert "CRITICAL" in priorities
+    assert "WARNING" in priorities
+    assert "INFO" in priorities
+    first_response = adaptive["responses"][0]
+    assert first_response["squad"] in {"Bravo", "Delta", "Echo"}
+    assert first_response["range"]["start"] == report["range"]["start"]
+
 
 def test_report_range_filter(mock_csv: Path) -> None:
     records = etl_squadsync.load_records(mock_csv)
@@ -179,6 +189,10 @@ def test_report_range_filter(mock_csv: Path) -> None:
     assert echo["summary"]["averageActiveMembers"] == 3.0
     assert echo["summary"]["engagementScore"] == 0.9
 
+    adaptive = report["adaptive"]
+    assert adaptive["summary"]["total"] >= 1
+    assert all(entry["range"]["start"] == report["range"]["start"] for entry in adaptive["responses"])
+
 
 def test_write_report(tmp_path: Path, mock_csv: Path) -> None:
     records = etl_squadsync.load_records(mock_csv)
@@ -190,3 +204,5 @@ def test_write_report(tmp_path: Path, mock_csv: Path) -> None:
     assert output.exists()
     saved = json.loads(output.read_text(encoding="utf-8"))
     assert saved["totals"]["deployments"] == 32
+    assert "adaptive" in saved
+    assert isinstance(saved["adaptive"]["responses"], list)

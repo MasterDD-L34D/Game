@@ -50,12 +50,70 @@ export const squadSyncTypeDefs = /* GraphQL */ `
     daily: [SquadSyncDailyStat!]!
   }
 
+  enum SquadSyncAdaptivePriority {
+    CRITICAL
+    WARNING
+    INFO
+  }
+
+  type SquadSyncAdaptiveRange {
+    start: String!
+    end: String!
+  }
+
+  type SquadSyncAdaptiveResponse {
+    id: ID!
+    squad: String!
+    priority: SquadSyncAdaptivePriority!
+    metric: String!
+    title: String!
+    message: String!
+    value: Float!
+    baseline: Float
+    delta: Float
+    createdAt: String!
+    expiresAt: String
+    tags: [String!]!
+    source: String!
+    variant: String!
+    range: SquadSyncAdaptiveRange
+  }
+
+  type SquadSyncAdaptiveVariantSummary {
+    key: String!
+    total: Int!
+  }
+
+  type SquadSyncAdaptiveSquadSummary {
+    squad: String!
+    total: Int!
+    critical: Int!
+    warning: Int!
+    info: Int!
+    latestResponseAt: String
+  }
+
+  type SquadSyncAdaptiveSummary {
+    total: Int!
+    critical: Int!
+    warning: Int!
+    info: Int!
+    variants: [SquadSyncAdaptiveVariantSummary!]!
+    squads: [SquadSyncAdaptiveSquadSummary!]!
+  }
+
+  type SquadSyncAdaptivePayload {
+    responses: [SquadSyncAdaptiveResponse!]!
+    summary: SquadSyncAdaptiveSummary!
+  }
+
   """Report completo di SquadSync (range, squadre, totali)."""
   type SquadSyncReport {
     range: SquadSyncRange!
     generatedAt: String!
     squads: [SquadSyncSquad!]!
     totals: SquadSyncAggregate!
+    adaptive: SquadSyncAdaptivePayload!
   }
 
   extend type Query {
@@ -93,6 +151,59 @@ export interface SquadSyncSquad {
   daily: SquadSyncDailyStat[];
 }
 
+export type SquadSyncAdaptivePriority = 'CRITICAL' | 'WARNING' | 'INFO';
+
+export interface SquadSyncAdaptiveRange {
+  start: string;
+  end: string;
+}
+
+export interface SquadSyncAdaptiveResponse {
+  id: string;
+  squad: string;
+  priority: SquadSyncAdaptivePriority;
+  metric: string;
+  title: string;
+  message: string;
+  value: number;
+  baseline: number | null;
+  delta: number | null;
+  createdAt: string;
+  expiresAt: string | null;
+  tags: string[];
+  source: string;
+  variant: string;
+  range: SquadSyncAdaptiveRange | null;
+}
+
+export interface SquadSyncAdaptiveVariantSummary {
+  key: string;
+  total: number;
+}
+
+export interface SquadSyncAdaptiveSquadSummary {
+  squad: string;
+  total: number;
+  critical: number;
+  warning: number;
+  info: number;
+  latestResponseAt: string | null;
+}
+
+export interface SquadSyncAdaptiveSummary {
+  total: number;
+  critical: number;
+  warning: number;
+  info: number;
+  variants: SquadSyncAdaptiveVariantSummary[];
+  squads: SquadSyncAdaptiveSquadSummary[];
+}
+
+export interface SquadSyncAdaptivePayload {
+  responses: SquadSyncAdaptiveResponse[];
+  summary: SquadSyncAdaptiveSummary;
+}
+
 export interface SquadSyncAggregate {
   deployments: number;
   standups: number;
@@ -106,6 +217,7 @@ export interface SquadSyncReport {
   generatedAt: string;
   squads: SquadSyncSquad[];
   totals: SquadSyncAggregate;
+  adaptive: SquadSyncAdaptivePayload;
 }
 
 export interface SquadSyncRangeInput {
