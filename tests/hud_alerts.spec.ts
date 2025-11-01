@@ -1,4 +1,5 @@
 import assert from 'assert';
+import { describe, it } from 'node:test';
 import {
   EmaUpdatePayload,
   HudAlert,
@@ -36,6 +37,12 @@ const basePayload: EmaUpdatePayload = {
       weighted_index: 0.63,
       time_low_hp_turns: 3,
     },
+    cohesion: {
+      delta: 0.18,
+    },
+    support: {
+      actions: 4,
+    },
   },
 };
 
@@ -63,7 +70,8 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
     assert.ok(telemetryBus.listener, 'il listener deve essere registrato');
     telemetryBus.listener?.({ ...basePayload, indices: undefined });
 
-    assert.strictEqual(trends.length, 0, 'il trend non deve essere aggiornato');
+    assert.strictEqual(trends.length, 1, 'il trend deve essere aggiornato a null per coerenza di stream');
+    assert.strictEqual(trends[0]?.payload, null, 'il trend deve essere azzerato quando i filtri falliscono');
     assert.strictEqual(telemetryBus.emitted.length, 0, 'non devono essere emessi eventi telemetrici');
   });
 
@@ -72,7 +80,7 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
     const raisedAlerts: HudAlert[] = [];
     const clearedAlerts: string[] = [];
     const recorded: RiskHudAlertLog[] = [];
-    const commandPayloads: unknown[] = [];
+    const commandPayloads: Array<{ event: string; payload: unknown }> = [];
 
     registerRiskHudAlertSystem({
       telemetryBus,
@@ -88,8 +96,8 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
         },
       },
       commandBus: {
-        emit(_event, payload) {
-          commandPayloads.push(payload);
+        emit(event, payload) {
+          commandPayloads.push({ event, payload });
         },
       },
       telemetryRecorder: {
@@ -110,7 +118,31 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
     assert.strictEqual(raisedAlerts.length, 1, 'deve essere generato un alert');
     assert.strictEqual(raisedAlerts[0].metadata?.missionTag, 'deep-watch');
     assert.strictEqual(recorded[0].missionTag, 'deep-watch');
-    assert.strictEqual((commandPayloads[0] as { missionTag?: string }).missionTag, 'deep-watch');
+    const balanceEvent = commandPayloads.find((entry) => entry.event === 'pi.balance.alerts');
+    assert.ok(balanceEvent, 'deve essere emesso evento balance');
+    assert.strictEqual((balanceEvent?.payload as { missionTag?: string }).missionTag, 'deep-watch');
+    const overlayDisplayed = commandPayloads.find((entry) => entry.event === 'hud.overlay.displayed');
+    assert.ok(overlayDisplayed, 'deve essere emesso evento overlay.displayed');
+    assert.strictEqual(
+      (overlayDisplayed?.payload as { supportActions?: number }).supportActions,
+      4,
+      'gli eventi overlay devono includere support.actions',
+    );
+    assert.strictEqual(
+      raisedAlerts[0].metadata?.cohesionDelta,
+      0.18,
+      'la metadata dell\'alert deve includere cohesion.delta',
+    );
+    assert.strictEqual(
+      (telemetryBus.emitted[0].payload as { cohesionDelta?: number }).cohesionDelta,
+      0.18,
+      'la telemetria deve includere cohesion.delta',
+    );
+    assert.strictEqual(
+      recorded.some((log) => log.status === 'overlay.displayed'),
+      true,
+      'deve essere registrato un log overlay.displayed',
+    );
     assert.strictEqual(
       (telemetryBus.emitted[0].payload as { missionTag?: string }).missionTag,
       'deep-watch',
@@ -124,6 +156,8 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
           weighted_index: 0.55,
           time_low_hp_turns: 1,
         },
+        cohesion: { delta: 0.12 },
+        support: { actions: 3 },
       },
     });
 
@@ -134,10 +168,19 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
           weighted_index: 0.54,
           time_low_hp_turns: 0,
         },
+        cohesion: { delta: 0.08 },
+        support: { actions: 2 },
       },
     });
 
     assert.ok(clearedAlerts.includes(raisedAlerts[0].id), 'l\'alert deve essere cancellato');
     assert.strictEqual(recorded.some((log) => log.status === 'cleared' && log.missionTag === 'deep-watch'), true);
+    const overlayDismissed = commandPayloads.find((entry) => entry.event === 'hud.overlay.dismissed');
+    assert.ok(overlayDismissed, 'deve essere emesso evento overlay.dismissed');
+    assert.strictEqual(
+      recorded.some((log) => log.status === 'overlay.dismissed'),
+      true,
+      'deve essere registrato un log overlay.dismissed',
+    );
   });
 });
