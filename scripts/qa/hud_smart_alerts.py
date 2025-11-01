@@ -27,6 +27,8 @@ class LogMetrics:
     total_acknowledged_alerts: int = 0
     ack_events: int = 0
     filter_events: int = 0
+    overlay_displayed: int = 0
+    overlay_dismissed: int = 0
     issues: List[str] = field(default_factory=list)
 
     @property
@@ -75,6 +77,16 @@ def _normalise_recipients(value: object) -> List[str]:
     return []
 
 
+def _has_overlay_metrics(entry: dict) -> bool:
+    cohesion = entry.get("cohesionDelta")
+    support = entry.get("supportActions")
+
+    def _is_number(value: object) -> bool:
+        return isinstance(value, (int, float))
+
+    return _is_number(cohesion) and _is_number(support)
+
+
 def analyse_log(path: Path) -> LogMetrics:
     entries = load_log(path)
     metrics = LogMetrics(path=path)
@@ -118,6 +130,14 @@ def analyse_log(path: Path) -> LogMetrics:
             metrics.filter_events += 1
             if not entry.get("filterName"):
                 metrics.issues.append("Evento filtrato senza `filterName`")
+        elif status == "overlay.displayed":
+            metrics.overlay_displayed += 1
+            if not _has_overlay_metrics(entry):
+                metrics.issues.append("overlay.displayed senza metriche di contesto")
+        elif status == "overlay.dismissed":
+            metrics.overlay_dismissed += 1
+            if not _has_overlay_metrics(entry):
+                metrics.issues.append("overlay.dismissed senza metriche di contesto")
 
     metrics.total_acknowledged_alerts = sum(1 for value in ack_counts.values() if value > 0)
 
@@ -129,6 +149,11 @@ def analyse_log(path: Path) -> LogMetrics:
     if metrics.total_raised >= 4 and metrics.filter_ratio > MAX_FILTER_RATIO:
         metrics.issues.append(
             f"Filter ratio {metrics.filter_ratio:.2%} superiore alla soglia {MAX_FILTER_RATIO:.0%}"
+        )
+
+    if metrics.overlay_displayed != metrics.overlay_dismissed:
+        metrics.issues.append(
+            "Numero di overlay.displayed diverso da overlay.dismissed"
         )
 
     return metrics
@@ -143,7 +168,8 @@ def iter_logs(root: Path) -> Iterable[Path]:
 def format_metrics(metrics: LogMetrics) -> str:
     base = (
         f"- {metrics.path}: raised={metrics.total_raised} "
-        f"ack_rate={metrics.ack_rate:.2%} filters={metrics.filter_events}"
+        f"ack_rate={metrics.ack_rate:.2%} filters={metrics.filter_events} "
+        f"overlay={metrics.overlay_displayed}/{metrics.overlay_dismissed}"
     )
     if metrics.issues:
         issues = "; ".join(metrics.issues)
