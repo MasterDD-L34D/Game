@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Dict, Iterable, List, Tuple
@@ -30,6 +31,13 @@ DEFAULT_SCHEMA = ROOT / "config" / "schemas" / "trait.schema.json"
 DEFAULT_TRAITS_DIR = ROOT / "data" / "traits"
 DEFAULT_INDEX = DEFAULT_TRAITS_DIR / "index.json"
 
+LABEL_PATTERN = re.compile(r"^(i18n:[a-z0-9._]+|\S(?:.*\S)?)$")
+FAMILY_PATTERN = re.compile(r"^[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+/[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+$")
+SLUG_PATTERN = re.compile(r"^[a-z0-9_]+$")
+SPECIES_ID_PATTERN = re.compile(r"^[a-z0-9_-]+$")
+UCUM_PATTERN = re.compile(r"^[A-Za-z0-9%/._^() -]+$")
+ENVO_PATTERN = re.compile(r"^http://purl\.obolibrary\.org/obo/ENVO_\d+$")
+
 
 def load_json(path: Path) -> object:
     with path.open("r", encoding="utf-8") as fh:
@@ -39,6 +47,67 @@ def load_json(path: Path) -> object:
 def format_error(path: Iterable[object], message: str) -> str:
     location = "/".join(str(part) for part in path) or "<root>"
     return f"{location}: {message}"
+
+
+def collect_additional_issues(trait: dict) -> List[Tuple[List[object], str]]:
+    issues: List[Tuple[List[object], str]] = []
+
+    label = trait.get("label")
+    if isinstance(label, str) and not LABEL_PATTERN.fullmatch(label):
+        issues.append((['label'], "deve essere un riferimento i18n o una stringa senza spazi ai bordi."))
+
+    famiglia_tipologia = trait.get("famiglia_tipologia")
+    if isinstance(famiglia_tipologia, str) and not FAMILY_PATTERN.fullmatch(famiglia_tipologia):
+        issues.append((['famiglia_tipologia'], "deve rispettare il formato Macro/Sotto con caratteri alfanumerici o spazi."))
+
+    data_origin = trait.get("data_origin")
+    if isinstance(data_origin, str) and data_origin.strip() and not SLUG_PATTERN.fullmatch(data_origin.strip()):
+        issues.append((['data_origin'], "deve essere uno slug (^[a-z0-9_]+$)."))
+
+    for field in ("biome_tags", "usage_tags"):
+        values = trait.get(field)
+        if isinstance(values, list):
+            for idx, value in enumerate(values):
+                if isinstance(value, str) and not SLUG_PATTERN.fullmatch(value):
+                    issues.append(([field, idx], "deve contenere solo slug (^[a-z0-9_]+$)."))
+
+    metrics = trait.get("metrics")
+    if isinstance(metrics, list):
+        for idx, metric in enumerate(metrics):
+            if not isinstance(metric, dict):
+                issues.append((['metrics', idx], "voce non è un oggetto valido."))
+                continue
+            name = metric.get("name")
+            if isinstance(name, str) and name.strip() != name:
+                issues.append((['metrics', idx, 'name'], "deve essere privo di spazi iniziali o finali."))
+            unit = metric.get("unit")
+            if isinstance(unit, str) and not UCUM_PATTERN.fullmatch(unit):
+                issues.append((['metrics', idx, 'unit'], "deve rispettare la sintassi UCUM (es. m/s, Cel, 1)."))
+
+    applicability = trait.get("applicability")
+    if isinstance(applicability, dict):
+        envo_terms = applicability.get("envo_terms")
+        if isinstance(envo_terms, list):
+            for idx, term in enumerate(envo_terms):
+                if isinstance(term, str) and not ENVO_PATTERN.fullmatch(term):
+                    issues.append((['applicability', 'envo_terms', idx], "deve essere un URI ENVO valido."))
+
+    species_affinity = trait.get("species_affinity")
+    if isinstance(species_affinity, list):
+        for idx, entry in enumerate(species_affinity):
+            if not isinstance(entry, dict):
+                issues.append((['species_affinity', idx], "voce non è un oggetto valido."))
+                continue
+            species_id = entry.get("species_id")
+            if isinstance(species_id, str) and not SPECIES_ID_PATTERN.fullmatch(species_id):
+                issues.append((['species_affinity', idx, 'species_id'], "deve usare slug o trattini (^[a-z0-9_-]+$)."))
+            roles = entry.get("roles")
+            if isinstance(roles, list):
+                for role_idx, role in enumerate(roles):
+                    if isinstance(role, str) and not SLUG_PATTERN.fullmatch(role):
+                        issues.append((['species_affinity', idx, 'roles', role_idx], "deve essere uno slug (^[a-z0-9_]+$)."))
+
+    return issues
 
 
 def validate_trait_files(
@@ -90,6 +159,13 @@ def validate_trait_files(
             formatted = [format_error(err.path, err.message) for err in schema_errors]
             errors.setdefault(rel_path, []).extend(formatted)
 
+        additional_issues = collect_additional_issues(payload if isinstance(payload, dict) else {})
+        if additional_issues:
+            formatted_additional = [
+                format_error(err_path, message) for err_path, message in additional_issues
+            ]
+            errors.setdefault(rel_path, []).extend(formatted_additional)
+
     return errors, coverage_registry
 
 
@@ -121,6 +197,10 @@ def validate_index(
         )
         for err in schema_errors:
             messages.append(format_error(entry_path + list(err.path), err.message))
+
+        additional_issues = collect_additional_issues(trait_payload if isinstance(trait_payload, dict) else {})
+        for issue_path, message in additional_issues:
+            messages.append(format_error(entry_path + list(issue_path), message))
 
         trait_id = trait_payload.get("id")
         if trait_id is None:

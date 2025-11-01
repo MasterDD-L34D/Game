@@ -4,8 +4,15 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
-const TRAITS_DIR = path.join(ROOT, 'data', 'traits');
-const DEFAULT_OUTPUT = path.join(TRAITS_DIR, 'index.csv');
+const DEFAULT_TRAITS_DIR = path.join(ROOT, 'data', 'traits');
+const DEFAULT_OUTPUT = path.join(DEFAULT_TRAITS_DIR, 'index.csv');
+
+const SLUG_PATTERN = /^[a-z0-9_]+$/;
+const SPECIES_ID_PATTERN = /^[a-z0-9_-]+$/;
+const LABEL_PATTERN = /^(i18n:[a-z0-9._]+|\S(?:.*\S)?)$/;
+const FAMILY_PATTERN = /^[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+\/[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+$/;
+const UCUM_PATTERN = /^[A-Za-z0-9%/._^() -]+$/;
+const ENVO_PATTERN = /^http:\/\/purl\.obolibrary\.org\/obo\/ENVO_\d+$/;
 
 function readJson(filePath) {
   try {
@@ -151,6 +158,15 @@ function parseArgs(argv) {
   const args = { output: DEFAULT_OUTPUT };
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
+    if (token === '--traits-dir') {
+      const next = argv[i + 1];
+      if (!next) {
+        throw new Error('Argomento mancante per --traits-dir');
+      }
+      args.traitsDir = path.resolve(ROOT, next);
+      i += 1;
+      continue;
+    }
     if (token === '--output' || token === '-o') {
       const next = argv[i + 1];
       if (!next) {
@@ -248,19 +264,33 @@ function main() {
     args = parseArgs(process.argv.slice(2));
   } catch (error) {
     console.error(error.message);
-    console.error('Uso: node scripts/build_trait_index.js [--output <path>] [--format json|csv]');
+    console.error('Uso: node scripts/build_trait_index.js [--traits-dir <path>] [--output <path>] [--format json|csv]');
     process.exitCode = 1;
     return;
   }
 
   if (args.help) {
-    console.log('Uso: node scripts/build_trait_index.js [--output <path>] [--format json|csv]');
+    console.log('Uso: node scripts/build_trait_index.js [--traits-dir <path>] [--output <path>] [--format json|csv]');
     console.log('Scandisce data/traits/ e crea un indice con id, label, categoria e stato di completezza.');
     return;
   }
 
-  const traitFiles = walkTraitFiles(TRAITS_DIR);
+  const traitsDir = args.traitsDir || DEFAULT_TRAITS_DIR;
+  if (!fs.existsSync(traitsDir)) {
+    console.error(`Directory dei trait non trovata: ${traitsDir}`);
+    process.exitCode = 1;
+    return;
+  }
+
+  if (args.traitsDir && args.output === DEFAULT_OUTPUT) {
+    args.output = path.join(args.traitsDir, path.basename(DEFAULT_OUTPUT));
+  }
+
+  const traitFiles = walkTraitFiles(traitsDir);
   traitFiles.sort((a, b) => a.localeCompare(b));
+
+  const errors = [];
+  const warnings = [];
 
   const records = [];
   for (const filePath of traitFiles) {
@@ -268,14 +298,82 @@ function main() {
     try {
       data = readJson(filePath);
     } catch (error) {
-      console.error(error.message);
-      process.exitCode = 1;
-      return;
+      errors.push(`[ERROR] ${error.message}`);
+      continue;
     }
 
+    const relPath = toRelative(filePath);
     const category = normalizeCategory(data.famiglia_tipologia);
+    if (typeof data.famiglia_tipologia !== 'string' || !FAMILY_PATTERN.test(data.famiglia_tipologia)) {
+      errors.push(`[ERROR] ${relPath}: famiglia_tipologia deve seguire il formato Macro/Sotto con caratteri alfanumerici o spazi`);
+    }
+    if (typeof data.label !== 'string' || !LABEL_PATTERN.test(data.label)) {
+      errors.push(`[ERROR] ${relPath}: label deve essere una stringa i18n o testo senza spazi iniziali/finali`);
+    }
+
     const biomeTags = normalizeStringArray(data.biome_tags);
+    biomeTags.forEach((tag) => {
+      if (!SLUG_PATTERN.test(tag)) {
+        errors.push(`[ERROR] ${relPath}: biome_tags contiene un valore non valido: ${tag}`);
+      }
+    });
+
     const usageTags = normalizeStringArray(data.usage_tags);
+    usageTags.forEach((tag) => {
+      if (!SLUG_PATTERN.test(tag)) {
+        errors.push(`[ERROR] ${relPath}: usage_tags contiene un valore non valido: ${tag}`);
+      }
+    });
+
+    if (typeof data.data_origin === 'string' && data.data_origin.trim() && !SLUG_PATTERN.test(data.data_origin.trim())) {
+      errors.push(`[ERROR] ${relPath}: data_origin deve essere uno slug (^[a-z0-9_]+$): ${data.data_origin}`);
+    }
+
+    if (Array.isArray(data.metrics)) {
+      data.metrics.forEach((metric, index) => {
+        if (!metric || typeof metric !== 'object') {
+          warnings.push(`[WARN] ${relPath}: metrics[${index}] non è un oggetto valido`);
+          return;
+        }
+        if (typeof metric.name === 'string' && !/^\S(?:.*\S)?$/.test(metric.name)) {
+          errors.push(`[ERROR] ${relPath}: metrics[${index}].name deve essere privo di spazi ai bordi`);
+        }
+        if (typeof metric.unit === 'string' && !UCUM_PATTERN.test(metric.unit)) {
+          errors.push(`[ERROR] ${relPath}: metrics[${index}].unit deve rispettare la sintassi UCUM (es. m/s, Cel, 1)`);
+        }
+      });
+    }
+
+    if (Array.isArray(data.species_affinity)) {
+      data.species_affinity.forEach((entry, index) => {
+        if (!entry || typeof entry !== 'object') {
+          warnings.push(`[WARN] ${relPath}: species_affinity[${index}] non è un oggetto valido`);
+          return;
+        }
+        if (typeof entry.species_id === 'string' && !SPECIES_ID_PATTERN.test(entry.species_id)) {
+          errors.push(`[ERROR] ${relPath}: species_affinity[${index}].species_id deve usare slug o trattini (^[a-z0-9_-]+$)`);
+        }
+        if (Array.isArray(entry.roles)) {
+          entry.roles.forEach((role) => {
+            if (typeof role === 'string' && !SLUG_PATTERN.test(role)) {
+              errors.push(`[ERROR] ${relPath}: species_affinity[${index}].roles contiene un valore non valido: ${role}`);
+            }
+          });
+        }
+      });
+    }
+
+    if (data.applicability && typeof data.applicability === 'object') {
+      const envoTerms = Array.isArray(data.applicability.envo_terms)
+        ? data.applicability.envo_terms
+        : [];
+      envoTerms.forEach((term, index) => {
+        if (typeof term === 'string' && !ENVO_PATTERN.test(term)) {
+          errors.push(`[ERROR] ${relPath}: applicability.envo_terms[${index}] deve essere un URI ENVO valido`);
+        }
+      });
+    }
+
     const completionFlags = deriveCompletionFlags(data, biomeTags, usageTags);
     const record = {
       id: data.id || path.basename(filePath, '.json'),
@@ -291,23 +389,39 @@ function main() {
     records.push(record);
   }
 
+  if (warnings.length > 0) {
+    warnings.forEach((warning) => {
+      console.warn(warning);
+    });
+  }
+
+  if (errors.length > 0) {
+    errors.forEach((message) => {
+      console.error(message);
+    });
+    process.exitCode = 1;
+    return;
+  }
+
   let outputData;
   if (args.format === 'csv') {
     outputData = formatAsCsv(records);
   } else if (args.format === 'json') {
-    outputData = formatAsJson(records.map((trait) => ({
-      id: trait.id,
-      label: trait.label,
-      categoria: trait.category.raw,
-      tipo: trait.category.type,
-      famiglia: trait.category.family,
-      path: trait.path,
-      completeness: trait.completeness ?? null,
-      data_origin: trait.dataOrigin ?? null,
-      biome_tags: trait.biomeTags,
-      usage_tags: trait.usageTags,
-      completion_flags: trait.completionFlags,
-    })));
+    outputData = formatAsJson(
+      records.map((trait) => ({
+        id: trait.id,
+        label: trait.label,
+        categoria: trait.category.raw,
+        tipo: trait.category.type,
+        famiglia: trait.category.family,
+        path: trait.path,
+        completeness: trait.completeness ?? null,
+        data_origin: trait.dataOrigin ?? null,
+        biome_tags: trait.biomeTags,
+        usage_tags: trait.usageTags,
+        completion_flags: trait.completionFlags,
+      })),
+    );
   } else {
     console.error(`Formato non supportato: ${args.format}`);
     process.exitCode = 1;

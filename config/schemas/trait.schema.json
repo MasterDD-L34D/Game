@@ -27,16 +27,19 @@
     "label": {
       "type": "string",
       "minLength": 1,
-      "description": "Nome localizzato del tratto."
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
+      "description": "Nome localizzato del tratto (riferimento i18n o stringa senza spazi di bordo)."
     },
     "famiglia_tipologia": {
       "type": "string",
       "minLength": 1,
-      "description": "Macro-tipologia funzionale (es. Offensivo/Assalto)."
+      "pattern": "^[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+/[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+$",
+      "description": "Macro-tipologia funzionale nel formato <Macro>/<Sotto>."
     },
     "fattore_mantenimento_energetico": {
       "type": "string",
       "minLength": 1,
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
       "description": "Costo narrativo/energetico del tratto."
     },
     "tier": {
@@ -89,16 +92,19 @@
     "mutazione_indotta": {
       "type": "string",
       "minLength": 1,
-      "description": "Descrizione sintetica della mutazione."
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
+      "description": "Descrizione sintetica della mutazione (i18n o stringa ripulita)."
     },
     "uso_funzione": {
       "type": "string",
       "minLength": 1,
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
       "description": "Uso o funzione principale."
     },
     "spinta_selettiva": {
       "type": "string",
       "minLength": 1,
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
       "description": "Motivazione evolutiva o tattica."
     },
     "species_affinity": {
@@ -110,6 +116,7 @@
     },
     "debolezza": {
       "type": "string",
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
       "description": "Limitazioni o vulnerabilità note."
     },
     "sinergie_pi": {
@@ -147,6 +154,178 @@
           "type": "boolean"
         }
       }
+    },
+    "morph_structure": {
+      "type": "string",
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
+      "description": "Descrizione sintetica della struttura morfologica."
+    },
+    "primary_function": {
+      "type": "string",
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
+      "description": "Funzione primaria in linguaggio libero o riferimento i18n."
+    },
+    "cryptozoo_name": {
+      "type": "string",
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
+      "description": "Nome colloquiale o in codice usato sul campo."
+    },
+    "functional_description": {
+      "type": "string",
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$",
+      "description": "Descrizione funzionale estesa."
+    },
+    "metrics": {
+      "type": "array",
+      "description": "Lista di metriche quantitative associate al tratto.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^\\S(?:.*\\S)?$"
+          },
+          "value": {
+            "type": [
+              "number",
+              "string"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9%/._^() -]+$",
+            "description": "Unità UCUM normalizzata (es. m/s, Cel, 1)."
+          },
+          "conditions": {
+            "type": "string",
+            "pattern": "^\\S(?:.*\\S)?$"
+          }
+        }
+      }
+    },
+    "metabolic_cost": {
+      "type": "string",
+      "enum": [
+        "Basso",
+        "Medio",
+        "Alto"
+      ]
+    },
+    "cost_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rest": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "burst": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "sustained": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        }
+      }
+    },
+    "trigger": {
+      "type": "string",
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$"
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\S(?:.*\\S)?$"
+      }
+    },
+    "ecological_impact": {
+      "type": "string",
+      "pattern": "^(i18n:[a-z0-9._]+|\\S(?:.*\\S)?)$"
+    },
+    "output_effects": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\S(?:.*\\S)?$"
+      }
+    },
+    "testability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "observable": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        },
+        "scene_prompt": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        }
+      }
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clades": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\S(?:.*\\S)?$"
+          }
+        },
+        "envo_terms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^http://purl\\.obolibrary\\.org/obo/ENVO_\\d+$"
+          }
+        },
+        "notes": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?(?:\\+[0-9A-Za-z-.]+)?$",
+      "description": "Versione SemVer del tratto."
+    },
+    "versioning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "created",
+        "updated",
+        "author"
+      ],
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        },
+        "author": {
+          "type": "string",
+          "pattern": "^\\S(?:.*\\S)?$"
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "pattern": "^\\S(?:.*\\S)?$"
     }
   },
   "$defs": {
@@ -161,13 +340,13 @@
       "properties": {
         "species_id": {
           "type": "string",
-          "minLength": 1
+          "pattern": "^[a-z0-9_-]+$"
         },
         "roles": {
           "type": "array",
           "items": {
             "type": "string",
-            "minLength": 1
+            "pattern": "^[a-z0-9_]+$"
           }
         },
         "weight": {
@@ -186,11 +365,11 @@
       "properties": {
         "core": {
           "type": "string",
-          "minLength": 1
+          "pattern": "^\\S(?:.*\\S)?$"
         },
         "complementare": {
           "type": "string",
-          "minLength": 1
+          "pattern": "^\\S(?:.*\\S)?$"
         }
       }
     },
@@ -224,7 +403,7 @@
         },
         "fonte": {
           "type": "string",
-          "minLength": 1
+          "pattern": "^[a-z0-9_]+$"
         },
         "meta": {
           "type": "object",
@@ -232,7 +411,7 @@
           "properties": {
             "expansion": {
               "type": "string",
-              "minLength": 1
+              "pattern": "^[a-z0-9_]+$"
             },
             "tier": {
               "type": "string",

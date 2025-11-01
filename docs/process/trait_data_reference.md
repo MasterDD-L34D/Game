@@ -14,6 +14,19 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 | `data/derived/analysis/trait_baseline.yaml` & `data/derived/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL. | Utili per verificare la copertura sui nove assi. |
 | `data/traits/_drafts/*.json` | Bozze generate automaticamente da fonti esterne. | Popolate da `python tools/py/import_external_traits.py`; contengono `completion_flags.external_source = true`. |
 
+## Vincoli sui campi trait
+
+- I campi localizzati (`label`, `mutazione_indotta`, `fattore_mantenimento_energetico`, `uso_funzione`,
+  `spinta_selettiva`, `debolezza`) devono essere riferimenti `i18n:` oppure stringhe senza spazi di bordo.
+- `famiglia_tipologia` mantiene il formato `<Macro>/<Sotto>` con caratteri alfanumerici, spazi o trattini
+  (`Supporto/Logistico`, `Offensivo/Assalto`, ...).
+- I tag (`biome_tags`, `usage_tags`) e `data_origin` utilizzano slug `^[a-z0-9_]+$`.
+- `metrics[].unit` accetta esclusivamente stringhe UCUM (es. `m/s`, `Cel`, `1`) e `metrics[].name` deve
+  essere già ripulito.
+- Le entry `species_affinity` validano sia il formato dello slug (`species_id` supporta trattini) sia i
+  ruoli (`roles[]` con slug `^[a-z0-9_]+$`).
+- `applicability.envo_terms` richiede URI ENVO canonici (`http://purl.obolibrary.org/obo/ENVO_…`).
+
 ## Import da fonti esterne
 
 Per monitorare gli asset consegnati nei canvas e nei drop YAML è disponibile lo script `tools/py/import_external_traits.py`. Il parser utilizza:
@@ -69,7 +82,9 @@ Per modifiche iterative è disponibile l'editor React ospitato nella mission con
    ```bash
    node scripts/build_trait_index.js --output data/traits/index.csv
    ```
-   Il comando supporta anche `--format json` se serve produrre un riepilogo alternativo.
+   Il comando supporta anche `--format json` se serve produrre un riepilogo alternativo e `--traits-dir`
+   per validare dataset di test senza toccare `data/traits/`. Il processo termina con errore se vengono
+   rilevati slug non conformi, UCUM errati o `species_affinity` con specie inesistenti.
 4. **Aggiornare le regole ambientali** – se necessario, associare il tratto in `packs/evo_tactics_pack/docs/catalog/env_traits.json`.
 5. **Rigenerare la baseline** – eseguire:
    ```bash
@@ -88,6 +103,8 @@ Per modifiche iterative è disponibile l'editor React ospitato nella mission con
      --out-json data/derived/analysis/trait_coverage_report.json \
      --out-csv data/derived/analysis/trait_coverage_matrix.csv
    ```
+   Lo script esce con codice diverso da zero se le entry `species_affinity` del catalogo fanno
+   riferimento a specie non presenti nel repository o se i ruoli non rispettano lo slug richiesto.
 7. **Analizzare i gap rispetto ai dati ETL** – usare:
    ```bash
    python tools/analysis/trait_gap_report.py \
