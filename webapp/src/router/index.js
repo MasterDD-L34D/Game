@@ -7,6 +7,7 @@ const enableLegacyRoutes = import.meta.env.VITE_ENABLE_LEGACY_CONSOLE_ROUTES ===
 const ConsoleLayout = () => import('../layouts/ConsoleLayout.vue');
 const ConsoleHubView = () => import('../views/ConsoleHubView.vue');
 const FlowShellView = () => import('../views/FlowShellView.vue');
+const TraitEditorView = () => import('../views/traits/TraitEditorView.vue');
 const AtlasLayout = () => import('../layouts/AtlasLayout.vue');
 const AtlasOverviewView = () => import('../views/atlas/AtlasOverviewView.vue');
 const AtlasPokedexView = () => import('../views/atlas/AtlasPokedexView.vue');
@@ -90,6 +91,22 @@ export function createAppRouter({ base, history } = {}) {
             breadcrumb: { label: 'Workflow Orchestrator' },
             stateTokens: [
               { id: 'flow-live', label: 'Pipeline live', variant: 'info', icon: '⟳' },
+            ],
+          },
+        },
+        {
+          path: 'traits/:traitId?',
+          name: 'console-traits-editor',
+          component: TraitEditorView,
+          props: (route) => ({
+            traitId: typeof route.params.traitId === 'string' ? route.params.traitId : undefined,
+          }),
+          meta: {
+            title: 'Trait Editor',
+            description: 'Editor schema-driven per aggiornare i tratti Nebula.',
+            breadcrumb: { label: 'Trait Editor' },
+            stateTokens: [
+              { id: 'traits-editor', label: 'Dataset live', variant: 'warning', icon: '✎' },
             ],
           },
         },

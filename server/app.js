@@ -14,6 +14,7 @@ const {
 const { createGenerationSnapshotStore } = require('./services/generationSnapshotStore');
 const { createNebulaRouter, createAtlasV1Router } = require('./routes/nebula');
 const { createGenerationRouter, createGenerationRoutes } = require('./routes/generation');
+const { createTraitRouter } = require('./routes/traits');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
@@ -457,6 +458,12 @@ function createApp(options = {}) {
 
   app.get('/api/traits/diagnostics', handleTraitDiagnostics);
   app.get('/api/v1/traits/diagnostics', handleTraitDiagnostics);
+
+  const traitRouterOptions = {
+    dataRoot,
+    ...(options.traits || {}),
+  };
+  app.use('/api/traits', createTraitRouter(traitRouterOptions));
 
   app.get('/api/deployments/status', async (req, res) => {
     try {

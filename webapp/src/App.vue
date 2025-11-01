@@ -54,6 +54,12 @@ const mainLinks = computed(() => {
       active: currentName === 'console-flow',
     },
     {
+      name: 'console-traits-editor',
+      to: { name: 'console-traits-editor' },
+      label: 'Trait Editor',
+      active: currentName ? String(currentName).startsWith('console-traits-editor') : false,
+    },
+    {
       name: 'console-atlas',
       to: { name: 'console-atlas-overview' },
       label: 'Nebula Atlas',

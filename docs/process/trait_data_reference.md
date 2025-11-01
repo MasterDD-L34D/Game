@@ -42,6 +42,25 @@ Lo step richiama l'importer prima di eseguire le verifiche esistenti, così da p
 
 ## Workflow di aggiornamento
 
+### Editor schema-driven
+
+Per modifiche iterative è disponibile l'editor React ospitato nella mission console (`/console/traits`). Il modulo monta un form dinamico generato da `config/schemas/trait.schema.json` e valida ogni modifica sia lato client (AJV) sia lato server.
+
+1. Avviare l'API locale esportando un token di scrittura (obbligatorio in produzione):
+   ```bash
+   export TRAIT_EDITOR_TOKEN="<token-segreto>"
+   npm run start:api
+   ```
+2. In una seconda shell, avviare la webapp:
+   ```bash
+   npm --prefix webapp install   # solo al primo avvio
+   npm --prefix webapp run dev
+   ```
+3. Aprire `http://localhost:5173/console/traits` e inserire il token nel pannello laterale. Tutte le richieste inviano sia `X-Trait-Editor-Token` sia `Authorization: Bearer` con il valore fornito.
+4. Ogni salvataggio crea una copia della versione precedente in `data/traits/_versions/<trait_id>/<timestamp>.json` prima di sovrascrivere il file canonico.
+
+### Percorso manuale
+
 1. **Allineare il glossario** – aggiungere o aggiornare le voci in `data/core/traits/glossary.json`, assicurandosi che `trait_reference` punti a `data/traits/index.json`.
 2. **Aggiornare il trait reference** – editare `data/traits/index.json` e sincronizzare le copie in `docs/evo-tactics-pack/trait-reference.json` **e** `packs/evo_tactics_pack/docs/catalog/trait_reference.json`.
    - Popolare i campi obbligatori: `tier`, `slot`, `slot_profile`, `sinergie`, `conflitti`, `requisiti_ambientali`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `debolezza`.

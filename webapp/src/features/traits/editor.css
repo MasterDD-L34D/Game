@@ -1,0 +1,372 @@
+.trait-editor {
+  display: grid;
+  grid-template-columns: minmax(18rem, 22rem) 1fr;
+  gap: 2rem;
+  color: #0f172a;
+}
+
+.trait-editor__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: rgba(241, 245, 249, 0.9);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+.trait-editor__token h2,
+.trait-editor__list-header h2,
+.trait-editor__header h1 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #1e293b;
+}
+
+.trait-editor__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.trait-editor__field span:first-child {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.trait-editor__field input,
+.trait-editor__field select,
+.trait-editor__field textarea {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  padding: 0.55rem 0.85rem;
+  background: #fff;
+  font: inherit;
+  color: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trait-editor__field input:focus,
+.trait-editor__field select:focus,
+.trait-editor__field textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.trait-editor__field--textarea textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.trait-editor__field--checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.trait-editor__field--checkbox input {
+  width: 1rem;
+  height: 1rem;
+}
+
+.trait-editor__description {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.trait-editor__toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+}
+
+.trait-editor__list-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trait-editor__list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trait-editor__list button {
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  padding: 0.75rem 0.85rem;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.trait-editor__list button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16);
+  border-color: rgba(37, 99, 235, 0.45);
+}
+
+.trait-editor__list button.active {
+  border-color: rgba(37, 99, 235, 0.55);
+  box-shadow: 0 14px 32px rgba(37, 99, 235, 0.25);
+}
+
+.trait-editor__entry-label {
+  font-weight: 600;
+}
+
+.trait-editor__entry-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.trait-editor__entry-meta code {
+  background: rgba(15, 23, 42, 0.08);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.5rem;
+}
+
+.trait-editor__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: rgba(15, 23, 42, 0.85);
+  color: #e2e8f0;
+  border-radius: 1.75rem;
+  padding: 2rem;
+  box-shadow: 0 18px 44px rgba(2, 6, 23, 0.55);
+}
+
+.trait-editor__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.trait-editor__header code {
+  background: rgba(148, 163, 184, 0.15);
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.45rem;
+}
+
+.trait-editor__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.trait-editor__actions button {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(15, 23, 42, 0.6);
+  color: inherit;
+  padding: 0.55rem 1.4rem;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.trait-editor__actions button.primary {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.85), rgba(14, 165, 233, 0.75));
+  border-color: transparent;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.trait-editor__actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.trait-editor__actions button:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+.trait-editor__status {
+  border-radius: 1rem;
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+}
+
+.trait-editor__status--success {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #bbf7d0;
+}
+
+.trait-editor__status--error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  color: #fecaca;
+}
+
+.trait-editor__status--info {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  color: #bfdbfe;
+}
+
+.trait-editor__content {
+  background: rgba(15, 23, 42, 0.75);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.trait-editor__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
+  gap: 1.75rem;
+}
+
+.trait-editor__form {
+  display: grid;
+  gap: 1rem;
+}
+
+.trait-editor__fieldset {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.trait-editor__fieldset legend {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.trait-editor__fieldset-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.trait-editor__array {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.trait-editor__field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trait-editor__field-header button {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.55);
+  color: inherit;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.trait-editor__remove {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+  border: none;
+  background: transparent;
+  color: rgba(248, 113, 113, 0.85);
+  cursor: pointer;
+}
+
+.trait-editor__preview {
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 70vh;
+  overflow: hidden;
+}
+
+.trait-editor__preview header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.trait-editor__preview header span.valid {
+  color: #34d399;
+}
+
+.trait-editor__preview header span.invalid {
+  color: #f87171;
+}
+
+.trait-editor__preview pre {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.85);
+  font-size: 0.8rem;
+  color: #e2e8f0;
+  overflow: auto;
+}
+
+.trait-editor__message {
+  margin: 0;
+}
+
+.trait-editor__message--error {
+  color: #dc2626;
+}
+
+.trait-editor__message--muted {
+  color: rgba(226, 232, 240, 0.65);
+}
+
+.trait-editor__errors {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: #fca5a5;
+}
+
+@media (max-width: 1200px) {
+  .trait-editor {
+    grid-template-columns: 1fr;
+  }
+
+  .trait-editor__sidebar {
+    position: sticky;
+    top: 1rem;
+  }
+
+  .trait-editor__layout {
+    grid-template-columns: 1fr;
+  }
+}

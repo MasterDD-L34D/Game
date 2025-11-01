@@ -17,6 +17,7 @@
     "webapp:qa": "npm --prefix webapp run qa"
   },
   "dependencies": {
+    "ajv": "^8.17.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "js-yaml": "^4.1.0",
