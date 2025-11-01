@@ -2,12 +2,12 @@
   "conflitti": [
     "aura_scudo_radianza"
   ],
-  "debolezza": "Vulnerabile a scariche di freddo gravitazionale che irrigidiscono il mantello.",
+  "debolezza": "i18n:traits.mantello_meteoritico.debolezza",
   "famiglia_tipologia": "Difesa/Termoregolazione",
-  "fattore_mantenimento_energetico": "Alto (Rivestimento ablativo rigenerante)",
+  "fattore_mantenimento_energetico": "i18n:traits.mantello_meteoritico.fattore_mantenimento_energetico",
   "id": "mantello_meteoritico",
-  "label": "Mantello Meteoritico",
-  "mutazione_indotta": "Deposita strati sovrapposti di materiale meteorico che vaporizzano l'impatto e rilasciano radianza.",
+  "label": "i18n:traits.mantello_meteoritico.label",
+  "mutazione_indotta": "i18n:traits.mantello_meteoritico.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [
@@ -39,7 +39,7 @@
     "complementare": "termico",
     "core": "difesa"
   },
-  "spinta_selettiva": "Sopravvivere a bombardamenti planari e piogge di meteore dimensionali.",
+  "spinta_selettiva": "i18n:traits.mantello_meteoritico.spinta_selettiva",
   "tier": "T3",
-  "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi."
+  "uso_funzione": "i18n:traits.mantello_meteoritico.uso_funzione"
 }

@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'.",
+  "debolezza": "i18n:traits.filamenti_digestivi_compattanti.debolezza",
   "famiglia_tipologia": "Digestivo/Escretorio",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.filamenti_digestivi_compattanti.fattore_mantenimento_energetico",
   "id": "filamenti_digestivi_compattanti",
-  "label": "Filamento materiali digeriti",
-  "mutazione_indotta": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
+  "label": "i18n:traits.filamenti_digestivi_compattanti.label",
+  "mutazione_indotta": "i18n:traits.filamenti_digestivi_compattanti.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -59,7 +59,7 @@
     "complementare": "escretorio",
     "core": "digestivo"
   },
-  "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
+  "spinta_selettiva": "i18n:traits.filamenti_digestivi_compattanti.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "Espulsione compatta e ordinata di scorie."
+  "uso_funzione": "i18n:traits.filamenti_digestivi_compattanti.uso_funzione"
 }

@@ -1,8 +1,8 @@
 {
   "id": "executive_loop",
-  "label": "Executive Loop",
+  "label": "i18n:traits.executive_loop.label",
   "famiglia_tipologia": "TODO/import_esterno",
-  "fattore_mantenimento_energetico": "Da definire (import esterno)",
+  "fattore_mantenimento_energetico": "i18n:traits.executive_loop.fattore_mantenimento_energetico",
   "tier": "T6",
   "slot": [],
   "slot_profile": {
@@ -11,9 +11,9 @@
   },
   "sinergie": [],
   "conflitti": [],
-  "mutazione_indotta": "Concatena 1 azione gratuita di 'focus' o 'memorizza' tra due compiti.",
-  "uso_funzione": "Tier Proto‑Umano (T6). Richiede neuroni: WA 05, WH 06, Intelligence_Core",
-  "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
+  "mutazione_indotta": "i18n:traits.executive_loop.mutazione_indotta",
+  "uso_funzione": "i18n:traits.executive_loop.uso_funzione",
+  "spinta_selettiva": "i18n:traits.executive_loop.spinta_selettiva",
   "completion_flags": {
     "external_source": true
   },

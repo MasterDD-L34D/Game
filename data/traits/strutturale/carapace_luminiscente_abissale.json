@@ -2,12 +2,12 @@
   "conflitti": [
     "carapace_fase_variabile"
   ],
-  "debolezza": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile.",
+  "debolezza": "i18n:traits.carapace_luminiscente_abissale.debolezza",
   "famiglia_tipologia": "Strutturale/Sensoriale",
-  "fattore_mantenimento_energetico": "Alto (Bioluminescenza controllata)",
+  "fattore_mantenimento_energetico": "i18n:traits.carapace_luminiscente_abissale.fattore_mantenimento_energetico",
   "id": "carapace_luminiscente_abissale",
-  "label": "Carapace Luminiscente Abissale",
-  "mutazione_indotta": "Placche chitino-minerali con microrganismi luminescenti che comunicano in pattern.",
+  "label": "i18n:traits.carapace_luminiscente_abissale.label",
+  "mutazione_indotta": "i18n:traits.carapace_luminiscente_abissale.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -46,7 +46,7 @@
     "complementare": "sensoriale",
     "core": "strutturale"
   },
-  "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
+  "spinta_selettiva": "i18n:traits.carapace_luminiscente_abissale.spinta_selettiva",
   "tier": "T3",
-  "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+  "uso_funzione": "i18n:traits.carapace_luminiscente_abissale.uso_funzione"
 }

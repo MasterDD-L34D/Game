@@ -2,12 +2,12 @@
   "conflitti": [
     "zampe_a_molla"
   ],
-  "debolezza": "Suoli cedevoli come sabbie mobili annullano la vibrazione e riducono la trazione.",
+  "debolezza": "i18n:traits.zoccoli_risonanti_steppe.debolezza",
   "famiglia_tipologia": "Locomotorio/Supporto",
-  "fattore_mantenimento_energetico": "Basso (Vibrazione passiva del suolo)",
+  "fattore_mantenimento_energetico": "i18n:traits.zoccoli_risonanti_steppe.fattore_mantenimento_energetico",
   "id": "zoccoli_risonanti_steppe",
-  "label": "Zoccoli Risonanti delle Steppe",
-  "mutazione_indotta": "Placche cornee cave che emettono onde sismiche ritmiche al contatto con il terreno.",
+  "label": "i18n:traits.zoccoli_risonanti_steppe.label",
+  "mutazione_indotta": "i18n:traits.zoccoli_risonanti_steppe.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "supporto",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
+  "spinta_selettiva": "i18n:traits.zoccoli_risonanti_steppe.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
+  "uso_funzione": "i18n:traits.zoccoli_risonanti_steppe.uso_funzione"
 }

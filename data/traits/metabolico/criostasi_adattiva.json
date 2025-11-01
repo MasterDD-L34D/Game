@@ -3,12 +3,12 @@
     "sangue_piroforico",
     "sacche_galleggianti_ascensoriali"
   ],
-  "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi.",
+  "debolezza": "i18n:traits.criostasi_adattiva.debolezza",
   "famiglia_tipologia": "Metabolico/Difensivo",
-  "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
+  "fattore_mantenimento_energetico": "i18n:traits.criostasi_adattiva.fattore_mantenimento_energetico",
   "id": "criostasi_adattiva",
-  "label": "Criostasi",
-  "mutazione_indotta": "Sviluppo di enzimi crioprotettivi e tessuto adiposo isolante.",
+  "label": "i18n:traits.criostasi_adattiva.label",
+  "mutazione_indotta": "i18n:traits.criostasi_adattiva.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -49,7 +49,7 @@
     "complementare": "difensivo",
     "core": "metabolico"
   },
-  "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
+  "spinta_selettiva": "i18n:traits.criostasi_adattiva.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
+  "uso_funzione": "i18n:traits.criostasi_adattiva.uso_funzione"
 }

@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
+  "debolezza": "i18n:traits.carapace_segmenti_logici.debolezza",
   "famiglia_tipologia": "Digestivo/Metabolico",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.carapace_segmenti_logici.fattore_mantenimento_energetico",
   "id": "carapace_segmenti_logici",
-  "label": "Carapace Segmenti Logici",
-  "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
+  "label": "i18n:traits.carapace_segmenti_logici.label",
+  "mutazione_indotta": "i18n:traits.carapace_segmenti_logici.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "energia",
     "core": "metabolico"
   },
-  "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
+  "spinta_selettiva": "i18n:traits.carapace_segmenti_logici.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+  "uso_funzione": "i18n:traits.carapace_segmenti_logici.uso_funzione"
 }

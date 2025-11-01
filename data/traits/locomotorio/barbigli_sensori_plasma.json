@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+  "debolezza": "i18n:traits.barbigli_sensori_plasma.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.barbigli_sensori_plasma.fattore_mantenimento_energetico",
   "id": "barbigli_sensori_plasma",
-  "label": "Barbigli Sensori Plasma",
-  "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+  "label": "i18n:traits.barbigli_sensori_plasma.label",
+  "mutazione_indotta": "i18n:traits.barbigli_sensori_plasma.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "mobilita",
     "core": "locomotorio"
   },
-  "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+  "spinta_selettiva": "i18n:traits.barbigli_sensori_plasma.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+  "uso_funzione": "i18n:traits.barbigli_sensori_plasma.uso_funzione"
 }

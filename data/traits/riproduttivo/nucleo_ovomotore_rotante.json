@@ -2,12 +2,12 @@
   "conflitti": [
     "secrezione_rallentante_palmi"
   ],
-  "debolezza": "Impossibilità di muoversi su superfici irregolari o in salita ripida.",
+  "debolezza": "i18n:traits.nucleo_ovomotore_rotante.debolezza",
   "famiglia_tipologia": "Riproduttivo/Locomotorio",
-  "fattore_mantenimento_energetico": "Alto (Rotolamento)",
+  "fattore_mantenimento_energetico": "i18n:traits.nucleo_ovomotore_rotante.fattore_mantenimento_energetico",
   "id": "nucleo_ovomotore_rotante",
-  "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
-  "mutazione_indotta": "Massa globulare rigida con giunto sferico al centro del petto.",
+  "label": "i18n:traits.nucleo_ovomotore_rotante.label",
+  "mutazione_indotta": "i18n:traits.nucleo_ovomotore_rotante.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -33,7 +33,7 @@
     "complementare": "locomotorio",
     "core": "riproduttivo"
   },
-  "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
+  "spinta_selettiva": "i18n:traits.nucleo_ovomotore_rotante.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento."
+  "uso_funzione": "i18n:traits.nucleo_ovomotore_rotante.uso_funzione"
 }

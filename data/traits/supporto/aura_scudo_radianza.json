@@ -2,12 +2,12 @@
   "conflitti": [
     "mantello_meteoritico"
   ],
-  "debolezza": "Soffre saturazione se esposta a ombre gravitazionali o zone di antimagia.",
+  "debolezza": "i18n:traits.aura_scudo_radianza.debolezza",
   "famiglia_tipologia": "Supporto/Difesa",
-  "fattore_mantenimento_energetico": "Alto (Canalizzazione fotonica continua)",
+  "fattore_mantenimento_energetico": "i18n:traits.aura_scudo_radianza.fattore_mantenimento_energetico",
   "id": "aura_scudo_radianza",
-  "label": "Aura Scudo di Radianza",
-  "mutazione_indotta": "Innesta organi fotoplasmatici che diffondono uno scudo radiante sugli alleati vicini.",
+  "label": "i18n:traits.aura_scudo_radianza.label",
+  "mutazione_indotta": "i18n:traits.aura_scudo_radianza.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [
@@ -39,7 +39,7 @@
     "complementare": "difesa",
     "core": "supporto"
   },
-  "spinta_selettiva": "Proteggere gli hub di evacuazione durante tempeste di energia planare.",
+  "spinta_selettiva": "i18n:traits.aura_scudo_radianza.spinta_selettiva",
   "tier": "T3",
-  "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra."
+  "uso_funzione": "i18n:traits.aura_scudo_radianza.uso_funzione"
 }

@@ -2,12 +2,12 @@
   "conflitti": [
     "polmoni_cristallini_alta_quota"
   ],
-  "debolezza": "Richiede accesso costante ad acqua salmastra; ambienti d'acqua dolce provocano stress ionico.",
+  "debolezza": "i18n:traits.branchie_osmotiche_salmastra.debolezza",
   "famiglia_tipologia": "Respiratorio/Osmoregolazione",
-  "fattore_mantenimento_energetico": "Medio (Pompe ioniche attive)",
+  "fattore_mantenimento_energetico": "i18n:traits.branchie_osmotiche_salmastra.fattore_mantenimento_energetico",
   "id": "branchie_osmotiche_salmastra",
-  "label": "Branchie Osmotiche Salmastre",
-  "mutazione_indotta": "Lamelle branchiali multilivello con valvole che separano sali e tossine.",
+  "label": "i18n:traits.branchie_osmotiche_salmastra.label",
+  "mutazione_indotta": "i18n:traits.branchie_osmotiche_salmastra.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -44,7 +44,7 @@
     "complementare": "osmoregolazione",
     "core": "respiratorio"
   },
-  "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
+  "spinta_selettiva": "i18n:traits.branchie_osmotiche_salmastra.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente."
+  "uso_funzione": "i18n:traits.branchie_osmotiche_salmastra.uso_funzione"
 }

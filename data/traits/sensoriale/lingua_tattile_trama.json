@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
+  "debolezza": "i18n:traits.lingua_tattile_trama.debolezza",
   "famiglia_tipologia": "Sensoriale/Alimentare",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.lingua_tattile_trama.fattore_mantenimento_energetico",
   "id": "lingua_tattile_trama",
-  "label": "Lingua Tattile Trama-Sensibile",
-  "mutazione_indotta": "Lingua sottile con papille tattili e meccanocettori avanzati.",
+  "label": "i18n:traits.lingua_tattile_trama.label",
+  "mutazione_indotta": "i18n:traits.lingua_tattile_trama.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -33,7 +33,7 @@
     "complementare": "alimentare",
     "core": "sensoriale"
   },
-  "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
+  "spinta_selettiva": "i18n:traits.lingua_tattile_trama.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+  "uso_funzione": "i18n:traits.lingua_tattile_trama.uso_funzione"
 }

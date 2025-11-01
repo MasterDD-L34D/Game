@@ -1,11 +1,11 @@
 {
   "conflitti": [],
-  "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
+  "debolezza": "i18n:traits.lamelle_sincroniche.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "Basso (Passivo)",
+  "fattore_mantenimento_energetico": "i18n:traits.lamelle_sincroniche.fattore_mantenimento_energetico",
   "id": "lamelle_sincroniche",
-  "label": "Lamelle Sincroniche",
-  "mutazione_indotta": "integra organi ponte che mediano scambi nutrizionali e psionici.",
+  "label": "i18n:traits.lamelle_sincroniche.label",
+  "mutazione_indotta": "i18n:traits.lamelle_sincroniche.mutazione_indotta",
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -35,7 +35,7 @@
     "complementare": "cooperazione",
     "core": "simbiotico"
   },
-  "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
+  "spinta_selettiva": "i18n:traits.lamelle_sincroniche.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+  "uso_funzione": "i18n:traits.lamelle_sincroniche.uso_funzione"
 }
