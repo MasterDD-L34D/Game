@@ -1,101 +1,119 @@
-import { describe, expect, it, beforeEach, vi } from 'vitest';
-import { computed, ref } from 'vue';
+import { describe, expect, it, vi } from 'vitest';
+import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
+import NebulaAtlasView from '../../webapp/src/views/NebulaAtlasView.vue';
 
-import AtlasTelemetryView from '../../webapp/src/views/atlas/AtlasTelemetryView.vue';
-
-const refreshMock = vi.fn();
-const activateDemoMock = vi.fn();
-
-vi.mock('../../webapp/src/modules/useNebulaProgressModule', () => ({
-  useNebulaProgressModule: () => ({
-    datasetStatus: computed(() => ({
-      source: 'remote',
-      label: 'Dataset live',
-      demo: false,
-    })),
-    telemetryStatus: computed(() => ({
-      mode: 'live',
-      label: 'Telemetria live',
-      offline: false,
-      demo: false,
-    })),
-    error: computed(() => ({ message: null })),
-    telemetrySummary: computed(() => ({
-      total: 12,
-      open: 3,
-      acknowledged: 7,
-      highPriority: 2,
-      lastEventLabel: 'Aggiornato 5m fa',
-    })),
-    telemetryStreams: computed(() => ({
-      coverage: [62, 68, 74, 81],
-      incidents: [1, 0, 2, 1],
-      highPriority: [0, 1, 1, 0],
-    })),
-    telemetryDistribution: computed(() => ({
-      success: 5,
-      warning: 2,
-      neutral: 3,
-      critical: 2,
-    })),
-    telemetryCoverageAverage: computed(() => 78),
-    generatorStatus: computed(() => ({
-      status: 'success',
-      label: 'Generatore online',
-      generatedAt: '2035-04-01T12:00:00Z',
-    })),
-    generatorMetrics: computed(() => ({
-      generationTimeMs: 512,
-      speciesTotal: 24,
-      enrichedSpecies: 16,
-      eventTotal: 4,
-      datasetSpeciesTotal: 40,
-      coverageAverage: 78,
-      coreTraits: 48,
-      optionalTraits: 22,
-      synergyTraits: 12,
-    })),
-    generatorStreams: computed(() => ({
-      generationTime: [420, 480, 512],
-      species: [18, 22, 24],
-      enriched: [10, 14, 16],
-    })),
-    refresh: refreshMock,
-    activateDemoTelemetry: activateDemoMock,
-    loading: ref(false),
-    lastUpdated: ref('2035-04-01T12:00:00Z'),
-  }),
-}));
-
-describe('AtlasTelemetryView', () => {
-  beforeEach(() => {
-    refreshMock.mockClear();
-    activateDemoMock.mockClear();
-  });
-
-  it('visualizza metriche principali e consente il refresh manuale', async () => {
-    const wrapper = mount(AtlasTelemetryView, {
-      global: {
-        stubs: {
-          SparklineChart: {
-            props: ['points'],
-            template: "<div class=\"sparkline-stub\">{{ points.join(',') }}</div>",
+function createFetchStub() {
+  return vi.fn(async () => ({
+    ok: true,
+    async json() {
+      return {
+        dataset: {
+          id: 'nebula-test',
+          title: 'Nebula Test',
+          summary: 'Dataset di test per la vista live.',
+          releaseWindow: 'Test Window',
+          curator: 'Unit Test',
+          species: [
+            {
+              id: 'species-1',
+              name: 'Specie Test',
+              readiness: 'Pronto',
+              telemetry: {
+                coverage: 0.82,
+                lastValidation: '2024-05-18T08:00:00Z',
+                curatedBy: 'QA Core',
+              },
+            },
+          ],
+        },
+        telemetry: {
+          summary: {
+            totalEvents: 6,
+            openEvents: 2,
+            acknowledgedEvents: 4,
+            highPriorityEvents: 1,
+            lastEventAt: '2024-05-18T10:30:00Z',
+          },
+          coverage: {
+            average: 78,
+            history: [60, 70, 80],
+            distribution: { success: 3, warning: 1, neutral: 1, critical: 0 },
+          },
+          incidents: {
+            timeline: [
+              { date: '2024-05-12', total: 1, highPriority: 0 },
+              { date: '2024-05-13', total: 2, highPriority: 1 },
+              { date: '2024-05-14', total: 1, highPriority: 0 },
+            ],
+          },
+          updatedAt: '2024-05-18T10:45:00Z',
+          sample: [],
+        },
+        generator: {
+          status: 'success',
+          label: 'Generatore online',
+          generatedAt: '2024-05-18T10:40:00Z',
+          updatedAt: '2024-05-18T10:46:00Z',
+          sourceLabel: 'Generator telemetry',
+          metrics: {
+            generationTimeMs: 420,
+            speciesTotal: 12,
+            enrichedSpecies: 8,
+            eventTotal: 3,
+            datasetSpeciesTotal: 6,
+            coverageAverage: 78,
+            coreTraits: 24,
+            optionalTraits: 11,
+            synergyTraits: 8,
+            expectedCoreTraits: 22,
+          },
+          streams: {
+            generationTime: [300, 340, 360, 390, 410, 420],
+            species: [6, 7, 8, 9, 11, 12],
+            enriched: [3, 4, 5, 6, 7, 8],
           },
         },
-      },
-    });
+      };
+    },
+  })) as unknown as typeof fetch;
+}
 
-    expect(wrapper.find('h2').text()).toBe('Telemetria Nebula');
-    expect(wrapper.text()).toContain('Eventi totali');
-    expect(wrapper.text()).toContain('Distribuzione readiness');
+describe('NebulaAtlasView', () => {
+  it('renderizza indicatori live e snapshot coerente', async () => {
+    const originalFetch = global.fetch;
+    const fetchStub = createFetchStub();
+    global.fetch = fetchStub;
+    const dateSpy = vi.spyOn(Date, 'now').mockReturnValue(new Date('2024-05-18T11:00:00Z').getTime());
 
-    const [refreshButton, demoButton] = wrapper.findAll('button');
-    await refreshButton.trigger('click');
-    await demoButton.trigger('click');
+    try {
+      const wrapper = mount(NebulaAtlasView, {
+        global: {
+          stubs: {
+            NebulaProgressModule: {
+              template: '<section class="stub-progress">progress</section>',
+            },
+            SparklineChart: {
+              props: ['points'],
+              template: '<div class="sparkline-stub">{{ points.join(",") }}</div>',
+            },
+          },
+        },
+      });
 
-    expect(refreshMock).toHaveBeenCalledTimes(1);
-    expect(activateDemoMock).toHaveBeenCalledTimes(1);
-    expect(wrapper.html()).toMatchSnapshot();
+      await nextTick();
+      await Promise.resolve();
+      await nextTick();
+      await Promise.resolve();
+      expect(wrapper.text()).toContain('Telemetria live');
+      expect(wrapper.text()).toContain('Generatore Nebula');
+      expect(wrapper.text()).toContain('LIVE');
+      expect(wrapper.html()).toMatchSnapshot();
+      expect(fetchStub).toHaveBeenCalled();
+      wrapper.unmount();
+    } finally {
+      global.fetch = originalFetch;
+      dateSpy.mockRestore();
+    }
   });
 });
