@@ -1,10 +1,10 @@
 <template>
-  <section class="flow-view">
-    <header class="flow-view__header">
+  <section class="species-view">
+    <header class="species-view__header">
       <h2>Specie prioritario</h2>
       <p>Curazione attuale e shortlist degli organismi selezionati.</p>
     </header>
-    <div class="flow-view__content">
+    <div class="species-view__layout">
       <SpeciesPanel
         :species="species"
         :meta="meta"
@@ -12,103 +12,128 @@
         :trait-catalog="traitCatalog"
         :trait-compliance="traitCompliance"
       />
-      <aside class="flow-view__sidebar">
-        <PokedexSpeciesCard title="Stato curazione" icon="🧬" tone="success">
-          <div class="flow-view__metrics">
-            <PokedexTelemetryBadge label="Curate" :value="curated" tone="success" />
-            <PokedexTelemetryBadge label="Candidate" :value="total" tone="warning" />
-            <PokedexTelemetryBadge label="Copertura" :value="`${coveragePercent}%`" tone="success" />
+      <InsightCard
+        v-model="activeSidebarTab"
+        class="species-view__card"
+        icon="🛰"
+        title="Orchestrator insight"
+        :tabs="sidebarTabs"
+      >
+        <template #tab-overview>
+          <div class="species-view__progress" v-if="telemetryProgress.length">
+            <TelemetryProgressBar
+              v-for="entry in telemetryProgress"
+              :key="entry.id"
+              :label="entry.label"
+              :current="entry.current"
+              :total="entry.total"
+              :percent="entry.percent"
+              :value="entry.value"
+              :description="entry.description"
+            />
           </div>
-        </PokedexSpeciesCard>
+          <p v-else class="species-view__empty">Nessuna telemetria disponibile.</p>
+          <div class="species-view__meta" v-if="requestSummary || shortlist.length">
+            <dl v-if="requestSummary" class="species-view__request">
+              <div>
+                <dt>ID orchestrator</dt>
+                <dd>{{ requestSummary.id }}</dd>
+              </div>
+              <div>
+                <dt>Bioma</dt>
+                <dd>{{ requestSummary.biome }}</dd>
+              </div>
+              <div>
+                <dt>Fallback</dt>
+                <dd>{{ requestSummary.fallback }}</dd>
+              </div>
+            </dl>
+            <div v-if="shortlist.length" class="species-view__shortlist">
+              <h4>Shortlist</h4>
+              <ul>
+                <li v-for="item in shortlist" :key="item">{{ item }}</li>
+              </ul>
+            </div>
+          </div>
+          <p v-if="errorMessage" class="species-view__error" role="alert">{{ errorMessage }}</p>
+        </template>
 
-        <PokedexSpeciesCard title="Shortlist" icon="📋">
-          <ul class="pokedex-card__list">
-            <li v-if="!shortlist.length">Nessuna shortlist disponibile.</li>
-            <li v-for="item in shortlist" :key="item">{{ item }}</li>
-          </ul>
-        </PokedexSpeciesCard>
-
-        <PokedexSpeciesCard v-if="requestSummary" title="Richiesta orchestrator" icon="🛰">
-          <ul class="pokedex-card__list">
-            <li><strong>ID:</strong> {{ requestSummary.id }}</li>
-            <li><strong>Bioma:</strong> {{ requestSummary.biome }}</li>
-            <li><strong>Fallback:</strong> {{ requestSummary.fallback }}</li>
-          </ul>
-        </PokedexSpeciesCard>
-
-        <PokedexSpeciesCard :tone="validationTone" title="Validazione runtime" icon="🧪">
-          <template #badge>
-            <PokedexTelemetryBadge label="Messaggi" :value="validationDetails.total" :tone="validationTone" />
-          </template>
-          <template v-if="validationDetails.total">
-            <p class="flow-view__text">Blueprint curato con risultati runtime.</p>
-            <ul class="pokedex-card__badge-list">
-              <li v-if="validationDetails.errors" class="pokedex-card__badge-item">
-                <span class="pokedex-card__badge-label" data-tone="critical">Errori</span>
-                <span class="pokedex-card__badge-value">{{ validationDetails.errors }}</span>
-              </li>
-              <li v-if="validationDetails.warnings" class="pokedex-card__badge-item">
-                <span class="pokedex-card__badge-label" data-tone="warning">Warning</span>
-                <span class="pokedex-card__badge-value">{{ validationDetails.warnings }}</span>
-              </li>
-              <li v-if="validationDetails.corrected" class="pokedex-card__badge-item">
-                <span class="pokedex-card__badge-label" data-tone="success">Correzioni</span>
-                <span class="pokedex-card__badge-value">{{ validationDetails.corrected }}</span>
-              </li>
-              <li v-if="validationDetails.discarded" class="pokedex-card__badge-item">
-                <span class="pokedex-card__badge-label" data-tone="critical">Scartati</span>
-                <span class="pokedex-card__badge-value">{{ validationDetails.discarded }}</span>
+        <template #tab-synergy>
+          <div v-if="synergyHighlights.length" class="species-view__synergy">
+            <div v-for="highlight in synergyHighlights" :key="highlight.id" class="species-view__synergy-card">
+              <header>
+                <TraitChip :label="highlight.label" variant="synergy" />
+                <span v-if="highlight.summary">{{ highlight.summary }}</span>
+              </header>
+              <ul v-if="highlight.items.length">
+                <li v-for="traitId in highlight.items" :key="traitId">
+                  <TraitChip :label="formatTraitLabel(traitId)" variant="trait" />
+                </li>
+              </ul>
+            </div>
+          </div>
+          <p v-else class="species-view__empty">Nessuna sinergia registrata nel catalogo.</p>
+          <div v-if="traitComplianceBadges.length" class="species-view__compliance">
+            <h4>Trait QA snapshot</h4>
+            <ul>
+              <li v-for="badge in traitComplianceBadges" :key="badge.id">
+                <span :data-tone="badge.tone || 'neutral'">{{ badge.label }}</span>
+                <strong>{{ badge.value }}</strong>
               </li>
             </ul>
-            <ul class="flow-view__validation">
+            <p v-if="traitComplianceTimestamp" class="species-view__timestamp">Aggiornato {{ traitComplianceTimestamp }}</p>
+          </div>
+        </template>
+
+        <template #tab-qa>
+          <div class="species-view__qa">
+            <header>
+              <h4>Validazione runtime</h4>
+              <span :data-tone="validationTone">{{ validationDetails.total }} messaggi</span>
+            </header>
+            <p v-if="validationDetails.total" class="species-view__qa-text">
+              Blueprint curato con risultati runtime. Anteprima dei primi tre eventi.
+            </p>
+            <p v-else class="species-view__qa-text">Nessun messaggio dai validator per l'ultima generazione.</p>
+            <ul v-if="validationDetails.total" class="species-view__qa-messages">
               <li v-for="message in validationPreview" :key="message.code || message.message">
-                <span class="flow-view__validation-badge" :data-level="message.level || 'info'">{{
-                  message.level || 'info'
-                }}</span>
+                <span :data-level="message.level || message.severity || 'info'">{{ message.level || message.severity || 'info' }}</span>
                 <span>{{ message.message }}</span>
               </li>
             </ul>
-          </template>
-          <p v-else class="flow-view__text">Nessun messaggio dai validator per l'ultima generazione.</p>
-        </PokedexSpeciesCard>
-
-        <PokedexSpeciesCard v-if="loading" tone="warning" title="Generazione" icon="⏳">
-          <p class="flow-view__text">Generazione specie in corso…</p>
-        </PokedexSpeciesCard>
-        <PokedexSpeciesCard v-else-if="traitDiagnosticsLoading" tone="warning" title="Trait QA" icon="📡">
-          <p class="flow-view__text">Sincronizzazione della coverage in corso…</p>
-        </PokedexSpeciesCard>
-        <PokedexSpeciesCard
-          v-else-if="traitDiagnosticsErrorMessage"
-          tone="critical"
-          title="Trait QA"
-          icon="⚠"
-        >
-          <p class="flow-view__text">{{ traitDiagnosticsErrorMessage }}</p>
-        </PokedexSpeciesCard>
-        <PokedexSpeciesCard v-else-if="traitComplianceBadges.length" title="Trait QA" icon="🛰">
-          <ul class="pokedex-card__badge-list">
-            <li v-for="badge in traitComplianceBadges" :key="badge.id" class="pokedex-card__badge-item">
-              <span class="pokedex-card__badge-label" :data-tone="badge.tone || 'neutral'">{{ badge.label }}</span>
-              <span class="pokedex-card__badge-value">{{ badge.value }}</span>
-            </li>
-          </ul>
-          <p v-if="traitComplianceTimestamp" class="flow-view__meta">Aggiornato {{ traitComplianceTimestamp }}</p>
-        </PokedexSpeciesCard>
-
-        <PokedexSpeciesCard v-if="errorMessage" tone="critical" title="Errore orchestrator" icon="🚨">
-          <p class="flow-view__text">{{ errorMessage }}</p>
-        </PokedexSpeciesCard>
-      </aside>
+            <ul v-if="validationDetails.total" class="species-view__qa-counters">
+              <li v-if="validationDetails.errors">
+                <strong>❗ Errori</strong>
+                <span>{{ validationDetails.errors }}</span>
+              </li>
+              <li v-if="validationDetails.warnings">
+                <strong>⚠ Warning</strong>
+                <span>{{ validationDetails.warnings }}</span>
+              </li>
+              <li v-if="validationDetails.corrected">
+                <strong>🔧 Correzioni</strong>
+                <span>{{ validationDetails.corrected }}</span>
+              </li>
+              <li v-if="validationDetails.discarded">
+                <strong>🗑 Scartati</strong>
+                <span>{{ validationDetails.discarded }}</span>
+              </li>
+            </ul>
+            <p v-if="traitDiagnosticsLoading" class="species-view__qa-text">Sincronizzazione della coverage in corso…</p>
+            <p v-else-if="traitDiagnosticsErrorMessage" class="species-view__error" role="alert">{{ traitDiagnosticsErrorMessage }}</p>
+          </div>
+        </template>
+      </InsightCard>
     </div>
   </section>
 </template>
 
 <script setup>
-import { computed, toRefs } from 'vue';
+import { computed, ref, toRefs } from 'vue';
 import SpeciesPanel from '../components/SpeciesPanel.vue';
-import PokedexSpeciesCard from '../components/pokedex/PokedexSpeciesCard.vue';
-import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
+import TraitChip from '../components/shared/TraitChip.vue';
+import InsightCard from '../components/shared/InsightCard.vue';
+import TelemetryProgressBar from '../components/shared/TelemetryProgressBar.vue';
 
 const props = defineProps({
   species: {
@@ -167,7 +192,6 @@ const {
   meta,
   validation,
   requestId,
-  loading,
   error,
   traitCatalog,
   traitCompliance,
@@ -185,6 +209,55 @@ const coveragePercent = computed(() => {
     return 0;
   }
   return Math.min(100, Math.round((curated.value / total.value) * 100));
+});
+
+const orchestratorTelemetry = computed(() => meta.value?.telemetry || {});
+
+const telemetryProgress = computed(() => {
+  const entries = [];
+  if (total.value || curated.value) {
+    entries.push({
+      id: 'curation',
+      label: 'Specie curate',
+      current: curated.value,
+      total: total.value,
+      description: 'Specie confermate su totale orchestrato',
+    });
+  }
+  const coverage = Number.isFinite(orchestratorTelemetry.value?.coverage)
+    ? Number(orchestratorTelemetry.value.coverage)
+    : coveragePercent.value;
+  if (Number.isFinite(coverage)) {
+    entries.push({
+      id: 'coverage',
+      label: 'Copertura shortlist',
+      percent: coverage,
+      value: `${Math.round(coverage)}%`,
+      description: orchestratorTelemetry.value?.coverage_label || 'Allineamento shortlist/curazione',
+    });
+  }
+  const phases = Array.isArray(orchestratorTelemetry.value?.phases)
+    ? orchestratorTelemetry.value.phases
+    : Array.isArray(orchestratorTelemetry.value?.stages)
+      ? orchestratorTelemetry.value.stages
+      : [];
+  phases.forEach((phase, index) => {
+    const percent = Number.isFinite(phase?.percent)
+      ? Number(phase.percent)
+      : Number.isFinite(phase?.coverage)
+        ? Number(phase.coverage)
+        : Number.isFinite(phase?.value)
+          ? Number(phase.value)
+          : 0;
+    entries.push({
+      id: `phase-${phase?.id || index}`,
+      label: phase?.label || phase?.name || `Fase ${index + 1}`,
+      percent,
+      value: `${Math.round(Math.max(0, percent))}%`,
+      description: phase?.summary || phase?.description || '',
+    });
+  });
+  return entries;
 });
 
 const requestSummary = computed(() => {
@@ -288,96 +361,316 @@ const traitDiagnosticsErrorMessage = computed(() => {
   }
   return String(traitDiagnosticsError.value);
 });
+
+const traitLabelMap = computed(() => traitCatalog.value?.labels || {});
+const traitSynergyMap = computed(() => traitCatalog.value?.synergyMap || {});
+
+const synergyHighlights = computed(() => {
+  const entries = [];
+  Object.entries(traitSynergyMap.value || {}).forEach(([key, value]) => {
+    const list = Array.isArray(value)
+      ? value
+      : Array.isArray(value?.traits)
+        ? value.traits
+        : Array.isArray(value?.related)
+          ? value.related
+          : [];
+    entries.push({
+      id: key,
+      label: traitLabelMap.value[key] || key,
+      summary: Array.isArray(value?.summary)
+        ? value.summary.join(', ')
+        : value?.summary || '',
+      items: list,
+    });
+  });
+  return entries.slice(0, 6);
+});
+
+function formatTraitLabel(traitId) {
+  return traitLabelMap.value[traitId] || traitId;
+}
+
+const sidebarTabs = [
+  { id: 'overview', label: 'Overview', icon: '📊' },
+  { id: 'synergy', label: 'Sinergie', icon: '🧬' },
+  { id: 'qa', label: 'QA', icon: '🧪' },
+];
+
+const activeSidebarTab = ref('overview');
 </script>
 
 <style scoped>
-.flow-view {
+.species-view {
   display: grid;
   gap: 1.5rem;
 }
 
-.flow-view__header h2 {
+.species-view__header h2 {
   margin: 0;
   font-size: 1.45rem;
 }
 
-.flow-view__header p {
+.species-view__header p {
   margin: 0.35rem 0 0;
   color: var(--pokedex-text-secondary);
 }
 
-.flow-view__content {
+.species-view__layout {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
   gap: 1.5rem;
 }
 
-.flow-view__sidebar {
+.species-view__card {
+  align-self: start;
+}
+
+.species-view__progress {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.species-view__meta {
   display: grid;
   gap: 1rem;
 }
 
-.flow-view__metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
-.flow-view__text {
+.species-view__request {
   margin: 0;
-  font-size: 0.85rem;
-  color: var(--pokedex-text-primary);
-}
-
-.flow-view__meta {
-  margin: 0.4rem 0 0;
-  font-size: 0.75rem;
-  color: var(--pokedex-text-secondary);
-}
-
-.flow-view__validation {
-  list-style: none;
-  margin: 0.75rem 0 0;
-  padding: 0;
   display: grid;
   gap: 0.45rem;
 }
 
-.flow-view__validation li {
+.species-view__request div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.species-view__request dt {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--pokedex-text-secondary);
+}
+
+.species-view__request dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.species-view__shortlist {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.species-view__shortlist h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pokedex-text-secondary);
+}
+
+.species-view__shortlist ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.species-view__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 135, 135, 0.95);
+}
+
+.species-view__empty {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--pokedex-text-muted);
+}
+
+.species-view__synergy {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.species-view__synergy-card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 1rem;
+  background: rgba(7, 23, 39, 0.55);
+  border: 1px solid rgba(96, 213, 255, 0.18);
+}
+
+.species-view__synergy-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.species-view__synergy-card header span {
+  font-size: 0.75rem;
+  color: var(--pokedex-text-secondary);
+}
+
+.species-view__synergy-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.species-view__compliance {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.species-view__compliance h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pokedex-text-secondary);
+}
+
+.species-view__compliance ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.species-view__compliance li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.species-view__compliance li span {
+  color: var(--pokedex-text-secondary);
+}
+
+.species-view__compliance li span[data-tone='critical'] {
+  color: rgba(255, 135, 135, 0.95);
+}
+
+.species-view__compliance li span[data-tone='warning'] {
+  color: rgba(255, 210, 130, 0.9);
+}
+
+.species-view__compliance li span[data-tone='success'] {
+  color: rgba(146, 255, 230, 0.95);
+}
+
+.species-view__timestamp {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--pokedex-text-secondary);
+}
+
+.species-view__qa {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.species-view__qa header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.species-view__qa header h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.species-view__qa header span {
   font-size: 0.8rem;
-  color: var(--pokedex-text-primary);
-}
-
-.flow-view__validation-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.2rem;
-  padding: 0.2rem 0.55rem;
+  padding: 0.25rem 0.6rem;
   border-radius: 999px;
+  background: rgba(96, 213, 255, 0.18);
+}
+
+.species-view__qa header span[data-tone='critical'] {
+  background: rgba(255, 135, 135, 0.22);
+}
+
+.species-view__qa header span[data-tone='warning'] {
+  background: rgba(255, 210, 130, 0.22);
+}
+
+.species-view__qa header span[data-tone='success'] {
+  background: rgba(146, 255, 230, 0.22);
+}
+
+.species-view__qa-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--pokedex-text-secondary);
+}
+
+.species-view__qa-messages {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.species-view__qa-messages li {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.8rem;
+  background: rgba(7, 23, 39, 0.55);
+  border: 1px solid rgba(96, 213, 255, 0.18);
+}
+
+.species-view__qa-messages li span:first-child {
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.65rem;
-  background: rgba(77, 208, 255, 0.18);
-  color: var(--pokedex-info);
+  letter-spacing: 0.08em;
+  color: var(--pokedex-text-secondary);
 }
 
-.flow-view__validation-badge[data-level='warning'] {
-  background: rgba(255, 200, 87, 0.22);
-  color: rgba(255, 241, 198, 0.92);
+.species-view__qa-messages li span:first-child[data-level='warning'] {
+  color: rgba(255, 210, 130, 0.9);
 }
 
-.flow-view__validation-badge[data-level='error'] {
-  background: rgba(255, 91, 107, 0.22);
-  color: rgba(255, 219, 228, 0.95);
+.species-view__qa-messages li span:first-child[data-level='error'] {
+  color: rgba(255, 135, 135, 0.95);
+}
+
+.species-view__qa-counters {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+}
+
+.species-view__qa-counters li {
+  display: flex;
+  justify-content: space-between;
 }
 
 @media (max-width: 1080px) {
-  .flow-view__content {
+  .species-view__layout {
     grid-template-columns: 1fr;
+  }
+
+  .species-view__card {
+    order: -1;
   }
 }
 </style>
