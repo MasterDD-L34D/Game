@@ -65,8 +65,11 @@ test('risk HUD alert triggers once above threshold and notifies PI team', () => 
   assert.equal(raisedAlerts[0].id, 'risk-high:skydock_siege');
   assert.equal(notified.length, 1);
   assert.equal(notified[0].weightedIndex, 0.62);
-  assert.equal(recorded.length, 1);
-  assert.equal(recorded[0].status, 'raised');
+  assert.equal(recorded.length, 2);
+  assert.deepEqual(
+    recorded.map((entry) => entry.status),
+    ['raised', 'overlay.displayed'],
+  );
   assert.equal(telemetryEvents.length, 1);
   assert.equal(telemetryEvents[0].alert.id, 'risk-high:skydock_siege');
 });
@@ -132,9 +135,11 @@ test('risk HUD alert clears after two ticks below the clear threshold', () => {
 
   assert.equal(clearCalls.length, 1);
   assert.equal(clearCalls[0], 'risk-high:skydock_siege');
-  assert.equal(recorded.length, 2);
-  assert.equal(recorded[0].status, 'raised');
-  assert.equal(recorded[1].status, 'cleared');
+  assert.equal(recorded.length, 4);
+  assert.deepEqual(
+    recorded.map((entry) => entry.status),
+    ['raised', 'overlay.displayed', 'cleared', 'overlay.dismissed'],
+  );
 });
 
 test('risk HUD alert maintains separate state per mission', () => {
@@ -264,7 +269,7 @@ test('risk HUD alert tracks acknowledgement events and exposes them in telemetry
   });
 
   const statuses = recorded.map((entry) => entry.status);
-  assert.deepEqual(statuses, ['raised', 'acknowledged', 'cleared']);
+  assert.deepEqual(statuses, ['raised', 'overlay.displayed', 'acknowledged', 'cleared', 'overlay.dismissed']);
 
   const ackEntry = recorded.find((entry) => entry.status === 'acknowledged');
   assert.equal(ackEntry?.ackRecipient, 'pi.balance.alerts');
