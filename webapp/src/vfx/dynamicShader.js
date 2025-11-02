@@ -25,15 +25,26 @@ const buildGlowResolver = (config) => {
     return () => config;
   }
   if (typeof config === 'object') {
-    const { default: defaultValue = true, minContrast, maxGamma, maxPulse } = config;
+    const {
+      default: defaultValue = true,
+      minContrast,
+      maxGamma,
+      maxPulse,
+      min_contrast,
+      max_gamma,
+      max_pulse,
+    } = config;
+    const resolvedMinContrast = typeof minContrast === 'number' ? minContrast : min_contrast;
+    const resolvedMaxGamma = typeof maxGamma === 'number' ? maxGamma : max_gamma;
+    const resolvedMaxPulse = typeof maxPulse === 'number' ? maxPulse : max_pulse;
     return (context) => {
-      if (typeof minContrast === 'number' && context.contrast < minContrast) {
+      if (typeof resolvedMinContrast === 'number' && context.contrast < resolvedMinContrast) {
         return false;
       }
-      if (typeof maxGamma === 'number' && context.gamma > maxGamma) {
+      if (typeof resolvedMaxGamma === 'number' && context.gamma > resolvedMaxGamma) {
         return false;
       }
-      if (typeof maxPulse === 'number' && Math.abs(context.pulse) > maxPulse) {
+      if (typeof resolvedMaxPulse === 'number' && Math.abs(context.pulse) > resolvedMaxPulse) {
         return false;
       }
       return Boolean(defaultValue);
