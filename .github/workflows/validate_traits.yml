@@ -45,6 +45,13 @@ jobs:
         run: node scripts/build_trait_index.js
       - name: Generate strict trait coverage report
         run: python tools/py/report_trait_coverage.py --strict
+      - name: Run trait style guide check
+        run: |
+          mkdir -p reports/trait_style
+          node scripts/trait_style_check.js \
+            --output-json reports/trait_style/trait_style_report.json \
+            --output-markdown reports/trait_style/trait_style_report.md \
+            --fail-on error
       - name: Upload trait reports
         if: always()
         uses: actions/upload-artifact@v4

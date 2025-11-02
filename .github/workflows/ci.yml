@@ -177,6 +177,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -270,6 +275,24 @@ jobs:
             --trait-reference data/traits/index.json \
             --out-markdown reports/trait_progress.md \
             --history-file logs/trait_audit/trait_progress_history.json
+
+      - name: Run trait style guide check
+        run: |
+          mkdir -p reports/trait_style
+          node scripts/trait_style_check.js \
+            --output-json reports/trait_style/ci_trait_style_report.json \
+            --output-markdown reports/trait_style/ci_trait_style_report.md \
+            --fail-on error
+
+      - name: Upload trait style guide report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trait-style-report-${{ github.run_id }}
+          path: |
+            reports/trait_style/ci_trait_style_report.json
+            reports/trait_style/ci_trait_style_report.md
+          if-no-files-found: warn
 
   deployment-checks:
     runs-on: ubuntu-latest

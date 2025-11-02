@@ -28,6 +28,7 @@
     "webapp:analyze": "npm run analyze --workspace webapp",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "style:check": "node scripts/trait_style_check.js",
     "prepare": "node scripts/husky-install.cjs"
   },
   "dependencies": {
