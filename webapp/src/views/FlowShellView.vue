@@ -1,5 +1,5 @@
 <template>
-  <PokedexShell :lights="statusLights" :logs="missionLogs">
+  <EvoGeneDeckShell :lights="statusLights" :logs="missionLogs">
     <template #header>
       <div class="flow-shell__header-grid">
         <FlowBreadcrumb :steps="breadcrumb" :current="currentStep" @navigate="goToStep" />
@@ -8,36 +8,36 @@
     </template>
 
     <template #status>
-      <div class="pokedex-status-grid">
+      <div class="evogene-deck-status-grid">
         <article
           v-for="status in statuses"
           :key="status.id"
-          class="pokedex-status-card"
+          class="evogene-deck-status-card"
           :data-state="status.state"
         >
-          <header class="pokedex-status-card__header">
-            <span class="pokedex-status-card__label">{{ status.label }}</span>
+          <header class="evogene-deck-status-card__header">
+            <span class="evogene-deck-status-card__label">{{ status.label }}</span>
             <span
               v-if="status.loading"
-              class="pokedex-status-card__spinner"
+              class="evogene-deck-status-card__spinner"
               aria-hidden="true"
             ></span>
-            <PokedexTelemetryBadge
+            <EvoGeneDeckTelemetryBadge
               v-if="status.fallbackLabel"
               label="Modalità"
               :value="status.fallbackLabel"
               :tone="fallbackTone(status.fallbackLabel)"
             />
           </header>
-          <p class="pokedex-status-card__message">
+          <p class="evogene-deck-status-card__message">
             <span v-if="status.loading">{{ status.loadingMessage || 'Caricamento…' }}</span>
             <span v-else-if="status.error">{{ status.errorMessage }}</span>
             <span v-else>{{ status.message }}</span>
           </p>
-          <footer v-if="status.canRetry" class="pokedex-status-card__actions">
+          <footer v-if="status.canRetry" class="evogene-deck-status-card__actions">
             <button
               type="button"
-              class="pokedex-status-card__retry"
+              class="evogene-deck-status-card__retry"
               :disabled="status.loading"
               @click="status.onRetry"
             >
@@ -57,11 +57,13 @@
     </template>
 
     <template #footer>
-      <button type="button" class="pokedex-button" :disabled="!canGoBack" @click="goPrevious">
+      <button type="button" class="evogene-deck-button" :disabled="!canGoBack" @click="goPrevious">
         ← Indietro
       </button>
-      <span class="pokedex-step-indicator">{{ currentStep.index + 1 }} / {{ steps.length }}</span>
-      <button type="button" class="pokedex-button" :disabled="!canGoForward" @click="goNext">
+      <span class="evogene-deck-step-indicator">
+        {{ currentStep.index + 1 }} / {{ steps.length }}
+      </span>
+      <button type="button" class="evogene-deck-button" :disabled="!canGoForward" @click="goNext">
         Avanti →
       </button>
     </template>
@@ -76,7 +78,7 @@
         @refresh-stream="refreshTelemetryStream"
       />
     </template>
-  </PokedexShell>
+  </EvoGeneDeckShell>
 </template>
 
 <script setup>
@@ -95,8 +97,8 @@ import BiomesView from './BiomesView.vue';
 import EncounterView from './EncounterView.vue';
 import PublishingView from './PublishingView.vue';
 import QualityReleaseView from './QualityReleaseView.vue';
-import PokedexShell from '../components/pokedex/PokedexShell.vue';
-import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
+import EvoGeneDeckShell from '../components/evogene-deck/EvoGeneDeckShell.vue';
+import EvoGeneDeckTelemetryBadge from '../components/evogene-deck/EvoGeneDeckTelemetryBadge.vue';
 import FlowShellTelemetryPanel from '../components/flow/FlowShellTelemetryPanel.vue';
 import { useClientLogger } from '../services/clientLogger.ts';
 
@@ -688,7 +690,7 @@ function fallbackTone(label) {
   border-radius: 1.2rem;
   border: 1px dashed rgba(77, 208, 255, 0.22);
   background: rgba(7, 23, 39, 0.45);
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
   font-size: 1rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;

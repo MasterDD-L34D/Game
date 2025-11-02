@@ -1,18 +1,18 @@
 <template>
-  <section class="pokedex-card" :data-tone="tone">
-    <header v-if="title || icon || $slots.badge" class="pokedex-card__header">
-      <div class="pokedex-card__title-group">
-        <span v-if="icon" class="pokedex-card__icon" aria-hidden="true">{{ icon }}</span>
-        <h3 v-if="title" class="pokedex-card__title">{{ title }}</h3>
+  <section class="evogene-deck-card" :data-tone="tone">
+    <header v-if="title || icon || $slots.badge" class="evogene-deck-card__header">
+      <div class="evogene-deck-card__title-group">
+        <span v-if="icon" class="evogene-deck-card__icon" aria-hidden="true">{{ icon }}</span>
+        <h3 v-if="title" class="evogene-deck-card__title">{{ title }}</h3>
       </div>
       <slot name="badge"></slot>
     </header>
 
-    <div class="pokedex-card__body">
+    <div class="evogene-deck-card__body">
       <slot />
     </div>
 
-    <footer v-if="$slots.footer" class="pokedex-card__footer">
+    <footer v-if="$slots.footer" class="evogene-deck-card__footer">
       <slot name="footer"></slot>
     </footer>
   </section>
@@ -36,20 +36,20 @@ const props = defineProps({
 </script>
 
 <style scoped>
-.pokedex-card__header {
+.evogene-deck-card__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 0.75rem;
 }
 
-.pokedex-card__title-group {
+.evogene-deck-card__title-group {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
 }
 
-.pokedex-card__title {
+.evogene-deck-card__title {
   margin: 0;
 }
 </style>

@@ -15,10 +15,10 @@ const NebulaShellStub = {
   `,
 };
 
-const PokedexBiomeCardStub = {
+const EvoGeneDeckBiomeCardStub = {
   props: ['biome'],
   template: `
-    <article class="pokedex-biome-card-stub">
+    <article class="evogene-deck-biome-card-stub">
       <header>{{ biome.name }}</header>
       <slot name="footer"></slot>
     </article>
@@ -30,7 +30,7 @@ const TraitChipStub = {
   template: '<span class="trait-chip-stub">{{ label }}</span>',
 };
 
-const PokedexTelemetryBadgeStub = {
+const EvoGeneDeckTelemetryBadgeStub = {
   props: ['label', 'value'],
   template: '<span class="telemetry-badge-stub">{{ label }}: {{ value }}</span>',
 };
@@ -45,8 +45,17 @@ describe('BiomesView', () => {
       risk: 3,
       hazard: 'Tempeste criogeniche',
       traits: ['fungi', { id: 'lumen', label: 'Lumen', description: 'Favorisce la luminescenza' }],
-      affinities: [{ id: 'bio', label: 'Bio-simbiosi', description: 'Affinità biologica', roles: ['Healer'] }],
-      validators: [{ id: 'val-1', status: 'warning', label: 'Energia instabile', message: 'Richiede bilanciamento' }],
+      affinities: [
+        { id: 'bio', label: 'Bio-simbiosi', description: 'Affinità biologica', roles: ['Healer'] },
+      ],
+      validators: [
+        {
+          id: 'val-1',
+          status: 'warning',
+          label: 'Energia instabile',
+          message: 'Richiede bilanciamento',
+        },
+      ],
     },
     {
       id: 'ember',
@@ -68,9 +77,9 @@ describe('BiomesView', () => {
         plugins: [createI18nForTests('it')],
         stubs: {
           NebulaShell: NebulaShellStub,
-          PokedexBiomeCard: PokedexBiomeCardStub,
+          EvoGeneDeckBiomeCard: EvoGeneDeckBiomeCardStub,
           TraitChip: TraitChipStub,
-          PokedexTelemetryBadge: PokedexTelemetryBadgeStub,
+          EvoGeneDeckTelemetryBadge: EvoGeneDeckTelemetryBadgeStub,
         },
       },
     });
@@ -86,15 +95,15 @@ describe('BiomesView', () => {
   it('filtra i biomi in base ai tratti selezionati e consente il reset', async () => {
     const wrapper = mountView();
 
-    expect(wrapper.findAll('.pokedex-biome-card-stub').length).toBe(2);
+    expect(wrapper.findAll('.evogene-deck-biome-card-stub').length).toBe(2);
 
     const filters = wrapper.findAll('.biomes-view__filter');
     await filters[0].trigger('click');
 
-    expect(wrapper.findAll('.pokedex-biome-card-stub').length).toBe(1);
+    expect(wrapper.findAll('.evogene-deck-biome-card-stub').length).toBe(1);
     expect(wrapper.text()).toContain('Filtri attivi');
 
     await wrapper.find('.biomes-view__reset').trigger('click');
-    expect(wrapper.findAll('.pokedex-biome-card-stub').length).toBe(2);
+    expect(wrapper.findAll('.evogene-deck-biome-card-stub').length).toBe(2);
   });
 });

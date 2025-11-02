@@ -15,7 +15,13 @@ const generateSpeciesMock = vi.hoisted(() =>
 vi.mock('../../webapp/src/services/generationOrchestratorService.js', () => ({
   generateSpecies: generateSpeciesMock,
   generateSpeciesBatch: vi.fn(async () => ({ results: [], errors: [] })),
-  summariseValidation: vi.fn(() => ({ total: 0, warnings: 0, errors: 0, discarded: 0, corrected: 0 })),
+  summariseValidation: vi.fn(() => ({
+    total: 0,
+    warnings: 0,
+    errors: 0,
+    discarded: 0,
+    corrected: 0,
+  })),
   __testables__: {
     normaliseRequest: (payload: Record<string, unknown> = {}) => payload,
     normaliseBatchEntries: (entries: Array<Record<string, unknown>> = []) => entries,
@@ -108,7 +114,10 @@ async function flushAsync() {
 }
 
 describe('FlowShellView - telemetry panel', () => {
-  const snapshotPath = resolve(process.cwd(), 'public/data/flow/snapshots/flow-shell-snapshot.json');
+  const snapshotPath = resolve(
+    process.cwd(),
+    'public/data/flow/snapshots/flow-shell-snapshot.json',
+  );
   const snapshot = JSON.parse(readFileSync(snapshotPath, 'utf-8'));
 
   const originalFetch = global.fetch;
@@ -148,7 +157,8 @@ describe('FlowShellView - telemetry panel', () => {
       global: {
         stubs: {
           FlowBreadcrumb: { template: '<nav class="breadcrumb-stub"></nav>' },
-          ProgressTracker: (await import('../../webapp/src/components/layout/ProgressTracker.vue')).default,
+          ProgressTracker: (await import('../../webapp/src/components/layout/ProgressTracker.vue'))
+            .default,
           OverviewView: {
             props: ['overview', 'timeline', 'qualityRelease'],
             template: '<section class="overview-stub"></section>',
@@ -202,9 +212,9 @@ describe('FlowShellView - telemetry panel', () => {
     expect(streamInstance).toBeTruthy();
     expect(streamInstance?.url).toContain('/api/v1/quality/logs/stream');
 
-    const badgeLabels = wrapper.findAll('.flow-telemetry .pokedex-telemetry__label');
+    const badgeLabels = wrapper.findAll('.flow-telemetry .evogene-deck-telemetry__label');
     expect(badgeLabels.at(0)?.text()).toContain('Validator warnings');
-    const badgeValues = wrapper.findAll('.flow-telemetry .pokedex-telemetry__value');
+    const badgeValues = wrapper.findAll('.flow-telemetry .evogene-deck-telemetry__value');
     expect(badgeValues.at(0)?.text()).toContain('1');
     expect(badgeValues.at(1)?.text()).toContain('1');
     expect(badgeValues.at(2)?.text()).toContain('nebula-priority');

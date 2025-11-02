@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import './styles/theme.css';
-import './styles/pokedex.css';
+import './styles/evogene-deck.css';
 import { installErrorReporting } from './observability/errorReporting';
 import { installPerformanceMetrics } from './observability/metrics';
 import { createI18nInstance } from './locales';

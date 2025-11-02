@@ -25,7 +25,9 @@
         :aria-selected="tab.id === currentTab"
         @click="selectTab(tab.id)"
       >
-        <span v-if="tab.icon" class="insight-card__tab-icon" aria-hidden="true">{{ tab.icon }}</span>
+        <span v-if="tab.icon" class="insight-card__tab-icon" aria-hidden="true">{{
+          tab.icon
+        }}</span>
         <span>{{ tab.label }}</span>
       </button>
     </div>
@@ -79,14 +81,17 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const normalizedTabs = computed(() => (Array.isArray(props.tabs) ? props.tabs.filter(Boolean) : []));
+const normalizedTabs = computed(() =>
+  Array.isArray(props.tabs) ? props.tabs.filter(Boolean) : [],
+);
 
 const currentTab = computed({
   get() {
     if (!normalizedTabs.value.length) {
       return '';
     }
-    const requested = props.modelValue && normalizedTabs.value.find((tab) => tab.id === props.modelValue);
+    const requested =
+      props.modelValue && normalizedTabs.value.find((tab) => tab.id === props.modelValue);
     return (requested && requested.id) || normalizedTabs.value[0].id;
   },
   set(value) {
@@ -98,7 +103,9 @@ const currentTab = computed({
 
 const slots = useSlots();
 
-const hasHeader = computed(() => Boolean(props.title || props.subtitle || props.icon || !!slots.actions));
+const hasHeader = computed(() =>
+  Boolean(props.title || props.subtitle || props.icon || !!slots.actions),
+);
 
 const tabs = computed(() => normalizedTabs.value);
 
@@ -137,7 +144,7 @@ watch(
   border-radius: 18px;
   background: rgba(7, 16, 28, 0.78);
   border: 1px solid rgba(96, 213, 255, 0.18);
-  color: var(--pokedex-text-primary);
+  color: var(--evogene-deck-text-primary);
 }
 
 .insight-card[data-tone='critical'] {
@@ -177,7 +184,7 @@ watch(
 
 .insight-card__subtitle {
   margin: 0.2rem 0 0;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
   font-size: 0.85rem;
 }
 
@@ -203,7 +210,9 @@ watch(
   align-items: center;
   gap: 0.45rem;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .insight-card__tab:hover,

@@ -7,27 +7,29 @@
       </div>
       <span class="flow-telemetry__status" :data-status="statusTone">
         <strong>{{ statusLabel }}</strong>
-        <small v-if="lastEventLabel" class="flow-telemetry__status-hint">{{ lastEventLabel }}</small>
+        <small v-if="lastEventLabel" class="flow-telemetry__status-hint">{{
+          lastEventLabel
+        }}</small>
         <small v-else-if="streamError" class="flow-telemetry__status-hint">{{ streamError }}</small>
       </span>
     </header>
 
     <div class="flow-telemetry__badges">
-      <PokedexTelemetryBadge
+      <EvoGeneDeckTelemetryBadge
         label="Validator warnings"
         :value="metrics.validatorWarnings ?? 0"
         :tone="warningsTone"
       />
-      <PokedexTelemetryBadge
+      <EvoGeneDeckTelemetryBadge
         label="Fallback attivi"
         :value="metrics.fallbackCount ?? 0"
         :tone="fallbackTone"
       />
-      <PokedexTelemetryBadge label="Request ID" :tone="metrics.requestId ? 'neutral' : 'muted'">
+      <EvoGeneDeckTelemetryBadge label="Request ID" :tone="metrics.requestId ? 'neutral' : 'muted'">
         <template #default>
           <code class="flow-telemetry__request">{{ metrics.requestId || '—' }}</code>
         </template>
-      </PokedexTelemetryBadge>
+      </EvoGeneDeckTelemetryBadge>
     </div>
 
     <div class="flow-telemetry__toolbar">
@@ -83,7 +85,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import PokedexTelemetryBadge from '../pokedex/PokedexTelemetryBadge.vue';
+import EvoGeneDeckTelemetryBadge from '../evogene-deck/EvoGeneDeckTelemetryBadge.vue';
 
 type PanelMetrics = {
   validatorWarnings?: number;
@@ -138,8 +140,12 @@ const statusLabel = computed(() => {
   return 'In attesa stream';
 });
 
-const warningsTone = computed(() => (Number(props.metrics.validatorWarnings) > 0 ? 'warning' : 'success'));
-const fallbackTone = computed(() => (Number(props.metrics.fallbackCount) > 0 ? 'warning' : 'neutral'));
+const warningsTone = computed(() =>
+  Number(props.metrics.validatorWarnings) > 0 ? 'warning' : 'success',
+);
+const fallbackTone = computed(() =>
+  Number(props.metrics.fallbackCount) > 0 ? 'warning' : 'neutral',
+);
 
 const hasLogs = computed(() => props.logs.length > 0);
 
@@ -268,7 +274,10 @@ const canReconnect = computed(() => {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .flow-telemetry__export:disabled,

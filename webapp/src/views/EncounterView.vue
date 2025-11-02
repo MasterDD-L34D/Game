@@ -6,16 +6,16 @@
         <p>Configura template, parametri e slot prima della visualizzazione finale.</p>
       </div>
       <div class="encounter-workspace__summary">
-        <PokedexTelemetryBadge label="Seed" :value="summary.seeds" />
-        <PokedexTelemetryBadge label="Varianti" :value="summary.variants" />
-        <PokedexTelemetryBadge
+        <EvoGeneDeckTelemetryBadge label="Seed" :value="summary.seeds" />
+        <EvoGeneDeckTelemetryBadge label="Varianti" :value="summary.variants" />
+        <EvoGeneDeckTelemetryBadge
           label="Warning"
           :value="summary.warnings"
           :tone="summary.warnings ? 'warning' : 'success'"
         />
-        <PokedexTelemetryBadge v-if="lastExportMessage" label="Ultimo export" tone="success">
+        <EvoGeneDeckTelemetryBadge v-if="lastExportMessage" label="Ultimo export" tone="success">
           {{ lastExportMessage }}
-        </PokedexTelemetryBadge>
+        </EvoGeneDeckTelemetryBadge>
       </div>
     </header>
     <div class="encounter-workspace__grid">
@@ -54,9 +54,12 @@ import EncounterPanel from '../components/EncounterPanel.vue';
 import EncounterEditor from '../components/encounter/EncounterEditor.vue';
 import EncounterMetricsPanel from '../components/encounter/EncounterMetricsPanel.vue';
 import VariantComparison from '../components/encounter/VariantComparison.vue';
-import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
+import EvoGeneDeckTelemetryBadge from '../components/evogene-deck/EvoGeneDeckTelemetryBadge.vue';
 import { ENCOUNTER_BLUEPRINTS } from '../state/generator/encounters.js';
-import { calculateEncounterMetrics, buildEncounterSuggestions } from '../services/encounterMetrics.js';
+import {
+  calculateEncounterMetrics,
+  buildEncounterSuggestions,
+} from '../services/encounterMetrics.js';
 
 const props = defineProps({
   encounter: {
@@ -78,7 +81,9 @@ const templateDefinition = computed(() => {
     return null;
   }
   if (props.encounter.templateId) {
-    return ENCOUNTER_BLUEPRINTS.find((template) => template.id === props.encounter.templateId) || null;
+    return (
+      ENCOUNTER_BLUEPRINTS.find((template) => template.id === props.encounter.templateId) || null
+    );
   }
   return (
     ENCOUNTER_BLUEPRINTS.find((template) => template.name === props.encounter.templateName) || null
@@ -96,22 +101,23 @@ watch(
       comparisonSelection.value = [];
       return;
     }
-    const variants = value.variants?.map((variant) => ({
-      id: variant.id,
-      summary: variant.summary,
-      description: variant.description,
-      parameters: reactive({ ...variant.parameters }),
-      slots: variant.slots.map((slot) =>
-        reactive({
-          id: slot.id,
-          title: slot.title,
-          quantity: slot.quantity,
-          species: slot.species.map((specimen) => ({ ...specimen })),
-        })
-      ),
-      warnings: [...(variant.warnings || [])],
-      metrics: { ...(variant.metrics || {}) },
-    })) || [];
+    const variants =
+      value.variants?.map((variant) => ({
+        id: variant.id,
+        summary: variant.summary,
+        description: variant.description,
+        parameters: reactive({ ...variant.parameters }),
+        slots: variant.slots.map((slot) =>
+          reactive({
+            id: slot.id,
+            title: slot.title,
+            quantity: slot.quantity,
+            species: slot.species.map((specimen) => ({ ...specimen })),
+          }),
+        ),
+        warnings: [...(variant.warnings || [])],
+        metrics: { ...(variant.metrics || {}) },
+      })) || [];
     draftEncounter.value = reactive({
       templateName: value.templateName,
       biomeName: value.biomeName,
@@ -121,7 +127,7 @@ watch(
     selectedVariantId.value = variants[0]?.id || null;
     comparisonSelection.value = variants.slice(0, 2).map((variant) => variant.id);
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const metricsByVariant = computed(() => {
@@ -147,7 +153,8 @@ const previewEncounter = computed(() => {
       ...variant,
       metrics: {
         ...variant.metrics,
-        threat: metricsByVariant.value[variant.id]?.threat || variant.metrics?.threat || { tier: 'T?' },
+        threat: metricsByVariant.value[variant.id]?.threat ||
+          variant.metrics?.threat || { tier: 'T?' },
       },
     })),
   };
@@ -157,19 +164,26 @@ const activeVariantIndex = computed(() => {
   if (!draftEncounter.value) {
     return 0;
   }
-  return draftEncounter.value.variants.findIndex((variant) => variant.id === selectedVariantId.value);
+  return draftEncounter.value.variants.findIndex(
+    (variant) => variant.id === selectedVariantId.value,
+  );
 });
 
 const activeVariant = computed(() => {
   if (!draftEncounter.value) {
     return null;
   }
-  return draftEncounter.value.variants.find((variant) => variant.id === selectedVariantId.value) || null;
+  return (
+    draftEncounter.value.variants.find((variant) => variant.id === selectedVariantId.value) || null
+  );
 });
 
 const activeMetrics = computed(() => {
   if (!activeVariant.value) {
-    return { threat: { tier: 'T?', score: 0 }, rarityMix: { total: 0, counts: {}, distribution: {}, dominant: null } };
+    return {
+      threat: { tier: 'T?', score: 0 },
+      rarityMix: { total: 0, counts: {}, distribution: {}, dominant: null },
+    };
   }
   return metricsByVariant.value[activeVariant.value.id];
 });
@@ -259,7 +273,7 @@ function handleExport({ variantId, target }) {
 
 .encounter-workspace__header p {
   margin: 0.35rem 0 0;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .encounter-workspace__summary {
@@ -269,7 +283,7 @@ function handleExport({ variantId, target }) {
   align-items: center;
 }
 
-.encounter-workspace__summary .pokedex-telemetry {
+.encounter-workspace__summary .evogene-deck-telemetry {
   min-width: 130px;
 }
 

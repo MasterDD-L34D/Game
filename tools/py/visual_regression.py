@@ -32,6 +32,7 @@ RUN_ROOT = REPO_ROOT / "logs" / "visual_runs"
 DEFAULT_PAGES = {
     "dashboard": REPO_ROOT / "docs" / "index.html",
     "generator": REPO_ROOT / "docs" / "evo-tactics-pack" / "generator.html",
+    "evogene-deck-cards": REPO_ROOT / "docs" / "test-interface" / "evogene-deck-cards.html",
 }
 VIEWPORT = {"width": 1440, "height": 900}
 DEFAULT_TOLERANCE = 0.08
