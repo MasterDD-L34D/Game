@@ -17,9 +17,9 @@ function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
-async function readJson(filePath) {
+async function readJson(filePath, fsImpl = fs) {
   try {
-    const content = await fs.readFile(filePath, 'utf8');
+    const content = await fsImpl.readFile(filePath, 'utf8');
     return JSON.parse(content);
   } catch (error) {
     if (error && error.code === 'ENOENT') {
@@ -29,10 +29,106 @@ async function readJson(filePath) {
   }
 }
 
-async function writeJson(filePath, payload) {
+async function writeJson(filePath, payload, fsImpl = fs) {
   const targetDir = path.dirname(filePath);
-  await fs.mkdir(targetDir, { recursive: true });
-  await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  await fsImpl.mkdir(targetDir, { recursive: true });
+  await fsImpl.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+}
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+function createFileLock(filePath, fsImpl, options = {}) {
+  const lockPath = `${filePath}.lock`;
+  const retryDelayMs = options.retryDelayMs ?? 25;
+  const maxWaitMs = options.maxWaitMs ?? 2000;
+  const staleAfterMs = options.staleAfterMs ?? 120000;
+
+  async function acquire() {
+    const start = Date.now();
+    while (true) {
+      try {
+        const handle = await fsImpl.open(lockPath, 'wx');
+        return handle;
+      } catch (error) {
+        if (error?.code !== 'EEXIST') {
+          throw error;
+        }
+      }
+      if (staleAfterMs) {
+        try {
+          const stats = await fsImpl.stat(lockPath);
+          const age = Date.now() - Number(stats.mtimeMs || 0);
+          if (Number.isFinite(age) && age >= staleAfterMs) {
+            await fsImpl.unlink(lockPath);
+            continue;
+          }
+        } catch (statError) {
+          if (statError?.code === 'ENOENT') {
+            continue;
+          }
+          throw statError;
+        }
+      }
+      if (Date.now() - start >= maxWaitMs) {
+        const timeoutError = new Error(
+          `Timeout acquisizione lock per snapshot ${path.basename(filePath)}`,
+        );
+        timeoutError.code = 'LOCK_TIMEOUT';
+        throw timeoutError;
+      }
+      await delay(retryDelayMs);
+    }
+  }
+
+  async function withLock(callback) {
+    const handle = await acquire();
+    let lastError;
+    try {
+      return await callback();
+    } catch (error) {
+      lastError = error;
+      throw error;
+    } finally {
+      try {
+        await handle.close();
+      } catch (closeError) {
+        if (!lastError) {
+          lastError = closeError;
+        }
+      }
+      try {
+        await fsImpl.unlink(lockPath);
+      } catch (unlinkError) {
+        if (unlinkError?.code !== 'ENOENT' && !lastError) {
+          throw unlinkError;
+        }
+      }
+    }
+  }
+
+  return { withLock };
+}
+
+async function readSnapshotCandidate(filePath, fsImpl) {
+  if (!filePath) {
+    return { snapshot: null, corrupted: false };
+  }
+  try {
+    const snapshot = await readJson(filePath, fsImpl);
+    if (!snapshot) {
+      return { snapshot: null, corrupted: false };
+    }
+    return { snapshot, corrupted: false };
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      return { snapshot: null, corrupted: true };
+    }
+    throw error;
+  }
 }
 
 function mergeSection(baseSection, patchSection) {
@@ -127,6 +223,11 @@ function applySnapshotPatch(currentSnapshot, patch = {}) {
 
 function createGenerationSnapshotStore(options = {}) {
   const datasetPath = options.datasetPath || DEFAULT_DATASET_PATH;
+  const fsImpl = options.fs || fs;
+  const lockOptions = options.lock || {};
+  const lock = createFileLock(datasetPath, fsImpl, lockOptions);
+  const tempPath = `${datasetPath}.tmp`;
+  const backupPath = `${datasetPath}.bak`;
   let cachedSnapshot = null;
   let staticSnapshot = options.staticDataset ? clone(options.staticDataset) : null;
 
@@ -134,18 +235,46 @@ function createGenerationSnapshotStore(options = {}) {
     if (staticSnapshot) {
       return staticSnapshot;
     }
-    const fallback = await readJson(datasetPath);
+    const fallback = await readJson(path.resolve(datasetPath), fsImpl);
     staticSnapshot = fallback ? clone(fallback) : null;
     return staticSnapshot;
   }
 
   async function loadSnapshotFromDisk() {
-    const snapshot = await readJson(datasetPath);
-    return snapshot ? clone(snapshot) : null;
+    const primary = await readSnapshotCandidate(datasetPath, fsImpl);
+    if (primary.snapshot) {
+      return clone(primary.snapshot);
+    }
+    const tempCandidate = await readSnapshotCandidate(tempPath, fsImpl);
+    if (tempCandidate.snapshot) {
+      return clone(tempCandidate.snapshot);
+    }
+    const backupCandidate = await readSnapshotCandidate(backupPath, fsImpl);
+    if (backupCandidate.snapshot) {
+      return clone(backupCandidate.snapshot);
+    }
+    return null;
   }
 
   async function persistSnapshot(snapshot) {
-    await writeJson(datasetPath, snapshot);
+    await fsImpl.mkdir(path.dirname(datasetPath), { recursive: true });
+    const payload = `${JSON.stringify(snapshot, null, 2)}\n`;
+    await fsImpl.writeFile(tempPath, payload, 'utf8');
+    try {
+      await fsImpl.rename(datasetPath, backupPath);
+    } catch (renameError) {
+      if (renameError?.code !== 'ENOENT') {
+        throw renameError;
+      }
+    }
+    await fsImpl.rename(tempPath, datasetPath);
+    try {
+      await fsImpl.unlink(tempPath);
+    } catch (cleanupError) {
+      if (cleanupError?.code !== 'ENOENT') {
+        throw cleanupError;
+      }
+    }
   }
 
   async function getSnapshot({ refresh = false } = {}) {
@@ -176,11 +305,13 @@ function createGenerationSnapshotStore(options = {}) {
   }
 
   async function applyPatch(patch = {}) {
-    const current = await resolveBaseSnapshotForPatch();
-    const next = applySnapshotPatch(current, patch);
-    cachedSnapshot = clone(next);
-    await persistSnapshot(next);
-    return clone(next);
+    return lock.withLock(async () => {
+      const current = await resolveBaseSnapshotForPatch();
+      const next = applySnapshotPatch(current, patch);
+      cachedSnapshot = clone(next);
+      await persistSnapshot(next);
+      return clone(next);
+    });
   }
 
   async function recordRuntime(result, error) {
