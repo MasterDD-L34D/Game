@@ -134,7 +134,13 @@ export function resolveApiUrl(
       joinBase = apiBaseCandidate;
     } else {
       const resolvedApiBase = resolveRuntimeAwareBase(apiBaseCandidate, runtimeBase, '');
-      joinBase = resolvedApiBase ? joinUrl(baseUrl, resolvedApiBase) : baseUrl;
+      if (resolvedApiBase) {
+        joinBase = resolvedApiBase.startsWith('/')
+          ? resolvedApiBase
+          : joinUrl(baseUrl, resolvedApiBase);
+      } else {
+        joinBase = baseUrl;
+      }
     }
   }
 
