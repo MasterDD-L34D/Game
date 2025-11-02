@@ -44,7 +44,8 @@ environment_affinity:
   hazards_expected:
     - tempeste_sabbia
     - magnetic_patches
-  rationale: "Predatore d'agguato schermato da detriti ferrosi, utile come fauna ambientale ad alta pressione."
+  rationale: Predatore d'agguato schermato da detriti ferrosi, utile come fauna ambientale
+    ad alta pressione.
 derived_from_environment:
   suggested_traits:
     - coda_frusta_cinetica
@@ -78,3 +79,4 @@ genetic_traits:
     - scheletro_idro_regolante
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.slag-veil-ambusher.description

@@ -91,3 +91,4 @@ genetic_traits:
     - scheletro_idro_regolante
   synergy: []
 mate_synergy: []
+description: i18n:species.rust-scavenger.description

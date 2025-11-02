@@ -78,3 +78,4 @@ derived_from_environment:
     - Warden
 genetic_traits: []
 mate_synergy: []
+description: i18n:species.cactus-weaver.description

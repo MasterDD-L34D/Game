@@ -45,7 +45,8 @@ environment_affinity:
   hazards_expected:
     - vortici_psionici
     - radiazioni_sottili
-  rationale: "Sentinelle leggere che sfruttano la canopia psionica per mantenere corridoi aerei e supervisionare gli spostamenti del branco."
+  rationale: Sentinelle leggere che sfruttano la canopia psionica per mantenere corridoi
+    aerei e supervisionare gli spostamenti del branco.
 derived_from_environment:
   suggested_traits:
     - focus_frazionato
@@ -78,3 +79,4 @@ genetic_traits:
   synergy: []
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.psionic-canopy-scout.description
