@@ -28,6 +28,8 @@ export const buildMissionShader = (missionVfxConfig) => {
     pulseFrequency: shaderParameters.pulse_frequency,
     saturationBoost: shaderParameters.saturation_boost,
     bloomStrength: shaderParameters.bloom_strength,
+    gammaRange: shaderParameters.gamma_range,
+    glowToggle: shaderParameters.glow_toggle,
   });
 
   const timeline = missionVfxConfig.timeline ?? [];
@@ -44,13 +46,21 @@ export const buildMissionShader = (missionVfxConfig) => {
     const eclipseFactor = entry.eclipse_factor ?? 1;
     const phaseProgress = normalisePhase(entry.phase_window, progress);
 
-    const uniforms = shader.uniformsForPhase(phaseProgress, eclipseFactor);
+    const overrides = {};
+    if (typeof entry.glow_enabled === 'boolean') {
+      overrides.glowEnabled = entry.glow_enabled;
+    }
+    if (typeof entry.gamma_override === 'number') {
+      overrides.gamma = entry.gamma_override;
+    }
+
+    const uniforms = shader.uniformsForPhase(phaseProgress, eclipseFactor, overrides);
     return {
       event: entry.event,
       eclipseFactor,
       notes: entry.notes,
       uniforms,
-      cssVariables: shader.cssVariablesForPhase(phaseProgress, eclipseFactor),
+      cssVariables: shader.cssVariablesForPhase(phaseProgress, eclipseFactor, overrides),
     };
   };
 
@@ -62,4 +72,3 @@ export const buildMissionShader = (missionVfxConfig) => {
     sampleAtWave,
   };
 };
-

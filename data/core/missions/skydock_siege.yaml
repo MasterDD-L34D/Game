@@ -161,6 +161,10 @@ skydock_siege:
       pulse_frequency: 0.65
       saturation_boost: 0.18
       bloom_strength: [0.24, 0.6]
+      gamma_range: [0.9, 1.12]
+      glow_toggle:
+        default: true
+        min_contrast: 0.6
     timeline:
       - event: umbra-entry
         at_wave: 4
@@ -169,6 +173,7 @@ skydock_siege:
           start: 0.15
           end: 0.75
         notes: "Prima soglia Aeon overload, corrisponde al contrasto percepito basso segnalato in EVT-03."
+        glow_enabled: false
       - event: umbra-peak
         at_wave: 5
         eclipse_factor: 0.88
@@ -176,6 +181,7 @@ skydock_siege:
           start: 0.35
           end: 0.9
         notes: "Picco eclissi — dovrebbe evidenziare silhouette supporto Helix senza perdere leggibilità HUD."
+        glow_enabled: true
       - event: corona-recover
         at_wave: 6
         eclipse_factor: 0.42
@@ -183,3 +189,4 @@ skydock_siege:
           start: 0.25
           end: 1.0
         notes: "Rilascio finale con glow più caldo per guidare evacuazione e contrastare l'abbassamento riportato nel bug #543."
+        gamma_override: 1.1

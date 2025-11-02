@@ -9,6 +9,41 @@ const formatNumber = (value) => Number.parseFloat(value.toFixed(3));
 
 const formatCssNumber = (value) => formatNumber(value).toString();
 
+const defaultGammaRange = [0.9, 1.08];
+
+const normaliseRange = (range, fallback) =>
+  Array.isArray(range) && range.length === 2 ? range : fallback;
+
+const buildGlowResolver = (config) => {
+  if (typeof config === 'function') {
+    return (context) => Boolean(config(context));
+  }
+  if (config == null) {
+    return () => true;
+  }
+  if (typeof config === 'boolean') {
+    return () => config;
+  }
+  if (typeof config === 'object') {
+    const { default: defaultValue = true, minContrast, maxGamma, maxPulse } = config;
+    return (context) => {
+      if (typeof minContrast === 'number' && context.contrast < minContrast) {
+        return false;
+      }
+      if (typeof maxGamma === 'number' && context.gamma > maxGamma) {
+        return false;
+      }
+      if (typeof maxPulse === 'number' && Math.abs(context.pulse) > maxPulse) {
+        return false;
+      }
+      return Boolean(defaultValue);
+    };
+  }
+  return () => true;
+};
+
+const formatCssFlag = (value) => (value ? '1' : '0');
+
 export const createDynamicShader = (parameters) => {
   const {
     contrastRange = [0.45, 1.1],
@@ -16,6 +51,8 @@ export const createDynamicShader = (parameters) => {
     pulseFrequency = 0.5,
     saturationBoost = 0.15,
     bloomStrength = [0.25, 0.6],
+    gammaRange: gammaRangeInput,
+    glowToggle,
   } = parameters ?? {};
 
   if (!Array.isArray(contrastRange) || contrastRange.length !== 2) {
@@ -25,9 +62,11 @@ export const createDynamicShader = (parameters) => {
     throw new Error('hueShiftRange deve contenere due valori numerici');
   }
 
-  const bloomRange = Array.isArray(bloomStrength) && bloomStrength.length === 2 ? bloomStrength : [0.3, 0.55];
+  const bloomRange = normaliseRange(bloomStrength, [0.3, 0.55]);
+  const gammaRange = normaliseRange(gammaRangeInput, defaultGammaRange);
+  const resolveGlow = buildGlowResolver(glowToggle);
 
-  const uniformsForPhase = (phaseProgress, eclipseFactor = 1) => {
+  const uniformsForPhase = (phaseProgress, eclipseFactor = 1, overrides = {}) => {
     const intensity = clamp(phaseProgress, 0, 1);
     const eclipse = clamp(eclipseFactor, 0, 1);
     const eased = 1 - Math.cos((Math.PI * intensity) / 2);
@@ -38,7 +77,21 @@ export const createDynamicShader = (parameters) => {
     const hueShift = lerp(hueShiftRange, hueSample);
     const saturation = 1 + saturationBoost * eclipse + 0.05 * pulse;
     const bloom = lerp(bloomRange, (pulse + 1) / 2);
-    const glowStrength = (contrast * 0.55 + bloom * 0.45) * (0.85 + eclipse * 0.15);
+    const gammaBlend = clamp(intensity * 0.65 + eclipse * 0.35, 0, 1);
+    const gammaBase = lerp(gammaRange, gammaBlend);
+    const gamma = clamp(overrides.gamma ?? gammaBase, gammaRange[0], gammaRange[1]);
+
+    const glowContext = {
+      intensity,
+      eclipse,
+      contrast,
+      gamma,
+      pulse,
+    };
+    const glowEnabled = overrides.glowEnabled ?? resolveGlow(glowContext);
+    const glowStrength = glowEnabled
+      ? (contrast * 0.55 + bloom * 0.45) * (0.85 + eclipse * 0.15)
+      : 0;
 
     return {
       intensity: formatNumber(intensity),
@@ -47,12 +100,14 @@ export const createDynamicShader = (parameters) => {
       pulse: formatNumber(pulse),
       saturation: formatNumber(saturation),
       bloom: formatNumber(bloom),
+      gamma: formatNumber(gamma),
       glowStrength: formatNumber(glowStrength),
+      glowEnabled,
     };
   };
 
-  const cssVariablesForPhase = (phaseProgress, eclipseFactor = 1) => {
-    const uniforms = uniformsForPhase(phaseProgress, eclipseFactor);
+  const cssVariablesForPhase = (phaseProgress, eclipseFactor = 1, overrides = {}) => {
+    const uniforms = uniformsForPhase(phaseProgress, eclipseFactor, overrides);
     return {
       '--fx-intensity': formatCssNumber(uniforms.intensity),
       '--fx-contrast': formatCssNumber(uniforms.contrast),
@@ -60,7 +115,9 @@ export const createDynamicShader = (parameters) => {
       '--fx-pulse': formatCssNumber(uniforms.pulse),
       '--fx-saturation': formatCssNumber(uniforms.saturation),
       '--fx-bloom': formatCssNumber(uniforms.bloom),
+      '--fx-gamma': formatCssNumber(uniforms.gamma),
       '--fx-glow-strength': formatCssNumber(uniforms.glowStrength),
+      '--fx-glow-enabled': formatCssFlag(uniforms.glowEnabled),
     };
   };
 
@@ -73,9 +130,10 @@ export const createDynamicShader = (parameters) => {
       pulseFrequency,
       saturationBoost,
       bloomStrength: [...bloomRange],
+      gammaRange: [...gammaRange],
+      glowToggle: glowToggle ?? true,
     },
   };
 };
 
 export { clamp, lerp };
-
