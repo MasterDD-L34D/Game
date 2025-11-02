@@ -28,7 +28,7 @@
     "webapp:analyze": "npm run analyze --workspace webapp",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky install"
+    "prepare": "node scripts/husky-install.cjs"
   },
   "dependencies": {
     "ajv": "^8.17.1",
