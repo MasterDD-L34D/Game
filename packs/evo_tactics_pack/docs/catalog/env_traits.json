@@ -791,7 +791,8 @@
           "nucleo_ovomotore_rotante",
           "sacche_galleggianti_ascensoriali",
           "scheletro_idro_regolante",
-          "struttura_elastica_amorfa"
+          "struttura_elastica_amorfa",
+          "zampe_a_molla"
         ],
         "jobs_bias": [
           "Vanguard",
@@ -884,6 +885,7 @@
           "lingua_tattile_trama",
           "pathfinder",
           "pianificatore",
+          "random",
           "risonanza_di_branco",
           "spore_psichiche_silenziate",
           "tattiche_di_branco",
