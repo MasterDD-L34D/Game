@@ -54,9 +54,9 @@ derived_from_environment:
     - nucleo_ovomotore_rotante
     - sacche_galleggianti_ascensoriali
     - scheletro_idro_regolante
+    - zampe_a_molla
   optional_traits:
     - carapace_fase_variabile
-    - zampe_a_molla
   required_capabilities:
     - build_cover
     - dr_impact_cap

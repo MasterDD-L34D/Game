@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-11-02T20:27:01+00:00",
+  "generated_at": "2025-11-02T20:46:09+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "data/traits/index.json",
@@ -11,10 +11,10 @@
   "summary": {
     "traits_total": 174,
     "traits_with_rules": 147,
-    "traits_with_species": 172,
+    "traits_with_species": 174,
     "traits_with_affinity": 0,
     "rule_combos_total": 177,
-    "species_combos_total": 391,
+    "species_combos_total": 393,
     "rules_missing_species_total": 0,
     "affinity_missing_species_total": 0,
     "affinity_missing_matrix_total": 0,
@@ -54,6 +54,7 @@
       "occhi_infrarosso_composti",
       "piume_solari_fotovoltaiche",
       "polmoni_cristallini_alta_quota",
+      "random",
       "respiro_a_scoppio",
       "risonanza_di_branco",
       "sacche_spore_stratosferiche",
@@ -67,6 +68,7 @@
       "squame_rifrangenti_deserto",
       "vello_condensatore_nebbie",
       "ventriglio_gastroliti",
+      "zampe_a_molla",
       "zoccoli_risonanti_steppe"
     ]
   },
@@ -7216,12 +7218,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "foresta_miceliale",
+            "morphotype": null,
+            "count": 1,
+            "examples": [
+              "sentinella-radice"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "foresta_miceliale",
+            "morphotype": null
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       }
@@ -8196,12 +8212,26 @@
         "coverage": []
       },
       "species": {
-        "total": 0,
-        "coverage": []
+        "total": 1,
+        "coverage": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede",
+            "count": 1,
+            "examples": [
+              "sand-burrower"
+            ]
+          }
+        ]
       },
       "diff": {
         "missing_in_species": [],
-        "missing_in_rules": [],
+        "missing_in_rules": [
+          {
+            "biome": "dorsale_termale_tropicale",
+            "morphotype": "cursoriale_quadrupede"
+          }
+        ],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       }

@@ -339,6 +339,7 @@ pathfinder,Pathfinder,Pathfinder,foresta_miceliale,,1,1
 pianificatore,Pianificatore,Strategic Planner,foresta_miceliale,,1,1
 piume_solari_fotovoltaiche,Piume Solari Fotovoltaiche,Piume Solari Fotovoltaiche,altipiani_solari,cursoriale_quadrupede,0,1
 polmoni_cristallini_alta_quota,Polmoni Cristallini d'Alta Quota,Polmoni Cristallini d'Alta Quota,picchi_cristallini,cursoriale_quadrupede,0,1
+random,Trait Random,Trait Random,foresta_miceliale,,0,1
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,caverna_risonante,cursoriale_quadrupede,0,1
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,dorsale_termale_tropicale,scavenger_corazzato,1,1
 respiro_a_scoppio,Respiro a scoppio,Burst Breath Propulsion,mezzanotte_orbitale,cursoriale_quadrupede,1,1
@@ -389,4 +390,5 @@ vello_condensatore_nebbie,Vello Condensatore di Nebbie,Vello Condensatore di Neb
 ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,caverna_risonante,cursoriale_quadrupede,0,1
 ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,dorsale_termale_tropicale,scavenger_corazzato,1,1
 ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,mezzanotte_orbitale,cursoriale_quadrupede,1,1
+zampe_a_molla,Zampe a Molla,Spring-Loaded Limbs,dorsale_termale_tropicale,cursoriale_quadrupede,0,1
 zoccoli_risonanti_steppe,Zoccoli Risonanti delle Steppe,Zoccoli Risonanti delle Steppe,steppe_risonanti,cursoriale_quadrupede,0,1

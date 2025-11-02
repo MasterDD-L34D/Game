@@ -62,8 +62,8 @@ derived_from_environment:
     - focus_frazionato
     - pathfinder
     - pianificatore
-  optional_traits:
     - random
+  optional_traits:
     - empatia_coordinativa
 genetic_traits: []
 mate_synergy: []
