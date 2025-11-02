@@ -8,6 +8,111 @@ log() {
   printf '\n[%s] %s\n' "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" "$1"
 }
 
+has_chromium_bundle() {
+  local base_dir=$1
+  if [ -z "$base_dir" ] || [ ! -d "$base_dir" ]; then
+    return 1
+  fi
+  if find "$base_dir" -maxdepth 1 -type d -name 'chromium-*' | grep -q '.'; then
+    return 0
+  fi
+  return 1
+}
+
+extract_chromium_archive() {
+  local archive_path=$1
+  local destination=$2
+
+  if [ ! -f "$archive_path" ]; then
+    log "Archivio Chromium non trovato in $archive_path"
+    return 1
+  fi
+
+  if [ -n "${DEPLOY_CHROMIUM_BUNDLE_SHA256:-}" ]; then
+    if command -v sha256sum >/dev/null 2>&1; then
+      echo "${DEPLOY_CHROMIUM_BUNDLE_SHA256}  $archive_path" | sha256sum --check --status || {
+        log "Checksum SHA256 del bundle Chromium non valido"
+        return 1
+      }
+    elif command -v shasum >/dev/null 2>&1; then
+      if ! (echo "${DEPLOY_CHROMIUM_BUNDLE_SHA256}  $archive_path" | shasum -a 256 -c --status); then
+        log "Checksum SHA256 del bundle Chromium non valido"
+        return 1
+      fi
+    else
+      log "Utility checksum assente (sha256sum/shasum): impossibile verificare il bundle Chromium"
+      return 1
+    fi
+  fi
+
+  local staging
+  staging=$(mktemp -d "chromium.XXXXXX" -p "${RUNNER_TEMP:-${TMPDIR:-/tmp}}")
+  tar -xzf "$archive_path" -C "$staging"
+  rm -rf "$destination"
+  mkdir -p "$destination"
+  if [ -d "$staging" ]; then
+    # shellcheck disable=SC2044
+    for entry in "$staging"/*; do
+      [ -e "$entry" ] || continue
+      cp -R "$entry" "$destination"/
+    done
+    rm -rf "$staging"
+  fi
+
+  return 0
+}
+
+ensure_chromium_bundle() {
+  local bundle_dir
+  bundle_dir="${PLAYWRIGHT_BROWSERS_PATH:-$ROOT_DIR/.cache/ms-playwright}"
+  export PLAYWRIGHT_BROWSERS_PATH="$bundle_dir"
+
+  if has_chromium_bundle "$bundle_dir"; then
+    CHROMIUM_STATUS_DETAIL="  - Chromium Playwright già presente in \`$bundle_dir\`."
+    return 0
+  fi
+
+  local archive_source=""
+  local cleanup_archive=""
+  if [ -n "${DEPLOY_CHROMIUM_BUNDLE_ARCHIVE:-}" ]; then
+    archive_source="$DEPLOY_CHROMIUM_BUNDLE_ARCHIVE"
+  elif [ -n "${DEPLOY_CHROMIUM_BUNDLE_URL:-}" ]; then
+    local download_target
+    download_target=$(mktemp "chromium.XXXXXX.tar.gz" -p "${RUNNER_TEMP:-${TMPDIR:-/tmp}}")
+    if command -v curl >/dev/null 2>&1; then
+      log "Download bundle Chromium da ${DEPLOY_CHROMIUM_BUNDLE_URL}"
+      if ! curl --fail --location --silent --show-error "${DEPLOY_CHROMIUM_BUNDLE_URL}" --output "$download_target"; then
+        log "Impossibile scaricare il bundle Chromium da storage interno"
+        return 1
+      fi
+    else
+      log "curl non disponibile: impossibile scaricare il bundle Chromium"
+      return 1
+    fi
+    archive_source="$download_target"
+    cleanup_archive="$download_target"
+  fi
+
+  if [ -n "$archive_source" ]; then
+    log "Estrazione bundle Chromium in $bundle_dir"
+    if ! extract_chromium_archive "$archive_source" "$bundle_dir"; then
+      return 1
+    fi
+  fi
+
+  if [ -n "$cleanup_archive" ] && [ -f "$cleanup_archive" ]; then
+    rm -f "$cleanup_archive"
+  fi
+
+  if has_chromium_bundle "$bundle_dir"; then
+    CHROMIUM_STATUS_DETAIL="  - Chromium Playwright inizializzato in \`$bundle_dir\`."
+    return 0
+  fi
+
+  log "Bundle Chromium assente: impostare PLAYWRIGHT_BROWSERS_PATH o DEPLOY_CHROMIUM_BUNDLE_URL/ARCHIVE"
+  return 1
+}
+
 DATA_SOURCE_DIR="${DEPLOY_DATA_DIR:-$ROOT_DIR/data}"
 if [ ! -d "$DATA_SOURCE_DIR" ]; then
   log "Dataset directory '$DATA_SOURCE_DIR' non trovato: lo creo per la sincronizzazione"
@@ -17,6 +122,14 @@ export DATA_SOURCE_DIR
 
 SMOKE_TEST_MESSAGE=""
 SMOKE_TEST_DETAILS=()
+CHROMIUM_STATUS_DETAIL=""
+
+if ! ensure_chromium_bundle; then
+  exit 1
+fi
+if [ -n "$CHROMIUM_STATUS_DETAIL" ]; then
+  SMOKE_TEST_DETAILS+=("$CHROMIUM_STATUS_DETAIL")
+fi
 
 if [ "${DEPLOY_SKIP_SNAPSHOT_SYNC:-0}" != "1" ]; then
   log "Sincronizzazione snapshot generation (tools/deploy/syncSnapshot.js)"

@@ -6,7 +6,7 @@ Questa procedura definisce il percorso end-to-end per promuovere la web experien
 
 1. **Inventario & trait readiness** – ogni PR deve aggiornare `docs/catalog/traits_inventory.json` tramite `python tools/py/traits_validator.py --inventory docs/catalog/traits_inventory.json` per assicurare che dataset (`data/derived/analysis/*`, `packs/evo_tactics_pack/data/species/*`) siano allineati. Il report viene archiviato da CI in `logs/traits_tracking.md` e segnala risorse mancanti o obsolete.
 2. **Configurazione generatore** – il workflow esegue `python tools/py/validate_registry_naming.py` per garantire che i registri del generatore (`packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml`, `data/traits/index.json`, `docs/catalog/species_trait_matrix.json`) e il glossario siano coerenti; eventuali mismatch bloccano la pipeline prima della build web.
-3. **Validazione continua automatica** – ogni push/PR esegue `ci.yml`, che include build TS/Python, suite CLI, audit dei tratti e `scripts/run_deploy_checks.sh` (il quale richiama il validator dell'inventario e la verifica dei registri del generatore).
+3. **Validazione continua automatica** – ogni push/PR esegue `ci.yml`, che include build TS/Python, suite CLI, audit dei tratti e `scripts/run_deploy_checks.sh` (il quale richiama il validator dell'inventario e la verifica dei registri del generatore). Il job `playwright-bundle` costruisce e pubblica l'artefatto `playwright-chromium-bundle` con il browser Chromium pre-installato, così da eliminare download diretti dal mirror esterno durante i gate di deploy.
 4. **Validazione staging manuale/programmata** – prima di rilasciare, eseguire manualmente gli script di gating nello stesso ordine usato da CI per catturare regressioni ambientali.
 5. **Promozione e pubblicazione** – il workflow `deploy-test-interface.yml` ripete i gate (inventario, configurazione generatore, CLI smoke, audit tratti, deploy checks) e, solo in caso di esito positivo, carica l'artifact su GitHub Pages.
 
@@ -42,9 +42,12 @@ Questa procedura definisce il percorso end-to-end per promuovere la web experien
    Esegue i controlli incrociati su registri (`env_to_traits.yaml`, `hazards.yaml`, `biome_classes.yaml`), trait reference e matrici specie, assicurando che i preset diffusi via web riflettano il glossario condiviso e che i morphotype elencati abbiano mapping aggiornati.
 6. **Deploy checks**
    ```bash
+   export PLAYWRIGHT_BROWSERS_PATH="$(pwd)/.cache/ms-playwright"
+   export DEPLOY_CHROMIUM_BUNDLE_ARCHIVE="/percorso/al/playwright-chromium-bundle.tar.gz"
+   export DEPLOY_CHROMIUM_BUNDLE_SHA256="<hash_artifact>"
    DEPLOY_DATA_DIR="$(pwd)/data" scripts/run_deploy_checks.sh
    ```
-   Lo script esegue `npm ci`, installa i browser Playwright, lancia la suite Playwright/UI (`npm test`), i test Python (`pytest`), genera il bundle statico e ne verifica la raggiungibilità via HTTP locale. Al termine scrive un report dettagliato in `logs/web_status.md`.
+   Recupera l'archivio `playwright-chromium-bundle` dall'ultima esecuzione CI (`Actions › artifacts`) oppure da storage interno e verifica la signature SHA256. Lo script valida la presenza del bundle Chromium (o, in alternativa, usa `DEPLOY_CHROMIUM_BUNDLE_URL` per scaricarlo), ricicla gli artefatti TypeScript/Python già prodotti da CI, genera il pacchetto statico e ne testa la raggiungibilità via HTTP locale. Al termine scrive un report dettagliato in `logs/web_status.md`.
 
 Se uno dei passaggi fallisce (es. Playwright non riesce a scaricare Chromium, come accaduto in staging con risposta 403), l'uscita non-zero blocca il flusso e il rilascio **deve** essere posticipato o l'incidente risolto prima di riprovare.
 
@@ -56,7 +59,7 @@ Se uno dei passaggi fallisce (es. Playwright non riesce a scaricare Chromium, co
 - [ ] `python3 scripts/trait_audit.py --check` restituisce "nessuna regressione".
 - [ ] `python3 tools/py/traits_validator.py --inventory docs/catalog/traits_inventory.json` senza errori e con log aggiornato in `logs/traits_tracking.md`.
 - [ ] `python3 tools/py/validate_registry_naming.py --trait-glossary data/core/traits/glossary.json` conferma la coerenza dei registri generator e del glossario.
-- [ ] `scripts/run_deploy_checks.sh` termina con `exit 0` e aggiorna `logs/web_status.md` con esito ✅.
+- [ ] `scripts/run_deploy_checks.sh` termina con `exit 0`, riutilizzando `playwright-chromium-bundle` (hash verificato) e aggiornando `logs/web_status.md` con esito ✅.
 - [ ] Bundle statico generato (`dist/` in workflow o directory temporanea riportata dallo script) aperto in browser locale senza errori console critici.
 - [ ] Tutti gli eventuali problemi Playwright/UI risolti o tracciati con ticket bloccante.
 
