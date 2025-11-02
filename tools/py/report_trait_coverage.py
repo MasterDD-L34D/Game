@@ -20,6 +20,7 @@ except ModuleNotFoundError:  # pragma: no cover
 
 SPECIES_ID_PATTERN = re.compile(r"^[a-z0-9_-]+$")
 SLUG_PATTERN = re.compile(r"^[a-z0-9_]+$")
+UCUM_PATTERN = re.compile(r"^[A-Za-z0-9%*/._^()\[\]\-\u00b7\u22c5]+$")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -171,7 +172,23 @@ def validate_trait_affinity(
     affinity_present = False
 
     for trait_id, trait_payload in sorted(traits.items()):
+        if not SLUG_PATTERN.fullmatch(trait_id):
+            errors.append(
+                f"traits/{trait_id}: identificativo non rispetta lo slug lower_snake_case"
+            )
         entries = trait_payload.get("species_affinity") if isinstance(trait_payload, dict) else None
+        metrics = trait_payload.get("metrics") if isinstance(trait_payload, dict) else None
+
+        if isinstance(metrics, list):
+            for metric_index, metric in enumerate(metrics):
+                if not isinstance(metric, dict):
+                    continue
+                unit = metric.get("unit")
+                if isinstance(unit, str) and not UCUM_PATTERN.fullmatch(unit):
+                    errors.append(
+                        f"traits/{trait_id}/metrics[{metric_index}].unit deve rispettare la sintassi UCUM (simboli standard, niente spazi)"
+                    )
+
         if not isinstance(entries, list):
             continue
         affinity_present = affinity_present or bool(entries)
@@ -185,6 +202,10 @@ def validate_trait_affinity(
             if not isinstance(species_id, str):
                 errors.append(
                     f"traits/{trait_id}/species_affinity[{index}].species_id mancante o non è una stringa"
+                )
+            elif not SPECIES_ID_PATTERN.fullmatch(species_id):
+                errors.append(
+                    f"traits/{trait_id}/species_affinity[{index}].species_id deve usare slug o trattini (^[a-z0-9_-]+$)"
                 )
             elif known_species and species_id not in known_species:
                 errors.append(

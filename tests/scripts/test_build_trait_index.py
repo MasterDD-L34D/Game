@@ -110,3 +110,93 @@ def test_build_trait_index_reports_invalid_label(tmp_path: Path) -> None:
 
     assert result.returncode != 0
     assert "label" in result.stderr
+
+
+@pytest.mark.skipif(not SCRIPT.exists(), reason="build_trait_index.js non disponibile")
+def test_build_trait_index_reports_invalid_ucum(tmp_path: Path) -> None:
+    traits_dir = tmp_path / "traits"
+    traits_dir.mkdir()
+    trait_path = traits_dir / "valid_trait.json"
+    payload = _base_trait_payload()
+    payload["metrics"][0]["unit"] = "m per s"
+    _write_trait(trait_path, payload)
+
+    output_path = tmp_path / "index.json"
+    result = subprocess.run(
+        [
+            "node",
+            str(SCRIPT),
+            "--traits-dir",
+            str(traits_dir),
+            "--output",
+            str(output_path),
+            "--format",
+            "json",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode != 0
+    assert "UCUM" in result.stderr
+
+
+@pytest.mark.skipif(not SCRIPT.exists(), reason="build_trait_index.js non disponibile")
+def test_build_trait_index_reports_id_mismatch(tmp_path: Path) -> None:
+    traits_dir = tmp_path / "traits"
+    traits_dir.mkdir()
+    trait_path = traits_dir / "mismatch.json"
+    payload = _base_trait_payload()
+    payload["id"] = "valid_trait"
+    _write_trait(trait_path, payload)
+
+    output_path = tmp_path / "index.json"
+    result = subprocess.run(
+        [
+            "node",
+            str(SCRIPT),
+            "--traits-dir",
+            str(traits_dir),
+            "--output",
+            str(output_path),
+            "--format",
+            "json",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode != 0
+    assert "nome file" in result.stderr
+
+
+@pytest.mark.skipif(not SCRIPT.exists(), reason="build_trait_index.js non disponibile")
+def test_build_trait_index_reports_invalid_slot(tmp_path: Path) -> None:
+    traits_dir = tmp_path / "traits"
+    traits_dir.mkdir()
+    trait_path = traits_dir / "valid_trait.json"
+    payload = _base_trait_payload()
+    payload["slot"] = ["AA"]
+    _write_trait(trait_path, payload)
+
+    output_path = tmp_path / "index.json"
+    result = subprocess.run(
+        [
+            "node",
+            str(SCRIPT),
+            "--traits-dir",
+            str(traits_dir),
+            "--output",
+            str(output_path),
+            "--format",
+            "json",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode != 0
+    assert "slot" in result.stderr

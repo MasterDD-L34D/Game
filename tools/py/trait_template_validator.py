@@ -35,7 +35,8 @@ LABEL_PATTERN = re.compile(r"^(i18n:[a-z0-9._]+|\S(?:.*\S)?)$")
 FAMILY_PATTERN = re.compile(r"^[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+/[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+$")
 SLUG_PATTERN = re.compile(r"^[a-z0-9_]+$")
 SPECIES_ID_PATTERN = re.compile(r"^[a-z0-9_-]+$")
-UCUM_PATTERN = re.compile(r"^[A-Za-z0-9%/._^() -]+$")
+UCUM_PATTERN = re.compile(r"^[A-Za-z0-9%*/._^()\[\]\-\u00b7\u22c5]+$")
+SLOT_PATTERN = re.compile(r"^[A-Z]$")
 ENVO_PATTERN = re.compile(r"^http://purl\.obolibrary\.org/obo/ENVO_\d+$")
 
 
@@ -71,6 +72,19 @@ def collect_additional_issues(trait: dict) -> List[Tuple[List[object], str]]:
     if isinstance(data_origin, str) and data_origin.strip() and not SLUG_PATTERN.fullmatch(data_origin.strip()):
         issues.append((['data_origin'], "deve essere uno slug (^[a-z0-9_]+$)."))
 
+    slot = trait.get("slot")
+    if isinstance(slot, list):
+        for idx, value in enumerate(slot):
+            if isinstance(value, str) and not SLOT_PATTERN.fullmatch(value):
+                issues.append((['slot', idx], "deve essere una lettera maiuscola singola (A-Z)."))
+
+    for field in ("sinergie", "conflitti"):
+        values = trait.get(field)
+        if isinstance(values, list):
+            for idx, value in enumerate(values):
+                if isinstance(value, str) and not SLUG_PATTERN.fullmatch(value):
+                    issues.append(([field, idx], "deve contenere solo slug (^[a-z0-9_]+$)."))
+
     for field in ("biome_tags", "usage_tags"):
         values = trait.get(field)
         if isinstance(values, list):
@@ -89,7 +103,7 @@ def collect_additional_issues(trait: dict) -> List[Tuple[List[object], str]]:
                 issues.append((['metrics', idx, 'name'], "deve essere privo di spazi iniziali o finali."))
             unit = metric.get("unit")
             if isinstance(unit, str) and not UCUM_PATTERN.fullmatch(unit):
-                issues.append((['metrics', idx, 'unit'], "deve rispettare la sintassi UCUM (es. m/s, Cel, 1)."))
+                issues.append((['metrics', idx, 'unit'], "deve rispettare la sintassi UCUM (simboli standard, niente spazi)."))
 
     applicability = trait.get("applicability")
     if isinstance(applicability, dict):
@@ -144,6 +158,10 @@ def validate_trait_files(
                 "Campo 'id' mancante o non valido (deve essere stringa non vuota)."
             )
         else:
+            if not SLUG_PATTERN.fullmatch(trait_id):
+                errors.setdefault(rel_path, []).append(
+                    "Campo 'id' deve essere uno slug lower_snake_case (^[a-z0-9_]+$)."
+                )
             if trait_id in seen_ids:
                 existing = seen_ids[trait_id]
                 errors.setdefault(rel_path, []).append(

@@ -20,11 +20,13 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
   `spinta_selettiva`, `debolezza`) devono essere riferimenti `i18n:` oppure stringhe senza spazi di bordo.
 - `famiglia_tipologia` mantiene il formato `<Macro>/<Sotto>` con caratteri alfanumerici, spazi o trattini
   (`Supporto/Logistico`, `Offensivo/Assalto`, ...).
-- I tag (`biome_tags`, `usage_tags`) e `data_origin` utilizzano slug `^[a-z0-9_]+$`.
-- `metrics[].unit` accetta esclusivamente stringhe UCUM (es. `m/s`, `Cel`, `1`) e `metrics[].name` deve
-  essere già ripulito.
-- Le entry `species_affinity` validano sia il formato dello slug (`species_id` supporta trattini) sia i
-  ruoli (`roles[]` con slug `^[a-z0-9_]+$`).
+- Gli identificatori (`id`, `sinergie[]`, `conflitti[]`, `biome_tags[]`, `usage_tags[]`, `data_origin`)
+  utilizzano slug `^[a-z0-9_]+$` e ogni file JSON deve avere un `id` corrispondente al nome del file.
+- Gli slot (`slot[]`) accettano soltanto lettere maiuscole singole (A–Z) e non possono ripetersi.
+- `metrics[].unit` accetta esclusivamente stringhe UCUM senza spazi (`m/s`, `Cel`, `1`, `kPa`, …) mentre
+  `metrics[].name` deve essere già ripulito.
+- Le entry `species_affinity` validano sia il formato dello slug (`species_id` supporta trattini ma non
+  maiuscole) sia i ruoli (`roles[]` con slug `^[a-z0-9_]+$`).
 - `applicability.envo_terms` richiede URI ENVO canonici (`http://purl.obolibrary.org/obo/ENVO_…`).
 
 ## Import da fonti esterne
@@ -84,7 +86,8 @@ Per modifiche iterative è disponibile l'editor React ospitato nella mission con
    ```
    Il comando supporta anche `--format json` se serve produrre un riepilogo alternativo e `--traits-dir`
    per validare dataset di test senza toccare `data/traits/`. Il processo termina con errore se vengono
-   rilevati slug non conformi, UCUM errati o `species_affinity` con specie inesistenti.
+   rilevati slug non conformi, slot non canonici, UCUM errati (simboli non standard o spazi) o
+   `species_affinity` con specie inesistenti.
 4. **Aggiornare le regole ambientali** – se necessario, associare il tratto in `packs/evo_tactics_pack/docs/catalog/env_traits.json`.
 5. **Rigenerare la baseline** – eseguire:
    ```bash
@@ -104,7 +107,8 @@ Per modifiche iterative è disponibile l'editor React ospitato nella mission con
      --out-csv data/derived/analysis/trait_coverage_matrix.csv
    ```
    Lo script esce con codice diverso da zero se le entry `species_affinity` del catalogo fanno
-   riferimento a specie non presenti nel repository o se i ruoli non rispettano lo slug richiesto.
+   riferimento a specie non presenti nel repository, se gli identificativi non rispettano gli slug
+   richiesti o se vengono trovate metriche con unità UCUM non valide.
 7. **Analizzare i gap rispetto ai dati ETL** – usare:
    ```bash
    python tools/analysis/trait_gap_report.py \

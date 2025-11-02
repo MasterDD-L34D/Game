@@ -5,7 +5,7 @@
   "type": "object",
   "required": ["id", "name"],
   "properties": {
-    "id": { "type": "string", "minLength": 1 },
+    "id": { "$ref": "#/$defs/species_id" },
     "name": { "type": "string", "minLength": 1 },
     "archetype": { "type": "string" },
     "rarity": { "type": "string" },
@@ -18,18 +18,22 @@
       "properties": {
         "core": {
           "type": "array",
-          "items": { "type": "string" }
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/trait_slug" },
+          "uniqueItems": true
         },
         "optional": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": { "$ref": "#/$defs/trait_slug" },
+          "uniqueItems": true
         },
         "synergy": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": { "$ref": "#/$defs/trait_slug" },
+          "uniqueItems": true
         }
       },
-      "additionalProperties": true
+      "additionalProperties": false
     },
     "habitats": {
       "type": "array",
@@ -47,10 +51,25 @@
     },
     "tags": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "$ref": "#/$defs/tag_slug" },
+      "uniqueItems": true
     },
     "createdAt": { "type": "string", "format": "date-time" },
     "updatedAt": { "type": "string", "format": "date-time" }
   },
-  "additionalProperties": true
+  "additionalProperties": true,
+  "$defs": {
+    "species_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "trait_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "tag_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    }
+  }
 }
