@@ -38,9 +38,9 @@ ecosistema:
       - cervidi_erborivori
       - impollinatori_misti
       secondari:
-      - lupus_temperatus
+      - lupus-temperatus
       terziari:
-      - sentinella_radice
+      - sentinella-radice
     decompositori:
     - funghi_micotici
     - biofilm_detritico

@@ -2,43 +2,43 @@ nodes:
 - id: succulente_xerofile
 - id: cianobatteri_dune
 - id: licheni_cripto
-- id: cactus_weaver
-- id: noctule_termico
-- id: thermo_raptor
-- id: silica_bloom
-- id: evento_ondata_termica
+- id: cactus-weaver
+- id: noctule-termico
+- id: thermo-raptor
+- id: silica-bloom
+- id: evento-ondata-termica
 - id: detrito
 - id: carcasse
 edges:
 - from: succulente_xerofile
-  to: cactus_weaver
+  to: cactus-weaver
   type: herbivory
   weight: 0.5
 - from: licheni_cripto
-  to: cactus_weaver
+  to: cactus-weaver
   type: grazing
   weight: 0.4
 - from: cianobatteri_dune
-  to: cactus_weaver
+  to: cactus-weaver
   type: grazing
   weight: 0.3
-- from: cactus_weaver
-  to: thermo_raptor
+- from: cactus-weaver
+  to: thermo-raptor
   type: predation
   weight: 0.6
-- from: noctule_termico
+- from: noctule-termico
   to: succulente_xerofile
   type: dispersal
   weight: 0.5
 - from: detrito
-  to: cactus_weaver
+  to: cactus-weaver
   type: detritus
   weight: 0.4
 - from: carcasse
-  to: cactus_weaver
+  to: cactus-weaver
   type: scavenging
   weight: 0.3
-- from: silica_bloom
-  to: cactus_weaver
+- from: silica-bloom
+  to: cactus-weaver
   type: suppression
   weight: 0.5

@@ -1,6 +1,6 @@
 {
   "events": {
-    "evento_brinastorm": {
+    "evento-brinastorm": {
       "archetypes": [
         "evento_ecologico"
       ],
@@ -19,19 +19,19 @@
       "environment_focus": {
         "biome_class": "mezzanotte_orbitale"
       },
-      "id": "evento_brinastorm",
+      "id": "evento-brinastorm",
       "morphotype": "volatore_planatore",
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "evento_ecologico",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/evento_brinastorm.yaml"
+        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "evento_ondata_termica": {
+    "evento-ondata-termica": {
       "archetypes": [
         "evento_ecologico"
       ],
@@ -50,19 +50,19 @@
       "environment_focus": {
         "biome_class": "abisso_vulcanico"
       },
-      "id": "evento_ondata_termica",
+      "id": "evento-ondata-termica",
       "morphotype": "volatore_planatore",
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "evento_ecologico",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/evento_ondata_termica.yaml"
+        "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "evento_seme_uragano": {
+    "evento-seme-uragano": {
       "archetypes": [
         "evento_ecologico"
       ],
@@ -76,19 +76,19 @@
       "environment_focus": {
         "biome_class": "foresta_miceliale"
       },
-      "id": "evento_seme_uragano",
+      "id": "evento-seme-uragano",
       "morphotype": null,
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "evento_ecologico",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/evento_seme_uragano.yaml"
+        "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "evento_tempesta_ferrosa": {
+    "evento-tempesta-ferrosa": {
       "archetypes": [
         "evento_ecologico"
       ],
@@ -105,7 +105,7 @@
       "environment_focus": {
         "biome_class": "dorsale_termale_tropicale"
       },
-      "id": "evento_tempesta_ferrosa",
+      "id": "evento-tempesta-ferrosa",
       "morphotype": "volatore_planatore",
       "optional_traits": [],
       "playable_unit": false,
@@ -117,7 +117,7 @@
       ],
       "role": "evento_ecologico",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/evento_tempesta_ferrosa.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
@@ -127,37 +127,37 @@
   "sources": {
     "species": [
       "data/core/species.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/dune_stalker.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/echo_wing.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/evento_tempesta_ferrosa.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/ferrocolonia_magnetotattica.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/nano_rust_bloom.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/rust_scavenger.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/sand_burrower.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/aurora_gull.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/cryo_lynx.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/evento_brinastorm.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/steppe_bison_mini.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/thaw_rot.yaml",
-      "packs/evo_tactics_pack/data/species/deserto_caldo/cactus_weaver.yaml",
-      "packs/evo_tactics_pack/data/species/deserto_caldo/evento_ondata_termica.yaml",
-      "packs/evo_tactics_pack/data/species/deserto_caldo/noctule_termico.yaml",
-      "packs/evo_tactics_pack/data/species/deserto_caldo/silica_bloom.yaml",
-      "packs/evo_tactics_pack/data/species/deserto_caldo/thermo_raptor.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/blight_micotico.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/evento_seme_uragano.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/lupus_temperatus.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella_radice.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/magneto_ridge_hunter.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/slag_veil_ambusher.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/myco_spire_warden.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap_weaver.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/aurora_bridge_runner.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/zephyr_spore_courier.yaml"
+      "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
+      "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
     ]
   },
   "species": {
-    "aurora_gull": {
+    "aurora-gull": {
       "archetypes": [
         "Invoker",
         "Skirmisher"
@@ -180,19 +180,19 @@
       "form_threshold": {
         "weight_budget": 12
       },
-      "id": "aurora_gull",
+      "id": "aurora-gull",
       "morphotype": "volatore_planatore",
       "optional_traits": [],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "dispersore_ponte",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/aurora_gull.yaml"
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "blight_micotico": {
+    "blight-micotico": {
       "archetypes": [
         "minaccia_microbica"
       ],
@@ -206,19 +206,19 @@
       "environment_focus": {
         "biome_class": "foresta_miceliale"
       },
-      "id": "blight_micotico",
+      "id": "blight-micotico",
       "morphotype": null,
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "minaccia_microbica",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/blight_micotico.yaml"
+        "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "cactus_weaver": {
+    "cactus-weaver": {
       "archetypes": [
         "Artificer",
         "Warden"
@@ -241,19 +241,19 @@
       "form_threshold": {
         "weight_budget": 12
       },
-      "id": "cactus_weaver",
+      "id": "cactus-weaver",
       "morphotype": "ingegnere_radicante",
       "optional_traits": [],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus_weaver.yaml"
+        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "cryo_lynx": {
+    "cryo-lynx": {
       "archetypes": [
         "predatore_terziario_apex"
       ],
@@ -272,19 +272,19 @@
       "environment_focus": {
         "biome_class": "mezzanotte_orbitale"
       },
-      "id": "cryo_lynx",
+      "id": "cryo-lynx",
       "morphotype": "cursoriale_quadrupede",
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "predatore_terziario_apex",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/cryo_lynx.yaml"
+        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "dune_stalker": {
+    "dune-stalker": {
       "archetypes": [],
       "biomes": [
         "caverna",
@@ -305,7 +305,7 @@
         "estimated_weight": 11,
         "weight_budget": 12
       },
-      "id": "dune_stalker",
+      "id": "dune-stalker",
       "morphotype": null,
       "optional_traits": [
         "coda_frusta_cinetica",
@@ -327,7 +327,7 @@
         "tattiche_di_branco"
       ]
     },
-    "echo_wing": {
+    "echo-wing": {
       "archetypes": [
         "dispersore_ponte"
       ],
@@ -346,7 +346,7 @@
       "form_threshold": {
         "weight_budget": 12
       },
-      "id": "echo_wing",
+      "id": "echo-wing",
       "morphotype": "volatore_planatore",
       "optional_traits": [
         "sacche_galleggianti_ascensoriali",
@@ -361,12 +361,12 @@
       ],
       "role": "dispersore_ponte",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/echo_wing.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "ferrocolonia_magnetotattica": {
+    "ferrocolonia-magnetotattica": {
       "archetypes": [
         "Artificer",
         "Warden"
@@ -386,7 +386,7 @@
       "form_threshold": {
         "weight_budget": 13
       },
-      "id": "ferrocolonia_magnetotattica",
+      "id": "ferrocolonia-magnetotattica",
       "morphotype": "ingegnere_radicante",
       "optional_traits": [
         "lingua_tattile_trama",
@@ -401,12 +401,12 @@
       ],
       "role": "predatore_regolatore_simbionte",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia_magnetotattica.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "lupus_temperatus": {
+    "lupus-temperatus": {
       "archetypes": [
         "predatore_terziario_apex"
       ],
@@ -420,19 +420,19 @@
       "environment_focus": {
         "biome_class": "foresta_miceliale"
       },
-      "id": "lupus_temperatus",
+      "id": "lupus-temperatus",
       "morphotype": null,
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "predatore_terziario_apex",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus_temperatus.yaml"
+        "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "nano_rust_bloom": {
+    "nano-rust-bloom": {
       "archetypes": [
         "minaccia_microbica"
       ],
@@ -448,7 +448,7 @@
       "environment_focus": {
         "biome_class": "dorsale_termale_tropicale"
       },
-      "id": "nano_rust_bloom",
+      "id": "nano-rust-bloom",
       "morphotype": "scavenger_corazzato",
       "optional_traits": [
         "carapace_fase_variabile",
@@ -463,12 +463,12 @@
       ],
       "role": "minaccia_microbica",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/nano_rust_bloom.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "noctule_termico": {
+    "noctule-termico": {
       "archetypes": [
         "Invoker",
         "Skirmisher"
@@ -491,19 +491,19 @@
       "form_threshold": {
         "weight_budget": 12
       },
-      "id": "noctule_termico",
+      "id": "noctule-termico",
       "morphotype": "volatore_planatore",
       "optional_traits": [],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "dispersore_ponte",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule_termico.yaml"
+        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "rust_scavenger": {
+    "rust-scavenger": {
       "archetypes": [
         "Artificer",
         "Warden"
@@ -523,7 +523,7 @@
       "form_threshold": {
         "weight_budget": 12
       },
-      "id": "rust_scavenger",
+      "id": "rust-scavenger",
       "morphotype": "scavenger_corazzato",
       "optional_traits": [
         "nucleo_ovomotore_rotante",
@@ -538,12 +538,12 @@
       ],
       "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/rust_scavenger.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "sand_burrower": {
+    "sand-burrower": {
       "archetypes": [
         "erbivoro_primario"
       ],
@@ -559,7 +559,7 @@
       "environment_focus": {
         "biome_class": "dorsale_termale_tropicale"
       },
-      "id": "sand_burrower",
+      "id": "sand-burrower",
       "morphotype": "cursoriale_quadrupede",
       "optional_traits": [
         "carapace_fase_variabile",
@@ -574,12 +574,12 @@
       ],
       "role": "erbivoro_primario",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/sand_burrower.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "sentinella_radice": {
+    "sentinella-radice": {
       "archetypes": [
         "ingegneri_ecosistema"
       ],
@@ -596,19 +596,19 @@
       "form_threshold": {
         "weight_budget": 12
       },
-      "id": "sentinella_radice",
+      "id": "sentinella-radice",
       "morphotype": null,
       "optional_traits": [],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella_radice.yaml"
+        "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "silica_bloom": {
+    "silica-bloom": {
       "archetypes": [
         "minaccia_microbica"
       ],
@@ -627,19 +627,19 @@
       "environment_focus": {
         "biome_class": "abisso_vulcanico"
       },
-      "id": "silica_bloom",
+      "id": "silica-bloom",
       "morphotype": "scavenger_corazzato",
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "minaccia_microbica",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/silica_bloom.yaml"
+        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "steppe_bison_mini": {
+    "steppe-bison-mini": {
       "archetypes": [
         "Vanguard",
         "Warden"
@@ -662,19 +662,19 @@
       "form_threshold": {
         "weight_budget": 12
       },
-      "id": "steppe_bison_mini",
+      "id": "steppe-bison-mini",
       "morphotype": "cursoriale_quadrupede",
       "optional_traits": [],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/steppe_bison_mini.yaml"
+        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "thaw_rot": {
+    "thaw-rot": {
       "archetypes": [
         "minaccia_microbica"
       ],
@@ -693,19 +693,19 @@
       "environment_focus": {
         "biome_class": "mezzanotte_orbitale"
       },
-      "id": "thaw_rot",
+      "id": "thaw-rot",
       "morphotype": "scavenger_corazzato",
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "minaccia_microbica",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/thaw_rot.yaml"
+        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "thermo_raptor": {
+    "thermo-raptor": {
       "archetypes": [
         "predatore_terziario_apex"
       ],
@@ -724,19 +724,19 @@
       "environment_focus": {
         "biome_class": "abisso_vulcanico"
       },
-      "id": "thermo_raptor",
+      "id": "thermo-raptor",
       "morphotype": "cursoriale_quadrupede",
       "optional_traits": [],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "predatore_terziario_apex",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo_raptor.yaml"
+        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "magneto_ridge_hunter": {
+    "magneto-ridge-hunter": {
       "archetypes": [
         "predatore_terziario_apex"
       ],
@@ -753,7 +753,7 @@
         "biome_class": "dorsale_termale_tropicale",
         "rationale": "Assalitore magnetotattico addestrabile per presidiare i colli di bottiglia della dorsale."
       },
-      "id": "magneto_ridge_hunter",
+      "id": "magneto-ridge-hunter",
       "morphotype": "cursoriale_quadrupede",
       "optional_traits": [
         "olfatto_risonanza_magnetica",
@@ -768,7 +768,7 @@
       ],
       "role": "predatore_terziario_apex",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/magneto_ridge_hunter.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": [
@@ -776,7 +776,7 @@
         "struttura_elastica_amorfa"
       ]
     },
-    "slag_veil_ambusher": {
+    "slag-veil-ambusher": {
       "archetypes": [
         "predatore_terziario_apex"
       ],
@@ -793,7 +793,7 @@
         "biome_class": "dorsale_termale_tropicale",
         "rationale": "Fauna d'agguato che sfrutta il particolato ferroso per schermare gli assalti contro i branchi di prede corazzate."
       },
-      "id": "slag_veil_ambusher",
+      "id": "slag-veil-ambusher",
       "morphotype": "cursoriale_quadrupede",
       "optional_traits": [
         "ghiandola_caustica",
@@ -806,7 +806,7 @@
       ],
       "role": "predatore_terziario_apex",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/slag_veil_ambusher.yaml"
+        "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": [
@@ -814,7 +814,7 @@
         "scheletro_idro_regolante"
       ]
     },
-    "myco_spire_warden": {
+    "myco-spire-warden": {
       "archetypes": [
         "ingegneri_ecosistema"
       ],
@@ -831,7 +831,7 @@
         "biome_class": "foresta_miceliale",
         "rationale": "Custode giocabile che scolpisce condotti miceliali per supportare squadre e fauna simbiotica."
       },
-      "id": "myco_spire_warden",
+      "id": "myco-spire-warden",
       "morphotype": "scavenger_corazzato",
       "optional_traits": [
         "focus_frazionato",
@@ -844,7 +844,7 @@
       ],
       "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/myco_spire_warden.yaml"
+        "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": [
@@ -852,7 +852,7 @@
         "pianificatore"
       ]
     },
-    "glowcap_weaver": {
+    "glowcap-weaver": {
       "archetypes": [
         "ingegneri_ecosistema"
       ],
@@ -869,7 +869,7 @@
         "biome_class": "foresta_miceliale",
         "rationale": "Fauna ambientale che tesse bio-lanterne per segnalare percorsi sicuri e mantenere la circolazione di spore."
       },
-      "id": "glowcap_weaver",
+      "id": "glowcap-weaver",
       "morphotype": "scavenger_corazzato",
       "optional_traits": [
         "focus_frazionato",
@@ -881,7 +881,7 @@
       ],
       "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap_weaver.yaml"
+        "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": [
@@ -889,7 +889,7 @@
         "pianificatore"
       ]
     },
-    "aurora_bridge_runner": {
+    "aurora-bridge-runner": {
       "archetypes": [
         "dispersore_ponte"
       ],
@@ -906,7 +906,7 @@
         "biome_class": "mezzanotte_orbitale",
         "rationale": "Navigator giocabile che intreccia ponti aurorali e guida il traffico su piattaforme sospese."
       },
-      "id": "aurora_bridge_runner",
+      "id": "aurora-bridge-runner",
       "morphotype": "volatore_planatore",
       "optional_traits": [
         "lingua_tattile_trama",
@@ -919,7 +919,7 @@
       ],
       "role": "dispersore_ponte",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/aurora_bridge_runner.yaml"
+        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": [
@@ -927,7 +927,7 @@
         "empatia_coordinativa"
       ]
     },
-    "zephyr_spore_courier": {
+    "zephyr-spore-courier": {
       "archetypes": [
         "dispersore_ponte"
       ],
@@ -944,7 +944,7 @@
         "biome_class": "mezzanotte_orbitale",
         "rationale": "Stormo ambientale che disperde spore luminose per segnare corridoi d'aria e alimentare il ponte ecologico."
       },
-      "id": "zephyr_spore_courier",
+      "id": "zephyr-spore-courier",
       "morphotype": "volatore_planatore",
       "optional_traits": [
         "lingua_tattile_trama",
@@ -956,7 +956,7 @@
       ],
       "role": "dispersore_ponte",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/zephyr_spore_courier.yaml"
+        "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": [
@@ -975,8 +975,8 @@
         "scheletro_idro_regolante",
         "artigli_sette_vie"
       ],
-      "playable_species": "magneto_ridge_hunter",
-      "ambient_species": "slag_veil_ambusher"
+      "playable_species": "magneto-ridge-hunter",
+      "ambient_species": "slag-veil-ambusher"
     },
     {
       "role": "ingegneri_ecosistema",
@@ -987,8 +987,8 @@
         "empatia_coordinativa",
         "struttura_elastica_amorfa"
       ],
-      "playable_species": "myco_spire_warden",
-      "ambient_species": "glowcap_weaver"
+      "playable_species": "myco-spire-warden",
+      "ambient_species": "glowcap-weaver"
     },
     {
       "role": "dispersore_ponte",
@@ -999,8 +999,8 @@
         "mimetismo_cromatico_passivo",
         "eco_interno_riflesso"
       ],
-      "playable_species": "aurora_bridge_runner",
-      "ambient_species": "zephyr_spore_courier"
+      "playable_species": "aurora-bridge-runner",
+      "ambient_species": "zephyr-spore-courier"
     }
   ]
 }

@@ -1,0 +1,69 @@
+schema_version: 1.7
+receipt:
+  source: coverage_autogen
+  author: automation
+  date: '2025-10-29'
+  trace_hash: to-fill
+id: caldera-glaciale-trait-keeper
+display_name: Glacial Caldera Trait Keeper
+biomes:
+  - caldera_glaciale
+role_trofico: ingegneri_ecosistema
+functional_tags:
+  - supporto
+  - ricognizione
+morphotype: cursoriale_quadrupede
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: false
+spawn_rules:
+  orario: []
+  meteo: []
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+environment_affinity:
+  biome_class: caldera_glaciale
+  rationale: Specie di riferimento generata per coprire i tratti ambientali associati
+    al bioma caldera_glaciale. Usata per validare la matrice traits↔species.
+derived_from_environment:
+  suggested_traits:
+    - artigli_vetrificati
+    - barriere_miasma_glaciale
+    - branchie_solfatiche
+    - capillari_criogenici
+    - circolazione_bifasica
+    - enzimi_antifase_termica
+    - filamenti_superconduttivi
+    - ghiaccio_piezoelettrico
+    - ghiandole_ventosa
+    - gusci_criovetro
+    - luminescenza_aurorale
+    - mantelli_geotermici
+  optional_traits: []
+  required_capabilities: []
+  jobs_bias: []
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits:
+  core: []
+  optional: []
+  synergy: []
+mate_synergy: []
+jobs_synergy: []
+vc:
+  aggro: 0.0
+  risk: 0.1
+  cohesion: 0.6
+  setup: 0.5
+  explore: 0.4
+  tilt: 0.1

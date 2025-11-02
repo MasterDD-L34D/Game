@@ -30,20 +30,20 @@ ecosistema:
       K: medio
   trofico:
     produttori:
-      - treant_portale
+      - treant-portale
     consumatori:
       primari:
-        - bulette_fase
+        - bulette-fase
       secondari:
-        - otyugh_sentinella
-        - couatl_aurora
+        - otyugh-sentinella
+        - couatl-aurora
       terziari:
-        - balor_fission
-        - marilith_vault
-        - rakshasa_corte
+        - balor-fission
+        - marilith-vault
+        - rakshasa-corte
     decompositori:
-      - otyugh_sentinella
-      - banshee_risonante
+      - otyugh-sentinella
+      - banshee-risonante
   note: Rete planare ricostruita da creature Pathfinder tradotte in blueprint Evo Tactics.
 links:
   species_dir: packs/evo_tactics_pack/data/species/rovine_planari

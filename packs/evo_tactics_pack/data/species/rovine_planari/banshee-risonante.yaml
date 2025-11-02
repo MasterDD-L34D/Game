@@ -1,0 +1,84 @@
+schema_version: 1.7
+receipt:
+  source: PF1E.Bestiary.v1
+  author: designer
+  date: '2025-10-30'
+  trace_hash: to-fill
+id: banshee-risonante
+display_name: Banshee Risonante
+biomes:
+  - rovine_planari
+role_trofico: evento_ecologico
+functional_tags:
+  - pulse_climatico
+  - minaccia
+morphotype: volatore_planatore
+flags:
+  apex: false
+  keystone: false
+  sentient: true
+  bridge: false
+  threat: true
+  event: true
+playable_unit: false
+vc:
+  aggro: 0.6
+  risk: 0.7
+  cohesion: 0.2
+  setup: 0.6
+  explore: 0.5
+  tilt: 0.8
+services_links:
+  - culturale:avvisi_spettrali
+spawn_rules:
+  orario:
+    - notte
+  meteo:
+    - nebbia_risonante
+    - pioggia_cenere
+  densita: event
+balance:
+  rarity: R5
+  threat_tier: T4
+  encounter_role: event
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+environment_affinity:
+  biome_class: rovine_planari
+  koppen:
+    - Cfb
+  hazards_expected:
+    - tempesta_radianza
+    - eco_mnemonico
+derived_from_environment:
+  suggested_traits:
+    - eco_sismico
+    - voce_spettrale
+    - intangibilita_parziale
+    - lamenti_diradanti
+  optional_traits:
+    - focus_frazionato
+    - risonanza_di_branco
+  required_capabilities:
+    - phase_shift
+    - sonic_control
+  services_links:
+    - culturale:memorie_orali
+    - regolazione:scarico_emozionale
+  jobs_bias:
+    - Invoker
+    - Support
+genetic_traits:
+  core:
+    - ciclo_vitale_anomalo
+    - metabolismo_sostentato
+    - assenza_respirazione
+    - origine_artificiale
+    - adattamento_volo
+    - risonanza_di_branco
+  optional: []
+  synergy:
+    - focus_frazionato
+mate_synergy: []
+jobs_synergy: []

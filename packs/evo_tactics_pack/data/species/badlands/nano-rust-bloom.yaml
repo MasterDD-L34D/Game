@@ -1,0 +1,87 @@
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+id: nano-rust-bloom
+display_name: Nano Rust Bloom
+biomes:
+  - dorsale_termale_tropicale
+role_trofico: minaccia_microbica
+functional_tags:
+  - patogeno
+morphotype: scavenger_corazzato
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+playable_unit: false
+vc:
+  aggro: 0.3
+  risk: 0.8
+  cohesion: 0.4
+  setup: 0.7
+  explore: 0.2
+  tilt: 0.8
+ecology:
+  trigger:
+    - umidità episodica + sali
+  contromisure:
+    - chelanti
+    - taglio flussi magnetici
+spawn_rules:
+  orario:
+    - continuo
+  meteo:
+    - foschia_ferrosa
+  densita: mid
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: boss
+environment_affinity:
+  biome_class: dorsale_termale_tropicale
+  koppen:
+    - BSk
+    - BWk
+  hazards_expected:
+    - tempeste_sabbia
+    - collassi di scarpate
+    - tempesta_sabbia_magnetica
+    - iron_shards
+    - magnetic_patches
+derived_from_environment:
+  suggested_traits:
+    - filamenti_digestivi_compattanti
+    - spore_psichiche_silenziate
+    - scheletro_idro_regolante
+  optional_traits:
+    - carapace_fase_variabile
+    - sangue_piroforico
+  required_capabilities:
+    - build_cover
+    - dr_impact_cap
+    - non_metal_gear
+    - seal_vents
+  jobs_bias:
+    - Vanguard
+    - Warden
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits:
+  core:
+    - filamenti_digestivi_compattanti
+    - spore_psichiche_silenziate
+    - scheletro_idro_regolante
+  optional:
+    - carapace_fase_variabile
+    - sangue_piroforico
+  synergy: []
+mate_synergy: []
+jobs_synergy: []

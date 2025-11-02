@@ -98,62 +98,62 @@
           "arbusti_xerofili",
           "crostoni_criptofite",
           "cianobatteri",
-          "sand_burrower",
-          "rust_scavenger",
-          "echo_wing",
-          "ferrocolonia_magnetotattica",
-          "dune_stalker",
-          "nano_rust_bloom",
-          "evento_tempesta_ferrosa",
+          "sand-burrower",
+          "rust-scavenger",
+          "echo-wing",
+          "ferrocolonia-magnetotattica",
+          "dune-stalker",
+          "nano-rust-bloom",
+          "evento-tempesta-ferrosa",
           "detrito",
           "carcasse"
         ],
         "edges": [
           {
             "from": "arbusti_xerofili",
-            "to": "sand_burrower",
+            "to": "sand-burrower",
             "type": "herbivory",
             "weight": 0.6
           },
           {
             "from": "crostoni_criptofite",
-            "to": "sand_burrower",
+            "to": "sand-burrower",
             "type": "grazing",
             "weight": 0.4
           },
           {
-            "from": "sand_burrower",
-            "to": "dune_stalker",
+            "from": "sand-burrower",
+            "to": "dune-stalker",
             "type": "predation",
             "weight": 0.7
           },
           {
             "from": "detrito",
-            "to": "rust_scavenger",
+            "to": "rust-scavenger",
             "type": "detritus",
             "weight": 0.8
           },
           {
-            "from": "rust_scavenger",
-            "to": "ferrocolonia_magnetotattica",
+            "from": "rust-scavenger",
+            "to": "ferrocolonia-magnetotattica",
             "type": "mutualism",
             "weight": 0.3
           },
           {
-            "from": "echo_wing",
+            "from": "echo-wing",
             "to": "arbusti_xerofili",
             "type": "dispersal",
             "weight": 0.5
           },
           {
-            "from": "nano_rust_bloom",
-            "to": "rust_scavenger",
+            "from": "nano-rust-bloom",
+            "to": "rust-scavenger",
             "type": "suppression",
             "weight": 0.6
           },
           {
             "from": "carcasse",
-            "to": "rust_scavenger",
+            "to": "rust-scavenger",
             "type": "scavenging",
             "weight": 0.5
           }
@@ -161,7 +161,7 @@
       },
       "species": [
         {
-          "id": "dune_stalker",
+          "id": "dune-stalker",
           "display_name": "Dune Stalker",
           "biomes": [
             "badlands"
@@ -179,10 +179,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/dune_stalker.yaml"
+          "path": "../../data/species/badlands/dune-stalker.yaml"
         },
         {
-          "id": "echo_wing",
+          "id": "echo-wing",
           "display_name": "Echo Wing",
           "biomes": [
             "badlands",
@@ -203,10 +203,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/echo_wing.yaml"
+          "path": "../../data/species/badlands/echo-wing.yaml"
         },
         {
-          "id": "evento_tempesta_ferrosa",
+          "id": "evento-tempesta-ferrosa",
           "display_name": "Evento: Tempesta Ferrosa",
           "biomes": [
             "badlands"
@@ -223,10 +223,10 @@
             "threat": false,
             "event": true
           },
-          "path": "../../data/species/badlands/evento_tempesta_ferrosa.yaml"
+          "path": "../../data/species/badlands/evento-tempesta-ferrosa.yaml"
         },
         {
-          "id": "ferrocolonia_magnetotattica",
+          "id": "ferrocolonia-magnetotattica",
           "display_name": "Ferrocolonia Magnetotattica",
           "biomes": [
             "badlands"
@@ -245,10 +245,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/ferrocolonia_magnetotattica.yaml"
+          "path": "../../data/species/badlands/ferrocolonia-magnetotattica.yaml"
         },
         {
-          "id": "nano_rust_bloom",
+          "id": "nano-rust-bloom",
           "display_name": "Nano Rust Bloom",
           "biomes": [
             "badlands"
@@ -265,10 +265,10 @@
             "threat": true,
             "event": false
           },
-          "path": "../../data/species/badlands/nano_rust_bloom.yaml"
+          "path": "../../data/species/badlands/nano-rust-bloom.yaml"
         },
         {
-          "id": "rust_scavenger",
+          "id": "rust-scavenger",
           "display_name": "Rust Scavenger",
           "biomes": [
             "badlands"
@@ -286,10 +286,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/rust_scavenger.yaml"
+          "path": "../../data/species/badlands/rust-scavenger.yaml"
         },
         {
-          "id": "sand_burrower",
+          "id": "sand-burrower",
           "display_name": "Sand Burrower",
           "biomes": [
             "badlands"
@@ -307,7 +307,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/sand_burrower.yaml"
+          "path": "../../data/species/badlands/sand-burrower.yaml"
         }
       ]
     },
@@ -362,7 +362,7 @@
       },
       "species": [
         {
-          "id": "blight_micotico",
+          "id": "blight-micotico",
           "display_name": "Blight Micotico",
           "biomes": [
             "foresta_temperata"
@@ -379,10 +379,10 @@
             "threat": true,
             "event": false
           },
-          "path": "../../data/species/foresta_temperata/blight_micotico.yaml"
+          "path": "../../data/species/foresta_temperata/blight-micotico.yaml"
         },
         {
-          "id": "evento_seme_uragano",
+          "id": "evento-seme-uragano",
           "display_name": "Evento: Seme d'Uragano",
           "biomes": [
             "foresta_temperata"
@@ -399,10 +399,10 @@
             "threat": false,
             "event": true
           },
-          "path": "../../data/species/foresta_temperata/evento_seme_uragano.yaml"
+          "path": "../../data/species/foresta_temperata/evento-seme-uragano.yaml"
         },
         {
-          "id": "lupus_temperatus",
+          "id": "lupus-temperatus",
           "display_name": "Lupo della Foresta",
           "biomes": [
             "foresta_temperata"
@@ -419,10 +419,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/foresta_temperata/lupus_temperatus.yaml"
+          "path": "../../data/species/foresta_temperata/lupus-temperatus.yaml"
         },
         {
-          "id": "sentinella_radice",
+          "id": "sentinella-radice",
           "display_name": "Sentinella Radice",
           "biomes": [
             "foresta_temperata"
@@ -440,7 +440,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/foresta_temperata/sentinella_radice.yaml"
+          "path": "../../data/species/foresta_temperata/sentinella-radice.yaml"
         }
       ]
     },
@@ -476,60 +476,60 @@
           "succulente_xerofile",
           "cianobatteri_dune",
           "licheni_cripto",
-          "cactus_weaver",
-          "noctule_termico",
-          "thermo_raptor",
-          "silica_bloom",
-          "evento_ondata_termica",
+          "cactus-weaver",
+          "noctule-termico",
+          "thermo-raptor",
+          "silica-bloom",
+          "evento-ondata-termica",
           "detrito",
           "carcasse"
         ],
         "edges": [
           {
             "from": "succulente_xerofile",
-            "to": "cactus_weaver",
+            "to": "cactus-weaver",
             "type": "herbivory",
             "weight": 0.5
           },
           {
             "from": "licheni_cripto",
-            "to": "cactus_weaver",
+            "to": "cactus-weaver",
             "type": "grazing",
             "weight": 0.4
           },
           {
             "from": "cianobatteri_dune",
-            "to": "cactus_weaver",
+            "to": "cactus-weaver",
             "type": "grazing",
             "weight": 0.3
           },
           {
-            "from": "cactus_weaver",
-            "to": "thermo_raptor",
+            "from": "cactus-weaver",
+            "to": "thermo-raptor",
             "type": "predation",
             "weight": 0.6
           },
           {
-            "from": "noctule_termico",
+            "from": "noctule-termico",
             "to": "succulente_xerofile",
             "type": "dispersal",
             "weight": 0.5
           },
           {
             "from": "detrito",
-            "to": "cactus_weaver",
+            "to": "cactus-weaver",
             "type": "detritus",
             "weight": 0.4
           },
           {
             "from": "carcasse",
-            "to": "cactus_weaver",
+            "to": "cactus-weaver",
             "type": "scavenging",
             "weight": 0.3
           },
           {
-            "from": "silica_bloom",
-            "to": "cactus_weaver",
+            "from": "silica-bloom",
+            "to": "cactus-weaver",
             "type": "suppression",
             "weight": 0.5
           }
@@ -537,7 +537,7 @@
       },
       "species": [
         {
-          "id": "cactus_weaver",
+          "id": "cactus-weaver",
           "display_name": "Cactus Weaver",
           "biomes": [
             "deserto_caldo"
@@ -556,10 +556,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/deserto_caldo/cactus_weaver.yaml"
+          "path": "../../data/species/deserto_caldo/cactus-weaver.yaml"
         },
         {
-          "id": "evento_ondata_termica",
+          "id": "evento-ondata-termica",
           "display_name": "Evento: Ondata Termica Ionica",
           "biomes": [
             "deserto_caldo"
@@ -576,10 +576,10 @@
             "threat": false,
             "event": true
           },
-          "path": "../../data/species/deserto_caldo/evento_ondata_termica.yaml"
+          "path": "../../data/species/deserto_caldo/evento-ondata-termica.yaml"
         },
         {
-          "id": "noctule_termico",
+          "id": "noctule-termico",
           "display_name": "Noctule Termico",
           "biomes": [
             "deserto_caldo"
@@ -597,10 +597,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/deserto_caldo/noctule_termico.yaml"
+          "path": "../../data/species/deserto_caldo/noctule-termico.yaml"
         },
         {
-          "id": "silica_bloom",
+          "id": "silica-bloom",
           "display_name": "Silica Bloom",
           "biomes": [
             "deserto_caldo"
@@ -617,10 +617,10 @@
             "threat": true,
             "event": false
           },
-          "path": "../../data/species/deserto_caldo/silica_bloom.yaml"
+          "path": "../../data/species/deserto_caldo/silica-bloom.yaml"
         },
         {
-          "id": "thermo_raptor",
+          "id": "thermo-raptor",
           "display_name": "Thermo Raptor",
           "biomes": [
             "deserto_caldo"
@@ -638,7 +638,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/deserto_caldo/thermo_raptor.yaml"
+          "path": "../../data/species/deserto_caldo/thermo-raptor.yaml"
         }
       ]
     },
@@ -674,54 +674,54 @@
           "tappeti_muschio",
           "arbusti_alpini",
           "licheni_borea",
-          "steppe_bison_mini",
-          "aurora_gull",
-          "cryo_lynx",
-          "thaw_rot",
-          "evento_brinastorm",
+          "steppe-bison-mini",
+          "aurora-gull",
+          "cryo-lynx",
+          "thaw-rot",
+          "evento-brinastorm",
           "detrito",
           "carcasse"
         ],
         "edges": [
           {
             "from": "tappeti_muschio",
-            "to": "steppe_bison_mini",
+            "to": "steppe-bison-mini",
             "type": "grazing",
             "weight": 0.6
           },
           {
             "from": "arbusti_alpini",
-            "to": "steppe_bison_mini",
+            "to": "steppe-bison-mini",
             "type": "herbivory",
             "weight": 0.4
           },
           {
-            "from": "steppe_bison_mini",
-            "to": "cryo_lynx",
+            "from": "steppe-bison-mini",
+            "to": "cryo-lynx",
             "type": "predation",
             "weight": 0.6
           },
           {
-            "from": "aurora_gull",
+            "from": "aurora-gull",
             "to": "arbusti_alpini",
             "type": "dispersal",
             "weight": 0.5
           },
           {
             "from": "detrito",
-            "to": "steppe_bison_mini",
+            "to": "steppe-bison-mini",
             "type": "detritus",
             "weight": 0.4
           },
           {
             "from": "carcasse",
-            "to": "steppe_bison_mini",
+            "to": "steppe-bison-mini",
             "type": "scavenging",
             "weight": 0.3
           },
           {
-            "from": "thaw_rot",
-            "to": "steppe_bison_mini",
+            "from": "thaw-rot",
+            "to": "steppe-bison-mini",
             "type": "suppression",
             "weight": 0.5
           }
@@ -729,7 +729,7 @@
       },
       "species": [
         {
-          "id": "aurora_gull",
+          "id": "aurora-gull",
           "display_name": "Gabbiano d’Aurora",
           "biomes": [
             "cryosteppe"
@@ -747,10 +747,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/cryosteppe/aurora_gull.yaml"
+          "path": "../../data/species/cryosteppe/aurora-gull.yaml"
         },
         {
-          "id": "cryo_lynx",
+          "id": "cryo-lynx",
           "display_name": "Cryo Lynx",
           "biomes": [
             "cryosteppe"
@@ -768,10 +768,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/cryosteppe/cryo_lynx.yaml"
+          "path": "../../data/species/cryosteppe/cryo-lynx.yaml"
         },
         {
-          "id": "evento_brinastorm",
+          "id": "evento-brinastorm",
           "display_name": "Evento: Brina Tempestosa",
           "biomes": [
             "cryosteppe"
@@ -788,10 +788,10 @@
             "threat": false,
             "event": true
           },
-          "path": "../../data/species/cryosteppe/evento_brinastorm.yaml"
+          "path": "../../data/species/cryosteppe/evento-brinastorm.yaml"
         },
         {
-          "id": "steppe_bison_mini",
+          "id": "steppe-bison-mini",
           "display_name": "Bisonte Nano della Steppa",
           "biomes": [
             "cryosteppe"
@@ -810,10 +810,10 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/cryosteppe/steppe_bison_mini.yaml"
+          "path": "../../data/species/cryosteppe/steppe-bison-mini.yaml"
         },
         {
-          "id": "thaw_rot",
+          "id": "thaw-rot",
           "display_name": "Thaw Rot",
           "biomes": [
             "cryosteppe"
@@ -830,14 +830,14 @@
             "threat": true,
             "event": false
           },
-          "path": "../../data/species/cryosteppe/thaw_rot.yaml"
+          "path": "../../data/species/cryosteppe/thaw-rot.yaml"
         }
       ]
     }
   ],
   "species": [
     {
-      "id": "dune_stalker",
+      "id": "dune-stalker",
       "display_name": "Dune Stalker",
       "biomes": [
         "badlands"
@@ -855,10 +855,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/dune_stalker.yaml"
+      "path": "../../data/species/badlands/dune-stalker.yaml"
     },
     {
-      "id": "echo_wing",
+      "id": "echo-wing",
       "display_name": "Echo Wing",
       "biomes": [
         "badlands",
@@ -879,10 +879,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/echo_wing.yaml"
+      "path": "../../data/species/badlands/echo-wing.yaml"
     },
     {
-      "id": "evento_tempesta_ferrosa",
+      "id": "evento-tempesta-ferrosa",
       "display_name": "Evento: Tempesta Ferrosa",
       "biomes": [
         "badlands"
@@ -899,10 +899,10 @@
         "threat": false,
         "event": true
       },
-      "path": "../../data/species/badlands/evento_tempesta_ferrosa.yaml"
+      "path": "../../data/species/badlands/evento-tempesta-ferrosa.yaml"
     },
     {
-      "id": "ferrocolonia_magnetotattica",
+      "id": "ferrocolonia-magnetotattica",
       "display_name": "Ferrocolonia Magnetotattica",
       "biomes": [
         "badlands"
@@ -921,10 +921,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/ferrocolonia_magnetotattica.yaml"
+      "path": "../../data/species/badlands/ferrocolonia-magnetotattica.yaml"
     },
     {
-      "id": "nano_rust_bloom",
+      "id": "nano-rust-bloom",
       "display_name": "Nano Rust Bloom",
       "biomes": [
         "badlands"
@@ -941,10 +941,10 @@
         "threat": true,
         "event": false
       },
-      "path": "../../data/species/badlands/nano_rust_bloom.yaml"
+      "path": "../../data/species/badlands/nano-rust-bloom.yaml"
     },
     {
-      "id": "rust_scavenger",
+      "id": "rust-scavenger",
       "display_name": "Rust Scavenger",
       "biomes": [
         "badlands"
@@ -962,10 +962,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/rust_scavenger.yaml"
+      "path": "../../data/species/badlands/rust-scavenger.yaml"
     },
     {
-      "id": "sand_burrower",
+      "id": "sand-burrower",
       "display_name": "Sand Burrower",
       "biomes": [
         "badlands"
@@ -983,10 +983,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/sand_burrower.yaml"
+      "path": "../../data/species/badlands/sand-burrower.yaml"
     },
     {
-      "id": "blight_micotico",
+      "id": "blight-micotico",
       "display_name": "Blight Micotico",
       "biomes": [
         "foresta_temperata"
@@ -1003,10 +1003,10 @@
         "threat": true,
         "event": false
       },
-      "path": "../../data/species/foresta_temperata/blight_micotico.yaml"
+      "path": "../../data/species/foresta_temperata/blight-micotico.yaml"
     },
     {
-      "id": "evento_seme_uragano",
+      "id": "evento-seme-uragano",
       "display_name": "Evento: Seme d'Uragano",
       "biomes": [
         "foresta_temperata"
@@ -1023,10 +1023,10 @@
         "threat": false,
         "event": true
       },
-      "path": "../../data/species/foresta_temperata/evento_seme_uragano.yaml"
+      "path": "../../data/species/foresta_temperata/evento-seme-uragano.yaml"
     },
     {
-      "id": "lupus_temperatus",
+      "id": "lupus-temperatus",
       "display_name": "Lupo della Foresta",
       "biomes": [
         "foresta_temperata"
@@ -1043,10 +1043,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/foresta_temperata/lupus_temperatus.yaml"
+      "path": "../../data/species/foresta_temperata/lupus-temperatus.yaml"
     },
     {
-      "id": "sentinella_radice",
+      "id": "sentinella-radice",
       "display_name": "Sentinella Radice",
       "biomes": [
         "foresta_temperata"
@@ -1064,10 +1064,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/foresta_temperata/sentinella_radice.yaml"
+      "path": "../../data/species/foresta_temperata/sentinella-radice.yaml"
     },
     {
-      "id": "cactus_weaver",
+      "id": "cactus-weaver",
       "display_name": "Cactus Weaver",
       "biomes": [
         "deserto_caldo"
@@ -1086,10 +1086,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/deserto_caldo/cactus_weaver.yaml"
+      "path": "../../data/species/deserto_caldo/cactus-weaver.yaml"
     },
     {
-      "id": "evento_ondata_termica",
+      "id": "evento-ondata-termica",
       "display_name": "Evento: Ondata Termica Ionica",
       "biomes": [
         "deserto_caldo"
@@ -1106,10 +1106,10 @@
         "threat": false,
         "event": true
       },
-      "path": "../../data/species/deserto_caldo/evento_ondata_termica.yaml"
+      "path": "../../data/species/deserto_caldo/evento-ondata-termica.yaml"
     },
     {
-      "id": "noctule_termico",
+      "id": "noctule-termico",
       "display_name": "Noctule Termico",
       "biomes": [
         "deserto_caldo"
@@ -1127,10 +1127,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/deserto_caldo/noctule_termico.yaml"
+      "path": "../../data/species/deserto_caldo/noctule-termico.yaml"
     },
     {
-      "id": "silica_bloom",
+      "id": "silica-bloom",
       "display_name": "Silica Bloom",
       "biomes": [
         "deserto_caldo"
@@ -1147,10 +1147,10 @@
         "threat": true,
         "event": false
       },
-      "path": "../../data/species/deserto_caldo/silica_bloom.yaml"
+      "path": "../../data/species/deserto_caldo/silica-bloom.yaml"
     },
     {
-      "id": "thermo_raptor",
+      "id": "thermo-raptor",
       "display_name": "Thermo Raptor",
       "biomes": [
         "deserto_caldo"
@@ -1168,10 +1168,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/deserto_caldo/thermo_raptor.yaml"
+      "path": "../../data/species/deserto_caldo/thermo-raptor.yaml"
     },
     {
-      "id": "aurora_gull",
+      "id": "aurora-gull",
       "display_name": "Gabbiano d’Aurora",
       "biomes": [
         "cryosteppe"
@@ -1189,10 +1189,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/cryosteppe/aurora_gull.yaml"
+      "path": "../../data/species/cryosteppe/aurora-gull.yaml"
     },
     {
-      "id": "cryo_lynx",
+      "id": "cryo-lynx",
       "display_name": "Cryo Lynx",
       "biomes": [
         "cryosteppe"
@@ -1210,10 +1210,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/cryosteppe/cryo_lynx.yaml"
+      "path": "../../data/species/cryosteppe/cryo-lynx.yaml"
     },
     {
-      "id": "evento_brinastorm",
+      "id": "evento-brinastorm",
       "display_name": "Evento: Brina Tempestosa",
       "biomes": [
         "cryosteppe"
@@ -1230,10 +1230,10 @@
         "threat": false,
         "event": true
       },
-      "path": "../../data/species/cryosteppe/evento_brinastorm.yaml"
+      "path": "../../data/species/cryosteppe/evento-brinastorm.yaml"
     },
     {
-      "id": "steppe_bison_mini",
+      "id": "steppe-bison-mini",
       "display_name": "Bisonte Nano della Steppa",
       "biomes": [
         "cryosteppe"
@@ -1252,10 +1252,10 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/cryosteppe/steppe_bison_mini.yaml"
+      "path": "../../data/species/cryosteppe/steppe-bison-mini.yaml"
     },
     {
-      "id": "thaw_rot",
+      "id": "thaw-rot",
       "display_name": "Thaw Rot",
       "biomes": [
         "cryosteppe"
@@ -1272,7 +1272,7 @@
         "threat": true,
         "event": false
       },
-      "path": "../../data/species/cryosteppe/thaw_rot.yaml"
+      "path": "../../data/species/cryosteppe/thaw-rot.yaml"
     }
   ]
 }

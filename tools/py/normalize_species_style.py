@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Normalize species identifiers, filenames and references to snake_case slugs."""
+"""Normalize species identifiers, filenames and references to kebab-case slugs."""
 from __future__ import annotations
 
 import argparse

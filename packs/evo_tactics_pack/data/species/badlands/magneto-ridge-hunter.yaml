@@ -1,0 +1,92 @@
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-11-05'
+  trace_hash: to-fill
+id: magneto-ridge-hunter
+display_name: Magneto Ridge Hunter
+biomes:
+  - dorsale_termale_tropicale
+role_trofico: predatore_terziario_apex
+functional_tags:
+  - specie_chiave
+  - regolazione_prede
+morphotype: cursoriale_quadrupede
+flags:
+  apex: true
+  keystone: true
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: true
+pi_loadout:
+  weight_budget: 16
+  default_parts:
+    offense:
+      - kinetic_talons
+    defense:
+      - articulated_spine_plating
+vc:
+  aggro: 0.7
+  risk: 0.6
+  cohesion: 0.4
+  setup: 0.5
+  explore: 0.6
+  tilt: 0.4
+spawn_rules:
+  orario:
+    - crepuscolo
+    - notte
+  meteo:
+    - tempesta_sabbia_magnetica
+    - sereno_freddo
+  densita: low
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: elite
+environment_affinity:
+  biome_class: dorsale_termale_tropicale
+  hazards_expected:
+    - tempeste_sabbia
+    - iron_shards
+  rationale: "Predatore magnetotattico addestrabile: pattuglia le creste della dorsale e intercetta fauna corazzata."
+derived_from_environment:
+  suggested_traits:
+    - coda_frusta_cinetica
+    - scheletro_idro_regolante
+    - artigli_sette_vie
+  optional_traits:
+    - olfatto_risonanza_magnetica
+    - respiro_a_scoppio
+  synergy_traits:
+    - tattiche_di_branco
+    - struttura_elastica_amorfa
+  required_capabilities:
+    - build_cover
+    - dr_impact_cap
+    - non_metal_gear
+    - seal_vents
+jobs_bias:
+  - Vanguard
+  - Skirmisher
+telemetry:
+  expected_pick_rate: 0.42
+  spawn_weight: 0.16
+services_links: []
+genetic_traits:
+  core:
+    - coda_frusta_cinetica
+    - scheletro_idro_regolante
+    - artigli_sette_vie
+  optional:
+    - olfatto_risonanza_magnetica
+    - respiro_a_scoppio
+  synergy:
+    - tattiche_di_branco
+    - struttura_elastica_amorfa
+mate_synergy: []
+jobs_synergy:
+  - Vanguard

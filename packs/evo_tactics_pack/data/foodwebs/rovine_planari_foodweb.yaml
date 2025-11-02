@@ -2,107 +2,107 @@ nodes:
   - id: reliquie_planari
   - id: spore_memetiche
   - id: flussi_radianza
-  - id: archon_solare
-  - id: balor_fission
-  - id: marilith_vault
-  - id: treant_portale
-  - id: couatl_aurora
-  - id: golem_runico
-  - id: banshee_risonante
-  - id: rakshasa_corte
-  - id: bulette_fase
-  - id: otyugh_sentinella
+  - id: archon-solare
+  - id: balor-fission
+  - id: marilith-vault
+  - id: treant-portale
+  - id: couatl-aurora
+  - id: golem-runico
+  - id: banshee-risonante
+  - id: rakshasa-corte
+  - id: bulette-fase
+  - id: otyugh-sentinella
   - id: detrito
 edges:
   - from: reliquie_planari
-    to: treant_portale
+    to: treant-portale
     type: mutualism
     weight: 0.5
-  - from: treant_portale
-    to: archon_solare
+  - from: treant-portale
+    to: archon-solare
     type: support
     weight: 0.4
-  - from: treant_portale
-    to: couatl_aurora
+  - from: treant-portale
+    to: couatl-aurora
     type: support
     weight: 0.4
   - from: flussi_radianza
-    to: archon_solare
+    to: archon-solare
     type: energy
     weight: 0.6
   - from: flussi_radianza
-    to: couatl_aurora
+    to: couatl-aurora
     type: energy
     weight: 0.5
   - from: spore_memetiche
-    to: otyugh_sentinella
+    to: otyugh-sentinella
     type: detritus
     weight: 0.6
   - from: detrito
-    to: otyugh_sentinella
+    to: otyugh-sentinella
     type: detritus
     weight: 0.5
-  - from: otyugh_sentinella
-    to: treant_portale
+  - from: otyugh-sentinella
+    to: treant-portale
     type: nutrient_cycle
     weight: 0.4
-  - from: bulette_fase
-    to: otyugh_sentinella
+  - from: bulette-fase
+    to: otyugh-sentinella
     type: waste
     weight: 0.3
-  - from: treant_portale
-    to: bulette_fase
+  - from: treant-portale
+    to: bulette-fase
     type: herbivory
     weight: 0.5
-  - from: couatl_aurora
-    to: treant_portale
+  - from: couatl-aurora
+    to: treant-portale
     type: pollination
     weight: 0.5
-  - from: archon_solare
-    to: couatl_aurora
+  - from: archon-solare
+    to: couatl-aurora
     type: coordination
     weight: 0.4
-  - from: balor_fission
-    to: bulette_fase
+  - from: balor-fission
+    to: bulette-fase
     type: predation
     weight: 0.5
-  - from: balor_fission
-    to: archon_solare
+  - from: balor-fission
+    to: archon-solare
     type: predation
     weight: 0.3
-  - from: marilith_vault
-    to: balor_fission
+  - from: marilith-vault
+    to: balor-fission
     type: contest
     weight: 0.4
-  - from: marilith_vault
-    to: rakshasa_corte
+  - from: marilith-vault
+    to: rakshasa-corte
     type: suppression
     weight: 0.4
-  - from: rakshasa_corte
-    to: archon_solare
+  - from: rakshasa-corte
+    to: archon-solare
     type: parasitism
     weight: 0.3
-  - from: rakshasa_corte
-    to: treant_portale
+  - from: rakshasa-corte
+    to: treant-portale
     type: parasitism
     weight: 0.3
-  - from: banshee_risonante
-    to: balor_fission
+  - from: banshee-risonante
+    to: balor-fission
     type: disruption
     weight: 0.5
-  - from: banshee_risonante
-    to: rakshasa_corte
+  - from: banshee-risonante
+    to: rakshasa-corte
     type: disruption
     weight: 0.4
-  - from: golem_runico
-    to: archon_solare
+  - from: golem-runico
+    to: archon-solare
     type: fortification
     weight: 0.4
-  - from: golem_runico
-    to: couatl_aurora
+  - from: golem-runico
+    to: couatl-aurora
     type: fortification
     weight: 0.3
-  - from: golem_runico
-    to: treant_portale
+  - from: golem-runico
+    to: treant-portale
     type: support
     weight: 0.5
