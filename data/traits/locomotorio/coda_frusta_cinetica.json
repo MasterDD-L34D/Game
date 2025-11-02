@@ -79,5 +79,9 @@
   "completion_flags": {
     "has_biome": true,
     "has_species_link": false
-  }
+  },
+  "biome_tags": [
+    "falde_magnetiche_psioniche",
+    "orbita_psionica_inversa"
+  ]
 }

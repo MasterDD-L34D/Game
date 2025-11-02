@@ -54,5 +54,9 @@
   "completion_flags": {
     "has_biome": true,
     "has_species_link": false
-  }
+  },
+  "biome_tags": [
+    "canopia_psionica_leggera",
+    "falde_magnetiche_psioniche"
+  ]
 }
