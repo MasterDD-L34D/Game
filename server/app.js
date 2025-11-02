@@ -8,11 +8,10 @@ const { createBiomeSynthesizer } = require('../services/generation/biomeSynthesi
 const { createRuntimeValidator } = require('../services/generation/runtimeValidator');
 const { createGenerationOrchestratorBridge } = require('./services/orchestratorBridge');
 const { createTraitDiagnosticsSync } = require('./traitDiagnostics');
-const {
-  createGenerationSnapshotHandler,
-} = require('./routes/generationSnapshot');
+const { createGenerationSnapshotHandler } = require('./routes/generationSnapshot');
 const { createGenerationSnapshotStore } = require('./services/generationSnapshotStore');
 const { createNebulaRouter, createAtlasV1Router } = require('./routes/nebula');
+const { createMonitoringRouter } = require('./routes/monitoring');
 const { createGenerationRouter, createGenerationRoutes } = require('./routes/generation');
 const { createTraitRouter } = require('./routes/traits');
 const { createQualityRouter } = require('./routes/quality');
@@ -30,14 +29,16 @@ const qualitySuggestionApplySchema = require('../schemas/quality/suggestions-app
 const ideaTaxonomy = require('../config/idea_engine_taxonomy.json');
 const slugTaxonomy = require('../docs/public/idea-taxonomy.json');
 
-const IDEA_CATEGORIES = new Set((ideaTaxonomy && Array.isArray(ideaTaxonomy.categories)) ? ideaTaxonomy.categories : []);
+const IDEA_CATEGORIES = new Set(
+  ideaTaxonomy && Array.isArray(ideaTaxonomy.categories) ? ideaTaxonomy.categories : [],
+);
 
 const SLUG_CONFIG = {
   biomes: buildSlugConfig('biomes', 'biomeAliases'),
   ecosystems: buildSlugConfig('ecosystems'),
   species: buildSlugConfig('species', 'speciesAliases'),
   traits: buildSlugConfig('traits'),
-  game_functions: buildSlugConfig('gameFunctions')
+  game_functions: buildSlugConfig('gameFunctions'),
 };
 
 const DEFAULT_STATUS_REPORT = path.resolve(__dirname, '..', 'reports', 'status.json');
@@ -154,7 +155,7 @@ function validateIdeaPayload(payload) {
     ['ecosystems', 'Ecosistemi'],
     ['species', 'Specie'],
     ['traits', 'Tratti'],
-    ['game_functions', 'Funzioni di gioco']
+    ['game_functions', 'Funzioni di gioco'],
   ];
 
   for (const [field, label] of slugFields) {
@@ -229,11 +230,15 @@ async function updateDeploymentStatus(filePath, payload, options = {}) {
 }
 
 function shouldRefreshStatusFlag(value) {
-  const token = String(value || '').trim().toLowerCase();
+  const token = String(value || '')
+    .trim()
+    .toLowerCase();
   if (!token) {
     return false;
   }
-  return token === '1' || token === 'true' || token === 'yes' || token === 'force' || token === 'refresh';
+  return (
+    token === '1' || token === 'true' || token === 'yes' || token === 'force' || token === 'refresh'
+  );
 }
 
 function createApp(options = {}) {
@@ -256,11 +261,9 @@ function createApp(options = {}) {
     snapshotStore: generationSnapshotStore,
   };
   const generationOrchestrator =
-    options.generationOrchestrator ||
-    createGenerationOrchestratorBridge(orchestratorOptions);
+    options.generationOrchestrator || createGenerationOrchestratorBridge(orchestratorOptions);
   const schemaValidator =
-    options.schemaValidator ||
-    createSchemaValidator(options.schemaValidatorOptions || {});
+    options.schemaValidator || createSchemaValidator(options.schemaValidatorOptions || {});
   schemaValidator.registerSchema('quality://suggestion', qualitySuggestionSchema);
   schemaValidator.registerSchema(
     'quality://suggestions/apply/request',
@@ -321,6 +324,9 @@ function createApp(options = {}) {
   app.use(cors({ origin: options.corsOrigin || '*' }));
   app.use(express.json({ limit: '1mb' }));
 
+  const monitoringRouter = createMonitoringRouter();
+  app.use('/monitoring', monitoringRouter);
+
   if (biomeSynthesizer && typeof biomeSynthesizer.load === 'function') {
     biomeSynthesizer.load().catch((error) => {
       console.warn('[biome-generator] impossibile precaricare i pool di tratti', error);
@@ -353,24 +359,22 @@ function createApp(options = {}) {
       'flow-shell-snapshot.json',
     );
   let mockSnapshotCache = null;
-  const mockSnapshotStore =
-    generationSnapshotOptions.mockStore ||
-    ({
-      async getSnapshot({ refresh = false } = {}) {
-        if (refresh) {
-          mockSnapshotCache = null;
-        }
-        if (mockSnapshotCache) {
-          return JSON.parse(JSON.stringify(mockSnapshotCache));
-        }
-        const snapshot = await readJsonFile(mockSnapshotPath, null);
-        if (!snapshot) {
-          return {};
-        }
-        mockSnapshotCache = snapshot;
-        return JSON.parse(JSON.stringify(snapshot));
-      },
-    });
+  const mockSnapshotStore = generationSnapshotOptions.mockStore || {
+    async getSnapshot({ refresh = false } = {}) {
+      if (refresh) {
+        mockSnapshotCache = null;
+      }
+      if (mockSnapshotCache) {
+        return JSON.parse(JSON.stringify(mockSnapshotCache));
+      }
+      const snapshot = await readJsonFile(mockSnapshotPath, null);
+      if (!snapshot) {
+        return {};
+      }
+      mockSnapshotCache = snapshot;
+      return JSON.parse(JSON.stringify(snapshot));
+    },
+  };
   const generationSnapshotMockHandler = createGenerationSnapshotHandler({
     datasetPath: mockSnapshotPath,
     snapshotStore: mockSnapshotStore,
@@ -387,8 +391,7 @@ function createApp(options = {}) {
 
   const nebulaOptions = options?.nebula || {};
   const mockDataRoot =
-    options.mockDataRoot ||
-    path.resolve(__dirname, '..', 'webapp', 'public', 'data');
+    options.mockDataRoot || path.resolve(__dirname, '..', 'webapp', 'public', 'data');
   const mockAtlasBundlePath =
     nebulaOptions.mockAtlasPath || path.join(mockDataRoot, 'nebula', 'atlas.json');
   const mockTelemetryPath =

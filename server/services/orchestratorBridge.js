@@ -383,8 +383,9 @@ class PythonWorker extends EventEmitter {
 }
 
 class WorkerPool {
-  constructor(options) {
+  constructor(options, emitter = null) {
     this.options = options;
+    this.events = emitter;
     this.queue = [];
     this.workers = [];
     this.maxTaskRetries = options.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries;
@@ -399,11 +400,46 @@ class WorkerPool {
 
   _createWorker(index) {
     const worker = new PythonWorker(index, this.options);
-    worker.on('available', () => this._dispatch());
-    worker.on('crash', () => this._dispatch());
-    worker.on('heartbeat-missed', () => this._dispatch());
-    worker.on('start-timeout', () => this._dispatch());
-    worker.on('worker-error', () => this._dispatch());
+    const forward = (event, payload) => {
+      if (!this.events) {
+        return;
+      }
+      this.events.emit(event, {
+        workerId: worker.id,
+        ...(payload || {}),
+      });
+    };
+    worker.on('available', () => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:available');
+    });
+    worker.on('crash', (payload) => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:crash', payload);
+    });
+    worker.on('heartbeat-missed', (payload) => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:heartbeat-missed', payload);
+    });
+    worker.on('start-timeout', (payload) => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:start-timeout', payload);
+    });
+    worker.on('worker-error', (error) => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:error', { error });
+    });
+    worker.on('stderr', (payload) => {
+      forward('worker:stderr', payload);
+    });
+    worker.on('heartbeat', (payload) => {
+      forward('worker:heartbeat', payload);
+    });
     this.workers[index] = worker;
   }
 
@@ -445,6 +481,7 @@ class WorkerPool {
         }
         task.resolve(result);
         this._dispatch();
+        this._emitPoolStats();
       })
       .catch((error) => {
         const willRetry = this._shouldRetry(error, task);
@@ -458,6 +495,7 @@ class WorkerPool {
             this.metrics.setQueueDepth(this.queue.length);
           }
           setTimeout(() => this._dispatch(), 0);
+          this._emitPoolStats();
           return;
         }
         if (this.metrics) {
@@ -465,6 +503,7 @@ class WorkerPool {
         }
         task.reject(error);
         this._dispatch();
+        this._emitPoolStats();
       });
   }
 
@@ -480,18 +519,23 @@ class WorkerPool {
 
   run(action, payload, timeoutMs) {
     return new Promise((resolve, reject) => {
+      const taskId = `task-${++this.taskSeq}`;
+      const enqueuedAt = Date.now();
       this.queue.push({
+        id: taskId,
         action,
         payload,
         resolve,
         reject,
         attempts: 0,
         timeoutMs,
+        enqueuedAt,
       });
       if (this.metrics) {
         this.metrics.setQueueDepth(this.queue.length);
       }
       this._dispatch();
+      this._emitPoolStats();
     });
   }
 
@@ -518,6 +562,17 @@ class WorkerPool {
       queue: this.queue.length,
       lastHeartbeats: this.workers.map((worker) => (worker ? worker.lastHeartbeatAt : null)),
     };
+  }
+
+  _emitPoolStats() {
+    if (!this.events) {
+      return;
+    }
+    try {
+      this.events.emit('pool:stats', this.getStats());
+    } catch (error) {
+      // Ignora errori del listener per non interrompere il flusso del pool
+    }
   }
 }
 
@@ -556,6 +611,7 @@ function createGenerationOrchestratorBridge(options = {}) {
     ...options,
   };
 
+  const bridge = new EventEmitter();
   const snapshotStore = merged.snapshotStore || null;
   const metricsOptions = merged.metrics && typeof merged.metrics === 'object' ? merged.metrics : {};
   const metrics = createOrchestratorMetrics(metricsOptions);
@@ -723,15 +779,14 @@ function createGenerationOrchestratorBridge(options = {}) {
     await requestShutdown();
   }
 
-  const api = {
-    generateSpecies,
-    generateSpeciesBatch,
-    fetchTraitDiagnostics,
-    close,
-  };
+  bridge.generateSpecies = generateSpecies;
+  bridge.generateSpeciesBatch = generateSpeciesBatch;
+  bridge.fetchTraitDiagnostics = fetchTraitDiagnostics;
+  bridge.close = close;
+  bridge.getPoolStats = () => pool.getStats();
 
   if (process.env.NODE_ENV === 'test') {
-    Object.defineProperty(api, '_pool', {
+    Object.defineProperty(bridge, '_pool', {
       value: pool,
       enumerable: false,
       configurable: false,
@@ -739,7 +794,10 @@ function createGenerationOrchestratorBridge(options = {}) {
     });
   }
 
-  return api;
+  registerOrchestratorBridgeMetrics(bridge);
+  bridge.emit('pool:stats', pool.getStats());
+
+  return bridge;
 }
 
 module.exports = { createGenerationOrchestratorBridge };

@@ -3,6 +3,7 @@
 Starter repository per il progetto tattico co-op con sistema d20 e progressione evolutiva modulare. Il pacchetto include dati YAML, CLI in Python/TypeScript, backend Idea Engine, webapp di test e pipeline di pubblicazione per condividere rapidamente build, report e materiali di presentazione.
 
 ## Indice
+
 - [Panoramica](#panoramica)
 - [Tour del repository](#tour-del-repository)
 - [Setup rapido](#setup-rapido)
@@ -21,11 +22,13 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 - [Licenza](#licenza)
 
 ## Panoramica
+
 - **Gioco**: tattico co-op con evoluzione a stadi, combinazioni MBTI/Enneagramma, biomi reattivi e mutazioni modulari.
 - **Starter kit**: dati YAML verificati, strumenti CLI per validare/generare contenuti, workflow CI preconfigurati e materiale di presentazione condivisibile.
 - **Obiettivo**: permettere bootstrap rapido di nuove istanze (locale o cloud) mantenendo consistenza tra dataset, orchestratore e deliverable di comunicazione.
 
 ## Settori e dipendenze
+
 - **Flow (generazione & validazione)** – vive principalmente in `services/generation/`, `tools/py`, `tools/ts` e nei dataset `data/core/`.
   Orchestratore Python, CLI e validator TypeScript condividono gli stessi schema YAML; le pipeline front/back usano il registry condiviso in `webapp/src/config/dataSources.ts`.
 - **Atlas (telemetria & dashboard)** – la webapp (`webapp/`) e le dashboard statiche in `docs/test-interface/` leggono gli snapshot `data/derived/` e i mock `webapp/public/data/`.
@@ -38,6 +41,7 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 > Quando modifichi un settore, verifica le dipendenze a valle: ad esempio una variazione nei dataset implica rigenerare la webapp (`npm run webapp:deploy`), aggiornare i report (`reports/`) e rieseguire i test backend (`npm run test:api`).
 
 ## Tour del repository
+
 ```
 evo-tactics/
 ├─ data/                      # Dataset YAML (specie, biomi, telemetria, derived report)
@@ -55,6 +59,7 @@ evo-tactics/
 ```
 
 ## Setup rapido
+
 1. **Clona il repository** e posizionati nella root.
 2. **Dipendenze Node (root + tools/ts + webapp)**:
    ```bash
@@ -75,7 +80,9 @@ evo-tactics/
    ```
 
 ## CLI & strumenti
+
 ### Strumenti Python (`tools/py`)
+
 - Entry point unificato:
   ```bash
   cd tools/py
@@ -89,6 +96,7 @@ evo-tactics/
 - Wrapper legacy ancora disponibili (`roll_pack.py`, `generate_encounter.py`) reindirizzano al parser condiviso.
 
 #### Quick start — Python
+
 ```bash
 cd tools/py
 # CLI unificata con seed riproducibile e path opzionali
@@ -105,11 +113,13 @@ python3 generate_encounter.py savana
 ```
 
 #### Tutorial rapido · CLI Evo Tactics
+
 - Segui il [tutorial dedicato](docs/tutorials/cli-quickstart.md) per completare setup, validazione e roll demo.
 - ![CLI quickstart](assets/tutorials/cli-quickstart.svg)
 - Condividi anomalie o log significativi nel canale Slack `#feedback-enhancements`.
 
 ### Strumenti TypeScript (`tools/ts`)
+
 - Build e roll pack demo:
   ```bash
   cd tools/ts
@@ -126,6 +136,7 @@ python3 generate_encounter.py savana
 - Script di supporto: `scripts/run_lighthouse.mjs`, `scripts/ensure_chromium.mjs`, `scripts/postbuild.mjs`.
 
 #### Quick start — Node/TypeScript
+
 ```bash
 cd tools/ts
 npm install
@@ -139,6 +150,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 ```
 
 ## Backend Idea Engine
+
 - **Avvio API**: `npm run start:api` espone l'app Express su `http://0.0.0.0:3333` (porta configurabile con `PORT`). Il database NeDB di default vive in `data/idea_engine.db` (sovrascrivibile con `IDEA_ENGINE_DB`).
 - **Endpoint principali**:
   - `GET /api/health` – stato runtime.
@@ -152,8 +164,12 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - `GET /api/v1/qa/status` (`/api/qa/status` legacy) – report QA corrente.
   - `GET /api/ideas/:id/report` – produce report Codex in HTML/JSON usando `server/report.js`.
 - **Orchestrazione**: la pipeline combina normalizzazione slug, fallback automatici per trait non validi e log strutturati (vedi `services/generation/*`).
+- **Bridge orchestrator**: il file di configurazione `config/orchestrator.json` controlla il pool Python usato dal bridge Node.
+  - `poolSize` definisce quanti worker paralleli avviare (default 2) e può essere aumentato quando si simulano carichi più elevati.
+  - `requestTimeoutMs` imposta la finestra massima (in millisecondi) per completare una generazione prima di forzare il retry/crash del worker.
 
 ### Flusso snapshot/telemetria demo (CLI → backend → webapp)
+
 1. **Generazione CLI** – esegui `npm run mock:generate` per ricreare lo snapshot Flow e il bundle Nebula demo. Lo script legge i dataset sorgente (`data/flow-shell/atlas-snapshot.json` + telemetria QA), valida payload e specie contro `packages/contracts` tramite AJV e scrive i JSON rigenerati in `webapp/public/data/flow/snapshots/` e `webapp/public/data/nebula/`.
 2. **Backend** – all'avvio Express registra gli stessi schemi (`generationSnapshot`, `species`, `telemetry`) e verifica ogni risposta sia live sia mock. Gli endpoint `/api/mock/*` servono direttamente i file generati dalla CLI garantendo coerenza con gli schemi condivisi.
 3. **Webapp** – la configurazione `webapp/src/config/dataSources.ts` punta alle nuove sorgenti fallback (`data/flow/...` e `data/nebula/...`). Dopo aver rigenerato i mock basta rilanciare la webapp per visualizzare gli aggiornamenti senza ulteriori passaggi manuali.
@@ -161,6 +177,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 > **Rigenera i mock** ogni volta che modifichi i dataset Flow/Nebula o i contratti: `npm run mock:generate` aggiorna snapshot e telemetria demo e fallisce immediatamente se lo schema non è rispettato.
 
 ### Pipeline generazione orchestrata
+
 - **Endpoint backend** – `POST /api/v1/generation/species` (alias legacy `/api/generation/species`) instrada le richieste
   dell'UI verso l'orchestratore Python (`services/generation/orchestrator.py`),
   normalizzando gli input (`trait_ids`, `seed`, `biome_id`).
@@ -178,11 +195,13 @@ node dist/roll_pack.js ENTP invoker --seed demo
   immediatamente alert e summary coerenti.
 
 ### Tutorial rapido · Feedback Idea Engine
+
 - Abilita il backend seguendo il [tutorial passo-passo](docs/tutorials/idea-engine-feedback.md).
 - ![Idea Engine feedback](assets/tutorials/idea-engine-feedback.svg)
 - Dopo ogni invio, annota follow-up o richieste extra in `#feedback-enhancements` (modulo Slack ora attivo di default).
 
 ## Dashboard web & showcase
+
 - **Dashboard test interface** (`docs/test-interface/`): carica YAML da `data/`, consente smoke test dei dataset e fetch manuali. Avvia un server statico locale con `python3 -m http.server 8000` e visita `http://localhost:8000/docs/test-interface/`.
 - **Deploy continuo**: il workflow GitHub Actions `deploy-test-interface` pubblica la dashboard su GitHub Pages. Imposta una sola volta Pages (`Settings → Pages → GitHub Actions`).
 - **Showcase pubblico**:
@@ -194,6 +213,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Analytics SquadSync adaptive** — La pagina `/analytics/squadsync/` mette in evidenza le risposte adaptive e i picchi Delta provenienti dall'HUD; usa il mock aggiornato (`assets/analytics/squadsync_mock.svg`) e la dashboard canary (`tools/feedback/hud_canary_dashboard.yaml`) per condividere rapidamente KPI e follow-up.【F:public/analytics/squadsync/index.tsx†L1-L320】【F:assets/analytics/squadsync_mock.svg†L1-L58】【F:tools/feedback/hud_canary_dashboard.yaml†L1-L53】
 
 ### Showcase demo · preset "Bundle demo pubblico"
+
 ![Anteprima dossier showcase](public/showcase-dossier.svg)
 
 - **Tutorial rapido · Dashboard & Showcase** — [Guida sintetica](docs/tutorials/dashboard-tour.md) per avviare Vite e raccogliere materiale.
@@ -208,6 +228,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Rigenerazione rapida** — esegui `python tools/py/build_showcase_materials.py` per aggiornare HTML, Base64 del PDF e cover `SVG` in `public/` partendo dal payload curato (`docs/presentations/showcase/showcase_dossier.yaml`).
 
 ## Dataset & Ecosystem Pack
+
 - **Dataset principali** in `data/` (specie, biomi, telemetria, trait) e `data/derived/analysis/trait_coverage_report.json` per insight sulla copertura trait/specie.
 - **Pack v1.7** (`packs/evo_tactics_pack/`): struttura autosufficiente con `data/`, `docs/`, `tools/` e report in `out/validation/`. Segui il README del pack per approfondimenti.
 - **Aggiornare il pack**:
@@ -223,6 +244,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
 
 ## Storico aggiornamenti & archivio
+
 - **Release 2025-12-06 — HUD Smart Alerts & SquadSync bridge** — aggiornato il Canvas con mock HUD/SquadSync, integrata la dashboard canary (`tools/feedback/hud_canary_dashboard.yaml`) e instradati i feedback overlay su `#feedback-enhancements`. Include i nuovi tutorial rapidi overlay/adaptive e refresh del changelog centrale.【F:docs/Canvas/feature-updates.md†L23-L39】【F:tools/feedback/hud_canary_dashboard.yaml†L1-L53】【F:docs/tutorials/hud-overlay-quickstart.md†L1-L116】【F:docs/tutorials/adaptive-engine-quickstart.md†L1-L129】 Dettagli completi in [`docs/changelog.md`](docs/changelog.md#2025-12-06-hud-smart-alerts--squadsync-bridge).
 - **Release 2025-12-02 — Feedback & Tutorial boost** — integrazione changelog nel README, attivazione del modulo feedback con Slack `#feedback-enhancements` e nuovi tutorial multimediali. Dettagli completi in [`docs/changelog.md`](docs/changelog.md#2025-12-02-feedback--tutorial-boost).
 - **Suite Badlands riallineata (2025-11-16)** — i YAML aggiornati in `packs/evo_tactics_pack/data/species/badlands/` sono stati verificati con `python tools/py/report_trait_coverage.py` riportando `traits_with_species = 27/29` e nessuna regola senza specie (`rules_missing_species_total = 0`). Consulta `data/analysis/trait_coverage_report.json`, `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv` per il dettaglio e i pairing core/opzionali.
@@ -230,19 +252,23 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Idea Engine — modulo feedback sempre attivo** — il widget embed (`docs/public/embed.js`) ora propone il modulo feedback anche offline, reindirizzando al canale `#feedback-enhancements` quando l'API non è configurata. Per la cronologia dettagliata consulta [`docs/ideas/changelog.md`](docs/ideas/changelog.md).
 
 ## Stato operativo & tracker
+
 - **Indice tracker & stato**: usa `docs/00-INDEX.md` per checklist quotidiane, log e roadmap; la sezione viene aggiornata automaticamente da [`scripts/daily_tracker_refresh.py`](scripts/daily_tracker_refresh.py) tramite il workflow [`daily-tracker-refresh`](.github/workflows/daily-tracker-refresh.yml).
 - **Log di riferimento**: `logs/traits_tracking.md`, `logs/web_status.md` e i report in `reports/incoming/` documentano l'avanzamento tecnico delle ultime sessioni.
 
 ### Recap operativo & prossimi step
+
 - [ ] Rivedi i log in `reports/incoming/validation/` e apri ticket per eventuali regressioni.
 - [ ] Aggiorna i tracker operativi in [`docs/00-INDEX.md`](docs/00-INDEX.md#tracker-operativi-e-log) dopo ogni sessione.
 - [ ] Riesegui `./scripts/report_incoming.sh --destination sessione-YYYY-MM-DD` al termine di ogni batch di upload.
 - [ ] Condividi su Drive i materiali rigenerati (`docs/presentations/showcase/*`) una volta verificati.
 
 ### Barra di completamento
+
 <progress value="0.7" max="1"></progress> **70 %** completato — aggiornare dopo il prossimo ciclo di validazione.
 
 ## Documentazione & tracker
+
 - **Indice operativo**: `docs/00-INDEX.md` aggrega checklist quotidiane, log e roadmap.
 - **Checklist**: consultare `docs/checklist/action-items.md`, `docs/checklist/milestones.md`, `docs/checklist/project-setup-todo.md` per stato avanzamento e task prioritari.
 - **Roadmap**: `docs/piani/roadmap.md` con milestone strategiche (telemetria VC, pacchetti PI, mating/nido).
@@ -251,6 +277,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Tri-Sorgente (Roll + Personalità + Azioni)** — docs introduttive: [/docs/tri-sorgente/overview.md](docs/tri-sorgente/overview.md) • QA/KPI: [/docs/tri-sorgente/qa.md](docs/tri-sorgente/qa.md)
 
 ## Automazione & workflow
+
 - **Script principali**:
   - `scripts/report_incoming.sh` – archivia i batch in `reports/incoming/` (usare `--destination sessione-YYYY-MM-DD`).
   - `scripts/daily_tracker_refresh.py` – aggiorna automaticamente le sezioni tracker del README e dei log.
@@ -262,6 +289,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - Workflow dedicati (`validate-naming`, `incoming-smoke`, `hud`, `qa-kpi-monitor`) documentati in `docs/ci.md` e `docs/ci-pipeline.md`.
 
 ## QA & test
+
 - **Python**: esegui dalla root con `PYTHONPATH=tools/py pytest` (copre RNG deterministici, builder, validator).
 - **TypeScript**: `npm --prefix tools/ts test` (include unit test Node e Playwright UI export modal).
 - **API Node**: `npm run test:api` lancia `node --test tests/api/*.test.js`.
@@ -272,6 +300,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **HUD & dashboard**: test Playwright dedicati (`tools/ts/tests`, `tests/hud_alerts.spec.ts`) e `tests/validate_dashboard.py` per smoke test.
 
 ## Integrazioni esterne
+
 - **Drive**: guida in `docs/drive-sync.md`; script `scripts/driveSync.gs`, `tools/drive/*.mjs` per sincronizzazioni e stage publishing (`npm run stage:publishing`).
 - **Sincronizzazione ChatGPT**:
   - Configura le fonti in `data/external/chatgpt_sources.yaml`.
@@ -279,7 +308,9 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - Verifica gli snapshot in `docs/chatgpt_changes/<namespace>/` e aggiorna `docs/chatgpt_sync_status.md` con esiti.
 
 ## Distribuzione & condivisione
+
 ### Hosting statico webapp
+
 - **Base path**: configura `VITE_BASE_PATH` (o `BASE_PATH`) prima della build quando la dashboard viene
   servita da una sottocartella. Senza override viene usato `./` così che gli asset fingerprintati
   generati da Vite (`assets/[name]-[hash].*`) funzionino anche su bucket e Pages.
@@ -291,6 +322,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
   `import.meta.env.BASE_URL` prima di caricare gli asset su hosting statico.
 
 ### Pubblicazione GitHub
+
 ```bash
 cd /path/alla/cartella/evo-tactics
 git init
@@ -302,11 +334,13 @@ git push -u origin main
 ```
 
 ### Condivisione su Google Drive
+
 - Comprimi la cartella del progetto o utilizza lo script `scripts/driveSync.gs` per automatizzare l'upload.
 - Per invii manuali, mantieni sincronizzati gli artifact rigenerati (`docs/presentations/showcase/*`, report in `packs/.../out/`).
 - Consulta `docs/drive-sync.md` per setup credenziali, test e trigger automatici.
 
 ## In arrivo
+
 - **Feedback toolkit**: lancio del pacchetto `tools/feedback` con form centralizzato e workflow di triage automatizzato.
 - **Dashboard insight**: report settimanale generato da `tools/feedback/report_generator.py` e pubblicato in `reports/feedback/`.
 - **Documentazione aggiornata**: guide operative in `docs/process/feedback_collection_pipeline.md` e `docs/tutorials/feedback-form.md`.
@@ -314,4 +348,5 @@ git push -u origin main
 Condividi suggerimenti e richieste tramite il [form di feedback](docs/tutorials/feedback-form.md).
 
 ## Licenza
+
 MIT — vedi [`LICENSE`](LICENSE).
