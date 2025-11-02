@@ -9383,12 +9383,21 @@
         "complementare": "adattivo",
         "core": "strategia"
       },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "sentinella-radice",
+          "weight": 1
+        }
+      ],
       "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
       "tier": "T1",
       "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": false
+        "has_species_link": true
       }
     },
     "respiro_a_scoppio": {
