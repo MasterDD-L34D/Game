@@ -2,13 +2,15 @@
 
 Questa guida riassume template, strumenti e controlli richiesti per proporre o
 aggiornare i trait. È pensata come integrazione al template dati ufficiale e
-alle checklist di processo già presenti nel repository.
+alle checklist di processo già presenti nel repository e al vademecum operativo
+[`README_HOWTO_AUTHOR_TRAIT.md`](../../README_HOWTO_AUTHOR_TRAIT.md).
 
 ## Riferimenti chiave
 
 | Risorsa | Descrizione |
 | --- | --- |
 | [Template dati trait](../traits_template.md) | Spiega struttura, campi obbligatori e sezioni opzionali dei file in `data/traits`. |
+| [Trait Reference & Glossario](../catalog/trait_reference.md) | Elenca label/description approvate e workflow per sincronizzare il glossario con le localizzazioni. |
 | [Trait Data Reference & Workflow](../process/trait_data_reference.md) | Dettaglia percorso manuale, editor schema-driven e script collegati. |
 | [Checklist iterativa tratti](../process/traits_checklist.md) | Elenca i gate di QA, telemetria e deploy da attraversare prima della consegna. |
 
@@ -32,6 +34,8 @@ alle checklist di processo già presenti nel repository.
 | Strumento | Comando | Scopo |
 | --- | --- | --- |
 | Generatore indice trait | `node scripts/build_trait_index.js --output data/traits/index.csv` | Ricostruisce l'indice aggregato (CSV/JSON) usato da audit e dashboard. |
+| Riepilogo campi + glossario | `python tools/py/collect_trait_fields.py --output reports/trait_fields_by_type.json --glossary-output reports/trait_texts.json` | Raccoglie i campi usati per tipologia e genera l'estratto dei testi approvati (label/description) dal glossario. |
+| Sync localizzazioni | `python scripts/sync_trait_locales.py --language it --glossary data/core/traits/glossary.json` | Propaga i testi approvati nei bundle `locales/<lingua>/traits.json` sostituendo i valori con riferimenti `i18n:` nei file trait. |
 | Report di coverage | `python tools/py/report_trait_coverage.py --out-json data/derived/analysis/trait_coverage_report.json --out-csv data/derived/analysis/trait_coverage_matrix.csv` | Aggiorna coverage su biomi/regole e fallisce in modalità `--strict` se scendono sotto le soglie definite. |
 | Baseline trait | `python tools/py/build_trait_baseline.py <env_traits> <trait_reference> --trait-glossary data/core/traits/glossary.json` | Ricalcola la baseline tattica a partire dai cataloghi sincronizzati. |
 | Audit completo | `python3 scripts/trait_audit.py --check` | Esegue la pipeline di verifica finale e produce `logs/trait_audit.md`. |
@@ -44,15 +48,31 @@ install -r requirements-dev.txt`) prima di lanciare gli script di cui sopra.
 
 ### Percorso manuale (file + script)
 
-1. Aggiorna `data/core/traits/glossary.json` con ID e label ufficiale.
-2. Integra il tratto in `data/traits/index.json` e sincronizza le copie in
-   `docs/evo-tactics-pack/trait-reference.json` e
-   `packs/evo_tactics_pack/docs/catalog/trait_reference.json`.
-3. Rigenera l'indice veloce:
+1. Aggiorna `data/core/traits/glossary.json` con label/description ufficiali
+   almeno per `it` ed `en`, validando il file con `python -m json.tool`.
+2. Integra (o modifica) il trait in `data/traits/<tipologia>/<id>.json` seguendo
+   il [template](../traits_template.md). Durante l'editing i campi testuali
+   possono contenere stringhe reali.
+3. Genera report campi + glossario:
+   ```bash
+   python tools/py/collect_trait_fields.py \
+     --output reports/trait_fields_by_type.json \
+     --glossary data/core/traits/glossary.json \
+     --glossary-output reports/trait_texts.json
+   ```
+4. Sincronizza le localizzazioni nella lingua richiesta (esempio italiano):
+   ```bash
+   python scripts/sync_trait_locales.py \
+     --traits-dir data/traits \
+     --locales-dir locales \
+     --language it \
+     --glossary data/core/traits/glossary.json
+   ```
+5. Rigenera l'indice veloce:
    ```bash
    node scripts/build_trait_index.js --output data/traits/index.csv
    ```
-4. Ricalcola baseline e coverage:
+6. Ricalcola baseline e coverage:
    ```bash
    python tools/py/build_trait_baseline.py \
      packs/evo_tactics_pack/docs/catalog/env_traits.json \
@@ -66,7 +86,7 @@ install -r requirements-dev.txt`) prima di lanciare gli script di cui sopra.
      --out-json data/derived/analysis/trait_coverage_report.json \
      --out-csv data/derived/analysis/trait_coverage_matrix.csv
    ```
-5. Verifica naming, inventari e audit finali (`validate_registry_naming.py`,
+7. Verifica naming, inventari e audit finali (`validate_registry_naming.py`,
    `scripts/trait_audit.py --check`) archiviando gli output in `logs/`.
 
 ### Percorso con editor UI
@@ -113,6 +133,10 @@ install -r requirements-dev.txt`) prima di lanciare gli script di cui sopra.
 
 ## Check finali prima della PR
 
-- Ricostruisci indice, baseline e coverage senza warning.
-- Conferma che l'audit finale (`scripts/trait_audit.py --check`) sia verde.
+- Glossario aggiornato con label/description approvate (`it`, `en`) e report
+  `reports/trait_texts.json` rigenerato.
+- Localizzazioni sincronizzate con `scripts/sync_trait_locales.py` (specificare
+  lingua/e e allegare output `--dry-run` se usato).
+- Indice, baseline e coverage ricostruiti senza warning.
+- Audit finale (`scripts/trait_audit.py --check`) verde e log archiviati.
 - Documenta nel PR i comandi eseguiti e allega log o report aggiornati.

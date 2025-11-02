@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, Iterable, List
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_TRAITS_DIR = ROOT / "data" / "traits"
@@ -15,6 +16,7 @@ DEFAULT_LOCALES_DIR = ROOT / "locales"
 DEFAULT_LANGUAGE = "it"
 DEFAULT_FALLBACK = None
 DEFAULT_SCHEMA_PATH = ROOT / "config" / "i18n" / "trait_locales.schema.json"
+DEFAULT_GLOSSARY_PATH = ROOT / "data" / "core" / "traits" / "glossary.json"
 TEXT_FIELDS = (
     "label",
     "description",
@@ -34,6 +36,16 @@ class SyncResult:
 
     updated_traits: List[Path]
     locale_updated: bool
+    locale_changed: bool
+
+
+@dataclass
+class TraitSyncStatus:
+    """Esito della sincronizzazione di un singolo trait."""
+
+    trait_id: str
+    trait_updated: bool
+    entry_changed: bool
 
 
 def iter_trait_files(traits_dir: Path) -> Iterable[Path]:
@@ -89,36 +101,96 @@ def normalise_entries(entries: Dict[str, Dict[str, str]]) -> Dict[str, Dict[str,
     return ordered
 
 
+def language_key_variants(language: str) -> List[str]:
+    """Restituisce possibili suffissi per una lingua (es. en, en_us)."""
+
+    language = language.strip().lower()
+    if not language:
+        return []
+    normalized = language.replace("-", "_")
+    variants = [normalized]
+    if "_" in normalized:
+        base = normalized.split("_", 1)[0]
+        if base not in variants:
+            variants.append(base)
+    return variants
+
+
+def load_glossary_for_language(
+    glossary_path: Path | None, language: str
+) -> Dict[str, Dict[str, str]]:
+    """Carica le stringhe approvate per lingua dal glossario."""
+
+    if glossary_path is None or not glossary_path.exists():
+        return {}
+    payload = load_json(glossary_path)
+    traits = payload.get("traits", {})
+    variants = language_key_variants(language)
+    glossary_map: Dict[str, Dict[str, str]] = {}
+
+    for trait_id, info in traits.items():
+        texts: Dict[str, str] = {}
+        for field in ("label", "description"):
+            for suffix in variants:
+                key = f"{field}_{suffix}"
+                value = info.get(key)
+                if isinstance(value, str) and value.strip():
+                    texts[field] = value.strip()
+                    break
+        if texts:
+            glossary_map[trait_id] = texts
+    return glossary_map
+
+
 def sync_trait(
     path: Path,
     bundle_entries: Dict[str, Dict[str, str]],
     dry_run: bool,
-) -> Tuple[str, bool]:
-    """Aggiorna un singolo trait e restituisce l'ID e lo stato di modifica."""
+    glossary_entries: Dict[str, Dict[str, str]],
+) -> TraitSyncStatus:
+    """Aggiorna un singolo trait e restituisce l'esito della sincronizzazione."""
 
     data = load_json(path)
     trait_id = data.get("id") or path.stem
     entry = bundle_entries.setdefault(trait_id, {})
-    changes: List[str] = []
+    original_entry = copy.deepcopy(entry)
+    trait_updated = False
 
     for field in TEXT_FIELDS:
         value = data.get(field)
         if isinstance(value, str) and not value.startswith("i18n:"):
-            entry[field] = value.strip()
-            data[field] = f"i18n:traits.{trait_id}.{field}"
-            changes.append(field)
+            normalised = value.strip()
+            if normalised:
+                if entry.get(field) != normalised:
+                    entry[field] = normalised
+                data[field] = f"i18n:traits.{trait_id}.{field}"
+                trait_updated = True
         elif isinstance(value, str) and value.startswith("i18n:"):
-            # Se il testo è già localizzato, manteniamo l'entry esistente.
             continue
         else:
             entry.pop(field, None)
 
+    # Applica label/description approvate dal glossario per la lingua target.
+    glossary_texts = glossary_entries.get(trait_id, {})
+    for field in ("label", "description"):
+        approved = glossary_texts.get(field)
+        if approved:
+            if entry.get(field) != approved:
+                entry[field] = approved
+
     if not entry:
         bundle_entries.pop(trait_id, None)
 
-    if changes and not dry_run:
+    entry_after = bundle_entries.get(trait_id)
+    if entry_after is None:
+        entry_changed = bool(original_entry)
+    else:
+        entry_changed = entry_after != original_entry
+
+    if trait_updated and not dry_run:
         dump_json(path, data)
-    return trait_id, bool(changes)
+
+    return TraitSyncStatus(trait_id=trait_id, trait_updated=trait_updated, entry_changed=entry_changed)
 
 
 def sync_locales(
@@ -128,6 +200,7 @@ def sync_locales(
     fallback: str | None,
     dry_run: bool,
     schema_path: Path,
+    glossary_path: Path | None,
 ) -> SyncResult:
     """Esegue la sincronizzazione completa."""
 
@@ -135,29 +208,48 @@ def sync_locales(
     locale_path.parent.mkdir(parents=True, exist_ok=True)
     bundle = ensure_locale_bundle(locale_path, language, fallback, schema_path)
     entries = bundle.setdefault("entries", {})
+    entries_before = normalise_entries(copy.deepcopy(entries))
+    glossary_entries = load_glossary_for_language(glossary_path, language)
 
     updated_traits: List[Path] = []
     valid_ids: set[str] = set()
+    locale_changed = False
+
     for trait_path in iter_trait_files(traits_dir):
-        trait_id, updated = sync_trait(trait_path, entries, dry_run=dry_run)
-        valid_ids.add(trait_id)
-        if updated:
+        status = sync_trait(
+            trait_path,
+            entries,
+            dry_run=dry_run,
+            glossary_entries=glossary_entries,
+        )
+        valid_ids.add(status.trait_id)
+        if status.trait_updated:
             updated_traits.append(trait_path)
+        if status.entry_changed:
+            locale_changed = True
 
     # Rimuove eventuali ID non più presenti.
     for trait_id in list(entries.keys()):
         if trait_id not in valid_ids:
             entries.pop(trait_id)
+            locale_changed = True
 
-    bundle["entries"] = normalise_entries(entries)
-    locale_changed = True
+    normalised_entries = normalise_entries(entries)
+    bundle["entries"] = normalised_entries
 
-    if dry_run:
-        locale_changed = False
-    else:
+    if not locale_changed and normalised_entries != entries_before:
+        locale_changed = True
+
+    locale_written = False
+    if not dry_run and locale_changed:
         dump_json(locale_path, bundle)
+        locale_written = True
 
-    return SyncResult(updated_traits=updated_traits, locale_updated=locale_changed)
+    return SyncResult(
+        updated_traits=updated_traits,
+        locale_updated=locale_written,
+        locale_changed=locale_changed,
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -191,6 +283,17 @@ def build_parser() -> argparse.ArgumentParser:
         help="Percorso dello schema JSON per i bundle (default: config/i18n/trait_locales.schema.json).",
     )
     parser.add_argument(
+        "--glossary",
+        type=Path,
+        default=DEFAULT_GLOSSARY_PATH,
+        help="Percorso del glossario approvato da usare per label/description (default: data/core/traits/glossary.json).",
+    )
+    parser.add_argument(
+        "--skip-glossary",
+        action="store_true",
+        help="Non applicare le stringhe del glossario durante la sincronizzazione.",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Mostra i file che verrebbero aggiornati senza applicare modifiche.",
@@ -211,6 +314,13 @@ def main() -> None:
     if not schema_path.exists():
         raise SystemExit(f"Schema non trovato: {schema_path}")
 
+    if args.skip_glossary:
+        glossary_path = None
+    else:
+        glossary_path = args.glossary.resolve()
+        if not glossary_path.exists():
+            raise SystemExit(f"Glossario non trovato: {glossary_path}")
+
     fallback: str | None
     if isinstance(args.fallback, str) and args.fallback.lower() in {"", "none", "null"}:
         fallback = None
@@ -224,21 +334,30 @@ def main() -> None:
         fallback=fallback,
         dry_run=args.dry_run,
         schema_path=schema_path,
+        glossary_path=glossary_path,
     )
 
     if args.dry_run:
-        if not result.updated_traits:
+        if not result.updated_traits and not result.locale_changed:
             print("Nessuna modifica necessaria.")
         else:
-            print("Verrebbero aggiornati i seguenti trait:")
+            if result.updated_traits:
+                print("Verrebbero aggiornati i seguenti trait:")
+                for path in result.updated_traits:
+                    print(f" - {path.relative_to(ROOT)}")
+            if result.locale_changed:
+                print("Il bundle di localizzazione verrebbe aggiornato.")
+    else:
+        if result.updated_traits:
+            print("Trait aggiornati:")
             for path in result.updated_traits:
                 print(f" - {path.relative_to(ROOT)}")
-    else:
-        print("Trait aggiornati:")
-        for path in result.updated_traits:
-            print(f" - {path.relative_to(ROOT)}")
+        else:
+            print("Nessun trait aggiornato.")
         if result.locale_updated:
             print("File locale aggiornato.")
+        else:
+            print("File locale invariato.")
 
 
 if __name__ == "__main__":

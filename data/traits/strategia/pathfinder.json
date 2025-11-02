@@ -49,7 +49,7 @@
   "data_origin": "controllo_psionico",
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": true,
+    "has_species_link": false,
     "has_usage_tags": true
   },
   "spinta_selettiva": "i18n:traits.pathfinder.spinta_selettiva",

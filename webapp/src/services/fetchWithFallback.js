@@ -1,4 +1,10 @@
 import { isStaticDeployment } from './apiEndpoints';
+import {
+  beginFetchDiagnostic,
+  recordFallbackSuccess,
+  recordFetchError,
+  resolveFetchDiagnostic,
+} from '../observability/diagnosticsStore.ts';
 
 export function resolveFetchImplementation(fetchImpl) {
   if (typeof fetchImpl === 'function') {
@@ -71,6 +77,13 @@ export async function fetchJsonWithFallback(url, options = {}) {
 
   const fetchFn = resolveFetchImplementation(fetchImpl);
 
+  const diagnosticId = beginFetchDiagnostic({
+    url,
+    method: requestInit.method,
+    fallbackUrl,
+    fallbackAllowed: allowFallback,
+  });
+
   let remoteResponse;
   try {
     remoteResponse = await fetchFn(url, requestInit);
@@ -78,10 +91,21 @@ export async function fetchJsonWithFallback(url, options = {}) {
       throw await createHttpError(remoteResponse, errorMessage, buildErrorMessage);
     }
     const data = await parse(remoteResponse);
+    resolveFetchDiagnostic(diagnosticId, {
+      status: 'success',
+      source: 'remote',
+      message: 'Risposta remota ricevuta',
+    });
     return { data, source: 'remote', response: remoteResponse };
   } catch (error) {
     const remoteError = toError(error, errorMessage || 'Richiesta remota fallita');
+    resolveFetchDiagnostic(diagnosticId, {
+      message: remoteError.message,
+      error: remoteError.message,
+      completed: false,
+    });
     if (!allowFallback || !fallbackUrl) {
+      recordFetchError(diagnosticId, remoteError.message, remoteError);
       throw remoteError;
     }
     try {
@@ -95,12 +119,17 @@ export async function fetchJsonWithFallback(url, options = {}) {
         );
       }
       const data = await parse(fallbackResponse);
+      recordFallbackSuccess(
+        diagnosticId,
+        `Risposta fallback (${fallbackResponse.status}) ricevuta per ${fallbackUrl}`,
+      );
       return { data, source: 'fallback', response: fallbackResponse, error: remoteError };
     } catch (fallbackError) {
       const fallbackErr = toError(fallbackError, fallbackErrorMessage || 'Fallback non disponibile');
       if (!fallbackErr.cause) {
         fallbackErr.cause = remoteError;
       }
+      recordFetchError(diagnosticId, fallbackErr.message, fallbackErr);
       throw fallbackErr;
     }
   }

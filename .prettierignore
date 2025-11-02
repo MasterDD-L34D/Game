@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+coverage/
+logs/
+reports/
+data/
+packs/
+public/
+.DS_Store
+*.log
+webapp/.vite/

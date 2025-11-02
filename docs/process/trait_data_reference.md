@@ -4,15 +4,15 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 
 ## Struttura dei file
 
-| Percorso | Contenuto | Note |
-| --- | --- | --- |
-| `data/core/traits/glossary.json` | Glossario condiviso con label ufficiali, descrizioni sintetiche e collegamento al reference principale. | Usato da strumenti ETL e validazione. |
-| `data/traits/index.json` | Sorgente autorevole per tier, slot, sinergie, requisiti ambientali e metadati PI. | Duplicato in `docs/evo-tactics-pack/trait-reference.json` (web) e `packs/evo_tactics_pack/docs/catalog/trait_reference.json` (bundle pack); **tutte le copie vanno aggiornate insieme**. |
-| `data/traits/index.csv` | Indice rapido dei file trait con label, categoria/tipo, percorso, flag di completezza e nuovi campi `data_origin`, `biome_tags`, `usage_tags`, `has_biome`, `has_species_link`. | Generato da `node scripts/build_trait_index.js` per facilitare audit e inventari. |
-| `packs/evo_tactics_pack/docs/catalog/env_traits.json` | Mappa le condizioni ambientali (biomi, hazard, ecc.) ai tratti disponibili. | Necessario per report di coverage. |
-| `logs/trait_audit.md` | Output dell'audit di coerenza; deve essere privo di warning prima di aprire una PR. | Generato da `scripts/trait_audit.py`. |
-| `data/derived/analysis/trait_baseline.yaml` & `data/derived/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL. | Utili per verificare la copertura sui nove assi. |
-| `data/traits/_drafts/*.json` | Bozze generate automaticamente da fonti esterne. | Popolate da `python tools/py/import_external_traits.py`; contengono `completion_flags.external_source = true`. |
+| Percorso                                                                                         | Contenuto                                                                                                                                                                       | Note                                                                                                                                                                                     |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/core/traits/glossary.json`                                                                 | Glossario condiviso con label ufficiali, descrizioni sintetiche e collegamento al reference principale.                                                                         | Usato da strumenti ETL e validazione.                                                                                                                                                    |
+| `data/traits/index.json`                                                                         | Sorgente autorevole per tier, slot, sinergie, requisiti ambientali e metadati PI.                                                                                               | Duplicato in `docs/evo-tactics-pack/trait-reference.json` (web) e `packs/evo_tactics_pack/docs/catalog/trait_reference.json` (bundle pack); **tutte le copie vanno aggiornate insieme**. |
+| `data/traits/index.csv`                                                                          | Indice rapido dei file trait con label, categoria/tipo, percorso, flag di completezza e nuovi campi `data_origin`, `biome_tags`, `usage_tags`, `has_biome`, `has_species_link`. | Generato da `node scripts/build_trait_index.js` per facilitare audit e inventari.                                                                                                        |
+| `packs/evo_tactics_pack/docs/catalog/env_traits.json`                                            | Mappa le condizioni ambientali (biomi, hazard, ecc.) ai tratti disponibili.                                                                                                     | Necessario per report di coverage.                                                                                                                                                       |
+| `logs/trait_audit.md`                                                                            | Output dell'audit di coerenza; deve essere privo di warning prima di aprire una PR.                                                                                             | Generato da `scripts/trait_audit.py`.                                                                                                                                                    |
+| `data/derived/analysis/trait_baseline.yaml` & `data/derived/analysis/trait_coverage_report.json` | Baseline e report di coverage aggiornati dagli script ETL.                                                                                                                      | Utili per verificare la copertura sui nove assi.                                                                                                                                         |
+| `data/traits/_drafts/*.json`                                                                     | Bozze generate automaticamente da fonti esterne.                                                                                                                                | Popolate da `python tools/py/import_external_traits.py`; contengono `completion_flags.external_source = true`.                                                                           |
 
 ## Vincoli sui campi trait
 
@@ -32,18 +32,18 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 Per monitorare gli asset consegnati nei canvas e nei drop YAML è disponibile lo script `tools/py/import_external_traits.py`. Il parser utilizza:
 
 - **Appendici** (`appendici/*.txt`): front matter YAML per metadati e bullet `- **<sezione Tier N>**: ...` per estrarre i nomi dei tratti.
-- **Manifest sensienti** (`incoming/sensienti_traits_v0.1.yaml`): loader YAML (con normalizzazione della sezione `notes`) che converte i blocchi `tiers.*.grants_traits` in trait ID e descrizioni associate.
+- **Manifest sentience** (`incoming/sentience_traits_v1.0.yaml`): loader YAML definitivo con milestone sensoriali/motorie T1…T6 e hook interocettivi da cui derivare descrizioni e gating ufficiali.
 
 Esecuzione standard:
 
 ```bash
 python tools/py/import_external_traits.py \
   --appendix-dir appendici \
-  --incoming incoming/sensienti_traits_v0.1.yaml \
+  --incoming incoming/sentience_traits_v1.0.yaml \
   --output-dir data/traits/_drafts
 ```
 
-Il comando sovrascrive la directory di destinazione generando bozze conformi allo schema trait, già etichettate con `data_origin` e `completion_flags.external_source = true`. Gli identificatori `data_origin` vengono normalizzati in slug (`^[a-z0-9_]+$`), ad esempio `incoming_sensienti_traits_v0_1_t3_emergente`, così da rispettare il vincolo imposto dallo schema. Le bozze vanno poi integrate manualmente nel catalogo principale o scartate dopo la revisione.
+Il comando sovrascrive la directory di destinazione generando bozze conformi allo schema trait, già etichettate con `data_origin` e `completion_flags.external_source = true`. Gli identificatori `data_origin` vengono normalizzati in slug (`^[a-z0-9_]+$`), ad esempio `incoming_sentience_traits_v1_0_t3_emergente`, così da rispettare il vincolo imposto dallo schema. Le bozze vanno poi integrate manualmente nel catalogo principale o scartate dopo la revisione.
 
 Per includere il controllo nel workflow di audit è possibile avviare:
 

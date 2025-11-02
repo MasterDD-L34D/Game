@@ -1,6 +1,6 @@
 <template>
-  <section v-if="hasContent" class="app-breadcrumbs" aria-label="Contestualizzazione pagina">
-    <nav v-if="items.length" class="app-breadcrumbs__nav" aria-label="Percorso applicazione">
+  <section v-if="hasContent" class="app-breadcrumbs" :aria-label="t('breadcrumbs.sectionLabel')">
+    <nav v-if="items.length" class="app-breadcrumbs__nav" :aria-label="t('breadcrumbs.navLabel')">
       <ol class="app-breadcrumbs__list" role="list">
         <li
           v-for="item in items"
@@ -10,12 +10,7 @@
           role="listitem"
           :aria-current="item.current ? 'page' : undefined"
         >
-          <RouterLink
-            v-if="!item.current"
-            :to="item.to"
-            class="app-breadcrumbs__link"
-            :aria-label="`Vai a ${item.label}`"
-          >
+          <RouterLink v-if="!item.current" :to="item.to" class="app-breadcrumbs__link" :aria-label="t('breadcrumbs.goTo', { label: item.label })">
             <span>{{ item.label }}</span>
           </RouterLink>
           <span v-else class="app-breadcrumbs__current" aria-current="page">{{ item.label }}</span>
@@ -25,7 +20,7 @@
 
     <div class="app-breadcrumbs__meta">
       <p v-if="description" class="app-breadcrumbs__description">{{ description }}</p>
-      <ul v-if="tokens.length" class="app-breadcrumbs__tokens" aria-label="Stato contesto" role="list">
+      <ul v-if="tokens.length" class="app-breadcrumbs__tokens" :aria-label="t('breadcrumbs.contextState')" role="list">
         <li v-for="token in tokens" :key="token.id">
           <StateToken :label="token.label" :variant="token.variant" :icon="token.icon" />
         </li>
@@ -37,6 +32,7 @@
 <script setup>
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 import StateToken from '../metrics/StateToken.vue';
 
@@ -69,6 +65,8 @@ const tokens = computed(() => props.tokens);
 const hasContent = computed(
   () => items.value.length > 0 || Boolean(description.value) || tokens.value.length > 0,
 );
+
+const { t } = useI18n();
 </script>
 
 <style scoped>

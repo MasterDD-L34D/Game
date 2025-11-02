@@ -17,7 +17,11 @@
         >
           <header class="pokedex-status-card__header">
             <span class="pokedex-status-card__label">{{ status.label }}</span>
-            <span v-if="status.loading" class="pokedex-status-card__spinner" aria-hidden="true"></span>
+            <span
+              v-if="status.loading"
+              class="pokedex-status-card__spinner"
+              aria-hidden="true"
+            ></span>
             <PokedexTelemetryBadge
               v-if="status.fallbackLabel"
               label="Modalità"
@@ -45,9 +49,7 @@
     </template>
 
     <template #default>
-      <div v-if="isLoading" class="flow-shell__placeholder">
-        Caricamento orchestratore…
-      </div>
+      <div v-if="isLoading" class="flow-shell__placeholder">Caricamento orchestratore…</div>
       <div v-else-if="loadError" class="flow-shell__placeholder flow-shell__placeholder--error">
         {{ loadError }}
       </div>
@@ -222,7 +224,10 @@ const activeProps = computed(() => {
     return { biomes: snapshotStore.biomes.value };
   }
   if (id === 'encounter') {
-    return { encounter: snapshotStore.encounter.value, summary: snapshotStore.encounterSummary.value };
+    return {
+      encounter: snapshotStore.encounter.value,
+      summary: snapshotStore.encounterSummary.value,
+    };
   }
   if (id === 'qualityRelease') {
     return {
@@ -240,9 +245,7 @@ const activeProps = computed(() => {
 const canGoBack = computed(() => currentStep.value.index > 0);
 const canGoForward = computed(() => currentStep.value.index < steps.length - 1);
 
-const isLoading = computed(
-  () => snapshotStore.loading.value && !snapshotStore.hasSnapshot.value,
-);
+const isLoading = computed(() => snapshotStore.loading.value && !snapshotStore.hasSnapshot.value);
 const isRefreshing = computed(() => snapshotStore.refreshing.value);
 
 function normaliseErrorMessage(error) {
@@ -341,11 +344,7 @@ const statuses = computed(() => {
         : null,
     canRetry: Boolean(snapshotStore.error.value || snapshotFallback || snapshotOffline),
     onRetry: retrySnapshot,
-    state: snapshotStore.error.value
-      ? 'error'
-      : snapshotStore.loading.value
-        ? 'loading'
-        : 'ready',
+    state: snapshotStore.error.value ? 'error' : snapshotStore.loading.value ? 'loading' : 'ready',
   };
 
   const speciesFallback = speciesStore.fallbackActive.value;
@@ -359,8 +358,10 @@ const statuses = computed(() => {
     errorMessage: normaliseErrorMessage(speciesStore.error.value),
     message: speciesOffline
       ? 'Connessione assente'
-      : speciesStore.blueprint.value?.name
-        || (speciesStore.requestId.value ? `Richiesta ${speciesStore.requestId.value}` : 'In attesa richiesta'),
+      : speciesStore.blueprint.value?.name ||
+        (speciesStore.requestId.value
+          ? `Richiesta ${speciesStore.requestId.value}`
+          : 'In attesa richiesta'),
     fallbackLabel: speciesFallback ? 'fallback' : speciesOffline ? 'offline' : null,
     canRetry: Boolean(
       speciesStore.error.value || speciesFallback || speciesOffline || speciesStore.canRetry(),
@@ -394,7 +395,9 @@ const statuses = computed(() => {
       : diagnosticsOffline
         ? 'offline'
         : null,
-    canRetry: Boolean(traitDiagnosticsStore.error.value || diagnosticsFallback || diagnosticsOffline),
+    canRetry: Boolean(
+      traitDiagnosticsStore.error.value || diagnosticsFallback || diagnosticsOffline,
+    ),
     onRetry: retryTraitDiagnostics,
     state: traitDiagnosticsStore.error.value
       ? 'error'
@@ -427,7 +430,11 @@ function formatLogTimestamp(timestamp) {
     if (Number.isNaN(date.getTime())) {
       throw new Error('Invalid timestamp');
     }
-    return date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    return date.toLocaleTimeString('it-IT', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
   } catch (error) {
     return String(timestamp).slice(0, 8);
   }
@@ -464,9 +471,23 @@ const telemetryStreamState = computed(() => ({
   attempts: clientLogger.streamAttempts.value,
 }));
 
+function collectQualityLogs(snapshot) {
+  const segments = [
+    snapshot?.qualityRelease?.logs,
+    snapshot?.qualityReleaseContext?.logs,
+    snapshot?.qualityRelease?.events,
+    snapshot?.qualityReleaseContext?.events,
+  ];
+  return segments
+    .filter((segment) => Array.isArray(segment))
+    .flat()
+    .filter((entry) => entry && typeof entry === 'object');
+}
+
 function countValidatorWarnings(snapshot) {
-  const logs = Array.isArray(snapshot?.qualityRelease?.logs) ? snapshot.qualityRelease.logs : [];
-  return logs.filter((log) => String(log?.level || '').toLowerCase() === 'warning').length;
+  return collectQualityLogs(snapshot).filter(
+    (log) => String(log?.level || '').toLowerCase() === 'warning',
+  ).length;
 }
 
 function extractFallbackCount(snapshot) {
@@ -503,11 +524,11 @@ function extractFallbackCount(snapshot) {
     }
   });
 
-  const logFallbacks = Array.isArray(snapshot?.qualityRelease?.logs)
-    ? snapshot.qualityRelease.logs.filter((log) =>
-        String(log?.message || '').toLowerCase().includes('fallback'),
-      ).length
-    : 0;
+  const logFallbacks = collectQualityLogs(snapshot).filter((log) =>
+    String(log?.message || '')
+      .toLowerCase()
+      .includes('fallback'),
+  ).length;
 
   return total + logFallbacks;
 }

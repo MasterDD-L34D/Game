@@ -1,34 +1,73 @@
 # Linee guida per contribuire
 
-Grazie per l'interesse nel progetto! Questa pagina riassume le aspettative di
-setup e indirizza alla documentazione specifica per i contributi sui trait.
+Grazie per l'interesse nel progetto! Questa guida copre il setup minimo,
+gli script principali e il flusso di revisione per proporre modifiche in modo
+coerente con le pipeline CI.
 
-## Requisiti tecnici
+## Setup rapido dell'ambiente
 
-- **Node.js 18+** e npm aggiornato (`node --version`, `npm --version`) come
-  indicato nella checklist di setup. Le pipeline sono verificate con Node
-  22.19.0 / npm 11.6.2. Prima di contribuire esegui `npm ci` dalla radice per
-  installare le dipendenze.  
-  _Riferimento: `docs/checklist/project-setup-todo.md`._
-- **Python 3.10+** con `pip` attivo. Crea, se possibile, un virtual environment
-  dedicato e installa i requisiti con `python -m pip install -r
-  requirements-dev.txt`.  
-  _Riferimento: `docs/checklist/project-setup-todo.md`._
-- **Lint e QA**: le pipeline web verificano che `npm run test:web`,
-  `npm run lint:web` e `npm run audit:web` siano verdi prima della promozione.
-  Riproduci gli stessi comandi in locale quando tocchi asset front-end o trait.  
-  _Riferimento: `docs/process/traits_checklist.md`._
+1. **Node.js 18+ (raccomandato 22.19.0) e npm 11+**. Verifica con
+   `node --version` e `npm --version`. Installa le dipendenze dalla radice del
+   repository con `npm ci` e inizializza i Git hook eseguendo `npm run prepare`.
+2. **Python 3.10+** con `pip`. Si consiglia un virtualenv dedicato. Installa i
+   requisiti backend con `python -m pip install -r requirements-dev.txt`.
+3. Consulta le checklist di progetto in `docs/checklist/project-setup-todo.md`
+   per ulteriori dettagli su strumenti opzionali e configurazioni consigliate.
+
+## Script chiave (npm workspaces)
+
+Il repository usa [npm workspaces](https://docs.npmjs.com/cli/v10/using-npm/workspaces)
+per orchestrare strumenti e webapp. I comandi principali sono già esposti nel
+`package.json` di root e delegano ai workspace pertinenti.
+
+| Script | Descrizione |
+| --- | --- |
+| `npm run dev` | Avvia il server Vite della webapp (`webapp`). |
+| `npm run build` | Esegue `build` su tutti i workspace che espongono lo script. |
+| `npm run lint` | Lancia ESLint sui workspace (`webapp`, `tools/ts`). |
+| `npm run test` | Esegue i test API/TS e i test unitari della webapp. |
+| `npm run preview` | Avvia `vite preview` della webapp dopo un build locale. |
+| `npm run format` | Applica Prettier ai file supportati. Usa `format:check` in CI. |
+
+Per eseguire uno script in un workspace specifico puoi usare `npm run <script>
+--workspace <nome-workspace>`.
+
+## Standard di codice: ESLint, Prettier e Husky
+
+- **ESLint** è configurato nella radice (`.eslintrc.cjs`) con regole per
+  TypeScript, React, Vue e Vitest. Esegui `npm run lint` prima di ogni PR.
+- **Prettier** fornisce la formattazione automatica (`.prettierrc.json`). Usa
+  `npm run format` per applicare le regole o `npm run format:check` per una
+  verifica non distruttiva.
+- **Husky** installa un hook `pre-commit` che lancia `npm run lint` e
+  `npm run format:check`. Assicurati di aver eseguito `npm run prepare` dopo il
+  checkout per abilitare gli hook locali.
+
+## Test e QA
+
+- `npm run test` copre i test API (`node --test`), le suite TypeScript in
+  `tools/ts` e i test unitari della webapp (`vitest`).
+- `npm run build` e `npm run preview` verificano il bundle Vite con `base`
+  relativo (`./`). Usa questi comandi quando modifichi asset front-end o
+  configurazioni di deploy.
+- Per script specifici (CLI, QA report, esportazioni) consulta le directory
+  `tools/ts`, `tools/py` e `scripts/` oppure la documentazione dedicata.
+
+## Flusso PR e collegamento con la CI
+
+1. Crea una branch descrittiva e collega eventuali issue.
+2. Applica le checklist pertinenti (QA, telemetria, web) citate in
+   `docs/process/traits_checklist.md` e allega log significativi nella PR.
+3. Verifica in locale `npm run lint`, `npm run format:check`, `npm run test` e,
+   per modifiche front-end, `npm run build`/`npm run preview`.
+4. Le pipeline CI rilanciano lint, test, build Vite con base relativa e uno
+   smoke-test del preview server; assicurati che la tua PR non rompa questi
+   step.
 
 ## Contributi sui trait
 
-Per proposte e modifiche ai trait consulta la nuova guida dedicata in
+Per proposte e modifiche ai trait consulta la guida dedicata in
 [`docs/contributing/traits.md`](docs/contributing/traits.md). Troverai template,
 strumenti, workflow di revisione ed esempi passo-passo, oltre ai link diretti
 agli script (`build_trait_index.js`, `report_trait_coverage.py`) e all'editor
 schema-driven.
-
-## Apertura di PR
-
-1. Apri una branch descrittiva.
-2. Segui le checklist pertinenti (QA, telemetria, web) e allega log/risultati.
-3. Assicurati che i test richiesti siano verdi prima di richiedere la revisione.

@@ -47,5 +47,9 @@
   },
   "spinta_selettiva": "i18n:traits.antenne_plasmatiche_tempesta.spinta_selettiva",
   "tier": "T3",
-  "uso_funzione": "i18n:traits.antenne_plasmatiche_tempesta.uso_funzione"
+  "uso_funzione": "i18n:traits.antenne_plasmatiche_tempesta.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

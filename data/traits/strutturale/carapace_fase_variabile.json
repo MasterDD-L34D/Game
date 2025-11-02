@@ -76,5 +76,9 @@
   },
   "spinta_selettiva": "i18n:traits.carapace_fase_variabile.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.carapace_fase_variabile.uso_funzione"
+  "uso_funzione": "i18n:traits.carapace_fase_variabile.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

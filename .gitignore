@@ -14,3 +14,7 @@ logs/tooling/*.png
 
 # Generated analytics outputs
 reports/trait_balance/*.png
+# Generated trait style reports
+reports/trait_style/
+logs/monthly_trait_maintenance/trait_style_*.json
+logs/monthly_trait_maintenance/trait_style_*.md

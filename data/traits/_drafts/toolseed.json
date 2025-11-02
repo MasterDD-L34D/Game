@@ -12,10 +12,10 @@
   "sinergie": [],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.toolseed.mutazione_indotta",
-  "uso_funzione": "i18n:traits.toolseed.uso_funzione",
-  "spinta_selettiva": "i18n:traits.toolseed.spinta_selettiva",
+  "uso_funzione": "Tier Emergente (T3). Milestone: Senses mid+; AB 02–03 movement/carry.",
+  "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
   "completion_flags": {
     "external_source": true
   },
-  "data_origin": "incoming_sensienti_traits_v0_1_t3_emergente"
+  "data_origin": "incoming_sentience_traits_v1_0_t3_emergente"
 }

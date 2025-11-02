@@ -12,10 +12,10 @@
   "sinergie": [],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.sheltering.mutazione_indotta",
-  "uso_funzione": "i18n:traits.sheltering.uso_funzione",
-  "spinta_selettiva": "i18n:traits.sheltering.spinta_selettiva",
+  "uso_funzione": "Tier Avanzato (T5). Milestone: Memorie echoic/iconic multiple; AB 11 pain.",
+  "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
   "completion_flags": {
     "external_source": true
   },
-  "data_origin": "incoming_sensienti_traits_v0_1_t5_culturale"
+  "data_origin": "incoming_sentience_traits_v1_0_t5_avanzato"
 }

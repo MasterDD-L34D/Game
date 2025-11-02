@@ -762,10 +762,10 @@
     "stato": "File generico"
   },
   {
-    "percorso": "sensienti_traits_v0.1.yaml",
+    "percorso": "sentience_traits_v1.0.yaml",
     "tipo": "file",
-    "dettagli": "3.8 KiB; .1.yaml",
-    "stato": "Documento testo"
+    "dettagli": "3.3 KiB; .yaml",
+    "stato": "Manifest finale tier & interoception"
   },
   {
     "percorso": "species_index.html",

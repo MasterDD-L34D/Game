@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 
 import SpeciesView from '../../webapp/src/views/SpeciesView.vue';
+import { createI18nForTests } from '../../webapp/tests/utils/i18n';
 
 const createWrapper = () => {
   const status = {
@@ -64,6 +65,7 @@ const createWrapper = () => {
       traitDiagnosticsMeta: { fetched_at: '2035-04-01T12:05:00Z' },
     },
     global: {
+      plugins: [createI18nForTests('it')],
       stubs: {
         SpeciesPanel: {
           template: '<div class="species-panel-stub" />',

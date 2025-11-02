@@ -11,7 +11,15 @@ Gli obiettivi principali del template sono:
   tipologie;
 - isolare le sezioni opzionali così da espandere il modello senza rompere le
   pipeline esistenti;
-- documentare esempi rappresentativi per ogni macro-tipologia.
+- documentare esempi rappresentativi per ogni macro-tipologia;
+- allineare label e descrizioni al [glossario centralizzato](../data/core/traits/glossary.json)
+  così che gli script di sincronizzazione possano propagare automaticamente i
+  testi approvati nelle localizzazioni.
+
+> **Nota:** prima di aprire una PR assicurati che ogni nuovo trait sia presente
+> nel glossario (`data/core/traits/glossary.json`) con almeno `label_it`,
+> `label_en`, `description_it` e `description_en`. Il flusso dettagliato è
+> descritto in [docs/catalog/trait_reference.md](catalog/trait_reference.md).
 
 ## Schema base obbligatorio
 
@@ -22,7 +30,7 @@ rispettare le regole indicate e sono validati automaticamente dal comando
 | Campo                           | Tipo         | Vincoli principali                                       | Descrizione |
 |---------------------------------|--------------|-----------------------------------------------------------|-------------|
 | `id`                            | string       | `^[a-z0-9_]+$`, deve coincidere con il nome del file      | Identificatore canonico. |
-| `label`                         | string       | non vuota                                                 | Nome visualizzato. |
+| `label`                         | string       | non vuota                                                 | Nome visualizzato (deve avere controparte nel glossario/localizzazioni). |
 | `famiglia_tipologia`            | string       | non vuota (`Macro/Sub-tipo`)                              | Cluster funzionale. |
 | `fattore_mantenimento_energetico` | string     | non vuota                                                 | Costo narrativo/energetico. |
 | `tier`                          | string       | `T1`…`T6`                                                 | Gradino di progressione. |
@@ -32,6 +40,10 @@ rispettare le regole indicate e sono validati automaticamente dal comando
 | `mutazione_indotta`             | string       | non vuota                                                 | Sintesi dell'adattamento. |
 | `uso_funzione`                  | string       | non vuota                                                 | Funzione in gioco. |
 | `spinta_selettiva`              | string       | non vuota                                                 | Motivazione evolutiva/tattica. |
+
+Quando un campo testuale viene introdotto (es. `description`), ricordati di
+aggiungerlo al glossario e di eseguire `python scripts/sync_trait_locales.py`
+per riflettere la modifica nelle localizzazioni.
 
 ### Scheletro minimo
 
