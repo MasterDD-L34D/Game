@@ -368,7 +368,7 @@
 
 <script setup>
 import { computed, reactive, ref, toRefs, watch } from 'vue';
-import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService.js';
+import { validateBiome, validateFoodweb, validateSpeciesBatch } from '../services/runtimeValidationService';
 import { applyQualitySuggestion } from '../services/qualityReleaseService.js';
 import { logEvent as logClientEvent, useClientLogger } from '../services/clientLogger.ts';
 

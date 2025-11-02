@@ -1,0 +1,13 @@
+dist/
+build/
+coverage/
+node_modules/
+**/node_modules/
+logs/
+reports/
+data/
+packs/
+public/
+.tmp/
+.husky/
+webapp/.vite/
