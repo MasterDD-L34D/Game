@@ -10,15 +10,25 @@ log() {
 
 DATA_SOURCE_DIR="${DEPLOY_DATA_DIR:-$ROOT_DIR/data}"
 if [ ! -d "$DATA_SOURCE_DIR" ]; then
-  log "Dataset directory '$DATA_SOURCE_DIR' non trovato"
-  exit 1
+  log "Dataset directory '$DATA_SOURCE_DIR' non trovato: lo creo per la sincronizzazione"
+  mkdir -p "$DATA_SOURCE_DIR"
 fi
 export DATA_SOURCE_DIR
 
-STATUS_REPORT="$ROOT_DIR/reports/status.json"
-
 SMOKE_TEST_MESSAGE=""
 SMOKE_TEST_DETAILS=()
+
+if [ "${DEPLOY_SKIP_SNAPSHOT_SYNC:-0}" != "1" ]; then
+  log "Sincronizzazione snapshot generation (tools/deploy/syncSnapshot.js)"
+  node "$ROOT_DIR/tools/deploy/syncSnapshot.js" --target "$DATA_SOURCE_DIR"
+  SNAPSHOT_TARGET="$DATA_SOURCE_DIR/flow-shell/atlas-snapshot.json"
+  SMOKE_TEST_DETAILS+=("  - Snapshot generation aggiornato in ${SNAPSHOT_TARGET}.")
+else
+  log "Sincronizzazione snapshot generation saltata (DEPLOY_SKIP_SNAPSHOT_SYNC=1)"
+  SMOKE_TEST_DETAILS+=("  - Snapshot generation non sincronizzato per richiesta esplicita.")
+fi
+
+STATUS_REPORT="$ROOT_DIR/reports/status.json"
 
 log "Validating trait inventory (docs/catalog/traits_inventory.json)"
 python3 "$ROOT_DIR/tools/py/traits_validator.py"

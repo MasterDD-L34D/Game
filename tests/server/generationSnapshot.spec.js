@@ -5,6 +5,7 @@ const { tmpdir } = require('node:os');
 const test = require('node:test');
 
 const { createGenerationSnapshotStore } = require('../../server/services/generationSnapshotStore');
+const { createMockFs } = require('../helpers/mockFs');
 
 function createTempDir(prefix) {
   return mkdtemp(path.join(tmpdir(), prefix));
@@ -98,4 +99,33 @@ test('usa il dataset statico quando il file non è disponibile', async (t) => {
   const persisted = JSON.parse(await readFile(datasetPath, 'utf8'));
   assert.equal(persisted.species.curated, 1);
   assert.equal(persisted.species.total, 5);
+});
+
+test('recupera automaticamente da snapshot temporaneo dopo un crash', async () => {
+  const datasetPath = '/data/flow-shell/atlas-snapshot.json';
+  const fsMock = createMockFs({
+    [`${datasetPath}.tmp`]: { overview: { title: 'Tmp' } },
+    [`${datasetPath}.bak`]: { overview: { title: 'Backup' } },
+  });
+
+  const store = createGenerationSnapshotStore({ datasetPath, fs: fsMock });
+  const snapshot = await store.getSnapshot();
+  assert.equal(snapshot.overview.title, 'Tmp');
+});
+
+test('riutilizza il backup quando il file principale è corrotto', async () => {
+  const datasetPath = '/data/flow-shell/atlas-snapshot.json';
+  const corrupted = '{"overview": {"title": "bad"}';
+  const fsMock = createMockFs({
+    [datasetPath]: corrupted,
+    [`${datasetPath}.bak`]: { overview: { title: 'Backup OK' } },
+  });
+
+  const store = createGenerationSnapshotStore({ datasetPath, fs: fsMock });
+  const snapshot = await store.getSnapshot();
+  assert.equal(snapshot.overview.title, 'Backup OK');
+
+  await store.applyPatch({ overview: { title: 'Nuova versione' } });
+  const persisted = JSON.parse(fsMock.__files.get(datasetPath).content);
+  assert.equal(persisted.overview.title, 'Nuova versione');
 });
