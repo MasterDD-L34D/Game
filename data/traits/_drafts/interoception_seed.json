@@ -12,10 +12,10 @@
   "sinergie": [],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.interoception_seed.mutazione_indotta",
-  "uso_funzione": "i18n:traits.interoception_seed.uso_funzione",
-  "spinta_selettiva": "i18n:traits.interoception_seed.spinta_selettiva",
+  "uso_funzione": "Tier Proto‑Sentiente (T1). Milestone: Senses (core).",
+  "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
   "completion_flags": {
     "external_source": true
   },
-  "data_origin": "incoming_sensienti_traits_v0_1_t1_protosentiente"
+  "data_origin": "incoming_sentience_traits_v1_0_t1_proto_sentiente"
 }

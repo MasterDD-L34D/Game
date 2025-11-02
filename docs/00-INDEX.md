@@ -58,6 +58,7 @@
 | [qa_reporting_schema.md](docs/process/qa_reporting_schema.md) | QA Telemetry & Segnalazioni — Schema condiviso | Panorama fonti dati QA, campi disponibili e gap di reporting. | N/D | 2025-10-27 | `docs/process/qa_reporting_schema.md` |
 | [telemetry_ingestion_pipeline.md](docs/process/telemetry_ingestion_pipeline.md) | Pipeline Dati Telemetria → Tabella QA/Design | Flusso di ingestione telemetria, snapshot visuali e modulo QA manuale. | N/D | 2025-10-27 | `docs/process/telemetry_ingestion_pipeline.md` |
 | [traits_checklist.md](docs/process/traits_checklist.md) | Checklist iterativa tratti | Step incrementali per aggiungere/revisionare tratti con controlli dati. | N/D | 2025-10-28 | `docs/process/traits_checklist.md` |
+| [training/trait_style_session.md](docs/process/training/trait_style_session.md) | Trait Style Session & Review | Agenda formazione e processo per nomenclatura/descrizioni trait. | N/D | 2025-10-29 | `docs/process/training/trait_style_session.md` |
 | [web_handoff.md](docs/process/web_handoff.md) | Web Handoff · Foodweb Archetypes 2025-11-05 | Nota di consegna verso team web/UI con archetipi ruolo×bioma aggiornati. | N/D | 2025-10-29 | `docs/process/web_handoff.md` |
 | [web_pipeline.md](docs/process/web_pipeline.md) | Pipeline web · Procedura di rilascio | Processo end-to-end per promuovere la web experience su GitHub Pages. | N/D | 2025-10-28 | `docs/process/web_pipeline.md` |
 

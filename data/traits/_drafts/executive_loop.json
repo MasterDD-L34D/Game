@@ -12,10 +12,10 @@
   "sinergie": [],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.executive_loop.mutazione_indotta",
-  "uso_funzione": "i18n:traits.executive_loop.uso_funzione",
-  "spinta_selettiva": "i18n:traits.executive_loop.spinta_selettiva",
+  "uso_funzione": "Tier Sapiente (T6). Milestone: Senses 37/37; Ambulation 26/26.",
+  "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
   "completion_flags": {
     "external_source": true
   },
-  "data_origin": "incoming_sensienti_traits_v0_1_t6_proto_umano"
+  "data_origin": "incoming_sentience_traits_v1_0_t6_sapiente"
 }

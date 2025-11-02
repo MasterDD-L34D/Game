@@ -9,7 +9,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Optional
 
 
 TRACKED_FIELDS: dict[str, str] = {
@@ -19,6 +19,24 @@ TRACKED_FIELDS: dict[str, str] = {
     "completion_flags": "Flag completamento",
     "data_origin": "Origine dati",
 }
+
+
+@dataclass
+class StyleguideMetric:
+    label: str
+    percent: Optional[float]
+    sla: Optional[float]
+    status: str
+
+    def format_percent(self) -> str:
+        if self.percent is None:
+            return "—"
+        return f"{self.percent:.1f}%"
+
+    def format_sla(self) -> str:
+        if self.sla is None:
+            return "—"
+        return f">= {self.sla * 100:.0f}%"
 
 
 @dataclass
@@ -98,6 +116,12 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Non aggiornare lo storico, limitandosi a generare il report corrente",
     )
+    parser.add_argument(
+        "--styleguide-report",
+        type=Path,
+        default=Path("reports/styleguide_compliance.json"),
+        help="Report JSON opzionale con i KPI di conformità allo styleguide",
+    )
     return parser
 
 
@@ -174,6 +198,36 @@ def load_history(history_path: Path) -> list[DashboardSnapshot]:
     return snapshots
 
 
+def load_styleguide_metrics(path: Path) -> list[StyleguideMetric]:
+    if not path.exists():
+        return []
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    metrics_section = payload.get("kpi") if isinstance(payload, dict) else None
+    if not isinstance(metrics_section, dict):
+        return []
+    metrics: list[StyleguideMetric] = []
+    for meta in metrics_section.values():
+        if not isinstance(meta, dict):
+            continue
+        label = meta.get("label")
+        percent = meta.get("percent")
+        sla = meta.get("sla_threshold")
+        status = meta.get("status")
+        metrics.append(
+            StyleguideMetric(
+                label=str(label) if label is not None else "—",
+                percent=float(percent) if isinstance(percent, (int, float)) else None,
+                sla=float(sla) if isinstance(sla, (int, float)) else None,
+                status=str(status) if isinstance(status, str) else "unknown",
+            )
+        )
+    metrics.sort(key=lambda item: item.label)
+    return metrics
+
+
 def update_history(
     history_path: Path, existing: list[DashboardSnapshot], snapshot: DashboardSnapshot
 ) -> list[DashboardSnapshot]:
@@ -191,6 +245,7 @@ def build_markdown(
     snapshot: DashboardSnapshot,
     missing_traits: dict[str, list[str]],
     history: list[DashboardSnapshot],
+    styleguide_metrics: list[StyleguideMetric],
 ) -> str:
     lines: list[str] = []
     lines.append("# Trait Completion Dashboard")
@@ -245,6 +300,20 @@ def build_markdown(
                 + " |"
             )
         lines.append("")
+    if styleguide_metrics:
+        lines.append("## Styleguide compliance")
+        lines.append("")
+        lines.append("| KPI | Copertura | SLA | Stato |")
+        lines.append("| --- | --- | --- | --- |")
+        for metric in styleguide_metrics:
+            lines.append(
+                f"| {metric.label} | {metric.format_percent()} | {metric.format_sla()} | {metric.status.upper()} |"
+            )
+        lines.append("")
+        lines.append(
+            "_Dettagli completi nel report `reports/styleguide_compliance.md`._"
+        )
+        lines.append("")
     lines.append("## Interpretazione")
     lines.append("")
     lines.append(
@@ -287,7 +356,13 @@ def main(argv: list[str] | None = None) -> int:
         history_with_current = update_history(args.history_file, history, snapshot)
 
     missing_traits = collect_missing_traits(traits, metrics)
-    markdown = build_markdown(snapshot, missing_traits, history_with_current)
+    styleguide_metrics = load_styleguide_metrics(args.styleguide_report)
+    markdown = build_markdown(
+        snapshot,
+        missing_traits,
+        history_with_current,
+        styleguide_metrics,
+    )
 
     args.out_markdown.parent.mkdir(parents=True, exist_ok=True)
     args.out_markdown.write_text(markdown + "\n", encoding="utf-8")

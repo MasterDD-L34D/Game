@@ -1,42 +1,39 @@
 <template>
   <section class="console-hub">
     <header class="console-hub__hero">
-      <h1>Mission Console</h1>
-      <p>
-        Gestisci il ciclo di vita di Nebula orchestrando generazione, QA e monitoraggio dai moduli
-        dedicati.
-      </p>
+      <h1>{{ t('views.consoleHub.hero.title') }}</h1>
+      <p>{{ t('views.consoleHub.hero.body') }}</p>
     </header>
 
-    <section class="console-hub__grid" aria-label="Aree principali">
+    <section class="console-hub__grid" :aria-label="t('views.consoleHub.grid.ariaLabel')">
       <RouterLink class="console-hub__card" :to="{ name: 'console-flow' }">
-        <h2>Workflow Orchestrator</h2>
-        <p>Sequenzia i passaggi di generazione specie, validazione e publishing.</p>
-        <span>Apri flusso →</span>
+        <h2>{{ t('views.consoleHub.grid.flow.title') }}</h2>
+        <p>{{ t('views.consoleHub.grid.flow.description') }}</p>
+        <span>{{ t('views.consoleHub.grid.flow.cta') }}</span>
       </RouterLink>
 
       <RouterLink class="console-hub__card" :to="{ name: 'console-traits-editor' }">
-        <h2>Trait Editor</h2>
-        <p>Modifica i tratti canonici con validazione schema in tempo reale.</p>
-        <span>Apri editor →</span>
+        <h2>{{ t('views.consoleHub.grid.traits.title') }}</h2>
+        <p>{{ t('views.consoleHub.grid.traits.description') }}</p>
+        <span>{{ t('views.consoleHub.grid.traits.cta') }}</span>
       </RouterLink>
 
       <RouterLink class="console-hub__card" :to="{ name: 'console-atlas-overview' }">
-        <h2>Nebula Atlas</h2>
-        <p>Consulta dataset, telemetria e strumenti di laboratorio dedicati.</p>
-        <span>Vai all&apos;Atlas →</span>
+        <h2>{{ t('views.consoleHub.grid.atlas.title') }}</h2>
+        <p>{{ t('views.consoleHub.grid.atlas.description') }}</p>
+        <span>{{ t('views.consoleHub.grid.atlas.cta') }}</span>
       </RouterLink>
 
       <RouterLink class="console-hub__card" :to="{ name: 'console-atlas-telemetry' }">
-        <h2>Telemetria live</h2>
-        <p>Monitoraggio eventi QA, readiness e sincronizzazioni generator.</p>
-        <span>Apri dashboard →</span>
+        <h2>{{ t('views.consoleHub.grid.telemetry.title') }}</h2>
+        <p>{{ t('views.consoleHub.grid.telemetry.description') }}</p>
+        <span>{{ t('views.consoleHub.grid.telemetry.cta') }}</span>
       </RouterLink>
 
       <RouterLink class="console-hub__card" :to="{ name: 'console-atlas-generator' }">
-        <h2>Generatore Nebula</h2>
-        <p>Controlla stato, metriche e trend di generazione delle specie.</p>
-        <span>Consulta metriche →</span>
+        <h2>{{ t('views.consoleHub.grid.generator.title') }}</h2>
+        <p>{{ t('views.consoleHub.grid.generator.description') }}</p>
+        <span>{{ t('views.consoleHub.grid.generator.cta') }}</span>
       </RouterLink>
     </section>
   </section>
@@ -44,6 +41,9 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 </script>
 
 <style scoped>

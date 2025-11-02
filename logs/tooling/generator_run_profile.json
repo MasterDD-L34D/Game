@@ -1,20 +1,20 @@
 {
-  "generated_at": "2025-10-28T23:44:18Z",
+  "generated_at": "2025-11-02T00:56:26Z",
   "status": "success",
-  "data_root": "data/derived/mock/prod_snapshot",
+  "data_root": "data/core",
   "matrix_path": "docs/catalog/species_trait_matrix.json",
   "inventory_path": "docs/catalog/traits_inventory.json",
   "metrics": {
-    "generation_time_ms": 10,
-    "matrix_entries": 28,
-    "species_total": 24,
+    "generation_time_ms": 9,
+    "matrix_entries": 27,
+    "species_total": 23,
     "event_total": 4,
-    "core_traits_total": 22,
-    "optional_traits_total": 11,
+    "core_traits_total": 30,
+    "optional_traits_total": 17,
     "synergy_traits_total": 8,
     "dataset_species_total": 1,
     "species_with_trait_plan": 1,
-    "enriched_species": 7,
+    "enriched_species": 12,
     "expected_core_traits": 4
   },
   "core_traits": [
@@ -28,6 +28,8 @@
     "filamenti_digestivi_compattanti",
     "grassi_termici",
     "mimetismo_cromatico_passivo",
+    "nucleo_ovomotore_rotante",
+    "occhi_infrarosso_composti",
     "olfatto_risonanza_magnetica",
     "pelli_anti_ustione",
     "pelli_cave",
@@ -35,24 +37,36 @@
     "pigmenti_aurorali",
     "pigmenti_termici",
     "proteine_shock_termico",
+    "respiro_a_scoppio",
     "reti_capillari_radici",
     "sacche_galleggianti_ascensoriali",
+    "sangue_piroforico",
     "scheletro_idro_regolante",
+    "secrezione_rallentante_palmi",
     "sensori_geomagnetici",
-    "struttura_elastica_amorfa"
+    "sonno_emisferico_alternato",
+    "spore_psichiche_silenziate",
+    "struttura_elastica_amorfa",
+    "ventriglio_gastroliti"
   ],
   "optional_traits": [
+    "carapace_fase_variabile",
     "coda_frusta_cinetica",
     "criostasi_adattiva",
     "focus_frazionato",
     "ghiandola_caustica",
     "lamelle_termoforetiche",
     "lingua_tattile_trama",
+    "nucleo_ovomotore_rotante",
     "occhi_infrarosso_composti",
     "olfatto_risonanza_magnetica",
     "respiro_a_scoppio",
     "sacche_galleggianti_ascensoriali",
-    "spore_psichiche_silenziate"
+    "sangue_piroforico",
+    "scheletro_idro_regolante",
+    "spore_psichiche_silenziate",
+    "ventriglio_gastroliti",
+    "zampe_a_molla"
   ],
   "synergy_traits": [
     "empatia_coordinativa",
@@ -138,22 +152,6 @@
       "type": "species",
       "display_name": "Dune Stalker",
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
-      ],
-      "optional_traits": [],
-      "synergy_traits": [],
-      "sources": [
-        "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
-      ]
-    },
-    {
-      "id": "dune_stalker",
-      "type": "species",
-      "display_name": "Dune Stalker",
-      "core_traits": [
         "artigli_sette_vie",
         "scheletro_idro_regolante",
         "sensori_geomagnetici",
@@ -179,12 +177,14 @@
       "type": "species",
       "display_name": "Echo Wing",
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "eco_interno_riflesso",
+        "occhi_infrarosso_composti",
+        "sonno_emisferico_alternato"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "lingua_tattile_trama",
+        "sacche_galleggianti_ascensoriali"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
@@ -195,12 +195,14 @@
       "type": "species",
       "display_name": "Ferrocolonia Magnetotattica",
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "mimetismo_cromatico_passivo",
+        "sangue_piroforico",
+        "secrezione_rallentante_palmi"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "lingua_tattile_trama",
+        "ventriglio_gastroliti"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
@@ -224,12 +226,14 @@
       "type": "species",
       "display_name": "Nano Rust Bloom",
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "filamenti_digestivi_compattanti",
+        "scheletro_idro_regolante",
+        "spore_psichiche_silenziate"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "sangue_piroforico"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
@@ -258,12 +262,14 @@
       "type": "species",
       "display_name": "Rust Scavenger",
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "filamenti_digestivi_compattanti",
+        "respiro_a_scoppio",
+        "ventriglio_gastroliti"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "nucleo_ovomotore_rotante",
+        "scheletro_idro_regolante"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
@@ -274,12 +280,14 @@
       "type": "species",
       "display_name": "Sand Burrower",
       "core_traits": [
-        "cute_resistente_sali",
-        "enzimi_chelanti",
-        "pelli_anti_ustione",
-        "pigmenti_termici"
+        "nucleo_ovomotore_rotante",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante"
       ],
-      "optional_traits": [],
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "zampe_a_molla"
+      ],
       "synergy_traits": [],
       "sources": [
         "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
@@ -565,10 +573,18 @@
   "trait_usage": {
     "artigli_sette_vie": {
       "core": [
-        "dune_stalker",
+        "dune-stalker",
         "magneto-ridge-hunter"
       ],
       "optional": [],
+      "synergy": []
+    },
+    "carapace_fase_variabile": {
+      "core": [],
+      "optional": [
+        "nano-rust-bloom",
+        "sand-burrower"
+      ],
       "synergy": []
     },
     "coda_frusta_cinetica": {
@@ -577,26 +593,20 @@
         "slag-veil-ambusher"
       ],
       "optional": [
-        "dune_stalker"
+        "dune-stalker"
       ],
       "synergy": []
     },
     "criostasi_adattiva": {
       "core": [],
       "optional": [
-        "dune_stalker"
+        "dune-stalker"
       ],
       "synergy": []
     },
     "cute_resistente_sali": {
       "core": [
-        "dune-stalker",
-        "echo-wing",
-        "evento-tempesta-ferrosa",
-        "ferrocolonia-magnetotattica",
-        "nano-rust-bloom",
-        "rust-scavenger",
-        "sand-burrower"
+        "evento-tempesta-ferrosa"
       ],
       "optional": [],
       "synergy": []
@@ -620,6 +630,7 @@
     "eco_interno_riflesso": {
       "core": [
         "aurora-bridge-runner",
+        "echo-wing",
         "zephyr-spore-courier"
       ],
       "optional": [],
@@ -638,13 +649,7 @@
     },
     "enzimi_chelanti": {
       "core": [
-        "dune-stalker",
-        "echo-wing",
-        "evento-tempesta-ferrosa",
-        "ferrocolonia-magnetotattica",
-        "nano-rust-bloom",
-        "rust-scavenger",
-        "sand-burrower"
+        "evento-tempesta-ferrosa"
       ],
       "optional": [],
       "synergy": []
@@ -652,7 +657,9 @@
     "filamenti_digestivi_compattanti": {
       "core": [
         "glowcap-weaver",
-        "myco-spire-warden"
+        "myco-spire-warden",
+        "nano-rust-bloom",
+        "rust-scavenger"
       ],
       "optional": [],
       "synergy": []
@@ -664,7 +671,7 @@
         "myco-spire-warden"
       ],
       "synergy": [
-        "dune_stalker"
+        "dune-stalker"
       ]
     },
     "ghiandola_caustica": {
@@ -693,7 +700,7 @@
     "lamelle_termoforetiche": {
       "core": [],
       "optional": [
-        "dune_stalker"
+        "dune-stalker"
       ],
       "synergy": []
     },
@@ -701,6 +708,8 @@
       "core": [],
       "optional": [
         "aurora-bridge-runner",
+        "echo-wing",
+        "ferrocolonia-magnetotattica",
         "glowcap-weaver",
         "zephyr-spore-courier"
       ],
@@ -709,13 +718,25 @@
     "mimetismo_cromatico_passivo": {
       "core": [
         "aurora-bridge-runner",
+        "ferrocolonia-magnetotattica",
         "zephyr-spore-courier"
       ],
       "optional": [],
       "synergy": []
     },
+    "nucleo_ovomotore_rotante": {
+      "core": [
+        "sand-burrower"
+      ],
+      "optional": [
+        "rust-scavenger"
+      ],
+      "synergy": []
+    },
     "occhi_infrarosso_composti": {
-      "core": [],
+      "core": [
+        "echo-wing"
+      ],
       "optional": [
         "aurora-bridge-runner",
         "zephyr-spore-courier"
@@ -741,13 +762,7 @@
     },
     "pelli_anti_ustione": {
       "core": [
-        "dune-stalker",
-        "echo-wing",
-        "evento-tempesta-ferrosa",
-        "ferrocolonia-magnetotattica",
-        "nano-rust-bloom",
-        "rust-scavenger",
-        "sand-burrower"
+        "evento-tempesta-ferrosa"
       ],
       "optional": [],
       "synergy": []
@@ -804,13 +819,7 @@
     },
     "pigmenti_termici": {
       "core": [
-        "dune-stalker",
-        "echo-wing",
-        "evento-tempesta-ferrosa",
-        "ferrocolonia-magnetotattica",
-        "nano-rust-bloom",
-        "rust-scavenger",
-        "sand-burrower"
+        "evento-tempesta-ferrosa"
       ],
       "optional": [],
       "synergy": []
@@ -832,7 +841,9 @@
       "synergy": []
     },
     "respiro_a_scoppio": {
-      "core": [],
+      "core": [
+        "rust-scavenger"
+      ],
       "optional": [
         "magneto-ridge-hunter",
         "slag-veil-ambusher"
@@ -860,39 +871,70 @@
       "optional": [],
       "synergy": [
         "aurora-bridge-runner",
-        "dune_stalker",
+        "dune-stalker",
         "zephyr-spore-courier"
       ]
     },
     "sacche_galleggianti_ascensoriali": {
       "core": [
         "aurora-bridge-runner",
+        "sand-burrower",
         "zephyr-spore-courier"
       ],
       "optional": [
-        "dune_stalker"
+        "dune-stalker",
+        "echo-wing"
+      ],
+      "synergy": []
+    },
+    "sangue_piroforico": {
+      "core": [
+        "ferrocolonia-magnetotattica"
+      ],
+      "optional": [
+        "nano-rust-bloom"
       ],
       "synergy": []
     },
     "scheletro_idro_regolante": {
       "core": [
-        "dune_stalker",
-        "magneto-ridge-hunter"
+        "dune-stalker",
+        "magneto-ridge-hunter",
+        "nano-rust-bloom",
+        "sand-burrower"
       ],
-      "optional": [],
+      "optional": [
+        "rust-scavenger"
+      ],
       "synergy": [
         "slag-veil-ambusher"
       ]
     },
+    "secrezione_rallentante_palmi": {
+      "core": [
+        "ferrocolonia-magnetotattica"
+      ],
+      "optional": [],
+      "synergy": []
+    },
     "sensori_geomagnetici": {
       "core": [
-        "dune_stalker"
+        "dune-stalker"
+      ],
+      "optional": [],
+      "synergy": []
+    },
+    "sonno_emisferico_alternato": {
+      "core": [
+        "echo-wing"
       ],
       "optional": [],
       "synergy": []
     },
     "spore_psichiche_silenziate": {
-      "core": [],
+      "core": [
+        "nano-rust-bloom"
+      ],
       "optional": [
         "myco-spire-warden"
       ],
@@ -900,7 +942,7 @@
     },
     "struttura_elastica_amorfa": {
       "core": [
-        "dune_stalker",
+        "dune-stalker",
         "glowcap-weaver",
         "myco-spire-warden",
         "slag-veil-ambusher"
@@ -914,10 +956,26 @@
       "core": [],
       "optional": [],
       "synergy": [
-        "dune_stalker",
+        "dune-stalker",
         "magneto-ridge-hunter",
         "slag-veil-ambusher"
       ]
+    },
+    "ventriglio_gastroliti": {
+      "core": [
+        "rust-scavenger"
+      ],
+      "optional": [
+        "ferrocolonia-magnetotattica"
+      ],
+      "synergy": []
+    },
+    "zampe_a_molla": {
+      "core": [],
+      "optional": [
+        "sand-burrower"
+      ],
+      "synergy": []
     }
   },
   "highlights": [

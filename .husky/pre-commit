@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+set -e
+
+npm run lint
+
+changed_files="$(git diff --cached --name-only --diff-filter=ACMR)"
+
+if [ -n "$changed_files" ]; then
+  echo "$changed_files" | xargs npx prettier --check --ignore-unknown
+fi

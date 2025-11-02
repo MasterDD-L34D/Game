@@ -2,7 +2,7 @@
 """Generate draft trait files from external appendices and YAML drops.
 
 The importer converts the curated notes stored in ``appendici/*.txt`` and the
-incoming ``sensienti_traits_v0.1.yaml`` manifest into JSON stubs located in
+incoming ``sentience_traits_v1.0.yaml`` manifest into JSON stubs located in
 ``data/traits/_drafts``. Each stub follows the canonical trait schema so the
 team can iterate on the content without breaking validation tooling.
 
@@ -10,7 +10,7 @@ Usage example::
 
     python tools/py/import_external_traits.py \
         --appendix-dir appendici \
-        --incoming incoming/sensienti_traits_v0.1.yaml \
+        --incoming incoming/sentience_traits_v1.0.yaml \
         --output-dir data/traits/_drafts
 
 Re-running the command wipes previously generated files inside the target
@@ -31,7 +31,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_APPENDIX_DIR = REPO_ROOT / "appendici"
-DEFAULT_INCOMING_PATH = REPO_ROOT / "incoming" / "sensienti_traits_v0.1.yaml"
+DEFAULT_INCOMING_PATH = REPO_ROOT / "incoming" / "sentience_traits_v1.0.yaml"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "traits" / "_drafts"
 TRAIT_INDEX_PATH = REPO_ROOT / "data" / "traits" / "index.json"
 
@@ -222,6 +222,11 @@ def iter_yaml_seeds(path: Path) -> Iterable[TraitSeed]:
             requires_list = [str(item).strip() for item in requires if str(item).strip()]
         else:
             requires_list = []
+        milestones = tier_data.get("milestones") or []
+        if isinstance(milestones, list):
+            milestone_list = [str(item).strip() for item in milestones if str(item).strip()]
+        else:
+            milestone_list = []
         grants = tier_data.get("grants_traits") or []
         if not isinstance(grants, list):
             continue
@@ -238,9 +243,11 @@ def iter_yaml_seeds(path: Path) -> Iterable[TraitSeed]:
             description = trait_desc_str or (
                 f"Import da {namespace} ({label_info})."
             )
-            usage_parts = [
-                f"Tier {label_info} ({tier}).",
-            ]
+            usage_parts = [f"Tier {label_info} ({tier})."]
+            if milestone_list:
+                usage_parts.append(
+                    "Milestone: " + "; ".join(milestone_list)
+                )
             if requires_list:
                 usage_parts.append(
                     "Richiede neuroni: " + ", ".join(requires_list)

@@ -1,3 +1,5 @@
+import type { ErrorObject } from 'ajv';
+
 import { resolveApiUrl } from './apiEndpoints';
 
 export interface TraitSummary {
@@ -30,6 +32,38 @@ export interface TraitRequestOptions {
 }
 
 export interface TraitSaveOptions extends TraitRequestOptions {
+  payload: Record<string, unknown>;
+}
+
+export interface TraitValidationSuggestion {
+  path: string;
+  message: string;
+  severity?: 'info' | 'warning' | 'error';
+  fix?: {
+    type?: 'set' | 'append' | 'remove';
+    value?: unknown;
+    note?: string;
+  } | null;
+}
+
+export interface TraitValidationSummary {
+  schemaErrors?: number;
+  style?: {
+    total?: number;
+    bySeverity?: Record<string, number>;
+  };
+  [key: string]: unknown;
+}
+
+export interface TraitValidationResponse {
+  valid: boolean;
+  errors?: ErrorObject[];
+  suggestions?: TraitValidationSuggestion[];
+  summary?: TraitValidationSummary;
+}
+
+export interface TraitValidationRequest extends TraitRequestOptions {
+  traitId?: string;
   payload: Record<string, unknown>;
 }
 
@@ -122,6 +156,14 @@ export async function saveTraitEntry(
     ...options,
     method: 'PUT',
     body: payload,
+  });
+}
+
+export async function validateTraitDraft({ traitId, payload, ...options }: TraitValidationRequest): Promise<TraitValidationResponse> {
+  return requestJson<TraitValidationResponse>('/api/traits/validate', {
+    ...options,
+    method: 'POST',
+    body: { traitId, payload },
   });
 }
 

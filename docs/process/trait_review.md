@@ -29,6 +29,20 @@ Eseguire questi passaggi prima di promuovere definitivamente un tratto:
 - [ ] Aggiornare `data/traits/index.json` dopo la promozione (manuale o tramite
       strumenti dedicati) se il nuovo tratto deve comparire nell'indice.
 
+### Review stile trait
+
+Il processo completo è documentato in
+[`docs/process/training/trait_style_session.md`](training/trait_style_session.md).
+Prima di promuovere un tratto:
+
+- [ ] Eseguire `npm run style:check` e allegare i report generati al branch.
+- [ ] Verificare che tutte le chiavi testuali usino il namespace
+      `i18n:traits.<id>.campo` e che `tier`/slot rispettino la nomenclatura.
+- [ ] Controllare che `requisiti_ambientali` abbia `meta.tier` e `meta.notes`
+      coerenti e aggiornare i `completion_flags` (es. `has_biome`).
+- [ ] Annotare nel PR l'esito della guida stile (sezione "Checklist guida
+      stile & QA").
+
 ## Comandi utili
 
 Visualizzare l'esito della revisione senza modificare file:

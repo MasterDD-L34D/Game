@@ -10,6 +10,9 @@ import {
   TraitListResponse,
   TraitRequestError,
   TraitSummary,
+  TraitValidationSuggestion,
+  TraitValidationSummary,
+  validateTraitDraft,
 } from '../../services/traitsService';
 
 import './editor.css';
@@ -130,6 +133,22 @@ function buildErrorMap(errors: ErrorObject[] | null | undefined): Map<string, st
   return map;
 }
 
+function buildSuggestionMap(
+  suggestions: TraitValidationSuggestion[] | null | undefined,
+): Map<string, TraitValidationSuggestion[]> {
+  const map = new Map<string, TraitValidationSuggestion[]>();
+  if (!suggestions) {
+    return map;
+  }
+  suggestions.forEach((suggestion) => {
+    const key = suggestion.path || '';
+    const bucket = map.get(key) ?? [];
+    bucket.push(suggestion);
+    map.set(key, bucket);
+  });
+  return map;
+}
+
 interface FieldProps {
   schema: SchemaNode;
   rootSchema: SchemaNode | null;
@@ -140,6 +159,7 @@ interface FieldProps {
   onChange: (next: JsonValue) => void;
   onRemove?: () => void;
   errorMap: Map<string, string[]>;
+  suggestionMap: Map<string, TraitValidationSuggestion[]>;
 }
 
 const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
@@ -162,6 +182,10 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [validationErrors, setValidationErrors] = useState<ErrorObject[]>([]);
+  const [styleSuggestions, setStyleSuggestions] = useState<TraitValidationSuggestion[]>([]);
+  const [styleSummary, setStyleSummary] = useState<TraitValidationSummary | null>(null);
+  const [diagnosticsPending, setDiagnosticsPending] = useState(false);
+  const [diagnosticsError, setDiagnosticsError] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
 
   useEffect(() => {
@@ -195,6 +219,28 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
   }, [schema]);
 
   const errorMap = useMemo(() => buildErrorMap(validationErrors), [validationErrors]);
+  const suggestionMap = useMemo(() => buildSuggestionMap(styleSuggestions), [styleSuggestions]);
+  const suggestionSummary = useMemo(() => {
+    const counts: Record<'error' | 'warning' | 'info', number> = { error: 0, warning: 0, info: 0 };
+    const summary = styleSummary?.style?.bySeverity;
+    if (summary && typeof summary === 'object') {
+      counts.error = Number(summary.error ?? 0);
+      counts.warning = Number(summary.warning ?? 0);
+      counts.info = Number(summary.info ?? 0);
+      return counts;
+    }
+    styleSuggestions.forEach((suggestion) => {
+      const severity = suggestion.severity || 'warning';
+      if (severity === 'error' || severity === 'warning' || severity === 'info') {
+        counts[severity] += 1;
+      }
+    });
+    return counts;
+  }, [styleSummary, styleSuggestions]);
+  const totalSuggestions =
+    typeof styleSummary?.style?.total === 'number'
+      ? styleSummary.style.total
+      : Number(styleSummary?.style?.total ?? styleSuggestions.length) || styleSuggestions.length;
 
   const filteredTraitList = useMemo(() => {
     if (!filterQuery.trim()) {
@@ -326,6 +372,68 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
       setValidationErrors(validator.errors ?? []);
     }
   }, [validator, draftPayload]);
+
+  useEffect(() => {
+    if (!draftPayload) {
+      setStyleSuggestions([]);
+      setStyleSummary(null);
+      setDiagnosticsError(null);
+      setDiagnosticsPending(false);
+      return;
+    }
+    let cancelled = false;
+    const controller = new AbortController();
+    setDiagnosticsPending(true);
+    const timer = setTimeout(() => {
+      validateTraitDraft({
+        traitId: selectedTraitId || undefined,
+        payload: JSON.parse(JSON.stringify(draftPayload)),
+        token: authToken || undefined,
+        signal: controller.signal,
+      })
+        .then((response) => {
+          if (cancelled) {
+            return;
+          }
+          const remoteErrors = Array.isArray(response.errors) ? (response.errors as ErrorObject[]) : [];
+          setValidationErrors(remoteErrors);
+          setStyleSuggestions(Array.isArray(response.suggestions) ? response.suggestions : []);
+          setStyleSummary(response.summary ?? null);
+          setDiagnosticsError(null);
+        })
+        .catch((error) => {
+          if (cancelled) {
+            return;
+          }
+          if ((error as Error)?.name === 'AbortError') {
+            return;
+          }
+          let message: string | null = null;
+          const detail = (error as TraitRequestError)?.detail;
+          if (detail && typeof detail === 'object' && detail !== null && 'error' in detail) {
+            message = String((detail as { error?: unknown }).error);
+          }
+          if (!message && (error as TraitRequestError)?.status === 401) {
+            message = 'Token richiesto per la validazione in tempo reale.';
+          }
+          if (!message && error instanceof Error) {
+            message = error.message;
+          }
+          setDiagnosticsError(message || 'Errore validazione stile.');
+        })
+        .finally(() => {
+          if (!cancelled) {
+            setDiagnosticsPending(false);
+          }
+        });
+    }, 350);
+
+    return () => {
+      cancelled = true;
+      controller.abort();
+      clearTimeout(timer);
+    };
+  }, [draftPayload, selectedTraitId, authToken]);
 
   const handleTraitSelection = useCallback((traitId: string) => {
     setSelectedTraitId(traitId);
@@ -552,6 +660,7 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
                 path={[]}
                 onChange={(next) => handleFieldChange([], next as JsonValue)}
                 errorMap={errorMap}
+                suggestionMap={suggestionMap}
               />
               <aside className="trait-editor__preview">
                 <header>
@@ -560,6 +669,57 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
                     {isValid ? 'Schema valido' : 'Errori di validazione'}
                   </span>
                 </header>
+                <div className="trait-editor__style-panel">
+                  <div className="trait-editor__style-header">
+                    <h3>Guida stile</h3>
+                    <span
+                      className={`trait-editor__style-badge ${
+                        diagnosticsPending
+                          ? 'trait-editor__style-badge--pending'
+                          : totalSuggestions > 0
+                          ? 'trait-editor__style-badge--issues'
+                          : 'trait-editor__style-badge--ok'
+                      }`}
+                    >
+                      {diagnosticsPending
+                        ? 'Verifica…'
+                        : totalSuggestions > 0
+                        ? `${totalSuggestions} suggerimenti`
+                        : 'In linea'}
+                    </span>
+                  </div>
+                  {diagnosticsError ? (
+                    <p className="trait-editor__message trait-editor__message--error">{diagnosticsError}</p>
+                  ) : (
+                    <>
+                      <ul className="trait-editor__style-counters">
+                        <li className="trait-editor__style-counter trait-editor__style-counter--error">
+                          Errori: {suggestionSummary.error}
+                        </li>
+                        <li className="trait-editor__style-counter trait-editor__style-counter--warning">
+                          Warning: {suggestionSummary.warning}
+                        </li>
+                        <li className="trait-editor__style-counter trait-editor__style-counter--info">
+                          Info: {suggestionSummary.info}
+                        </li>
+                      </ul>
+                      {styleSuggestions.length ? (
+                        <>
+                          <SuggestionList suggestions={styleSuggestions.slice(0, 6)} />
+                          {styleSuggestions.length > 6 ? (
+                            <p className="trait-editor__message trait-editor__message--muted">
+                              {`Altri ${styleSuggestions.length - 6} suggerimenti sono visibili nei campi.`}
+                            </p>
+                          ) : null}
+                        </>
+                      ) : (
+                        <p className="trait-editor__message trait-editor__message--muted">
+                          Nessun suggerimento dalla guida stile.
+                        </p>
+                      )}
+                    </>
+                  )}
+                </div>
                 <pre>{JSON.stringify(draftPayload, null, 2)}</pre>
               </aside>
             </div>
@@ -585,6 +745,7 @@ const FormRenderer: React.FC<Omit<FieldProps, 'label' | 'required' | 'onRemove'>
   value,
   onChange,
   errorMap,
+  suggestionMap,
 }) => {
   const resolved = resolveSchemaNode(schema, rootSchema);
   const type = normaliseType(resolved) || 'object';
@@ -621,6 +782,7 @@ const FormRenderer: React.FC<Omit<FieldProps, 'label' | 'required' | 'onRemove'>
                     onChange(base as JsonValue);
                   }}
                   errorMap={errorMap}
+                  suggestionMap={suggestionMap}
                 />
               );
             })
@@ -638,6 +800,7 @@ const FormRenderer: React.FC<Omit<FieldProps, 'label' | 'required' | 'onRemove'>
       label={resolved.title || path[path.length - 1]?.toString() || 'Campo'}
       onChange={onChange}
       errorMap={errorMap}
+      suggestionMap={suggestionMap}
     />
   );
 };
@@ -652,11 +815,13 @@ const Field: React.FC<FieldProps> = ({
   onChange,
   onRemove,
   errorMap,
+  suggestionMap,
 }) => {
   const resolved = resolveSchemaNode(schema, rootSchema);
   const type = normaliseType(resolved) || 'string';
   const instancePath = pathToInstancePath(path);
   const fieldErrors = errorMap.get(instancePath) ?? [];
+  const fieldSuggestions = suggestionMap.get(instancePath) ?? [];
   const description = resolved.description || '';
 
   if (type === 'object') {
@@ -671,36 +836,38 @@ const Field: React.FC<FieldProps> = ({
         </legend>
         {description ? <p className="trait-editor__description">{description}</p> : null}
         <div className="trait-editor__fieldset-grid">
-          {resolved.properties
-            ? Object.entries(resolved.properties).map(([key, propertySchema]) => {
-                const propertyPath = [...path, key];
-                const requiredProperty = Array.isArray(resolved.required)
-                  ? resolved.required.includes(key)
-                  : false;
-                return (
-                  <Field
-                    key={key}
-                    schema={propertySchema}
-                    rootSchema={rootSchema}
-                    path={propertyPath}
-                    value={currentValue[key]}
-                    label={propertySchema.title || key}
-                    required={requiredProperty}
-                    onChange={(next) => {
-                      const base = { ...currentValue };
-                      if (typeof next === 'undefined' || next === null || next === '') {
-                        delete base[key];
-                      } else {
-                        base[key] = next;
-                      }
-                      onChange(base);
-                    }}
-                    errorMap={errorMap}
-                  />
-                );
-              })
-            : null}
-        </div>
+        {resolved.properties
+          ? Object.entries(resolved.properties).map(([key, propertySchema]) => {
+              const propertyPath = [...path, key];
+              const requiredProperty = Array.isArray(resolved.required)
+                ? resolved.required.includes(key)
+                : false;
+              return (
+                <Field
+                  key={key}
+                  schema={propertySchema}
+                  rootSchema={rootSchema}
+                  path={propertyPath}
+                  value={currentValue[key]}
+                  label={propertySchema.title || key}
+                  required={requiredProperty}
+                  onChange={(next) => {
+                    const base = { ...currentValue };
+                    if (typeof next === 'undefined' || next === null || next === '') {
+                      delete base[key];
+                    } else {
+                      base[key] = next;
+                    }
+                    onChange(base);
+                  }}
+                  errorMap={errorMap}
+                  suggestionMap={suggestionMap}
+                />
+              );
+            })
+          : null}
+        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
+      </div>
       </fieldset>
     );
   }
@@ -752,6 +919,7 @@ const Field: React.FC<FieldProps> = ({
                       onChange(copy);
                     }}
                     errorMap={errorMap}
+                    suggestionMap={suggestionMap}
                   />
                   <button
                     type="button"
@@ -770,6 +938,7 @@ const Field: React.FC<FieldProps> = ({
             <p className="trait-editor__message trait-editor__message--muted">Nessuna voce presente.</p>
           )}
           {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
+          {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
         </div>
       );
     }
@@ -795,6 +964,7 @@ const Field: React.FC<FieldProps> = ({
           rows={Math.max(3, Math.min(12, listValue.length + 1))}
         />
         {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
+        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
       </label>
     );
   }
@@ -810,6 +980,7 @@ const Field: React.FC<FieldProps> = ({
         <span>{label}</span>
         {description ? <p className="trait-editor__description">{description}</p> : null}
         {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
+        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
       </label>
     );
   }
@@ -836,6 +1007,7 @@ const Field: React.FC<FieldProps> = ({
           }}
         />
         {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
+        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
       </label>
     );
   }
@@ -857,6 +1029,7 @@ const Field: React.FC<FieldProps> = ({
           ))}
         </select>
         {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
+        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
       </label>
     );
   }
@@ -874,6 +1047,7 @@ const Field: React.FC<FieldProps> = ({
         onChange={(event) => onChange(event.target.value)}
       />
       {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
+      {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
       {onRemove ? (
         <button type="button" className="trait-editor__remove" onClick={onRemove}>
           Rimuovi
@@ -882,6 +1056,71 @@ const Field: React.FC<FieldProps> = ({
     </label>
   );
 };
+
+const SuggestionList: React.FC<{
+  suggestions: TraitValidationSuggestion[];
+  variant?: 'inline' | 'panel';
+}> = ({ suggestions, variant = 'panel' }) => {
+  if (!suggestions.length) {
+    return null;
+  }
+  return (
+    <ul className={`trait-editor__suggestions trait-editor__suggestions--${variant}`}>
+      {suggestions.map((suggestion, index) => {
+        const severity = suggestion.severity || 'warning';
+        const fix = suggestion.fix && typeof suggestion.fix === 'object' ? suggestion.fix : null;
+        const fixValue =
+          fix && Object.prototype.hasOwnProperty.call(fix, 'value') && fix.value !== undefined
+            ? formatSuggestionValue(fix.value)
+            : null;
+        const fixNote = fix && typeof fix.note === 'string' ? fix.note : null;
+        const actionLabel = fix && typeof fix.type === 'string'
+          ? fix.type
+          : null;
+        const actionText =
+          actionLabel === 'remove'
+            ? 'Rimuovi il valore'
+            : actionLabel === 'append'
+            ? 'Aggiungi valore'
+            : actionLabel === 'set'
+            ? 'Imposta il valore'
+            : null;
+        return (
+          <li
+            key={`${suggestion.path || 'root'}-${suggestion.message}-${index}`}
+            className={`trait-editor__suggestion trait-editor__suggestion--${severity}`}
+          >
+            <span className="trait-editor__suggestion-text">{suggestion.message}</span>
+            {fixValue ? (
+              <span className="trait-editor__suggestion-fix">
+                {(actionLabel === 'remove'
+                  ? 'Rimuovi'
+                  : actionLabel === 'append'
+                  ? 'Aggiungi'
+                  : 'Imposta') + ' '}
+                <code>{fixValue}</code>
+              </span>
+            ) : actionText ? (
+              <span className="trait-editor__suggestion-fix">{actionText}</span>
+            ) : null}
+            {fixNote ? <span className="trait-editor__suggestion-note">{fixNote}</span> : null}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+function formatSuggestionValue(value: unknown): string {
+  if (typeof value === 'string') {
+    return value;
+  }
+  try {
+    return JSON.stringify(value);
+  } catch (error) {
+    return String(value);
+  }
+}
 
 const ErrorList: React.FC<{ errors: string[] }> = ({ errors }) => (
   <ul className="trait-editor__errors">

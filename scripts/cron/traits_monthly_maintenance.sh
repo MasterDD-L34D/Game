@@ -10,6 +10,9 @@ AUDIT_REPORT="$LOG_DIR/trait_audit_${TIMESTAMP}.md"
 AUDIT_LOG="$LOG_DIR/trait_audit_${TIMESTAMP}.log"
 DEPRECATION_REPORT="$LOG_DIR/deprecated_fields_${TIMESTAMP}.json"
 CACHE_LOG="$LOG_DIR/cache_cleanup_${TIMESTAMP}.log"
+STYLE_JSON="$LOG_DIR/trait_style_${TIMESTAMP}.json"
+STYLE_MARKDOWN="$LOG_DIR/trait_style_${TIMESTAMP}.md"
+STYLE_LOG="$LOG_DIR/trait_style_${TIMESTAMP}.log"
 
 mkdir -p "$LOG_DIR"
 
@@ -112,6 +115,46 @@ PY
 DEPRECATED_COUNT="${DEPRECATED_COUNT//$'\n'/}"
 if [ -z "$DEPRECATED_COUNT" ]; then
   DEPRECATED_COUNT=0
+fi
+
+log_section "Controllo guida stile"
+if node "$REPO_ROOT/scripts/trait_style_check.js" \
+  --output-json "$STYLE_JSON" \
+  --output-markdown "$STYLE_MARKDOWN" \
+  --fail-on error >"$STYLE_LOG" 2>&1; then
+  if [ -f "$STYLE_JSON" ]; then
+    read -r STYLE_ERRORS STYLE_WARNINGS STYLE_INFO < <(
+      python3 - "$STYLE_JSON" <<'PY'
+import json
+import sys
+
+path = sys.argv[1]
+data = json.loads(open(path, encoding='utf-8').read())
+counts = data.get('counts', {})
+errors = counts.get('error', 0)
+warnings = counts.get('warning', 0)
+infos = counts.get('info', 0)
+print(errors, warnings, infos)
+PY
+    )
+    STYLE_ERRORS=${STYLE_ERRORS:-0}
+    STYLE_WARNINGS=${STYLE_WARNINGS:-0}
+    STYLE_INFO=${STYLE_INFO:-0}
+    if [ "$STYLE_ERRORS" -gt 0 ]; then
+      anomaly_count=$((anomaly_count + STYLE_ERRORS))
+      anomaly_messages+=("${STYLE_ERRORS} violazioni guida stile da risolvere.")
+      append_line "- ❌ Rilevati ${STYLE_ERRORS} errori guida stile e ${STYLE_WARNINGS} warning (report: \`$(relpath \"$STYLE_MARKDOWN\")\`)."
+    else
+      append_line "- ✅ Guida stile allineata (warning=${STYLE_WARNINGS}, info=${STYLE_INFO}). Report: \`$(relpath \"$STYLE_MARKDOWN\")\`."
+    fi
+  else
+    append_line "- ✅ Controllo stile completato (nessun report JSON generato)."
+  fi
+else
+  style_status=$?
+  anomaly_count=$((anomaly_count + 1))
+  anomaly_messages+=("Controllo style guide fallito (codice ${style_status}).")
+  append_line "- ❌ Controllo style guide fallito (log: \`$(relpath \"$STYLE_LOG\")\`)."
 fi
 if [ "$DEPRECATED_COUNT" -gt 0 ]; then
   anomaly_count=$((anomaly_count + DEPRECATED_COUNT))
