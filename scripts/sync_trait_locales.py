@@ -8,7 +8,7 @@ import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Tuple
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_TRAITS_DIR = ROOT / "data" / "traits"
@@ -69,26 +69,36 @@ def dump_json(path: Path, payload: Dict) -> None:
 
 def ensure_locale_bundle(
     locale_path: Path, language: str, fallback: str | None, schema_path: Path
-) -> Dict:
-    """Carica o inizializza il bundle di localizzazione."""
+) -> Tuple[Dict, bool]:
+    """Carica o inizializza il bundle di localizzazione.
+
+    Restituisce il bundle e un flag che indica se i metadati di locale
+    (schema, language, fallback) sono stati modificati.
+    """
 
     relative_schema = os.path.relpath(schema_path, locale_path.parent)
-
-    if locale_path.exists():
-        bundle = load_json(locale_path)
-        bundle.setdefault("$schema", Path(relative_schema).as_posix())
-        bundle["language"] = language
-        bundle["fallback"] = fallback
-        bundle.setdefault("entries", {})
-        return bundle
-
-    bundle = {
+    target_metadata = {
         "$schema": Path(relative_schema).as_posix(),
         "language": language,
         "fallback": fallback,
-        "entries": {},
     }
-    return bundle
+
+    if locale_path.exists():
+        bundle = load_json(locale_path)
+        current_metadata = {
+            "$schema": bundle.get("$schema"),
+            "language": bundle.get("language"),
+            "fallback": bundle.get("fallback"),
+        }
+        metadata_changed = any(
+            current_metadata[key] != value for key, value in target_metadata.items()
+        )
+        bundle.update(target_metadata)
+        bundle.setdefault("entries", {})
+        return bundle, metadata_changed
+
+    bundle = {**target_metadata, "entries": {}}
+    return bundle, True
 
 
 def normalise_entries(entries: Dict[str, Dict[str, str]]) -> Dict[str, Dict[str, str]]:
@@ -206,14 +216,16 @@ def sync_locales(
 
     locale_path = locales_dir / language / "traits.json"
     locale_path.parent.mkdir(parents=True, exist_ok=True)
-    bundle = ensure_locale_bundle(locale_path, language, fallback, schema_path)
+    bundle, metadata_changed = ensure_locale_bundle(
+        locale_path, language, fallback, schema_path
+    )
     entries = bundle.setdefault("entries", {})
     entries_before = normalise_entries(copy.deepcopy(entries))
     glossary_entries = load_glossary_for_language(glossary_path, language)
 
     updated_traits: List[Path] = []
     valid_ids: set[str] = set()
-    locale_changed = False
+    locale_changed = metadata_changed
 
     for trait_path in iter_trait_files(traits_dir):
         status = sync_trait(
