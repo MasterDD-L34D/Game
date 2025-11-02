@@ -1,0 +1,80 @@
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-11-10'
+  trace_hash: to-fill
+id: orbital_ascendant
+display_name: Orbital Ascendant
+biomes:
+  - orbita_psionica_inversa
+role_trofico: predatore_terziario_apex
+functional_tags:
+  - regolazione_prede
+  - sorveglianza_orbitale
+morphotype: volatore_planatore
+flags:
+  apex: true
+  keystone: true
+  sentient: false
+  bridge: false
+  threat: true
+  event: false
+playable_unit: true
+vc:
+  aggro: 0.8
+  risk: 0.7
+  cohesion: 0.5
+  setup: 0.6
+  explore: 0.7
+  tilt: 0.5
+spawn_rules:
+  orario:
+    - notte
+  meteo:
+    - tempesta_solare
+    - calma_orbitale
+  densita: low
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: boss
+environment_affinity:
+  biome_class: orbita_psionica_inversa
+  hazards_expected:
+    - tempeste_solari
+    - cadute_orbitali
+  rationale: "Predatori d'élite che padroneggiano i vortici di gravità inversa per controllare le rotte di assalto psioniche."
+derived_from_environment:
+  suggested_traits:
+    - focus_frazionato
+    - nucleo_ovomotore_rotante
+    - olfatto_risonanza_magnetica
+    - sacche_galleggianti_ascensoriali
+  optional_traits:
+    - criostasi_adattiva
+    - eco_interno_riflesso
+  synergy_traits:
+    - carapace_fase_variabile
+  required_capabilities:
+    - lift_control
+    - res_psionic
+jobs_bias:
+  - Vanguard
+  - Invoker
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: 0.04
+services_links: []
+genetic_traits:
+  core:
+    - focus_frazionato
+    - nucleo_ovomotore_rotante
+    - olfatto_risonanza_magnetica
+    - sacche_galleggianti_ascensoriali
+  optional:
+    - criostasi_adattiva
+    - eco_interno_riflesso
+  synergy: []
+mate_synergy: []
+jobs_synergy: []

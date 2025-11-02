@@ -30,19 +30,19 @@ ecosistema:
       K: medio
   trofico:
     produttori:
-    - cactus-weaver
+    - cactus_weaver
     - cianobatteri_dune
     - arbusti_pioneer
     consumatori:
       primari:
-      - silica-bloom
+      - silica_bloom
       - arbusti_pioneer_detritivori
       secondari:
-      - noctule-termico
+      - noctule_termico
       terziari:
-      - thermo-raptor
+      - thermo_raptor
     decompositori:
-    - evento-ondata-termica
+    - evento_ondata_termica
     - biofilm_termico
   note: Deserto iper-arido con lenti magnetiche sotterranee e trasporto di polveri
     ionizzate.

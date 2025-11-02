@@ -109,7 +109,7 @@ network:
     seasonality: notte
     notes: Carovane planari sfruttano la quiete notturna per trasferire risorse.
   bridge_species_map:
-  - species_id: echo-wing
+  - species_id: echo_wing
     roles:
     - dispersore_ponte
     - impollinatore
@@ -118,13 +118,13 @@ network:
     - FORESTA_TEMPERATA
     - DESERTO_CALDO
     - CRYOSTEPPE
-  - species_id: ferrocolonia-magnetotattica
+  - species_id: ferrocolonia_magnetotattica
     roles:
     - sentinella
     - ingegnere_ecosistema
     present_in_nodes:
     - BADLANDS
-  - species_id: archon-solare
+  - species_id: archon_solare
     roles:
     - dispersore_ponte
     - impollinatore

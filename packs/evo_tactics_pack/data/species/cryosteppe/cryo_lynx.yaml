@@ -1,0 +1,68 @@
+id: cryo_lynx
+display_name: Cryo Lynx
+biomes:
+  - mezzanotte_orbitale
+role_trofico: predatore_terziario_apex
+functional_tags:
+  - predatore
+  - specie_chiave
+morphotype: cursoriale_quadrupede
+flags:
+  apex: true
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: false
+playable_unit: false
+vc:
+  aggro: 0.7
+  risk: 0.6
+  cohesion: 0.4
+  setup: 0.6
+  explore: 0.5
+  tilt: 0.4
+spawn_rules:
+  orario:
+    - notte
+    - crepuscolo
+  meteo:
+    - whiteout
+    - whiteout_ionico
+  densita: low
+balance:
+  rarity: R3
+  threat_tier: T3
+  encounter_role: elite
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+environment_affinity:
+  biome_class: mezzanotte_orbitale
+  koppen:
+    - BSk
+    - Dfc
+derived_from_environment:
+  suggested_traits:
+    - artigli_sette_vie
+    - carapace_fase_variabile
+    - olfatto_risonanza_magnetica
+  optional_traits:
+    - criostasi_adattiva
+    - zampe_a_molla
+  required_capabilities: []
+  services_links: []
+  jobs_bias:
+    - Skirmisher
+    - Vanguard
+    - Warden
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits: []
+mate_synergy: []
+jobs_synergy: []

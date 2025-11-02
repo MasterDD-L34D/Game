@@ -2,39 +2,39 @@ nodes:
 - id: tappeti_muschio
 - id: arbusti_alpini
 - id: licheni_borea
-- id: steppe-bison-mini
-- id: aurora-gull
-- id: cryo-lynx
-- id: thaw-rot
-- id: evento-brinastorm
+- id: steppe_bison_mini
+- id: aurora_gull
+- id: cryo_lynx
+- id: thaw_rot
+- id: evento_brinastorm
 - id: detrito
 - id: carcasse
 edges:
 - from: tappeti_muschio
-  to: steppe-bison-mini
+  to: steppe_bison_mini
   type: grazing
   weight: 0.6
 - from: arbusti_alpini
-  to: steppe-bison-mini
+  to: steppe_bison_mini
   type: herbivory
   weight: 0.4
-- from: steppe-bison-mini
-  to: cryo-lynx
+- from: steppe_bison_mini
+  to: cryo_lynx
   type: predation
   weight: 0.6
-- from: aurora-gull
+- from: aurora_gull
   to: arbusti_alpini
   type: dispersal
   weight: 0.5
 - from: detrito
-  to: steppe-bison-mini
+  to: steppe_bison_mini
   type: detritus
   weight: 0.4
 - from: carcasse
-  to: steppe-bison-mini
+  to: steppe_bison_mini
   type: scavenging
   weight: 0.3
-- from: thaw-rot
-  to: steppe-bison-mini
+- from: thaw_rot
+  to: steppe_bison_mini
   type: suppression
   weight: 0.5

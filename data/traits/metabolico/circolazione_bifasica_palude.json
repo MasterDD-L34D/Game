@@ -37,5 +37,9 @@
   },
   "spinta_selettiva": "i18n:traits.circolazione_bifasica_palude.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.circolazione_bifasica_palude.uso_funzione"
+  "uso_funzione": "i18n:traits.circolazione_bifasica_palude.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

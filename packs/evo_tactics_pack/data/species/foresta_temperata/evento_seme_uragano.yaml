@@ -1,0 +1,61 @@
+schema_version: 1.5
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+id: evento_seme_uragano
+display_name: 'Evento: Seme d''Uragano'
+biomes:
+  - foresta_miceliale
+role_trofico: evento_ecologico
+functional_tags:
+  - pulse_climatico
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: false
+  threat: false
+  event: true
+playable_unit: false
+vc:
+  aggro: 0.1
+  risk: 0.9
+  cohesion: 0.2
+  setup: 0.8
+  explore: 0.1
+  tilt: 0.9
+ecology:
+  trigger:
+    - ciclone_extra-tropicale
+  contromisure:
+    - rifugi
+    - piani_emergenza
+spawn_rules:
+  orario:
+    - crepuscolo
+  meteo:
+    - whiteout_ionico
+  densita: low
+balance:
+  rarity: R5
+  threat_tier: T4
+  encounter_role: boss
+environment_affinity:
+  biome_class: foresta_miceliale
+  koppen:
+    - Cfb
+  hazards_expected:
+    - alluvioni lampo
+    - incendi sporadici
+derived_from_environment:
+  suggested_traits:
+    - pelli_fitte
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits: []
+mate_synergy: []
+jobs_synergy: []

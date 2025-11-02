@@ -1,6 +1,6 @@
 schema_version: 1.0
 events:
-  - species_id: evento-tempesta-ferrosa
+  - species_id: evento_tempesta_ferrosa
     from_nodes:
       - BADLANDS
     propagate_via:
@@ -11,7 +11,7 @@ events:
       - DESERTO_CALDO
     effect: polveri ferrose e carica magnetica, penalità visibilità/gear 
       metallico
-  - species_id: evento-ondata-termica
+  - species_id: evento_ondata_termica
     from_nodes:
       - DESERTO_CALDO
     propagate_via:
@@ -19,7 +19,7 @@ events:
     to_nodes:
       - BADLANDS
     effect: ondata di calore e ionizzazione, stress termico esteso
-  - species_id: evento-brinastorm
+  - species_id: evento_brinastorm
     from_nodes:
       - CRYOSTEPPE
     propagate_via:

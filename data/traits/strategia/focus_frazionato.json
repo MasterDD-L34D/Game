@@ -62,5 +62,9 @@
   },
   "spinta_selettiva": "i18n:traits.focus_frazionato.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.focus_frazionato.uso_funzione"
+  "uso_funzione": "i18n:traits.focus_frazionato.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

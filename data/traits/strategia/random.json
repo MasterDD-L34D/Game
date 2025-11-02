@@ -41,5 +41,9 @@
   },
   "spinta_selettiva": "i18n:traits.random.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.random.uso_funzione"
+  "uso_funzione": "i18n:traits.random.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

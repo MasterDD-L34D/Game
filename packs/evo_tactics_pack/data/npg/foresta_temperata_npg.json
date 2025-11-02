@@ -4,7 +4,7 @@
     "biome": "foresta_temperata",
     "role": "skirmisher",
     "species": {
-      "id": "lupus-temperatus",
+      "id": "lupus_temperatus",
       "morph_budget": 12,
       "parts": {
         "defense": [

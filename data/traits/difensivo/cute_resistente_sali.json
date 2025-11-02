@@ -37,5 +37,9 @@
   },
   "spinta_selettiva": "i18n:traits.cute_resistente_sali.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.cute_resistente_sali.uso_funzione"
+  "uso_funzione": "i18n:traits.cute_resistente_sali.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

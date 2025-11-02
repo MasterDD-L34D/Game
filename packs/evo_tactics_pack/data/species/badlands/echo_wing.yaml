@@ -1,0 +1,100 @@
+schema_version: 1.7
+receipt:
+  source: PTPF.v1.0
+  author: designer
+  date: '2025-10-25'
+  trace_hash: to-fill
+id: echo_wing
+display_name: Echo Wing
+biomes:
+  - dorsale_termale_tropicale
+role_trofico: dispersore_ponte
+functional_tags:
+  - impollinatore
+  - dispersore_semi
+morphotype: volatore_planatore
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: true
+  threat: false
+  event: false
+playable_unit: true
+pi_loadout:
+  weight_budget: 12
+  default_parts:
+    locomotion:
+      - glide_wings
+    senses:
+      - echolocate
+vc:
+  aggro: 0.2
+  risk: 0.2
+  cohesion: 0.8
+  setup: 0.6
+  explore: 0.7
+  tilt: 0.2
+spawn_rules:
+  orario:
+    - diurno
+  meteo:
+    - sereno_freddo
+  densita: mid
+balance:
+  rarity: R2
+  threat_tier: T1
+  encounter_role: ambient
+telemetry:
+  expected_pick_rate: 0.18
+  spawn_weight: 0.25
+jobs_synergy:
+  - Skirmisher
+  - Invoker
+environment_affinity:
+  biome_class: dorsale_termale_tropicale
+  koppen:
+    - BSk
+    - BWk
+  hazards_expected:
+    - tempeste_sabbia
+    - collassi di scarpate
+    - tempesta_sabbia_magnetica
+    - iron_shards
+    - magnetic_patches
+  multibiome:
+    - canyons_risonanti
+    - mezzanotte_orbitale
+    - savana
+    - foresta_miceliale
+derived_from_environment:
+  suggested_traits:
+    - eco_interno_riflesso
+    - occhi_infrarosso_composti
+    - sonno_emisferico_alternato
+  optional_traits:
+    - sacche_galleggianti_ascensoriali
+    - lingua_tattile_trama
+  required_capabilities:
+    - build_cover
+    - dr_impact_cap
+    - non_metal_gear
+    - seal_vents
+  jobs_bias:
+    - Skirmisher
+    - Vanguard
+    - Warden
+network_bridge_roles:
+  - dispersore_ponte
+  - impollinatore
+services_links: []
+genetic_traits:
+  core:
+    - eco_interno_riflesso
+    - occhi_infrarosso_composti
+    - sonno_emisferico_alternato
+  optional:
+    - sacche_galleggianti_ascensoriali
+    - lingua_tattile_trama
+  synergy: []
+mate_synergy: []

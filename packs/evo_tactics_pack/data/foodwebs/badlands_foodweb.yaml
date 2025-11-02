@@ -2,45 +2,45 @@ nodes:
 - id: arbusti_xerofili
 - id: crostoni_criptofite
 - id: cianobatteri
-- id: sand-burrower
-- id: rust-scavenger
-- id: echo-wing
-- id: ferrocolonia-magnetotattica
-- id: dune-stalker
-- id: nano-rust-bloom
-- id: evento-tempesta-ferrosa
+- id: sand_burrower
+- id: rust_scavenger
+- id: echo_wing
+- id: ferrocolonia_magnetotattica
+- id: dune_stalker
+- id: nano_rust_bloom
+- id: evento_tempesta_ferrosa
 - id: detrito
 - id: carcasse
 edges:
 - from: arbusti_xerofili
-  to: sand-burrower
+  to: sand_burrower
   type: herbivory
   weight: 0.6
 - from: crostoni_criptofite
-  to: sand-burrower
+  to: sand_burrower
   type: grazing
   weight: 0.4
-- from: sand-burrower
-  to: dune-stalker
+- from: sand_burrower
+  to: dune_stalker
   type: predation
   weight: 0.7
 - from: detrito
-  to: rust-scavenger
+  to: rust_scavenger
   type: detritus
   weight: 0.8
-- from: rust-scavenger
-  to: ferrocolonia-magnetotattica
+- from: rust_scavenger
+  to: ferrocolonia_magnetotattica
   type: mutualism
   weight: 0.3
-- from: echo-wing
+- from: echo_wing
   to: arbusti_xerofili
   type: dispersal
   weight: 0.5
-- from: nano-rust-bloom
-  to: rust-scavenger
+- from: nano_rust_bloom
+  to: rust_scavenger
   type: suppression
   weight: 0.6
 - from: carcasse
-  to: rust-scavenger
+  to: rust_scavenger
   type: scavenging
   weight: 0.5

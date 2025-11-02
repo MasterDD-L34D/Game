@@ -35,12 +35,12 @@ ecosistema:
     - alghe_cryofile
     consumatori:
       primari:
-      - steppe-bison-mini
-      - aurora-gull
+      - steppe_bison_mini
+      - aurora_gull
       secondari:
-      - cryo-lynx
+      - cryo_lynx
     decompositori:
-    - thaw-rot
+    - thaw_rot
     - biofilm_criogenico
   note: Steppe criogenica con gradienti termici magnetici e ponti stagionali di ghiaccio.
 links:

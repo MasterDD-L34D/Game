@@ -1,0 +1,62 @@
+schema_version: 1.7
+receipt:
+  source: coverage_autogen
+  author: automation
+  date: '2025-10-29'
+  trace_hash: to-fill
+id: global_trait_keeper
+display_name: Global Trait Keeper
+biomes: []
+role_trofico: ingegneri_ecosistema
+functional_tags:
+  - supporto
+morphotype: cursoriale_quadrupede
+flags:
+  apex: false
+  keystone: false
+  sentient: false
+  bridge: true
+  threat: false
+  event: false
+playable_unit: false
+spawn_rules:
+  orario: []
+  meteo: []
+  densita: mid
+balance:
+  rarity: R1
+  threat_tier: T1
+  encounter_role: ambient
+environment_affinity:
+  rationale: Profilo generico per coprire i tratti slegati da biomi specifici.
+derived_from_environment:
+  suggested_traits:
+    - cute_resistente_sali
+    - cuticole_cerose
+    - enzimi_chelanti
+    - grassi_termici
+    - pelli_cave
+    - pelli_fitte
+    - pigmenti_aurorali
+    - proteine_shock_termico
+    - reti_capillari_radici
+  optional_traits: []
+  required_capabilities: []
+  jobs_bias: []
+telemetry:
+  expected_pick_rate: null
+  spawn_weight: null
+services_links: []
+genetic_traits:
+  core: []
+  optional: []
+  synergy: []
+mate_synergy: []
+jobs_synergy: []
+vc:
+  aggro: 0.0
+  risk: 0.1
+  cohesion: 0.6
+  setup: 0.5
+  explore: 0.4
+  tilt: 0.1

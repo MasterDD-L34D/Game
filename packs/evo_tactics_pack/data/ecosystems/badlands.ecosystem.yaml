@@ -35,16 +35,16 @@ ecosistema:
     - cianobatteri
     consumatori:
       primari:
-      - sand-burrower
-      - rust-scavenger
+      - sand_burrower
+      - rust_scavenger
       secondari:
-      - ferrocolonia-magnetotattica
-      - echo-wing
+      - ferrocolonia_magnetotattica
+      - echo_wing
       terziari:
-      - dune-stalker
+      - dune_stalker
     decompositori:
-    - nano-rust-bloom
-    - evento-tempesta-ferrosa
+    - nano_rust_bloom
+    - evento_tempesta_ferrosa
   note: Ecosistema desertico magnetizzato con pulse detritici stagionali.
 links:
   species_dir: packs/evo_tactics_pack/data/species/badlands
