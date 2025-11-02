@@ -49,6 +49,10 @@ function createFileLock(filePath, fsImpl, options = {}) {
 
   async function acquire() {
     const start = Date.now();
+    const lockDir = path.dirname(lockPath);
+    if (lockDir) {
+      await fsImpl.mkdir(lockDir, { recursive: true });
+    }
     while (true) {
       try {
         const handle = await fsImpl.open(lockPath, 'wx');
