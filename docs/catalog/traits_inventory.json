@@ -1,253 +1,601 @@
 {
-  "generated_at": "2025-11-02T20:38:36Z",
   "core_traits": [
-    "artigli_sette_vie",
-    "coda_frusta_cinetica",
-    "cute_resistente_sali",
-    "cuticole_cerose",
-    "eco_interno_riflesso",
-    "empatia_coordinativa",
-    "enzimi_chelanti",
-    "filamenti_digestivi_compattanti",
-    "grassi_termici",
-    "mimetismo_cromatico_passivo",
-    "nucleo_ovomotore_rotante",
-    "occhi_infrarosso_composti",
-    "olfatto_risonanza_magnetica",
-    "pelli_anti_ustione",
-    "pelli_cave",
-    "pelli_fitte",
-    "pigmenti_aurorali",
-    "pigmenti_termici",
-    "proteine_shock_termico",
-    "respiro_a_scoppio",
-    "reti_capillari_radici",
-    "sacche_galleggianti_ascensoriali",
-    "sangue_piroforico",
-    "scheletro_idro_regolante",
-    "secrezione_rallentante_palmi",
-    "sensori_geomagnetici",
-    "sonno_emisferico_alternato",
-    "spore_psichiche_silenziate",
     "struttura_elastica_amorfa",
-    "ventriglio_gastroliti"
+    "filamenti_digestivi_compattanti",
+    "sacche_galleggianti_ascensoriali",
+    "grassi_termici",
+    "cuticole_cerose",
+    "scheletro_idro_regolante",
+    "olfatto_risonanza_magnetica",
+    "mimetismo_cromatico_passivo",
+    "eco_interno_riflesso",
+    "coda_frusta_cinetica",
+    "artigli_sette_vie",
+    "spore_psichiche_silenziate",
+    "nucleo_ovomotore_rotante",
+    "focus_frazionato",
+    "ventriglio_gastroliti",
+    "sonno_emisferico_alternato",
+    "sangue_piroforico",
+    "respiro_a_scoppio",
+    "empatia_coordinativa",
+    "cute_resistente_sali",
+    "criostasi_adattiva",
+    "carapace_fase_variabile",
+    "secrezione_rallentante_palmi",
+    "risonanza_di_branco",
+    "occhi_infrarosso_composti",
+    "mantello_meteoritico",
+    "lingua_tattile_trama",
+    "frusta_fiammeggiante",
+    "enzimi_chelanti",
+    "zoccoli_risonanti_steppe"
   ],
+  "generated_at": "2025-11-02T20:59:45Z",
   "resources": [
     {
+      "notes": "Baseline aggiornata (schema 1.0) con 174 trait e subset core 30/30 validato.",
       "path": "data/derived/analysis/trait_baseline.yaml",
-      "type": "reference",
       "state": "core",
-      "notes": "Baseline aggiornata (schema 1.0) con 174 trait e subset core 30/30 validato."
+      "type": "reference"
     },
     {
+      "notes": "Matrice trait↔bioma↔morfotipo aggiornata con copertura completa delle 30 etichette core.",
       "path": "data/derived/analysis/trait_coverage_matrix.csv",
-      "type": "reference",
       "state": "core",
-      "notes": "Matrice trait↔bioma↔morfotipo aggiornata con copertura completa delle 30 etichette core."
+      "type": "reference"
     },
     {
+      "notes": "Report copertura rigenerato: 30/30 trait core, 0 gap su specie e regole.",
       "path": "data/derived/analysis/trait_coverage_report.json",
-      "type": "reference",
       "state": "core",
-      "notes": "Report copertura rigenerato: 30/30 trait core, 0 gap su specie e regole."
+      "type": "reference"
     },
     {
+      "notes": "Mappatura ambiente-tratti con 272 elementi ambientali generati.",
       "path": "data/derived/analysis/trait_env_mapping.json",
-      "type": "reference",
       "state": "mock",
-      "notes": "Mappatura ambiente-tratti con 272 elementi ambientali generati."
+      "type": "reference"
     },
     {
+      "notes": "Configurazioni pacchetti e combo che citano trait_T1/T2 e sinergie correlate.",
       "path": "data/packs.yaml",
-      "type": "reference",
       "state": "core",
-      "notes": "Configurazioni pacchetti e combo che citano trait_T1/T2 e sinergie correlate."
+      "type": "reference"
     },
     {
+      "notes": "Prototipo catalogo specie con trait_plan manuale per dune_stalker e core trait esteso (sensori_geomagnetici).",
       "path": "data/core/species.yaml",
-      "type": "specie",
       "state": "mock",
-      "notes": "Prototipo catalogo specie con trait_plan manuale per dune_stalker e core trait esteso (sensori_geomagnetici)."
+      "type": "specie"
     },
     {
+      "notes": "Telemetria costi con riferimenti a trait_T1/T2/T3 e slot correlati.",
       "path": "data/core/telemetry.yaml",
-      "type": "reference",
       "state": "core",
-      "notes": "Telemetria costi con riferimenti a trait_T1/T2/T3 e slot correlati."
+      "type": "reference"
     },
     {
+      "notes": "Glossario globale con 29 voci condivise.",
       "path": "data/core/traits/glossary.json",
-      "type": "reference",
       "state": "core",
-      "notes": "Glossario globale con 29 voci condivise."
+      "type": "reference"
     },
     {
+      "notes": "Matrice specie/eventi allineata: 74 specie, 5 eventi, copertura completa dei trait core.",
       "path": "docs/catalog/species_trait_matrix.json",
-      "type": "reference",
       "state": "core",
-      "notes": "Matrice specie/eventi con 4 eventi e 18 specie correlate ai trait."
+      "type": "reference"
     },
     {
+      "notes": "Regole ambientali con 23 suggerimenti di trait.",
       "path": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
-      "type": "reference",
       "state": "core",
-      "notes": "Regole ambientali con 23 suggerimenti di trait."
+      "type": "reference"
     },
     {
+      "notes": "Glossario pack con 29 etichette bilingui.",
       "path": "packs/evo_tactics_pack/docs/catalog/trait_glossary.json",
-      "type": "reference",
       "state": "core",
-      "notes": "Glossario pack con 29 etichette bilingui."
+      "type": "reference"
     },
     {
+      "notes": "Catalogo principale con 29 tratti dettagliati e fonti env_to_traits. Le liste per tipologia ora si ricostruiscono interrogando l'indice unico tramite `scripts/sync_trait_lists.js`; i vecchi index di cartella sono deprecati e reindirizzano qui.",
       "path": "data/traits/index.json",
-      "type": "reference",
       "state": "core",
-      "notes": "Catalogo principale con 29 tratti dettagliati e fonti env_to_traits. Le liste per tipologia ora si ricostruiscono interrogando l'indice unico tramite `scripts/sync_trait_lists.js`; i vecchi index di cartella sono deprecati e reindirizzano qui."
+      "type": "reference"
     },
     {
+      "notes": "Registro ambienti→tratti per generatore con 20 blocchi principali.",
       "path": "packs/evo_tactics_pack/tools/config/registries/env_to_traits.yaml",
-      "type": "reference",
       "state": "core",
-      "notes": "Registro ambienti→tratti per generatore con 20 blocchi principali."
+      "type": "reference"
     },
     {
+      "notes": "Schema JSON mock del pack generator con definizioni di traits.",
       "path": "packs/evo_tactics_pack/tools/py/schema/npg_schema.json",
-      "type": "reference",
       "state": "mock",
-      "notes": "Schema JSON mock del pack generator con definizioni di traits."
+      "type": "reference"
     },
     {
+      "notes": "Prototipo export VTT con liste di trait per ruoli narrativi.",
       "path": "packs/evo_tactics_pack/tools/py/vtt/npg_pack.json",
-      "type": "reference",
       "state": "mock",
-      "notes": "Prototipo export VTT con liste di trait per ruoli narrativi."
+      "type": "reference"
     },
     {
+      "notes": "Dune Stalker con 4 trait suggeriti e biome badlands.",
       "path": "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Dune Stalker con 4 trait suggeriti e biome badlands."
+      "type": "specie"
     },
     {
+      "notes": "Echo Wing con 4 trait suggeriti e biome badlands, FORESTA_TEMPERATA, DESERTO_CALDO, CRYOSTEPPE.",
       "path": "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Echo Wing con 4 trait suggeriti e biome badlands, FORESTA_TEMPERATA, DESERTO_CALDO, CRYOSTEPPE."
+      "type": "specie"
     },
     {
+      "notes": "Evento: Tempesta Ferrosa con 4 trait suggeriti e biome badlands.",
       "path": "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
-      "type": "evento",
       "state": "core",
-      "notes": "Evento: Tempesta Ferrosa con 4 trait suggeriti e biome badlands."
+      "type": "evento"
     },
     {
+      "notes": "Ferrocolonia Magnetotattica con 4 trait suggeriti e biome badlands.",
       "path": "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Ferrocolonia Magnetotattica con 4 trait suggeriti e biome badlands."
+      "type": "specie"
     },
     {
+      "notes": "Nano Rust Bloom con 4 trait suggeriti e biome badlands.",
       "path": "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Nano Rust Bloom con 4 trait suggeriti e biome badlands."
+      "type": "specie"
     },
     {
+      "notes": "Rust Scavenger con 4 trait suggeriti e biome badlands.",
       "path": "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Rust Scavenger con 4 trait suggeriti e biome badlands."
+      "type": "specie"
     },
     {
+      "notes": "Sand Burrower con 4 trait suggeriti e biome badlands.",
       "path": "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Sand Burrower con 4 trait suggeriti e biome badlands."
+      "type": "specie"
     },
     {
+      "notes": "Gabbiano d’Aurora con 6 trait suggeriti e biome cryosteppe.",
       "path": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Gabbiano d’Aurora con 6 trait suggeriti e biome cryosteppe."
+      "type": "specie"
     },
     {
+      "notes": "Cryo Lynx con 6 trait suggeriti e biome cryosteppe.",
       "path": "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Cryo Lynx con 6 trait suggeriti e biome cryosteppe."
+      "type": "specie"
     },
     {
+      "notes": "Evento: Brina Tempestosa con 6 trait suggeriti e biome cryosteppe.",
       "path": "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
-      "type": "evento",
       "state": "core",
-      "notes": "Evento: Brina Tempestosa con 6 trait suggeriti e biome cryosteppe."
+      "type": "evento"
     },
     {
+      "notes": "Bisonte Nano della Steppa con 6 trait suggeriti e biome cryosteppe.",
       "path": "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Bisonte Nano della Steppa con 6 trait suggeriti e biome cryosteppe."
+      "type": "specie"
     },
     {
+      "notes": "Thaw Rot con 6 trait suggeriti e biome cryosteppe.",
       "path": "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Thaw Rot con 6 trait suggeriti e biome cryosteppe."
+      "type": "specie"
     },
     {
+      "notes": "Cactus Weaver con 6 trait suggeriti e biome deserto_caldo.",
       "path": "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Cactus Weaver con 6 trait suggeriti e biome deserto_caldo."
+      "type": "specie"
     },
     {
+      "notes": "Evento: Ondata Termica Ionica con 6 trait suggeriti e biome deserto_caldo.",
       "path": "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
-      "type": "evento",
       "state": "core",
-      "notes": "Evento: Ondata Termica Ionica con 6 trait suggeriti e biome deserto_caldo."
+      "type": "evento"
     },
     {
+      "notes": "Noctule Termico con 6 trait suggeriti e biome deserto_caldo.",
       "path": "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Noctule Termico con 6 trait suggeriti e biome deserto_caldo."
+      "type": "specie"
     },
     {
+      "notes": "Silica Bloom con 6 trait suggeriti e biome deserto_caldo.",
       "path": "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Silica Bloom con 6 trait suggeriti e biome deserto_caldo."
+      "type": "specie"
     },
     {
+      "notes": "Thermo Raptor con 6 trait suggeriti e biome deserto_caldo.",
       "path": "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Thermo Raptor con 6 trait suggeriti e biome deserto_caldo."
+      "type": "specie"
     },
     {
+      "notes": "Blight Micotico con 1 trait suggerito e biome foresta_temperata.",
       "path": "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Blight Micotico con 1 trait suggerito e biome foresta_temperata."
+      "type": "specie"
     },
     {
+      "notes": "Evento: Seme d'Uragano con 1 trait suggerito e biome foresta_temperata.",
       "path": "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
-      "type": "evento",
       "state": "core",
-      "notes": "Evento: Seme d'Uragano con 1 trait suggerito e biome foresta_temperata."
+      "type": "evento"
     },
     {
+      "notes": "Lupo della Foresta con 1 trait suggerito e biome foresta_temperata.",
       "path": "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Lupo della Foresta con 1 trait suggerito e biome foresta_temperata."
+      "type": "specie"
     },
     {
+      "notes": "Sentinella Radice con 1 trait suggerito e biome foresta_temperata.",
       "path": "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
-      "type": "specie",
       "state": "core",
-      "notes": "Sentinella Radice con 1 trait suggerito e biome foresta_temperata."
+      "type": "specie"
+    },
+    {
+      "notes": "Abisso Luminescente Trait Keeper con core focalizzato su carapace_luminiscente_abissale.",
+      "path": "packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Volcanic Abyss Trait Keeper con core focalizzato su appendici_thermotattiche, batteri_endosimbionti_chemio, branchie_metalloidi.",
+      "path": "packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Altipiani Solari Trait Keeper con core focalizzato su piume_solari_fotovoltaiche.",
+      "path": "packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Badlands Trait Keeper con core focalizzato su cute_resistente_sali.",
+      "path": "packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Magneto Ridge Hunter con core focalizzato su scheletro_idro_regolante.",
+      "path": "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Slag Veil Ambusher con core focalizzato su coda_frusta_cinetica, struttura_elastica_amorfa, olfatto_risonanza_magnetica.",
+      "path": "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Barriere Coralline Psioniche Trait Keeper con core focalizzato su sinapsi_coraline_polifoniche.",
+      "path": "packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Glacial Caldera Trait Keeper con core focalizzato su artigli_vetrificati, barriere_miasma_glaciale, branchie_solfatiche.",
+      "path": "packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Calotte Glaciali Trait Keeper con core focalizzato su artigli_sghiaccio_glaciale.",
+      "path": "packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Ionic Canopy Trait Keeper con core focalizzato su ali_ioniche, antenne_tesla, artigli_induzione.",
+      "path": "packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Canopia Psionica Leggera Trait Keeper con core focalizzato su carapace_fase_variabile, criostasi_adattiva.",
+      "path": "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Psionic Canopy Scout con core focalizzato su focus_frazionato, mimetismo_cromatico_passivo, sacche_galleggianti_ascensoriali.",
+      "path": "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Canopie Sospese Trait Keeper con core focalizzato su chioma_parassita_canopica.",
+      "path": "packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Resonant Cavern Trait Keeper con core focalizzato su nucleo_ovomotore_rotante, sangue_piroforico.",
+      "path": "packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Resonant Claw Hunter con core focalizzato su artigli_sette_vie.",
+      "path": "packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Cicloni Psionici Trait Keeper con core focalizzato su antenne_plasmatiche_tempesta.",
+      "path": "packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Aurora Bridge Runner con core focalizzato su sacche_galleggianti_ascensoriali, mimetismo_cromatico_passivo, eco_interno_riflesso.",
+      "path": "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Zephyr Spore Courier con core focalizzato su sacche_galleggianti_ascensoriali, mimetismo_cromatico_passivo, eco_interno_riflesso.",
+      "path": "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Delta Salmastri Trait Keeper con core focalizzato su branchie_osmotiche_salmastra.",
+      "path": "packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Tropical Thermal Ridge Trait Keeper con core focalizzato su antenne_eco_turbina, batteri_termofili_endosimbiosi, branchie_turbina.",
+      "path": "packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Dune Cristalline Trait Keeper con core focalizzato su squame_rifrangenti_deserto.",
+      "path": "packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Falde Magnetiche Psioniche Trait Keeper con core focalizzato su carapace_fase_variabile.",
+      "path": "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Magnet Fathom Surveyor con core focalizzato su nucleo_ovomotore_rotante.",
+      "path": "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Acidic Rainforest Trait Keeper con core focalizzato su antenne_reagenti, artigli_acidofagi, camere_anticorrosione.",
+      "path": "packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Glowcap Weaver con core focalizzato su filamenti_digestivi_compattanti, empatia_coordinativa, struttura_elastica_amorfa.",
+      "path": "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Myco Spire Warden con core focalizzato su filamenti_digestivi_compattanti, empatia_coordinativa, struttura_elastica_amorfa.",
+      "path": "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Foreste Nubose Trait Keeper con core focalizzato su vello_condensatore_nebbie.",
+      "path": "packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Global Trait Keeper con core focalizzato su cute_resistente_sali, cuticole_cerose, enzimi_chelanti.",
+      "path": "packs/evo_tactics_pack/data/species/global/global-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Gole Ventose Trait Keeper con core focalizzato su cartilagine_flessotermica_venti.",
+      "path": "packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Laghi Alcalini Trait Keeper con core focalizzato su membrane_eliofiltranti.",
+      "path": "packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Bioreactive Lagoon Trait Keeper con core focalizzato su antenne_flusso_mareale, appendici_risonanti_marea, branchie_dual_mode.",
+      "path": "packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Mangrovie Risonanti Trait Keeper con core focalizzato su mucillagine_simbionte_mangrovie.",
+      "path": "packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Kinetic Mangrove Trait Keeper con core focalizzato su artigli_radice, baffi_mareomotori, coda_contrappeso.",
+      "path": "packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Orbita Psionica Inversa Trait Keeper con core focalizzato su criostasi_adattiva.",
+      "path": "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Orbital Ascendant con core focalizzato su nucleo_ovomotore_rotante.",
+      "path": "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Paludi Gas Luminescenti Trait Keeper con core focalizzato su circolazione_bifasica_palude.",
+      "path": "packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Permafrost Psionico Trait Keeper con core focalizzato su bulbi_radici_permafrost.",
+      "path": "packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Hyperarid Salt Flat Trait Keeper con core focalizzato su antenne_dustsense, biofilm_iperarido, camere_mirage.",
+      "path": "packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Pianure Magnetiche Trait Keeper con core focalizzato su sensori_geomagnetici.",
+      "path": "packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Picchi Cristallini Trait Keeper con core focalizzato su polmoni_cristallini_alta_quota.",
+      "path": "packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Luminescent Reef Trait Keeper con core focalizzato su antenne_waveguide, biofilm_glow, branchie_microfiltri.",
+      "path": "packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Reti Micorriziche Trait Keeper con core focalizzato su nodi_micorrizici_oracolari.",
+      "path": "packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Archon Solare Custode con core focalizzato su aura_scudo_radianza.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Balor a Fissione con core focalizzato su mantello_meteoritico, frusta_fiammeggiante.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Evento: Banshee Risonante con core focalizzato su ciclo_vitale_anomalo, metabolismo_sostentato, assenza_respirazione.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml",
+      "state": "core",
+      "type": "evento"
+    },
+    {
+      "notes": "Bulette di Fase con core focalizzato su ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Couatl Aurora Custode con core focalizzato su ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Golem Runico Custodiale con core focalizzato su armatura_pietra_planare.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Marilith delle Volte con core focalizzato su mantello_meteoritico, frusta_fiammeggiante.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Otyugh Sentinella delle Fogne Astrali con core focalizzato su ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Rakshasa della Corte Spezzata con core focalizzato su ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Treant dei Portali Antichi con core focalizzato su ciclo_vitale_completo, metabolismo_attivo, respirazione_biologica.",
+      "path": "packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Sorgenti Geotermiche Trait Keeper con core focalizzato su lamelle_termoforetiche.",
+      "path": "packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Algorithmic Steppe Trait Keeper con core focalizzato su antenne_wideband, biochip_memoria, carapace_segmenti_logici.",
+      "path": "packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Steppe Risonanti Trait Keeper con core focalizzato su zoccoli_risonanti_steppe.",
+      "path": "packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Stratosfera Portante Trait Keeper con core focalizzato su sacche_spore_stratosferiche.",
+      "path": "packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Tempestuous Stratosphere Trait Keeper con core focalizzato su ali_fulminee, barbigli_sensori_plasma, branchie_eoliche.",
+      "path": "packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
+    },
+    {
+      "notes": "Tundra Risonante Trait Keeper con core focalizzato su cavita_risonanti_tundra.",
+      "path": "packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml",
+      "state": "core",
+      "type": "specie"
     }
   ]
 }
