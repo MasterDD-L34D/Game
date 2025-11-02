@@ -47,7 +47,9 @@ python tools/py/styleguide_compliance_report.py \
   [--out-markdown reports/styleguide_compliance.md] \
   [--out-json reports/styleguide_compliance.json] \
   [--history-file logs/trait_audit/styleguide_compliance_history.json] \
-  [--sla-config config/styleguide_sla.json] [--strict]
+  [--sla-config config/styleguide_sla.json] \
+  [--dashboard-bridge logs/qa/latest-dashboard-metrics.json] \
+  [--dashboard-section styleguide] [--strict]
 ```
 
 - Calcola i KPI di conformità dello styleguide (naming, descrizioni localizzate, unità UCUM) e aggiorna
@@ -56,3 +58,5 @@ python tools/py/styleguide_compliance_report.py \
   scendono sotto le soglie definite in `config/styleguide_sla.json`.
 - Con `--strict` esce con codice di errore se una delle metriche viola lo SLA, abilitando trigger
   automatici per l'apertura di issue.
+- Aggiorna automaticamente il bridge `logs/qa/latest-dashboard-metrics.json` (se disponibile) con uno
+  snapshot sintetico dei KPI, così da alimentare i dashboard esistenti senza step aggiuntivi.
