@@ -328,7 +328,7 @@
             "matrix_ok": 34,
             "matrix_mismatch": 140,
             "with_conflicts": 24,
-            "matrix_only_traits": 7
+            "matrix_only_traits": 0
           },
           "traitDiagnosticsGeneratedAt": "2025-11-02T19:47:07.355939Z"
         },
@@ -1009,7 +1009,7 @@
           "matrix_ok": 34,
           "matrix_mismatch": 140,
           "with_conflicts": 24,
-          "matrix_only_traits": 7
+          "matrix_only_traits": 0
         },
         "checks": {},
         "highlights": {},
