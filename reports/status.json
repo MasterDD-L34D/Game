@@ -1,6 +1,6 @@
 {
   "deployments": [],
-  "updatedAt": "2025-11-02T19:34:17.872Z",
+  "updatedAt": "2025-11-02T19:48:00.787Z",
   "telemetry": {
     "snapshot": {
       "data": {
@@ -307,7 +307,7 @@
             "traits": {
               "passed": 174,
               "total": 174,
-              "conflicts": 0
+              "conflicts": 24
             }
           },
           "lastRun": "2025-11-02T19:31:44.307Z",
@@ -325,12 +325,12 @@
             "total_traits": 174,
             "glossary_ok": 174,
             "glossary_missing": 0,
-            "matrix_ok": 174,
-            "matrix_mismatch": 0,
-            "with_conflicts": 0,
-            "matrix_only_traits": 174
+            "matrix_ok": 34,
+            "matrix_mismatch": 140,
+            "with_conflicts": 24,
+            "matrix_only_traits": 7
           },
-          "traitDiagnosticsGeneratedAt": "2025-11-02T01:15:50.501174Z"
+          "traitDiagnosticsGeneratedAt": "2025-11-02T19:47:07.355939Z"
         },
         "publishing": {
           "artifactsReady": 2,
@@ -975,7 +975,7 @@
             "label": "traits",
             "passed": 174,
             "total": 174,
-            "conflicts": 0,
+            "conflicts": 24,
             "coverage": 100,
             "blocking": false
           }
@@ -998,7 +998,7 @@
           "seeds": 7
         }
       },
-      "collectedAt": "2025-11-02T19:34:17.872Z"
+      "collectedAt": "2025-11-02T19:48:00.787Z"
     },
     "traitDiagnostics": {
       "diagnostics": {
@@ -1006,27 +1006,27 @@
           "total_traits": 174,
           "glossary_ok": 174,
           "glossary_missing": 0,
-          "matrix_ok": 174,
-          "matrix_mismatch": 0,
-          "with_conflicts": 0,
-          "matrix_only_traits": 174
+          "matrix_ok": 34,
+          "matrix_mismatch": 140,
+          "with_conflicts": 24,
+          "matrix_only_traits": 7
         },
         "checks": {},
         "highlights": {},
-        "generated_at": "2025-11-02T01:15:50.501174Z"
+        "generated_at": "2025-11-02T19:47:07.355939Z"
       },
       "summary": {
         "total_traits": 174,
         "glossary_ok": 174,
-        "with_conflicts": 0,
-        "matrix_mismatch": 0,
+        "with_conflicts": 24,
+        "matrix_mismatch": 140,
         "glossary_missing": 0
       },
       "status": {
-        "fetchedAt": "2025-11-02T01:15:50.501174Z",
+        "fetchedAt": "2025-11-02T19:47:07.355939Z",
         "error": null
       },
-      "collectedAt": "2025-11-02T01:15:50.501174Z"
+      "collectedAt": "2025-11-02T19:47:07.355939Z"
     },
     "nebula": {
       "atlas": {
@@ -1479,7 +1479,7 @@
               }
             ]
           },
-          "updatedAt": "2025-11-02T19:34:17.871Z",
+          "updatedAt": "2025-11-02T19:48:00.786Z",
           "sample": [],
           "state": "live"
         },
@@ -1526,7 +1526,7 @@
               12
             ]
           },
-          "updatedAt": "2025-11-02T19:34:17.871Z",
+          "updatedAt": "2025-11-02T19:48:00.786Z",
           "sourceLabel": "Generator telemetry"
         },
         "orchestrator": {
@@ -1538,9 +1538,9 @@
             "lastEventAt": null
           },
           "events": [],
-          "updatedAt": "2025-11-02T19:34:17.871Z"
+          "updatedAt": "2025-11-02T19:48:00.786Z"
         },
-        "updatedAt": "2025-11-02T19:34:17.870Z"
+        "updatedAt": "2025-11-02T19:48:00.784Z"
       },
       "summary": {
         "telemetry": {
@@ -1561,7 +1561,7 @@
             "enrichedSpecies": 12,
             "coverageAverage": 72
           },
-          "updatedAt": "2025-11-02T19:34:17.871Z"
+          "updatedAt": "2025-11-02T19:48:00.786Z"
         },
         "orchestrator": {
           "summary": {
@@ -1573,13 +1573,13 @@
           }
         },
         "error": null,
-        "collectedAt": "2025-11-02T19:34:17.870Z"
+        "collectedAt": "2025-11-02T19:48:00.784Z"
       },
-      "collectedAt": "2025-11-02T19:34:17.870Z"
+      "collectedAt": "2025-11-02T19:48:00.784Z"
     }
   },
   "goNoGo": {
-    "status": "go",
+    "status": "review",
     "checks": [
       {
         "id": "snapshot-quality",
@@ -1615,15 +1615,15 @@
         "title": "Quality Release · Trait diagnostics",
         "flowReference": "Quality Release → Trait diagnostics",
         "severity": "warning",
-        "passed": true,
-        "summary": "Conflitti attivi: 0",
+        "passed": false,
+        "summary": "Conflitti attivi: 24 · Mismatch matrice: 140",
         "details": {
-          "conflicts": 0,
-          "matrixMismatch": 0,
+          "conflicts": 24,
+          "matrixMismatch": 140,
           "missingGlossary": 0,
-          "fetchedAt": "2025-11-02T01:15:50.501174Z"
+          "fetchedAt": "2025-11-02T19:47:07.355939Z"
         },
-        "status": "passed"
+        "status": "warning"
       },
       {
         "id": "nebula-telemetry",
@@ -1658,9 +1658,9 @@
     "stats": {
       "total": 5,
       "failed": 0,
-      "warnings": 0,
-      "passed": 5
+      "warnings": 1,
+      "passed": 4
     },
-    "generatedAt": "2025-11-02T19:34:17.872Z"
+    "generatedAt": "2025-11-02T19:48:00.787Z"
   }
 }

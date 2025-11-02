@@ -1,14 +1,14 @@
 # QA export changelog
 
-Generato: 2025-11-02T01:15:50.501174Z
-Baseline precedente: 2025-11-02T00:56:48.805849Z
+Generato: 2025-11-02T19:47:07.355939Z
+Baseline precedente: 2025-11-02T01:15:50.501174Z
 
 ## Metriche baseline
 - Tratti totali: 174 (0 vs precedente)
 - Glossario OK: 174 (0 vs precedente)
 - Glossario mancanti: 0 (0 vs precedente)
-- Mismatch matrice: 140 (0 vs precedente)
-- Tratti con conflitti: 24 (0 vs precedente)
+- Mismatch matrice: 140 (+140 vs precedente)
+- Tratti con conflitti: 24 (+24 vs precedente)
 
 ## Highlights UI
 - Solo matrice: pelli_anti_ustione, pelli_cave, pelli_fitte, pigmenti_aurorali, pigmenti_termici, proteine_shock_termico, reti_capillari_radici
