@@ -48,6 +48,8 @@
     <RouterView v-slot="{ Component }">
       <component :is="Component" :dataset="dataset" :is-demo="isDemo" :is-offline="isOffline" @notify="forwardNotification" />
     </RouterView>
+
+    <DemoDiagnosticsPanel v-if="isDemo" class="atlas-layout__diagnostics" />
   </section>
 </template>
 
@@ -58,6 +60,7 @@ import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router';
 import AtlasCollectionProgress from '../components/atlas/AtlasCollectionProgress.vue';
 import StateBanner from '../components/metrics/StateBanner.vue';
 import MetricCard from '../components/metrics/MetricCard.vue';
+import DemoDiagnosticsPanel from '../components/observability/DemoDiagnosticsPanel.vue';
 import { atlasLayoutKey } from '../composables/useAtlasLayout';
 import { atlasDataset, atlasTotals, ensureAtlasDatasetLoaded } from '../state/atlasDataset';
 import { useNavigationMeta } from '../state/navigationMeta';
@@ -272,5 +275,9 @@ function forwardNotification(payload) {
 .atlas-layout__nav-link--active {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(14, 165, 233, 0.18));
   border-color: rgba(59, 130, 246, 0.45);
+}
+
+.atlas-layout__diagnostics {
+  margin-top: -0.5rem;
 }
 </style>

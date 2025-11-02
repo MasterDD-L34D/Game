@@ -2,6 +2,7 @@ import { computed, reactive, readonly, type ComputedRef } from 'vue';
 import { buildQaHighlightsSummary } from './qaHighlightFormatter.js';
 import { useEventSource, type EventSourceState, type EventSourceStatus } from '../composables/useEventSource.ts';
 import { resolveApiUrl, readEnvString } from './apiEndpoints.js';
+import { recordLogDiagnostic } from '../observability/diagnosticsStore.ts';
 
 type LoggerLevel = 'info' | 'warn' | 'warning' | 'error' | 'success' | string;
 
@@ -195,6 +196,17 @@ function appendEntry(entry: ClientLogEntry): ClientLogEntry {
   state.entries.unshift(normalised);
   if (state.entries.length > MAX_ENTRIES) {
     state.entries.length = MAX_ENTRIES;
+  }
+  const level = typeof normalised.level === 'string' ? normalised.level.toLowerCase() : '';
+  if (level === 'error' || level === 'warn' || level === 'warning') {
+    recordLogDiagnostic({
+      id: normalised.id,
+      level: normalised.level,
+      message: normalised.message,
+      scope: normalised.scope,
+      source: normalised.source,
+      timestamp: Date.parse(normalised.timestamp) || Date.now(),
+    });
   }
   return normalised;
 }
