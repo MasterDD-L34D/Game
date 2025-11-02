@@ -17,10 +17,8 @@ const DEFAULT_CONFIG = {
 };
 
 const DEFAULT_CONFIG_PATH = path.resolve(__dirname, '../../config/orchestrator.json');
-const DEFAULT_WORKER_SCRIPT = path.resolve(
-  __dirname,
-  '../../services/generation/worker.py',
-);
+const { registerOrchestratorBridgeMetrics } = require('./orchestratorMetrics');
+const DEFAULT_WORKER_SCRIPT = path.resolve(__dirname, '../../services/generation/worker.py');
 
 function loadConfig(configPath = DEFAULT_CONFIG_PATH) {
   try {
@@ -345,9 +343,7 @@ class PythonWorker extends EventEmitter {
       return;
     }
     this.currentTask = null;
-    const error = new Error(
-      `Richiesta ${requestId} scaduta dopo ${task.timeoutMs || 0} ms`,
-    );
+    const error = new Error(`Richiesta ${requestId} scaduta dopo ${task.timeoutMs || 0} ms`);
     error.code = 'REQUEST_TIMEOUT';
     task.reject(error);
     if (this.process) {
@@ -386,11 +382,13 @@ class PythonWorker extends EventEmitter {
 }
 
 class WorkerPool {
-  constructor(options) {
+  constructor(options, emitter = null) {
     this.options = options;
+    this.events = emitter;
     this.queue = [];
     this.workers = [];
     this.maxTaskRetries = options.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries;
+    this.taskSeq = 0;
     for (let index = 0; index < options.poolSize; index += 1) {
       this._createWorker(index);
     }
@@ -398,16 +396,54 @@ class WorkerPool {
 
   _createWorker(index) {
     const worker = new PythonWorker(index, this.options);
-    worker.on('available', () => this._dispatch());
-    worker.on('crash', () => this._dispatch());
-    worker.on('heartbeat-missed', () => this._dispatch());
-    worker.on('start-timeout', () => this._dispatch());
-    worker.on('worker-error', () => this._dispatch());
+    const forward = (event, payload) => {
+      if (!this.events) {
+        return;
+      }
+      this.events.emit(event, {
+        workerId: worker.id,
+        ...(payload || {}),
+      });
+    };
+    worker.on('available', () => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:available');
+    });
+    worker.on('crash', (payload) => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:crash', payload);
+    });
+    worker.on('heartbeat-missed', (payload) => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:heartbeat-missed', payload);
+    });
+    worker.on('start-timeout', (payload) => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:start-timeout', payload);
+    });
+    worker.on('worker-error', (error) => {
+      this._dispatch();
+      this._emitPoolStats();
+      forward('worker:error', { error });
+    });
+    worker.on('stderr', (payload) => {
+      forward('worker:stderr', payload);
+    });
+    worker.on('heartbeat', (payload) => {
+      forward('worker:heartbeat', payload);
+    });
     this.workers[index] = worker;
   }
 
   _dispatch() {
     if (!this.queue.length) {
+      if (this.events) {
+        this._emitPoolStats();
+      }
       return;
     }
     for (const worker of this.workers) {
@@ -426,21 +462,66 @@ class WorkerPool {
   }
 
   _assign(worker, task) {
+    const startedAt = Date.now();
+    const queueDurationMs = Math.max(0, startedAt - task.enqueuedAt);
+    if (this.events) {
+      this.events.emit('task:start', {
+        id: task.id,
+        action: task.action,
+        workerId: worker.id,
+        queueDurationMs,
+        attempts: task.attempts,
+      });
+    }
     worker
       .runTask(task.action, task.payload, task.timeoutMs)
       .then((result) => {
+        if (this.events) {
+          this.events.emit('task:success', {
+            id: task.id,
+            action: task.action,
+            workerId: worker.id,
+            durationMs: Date.now() - startedAt,
+            queueDurationMs,
+            attempts: task.attempts,
+          });
+        }
         task.resolve(result);
         this._dispatch();
+        this._emitPoolStats();
       })
       .catch((error) => {
         if (this._shouldRetry(error, task)) {
+          if (this.events) {
+            this.events.emit('task:retry', {
+              id: task.id,
+              action: task.action,
+              workerId: worker.id,
+              durationMs: Date.now() - startedAt,
+              queueDurationMs,
+              attempts: task.attempts + 1,
+            });
+          }
           task.attempts += 1;
           this.queue.unshift(task);
           setTimeout(() => this._dispatch(), 0);
+          this._emitPoolStats();
           return;
+        }
+        if (this.events) {
+          this.events.emit('task:error', {
+            id: task.id,
+            action: task.action,
+            workerId: worker.id,
+            durationMs: Date.now() - startedAt,
+            queueDurationMs,
+            attempts: task.attempts,
+            error,
+          });
         }
         task.reject(error);
         this._dispatch();
+        this._emitPoolStats();
       });
   }
 
@@ -456,15 +537,28 @@ class WorkerPool {
 
   run(action, payload, timeoutMs) {
     return new Promise((resolve, reject) => {
+      const taskId = `task-${++this.taskSeq}`;
+      const enqueuedAt = Date.now();
       this.queue.push({
+        id: taskId,
         action,
         payload,
         resolve,
         reject,
         attempts: 0,
         timeoutMs,
+        enqueuedAt,
       });
+      if (this.events) {
+        this.events.emit('task:queued', {
+          id: taskId,
+          action,
+          enqueuedAt,
+          timeoutMs,
+        });
+      }
       this._dispatch();
+      this._emitPoolStats();
     });
   }
 
@@ -473,9 +567,8 @@ class WorkerPool {
     pending.forEach((task) => {
       task.reject(new Error('Pool terminato'));
     });
-    await Promise.all(
-      this.workers.filter(Boolean).map((worker) => worker.stop()),
-    );
+    await Promise.all(this.workers.filter(Boolean).map((worker) => worker.stop()));
+    this._emitPoolStats();
   }
 
   debugKillWorker(index = 0) {
@@ -493,6 +586,17 @@ class WorkerPool {
       queue: this.queue.length,
       lastHeartbeats: this.workers.map((worker) => (worker ? worker.lastHeartbeatAt : null)),
     };
+  }
+
+  _emitPoolStats() {
+    if (!this.events) {
+      return;
+    }
+    try {
+      this.events.emit('pool:stats', this.getStats());
+    } catch (error) {
+      // Ignora errori del listener per non interrompere il flusso del pool
+    }
   }
 }
 
@@ -531,6 +635,7 @@ function createGenerationOrchestratorBridge(options = {}) {
     ...options,
   };
 
+  const bridge = new EventEmitter();
   const snapshotStore = merged.snapshotStore || null;
   const resolved = {
     pythonPath: merged.pythonPath || DEFAULT_CONFIG.pythonPath,
@@ -541,10 +646,7 @@ function createGenerationOrchestratorBridge(options = {}) {
       merged.heartbeatIntervalMs,
       DEFAULT_CONFIG.heartbeatIntervalMs,
     ),
-    heartbeatTimeoutMs: coerceNumber(
-      merged.heartbeatTimeoutMs,
-      DEFAULT_CONFIG.heartbeatTimeoutMs,
-    ),
+    heartbeatTimeoutMs: coerceNumber(merged.heartbeatTimeoutMs, DEFAULT_CONFIG.heartbeatTimeoutMs),
     maxTaskRetries: Math.max(0, merged.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries),
     restartDelayMs: coerceNumber(merged.restartDelayMs, DEFAULT_CONFIG.restartDelayMs),
     workerStartTimeoutMs: resolveStartTimeoutMs(
@@ -552,11 +654,13 @@ function createGenerationOrchestratorBridge(options = {}) {
       DEFAULT_CONFIG.workerStartTimeoutMs,
     ),
     autoShutdownMs: resolveAutoShutdownMs(
-      merged.autoShutdownMs ?? process.env.ORCHESTRATOR_AUTOCLOSE_MS ?? DEFAULT_CONFIG.autoShutdownMs,
+      merged.autoShutdownMs ??
+        process.env.ORCHESTRATOR_AUTOCLOSE_MS ??
+        DEFAULT_CONFIG.autoShutdownMs,
     ),
   };
 
-  const pool = new WorkerPool(resolved);
+  const pool = new WorkerPool(resolved, bridge);
   const cleanupRegistrations = [];
   let shutdownTimer = null;
   let closingPromise = null;
@@ -653,11 +757,7 @@ function createGenerationOrchestratorBridge(options = {}) {
     }
     cancelAutoShutdown();
     try {
-      const result = await pool.run(
-        'generate-species-batch',
-        { batch },
-        resolved.requestTimeoutMs,
-      );
+      const result = await pool.run('generate-species-batch', { batch }, resolved.requestTimeoutMs);
       const results = Array.isArray(result?.results) ? result.results : [];
       if (results.length) {
         await persistRuntime(results[results.length - 1], null);
@@ -701,15 +801,14 @@ function createGenerationOrchestratorBridge(options = {}) {
     await requestShutdown();
   }
 
-  const api = {
-    generateSpecies,
-    generateSpeciesBatch,
-    fetchTraitDiagnostics,
-    close,
-  };
+  bridge.generateSpecies = generateSpecies;
+  bridge.generateSpeciesBatch = generateSpeciesBatch;
+  bridge.fetchTraitDiagnostics = fetchTraitDiagnostics;
+  bridge.close = close;
+  bridge.getPoolStats = () => pool.getStats();
 
   if (process.env.NODE_ENV === 'test') {
-    Object.defineProperty(api, '_pool', {
+    Object.defineProperty(bridge, '_pool', {
       value: pool,
       enumerable: false,
       configurable: false,
@@ -717,7 +816,10 @@ function createGenerationOrchestratorBridge(options = {}) {
     });
   }
 
-  return api;
+  registerOrchestratorBridgeMetrics(bridge);
+  bridge.emit('pool:stats', pool.getStats());
+
+  return bridge;
 }
 
 module.exports = { createGenerationOrchestratorBridge };
