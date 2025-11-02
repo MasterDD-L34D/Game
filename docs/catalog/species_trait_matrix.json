@@ -1,12 +1,40 @@
 {
   "events": {
+    "banshee-risonante": {
+      "archetypes": ["evento_ecologico"],
+      "biomes": ["rovine_planari"],
+      "core_traits": [
+        "ciclo_vitale_anomalo",
+        "metabolismo_sostentato",
+        "assenza_respirazione",
+        "origine_artificiale",
+        "adattamento_volo",
+        "risonanza_di_branco"
+      ],
+      "display_name": "Banshee Risonante",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "id": "banshee-risonante",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [
+        "focus_frazionato",
+        "risonanza_di_branco",
+        "eco_sismico",
+        "intangibilita_parziale",
+        "lamenti_diradanti",
+        "voce_spettrale"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["phase_shift", "sonic_control"],
+      "role": "evento_ecologico",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": ["focus_frazionato"]
+    },
     "evento-brinastorm": {
-      "archetypes": [
-        "evento_ecologico"
-      ],
-      "biomes": [
-        "mezzanotte_orbitale"
-      ],
+      "archetypes": ["evento_ecologico"],
+      "biomes": ["mezzanotte_orbitale"],
       "core_traits": [
         "cuticole_cerose",
         "grassi_termici",
@@ -21,23 +49,24 @@
       },
       "id": "evento-brinastorm",
       "morphotype": "volatore_planatore",
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "evento_ecologico",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
-      ],
+      "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "evento-ondata-termica": {
-      "archetypes": [
-        "evento_ecologico"
-      ],
-      "biomes": [
-        "abisso_vulcanico"
-      ],
+      "archetypes": ["evento_ecologico"],
+      "biomes": ["abisso_vulcanico"],
       "core_traits": [
         "cuticole_cerose",
         "grassi_termici",
@@ -52,7 +81,14 @@
       },
       "id": "evento-ondata-termica",
       "morphotype": "volatore_planatore",
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "evento_ecologico",
@@ -63,22 +99,16 @@
       "synergy_traits": []
     },
     "evento-seme-uragano": {
-      "archetypes": [
-        "evento_ecologico"
-      ],
-      "biomes": [
-        "foresta_miceliale"
-      ],
-      "core_traits": [
-        "pelli_fitte"
-      ],
+      "archetypes": ["evento_ecologico"],
+      "biomes": ["foresta_miceliale"],
+      "core_traits": ["pelli_fitte"],
       "display_name": "Evento: Seme d'Uragano",
       "environment_focus": {
         "biome_class": "foresta_miceliale"
       },
       "id": "evento-seme-uragano",
       "morphotype": null,
-      "optional_traits": [],
+      "optional_traits": ["pelli_fitte"],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "evento_ecologico",
@@ -89,12 +119,8 @@
       "synergy_traits": []
     },
     "evento-tempesta-ferrosa": {
-      "archetypes": [
-        "evento_ecologico"
-      ],
-      "biomes": [
-        "dorsale_termale_tropicale"
-      ],
+      "archetypes": ["evento_ecologico"],
+      "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "cute_resistente_sali",
         "enzimi_chelanti",
@@ -107,18 +133,16 @@
       },
       "id": "evento-tempesta-ferrosa",
       "morphotype": "volatore_planatore",
-      "optional_traits": [],
+      "optional_traits": [
+        "cute_resistente_sali",
+        "enzimi_chelanti",
+        "pelli_anti_ustione",
+        "pigmenti_termici"
+      ],
       "playable_unit": false,
-      "required_capabilities": [
-        "build_cover",
-        "dr_impact_cap",
-        "non_metal_gear",
-        "seal_vents"
-      ],
+      "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
       "role": "evento_ecologico",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
-      ],
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"],
       "synergy_hints": [],
       "synergy_traits": []
     }
@@ -126,53 +150,246 @@
   "schema_version": "1.0",
   "sources": {
     "species": [
-      "data/core/species.yaml",
+      "packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml",
       "packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
       "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
       "packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
       "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml",
       "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
       "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
       "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
+      "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml",
+      "packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml",
+      "packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml",
+      "packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml",
       "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
       "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
       "packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
       "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
       "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
+      "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml",
+      "packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml",
       "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
       "packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
       "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
       "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
       "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
+      "packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml",
       "packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
       "packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml",
-      "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml",
-      "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml",
       "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml",
-      "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
+      "packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml",
+      "packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
+      "packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/global/global-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml",
+      "packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/banshee-risonante.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml",
+      "packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml",
+      "packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml",
+      "packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml"
     ]
   },
   "species": {
-    "aurora-gull": {
-      "archetypes": [
-        "Invoker",
-        "Skirmisher"
+    "abisso-luminescente-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["abisso_luminescente"],
+      "core_traits": ["carapace_luminiscente_abissale"],
+      "display_name": "Abisso Luminescente Trait Keeper",
+      "environment_focus": {
+        "biome_class": "abisso_luminescente"
+      },
+      "id": "abisso-luminescente-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["carapace_luminiscente_abissale"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/abisso_luminescente/abisso-luminescente-trait-keeper.yaml"
       ],
-      "biomes": [
-        "mezzanotte_orbitale"
-      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "abisso-vulcanico-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["abisso_vulcanico"],
       "core_traits": [
-        "cuticole_cerose",
-        "grassi_termici",
-        "pelli_cave",
-        "pigmenti_aurorali",
-        "proteine_shock_termico",
-        "reti_capillari_radici"
+        "appendici_thermotattiche",
+        "batteri_endosimbionti_chemio",
+        "branchie_metalloidi",
+        "carapaci_ferruginosi",
+        "cartilagini_pseudometalliche",
+        "circolazione_supercritica",
+        "cisti_iperbariche",
+        "denti_ossidoferro",
+        "enzimi_metanoossidanti",
+        "filamenti_magnetotrofi",
+        "ghiandole_fango_calde",
+        "luminescenza_hydrotermica",
+        "mucose_barofile"
       ],
+      "display_name": "Volcanic Abyss Trait Keeper",
+      "environment_focus": {
+        "biome_class": "abisso_vulcanico"
+      },
+      "id": "abisso-vulcanico-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "appendici_thermotattiche",
+        "batteri_endosimbionti_chemio",
+        "branchie_metalloidi",
+        "carapaci_ferruginosi",
+        "cartilagini_pseudometalliche",
+        "circolazione_supercritica",
+        "cisti_iperbariche",
+        "denti_ossidoferro",
+        "enzimi_metanoossidanti",
+        "filamenti_magnetotrofi",
+        "ghiandole_fango_calde",
+        "luminescenza_hydrotermica",
+        "mucose_barofile"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/abisso_vulcanico/abisso-vulcanico-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "altipiani-solari-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["altipiani_solari"],
+      "core_traits": ["piume_solari_fotovoltaiche"],
+      "display_name": "Altipiani Solari Trait Keeper",
+      "environment_focus": {
+        "biome_class": "altipiani_solari"
+      },
+      "id": "altipiani-solari-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["piume_solari_fotovoltaiche"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/altipiani_solari/altipiani-solari-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "archon-solare": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica",
+        "adattamento_volo",
+        "aura_scudo_radianza"
+      ],
+      "display_name": "Archon Solare Custode",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "form_threshold": {
+        "weight_budget": 13
+      },
+      "id": "archon-solare",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "lamelle_termoforetiche",
+        "ali_solari_fotoni",
+        "aura_scudo_radianza",
+        "risonanza_di_branco",
+        "visione_spettrale"
+      ],
+      "playable_unit": true,
+      "required_capabilities": ["flight", "radiant_resist"],
+      "role": "dispersore_ponte",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/archon-solare.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": ["focus_frazionato", "risonanza_di_branco", "empatia_coordinativa"]
+    },
+    "aurora-bridge-runner": {
+      "archetypes": ["Skirmisher"],
+      "biomes": ["mezzanotte_orbitale"],
+      "core_traits": [
+        "sacche_galleggianti_ascensoriali",
+        "mimetismo_cromatico_passivo",
+        "eco_interno_riflesso"
+      ],
+      "display_name": "Aurora Bridge Runner",
+      "environment_focus": {
+        "biome_class": "mezzanotte_orbitale"
+      },
+      "form_threshold": {
+        "weight_budget": 14
+      },
+      "id": "aurora-bridge-runner",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [
+        "lingua_tattile_trama",
+        "occhi_infrarosso_composti",
+        "eco_interno_riflesso",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "playable_unit": true,
+      "required_capabilities": ["deploy_support_field", "long_range_scan"],
+      "role": "dispersore_ponte",
+      "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"],
+      "synergy_hints": ["Support", "Skirmisher"],
+      "synergy_traits": ["Support"]
+    },
+    "aurora-gull": {
+      "archetypes": ["Skirmisher", "Invoker"],
+      "biomes": ["mezzanotte_orbitale"],
+      "core_traits": ["criostasi_adattiva", "eco_interno_riflesso", "sonno_emisferico_alternato"],
       "display_name": "Gabbiano d’Aurora",
       "environment_focus": {
         "biome_class": "mezzanotte_orbitale"
@@ -182,33 +399,109 @@
       },
       "id": "aurora-gull",
       "morphotype": "volatore_planatore",
-      "optional_traits": [],
+      "optional_traits": [
+        "sacche_galleggianti_ascensoriali",
+        "occhi_infrarosso_composti",
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "sonno_emisferico_alternato"
+      ],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "dispersore_ponte",
+      "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "badlands-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["badlands"],
+      "core_traits": ["cute_resistente_sali"],
+      "display_name": "Badlands Trait Keeper",
+      "environment_focus": {
+        "biome_class": "badlands"
+      },
+      "id": "badlands-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["cute_resistente_sali"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/badlands-trait-keeper.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "balor-fission": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica",
+        "adattamento_volo",
+        "mantello_meteoritico",
+        "frusta_fiammeggiante"
+      ],
+      "display_name": "Balor a Fissione",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "id": "balor-fission",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "empatia_coordinativa",
+        "carapace_fase_variabile",
+        "criostasi_adattiva",
+        "tattiche_di_branco",
+        "armatura_pietra_planare",
+        "artigli_sette_vie",
+        "frusta_fiammeggiante",
+        "mantello_meteoritico"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["fire_resist", "void_stride"],
+      "role": "predatore_terziario_apex",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/balor-fission.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": ["focus_frazionato"]
+    },
+    "barriere-coralline-psioniche-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["barriere_coralline_psioniche"],
+      "core_traits": ["sinapsi_coraline_polifoniche"],
+      "display_name": "Barriere Coralline Psioniche Trait Keeper",
+      "environment_focus": {
+        "biome_class": "barriere_coralline_psioniche"
+      },
+      "id": "barriere-coralline-psioniche-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["sinapsi_coraline_polifoniche"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
+        "packs/evo_tactics_pack/data/species/barriere_coralline_psioniche/barriere-coralline-psioniche-trait-keeper.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "blight-micotico": {
-      "archetypes": [
-        "minaccia_microbica"
-      ],
-      "biomes": [
-        "foresta_miceliale"
-      ],
-      "core_traits": [
-        "pelli_fitte"
-      ],
+      "archetypes": [],
+      "biomes": ["foresta_miceliale"],
+      "core_traits": ["spore_psichiche_silenziate", "lingua_tattile_trama", "ghiandola_caustica"],
       "display_name": "Blight Micotico",
       "environment_focus": {
         "biome_class": "foresta_miceliale"
       },
       "id": "blight-micotico",
       "morphotype": null,
-      "optional_traits": [],
+      "optional_traits": [
+        "mimetismo_cromatico_passivo",
+        "filamenti_digestivi_compattanti",
+        "ghiandola_caustica",
+        "lingua_tattile_trama",
+        "spore_psichiche_silenziate"
+      ],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "minaccia_microbica",
@@ -218,14 +511,40 @@
       "synergy_hints": [],
       "synergy_traits": []
     },
+    "bulette-fase": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica",
+        "fisiologia_predatoria"
+      ],
+      "display_name": "Bulette di Fase",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "id": "bulette-fase",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "armatura_pietra_planare",
+        "sacche_galleggianti_ascensoriali",
+        "coda_frusta_cinetica",
+        "lamelle_termoforetiche",
+        "scheletro_idro_regolante",
+        "sensori_geomagnetici"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["burrow", "planar_tremor_sense"],
+      "role": "erbivoro_primario",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/bulette-fase.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
     "cactus-weaver": {
-      "archetypes": [
-        "Artificer",
-        "Warden"
-      ],
-      "biomes": [
-        "abisso_vulcanico"
-      ],
+      "archetypes": ["Warden", "Artificer"],
+      "biomes": ["abisso_vulcanico"],
       "core_traits": [
         "cuticole_cerose",
         "grassi_termici",
@@ -243,24 +562,7 @@
       },
       "id": "cactus-weaver",
       "morphotype": "ingegnere_radicante",
-      "optional_traits": [],
-      "playable_unit": true,
-      "required_capabilities": [],
-      "role": "ingegneri_ecosistema",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
-      ],
-      "synergy_hints": [],
-      "synergy_traits": []
-    },
-    "cryo-lynx": {
-      "archetypes": [
-        "predatore_terziario_apex"
-      ],
-      "biomes": [
-        "mezzanotte_orbitale"
-      ],
-      "core_traits": [
+      "optional_traits": [
         "cuticole_cerose",
         "grassi_termici",
         "pelli_cave",
@@ -268,72 +570,443 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
+      "playable_unit": true,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": ["packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "caldera-glaciale-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["caldera_glaciale"],
+      "core_traits": [
+        "artigli_vetrificati",
+        "barriere_miasma_glaciale",
+        "branchie_solfatiche",
+        "capillari_criogenici",
+        "circolazione_bifasica",
+        "enzimi_antifase_termica",
+        "filamenti_superconduttivi",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_ventosa",
+        "gusci_criovetro",
+        "luminescenza_aurorale",
+        "mantelli_geotermici"
+      ],
+      "display_name": "Glacial Caldera Trait Keeper",
+      "environment_focus": {
+        "biome_class": "caldera_glaciale"
+      },
+      "id": "caldera-glaciale-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "artigli_vetrificati",
+        "barriere_miasma_glaciale",
+        "branchie_solfatiche",
+        "capillari_criogenici",
+        "circolazione_bifasica",
+        "enzimi_antifase_termica",
+        "filamenti_superconduttivi",
+        "ghiaccio_piezoelettrico",
+        "ghiandole_ventosa",
+        "gusci_criovetro",
+        "luminescenza_aurorale",
+        "mantelli_geotermici"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/caldera_glaciale/caldera-glaciale-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "calotte-glaciali-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["calotte_glaciali"],
+      "core_traits": ["artigli_sghiaccio_glaciale"],
+      "display_name": "Calotte Glaciali Trait Keeper",
+      "environment_focus": {
+        "biome_class": "calotte_glaciali"
+      },
+      "id": "calotte-glaciali-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["artigli_sghiaccio_glaciale"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/calotte_glaciali/calotte-glaciali-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "canopia-ionica-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["canopia_ionica"],
+      "core_traits": [
+        "ali_ioniche",
+        "antenne_tesla",
+        "artigli_induzione",
+        "capillari_fotovoltaici",
+        "cervelletto_equilibrio_statico",
+        "coda_stabilizzatrice_filo",
+        "ghiandole_nebbia_ionica",
+        "ghiandole_resina_conduttiva",
+        "membrane_planata_vectored"
+      ],
+      "display_name": "Ionic Canopy Trait Keeper",
+      "environment_focus": {
+        "biome_class": "canopia_ionica"
+      },
+      "id": "canopia-ionica-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "ali_ioniche",
+        "antenne_tesla",
+        "artigli_induzione",
+        "capillari_fotovoltaici",
+        "cervelletto_equilibrio_statico",
+        "coda_stabilizzatrice_filo",
+        "ghiandole_nebbia_ionica",
+        "ghiandole_resina_conduttiva",
+        "membrane_planata_vectored"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/canopia_ionica/canopia-ionica-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "canopia-psionica-leggera-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["canopia_psionica_leggera"],
+      "core_traits": [
+        "carapace_fase_variabile",
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Canopia Psionica Leggera Trait Keeper",
+      "environment_focus": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "id": "canopia-psionica-leggera-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/canopia-psionica-leggera-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "canopie-sospese-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["canopie_sospese"],
+      "core_traits": ["chioma_parassita_canopica"],
+      "display_name": "Canopie Sospese Trait Keeper",
+      "environment_focus": {
+        "biome_class": "canopie_sospese"
+      },
+      "id": "canopie-sospese-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["chioma_parassita_canopica"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/canopie_sospese/canopie-sospese-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "caverna-risonante-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["caverna_risonante"],
+      "core_traits": [
+        "ali_membrana_sonica",
+        "antenne_microonde_cavernose",
+        "artigli_scivolo_silente",
+        "artigli_sette_vie",
+        "cartilagini_flessoacustiche",
+        "coda_balanciere",
+        "colonne_vibromagnetiche",
+        "denti_tuning_fork",
+        "echi_risonanti",
+        "filamenti_digestivi_compattanti",
+        "ghiandole_eco_mappanti",
+        "lingua_tattile_trama",
+        "midollo_antivibrazione",
+        "mucose_aderenza_sonica",
+        "nucleo_ovomotore_rotante",
+        "occhi_infrarosso_composti",
+        "respiro_a_scoppio",
+        "sangue_piroforico",
+        "scheletro_idro_regolante",
+        "secrezione_rallentante_palmi",
+        "sonno_emisferico_alternato",
+        "spore_psichiche_silenziate",
+        "ventriglio_gastroliti"
+      ],
+      "display_name": "Resonant Cavern Trait Keeper",
+      "environment_focus": {
+        "biome_class": "caverna_risonante"
+      },
+      "id": "caverna-risonante-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "ali_membrana_sonica",
+        "antenne_microonde_cavernose",
+        "artigli_scivolo_silente",
+        "artigli_sette_vie",
+        "cartilagini_flessoacustiche",
+        "coda_balanciere",
+        "colonne_vibromagnetiche",
+        "denti_tuning_fork",
+        "echi_risonanti",
+        "filamenti_digestivi_compattanti",
+        "ghiandole_eco_mappanti",
+        "lingua_tattile_trama",
+        "midollo_antivibrazione",
+        "mucose_aderenza_sonica",
+        "nucleo_ovomotore_rotante",
+        "occhi_infrarosso_composti",
+        "respiro_a_scoppio",
+        "sangue_piroforico",
+        "scheletro_idro_regolante",
+        "secrezione_rallentante_palmi",
+        "sonno_emisferico_alternato",
+        "spore_psichiche_silenziate",
+        "ventriglio_gastroliti"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/caverna_risonante/caverna-risonante-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "cicloni-psionici-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["cicloni_psionici"],
+      "core_traits": ["antenne_plasmatiche_tempesta"],
+      "display_name": "Cicloni Psionici Trait Keeper",
+      "environment_focus": {
+        "biome_class": "cicloni_psionici"
+      },
+      "id": "cicloni-psionici-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["antenne_plasmatiche_tempesta"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/cicloni_psionici/cicloni-psionici-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "couatl-aurora": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica",
+        "adattamento_volo"
+      ],
+      "display_name": "Couatl Aurora Custode",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "form_threshold": {
+        "weight_budget": 11
+      },
+      "id": "couatl-aurora",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [
+        "empatia_coordinativa",
+        "lamelle_termoforetiche",
+        "artigli_sette_vie",
+        "occhi_infrarosso_composti",
+        "focus_frazionato",
+        "ali_solari_fotoni",
+        "ghiandole_nettare_memetico",
+        "sensori_geomagnetici"
+      ],
+      "playable_unit": true,
+      "required_capabilities": ["flight", "planar_map"],
+      "role": "dispersore_ponte",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/couatl-aurora.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": ["focus_frazionato", "risonanza_di_branco"]
+    },
+    "cryo-lynx": {
+      "archetypes": [],
+      "biomes": ["mezzanotte_orbitale"],
+      "core_traits": [
+        "artigli_sette_vie",
+        "carapace_fase_variabile",
+        "olfatto_risonanza_magnetica"
+      ],
       "display_name": "Cryo Lynx",
       "environment_focus": {
         "biome_class": "mezzanotte_orbitale"
       },
       "id": "cryo-lynx",
       "morphotype": "cursoriale_quadrupede",
-      "optional_traits": [],
+      "optional_traits": [
+        "criostasi_adattiva",
+        "zampe_a_molla",
+        "artigli_sette_vie",
+        "carapace_fase_variabile",
+        "olfatto_risonanza_magnetica"
+      ],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "predatore_terziario_apex",
+      "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "delta-salmastri-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["delta_salmastri"],
+      "core_traits": ["branchie_osmotiche_salmastra"],
+      "display_name": "Delta Salmastri Trait Keeper",
+      "environment_focus": {
+        "biome_class": "delta_salmastri"
+      },
+      "id": "delta-salmastri-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["branchie_osmotiche_salmastra"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
+        "packs/evo_tactics_pack/data/species/delta_salmastri/delta-salmastri-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "dorsale-termale-tropicale-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["dorsale_termale_tropicale"],
+      "core_traits": [
+        "antenne_eco_turbina",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "camere_nutrienti_vent",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "denti_silice_termici",
+        "filamenti_termoconduzione",
+        "ghiandole_minerali",
+        "gusci_magnesio",
+        "lamine_scudo_silice"
+      ],
+      "display_name": "Tropical Thermal Ridge Trait Keeper",
+      "environment_focus": {
+        "biome_class": "dorsale_termale_tropicale"
+      },
+      "id": "dorsale-termale-tropicale-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "antenne_eco_turbina",
+        "batteri_termofili_endosimbiosi",
+        "branchie_turbina",
+        "camere_nutrienti_vent",
+        "circolazione_doppia",
+        "coda_stabilizzatrice_geiser",
+        "denti_silice_termici",
+        "filamenti_termoconduzione",
+        "ghiandole_minerali",
+        "gusci_magnesio",
+        "lamine_scudo_silice"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/dorsale_termale_tropicale/dorsale-termale-tropicale-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "dune-cristalline-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["dune_cristalline"],
+      "core_traits": ["squame_rifrangenti_deserto"],
+      "display_name": "Dune Cristalline Trait Keeper",
+      "environment_focus": {
+        "biome_class": "dune_cristalline"
+      },
+      "id": "dune-cristalline-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["squame_rifrangenti_deserto"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/dune_cristalline/dune-cristalline-trait-keeper.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "dune-stalker": {
       "archetypes": [],
-      "biomes": [
-        "caverna",
-        "savana"
-      ],
+      "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "artigli_sette_vie",
         "scheletro_idro_regolante",
         "struttura_elastica_amorfa",
-        "sensori_geomagnetici"
+        "coda_frusta_cinetica"
       ],
       "display_name": "Dune Stalker",
       "environment_focus": {
-        "biome_class": "caverna",
-        "rationale": "Mantenere mobilità verticale e resistenza termica nelle cavità iper-saline in cui si rifugia il branco durante le tempeste desertiche."
-      },
-      "form_threshold": {
-        "estimated_weight": 11,
-        "weight_budget": 12
+        "biome_class": "dorsale_termale_tropicale"
       },
       "id": "dune-stalker",
-      "morphotype": null,
+      "morphotype": "cursoriale_quadrupede",
       "optional_traits": [
         "coda_frusta_cinetica",
-        "criostasi_adattiva",
         "sacche_galleggianti_ascensoriali",
-        "lamelle_termoforetiche"
+        "criostasi_adattiva",
+        "olfatto_risonanza_magnetica",
+        "respiro_a_scoppio",
+        "artigli_sette_vie",
+        "scheletro_idro_regolante",
+        "struttura_elastica_amorfa"
       ],
-      "required_capabilities": [],
-      "role": null,
-      "source_files": [
-        "data/core/species.yaml"
-      ],
-      "synergy_hints": [
-        "echo_backstab"
-      ],
-      "synergy_traits": [
-        "focus_frazionato",
-        "risonanza_di_branco",
-        "tattiche_di_branco"
-      ]
+      "playable_unit": false,
+      "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
+      "role": "predatore_terziario_apex",
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"],
+      "synergy_hints": ["echo_backstab"],
+      "synergy_traits": ["focus_frazionato", "risonanza_di_branco", "tattiche_di_branco"]
     },
     "echo-wing": {
-      "archetypes": [
-        "dispersore_ponte"
-      ],
-      "biomes": [
-        "dorsale_termale_tropicale"
-      ],
+      "archetypes": ["Skirmisher", "Invoker"],
+      "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "eco_interno_riflesso",
         "occhi_infrarosso_composti",
@@ -350,30 +1023,57 @@
       "morphotype": "volatore_planatore",
       "optional_traits": [
         "sacche_galleggianti_ascensoriali",
-        "lingua_tattile_trama"
+        "lingua_tattile_trama",
+        "eco_interno_riflesso",
+        "occhi_infrarosso_composti",
+        "sonno_emisferico_alternato"
       ],
       "playable_unit": true,
-      "required_capabilities": [
-        "build_cover",
-        "dr_impact_cap",
-        "non_metal_gear",
-        "seal_vents"
-      ],
+      "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
       "role": "dispersore_ponte",
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "falde-magnetiche-psioniche-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["falde_magnetiche_psioniche"],
+      "core_traits": [
+        "carapace_fase_variabile",
+        "coda_frusta_cinetica",
+        "eco_interno_riflesso",
+        "filamenti_digestivi_compattanti",
+        "mimetismo_cromatico_passivo",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Falde Magnetiche Psioniche Trait Keeper",
+      "environment_focus": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "id": "falde-magnetiche-psioniche-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "coda_frusta_cinetica",
+        "eco_interno_riflesso",
+        "filamenti_digestivi_compattanti",
+        "mimetismo_cromatico_passivo",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
+        "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/falde-magnetiche-psioniche-trait-keeper.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "ferrocolonia-magnetotattica": {
-      "archetypes": [
-        "Artificer",
-        "Warden"
-      ],
-      "biomes": [
-        "dorsale_termale_tropicale"
-      ],
+      "archetypes": ["Warden", "Artificer"],
+      "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "mimetismo_cromatico_passivo",
         "sangue_piroforico",
@@ -390,39 +1090,271 @@
       "morphotype": "ingegnere_radicante",
       "optional_traits": [
         "lingua_tattile_trama",
-        "ventriglio_gastroliti"
+        "ventriglio_gastroliti",
+        "mimetismo_cromatico_passivo",
+        "sangue_piroforico",
+        "secrezione_rallentante_palmi"
       ],
       "playable_unit": true,
-      "required_capabilities": [
-        "build_cover",
-        "dr_impact_cap",
-        "non_metal_gear",
-        "seal_vents"
-      ],
+      "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
       "role": "predatore_regolatore_simbionte",
       "source_files": [
         "packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
       ],
       "synergy_hints": [],
+      "synergy_traits": ["sinergizzatore_team", "architetto"]
+    },
+    "foresta-acida-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["foresta_acida"],
+      "core_traits": [
+        "antenne_reagenti",
+        "artigli_acidofagi",
+        "camere_anticorrosione",
+        "capillari_fluoridici",
+        "cromofori_alert_acido",
+        "cuticole_neutralizzanti",
+        "denti_chelatanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_nebbia_acida",
+        "linfa_tampone"
+      ],
+      "display_name": "Acidic Rainforest Trait Keeper",
+      "environment_focus": {
+        "biome_class": "foresta_acida"
+      },
+      "id": "foresta-acida-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "antenne_reagenti",
+        "artigli_acidofagi",
+        "camere_anticorrosione",
+        "capillari_fluoridici",
+        "cromofori_alert_acido",
+        "cuticole_neutralizzanti",
+        "denti_chelatanti",
+        "enzimi_chelatori_rapidi",
+        "foliage_fotocatodico",
+        "ghiandole_nebbia_acida",
+        "linfa_tampone"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foresta_acida/foresta-acida-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "foreste-nubose-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["foreste_nubose"],
+      "core_traits": ["vello_condensatore_nebbie"],
+      "display_name": "Foreste Nubose Trait Keeper",
+      "environment_focus": {
+        "biome_class": "foreste_nubose"
+      },
+      "id": "foreste-nubose-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["vello_condensatore_nebbie"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foreste_nubose/foreste-nubose-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "global-trait-keeper": {
+      "archetypes": [],
+      "biomes": [],
+      "core_traits": [
+        "cute_resistente_sali",
+        "cuticole_cerose",
+        "enzimi_chelanti",
+        "grassi_termici",
+        "pelli_cave",
+        "pelli_fitte",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "display_name": "Global Trait Keeper",
+      "id": "global-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "cute_resistente_sali",
+        "cuticole_cerose",
+        "enzimi_chelanti",
+        "grassi_termici",
+        "pelli_cave",
+        "pelli_fitte",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": ["packs/evo_tactics_pack/data/species/global/global-trait-keeper.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "glowcap-weaver": {
+      "archetypes": [],
+      "biomes": ["foresta_miceliale"],
+      "core_traits": [
+        "filamenti_digestivi_compattanti",
+        "empatia_coordinativa",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Glowcap Weaver",
+      "environment_focus": {
+        "biome_class": "foresta_miceliale"
+      },
+      "id": "glowcap-weaver",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [
+        "focus_frazionato",
+        "lingua_tattile_trama",
+        "empatia_coordinativa",
+        "filamenti_digestivi_compattanti",
+        "struttura_elastica_amorfa"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["deploy_support_field"],
+      "role": "ingegneri_ecosistema",
+      "source_files": ["packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"],
+      "synergy_hints": ["Support"],
+      "synergy_traits": []
+    },
+    "gole-ventose-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["gole_ventose"],
+      "core_traits": ["cartilagine_flessotermica_venti"],
+      "display_name": "Gole Ventose Trait Keeper",
+      "environment_focus": {
+        "biome_class": "gole_ventose"
+      },
+      "id": "gole-ventose-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["cartilagine_flessotermica_venti"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/gole_ventose/gole-ventose-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "golem-runico": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": [
+        "ciclo_vitale_anomalo",
+        "metabolismo_sostentato",
+        "assenza_respirazione",
+        "origine_artificiale",
+        "armatura_pietra_planare"
+      ],
+      "display_name": "Golem Runico Custodiale",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "id": "golem-runico",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [
+        "campo_di_fase",
+        "rinforzi_modulari",
+        "armatura_pietra_planare",
+        "carapace_fase_variabile",
+        "matrice_antimagia",
+        "nuclei_di_controllo"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["deploy_barrier", "purge_magic"],
+      "role": "ingegneri_ecosistema",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/golem-runico.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "laghi-alcalini-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["laghi_alcalini"],
+      "core_traits": ["membrane_eliofiltranti"],
+      "display_name": "Laghi Alcalini Trait Keeper",
+      "environment_focus": {
+        "biome_class": "laghi_alcalini"
+      },
+      "id": "laghi-alcalini-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["membrane_eliofiltranti"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/laghi_alcalini/laghi-alcalini-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "laguna-bioreattiva-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["laguna_bioreattiva"],
+      "core_traits": [
+        "antenne_flusso_mareale",
+        "appendici_risonanti_marea",
+        "branchie_dual_mode",
+        "ciste_riduttive",
+        "filtri_planctonici",
+        "flagelli_ancoranti",
+        "ghiandole_cambio_salino"
+      ],
+      "display_name": "Bioreactive Lagoon Trait Keeper",
+      "environment_focus": {
+        "biome_class": "laguna_bioreattiva"
+      },
+      "id": "laguna-bioreattiva-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "antenne_flusso_mareale",
+        "appendici_risonanti_marea",
+        "branchie_dual_mode",
+        "ciste_riduttive",
+        "filtri_planctonici",
+        "flagelli_ancoranti",
+        "ghiandole_cambio_salino"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/laguna_bioreattiva/laguna-bioreattiva-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
       "synergy_traits": []
     },
     "lupus-temperatus": {
-      "archetypes": [
-        "predatore_terziario_apex"
-      ],
-      "biomes": [
-        "foresta_miceliale"
-      ],
-      "core_traits": [
-        "pelli_fitte"
-      ],
+      "archetypes": [],
+      "biomes": ["foresta_miceliale"],
+      "core_traits": ["empatia_coordinativa", "tattiche_di_branco", "risonanza_di_branco"],
       "display_name": "Lupo della Foresta",
       "environment_focus": {
         "biome_class": "foresta_miceliale"
       },
       "id": "lupus-temperatus",
       "morphotype": null,
-      "optional_traits": [],
+      "optional_traits": [
+        "focus_frazionato",
+        "occhi_infrarosso_composti",
+        "empatia_coordinativa",
+        "risonanza_di_branco",
+        "tattiche_di_branco"
+      ],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "predatore_terziario_apex",
@@ -432,13 +1364,192 @@
       "synergy_hints": [],
       "synergy_traits": []
     },
+    "magnet-fathom-surveyor": {
+      "archetypes": [],
+      "biomes": ["falde_magnetiche_psioniche"],
+      "core_traits": [
+        "filamenti_digestivi_compattanti",
+        "nucleo_ovomotore_rotante",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Magnet Fathom Surveyor",
+      "environment_focus": {
+        "biome_class": "falde_magnetiche_psioniche"
+      },
+      "id": "magnet-fathom-surveyor",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [
+        "lamelle_termoforetiche",
+        "scheletro_idro_regolante",
+        "filamenti_digestivi_compattanti",
+        "nucleo_ovomotore_rotante",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["dr_impact_cap", "seal_vents"],
+      "role": "predatore_regolatore_simbionte",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml"
+      ],
+      "synergy_hints": ["Warden", "Vanguard"],
+      "synergy_traits": []
+    },
+    "magneto-ridge-hunter": {
+      "archetypes": ["Vanguard"],
+      "biomes": ["dorsale_termale_tropicale"],
+      "core_traits": ["coda_frusta_cinetica", "scheletro_idro_regolante", "artigli_sette_vie"],
+      "display_name": "Magneto Ridge Hunter",
+      "environment_focus": {
+        "biome_class": "dorsale_termale_tropicale"
+      },
+      "form_threshold": {
+        "weight_budget": 16
+      },
+      "id": "magneto-ridge-hunter",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "olfatto_risonanza_magnetica",
+        "respiro_a_scoppio",
+        "artigli_sette_vie",
+        "coda_frusta_cinetica",
+        "scheletro_idro_regolante"
+      ],
+      "playable_unit": true,
+      "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
+      "role": "predatore_terziario_apex",
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"],
+      "synergy_hints": ["Vanguard", "Skirmisher"],
+      "synergy_traits": ["tattiche_di_branco", "struttura_elastica_amorfa"]
+    },
+    "mangrovie-risonanti-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["mangrovie_risonanti"],
+      "core_traits": ["mucillagine_simbionte_mangrovie"],
+      "display_name": "Mangrovie Risonanti Trait Keeper",
+      "environment_focus": {
+        "biome_class": "mangrovie_risonanti"
+      },
+      "id": "mangrovie-risonanti-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["mucillagine_simbionte_mangrovie"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/mangrovie_risonanti/mangrovie-risonanti-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "mangrovieto-cinetico-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["mangrovieto_cinetico"],
+      "core_traits": [
+        "artigli_radice",
+        "baffi_mareomotori",
+        "coda_contrappeso",
+        "foliaggio_spugna",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori"
+      ],
+      "display_name": "Kinetic Mangrove Trait Keeper",
+      "environment_focus": {
+        "biome_class": "mangrovieto_cinetico"
+      },
+      "id": "mangrovieto-cinetico-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "artigli_radice",
+        "baffi_mareomotori",
+        "coda_contrappeso",
+        "foliaggio_spugna",
+        "ghiandole_fango_coesivo",
+        "giunti_antitorsione",
+        "lamine_filtranti_aeree",
+        "membrane_pneumatofori"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/mangrovieto_cinetico/mangrovieto-cinetico-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "marilith-vault": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": [
+        "ciclo_vitale_completo",
+        "metabolismo_attivo",
+        "respirazione_biologica",
+        "mantello_meteoritico",
+        "frusta_fiammeggiante",
+        "focus_frazionato"
+      ],
+      "display_name": "Marilith delle Volte",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "id": "marilith-vault",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "empatia_coordinativa",
+        "artigli_sette_vie",
+        "riflessi_preternaturali",
+        "tessuti_adattivi",
+        "coda_frusta_cinetica",
+        "sensori_geomagnetici",
+        "visione_spettrale"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["multi_attack", "planar_anchor"],
+      "role": "predatore_terziario_apex",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/marilith-vault.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "myco-spire-warden": {
+      "archetypes": ["Support"],
+      "biomes": ["foresta_miceliale"],
+      "core_traits": [
+        "filamenti_digestivi_compattanti",
+        "empatia_coordinativa",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Myco Spire Warden",
+      "environment_focus": {
+        "biome_class": "foresta_miceliale"
+      },
+      "form_threshold": {
+        "weight_budget": 18
+      },
+      "id": "myco-spire-warden",
+      "morphotype": "scavenger_corazzato",
+      "optional_traits": [
+        "focus_frazionato",
+        "spore_psichiche_silenziate",
+        "empatia_coordinativa",
+        "filamenti_digestivi_compattanti",
+        "struttura_elastica_amorfa"
+      ],
+      "playable_unit": true,
+      "required_capabilities": ["seal_vents", "deploy_support_field"],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
+      ],
+      "synergy_hints": ["Support", "Strategist"],
+      "synergy_traits": ["Strategist"]
+    },
     "nano-rust-bloom": {
-      "archetypes": [
-        "minaccia_microbica"
-      ],
-      "biomes": [
-        "dorsale_termale_tropicale"
-      ],
+      "archetypes": [],
+      "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "filamenti_digestivi_compattanti",
         "spore_psichiche_silenziate",
@@ -452,30 +1563,21 @@
       "morphotype": "scavenger_corazzato",
       "optional_traits": [
         "carapace_fase_variabile",
-        "sangue_piroforico"
+        "sangue_piroforico",
+        "filamenti_digestivi_compattanti",
+        "scheletro_idro_regolante",
+        "spore_psichiche_silenziate"
       ],
       "playable_unit": false,
-      "required_capabilities": [
-        "build_cover",
-        "dr_impact_cap",
-        "non_metal_gear",
-        "seal_vents"
-      ],
+      "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
       "role": "minaccia_microbica",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
-      ],
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "noctule-termico": {
-      "archetypes": [
-        "Invoker",
-        "Skirmisher"
-      ],
-      "biomes": [
-        "abisso_vulcanico"
-      ],
+      "archetypes": ["Skirmisher", "Invoker"],
+      "biomes": ["abisso_vulcanico"],
       "core_traits": [
         "cuticole_cerose",
         "grassi_termici",
@@ -493,24 +1595,379 @@
       },
       "id": "noctule-termico",
       "morphotype": "volatore_planatore",
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "dispersore_ponte",
+      "source_files": ["packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "orbita-psionica-inversa-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["orbita_psionica_inversa"],
+      "core_traits": [
+        "coda_frusta_cinetica",
+        "criostasi_adattiva",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "display_name": "Orbita Psionica Inversa Trait Keeper",
+      "environment_focus": {
+        "biome_class": "orbita_psionica_inversa"
+      },
+      "id": "orbita-psionica-inversa-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "coda_frusta_cinetica",
+        "criostasi_adattiva",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
+        "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbita-psionica-inversa-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "orbital-ascendant": {
+      "archetypes": [],
+      "biomes": ["orbita_psionica_inversa"],
+      "core_traits": [
+        "focus_frazionato",
+        "nucleo_ovomotore_rotante",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "display_name": "Orbital Ascendant",
+      "environment_focus": {
+        "biome_class": "orbita_psionica_inversa"
+      },
+      "id": "orbital-ascendant",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [
+        "criostasi_adattiva",
+        "eco_interno_riflesso",
+        "focus_frazionato",
+        "nucleo_ovomotore_rotante",
+        "olfatto_risonanza_magnetica",
+        "sacche_galleggianti_ascensoriali"
+      ],
+      "playable_unit": true,
+      "required_capabilities": ["lift_control", "res_psionic"],
+      "role": "predatore_terziario_apex",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml"
+      ],
+      "synergy_hints": ["Vanguard", "Invoker"],
+      "synergy_traits": []
+    },
+    "otyugh-sentinella": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": ["ciclo_vitale_completo", "metabolismo_attivo", "respirazione_biologica"],
+      "display_name": "Otyugh Sentinella delle Fogne Astrali",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "id": "otyugh-sentinella",
+      "morphotype": "anfibio_filtratore",
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "lamelle_termoforetiche",
+        "artigli_sette_vie",
+        "secrezioni_antisepsi",
+        "nodi_micotici",
+        "filtri_bioattivi",
+        "membrane_osmotiche",
+        "proboscide_polifaga",
+        "sensori_chimici"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["purge_toxins", "anchor_waste"],
+      "role": "ingegneri_ecosistema",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/otyugh-sentinella.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "paludi-gas-luminescenti-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["paludi_gas_luminescenti"],
+      "core_traits": ["circolazione_bifasica_palude"],
+      "display_name": "Paludi Gas Luminescenti Trait Keeper",
+      "environment_focus": {
+        "biome_class": "paludi_gas_luminescenti"
+      },
+      "id": "paludi-gas-luminescenti-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["circolazione_bifasica_palude"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/paludi_gas_luminescenti/paludi-gas-luminescenti-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "permafrost-psionico-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["permafrost_psionico"],
+      "core_traits": ["bulbi_radici_permafrost"],
+      "display_name": "Permafrost Psionico Trait Keeper",
+      "environment_focus": {
+        "biome_class": "permafrost_psionico"
+      },
+      "id": "permafrost-psionico-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["bulbi_radici_permafrost"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/permafrost_psionico/permafrost-psionico-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "pianura-salina-iperarida-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["pianura_salina_iperarida"],
+      "core_traits": [
+        "antenne_dustsense",
+        "biofilm_iperarido",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "chemiorecettori_bromuro",
+        "ciste_salmastre",
+        "cuscinetti_elettrostatici",
+        "ghiandole_iodoattive",
+        "lingua_cristallina",
+        "membrane_captura_rugiada"
+      ],
+      "display_name": "Hyperarid Salt Flat Trait Keeper",
+      "environment_focus": {
+        "biome_class": "pianura_salina_iperarida"
+      },
+      "id": "pianura-salina-iperarida-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "antenne_dustsense",
+        "biofilm_iperarido",
+        "camere_mirage",
+        "cartilagini_desertiche",
+        "chemiorecettori_bromuro",
+        "ciste_salmastre",
+        "cuscinetti_elettrostatici",
+        "ghiandole_iodoattive",
+        "lingua_cristallina",
+        "membrane_captura_rugiada"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/pianura_salina_iperarida/pianura-salina-iperarida-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "pianure-magnetiche-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["pianure_magnetiche"],
+      "core_traits": ["sensori_geomagnetici"],
+      "display_name": "Pianure Magnetiche Trait Keeper",
+      "environment_focus": {
+        "biome_class": "pianure_magnetiche"
+      },
+      "id": "pianure-magnetiche-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["sensori_geomagnetici"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/pianure_magnetiche/pianure-magnetiche-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "picchi-cristallini-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["picchi_cristallini"],
+      "core_traits": ["polmoni_cristallini_alta_quota"],
+      "display_name": "Picchi Cristallini Trait Keeper",
+      "environment_focus": {
+        "biome_class": "picchi_cristallini"
+      },
+      "id": "picchi-cristallini-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["polmoni_cristallini_alta_quota"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/picchi_cristallini/picchi-cristallini-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "psionic-canopy-scout": {
+      "archetypes": [],
+      "biomes": ["canopia_psionica_leggera"],
+      "core_traits": [
+        "focus_frazionato",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
+      ],
+      "display_name": "Psionic Canopy Scout",
+      "environment_focus": {
+        "biome_class": "canopia_psionica_leggera"
+      },
+      "id": "psionic-canopy-scout",
+      "morphotype": "volatore_planatore",
+      "optional_traits": [
+        "olfatto_risonanza_magnetica",
+        "spore_psichiche_silenziate",
+        "focus_frazionato",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali",
+        "struttura_elastica_amorfa"
+      ],
+      "playable_unit": true,
+      "required_capabilities": ["lift_control"],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml"
+      ],
+      "synergy_hints": ["Support", "Invoker"],
+      "synergy_traits": []
+    },
+    "rakshasa-corte": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": ["ciclo_vitale_completo", "metabolismo_attivo", "respirazione_biologica"],
+      "display_name": "Rakshasa della Corte Spezzata",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "id": "rakshasa-corte",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "sinapsi_riflettenti",
+        "artigli_psionici",
+        "maschera_illusoria",
+        "tessuti_adattivi"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["infiltrate", "disrupt_psionics"],
+      "role": "minaccia_microbica",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/rakshasa-corte.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": ["risonanza_di_branco"]
+    },
+    "reef-luminescente-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["reef_luminescente"],
+      "core_traits": [
+        "antenne_waveguide",
+        "biofilm_glow",
+        "branchie_microfiltri",
+        "cartilagini_biofibre",
+        "coralli_partner",
+        "enzimi_antipredatori_algali",
+        "epitelio_fosforescente",
+        "ghiandole_inchiostro_luce"
+      ],
+      "display_name": "Luminescent Reef Trait Keeper",
+      "environment_focus": {
+        "biome_class": "reef_luminescente"
+      },
+      "id": "reef-luminescente-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "antenne_waveguide",
+        "biofilm_glow",
+        "branchie_microfiltri",
+        "cartilagini_biofibre",
+        "coralli_partner",
+        "enzimi_antipredatori_algali",
+        "epitelio_fosforescente",
+        "ghiandole_inchiostro_luce"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/reef_luminescente/reef-luminescente-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "resonant-claw-hunter": {
+      "archetypes": [],
+      "biomes": ["caverna_risonante"],
+      "core_traits": ["artigli_sette_vie"],
+      "display_name": "Resonant Claw Hunter",
+      "environment_focus": {
+        "biome_class": "caverna_risonante"
+      },
+      "id": "resonant-claw-hunter",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "eco_interno_riflesso",
+        "occhi_infrarosso_composti",
+        "mimetismo_cromatico_passivo",
+        "cartilagini_flessoacustiche",
+        "midollo_antivibrazione",
+        "lingua_tattile_trama",
+        "artigli_sette_vie"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["break_guard", "track_resonance", "counter_burrow"],
+      "role": "predatore_terziario_apex",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/caverna_risonante/resonant-claw-hunter.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "reti-micorriziche-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["reti_micorriziche"],
+      "core_traits": ["nodi_micorrizici_oracolari"],
+      "display_name": "Reti Micorriziche Trait Keeper",
+      "environment_focus": {
+        "biome_class": "reti_micorriziche"
+      },
+      "id": "reti-micorriziche-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["nodi_micorrizici_oracolari"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/reti_micorriziche/reti-micorriziche-trait-keeper.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "rust-scavenger": {
-      "archetypes": [
-        "Artificer",
-        "Warden"
-      ],
-      "biomes": [
-        "dorsale_termale_tropicale"
-      ],
+      "archetypes": ["Warden", "Artificer"],
+      "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "ventriglio_gastroliti",
         "respiro_a_scoppio",
@@ -527,29 +1984,21 @@
       "morphotype": "scavenger_corazzato",
       "optional_traits": [
         "nucleo_ovomotore_rotante",
-        "scheletro_idro_regolante"
+        "scheletro_idro_regolante",
+        "filamenti_digestivi_compattanti",
+        "respiro_a_scoppio",
+        "ventriglio_gastroliti"
       ],
       "playable_unit": true,
-      "required_capabilities": [
-        "build_cover",
-        "dr_impact_cap",
-        "non_metal_gear",
-        "seal_vents"
-      ],
+      "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
       "role": "ingegneri_ecosistema",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
-      ],
-      "synergy_hints": [],
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"],
+      "synergy_hints": ["Vanguard", "Warden"],
       "synergy_traits": []
     },
     "sand-burrower": {
-      "archetypes": [
-        "erbivoro_primario"
-      ],
-      "biomes": [
-        "dorsale_termale_tropicale"
-      ],
+      "archetypes": [],
+      "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "nucleo_ovomotore_rotante",
         "sacche_galleggianti_ascensoriali",
@@ -563,32 +2012,22 @@
       "morphotype": "cursoriale_quadrupede",
       "optional_traits": [
         "carapace_fase_variabile",
-        "zampe_a_molla"
+        "zampe_a_molla",
+        "nucleo_ovomotore_rotante",
+        "sacche_galleggianti_ascensoriali",
+        "scheletro_idro_regolante"
       ],
       "playable_unit": false,
-      "required_capabilities": [
-        "build_cover",
-        "dr_impact_cap",
-        "non_metal_gear",
-        "seal_vents"
-      ],
+      "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
       "role": "erbivoro_primario",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
-      ],
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "sentinella-radice": {
-      "archetypes": [
-        "ingegneri_ecosistema"
-      ],
-      "biomes": [
-        "foresta_miceliale"
-      ],
-      "core_traits": [
-        "pelli_fitte"
-      ],
+      "archetypes": [],
+      "biomes": ["foresta_miceliale"],
+      "core_traits": ["focus_frazionato", "pathfinder", "pianificatore"],
       "display_name": "Sentinella Radice",
       "environment_focus": {
         "biome_class": "foresta_miceliale"
@@ -598,7 +2037,13 @@
       },
       "id": "sentinella-radice",
       "morphotype": null,
-      "optional_traits": [],
+      "optional_traits": [
+        "random",
+        "empatia_coordinativa",
+        "focus_frazionato",
+        "pathfinder",
+        "pianificatore"
+      ],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "ingegneri_ecosistema",
@@ -609,12 +2054,8 @@
       "synergy_traits": []
     },
     "silica-bloom": {
-      "archetypes": [
-        "minaccia_microbica"
-      ],
-      "biomes": [
-        "abisso_vulcanico"
-      ],
+      "archetypes": [],
+      "biomes": ["abisso_vulcanico"],
       "core_traits": [
         "cuticole_cerose",
         "grassi_termici",
@@ -629,25 +2070,7 @@
       },
       "id": "silica-bloom",
       "morphotype": "scavenger_corazzato",
-      "optional_traits": [],
-      "playable_unit": false,
-      "required_capabilities": [],
-      "role": "minaccia_microbica",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
-      ],
-      "synergy_hints": [],
-      "synergy_traits": []
-    },
-    "steppe-bison-mini": {
-      "archetypes": [
-        "Vanguard",
-        "Warden"
-      ],
-      "biomes": [
-        "mezzanotte_orbitale"
-      ],
-      "core_traits": [
+      "optional_traits": [
         "cuticole_cerose",
         "grassi_termici",
         "pelli_cave",
@@ -655,6 +2078,101 @@
         "proteine_shock_termico",
         "reti_capillari_radici"
       ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "minaccia_microbica",
+      "source_files": ["packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "slag-veil-ambusher": {
+      "archetypes": [],
+      "biomes": ["dorsale_termale_tropicale"],
+      "core_traits": [
+        "coda_frusta_cinetica",
+        "struttura_elastica_amorfa",
+        "olfatto_risonanza_magnetica"
+      ],
+      "display_name": "Slag Veil Ambusher",
+      "environment_focus": {
+        "biome_class": "dorsale_termale_tropicale"
+      },
+      "id": "slag-veil-ambusher",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "ghiandola_caustica",
+        "respiro_a_scoppio",
+        "coda_frusta_cinetica",
+        "olfatto_risonanza_magnetica",
+        "struttura_elastica_amorfa"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["dr_impact_cap", "non_metal_gear"],
+      "role": "predatore_terziario_apex",
+      "source_files": ["packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"],
+      "synergy_hints": ["Warden"],
+      "synergy_traits": ["tattiche_di_branco", "scheletro_idro_regolante"]
+    },
+    "sorgenti-geotermiche-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["sorgenti_geotermiche"],
+      "core_traits": ["lamelle_termoforetiche"],
+      "display_name": "Sorgenti Geotermiche Trait Keeper",
+      "environment_focus": {
+        "biome_class": "sorgenti_geotermiche"
+      },
+      "id": "sorgenti-geotermiche-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["lamelle_termoforetiche"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/sorgenti_geotermiche/sorgenti-geotermiche-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "steppe-algoritmiche-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["steppe_algoritmiche"],
+      "core_traits": [
+        "antenne_wideband",
+        "biochip_memoria",
+        "carapace_segmenti_logici",
+        "circolazione_cooling_loop",
+        "coda_coppia_retroattiva",
+        "ghiandole_grafene",
+        "lamelle_sincroniche"
+      ],
+      "display_name": "Algorithmic Steppe Trait Keeper",
+      "environment_focus": {
+        "biome_class": "steppe_algoritmiche"
+      },
+      "id": "steppe-algoritmiche-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "antenne_wideband",
+        "biochip_memoria",
+        "carapace_segmenti_logici",
+        "circolazione_cooling_loop",
+        "coda_coppia_retroattiva",
+        "ghiandole_grafene",
+        "lamelle_sincroniche"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/steppe_algoritmiche/steppe-algoritmiche-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "steppe-bison-mini": {
+      "archetypes": ["Warden", "Vanguard"],
+      "biomes": ["mezzanotte_orbitale"],
+      "core_traits": ["ventriglio_gastroliti", "scheletro_idro_regolante", "respiro_a_scoppio"],
       "display_name": "Bisonte Nano della Steppa",
       "environment_focus": {
         "biome_class": "mezzanotte_orbitale"
@@ -664,30 +2182,107 @@
       },
       "id": "steppe-bison-mini",
       "morphotype": "cursoriale_quadrupede",
-      "optional_traits": [],
+      "optional_traits": [
+        "carapace_fase_variabile",
+        "sacche_galleggianti_ascensoriali",
+        "respiro_a_scoppio",
+        "scheletro_idro_regolante",
+        "ventriglio_gastroliti"
+      ],
       "playable_unit": true,
       "required_capabilities": [],
       "role": "ingegneri_ecosistema",
+      "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "steppe-risonanti-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["steppe_risonanti"],
+      "core_traits": ["zoccoli_risonanti_steppe"],
+      "display_name": "Steppe Risonanti Trait Keeper",
+      "environment_focus": {
+        "biome_class": "steppe_risonanti"
+      },
+      "id": "steppe-risonanti-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["zoccoli_risonanti_steppe"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
+        "packs/evo_tactics_pack/data/species/steppe_risonanti/steppe-risonanti-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "stratosfera-portante-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["stratosfera_portante"],
+      "core_traits": ["sacche_spore_stratosferiche"],
+      "display_name": "Stratosfera Portante Trait Keeper",
+      "environment_focus": {
+        "biome_class": "stratosfera_portante"
+      },
+      "id": "stratosfera-portante-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["sacche_spore_stratosferiche"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/stratosfera_portante/stratosfera-portante-trait-keeper.yaml"
+      ],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "stratosfera-tempestosa-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["stratosfera_tempestosa"],
+      "core_traits": [
+        "ali_fulminee",
+        "barbigli_sensori_plasma",
+        "branchie_eoliche",
+        "capsule_paracadute",
+        "coda_stabilizzatrice_vortex",
+        "cuore_multicamera_bassa_pressione",
+        "epidermide_dielettrica",
+        "ghiandole_condensa_ozono",
+        "lamelle_shear"
+      ],
+      "display_name": "Tempestuous Stratosphere Trait Keeper",
+      "environment_focus": {
+        "biome_class": "stratosfera_tempestosa"
+      },
+      "id": "stratosfera-tempestosa-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": [
+        "ali_fulminee",
+        "barbigli_sensori_plasma",
+        "branchie_eoliche",
+        "capsule_paracadute",
+        "coda_stabilizzatrice_vortex",
+        "cuore_multicamera_bassa_pressione",
+        "epidermide_dielettrica",
+        "ghiandole_condensa_ozono",
+        "lamelle_shear"
+      ],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
+      "source_files": [
+        "packs/evo_tactics_pack/data/species/stratosfera_tempestosa/stratosfera-tempestosa-trait-keeper.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "thaw-rot": {
-      "archetypes": [
-        "minaccia_microbica"
-      ],
-      "biomes": [
-        "mezzanotte_orbitale"
-      ],
+      "archetypes": [],
+      "biomes": ["mezzanotte_orbitale"],
       "core_traits": [
-        "cuticole_cerose",
-        "grassi_termici",
-        "pelli_cave",
-        "pigmenti_aurorali",
-        "proteine_shock_termico",
-        "reti_capillari_radici"
+        "filamenti_digestivi_compattanti",
+        "spore_psichiche_silenziate",
+        "sangue_piroforico"
       ],
       "display_name": "Thaw Rot",
       "environment_focus": {
@@ -695,23 +2290,23 @@
       },
       "id": "thaw-rot",
       "morphotype": "scavenger_corazzato",
-      "optional_traits": [],
+      "optional_traits": [
+        "secrezione_rallentante_palmi",
+        "eco_interno_riflesso",
+        "filamenti_digestivi_compattanti",
+        "sangue_piroforico",
+        "spore_psichiche_silenziate"
+      ],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "minaccia_microbica",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
-      ],
+      "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"],
       "synergy_hints": [],
       "synergy_traits": []
     },
     "thermo-raptor": {
-      "archetypes": [
-        "predatore_terziario_apex"
-      ],
-      "biomes": [
-        "abisso_vulcanico"
-      ],
+      "archetypes": [],
+      "biomes": ["abisso_vulcanico"],
       "core_traits": [
         "cuticole_cerose",
         "grassi_termici",
@@ -726,214 +2321,70 @@
       },
       "id": "thermo-raptor",
       "morphotype": "cursoriale_quadrupede",
-      "optional_traits": [],
+      "optional_traits": [
+        "cuticole_cerose",
+        "grassi_termici",
+        "pelli_cave",
+        "pigmenti_aurorali",
+        "proteine_shock_termico",
+        "reti_capillari_radici"
+      ],
       "playable_unit": false,
       "required_capabilities": [],
       "role": "predatore_terziario_apex",
+      "source_files": ["packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": []
+    },
+    "treant-portale": {
+      "archetypes": [],
+      "biomes": ["rovine_planari"],
+      "core_traits": ["ciclo_vitale_completo", "metabolismo_attivo", "respirazione_biologica"],
+      "display_name": "Treant dei Portali Antichi",
+      "environment_focus": {
+        "biome_class": "rovine_planari"
+      },
+      "id": "treant-portale",
+      "morphotype": "ingegnere_radicante",
+      "optional_traits": [
+        "armatura_pietra_planare",
+        "nodi_micotici",
+        "fotosintesi_bifase",
+        "corteccia_memetica",
+        "pigmenti_aurorali",
+        "radici_ancora_planare",
+        "reti_capillari_radici"
+      ],
+      "playable_unit": false,
+      "required_capabilities": ["stabilize_gate", "cleanse_corruption"],
+      "role": "ingegneri_ecosistema",
+      "source_files": ["packs/evo_tactics_pack/data/species/rovine_planari/treant-portale.yaml"],
+      "synergy_hints": [],
+      "synergy_traits": ["risonanza_di_branco"]
+    },
+    "tundra-risonante-trait-keeper": {
+      "archetypes": [],
+      "biomes": ["tundra_risonante"],
+      "core_traits": ["cavita_risonanti_tundra"],
+      "display_name": "Tundra Risonante Trait Keeper",
+      "environment_focus": {
+        "biome_class": "tundra_risonante"
+      },
+      "id": "tundra-risonante-trait-keeper",
+      "morphotype": "cursoriale_quadrupede",
+      "optional_traits": ["cavita_risonanti_tundra"],
+      "playable_unit": false,
+      "required_capabilities": [],
+      "role": "ingegneri_ecosistema",
       "source_files": [
-        "packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
+        "packs/evo_tactics_pack/data/species/tundra_risonante/tundra-risonante-trait-keeper.yaml"
       ],
       "synergy_hints": [],
       "synergy_traits": []
     },
-    "magneto-ridge-hunter": {
-      "archetypes": [
-        "predatore_terziario_apex"
-      ],
-      "biomes": [
-        "dorsale_termale_tropicale"
-      ],
-      "core_traits": [
-        "coda_frusta_cinetica",
-        "scheletro_idro_regolante",
-        "artigli_sette_vie"
-      ],
-      "display_name": "Magneto Ridge Hunter",
-      "environment_focus": {
-        "biome_class": "dorsale_termale_tropicale",
-        "rationale": "Assalitore magnetotattico addestrabile per presidiare i colli di bottiglia della dorsale."
-      },
-      "id": "magneto-ridge-hunter",
-      "morphotype": "cursoriale_quadrupede",
-      "optional_traits": [
-        "olfatto_risonanza_magnetica",
-        "respiro_a_scoppio"
-      ],
-      "playable_unit": true,
-      "required_capabilities": [
-        "build_cover",
-        "dr_impact_cap",
-        "non_metal_gear",
-        "seal_vents"
-      ],
-      "role": "predatore_terziario_apex",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"
-      ],
-      "synergy_hints": [],
-      "synergy_traits": [
-        "tattiche_di_branco",
-        "struttura_elastica_amorfa"
-      ]
-    },
-    "slag-veil-ambusher": {
-      "archetypes": [
-        "predatore_terziario_apex"
-      ],
-      "biomes": [
-        "dorsale_termale_tropicale"
-      ],
-      "core_traits": [
-        "coda_frusta_cinetica",
-        "struttura_elastica_amorfa",
-        "olfatto_risonanza_magnetica"
-      ],
-      "display_name": "Slag Veil Ambusher",
-      "environment_focus": {
-        "biome_class": "dorsale_termale_tropicale",
-        "rationale": "Fauna d'agguato che sfrutta il particolato ferroso per schermare gli assalti contro i branchi di prede corazzate."
-      },
-      "id": "slag-veil-ambusher",
-      "morphotype": "cursoriale_quadrupede",
-      "optional_traits": [
-        "ghiandola_caustica",
-        "respiro_a_scoppio"
-      ],
-      "playable_unit": false,
-      "required_capabilities": [
-        "dr_impact_cap",
-        "non_metal_gear"
-      ],
-      "role": "predatore_terziario_apex",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"
-      ],
-      "synergy_hints": [],
-      "synergy_traits": [
-        "tattiche_di_branco",
-        "scheletro_idro_regolante"
-      ]
-    },
-    "myco-spire-warden": {
-      "archetypes": [
-        "ingegneri_ecosistema"
-      ],
-      "biomes": [
-        "foresta_miceliale"
-      ],
-      "core_traits": [
-        "filamenti_digestivi_compattanti",
-        "empatia_coordinativa",
-        "struttura_elastica_amorfa"
-      ],
-      "display_name": "Myco Spire Warden",
-      "environment_focus": {
-        "biome_class": "foresta_miceliale",
-        "rationale": "Custode giocabile che scolpisce condotti miceliali per supportare squadre e fauna simbiotica."
-      },
-      "id": "myco-spire-warden",
-      "morphotype": "scavenger_corazzato",
-      "optional_traits": [
-        "focus_frazionato",
-        "spore_psichiche_silenziate"
-      ],
-      "playable_unit": true,
-      "required_capabilities": [
-        "seal_vents",
-        "deploy_support_field"
-      ],
-      "role": "ingegneri_ecosistema",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
-      ],
-      "synergy_hints": [],
-      "synergy_traits": [
-        "pathfinder",
-        "pianificatore"
-      ]
-    },
-    "glowcap-weaver": {
-      "archetypes": [
-        "ingegneri_ecosistema"
-      ],
-      "biomes": [
-        "foresta_miceliale"
-      ],
-      "core_traits": [
-        "filamenti_digestivi_compattanti",
-        "empatia_coordinativa",
-        "struttura_elastica_amorfa"
-      ],
-      "display_name": "Glowcap Weaver",
-      "environment_focus": {
-        "biome_class": "foresta_miceliale",
-        "rationale": "Fauna ambientale che tesse bio-lanterne per segnalare percorsi sicuri e mantenere la circolazione di spore."
-      },
-      "id": "glowcap-weaver",
-      "morphotype": "scavenger_corazzato",
-      "optional_traits": [
-        "focus_frazionato",
-        "lingua_tattile_trama"
-      ],
-      "playable_unit": false,
-      "required_capabilities": [
-        "deploy_support_field"
-      ],
-      "role": "ingegneri_ecosistema",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"
-      ],
-      "synergy_hints": [],
-      "synergy_traits": [
-        "pathfinder",
-        "pianificatore"
-      ]
-    },
-    "aurora-bridge-runner": {
-      "archetypes": [
-        "dispersore_ponte"
-      ],
-      "biomes": [
-        "mezzanotte_orbitale"
-      ],
-      "core_traits": [
-        "sacche_galleggianti_ascensoriali",
-        "mimetismo_cromatico_passivo",
-        "eco_interno_riflesso"
-      ],
-      "display_name": "Aurora Bridge Runner",
-      "environment_focus": {
-        "biome_class": "mezzanotte_orbitale",
-        "rationale": "Navigator giocabile che intreccia ponti aurorali e guida il traffico su piattaforme sospese."
-      },
-      "id": "aurora-bridge-runner",
-      "morphotype": "volatore_planatore",
-      "optional_traits": [
-        "lingua_tattile_trama",
-        "occhi_infrarosso_composti"
-      ],
-      "playable_unit": true,
-      "required_capabilities": [
-        "deploy_support_field",
-        "long_range_scan"
-      ],
-      "role": "dispersore_ponte",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"
-      ],
-      "synergy_hints": [],
-      "synergy_traits": [
-        "risonanza_di_branco",
-        "empatia_coordinativa"
-      ]
-    },
     "zephyr-spore-courier": {
-      "archetypes": [
-        "dispersore_ponte"
-      ],
-      "biomes": [
-        "mezzanotte_orbitale"
-      ],
+      "archetypes": [],
+      "biomes": ["mezzanotte_orbitale"],
       "core_traits": [
         "sacche_galleggianti_ascensoriali",
         "mimetismo_cromatico_passivo",
@@ -941,66 +2392,23 @@
       ],
       "display_name": "Zephyr Spore Courier",
       "environment_focus": {
-        "biome_class": "mezzanotte_orbitale",
-        "rationale": "Stormo ambientale che disperde spore luminose per segnare corridoi d'aria e alimentare il ponte ecologico."
+        "biome_class": "mezzanotte_orbitale"
       },
       "id": "zephyr-spore-courier",
       "morphotype": "volatore_planatore",
       "optional_traits": [
         "lingua_tattile_trama",
-        "occhi_infrarosso_composti"
+        "occhi_infrarosso_composti",
+        "eco_interno_riflesso",
+        "mimetismo_cromatico_passivo",
+        "sacche_galleggianti_ascensoriali"
       ],
       "playable_unit": false,
-      "required_capabilities": [
-        "long_range_scan"
-      ],
+      "required_capabilities": ["long_range_scan"],
       "role": "dispersore_ponte",
-      "source_files": [
-        "packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"
-      ],
-      "synergy_hints": [],
-      "synergy_traits": [
-        "risonanza_di_branco",
-        "empatia_coordinativa"
-      ]
+      "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"],
+      "synergy_hints": ["Support"],
+      "synergy_traits": []
     }
-  },
-  "trophic_taxonomy": [
-    {
-      "role": "predatore_terziario_apex",
-      "biome_class": "dorsale_termale_tropicale",
-      "concept_pitch": "Predatori magnetotattici che presidiano le creste termali, alternando assalti rapidi e controllo del calore per mantenere il gradiente energetico del bioma.",
-      "signature_traits": [
-        "coda_frusta_cinetica",
-        "scheletro_idro_regolante",
-        "artigli_sette_vie"
-      ],
-      "playable_species": "magneto-ridge-hunter",
-      "ambient_species": "slag-veil-ambusher"
-    },
-    {
-      "role": "ingegneri_ecosistema",
-      "biome_class": "foresta_miceliale",
-      "concept_pitch": "Custodi simbiotici che modellano guglie e ponti micotici, convertendo biomassa in corridoi sicuri per squadre e fauna.",
-      "signature_traits": [
-        "filamenti_digestivi_compattanti",
-        "empatia_coordinativa",
-        "struttura_elastica_amorfa"
-      ],
-      "playable_species": "myco-spire-warden",
-      "ambient_species": "glowcap-weaver"
-    },
-    {
-      "role": "dispersore_ponte",
-      "biome_class": "mezzanotte_orbitale",
-      "concept_pitch": "Navigatori aerostatici che intrecciano ponti di luce e spore luminescenti per collegare piattaforme in microgravità.",
-      "signature_traits": [
-        "sacche_galleggianti_ascensoriali",
-        "mimetismo_cromatico_passivo",
-        "eco_interno_riflesso"
-      ],
-      "playable_species": "aurora-bridge-runner",
-      "ambient_species": "zephyr-spore-courier"
-    }
-  ]
+  }
 }
