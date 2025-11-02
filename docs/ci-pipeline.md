@@ -12,23 +12,27 @@ tramite `dorny/paths-filter@v3`.
    lock file principale (`package-lock.json`) o alla style guide
    dell'orchestrator (`docs/**/orchestrator-*-guide*.md`) fa quindi scattare i
    controlli di latenza.
-2. **`typescript-tests`** — esegue `npm ci` e la suite `npm test` in
-   `tools/ts/`, valida le specie (`node dist/validate_species.js`) e si attiva
-   quando cambiano file TypeScript o i lock file associati.
-3. **`cli-checks`** — compila la toolchain TypeScript, installa la toolchain
+2. **`typescript-tests`** — esegue `npm ci --workspace tools/ts --include-workspace-root false`
+   e la suite `npm test` in `tools/ts/`, validando inoltre le specie
+   (`node dist/validate_species.js`). Si attiva quando cambiano file TypeScript
+   o i lock file associati.
+3. **`webapp-quality`** — dopo `npm ci` nella radice, lancia `npm run lint`,
+   i test `npm run test --workspace webapp`, la build `npm run build --workspace webapp`
+   e un breve smoke `npm run preview`.
+4. **`cli-checks`** — compila la toolchain TypeScript, installa la toolchain
    Python e lancia gli smoke test CLI (`./scripts/cli_smoke.sh`). È abilitato
    dalle modifiche CLI o dataset.
-4. **`python-tests`** — installa le dipendenze Python da `tools/py/` ed esegue
+5. **`python-tests`** — installa le dipendenze Python da `tools/py/` ed esegue
    `pytest` assieme alle validazioni CLI Python.
-5. **`dataset-checks`** — riesegue gli audit su tratti e coperture quando si
+6. **`dataset-checks`** — riesegue gli audit su tratti e coperture quando si
    toccano dataset o script di deploy.
-6. **`orchestrator-latency`** — installa le dipendenze dal `package-lock.json`
+7. **`orchestrator-latency`** — installa le dipendenze dal `package-lock.json`
    di root, prepara l'ambiente Python (`requirements-dev.txt`) e avvia
    `node scripts/loadtest-orchestrator.mjs --requests 12 --concurrency 4
    --threshold-ms 3000`. Il job monitora anche gli aggiornamenti di
    documentazione dedicata (`docs/orchestrator-config.md`, guide di stile) e
    della telemetria (`server/metrics/**`).
-7. **`deployment-checks`** — ricostruisce i bundle di deploy riusando gli
+8. **`deployment-checks`** — ricostruisce i bundle di deploy riusando gli
    artefatti TypeScript e rilancia gli script di verifica `scripts/run_deploy_checks.sh`.
 
 ## Dipendenze e lock file
@@ -46,12 +50,25 @@ tramite `dorny/paths-filter@v3`.
 
 ```bash
 # Job: typescript-tests
+npm ci --workspace tools/ts --include-workspace-root false
 cd tools/ts
-npm ci
 npm test
 node dist/validate_species.js ../../data/core/species.yaml
 node dist/roll_pack.js ENTP invoker ../../data/packs.yaml
 cd ../..
+
+# Job: webapp-quality
+npm ci
+npm run lint
+npm run test --workspace webapp
+VITE_BASE_PATH=./ npm run build --workspace webapp
+VITE_BASE_PATH=./ npm run preview --workspace webapp -- --host 127.0.0.1 --port 4173 --strictPort &
+PREVIEW_PID=$!
+trap 'kill $PREVIEW_PID' EXIT
+npx wait-on http://127.0.0.1:4173
+curl --fail http://127.0.0.1:4173 >/tmp/webapp-preview.html
+kill $PREVIEW_PID
+trap - EXIT
 
 # Job: cli-checks
 cd tools/ts

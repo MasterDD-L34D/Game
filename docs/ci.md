@@ -8,7 +8,7 @@ i workflow GitHub Actions dedicati a controlli specialistici oltre alla pipeline
 
 | Workflow | File | Trigger | Scopo principale |
 | --- | --- | --- | --- |
-| **CI** | `.github/workflows/ci.yml` | `push`/`pull_request` con attivazione condizionata via `paths-filter` | Gestisce i job TypeScript, CLI, Python, audit dataset, load test orchestrator e verifiche di deploy. |
+| **CI** | `.github/workflows/ci.yml` | `push`/`pull_request` con attivazione condizionata via `paths-filter` | Gestisce i job TypeScript, qualità webapp, CLI, Python, audit dataset, load test orchestrator e verifiche di deploy. |
 | **Validate registry naming** | `.github/workflows/validate-naming.yml` | `push`/`pull_request` limitati a percorsi di registro (`config/project_index.json`, `packs/evo_tactics_pack/tools/config/registries/**`, ecc.) | Convalida naming e allineamento degli identificativi tramite `python tools/py/validate_registry_naming.py`. |
 | **Incoming CLI smoke** | `.github/workflows/incoming-smoke.yml` | `workflow_dispatch` con input opzionali | Esegue `scripts/cli_smoke.sh` in modalità `staging_incoming` contro asset decompressi per i caricamenti da `incoming/`. |
 | **HUD Canary** | `.github/workflows/hud.yml` | `push` sui file HUD e `workflow_dispatch` | Verifica rapida degli "smart alerts" HUD: se abilitati in `config/cli/hud.yaml` installa Node.js, builda `tools/ts` e segnala eventuali problemi. |
@@ -24,6 +24,8 @@ i workflow GitHub Actions dedicati a controlli specialistici oltre alla pipeline
   documentali (`docs/orchestrator-config.md`, `docs/**/orchestrator-*-guide*.md`).
 - **Job**:
   - `typescript-tests` installa e testa `tools/ts/` quando il flag `ts` è `true`.
+  - `webapp-quality` esegue lint, unit test e build/preview della webapp quando lo
+    stesso flag `ts` è `true`, riutilizzando `npm ci` sul workspace di root.
   - `cli-checks` compila la toolchain TS, installa i requisiti Python e avvia gli
     smoke test CLI quando cambiano CLI o dataset.
   - `python-tests` rilancia `pytest` e le convalide CLI Python per modifiche a
