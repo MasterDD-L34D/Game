@@ -182,11 +182,18 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [validationErrors, setValidationErrors] = useState<ErrorObject[]>([]);
+  const [remoteValidationErrors, setRemoteValidationErrors] = useState<ErrorObject[]>([]);
   const [styleSuggestions, setStyleSuggestions] = useState<TraitValidationSuggestion[]>([]);
   const [styleSummary, setStyleSummary] = useState<TraitValidationSummary | null>(null);
   const [diagnosticsPending, setDiagnosticsPending] = useState(false);
   const [diagnosticsError, setDiagnosticsError] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
+
+  const combinedValidationErrors = useMemo(
+    () => [...validationErrors, ...remoteValidationErrors],
+    [validationErrors, remoteValidationErrors],
+  );
+  const errorMap = useMemo(() => buildErrorMap(combinedValidationErrors), [combinedValidationErrors]);
 
   useEffect(() => {
     if (initialTraitId) {
@@ -218,7 +225,6 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
     }
   }, [schema]);
 
-  const errorMap = useMemo(() => buildErrorMap(validationErrors), [validationErrors]);
   const suggestionMap = useMemo(() => buildSuggestionMap(styleSuggestions), [styleSuggestions]);
   const suggestionSummary = useMemo(() => {
     const counts: Record<'error' | 'warning' | 'info', number> = { error: 0, warning: 0, info: 0 };
@@ -379,6 +385,7 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
       setStyleSummary(null);
       setDiagnosticsError(null);
       setDiagnosticsPending(false);
+      setRemoteValidationErrors([]);
       return;
     }
     let cancelled = false;
@@ -396,7 +403,7 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
             return;
           }
           const remoteErrors = Array.isArray(response.errors) ? (response.errors as ErrorObject[]) : [];
-          setValidationErrors(remoteErrors);
+          setRemoteValidationErrors(remoteErrors);
           setStyleSuggestions(Array.isArray(response.suggestions) ? response.suggestions : []);
           setStyleSummary(response.summary ?? null);
           setDiagnosticsError(null);
@@ -502,6 +509,7 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
       setDraftPayload(deepClone(nextPayload));
       setDirty(false);
       setValidationErrors([]);
+      setRemoteValidationErrors([]);
       setSaveState('success');
       setStatusMessage('Trait salvato con successo.');
       loadTraitList({ token: authToken || undefined, drafts: includeDrafts }).catch(() => {
@@ -529,11 +537,12 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
     setDraftPayload(deepClone(traitPayload));
     setDirty(false);
     setValidationErrors([]);
+    setRemoteValidationErrors([]);
     setStatusMessage(null);
     setSaveState('idle');
   }, [traitPayload]);
 
-  const isValid = validationErrors.length === 0;
+  const isValid = combinedValidationErrors.length === 0;
   const rootErrors = errorMap.get('') ?? [];
 
   return (
