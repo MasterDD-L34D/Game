@@ -1403,13 +1403,7 @@ const SuggestionList: React.FC<{
               : actionLabel === 'set'
                 ? 'Imposta il valore'
                 : null;
-        const canApplyFix = Boolean(
-          onApplySuggestion &&
-            fix &&
-            ((fix.type === 'set' && Object.prototype.hasOwnProperty.call(fix, 'value')) ||
-              (fix.type === 'append' && Object.prototype.hasOwnProperty.call(fix, 'value')) ||
-              fix.type === 'remove'),
-        );
+        const canApplyFix = Boolean(onApplySuggestion && isSuggestionAutoApplicable(suggestion));
         return (
           <li
             key={`${suggestion.path || 'root'}-${suggestion.message}-${index}`}
