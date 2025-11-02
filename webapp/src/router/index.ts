@@ -16,7 +16,17 @@ type AsyncViewFactory<T> = (() => Promise<T>) & { preload: () => Promise<T> };
 
 function createLazyView<T>(loader: () => Promise<T>): AsyncViewFactory<T> {
   let promise: Promise<T> | null = null;
-  const load = () => (promise ??= loader());
+  const load = () => {
+    if (!promise) {
+      promise = loader()
+        .then((value) => value)
+        .catch((error) => {
+          promise = null;
+          throw error;
+        });
+    }
+    return promise;
+  };
   const factory = (() => load()) as AsyncViewFactory<T>;
   factory.preload = () => load();
   return factory;
