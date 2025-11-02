@@ -7,7 +7,11 @@ function createMonitoringRouter() {
   router.get('/metrics', async (req, res) => {
     try {
       const registry = getPrometheusRegistry();
-      res.setHeader('Content-Type', registry.contentType);
+      if (!registry) {
+        res.status(503).json({ error: 'Metriche orchestrator non abilitate' });
+        return;
+      }
+      res.setHeader('Content-Type', registry.contentType || 'text/plain');
       res.send(await registry.metrics());
     } catch (error) {
       res.status(503).json({ error: 'Metriche non disponibili', details: error?.message });

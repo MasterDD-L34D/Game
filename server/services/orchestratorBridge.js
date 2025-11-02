@@ -469,6 +469,21 @@ class WorkerPool {
   }
 
   _assign(worker, task) {
+    const startedAt = Date.now();
+    const queueDurationMs = Math.max(0, startedAt - (task.enqueuedAt || startedAt));
+    if (this.metrics) {
+      this.metrics.setQueueDepth(this.queue.length);
+      this.metrics.setQueueDepthForAction(task.action, this.queue.length);
+    }
+    if (this.events) {
+      this.events.emit('task:start', {
+        id: task.id,
+        action: task.action,
+        workerId: worker.id,
+        queueDurationMs,
+        attempts: task.attempts,
+      });
+    }
     const stopTimer = this.metrics ? this.metrics.startTaskTimer(task.action) : null;
     worker
       .runTask(task.action, task.payload, task.timeoutMs)
@@ -478,6 +493,17 @@ class WorkerPool {
         }
         if (this.metrics) {
           this.metrics.setQueueDepth(this.queue.length);
+          this.metrics.setQueueDepthForAction(task.action, this.queue.length);
+        }
+        if (this.events) {
+          this.events.emit('task:success', {
+            id: task.id,
+            action: task.action,
+            workerId: worker.id,
+            durationMs: Date.now() - startedAt,
+            queueDurationMs,
+            attempts: task.attempts,
+          });
         }
         task.resolve(result);
         this._dispatch();
@@ -489,10 +515,21 @@ class WorkerPool {
           stopTimer(willRetry ? 'retry' : 'error', error);
         }
         if (willRetry) {
+          if (this.events) {
+            this.events.emit('task:retry', {
+              id: task.id,
+              action: task.action,
+              workerId: worker.id,
+              durationMs: Date.now() - startedAt,
+              queueDurationMs,
+              attempts: task.attempts + 1,
+            });
+          }
           task.attempts += 1;
           this.queue.unshift(task);
           if (this.metrics) {
             this.metrics.setQueueDepth(this.queue.length);
+            this.metrics.setQueueDepthForAction(task.action, this.queue.length);
           }
           setTimeout(() => this._dispatch(), 0);
           this._emitPoolStats();
@@ -500,6 +537,18 @@ class WorkerPool {
         }
         if (this.metrics) {
           this.metrics.setQueueDepth(this.queue.length);
+          this.metrics.setQueueDepthForAction(task.action, this.queue.length);
+        }
+        if (this.events) {
+          this.events.emit('task:error', {
+            id: task.id,
+            action: task.action,
+            workerId: worker.id,
+            durationMs: Date.now() - startedAt,
+            queueDurationMs,
+            attempts: task.attempts,
+            error,
+          });
         }
         task.reject(error);
         this._dispatch();
@@ -638,7 +687,7 @@ function createGenerationOrchestratorBridge(options = {}) {
     ),
   };
 
-  const pool = new WorkerPool({ ...resolved, metrics });
+  const pool = new WorkerPool({ ...resolved, metrics }, bridge);
   const cleanupRegistrations = [];
   let shutdownTimer = null;
   let closingPromise = null;
@@ -794,7 +843,6 @@ function createGenerationOrchestratorBridge(options = {}) {
     });
   }
 
-  registerOrchestratorBridgeMetrics(bridge);
   bridge.emit('pool:stats', pool.getStats());
 
   return bridge;
