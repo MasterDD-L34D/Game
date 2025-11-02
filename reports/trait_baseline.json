@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-10-31T14:08:18.363404Z",
+  "generated_at": "2025-11-02T00:56:48.805849Z",
   "summary": {
     "total_traits": 174,
     "glossary_ok": 174,
@@ -1120,10 +1120,10 @@
       "label": "Artigli a Sette Vie",
       "tier": "T1",
       "coverage": {
-        "core": 3,
+        "core": 2,
         "optional": 0,
         "synergy": 0,
-        "total": 3
+        "total": 2
       },
       "statuses": {
         "glossary": "ok",
@@ -4114,10 +4114,10 @@
       "label": "Coda a Frusta Cinetica",
       "tier": "T1",
       "coverage": {
-        "core": 3,
+        "core": 2,
         "optional": 1,
         "synergy": 0,
-        "total": 4
+        "total": 3
       },
       "statuses": {
         "glossary": "ok",
@@ -8868,9 +8868,9 @@
       "tier": "T2",
       "coverage": {
         "core": 1,
-        "optional": 2,
+        "optional": 1,
         "synergy": 0,
-        "total": 3
+        "total": 2
       },
       "statuses": {
         "glossary": "ok",
@@ -9224,9 +9224,9 @@
       "tier": "T1",
       "coverage": {
         "core": 1,
-        "optional": 3,
+        "optional": 2,
         "synergy": 0,
-        "total": 4
+        "total": 3
       },
       "statuses": {
         "glossary": "ok",
@@ -9546,10 +9546,10 @@
       "label": "Scheletro Idro-Regolante",
       "tier": "T1",
       "coverage": {
-        "core": 5,
+        "core": 4,
         "optional": 1,
         "synergy": 1,
-        "total": 7
+        "total": 6
       },
       "statuses": {
         "glossary": "ok",
@@ -9984,10 +9984,10 @@
       "label": "Struttura elastica, allungabile, amorfa, retrattile",
       "tier": "T1",
       "coverage": {
-        "core": 5,
+        "core": 4,
         "optional": 0,
         "synergy": 1,
-        "total": 6
+        "total": 5
       },
       "statuses": {
         "glossary": "ok",

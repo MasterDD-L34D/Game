@@ -48,5 +48,9 @@
   },
   "spinta_selettiva": "i18n:traits.carapace_luminiscente_abissale.spinta_selettiva",
   "tier": "T3",
-  "uso_funzione": "i18n:traits.carapace_luminiscente_abissale.uso_funzione"
+  "uso_funzione": "i18n:traits.carapace_luminiscente_abissale.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

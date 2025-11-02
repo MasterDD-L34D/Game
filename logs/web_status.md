@@ -95,3 +95,19 @@ successiva e registrare eventuali task di follow-up in roadmap.
 - **Note**:
   - Lo script non esegue più test; utilizza gli artefatti generati dai passaggi CI precedenti.
 
+## 2025-11-02T00:56:27Z · run_deploy_checks.sh
+- **Esito script**: ✅ `scripts/run_deploy_checks.sh`
+  - Artefatti TypeScript già presenti in `tools/ts/dist`.
+  - Bundle statico generato in `dist.i18ig7` con dataset `data`.
+- **Smoke test HTTP: server Python attivo su http://127.0.0.1:40457/**
+  - Trait generator: core=30 enriched_species=12 (time 9 ms).
+  - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.
+  - Report salvato in `logs/tooling/generator_run_profile.json`.
+Flow Shell go/no-go: REVIEW (3/5 ok · 2 warning · 0 fail)
+⚠️ Quality Release → Snapshot: Snapshot di riferimento non ancora generato.
+⚠️ Nebula Atlas → Generator: Stato generatore: unknown
+  - Dataset copiato con 322 file totali.
+  - Richieste principali completate senza errori (index.html e dashboard).
+- **Note**:
+  - Lo script non esegue più test; utilizza gli artefatti generati dai passaggi CI precedenti.
+
