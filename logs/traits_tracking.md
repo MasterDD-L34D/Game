@@ -1,5 +1,21 @@
 # Monitoraggio inventario trait
 
+## 2025-11-18 — Canvas A sync & copertura core
+
+- Allineato il `dune-stalker` con le note del Canvas A aggiungendo `sacche_galleggianti_ascensoriali`,
+  `criostasi_adattiva` e le sinergie `focus_frazionato`/`risonanza_di_branco`/`tattiche_di_branco` sia
+  nel file specie sia nella patch ambientale (`out/patches`).
+- Aggiornato l'inventario trait (`docs/catalog/traits_inventory.json`) con il set core di 29 etichette e
+  promosso `trait_baseline.yaml` e `trait_coverage_report.json` a stato core, includendo la nuova matrice
+  CSV.
+- Rigenerati i dataset con
+  `python tools/py/build_trait_baseline.py packs/evo_tactics_pack/docs/catalog/env_traits.json data/traits/index.json --trait-glossary data/core/traits/glossary.json --out data/derived/analysis/trait_baseline.yaml`
+  e
+  `python tools/py/report_trait_coverage.py --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json --trait-reference data/traits/index.json --species-root packs/evo_tactics_pack/data/species --trait-glossary data/core/traits/glossary.json --out-json data/derived/analysis/trait_coverage_report.json --out-csv data/derived/analysis/trait_coverage_matrix.csv --strict`.
+  Il riepilogo conferma `traits_with_species = 172` e nessun gap per il subset core (29/29).
+- Validazione QA: `python tools/py/game_cli.py validate-ecosystem-pack` (nessun errore) e
+  `python tools/py/traits_validator.py --inventory docs/catalog/traits_inventory.json`.
+
 ## 2025-11-16 — Badlands trait sync & QA
 
 - Allineati i file specie Badlands (`packs/evo_tactics_pack/data/species/badlands/*.yaml`) con blocchi `genetic_traits` coerenti
@@ -82,5 +98,11 @@
 ## 2025-11-02T00:56:25Z · traits_validator.py
 - Inventario: `docs/catalog/traits_inventory.json`
 - Risorse totali: 36 (core: 29/29, mock: 7/7)
+- Nessun avviso registrato.
+- ✅ Nessun errore critico.
+
+## 2025-11-02T20:27:12Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 36 (core: 32/32, mock: 4/4)
 - Nessun avviso registrato.
 - ✅ Nessun errore critico.

@@ -1,29 +1,54 @@
 {
-  "generated_at": "2025-11-15T10:12:00Z",
+  "generated_at": "2025-11-18T09:45:00Z",
   "core_traits": [
     "artigli_sette_vie",
+    "carapace_fase_variabile",
+    "coda_frusta_cinetica",
+    "criostasi_adattiva",
+    "eco_interno_riflesso",
+    "empatia_coordinativa",
+    "filamenti_digestivi_compattanti",
+    "focus_frazionato",
+    "ghiandola_caustica",
+    "lingua_tattile_trama",
+    "mimetismo_cromatico_passivo",
+    "nucleo_ovomotore_rotante",
+    "occhi_infrarosso_composti",
+    "olfatto_risonanza_magnetica",
+    "pathfinder",
+    "pianificatore",
+    "random",
+    "respiro_a_scoppio",
+    "risonanza_di_branco",
+    "sacche_galleggianti_ascensoriali",
+    "sangue_piroforico",
     "scheletro_idro_regolante",
+    "secrezione_rallentante_palmi",
+    "sonno_emisferico_alternato",
+    "spore_psichiche_silenziate",
     "struttura_elastica_amorfa",
-    "sensori_geomagnetici"
+    "tattiche_di_branco",
+    "ventriglio_gastroliti",
+    "zampe_a_molla"
   ],
   "resources": [
     {
       "path": "data/derived/analysis/trait_baseline.yaml",
       "type": "reference",
-      "state": "mock",
-      "notes": "Baseline analitica estesa (~4244 righe) con numerosi trait marcati missing_metadata."
+      "state": "core",
+      "notes": "Baseline aggiornata (schema 1.0) con 174 trait e subset core 29/29 validato."
     },
     {
       "path": "data/derived/analysis/trait_coverage_matrix.csv",
       "type": "reference",
-      "state": "mock",
-      "notes": "Matrice CSV copertura trait con 20 righe di dettaglio."
+      "state": "core",
+      "notes": "Matrice trait↔bioma↔morfotipo aggiornata con copertura completa delle 29 etichette core."
     },
     {
       "path": "data/derived/analysis/trait_coverage_report.json",
       "type": "reference",
-      "state": "mock",
-      "notes": "Report copertura generato con 29 tratti e 0 specie mappate."
+      "state": "core",
+      "notes": "Report copertura rigenerato: 29/29 trait core, 0 gap su specie e regole."
     },
     {
       "path": "data/derived/analysis/trait_env_mapping.json",
