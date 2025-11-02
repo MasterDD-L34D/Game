@@ -1,8 +1,8 @@
 <template>
   <section class="species-view">
     <header class="species-view__header">
-      <h2>Specie prioritario</h2>
-      <p>Curazione attuale e shortlist degli organismi selezionati.</p>
+      <h2>{{ t('views.species.header.title') }}</h2>
+      <p>{{ t('views.species.header.body') }}</p>
     </header>
     <div class="species-view__layout">
       <SpeciesPanel
@@ -16,7 +16,7 @@
         v-model="activeSidebarTab"
         class="species-view__card"
         icon="🛰"
-        title="Orchestrator insight"
+        :title="t('views.species.sidebar.title')"
         :tabs="sidebarTabs"
       >
         <template #tab-overview>
@@ -32,24 +32,24 @@
               :description="entry.description"
             />
           </div>
-          <p v-else class="species-view__empty">Nessuna telemetria disponibile.</p>
+          <p v-else class="species-view__empty">{{ t('views.species.sidebar.emptyTelemetry') }}</p>
           <div class="species-view__meta" v-if="requestSummary || shortlist.length">
             <dl v-if="requestSummary" class="species-view__request">
               <div>
-                <dt>ID orchestrator</dt>
+                <dt>{{ t('views.species.sidebar.request.id') }}</dt>
                 <dd>{{ requestSummary.id }}</dd>
               </div>
               <div>
-                <dt>Bioma</dt>
+                <dt>{{ t('views.species.sidebar.request.biome') }}</dt>
                 <dd>{{ requestSummary.biome }}</dd>
               </div>
               <div>
-                <dt>Fallback</dt>
+                <dt>{{ t('views.species.sidebar.request.fallback') }}</dt>
                 <dd>{{ requestSummary.fallback }}</dd>
               </div>
             </dl>
             <div v-if="shortlist.length" class="species-view__shortlist">
-              <h4>Shortlist</h4>
+              <h4>{{ t('views.species.sidebar.shortlist') }}</h4>
               <ul>
                 <li v-for="item in shortlist" :key="item">{{ item }}</li>
               </ul>
@@ -72,29 +72,33 @@
               </ul>
             </div>
           </div>
-          <p v-else class="species-view__empty">Nessuna sinergia registrata nel catalogo.</p>
+          <p v-else class="species-view__empty">{{ t('views.species.sidebar.emptySynergy') }}</p>
           <div v-if="traitComplianceBadges.length" class="species-view__compliance">
-            <h4>Trait QA snapshot</h4>
+            <h4>{{ t('views.species.sidebar.compliance.title') }}</h4>
             <ul>
               <li v-for="badge in traitComplianceBadges" :key="badge.id">
                 <span :data-tone="badge.tone || 'neutral'">{{ badge.label }}</span>
                 <strong>{{ badge.value }}</strong>
               </li>
             </ul>
-            <p v-if="traitComplianceTimestamp" class="species-view__timestamp">Aggiornato {{ traitComplianceTimestamp }}</p>
+            <p v-if="traitComplianceTimestamp" class="species-view__timestamp">
+              {{ t('views.species.sidebar.compliance.updated', { timestamp: traitComplianceTimestamp }) }}
+            </p>
           </div>
         </template>
 
         <template #tab-qa>
           <div class="species-view__qa">
             <header>
-              <h4>Validazione runtime</h4>
-              <span :data-tone="validationTone">{{ validationDetails.total }} messaggi</span>
+              <h4>{{ t('views.species.sidebar.qa.title') }}</h4>
+              <span :data-tone="validationTone">
+                {{ t('views.species.sidebar.qa.messages', { count: validationDetails.total }) }}
+              </span>
             </header>
             <p v-if="validationDetails.total" class="species-view__qa-text">
-              Blueprint curato con risultati runtime. Anteprima dei primi tre eventi.
+              {{ t('views.species.sidebar.qa.intro') }}
             </p>
-            <p v-else class="species-view__qa-text">Nessun messaggio dai validator per l'ultima generazione.</p>
+            <p v-else class="species-view__qa-text">{{ t('views.species.sidebar.qa.empty') }}</p>
             <ul v-if="validationDetails.total" class="species-view__qa-messages">
               <li v-for="message in validationPreview" :key="message.code || message.message">
                 <span :data-level="message.level || message.severity || 'info'">{{ message.level || message.severity || 'info' }}</span>
@@ -103,23 +107,25 @@
             </ul>
             <ul v-if="validationDetails.total" class="species-view__qa-counters">
               <li v-if="validationDetails.errors">
-                <strong>❗ Errori</strong>
+                <strong>{{ t('views.species.sidebar.qa.counters.errors') }}</strong>
                 <span>{{ validationDetails.errors }}</span>
               </li>
               <li v-if="validationDetails.warnings">
-                <strong>⚠ Warning</strong>
+                <strong>{{ t('views.species.sidebar.qa.counters.warnings') }}</strong>
                 <span>{{ validationDetails.warnings }}</span>
               </li>
               <li v-if="validationDetails.corrected">
-                <strong>🔧 Correzioni</strong>
+                <strong>{{ t('views.species.sidebar.qa.counters.corrected') }}</strong>
                 <span>{{ validationDetails.corrected }}</span>
               </li>
               <li v-if="validationDetails.discarded">
-                <strong>🗑 Scartati</strong>
+                <strong>{{ t('views.species.sidebar.qa.counters.discarded') }}</strong>
                 <span>{{ validationDetails.discarded }}</span>
               </li>
             </ul>
-            <p v-if="traitDiagnosticsLoading" class="species-view__qa-text">Sincronizzazione della coverage in corso…</p>
+            <p v-if="traitDiagnosticsLoading" class="species-view__qa-text">
+              {{ t('views.species.sidebar.qa.syncing') }}
+            </p>
             <p v-else-if="traitDiagnosticsErrorMessage" class="species-view__error" role="alert">{{ traitDiagnosticsErrorMessage }}</p>
           </div>
         </template>
@@ -130,6 +136,7 @@
 
 <script setup>
 import { computed, ref, toRefs } from 'vue';
+import { useI18n } from 'vue-i18n';
 import SpeciesPanel from '../components/SpeciesPanel.vue';
 import TraitChip from '../components/shared/TraitChip.vue';
 import InsightCard from '../components/shared/InsightCard.vue';
@@ -200,6 +207,8 @@ const {
   traitDiagnosticsMeta,
 } = toRefs(props);
 
+const { t, locale } = useI18n();
+
 const curated = computed(() => status.value.curated || 0);
 const total = computed(() => status.value.total || 0);
 const shortlist = computed(() => status.value.shortlist || []);
@@ -218,10 +227,10 @@ const telemetryProgress = computed(() => {
   if (total.value || curated.value) {
     entries.push({
       id: 'curation',
-      label: 'Specie curate',
+      label: t('views.species.sidebar.telemetry.curated.label'),
       current: curated.value,
       total: total.value,
-      description: 'Specie confermate su totale orchestrato',
+      description: t('views.species.sidebar.telemetry.curated.description'),
     });
   }
   const coverage = Number.isFinite(orchestratorTelemetry.value?.coverage)
@@ -230,10 +239,12 @@ const telemetryProgress = computed(() => {
   if (Number.isFinite(coverage)) {
     entries.push({
       id: 'coverage',
-      label: 'Copertura shortlist',
+      label: t('views.species.sidebar.telemetry.coverage.label'),
       percent: coverage,
       value: `${Math.round(coverage)}%`,
-      description: orchestratorTelemetry.value?.coverage_label || 'Allineamento shortlist/curazione',
+      description:
+        orchestratorTelemetry.value?.coverage_label ||
+        t('views.species.sidebar.telemetry.coverage.descriptionFallback'),
     });
   }
   const phases = Array.isArray(orchestratorTelemetry.value?.phases)
@@ -251,7 +262,10 @@ const telemetryProgress = computed(() => {
           : 0;
     entries.push({
       id: `phase-${phase?.id || index}`,
-      label: phase?.label || phase?.name || `Fase ${index + 1}`,
+      label:
+        phase?.label ||
+        phase?.name ||
+        t('views.species.sidebar.telemetry.phaseFallback', { index: index + 1 }),
       percent,
       value: `${Math.round(Math.max(0, percent))}%`,
       description: phase?.summary || phase?.description || '',
@@ -264,12 +278,14 @@ const requestSummary = computed(() => {
   const request = meta.value || {};
   const id = requestId.value || request.request_id || request.requestId;
   const biome = request.biome_id || request.biomeId || '—';
-  const fallback = request.fallback_used === undefined
-    ? 'Non calcolato'
-    : request.fallback_used
-      ? 'Attivato'
-      : 'Non utilizzato';
-  if (!id && biome === '—' && fallback === 'Non calcolato') {
+  const fallbackUnknown = t('views.species.sidebar.request.fallbackStates.unknown');
+  const fallback =
+    request.fallback_used === undefined
+      ? fallbackUnknown
+      : request.fallback_used
+        ? t('views.species.sidebar.request.fallbackStates.enabled')
+        : t('views.species.sidebar.request.fallbackStates.disabled');
+  if (!id && biome === '—' && fallback === fallbackUnknown) {
     return null;
   }
   return {
@@ -341,7 +357,8 @@ const traitComplianceTimestamp = computed(() => {
   if (Number.isNaN(date.getTime())) {
     return generatedAt;
   }
-  return new Intl.DateTimeFormat('it-IT', {
+  const currentLocale = locale.value === 'it' ? 'it-IT' : 'en-US';
+  return new Intl.DateTimeFormat(currentLocale, {
     day: '2-digit',
     month: '2-digit',
     hour: '2-digit',
@@ -391,11 +408,11 @@ function formatTraitLabel(traitId) {
   return traitLabelMap.value[traitId] || traitId;
 }
 
-const sidebarTabs = [
-  { id: 'overview', label: 'Overview', icon: '📊' },
-  { id: 'synergy', label: 'Sinergie', icon: '🧬' },
-  { id: 'qa', label: 'QA', icon: '🧪' },
-];
+const sidebarTabs = computed(() => [
+  { id: 'overview', label: t('views.species.sidebar.tabs.overview'), icon: '📊' },
+  { id: 'synergy', label: t('views.species.sidebar.tabs.synergy'), icon: '🧬' },
+  { id: 'qa', label: t('views.species.sidebar.tabs.qa'), icon: '🧪' },
+]);
 
 const activeSidebarTab = ref('overview');
 </script>

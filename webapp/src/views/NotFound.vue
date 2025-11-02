@@ -1,13 +1,10 @@
 <template>
   <section class="not-found">
     <div class="not-found__card">
-      <span class="not-found__tag">Errore 404</span>
-      <h1>Pagina non trovata</h1>
-      <p>
-        La risorsa che stai cercando è stata spostata oppure non è più disponibile all&apos;interno della
-        console missione.
-      </p>
-      <RouterLink :to="{ name: 'console-home' }" class="not-found__link">Torna alla console</RouterLink>
+      <span class="not-found__tag">{{ t('views.notFound.tag') }}</span>
+      <h1>{{ t('views.notFound.title') }}</h1>
+      <p>{{ t('views.notFound.body') }}</p>
+      <RouterLink :to="{ name: 'console-home' }" class="not-found__link">{{ t('views.notFound.cta') }}</RouterLink>
     </div>
     <div class="not-found__bg" aria-hidden="true"></div>
   </section>
@@ -15,6 +12,9 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 </script>
 
 <style scoped>

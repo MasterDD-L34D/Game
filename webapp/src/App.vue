@@ -1,8 +1,11 @@
 <template>
   <div class="app-shell">
     <header class="app-shell__header">
-      <h1 class="app-shell__title">Evo-Tactics Mission Console</h1>
-      <nav class="app-shell__nav" aria-label="Sezioni principali">
+      <div class="app-shell__header-top">
+        <h1 class="app-shell__title">{{ t('app.title') }}</h1>
+        <LanguageSelector />
+      </div>
+      <nav class="app-shell__nav" :aria-label="t('app.nav.ariaLabel')">
         <RouterLink
           v-for="link in mainLinks"
           :key="link.name"
@@ -32,12 +35,15 @@
 <script setup>
 import { computed } from 'vue';
 import { RouterLink, RouterView, useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 import AppBreadcrumbs from './components/navigation/AppBreadcrumbs.vue';
+import LanguageSelector from './components/navigation/LanguageSelector.vue';
 import { useNavigationMeta } from './state/navigationMeta';
 
 const route = useRoute();
 const { breadcrumbs: breadcrumbItems, description: pageDescription, tokens: stateTokens } = useNavigationMeta();
+const { t } = useI18n();
 
 const mainLinks = computed(() => {
   const currentName = route.name;
@@ -45,25 +51,25 @@ const mainLinks = computed(() => {
     {
       name: 'console-home',
       to: { name: 'console-home' },
-      label: 'Mission Console',
+      label: t('app.nav.missionConsole'),
       active: currentName === 'console-home',
     },
     {
       name: 'console-flow',
       to: { name: 'console-flow' },
-      label: 'Workflow Orchestrator',
+      label: t('app.nav.workflow'),
       active: currentName === 'console-flow',
     },
     {
       name: 'console-traits-editor',
       to: { name: 'console-traits-editor' },
-      label: 'Trait Editor',
+      label: t('app.nav.traits'),
       active: currentName ? String(currentName).startsWith('console-traits-editor') : false,
     },
     {
       name: 'console-atlas',
       to: { name: 'console-atlas-overview' },
-      label: 'Nebula Atlas',
+      label: t('app.nav.atlas'),
       active: currentName ? String(currentName).startsWith('console-atlas') : false,
     },
   ];
@@ -71,6 +77,14 @@ const mainLinks = computed(() => {
 </script>
 
 <style scoped>
+.app-shell__header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .app-shell {
   min-height: 100vh;
   display: flex;
