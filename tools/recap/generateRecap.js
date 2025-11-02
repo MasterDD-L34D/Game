@@ -31,8 +31,7 @@ function abortableFetch(url, options = {}) {
   }
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), options.timeout || FETCH_TIMEOUT_MS);
-  return fetch(url, { ...options, signal: controller.signal })
-    .finally(() => clearTimeout(timer));
+  return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(timer));
 }
 
 async function fetchJson(url, label) {
@@ -121,6 +120,39 @@ async function loadNebulaBundle() {
   return bundle;
 }
 
+async function readJsonMaybe(filePath) {
+  if (!filePath) {
+    return null;
+  }
+  try {
+    const text = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(text);
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      return null;
+    }
+    throw error;
+  }
+}
+
+async function readTextMaybe(filePath) {
+  if (!filePath) {
+    return null;
+  }
+  try {
+    return await fs.readFile(filePath, 'utf8');
+  } catch (error) {
+    if (error && error.code === 'ENOENT') {
+      return null;
+    }
+    throw error;
+  }
+}
+
+function ensureArray(value) {
+  return Array.isArray(value) ? value : [];
+}
+
 function formatPercent(part, total) {
   const numerator = Number(part);
   const denominator = Number(total);
@@ -141,30 +173,80 @@ function formatDate(value) {
   return date.toISOString();
 }
 
-function ensureArray(value) {
-  return Array.isArray(value) ? value : [];
+function formatDistribution(distribution = {}) {
+  const entries = Object.entries(distribution)
+    .filter(([, value]) => value !== undefined && value !== null)
+    .map(([key, value]) => `${key}: ${value}`);
+  if (!entries.length) {
+    return null;
+  }
+  return entries.join(' · ');
 }
 
-function buildGoNoGoSection(goNoGo) {
+function formatHistory(history = []) {
+  const points = history.filter((value) => Number.isFinite(value));
+  if (!points.length) {
+    return null;
+  }
+  return points.map((value) => `${value}%`).join(' → ');
+}
+
+function buildReleaseReadinessSection({ goNoGo, coverage, snapshotSummary, qaSummary }) {
   if (!goNoGo || !Array.isArray(goNoGo.checks)) {
     return [
-      '## Flow Shell Go / No-Go',
+      '## Release Readiness',
       'Dati go/no-go non disponibili. Aggiorna `reports/status.json` eseguendo un refresh dello status deploy.',
     ].join('\n');
   }
+
   const stats = goNoGo.stats || {};
   const total = stats.total ?? goNoGo.checks.length;
   const failed = stats.failed ?? goNoGo.checks.filter((entry) => entry.status === 'failed').length;
-  const warnings = stats.warnings ?? goNoGo.checks.filter((entry) => entry.status === 'warning').length;
-  const passed = stats.passed ?? (total - failed - warnings);
-  const lines = ['## Flow Shell Go / No-Go'];
+  const warnings =
+    stats.warnings ?? goNoGo.checks.filter((entry) => entry.status === 'warning').length;
+  const passed = stats.passed ?? total - failed - warnings;
+
+  const lines = ['## Release Readiness'];
   if (goNoGo.generatedAt) {
-    lines.push(`- Ultimo aggiornamento: ${goNoGo.generatedAt}`);
+    lines.push(`- Ultimo aggiornamento Flow Shell: ${formatDate(goNoGo.generatedAt)}`);
   }
   lines.push(`- Stato complessivo: **${(goNoGo.status || 'nd').toUpperCase()}**`);
-  lines.push(`- Risultati: ${passed}/${total} ok · ${warnings} warning · ${failed} fail`);
-  lines.push('', '### Checklist');
+  lines.push(`- Esiti checklist: ${passed}/${total} ok · ${warnings} warning · ${failed} fail`);
+
+  if (coverage) {
+    const averageLabel =
+      coverage.average !== undefined && coverage.average !== null ? `${coverage.average}%` : 'n/d';
+    const historyLabel = formatHistory(ensureArray(coverage.history));
+    const distributionLabel = formatDistribution(coverage.distribution || {});
+    lines.push(
+      `- Copertura Nebula: ${averageLabel}${historyLabel ? ` (storico: ${historyLabel})` : ''}`,
+    );
+    if (distributionLabel) {
+      lines.push(`- Distribuzione readiness specie: ${distributionLabel}`);
+    }
+  }
+
+  if (snapshotSummary && typeof snapshotSummary === 'object') {
+    const biomes = snapshotSummary.biomes || {};
+    const encounters = snapshotSummary.encounters || {};
+    lines.push(
+      `- Snapshot Flow Shell: biomi validati ${biomes.validated || 0}/${biomes.total || 'n/d'} · varianti incontro ${encounters.variants || 0}`,
+    );
+  }
+
+  if (qaSummary && typeof qaSummary === 'object') {
+    const totalTraits = Number(qaSummary.total_traits ?? qaSummary.totalTraits ?? 0);
+    const conflicts = Number(qaSummary.with_conflicts ?? qaSummary.conflicts ?? 0);
+    lines.push(
+      `- QA trait diagnostics: conflitti ${conflicts} · copertura glossario ${formatPercent(qaSummary.glossary_ok, totalTraits)}`,
+    );
+  }
+
+  lines.push('', '### Checklist Flow Shell');
   for (const check of goNoGo.checks) {
+    if (!check) {
+      continue;
+    }
     const status = check.status || 'warning';
     const checkbox = status === 'passed' ? '[x]' : '[ ]';
     const icon = status === 'failed' ? '❌' : status === 'warning' ? '⚠️' : '✅';
@@ -172,6 +254,57 @@ function buildGoNoGoSection(goNoGo) {
     const summary = check.summary || 'Verifica richiesta.';
     lines.push(`- ${checkbox} ${icon} ${flowRef}: ${summary}`);
   }
+
+  return lines.join('\n');
+}
+
+function buildIncidentSection({ summary, timeline, sample }) {
+  if (!summary) {
+    return '## Incidenti aperti\nNessuna telemetria incidenti disponibile.';
+  }
+
+  const lines = ['## Incidenti aperti'];
+  lines.push(
+    `- Eventi totali: ${summary.totalEvents || 0} · aperti: ${summary.openEvents || 0} · alta priorità: ${summary.highPriorityEvents || 0}`,
+  );
+  lines.push(`- Incidenti riconosciuti: ${summary.acknowledgedEvents || 0}`);
+  if (summary.lastEventAt) {
+    lines.push(`- Ultimo evento registrato: ${formatDate(summary.lastEventAt)}`);
+  }
+
+  const timelineRows = ensureArray(timeline).slice(-7);
+  if (timelineRows.length) {
+    lines.push('', '### Timeline ultimi 7 giorni');
+    lines.push('| Data | Totale | Alta priorità |');
+    lines.push('| --- | ---: | ---: |');
+    for (const entry of timelineRows) {
+      lines.push(`| ${entry.date || 'n/d'} | ${entry.total ?? 0} | ${entry.highPriority ?? 0} |`);
+    }
+  }
+
+  const sampleEvents = ensureArray(sample).slice(0, 3);
+  if (sampleEvents.length) {
+    lines.push('', '### Eventi recenti');
+    for (const event of sampleEvents) {
+      const parts = [];
+      parts.push(`- ${event.summary || event.message || 'Evento'} (${event.priority || 'n/d'})`);
+      if (event.event_timestamp || event.timestamp || event.created_at) {
+        const timestamp = event.event_timestamp || event.timestamp || event.created_at;
+        parts.push(`  - Timestamp: ${formatDate(timestamp)}`);
+      }
+      if (event.status) {
+        parts.push(`  - Stato: ${event.status}`);
+      }
+      if (event.owner) {
+        parts.push(`  - Owner: ${event.owner}`);
+      }
+      if (event.component_tag || event.component) {
+        parts.push(`  - Componente: ${event.component_tag || event.component}`);
+      }
+      lines.push(...parts);
+    }
+  }
+
   return lines.join('\n');
 }
 
@@ -179,41 +312,55 @@ function buildSnapshotSection(snapshot) {
   if (!snapshot || typeof snapshot !== 'object') {
     return '## Snapshot di generazione\nDati snapshot non disponibili.';
   }
+
   const lines = ['## Snapshot di generazione'];
   const biomes = ensureArray(snapshot.biomes);
-  const biomeSummary = snapshot.biomeSummary || {};
-  const encounterSummary = snapshot.encounterSummary || {};
-  const qualityRelease = snapshot.qualityRelease || {};
-  const runtime = snapshot.runtime || {};
-  const publishing = snapshot.publishing || {};
+  const biomeSummary = snapshot.biomeSummary || snapshot.summary?.biomes || {};
+  const encounterSummary = snapshot.encounterSummary || snapshot.summary?.encounters || {};
+  const qualityRelease = snapshot.qualityRelease || snapshot.summary?.qualityRelease || {};
+  const runtime = snapshot.runtime || snapshot.summary?.runtime || {};
+  const publishing = snapshot.publishing || snapshot.summary?.publishing || {};
 
   const validated = Number(biomeSummary.validated || 0);
   const pending = Number(biomeSummary.pending || 0);
-  const totalBiomes = validated + pending || biomes.length;
+  const totalBiomes = Number(biomeSummary.total || 0) || biomes.length;
   const encounterVariants = Number(encounterSummary.variants || 0);
   const encounterWarnings = Number(encounterSummary.warnings || 0);
   const encounterSeeds = Number(encounterSummary.seeds || 0);
 
-  lines.push('',
-    `- Biomi validati: **${validated}** su **${totalBiomes || 'n/d'}** (${pending} in attesa)`);
-  lines.push(`- Varianti incontro: **${encounterVariants}** · Seeds: **${encounterSeeds}** · Avvisi: **${encounterWarnings}**`);
+  lines.push(
+    '',
+    `- Biomi validati: **${validated}** su **${totalBiomes || 'n/d'}** (${pending} in attesa)`,
+  );
+  lines.push(
+    `- Varianti incontro: **${encounterVariants}** · Seeds: **${encounterSeeds}** · Avvisi: **${encounterWarnings}**`,
+  );
 
   if (qualityRelease.checks && typeof qualityRelease.checks === 'object') {
-    const checks = Object.entries(qualityRelease.checks)
-      .map(([name, stats]) => {
-        const passed = Number(stats?.passed || 0);
-        const total = Number(stats?.total || 0);
-        const conflicts = Number(stats?.conflicts || stats?.failures || 0);
-        return `| ${name} | ${passed}/${total || 'n/d'} | ${formatPercent(passed, total)} | ${conflicts || 0} |`;
-      });
+    const checks = Object.entries(qualityRelease.checks).map(([name, stats]) => {
+      const passed = Number(stats?.passed || 0);
+      const total = Number(stats?.total || 0);
+      const conflicts = Number(stats?.conflicts || stats?.failures || 0);
+      return `| ${name} | ${passed}/${total || 'n/d'} | ${formatPercent(passed, total)} | ${conflicts || 0} |`;
+    });
     if (checks.length) {
-      lines.push('', '### Quality release', '| Ambito | Passati | Copertura | Conflitti |', '| --- | --- | --- | --- |', ...checks);
+      lines.push(
+        '',
+        '### Quality release',
+        '| Ambito | Passati | Copertura | Conflitti |',
+        '| --- | --- | --- | --- |',
+        ...checks,
+      );
     }
   }
 
   if (qualityRelease.lastRun || ensureArray(qualityRelease.owners).length) {
     const owners = ensureArray(qualityRelease.owners);
-    lines.push('', '- Ultima esecuzione qualità:', `  - Timestamp: ${formatDate(qualityRelease.lastRun)}`);
+    lines.push(
+      '',
+      '- Ultima esecuzione qualità:',
+      `  - Timestamp: ${formatDate(qualityRelease.lastRun)}`,
+    );
     if (owners.length) {
       lines.push(`  - Owner: ${owners.join(', ')}`);
     }
@@ -250,7 +397,9 @@ function buildSnapshotSection(snapshot) {
       lines.push('- Workflow:');
       for (const [step, info] of Object.entries(publishing.workflow)) {
         const label = step.charAt(0).toUpperCase() + step.slice(1);
-        lines.push(`  - ${label}: ${info?.status || 'n/d'} · Owner: ${info?.owner || 'n/d'} · ETA: ${info?.eta || 'n/d'}`);
+        lines.push(
+          `  - ${label}: ${info?.status || 'n/d'} · Owner: ${info?.owner || 'n/d'} · ETA: ${info?.eta || 'n/d'}`,
+        );
         if (info?.notes) {
           lines.push(`    - Note: ${info.notes}`);
         }
@@ -261,7 +410,7 @@ function buildSnapshotSection(snapshot) {
   return lines.join('\n');
 }
 
-function buildNebulaSection(nebulaPayload) {
+function buildNebulaSection(nebulaPayload, nebulaSummary) {
   if (!nebulaPayload || typeof nebulaPayload !== 'object') {
     return '## Nebula atlas\nDati Nebula non disponibili.';
   }
@@ -274,24 +423,27 @@ function buildNebulaSection(nebulaPayload) {
     lines.push('', `- Specie tracciate: **${species.length}** (Ready: ${readySpecies})`);
   }
 
-  if (telemetry && typeof telemetry === 'object') {
-    const summary = telemetry.summary || {};
+  const telemetryNode = telemetry || nebulaSummary?.telemetry || {};
+  if (telemetryNode && typeof telemetryNode === 'object') {
+    const summary = telemetryNode.summary || {};
     lines.push('', '### Telemetria live');
     lines.push(`- Eventi totali: ${summary.totalEvents || 0} · aperti: ${summary.openEvents || 0}`);
-    lines.push(`- Priorità alta: ${summary.highPriorityEvents || 0} · riconosciuti: ${summary.acknowledgedEvents || 0}`);
+    lines.push(
+      `- Priorità alta: ${summary.highPriorityEvents || 0} · riconosciuti: ${summary.acknowledgedEvents || 0}`,
+    );
     if (summary.lastEventAt) {
       lines.push(`- Ultimo evento: ${formatDate(summary.lastEventAt)}`);
     }
-    const coverage = telemetry.coverage || {};
-    if (coverage.average !== undefined) {
-      lines.push(`- Copertura media: ${coverage.average}%`);
+    const coverage = telemetryNode.coverage || {};
+    if (coverage.average !== undefined && coverage.average !== null) {
+      const historyLabel = formatHistory(ensureArray(coverage.history));
+      lines.push(
+        `- Copertura media: ${coverage.average}%${historyLabel ? ` (storico: ${historyLabel})` : ''}`,
+      );
     }
-    const distribution = coverage.distribution || {};
-    const distEntries = Object.entries(distribution)
-      .filter(([, value]) => value !== undefined)
-      .map(([key, value]) => `${key}: ${value}`);
-    if (distEntries.length) {
-      lines.push(`- Distribuzione readiness: ${distEntries.join(' · ')}`);
+    const distribution = formatDistribution(telemetryNode.coverage?.distribution || {});
+    if (distribution) {
+      lines.push(`- Distribuzione readiness: ${distribution}`);
     }
   }
 
@@ -319,23 +471,26 @@ function buildNebulaSection(nebulaPayload) {
   return lines.join('\n');
 }
 
-function buildQaSection(qaPayload) {
-  if (!qaPayload || typeof qaPayload !== 'object') {
-    return '## QA Highlights\nDati QA non disponibili.';
-  }
-  const summary = qaPayload.summary || qaPayload.diagnostics?.summary || {};
-  const checks = qaPayload.checks || qaPayload.diagnostics?.checks || {};
-  const highlights = qaPayload.highlights || qaPayload.diagnostics?.highlights || {};
+function buildQaSection({ qaPayload, qaSummary, qaBadges, baseline, validation, changelog }) {
+  const payload = qaPayload || {};
+  const summary = qaSummary || payload.summary || payload.diagnostics?.summary || {};
+  const checks = payload.checks || payload.diagnostics?.checks || {};
+  const highlights = payload.highlights || payload.diagnostics?.highlights || {};
   const lines = ['## QA Highlights'];
 
   const totalTraits = Number(summary.total_traits || summary.totalTraits || 0);
   const glossaryOk = Number(summary.glossary_ok || summary.glossaryOk || 0);
   const conflicts = Number(summary.with_conflicts || summary.conflicts || 0);
   const matrixMismatch = Number(summary.matrix_mismatch || summary.matrixMismatch || 0);
-  const zeroCoverage = ensureArray(highlights.zero_coverage_traits || highlights.zeroCoverageTraits).length;
+  const zeroCoverage = ensureArray(
+    highlights.zero_coverage_traits || highlights.zeroCoverageTraits,
+  ).length;
 
   if (totalTraits) {
-    lines.push('', `- Glossario validato: ${glossaryOk}/${totalTraits} (${formatPercent(glossaryOk, totalTraits)})`);
+    lines.push(
+      '',
+      `- Glossario validato: ${glossaryOk}/${totalTraits} (${formatPercent(glossaryOk, totalTraits)})`,
+    );
   }
   if (conflicts) {
     lines.push(`- Conflitti attivi: ${conflicts}`);
@@ -352,7 +507,12 @@ function buildQaSection(qaPayload) {
     const passed = Number(traitCheck.passed || 0);
     const total = Number(traitCheck.total || 0);
     const conflictsCount = Number(traitCheck.conflicts || 0);
-    lines.push('', '### Check tratti', `- Passed: ${passed}/${total || 'n/d'} (${formatPercent(passed, total)})`, `- Conflitti: ${conflictsCount}`);
+    lines.push(
+      '',
+      '### Check tratti',
+      `- Passed: ${passed}/${total || 'n/d'} (${formatPercent(passed, total)})`,
+      `- Conflitti: ${conflictsCount}`,
+    );
     if (traitCheck.missing_glossary !== undefined) {
       lines.push(`- Glossario mancanti: ${traitCheck.missing_glossary}`);
     }
@@ -363,7 +523,34 @@ function buildQaSection(qaPayload) {
 
   const topConflicts = ensureArray(highlights.top_conflicts || highlights.topConflicts).slice(0, 5);
   if (topConflicts.length) {
-    lines.push('', '### Top conflitti', ...topConflicts.map((entry) => `- ${entry.id || entry.name}: ${entry.conflicts || entry.count}`));
+    lines.push(
+      '',
+      '### Top conflitti',
+      ...topConflicts.map(
+        (entry) => `- ${entry.id || entry.name}: ${entry.conflicts || entry.count}`,
+      ),
+    );
+  }
+
+  if (qaBadges && Array.isArray(qaBadges.badges) && qaBadges.badges.length) {
+    lines.push(
+      '',
+      '### QA Badges',
+      ...qaBadges.badges.map(
+        (badge) =>
+          `- ${badge.label || badge.id || 'Badge'}: ${badge.value || badge.status || 'n/d'}`,
+      ),
+    );
+  }
+
+  if (baseline && baseline.generated_at) {
+    lines.push('', `Baseline generata il: ${formatDate(baseline.generated_at)}`);
+  }
+  if (validation && validation.generated_at) {
+    lines.push(`Ultima validazione generatore: ${formatDate(validation.generated_at)}`);
+  }
+  if (changelog) {
+    lines.push('', '### QA Changelog', changelog.trim());
   }
 
   return lines.join('\n');
@@ -382,46 +569,80 @@ async function main() {
     }
   }
 
-  const [snapshotResult, nebula, qaResult] = await Promise.all([
+  const statusReport = await readJsonMaybe(STATUS_REPORT_PATH);
+
+  const [
+    snapshotResult,
+    nebulaFallback,
+    qaResult,
+    qaBaseline,
+    qaValidation,
+    qaChangelog,
+    qaBadges,
+  ] = await Promise.all([
     fetchJson(SNAPSHOT_ENDPOINT, 'snapshot'),
     loadNebulaBundle(),
     fetchJson(QA_ENDPOINT, 'QA'),
-  ]);
-  snapshot = snapshot || snapshotFallback;
-  nebula = nebula || nebulaFallback;
-
-  const [qaBaseline, generatorValidation, qaChangelog, qaBadgesFallback] = await Promise.all([
     readJsonMaybe(QA_BASELINE_PATH),
     readJsonMaybe(QA_VALIDATION_PATH),
     readTextMaybe(QA_CHANGELOG_PATH),
     readJsonMaybe(QA_BADGES_PATH),
   ]);
 
-  const qaFromStatus = statusReport?.telemetry?.traitDiagnostics?.diagnostics || null;
-  const qaBadges = qaFromEndpoint || qaFromStatus || qaBadgesFallback;
-  const qaSection = buildQaSection({
-    badges: qaBadges,
-    baseline: qaBaseline,
-    generatorValidation,
-    changelog: qaChangelog,
-    highlightBuilder,
-  });
+  const snapshotFromStatus =
+    statusReport?.telemetry?.snapshot?.data || statusReport?.telemetry?.snapshot?.dataset || null;
+  const snapshotSummary = statusReport?.telemetry?.snapshot?.summary || null;
+  const snapshot = snapshotFromStatus || snapshotResult?.data || null;
 
-  const snapshot = snapshotResult?.data ?? null;
-  const qa = qaResult?.data ?? null;
+  const nebulaAtlas = statusReport?.telemetry?.nebula?.atlas || null;
+  const nebulaSummary = statusReport?.telemetry?.nebula?.summary || null;
+  const nebula =
+    nebulaAtlas ||
+    (nebulaFallback.dataset || nebulaFallback.telemetry || nebulaFallback.generator
+      ? nebulaFallback
+      : null);
+
+  const qaFromStatus = statusReport?.telemetry?.traitDiagnostics?.diagnostics || null;
+  const qaSummary = statusReport?.telemetry?.traitDiagnostics?.summary || null;
+  const qaPayload = qaFromStatus || qaResult?.data || null;
+
+  const goNoGo = statusReport?.goNoGo || null;
+  const coverage = nebulaSummary?.telemetry?.coverage || nebula?.telemetry?.coverage || null;
+  const incidentSummary = nebulaSummary?.telemetry?.summary || nebula?.telemetry?.summary || null;
+  const incidentTimeline =
+    nebulaSummary?.telemetry?.incidents?.timeline || nebula?.telemetry?.incidents?.timeline || [];
+  const incidentSample = nebula?.telemetry?.sample || [];
 
   const sections = [
     '# Live operations recap',
     '',
     `Generato: ${new Date().toISOString()}`,
     '',
-    buildGoNoGoSection(goNoGo),
+    buildReleaseReadinessSection({
+      goNoGo,
+      coverage,
+      snapshotSummary,
+      qaSummary,
+    }),
+    '',
+    buildIncidentSection({
+      summary: incidentSummary,
+      timeline: incidentTimeline,
+      sample: incidentSample,
+    }),
     '',
     buildSnapshotSection(snapshot),
     '',
-    buildNebulaSection(nebula),
+    buildNebulaSection(nebula, nebulaSummary),
     '',
-    buildQaSection(qa),
+    buildQaSection({
+      qaPayload,
+      qaSummary,
+      qaBadges,
+      baseline: qaBaseline,
+      validation: qaValidation,
+      changelog: qaChangelog,
+    }),
     '',
     '_Script: tools/recap/generateRecap.js_',
   ];

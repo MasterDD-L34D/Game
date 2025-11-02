@@ -84,8 +84,41 @@ function summariseTraitDiagnostics(diagnostics, status = {}) {
   };
 }
 
+function normaliseCoverage(coverage = {}) {
+  if (!coverage || typeof coverage !== 'object') {
+    return null;
+  }
+  const history = Array.isArray(coverage.history)
+    ? coverage.history.map((value) => toNumber(value, 0))
+    : [];
+  const distributionSource =
+    coverage.distribution && typeof coverage.distribution === 'object' ? coverage.distribution : {};
+  const distribution = Object.fromEntries(
+    Object.entries(distributionSource).map(([key, value]) => [key, toNumber(value, 0)]),
+  );
+  return {
+    average: coverage.average !== undefined ? toNumber(coverage.average, null) : null,
+    history,
+    distribution,
+  };
+}
+
+function normaliseIncidentTimeline(incidents = {}) {
+  const timeline = Array.isArray(incidents.timeline) ? incidents.timeline : [];
+  if (!timeline.length) {
+    return [];
+  }
+  return timeline.map((entry) => ({
+    date: entry?.date || null,
+    total: toNumber(entry?.total),
+    highPriority: toNumber(entry?.highPriority),
+  }));
+}
+
 function summariseNebula(atlas, error) {
   const telemetrySummary = atlas?.telemetry?.summary || {};
+  const telemetryCoverage = atlas?.telemetry?.coverage || {};
+  const telemetryIncidents = atlas?.telemetry?.incidents || {};
   const generator = atlas?.generator || {};
   const generatorMetrics = generator.metrics || {};
   const orchestratorSummary = atlas?.orchestrator?.summary || {};
@@ -97,6 +130,10 @@ function summariseNebula(atlas, error) {
         acknowledgedEvents: toNumber(telemetrySummary.acknowledgedEvents),
         highPriorityEvents: toNumber(telemetrySummary.highPriorityEvents),
         lastEventAt: telemetrySummary.lastEventAt || null,
+      },
+      coverage: normaliseCoverage(telemetryCoverage),
+      incidents: {
+        timeline: normaliseIncidentTimeline(telemetryIncidents),
       },
     },
     generator: {
@@ -216,9 +253,8 @@ function createReleaseReporter(options = {}) {
   }
 
   async function buildReport(baseStatus = {}) {
-    const snapshotStatus = (typeof baseStatus === 'object' && baseStatus !== null)
-      ? { ...baseStatus }
-      : {};
+    const snapshotStatus =
+      typeof baseStatus === 'object' && baseStatus !== null ? { ...baseStatus } : {};
     const telemetry = await collectTelemetry();
     snapshotStatus.telemetry = {
       snapshot: telemetry.snapshot,
