@@ -97,6 +97,11 @@ def _collect_roles_from_species(data: Mapping[str, Any]) -> dict[str, SpeciesTra
                 # I suggerimenti ambientali sono assimilati a ruoli opzionali.
                 traits_map[trait_id].add_role("optional")
 
+        optional_traits = _ensure_list(derived.get("optional_traits"))
+        for trait_id in optional_traits:
+            if trait_id:
+                traits_map[trait_id].add_role("optional")
+
     return traits_map
 
 
