@@ -1,6 +1,6 @@
 # Styleguide Compliance
 
-_Aggiornato al 2025-11-02T14:11:27Z_
+_Aggiornato al 2025-11-02T20:15:42Z_
 
 ## KPI correnti
 
@@ -12,9 +12,7 @@ _Aggiornato al 2025-11-02T14:11:27Z_
 
 ## Anomalie principali
 
-- **Nomi conformi**: nessuna anomalia
-- **Descrizioni complete**: nessuna anomalia
-- **UCUM presenti**: nessuna anomalia
+Nessuna anomalia aperta: tutti i controlli risultano conformi alle soglie dello styleguide.
 
 ## Trend storico
 
@@ -24,6 +22,6 @@ _Aggiornato al 2025-11-02T14:11:27Z_
 
 ## Azioni consigliate
 
-- Coordinare localization e narrativa per chiudere i gap di glossario quando segnalati.
-- Prioritizzare l'allineamento delle unità UCUM nelle metriche prima delle milestone di bilanciamento.
-- Validare i nuovi tratti con `trait_template_validator.py` per prevenire regressioni sullo styleguide.
+- Continuare a validare i nuovi tratti con `trait_template_validator.py` per evitare regressioni.
+- Coordinare localization e narrativa per mantenere aggiornata la terminologia condivisa.
+- Integrare i controlli automatici nelle pipeline CI per garantire la copertura completa prima del rilascio.
