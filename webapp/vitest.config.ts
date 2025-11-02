@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import { resolve } from 'node:path';
+import { existsSync } from 'node:fs';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
@@ -11,7 +12,11 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@vue/test-utils': resolve(__dirname, 'node_modules/@vue/test-utils'),
+      '@vue/test-utils': (() => {
+        const localPath = resolve(__dirname, 'node_modules/@vue/test-utils');
+        const workspacePath = resolve(__dirname, '../node_modules/@vue/test-utils');
+        return existsSync(localPath) ? localPath : workspacePath;
+      })(),
     },
   },
   test: {

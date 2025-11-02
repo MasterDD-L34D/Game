@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ensureChromiumExecutable } from './ensure_chromium.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, '..');
+const require = createRequire(import.meta.url);
 
 async function main() {
   const args = process.argv.slice(2);
@@ -24,8 +26,31 @@ async function main() {
     env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = '1';
   }
 
-  const playwrightBin = path.join(projectRoot, 'node_modules', '.bin', process.platform === 'win32' ? 'playwright.cmd' : 'playwright');
-  const child = spawn(playwrightBin, ['test', ...args], {
+  let command = process.execPath;
+  let commandArgs;
+
+  try {
+    const cliEntry = require.resolve('@playwright/test/cli');
+    commandArgs = [cliEntry, 'test', ...args];
+  } catch (error) {
+    const playwrightBin = path.join(
+      projectRoot,
+      'node_modules',
+      '.bin',
+      process.platform === 'win32' ? 'playwright.cmd' : 'playwright'
+    );
+
+    command = playwrightBin;
+    commandArgs = ['test', ...args];
+
+    if (error instanceof Error) {
+      console.warn('[run-playwright-tests] Falling back to Playwright binary:', error.message);
+    } else {
+      console.warn('[run-playwright-tests] Falling back to Playwright binary.');
+    }
+  }
+
+  const child = spawn(command, commandArgs, {
     cwd: projectRoot,
     stdio: 'inherit',
     env
