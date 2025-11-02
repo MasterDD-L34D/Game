@@ -17,15 +17,17 @@
       "label": "Ali Ioniche",
       "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "description": "Membrane propulsive che rilasciano micro-scariche per scatti controllati."
     },
     "ali_membrana_sonica": {
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "fattore_mantenimento_energetico": "Basso (Passivo)",
-      "label": "Ali Membrana Sonica",
+      "label": "Ali a Membrana Sonica",
       "mutazione_indotta": "sintetizza placche stratificate con microcanali di dissipazione.",
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "description": "Piastre vibranti che dissipano energia e attenuano impatti corrosivi."
     },
     "antenne_dustsense": {
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
@@ -33,7 +35,8 @@
       "label": "Antenne Dustsense",
       "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "description": "Ricettori stratificati che stabilizzano l’assorbimento multi-fonte in deserti ionici."
     },
     "antenne_eco_turbina": {
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
@@ -65,7 +68,8 @@
       "label": "Antenne Plasmatiche di Tempesta",
       "mutazione_indotta": "Flagelli coronati da nodi plasma-sensibili che captano e deviano fulmini.",
       "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
-      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici.",
+      "description": "Convoglia fulmini atmosferici in attacchi mirati o scudi ionici."
     },
     "antenne_reagenti": {
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
@@ -503,7 +507,8 @@
       "label": "Circolazione Bifasica di Palude",
       "mutazione_indotta": "Cuori gemelli che pompano separatamente emolinfa ossigenata e linfa detossificante.",
       "spinta_selettiva": "Resistere a tossine e anossia tipiche delle paludi psioniche.",
-      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate."
+      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate.",
+      "description": "Doppio circuito sanguigno che separa ossigeno e agenti tossici in ambienti stagnanti."
     },
     "circolazione_cooling_loop": {
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
@@ -831,10 +836,11 @@
     "filamenti_digestivi_compattanti": {
       "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'.",
       "fattore_mantenimento_energetico": "Basso (Passivo)",
-      "label": "Filamento materiali digeriti",
+      "label": "Filamenti Digestivi Compattanti",
       "mutazione_indotta": "Muscolatura rettale ipertrofica e organo appendice dedicato.",
       "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
-      "uso_funzione": "Espulsione compatta e ordinata di scorie."
+      "uso_funzione": "Espulsione compatta e ordinata di scorie.",
+      "description": "Filamenti digestivi che compattano scarti e liberano spazio vitale."
     },
     "filamenti_magnetotrofi": {
       "debolezza": "Risonanze errate possono generare microfratture.",
