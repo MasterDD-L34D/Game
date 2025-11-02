@@ -52,7 +52,8 @@ environment_affinity:
   hazards_expected:
     - tempeste_sabbia
     - iron_shards
-  rationale: "Predatore magnetotattico addestrabile: pattuglia le creste della dorsale e intercetta fauna corazzata."
+  rationale: 'Predatore magnetotattico addestrabile: pattuglia le creste della dorsale
+    e intercetta fauna corazzata.'
 derived_from_environment:
   suggested_traits:
     - coda_frusta_cinetica
@@ -90,3 +91,4 @@ genetic_traits:
 mate_synergy: []
 jobs_synergy:
   - Vanguard
+description: i18n:species.magneto-ridge-hunter.description

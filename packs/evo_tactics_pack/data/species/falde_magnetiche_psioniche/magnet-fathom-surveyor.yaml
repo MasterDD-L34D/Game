@@ -45,7 +45,8 @@ environment_affinity:
   hazards_expected:
     - magnetic_patches
     - iron_shards
-  rationale: "Predatori corazzati che scandagliano le falde psioniche e compattano i residui magnetici per mantenere i tunnel stabili."
+  rationale: Predatori corazzati che scandagliano le falde psioniche e compattano
+    i residui magnetici per mantenere i tunnel stabili.
 derived_from_environment:
   suggested_traits:
     - filamenti_digestivi_compattanti
@@ -79,3 +80,4 @@ genetic_traits:
   synergy: []
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.magnet-fathom-surveyor.description

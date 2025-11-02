@@ -4,6 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const readline = require('node:readline');
 
+const { createOrchestratorMetrics } = require('./orchestratorMetrics');
+
 const DEFAULT_CONFIG = {
   pythonPath: process.env.PYTHON || 'python3',
   poolSize: 2,
@@ -17,10 +19,7 @@ const DEFAULT_CONFIG = {
 };
 
 const DEFAULT_CONFIG_PATH = path.resolve(__dirname, '../../config/orchestrator.json');
-const DEFAULT_WORKER_SCRIPT = path.resolve(
-  __dirname,
-  '../../services/generation/worker.py',
-);
+const DEFAULT_WORKER_SCRIPT = path.resolve(__dirname, '../../services/generation/worker.py');
 
 function loadConfig(configPath = DEFAULT_CONFIG_PATH) {
   try {
@@ -345,9 +344,7 @@ class PythonWorker extends EventEmitter {
       return;
     }
     this.currentTask = null;
-    const error = new Error(
-      `Richiesta ${requestId} scaduta dopo ${task.timeoutMs || 0} ms`,
-    );
+    const error = new Error(`Richiesta ${requestId} scaduta dopo ${task.timeoutMs || 0} ms`);
     error.code = 'REQUEST_TIMEOUT';
     task.reject(error);
     if (this.process) {
@@ -391,8 +388,12 @@ class WorkerPool {
     this.queue = [];
     this.workers = [];
     this.maxTaskRetries = options.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries;
+    this.metrics = options.metrics || null;
     for (let index = 0; index < options.poolSize; index += 1) {
       this._createWorker(index);
+    }
+    if (this.metrics) {
+      this.metrics.setQueueDepth(0);
     }
   }
 
@@ -408,6 +409,9 @@ class WorkerPool {
 
   _dispatch() {
     if (!this.queue.length) {
+      if (this.metrics) {
+        this.metrics.setQueueDepth(0);
+      }
       return;
     }
     for (const worker of this.workers) {
@@ -421,23 +425,43 @@ class WorkerPool {
       if (!task) {
         break;
       }
+      if (this.metrics) {
+        this.metrics.setQueueDepth(this.queue.length);
+      }
       this._assign(worker, task);
     }
   }
 
   _assign(worker, task) {
+    const stopTimer = this.metrics ? this.metrics.startTaskTimer(task.action) : null;
     worker
       .runTask(task.action, task.payload, task.timeoutMs)
       .then((result) => {
+        if (stopTimer) {
+          stopTimer('ok');
+        }
+        if (this.metrics) {
+          this.metrics.setQueueDepth(this.queue.length);
+        }
         task.resolve(result);
         this._dispatch();
       })
       .catch((error) => {
-        if (this._shouldRetry(error, task)) {
+        const willRetry = this._shouldRetry(error, task);
+        if (stopTimer) {
+          stopTimer(willRetry ? 'retry' : 'error', error);
+        }
+        if (willRetry) {
           task.attempts += 1;
           this.queue.unshift(task);
+          if (this.metrics) {
+            this.metrics.setQueueDepth(this.queue.length);
+          }
           setTimeout(() => this._dispatch(), 0);
           return;
+        }
+        if (this.metrics) {
+          this.metrics.setQueueDepth(this.queue.length);
         }
         task.reject(error);
         this._dispatch();
@@ -464,6 +488,9 @@ class WorkerPool {
         attempts: 0,
         timeoutMs,
       });
+      if (this.metrics) {
+        this.metrics.setQueueDepth(this.queue.length);
+      }
       this._dispatch();
     });
   }
@@ -473,9 +500,7 @@ class WorkerPool {
     pending.forEach((task) => {
       task.reject(new Error('Pool terminato'));
     });
-    await Promise.all(
-      this.workers.filter(Boolean).map((worker) => worker.stop()),
-    );
+    await Promise.all(this.workers.filter(Boolean).map((worker) => worker.stop()));
   }
 
   debugKillWorker(index = 0) {
@@ -532,6 +557,8 @@ function createGenerationOrchestratorBridge(options = {}) {
   };
 
   const snapshotStore = merged.snapshotStore || null;
+  const metricsOptions = merged.metrics && typeof merged.metrics === 'object' ? merged.metrics : {};
+  const metrics = createOrchestratorMetrics(metricsOptions);
   const resolved = {
     pythonPath: merged.pythonPath || DEFAULT_CONFIG.pythonPath,
     workerScript: merged.workerScript || DEFAULT_WORKER_SCRIPT,
@@ -541,10 +568,7 @@ function createGenerationOrchestratorBridge(options = {}) {
       merged.heartbeatIntervalMs,
       DEFAULT_CONFIG.heartbeatIntervalMs,
     ),
-    heartbeatTimeoutMs: coerceNumber(
-      merged.heartbeatTimeoutMs,
-      DEFAULT_CONFIG.heartbeatTimeoutMs,
-    ),
+    heartbeatTimeoutMs: coerceNumber(merged.heartbeatTimeoutMs, DEFAULT_CONFIG.heartbeatTimeoutMs),
     maxTaskRetries: Math.max(0, merged.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries),
     restartDelayMs: coerceNumber(merged.restartDelayMs, DEFAULT_CONFIG.restartDelayMs),
     workerStartTimeoutMs: resolveStartTimeoutMs(
@@ -552,11 +576,13 @@ function createGenerationOrchestratorBridge(options = {}) {
       DEFAULT_CONFIG.workerStartTimeoutMs,
     ),
     autoShutdownMs: resolveAutoShutdownMs(
-      merged.autoShutdownMs ?? process.env.ORCHESTRATOR_AUTOCLOSE_MS ?? DEFAULT_CONFIG.autoShutdownMs,
+      merged.autoShutdownMs ??
+        process.env.ORCHESTRATOR_AUTOCLOSE_MS ??
+        DEFAULT_CONFIG.autoShutdownMs,
     ),
   };
 
-  const pool = new WorkerPool(resolved);
+  const pool = new WorkerPool({ ...resolved, metrics });
   const cleanupRegistrations = [];
   let shutdownTimer = null;
   let closingPromise = null;
@@ -653,11 +679,7 @@ function createGenerationOrchestratorBridge(options = {}) {
     }
     cancelAutoShutdown();
     try {
-      const result = await pool.run(
-        'generate-species-batch',
-        { batch },
-        resolved.requestTimeoutMs,
-      );
+      const result = await pool.run('generate-species-batch', { batch }, resolved.requestTimeoutMs);
       const results = Array.isArray(result?.results) ? result.results : [];
       if (results.length) {
         await persistRuntime(results[results.length - 1], null);

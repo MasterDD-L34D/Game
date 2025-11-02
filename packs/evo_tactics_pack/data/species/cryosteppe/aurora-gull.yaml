@@ -73,3 +73,4 @@ derived_from_environment:
 services_links: []
 genetic_traits: []
 mate_synergy: []
+description: i18n:species.aurora-gull.description

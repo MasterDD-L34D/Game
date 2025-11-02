@@ -70,3 +70,4 @@ services_links: []
 genetic_traits: []
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.thaw-rot.description

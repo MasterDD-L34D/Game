@@ -44,7 +44,8 @@ environment_affinity:
   hazards_expected:
     - tempeste_solari
     - cadute_orbitali
-  rationale: "Predatori d'élite che padroneggiano i vortici di gravità inversa per controllare le rotte di assalto psioniche."
+  rationale: Predatori d'élite che padroneggiano i vortici di gravità inversa per
+    controllare le rotte di assalto psioniche.
 derived_from_environment:
   suggested_traits:
     - focus_frazionato
@@ -78,3 +79,4 @@ genetic_traits:
   synergy: []
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.orbital-ascendant.description

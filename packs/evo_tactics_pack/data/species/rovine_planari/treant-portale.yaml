@@ -83,3 +83,4 @@ genetic_traits:
     - risonanza_di_branco
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.treant-portale.description

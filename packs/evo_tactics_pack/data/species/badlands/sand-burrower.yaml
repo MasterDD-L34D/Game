@@ -80,3 +80,4 @@ genetic_traits:
   synergy: []
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.sand-burrower.description

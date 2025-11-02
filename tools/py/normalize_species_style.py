@@ -5,11 +5,18 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Tuple
 
 import yaml
 
 from styleguide_utils import PROJECT_ROOT, normalize_slug
+
+
+class _IndentedDumper(yaml.SafeDumper):
+    """YAML dumper that keeps sequence indentation under mappings."""
+
+    def increase_indent(self, flow: bool = False, indentless: bool = False):  # type: ignore[override]
+        return super().increase_indent(flow, False)
 
 
 SPECIES_ROOT = PROJECT_ROOT / "packs" / "evo_tactics_pack" / "data" / "species"
@@ -27,8 +34,9 @@ def _read_yaml(path: Path) -> dict:
 
 
 
-def normalise_species_files(root: Path) -> dict[str, str]:
+def normalise_species_files(root: Path) -> Tuple[dict[str, str], int]:
     mapping: dict[str, str] = {}
+    updated = 0
     for path in sorted(root.rglob("*.yaml")):
         if not path.is_file():
             continue
@@ -41,19 +49,42 @@ def normalise_species_files(root: Path) -> dict[str, str]:
         target_id = normalize_slug(species_id)
         target_stem = normalize_slug(path.stem)
         changed = False
+        current_path = path
         if target_id and target_id != species_id:
-            text = path.read_text(encoding="utf-8")
-            text = text.replace(f"id: {species_id}", f"id: {target_id}")
-            path.write_text(text, encoding="utf-8")
+            data["id"] = target_id
             changed = True
-        new_path = path
+        final_id = data.get("id") if isinstance(data.get("id"), str) else species_id
         if target_stem and target_stem != path.stem:
-            new_path = path.with_name(f"{target_stem}{path.suffix}")
-            path.rename(new_path)
+            current_path = path.with_name(f"{target_stem}{path.suffix}")
+            path.rename(current_path)
             changed = True
-        if changed and species_id:
-            mapping[species_id] = target_id or species_id
-    return mapping
+        display_name = data.get("display_name")
+        if isinstance(display_name, str):
+            normalised_display = " ".join(display_name.split())
+            if normalised_display != display_name:
+                data["display_name"] = normalised_display
+                changed = True
+        if isinstance(final_id, str) and final_id:
+            expected_description = f"i18n:species.{final_id}.description"
+            description = data.get("description")
+            if description != expected_description:
+                data["description"] = expected_description
+                changed = True
+        if changed:
+            with current_path.open("w", encoding="utf-8") as handle:
+                yaml.dump(
+                    data,
+                    handle,
+                    allow_unicode=True,
+                    sort_keys=False,
+                    default_flow_style=False,
+                    Dumper=_IndentedDumper,
+                    indent=2,
+                )
+            updated += 1
+        if changed and species_id and isinstance(final_id, str) and final_id:
+            mapping[species_id] = final_id
+    return mapping, updated
 
 
 def replace_in_text(path: Path, mapping: dict[str, str]) -> bool:
@@ -163,13 +194,14 @@ def main() -> None:
     )
     args = parser.parse_args()
     species_root = args.species_root.resolve()
-    mapping = normalise_species_files(species_root)
-    if not mapping:
+    mapping, updated = normalise_species_files(species_root)
+    if not mapping and updated == 0:
         print("Nessuna specie da aggiornare")
         return
-    update_pack_data(mapping)
-    update_pack_docs(mapping)
-    print(f"Specie normalizzate: {len(mapping)}")
+    if mapping:
+        update_pack_data(mapping)
+        update_pack_docs(mapping)
+    print(f"Specie normalizzate: {updated}")
 
 
 if __name__ == "__main__":

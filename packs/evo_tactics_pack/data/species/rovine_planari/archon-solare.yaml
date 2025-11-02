@@ -100,3 +100,4 @@ genetic_traits:
 mate_synergy:
   - empatia_coordinativa
 jobs_synergy: []
+description: i18n:species.archon-solare.description
