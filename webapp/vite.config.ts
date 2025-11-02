@@ -26,7 +26,7 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     plugins: [vue(), react()],
-    base: command === 'serve' ? '/' : normalizedBase ?? './',
+    base: command === 'serve' ? '/' : (normalizedBase ?? './'),
     server: {
       fs: {
         allow: ['..'],
@@ -43,12 +43,12 @@ export default defineConfig(({ command, mode }) => {
           assetFileNames: 'assets/[name]-[hash][extname]',
           manualChunks(id) {
             const normalized = id.replace(/\\/g, '/');
-            if (
-              normalized.includes('/src/views/FlowShellView.vue') ||
-              normalized.includes('/src/components/flow/') ||
-              normalized.includes('/src/modules/useNebulaProgressModule')
-            ) {
-              return 'flow';
+            const isNebulaProgressModule =
+              normalized.includes('/src/components/flow/NebulaProgress') ||
+              normalized.includes('/src/modules/useNebulaProgressModule');
+
+            if (isNebulaProgressModule) {
+              return 'atlas';
             }
             if (
               normalized.includes('/src/views/atlas/') ||

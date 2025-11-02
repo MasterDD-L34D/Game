@@ -95,14 +95,19 @@ export { determineFallbackLabel };
 export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
   const logger = options.logger || null;
   const source = resolveDataSource('flowSnapshot', {
-    endpoint: Object.prototype.hasOwnProperty.call(options, 'snapshotUrl') ? options.snapshotUrl : undefined,
+    endpoint: Object.prototype.hasOwnProperty.call(options, 'snapshotUrl')
+      ? options.snapshotUrl
+      : undefined,
     fallback: Object.prototype.hasOwnProperty.call(options, 'fallbackSnapshotUrl')
       ? normaliseOverride(options.fallbackSnapshotUrl)
       : undefined,
   }) as { endpoint?: string | null; fallback?: string | null };
   const snapshotEndpoint = source.endpoint || '/api/v1/generation/snapshot';
   const snapshotUrl = resolveApiUrl(snapshotEndpoint);
-  const fallbackSnapshotUrl = source.fallback ? resolveAssetUrl(source.fallback) : null;
+  const fallbackSource =
+    source.fallback ??
+    (isStaticDeployment() ? 'data/flow/snapshots/flow-shell-snapshot.json' : null);
+  const fallbackSnapshotUrl = fallbackSource ? resolveAssetUrl(fallbackSource) : null;
   const fetchImpl = resolveFetchImplementation(options.fetch);
   const state = reactive<SnapshotState>({
     snapshot: null,
@@ -153,9 +158,13 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
             return { data: parsed as FlowSnapshot, meta: { url: targetUrl } };
           } catch (parseError) {
             if (parseError instanceof ZodError) {
-              throw fromZodError(parseError, 'Snapshot remoto non valido', { code: 'snapshot.invalid' });
+              throw fromZodError(parseError, 'Snapshot remoto non valido', {
+                code: 'snapshot.invalid',
+              });
             }
-            throw toServiceError(parseError, 'Snapshot remoto non valido', { code: 'snapshot.invalid' });
+            throw toServiceError(parseError, 'Snapshot remoto non valido', {
+              code: 'snapshot.invalid',
+            });
           }
         },
         attemptFallback: fallbackSnapshotUrl
@@ -172,9 +181,13 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
                 return { data: parsed as FlowSnapshot, meta: { url: fallbackSnapshotUrl } };
               } catch (parseError) {
                 if (parseError instanceof ZodError) {
-                  throw fromZodError(parseError, 'Snapshot fallback non valido', { code: 'snapshot.invalid' });
+                  throw fromZodError(parseError, 'Snapshot fallback non valido', {
+                    code: 'snapshot.invalid',
+                  });
                 }
-                throw toServiceError(parseError, 'Snapshot fallback non valido', { code: 'snapshot.invalid' });
+                throw toServiceError(parseError, 'Snapshot fallback non valido', {
+                  code: 'snapshot.invalid',
+                });
               }
             }
           : null,
@@ -189,7 +202,11 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
             message: 'log.snapshot.load.success',
             metaBuilder: (payload) => ({ source: payload.meta?.url, fallback: false }),
           },
-          primaryFailure: { event: 'snapshot.load.failed', level: 'error', message: 'log.snapshot.load.failed' },
+          primaryFailure: {
+            event: 'snapshot.load.failed',
+            level: 'error',
+            message: 'log.snapshot.load.failed',
+          },
           fallbackPreferred: {
             event: 'snapshot.load.preferred',
             level: 'info',
@@ -224,7 +241,8 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
       state.source = result?.source ?? 'remote';
       state.error = null;
       state.lastUpdatedAt = Date.now();
-      state.fallbackLabel = state.source === 'fallback' ? determineFallbackLabel(result?.meta?.url) : null;
+      state.fallbackLabel =
+        state.source === 'fallback' ? determineFallbackLabel(result?.meta?.url) : null;
       return state.snapshot;
     } catch (error) {
       state.error = error as Error;
@@ -276,13 +294,21 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
   }
 
   const snapshot: ComputedRef<FlowSnapshot> = computed(() => state.snapshot || {});
-  const overview = computed(() => snapshot.value?.overview || { objectives: [], blockers: [], completion: {} });
-  const speciesStatus = computed(() => snapshot.value?.species || { curated: 0, total: 0, shortlist: [] });
-  const biomeSetup = computed(() => snapshot.value?.biomeSetup || { config: {}, graph: {}, validators: [] });
+  const overview = computed(
+    () => snapshot.value?.overview || { objectives: [], blockers: [], completion: {} },
+  );
+  const speciesStatus = computed(
+    () => snapshot.value?.species || { curated: 0, total: 0, shortlist: [] },
+  );
+  const biomeSetup = computed(
+    () => snapshot.value?.biomeSetup || { config: {}, graph: {}, validators: [] },
+  );
   const biomes = computed(() => snapshot.value?.biomes || []);
   const biomeSummary = computed(() => snapshot.value?.biomeSummary || { validated: 0, pending: 0 });
   const encounter = computed(() => snapshot.value?.encounter || {});
-  const encounterSummary = computed(() => snapshot.value?.encounterSummary || { variants: 0, seeds: 0 });
+  const encounterSummary = computed(
+    () => snapshot.value?.encounterSummary || { variants: 0, seeds: 0 },
+  );
   const qualityRelease = computed(() => snapshot.value?.qualityRelease || { checks: {} });
   const publishing = computed(() => snapshot.value?.publishing || {});
   const suggestions = computed(() =>
@@ -315,7 +341,8 @@ export function useSnapshotLoader(options: SnapshotLoaderOptions = {}) {
     const biomeTotal =
       (Number(biomeSummary.value?.validated) || 0) + (Number(biomeSummary.value?.pending) || 0);
     const encounterTotal =
-      (Number(encounterSummary.value?.variants) || 0) + (Number(encounterSummary.value?.seeds) || 0);
+      (Number(encounterSummary.value?.variants) || 0) +
+      (Number(encounterSummary.value?.seeds) || 0);
     return {
       overview: {
         completed: Number(overview.value?.completion?.completed) || 0,

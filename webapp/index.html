@@ -3,14 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' ws: wss:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' ws: wss:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    />
     <meta name="referrer" content="same-origin" />
     <meta name="color-scheme" content="dark light" />
     <title>Evo-Tactics Mission Console</title>
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      (() => {
+        if (typeof window === 'undefined') {
+          return;
+        }
+        const win = window;
+        const { pathname, search, hash } = win.location;
+
+        const normaliseBasePath = (value) => {
+          if (!value || typeof value !== 'string') {
+            return '/';
+          }
+          const trimmed = value.trim();
+          if (!trimmed) {
+            return '/';
+          }
+          const withoutIndex = trimmed.endsWith('/index.html')
+            ? trimmed.slice(0, -'/index.html'.length)
+            : trimmed;
+          const consoleIndex = withoutIndex.indexOf('/console/');
+          const baseCandidate =
+            consoleIndex >= 0 ? withoutIndex.slice(0, consoleIndex) : withoutIndex;
+          if (!baseCandidate) {
+            return '/';
+          }
+          return baseCandidate.endsWith('/') ? baseCandidate : `${baseCandidate}/`;
+        };
+
+        const basePath = normaliseBasePath(pathname);
+        win.__MISSION_CONSOLE_BASE__ = basePath;
+
+        if (pathname.endsWith('/index.html')) {
+          const newUrl = `${basePath}${search}${hash}`;
+          win.history.replaceState({}, '', newUrl);
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
