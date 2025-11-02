@@ -1,7 +1,24 @@
 'use strict';
 
-const Ajv = require('ajv/dist/2020');
-const draft7MetaSchema = require('ajv/dist/refs/json-schema-draft-07.json');
+let Ajv;
+try {
+  Ajv = require('ajv/dist/2020');
+} catch (error) {
+  if (error && error.code !== 'MODULE_NOT_FOUND') {
+    throw error;
+  }
+  Ajv = require('ajv');
+}
+
+let draft7MetaSchema;
+try {
+  draft7MetaSchema = require('ajv/dist/refs/json-schema-draft-07.json');
+} catch (error) {
+  if (error && error.code !== 'MODULE_NOT_FOUND') {
+    throw error;
+  }
+  draft7MetaSchema = require('ajv/lib/refs/json-schema-draft-07.json');
+}
 
 class SchemaValidationError extends Error {
   constructor(message, details = []) {
