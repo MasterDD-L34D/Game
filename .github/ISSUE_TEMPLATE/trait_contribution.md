@@ -33,6 +33,13 @@ assignees: []
 - Dati PI/species coinvolti:
 - Check QA richiesti (baseline, coverage, audit, CLI smoke, ecc.):
 
+## Conformità guida stile
+
+- [ ] Label e descrizioni mappate su chiavi i18n `i18n:traits.<id>.campo`
+- [ ] Tier, slot e `slot_profile` allineati con la nomenclatura condivisa
+- [ ] Requisiti ambientali con `meta.tier`/`meta.notes` aggiornati e coerenti
+- [ ] Eseguito `scripts/trait_style_check.js` e allegati i report rilevanti
+
 ## Allegati
 
 - [ ] Mockup o reference visivi allegati

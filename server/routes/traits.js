@@ -1,7 +1,8 @@
 const express = require('express');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const Ajv = require('ajv');
+const Ajv = require('ajv/dist/2020');
+const { evaluateTraitStyle } = require('../services/traitStyleGuide');
 
 const DEFAULT_SCHEMA_PATH = path.resolve(__dirname, '..', '..', 'config', 'schemas', 'trait.schema.json');
 
@@ -12,7 +13,13 @@ function createTraitRouter(options = {}) {
   const schemaPath = options.schemaPath || DEFAULT_SCHEMA_PATH;
   const versionRoot = path.join(traitsRoot, '_versions');
   const authToken = options.token || process.env.TRAIT_EDITOR_TOKEN || process.env.TRAITS_API_TOKEN || null;
-  const ajvOptions = { allErrors: true, strict: false, allowUnionTypes: true };
+  const ajvOptions = {
+    allErrors: true,
+    strict: false,
+    strictSchema: false,
+    allowUnionTypes: true,
+    validateFormats: false,
+  };
   let schemaCache = null;
   let validator = null;
 
@@ -32,6 +39,17 @@ function createTraitRouter(options = {}) {
     const directory = path.dirname(filePath);
     await fs.mkdir(directory, { recursive: true });
     await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  }
+
+  function prepareForSchemaValidation(trait) {
+    const candidate = JSON.parse(JSON.stringify(trait || {}));
+    if (candidate && typeof candidate.tier === 'string') {
+      const normalisedTier = candidate.tier.trim();
+      if (normalisedTier) {
+        candidate.tier = normalisedTier.toUpperCase();
+      }
+    }
+    return candidate;
   }
 
   async function loadSchema() {
@@ -176,6 +194,39 @@ function createTraitRouter(options = {}) {
     }
   });
 
+  router.post('/validate', ensureAuthorised, async (req, res) => {
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
+    const payload =
+      body.payload && typeof body.payload === 'object' ? body.payload : body.payload === undefined ? body : {};
+    if (!payload || typeof payload !== 'object') {
+      res.status(400).json({ error: 'Payload JSON richiesto' });
+      return;
+    }
+    const traitId = body.traitId || payload.id || null;
+    const candidate = JSON.parse(JSON.stringify(payload));
+    if (traitId && (candidate.id === undefined || candidate.id === null)) {
+      candidate.id = traitId;
+    }
+    const schemaPayload = prepareForSchemaValidation(candidate);
+    try {
+      const validate = await getValidator();
+      const valid = Boolean(validate(schemaPayload));
+      const errors = valid ? [] : validate.errors || [];
+      const style = evaluateTraitStyle(candidate, { traitId });
+      res.json({
+        valid,
+        errors,
+        suggestions: style.suggestions,
+        summary: {
+          schemaErrors: errors.length,
+          style: style.summary,
+        },
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message || 'Errore validazione trait' });
+    }
+  });
+
   router.get('/', ensureAuthorised, async (req, res) => {
     const includeDrafts = String(req.query.includeDrafts || req.query.include_drafts || 'false').toLowerCase();
     const shouldIncludeDrafts = includeDrafts === 'true' || includeDrafts === '1';
@@ -232,9 +283,10 @@ function createTraitRouter(options = {}) {
       return;
     }
     payload.id = traitId;
+    const schemaPayload = prepareForSchemaValidation(payload);
     try {
       const validate = await getValidator();
-      const valid = validate(payload);
+      const valid = validate(schemaPayload);
       if (!valid) {
         res.status(400).json({ error: 'Validazione fallita', details: validate.errors || [] });
         return;
@@ -250,10 +302,10 @@ function createTraitRouter(options = {}) {
         const versionPath = path.join(versionRoot, traitId, `${timestamp}.json`);
         await writeJsonFile(versionPath, existing);
       }
-      await writeJsonFile(resolved.filePath, payload);
+      await writeJsonFile(resolved.filePath, schemaPayload);
       const stat = await fs.stat(resolved.filePath);
       res.json({
-        trait: payload,
+        trait: schemaPayload,
         meta: {
           path: path.relative(dataRoot, resolved.filePath),
           category: resolved.category,
