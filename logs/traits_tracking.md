@@ -125,3 +125,9 @@
 - Inventario valido: core 30/30, mock 4/4.
 - Trait generator: core=30, enriched_species=12, nessun trait mancante rispetto all'inventario.
 - Bundle statico verificato con smoke test HTTP locale (tools/ts/dist presente).
+
+## 2025-11-02T20:46:42Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 36 (core: 32/32, mock: 4/4)
+- Nessun avviso registrato.
+- ✅ Nessun errore critico.
