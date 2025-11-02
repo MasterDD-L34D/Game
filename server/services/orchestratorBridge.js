@@ -4,6 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const readline = require('node:readline');
 
+const { bindOrchestratorMetrics } = require('../metrics/orchestrator');
+
 const DEFAULT_CONFIG = {
   pythonPath: process.env.PYTHON || 'python3',
   poolSize: 2,
@@ -385,8 +387,9 @@ class PythonWorker extends EventEmitter {
   }
 }
 
-class WorkerPool {
+class WorkerPool extends EventEmitter {
   constructor(options) {
+    super();
     this.options = options;
     this.queue = [];
     this.workers = [];
@@ -394,20 +397,44 @@ class WorkerPool {
     for (let index = 0; index < options.poolSize; index += 1) {
       this._createWorker(index);
     }
+    this.emit('stats', this.getStats());
   }
 
   _createWorker(index) {
     const worker = new PythonWorker(index, this.options);
-    worker.on('available', () => this._dispatch());
-    worker.on('crash', () => this._dispatch());
-    worker.on('heartbeat-missed', () => this._dispatch());
-    worker.on('start-timeout', () => this._dispatch());
-    worker.on('worker-error', () => this._dispatch());
+    worker.on('available', () => {
+      this.emit('worker-available', { workerId: worker.id });
+      this._dispatch();
+    });
+    worker.on('crash', (details) => {
+      this.emit('worker-crash', { workerId: worker.id, ...(details || {}) });
+      this._dispatch();
+    });
+    worker.on('heartbeat', (details) => {
+      this.emit('worker-heartbeat', { workerId: worker.id, ...(details || {}) });
+    });
+    worker.on('heartbeat-missed', (details) => {
+      this.emit('heartbeat-missed', { workerId: worker.id, ...(details || {}) });
+      this._dispatch();
+    });
+    worker.on('start-timeout', (details) => {
+      this.emit('worker-start-timeout', { workerId: worker.id, ...(details || {}) });
+      this._dispatch();
+    });
+    worker.on('worker-error', (error) => {
+      this.emit('worker-error', { workerId: worker.id, error });
+      this._dispatch();
+    });
+    worker.on('stderr', (entry) => {
+      this.emit('worker-stderr', { workerId: worker.id, ...(entry || {}) });
+    });
     this.workers[index] = worker;
+    this.emit('stats', this.getStats());
   }
 
   _dispatch() {
     if (!this.queue.length) {
+      this.emit('stats', this.getStats());
       return;
     }
     for (const worker of this.workers) {
@@ -423,23 +450,81 @@ class WorkerPool {
       }
       this._assign(worker, task);
     }
+    this.emit('stats', this.getStats());
   }
 
   _assign(worker, task) {
+    const startedAt = Date.now();
+    const queueTimeMs = task.enqueuedAt ? Math.max(0, startedAt - task.enqueuedAt) : null;
+    task.startedAt = startedAt;
+    this.emit('task-started', {
+      workerId: worker.id,
+      action: task.action,
+      attempts: task.attempts,
+      queueTimeMs,
+    });
     worker
       .runTask(task.action, task.payload, task.timeoutMs)
       .then((result) => {
+        const completedAt = Date.now();
+        const latencyMs = Math.max(0, completedAt - (task.startedAt || completedAt));
+        this.emit('task-completed', {
+          workerId: worker.id,
+          action: task.action,
+          attempts: task.attempts,
+          latencyMs,
+          queueTimeMs,
+        });
         task.resolve(result);
+        this.emit('stats', this.getStats());
         this._dispatch();
       })
       .catch((error) => {
-        if (this._shouldRetry(error, task)) {
+        const failedAt = Date.now();
+        const latencyMs =
+          task.startedAt !== undefined && task.startedAt !== null
+            ? Math.max(0, failedAt - task.startedAt)
+            : null;
+        const willRetry = this._shouldRetry(error, task);
+        this.emit('task-failed', {
+          workerId: worker.id,
+          action: task.action,
+          attempts: task.attempts,
+          latencyMs,
+          queueTimeMs,
+          error: error
+            ? {
+                message: error.message,
+                code: error.code || 'UNKNOWN',
+                name: error.name,
+              }
+            : null,
+          willRetry,
+        });
+        if (willRetry) {
           task.attempts += 1;
+          task.startedAt = null;
+          task.enqueuedAt = Date.now();
           this.queue.unshift(task);
+          this.emit('task-retry', {
+            workerId: worker.id,
+            action: task.action,
+            attempts: task.attempts,
+            error: error
+              ? {
+                  message: error.message,
+                  code: error.code || 'UNKNOWN',
+                  name: error.name,
+                }
+              : null,
+          });
+          this.emit('queue-size', this.queue.length);
+          this.emit('stats', this.getStats());
           setTimeout(() => this._dispatch(), 0);
           return;
         }
         task.reject(error);
+        this.emit('stats', this.getStats());
         this._dispatch();
       });
   }
@@ -463,7 +548,10 @@ class WorkerPool {
         reject,
         attempts: 0,
         timeoutMs,
+        enqueuedAt: Date.now(),
       });
+      this.emit('queue-size', this.queue.length);
+      this.emit('stats', this.getStats());
       this._dispatch();
     });
   }
@@ -557,6 +645,49 @@ function createGenerationOrchestratorBridge(options = {}) {
   };
 
   const pool = new WorkerPool(resolved);
+  const bridgeEvents = new EventEmitter();
+  const poolListeners = [];
+  const forwardedEvents = [
+    'stats',
+    'queue-size',
+    'task-started',
+    'task-completed',
+    'task-failed',
+    'task-retry',
+    'worker-available',
+    'worker-crash',
+    'worker-error',
+    'worker-start-timeout',
+    'heartbeat-missed',
+    'worker-heartbeat',
+    'worker-stderr',
+  ];
+  const forwardPoolEvent = (event) => {
+    const handler = (payload) => {
+      bridgeEvents.emit(event, payload);
+    };
+    pool.on(event, handler);
+    poolListeners.push([event, handler]);
+  };
+  forwardedEvents.forEach(forwardPoolEvent);
+  bridgeEvents.emit('stats', pool.getStats());
+  const metricsCleanup = bindOrchestratorMetrics(bridgeEvents);
+  let listenersCleaned = false;
+  const cleanupListeners = () => {
+    if (listenersCleaned) {
+      return;
+    }
+    listenersCleaned = true;
+    while (poolListeners.length) {
+      const [event, handler] = poolListeners.pop();
+      if (typeof pool.off === 'function') {
+        pool.off(event, handler);
+      } else {
+        pool.removeListener(event, handler);
+      }
+    }
+    metricsCleanup();
+  };
   const cleanupRegistrations = [];
   let shutdownTimer = null;
   let closingPromise = null;
@@ -564,6 +695,7 @@ function createGenerationOrchestratorBridge(options = {}) {
   const requestShutdown = () => {
     if (!closingPromise) {
       cancelAutoShutdown();
+      cleanupListeners();
       closingPromise = pool
         .close()
         .catch((error) => {
@@ -690,6 +822,7 @@ function createGenerationOrchestratorBridge(options = {}) {
 
   async function close() {
     cancelAutoShutdown();
+    cleanupListeners();
     while (cleanupRegistrations.length) {
       const [event, handler] = cleanupRegistrations.pop();
       if (typeof process.off === 'function') {
@@ -707,6 +840,13 @@ function createGenerationOrchestratorBridge(options = {}) {
     fetchTraitDiagnostics,
     close,
   };
+
+  Object.defineProperty(api, 'events', {
+    value: bridgeEvents,
+    enumerable: false,
+    configurable: false,
+    writable: false,
+  });
 
   if (process.env.NODE_ENV === 'test') {
     Object.defineProperty(api, '_pool', {

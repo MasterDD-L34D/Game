@@ -107,4 +107,42 @@ describe('generation orchestrator bridge worker pool', () => {
     const activeHeartbeats = stats.lastHeartbeats.filter((value) => typeof value === 'number');
     assert.ok(activeHeartbeats.length >= 1, 'almeno un worker dovrebbe aver inviato un heartbeat');
   });
+
+  it('espone eventi di telemetria per monitorare latenza ed errori', async () => {
+    const completed: Array<{ latencyMs: number | undefined; queueTimeMs: number | undefined }> = [];
+    const failures: Array<{ willRetry?: boolean }> = [];
+    const events = (bridge as any).events as { on: Function; off?: Function; removeListener?: Function };
+    assert.ok(events, 'event emitter non disponibile');
+
+    const onCompleted = (payload: { latencyMs?: number; queueTimeMs?: number }) => {
+      completed.push({ latencyMs: payload.latencyMs, queueTimeMs: payload.queueTimeMs });
+    };
+    const onFailed = (payload: { willRetry?: boolean }) => {
+      failures.push({ willRetry: payload.willRetry });
+    };
+    events.on('task-completed', onCompleted);
+    events.on('task-failed', onFailed);
+
+    await bridge.generateSpecies({
+      trait_ids: traitIds,
+      seed: 777,
+      request_id: 'events-check',
+    });
+
+    if (typeof events.off === 'function') {
+      events.off('task-completed', onCompleted);
+      events.off('task-failed', onFailed);
+    } else if (typeof events.removeListener === 'function') {
+      events.removeListener('task-completed', onCompleted);
+      events.removeListener('task-failed', onFailed);
+    }
+
+    assert.ok(completed.length >= 1, 'dovrebbe essere registrato almeno un completamento');
+    const first = completed[0];
+    assert.ok(typeof first.latencyMs === 'number', 'latencyMs dovrebbe essere numerico');
+    assert.ok(first.latencyMs! >= 0, 'latencyMs non dovrebbe essere negativo');
+    if (failures.length) {
+      assert.ok(Array.isArray(failures));
+    }
+  });
 });
