@@ -38,7 +38,13 @@ class SpeciesAggregate:
 class TraitBalanceAnalyzer:
     """Encapsulates trait analytics and chart generation."""
 
-    def __init__(self, index_path: Path, species_bridge_path: Path, output_dir: Path):
+    def __init__(
+        self,
+        index_path: Path,
+        species_bridge_path: Path,
+        output_dir: Path,
+        styleguide_report_path: Path | None = None,
+    ):
         self.index_path = index_path
         self.species_bridge_path = species_bridge_path
         self.output_dir = output_dir
@@ -47,6 +53,8 @@ class TraitBalanceAnalyzer:
         self.species_totals: Dict[str, SpeciesAggregate] = {}
         self.biome_pivot: pd.DataFrame | None = None
         self.synergy_matrix: pd.DataFrame | None = None
+        self.styleguide_report_path = styleguide_report_path
+        self.styleguide_metrics: Dict[str, Mapping[str, object]] | None = None
 
     def load(self) -> None:
         index_data = json.loads(self.index_path.read_text())
@@ -301,6 +309,28 @@ class TraitBalanceAnalyzer:
                 for family, count in col_totals.head(5).items():
                     summary_lines.append(f"  - **{family}** ← {int(count)} riferimenti")
             summary_lines.append("")
+        if self.styleguide_metrics:
+            summary_lines.append("## Conformità allo styleguide")
+            for key, meta in sorted(self.styleguide_metrics.items()):
+                label = meta.get("label", key)
+                percent = meta.get("percent")
+                sla = meta.get("sla_threshold")
+                status = meta.get("status", "unknown")
+                if isinstance(percent, (int, float)):
+                    coverage = f"{percent:.1f}%"
+                else:
+                    coverage = "—"
+                if isinstance(sla, (int, float)):
+                    target = f"SLA {sla * 100:.0f}%"
+                else:
+                    target = "SLA n/d"
+                summary_lines.append(
+                    f"- **{label}**: {coverage} ({target}) · stato {status}"
+                )
+            summary_lines.append(
+                "- Approfondisci in `reports/styleguide_compliance.md` per le anomalie puntuali."
+            )
+            summary_lines.append("")
         summary_lines.append("_Report generato automaticamente da `analytics/trait_balance_analysis.py`._")
         summary_path.write_text("\n".join(summary_lines), encoding="utf-8")
 
@@ -312,8 +342,27 @@ class TraitBalanceAnalyzer:
         self.plot_biome_heatmap()
         self.plot_species_barchart()
         self.plot_synergy_heatmap()
+        self.load_styleguide_report()
         summary_path = self.output_dir.parent / "trait_balance_summary.md"
         self.write_summary(summary_path)
+
+    def load_styleguide_report(self) -> None:
+        if self.styleguide_report_path is None:
+            self.styleguide_metrics = None
+            return
+        if not self.styleguide_report_path.exists():
+            self.styleguide_metrics = None
+            return
+        try:
+            payload = json.loads(self.styleguide_report_path.read_text())
+        except json.JSONDecodeError:
+            self.styleguide_metrics = None
+            return
+        metrics = payload.get("kpi") if isinstance(payload, dict) else None
+        if isinstance(metrics, dict):
+            self.styleguide_metrics = metrics
+        else:
+            self.styleguide_metrics = None
 
 
 def parse_args() -> argparse.Namespace:
@@ -336,12 +385,23 @@ def parse_args() -> argparse.Namespace:
         default=Path("reports/trait_balance"),
         help="Directory di output per i grafici",
     )
+    parser.add_argument(
+        "--styleguide-report",
+        type=Path,
+        default=Path("reports/styleguide_compliance.json"),
+        help="Report JSON con i KPI di conformità allo styleguide",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    analyzer = TraitBalanceAnalyzer(args.index, args.species_bridge, args.output)
+    analyzer = TraitBalanceAnalyzer(
+        args.index,
+        args.species_bridge,
+        args.output,
+        styleguide_report_path=args.styleguide_report,
+    )
     analyzer.run()
 
 

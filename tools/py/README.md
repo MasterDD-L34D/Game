@@ -34,3 +34,22 @@ python tools/py/report_trait_coverage.py \
   e `rules_missing_species_total`).
 - Stampa warning dedicati quando il catalogo specie non è disponibile (PyYAML mancante) o non contiene
   elementi utili alla validazione.
+
+## `styleguide_compliance_report.py`
+
+```bash
+python tools/py/styleguide_compliance_report.py \
+  [--traits-dir data/traits] \
+  [--glossary data/core/traits/glossary.json] \
+  [--out-markdown reports/styleguide_compliance.md] \
+  [--out-json reports/styleguide_compliance.json] \
+  [--history-file logs/trait_audit/styleguide_compliance_history.json] \
+  [--sla-config config/styleguide_sla.json] [--strict]
+```
+
+- Calcola i KPI di conformità dello styleguide (naming, descrizioni localizzate, unità UCUM) e aggiorna
+  sia il report Markdown sia l'output JSON per l'automazione.
+- Mantiene uno storico giornaliero per visualizzare trend e regressioni, generando alert quando i KPI
+  scendono sotto le soglie definite in `config/styleguide_sla.json`.
+- Con `--strict` esce con codice di errore se una delle metriche viola lo SLA, abilitando trigger
+  automatici per l'apertura di issue.

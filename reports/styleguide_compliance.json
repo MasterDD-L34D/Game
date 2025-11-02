@@ -1,0 +1,32 @@
+{
+  "generated_at": "2025-11-02T11:04:42Z",
+  "kpi": {
+    "name_compliance": {
+      "label": "Nomi conformi",
+      "compliant": 174,
+      "total": 174,
+      "percent": 100.0,
+      "violations": [],
+      "sla_threshold": 0.95,
+      "status": "ok"
+    },
+    "description_completeness": {
+      "label": "Descrizioni complete",
+      "compliant": 174,
+      "total": 174,
+      "percent": 100.0,
+      "violations": [],
+      "sla_threshold": 0.95,
+      "status": "ok"
+    },
+    "ucum_presence": {
+      "label": "UCUM presenti",
+      "compliant": 174,
+      "total": 174,
+      "percent": 100.0,
+      "violations": [],
+      "sla_threshold": 0.8,
+      "status": "ok"
+    }
+  }
+}
