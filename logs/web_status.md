@@ -111,3 +111,22 @@ Flow Shell go/no-go: REVIEW (3/5 ok · 2 warning · 0 fail)
 - **Note**:
   - Lo script non esegue più test; utilizza gli artefatti generati dai passaggi CI precedenti.
 
+## 2025-11-02T19:22:19Z · run_deploy_checks.sh
+- **Esito script**: ✅ `scripts/run_deploy_checks.sh`
+  - Artefatti TypeScript già presenti in `tools/ts/dist`.
+  - Bundle statico generato in `dist.g7GYKo` con dataset `data`.
+- **Smoke test HTTP: server Python attivo su http://127.0.0.1:44517/**
+  - Chromium Playwright inizializzato in `/tmp/tmp.zvedhqKIKW`.
+  - Snapshot generation aggiornato in /workspace/Game/data/flow-shell/atlas-snapshot.json.
+  - Trait generator: core=30 enriched_species=12 (time 14 ms).
+  - Trait highlight: cuticole_cerose, grassi_termici, pelli_cave.
+  - Report salvato in `logs/tooling/generator_run_profile.json`.
+Flow Shell go/no-go: REVIEW (2/5 ok · 3 warning · 0 fail)
+⚠️ Quality Release → Snapshot: Check non passati: species, biomes
+⚠️ Quality Release → Trait diagnostics: Conflitti attivi: 24 · Mismatch matrice: 140
+⚠️ Nebula Atlas → Telemetry: Incidenti alta priorità: 1 · Incidenti aperti: 2 · Ultimo evento: 2025-11-06T06:45:00.000Z
+  - Dataset copiato con 323 file totali.
+  - Richieste principali completate senza errori (index.html e dashboard).
+- **Note**:
+  - Lo script non esegue più test; utilizza gli artefatti generati dai passaggi CI precedenti.
+

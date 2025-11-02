@@ -34,6 +34,39 @@ jobs:
         working-directory: tools/ts
         run: npm ci --no-audit --no-fund
 
+      - name: Prepare Chromium cache
+        working-directory: tools/ts
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/playwright-browsers
+        run: node ./scripts/prepare_playwright.mjs
+
+      - name: Archive Chromium bundle
+        id: chromium_meta
+        env:
+          PLAYWRIGHT_BUNDLE_DIR: ${{ runner.temp }}/playwright-browsers
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: |
+          BUNDLE_DIR="$PLAYWRIGHT_BUNDLE_DIR"
+          if [ ! -d "$BUNDLE_DIR" ]; then
+            echo "Chromium bundle non disponibile in $BUNDLE_DIR" >&2
+            exit 1
+          fi
+          if ! ls "$BUNDLE_DIR"/chromium-* >/dev/null 2>&1; then
+            echo "Bundle Chromium assente nella cache Playwright" >&2
+            exit 1
+          fi
+          tar -czf "$RUNNER_TEMP/chromium-bundle.tar.gz" -C "$BUNDLE_DIR" .
+          SHA=$(sha256sum "$RUNNER_TEMP/chromium-bundle.tar.gz" | cut -d ' ' -f1)
+          echo "sha256=$SHA" >> "$GITHUB_OUTPUT"
+          echo "archive=$RUNNER_TEMP/chromium-bundle.tar.gz" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Chromium bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-chromium-bundle
+          path: ${{ steps.chromium_meta.outputs.archive }}
+          retention-days: 5
+
       - name: Build TypeScript artifacts
         working-directory: tools/ts
         run: npm run build --if-present
@@ -87,6 +120,9 @@ jobs:
           DEPLOY_DATA_DIR: ${{ github.workspace }}/data
           CI: "true"
           DEPLOY_SKIP_SMOKE_TEST: ${{ github.event_name == 'pull_request' && '1' || '0' }}
+          PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/playwright-browsers
+          DEPLOY_CHROMIUM_BUNDLE_ARCHIVE: ${{ steps.chromium_meta.outputs.archive }}
+          DEPLOY_CHROMIUM_BUNDLE_SHA256: ${{ steps.chromium_meta.outputs.sha256 }}
         run: scripts/run_deploy_checks.sh
 
       - name: Configure GitHub Pages

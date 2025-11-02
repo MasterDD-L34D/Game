@@ -27,9 +27,9 @@
 
 ## Milestone Web
 
-- [ ] Eseguire `scripts/run_deploy_checks.sh` per validare bundle statico (docs/test-interface, data) · 2025-10-27 fallito (HTTP 403 download Chromium Playwright dal mirror AzureEdge, dataset `data/derived/mock/prod_snapshot`).
-  - ❌ Installazione browser Playwright bloccata da `Domain forbidden` durante `npx playwright install chromium` (retry con `--with-deps` incluso) → suite TypeScript/Playwright e `pytest` non avviate.
-  - ⏳ Ripetere la validazione dopo aver predisposto mirror/caching Playwright o pacchetto offline in artefatti CI.
+- [x] Eseguire `scripts/run_deploy_checks.sh` per validare bundle statico (docs/test-interface, data) riutilizzando l'artefatto `playwright-chromium-bundle` · 2025-11-02 ✅.
+  - ✅ `playwright-bundle` in CI carica `playwright-chromium-bundle.tar.gz` con hash registrato nei log runner; usare tale archivio (o storage interno) e variabili `PLAYWRIGHT_BROWSERS_PATH`/`DEPLOY_CHROMIUM_BUNDLE_*` per bypassare i mirror esterni.
+  - ✅ Esecuzione locale aggiornata in `logs/web_status.md` con bundle `dist.g7GYKo` e cache Chromium `/tmp/tmp.zvedhqKIKW`.
   - [ ] Ampliare smoke test includendo asset statici (`styles.css`, `vendor/jszip.min.js`, `app.js`, pagine fetch) per copertura completa.
   - [x] Strumentare la dashboard con metriche di rendering leggere (console + report JSON) e fissare soglia < 60 ms sui dataset baseline, con avvisi oltre 80 ms su footprint >700 nodi.
 - [x] Convalidare smoke test Playwright sul dataset minimale (`npm --prefix tools/ts run test:web`).【F:logs/web_status.md†L27-L34】
