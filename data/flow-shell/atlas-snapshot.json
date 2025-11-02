@@ -280,23 +280,31 @@
   "qualityRelease": {
     "checks": {
       "species": {
-        "passed": 2,
-        "total": 3
+        "passed": 3,
+        "total": 3,
+        "conflicts": 0
       },
       "biomes": {
-        "passed": 1,
-        "total": 2
+        "passed": 2,
+        "total": 2,
+        "conflicts": 0
       },
       "foodweb": {
         "passed": 1,
-        "total": 1
+        "total": 1,
+        "conflicts": 0
       }
     },
     "lastRun": "2024-05-18T09:20:00Z",
     "owners": [
       "QA Core",
       "Narrative QA"
-    ]
+    ],
+    "metrics": {
+      "validatorWarnings": 1,
+      "fallbackCount": 1,
+      "lastRequestId": "nebula-priority-demo-01"
+    }
   },
   "publishing": {
     "artifactsReady": 2,
@@ -749,6 +757,7 @@
     "lastBlueprintId": "synthetic-99",
     "fallbackUsed": false,
     "validationMessages": 1,
-    "lastRequestId": "nebula-priority"
+    "lastRequestId": "nebula-priority",
+    "error": null
   }
 }

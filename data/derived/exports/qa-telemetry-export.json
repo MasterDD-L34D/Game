@@ -4,8 +4,8 @@
     "summary": "HUD risk-high persistente oltre 2 turni",
     "event_timestamp": "2025-11-05T10:22:00Z",
     "owner": "QA Lead",
-    "priority": "high",
-    "status": "triaged",
+    "priority": "medium",
+    "status": "resolved",
     "component_tag": "hud",
     "roadmap_milestone": "RM-1",
     "evidence_links": [
@@ -14,7 +14,10 @@
     ],
     "detailed_description": "Alert risk-high squad Delta (turni 11-13). Ack automatico PI dopo tre turni, smoothing EMA da verificare.",
     "routing": {
-      "recipient_groups": ["hud_ops", "qa_leads"],
+      "recipient_groups": [
+        "hud_ops",
+        "qa_leads"
+      ],
       "notes": "Condividere nel daily QA"
     }
   },
@@ -32,7 +35,9 @@
     ],
     "detailed_description": "Export programmato ha filtrato gli alert QA Leads (slot precedente 07:30). Richiesto replay forzato.",
     "routing": {
-      "recipient_groups": ["support_ops_night"],
+      "recipient_groups": [
+        "support_ops_night"
+      ],
       "notes": "Gestire handoff alle 08:00 CET"
     }
   }

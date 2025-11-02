@@ -1,6 +1,6 @@
 {
   "deployments": [],
-  "updatedAt": "2025-11-02T18:29:55.185Z",
+  "updatedAt": "2025-11-02T18:49:21.001Z",
   "telemetry": {
     "snapshot": {
       "data": {
@@ -285,21 +285,24 @@
         "qualityRelease": {
           "checks": {
             "species": {
-              "passed": 2,
-              "total": 3
+              "passed": 3,
+              "total": 3,
+              "conflicts": 0
             },
             "biomes": {
-              "passed": 1,
-              "total": 2
+              "passed": 2,
+              "total": 2,
+              "conflicts": 0
             },
             "foodweb": {
               "passed": 1,
-              "total": 1
+              "total": 1,
+              "conflicts": 0
             },
             "traits": {
               "passed": 174,
               "total": 174,
-              "conflicts": 24
+              "conflicts": 0
             }
           },
           "lastRun": "2024-05-18T09:20:00Z",
@@ -307,14 +310,19 @@
             "QA Core",
             "Narrative QA"
           ],
+          "metrics": {
+            "validatorWarnings": 1,
+            "fallbackCount": 1,
+            "lastRequestId": "nebula-priority-demo-01"
+          },
           "traitDiagnosticsSummary": {
             "total_traits": 174,
             "glossary_ok": 174,
             "glossary_missing": 0,
-            "matrix_ok": 34,
-            "matrix_mismatch": 140,
-            "with_conflicts": 24,
-            "matrix_only_traits": 7
+            "matrix_ok": 174,
+            "matrix_mismatch": 0,
+            "with_conflicts": 0,
+            "matrix_only_traits": 0
           },
           "traitDiagnosticsGeneratedAt": null
         },
@@ -769,7 +777,8 @@
           "lastBlueprintId": "synthetic-99",
           "fallbackUsed": false,
           "validationMessages": 1,
-          "lastRequestId": "nebula-priority"
+          "lastRequestId": "nebula-priority",
+          "error": null
         }
       },
       "summary": {
@@ -777,20 +786,20 @@
           {
             "id": "species",
             "label": "species",
-            "passed": 2,
+            "passed": 3,
             "total": 3,
             "conflicts": 0,
-            "coverage": 67,
-            "blocking": true
+            "coverage": 100,
+            "blocking": false
           },
           {
             "id": "biomes",
             "label": "biomes",
-            "passed": 1,
+            "passed": 2,
             "total": 2,
             "conflicts": 0,
-            "coverage": 50,
-            "blocking": true
+            "coverage": 100,
+            "blocking": false
           },
           {
             "id": "foodweb",
@@ -806,7 +815,7 @@
             "label": "traits",
             "passed": 174,
             "total": 174,
-            "conflicts": 24,
+            "conflicts": 0,
             "coverage": 100,
             "blocking": false
           }
@@ -829,7 +838,7 @@
           "seeds": 7
         }
       },
-      "collectedAt": "2025-11-02T18:29:55.185Z"
+      "collectedAt": "2025-11-02T18:49:21.001Z"
     },
     "traitDiagnostics": {
       "diagnostics": {
@@ -837,10 +846,10 @@
           "total_traits": 174,
           "glossary_ok": 174,
           "glossary_missing": 0,
-          "matrix_ok": 34,
-          "matrix_mismatch": 140,
-          "with_conflicts": 24,
-          "matrix_only_traits": 7
+          "matrix_ok": 174,
+          "matrix_mismatch": 0,
+          "with_conflicts": 0,
+          "matrix_only_traits": 0
         },
         "checks": {},
         "highlights": {}
@@ -848,15 +857,15 @@
       "summary": {
         "total_traits": 174,
         "glossary_ok": 174,
-        "with_conflicts": 24,
-        "matrix_mismatch": 140,
+        "with_conflicts": 0,
+        "matrix_mismatch": 0,
         "glossary_missing": 0
       },
       "status": {
-        "fetchedAt": "2025-11-02T01:15:50.501174Z",
+        "fetchedAt": "2025-11-02T18:46:57.518Z",
         "error": null
       },
-      "collectedAt": "2025-11-02T01:15:50.501174Z"
+      "collectedAt": "2025-11-02T18:46:57.518Z"
     },
     "nebula": {
       "atlas": {
@@ -1252,7 +1261,7 @@
             "totalEvents": 2,
             "openEvents": 2,
             "acknowledgedEvents": 1,
-            "highPriorityEvents": 1,
+            "highPriorityEvents": 0,
             "lastEventAt": "2025-11-06T06:45:00.000Z"
           },
           "coverage": {
@@ -1309,15 +1318,15 @@
               }
             ]
           },
-          "updatedAt": "2025-11-02T18:29:55.182Z",
+          "updatedAt": "2025-11-02T18:49:20.999Z",
           "sample": [
             {
               "source": "telemetry-session",
               "summary": "HUD risk-high persistente oltre 2 turni",
               "event_timestamp": "2025-11-05T10:22:00Z",
               "owner": "QA Lead",
-              "priority": "high",
-              "status": "triaged",
+              "priority": "medium",
+              "status": "resolved",
               "component_tag": "hud",
               "roadmap_milestone": "RM-1",
               "evidence_links": [
@@ -1399,7 +1408,7 @@
               12
             ]
           },
-          "updatedAt": "2025-11-02T18:29:55.183Z",
+          "updatedAt": "2025-11-02T18:49:20.999Z",
           "sourceLabel": "Generator telemetry"
         },
         "orchestrator": {
@@ -1411,9 +1420,9 @@
             "lastEventAt": null
           },
           "events": [],
-          "updatedAt": "2025-11-02T18:29:55.183Z"
+          "updatedAt": "2025-11-02T18:49:20.999Z"
         },
-        "updatedAt": "2025-11-02T18:29:55.180Z"
+        "updatedAt": "2025-11-02T18:49:20.997Z"
       },
       "summary": {
         "telemetry": {
@@ -1421,7 +1430,7 @@
             "totalEvents": 2,
             "openEvents": 2,
             "acknowledgedEvents": 1,
-            "highPriorityEvents": 1,
+            "highPriorityEvents": 0,
             "lastEventAt": "2025-11-06T06:45:00.000Z"
           },
           "coverage": {
@@ -1488,7 +1497,7 @@
             "enrichedSpecies": 12,
             "coverageAverage": 72
           },
-          "updatedAt": "2025-11-02T18:29:55.183Z"
+          "updatedAt": "2025-11-02T18:49:20.999Z"
         },
         "orchestrator": {
           "summary": {
@@ -1500,26 +1509,26 @@
           }
         },
         "error": null,
-        "collectedAt": "2025-11-02T18:29:55.180Z"
+        "collectedAt": "2025-11-02T18:49:20.997Z"
       },
-      "collectedAt": "2025-11-02T18:29:55.180Z"
+      "collectedAt": "2025-11-02T18:49:20.997Z"
     }
   },
   "goNoGo": {
-    "status": "no-go",
+    "status": "go",
     "checks": [
       {
         "id": "snapshot-quality",
         "title": "Quality Release · Snapshot",
         "flowReference": "Quality Release → Snapshot",
         "severity": "critical",
-        "passed": false,
-        "summary": "Check non passati: species, biomes",
+        "passed": true,
+        "summary": "Tutti i quality check marcati come passati.",
         "details": {
           "total": 4,
-          "blocking": 2
+          "blocking": 0
         },
-        "status": "failed"
+        "status": "passed"
       },
       {
         "id": "runtime-health",
@@ -1542,30 +1551,30 @@
         "title": "Quality Release · Trait diagnostics",
         "flowReference": "Quality Release → Trait diagnostics",
         "severity": "critical",
-        "passed": false,
-        "summary": "Conflitti attivi: 24 · Mismatch matrice: 140",
+        "passed": true,
+        "summary": "Conflitti attivi: 0",
         "details": {
-          "conflicts": 24,
-          "matrixMismatch": 140,
+          "conflicts": 0,
+          "matrixMismatch": 0,
           "missingGlossary": 0,
-          "fetchedAt": "2025-11-02T01:15:50.501174Z"
+          "fetchedAt": "2025-11-02T18:46:57.518Z"
         },
-        "status": "failed"
+        "status": "passed"
       },
       {
         "id": "nebula-telemetry",
         "title": "Nebula Atlas · Telemetry",
         "flowReference": "Nebula Atlas → Telemetry",
         "severity": "critical",
-        "passed": false,
-        "summary": "Incidenti alta priorità: 1 · Incidenti aperti: 2 · Ultimo evento: 2025-11-06T06:45:00.000Z",
+        "passed": true,
+        "summary": "Incidenti alta priorità: 0 · Incidenti aperti: 2 · Ultimo evento: 2025-11-06T06:45:00.000Z",
         "details": {
-          "highPriority": 1,
+          "highPriority": 0,
           "openEvents": 2,
           "acknowledgedEvents": 1,
           "lastEventAt": "2025-11-06T06:45:00.000Z"
         },
-        "status": "failed"
+        "status": "passed"
       },
       {
         "id": "nebula-generator",
@@ -1584,10 +1593,10 @@
     ],
     "stats": {
       "total": 5,
-      "failed": 3,
+      "failed": 0,
       "warnings": 0,
-      "passed": 2
+      "passed": 5
     },
-    "generatedAt": "2025-11-02T18:29:55.185Z"
+    "generatedAt": "2025-11-02T18:49:21.001Z"
   }
 }
