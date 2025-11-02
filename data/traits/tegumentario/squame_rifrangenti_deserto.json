@@ -38,9 +38,13 @@
   "spinta_selettiva": "i18n:traits.squame_rifrangenti_deserto.spinta_selettiva",
   "tier": "T2",
   "uso_funzione": "i18n:traits.squame_rifrangenti_deserto.uso_funzione",
+  "usage_tags": [
+    "tank"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "dune_cristalline"

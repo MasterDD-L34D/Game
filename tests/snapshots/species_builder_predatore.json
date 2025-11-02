@@ -2,15 +2,9 @@
   "id": "synthetic-1d37afd07a",
   "display_name": "Predatore / Coda a Frusta Cinetica",
   "summary": "Artigli a Sette Vie, Coda a Frusta Cinetica, Scheletro Idro-Regolante",
-  "description": "Sintesi genetica focalizzata su Artigli a Sette Vie e Coda a Frusta Cinetica con impronta morfologica defensive, locomotor, omeostatico, prehensile, structural; comportamento climber. Ottimizzata per biomi: caverna_risonante, falde_magnetiche_psioniche, orbita_psionica_inversa.",
+  "description": "Sintesi genetica focalizzata su Artigli a Sette Vie e Coda a Frusta Cinetica con impronta morfologica defensive, locomotor, omeostatico, prehensile, structural; comportamento climber, breaker, scout, tank, sustain. Ottimizzata per biomi: caverna_risonante, falde_magnetiche_psioniche, orbita_psionica_inversa.",
   "morphology": {
-    "families": [
-      "defensive",
-      "locomotor",
-      "omeostatico",
-      "prehensile",
-      "structural"
-    ],
+    "families": ["defensive", "locomotor", "omeostatico", "prehensile", "structural"],
     "adaptations": [
       "Dita lunghe e segmentate con punte a uncino multiplo.",
       "Precauzione: Angoli di presa limitati se la superficie è perfettamente liscia.",
@@ -19,16 +13,10 @@
       "Struttura ossea porosa capace di scambio rapido di fluidi.",
       "Precauzione: Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio."
     ],
-    "environments": [
-      "caverna_risonante",
-      "falde_magnetiche_psioniche",
-      "orbita_psionica_inversa"
-    ]
+    "environments": ["caverna_risonante", "falde_magnetiche_psioniche", "orbita_psionica_inversa"]
   },
   "behavior": {
-    "tags": [
-      "climber"
-    ],
+    "tags": ["climber", "breaker", "scout", "tank", "sustain"],
     "drives": [
       "Afferrare superfici irregolari o oggetti multipli.",
       "Arrampicarsi su pareti rocciose o vegetazione densa.",
@@ -45,11 +33,7 @@
     "synergy_score": 0.333
   },
   "traits": {
-    "core": [
-      "artigli_sette_vie",
-      "coda_frusta_cinetica",
-      "scheletro_idro_regolante"
-    ],
+    "core": ["artigli_sette_vie", "coda_frusta_cinetica", "scheletro_idro_regolante"],
     "derived": [
       "ali_ioniche",
       "antenne_flusso_mareale",
@@ -99,355 +83,258 @@
       "struttura_elastica_amorfa",
       "tattiche_di_branco"
     ],
-    "conflicts": [
-      "sangue_piroforico"
-    ],
+    "conflicts": ["sangue_piroforico"],
     "metadata": {
-      "usage_tags": [],
+      "usage_tags": ["breaker", "scout", "sustain", "tank"],
       "species_affinity": [
         {
           "species_id": "dune-stalker",
-          "roles": [
-            "core",
-            "optional"
-          ],
+          "roles": ["core", "optional"],
           "weight": 12.0
         },
         {
           "species_id": "magneto-ridge-hunter",
-          "roles": [
-            "core",
-            "optional"
-          ],
+          "roles": ["core", "optional"],
           "weight": 12.0
         },
         {
           "species_id": "slag-veil-ambusher",
-          "roles": [
-            "core",
-            "optional",
-            "synergy"
-          ],
+          "roles": ["core", "optional", "synergy"],
           "weight": 6.0
         },
         {
           "species_id": "nano-rust-bloom",
-          "roles": [
-            "core",
-            "optional"
-          ],
+          "roles": ["core", "optional"],
           "weight": 4.0
         },
         {
           "species_id": "sand-burrower",
-          "roles": [
-            "core",
-            "optional"
-          ],
+          "roles": ["core", "optional"],
           "weight": 4.0
         },
         {
           "species_id": "bulette-fase",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 2.0
         },
         {
           "species_id": "caverna-risonante-trait-keeper",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 2.0
         },
         {
           "species_id": "marilith-vault",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 2.0
         },
         {
           "species_id": "balor-fission",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "couatl-aurora",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "cryo-lynx",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "falde-magnetiche-psioniche-trait-keeper",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "magnet-fathom-surveyor",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "orbita-psionica-inversa-trait-keeper",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "otyugh-sentinella",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "resonant-claw-hunter",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "rust-scavenger",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         },
         {
           "species_id": "steppe-bison-mini",
-          "roles": [
-            "optional"
-          ],
+          "roles": ["optional"],
           "weight": 1.0
         }
       ],
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "per_trait": {
         "artigli_sette_vie": {
-          "usage_tags": [],
+          "usage_tags": ["breaker", "scout"],
           "species_affinity": [
             {
               "species_id": "dune-stalker",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "magneto-ridge-hunter",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "balor-fission",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "caverna-risonante-trait-keeper",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "couatl-aurora",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "cryo-lynx",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "marilith-vault",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "otyugh-sentinella",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "resonant-claw-hunter",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             }
           ],
-          "completion_flags": {}
+          "completion_flags": {
+            "has_usage_tags": true
+          }
         },
         "coda_frusta_cinetica": {
-          "usage_tags": [],
+          "usage_tags": ["scout", "tank"],
           "species_affinity": [
             {
               "species_id": "dune-stalker",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "magneto-ridge-hunter",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "slag-veil-ambusher",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "bulette-fase",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "falde-magnetiche-psioniche-trait-keeper",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "marilith-vault",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "orbita-psionica-inversa-trait-keeper",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             }
           ],
-          "completion_flags": {}
+          "completion_flags": {
+            "has_usage_tags": true
+          }
         },
         "scheletro_idro_regolante": {
-          "usage_tags": [],
+          "usage_tags": ["sustain", "tank"],
           "species_affinity": [
             {
               "species_id": "dune-stalker",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "magneto-ridge-hunter",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "nano-rust-bloom",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "sand-burrower",
-              "roles": [
-                "core",
-                "optional"
-              ],
+              "roles": ["core", "optional"],
               "weight": 4.0
             },
             {
               "species_id": "slag-veil-ambusher",
-              "roles": [
-                "synergy"
-              ],
+              "roles": ["synergy"],
               "weight": 2.0
             },
             {
               "species_id": "bulette-fase",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "caverna-risonante-trait-keeper",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "magnet-fathom-surveyor",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "rust-scavenger",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             },
             {
               "species_id": "steppe-bison-mini",
-              "roles": [
-                "optional"
-              ],
+              "roles": ["optional"],
               "weight": 1.0
             }
           ],
-          "completion_flags": {}
+          "completion_flags": {
+            "has_usage_tags": true
+          }
         }
       }
     }

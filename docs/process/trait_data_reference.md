@@ -23,6 +23,8 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 - Gli identificatori (`id`, `sinergie[]`, `conflitti[]`, `biome_tags[]`, `usage_tags[]`, `data_origin`)
   utilizzano slug `^[a-z0-9_]+$` e ogni file JSON deve avere un `id` corrispondente al nome del file.
 - Gli slot (`slot[]`) accettano soltanto lettere maiuscole singole (A–Z) e non possono ripetersi.
+- `usage_tags` deve contenere 1–2 tag tattici dal vocabolario ufficiale (vedi sotto) e non può essere
+  lasciato vuoto sui trait canonici.
 - `metrics[].unit` accetta esclusivamente stringhe UCUM senza spazi (`m/s`, `Cel`, `1`, `kPa`, …) mentre
   `metrics[].name` deve essere già ripulito.
 - Le entry `species_affinity` validano sia il formato dello slug (`species_id` supporta trattini ma non
@@ -54,6 +56,18 @@ python scripts/trait_audit.py --import-external-drafts
 ```
 
 Lo step richiama l'importer prima di eseguire le verifiche esistenti, così da produrre sempre l'elenco aggiornato dei draft.
+
+### Vocabolario `usage_tags`
+
+I tag d'uso identificano il ruolo tattico prevalente di ciascun tratto e alimentano filtri UI,
+analytics e checklist automatiche. I valori ammessi sono:
+
+- `scout` – Ricognizione, sensori, mobilità e raccolta informazione rapida.
+- `breaker` – Assalto diretto, penetrazione difese e output offensivo concentrato.
+- `support` – Abilitazione del team, logistica, coordinamento e strumenti tattici.
+- `tank` – Mitigazione danni, protezione, schermature e gestione dell'aggro.
+- `sustain` – Economia risorse, guarigione, rigenerazione o mantenimento energetico.
+- `controller` – Controllo del campo, crowd control, psionica o manipolazione degli spazi.
 
 ## Workflow di aggiornamento
 

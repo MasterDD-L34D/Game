@@ -49,9 +49,13 @@
   "spinta_selettiva": "i18n:traits.ventriglio_gastroliti.spinta_selettiva",
   "tier": "T1",
   "uso_funzione": "i18n:traits.ventriglio_gastroliti.uso_funzione",
+  "usage_tags": [
+    "sustain"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "caverna_risonante"

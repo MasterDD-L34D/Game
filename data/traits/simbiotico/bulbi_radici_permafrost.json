@@ -47,9 +47,14 @@
   "spinta_selettiva": "i18n:traits.bulbi_radici_permafrost.spinta_selettiva",
   "tier": "T2",
   "uso_funzione": "i18n:traits.bulbi_radici_permafrost.uso_funzione",
+  "usage_tags": [
+    "support",
+    "sustain"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "permafrost_psionico"

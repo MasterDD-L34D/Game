@@ -39,6 +39,10 @@
     "complementare": "adattivo",
     "core": "strategia"
   },
+  "usage_tags": [
+    "support",
+    "tank"
+  ],
   "species_affinity": [
     {
       "roles": [
@@ -53,7 +57,8 @@
   "uso_funzione": "i18n:traits.random.uso_funzione",
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": true
+    "has_species_link": true,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "foresta_miceliale"

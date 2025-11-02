@@ -53,8 +53,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "ali_ioniche": {
       "conflitti": [],
@@ -107,8 +112,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "ali_membrana_sonica": {
       "conflitti": [],
@@ -161,8 +170,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "antenne_dustsense": {
       "conflitti": [],
@@ -215,8 +228,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "antenne_eco_turbina": {
       "conflitti": [],
@@ -269,8 +286,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "antenne_flusso_mareale": {
       "conflitti": [],
@@ -323,8 +344,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "antenne_microonde_cavernose": {
       "conflitti": [],
@@ -377,8 +402,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "antenne_plasmatiche_tempesta": {
       "conflitti": [],
@@ -441,8 +470,13 @@
       "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker",
+        "scout"
+      ]
     },
     "antenne_reagenti": {
       "conflitti": [],
@@ -495,8 +529,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "antenne_tesla": {
       "conflitti": [],
@@ -549,8 +587,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "antenne_waveguide": {
       "conflitti": [],
@@ -603,8 +645,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "antenne_wideband": {
       "conflitti": [],
@@ -657,8 +704,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "appendici_risonanti_marea": {
       "conflitti": [],
@@ -711,8 +762,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "appendici_thermotattiche": {
       "conflitti": [],
@@ -765,8 +820,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "armatura_pietra_planare": {
       "conflitti": [
@@ -844,8 +903,12 @@
       "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "artigli_acidofagi": {
       "conflitti": [],
@@ -898,8 +961,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "artigli_induzione": {
       "conflitti": [],
@@ -952,8 +1019,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "artigli_radice": {
       "conflitti": [],
@@ -1006,8 +1077,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "artigli_scivolo_silente": {
       "conflitti": [],
@@ -1060,8 +1135,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "artigli_sette_vie": {
       "conflitti": [],
@@ -1182,8 +1261,13 @@
       "uso_funzione": "Afferrare superfici irregolari o oggetti multipli.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker",
+        "scout"
+      ]
     },
     "artigli_sghiaccio_glaciale": {
       "conflitti": [],
@@ -1244,8 +1328,13 @@
       "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker",
+        "scout"
+      ]
     },
     "artigli_vetrificati": {
       "conflitti": [],
@@ -1298,8 +1387,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "aura_scudo_radianza": {
       "conflitti": [
@@ -1357,8 +1450,13 @@
       "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support",
+        "tank"
+      ]
     },
     "baffi_mareomotori": {
       "conflitti": [],
@@ -1411,8 +1509,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "barbigli_sensori_plasma": {
       "conflitti": [],
@@ -1465,8 +1568,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "barriere_miasma_glaciale": {
       "conflitti": [],
@@ -1519,8 +1626,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "batteri_endosimbionti_chemio": {
       "conflitti": [],
@@ -1573,8 +1684,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "batteri_termofili_endosimbiosi": {
       "conflitti": [],
@@ -1627,8 +1742,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "biochip_memoria": {
       "conflitti": [],
@@ -1681,8 +1800,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "biofilm_glow": {
       "conflitti": [],
@@ -1735,8 +1858,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "biofilm_iperarido": {
       "conflitti": [],
@@ -1789,8 +1916,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "branchie_dual_mode": {
       "conflitti": [],
@@ -1843,8 +1974,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "branchie_eoliche": {
       "conflitti": [],
@@ -1897,8 +2032,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "branchie_metalloidi": {
       "conflitti": [],
@@ -1951,8 +2091,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "branchie_microfiltri": {
       "conflitti": [],
@@ -2005,8 +2149,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "branchie_osmotiche_salmastra": {
       "conflitti": [
@@ -2068,8 +2216,12 @@
       "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "branchie_solfatiche": {
       "conflitti": [],
@@ -2122,8 +2274,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "branchie_turbina": {
       "conflitti": [],
@@ -2176,8 +2332,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "bulbi_radici_permafrost": {
       "conflitti": [],
@@ -2239,8 +2399,13 @@
       "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support",
+        "sustain"
+      ]
     },
     "camere_anticorrosione": {
       "conflitti": [],
@@ -2293,8 +2458,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "camere_mirage": {
       "conflitti": [],
@@ -2347,8 +2516,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "camere_nutrienti_vent": {
       "conflitti": [],
@@ -2401,8 +2574,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "capillari_criogenici": {
       "conflitti": [],
@@ -2455,8 +2632,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "capillari_fluoridici": {
       "conflitti": [],
@@ -2509,8 +2690,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "capillari_fotovoltaici": {
       "conflitti": [],
@@ -2563,8 +2749,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "capsule_paracadute": {
       "conflitti": [],
@@ -2617,8 +2807,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "carapace_fase_variabile": {
       "conflitti": [
@@ -2766,8 +2960,12 @@
       "uso_funzione": "Durezza/densità del guscio modificabile rapidamente.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "carapace_luminiscente_abissale": {
       "conflitti": [
@@ -2831,8 +3029,13 @@
       "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "tank"
+      ]
     },
     "carapace_segmenti_logici": {
       "conflitti": [],
@@ -2885,8 +3088,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "carapaci_ferruginosi": {
       "conflitti": [],
@@ -2939,8 +3146,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "cartilagine_flessotermica_venti": {
       "conflitti": [
@@ -3004,8 +3215,13 @@
       "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "tank"
+      ]
     },
     "cartilagini_biofibre": {
       "conflitti": [],
@@ -3058,8 +3274,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "cartilagini_desertiche": {
       "conflitti": [],
@@ -3112,8 +3332,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "cartilagini_flessoacustiche": {
       "conflitti": [],
@@ -3166,8 +3390,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "cartilagini_pseudometalliche": {
       "conflitti": [],
@@ -3220,8 +3448,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "cavita_risonanti_tundra": {
       "conflitti": [],
@@ -3284,8 +3516,13 @@
       "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "cervelletto_equilibrio_statico": {
       "conflitti": [],
@@ -3338,8 +3575,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "chemiorecettori_bromuro": {
       "conflitti": [],
@@ -3392,8 +3634,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "chioma_parassita_canopica": {
       "conflitti": [],
@@ -3445,8 +3691,12 @@
       "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "circolazione_bifasica": {
       "conflitti": [],
@@ -3499,8 +3749,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "circolazione_bifasica_palude": {
       "conflitti": [
@@ -3553,8 +3807,13 @@
       "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain",
+        "tank"
+      ]
     },
     "circolazione_cooling_loop": {
       "conflitti": [],
@@ -3607,8 +3866,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "circolazione_doppia": {
       "conflitti": [],
@@ -3661,8 +3924,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "circolazione_supercritica": {
       "conflitti": [],
@@ -3715,8 +3982,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "ciste_riduttive": {
       "conflitti": [],
@@ -3769,8 +4040,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "ciste_salmastre": {
       "conflitti": [],
@@ -3823,8 +4098,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "cisti_iperbariche": {
       "conflitti": [],
@@ -3877,8 +4156,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "coda_balanciere": {
       "conflitti": [],
@@ -3931,8 +4214,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "coda_contrappeso": {
       "conflitti": [],
@@ -3985,8 +4273,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "coda_coppia_retroattiva": {
       "conflitti": [],
@@ -4039,8 +4331,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "coda_frusta_cinetica": {
       "conflitti": [],
@@ -4176,8 +4472,13 @@
       "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "tank"
+      ]
     },
     "coda_stabilizzatrice_filo": {
       "conflitti": [],
@@ -4230,8 +4531,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "coda_stabilizzatrice_geiser": {
       "conflitti": [],
@@ -4284,8 +4589,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "coda_stabilizzatrice_vortex": {
       "conflitti": [],
@@ -4338,8 +4647,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "colonne_vibromagnetiche": {
       "conflitti": [],
@@ -4392,8 +4705,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "coralli_partner": {
       "conflitti": [],
@@ -4446,8 +4763,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "criostasi_adattiva": {
       "conflitti": [
@@ -4535,8 +4856,13 @@
       "uso_funzione": "Sopravvivenza a condizioni ambientali estreme.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain",
+        "tank"
+      ]
     },
     "cromofori_alert_acido": {
       "conflitti": [],
@@ -4589,8 +4915,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "cuore_multicamera_bassa_pressione": {
       "conflitti": [],
@@ -4643,8 +4973,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "cuscinetti_elettrostatici": {
       "conflitti": [],
@@ -4697,8 +5032,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "cute_resistente_sali": {
       "conflitti": [],
@@ -4766,8 +5105,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "cuticole_cerose": {
       "conflitti": [],
@@ -4849,8 +5192,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "cuticole_neutralizzanti": {
       "conflitti": [],
@@ -4903,8 +5250,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "denti_chelatanti": {
       "conflitti": [],
@@ -4957,8 +5308,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "denti_ossidoferro": {
       "conflitti": [],
@@ -5011,8 +5366,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "denti_silice_termici": {
       "conflitti": [],
@@ -5065,8 +5424,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "denti_tuning_fork": {
       "conflitti": [],
@@ -5119,8 +5482,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "echi_risonanti": {
       "conflitti": [],
@@ -5173,8 +5540,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "eco_interno_riflesso": {
       "conflitti": [],
@@ -5283,8 +5655,13 @@
       "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "controller",
+        "scout"
+      ]
     },
     "empatia_coordinativa": {
       "conflitti": [],
@@ -5392,8 +5769,12 @@
       "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "enzimi_antifase_termica": {
       "conflitti": [],
@@ -5446,8 +5827,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "enzimi_antipredatori_algali": {
       "conflitti": [],
@@ -5500,8 +5885,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "enzimi_chelanti": {
       "conflitti": [],
@@ -5549,8 +5938,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "enzimi_chelatori_rapidi": {
       "conflitti": [],
@@ -5603,8 +5996,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "enzimi_metanoossidanti": {
       "conflitti": [],
@@ -5657,8 +6054,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "epidermide_dielettrica": {
       "conflitti": [],
@@ -5711,8 +6112,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "epitelio_fosforescente": {
       "conflitti": [],
@@ -5765,8 +6170,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "filamenti_digestivi_compattanti": {
       "conflitti": [],
@@ -5895,8 +6304,12 @@
       "uso_funzione": "Espulsione compatta e ordinata di scorie.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "filamenti_magnetotrofi": {
       "conflitti": [],
@@ -5949,8 +6362,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "filamenti_superconduttivi": {
       "conflitti": [],
@@ -6003,8 +6420,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "filamenti_termoconduzione": {
       "conflitti": [],
@@ -6057,8 +6479,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "filtri_planctonici": {
       "conflitti": [],
@@ -6111,8 +6537,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "flagelli_ancoranti": {
       "conflitti": [],
@@ -6165,8 +6595,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "focus_frazionato": {
       "conflitti": [],
@@ -6284,8 +6718,13 @@
       "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "controller",
+        "support"
+      ]
     },
     "foliage_fotocatodico": {
       "conflitti": [],
@@ -6338,8 +6777,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "foliaggio_spugna": {
       "conflitti": [],
@@ -6392,8 +6835,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "frusta_fiammeggiante": {
       "conflitti": [
@@ -6458,8 +6905,13 @@
       "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker",
+        "controller"
+      ]
     },
     "ghiaccio_piezoelettrico": {
       "conflitti": [],
@@ -6512,8 +6964,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "ghiandola_caustica": {
       "conflitti": [],
@@ -6564,8 +7020,12 @@
       "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "ghiandole_cambio_salino": {
       "conflitti": [],
@@ -6618,8 +7078,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "ghiandole_condensa_ozono": {
       "conflitti": [],
@@ -6672,8 +7136,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "ghiandole_eco_mappanti": {
       "conflitti": [],
@@ -6726,8 +7194,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "ghiandole_fango_calde": {
       "conflitti": [],
@@ -6780,8 +7253,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "ghiandole_fango_coesivo": {
       "conflitti": [],
@@ -6834,8 +7311,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "ghiandole_grafene": {
       "conflitti": [],
@@ -6888,8 +7369,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "ghiandole_inchiostro_luce": {
       "conflitti": [],
@@ -6942,8 +7427,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "ghiandole_iodoattive": {
       "conflitti": [],
@@ -6996,8 +7485,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "ghiandole_minerali": {
       "conflitti": [],
@@ -7050,8 +7543,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "ghiandole_nebbia_acida": {
       "conflitti": [],
@@ -7104,8 +7601,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "ghiandole_nebbia_ionica": {
       "conflitti": [],
@@ -7158,8 +7659,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "ghiandole_resina_conduttiva": {
       "conflitti": [],
@@ -7212,8 +7717,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "ghiandole_ventosa": {
       "conflitti": [],
@@ -7266,8 +7776,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "giunti_antitorsione": {
       "conflitti": [],
@@ -7320,8 +7834,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "grassi_termici": {
       "conflitti": [],
@@ -7403,8 +7921,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "gusci_criovetro": {
       "conflitti": [],
@@ -7457,8 +7979,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "gusci_magnesio": {
       "conflitti": [],
@@ -7511,8 +8037,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "lamelle_shear": {
       "conflitti": [],
@@ -7565,8 +8095,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "lamelle_sincroniche": {
       "conflitti": [],
@@ -7619,8 +8153,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "lamelle_termoforetiche": {
       "conflitti": [
@@ -7701,8 +8239,12 @@
       "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "lamine_filtranti_aeree": {
       "conflitti": [],
@@ -7755,8 +8297,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "lamine_scudo_silice": {
       "conflitti": [],
@@ -7809,8 +8355,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "linfa_tampone": {
       "conflitti": [],
@@ -7863,8 +8414,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "lingua_cristallina": {
       "conflitti": [],
@@ -7917,8 +8472,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "lingua_tattile_trama": {
       "conflitti": [],
@@ -7990,8 +8549,13 @@
       "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "sustain"
+      ]
     },
     "luminescenza_aurorale": {
       "conflitti": [],
@@ -8044,8 +8608,12 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "luminescenza_hydrotermica": {
       "conflitti": [],
@@ -8098,8 +8666,12 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "mantelli_geotermici": {
       "conflitti": [],
@@ -8152,8 +8724,12 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "mantello_meteoritico": {
       "conflitti": [
@@ -8218,8 +8794,13 @@
       "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain",
+        "tank"
+      ]
     },
     "membrane_captura_rugiada": {
       "conflitti": [],
@@ -8272,8 +8853,12 @@
       "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "membrane_eliofiltranti": {
       "conflitti": [],
@@ -8325,8 +8910,13 @@
       "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain",
+        "tank"
+      ]
     },
     "membrane_planata_vectored": {
       "conflitti": [],
@@ -8379,8 +8969,12 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "membrane_pneumatofori": {
       "conflitti": [],
@@ -8433,8 +9027,12 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "midollo_antivibrazione": {
       "conflitti": [],
@@ -8487,8 +9085,13 @@
       "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "mimetismo_cromatico_passivo": {
       "conflitti": [],
@@ -8604,8 +9207,12 @@
       "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "mucillagine_simbionte_mangrovie": {
       "conflitti": [
@@ -8673,8 +9280,13 @@
       "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support",
+        "tank"
+      ]
     },
     "mucose_aderenza_sonica": {
       "conflitti": [],
@@ -8727,8 +9339,12 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "mucose_barofile": {
       "conflitti": [],
@@ -8781,8 +9397,12 @@
       "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "nodi_micorrizici_oracolari": {
       "conflitti": [
@@ -8850,8 +9470,13 @@
       "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "controller",
+        "support"
+      ]
     },
     "nucleo_ovomotore_rotante": {
       "conflitti": [
@@ -8933,8 +9558,13 @@
       "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     },
     "occhi_infrarosso_composti": {
       "conflitti": [],
@@ -8993,8 +9623,12 @@
       "uso_funzione": "Vista specializzata che percepisce il calore corporeo.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "olfatto_risonanza_magnetica": {
       "conflitti": [],
@@ -9118,8 +9752,13 @@
       "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "controller",
+        "scout"
+      ]
     },
     "pathfinder": {
       "conflitti": [],
@@ -9241,8 +9880,12 @@
       "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "piume_solari_fotovoltaiche": {
       "conflitti": [
@@ -9296,8 +9939,13 @@
       "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain",
+        "tank"
+      ]
     },
     "polmoni_cristallini_alta_quota": {
       "conflitti": [
@@ -9350,8 +9998,12 @@
       "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "random": {
       "conflitti": [],
@@ -9397,8 +10049,13 @@
       "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support",
+        "tank"
+      ]
     },
     "respiro_a_scoppio": {
       "conflitti": [],
@@ -9486,8 +10143,13 @@
       "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "sustain"
+      ]
     },
     "risonanza_di_branco": {
       "conflitti": [],
@@ -9591,8 +10253,12 @@
       "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "sacche_galleggianti_ascensoriali": {
       "conflitti": [],
@@ -9711,8 +10377,13 @@
       "uso_funzione": "Controllo preciso della profondità e del movimento verticale.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "tank"
+      ]
     },
     "sacche_spore_stratosferiche": {
       "conflitti": [
@@ -9765,8 +10436,12 @@
       "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "sangue_piroforico": {
       "conflitti": [
@@ -9855,8 +10530,12 @@
       "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "breaker"
+      ]
     },
     "scheletro_idro_regolante": {
       "conflitti": [
@@ -9991,8 +10670,13 @@
       "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain",
+        "tank"
+      ]
     },
     "secrezione_rallentante_palmi": {
       "conflitti": [
@@ -10052,8 +10736,12 @@
       "uso_funzione": "Neutralizzare o immobilizzare prede/nemici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "sensori_geomagnetici": {
       "conflitti": [],
@@ -10126,8 +10814,12 @@
       "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "sinapsi_coraline_polifoniche": {
       "conflitti": [
@@ -10195,8 +10887,12 @@
       "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "sonno_emisferico_alternato": {
       "conflitti": [],
@@ -10263,8 +10959,13 @@
       "uso_funzione": "Vigilanza continua pur garantendo riposo.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "controller",
+        "sustain"
+      ]
     },
     "spore_psichiche_silenziate": {
       "conflitti": [
@@ -10337,8 +11038,13 @@
       "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "controller",
+        "sustain"
+      ]
     },
     "squame_rifrangenti_deserto": {
       "conflitti": [
@@ -10391,8 +11097,12 @@
       "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "tank"
+      ]
     },
     "struttura_elastica_amorfa": {
       "conflitti": [],
@@ -10532,8 +11242,13 @@
       "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "tank"
+      ]
     },
     "tattiche_di_branco": {
       "conflitti": [],
@@ -10610,8 +11325,12 @@
       "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "support"
+      ]
     },
     "vello_condensatore_nebbie": {
       "conflitti": [],
@@ -10662,8 +11381,13 @@
       "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain",
+        "tank"
+      ]
     },
     "ventriglio_gastroliti": {
       "conflitti": [],
@@ -10749,8 +11473,12 @@
       "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "sustain"
+      ]
     },
     "zampe_a_molla": {
       "conflitti": [],
@@ -10813,8 +11541,12 @@
       "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno.",
       "completion_flags": {
         "has_biome": false,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout"
+      ]
     },
     "zoccoli_risonanti_steppe": {
       "conflitti": [
@@ -10867,8 +11599,13 @@
       "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra.",
       "completion_flags": {
         "has_biome": true,
-        "has_species_link": true
-      }
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "usage_tags": [
+        "scout",
+        "support"
+      ]
     }
   },
   "types": {

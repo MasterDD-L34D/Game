@@ -47,9 +47,13 @@
   "spinta_selettiva": "i18n:traits.branchie_osmotiche_salmastra.spinta_selettiva",
   "tier": "T2",
   "uso_funzione": "i18n:traits.branchie_osmotiche_salmastra.uso_funzione",
+  "usage_tags": [
+    "sustain"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "delta_salmastri"

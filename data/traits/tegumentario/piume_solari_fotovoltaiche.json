@@ -39,9 +39,14 @@
   "spinta_selettiva": "i18n:traits.piume_solari_fotovoltaiche.spinta_selettiva",
   "tier": "T2",
   "uso_funzione": "i18n:traits.piume_solari_fotovoltaiche.uso_funzione",
+  "usage_tags": [
+    "sustain",
+    "tank"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "altipiani_solari"

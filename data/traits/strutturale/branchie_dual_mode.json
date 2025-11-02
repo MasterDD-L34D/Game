@@ -38,9 +38,13 @@
   "spinta_selettiva": "i18n:traits.branchie_dual_mode.spinta_selettiva",
   "tier": "T1",
   "uso_funzione": "i18n:traits.branchie_dual_mode.uso_funzione",
+  "usage_tags": [
+    "tank"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "laguna_bioreattiva"

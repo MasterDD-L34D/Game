@@ -46,9 +46,14 @@
   "spinta_selettiva": "i18n:traits.artigli_sghiaccio_glaciale.spinta_selettiva",
   "tier": "T2",
   "uso_funzione": "i18n:traits.artigli_sghiaccio_glaciale.uso_funzione",
+  "usage_tags": [
+    "breaker",
+    "scout"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "calotte_glaciali"

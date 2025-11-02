@@ -8,7 +8,9 @@
   },
   "traits": {
     "ali_fulminee": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -71,11 +73,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "ali_ioniche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -138,11 +142,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "ali_membrana_sonica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -205,11 +211,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "antenne_dustsense": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -272,11 +280,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "antenne_eco_turbina": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -339,11 +349,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "antenne_flusso_mareale": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -406,11 +418,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "antenne_microonde_cavernose": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -473,11 +487,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "antenne_plasmatiche_tempesta": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -545,11 +561,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker", "scout"],
       "weakness": "Scariche elettriche massicce possono bruciare i recettori e compromettere la coordinazione."
     },
     "antenne_reagenti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -612,11 +630,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "antenne_tesla": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -679,11 +699,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "antenne_waveguide": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -746,11 +768,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "antenne_wideband": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -813,11 +837,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "appendici_risonanti_marea": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -880,11 +906,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "appendici_thermotattiche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -947,11 +975,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "armatura_pietra_planare": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["frusta_fiammeggiante"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1029,11 +1059,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità."
     },
     "artigli_acidofagi": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1096,11 +1128,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "artigli_induzione": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1163,11 +1197,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "artigli_radice": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1230,11 +1266,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "artigli_scivolo_silente": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1297,11 +1335,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "artigli_sette_vie": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1409,11 +1449,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker", "scout"],
       "weakness": "Angoli di presa limitati se la superficie è perfettamente liscia."
     },
     "artigli_sghiaccio_glaciale": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1480,11 +1522,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker", "scout"],
       "weakness": "In ambienti temperati i tessuti subiscono microfratture e richiedono continue riparazioni."
     },
     "artigli_vetrificati": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1547,11 +1591,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "aura_scudo_radianza": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["mantello_meteoritico"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1614,11 +1660,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support", "tank"],
       "weakness": "Soffre saturazione se esposta a ombre gravitazionali o zone di antimagia."
     },
     "baffi_mareomotori": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1681,11 +1729,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "barbigli_sensori_plasma": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1748,11 +1798,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "barriere_miasma_glaciale": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1815,11 +1867,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "batteri_endosimbionti_chemio": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1882,11 +1936,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "batteri_termofili_endosimbiosi": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -1949,11 +2005,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "biochip_memoria": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2016,11 +2074,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "biofilm_glow": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2083,11 +2143,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "biofilm_iperarido": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2150,11 +2212,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "branchie_dual_mode": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2217,11 +2281,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "branchie_eoliche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2284,11 +2350,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "branchie_metalloidi": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2351,11 +2419,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "branchie_microfiltri": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2418,11 +2488,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "branchie_osmotiche_salmastra": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["polmoni_cristallini_alta_quota"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2485,11 +2557,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Richiede accesso costante ad acqua salmastra; ambienti d'acqua dolce provocano stress ionico."
     },
     "branchie_solfatiche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2552,11 +2626,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "branchie_turbina": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2619,11 +2695,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "bulbi_radici_permafrost": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2690,11 +2768,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support", "sustain"],
       "weakness": "Disgeli improvvisi trasformano i bulbi in masse gelatinose che rallentano i movimenti."
     },
     "camere_anticorrosione": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2757,11 +2837,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "camere_mirage": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2824,11 +2906,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "camere_nutrienti_vent": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2891,11 +2975,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "capillari_criogenici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -2958,11 +3044,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "capillari_fluoridici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3025,11 +3113,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "capillari_fotovoltaici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3092,11 +3182,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "capsule_paracadute": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3159,11 +3251,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "carapace_fase_variabile": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["struttura_elastica_amorfa"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3285,11 +3379,13 @@
         "optional": ["nano-rust-bloom", "sand-burrower"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Debolezza strutturale durante la transizione tra le fasi di durezza."
     },
     "carapace_luminiscente_abissale": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["carapace_fase_variabile"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3356,11 +3452,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "tank"],
       "weakness": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile."
     },
     "carapace_segmenti_logici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3423,11 +3521,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "carapaci_ferruginosi": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3490,11 +3590,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "cartilagine_flessotermica_venti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["scheletro_idro_regolante"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3562,11 +3664,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "tank"],
       "weakness": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento."
     },
     "cartilagini_biofibre": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3629,11 +3733,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "cartilagini_desertiche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3696,11 +3802,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "cartilagini_flessoacustiche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3763,11 +3871,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "cartilagini_pseudometalliche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3830,11 +3940,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "cavita_risonanti_tundra": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3902,11 +4014,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "In ambienti temperati l'eco interna produce rumori udibili che rivelano la posizione."
     },
     "cervelletto_equilibrio_statico": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -3969,11 +4083,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "chemiorecettori_bromuro": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4036,11 +4152,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "chioma_parassita_canopica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4103,11 +4221,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Se la pianta ospite muore la chioma psionica collassa causando shock sistemico."
     },
     "circolazione_bifasica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4170,11 +4290,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "circolazione_bifasica_palude": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["sangue_piroforico"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4237,11 +4359,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain", "tank"],
       "weakness": "Zone asciutte e calde causano stagnazione del circuito linfatico portando a tossicosi."
     },
     "circolazione_cooling_loop": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4304,11 +4428,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "circolazione_doppia": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4371,11 +4497,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "circolazione_supercritica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4438,11 +4566,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "ciste_riduttive": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4505,11 +4635,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "ciste_salmastre": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4572,11 +4704,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "cisti_iperbariche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4639,11 +4773,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "coda_balanciere": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4706,11 +4842,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "coda_contrappeso": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4773,11 +4911,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "coda_coppia_retroattiva": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4840,11 +4980,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "coda_frusta_cinetica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -4966,11 +5108,13 @@
         "optional": ["dune-stalker"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "tank"],
       "weakness": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno."
     },
     "coda_stabilizzatrice_filo": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5033,11 +5177,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "coda_stabilizzatrice_geiser": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5100,11 +5246,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "coda_stabilizzatrice_vortex": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5167,11 +5315,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "colonne_vibromagnetiche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5234,11 +5384,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "coralli_partner": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5301,11 +5453,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "criostasi_adattiva": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["sangue_piroforico", "sacche_galleggianti_ascensoriali"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5383,11 +5537,13 @@
         "optional": ["dune-stalker"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain", "tank"],
       "weakness": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi."
     },
     "cromofori_alert_acido": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5450,11 +5606,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "cuore_multicamera_bassa_pressione": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5517,11 +5675,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "cuscinetti_elettrostatici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5584,11 +5744,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "cute_resistente_sali": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5661,11 +5823,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "cuticole_cerose": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5769,11 +5933,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "cuticole_neutralizzanti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5836,11 +6002,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "denti_chelatanti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5903,11 +6071,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "denti_ossidoferro": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -5970,11 +6140,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "denti_silice_termici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6037,11 +6209,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "denti_tuning_fork": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6104,11 +6278,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "echi_risonanti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6171,11 +6347,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "eco_interno_riflesso": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6272,11 +6450,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["controller", "scout"],
       "weakness": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue."
     },
     "empatia_coordinativa": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6390,11 +6570,13 @@
         "optional": [],
         "synergy": ["aurora-bridge-runner", "zephyr-spore-courier"]
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende."
     },
     "enzimi_antifase_termica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6457,11 +6639,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "enzimi_antipredatori_algali": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6524,11 +6708,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "enzimi_chelanti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6596,11 +6782,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "enzimi_chelatori_rapidi": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6663,11 +6851,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "enzimi_metanoossidanti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6730,11 +6920,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "epidermide_dielettrica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6797,11 +6989,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "epitelio_fosforescente": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6864,11 +7058,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "filamenti_digestivi_compattanti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -6981,11 +7177,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Blocco intestinale se la dieta è priva di materiale 'legante'."
     },
     "filamenti_magnetotrofi": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7048,11 +7246,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "filamenti_superconduttivi": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7115,11 +7315,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "filamenti_termoconduzione": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7182,11 +7384,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "filtri_planctonici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7249,11 +7453,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "flagelli_ancoranti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7316,11 +7522,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "focus_frazionato": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7435,11 +7643,13 @@
         "optional": ["glowcap-weaver", "myco-spire-warden"],
         "synergy": ["dune-stalker"]
       },
-      "usage_tags": [],
+      "usage_tags": ["controller", "support"],
       "weakness": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD."
     },
     "foliage_fotocatodico": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7502,11 +7712,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "foliaggio_spugna": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7569,11 +7781,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "frusta_fiammeggiante": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["armatura_pietra_planare"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7641,11 +7855,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker", "controller"],
       "weakness": "Consumante: richiede costante dissipazione termica per non bruciare la matrice portante."
     },
     "ghiaccio_piezoelettrico": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7708,11 +7924,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "ghiandola_caustica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7780,11 +7998,13 @@
         "optional": ["slag-veil-ambusher"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Gestione accurata delle riserve per non calare sotto i budget PE previsto."
     },
     "ghiandole_cambio_salino": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7847,11 +8067,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "ghiandole_condensa_ozono": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7914,11 +8136,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "ghiandole_eco_mappanti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -7981,11 +8205,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "ghiandole_fango_calde": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8048,11 +8274,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "ghiandole_fango_coesivo": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8115,11 +8343,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "ghiandole_grafene": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8182,11 +8412,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "ghiandole_inchiostro_luce": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8249,11 +8481,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "ghiandole_iodoattive": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8316,11 +8550,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "ghiandole_minerali": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8383,11 +8619,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "ghiandole_nebbia_acida": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8450,11 +8688,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "ghiandole_nebbia_ionica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8517,11 +8757,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "ghiandole_resina_conduttiva": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8584,11 +8826,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "ghiandole_ventosa": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8651,11 +8895,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "giunti_antitorsione": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8718,11 +8964,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "grassi_termici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8826,11 +9074,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "gusci_criovetro": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8893,11 +9143,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "gusci_magnesio": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -8960,11 +9212,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "lamelle_shear": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9027,11 +9281,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "lamelle_sincroniche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9094,11 +9350,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "lamelle_termoforetiche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["criostasi_adattiva"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9181,11 +9439,13 @@
         "optional": ["dune-stalker"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Rende instabile la fisiologia in ambienti a gelo improvviso, con rischio di microfratture vascolari."
     },
     "lamine_filtranti_aeree": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9248,11 +9508,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "lamine_scudo_silice": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9315,11 +9577,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "linfa_tampone": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9382,11 +9646,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "lingua_cristallina": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9449,11 +9715,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "lingua_tattile_trama": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9537,11 +9805,13 @@
         ],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "sustain"],
       "weakness": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi."
     },
     "luminescenza_aurorale": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9604,11 +9874,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Sensibile a tossine sconosciute finché non vengono adattate."
     },
     "luminescenza_hydrotermica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9671,11 +9943,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Soffre se separato dalla rete cooperativa del gruppo."
     },
     "mantelli_geotermici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9738,11 +10012,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di sovraccarico se scaricato senza controllo."
     },
     "mantello_meteoritico": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["aura_scudo_radianza"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9810,11 +10086,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain", "tank"],
       "weakness": "Vulnerabile a scariche di freddo gravitazionale che irrigidiscono il mantello."
     },
     "membrane_captura_rugiada": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9877,11 +10155,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede tempo di pianificazione prima di rendere il massimo."
     },
     "membrane_eliofiltranti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9944,11 +10224,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain", "tank"],
       "weakness": "Atmosfere acide degradano rapidamente il film eliofiltrante."
     },
     "membrane_planata_vectored": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10011,11 +10293,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Dipendenza da partner stabili per evitare collasso funzionale."
     },
     "membrane_pneumatofori": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10078,11 +10362,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Risonanze errate possono generare microfratture."
     },
     "midollo_antivibrazione": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10145,11 +10431,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale."
     },
     "mimetismo_cromatico_passivo": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10254,11 +10542,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "La colorazione è fissa finché non c'è un nuovo contatto prolungato."
     },
     "mucillagine_simbionte_mangrovie": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["ghiandola_caustica"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10338,11 +10628,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support", "tank"],
       "weakness": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione."
     },
     "mucose_aderenza_sonica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10405,11 +10697,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Richiede manutenzione costante delle strutture propulsive."
     },
     "mucose_barofile": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10472,11 +10766,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Peso aggiuntivo che riduce agilità se non calibrato."
     },
     "nodi_micorrizici_oracolari": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["spore_psichiche_silenziate"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10556,11 +10852,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["controller", "support"],
       "weakness": "Se la rete micorrizica viene recisa, l'organismo soffre crisi percettive e perdita di orientamento."
     },
     "nucleo_ovomotore_rotante": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["secrezione_rallentante_palmi"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10643,11 +10941,13 @@
         "optional": ["rust-scavenger"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Impossibilità di muoversi su superfici irregolari o in salita ripida."
     },
     "occhi_infrarosso_composti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10715,11 +11015,13 @@
         "optional": ["aurora-bridge-runner", "zephyr-spore-courier"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Accecamento temporaneo da fonti di calore intenso e concentrato."
     },
     "olfatto_risonanza_magnetica": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10822,7 +11124,7 @@
         "optional": ["dune-stalker", "magneto-ridge-hunter"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["controller", "scout"],
       "weakness": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici)."
     },
     "pathfinder": {
@@ -10897,7 +11199,9 @@
       "weakness": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato."
     },
     "pianificatore": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -10974,11 +11278,13 @@
         "optional": [],
         "synergy": ["glowcap-weaver", "myco-spire-warden"]
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Rigidità tattica se gli input di telemetria arrivano in ritardo."
     },
     "piume_solari_fotovoltaiche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["criostasi_adattiva"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11041,11 +11347,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain", "tank"],
       "weakness": "Ombre prolungate o polveri dense riducono drasticamente la produzione energetica."
     },
     "polmoni_cristallini_alta_quota": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["branchie_osmotiche_salmastra"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11108,11 +11416,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Particolato pesante o sabbia vulcanica graffia i cristalli riducendo l'efficienza respiratoria."
     },
     "random": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11169,11 +11479,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support", "tank"],
       "weakness": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli."
     },
     "respiro_a_scoppio": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11261,11 +11573,13 @@
         "optional": ["dune-stalker", "magneto-ridge-hunter", "slag-veil-ambusher"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "sustain"],
       "weakness": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica)."
     },
     "risonanza_di_branco": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11371,11 +11685,13 @@
         "optional": [],
         "synergy": ["aurora-bridge-runner", "dune-stalker", "zephyr-spore-courier"]
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Stress elevato se la coesione cala sotto i target di telemetria."
     },
     "sacche_galleggianti_ascensoriali": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11478,11 +11794,13 @@
         "optional": ["dune-stalker", "echo-wing"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "tank"],
       "weakness": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente."
     },
     "sacche_spore_stratosferiche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["respiro_a_scoppio"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11545,11 +11863,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Correnti ionizzate possono incendiare le sacche rendendo l'organismo instabile."
     },
     "sangue_piroforico": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["criostasi_adattiva", "scheletro_idro_regolante"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11642,11 +11962,13 @@
         "optional": ["nano-rust-bloom"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["breaker"],
       "weakness": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno."
     },
     "scheletro_idro_regolante": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["sangue_piroforico"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11777,11 +12099,13 @@
         "optional": ["rust-scavenger"],
         "synergy": ["slag-veil-ambusher"]
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain", "tank"],
       "weakness": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio."
     },
     "secrezione_rallentante_palmi": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["carapace_fase_variabile", "nucleo_ovomotore_rotante"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11849,11 +12173,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato."
     },
     "sensori_geomagnetici": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -11931,11 +12257,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Tempeste solari possono saturare il segnale magnetico, causando disorientamento prolungato."
     },
     "sinapsi_coraline_polifoniche": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["spore_psichiche_silenziate"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12015,11 +12343,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza."
     },
     "sonno_emisferico_alternato": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12092,11 +12422,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["controller", "sustain"],
       "weakness": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente."
     },
     "spore_psichiche_silenziate": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["respiro_a_scoppio"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12174,11 +12506,13 @@
         "optional": ["myco-spire-warden"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["controller", "sustain"],
       "weakness": "Funzionalità ridotta in presenza di vento forte o umidità elevata."
     },
     "squame_rifrangenti_deserto": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["mimetismo_cromatico_passivo"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12241,11 +12575,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["tank"],
       "weakness": "Soffre danni da feedback termico se colpito da raggi concentrati o laser."
     },
     "struttura_elastica_amorfa": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12372,11 +12708,13 @@
         "optional": [],
         "synergy": ["magneto-ridge-hunter"]
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "tank"],
       "weakness": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione)."
     },
     "tattiche_di_branco": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12464,11 +12802,13 @@
         "optional": [],
         "synergy": ["dune-stalker", "magneto-ridge-hunter", "slag-veil-ambusher"]
       },
-      "usage_tags": [],
+      "usage_tags": ["support"],
       "weakness": "Richiede formazione stabile; cala se la coesione precipita sotto il target."
     },
     "vello_condensatore_nebbie": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12531,11 +12871,13 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain", "tank"],
       "weakness": "In ambienti aridi accumula detriti che riducono la capacità di condensa."
     },
     "ventriglio_gastroliti": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12628,11 +12970,13 @@
         "optional": ["ferrocolonia-magnetotattica"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["sustain"],
       "weakness": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci."
     },
     "zampe_a_molla": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12711,11 +13055,13 @@
         "optional": ["sand-burrower"],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout"],
       "weakness": "Perdita di valore su mappe con spazi stretti o controllo setup elevato."
     },
     "zoccoli_risonanti_steppe": {
-      "completion_flags": {},
+      "completion_flags": {
+        "has_usage_tags": true
+      },
       "conflicts": ["zampe_a_molla"],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -12778,7 +13124,7 @@
         "optional": [],
         "synergy": []
       },
-      "usage_tags": [],
+      "usage_tags": ["scout", "support"],
       "weakness": "Suoli cedevoli come sabbie mobili annullano la vibrazione e riducono la trazione."
     }
   }
