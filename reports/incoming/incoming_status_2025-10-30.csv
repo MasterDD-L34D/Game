@@ -83,5 +83,5 @@ README_INTEGRAZIONE_MECCANICHE.md,.md,,Informativo,Note su integrazione meccanic
 README_SCAN_STAT_EVENTI.md,.md,,Da integrare,Procedura per scanner STAT/EVENTI; prossimo passo eseguire script e aggiornare compat_map.,Team Engine/Game
 recon_meccaniche.json,.json,,Informativo,Ricognizione asset esterni (GitHub/GDrive); segnala dipendenze extra-team.,"Team Esterni (Item-generator, GDrive)"
 scan_engine_idents.py,.py,,Pronto,Script operativo per individuare STAT/EVENTI nel codice.,
-sensienti_traits_v0.1.yaml,.yaml,,Bozza,Tier sensienti con placeholder codici neuroni; necessita verifica mapping.,Team Ancestors (codici neuroni)
+sentience_traits_v1.0.yaml,.yaml,,Pronto,Manifest finale sentience (tier e hook interocettivi) validato dal pack RFC.,Team Ancestors (codici neuroni)
 species_index.html,.html,,Bloccato,UI indice specie richiede file catalog_data.json non presente.,Esport catalog_data.json

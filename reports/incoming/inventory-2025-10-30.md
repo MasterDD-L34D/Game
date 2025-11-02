@@ -129,5 +129,5 @@
 | `personality_module.v1.json` | file | 24.2 KiB; .v1.json | Documento testo |
 | `recon_meccaniche.json` | file | 1.8 KiB; .json | Documento testo |
 | `scan_engine_idents.py` | file | 3.0 KiB; .py | File generico |
-| `sensienti_traits_v0.1.yaml` | file | 3.8 KiB; .1.yaml | Documento testo |
+| `sentience_traits_v1.0.yaml` | file | 3.3 KiB; .yaml | Manifest finale tier & interoception |
 | `species_index.html` | file | 3.5 KiB; .html | Documento testo |
