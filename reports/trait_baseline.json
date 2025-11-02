@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-11-02T00:56:48.805849Z",
+  "generated_at": "2025-11-02T01:15:50.501174Z",
   "summary": {
     "total_traits": 174,
     "glossary_ok": 174,
@@ -128,7 +128,7 @@
     },
     {
       "id": "ali_membrana_sonica",
-      "label": "Ali Membrana Sonica",
+      "label": "Ali a Membrana Sonica",
       "tier": "T1",
       "coverage": {
         "core": 0,
@@ -5719,7 +5719,7 @@
     },
     {
       "id": "filamenti_digestivi_compattanti",
-      "label": "Filamento materiali digeriti",
+      "label": "Filamenti Digestivi Compattanti",
       "tier": "T2",
       "coverage": {
         "core": 4,

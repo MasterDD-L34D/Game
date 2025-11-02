@@ -6,14 +6,18 @@ bundle di localizzazione e collaborare con traduttori e revisori.
 ## 1. Mappare i campi testuali
 
 1. Assicurarsi di essere nella radice del repository (`/workspace/Game`).
-2. Eseguire lo script di raccolta campi:
+2. Eseguire lo script di raccolta campi indicando anche il glossario:
    ```bash
-   python tools/py/collect_trait_fields.py --output reports/trait_fields.json
+   python tools/py/collect_trait_fields.py \
+     --output reports/trait_fields_by_type.json \
+     --glossary data/core/traits/glossary.json \
+     --glossary-output reports/trait_texts.json
    ```
-3. Il file generato riepiloga i campi presenti per tipologia. Usarlo per
-   individuare i campi testuali che devono essere estratti (ad esempio `label`,
-   `mutazione_indotta`, `spinta_selettiva`, `uso_funzione`, `debolezza`,
-   `fattore_mantenimento_energetico`, eventuali `description` o `flavor_text`).
+3. `reports/trait_fields_by_type.json` riepiloga i campi presenti per tipologia, mentre
+   `reports/trait_texts.json` elenca per ogni trait le stringhe approvate dal
+   glossario (label/description per lingua). Usare i due file congiuntamente per
+   individuare i campi testuali che devono essere estratti o aggiornati e
+   verificare che il glossario sia completo prima di procedere.
 
 ## 2. Struttura comune dei bundle
 
@@ -35,28 +39,31 @@ solo le chiavi definite dallo schema (`label`, `description`, `flavor_text`,
 
 ## 3. Sincronizzare i testi con lo script
 
-Lo script `scripts/sync_trait_locales.py` automatizza l'estrazione dei testi e
-l'aggiornamento dei file.
+Lo script `scripts/sync_trait_locales.py` automatizza l'estrazione dei testi,
+applica le stringhe approvate dal glossario e aggiorna i file di localizzazione.
 
 ```bash
 python scripts/sync_trait_locales.py \
   --traits-dir data/traits \
   --locales-dir locales \
   --language it \
-  --fallback null
+  --fallback null \
+  --glossary data/core/traits/glossary.json
 ```
 
 Lo script esegue tre operazioni:
 
 1. Esplora tutti i trait (`*.json`, esclusi gli indici) e raccoglie i valori dei
-   campi testuali.
-2. Popola `locales/<lingua>/traits.json` con i testi normalizzati e ordinati.
+   campi testuali ancora non localizzati.
+2. Integra `locales/<lingua>/traits.json` con le stringhe approvate dal
+   glossario (campi `label` e `description`), mantenendo anche gli altri testi
+   estratti dai file trait.
 3. Sostituisce i valori testuali nei trait con chiavi `i18n:traits.<id>.<campo>`
    che puntano alla voce nel bundle.
 
 Usare `--dry-run` per verificare le modifiche senza applicarle. Lo script è
-idempotente: eseguendolo più volte non produce diff aggiuntivi se i contenuti non
-cambiano.
+idempotente: eseguendolo più volte non produce diff aggiuntivi se i contenuti,
+inclusi quelli del glossario, non cambiano.
 
 ### Aggiornare o aggiungere lingue
 

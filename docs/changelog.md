@@ -2,11 +2,21 @@
 
 ## [Unreleased]
 ### Added
+- Trait reference aggiornato (`docs/catalog/trait_reference.md`) con mappatura
+  glossario IT/EN e workflow di sincronizzazione.
+- Guida operativa aggiornata per autori di trait
+  (`README_HOWTO_AUTHOR_TRAIT.md`) e report generato da
+  `tools/py/collect_trait_fields.py --glossary-output`.
+- Estensioni agli script `scripts/sync_trait_locales.py` e
+  `tools/py/collect_trait_fields.py` per propagare label/description approvate
+  nelle localizzazioni.
 - Trait metadata (`species_affinity`, `usage_tags`, `completion_flags`) now exposed across catalog loaders, generators e servizi API, con test automatici aggiornati.
 - Piano di rollout trait (`docs/process/trait_rollout_plan.md`) con fasi, checklist e calendario versioni condivisi con i team coinvolti.
 - Calendario training per il team di gioco e canali di monitoraggio dedicati (`#trait-rollout`, report settimanali).
 
 ### Changed
+- Template trait, guida contributiva e processo di localizzazione aggiornati per
+  includere glossario e checklist sincronizzata.
 - Note di rilascio aggiornate con canali di comunicazione e monitoraggio post-rollout, includendo reminder per `docs/publishing_calendar.md`.
 
 ### Fixed

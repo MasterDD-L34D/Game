@@ -30,6 +30,7 @@ interessati siano pronti e che il rollout sia monitorato passo-passo.
 - [ ] KPI di pilot ≥ 90% soddisfazione, < 5% issue bloccanti rilevate.
 - [ ] Playbook incident (`docs/process/incident_reporting_table.md`) aggiornato con scenari trait.
 - [ ] Checklist localizzazione (`docs/process/localization.md`) applicata per i nuovi label.
+- [ ] `reports/trait_texts.json` generato dal nuovo flusso glossario + sync e condiviso con Localization.
 - [ ] Piano di comunicazione GA approvato da Publishing e Game Design.
 
 ## Coordinamento training team di gioco
