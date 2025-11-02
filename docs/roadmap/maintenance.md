@@ -5,6 +5,7 @@ file include anche la checklist **go/no-go** con riferimenti agli step Flow Shel
 prima di ogni rilascio seguendo la procedura e i controlli riportati sotto.
 
 ## Procedura di aggiornamento
+
 1. Aggiorna la telemetria aggregata: chiama `GET /api/deployments/status?refresh=1` (o avvia lo script di hook) per rigenerare
    `reports/status.json` con snapshot, Nebula e trait diagnostics allineati.
 2. Esegui `node tools/recap/generateRecap.js --output docs/recap/live-ops.md` per produrre il recap aggiornato; il report include
@@ -16,7 +17,22 @@ prima di ogni rilascio seguendo la procedura e i controlli riportati sotto.
 5. Verifica che `GET /api/deployments/status` restituisca l'ultima voce registrata (incluso stato go/no-go `go`) e allega il link al
    recap nella comunicazione di release.
 
+## Checklist go/no-go
+
+- **Flow Shell readiness**: esegui `node tools/deploy/generateStatusReport.js` (o `GET /api/deployments/status?refresh=1`) per
+  rigenerare `reports/status.json`, quindi controlla che tutti gli step critici risultino `passed` nella sezione `goNoGo`.
+- **Copertura telemetria Nebula**: dal report verifica che `telemetry.nebula.summary.telemetry.coverage` presenti media ≥70% e
+  che lo storico mostri una tendenza stabile; in caso contrario apri un ticket verso il team Atlas.
+- **Timeline incidenti**: analizza `telemetry.nebula.summary.telemetry.incidents.timeline` e la sezione "Incidenti aperti" del
+  recap per confermare che gli eventi ad alta priorità siano azzerati o mitigati entro le ultime 24 ore.
+- **Trait diagnostics**: accertati che `telemetry.traitDiagnostics.summary` riporti `with_conflicts == 0` e nessun `matrix_mismatch`;
+  se necessario pianifica una sessione di hardening con i referenti QA.
+- **Bridge orchestratore**: prima della finestra di deploy verifica il tuning del bridge (`config/orchestrator.json`) controllando
+  heartbeat, timeout e pool size; riavvia il bridge con i parametri aggiornati se sono previste variazioni di carico o spike
+  durante il rollout.
+
 ## Punti di controllo layout & telemetria
+
 - **Flow Shell go/no-go**: controlla che la checklist in `reports/status.json` (campo `goNoGo`) segni tutti gli step critici
   (`Quality Release → Trait diagnostics`, `Nebula Atlas → Telemetry`, ecc.) come `passed`.
 - **Layout roadmap / Nebula UI**: controlla che badge, metriche e timeline siano allineate con le etichette di stato restituite
@@ -30,6 +46,7 @@ prima di ogni rilascio seguendo la procedura e i controlli riportati sotto.
   note del rilascio e che lo stato complessivo della checklist sia `go` (nessun `failed`).
 
 ## Note operative
+
 - Conserva almeno le ultime 10 voci di deploy in `reports/status.json` per facilitare audit rapidi (puoi passare `{"keepLast": 10}` nel
   payload dell'hook).
 - Allegare sempre link diretti alle dashboard di telemetria quando comunichi il recap ai team di prodotto e QA.
