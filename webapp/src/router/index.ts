@@ -173,16 +173,31 @@ function buildStateTokens(to: RouteLocationNormalizedLoaded): NavigationToken[] 
   return tokens;
 }
 
+function resolveBasePath(candidate?: string): string {
+  if (candidate && candidate.trim()) {
+    return candidate;
+  }
+  if (typeof window !== 'undefined') {
+    try {
+      const url = new URL('.', window.location.href);
+      return url.pathname || '/';
+    } catch (error) {
+      // fallback to environment base
+    }
+  }
+  return import.meta.env.BASE_URL || '/';
+}
+
 export function createAppRouter({
   base,
   history,
 }: { base?: string; history?: Router['history'] } = {}): Router {
-  const resolvedHistory = history || createWebHistory(base ?? import.meta.env.BASE_URL);
+  const resolvedHistory = history || createWebHistory(resolveBasePath(base));
 
   const routes: RouteRecordRaw[] = [
     {
       path: '/',
-      redirect: { name: 'console-home' },
+      redirect: { name: 'console-flow' },
     },
     {
       path: '/console',
@@ -193,6 +208,10 @@ export function createAppRouter({
       children: [
         {
           path: '',
+          redirect: { name: 'console-flow' },
+        },
+        {
+          path: 'hub',
           name: 'console-home',
           component: ConsoleHubView,
           meta: {

@@ -486,6 +486,49 @@ function collectQualityLogs(snapshot) {
     .filter((entry) => entry && typeof entry === 'object');
 }
 
+const seededSnapshotLogs = new Set();
+
+function snapshotLogKey(entry, index) {
+  if (entry?.id) {
+    return `snapshot:${entry.id}`;
+  }
+  const message =
+    typeof entry?.message === 'string' && entry.message.trim() ? entry.message.trim() : '';
+  const timestamp =
+    typeof entry?.timestamp === 'string' && entry.timestamp.trim() ? entry.timestamp.trim() : '';
+  if (message || timestamp) {
+    return `snapshot:${timestamp}:${message}`;
+  }
+  return `snapshot:index:${index}`;
+}
+
+watch(
+  () => snapshotStore.snapshot.value,
+  (snapshot) => {
+    const entries = collectQualityLogs(snapshot);
+    entries.forEach((entry, index) => {
+      const key = snapshotLogKey(entry, index);
+      if (seededSnapshotLogs.has(key)) {
+        return;
+      }
+      seededSnapshotLogs.add(key);
+      clientLogger.logEvent(entry?.event || 'quality.snapshot.log', {
+        id: entry?.id || key,
+        scope: typeof entry?.scope === 'string' && entry.scope.trim() ? entry.scope : 'quality',
+        level: typeof entry?.level === 'string' && entry.level.trim() ? entry.level : 'info',
+        message:
+          typeof entry?.message === 'string' && entry.message.trim()
+            ? entry.message.trim()
+            : entry?.title || 'Log snapshot',
+        timestamp: typeof entry?.timestamp === 'string' ? entry.timestamp : undefined,
+        data: entry,
+        source: 'snapshot',
+      });
+    });
+  },
+  { deep: true, immediate: true },
+);
+
 function countValidatorWarnings(snapshot) {
   return collectQualityLogs(snapshot).filter(
     (log) => String(log?.level || '').toLowerCase() === 'warning',

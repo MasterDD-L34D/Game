@@ -1,4 +1,3 @@
-import { isStaticDeployment } from './apiEndpoints';
 import {
   beginFetchDiagnostic,
   recordFallbackSuccess,
@@ -16,7 +15,7 @@ export function resolveFetchImplementation(fetchImpl) {
   if (typeof globalThis !== 'undefined' && typeof globalThis.fetch === 'function') {
     return globalThis.fetch.bind(globalThis);
   }
-  throw new Error('fetch non disponibile nell\'ambiente corrente');
+  throw new Error("fetch non disponibile nell'ambiente corrente");
 }
 
 function toError(value, fallbackMessage = 'Richiesta fallita') {
@@ -41,7 +40,9 @@ async function createHttpError(response, defaultMessage, builder) {
       }
     }
   }
-  const statusMessage = defaultMessage ? `${defaultMessage} (${response.status})` : `Richiesta fallita (${response.status})`;
+  const statusMessage = defaultMessage
+    ? `${defaultMessage} (${response.status})`
+    : `Richiesta fallita (${response.status})`;
   try {
     const payload = await response.clone().json();
     if (payload && typeof payload.error === 'string' && payload.error.trim()) {
@@ -68,7 +69,7 @@ export async function fetchJsonWithFallback(url, options = {}) {
     parse = (response) => response.json(),
     fallbackUrl,
     fallbackInit,
-    allowFallback = isStaticDeployment(),
+    allowFallback: allowFallbackOption,
     errorMessage,
     fallbackErrorMessage,
     buildErrorMessage,
@@ -76,6 +77,8 @@ export async function fetchJsonWithFallback(url, options = {}) {
   } = options;
 
   const fetchFn = resolveFetchImplementation(fetchImpl);
+
+  const allowFallback = typeof allowFallbackOption === 'boolean' ? allowFallbackOption : true;
 
   const diagnosticId = beginFetchDiagnostic({
     url,
@@ -125,7 +128,10 @@ export async function fetchJsonWithFallback(url, options = {}) {
       );
       return { data, source: 'fallback', response: fallbackResponse, error: remoteError };
     } catch (fallbackError) {
-      const fallbackErr = toError(fallbackError, fallbackErrorMessage || 'Fallback non disponibile');
+      const fallbackErr = toError(
+        fallbackError,
+        fallbackErrorMessage || 'Fallback non disponibile',
+      );
       if (!fallbackErr.cause) {
         fallbackErr.cause = remoteError;
       }
