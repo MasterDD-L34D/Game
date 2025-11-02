@@ -65,5 +65,9 @@
   "completion_flags": {
     "has_biome": true,
     "has_species_link": false
-  }
+  },
+  "biome_tags": [
+    "caverna_risonante",
+    "falde_magnetiche_psioniche"
+  ]
 }

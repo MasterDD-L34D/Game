@@ -54,5 +54,8 @@
   "completion_flags": {
     "has_biome": true,
     "has_species_link": true
-  }
+  },
+  "biome_tags": [
+    "foresta_miceliale"
+  ]
 }

@@ -41,5 +41,8 @@
   "completion_flags": {
     "has_biome": true,
     "has_species_link": false
-  }
+  },
+  "biome_tags": [
+    "mangrovieto_cinetico"
+  ]
 }
