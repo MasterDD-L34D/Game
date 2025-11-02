@@ -46,7 +46,12 @@ function computeTraitDiagnosticsStatus(traitDiagnostics = {}) {
   const missingGlossary = toNumber(summary.glossary_missing ?? summary.glossaryMissing);
   const error = status.error ? String(status.error) : null;
   const passed = !error && conflicts === 0;
-  const severity = 'warning';
+  let severity = 'warning';
+  if (error || conflicts > 0) {
+    severity = 'critical';
+  } else if (matrixMismatch > 0 || missingGlossary > 0) {
+    severity = 'warning';
+  }
   const summaryParts = [];
   if (error) {
     summaryParts.push(`Errore diagnostica: ${error}`);
