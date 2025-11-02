@@ -1,19 +1,19 @@
 trait_id,label_it,label_en,biome,morphotype,rules_count,species_count
 ali_fulminee,Ali Fulminee,Ali Fulminee,stratosfera_tempestosa,,1,1
 ali_fulminee,Ali Fulminee,Ali Fulminee,stratosfera_tempestosa,cursoriale_quadrupede,0,1
-ali_ioniche,Ali Ioniche,Ali Ioniche,canopia_ionica,,1,1
-ali_ioniche,Ali Ioniche,Ali Ioniche,canopia_ionica,cursoriale_quadrupede,0,1
-ali_membrana_sonica,Ali Membrana Sonica,Ali Membrana Sonica,caverna_risonante,,1,1
-ali_membrana_sonica,Ali Membrana Sonica,Ali Membrana Sonica,caverna_risonante,cursoriale_quadrupede,0,1
-antenne_dustsense,Antenne Dustsense,Antenne Dustsense,pianura_salina_iperarida,,1,1
-antenne_dustsense,Antenne Dustsense,Antenne Dustsense,pianura_salina_iperarida,cursoriale_quadrupede,0,1
+ali_ioniche,Ali Ioniche,Ionic Wings,canopia_ionica,,1,1
+ali_ioniche,Ali Ioniche,Ionic Wings,canopia_ionica,cursoriale_quadrupede,0,1
+ali_membrana_sonica,Ali a Membrana Sonica,Sonic Membrane Wings,caverna_risonante,,1,1
+ali_membrana_sonica,Ali a Membrana Sonica,Sonic Membrane Wings,caverna_risonante,cursoriale_quadrupede,0,1
+antenne_dustsense,Antenne Dustsense,Dustsense Antennae,pianura_salina_iperarida,,1,1
+antenne_dustsense,Antenne Dustsense,Dustsense Antennae,pianura_salina_iperarida,cursoriale_quadrupede,0,1
 antenne_eco_turbina,Antenne Eco Turbina,Antenne Eco Turbina,dorsale_termale_tropicale,,1,1
 antenne_eco_turbina,Antenne Eco Turbina,Antenne Eco Turbina,dorsale_termale_tropicale,cursoriale_quadrupede,0,1
 antenne_flusso_mareale,Antenne Flusso Mareale,Antenne Flusso Mareale,laguna_bioreattiva,,1,1
 antenne_flusso_mareale,Antenne Flusso Mareale,Antenne Flusso Mareale,laguna_bioreattiva,cursoriale_quadrupede,0,1
 antenne_microonde_cavernose,Antenne Microonde Cavernose,Antenne Microonde Cavernose,caverna_risonante,,1,1
 antenne_microonde_cavernose,Antenne Microonde Cavernose,Antenne Microonde Cavernose,caverna_risonante,cursoriale_quadrupede,0,1
-antenne_plasmatiche_tempesta,Antenne Plasmatiche di Tempesta,Antenne Plasmatiche di Tempesta,cicloni_psionici,cursoriale_quadrupede,0,1
+antenne_plasmatiche_tempesta,Antenne Plasmatiche di Tempesta,Storm Plasma Antennae,cicloni_psionici,cursoriale_quadrupede,0,1
 antenne_reagenti,Antenne Reagenti,Antenne Reagenti,foresta_acida,,1,1
 antenne_reagenti,Antenne Reagenti,Antenne Reagenti,foresta_acida,cursoriale_quadrupede,0,1
 antenne_tesla,Antenne Tesla,Antenne Tesla,canopia_ionica,,1,1
@@ -116,7 +116,7 @@ chemiorecettori_bromuro,Chemiorecettori Bromuro,Chemiorecettori Bromuro,pianura_
 chioma_parassita_canopica,Chioma Parassita Canopica,Chioma Parassita Canopica,canopie_sospese,cursoriale_quadrupede,0,1
 circolazione_bifasica,Circolazione Bifasica,Circolazione Bifasica,caldera_glaciale,,1,1
 circolazione_bifasica,Circolazione Bifasica,Circolazione Bifasica,caldera_glaciale,cursoriale_quadrupede,0,1
-circolazione_bifasica_palude,Circolazione Bifasica di Palude,Circolazione Bifasica di Palude,paludi_gas_luminescenti,cursoriale_quadrupede,0,1
+circolazione_bifasica_palude,Circolazione Bifasica di Palude,Swamp Biphase Circulation,paludi_gas_luminescenti,cursoriale_quadrupede,0,1
 circolazione_cooling_loop,Circolazione Cooling Loop,Circolazione Cooling Loop,steppe_algoritmiche,,1,1
 circolazione_cooling_loop,Circolazione Cooling Loop,Circolazione Cooling Loop,steppe_algoritmiche,cursoriale_quadrupede,0,1
 circolazione_doppia,Circolazione Doppia,Circolazione Doppia,dorsale_termale_tropicale,,1,1
@@ -135,7 +135,7 @@ coda_contrappeso,Coda Contrappeso,Coda Contrappeso,mangrovieto_cinetico,,1,1
 coda_contrappeso,Coda Contrappeso,Coda Contrappeso,mangrovieto_cinetico,cursoriale_quadrupede,0,1
 coda_coppia_retroattiva,Coda Coppia Retroattiva,Coda Coppia Retroattiva,steppe_algoritmiche,,1,1
 coda_coppia_retroattiva,Coda Coppia Retroattiva,Coda Coppia Retroattiva,steppe_algoritmiche,cursoriale_quadrupede,0,1
-coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,dorsale_termale_tropicale,cursoriale_quadrupede,1,3
+coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,dorsale_termale_tropicale,cursoriale_quadrupede,1,2
 coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,falde_magnetiche_psioniche,cursoriale_quadrupede,0,1
 coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,orbita_psionica_inversa,cursoriale_quadrupede,0,1
 coda_frusta_cinetica,Coda a Frusta Cinetica,Kinetic Lash Tail,rovine_planari,cursoriale_quadrupede,0,2
@@ -205,14 +205,14 @@ epidermide_dielettrica,Epidermide Dielettrica,Epidermide Dielettrica,stratosfera
 epidermide_dielettrica,Epidermide Dielettrica,Epidermide Dielettrica,stratosfera_tempestosa,cursoriale_quadrupede,0,1
 epitelio_fosforescente,Epitelio Fosforescente,Epitelio Fosforescente,reef_luminescente,,1,1
 epitelio_fosforescente,Epitelio Fosforescente,Epitelio Fosforescente,reef_luminescente,cursoriale_quadrupede,0,1
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,caverna_risonante,cursoriale_quadrupede,0,1
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,dorsale_termale_tropicale,scavenger_corazzato,1,2
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,falde_magnetiche_psioniche,,1,2
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,falde_magnetiche_psioniche,cursoriale_quadrupede,0,1
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,falde_magnetiche_psioniche,scavenger_corazzato,0,1
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,foresta_miceliale,,1,2
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,foresta_miceliale,scavenger_corazzato,0,2
-filamenti_digestivi_compattanti,Filamento materiali digeriti,Digestive Compaction Filaments,mezzanotte_orbitale,scavenger_corazzato,1,1
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,caverna_risonante,cursoriale_quadrupede,0,1
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,dorsale_termale_tropicale,scavenger_corazzato,1,2
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,falde_magnetiche_psioniche,,1,2
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,falde_magnetiche_psioniche,cursoriale_quadrupede,0,1
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,falde_magnetiche_psioniche,scavenger_corazzato,0,1
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,foresta_miceliale,,1,2
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,foresta_miceliale,scavenger_corazzato,0,2
+filamenti_digestivi_compattanti,Filamenti Digestivi Compattanti,Digestive Compaction Filaments,mezzanotte_orbitale,scavenger_corazzato,1,1
 filamenti_magnetotrofi,Filamenti Magnetotrofi,Filamenti Magnetotrofi,abisso_vulcanico,,1,1
 filamenti_magnetotrofi,Filamenti Magnetotrofi,Filamenti Magnetotrofi,abisso_vulcanico,cursoriale_quadrupede,0,1
 filamenti_superconduttivi,Filamenti Superconduttivi,Filamenti Superconduttivi,caldera_glaciale,,1,1

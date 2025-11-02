@@ -53,10 +53,12 @@ environment_affinity:
 derived_from_environment:
   suggested_traits:
     - artigli_sette_vie
-    - coda_frusta_cinetica
     - scheletro_idro_regolante
     - struttura_elastica_amorfa
   optional_traits:
+    - coda_frusta_cinetica
+    - sacche_galleggianti_ascensoriali
+    - criostasi_adattiva
     - olfatto_risonanza_magnetica
     - respiro_a_scoppio
   required_capabilities:
@@ -74,13 +76,18 @@ services_links: []
 genetic_traits:
   core:
     - artigli_sette_vie
-    - coda_frusta_cinetica
     - scheletro_idro_regolante
     - struttura_elastica_amorfa
   optional:
+    - coda_frusta_cinetica
+    - sacche_galleggianti_ascensoriali
+    - criostasi_adattiva
     - olfatto_risonanza_magnetica
     - respiro_a_scoppio
-  synergy: []
+  synergy:
+    - focus_frazionato
+    - risonanza_di_branco
+    - tattiche_di_branco
 mate_synergy: []
 jobs_synergy: []
 description: i18n:species.dune-stalker.description
