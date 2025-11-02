@@ -13,6 +13,11 @@ CACHE_LOG="$LOG_DIR/cache_cleanup_${TIMESTAMP}.log"
 STYLE_JSON="$LOG_DIR/trait_style_${TIMESTAMP}.json"
 STYLE_MARKDOWN="$LOG_DIR/trait_style_${TIMESTAMP}.md"
 STYLE_LOG="$LOG_DIR/trait_style_${TIMESTAMP}.log"
+COMPLIANCE_JSON="$LOG_DIR/styleguide_compliance_${TIMESTAMP}.json"
+COMPLIANCE_MARKDOWN="$LOG_DIR/styleguide_compliance_${TIMESTAMP}.md"
+COMPLIANCE_LOG="$LOG_DIR/styleguide_compliance_${TIMESTAMP}.log"
+COMPLIANCE_HISTORY="$LOG_DIR/styleguide_compliance_history.json"
+DASHBOARD_BRIDGE="$REPO_ROOT/logs/qa/latest-dashboard-metrics.json"
 
 mkdir -p "$LOG_DIR"
 
@@ -155,6 +160,67 @@ else
   anomaly_count=$((anomaly_count + 1))
   anomaly_messages+=("Controllo style guide fallito (codice ${style_status}).")
   append_line "- ❌ Controllo style guide fallito (log: \`$(relpath \"$STYLE_LOG\")\`)."
+fi
+
+log_section "Report compliance styleguide"
+if python3 "$REPO_ROOT/tools/py/styleguide_compliance_report.py" \
+  --out-json "$COMPLIANCE_JSON" \
+  --out-markdown "$COMPLIANCE_MARKDOWN" \
+  --history-file "$COMPLIANCE_HISTORY" \
+  --dashboard-bridge "$DASHBOARD_BRIDGE" \
+  >"$COMPLIANCE_LOG" 2>&1; then
+  read -r COMPLIANCE_BREACHES COMPLIANCE_OVERVIEW COMPLIANCE_LABELS < <(
+    python3 - "$COMPLIANCE_JSON" <<'PY'
+import json
+import sys
+
+payload = json.loads(open(sys.argv[1], encoding="utf-8").read())
+metrics = payload.get("kpi", {})
+breaches = []
+overview_parts = []
+if isinstance(metrics, dict):
+    for key in ("name_compliance", "description_completeness", "ucum_presence"):
+        bucket = metrics.get(key)
+        if isinstance(bucket, dict):
+            label = bucket.get("label", key)
+            percent = bucket.get("percent")
+            if isinstance(percent, (int, float)):
+                overview_parts.append(f"{label} {percent:.1f}%")
+            else:
+                overview_parts.append(f"{label} n/d")
+            if bucket.get("status") == "breach":
+                breaches.append(label)
+summary = payload.get("summary") if isinstance(payload, dict) else None
+if isinstance(summary, dict):
+    breach_labels = summary.get("breach_labels")
+    if isinstance(breach_labels, list):
+        breaches = [str(label) for label in breach_labels]
+print(len(breaches))
+print(" · ".join(overview_parts))
+print(", ".join(breaches))
+PY
+  )
+  COMPLIANCE_BREACHES=${COMPLIANCE_BREACHES:-0}
+  if [ -z "$COMPLIANCE_OVERVIEW" ]; then
+    COMPLIANCE_OVERVIEW="Metriche non disponibili"
+  fi
+  if [ "$COMPLIANCE_BREACHES" -gt 0 ]; then
+    anomaly_count=$((anomaly_count + COMPLIANCE_BREACHES))
+    if [ -n "$COMPLIANCE_LABELS" ]; then
+      anomaly_messages+=("KPI styleguide sotto SLA: ${COMPLIANCE_LABELS}.")
+    else
+      anomaly_messages+=("${COMPLIANCE_BREACHES} KPI styleguide sotto SLA.")
+    fi
+    msg="- ❌ KPI styleguide in breach (${COMPLIANCE_OVERVIEW}). Report: \`$(relpath "$COMPLIANCE_MARKDOWN")\` (log: \`$(relpath "$COMPLIANCE_LOG")\`)."
+    append_line "$msg"
+  else
+    append_line "- ✅ KPI styleguide allineati (${COMPLIANCE_OVERVIEW}). Report: \`$(relpath "$COMPLIANCE_MARKDOWN")\`."
+  fi
+else
+  compliance_status=$?
+  anomaly_count=$((anomaly_count + 1))
+  anomaly_messages+=("Generazione report styleguide fallita (codice ${compliance_status}).")
+  append_line "- ❌ Impossibile generare il report styleguide (log: \`$(relpath \"$COMPLIANCE_LOG\")\`)."
 fi
 if [ "$DEPRECATED_COUNT" -gt 0 ]; then
   anomaly_count=$((anomaly_count + DEPRECATED_COUNT))

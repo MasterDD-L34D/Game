@@ -46,7 +46,9 @@
   background: #fff;
   font: inherit;
   color: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .trait-editor__field input:focus,
@@ -113,7 +115,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
 }
 
 .trait-editor__list button:hover {
@@ -182,7 +187,10 @@
   padding: 0.55rem 1.4rem;
   font: inherit;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .trait-editor__actions button.primary {
@@ -416,6 +424,11 @@
   color: #bfdbfe;
 }
 
+.trait-editor__style-counter--actionable {
+  background: rgba(16, 185, 129, 0.25);
+  color: #bbf7d0;
+}
+
 .trait-editor__suggestions {
   margin: 0;
   padding-left: 1.1rem;
@@ -470,6 +483,32 @@
   display: block;
   color: rgba(226, 232, 240, 0.65);
   font-size: 0.72rem;
+}
+
+.trait-editor__suggestion-action {
+  margin-top: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.55);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.trait-editor__suggestion-action:hover {
+  border-color: rgba(94, 234, 212, 0.65);
+  background: rgba(13, 148, 136, 0.45);
+  transform: translateY(-1px);
+}
+
+.trait-editor__suggestion-action:focus-visible {
+  outline: 2px solid rgba(94, 234, 212, 0.85);
+  outline-offset: 2px;
 }
 
 .trait-editor__message {

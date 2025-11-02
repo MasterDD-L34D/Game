@@ -19,6 +19,7 @@ DEFAULT_HISTORY = PROJECT_ROOT / "logs" / "trait_audit" / "styleguide_compliance
 DEFAULT_MARKDOWN = PROJECT_ROOT / "reports" / "styleguide_compliance.md"
 DEFAULT_JSON = PROJECT_ROOT / "reports" / "styleguide_compliance.json"
 DEFAULT_SLA = PROJECT_ROOT / "config" / "styleguide_sla.json"
+DEFAULT_DASHBOARD_BRIDGE = PROJECT_ROOT / "logs" / "qa" / "latest-dashboard-metrics.json"
 
 
 UCUM_PATTERN = re.compile(r"^[A-Za-z0-9%/._^() -]+$")
@@ -82,6 +83,17 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=DEFAULT_SLA,
         help="Configuration file containing the KPI SLA thresholds (0-1 range).",
+    )
+    parser.add_argument(
+        "--dashboard-bridge",
+        type=Path,
+        default=DEFAULT_DASHBOARD_BRIDGE,
+        help="Dashboard bridge JSON updated with the latest styleguide KPI snapshot.",
+    )
+    parser.add_argument(
+        "--dashboard-section",
+        default="styleguide",
+        help="Section name to use inside the dashboard bridge JSON payload.",
     )
     parser.add_argument(
         "--strict",
@@ -314,6 +326,20 @@ def build_json_payload(
             for metric in metrics
         },
     }
+    payload["summary"] = {
+        "breach_count": len(alerts),
+        "breach_labels": [alert["label"] for alert in alerts],
+        "overview": [
+            {
+                "metric": metric.key,
+                "label": metric.label,
+                "percent": metric.percent,
+                "status": metric.status,
+                "sla_threshold": metric.sla_threshold,
+            }
+            for metric in metrics
+        ],
+    }
     if alerts:
         payload["alerts"] = alerts
     return payload
@@ -411,6 +437,45 @@ def render_markdown(
     return "\n".join(lines)
 
 
+def update_dashboard_bridge(path: Path, section: str, snapshot: Mapping[str, object]) -> None:
+    if not path:
+        return
+    existing: dict[str, object]
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        existing = dict(payload) if isinstance(payload, Mapping) else {}
+    except FileNotFoundError:
+        existing = {}
+    except json.JSONDecodeError:
+        existing = {}
+
+    generated_at = snapshot.get("generated_at") if isinstance(snapshot, Mapping) else None
+    section_payload: dict[str, object] = {
+        "generated_at": generated_at,
+        "kpi": snapshot.get("kpi") if isinstance(snapshot, Mapping) else None,
+    }
+    if isinstance(snapshot, Mapping):
+        summary = snapshot.get("summary")
+        if isinstance(summary, Mapping):
+            section_payload["summary"] = {
+                "breach_count": summary.get("breach_count"),
+                "breach_labels": summary.get("breach_labels"),
+                "overview": summary.get("overview"),
+            }
+        alerts = snapshot.get("alerts")
+        if isinstance(alerts, list):
+            section_payload["alerts"] = alerts
+
+    existing[section] = section_payload
+    if isinstance(generated_at, str):
+        existing["styleguide_generated_at"] = generated_at
+        if "run_at" not in existing:
+            existing["run_at"] = generated_at
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(existing, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
@@ -431,6 +496,8 @@ def main() -> int:
     markdown = render_markdown(timestamp, metrics, history)
     args.out_markdown.parent.mkdir(parents=True, exist_ok=True)
     args.out_markdown.write_text(markdown, encoding="utf-8")
+
+    update_dashboard_bridge(args.dashboard_bridge, args.dashboard_section, json_payload)
 
     breaches = [metric for metric in metrics if metric.status == "breach"]
     if args.strict and breaches:

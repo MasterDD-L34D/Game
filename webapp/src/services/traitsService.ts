@@ -43,7 +43,18 @@ export interface TraitValidationSuggestion {
     type?: 'set' | 'append' | 'remove';
     value?: unknown;
     note?: string;
+    autoApplicable?: boolean;
   } | null;
+}
+
+export interface TraitCorrectionMessage {
+  path: string;
+  message: string;
+  action: string;
+  severity?: 'info' | 'warning' | 'error';
+  value?: unknown;
+  note?: string;
+  autoApplicable?: boolean;
 }
 
 export interface TraitValidationSummary {
@@ -51,6 +62,10 @@ export interface TraitValidationSummary {
   style?: {
     total?: number;
     bySeverity?: Record<string, number>;
+    corrections?: {
+      total?: number;
+      actionable?: number;
+    };
   };
   [key: string]: unknown;
 }
@@ -60,6 +75,7 @@ export interface TraitValidationResponse {
   errors?: ErrorObject[];
   suggestions?: TraitValidationSuggestion[];
   summary?: TraitValidationSummary;
+  corrections?: TraitCorrectionMessage[];
 }
 
 export interface TraitValidationRequest extends TraitRequestOptions {
@@ -106,8 +122,9 @@ async function requestJson<T>(path: string, options: InternalRequestOptions = {}
 
   if (!response.ok) {
     const error = new Error(
-      (data && typeof data === 'object' && 'error' in data ? String((data as { error: unknown }).error) : null) ||
-        `Errore API traits (${response.status})`,
+      (data && typeof data === 'object' && 'error' in data
+        ? String((data as { error: unknown }).error)
+        : null) || `Errore API traits (${response.status})`,
     ) as TraitRequestError;
     error.status = response.status;
     error.detail = data;
@@ -126,7 +143,9 @@ function safeParseJson(payload: string): unknown {
   }
 }
 
-export async function fetchTraitSchema(options: TraitRequestOptions = {}): Promise<TraitSchemaResponse> {
+export async function fetchTraitSchema(
+  options: TraitRequestOptions = {},
+): Promise<TraitSchemaResponse> {
   return requestJson<TraitSchemaResponse>('/api/traits/schema', options);
 }
 
@@ -142,7 +161,10 @@ export async function fetchTraitList(
   return requestJson<TraitListResponse>(path, options);
 }
 
-export async function fetchTraitEntry(id: string, options: TraitRequestOptions = {}): Promise<TraitEntryResponse> {
+export async function fetchTraitEntry(
+  id: string,
+  options: TraitRequestOptions = {},
+): Promise<TraitEntryResponse> {
   const safeId = encodeURIComponent(id);
   return requestJson<TraitEntryResponse>(`/api/traits/${safeId}`, options);
 }
@@ -159,7 +181,11 @@ export async function saveTraitEntry(
   });
 }
 
-export async function validateTraitDraft({ traitId, payload, ...options }: TraitValidationRequest): Promise<TraitValidationResponse> {
+export async function validateTraitDraft({
+  traitId,
+  payload,
+  ...options
+}: TraitValidationRequest): Promise<TraitValidationResponse> {
   return requestJson<TraitValidationResponse>('/api/traits/validate', {
     ...options,
     method: 'POST',

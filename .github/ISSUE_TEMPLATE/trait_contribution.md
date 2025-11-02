@@ -1,8 +1,8 @@
 ---
-name: "Proposta trait"
-about: "Suggerisci un nuovo tratto o una revisione importante"
-title: "[Trait] <titolo conciso>"
-labels: ["trait", "needs-triage"]
+name: 'Proposta trait'
+about: 'Suggerisci un nuovo tratto o una revisione importante'
+title: '[Trait] <titolo conciso>'
+labels: ['trait', 'needs-triage']
 assignees: []
 ---
 
@@ -39,6 +39,13 @@ assignees: []
 - [ ] Tier, slot e `slot_profile` allineati con la nomenclatura condivisa
 - [ ] Requisiti ambientali con `meta.tier`/`meta.notes` aggiornati e coerenti
 - [ ] Eseguito `scripts/trait_style_check.js` e allegati i report rilevanti
+- [ ] Suggerimenti "Applicabili" dell'editor gestiti (applicati o motivati)
+
+## KPI & report
+
+- [ ] Rigenerato `tools/py/styleguide_compliance_report.py` (JSON/Markdown allegati)
+- [ ] KPI sotto SLA commentati con piano di rientro oppure confermati dal reviewer
+- [ ] Bridge `logs/qa/latest-dashboard-metrics.json` aggiornato quando necessario
 
 ## Allegati
 

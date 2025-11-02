@@ -149,6 +149,200 @@ function buildSuggestionMap(
   return map;
 }
 
+function isSuggestionAutoApplicable(suggestion: TraitValidationSuggestion): boolean {
+  const fix = suggestion.fix && typeof suggestion.fix === 'object' ? suggestion.fix : null;
+  if (!fix) {
+    return false;
+  }
+  if (typeof (fix as { autoApplicable?: unknown }).autoApplicable === 'boolean') {
+    return Boolean((fix as { autoApplicable?: unknown }).autoApplicable);
+  }
+  if (fix.type === 'remove') {
+    return true;
+  }
+  if (
+    (fix.type === 'set' || fix.type === 'append') &&
+    Object.prototype.hasOwnProperty.call(fix, 'value')
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function decodePointerSegment(segment: string): string {
+  return segment.replace(/~1/g, '/').replace(/~0/g, '~');
+}
+
+function parseSuggestionPath(pointer: string | null | undefined): (string | number)[] {
+  if (!pointer || pointer === '/') {
+    return [];
+  }
+  return pointer
+    .split('/')
+    .slice(1)
+    .map((part) => {
+      const decoded = decodePointerSegment(part);
+      if (/^-?\d+$/.test(decoded)) {
+        return Number(decoded);
+      }
+      return decoded;
+    });
+}
+
+function ensureContainer(
+  root: Record<string, JsonValue>,
+  path: (string | number)[],
+  { createFinalArray = false }: { createFinalArray?: boolean } = {},
+): { container: any; key: string | number | null } | null {
+  if (path.length === 0) {
+    return { container: root, key: null };
+  }
+  let cursor: any = root;
+  for (let index = 0; index < path.length - 1; index += 1) {
+    const segment = path[index];
+    if (typeof segment === 'number') {
+      if (!Array.isArray(cursor)) {
+        return null;
+      }
+      if (cursor[segment] === undefined) {
+        cursor[segment] = {};
+      }
+      cursor = cursor[segment];
+      continue;
+    }
+    if (typeof cursor !== 'object' || cursor === null || Array.isArray(cursor)) {
+      return null;
+    }
+    if (!Object.prototype.hasOwnProperty.call(cursor, segment)) {
+      cursor[segment] = {};
+    }
+    cursor = cursor[segment];
+  }
+  const finalKey = path[path.length - 1];
+  if (typeof finalKey === 'string') {
+    if (typeof cursor !== 'object' || cursor === null || Array.isArray(cursor)) {
+      return null;
+    }
+    if (createFinalArray && cursor[finalKey] === undefined) {
+      cursor[finalKey] = [];
+    }
+  } else if (typeof finalKey === 'number') {
+    if (!Array.isArray(cursor)) {
+      return null;
+    }
+    if (createFinalArray && cursor[finalKey] === undefined) {
+      cursor[finalKey] = [];
+    }
+  }
+  return { container: cursor, key: finalKey };
+}
+
+function resolveValueAtPath(root: any, path: (string | number)[]): any {
+  let cursor = root;
+  for (const segment of path) {
+    if (typeof segment === 'number') {
+      if (!Array.isArray(cursor)) {
+        return undefined;
+      }
+      cursor = cursor[segment];
+    } else {
+      if (typeof cursor !== 'object' || cursor === null) {
+        return undefined;
+      }
+      cursor = (cursor as any)[segment];
+    }
+  }
+  return cursor;
+}
+
+function applySuggestionFix(
+  payload: Record<string, JsonValue>,
+  suggestion: TraitValidationSuggestion,
+): Record<string, JsonValue> | null {
+  const fix = suggestion.fix && typeof suggestion.fix === 'object' ? suggestion.fix : null;
+  if (!fix) {
+    return null;
+  }
+  const type = fix.type || 'set';
+  const path = parseSuggestionPath(suggestion.path);
+  const draft = deepClone(payload);
+
+  if (type === 'set') {
+    if (path.length === 0) {
+      if (!Object.prototype.hasOwnProperty.call(fix, 'value')) {
+        return null;
+      }
+      const replacement = fix.value;
+      if (typeof replacement !== 'object' || replacement === null || Array.isArray(replacement)) {
+        return null;
+      }
+      return deepClone(replacement as Record<string, JsonValue>);
+    }
+    const containerResult = ensureContainer(draft, path);
+    if (!containerResult || containerResult.key === null) {
+      return null;
+    }
+    const { container, key } = containerResult;
+    if (!Object.prototype.hasOwnProperty.call(fix, 'value')) {
+      return null;
+    }
+    const clonedValue = deepClone(fix.value as JsonValue);
+    if (typeof key === 'number') {
+      if (!Array.isArray(container)) {
+        return null;
+      }
+      container[key] = clonedValue as JsonValue;
+    } else {
+      if (typeof container !== 'object' || container === null) {
+        return null;
+      }
+      container[key] = clonedValue as JsonValue;
+    }
+    return draft;
+  }
+
+  if (type === 'remove') {
+    if (path.length === 0) {
+      return null;
+    }
+    const containerResult = ensureContainer(draft, path);
+    if (!containerResult || containerResult.key === null) {
+      return null;
+    }
+    const { container, key } = containerResult;
+    if (typeof key === 'number') {
+      if (!Array.isArray(container)) {
+        return null;
+      }
+      container.splice(key, 1);
+    } else if (typeof container === 'object' && container !== null) {
+      delete container[key];
+    } else {
+      return null;
+    }
+    return draft;
+  }
+
+  if (type === 'append') {
+    if (!Object.prototype.hasOwnProperty.call(fix, 'value')) {
+      return null;
+    }
+    const containerResult = ensureContainer(draft, path, { createFinalArray: true });
+    if (!containerResult) {
+      return null;
+    }
+    const { container, key } = containerResult;
+    const target = key === null ? container : resolveValueAtPath(container, [key]);
+    if (!Array.isArray(target)) {
+      return null;
+    }
+    target.push(deepClone(fix.value as JsonValue));
+    return draft;
+  }
+
+  return null;
+}
+
 interface FieldProps {
   schema: SchemaNode;
   rootSchema: SchemaNode | null;
@@ -160,6 +354,7 @@ interface FieldProps {
   onRemove?: () => void;
   errorMap: Map<string, string[]>;
   suggestionMap: Map<string, TraitValidationSuggestion[]>;
+  onApplySuggestion?: (suggestion: TraitValidationSuggestion) => void;
 }
 
 const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
@@ -187,6 +382,7 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
   const [diagnosticsPending, setDiagnosticsPending] = useState(false);
   const [diagnosticsError, setDiagnosticsError] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
+  const [lastAppliedSuggestion, setLastAppliedSuggestion] = useState<string | null>(null);
 
   useEffect(() => {
     if (initialTraitId) {
@@ -221,20 +417,34 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
   const errorMap = useMemo(() => buildErrorMap(validationErrors), [validationErrors]);
   const suggestionMap = useMemo(() => buildSuggestionMap(styleSuggestions), [styleSuggestions]);
   const suggestionSummary = useMemo(() => {
-    const counts: Record<'error' | 'warning' | 'info', number> = { error: 0, warning: 0, info: 0 };
-    const summary = styleSummary?.style?.bySeverity;
-    if (summary && typeof summary === 'object') {
-      counts.error = Number(summary.error ?? 0);
-      counts.warning = Number(summary.warning ?? 0);
-      counts.info = Number(summary.info ?? 0);
-      return counts;
-    }
+    const counts: { error: number; warning: number; info: number; actionable: number } = {
+      error: 0,
+      warning: 0,
+      info: 0,
+      actionable: 0,
+    };
     styleSuggestions.forEach((suggestion) => {
       const severity = suggestion.severity || 'warning';
       if (severity === 'error' || severity === 'warning' || severity === 'info') {
         counts[severity] += 1;
       }
+      if (isSuggestionAutoApplicable(suggestion)) {
+        counts.actionable += 1;
+      }
     });
+    const severitySummary = styleSummary?.style?.bySeverity;
+    if (severitySummary && typeof severitySummary === 'object') {
+      counts.error = Number(severitySummary.error ?? counts.error);
+      counts.warning = Number(severitySummary.warning ?? counts.warning);
+      counts.info = Number(severitySummary.info ?? counts.info);
+    }
+    const correctionsSummary = styleSummary?.style?.corrections;
+    if (correctionsSummary && typeof correctionsSummary === 'object') {
+      const actionable = correctionsSummary.actionable;
+      if (typeof actionable === 'number') {
+        counts.actionable = actionable;
+      }
+    }
     return counts;
   }, [styleSummary, styleSuggestions]);
   const totalSuggestions =
@@ -311,9 +521,16 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
   }, [loadTraitList]);
 
   useEffect(() => {
+    if (statusMessage) {
+      setLastAppliedSuggestion(null);
+    }
+  }, [statusMessage]);
+
+  useEffect(() => {
     setStatusMessage(null);
     setSaveState('idle');
     setValidationErrors([]);
+    setLastAppliedSuggestion(null);
     if (!selectedTraitId) {
       setTraitPayload(null);
       setDraftPayload(null);
@@ -343,8 +560,8 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
           'error' in (error as TraitRequestError).detail
             ? String((error as TraitRequestError).detail?.error)
             : (error as TraitRequestError)?.status === 401
-            ? 'Accesso negato: token richiesto per modificare i trait.'
-            : (error as Error)?.message || 'Errore caricamento trait.';
+              ? 'Accesso negato: token richiesto per modificare i trait.'
+              : (error as Error)?.message || 'Errore caricamento trait.';
         setTraitPayload(null);
         setDraftPayload(null);
         setStatusMessage(message);
@@ -395,7 +612,9 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
           if (cancelled) {
             return;
           }
-          const remoteErrors = Array.isArray(response.errors) ? (response.errors as ErrorObject[]) : [];
+          const remoteErrors = Array.isArray(response.errors)
+            ? (response.errors as ErrorObject[])
+            : [];
           setValidationErrors(remoteErrors);
           setStyleSuggestions(Array.isArray(response.suggestions) ? response.suggestions : []);
           setStyleSummary(response.summary ?? null);
@@ -439,39 +658,37 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
     setSelectedTraitId(traitId);
   }, []);
 
-  const handleFieldChange = useCallback(
-    (path: (string | number)[], nextValue: JsonValue) => {
-      setDraftPayload((current) => {
-        const base = current ? deepClone(current) : {};
-        if (!path.length) {
-          return (nextValue as Record<string, JsonValue>) ?? {};
-        }
-        let cursor: any = base;
-        for (let index = 0; index < path.length - 1; index += 1) {
-          const segment = path[index];
-          if (typeof segment === 'number') {
-            cursor[segment] = Array.isArray(cursor[segment]) ? [...cursor[segment]] : [];
-          } else {
-            cursor[segment] = cursor[segment] && typeof cursor[segment] === 'object' ? { ...cursor[segment] } : {};
-          }
-          cursor = cursor[segment];
-        }
-        const last = path[path.length - 1];
-        if (typeof nextValue === 'undefined' || nextValue === null) {
-          if (Array.isArray(cursor) && typeof last === 'number') {
-            cursor.splice(last, 1);
-          } else if (cursor && typeof cursor === 'object') {
-            delete cursor[last as keyof typeof cursor];
-          }
+  const handleFieldChange = useCallback((path: (string | number)[], nextValue: JsonValue) => {
+    setDraftPayload((current) => {
+      const base = current ? deepClone(current) : {};
+      if (!path.length) {
+        return (nextValue as Record<string, JsonValue>) ?? {};
+      }
+      let cursor: any = base;
+      for (let index = 0; index < path.length - 1; index += 1) {
+        const segment = path[index];
+        if (typeof segment === 'number') {
+          cursor[segment] = Array.isArray(cursor[segment]) ? [...cursor[segment]] : [];
         } else {
-          (cursor as any)[last] = nextValue;
+          cursor[segment] =
+            cursor[segment] && typeof cursor[segment] === 'object' ? { ...cursor[segment] } : {};
         }
-        return base;
-      });
-      setDirty(true);
-    },
-    [],
-  );
+        cursor = cursor[segment];
+      }
+      const last = path[path.length - 1];
+      if (typeof nextValue === 'undefined' || nextValue === null) {
+        if (Array.isArray(cursor) && typeof last === 'number') {
+          cursor.splice(last, 1);
+        } else if (cursor && typeof cursor === 'object') {
+          delete cursor[last as keyof typeof cursor];
+        }
+      } else {
+        (cursor as any)[last] = nextValue;
+      }
+      return base;
+    });
+    setDirty(true);
+  }, []);
 
   const handleSave = useCallback(async () => {
     if (!selectedTraitId || !draftPayload) {
@@ -515,8 +732,8 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
         'error' in (error as TraitRequestError).detail
           ? String((error as TraitRequestError).detail?.error)
           : (error as TraitRequestError)?.status === 401
-          ? 'Salvataggio non autorizzato: verifica il token.'
-          : (error as Error)?.message || 'Errore salvataggio trait.';
+            ? 'Salvataggio non autorizzato: verifica il token.'
+            : (error as Error)?.message || 'Errore salvataggio trait.';
       setSaveState('error');
       setStatusMessage(message);
     }
@@ -531,10 +748,35 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
     setValidationErrors([]);
     setStatusMessage(null);
     setSaveState('idle');
+    setLastAppliedSuggestion(null);
   }, [traitPayload]);
 
   const isValid = validationErrors.length === 0;
   const rootErrors = errorMap.get('') ?? [];
+
+  const handleApplySuggestion = useCallback(
+    (suggestion: TraitValidationSuggestion) => {
+      if (!draftPayload) {
+        return;
+      }
+      const fix = suggestion.fix && typeof suggestion.fix === 'object' ? suggestion.fix : null;
+      if (!fix) {
+        return;
+      }
+      const nextPayload = applySuggestionFix(draftPayload, suggestion);
+      if (!nextPayload) {
+        setStatusMessage('Impossibile applicare automaticamente il suggerimento.');
+        setSaveState('idle');
+        return;
+      }
+      setDraftPayload(nextPayload);
+      setDirty(true);
+      setLastAppliedSuggestion(`Suggerimento applicato: ${suggestion.message}`);
+      setStatusMessage(null);
+      setSaveState('idle');
+    },
+    [draftPayload],
+  );
 
   return (
     <div className="trait-editor">
@@ -619,23 +861,33 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
             <button type="button" onClick={handleReset} disabled={!dirty || !traitPayload}>
               Ripristina
             </button>
-            <button type="button" className="primary" onClick={handleSave} disabled={!dirty || !draftPayload}>
+            <button
+              type="button"
+              className="primary"
+              onClick={handleSave}
+              disabled={!dirty || !draftPayload}
+            >
               {saveState === 'saving' ? 'Salvataggio…' : 'Salva modifiche'}
             </button>
           </div>
         </header>
 
-        {statusMessage && (
+        {(statusMessage || lastAppliedSuggestion) && (
           <div
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
             className={`trait-editor__status trait-editor__status--${
               saveState === 'error' ? 'error' : saveState === 'success' ? 'success' : 'info'
             }`}
           >
-            {statusMessage}
+            <span>{statusMessage || lastAppliedSuggestion}</span>
           </div>
         )}
 
-        {schemaError && <div className="trait-editor__status trait-editor__status--error">{schemaError}</div>}
+        {schemaError && (
+          <div className="trait-editor__status trait-editor__status--error">{schemaError}</div>
+        )}
 
         {rootErrors.length > 0 && (
           <div className="trait-editor__status trait-editor__status--error">
@@ -661,6 +913,7 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
                 onChange={(next) => handleFieldChange([], next as JsonValue)}
                 errorMap={errorMap}
                 suggestionMap={suggestionMap}
+                onApplySuggestion={handleApplySuggestion}
               />
               <aside className="trait-editor__preview">
                 <header>
@@ -677,19 +930,21 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
                         diagnosticsPending
                           ? 'trait-editor__style-badge--pending'
                           : totalSuggestions > 0
-                          ? 'trait-editor__style-badge--issues'
-                          : 'trait-editor__style-badge--ok'
+                            ? 'trait-editor__style-badge--issues'
+                            : 'trait-editor__style-badge--ok'
                       }`}
                     >
                       {diagnosticsPending
                         ? 'Verifica…'
                         : totalSuggestions > 0
-                        ? `${totalSuggestions} suggerimenti`
-                        : 'In linea'}
+                          ? `${totalSuggestions} suggerimenti`
+                          : 'In linea'}
                     </span>
                   </div>
                   {diagnosticsError ? (
-                    <p className="trait-editor__message trait-editor__message--error">{diagnosticsError}</p>
+                    <p className="trait-editor__message trait-editor__message--error">
+                      {diagnosticsError}
+                    </p>
                   ) : (
                     <>
                       <ul className="trait-editor__style-counters">
@@ -702,10 +957,21 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
                         <li className="trait-editor__style-counter trait-editor__style-counter--info">
                           Info: {suggestionSummary.info}
                         </li>
+                        <li className="trait-editor__style-counter trait-editor__style-counter--actionable">
+                          Applicabili: {suggestionSummary.actionable}
+                        </li>
                       </ul>
+                      {suggestionSummary.actionable > 0 ? (
+                        <p className="trait-editor__message trait-editor__message--muted">
+                          {`${suggestionSummary.actionable} suggerimenti possono essere applicati automaticamente.`}
+                        </p>
+                      ) : null}
                       {styleSuggestions.length ? (
                         <>
-                          <SuggestionList suggestions={styleSuggestions.slice(0, 6)} />
+                          <SuggestionList
+                            suggestions={styleSuggestions.slice(0, 6)}
+                            onApplySuggestion={handleApplySuggestion}
+                          />
                           {styleSuggestions.length > 6 ? (
                             <p className="trait-editor__message trait-editor__message--muted">
                               {`Altri ${styleSuggestions.length - 6} suggerimenti sono visibili nei campi.`}
@@ -738,15 +1004,11 @@ const TraitEditor: React.FC<TraitEditorProps> = ({ initialTraitId }) => {
   );
 };
 
-const FormRenderer: React.FC<Omit<FieldProps, 'label' | 'required' | 'onRemove'>> = ({
-  schema,
-  rootSchema,
-  path,
-  value,
-  onChange,
-  errorMap,
-  suggestionMap,
-}) => {
+const FormRenderer: React.FC<
+  Omit<FieldProps, 'label' | 'required' | 'onRemove'> & {
+    onApplySuggestion?: (suggestion: TraitValidationSuggestion) => void;
+  }
+> = ({ schema, rootSchema, path, value, onChange, errorMap, suggestionMap, onApplySuggestion }) => {
   const resolved = resolveSchemaNode(schema, rootSchema);
   const type = normaliseType(resolved) || 'object';
 
@@ -757,10 +1019,14 @@ const FormRenderer: React.FC<Omit<FieldProps, 'label' | 'required' | 'onRemove'>
           ? Object.entries(resolved.properties).map(([key, propertySchema]) => {
               const propertyPath = [...path, key];
               const propertyLabel = propertySchema.title || key;
-              const propertyValue = (value && typeof value === 'object' && !Array.isArray(value)
-                ? (value as Record<string, JsonValue>)[key]
-                : undefined) as JsonValue;
-              const required = Array.isArray(resolved.required) ? resolved.required.includes(key) : false;
+              const propertyValue = (
+                value && typeof value === 'object' && !Array.isArray(value)
+                  ? (value as Record<string, JsonValue>)[key]
+                  : undefined
+              ) as JsonValue;
+              const required = Array.isArray(resolved.required)
+                ? resolved.required.includes(key)
+                : false;
               return (
                 <Field
                   key={key}
@@ -771,9 +1037,11 @@ const FormRenderer: React.FC<Omit<FieldProps, 'label' | 'required' | 'onRemove'>
                   label={propertyLabel}
                   required={required}
                   onChange={(next) => {
-                    const base = (value && typeof value === 'object' && !Array.isArray(value)
-                      ? { ...(value as Record<string, JsonValue>) }
-                      : {}) as Record<string, JsonValue>;
+                    const base = (
+                      value && typeof value === 'object' && !Array.isArray(value)
+                        ? { ...(value as Record<string, JsonValue>) }
+                        : {}
+                    ) as Record<string, JsonValue>;
                     if (typeof next === 'undefined' || next === null || next === '') {
                       delete base[key];
                     } else {
@@ -783,6 +1051,7 @@ const FormRenderer: React.FC<Omit<FieldProps, 'label' | 'required' | 'onRemove'>
                   }}
                   errorMap={errorMap}
                   suggestionMap={suggestionMap}
+                  onApplySuggestion={onApplySuggestion}
                 />
               );
             })
@@ -801,6 +1070,7 @@ const FormRenderer: React.FC<Omit<FieldProps, 'label' | 'required' | 'onRemove'>
       onChange={onChange}
       errorMap={errorMap}
       suggestionMap={suggestionMap}
+      onApplySuggestion={onApplySuggestion}
     />
   );
 };
@@ -816,6 +1086,7 @@ const Field: React.FC<FieldProps> = ({
   onRemove,
   errorMap,
   suggestionMap,
+  onApplySuggestion,
 }) => {
   const resolved = resolveSchemaNode(schema, rootSchema);
   const type = normaliseType(resolved) || 'string';
@@ -825,9 +1096,11 @@ const Field: React.FC<FieldProps> = ({
   const description = resolved.description || '';
 
   if (type === 'object') {
-    const currentValue = (value && typeof value === 'object' && !Array.isArray(value)
-      ? (value as Record<string, JsonValue>)
-      : {}) as Record<string, JsonValue>;
+    const currentValue = (
+      value && typeof value === 'object' && !Array.isArray(value)
+        ? (value as Record<string, JsonValue>)
+        : {}
+    ) as Record<string, JsonValue>;
     return (
       <fieldset className="trait-editor__fieldset">
         <legend>
@@ -836,38 +1109,45 @@ const Field: React.FC<FieldProps> = ({
         </legend>
         {description ? <p className="trait-editor__description">{description}</p> : null}
         <div className="trait-editor__fieldset-grid">
-        {resolved.properties
-          ? Object.entries(resolved.properties).map(([key, propertySchema]) => {
-              const propertyPath = [...path, key];
-              const requiredProperty = Array.isArray(resolved.required)
-                ? resolved.required.includes(key)
-                : false;
-              return (
-                <Field
-                  key={key}
-                  schema={propertySchema}
-                  rootSchema={rootSchema}
-                  path={propertyPath}
-                  value={currentValue[key]}
-                  label={propertySchema.title || key}
-                  required={requiredProperty}
-                  onChange={(next) => {
-                    const base = { ...currentValue };
-                    if (typeof next === 'undefined' || next === null || next === '') {
-                      delete base[key];
-                    } else {
-                      base[key] = next;
-                    }
-                    onChange(base);
-                  }}
-                  errorMap={errorMap}
-                  suggestionMap={suggestionMap}
-                />
-              );
-            })
-          : null}
-        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
-      </div>
+          {resolved.properties
+            ? Object.entries(resolved.properties).map(([key, propertySchema]) => {
+                const propertyPath = [...path, key];
+                const requiredProperty = Array.isArray(resolved.required)
+                  ? resolved.required.includes(key)
+                  : false;
+                return (
+                  <Field
+                    key={key}
+                    schema={propertySchema}
+                    rootSchema={rootSchema}
+                    path={propertyPath}
+                    value={currentValue[key]}
+                    label={propertySchema.title || key}
+                    required={requiredProperty}
+                    onChange={(next) => {
+                      const base = { ...currentValue };
+                      if (typeof next === 'undefined' || next === null || next === '') {
+                        delete base[key];
+                      } else {
+                        base[key] = next;
+                      }
+                      onChange(base);
+                    }}
+                    errorMap={errorMap}
+                    suggestionMap={suggestionMap}
+                    onApplySuggestion={onApplySuggestion}
+                  />
+                );
+              })
+            : null}
+          {fieldSuggestions.length ? (
+            <SuggestionList
+              suggestions={fieldSuggestions}
+              variant="inline"
+              onApplySuggestion={onApplySuggestion}
+            />
+          ) : null}
+        </div>
       </fieldset>
     );
   }
@@ -920,6 +1200,7 @@ const Field: React.FC<FieldProps> = ({
                     }}
                     errorMap={errorMap}
                     suggestionMap={suggestionMap}
+                    onApplySuggestion={onApplySuggestion}
                   />
                   <button
                     type="button"
@@ -935,10 +1216,18 @@ const Field: React.FC<FieldProps> = ({
               ))}
             </ol>
           ) : (
-            <p className="trait-editor__message trait-editor__message--muted">Nessuna voce presente.</p>
+            <p className="trait-editor__message trait-editor__message--muted">
+              Nessuna voce presente.
+            </p>
           )}
           {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
-          {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
+          {fieldSuggestions.length ? (
+            <SuggestionList
+              suggestions={fieldSuggestions}
+              variant="inline"
+              onApplySuggestion={onApplySuggestion}
+            />
+          ) : null}
         </div>
       );
     }
@@ -964,7 +1253,13 @@ const Field: React.FC<FieldProps> = ({
           rows={Math.max(3, Math.min(12, listValue.length + 1))}
         />
         {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
-        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
+        {fieldSuggestions.length ? (
+          <SuggestionList
+            suggestions={fieldSuggestions}
+            variant="inline"
+            onApplySuggestion={onApplySuggestion}
+          />
+        ) : null}
       </label>
     );
   }
@@ -980,7 +1275,13 @@ const Field: React.FC<FieldProps> = ({
         <span>{label}</span>
         {description ? <p className="trait-editor__description">{description}</p> : null}
         {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
-        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
+        {fieldSuggestions.length ? (
+          <SuggestionList
+            suggestions={fieldSuggestions}
+            variant="inline"
+            onApplySuggestion={onApplySuggestion}
+          />
+        ) : null}
       </label>
     );
   }
@@ -1007,7 +1308,13 @@ const Field: React.FC<FieldProps> = ({
           }}
         />
         {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
-        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
+        {fieldSuggestions.length ? (
+          <SuggestionList
+            suggestions={fieldSuggestions}
+            variant="inline"
+            onApplySuggestion={onApplySuggestion}
+          />
+        ) : null}
       </label>
     );
   }
@@ -1029,7 +1336,13 @@ const Field: React.FC<FieldProps> = ({
           ))}
         </select>
         {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
-        {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
+        {fieldSuggestions.length ? (
+          <SuggestionList
+            suggestions={fieldSuggestions}
+            variant="inline"
+            onApplySuggestion={onApplySuggestion}
+          />
+        ) : null}
       </label>
     );
   }
@@ -1047,7 +1360,13 @@ const Field: React.FC<FieldProps> = ({
         onChange={(event) => onChange(event.target.value)}
       />
       {fieldErrors.length ? <ErrorList errors={fieldErrors} /> : null}
-      {fieldSuggestions.length ? <SuggestionList suggestions={fieldSuggestions} variant="inline" /> : null}
+      {fieldSuggestions.length ? (
+        <SuggestionList
+          suggestions={fieldSuggestions}
+          variant="inline"
+          onApplySuggestion={onApplySuggestion}
+        />
+      ) : null}
       {onRemove ? (
         <button type="button" className="trait-editor__remove" onClick={onRemove}>
           Rimuovi
@@ -1060,7 +1379,8 @@ const Field: React.FC<FieldProps> = ({
 const SuggestionList: React.FC<{
   suggestions: TraitValidationSuggestion[];
   variant?: 'inline' | 'panel';
-}> = ({ suggestions, variant = 'panel' }) => {
+  onApplySuggestion?: (suggestion: TraitValidationSuggestion) => void;
+}> = ({ suggestions, variant = 'panel', onApplySuggestion }) => {
   if (!suggestions.length) {
     return null;
   }
@@ -1074,17 +1394,22 @@ const SuggestionList: React.FC<{
             ? formatSuggestionValue(fix.value)
             : null;
         const fixNote = fix && typeof fix.note === 'string' ? fix.note : null;
-        const actionLabel = fix && typeof fix.type === 'string'
-          ? fix.type
-          : null;
+        const actionLabel = fix && typeof fix.type === 'string' ? fix.type : null;
         const actionText =
           actionLabel === 'remove'
             ? 'Rimuovi il valore'
             : actionLabel === 'append'
-            ? 'Aggiungi valore'
-            : actionLabel === 'set'
-            ? 'Imposta il valore'
-            : null;
+              ? 'Aggiungi valore'
+              : actionLabel === 'set'
+                ? 'Imposta il valore'
+                : null;
+        const canApplyFix = Boolean(
+          onApplySuggestion &&
+            fix &&
+            ((fix.type === 'set' && Object.prototype.hasOwnProperty.call(fix, 'value')) ||
+              (fix.type === 'append' && Object.prototype.hasOwnProperty.call(fix, 'value')) ||
+              fix.type === 'remove'),
+        );
         return (
           <li
             key={`${suggestion.path || 'root'}-${suggestion.message}-${index}`}
@@ -1096,14 +1421,25 @@ const SuggestionList: React.FC<{
                 {(actionLabel === 'remove'
                   ? 'Rimuovi'
                   : actionLabel === 'append'
-                  ? 'Aggiungi'
-                  : 'Imposta') + ' '}
+                    ? 'Aggiungi'
+                    : 'Imposta') + ' '}
                 <code>{fixValue}</code>
               </span>
             ) : actionText ? (
               <span className="trait-editor__suggestion-fix">{actionText}</span>
             ) : null}
             {fixNote ? <span className="trait-editor__suggestion-note">{fixNote}</span> : null}
+            {canApplyFix ? (
+              <button
+                type="button"
+                className="trait-editor__suggestion-action"
+                onClick={() => onApplySuggestion?.(suggestion)}
+                aria-label={`Applica suggerimento: ${suggestion.message}`}
+                title={`Applica suggerimento: ${suggestion.message}`}
+              >
+                Applica
+              </button>
+            ) : null}
           </li>
         );
       })}

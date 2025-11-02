@@ -4,7 +4,14 @@ const path = require('node:path');
 const Ajv = require('ajv/dist/2020');
 const { evaluateTraitStyle } = require('../services/traitStyleGuide');
 
-const DEFAULT_SCHEMA_PATH = path.resolve(__dirname, '..', '..', 'config', 'schemas', 'trait.schema.json');
+const DEFAULT_SCHEMA_PATH = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  'config',
+  'schemas',
+  'trait.schema.json',
+);
 
 function createTraitRouter(options = {}) {
   const router = express.Router();
@@ -12,7 +19,8 @@ function createTraitRouter(options = {}) {
   const traitsRoot = path.resolve(dataRoot, 'traits');
   const schemaPath = options.schemaPath || DEFAULT_SCHEMA_PATH;
   const versionRoot = path.join(traitsRoot, '_versions');
-  const authToken = options.token || process.env.TRAIT_EDITOR_TOKEN || process.env.TRAITS_API_TOKEN || null;
+  const authToken =
+    options.token || process.env.TRAIT_EDITOR_TOKEN || process.env.TRAITS_API_TOKEN || null;
   const ajvOptions = {
     allErrors: true,
     strict: false,
@@ -50,6 +58,26 @@ function createTraitRouter(options = {}) {
       }
     }
     return candidate;
+  }
+
+  function isAutoApplicableFix(fix) {
+    if (!fix || typeof fix !== 'object') {
+      return false;
+    }
+    if (typeof fix.autoApplicable === 'boolean') {
+      return Boolean(fix.autoApplicable);
+    }
+    const type = fix.type || 'set';
+    if (type === 'remove') {
+      return true;
+    }
+    if (
+      (type === 'set' || type === 'append') &&
+      Object.prototype.hasOwnProperty.call(fix, 'value')
+    ) {
+      return true;
+    }
+    return false;
   }
 
   async function loadSchema() {
@@ -121,7 +149,11 @@ function createTraitRouter(options = {}) {
         if (!file.name.endsWith('.json')) {
           continue;
         }
-        if (file.name === 'index.json' || file.name === 'index.csv' || file.name === 'species_affinity.json') {
+        if (
+          file.name === 'index.json' ||
+          file.name === 'index.csv' ||
+          file.name === 'species_affinity.json'
+        ) {
           continue;
         }
         const summary = await loadTraitSummary(directory, file.name);
@@ -173,7 +205,9 @@ function createTraitRouter(options = {}) {
       return;
     }
     const headerToken = String(req.get('X-Trait-Editor-Token') || '').trim();
-    const bearerToken = String(req.get('Authorization') || '').replace(/^Bearer\s+/i, '').trim();
+    const bearerToken = String(req.get('Authorization') || '')
+      .replace(/^Bearer\s+/i, '')
+      .trim();
     if (headerToken && headerToken === authToken) {
       next();
       return;
@@ -197,7 +231,11 @@ function createTraitRouter(options = {}) {
   router.post('/validate', ensureAuthorised, async (req, res) => {
     const body = req.body && typeof req.body === 'object' ? req.body : {};
     const payload =
-      body.payload && typeof body.payload === 'object' ? body.payload : body.payload === undefined ? body : {};
+      body.payload && typeof body.payload === 'object'
+        ? body.payload
+        : body.payload === undefined
+          ? body
+          : {};
     if (!payload || typeof payload !== 'object') {
       res.status(400).json({ error: 'Payload JSON richiesto' });
       return;
@@ -213,13 +251,60 @@ function createTraitRouter(options = {}) {
       const valid = Boolean(validate(schemaPayload));
       const errors = valid ? [] : validate.errors || [];
       const style = evaluateTraitStyle(candidate, { traitId });
+      const rawSuggestions = Array.isArray(style.suggestions) ? style.suggestions : [];
+      const suggestions = rawSuggestions.map((entry) => {
+        if (!entry || typeof entry !== 'object') {
+          return entry;
+        }
+        const fix = entry.fix && typeof entry.fix === 'object' ? entry.fix : null;
+        if (!fix) {
+          return entry;
+        }
+        const autoApplicable = isAutoApplicableFix(fix);
+        if (fix.autoApplicable === autoApplicable) {
+          return entry;
+        }
+        return {
+          ...entry,
+          fix: { ...fix, autoApplicable },
+        };
+      });
+      const corrections = suggestions
+        .filter(
+          (item) => item && typeof item === 'object' && item.fix && typeof item.fix === 'object',
+        )
+        .map((item) => {
+          const fix = item.fix;
+          const hasValue = Object.prototype.hasOwnProperty.call(fix, 'value');
+          const correction = {
+            path: item.path || '',
+            message: item.message,
+            action: fix.type || (hasValue ? 'set' : 'note'),
+            severity: item.severity || 'warning',
+            autoApplicable: isAutoApplicableFix(fix),
+          };
+          if (hasValue) {
+            correction.value = fix.value;
+          }
+          if (typeof fix.note === 'string' && fix.note.trim()) {
+            correction.note = fix.note;
+          }
+          return correction;
+        });
+      const styleSummary =
+        style && style.summary && typeof style.summary === 'object' ? { ...style.summary } : {};
+      styleSummary.corrections = {
+        total: corrections.length,
+        actionable: corrections.filter((item) => item.autoApplicable).length,
+      };
       res.json({
         valid,
         errors,
-        suggestions: style.suggestions,
+        suggestions,
+        corrections,
         summary: {
           schemaErrors: errors.length,
-          style: style.summary,
+          style: styleSummary,
         },
       });
     } catch (error) {
@@ -228,7 +313,9 @@ function createTraitRouter(options = {}) {
   });
 
   router.get('/', ensureAuthorised, async (req, res) => {
-    const includeDrafts = String(req.query.includeDrafts || req.query.include_drafts || 'false').toLowerCase();
+    const includeDrafts = String(
+      req.query.includeDrafts || req.query.include_drafts || 'false',
+    ).toLowerCase();
     const shouldIncludeDrafts = includeDrafts === 'true' || includeDrafts === '1';
     try {
       const traits = await listTraits(shouldIncludeDrafts);
