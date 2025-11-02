@@ -14,12 +14,14 @@
     }
   },
   "species": {
-    "curated": 8,
+    "curated": 9,
     "total": 12,
     "shortlist": [
       "Lupo delle Nebbie",
       "Cefalo Prisma",
-      "Draco delle Tife"
+      "Draco delle Tife",
+      "Predatore Nodo QA",
+      "Predatori di Risonanza · QA reroll"
     ]
   },
   "biomeSetup": {
@@ -117,7 +119,7 @@
         "Creare corridoi acustici",
         "Reindirizzare i riflettori naturali"
       ],
-      "readiness": 3,
+      "readiness": 4,
       "total": 5,
       "validators": [
         {
@@ -129,8 +131,14 @@
         {
           "id": "thermal-vents",
           "label": "Sfiati termici",
-          "status": "warning",
-          "message": "Rilevate pulsazioni sporadiche: consigliare modulazione dei filtri respiratori."
+          "status": "passed",
+          "message": "Modulazione filtri aggiornata: pulsazioni stabilizzate."
+        },
+        {
+          "id": "hazard-default",
+          "label": "Hazard QA",
+          "status": "passed",
+          "message": "Hazard predefinito Nebbia fotonica instabile applicato al manifest."
         }
       ]
     },
@@ -210,6 +218,11 @@
               {
                 "id": "support-2",
                 "display_name": "Lupo delle Nebbie - Distruttore"
+              },
+              {
+                "id": "spec-runtime-node",
+                "display_name": "Predatore Nodo QA",
+                "summary": "Profilo corretto dal runtime QA con densità moderata."
               }
             ]
           }
@@ -219,12 +232,7 @@
             "tier": "T2"
           }
         },
-        "warnings": [
-          {
-            "code": "ATTENTION_SPIKES",
-            "slot": "stalker"
-          }
-        ]
+        "warnings": []
       },
       {
         "id": "stealth",
@@ -280,11 +288,11 @@
   "qualityRelease": {
     "checks": {
       "species": {
-        "passed": 2,
+        "passed": 3,
         "total": 3
       },
       "biomes": {
-        "passed": 1,
+        "passed": 2,
         "total": 2
       },
       "foodweb": {
@@ -292,11 +300,17 @@
         "total": 1
       }
     },
-    "lastRun": "2024-05-18T09:20:00Z",
+    "lastRun": "2025-11-02T19:31:44.307Z",
     "owners": [
       "QA Core",
       "Narrative QA"
-    ]
+    ],
+    "suggestions": [],
+    "metrics": {
+      "suggestionsApplied": 4,
+      "speciesCorrected": 1,
+      "speciesRegenerated": 1
+    }
   },
   "publishing": {
     "artifactsReady": 2,
@@ -363,112 +377,7 @@
       }
     ]
   },
-  "suggestions": [
-    {
-      "id": "species-duplicates",
-      "scope": "species",
-      "title": "Allineare trait duplicati",
-      "description": "Rimuovere il tratto ripetuto per il branch QA-NEB-07 e riallineare il seed.",
-      "action": "fix",
-      "payload": {
-        "biomeId": "badlands",
-        "entries": [
-          {
-            "id": "spec-runtime-node",
-            "display_name": "Predatore Nodo QA",
-            "role_trofico": "predatore_apice_test",
-            "functional_tags": "predatore",
-            "vc": {},
-            "playable_unit": false,
-            "spawn_rules": {},
-            "balance": {}
-          }
-        ]
-      }
-    },
-    {
-      "id": "biome-hazard",
-      "scope": "biome",
-      "title": "Impostare hazard predefinito",
-      "description": "Forzare l'hazard Nebbia fotonica instabile per evitare fallback in produzione.",
-      "action": "fix",
-      "payload": {
-        "biome": {
-          "id": "twilight-marsh",
-          "hazard": {
-            "id": null,
-            "label": null
-          },
-          "stability": {
-            "erosion": "medio",
-            "vents": "variabile"
-          },
-          "fauna": {
-            "apex": [
-              "lupus-nebulis"
-            ],
-            "support": [
-              "support-1"
-            ]
-          },
-          "brief": "Bioma di riferimento per il branch orchestrato in fase di QA."
-        },
-        "defaultHazard": "Nebbia fotonica instabile"
-      }
-    },
-    {
-      "id": "foodweb-refresh",
-      "scope": "foodweb",
-      "title": "Rigenerare anelli secondari",
-      "description": "Eseguire una rigenerazione mirata dei link con peso < 0.5 per ampliare le sinergie.",
-      "action": "regenerate",
-      "payload": {
-        "foodweb": {
-          "anchors": [
-            {
-              "id": "alpha-pack",
-              "role": "predatore_apice"
-            },
-            {
-              "id": "lure-flora",
-              "role": "flora_reagente"
-            }
-          ],
-          "links": [
-            {
-              "from": "alpha-pack",
-              "to": "lure-flora",
-              "weight": 0.4
-            }
-          ],
-          "focus": "Ricalibrazione archi secondari sotto soglia 0.5"
-        }
-      }
-    },
-    {
-      "id": "species-reroll",
-      "scope": "species",
-      "title": "Rigenerare blueprint prioritari",
-      "description": "Richiedi una generazione mirata per i seed QA-OBS-05 con fallback controllato.",
-      "action": "regenerate",
-      "payload": {
-        "entries": [
-          {
-            "trait_ids": [
-              "echo_stalker",
-              "prism_lurker"
-            ],
-            "biome_id": "obsidian-ridge",
-            "seed": "QA-OBS-05",
-            "request_id": "regen-obsidian-05",
-            "fallback_trait_ids": [
-              "shadow_pack"
-            ]
-          }
-        ]
-      }
-    }
-  ],
+  "suggestions": [],
   "notifications": [
     {
       "id": "notify-qa",
@@ -504,7 +413,9 @@
           "biome_id": "twilight-marsh",
           "seed": "QA-NEB-01",
           "base_name": "Lupi Nebbiosi",
-          "request_id": "spec-check-01"
+          "request_id": "spec-check-01",
+          "status": "resolved",
+          "lastCheck": "2025-11-02T19:31:44.307Z"
         },
         {
           "trait_ids": [
@@ -514,7 +425,9 @@
           "biome_id": "obsidian-ridge",
           "seed": "QA-OBS-05",
           "base_name": "Predatori di Risonanza",
-          "request_id": "spec-check-02"
+          "request_id": "spec-check-02",
+          "status": "resolved",
+          "lastCheck": "2025-11-02T19:31:44.307Z"
         },
         {
           "trait_ids": [
@@ -524,17 +437,79 @@
           "biome_id": "twilight-marsh",
           "seed": "QA-NEB-07",
           "base_name": "Assaltatori Nebulari",
-          "request_id": "spec-check-03"
+          "request_id": "spec-check-03",
+          "status": "resolved",
+          "lastCheck": "2025-11-02T19:31:44.307Z"
         }
       ],
-      "biomeId": "twilight-marsh"
+      "biomeId": "twilight-marsh",
+      "results": {
+        "corrected": [
+          {
+            "id": "spec-runtime-node",
+            "display_name": "Predatore Nodo QA",
+            "role_trofico": "predatore_terziario_apex",
+            "functional_tags": [
+              "predatore"
+            ],
+            "vc": {},
+            "playable_unit": false,
+            "spawn_rules": {
+              "densita": "moderata"
+            },
+            "balance": {
+              "encounter_role": "minion"
+            },
+            "schema_version": "1.7",
+            "receipt": {
+              "source": "runtime-generator"
+            },
+            "biomes": [
+              "badlands"
+            ]
+          }
+        ],
+        "regenerated": [
+          {
+            "blueprint": {
+              "id": "qa-blueprint-1",
+              "name": "Predatori di Risonanza · QA reroll",
+              "biome_id": "obsidian-ridge",
+              "traits": [
+                "echo_stalker",
+                "prism_lurker"
+              ],
+              "seed": "QA-OBS-05"
+            },
+            "meta": {
+              "request_id": "regen-obsidian-05",
+              "seed": "QA-OBS-05",
+              "fallback_used": false
+            },
+            "validation": {
+              "messages": [
+                {
+                  "level": "info",
+                  "message": "Rigenerazione completata con profilo controllato."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "summary": {
+        "corrected": 1,
+        "regenerated": 1,
+        "pending": 0,
+        "lastRun": "2025-11-02T19:31:44.307Z"
+      }
     },
     "biomeCheck": {
       "biome": {
         "id": "twilight-marsh",
         "hazard": {
-          "id": null,
-          "label": null
+          "id": "nebula-photonic-fog",
+          "label": "Nebbia fotonica instabile"
         },
         "stability": {
           "erosion": "medio",
@@ -548,9 +523,51 @@
             "support-1"
           ]
         },
-        "brief": "Bioma di riferimento per il branch orchestrato in fase di QA."
+        "brief": "Bioma di riferimento per il branch orchestrato in fase di QA.",
+        "manifest": {
+          "generated": true,
+          "appliedAt": "2025-11-02T19:31:44.307Z"
+        },
+        "receipt": {
+          "source": "runtime-validator",
+          "applied_at": "2025-11-02T19:31:44.307Z",
+          "applied_by": "QA Core"
+        },
+        "ecosistema": {
+          "pillars": [
+            "fauna luminosa",
+            "specchi sonori"
+          ],
+          "stability_index": "86%"
+        },
+        "links": [
+          {
+            "from": "fog-nexus",
+            "to": "lupus-nebulis",
+            "weight": 0.72
+          },
+          {
+            "from": "lupus-nebulis",
+            "to": "support-1",
+            "weight": 0.58
+          }
+        ],
+        "registries": {
+          "hazards": [
+            "Nebbia fotonica instabile"
+          ],
+          "guardians": [
+            "lupus-nebulis"
+          ]
+        }
       },
-      "defaultHazard": "Nebbia fotonica instabile"
+      "defaultHazard": "Nebbia fotonica instabile",
+      "result": {
+        "status": "fixed",
+        "notes": "Hazard predefinito applicato e manifest rigenerato.",
+        "completedAt": "2025-11-02T19:31:44.307Z",
+        "messages": []
+      }
     },
     "foodwebCheck": {
       "foodweb": {
@@ -562,21 +579,35 @@
           {
             "id": "lure-flora",
             "role": "flora_reagente"
+          },
+          {
+            "id": "aux-scout",
+            "role": "supporto_tattico"
           }
         ],
         "links": [
           {
             "from": "alpha-pack",
             "to": "lure-flora",
-            "weight": 0.7
+            "weight": 0.62
           },
           {
             "from": "lure-flora",
             "to": "alpha-pack",
-            "weight": 0.4
+            "weight": 0.55
+          },
+          {
+            "from": "aux-scout",
+            "to": "lure-flora",
+            "weight": 0.48
           }
         ],
-        "focus": "Sincronizzazione tra branchi e flora prismatica."
+        "focus": "Foodweb aggiornato con archi secondari calibrati sopra soglia 0.5 e nodo di supporto dedicato."
+      },
+      "result": {
+        "status": "scheduled",
+        "message": "Rigenerazione pianificata con monitoraggio QA.",
+        "scheduledAt": "2025-11-02T19:31:44.303Z"
       }
     },
     "releaseConsole": {
@@ -712,16 +743,153 @@
       {
         "id": "log-species",
         "scope": "species",
-        "level": "info",
-        "message": "Batch QA-NEB completato con 2 fix automatici.",
-        "timestamp": "2024-05-18T09:12:00Z"
+        "level": "success",
+        "message": "Batch QA-NEB validato: duplicati rimossi e rigenerazione completata.",
+        "timestamp": "2025-11-02T19:31:44.306Z"
       },
       {
         "id": "log-biome",
         "scope": "biome",
-        "level": "warning",
-        "message": "Hazard non impostato, applicare default QA.",
-        "timestamp": "2024-05-18T09:18:00Z"
+        "level": "success",
+        "message": "Hazard Nebbia fotonica instabile applicato al manifest del bioma.",
+        "timestamp": "2025-11-02T19:31:44.299Z"
+      },
+      {
+        "id": "log-foodweb",
+        "scope": "foodweb",
+        "level": "info",
+        "message": "Rigenerazione pianificata con monitoraggio QA.",
+        "timestamp": "2025-11-02T19:31:44.303Z"
+      }
+    ],
+    "appliedSuggestions": [
+      {
+        "id": "species-duplicates",
+        "scope": "species",
+        "action": "fix",
+        "completedAt": "2025-11-02T19:31:43.910Z",
+        "logs": [
+          {
+            "scope": "species",
+            "level": "info",
+            "message": "schema_version mancante: impostato a 1.7",
+            "timestamp": "2025-11-02T19:31:43.910Z"
+          },
+          {
+            "scope": "species",
+            "level": "info",
+            "message": "receipt mancante: impostato a sorgente runtime-generator",
+            "timestamp": "2025-11-02T19:31:43.910Z"
+          },
+          {
+            "scope": "species",
+            "level": "info",
+            "message": "role_trofico normalizzato a 'predatore_terziario_apex'",
+            "timestamp": "2025-11-02T19:31:43.910Z"
+          },
+          {
+            "scope": "species",
+            "level": "info",
+            "message": "densita default impostata a moderata",
+            "timestamp": "2025-11-02T19:31:43.910Z"
+          },
+          {
+            "scope": "species",
+            "level": "info",
+            "message": "encounter_role default impostato a minion",
+            "timestamp": "2025-11-02T19:31:43.910Z"
+          },
+          {
+            "scope": "species",
+            "level": "warning",
+            "message": "environment_affinity non presente",
+            "timestamp": "2025-11-02T19:31:43.910Z"
+          },
+          {
+            "scope": "species",
+            "level": "warning",
+            "message": "derived_from_environment non presente",
+            "timestamp": "2025-11-02T19:31:43.910Z"
+          },
+          {
+            "scope": "species",
+            "level": "success",
+            "message": "Correzioni applicate: 1",
+            "timestamp": "2025-11-02T19:31:43.910Z"
+          }
+        ]
+      },
+      {
+        "id": "biome-hazard",
+        "scope": "biome",
+        "action": "fix",
+        "completedAt": "2025-11-02T19:31:44.299Z",
+        "logs": [
+          {
+            "scope": "biome",
+            "level": "info",
+            "message": "manifest assente: creato blocco minimale",
+            "timestamp": "2025-11-02T19:31:44.299Z"
+          },
+          {
+            "scope": "biome",
+            "level": "error",
+            "message": "Sezione obbligatoria 'receipt' mancante",
+            "timestamp": "2025-11-02T19:31:44.299Z"
+          },
+          {
+            "scope": "biome",
+            "level": "error",
+            "message": "Sezione obbligatoria 'ecosistema' mancante",
+            "timestamp": "2025-11-02T19:31:44.299Z"
+          },
+          {
+            "scope": "biome",
+            "level": "error",
+            "message": "Sezione obbligatoria 'links' mancante",
+            "timestamp": "2025-11-02T19:31:44.299Z"
+          },
+          {
+            "scope": "biome",
+            "level": "error",
+            "message": "Sezione obbligatoria 'registries' mancante",
+            "timestamp": "2025-11-02T19:31:44.299Z"
+          }
+        ]
+      },
+      {
+        "id": "foodweb-refresh",
+        "scope": "foodweb",
+        "action": "regenerate",
+        "completedAt": "2025-11-02T19:31:44.303Z",
+        "logs": [
+          {
+            "scope": "foodweb",
+            "level": "info",
+            "message": "Rigenerazione pianificata",
+            "timestamp": "2025-11-02T19:31:44.303Z"
+          }
+        ]
+      },
+      {
+        "id": "species-reroll",
+        "scope": "species",
+        "action": "regenerate",
+        "completedAt": "2025-11-02T19:31:44.306Z",
+        "logs": [
+          {
+            "scope": "species",
+            "level": "success",
+            "message": "Rigenerazione completata per regen-obsidian-05",
+            "timestamp": "2025-11-02T19:31:44.306Z"
+          },
+          {
+            "scope": "species",
+            "level": "info",
+            "message": "1 messaggi di validazione disponibili",
+            "timestamp": "2025-11-02T19:31:44.306Z"
+          }
+        ]
       }
     ]
   },
@@ -743,12 +911,13 @@
   "encounterSummary": {
     "seeds": 2,
     "variants": 4,
-    "warnings": 1
+    "warnings": 0
   },
   "runtime": {
-    "lastBlueprintId": "synthetic-99",
+    "lastBlueprintId": "qa-blueprint-1",
     "fallbackUsed": false,
     "validationMessages": 1,
-    "lastRequestId": "nebula-priority"
+    "lastRequestId": "regen-obsidian-05",
+    "error": null
   }
 }
