@@ -6,6 +6,7 @@ let cachedNoopMetrics = null;
 let promClientRef = undefined;
 let promClientLoadAttempted = false;
 let missingDependencyLogged = false;
+let defaultMetricsRegistered = false;
 
 function loadPromClient() {
   if (promClientLoadAttempted) {
@@ -16,6 +17,17 @@ function loadPromClient() {
     // Lazy require to keep the dependency optional for environments that do not install it.
     // eslint-disable-next-line global-require, import/no-extraneous-dependencies
     promClientRef = require('prom-client');
+    if (!defaultMetricsRegistered && promClientRef?.collectDefaultMetrics) {
+      try {
+        promClientRef.collectDefaultMetrics({ register: promClientRef.register });
+      } catch (collectError) {
+        console.warn(
+          '[orchestrator-metrics] impossibile registrare metriche di default:',
+          collectError.message,
+        );
+      }
+      defaultMetricsRegistered = true;
+    }
   } catch (error) {
     if (error && error.code !== 'MODULE_NOT_FOUND') {
       console.warn('[orchestrator-metrics] impossibile caricare prom-client:', error.message);
@@ -179,6 +191,12 @@ function createOrchestratorMetrics(options = {}) {
   return metrics;
 }
 
+function getPrometheusRegistry() {
+  const promClient = loadPromClient();
+  return promClient ? promClient.register : null;
+}
+
 module.exports = {
   createOrchestratorMetrics,
+  getPrometheusRegistry,
 };
