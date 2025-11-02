@@ -60,7 +60,11 @@
 
         <template #tab-synergy>
           <div v-if="synergyHighlights.length" class="species-view__synergy">
-            <div v-for="highlight in synergyHighlights" :key="highlight.id" class="species-view__synergy-card">
+            <div
+              v-for="highlight in synergyHighlights"
+              :key="highlight.id"
+              class="species-view__synergy-card"
+            >
               <header>
                 <TraitChip :label="highlight.label" variant="synergy" />
                 <span v-if="highlight.summary">{{ highlight.summary }}</span>
@@ -82,7 +86,11 @@
               </li>
             </ul>
             <p v-if="traitComplianceTimestamp" class="species-view__timestamp">
-              {{ t('views.species.sidebar.compliance.updated', { timestamp: traitComplianceTimestamp }) }}
+              {{
+                t('views.species.sidebar.compliance.updated', {
+                  timestamp: traitComplianceTimestamp,
+                })
+              }}
             </p>
           </div>
         </template>
@@ -101,7 +109,9 @@
             <p v-else class="species-view__qa-text">{{ t('views.species.sidebar.qa.empty') }}</p>
             <ul v-if="validationDetails.total" class="species-view__qa-messages">
               <li v-for="message in validationPreview" :key="message.code || message.message">
-                <span :data-level="message.level || message.severity || 'info'">{{ message.level || message.severity || 'info' }}</span>
+                <span :data-level="message.level || message.severity || 'info'">{{
+                  message.level || message.severity || 'info'
+                }}</span>
                 <span>{{ message.message }}</span>
               </li>
             </ul>
@@ -126,7 +136,9 @@
             <p v-if="traitDiagnosticsLoading" class="species-view__qa-text">
               {{ t('views.species.sidebar.qa.syncing') }}
             </p>
-            <p v-else-if="traitDiagnosticsErrorMessage" class="species-view__error" role="alert">{{ traitDiagnosticsErrorMessage }}</p>
+            <p v-else-if="traitDiagnosticsErrorMessage" class="species-view__error" role="alert">
+              {{ traitDiagnosticsErrorMessage }}
+            </p>
           </div>
         </template>
       </InsightCard>
@@ -302,9 +314,15 @@ const validationMessages = computed(() => {
 
 const validationDetails = computed(() => {
   const messages = validationMessages.value;
-  const warnings = messages.filter((message) => (message.level || message.severity) === 'warning').length;
-  const errors = messages.filter((message) => (message.level || message.severity) === 'error').length;
-  const discarded = Array.isArray(validation.value?.discarded) ? validation.value.discarded.length : 0;
+  const warnings = messages.filter(
+    (message) => (message.level || message.severity) === 'warning',
+  ).length;
+  const errors = messages.filter(
+    (message) => (message.level || message.severity) === 'error',
+  ).length;
+  const discarded = Array.isArray(validation.value?.discarded)
+    ? validation.value.discarded.length
+    : 0;
   const corrected = validation.value?.corrected ? 1 : 0;
   return {
     total: messages.length,
@@ -395,9 +413,7 @@ const synergyHighlights = computed(() => {
     entries.push({
       id: key,
       label: traitLabelMap.value[key] || key,
-      summary: Array.isArray(value?.summary)
-        ? value.summary.join(', ')
-        : value?.summary || '',
+      summary: Array.isArray(value?.summary) ? value.summary.join(', ') : value?.summary || '',
       items: list,
     });
   });
@@ -430,7 +446,7 @@ const activeSidebarTab = ref('overview');
 
 .species-view__header p {
   margin: 0.35rem 0 0;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__layout {
@@ -468,7 +484,7 @@ const activeSidebarTab = ref('overview');
 .species-view__request dt {
   margin: 0;
   font-size: 0.8rem;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__request dd {
@@ -486,7 +502,7 @@ const activeSidebarTab = ref('overview');
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__shortlist ul {
@@ -506,7 +522,7 @@ const activeSidebarTab = ref('overview');
 .species-view__empty {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--pokedex-text-muted);
+  color: var(--evogene-deck-text-muted);
 }
 
 .species-view__synergy {
@@ -532,7 +548,7 @@ const activeSidebarTab = ref('overview');
 
 .species-view__synergy-card header span {
   font-size: 0.75rem;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__synergy-card ul {
@@ -554,7 +570,7 @@ const activeSidebarTab = ref('overview');
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__compliance ul {
@@ -573,7 +589,7 @@ const activeSidebarTab = ref('overview');
 }
 
 .species-view__compliance li span {
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__compliance li span[data-tone='critical'] {
@@ -591,7 +607,7 @@ const activeSidebarTab = ref('overview');
 .species-view__timestamp {
   margin: 0;
   font-size: 0.75rem;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__qa {
@@ -632,7 +648,7 @@ const activeSidebarTab = ref('overview');
 .species-view__qa-text {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__qa-messages {
@@ -656,7 +672,7 @@ const activeSidebarTab = ref('overview');
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .species-view__qa-messages li span:first-child[data-level='warning'] {

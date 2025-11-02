@@ -4,7 +4,7 @@
       <template #cards>
         <InsightCard icon="🛰" :title="t('views.biomes.cards.orchestrator')">
           <div class="biomes-view__telemetry">
-            <PokedexTelemetryBadge
+            <EvoGeneDeckTelemetryBadge
               v-for="indicator in statusIndicators"
               :key="indicator.id"
               :label="indicator.label"
@@ -29,11 +29,20 @@
               </GlossaryTooltip>
             </button>
           </div>
-          <button v-if="activeTraits.length" type="button" class="biomes-view__reset" @click="clearTraits">
+          <button
+            v-if="activeTraits.length"
+            type="button"
+            class="biomes-view__reset"
+            @click="clearTraits"
+          >
             {{ t('views.biomes.actions.resetFilters') }}
           </button>
         </InsightCard>
-        <InsightCard v-if="hazardHighlights.length" icon="⚠" :title="t('views.biomes.cards.hazards')">
+        <InsightCard
+          v-if="hazardHighlights.length"
+          icon="⚠"
+          :title="t('views.biomes.cards.hazards')"
+        >
           <div class="biomes-view__hazards">
             <TraitChip
               v-for="highlight in hazardHighlights"
@@ -48,11 +57,19 @@
 
       <template #default="{ activeTab: currentTab }">
         <div v-if="currentTab === 'grid'" class="biomes-view__grid">
-          <PokedexBiomeCard v-for="biome in filteredBiomes" :key="biome.id" :biome="biome">
+          <EvoGeneDeckBiomeCard v-for="biome in filteredBiomes" :key="biome.id" :biome="biome">
             <template #footer>
               <div class="biomes-view__metrics">
-                <PokedexTelemetryBadge :label="t('views.biomes.metrics.readiness')" :value="formatReadiness(biome)" :tone="readinessTone(biome)" />
-                <TraitChip :label="t('views.biomes.metrics.riskLabel', { value: biome.risk })" variant="hazard" icon="⚠" />
+                <EvoGeneDeckTelemetryBadge
+                  :label="t('views.biomes.metrics.readiness')"
+                  :value="formatReadiness(biome)"
+                  :tone="readinessTone(biome)"
+                />
+                <TraitChip
+                  :label="t('views.biomes.metrics.riskLabel', { value: biome.risk })"
+                  variant="hazard"
+                  icon="⚠"
+                />
               </div>
               <ul class="biomes-view__validators" v-if="(biome.validators || []).length">
                 <li
@@ -60,12 +77,16 @@
                   :key="validator.id"
                   :class="`validator validator--${validator.status}`"
                 >
-                  <TraitChip :label="validator.label" variant="validator" :icon="statusIcon(validator.status)" />
+                  <TraitChip
+                    :label="validator.label"
+                    variant="validator"
+                    :icon="statusIcon(validator.status)"
+                  />
                   <span>{{ validator.message }}</span>
                 </li>
               </ul>
             </template>
-          </PokedexBiomeCard>
+          </EvoGeneDeckBiomeCard>
         </div>
 
         <div v-else class="biomes-view__validator-feed">
@@ -74,7 +95,11 @@
             <p>{{ t('views.biomes.validator.feedDescription') }}</p>
           </header>
           <ul>
-            <li v-for="entry in validatorDigest" :key="entry.id" :class="`validator validator--${entry.status}`">
+            <li
+              v-for="entry in validatorDigest"
+              :key="entry.id"
+              :class="`validator validator--${entry.status}`"
+            >
               <div>
                 <strong>{{ entry.biome }}</strong>
                 <span>{{ entry.label }}</span>
@@ -93,8 +118,8 @@ import { computed, ref, toRefs } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NebulaShell from '../components/layout/NebulaShell.vue';
 import TraitChip from '../components/shared/TraitChip.vue';
-import PokedexBiomeCard from '../components/pokedex/PokedexBiomeCard.vue';
-import PokedexTelemetryBadge from '../components/pokedex/PokedexTelemetryBadge.vue';
+import EvoGeneDeckBiomeCard from '../components/evogene-deck/EvoGeneDeckBiomeCard.vue';
+import EvoGeneDeckTelemetryBadge from '../components/evogene-deck/EvoGeneDeckTelemetryBadge.vue';
 import InsightCard from '../components/shared/InsightCard.vue';
 import GlossaryTooltip from '../components/shared/GlossaryTooltip.vue';
 
@@ -125,13 +150,17 @@ const traitOptions = computed(() => {
       ...(Array.isArray(biome.affinities) ? biome.affinities : []),
     ];
     entries.forEach((entry) => {
-      const id = typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name;
+      const id =
+        typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name;
       if (!id) return;
       if (!map.has(id)) {
         map.set(id, {
           id,
           label: typeof entry === 'string' ? entry : entry.label || entry.name || id,
-          description: typeof entry === 'string' ? '' : entry.description || entry.summary || entry.detail || '',
+          description:
+            typeof entry === 'string'
+              ? ''
+              : entry.description || entry.summary || entry.detail || '',
         });
       }
     });
@@ -148,7 +177,9 @@ const traitIdSet = (biome) => {
   ];
   return new Set(
     values
-      .map((entry) => (typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name))
+      .map((entry) =>
+        typeof entry === 'string' ? entry : entry.id || entry.key || entry.slug || entry.name,
+      )
       .filter(Boolean),
   );
 };
@@ -180,18 +211,41 @@ const totals = computed(() => {
 const statusIndicators = computed(() => {
   const items = [];
   if (totals.value.count || activeTraits.value.length) {
-    items.push({ id: 'count', label: t('views.biomes.metrics.activeBiomes'), value: totals.value.count, tone: 'neutral' });
+    items.push({
+      id: 'count',
+      label: t('views.biomes.metrics.activeBiomes'),
+      value: totals.value.count,
+      tone: 'neutral',
+    });
   }
   if (totals.value.capacity) {
-    const percent = Math.min(100, Math.round((totals.value.readiness / totals.value.capacity) * 100));
+    const percent = Math.min(
+      100,
+      Math.round((totals.value.readiness / totals.value.capacity) * 100),
+    );
     let tone = 'warning';
     if (percent >= 80) tone = 'success';
     else if (percent < 50) tone = 'critical';
-    items.push({ id: 'readiness', label: t('views.biomes.metrics.readinessCoverage'), value: `${percent}%`, tone });
+    items.push({
+      id: 'readiness',
+      label: t('views.biomes.metrics.readinessCoverage'),
+      value: `${percent}%`,
+      tone,
+    });
   }
-  items.push({ id: 'risk', label: t('views.biomes.metrics.riskAverage'), value: totals.value.riskAverage || '0', tone: 'warning' });
+  items.push({
+    id: 'risk',
+    label: t('views.biomes.metrics.riskAverage'),
+    value: totals.value.riskAverage || '0',
+    tone: 'warning',
+  });
   if (activeTraits.value.length) {
-    items.push({ id: 'filters', label: t('views.biomes.metrics.activeFilters'), value: activeTraits.value.length, tone: 'neutral' });
+    items.push({
+      id: 'filters',
+      label: t('views.biomes.metrics.activeFilters'),
+      value: activeTraits.value.length,
+      tone: 'neutral',
+    });
   }
   return items;
 });
@@ -205,7 +259,12 @@ const hazardHighlights = computed(() => {
     seen.add(hazard);
     list.push({ key: `${biome.id}-hazard`, label: hazard, variant: 'hazard', icon: '⚠' });
     if (biome.climate) {
-      list.push({ key: `${biome.id}-climate`, label: biome.climate, variant: 'climate', icon: '☁' });
+      list.push({
+        key: `${biome.id}-climate`,
+        label: biome.climate,
+        variant: 'climate',
+        icon: '☁',
+      });
     }
   });
   return list.slice(0, 4);
@@ -281,7 +340,6 @@ function statusIcon(status) {
   gap: 1.5rem;
 }
 
-
 .biomes-view__telemetry {
   display: flex;
   flex-wrap: wrap;
@@ -314,7 +372,7 @@ function statusIcon(status) {
   border: 1px solid rgba(96, 213, 255, 0.35);
   border-radius: 999px;
   padding: 0.35rem 0.8rem;
-  color: var(--pokedex-text-primary);
+  color: var(--evogene-deck-text-primary);
   cursor: pointer;
 }
 
@@ -350,7 +408,6 @@ function statusIcon(status) {
   gap: 0.65rem;
 }
 
-
 .validator {
   display: grid;
   gap: 0.4rem;
@@ -358,7 +415,7 @@ function statusIcon(status) {
   border-radius: 1rem;
   background: rgba(7, 23, 39, 0.75);
   border: 1px solid rgba(77, 208, 255, 0.18);
-  color: var(--pokedex-text-primary);
+  color: var(--evogene-deck-text-primary);
 }
 
 .validator--passed {
@@ -378,18 +435,17 @@ function statusIcon(status) {
   gap: 1rem;
 }
 
-
 .biomes-view__validator-feed header h3 {
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.9rem;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .biomes-view__validator-feed header p {
   margin: 0;
-  color: var(--pokedex-text-muted);
+  color: var(--evogene-deck-text-muted);
 }
 
 .biomes-view__validator-feed ul {
@@ -412,17 +468,17 @@ function statusIcon(status) {
 .biomes-view__validator-feed li strong {
   display: block;
   font-size: 0.85rem;
-  color: var(--pokedex-text-primary);
+  color: var(--evogene-deck-text-primary);
 }
 
 .biomes-view__validator-feed li span {
   font-size: 0.75rem;
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .biomes-view__validator-feed li p {
   margin: 0;
   font-size: 0.8rem;
-  color: var(--pokedex-text-primary);
+  color: var(--evogene-deck-text-primary);
 }
 </style>

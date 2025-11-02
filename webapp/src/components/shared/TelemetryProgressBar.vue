@@ -11,7 +11,10 @@
       <span class="telemetry-progress__value">{{ displayValue }}</span>
     </div>
     <div class="telemetry-progress__bar">
-      <div class="telemetry-progress__fill" :style="{ width: `${Math.min(100, Math.max(displayPercent, 0))}%` }" />
+      <div
+        class="telemetry-progress__fill"
+        :style="{ width: `${Math.min(100, Math.max(displayPercent, 0))}%` }"
+      />
     </div>
     <p v-if="description" class="telemetry-progress__description">{{ description }}</p>
   </div>
@@ -82,12 +85,12 @@ const displayValue = computed(() => {
 }
 
 .telemetry-progress__label {
-  color: var(--pokedex-text-secondary);
+  color: var(--evogene-deck-text-secondary);
 }
 
 .telemetry-progress__value {
   font-weight: 600;
-  color: var(--pokedex-text-primary);
+  color: var(--evogene-deck-text-primary);
 }
 
 .telemetry-progress__bar {
@@ -111,6 +114,6 @@ const displayValue = computed(() => {
 .telemetry-progress__description {
   margin: 0;
   font-size: 0.75rem;
-  color: var(--pokedex-text-muted);
+  color: var(--evogene-deck-text-muted);
 }
 </style>

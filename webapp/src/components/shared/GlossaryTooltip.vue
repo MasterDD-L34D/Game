@@ -30,7 +30,7 @@ const props = defineProps({
   padding: 0.45rem 0.6rem;
   border-radius: 0.6rem;
   background: rgba(7, 23, 39, 0.95);
-  color: var(--pokedex-text-primary);
+  color: var(--evogene-deck-text-primary);
   font-size: 0.75rem;
   line-height: 1.25;
   pointer-events: none;

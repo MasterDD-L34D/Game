@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pannelli EvoGene Deck · Layout di riferimento</title>
+    <link rel="stylesheet" href="./evogene-deck-cards.css" />
+    <link rel="stylesheet" href="/webapp/src/styles/evogene-deck.css" />
+  </head>
+  <body>
+    <main class="evogene-deck-demo">
+      <section class="evogene-deck-demo__intro">
+        <h1>EvoGene Deck UI · Cards specie & biomi</h1>
+        <p>
+          Questa pagina raccoglie varianti rappresentative delle card specie e biomi utilizzate nel
+          flow mission console. È pensata per gli snapshot di regressione visiva (Percy, Storybook
+          screenshot o <code>tools/py/visual_regression.py</code>).
+        </p>
+      </section>
+      <section class="evogene-deck-demo__grid">
+        <article class="evogene-deck-demo__group">
+          <h2>Specie</h2>
+          <section class="evogene-deck-card" data-tone="success">
+            <header class="evogene-deck-card__header">
+              <div class="evogene-deck-card__title-group">
+                <span class="evogene-deck-card__icon" aria-hidden="true">🛰️</span>
+                <h3 class="evogene-deck-card__title">Sentinella Nebulare</h3>
+              </div>
+              <span
+                class="evogene-deck-telemetry"
+                data-tone="success"
+                role="group"
+                aria-labelledby="species-primary-status-label"
+                aria-describedby="species-primary-status-value"
+              >
+                <span id="species-primary-status-label" class="evogene-deck-telemetry__label"
+                  >Stato</span
+                >
+                <span id="species-primary-status-value" class="evogene-deck-telemetry__value"
+                  >Curata</span
+                >
+              </span>
+            </header>
+            <div class="evogene-deck-card__body">
+              <ul class="evogene-deck-card__tag-strip">
+                <li>Predatore apex</li>
+                <li>Supporto sinaptico</li>
+                <li>Infiltrazione</li>
+              </ul>
+              <ul class="evogene-deck-card__body-list">
+                <li>Seed primario: QA-NEB-07</li>
+                <li>Fallback: Trait «shadow_pack» applicato</li>
+                <li>Blueprint revisionato alle 09:18</li>
+              </ul>
+            </div>
+            <footer class="evogene-deck-card__footer">
+              <p class="evogene-deck-card__footer-note">
+                QA Core: confermata la sinergia con il branch Nebbia prismatica (coverage 82%).
+              </p>
+            </footer>
+          </section>
+
+          <section class="evogene-deck-card" data-tone="warning">
+            <header class="evogene-deck-card__header">
+              <div class="evogene-deck-card__title-group">
+                <span class="evogene-deck-card__icon" aria-hidden="true">⚠️</span>
+                <h3 class="evogene-deck-card__title">Muta-Cantore di Obsidian</h3>
+              </div>
+              <span
+                class="evogene-deck-telemetry"
+                data-tone="warning"
+                role="group"
+                aria-labelledby="species-secondary-status-label"
+                aria-describedby="species-secondary-status-value"
+              >
+                <span id="species-secondary-status-label" class="evogene-deck-telemetry__label"
+                  >Validator warnings</span
+                >
+                <span id="species-secondary-status-value" class="evogene-deck-telemetry__value"
+                  >2</span
+                >
+              </span>
+            </header>
+            <div class="evogene-deck-card__body">
+              <p>
+                Blueprint in fase di revisione: mantenere il profilo stealth ma ridurre la
+                propagazione del segnale sonico sui biomi instabili.
+              </p>
+            </div>
+            <footer class="evogene-deck-card__footer">
+              <p class="evogene-deck-card__footer-note">
+                Segnalato conflitto con i pattern «thermal_climber». In attesa di fix automatico.
+              </p>
+            </footer>
+          </section>
+        </article>
+
+        <article class="evogene-deck-demo__group">
+          <h2>Biomi</h2>
+          <article class="evogene-deck-biome-card" data-tone="success">
+            <header class="evogene-deck-biome-card__header">
+              <div>
+                <p class="evogene-deck-biome-card__kicker">Bioma operativo</p>
+                <h3 class="evogene-deck-biome-card__title">Twilight Marsh</h3>
+                <p class="evogene-deck-biome-card__subtitle">Nebbia fotonica instabile</p>
+              </div>
+              <div class="evogene-deck-biome-card__telemetry">
+                <span
+                  class="evogene-deck-telemetry"
+                  data-tone="success"
+                  role="group"
+                  aria-labelledby="biome-readiness-label"
+                  aria-describedby="biome-readiness-value"
+                >
+                  <span id="biome-readiness-label" class="evogene-deck-telemetry__label"
+                    >Readiness</span
+                  >
+                  <span id="biome-readiness-value" class="evogene-deck-telemetry__value">4/5</span>
+                </span>
+                <span
+                  class="evogene-deck-telemetry"
+                  data-tone="warning"
+                  role="group"
+                  aria-labelledby="biome-risk-label"
+                  aria-describedby="biome-risk-value"
+                >
+                  <span id="biome-risk-label" class="evogene-deck-telemetry__label">Rischio</span>
+                  <span id="biome-risk-value" class="evogene-deck-telemetry__value"
+                    >Controllato</span
+                  >
+                </span>
+              </div>
+            </header>
+            <section class="evogene-deck-biome-card__section">
+              <h4>Corridoi</h4>
+              <ul class="evogene-deck-biome-card__chips">
+                <li>Beacon ghiacciati</li>
+                <li>Vents fotonici</li>
+                <li>Cunicoli risonanti</li>
+              </ul>
+            </section>
+            <section class="evogene-deck-biome-card__section">
+              <h4>Operazioni</h4>
+              <ul class="evogene-deck-biome-card__list">
+                <li>Stabilizzare l'hazard prismatica</li>
+                <li>Monitorare branchi Nebulari</li>
+              </ul>
+            </section>
+            <footer class="evogene-deck-biome-card__footer">
+              <p class="evogene-deck-biome-card__footer-note">
+                Story hook: il tramonto artificiale amplifica le eco-sonde — raccomandata squadra
+                QA.
+              </p>
+            </footer>
+          </article>
+
+          <article class="evogene-deck-biome-card" data-tone="critical">
+            <header class="evogene-deck-biome-card__header">
+              <div>
+                <p class="evogene-deck-biome-card__kicker">Bioma operativo</p>
+                <h3 class="evogene-deck-biome-card__title">Obsidian Ridge</h3>
+                <p class="evogene-deck-biome-card__subtitle">Strati basaltici instabili</p>
+              </div>
+              <div class="evogene-deck-biome-card__telemetry">
+                <span
+                  class="evogene-deck-telemetry"
+                  data-tone="critical"
+                  role="group"
+                  aria-labelledby="biome-obsidian-readiness-label"
+                  aria-describedby="biome-obsidian-readiness-value"
+                >
+                  <span id="biome-obsidian-readiness-label" class="evogene-deck-telemetry__label"
+                    >Readiness</span
+                  >
+                  <span id="biome-obsidian-readiness-value" class="evogene-deck-telemetry__value"
+                    >2/6</span
+                  >
+                </span>
+                <span
+                  class="evogene-deck-telemetry"
+                  data-tone="warning"
+                  role="group"
+                  aria-labelledby="biome-obsidian-risk-label"
+                  aria-describedby="biome-obsidian-risk-value"
+                >
+                  <span id="biome-obsidian-risk-label" class="evogene-deck-telemetry__label"
+                    >Rischio</span
+                  >
+                  <span id="biome-obsidian-risk-value" class="evogene-deck-telemetry__value"
+                    >Alto</span
+                  >
+                </span>
+              </div>
+            </header>
+            <section class="evogene-deck-biome-card__section">
+              <h4>Infiltrazione</h4>
+              <p>
+                Squadre stealth segnalano forti interferenze. Attivare fallback logistico prima di
+                procedere.
+              </p>
+            </section>
+            <footer class="evogene-deck-biome-card__footer">
+              <p class="evogene-deck-biome-card__footer-note">
+                QA Badge: richiedere riconnessione hazard entro 6 ore per evitare blocchi
+                produzione.
+              </p>
+            </footer>
+          </article>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

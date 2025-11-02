@@ -1,26 +1,26 @@
 <template>
-  <section class="atlas-pokedex">
-    <header class="atlas-pokedex__header">
-      <h3>Pokédex Nebula</h3>
+  <section class="atlas-evogene-deck">
+    <header class="atlas-evogene-deck__header">
+      <h3>EvoGene Deck Nebula</h3>
       <p>
-        Specie focalizzate sul dataset Nebula: solo blueprint già normalizzati secondo i tratti fotonici e pronti per
-        staging/QA.
+        Specie focalizzate sul dataset Nebula: solo blueprint già normalizzati secondo i tratti
+        fotonici e pronti per staging/QA.
       </p>
     </header>
 
-    <div class="atlas-pokedex__grid">
-      <article v-for="entry in species" :key="entry.id" class="atlas-pokedex__card">
+    <div class="atlas-evogene-deck__grid">
+      <article v-for="entry in species" :key="entry.id" class="atlas-evogene-deck__card">
         <header>
           <div>
-            <p class="atlas-pokedex__rarity">{{ entry.rarity }}</p>
+            <p class="atlas-evogene-deck__rarity">{{ entry.rarity }}</p>
             <h4>{{ entry.name }}</h4>
           </div>
-          <span class="atlas-pokedex__badge" :data-state="badgeState(entry.readiness)">
+          <span class="atlas-evogene-deck__badge" :data-state="badgeState(entry.readiness)">
             {{ entry.readiness }}
           </span>
         </header>
-        <p class="atlas-pokedex__synopsis">{{ entry.synopsis }}</p>
-        <dl class="atlas-pokedex__meta" aria-label="Dati operativi">
+        <p class="atlas-evogene-deck__synopsis">{{ entry.synopsis }}</p>
+        <dl class="atlas-evogene-deck__meta" aria-label="Dati operativi">
           <div>
             <dt>Archetipo</dt>
             <dd>{{ entry.archetype }}</dd>
@@ -34,7 +34,7 @@
             <dd>{{ entry.energyProfile }}</dd>
           </div>
         </dl>
-        <div class="atlas-pokedex__traits">
+        <div class="atlas-evogene-deck__traits">
           <div>
             <h5>Core</h5>
             <ul>
@@ -54,14 +54,17 @@
             </ul>
           </div>
         </div>
-        <footer class="atlas-pokedex__footer">
+        <footer class="atlas-evogene-deck__footer">
           <div>
             <strong>Habitat</strong>
             <span>{{ entry.habitats.join(', ') }}</span>
           </div>
           <div>
             <strong>Copertura QA</strong>
-            <span>{{ formatCoverage(entry.telemetry.coverage) }} · {{ formatTimestamp(entry.telemetry.lastValidation) }}</span>
+            <span>
+              {{ formatCoverage(entry.telemetry.coverage) }} ·
+              {{ formatTimestamp(entry.telemetry.lastValidation) }}
+            </span>
           </div>
           <div>
             <strong>Curatore</strong>
@@ -121,26 +124,26 @@ function badgeState(readiness) {
 </script>
 
 <style scoped>
-.atlas-pokedex {
+.atlas-evogene-deck {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-.atlas-pokedex__header {
+.atlas-evogene-deck__header {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   color: rgba(15, 23, 42, 0.75);
 }
 
-.atlas-pokedex__grid {
+.atlas-evogene-deck__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
   gap: 1.75rem;
 }
 
-.atlas-pokedex__card {
+.atlas-evogene-deck__card {
   background: rgba(248, 250, 252, 0.95);
   border-radius: 1.25rem;
   padding: 1.75rem;
@@ -151,14 +154,14 @@ function badgeState(readiness) {
   border: 1px solid rgba(148, 163, 184, 0.18);
 }
 
-.atlas-pokedex__card header {
+.atlas-evogene-deck__card header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
 }
 
-.atlas-pokedex__rarity {
+.atlas-evogene-deck__rarity {
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 0.7rem;
@@ -166,7 +169,7 @@ function badgeState(readiness) {
   color: rgba(15, 23, 42, 0.5);
 }
 
-.atlas-pokedex__badge {
+.atlas-evogene-deck__badge {
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
   font-size: 0.75rem;
@@ -178,61 +181,61 @@ function badgeState(readiness) {
   letter-spacing: 0.08em;
 }
 
-.atlas-pokedex__badge[data-state='pending'] {
+.atlas-evogene-deck__badge[data-state='pending'] {
   background: rgba(245, 158, 11, 0.16);
   color: #b45309;
   border-color: rgba(217, 119, 6, 0.35);
 }
 
-.atlas-pokedex__badge[data-state='progress'] {
+.atlas-evogene-deck__badge[data-state='progress'] {
   background: rgba(56, 189, 248, 0.18);
   color: #0369a1;
   border-color: rgba(14, 165, 233, 0.28);
 }
 
-.atlas-pokedex__badge[data-state='ready'] {
+.atlas-evogene-deck__badge[data-state='ready'] {
   background: rgba(34, 197, 94, 0.18);
   color: #15803d;
   border-color: rgba(34, 197, 94, 0.3);
 }
 
-.atlas-pokedex__synopsis {
+.atlas-evogene-deck__synopsis {
   font-size: 0.95rem;
   line-height: 1.6;
   color: rgba(15, 23, 42, 0.72);
 }
 
-.atlas-pokedex__meta {
+.atlas-evogene-deck__meta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   gap: 0.75rem;
 }
 
-.atlas-pokedex__meta div {
+.atlas-evogene-deck__meta div {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   color: rgba(15, 23, 42, 0.65);
 }
 
-.atlas-pokedex__meta dt {
+.atlas-evogene-deck__meta dt {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
 }
 
-.atlas-pokedex__meta dd {
+.atlas-evogene-deck__meta dd {
   margin: 0;
   font-weight: 600;
 }
 
-.atlas-pokedex__traits {
+.atlas-evogene-deck__traits {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: 1rem;
 }
 
-.atlas-pokedex__traits h5 {
+.atlas-evogene-deck__traits h5 {
   margin: 0 0 0.4rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -240,13 +243,13 @@ function badgeState(readiness) {
   color: rgba(15, 23, 42, 0.65);
 }
 
-.atlas-pokedex__traits ul {
+.atlas-evogene-deck__traits ul {
   margin: 0;
   padding-left: 1.2rem;
   color: rgba(15, 23, 42, 0.75);
 }
 
-.atlas-pokedex__footer {
+.atlas-evogene-deck__footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   gap: 0.75rem;
@@ -254,7 +257,7 @@ function badgeState(readiness) {
   color: rgba(30, 41, 59, 0.75);
 }
 
-.atlas-pokedex__footer strong {
+.atlas-evogene-deck__footer strong {
   display: block;
   font-size: 0.7rem;
   text-transform: uppercase;
