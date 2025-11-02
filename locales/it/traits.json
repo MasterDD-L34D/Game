@@ -210,8 +210,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Balance Reflex",
       "mutazione_indotta": "Riduce penalità in piedi; sinergia con WA 03, WA 05.",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Pre‑Sociale (T2). Richiede neuroni: WA 02, DE 01, DO 01"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Pre‑Sociale (T2). Milestone: Senses mid; AB 01 Endurance."
     },
     "barbigli_sensori_plasma": {
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
@@ -641,8 +641,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Craft Loop",
       "mutazione_indotta": "Riduce di 1 i colpi richiesti con strumenti; si cumula con BB AL 01.",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Culturale (T5). Richiede neuroni: NE 01, IN 02, AL 07"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Avanzato (T5). Milestone: Memorie echoic/iconic multiple; AB 11 pain."
     },
     "criostasi": {
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
@@ -751,8 +751,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Echoic Trace",
       "mutazione_indotta": "Memorizza 1 target uditivo addizionale (sinergia BB SS 01).",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Senziente Emergente (T3). Richiede neuroni: WA 03, DE 05, SS 04, SO 06"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Emergente (T3). Milestone: Senses mid+; AB 02–03 movement/carry."
     },
     "eco_interno_riflesso": {
       "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue.",
@@ -830,8 +830,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Executive Loop",
       "mutazione_indotta": "Concatena 1 azione gratuita di 'focus' o 'memorizza' tra due compiti.",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Proto‑Umano (T6). Richiede neuroni: WA 05, WH 06, Intelligence_Core"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Sapiente (T6). Milestone: Senses 37/37; Ambulation 26/26."
     },
     "filamenti_digestivi_compattanti": {
       "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'.",
@@ -1061,8 +1061,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Group Form",
       "mutazione_indotta": "Bonus posizionale con 2+ alleati adiacenti.",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Sociale (T4). Richiede neuroni: CM 06, DO 07, CO 1"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Civico (T4). Milestone: Sound Awareness/Chemotopy full; AB 05–09 climb/carry."
     },
     "gusci_criovetro": {
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
@@ -1084,8 +1084,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Interoception Seed",
       "mutazione_indotta": "+1 ai tiri di Consapevolezza Corporea; segnali anticipati di fame/sete.",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Proto‑Senziente (T1). Richiede neuroni: SO 01, SS 01, MS 01"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Proto‑Sentiente (T1). Milestone: Senses (core)."
     },
     "lamelle_shear": {
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
@@ -1235,8 +1235,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Mimicry Basic",
       "mutazione_indotta": "Il clan imita switch/alterazioni semplici (pieno con CM 06).",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Pre‑Sociale (T2). Richiede neuroni: WA 02, DE 01, DO 01"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Pre‑Sociale (T2). Milestone: Senses mid; AB 01 Endurance."
     },
     "mucillagine_simbionte_mangrovie": {
       "debolezza": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione.",
@@ -1330,8 +1330,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Postural Endurance",
       "mutazione_indotta": "Riduce consumo energia in piedi/corsa.",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Proto‑Umano (T6). Richiede neuroni: WA 05, WH 06, Intelligence_Core"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Sapiente (T6). Milestone: Senses 37/37; Ambulation 26/26."
     },
     "random": {
       "debolezza": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli.",
@@ -1430,8 +1430,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Sheltering",
       "mutazione_indotta": "Riduce stress in pericolo vicino a costruzioni.",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Culturale (T5). Richiede neuroni: NE 01, IN 02, AL 07"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Avanzato (T5). Milestone: Memorie echoic/iconic multiple; AB 11 pain."
     },
     "sinapsi_coraline_polifoniche": {
       "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
@@ -1469,8 +1469,8 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Startle Reflex",
       "mutazione_indotta": "Reazioni di fuga più rapide (sinergia con MS 02 se presente).",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Proto‑Senziente (T1). Richiede neuroni: SO 01, SS 01, MS 01"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Proto‑Sentiente (T1). Milestone: Senses (core)."
     },
     "struttura_elastica_amorfa": {
       "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione).",
@@ -1506,15 +1506,15 @@
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Teach Action",
       "mutazione_indotta": "Insegna 1 azione pratica al clan (switch/alter/transport).",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Sociale (T4). Richiede neuroni: CM 06, DO 07, CO 1"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Civico (T4). Milestone: Sound Awareness/Chemotopy full; AB 05–09 climb/carry."
     },
     "toolseed": {
       "fattore_mantenimento_energetico": "Da definire (import esterno)",
       "label": "Toolseed",
       "mutazione_indotta": "Progetti Rozzi: +5% successo alterazioni; si cumula con AL 01–03.",
-      "spinta_selettiva": "Origine esterna: EvoTactics.Sensienti. Validare allineamento con catalogo principale.",
-      "uso_funzione": "Tier Senziente Emergente (T3). Richiede neuroni: WA 03, DE 05, SS 04, SO 06"
+      "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+      "uso_funzione": "Tier Emergente (T3). Milestone: Senses mid+; AB 02–03 movement/carry."
     },
     "vello_condensatore_nebbie": {
       "debolezza": "In ambienti aridi accumula detriti che riducono la capacità di condensa.",

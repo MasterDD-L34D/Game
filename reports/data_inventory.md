@@ -134,7 +134,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | incoming/personality_module.v1.json | 24.16 KB | 2025-10-29T18:47:07 | AG-Personality | N/D (grezzo) |
 | incoming/recon_meccaniche.json | 1.82 KB | 2025-10-29T18:47:07 | AG-Validation | N/D (grezzo) |
 | incoming/scan_engine_idents.py | 2.97 KB | 2025-10-29T18:47:07 | AG-Toolsmith | N/D (grezzo) |
-| incoming/sensienti_traits_v0.1.yaml | 3.77 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
+| incoming/sentience_traits_v1.0.yaml | 3.32 KB | 2025-10-29T18:47:07 | AG-Biome | Manifest finale |
 | incoming/species_index.html | 3.52 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 
 ### Duplicati segnalati dallo script
