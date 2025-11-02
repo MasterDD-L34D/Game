@@ -17,7 +17,7 @@ function computeSnapshotQuality(summary = {}) {
   const blocking = checks.filter((check) => check && check.blocking);
   const missingData = !checks.length;
   const passed = !missingData && blocking.length === 0;
-  const severity = missingData ? 'warning' : 'critical';
+  const severity = 'warning';
   const failedChecks = blocking.map((check) => check.label || check.id || 'quality-check');
   const summaryText = missingData
     ? 'Nessun quality check disponibile nello snapshot.'
@@ -46,7 +46,7 @@ function computeTraitDiagnosticsStatus(traitDiagnostics = {}) {
   const missingGlossary = toNumber(summary.glossary_missing ?? summary.glossaryMissing);
   const error = status.error ? String(status.error) : null;
   const passed = !error && conflicts === 0;
-  const severity = 'critical';
+  const severity = 'warning';
   const summaryParts = [];
   if (error) {
     summaryParts.push(`Errore diagnostica: ${error}`);
@@ -80,7 +80,7 @@ function computeTelemetryIncidents(nebula = {}) {
   const highPriority = toNumber(summary.highPriorityEvents);
   const openEvents = toNumber(summary.openEvents);
   const passed = !error && highPriority === 0;
-  const severity = 'critical';
+  const severity = 'warning';
   const summaryParts = [];
   if (error) {
     summaryParts.push(`Errore telemetria: ${error}`);
@@ -231,8 +231,9 @@ function formatGoNoGoSummary(goNoGo) {
   const stats = goNoGo.stats || {};
   const total = stats.total ?? goNoGo.checks.length;
   const failed = stats.failed ?? goNoGo.checks.filter((check) => check.status === 'failed').length;
-  const warnings = stats.warnings ?? goNoGo.checks.filter((check) => check.status === 'warning').length;
-  const passed = stats.passed ?? (total - failed - warnings);
+  const warnings =
+    stats.warnings ?? goNoGo.checks.filter((check) => check.status === 'warning').length;
+  const passed = stats.passed ?? total - failed - warnings;
   const label = (goNoGo.status || 'nd').toUpperCase();
   const summaryLine = `Flow Shell go/no-go: ${label} (${passed}/${total} ok · ${warnings} warning · ${failed} fail)`;
   const detailLines = [];

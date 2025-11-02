@@ -139,24 +139,12 @@ fi
 # that we only need to assemble the static bundle (plus an optional smoke test).
 
 log "Verifying TypeScript build artifacts (tools/ts/dist)"
-TS_PACKAGE_DIR="$ROOT_DIR/tools/ts"
-TS_DIST_DIR="$TS_PACKAGE_DIR/dist"
-if [ ! -d "$TS_DIST_DIR" ]; then
-  log "TypeScript build output non trovato: avvio compilazione (tools/ts)."
-  (
-    cd "$TS_PACKAGE_DIR"
-    if [ ! -d "node_modules" ]; then
-      npm ci --prefer-offline --no-audit --fund=false >/dev/null
-    fi
-    npm run build --silent
-  )
-fi
+TS_DIST_DIR="$ROOT_DIR/tools/ts/dist"
 if [ ! -d "$TS_DIST_DIR" ]; then
   log "Missing TypeScript build output in $TS_DIST_DIR"
-  log "Compilazione tools/ts fallita: eseguire manualmente 'npm run build'."
+  log "Run 'npm run build' (or 'npm test') from tools/ts before invoking this script."
   exit 1
 fi
-SMOKE_TEST_DETAILS+=("  - Tooling TypeScript bundle disponibile in tools/ts/dist.")
 
 log "Preparing static deploy bundle"
 DIST_DIR=$(mktemp -d "dist.XXXXXX" -p "$ROOT_DIR")

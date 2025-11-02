@@ -1,13 +1,13 @@
 {
-  "generated_at": "2025-11-02T18:46:57.518Z",
+  "generated_at": "2025-11-02T01:15:50.501174Z",
   "summary": {
     "total_traits": 174,
     "glossary_ok": 174,
     "glossary_missing": 0,
-    "matrix_ok": 174,
-    "matrix_mismatch": 0,
-    "with_conflicts": 0,
-    "matrix_only_traits": 0
+    "matrix_ok": 34,
+    "matrix_mismatch": 140,
+    "with_conflicts": 24,
+    "matrix_only_traits": 7
   },
   "traits": [
     {
@@ -22,7 +22,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -80,7 +80,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -138,7 +138,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -196,7 +196,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -254,7 +254,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -312,7 +312,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -370,7 +370,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -428,7 +428,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -488,7 +488,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -546,7 +546,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -604,7 +604,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -662,7 +662,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -720,7 +720,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -778,7 +778,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -836,9 +836,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "frusta_fiammeggiante"
+      ],
       "synergies": [
         "carapace_fase_variabile"
       ],
@@ -893,7 +895,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -951,7 +953,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1009,7 +1011,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1067,7 +1069,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1185,7 +1187,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1244,7 +1246,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1302,9 +1304,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "mantello_meteoritico"
+      ],
       "synergies": [
         "empatia_coordinativa",
         "risonanza_di_branco"
@@ -1360,7 +1364,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1418,7 +1422,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1476,7 +1480,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1534,7 +1538,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1592,7 +1596,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1650,7 +1654,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1708,7 +1712,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1766,7 +1770,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1824,7 +1828,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1882,7 +1886,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1940,7 +1944,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -1998,7 +2002,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2056,9 +2060,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "polmoni_cristallini_alta_quota"
+      ],
       "synergies": [
         "mucillagine_simbionte_mangrovie",
         "scheletro_idro_regolante"
@@ -2114,7 +2120,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2172,7 +2178,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2230,7 +2236,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2289,7 +2295,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2347,7 +2353,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2405,7 +2411,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2463,7 +2469,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2521,7 +2527,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2579,7 +2585,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2637,7 +2643,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2697,7 +2703,9 @@
         "glossary": "ok",
         "matrix": "ok"
       },
-      "conflicts": [],
+      "conflicts": [
+        "struttura_elastica_amorfa"
+      ],
       "synergies": [
         "ali_membrana_sonica",
         "appendici_risonanti_marea",
@@ -2769,9 +2777,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "carapace_fase_variabile"
+      ],
       "synergies": [
         "antenne_plasmatiche_tempesta",
         "risonanza_di_branco",
@@ -2828,7 +2838,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2886,7 +2896,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -2944,9 +2954,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "scheletro_idro_regolante"
+      ],
       "synergies": [
         "artigli_sghiaccio_glaciale",
         "carapace_fase_variabile",
@@ -3004,7 +3016,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3062,7 +3074,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3120,7 +3132,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3178,7 +3190,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3236,7 +3248,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3296,7 +3308,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3354,7 +3366,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3412,7 +3424,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3470,7 +3482,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3528,9 +3540,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "sangue_piroforico"
+      ],
       "synergies": [
         "mucillagine_simbionte_mangrovie"
       ],
@@ -3585,7 +3599,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3643,7 +3657,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3701,7 +3715,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3759,7 +3773,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3817,7 +3831,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3875,7 +3889,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3933,7 +3947,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -3991,7 +4005,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4049,7 +4063,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4191,7 +4205,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4249,7 +4263,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4307,7 +4321,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4365,7 +4379,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4423,7 +4437,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4483,7 +4497,10 @@
         "glossary": "ok",
         "matrix": "ok"
       },
-      "conflicts": [],
+      "conflicts": [
+        "sangue_piroforico",
+        "sacche_galleggianti_ascensoriali"
+      ],
       "synergies": [
         "cavita_risonanti_tundra"
       ],
@@ -4538,7 +4555,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4596,7 +4613,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4654,7 +4671,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4828,7 +4845,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4886,7 +4903,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -4944,7 +4961,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5002,7 +5019,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5060,7 +5077,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5118,7 +5135,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5306,7 +5323,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5364,7 +5381,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5480,7 +5497,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5538,7 +5555,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5596,7 +5613,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5654,7 +5671,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5782,7 +5799,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5840,7 +5857,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5898,7 +5915,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -5956,7 +5973,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6014,7 +6031,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6144,7 +6161,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6202,7 +6219,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6260,9 +6277,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "armatura_pietra_planare"
+      ],
       "synergies": [
         "focus_frazionato",
         "mantello_meteoritico"
@@ -6318,7 +6337,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6431,7 +6450,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6489,7 +6508,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6547,7 +6566,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6605,7 +6624,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6663,7 +6682,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6721,7 +6740,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6779,7 +6798,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6837,7 +6856,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6895,7 +6914,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -6953,7 +6972,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7011,7 +7030,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7069,7 +7088,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7127,7 +7146,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7185,7 +7204,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7301,7 +7320,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7359,7 +7378,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7417,7 +7436,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7475,7 +7494,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7535,7 +7554,9 @@
         "glossary": "ok",
         "matrix": "ok"
       },
-      "conflicts": [],
+      "conflicts": [
+        "criostasi_adattiva"
+      ],
       "synergies": [
         "sangue_piroforico"
       ],
@@ -7590,7 +7611,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7648,7 +7669,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7706,7 +7727,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7764,7 +7785,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7879,7 +7900,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7937,7 +7958,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -7995,7 +8016,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -8053,9 +8074,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "aura_scudo_radianza"
+      ],
       "synergies": [
         "frusta_fiammeggiante",
         "carapace_fase_variabile"
@@ -8111,7 +8134,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -8169,7 +8192,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -8227,7 +8250,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -8285,7 +8308,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -8343,7 +8366,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -8473,9 +8496,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "ghiandola_caustica"
+      ],
       "synergies": [
         "antenne_reagenti",
         "artigli_scivolo_silente",
@@ -8545,7 +8570,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -8603,7 +8628,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -8661,9 +8686,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "spore_psichiche_silenziate"
+      ],
       "synergies": [
         "antenne_reagenti",
         "artigli_scivolo_silente",
@@ -8735,7 +8762,9 @@
         "glossary": "ok",
         "matrix": "ok"
       },
-      "conflicts": [],
+      "conflicts": [
+        "secrezione_rallentante_palmi"
+      ],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9027,9 +9056,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "criostasi_adattiva"
+      ],
       "synergies": [
         "membrane_eliofiltranti",
         "sacche_spore_stratosferiche"
@@ -9085,9 +9116,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "branchie_osmotiche_salmastra"
+      ],
       "synergies": [
         "membrane_eliofiltranti"
       ],
@@ -9142,7 +9175,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [],
@@ -9388,9 +9421,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "respiro_a_scoppio"
+      ],
       "synergies": [
         "piume_solari_fotovoltaiche"
       ],
@@ -9447,7 +9482,10 @@
         "glossary": "ok",
         "matrix": "ok"
       },
-      "conflicts": [],
+      "conflicts": [
+        "criostasi_adattiva",
+        "scheletro_idro_regolante"
+      ],
       "synergies": [
         "antenne_flusso_mareale",
         "artigli_induzione",
@@ -9517,7 +9555,9 @@
         "glossary": "ok",
         "matrix": "ok"
       },
-      "conflicts": [],
+      "conflicts": [
+        "sangue_piroforico"
+      ],
       "synergies": [
         "antenne_tesla",
         "artigli_vetrificati",
@@ -9589,7 +9629,10 @@
         "glossary": "ok",
         "matrix": "ok"
       },
-      "conflicts": [],
+      "conflicts": [
+        "carapace_fase_variabile",
+        "nucleo_ovomotore_rotante"
+      ],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9700,9 +9743,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "spore_psichiche_silenziate"
+      ],
       "synergies": [
         "ali_fulminee",
         "antenne_plasmatiche_tempesta",
@@ -9832,7 +9877,9 @@
         "glossary": "ok",
         "matrix": "ok"
       },
-      "conflicts": [],
+      "conflicts": [
+        "respiro_a_scoppio"
+      ],
       "synergies": [],
       "dataset_sources": [
         "data/core/species.yaml",
@@ -9885,9 +9932,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "mimetismo_cromatico_passivo"
+      ],
       "synergies": [
         "respiro_a_scoppio"
       ],
@@ -10085,7 +10134,7 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
       "conflicts": [],
       "synergies": [
@@ -10283,9 +10332,11 @@
       },
       "statuses": {
         "glossary": "ok",
-        "matrix": "ok"
+        "matrix": "mismatch"
       },
-      "conflicts": [],
+      "conflicts": [
+        "zampe_a_molla"
+      ],
       "synergies": [
         "cartilagine_flessotermica_venti"
       ],

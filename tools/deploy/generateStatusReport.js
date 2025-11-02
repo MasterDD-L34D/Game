@@ -10,31 +10,32 @@ const { createGenerationSnapshotStore } = require('../../server/services/generat
 const { createReleaseReporter } = require('../../server/services/releaseReporter');
 
 const ROOT_DIR = path.resolve(__dirname, '..', '..');
-const STATUS_REPORT_PATH = path.join(ROOT_DIR, 'reports', 'status.json');
-const SNAPSHOT_PATH = path.join(ROOT_DIR, 'data', 'flow-shell', 'atlas-snapshot.json');
-const TELEMETRY_PATH = path.join(
+const DEFAULT_STATUS_PATH = path.join(ROOT_DIR, 'reports', 'status.json');
+const DEFAULT_SNAPSHOT_PATH = path.join(ROOT_DIR, 'data', 'flow-shell', 'atlas-snapshot.json');
+const DEFAULT_TELEMETRY_PATH = path.join(
   ROOT_DIR,
   'data',
   'derived',
   'exports',
   'qa-telemetry-export.json',
 );
-const GENERATOR_TELEMETRY_PATH = path.join(
+const DEFAULT_GENERATOR_TELEMETRY_PATH = path.join(
   ROOT_DIR,
   'logs',
   'tooling',
   'generator_run_profile.json',
 );
-const TRAIT_BASELINE_PATH = path.join(ROOT_DIR, 'reports', 'trait_baseline.json');
+const DEFAULT_TRAIT_BASELINE_PATH = path.join(ROOT_DIR, 'reports', 'trait_baseline.json');
+const DEFAULT_ORCHESTRATOR_LOG_DIR = path.join(ROOT_DIR, 'logs', 'orchestrator');
 
 function parseArgs(argv) {
   const options = {
-    status: STATUS_REPORT_PATH,
-    snapshot: SNAPSHOT_PATH,
-    telemetry: TELEMETRY_PATH,
-    generatorTelemetry: GENERATOR_TELEMETRY_PATH,
-    traitBaseline: TRAIT_BASELINE_PATH,
-    orchestratorLogDir: path.join(ROOT_DIR, 'logs', 'orchestrator'),
+    status: DEFAULT_STATUS_PATH,
+    snapshot: DEFAULT_SNAPSHOT_PATH,
+    telemetry: DEFAULT_TELEMETRY_PATH,
+    generatorTelemetry: DEFAULT_GENERATOR_TELEMETRY_PATH,
+    traitBaseline: DEFAULT_TRAIT_BASELINE_PATH,
+    orchestratorLogDir: DEFAULT_ORCHESTRATOR_LOG_DIR,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -78,7 +79,7 @@ function parseArgs(argv) {
       );
       continue;
     }
-    if (token === '--trait-baseline' && argv[index + 1]) {
+    if ((token === '--trait-baseline' || token === '--baseline') && argv[index + 1]) {
       options.traitBaseline = path.resolve(ROOT_DIR, argv[index + 1]);
       index += 1;
       continue;
@@ -97,6 +98,7 @@ function parseArgs(argv) {
         ROOT_DIR,
         token.slice('--orchestrator-log-dir='.length),
       );
+      continue;
     }
   }
 
@@ -118,12 +120,23 @@ async function readJsonMaybe(filePath, fallback = null) {
   }
 }
 
+async function writeJson(filePath, payload) {
+  const targetDir = path.dirname(filePath);
+  await fs.mkdir(targetDir, { recursive: true });
+  await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+}
+
 function createStaticTraitDiagnostics(options = {}) {
   const baselinePath = options.baselinePath;
   let diagnostics = null;
   let status = { fetchedAt: null, error: null };
 
   async function load() {
+    if (!baselinePath) {
+      diagnostics = null;
+      status = { fetchedAt: null, error: 'Trait baseline non configurato' };
+      return null;
+    }
     const baseline = await readJsonMaybe(baselinePath, null);
     if (!baseline) {
       diagnostics = null;
@@ -134,9 +147,10 @@ function createStaticTraitDiagnostics(options = {}) {
       summary: baseline.summary || {},
       checks: baseline.checks || {},
       highlights: baseline.highlights || {},
+      generated_at: baseline.generated_at || baseline.generatedAt || null,
     };
     status = {
-      fetchedAt: baseline.generated_at || baseline.generatedAt || new Date().toISOString(),
+      fetchedAt: diagnostics.generated_at || new Date().toISOString(),
       error: null,
     };
     return diagnostics;
@@ -165,18 +179,11 @@ function createStaticTraitDiagnostics(options = {}) {
   };
 }
 
-async function writeJsonFile(filePath, payload) {
-  const targetDir = path.dirname(filePath);
-  await fs.mkdir(targetDir, { recursive: true });
-  await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-}
-
 async function main() {
   const options = parseArgs(process.argv.slice(2));
 
   const snapshotStore = createGenerationSnapshotStore({ datasetPath: options.snapshot });
   const traitDiagnostics = createStaticTraitDiagnostics({ baselinePath: options.traitBaseline });
-
   const nebulaAggregator = createNebulaTelemetryAggregator({
     telemetryPath: options.telemetry,
     generatorTelemetryPath: options.generatorTelemetry,
@@ -185,7 +192,7 @@ async function main() {
     },
   });
 
-  const releaseReporter = createReleaseReporter({
+  const reporter = createReleaseReporter({
     snapshotStore,
     traitDiagnostics,
     nebulaAggregator,
@@ -195,11 +202,10 @@ async function main() {
     deployments: [],
     updatedAt: null,
   };
+  const enriched = await reporter.buildReport(baseStatus);
+  enriched.updatedAt = new Date().toISOString();
 
-  const enrichedStatus = await releaseReporter.buildReport(baseStatus);
-  enrichedStatus.updatedAt = new Date().toISOString();
-
-  await writeJsonFile(options.status, enrichedStatus);
+  await writeJson(options.status, enriched);
   console.log(`[status] report aggiornato in ${options.status}`);
 }
 
