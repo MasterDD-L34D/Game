@@ -1,0 +1,52 @@
+run: 2025-11-08
+scenario: EVT-03
+notes: >-
+  Smoke test dinamico sui parametri shader aggiornati (gamma range + toggle glow)
+  richiesti dal report VFX/Lighting.
+thresholds:
+  min_contrast: 0.6
+  gamma_range: [0.9, 1.12]
+  glow_enabled_default: true
+samples:
+  - event: umbra-entry
+    wave: 4
+    eclipse_factor: 0.55
+    phase_progress: 0.4
+    overrides:
+      glow_enabled: false
+    uniforms:
+      intensity: 0.4
+      contrast: 0.484
+      gamma: 1.0
+      saturation: 1.148
+      glow_enabled: false
+      glow_strength: 0.0
+  - event: umbra-peak
+    wave: 5
+    eclipse_factor: 0.88
+    phase_progress: 0.76
+    overrides:
+      gamma: 1.09
+    uniforms:
+      intensity: 0.76
+      contrast: 0.792
+      gamma: 1.09
+      saturation: 1.188
+      glow_enabled: true
+      glow_strength: 0.66
+  - event: corona-recover
+    wave: 6
+    eclipse_factor: 0.42
+    phase_progress: 0.6
+    overrides:
+      gamma: 1.1
+    uniforms:
+      intensity: 0.6
+      contrast: 0.639
+      gamma: 1.1
+      saturation: 1.125
+      glow_enabled: true
+      glow_strength: 0.567
+validation:
+  vitest_command: "npm --prefix webapp test -- --run tests/vfx/dynamicShader.spec.ts"
+  contrast_above_threshold: true
