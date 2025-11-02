@@ -2,7 +2,7 @@
   <section class="biomes-view">
     <NebulaShell :tabs="tabs" v-model="activeTab" :status-indicators="statusIndicators">
       <template #cards>
-        <InsightCard icon="🛰" title="Stato orchestrator">
+        <InsightCard icon="🛰" :title="t('views.biomes.cards.orchestrator')">
           <div class="biomes-view__telemetry">
             <PokedexTelemetryBadge
               v-for="indicator in statusIndicators"
@@ -13,7 +13,7 @@
             />
           </div>
         </InsightCard>
-        <InsightCard v-if="traitOptions.length" icon="🧬" title="Tratti & affinità">
+        <InsightCard v-if="traitOptions.length" icon="🧬" :title="t('views.biomes.cards.traits')">
           <div class="biomes-view__filters">
             <button
               v-for="option in traitOptions"
@@ -30,10 +30,10 @@
             </button>
           </div>
           <button v-if="activeTraits.length" type="button" class="biomes-view__reset" @click="clearTraits">
-            Reset filtri
+            {{ t('views.biomes.actions.resetFilters') }}
           </button>
         </InsightCard>
-        <InsightCard v-if="hazardHighlights.length" icon="⚠" title="Hazard principali">
+        <InsightCard v-if="hazardHighlights.length" icon="⚠" :title="t('views.biomes.cards.hazards')">
           <div class="biomes-view__hazards">
             <TraitChip
               v-for="highlight in hazardHighlights"
@@ -51,8 +51,8 @@
           <PokedexBiomeCard v-for="biome in filteredBiomes" :key="biome.id" :biome="biome">
             <template #footer>
               <div class="biomes-view__metrics">
-                <PokedexTelemetryBadge label="Readiness" :value="formatReadiness(biome)" :tone="readinessTone(biome)" />
-                <TraitChip :label="`Rischio ${biome.risk}`" variant="hazard" icon="⚠" />
+                <PokedexTelemetryBadge :label="t('views.biomes.metrics.readiness')" :value="formatReadiness(biome)" :tone="readinessTone(biome)" />
+                <TraitChip :label="t('views.biomes.metrics.riskLabel', { value: biome.risk })" variant="hazard" icon="⚠" />
               </div>
               <ul class="biomes-view__validators" v-if="(biome.validators || []).length">
                 <li
@@ -70,8 +70,8 @@
 
         <div v-else class="biomes-view__validator-feed">
           <header>
-            <h3>Feed validator runtime</h3>
-            <p>Monitoraggio incrociato di tutte le anomalie.</p>
+            <h3>{{ t('views.biomes.validator.feedTitle') }}</h3>
+            <p>{{ t('views.biomes.validator.feedDescription') }}</p>
           </header>
           <ul>
             <li v-for="entry in validatorDigest" :key="entry.id" :class="`validator validator--${entry.status}`">
@@ -90,6 +90,7 @@
 
 <script setup>
 import { computed, ref, toRefs } from 'vue';
+import { useI18n } from 'vue-i18n';
 import NebulaShell from '../components/layout/NebulaShell.vue';
 import TraitChip from '../components/shared/TraitChip.vue';
 import PokedexBiomeCard from '../components/pokedex/PokedexBiomeCard.vue';
@@ -108,10 +109,12 @@ const { biomes } = toRefs(props);
 
 const activeTab = ref('grid');
 
-const tabs = [
-  { id: 'grid', label: 'Biomi', icon: '🌌' },
-  { id: 'validators', label: 'Validatori', icon: '🛡' },
-];
+const { t } = useI18n();
+
+const tabs = computed(() => [
+  { id: 'grid', label: t('views.biomes.tabs.grid'), icon: '🌌' },
+  { id: 'validators', label: t('views.biomes.tabs.validators'), icon: '🛡' },
+]);
 
 const traitOptions = computed(() => {
   const map = new Map();
@@ -177,18 +180,18 @@ const totals = computed(() => {
 const statusIndicators = computed(() => {
   const items = [];
   if (totals.value.count || activeTraits.value.length) {
-    items.push({ id: 'count', label: 'Biomi attivi', value: totals.value.count, tone: 'neutral' });
+    items.push({ id: 'count', label: t('views.biomes.metrics.activeBiomes'), value: totals.value.count, tone: 'neutral' });
   }
   if (totals.value.capacity) {
     const percent = Math.min(100, Math.round((totals.value.readiness / totals.value.capacity) * 100));
     let tone = 'warning';
     if (percent >= 80) tone = 'success';
     else if (percent < 50) tone = 'critical';
-    items.push({ id: 'readiness', label: 'Copertura readiness', value: `${percent}%`, tone });
+    items.push({ id: 'readiness', label: t('views.biomes.metrics.readinessCoverage'), value: `${percent}%`, tone });
   }
-  items.push({ id: 'risk', label: 'Rischio medio', value: totals.value.riskAverage || '0', tone: 'warning' });
+  items.push({ id: 'risk', label: t('views.biomes.metrics.riskAverage'), value: totals.value.riskAverage || '0', tone: 'warning' });
   if (activeTraits.value.length) {
-    items.push({ id: 'filters', label: 'Filtri attivi', value: activeTraits.value.length, tone: 'neutral' });
+    items.push({ id: 'filters', label: t('views.biomes.metrics.activeFilters'), value: activeTraits.value.length, tone: 'neutral' });
   }
   return items;
 });
@@ -197,7 +200,7 @@ const hazardHighlights = computed(() => {
   const seen = new Set();
   const list = [];
   (filteredBiomes.value || []).forEach((biome) => {
-    const hazard = biome.hazard || 'Hazard n/d';
+    const hazard = biome.hazard || t('views.biomes.fallbacks.hazard');
     if (seen.has(hazard)) return;
     seen.add(hazard);
     list.push({ key: `${biome.id}-hazard`, label: hazard, variant: 'hazard', icon: '⚠' });

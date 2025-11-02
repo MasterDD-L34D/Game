@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 
 import BiomesView from '../../webapp/src/views/BiomesView.vue';
+import { createI18nForTests } from '../../webapp/tests/utils/i18n';
 
 const NebulaShellStub = {
   props: ['tabs', 'modelValue', 'statusIndicators'],
@@ -64,6 +65,7 @@ describe('BiomesView', () => {
     mount(BiomesView, {
       props: { biomes },
       global: {
+        plugins: [createI18nForTests('it')],
         stubs: {
           NebulaShell: NebulaShellStub,
           PokedexBiomeCard: PokedexBiomeCardStub,

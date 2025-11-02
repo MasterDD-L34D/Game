@@ -2,17 +2,19 @@
   <section class="nebula-progress">
     <header class="nebula-progress__header">
       <div>
-        <p class="nebula-progress__label">Dataset · {{ header.datasetId }}</p>
+        <p class="nebula-progress__label">
+          {{ t('components.nebulaProgress.header.datasetLabel', { datasetId: header.datasetId }) }}
+        </p>
         <h2>{{ header.title }}</h2>
         <p class="nebula-progress__summary">{{ header.summary }}</p>
       </div>
       <dl class="nebula-progress__meta">
         <div>
-          <dt>Release window</dt>
+          <dt>{{ t('components.nebulaProgress.header.releaseWindow') }}</dt>
           <dd>{{ header.releaseWindow }}</dd>
         </div>
         <div>
-          <dt>Curator</dt>
+          <dt>{{ t('components.nebulaProgress.header.curator') }}</dt>
           <dd>{{ header.curator }}</dd>
         </div>
       </dl>
@@ -41,8 +43,8 @@
         aria-live="polite"
       >
         <header>
-          <h3>Progress bar evolutiva</h3>
-          <p>Telemetria &amp; readiness sincronizzate con orchestrator.</p>
+          <h3>{{ t('components.nebulaProgress.telemetry.title') }}</h3>
+          <p>{{ t('components.nebulaProgress.telemetry.description') }}</p>
           <span
             v-if="telemetryStatus.offline"
             class="nebula-progress__badge nebula-progress__badge--demo"
@@ -64,14 +66,14 @@
                 class="nebula-progress__badge nebula-progress__badge--demo"
                 data-tone="offline"
               >
-                Demo
+                {{ t('components.nebulaProgress.telemetry.demoBadge') }}
               </span>
             </header>
             <SparklineChart
               :points="entry.telemetryHistory"
               :color="sparklineColor(entry.readinessTone)"
               :variant="entry.telemetryMode !== 'live' ? 'demo' : 'live'"
-              :summary-label="`Telemetria ${entry.name}`"
+              :summary-label="t('components.nebulaProgress.telemetry.summaryLabel', { name: entry.name })"
             />
             <div class="nebula-progress__evolution">
               <div class="nebula-progress__evolution-fill" :style="{ width: `${entry.telemetryCoverage}%` }"></div>
@@ -79,7 +81,7 @@
             </div>
             <footer class="nebula-progress__telemetry-footer">
               <span>{{ entry.telemetryTimestamp }}</span>
-              <span>Owner: {{ entry.telemetryOwner }}</span>
+              <span>{{ t('components.nebulaProgress.telemetry.owner', { owner: entry.telemetryOwner }) }}</span>
             </footer>
           </li>
         </ul>
@@ -87,8 +89,8 @@
     </div>
 
     <footer class="nebula-progress__share">
-      <button type="button" @click="copyEmbed">Copia snippet Canvas</button>
-      <button type="button" @click="downloadJson">Export JSON</button>
+      <button type="button" @click="copyEmbed">{{ t('components.nebulaProgress.actions.copyCanvas') }}</button>
+      <button type="button" @click="downloadJson">{{ t('components.nebulaProgress.actions.exportJson') }}</button>
       <output v-if="shareStatus" role="status" aria-live="polite">{{ shareStatus }}</output>
     </footer>
   </section>
@@ -96,6 +98,7 @@
 
 <script setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import NebulaProgressTimeline from './NebulaProgressTimeline.vue';
 import SparklineChart from '../metrics/SparklineChart.vue';
 
@@ -122,24 +125,45 @@ const props = defineProps({
   },
   telemetryStatus: {
     type: Object,
-    default: () => ({ mode: 'live', offline: false, label: 'Telemetry live', variant: 'live' }),
+    default: () => ({ mode: 'live', offline: false, label: '', variant: 'live' }),
   },
 });
 
 const shareStatus = ref('');
 let shareTimeout = null;
+const { t } = useI18n();
+
+const telemetryStatus = computed(() => {
+  const defaultStatus = {
+    mode: 'live',
+    offline: false,
+    label: t('components.nebulaProgress.telemetry.statusLive'),
+    variant: 'live',
+  };
+  const incoming = props.telemetryStatus || {};
+  return {
+    ...defaultStatus,
+    ...incoming,
+    label: incoming.label || (incoming.offline ? t('components.nebulaProgress.telemetry.statusDemo') : defaultStatus.label),
+  };
+});
 
 const telemetryAnnouncement = computed(() => {
   const offlineEntries = (props.evolutionMatrix || []).filter((entry) => entry.telemetryMode !== 'live');
-  if (props.telemetryStatus?.offline) {
-    const label = props.telemetryStatus.label || 'Telemetria in modalità demo';
+  if (telemetryStatus.value.offline) {
+    const label = telemetryStatus.value.label;
     if (offlineEntries.length) {
-      return `${label}. Dataset demo per ${offlineEntries.map((entry) => entry.name).join(', ')}.`;
+      return t('components.nebulaProgress.telemetry.offlineAnnouncementWithEntries', {
+        label,
+        entries: offlineEntries.map((entry) => entry.name).join(', '),
+      });
     }
-    return `${label}.`;
+    return t('components.nebulaProgress.telemetry.offlineAnnouncement', { label });
   }
   if (offlineEntries.length) {
-    return `Telemetria demo attiva per ${offlineEntries.map((entry) => entry.name).join(', ')}.`;
+    return t('components.nebulaProgress.telemetry.demoAnnouncement', {
+      entries: offlineEntries.map((entry) => entry.name).join(', '),
+    });
   }
   return '';
 });
@@ -175,16 +199,16 @@ async function copyEmbed() {
   try {
     if (navigator?.clipboard?.writeText) {
       await navigator.clipboard.writeText(snippet);
-      setShareStatus('Snippet copiato!');
+      setShareStatus(t('components.nebulaProgress.actions.copySuccess'));
       return;
     }
   } catch (error) {
     // fallback gestito sotto
   }
   if (fallbackCopy(snippet)) {
-    setShareStatus('Snippet copiato!');
+    setShareStatus(t('components.nebulaProgress.actions.copySuccess'));
   } else {
-    setShareStatus('Impossibile copiare automaticamente');
+    setShareStatus(t('components.nebulaProgress.actions.copyFailure'));
   }
 }
 
@@ -198,7 +222,7 @@ function downloadJson() {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
-  setShareStatus('Export JSON generato');
+  setShareStatus(t('components.nebulaProgress.actions.exportSuccess'));
 }
 
 function sparklineColor(tone) {
