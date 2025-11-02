@@ -20,7 +20,7 @@ seguendo step incrementali che coprono revisione design, QA e telemetria.
       e archiviare l'output nei log QA.
 - [x] Rigenerare baseline e coverage (`build_trait_baseline.py`,
       `report_trait_coverage.py`) per aggiornare `data/derived/analysis/*.yaml|csv`
-      _(2025-11-18: report conferma copertura trait 29/29, nessun gap)._
+      _(2025-11-18: report conferma copertura trait 30/30, nessun gap)._
 - [ ] Lanciare `python tools/py/validate_registry_naming.py` per verificare
       coerenza slug e traduzioni condivise.
 - [ ] Eseguire `python tools/py/traits_validator.py --inventory

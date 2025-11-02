@@ -1,54 +1,55 @@
 {
-  "generated_at": "2025-11-18T09:45:00Z",
+  "generated_at": "2025-11-02T20:38:36Z",
   "core_traits": [
     "artigli_sette_vie",
-    "carapace_fase_variabile",
     "coda_frusta_cinetica",
-    "criostasi_adattiva",
+    "cute_resistente_sali",
+    "cuticole_cerose",
     "eco_interno_riflesso",
     "empatia_coordinativa",
+    "enzimi_chelanti",
     "filamenti_digestivi_compattanti",
-    "focus_frazionato",
-    "ghiandola_caustica",
-    "lingua_tattile_trama",
+    "grassi_termici",
     "mimetismo_cromatico_passivo",
     "nucleo_ovomotore_rotante",
     "occhi_infrarosso_composti",
     "olfatto_risonanza_magnetica",
-    "pathfinder",
-    "pianificatore",
-    "random",
+    "pelli_anti_ustione",
+    "pelli_cave",
+    "pelli_fitte",
+    "pigmenti_aurorali",
+    "pigmenti_termici",
+    "proteine_shock_termico",
     "respiro_a_scoppio",
-    "risonanza_di_branco",
+    "reti_capillari_radici",
     "sacche_galleggianti_ascensoriali",
     "sangue_piroforico",
     "scheletro_idro_regolante",
     "secrezione_rallentante_palmi",
+    "sensori_geomagnetici",
     "sonno_emisferico_alternato",
     "spore_psichiche_silenziate",
     "struttura_elastica_amorfa",
-    "tattiche_di_branco",
-    "ventriglio_gastroliti",
-    "zampe_a_molla"
+    "ventriglio_gastroliti"
   ],
   "resources": [
     {
       "path": "data/derived/analysis/trait_baseline.yaml",
       "type": "reference",
       "state": "core",
-      "notes": "Baseline aggiornata (schema 1.0) con 174 trait e subset core 29/29 validato."
+      "notes": "Baseline aggiornata (schema 1.0) con 174 trait e subset core 30/30 validato."
     },
     {
       "path": "data/derived/analysis/trait_coverage_matrix.csv",
       "type": "reference",
       "state": "core",
-      "notes": "Matrice trait↔bioma↔morfotipo aggiornata con copertura completa delle 29 etichette core."
+      "notes": "Matrice trait↔bioma↔morfotipo aggiornata con copertura completa delle 30 etichette core."
     },
     {
       "path": "data/derived/analysis/trait_coverage_report.json",
       "type": "reference",
       "state": "core",
-      "notes": "Report copertura rigenerato: 29/29 trait core, 0 gap su specie e regole."
+      "notes": "Report copertura rigenerato: 30/30 trait core, 0 gap su specie e regole."
     },
     {
       "path": "data/derived/analysis/trait_env_mapping.json",

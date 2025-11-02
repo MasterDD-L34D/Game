@@ -12,7 +12,7 @@
   `python tools/py/build_trait_baseline.py packs/evo_tactics_pack/docs/catalog/env_traits.json data/traits/index.json --trait-glossary data/core/traits/glossary.json --out data/derived/analysis/trait_baseline.yaml`
   e
   `python tools/py/report_trait_coverage.py --env-traits packs/evo_tactics_pack/docs/catalog/env_traits.json --trait-reference data/traits/index.json --species-root packs/evo_tactics_pack/data/species --trait-glossary data/core/traits/glossary.json --out-json data/derived/analysis/trait_coverage_report.json --out-csv data/derived/analysis/trait_coverage_matrix.csv --strict`.
-  Il riepilogo conferma `traits_with_species = 172` e nessun gap per il subset core (29/29).
+  Il riepilogo conferma `traits_with_species = 172` e nessun gap per il subset core (30/30).
 - Validazione QA: `python tools/py/game_cli.py validate-ecosystem-pack` (nessun errore) e
   `python tools/py/traits_validator.py --inventory docs/catalog/traits_inventory.json`.
 
@@ -106,3 +106,22 @@
 - Risorse totali: 36 (core: 32/32, mock: 4/4)
 - Nessun avviso registrato.
 - ✅ Nessun errore critico.
+
+## 2025-11-02T20:39:23Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 36 (core: 32/32, mock: 4/4)
+- Nessun avviso registrato.
+- ✅ Nessun errore critico.
+
+## 2025-11-02T20:39:37Z · traits_validator.py
+- Inventario: `docs/catalog/traits_inventory.json`
+- Risorse totali: 36 (core: 32/32, mock: 4/4)
+- Nessun avviso registrato.
+- ✅ Nessun errore critico.
+
+## 2025-11-02T20:39:39Z · run_deploy_checks.sh
+- scripts/run_deploy_checks.sh
+- Snapshot sync: fallback locale usato (`data/flow-shell/atlas-snapshot.json`).
+- Inventario valido: core 30/30, mock 4/4.
+- Trait generator: core=30, enriched_species=12, nessun trait mancante rispetto all'inventario.
+- Bundle statico verificato con smoke test HTTP locale (tools/ts/dist presente).
