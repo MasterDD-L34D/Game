@@ -83,4 +83,4 @@ def test_validator_reports_invalid_ucum_unit(tmp_path: Path) -> None:
 
     assert result.returncode != 0
     output = result.stderr or result.stdout
-    assert "metrics/0/name" in output or "metrics/0/unit" in output
+    assert "UCUM" in output

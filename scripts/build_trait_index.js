@@ -7,11 +7,14 @@ const ROOT = path.resolve(__dirname, '..');
 const DEFAULT_TRAITS_DIR = path.join(ROOT, 'data', 'traits');
 const DEFAULT_OUTPUT = path.join(DEFAULT_TRAITS_DIR, 'index.csv');
 
+const TRAIT_ID_PATTERN = /^[a-z0-9_]+$/;
 const SLUG_PATTERN = /^[a-z0-9_]+$/;
 const SPECIES_ID_PATTERN = /^[a-z0-9_-]+$/;
 const LABEL_PATTERN = /^(i18n:[a-z0-9._]+|\S(?:.*\S)?)$/;
-const FAMILY_PATTERN = /^[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+\/[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+$/;
-const UCUM_PATTERN = /^[A-Za-z0-9%/._^() -]+$/;
+const FAMILY_PATTERN =
+  /^[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+\/[A-Za-z0-9'’À-ÖØ-öø-ÿ][A-Za-z0-9'’À-ÖØ-öø-ÿ _-]+$/;
+const UCUM_PATTERN = /^[A-Za-z0-9%*/._^()\[\]\-·⋅]+$/;
+const SLOT_PATTERN = /^[A-Z]$/;
 const ENVO_PATTERN = /^http:\/\/purl\.obolibrary\.org\/obo\/ENVO_\d+$/;
 
 function readJson(filePath) {
@@ -61,7 +64,10 @@ function normalizeCategory(value) {
   if (!trimmed) {
     return { family: null, type: null, raw: null };
   }
-  const [family, type] = trimmed.split('/').map((part) => part && part.trim()).filter(Boolean);
+  const [family, type] = trimmed
+    .split('/')
+    .map((part) => part && part.trim())
+    .filter(Boolean);
   return {
     family: family || null,
     type: type || null,
@@ -129,7 +135,12 @@ function pickDataOrigin(trait) {
 
 function deriveCompletionFlags(trait, biomeTags, usageTags) {
   const flags = {};
-  if (trait && typeof trait === 'object' && trait.completion_flags && typeof trait.completion_flags === 'object') {
+  if (
+    trait &&
+    typeof trait === 'object' &&
+    trait.completion_flags &&
+    typeof trait.completion_flags === 'object'
+  ) {
     for (const [key, value] of Object.entries(trait.completion_flags)) {
       if (typeof value === 'boolean') {
         flags[key] = value;
@@ -137,13 +148,15 @@ function deriveCompletionFlags(trait, biomeTags, usageTags) {
     }
   }
 
-  const requisiti = trait && Array.isArray(trait.requisiti_ambientali) ? trait.requisiti_ambientali : [];
+  const requisiti =
+    trait && Array.isArray(trait.requisiti_ambientali) ? trait.requisiti_ambientali : [];
   const hasBiomeInformation = biomeTags.length > 0 || requisiti.length > 0;
   if (flags.has_biome === undefined) {
     flags.has_biome = Boolean(hasBiomeInformation);
   }
 
-  const speciesAffinity = trait && Array.isArray(trait.species_affinity) ? trait.species_affinity : [];
+  const speciesAffinity =
+    trait && Array.isArray(trait.species_affinity) ? trait.species_affinity : [];
   if (flags.has_species_link === undefined) {
     flags.has_species_link = speciesAffinity.length > 0;
   }
@@ -210,7 +223,7 @@ function formatAsJson(traits) {
       traits,
     },
     null,
-    2
+    2,
   );
 }
 
@@ -265,14 +278,20 @@ function main() {
     args = parseArgs(process.argv.slice(2));
   } catch (error) {
     console.error(error.message);
-    console.error('Uso: node scripts/build_trait_index.js [--traits-dir <path>] [--output <path>] [--format json|csv]');
+    console.error(
+      'Uso: node scripts/build_trait_index.js [--traits-dir <path>] [--output <path>] [--format json|csv]',
+    );
     process.exitCode = 1;
     return;
   }
 
   if (args.help) {
-    console.log('Uso: node scripts/build_trait_index.js [--traits-dir <path>] [--output <path>] [--format json|csv]');
-    console.log('Scandisce data/traits/ e crea un indice con id, label, categoria e stato di completezza.');
+    console.log(
+      'Uso: node scripts/build_trait_index.js [--traits-dir <path>] [--output <path>] [--format json|csv]',
+    );
+    console.log(
+      'Scandisce data/traits/ e crea un indice con id, label, categoria e stato di completezza.',
+    );
     return;
   }
 
@@ -304,12 +323,29 @@ function main() {
     }
 
     const relPath = toRelative(filePath);
+    if (typeof data.id !== 'string' || !TRAIT_ID_PATTERN.test(data.id)) {
+      errors.push(`[ERROR] ${relPath}: id deve essere uno slug lower_snake_case (^[a-z0-9_]+$)`);
+    } else {
+      const expectedId = path.basename(filePath, '.json');
+      if (data.id !== expectedId) {
+        errors.push(
+          `[ERROR] ${relPath}: id '${data.id}' deve coincidere con il nome file '${expectedId}'`,
+        );
+      }
+    }
     const category = normalizeCategory(data.famiglia_tipologia);
-    if (typeof data.famiglia_tipologia !== 'string' || !FAMILY_PATTERN.test(data.famiglia_tipologia)) {
-      errors.push(`[ERROR] ${relPath}: famiglia_tipologia deve seguire il formato Macro/Sotto con caratteri alfanumerici o spazi`);
+    if (
+      typeof data.famiglia_tipologia !== 'string' ||
+      !FAMILY_PATTERN.test(data.famiglia_tipologia)
+    ) {
+      errors.push(
+        `[ERROR] ${relPath}: famiglia_tipologia deve seguire il formato Macro/Sotto con caratteri alfanumerici o spazi`,
+      );
     }
     if (typeof data.label !== 'string' || !LABEL_PATTERN.test(data.label)) {
-      errors.push(`[ERROR] ${relPath}: label deve essere una stringa i18n o testo senza spazi iniziali/finali`);
+      errors.push(
+        `[ERROR] ${relPath}: label deve essere una stringa i18n o testo senza spazi iniziali/finali`,
+      );
     }
 
     const biomeTags = normalizeStringArray(data.biome_tags);
@@ -326,8 +362,42 @@ function main() {
       }
     });
 
-    if (typeof data.data_origin === 'string' && data.data_origin.trim() && !SLUG_PATTERN.test(data.data_origin.trim())) {
-      errors.push(`[ERROR] ${relPath}: data_origin deve essere uno slug (^[a-z0-9_]+$): ${data.data_origin}`);
+    if (Array.isArray(data.slot)) {
+      data.slot.forEach((slotValue, index) => {
+        if (typeof slotValue !== 'string' || !SLOT_PATTERN.test(slotValue)) {
+          errors.push(
+            `[ERROR] ${relPath}: slot[${index}] deve essere una lettera maiuscola singola (A-Z)`,
+          );
+        }
+      });
+    }
+
+    if (Array.isArray(data.sinergie)) {
+      data.sinergie.forEach((traitId, index) => {
+        if (typeof traitId === 'string' && !SLUG_PATTERN.test(traitId)) {
+          errors.push(`[ERROR] ${relPath}: sinergie[${index}] deve essere uno slug (^[a-z0-9_]+$)`);
+        }
+      });
+    }
+
+    if (Array.isArray(data.conflitti)) {
+      data.conflitti.forEach((traitId, index) => {
+        if (typeof traitId === 'string' && !SLUG_PATTERN.test(traitId)) {
+          errors.push(
+            `[ERROR] ${relPath}: conflitti[${index}] deve essere uno slug (^[a-z0-9_]+$)`,
+          );
+        }
+      });
+    }
+
+    if (
+      typeof data.data_origin === 'string' &&
+      data.data_origin.trim() &&
+      !SLUG_PATTERN.test(data.data_origin.trim())
+    ) {
+      errors.push(
+        `[ERROR] ${relPath}: data_origin deve essere uno slug (^[a-z0-9_]+$): ${data.data_origin}`,
+      );
     }
 
     if (Array.isArray(data.metrics)) {
@@ -337,10 +407,14 @@ function main() {
           return;
         }
         if (typeof metric.name === 'string' && !/^\S(?:.*\S)?$/.test(metric.name)) {
-          errors.push(`[ERROR] ${relPath}: metrics[${index}].name deve essere privo di spazi ai bordi`);
+          errors.push(
+            `[ERROR] ${relPath}: metrics[${index}].name deve essere privo di spazi ai bordi`,
+          );
         }
         if (typeof metric.unit === 'string' && !UCUM_PATTERN.test(metric.unit)) {
-          errors.push(`[ERROR] ${relPath}: metrics[${index}].unit deve rispettare la sintassi UCUM (es. m/s, Cel, 1)`);
+          errors.push(
+            `[ERROR] ${relPath}: metrics[${index}].unit deve rispettare la sintassi UCUM (simboli standard, niente spazi)`,
+          );
         }
       });
     }
@@ -352,12 +426,16 @@ function main() {
           return;
         }
         if (typeof entry.species_id === 'string' && !SPECIES_ID_PATTERN.test(entry.species_id)) {
-          errors.push(`[ERROR] ${relPath}: species_affinity[${index}].species_id deve usare slug o trattini (^[a-z0-9_-]+$)`);
+          errors.push(
+            `[ERROR] ${relPath}: species_affinity[${index}].species_id deve usare slug o trattini (^[a-z0-9_-]+$)`,
+          );
         }
         if (Array.isArray(entry.roles)) {
           entry.roles.forEach((role) => {
             if (typeof role === 'string' && !SLUG_PATTERN.test(role)) {
-              errors.push(`[ERROR] ${relPath}: species_affinity[${index}].roles contiene un valore non valido: ${role}`);
+              errors.push(
+                `[ERROR] ${relPath}: species_affinity[${index}].roles contiene un valore non valido: ${role}`,
+              );
             }
           });
         }
@@ -370,7 +448,9 @@ function main() {
         : [];
       envoTerms.forEach((term, index) => {
         if (typeof term === 'string' && !ENVO_PATTERN.test(term)) {
-          errors.push(`[ERROR] ${relPath}: applicability.envo_terms[${index}] deve essere un URI ENVO valido`);
+          errors.push(
+            `[ERROR] ${relPath}: applicability.envo_terms[${index}] deve essere un URI ENVO valido`,
+          );
         }
       });
     }
