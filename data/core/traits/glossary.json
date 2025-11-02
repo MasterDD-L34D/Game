@@ -7,8 +7,8 @@
   "traits": {
     "antenne_plasmatiche_tempesta": {
       "label_it": "Antenne Plasmatiche di Tempesta",
-      "label_en": "Antenne Plasmatiche di Tempesta",
-      "description_it": "Convoglia fulmini atmosferici in attacchi o scudi psionici.",
+      "label_en": "Storm Plasma Antennae",
+      "description_it": "Convoglia fulmini atmosferici in attacchi mirati o scudi ionici.",
       "description_en": "Channels storm lightning into psionic strikes or shields."
     },
     "artigli_sette_vie": {
@@ -67,9 +67,9 @@
     },
     "circolazione_bifasica_palude": {
       "label_it": "Circolazione Bifasica di Palude",
-      "label_en": "Circolazione Bifasica di Palude",
-      "description_it": "Doppio circuito sanguigno che separa ossigeno e agenti tossici.",
-      "description_en": "Dual blood circuit separating oxygen flow from toxins."
+      "label_en": "Swamp Biphase Circulation",
+      "description_it": "Doppio circuito sanguigno che separa ossigeno e agenti tossici in ambienti stagnanti.",
+      "description_en": "Dual blood circuits separating oxygen flow from toxins in stagnant wetlands."
     },
     "coda_frusta_cinetica": {
       "label_en": "Kinetic Lash Tail",
@@ -97,7 +97,7 @@
     },
     "filamenti_digestivi_compattanti": {
       "label_en": "Digestive Compaction Filaments",
-      "label_it": "Filamento materiali digeriti",
+      "label_it": "Filamenti Digestivi Compattanti",
       "description_it": "Filamenti digestivi che compattano scarti e liberano spazio vitale.",
       "description_en": "Digestive filaments compact waste to free vital space."
     },
@@ -313,21 +313,21 @@
     },
     "ali_ioniche": {
       "label_it": "Ali Ioniche",
-      "label_en": "Ali Ioniche",
-      "description_it": "Ali Ioniche permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di canopia ionica.",
-      "description_en": "Ali Ioniche allow squads to gain grip and controlled acceleration across extreme terrain within canopia ionica."
+      "label_en": "Ionic Wings",
+      "description_it": "Membrane propulsive che rilasciano micro-scariche per scatti controllati.",
+      "description_en": "Propulsive membranes that pulse micro-discharges for controlled bursts."
     },
     "ali_membrana_sonica": {
-      "label_it": "Ali Membrana Sonica",
-      "label_en": "Ali Membrana Sonica",
-      "description_it": "Ali Membrana Sonica permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di caverna risonante.",
-      "description_en": "Ali Membrana Sonica allow squads to disperse energy and attenuate corrosive or thermal impacts within caverna risonante."
+      "label_it": "Ali a Membrana Sonica",
+      "label_en": "Sonic Membrane Wings",
+      "description_it": "Piastre vibranti che dissipano energia e attenuano impatti corrosivi.",
+      "description_en": "Vibrating plates that dissipate energy and blunt corrosive impacts."
     },
     "antenne_dustsense": {
       "label_it": "Antenne Dustsense",
-      "label_en": "Antenne Dustsense",
-      "description_it": "Antenne Dustsense permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di pianura salina iperarida.",
-      "description_en": "Antenne Dustsense allow squads to stabilise multi-source energy absorption and conversion within pianura salina iperarida."
+      "label_en": "Dustsense Antennae",
+      "description_it": "Ricettori stratificati che stabilizzano l’assorbimento multi-fonte in deserti ionici.",
+      "description_en": "Layered receptors stabilising multi-source absorption across ionic deserts."
     },
     "antenne_eco_turbina": {
       "label_it": "Antenne Eco Turbina",

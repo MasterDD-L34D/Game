@@ -45,5 +45,9 @@
   },
   "spinta_selettiva": "i18n:traits.artigli_sghiaccio_glaciale.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.artigli_sghiaccio_glaciale.uso_funzione"
+  "uso_funzione": "i18n:traits.artigli_sghiaccio_glaciale.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

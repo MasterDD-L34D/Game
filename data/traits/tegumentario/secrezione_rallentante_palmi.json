@@ -36,5 +36,9 @@
   },
   "spinta_selettiva": "i18n:traits.secrezione_rallentante_palmi.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.secrezione_rallentante_palmi.uso_funzione"
+  "uso_funzione": "i18n:traits.secrezione_rallentante_palmi.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

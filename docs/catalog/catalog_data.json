@@ -1627,7 +1627,7 @@
       "usage_map": {
         "core": [
           "dune-stalker",
-          "dune_stalker",
+          "dune-stalker",
           "magneto-ridge-hunter"
         ],
         "optional": [],
@@ -5729,7 +5729,7 @@
           "slag-veil-ambusher"
         ],
         "optional": [
-          "dune_stalker"
+          "dune-stalker"
         ],
         "synergy": []
       },
@@ -6217,7 +6217,7 @@
       "usage_map": {
         "core": [],
         "optional": [
-          "dune_stalker"
+          "dune-stalker"
         ],
         "synergy": []
       },
@@ -8626,7 +8626,7 @@
           "myco-spire-warden"
         ],
         "synergy": [
-          "dune_stalker"
+          "dune-stalker"
         ]
       },
       "usage_tags": [],
@@ -10646,7 +10646,7 @@
       "usage_map": {
         "core": [],
         "optional": [
-          "dune_stalker"
+          "dune-stalker"
         ],
         "synergy": []
       },
@@ -13216,7 +13216,7 @@
         "optional": [],
         "synergy": [
           "aurora-bridge-runner",
-          "dune_stalker",
+          "dune-stalker",
           "zephyr-spore-courier"
         ]
       },
@@ -13354,7 +13354,7 @@
           "zephyr-spore-courier"
         ],
         "optional": [
-          "dune_stalker",
+          "dune-stalker",
           "echo-wing"
         ],
         "synergy": []
@@ -13713,7 +13713,7 @@
       "usage_map": {
         "core": [
           "dune-stalker",
-          "dune_stalker",
+          "dune-stalker",
           "magneto-ridge-hunter",
           "nano-rust-bloom",
           "sand-burrower"
@@ -13907,7 +13907,7 @@
       "usage": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione.",
       "usage_map": {
         "core": [
-          "dune_stalker"
+          "dune-stalker"
         ],
         "optional": [],
         "synergy": []
@@ -14430,7 +14430,7 @@
       "usage_map": {
         "core": [
           "dune-stalker",
-          "dune_stalker",
+          "dune-stalker",
           "glowcap-weaver",
           "myco-spire-warden",
           "slag-veil-ambusher"
@@ -14540,7 +14540,7 @@
         "core": [],
         "optional": [],
         "synergy": [
-          "dune_stalker",
+          "dune-stalker",
           "magneto-ridge-hunter",
           "slag-veil-ambusher"
         ]

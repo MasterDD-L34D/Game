@@ -1,11 +1,20 @@
 {
   "name": "game-monorepo-shim",
   "private": true,
+  "workspaces": [
+    "webapp",
+    "tools/ts",
+    "packages/contracts",
+    "services/eventsScheduler"
+  ],
   "scripts": {
-    "test:web": "npm --prefix tools/ts run test:web --",
-    "build": "npm --prefix tools/ts run build --",
-    "test": "npm run test:api && npm --prefix tools/ts run test -- && npm --prefix webapp run test",
-    "test:api": "ORCHESTRATOR_AUTOCLOSE_MS=2000 node --test tests/api/*.test.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 tools/ts/node_modules/.bin/tsx tests/generation/flow-shell.spec.ts && node --test tests/server/generationSnapshot.spec.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 tools/ts/node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts && tools/ts/node_modules/.bin/tsx tests/scripts/tune_items.test.ts && tools/ts/node_modules/.bin/tsx tests/events/dynamicEvents.e2e.ts && node --test tests/tools/deploy-checks.spec.js",
+    "dev": "npm run dev --workspace webapp",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test:api && npm run test --workspace tools/ts && npm run test --workspace webapp",
+    "preview": "npm run preview --workspace webapp",
+    "test:web": "npm run test:web --workspace tools/ts",
+    "test:api": "ORCHESTRATOR_AUTOCLOSE_MS=2000 node --test tests/api/*.test.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/generation/flow-shell.spec.ts && node --test tests/server/generationSnapshot.spec.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts && ./node_modules/.bin/tsx tests/scripts/tune_items.test.ts && ./node_modules/.bin/tsx tests/events/dynamicEvents.e2e.ts && node --test tests/tools/deploy-checks.spec.js",
     "start:api": "node server/index.js",
     "build:idea-taxonomy": "node scripts/build-idea-taxonomy.js",
     "drive:generate-approved": "node tools/drive/generate-approved-assets.mjs",
@@ -14,9 +23,12 @@
     "stage:publishing": "node services/publishing/staging.js",
     "export:qa": "node scripts/export-qa-report.js",
     "mock:generate": "node scripts/mock/generate-demo-data.js",
-    "webapp:deploy": "npm --prefix webapp install && npm --prefix webapp run build && npm --prefix webapp run preview",
-    "webapp:qa": "npm --prefix webapp run qa",
-    "webapp:analyze": "npm --prefix webapp run analyze"
+    "webapp:deploy": "npm run build --workspace webapp && npm run preview --workspace webapp",
+    "webapp:qa": "npm run qa --workspace webapp",
+    "webapp:analyze": "npm run analyze --workspace webapp",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "node scripts/husky-install.cjs"
   },
   "dependencies": {
     "ajv": "^8.17.1",
@@ -27,7 +39,18 @@
     "prom-client": "^14.2.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.9.0",
+    "@typescript-eslint/parser": "^8.9.0",
+    "@vitest/eslint-plugin": "^1.4.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-vue": "^9.29.1",
+    "husky": "^9.1.6",
+    "prettier": "^3.3.3",
     "supertest": "^6.3.4",
-    "tsx": "^4.19.0"
+    "tsx": "^4.19.0",
+    "wait-on": "^8.0.2"
   }
 }

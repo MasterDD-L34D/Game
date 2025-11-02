@@ -37,5 +37,9 @@
   },
   "spinta_selettiva": "i18n:traits.batteri_termofili_endosimbiosi.spinta_selettiva",
   "tier": "T1",
-  "uso_funzione": "i18n:traits.batteri_termofili_endosimbiosi.uso_funzione"
+  "uso_funzione": "i18n:traits.batteri_termofili_endosimbiosi.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }
