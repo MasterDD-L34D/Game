@@ -20,6 +20,7 @@ const { createValidatorsRouter } = require('./routes/validators');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
 const { createSchemaValidator, SchemaValidationError } = require('./middleware/schemaValidator');
+const { registry: metricsRegistry, ensureDefaultMetrics } = require('./metrics/registry');
 const {
   generationSnapshotSchema,
   speciesSchema,
@@ -318,6 +319,8 @@ function createApp(options = {}) {
   const deploymentNotifier = deploymentOptions.notifier;
   const app = express();
 
+  ensureDefaultMetrics();
+
   app.use(cors({ origin: options.corsOrigin || '*' }));
   app.use(express.json({ limit: '1mb' }));
 
@@ -553,6 +556,17 @@ function createApp(options = {}) {
 
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', service: 'idea-engine' });
+  });
+
+  app.get('/metrics', async (req, res) => {
+    try {
+      const metricsPayload = await metricsRegistry.metrics();
+      res.setHeader('Content-Type', metricsRegistry.contentType);
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.send(metricsPayload);
+    } catch (error) {
+      res.status(500).send(`# errore raccolta metriche\n${error?.message || 'metrics unavailable'}\n`);
+    }
   });
 
   async function handleQaStatus(req, res) {
