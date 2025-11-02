@@ -36,9 +36,14 @@
   "spinta_selettiva": "i18n:traits.nucleo_ovomotore_rotante.spinta_selettiva",
   "tier": "T1",
   "uso_funzione": "i18n:traits.nucleo_ovomotore_rotante.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "support"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "caverna_risonante"

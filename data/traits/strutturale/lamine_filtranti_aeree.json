@@ -38,9 +38,13 @@
   "spinta_selettiva": "i18n:traits.lamine_filtranti_aeree.spinta_selettiva",
   "tier": "T1",
   "uso_funzione": "i18n:traits.lamine_filtranti_aeree.uso_funzione",
+  "usage_tags": [
+    "tank"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "mangrovieto_cinetico"

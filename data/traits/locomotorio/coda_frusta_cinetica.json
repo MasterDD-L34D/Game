@@ -76,9 +76,14 @@
   "spinta_selettiva": "i18n:traits.coda_frusta_cinetica.spinta_selettiva",
   "tier": "T1",
   "uso_funzione": "i18n:traits.coda_frusta_cinetica.uso_funzione",
+  "usage_tags": [
+    "scout",
+    "tank"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "falde_magnetiche_psioniche",

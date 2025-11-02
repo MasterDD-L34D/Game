@@ -18,6 +18,9 @@ const SEVERITY_ORDER = {
   error: 2,
 };
 
+const USAGE_TAG_VOCABULARY = ['breaker', 'controller', 'scout', 'support', 'sustain', 'tank'];
+const USAGE_TAG_VOCABULARY_SET = new Set(USAGE_TAG_VOCABULARY);
+
 function clone(value) {
   return value === undefined ? undefined : JSON.parse(JSON.stringify(value));
 }
@@ -78,7 +81,10 @@ function checkTier(trait, suggestions) {
       path: pointer,
       severity: 'error',
       message: 'Imposta il tier del tratto utilizzando il formato T1/T2/T3.',
-      fix: { type: 'set', note: 'Scegliere il tier coerente con la matrice di bilanciamento (es. "T1").' },
+      fix: {
+        type: 'set',
+        note: 'Scegliere il tier coerente con la matrice di bilanciamento (es. "T1").',
+      },
     });
     return;
   }
@@ -306,6 +312,75 @@ function checkCompletionFlags(trait, suggestions) {
   }
 }
 
+function checkUsageTags(trait, suggestions) {
+  const pointer = normalisePath(['usage_tags']);
+  const value = trait.usage_tags;
+  const vocabularyList = USAGE_TAG_VOCABULARY.join(', ');
+  if (value === undefined) {
+    addSuggestion(suggestions, {
+      path: pointer,
+      severity: 'warning',
+      message: `Imposta almeno un usage tag scegliendo dal vocabolario ufficiale (${vocabularyList}).`,
+      fix: {
+        type: 'set',
+        note: `Seleziona 1-2 tag coerenti tra ${vocabularyList}.`,
+      },
+    });
+    return;
+  }
+  if (!Array.isArray(value)) {
+    addSuggestion(suggestions, {
+      path: pointer,
+      severity: 'error',
+      message: 'Il campo `usage_tags` deve essere un array di tag tattici.',
+      fix: { type: 'set', note: `Converti il campo in lista di tag (${vocabularyList}).` },
+    });
+    return;
+  }
+  if (value.length === 0) {
+    addSuggestion(suggestions, {
+      path: pointer,
+      severity: 'warning',
+      message: `Popola almeno un usage tag dal vocabolario ufficiale (${vocabularyList}).`,
+      fix: {
+        type: 'set',
+        note: `Seleziona 1-2 tag coerenti tra ${vocabularyList}.`,
+      },
+    });
+    return;
+  }
+  value.forEach((entry, index) => {
+    const entryPath = normalisePath(['usage_tags', index]);
+    if (typeof entry !== 'string') {
+      addSuggestion(suggestions, {
+        path: entryPath,
+        severity: 'error',
+        message: 'I usage tag devono essere stringhe in formato slug.',
+        fix: { type: 'remove' },
+      });
+      return;
+    }
+    const trimmed = entry.trim();
+    if (!SLUG_PATTERN.test(trimmed)) {
+      addSuggestion(suggestions, {
+        path: entryPath,
+        severity: 'error',
+        message: `Il valore \`${entry}\` non rispetta lo slug richiesto (a-z0-9_).`,
+        fix: { type: 'set', value: trimmed.toLowerCase().replace(/[^a-z0-9_]/g, '_') },
+      });
+      return;
+    }
+    if (!USAGE_TAG_VOCABULARY_SET.has(trimmed)) {
+      addSuggestion(suggestions, {
+        path: entryPath,
+        severity: 'warning',
+        message: `\`${trimmed}\` non appartiene al vocabolario usage_tags (${vocabularyList}).`,
+        fix: { type: 'set', note: `Sostituisci con uno dei tag: ${vocabularyList}.` },
+      });
+    }
+  });
+}
+
 function evaluateTraitStyle(traitInput, options = {}) {
   const trait = clone(traitInput) || {};
   const suggestions = [];
@@ -321,6 +396,7 @@ function evaluateTraitStyle(traitInput, options = {}) {
   checkSlotProfile(trait, suggestions);
   checkEnvironmentalRequirements(trait, suggestions);
   checkCompletionFlags(trait, suggestions);
+  checkUsageTags(trait, suggestions);
 
   const summary = suggestions.reduce(
     (acc, suggestion) => {

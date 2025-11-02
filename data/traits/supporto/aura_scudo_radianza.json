@@ -42,8 +42,13 @@
   "spinta_selettiva": "i18n:traits.aura_scudo_radianza.spinta_selettiva",
   "tier": "T3",
   "uso_funzione": "i18n:traits.aura_scudo_radianza.uso_funzione",
+  "usage_tags": [
+    "support",
+    "tank"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   }
 }

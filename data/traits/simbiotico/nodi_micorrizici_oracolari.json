@@ -53,9 +53,14 @@
   "spinta_selettiva": "i18n:traits.nodi_micorrizici_oracolari.spinta_selettiva",
   "tier": "T3",
   "uso_funzione": "i18n:traits.nodi_micorrizici_oracolari.uso_funzione",
+  "usage_tags": [
+    "controller",
+    "support"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "reti_micorriziche"

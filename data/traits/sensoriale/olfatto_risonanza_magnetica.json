@@ -50,9 +50,14 @@
   "spinta_selettiva": "i18n:traits.olfatto_risonanza_magnetica.spinta_selettiva",
   "tier": "T2",
   "uso_funzione": "i18n:traits.olfatto_risonanza_magnetica.uso_funzione",
+  "usage_tags": [
+    "controller",
+    "scout"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "falde_magnetiche_psioniche",

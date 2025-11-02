@@ -53,9 +53,14 @@
   "spinta_selettiva": "i18n:traits.mucillagine_simbionte_mangrovie.spinta_selettiva",
   "tier": "T1",
   "uso_funzione": "i18n:traits.mucillagine_simbionte_mangrovie.uso_funzione",
+  "usage_tags": [
+    "support",
+    "tank"
+  ],
   "completion_flags": {
     "has_biome": true,
-    "has_species_link": false
+    "has_species_link": false,
+    "has_usage_tags": true
   },
   "biome_tags": [
     "mangrovie_risonanti"
