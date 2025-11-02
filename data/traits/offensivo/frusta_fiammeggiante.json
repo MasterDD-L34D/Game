@@ -41,5 +41,9 @@
   },
   "spinta_selettiva": "i18n:traits.frusta_fiammeggiante.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.frusta_fiammeggiante.uso_funzione"
+  "uso_funzione": "i18n:traits.frusta_fiammeggiante.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }

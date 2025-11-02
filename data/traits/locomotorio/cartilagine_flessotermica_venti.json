@@ -48,5 +48,9 @@
   },
   "spinta_selettiva": "i18n:traits.cartilagine_flessotermica_venti.spinta_selettiva",
   "tier": "T2",
-  "uso_funzione": "i18n:traits.cartilagine_flessotermica_venti.uso_funzione"
+  "uso_funzione": "i18n:traits.cartilagine_flessotermica_venti.uso_funzione",
+  "completion_flags": {
+    "has_biome": true,
+    "has_species_link": false
+  }
 }
