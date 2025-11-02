@@ -82,3 +82,4 @@ genetic_traits:
     - focus_frazionato
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.banshee-risonante.description

@@ -4,6 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const readline = require('node:readline');
 
+const { createOrchestratorMetrics } = require('./orchestratorMetrics');
+
 const DEFAULT_CONFIG = {
   pythonPath: process.env.PYTHON || 'python3',
   poolSize: 2,
@@ -17,7 +19,6 @@ const DEFAULT_CONFIG = {
 };
 
 const DEFAULT_CONFIG_PATH = path.resolve(__dirname, '../../config/orchestrator.json');
-const { registerOrchestratorBridgeMetrics } = require('./orchestratorMetrics');
 const DEFAULT_WORKER_SCRIPT = path.resolve(__dirname, '../../services/generation/worker.py');
 
 function loadConfig(configPath = DEFAULT_CONFIG_PATH) {
@@ -388,9 +389,12 @@ class WorkerPool {
     this.queue = [];
     this.workers = [];
     this.maxTaskRetries = options.maxTaskRetries ?? DEFAULT_CONFIG.maxTaskRetries;
-    this.taskSeq = 0;
+    this.metrics = options.metrics || null;
     for (let index = 0; index < options.poolSize; index += 1) {
       this._createWorker(index);
+    }
+    if (this.metrics) {
+      this.metrics.setQueueDepth(0);
     }
   }
 
@@ -441,8 +445,8 @@ class WorkerPool {
 
   _dispatch() {
     if (!this.queue.length) {
-      if (this.events) {
-        this._emitPoolStats();
+      if (this.metrics) {
+        this.metrics.setQueueDepth(0);
       }
       return;
     }
@@ -457,67 +461,45 @@ class WorkerPool {
       if (!task) {
         break;
       }
+      if (this.metrics) {
+        this.metrics.setQueueDepth(this.queue.length);
+      }
       this._assign(worker, task);
     }
   }
 
   _assign(worker, task) {
-    const startedAt = Date.now();
-    const queueDurationMs = Math.max(0, startedAt - task.enqueuedAt);
-    if (this.events) {
-      this.events.emit('task:start', {
-        id: task.id,
-        action: task.action,
-        workerId: worker.id,
-        queueDurationMs,
-        attempts: task.attempts,
-      });
-    }
+    const stopTimer = this.metrics ? this.metrics.startTaskTimer(task.action) : null;
     worker
       .runTask(task.action, task.payload, task.timeoutMs)
       .then((result) => {
-        if (this.events) {
-          this.events.emit('task:success', {
-            id: task.id,
-            action: task.action,
-            workerId: worker.id,
-            durationMs: Date.now() - startedAt,
-            queueDurationMs,
-            attempts: task.attempts,
-          });
+        if (stopTimer) {
+          stopTimer('ok');
+        }
+        if (this.metrics) {
+          this.metrics.setQueueDepth(this.queue.length);
         }
         task.resolve(result);
         this._dispatch();
         this._emitPoolStats();
       })
       .catch((error) => {
-        if (this._shouldRetry(error, task)) {
-          if (this.events) {
-            this.events.emit('task:retry', {
-              id: task.id,
-              action: task.action,
-              workerId: worker.id,
-              durationMs: Date.now() - startedAt,
-              queueDurationMs,
-              attempts: task.attempts + 1,
-            });
-          }
+        const willRetry = this._shouldRetry(error, task);
+        if (stopTimer) {
+          stopTimer(willRetry ? 'retry' : 'error', error);
+        }
+        if (willRetry) {
           task.attempts += 1;
           this.queue.unshift(task);
+          if (this.metrics) {
+            this.metrics.setQueueDepth(this.queue.length);
+          }
           setTimeout(() => this._dispatch(), 0);
           this._emitPoolStats();
           return;
         }
-        if (this.events) {
-          this.events.emit('task:error', {
-            id: task.id,
-            action: task.action,
-            workerId: worker.id,
-            durationMs: Date.now() - startedAt,
-            queueDurationMs,
-            attempts: task.attempts,
-            error,
-          });
+        if (this.metrics) {
+          this.metrics.setQueueDepth(this.queue.length);
         }
         task.reject(error);
         this._dispatch();
@@ -549,13 +531,8 @@ class WorkerPool {
         timeoutMs,
         enqueuedAt,
       });
-      if (this.events) {
-        this.events.emit('task:queued', {
-          id: taskId,
-          action,
-          enqueuedAt,
-          timeoutMs,
-        });
+      if (this.metrics) {
+        this.metrics.setQueueDepth(this.queue.length);
       }
       this._dispatch();
       this._emitPoolStats();
@@ -568,7 +545,6 @@ class WorkerPool {
       task.reject(new Error('Pool terminato'));
     });
     await Promise.all(this.workers.filter(Boolean).map((worker) => worker.stop()));
-    this._emitPoolStats();
   }
 
   debugKillWorker(index = 0) {
@@ -637,6 +613,8 @@ function createGenerationOrchestratorBridge(options = {}) {
 
   const bridge = new EventEmitter();
   const snapshotStore = merged.snapshotStore || null;
+  const metricsOptions = merged.metrics && typeof merged.metrics === 'object' ? merged.metrics : {};
+  const metrics = createOrchestratorMetrics(metricsOptions);
   const resolved = {
     pythonPath: merged.pythonPath || DEFAULT_CONFIG.pythonPath,
     workerScript: merged.workerScript || DEFAULT_WORKER_SCRIPT,
@@ -660,7 +638,7 @@ function createGenerationOrchestratorBridge(options = {}) {
     ),
   };
 
-  const pool = new WorkerPool(resolved, bridge);
+  const pool = new WorkerPool({ ...resolved, metrics });
   const cleanupRegistrations = [];
   let shutdownTimer = null;
   let closingPromise = null;

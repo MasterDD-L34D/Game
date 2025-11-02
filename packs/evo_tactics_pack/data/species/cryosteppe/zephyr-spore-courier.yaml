@@ -44,7 +44,8 @@ environment_affinity:
   biome_class: mezzanotte_orbitale
   hazards_expected:
     - shear_gravitazionale
-  rationale: "Fauna gregaria che distribuisce spore luminescenti per tracciare corridoi d'aria sicuri."
+  rationale: Fauna gregaria che distribuisce spore luminescenti per tracciare corridoi
+    d'aria sicuri.
 derived_from_environment:
   suggested_traits:
     - sacche_galleggianti_ascensoriali
@@ -67,3 +68,4 @@ services_links: []
 genetic_traits: []
 mate_synergy: []
 jobs_synergy: []
+description: i18n:species.zephyr-spore-courier.description

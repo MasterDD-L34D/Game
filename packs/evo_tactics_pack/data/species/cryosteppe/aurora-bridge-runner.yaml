@@ -52,7 +52,8 @@ environment_affinity:
   hazards_expected:
     - tempeste_sferiche
     - shear_gravitazionale
-  rationale: "Corridore aerotrasportato che mantiene ponti di luce aurorale tra piattaforme sospese."
+  rationale: Corridore aerotrasportato che mantiene ponti di luce aurorale tra piattaforme
+    sospese.
 derived_from_environment:
   suggested_traits:
     - sacche_galleggianti_ascensoriali
@@ -79,3 +80,4 @@ mate_synergy:
   - Support
 jobs_synergy:
   - Skirmisher
+description: i18n:species.aurora-bridge-runner.description

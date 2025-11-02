@@ -98,3 +98,4 @@ genetic_traits:
     - lingua_tattile_trama
   synergy: []
 mate_synergy: []
+description: i18n:species.echo-wing.description

@@ -52,7 +52,8 @@ environment_affinity:
   hazards_expected:
     - spore_caustiche
     - radici_strangolanti
-  rationale: "Operatore simbiotico che coltiva guglie micotiche e apre tunnel respiratori per le squadre."
+  rationale: Operatore simbiotico che coltiva guglie micotiche e apre tunnel respiratori
+    per le squadre.
 derived_from_environment:
   suggested_traits:
     - filamenti_digestivi_compattanti
@@ -79,3 +80,4 @@ mate_synergy:
   - Strategist
 jobs_synergy:
   - Support
+description: i18n:species.myco-spire-warden.description
