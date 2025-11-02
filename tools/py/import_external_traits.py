@@ -230,14 +230,17 @@ def _resolve_grants_from_context(context: object, tier_keys: List[str]) -> List[
                     item_keys.extend([raw, slugify(raw)])
             if not any(candidate and candidate in tier_keys for candidate in item_keys):
                 continue
+            per_item_collected: List[GrantEntry] = []
             for attr in ("grants_traits", "traits", "entries", "grants"):
                 entries = _normalize_grant_entries(item.get(attr))
                 if entries:
-                    collected.extend(entries)
-            if not collected:
+                    per_item_collected.extend(entries)
+            if not per_item_collected:
                 nested = _normalize_grant_entries(item)
                 if nested:
-                    collected.extend(nested)
+                    per_item_collected.extend(nested)
+            if per_item_collected:
+                collected.extend(per_item_collected)
         return collected
     return []
 
