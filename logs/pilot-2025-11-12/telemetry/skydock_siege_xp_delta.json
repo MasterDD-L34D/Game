@@ -1,0 +1,79 @@
+{
+  "generated_at": "2025-11-02T18:39:46Z",
+  "mission": "skydock_siege",
+  "difficulties": {
+    "story": {
+      "sentinel": {
+        "total_xp": 1168.5,
+        "target_xp": 1175,
+        "delta_vs_target_pct": -0.5532
+      },
+      "helix": {
+        "total_xp": 1209.3975,
+        "target_xp": 1175,
+        "delta_vs_target_pct": 2.9274
+      },
+      "cipher": {
+        "total_xp": 1127.6025,
+        "target_xp": 1175,
+        "delta_vs_target_pct": -4.0338
+      }
+    },
+    "standard": {
+      "sentinel": {
+        "total_xp": 1425.0,
+        "target_xp": 1425,
+        "delta_vs_target_pct": 0.0
+      },
+      "helix": {
+        "total_xp": 1474.875,
+        "target_xp": 1425,
+        "delta_vs_target_pct": 3.5
+      },
+      "cipher": {
+        "total_xp": 1375.125,
+        "target_xp": 1425,
+        "delta_vs_target_pct": -3.5
+      }
+    },
+    "veteran": {
+      "sentinel": {
+        "total_xp": 1667.25,
+        "target_xp": 1675,
+        "delta_vs_target_pct": -0.4627
+      },
+      "helix": {
+        "total_xp": 1725.6036,
+        "target_xp": 1675,
+        "delta_vs_target_pct": 3.0211
+      },
+      "cipher": {
+        "total_xp": 1608.8961,
+        "target_xp": 1675,
+        "delta_vs_target_pct": -3.9465
+      }
+    }
+  },
+  "profiles": {
+    "helix_cipher": {
+      "label": "Helix + Cipher (support blend)",
+      "difficulties": {
+        "story": {
+          "total_xp": 1172.5898,
+          "target_xp": 1175.0,
+          "delta_vs_target_pct": -0.2051
+        },
+        "standard": {
+          "total_xp": 1429.9875,
+          "target_xp": 1430.0,
+          "delta_vs_target_pct": -0.0009
+        },
+        "veteran": {
+          "total_xp": 1673.0852,
+          "target_xp": 1675.0,
+          "delta_vs_target_pct": -0.1143
+        }
+      }
+    }
+  }
+}
