@@ -68,10 +68,12 @@
   "completion_flags": {
     "has_biome": true,
     "has_species_link": false,
-    "has_usage_tags": true
+    "has_usage_tags": true,
+    "has_data_origin": true
   },
   "biome_tags": [
     "caverna_risonante",
     "falde_magnetiche_psioniche"
-  ]
+  ],
+  "data_origin": "controllo_psionico"
 }

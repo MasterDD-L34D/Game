@@ -44,9 +44,11 @@
   "completion_flags": {
     "has_biome": true,
     "has_species_link": false,
-    "has_usage_tags": true
+    "has_usage_tags": true,
+    "has_data_origin": true
   },
   "biome_tags": [
     "laguna_bioreattiva"
-  ]
+  ],
+  "data_origin": "coverage_q4_2025"
 }

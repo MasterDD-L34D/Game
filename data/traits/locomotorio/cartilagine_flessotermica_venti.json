@@ -56,9 +56,11 @@
   "completion_flags": {
     "has_biome": true,
     "has_species_link": false,
-    "has_usage_tags": true
+    "has_usage_tags": true,
+    "has_data_origin": true
   },
   "biome_tags": [
     "gole_ventose"
-  ]
+  ],
+  "data_origin": "controllo_psionico"
 }
