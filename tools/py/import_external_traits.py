@@ -25,7 +25,7 @@ import re
 import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Sequence, Tuple
+from typing import Dict, Iterable, Iterator, List, Sequence, Tuple
 
 import yaml
 
@@ -47,6 +47,243 @@ class TraitSeed:
     usage: str
     impetus: str
     data_origin: str
+
+
+@dataclass(frozen=True)
+class GrantEntry:
+    """Normalized representation of trait data defined inside the manifest."""
+
+    trait_id: str
+    description: str
+    label: str | None = None
+    usage: str | None = None
+    impetus: str | None = None
+
+
+def _stringify(value: object) -> str:
+    if isinstance(value, str):
+        return value
+    if value is None:
+        return ""
+    return str(value)
+
+
+def _extract_description(payload: Dict[str, object]) -> str:
+    for key in ("description", "mutazione_indotta", "notes", "summary"):
+        raw = payload.get(key)
+        if raw:
+            return _stringify(raw)
+    return ""
+
+
+def _extract_usage(payload: Dict[str, object]) -> str:
+    for key in ("usage", "uso_funzione", "notes"):
+        raw = payload.get(key)
+        if raw:
+            return _stringify(raw)
+    return ""
+
+
+def _extract_impetus(payload: Dict[str, object]) -> str:
+    for key in ("impetus", "spinta_selettiva"):
+        raw = payload.get(key)
+        if raw:
+            return _stringify(raw)
+    return ""
+
+
+def _normalize_grant_entries(data: object) -> List[GrantEntry]:
+    entries: List[GrantEntry] = []
+    if isinstance(data, dict):
+        for trait_key, meta in data.items():
+            if isinstance(meta, dict):
+                trait_id = _stringify(meta.get("id") or trait_key)
+                description = _extract_description(meta)
+                label = _stringify(meta.get("label")) or None
+                usage = _extract_usage(meta) or None
+                impetus = _extract_impetus(meta) or None
+            else:
+                trait_id = _stringify(trait_key)
+                description = _stringify(meta)
+                label = None
+                usage = None
+                impetus = None
+            trait_id = trait_id.strip()
+            if not trait_id:
+                continue
+            entries.append(GrantEntry(trait_id, description, label, usage, impetus))
+        return entries
+
+    if isinstance(data, list):
+        for item in data:
+            if isinstance(item, dict):
+                if "grants_traits" in item and len(item) == 2 and "tier" in item:
+                    entries.extend(_normalize_grant_entries(item.get("grants_traits")))
+                    continue
+                if "id" in item or any(key in item for key in ("description", "mutazione_indotta")):
+                    trait_id = _stringify(item.get("id")) or ""
+                    if not trait_id:
+                        # fall back to single-key mapping
+                        if len(item) == 1:
+                            [(trait_id, meta)] = list(item.items())
+                            description = _stringify(meta)
+                            entries.append(GrantEntry(_stringify(trait_id), description))
+                        continue
+                    trait_id = trait_id.strip()
+                    if not trait_id:
+                        continue
+                    description = _extract_description(item)
+                    label = _stringify(item.get("label")) or None
+                    usage = _extract_usage(item) or None
+                    impetus = _extract_impetus(item) or None
+                    entries.append(GrantEntry(trait_id, description, label, usage, impetus))
+                    continue
+                if len(item) == 1:
+                    [(trait_id, meta)] = list(item.items())
+                    entries.append(GrantEntry(_stringify(trait_id), _stringify(meta)))
+                    continue
+            else:
+                trait_id = _stringify(item).strip()
+                if trait_id:
+                    entries.append(GrantEntry(trait_id, ""))
+        return entries
+
+    if isinstance(data, GrantEntry):
+        return [data]
+
+    return entries
+
+
+def _iter_grant_contexts(payload: object) -> Iterator[object]:
+    stack: List[object] = [payload]
+    while stack:
+        current = stack.pop()
+        if isinstance(current, dict):
+            for key, value in current.items():
+                if key == "grants_traits":
+                    yield value
+                if isinstance(value, (dict, list)):
+                    stack.append(value)
+        elif isinstance(current, list):
+            for item in current:
+                if isinstance(item, (dict, list)):
+                    stack.append(item)
+
+
+def _tier_lookup_keys(tier_key: str, tier_data: Dict[str, object]) -> List[str]:
+    keys: List[str] = []
+    candidates = [tier_key]
+    raw_id = tier_data.get("id") or tier_data.get("tier")
+    if isinstance(raw_id, str):
+        candidates.append(raw_id)
+    raw_slug = tier_data.get("slug")
+    if isinstance(raw_slug, str):
+        candidates.append(raw_slug)
+    raw_label = tier_data.get("label") or tier_data.get("name")
+    if isinstance(raw_label, str):
+        candidates.append(raw_label)
+        if raw_id:
+            candidates.append(f"{raw_id}_{raw_label}")
+    normalized = []
+    for candidate in candidates:
+        if not isinstance(candidate, str):
+            continue
+        candidate = candidate.strip()
+        if not candidate:
+            continue
+        normalized.append(candidate)
+        slug_candidate = slugify(candidate)
+        if slug_candidate and slug_candidate != candidate:
+            normalized.append(slug_candidate)
+    seen = set()
+    ordered: List[str] = []
+    for item in normalized:
+        if item not in seen:
+            seen.add(item)
+            ordered.append(item)
+    return ordered
+
+
+def _resolve_grants_from_context(context: object, tier_keys: List[str]) -> List[GrantEntry]:
+    if isinstance(context, dict):
+        collected: List[GrantEntry] = []
+        for key, value in context.items():
+            key_str = _stringify(key).strip()
+            if not key_str:
+                continue
+            key_variants = {key_str, slugify(key_str)}
+            if any(variant and variant in tier_keys for variant in key_variants):
+                entries = _normalize_grant_entries(value)
+                if entries:
+                    collected.extend(entries)
+        return collected
+    if isinstance(context, list):
+        collected: List[GrantEntry] = []
+        for item in context:
+            if not isinstance(item, dict):
+                continue
+            item_keys: List[str] = []
+            for attr in ("tier", "id", "slug", "code"):
+                raw = item.get(attr)
+                if isinstance(raw, str) and raw.strip():
+                    raw = raw.strip()
+                    item_keys.extend([raw, slugify(raw)])
+            if not any(candidate and candidate in tier_keys for candidate in item_keys):
+                continue
+            for attr in ("grants_traits", "traits", "entries", "grants"):
+                entries = _normalize_grant_entries(item.get(attr))
+                if entries:
+                    collected.extend(entries)
+            if not collected:
+                nested = _normalize_grant_entries(item)
+                if nested:
+                    collected.extend(nested)
+        return collected
+    return []
+
+
+def _extract_grants_for_tier(payload: Dict[str, object], tier_key: str, tier_data: Dict[str, object]) -> List[GrantEntry]:
+    direct_candidates = [
+        tier_data.get("grants_traits"),
+        tier_data.get("traits"),
+    ]
+    grants_section = tier_data.get("grants")
+    if isinstance(grants_section, dict):
+        direct_candidates.append(grants_section.get("traits"))
+    elif isinstance(grants_section, list):
+        direct_candidates.append(grants_section)
+
+    for candidate in direct_candidates:
+        entries = _normalize_grant_entries(candidate)
+        if entries:
+            return entries
+
+    tier_keys = _tier_lookup_keys(tier_key, tier_data)
+    for context in _iter_grant_contexts(payload):
+        entries = _resolve_grants_from_context(context, tier_keys)
+        if entries:
+            return entries
+
+    return []
+
+
+def _normalize_tier_entries(raw_tiers: object) -> List[Tuple[str, Dict[str, object]]]:
+    normalized: List[Tuple[str, Dict[str, object]]] = []
+    if isinstance(raw_tiers, dict):
+        for key, value in raw_tiers.items():
+            if isinstance(value, dict):
+                normalized.append((_stringify(key), value))
+        return normalized
+    if isinstance(raw_tiers, list):
+        for idx, value in enumerate(raw_tiers):
+            if not isinstance(value, dict):
+                continue
+            tier_key = _stringify(value.get("id") or value.get("slug") or f"tier_{idx+1}")
+            if not tier_key:
+                tier_key = f"tier_{idx+1}"
+            normalized.append((tier_key, value))
+        return normalized
+    return normalized
 
 
 def slugify(value: str) -> str:
@@ -204,57 +441,81 @@ def iter_yaml_seeds(path: Path) -> Iterable[TraitSeed]:
     if not payload:
         return
     namespace = str(payload.get("namespace") or path.stem)
-    tiers = payload.get("tiers", {})
-    if not isinstance(tiers, dict):
+    tiers = _normalize_tier_entries(payload.get("tiers"))
+    if not tiers:
         return
 
-    for tier_key, tier_data in tiers.items():
-        if not isinstance(tier_data, dict):
-            continue
-        tier_match = re.match(r"T(?P<num>[0-9])", tier_key, flags=re.IGNORECASE)
+    for tier_key, tier_data in tiers:
+        tier_match = None
+        if isinstance(tier_key, str):
+            tier_match = re.match(r"T(?P<num>[0-9])", tier_key, flags=re.IGNORECASE)
+        if not tier_match:
+            raw_id = tier_data.get("id")
+            if isinstance(raw_id, str):
+                tier_match = re.match(r"T(?P<num>[0-9])", raw_id, flags=re.IGNORECASE)
         if tier_match:
             tier = f"T{tier_match.group('num')}"
         else:
             tier = "T1"
-        label_info = tier_data.get("label") or tier_key
-        requires = tier_data.get("requires_neurons") or []
+
+        label_info = _stringify(tier_data.get("label") or tier_key or tier)
+        requires = tier_data.get("requires_neurons") or tier_data.get("requires")
+        requires_list: List[str] = []
         if isinstance(requires, list):
-            requires_list = [str(item).strip() for item in requires if str(item).strip()]
-        else:
-            requires_list = []
-        milestones = tier_data.get("milestones") or []
-        if isinstance(milestones, list):
-            milestone_list = [str(item).strip() for item in milestones if str(item).strip()]
-        else:
-            milestone_list = []
-        grants = tier_data.get("grants_traits") or []
-        if not isinstance(grants, list):
+            for item in requires:
+                value = _stringify(item).strip()
+                if value:
+                    requires_list.append(value)
+
+        milestones_raw = tier_data.get("milestones") or []
+        milestone_list: List[str] = []
+        if isinstance(milestones_raw, list):
+            for item in milestones_raw:
+                value = _stringify(item).strip()
+                if value:
+                    milestone_list.append(value)
+
+        grants = _extract_grants_for_tier(payload, tier_key, tier_data)
+        if not grants:
             continue
+
+        origin_parts: List[str] = []
+        if isinstance(tier_key, str) and tier_key.strip():
+            origin_parts.append(tier_key.strip())
+        raw_id = tier_data.get("id")
+        if isinstance(raw_id, str) and raw_id.strip() and raw_id not in origin_parts:
+            origin_parts.append(raw_id.strip())
+        raw_label = tier_data.get("label")
+        if isinstance(raw_label, str) and raw_label.strip():
+            origin_parts.append(raw_label.strip())
+        if not origin_parts:
+            origin_parts.append(tier)
+
         for entry in grants:
-            if isinstance(entry, dict):
-                [(trait_key, trait_desc)] = list(entry.items())
-                trait_desc_str = str(trait_desc)
-            else:
-                trait_key = str(entry)
-                trait_desc_str = ""
-            label = trait_key.replace("_", " ")
+            trait_key = entry.trait_id
+            label = entry.label or trait_key.replace("_", " ")
             label = " ".join(part.capitalize() for part in label.split())
             trait_id = slugify(trait_key)
-            description = trait_desc_str or (
+            description = entry.description or (
                 f"Import da {namespace} ({label_info})."
             )
-            usage_parts = [f"Tier {label_info} ({tier})."]
-            if milestone_list:
-                usage_parts.append(
-                    "Milestone: " + "; ".join(milestone_list)
-                )
-            if requires_list:
-                usage_parts.append(
-                    "Richiede neuroni: " + ", ".join(requires_list)
-                )
-            usage = " ".join(usage_parts)
-            impetus = f"Origine esterna: {namespace}. Validare allineamento con catalogo principale."
-            data_origin = build_data_origin("incoming", path.stem, tier_key)
+            if entry.usage:
+                usage = entry.usage
+            else:
+                usage_parts = [f"Tier {label_info} ({tier})."]
+                if milestone_list:
+                    usage_parts.append(
+                        "Milestone: " + "; ".join(milestone_list)
+                    )
+                if requires_list:
+                    usage_parts.append(
+                        "Richiede neuroni: " + ", ".join(requires_list)
+                    )
+                usage = " ".join(usage_parts)
+            impetus = entry.impetus or (
+                f"Origine esterna: {namespace}. Validare allineamento con catalogo principale."
+            )
+            data_origin = build_data_origin("incoming", path.stem, *origin_parts)
             yield TraitSeed(trait_id, label, tier, description, usage, impetus, data_origin)
 
 
