@@ -3,6 +3,10 @@
   "trait_glossary": "data/core/traits/glossary.json",
   "traits": {
     "ali_fulminee": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -50,13 +54,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ali_ioniche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ali_ioniche": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -104,13 +108,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "ali_membrana_sonica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ali_membrana_sonica": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -158,13 +162,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "antenne_dustsense": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_dustsense": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -212,13 +216,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "antenne_eco_turbina": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_eco_turbina": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -266,13 +270,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "antenne_flusso_mareale": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_flusso_mareale": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -320,13 +324,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "antenne_microonde_cavernose": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_microonde_cavernose": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -374,13 +378,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "antenne_plasmatiche_tempesta": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_plasmatiche_tempesta": {
+      },
       "conflitti": [],
       "debolezza": "Scariche elettriche massicce possono bruciare i recettori e compromettere la coordinazione.",
       "famiglia_tipologia": "Sensoriale/Offensivo",
@@ -438,13 +442,13 @@
       ],
       "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
       "tier": "T3",
-      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici.",
+      "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+    },
+    "antenne_reagenti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_reagenti": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -492,13 +496,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "antenne_tesla": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_tesla": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -546,13 +550,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "antenne_waveguide": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_waveguide": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -600,13 +604,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "antenne_wideband": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "antenne_wideband": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -654,13 +658,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "appendici_risonanti_marea": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "appendici_risonanti_marea": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -708,13 +712,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "appendici_thermotattiche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "appendici_thermotattiche": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -762,13 +766,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "armatura_pietra_planare": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "armatura_pietra_planare": {
+      },
       "conflitti": [
         "frusta_fiammeggiante"
       ],
@@ -841,13 +845,13 @@
       ],
       "spinta_selettiva": "Stabilizzare varchi e proteggere infrastrutture dalle onde d'urto.",
       "tier": "T2",
-      "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali.",
+      "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali."
+    },
+    "artigli_acidofagi": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "artigli_acidofagi": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -895,13 +899,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "artigli_induzione": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "artigli_induzione": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -949,13 +953,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "artigli_radice": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "artigli_radice": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -1003,13 +1007,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "artigli_scivolo_silente": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "artigli_scivolo_silente": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -1057,13 +1061,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "artigli_sette_vie": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "artigli_sette_vie": {
+      },
       "conflitti": [],
       "debolezza": "Angoli di presa limitati se la superficie è perfettamente liscia.",
       "famiglia_tipologia": "Locomotorio/Prensile",
@@ -1179,13 +1183,13 @@
       ],
       "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
       "tier": "T1",
-      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli.",
+      "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
+    },
+    "artigli_sghiaccio_glaciale": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "artigli_sghiaccio_glaciale": {
+      },
       "conflitti": [],
       "debolezza": "In ambienti temperati i tessuti subiscono microfratture e richiedono continue riparazioni.",
       "famiglia_tipologia": "Locomotorio/Predatorio",
@@ -1241,13 +1245,13 @@
       ],
       "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
       "tier": "T2",
-      "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto.",
+      "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
+    },
+    "artigli_vetrificati": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "artigli_vetrificati": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -1295,13 +1299,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "aura_scudo_radianza": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "aura_scudo_radianza": {
+      },
       "conflitti": [
         "mantello_meteoritico"
       ],
@@ -1354,13 +1358,13 @@
       ],
       "spinta_selettiva": "Proteggere gli hub di evacuazione durante tempeste di energia planare.",
       "tier": "T3",
-      "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra.",
+      "uso_funzione": "Proietta schermature luminose sincronizzate con i segnali tattici della squadra."
+    },
+    "baffi_mareomotori": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "baffi_mareomotori": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -1408,13 +1412,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "barbigli_sensori_plasma": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "barbigli_sensori_plasma": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -1462,13 +1466,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "barriere_miasma_glaciale": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "barriere_miasma_glaciale": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -1516,13 +1520,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "batteri_endosimbionti_chemio": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "batteri_endosimbionti_chemio": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -1570,13 +1574,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "batteri_termofili_endosimbiosi": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "batteri_termofili_endosimbiosi": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -1624,13 +1628,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "biochip_memoria": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "biochip_memoria": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -1678,13 +1682,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "biofilm_glow": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "biofilm_glow": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -1732,13 +1736,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "biofilm_iperarido": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "biofilm_iperarido": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -1786,13 +1790,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "branchie_dual_mode": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "branchie_dual_mode": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -1840,13 +1844,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "branchie_eoliche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "branchie_eoliche": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -1894,13 +1898,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "branchie_metalloidi": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "branchie_metalloidi": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -1948,13 +1952,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "branchie_microfiltri": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "branchie_microfiltri": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -2002,13 +2006,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "branchie_osmotiche_salmastra": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "branchie_osmotiche_salmastra": {
+      },
       "conflitti": [
         "polmoni_cristallini_alta_quota"
       ],
@@ -2065,13 +2069,13 @@
       ],
       "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
       "tier": "T2",
-      "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente.",
+      "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente."
+    },
+    "branchie_solfatiche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "branchie_solfatiche": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -2119,13 +2123,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "branchie_turbina": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "branchie_turbina": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -2173,13 +2177,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "bulbi_radici_permafrost": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "bulbi_radici_permafrost": {
+      },
       "conflitti": [],
       "debolezza": "Disgeli improvvisi trasformano i bulbi in masse gelatinose che rallentano i movimenti.",
       "famiglia_tipologia": "Simbiotico/Nutrizione",
@@ -2236,13 +2240,13 @@
       ],
       "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
       "tier": "T2",
-      "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale.",
+      "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
+    },
+    "camere_anticorrosione": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "camere_anticorrosione": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -2290,13 +2294,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "camere_mirage": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "camere_mirage": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -2344,13 +2348,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "camere_nutrienti_vent": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "camere_nutrienti_vent": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -2398,13 +2402,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "capillari_criogenici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "capillari_criogenici": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -2452,13 +2456,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "capillari_fluoridici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "capillari_fluoridici": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -2506,13 +2510,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "capillari_fotovoltaici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "capillari_fotovoltaici": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -2560,13 +2564,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "capsule_paracadute": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "capsule_paracadute": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -2614,13 +2618,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "carapace_fase_variabile": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "carapace_fase_variabile": {
+      },
       "conflitti": [
         "struttura_elastica_amorfa"
       ],
@@ -2759,17 +2763,24 @@
           ],
           "species_id": "sand-burrower",
           "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "steppe-bison-mini",
+          "weight": 1
         }
       ],
       "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
       "tier": "T1",
-      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente.",
+      "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+    },
+    "carapace_luminiscente_abissale": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "carapace_luminiscente_abissale": {
+      },
       "conflitti": [
         "carapace_fase_variabile"
       ],
@@ -2828,13 +2839,13 @@
       ],
       "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
       "tier": "T3",
-      "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti.",
+      "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+    },
+    "carapace_segmenti_logici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "carapace_segmenti_logici": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -2882,13 +2893,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "carapaci_ferruginosi": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "carapaci_ferruginosi": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -2936,13 +2947,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "cartilagine_flessotermica_venti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cartilagine_flessotermica_venti": {
+      },
       "conflitti": [
         "scheletro_idro_regolante"
       ],
@@ -3001,13 +3012,13 @@
       ],
       "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
       "tier": "T2",
-      "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide.",
+      "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
+    },
+    "cartilagini_biofibre": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cartilagini_biofibre": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -3055,13 +3066,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "cartilagini_desertiche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cartilagini_desertiche": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -3109,13 +3120,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "cartilagini_flessoacustiche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cartilagini_flessoacustiche": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -3159,17 +3170,24 @@
           ],
           "species_id": "caverna-risonante-trait-keeper",
           "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "resonant-claw-hunter",
+          "weight": 1
         }
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "cartilagini_pseudometalliche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cartilagini_pseudometalliche": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -3217,13 +3235,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "cavita_risonanti_tundra": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cavita_risonanti_tundra": {
+      },
       "conflitti": [],
       "debolezza": "In ambienti temperati l'eco interna produce rumori udibili che rivelano la posizione.",
       "famiglia_tipologia": "Sensoriale/Supporto",
@@ -3281,13 +3299,13 @@
       ],
       "spinta_selettiva": "Coordinare branchi in lande aperte dove la visibilità è ridotta da bufere di ghiaccio.",
       "tier": "T1",
-      "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo.",
+      "uso_funzione": "Amplifica segnali acustici per comunicazioni a lungo raggio nel gelo."
+    },
+    "cervelletto_equilibrio_statico": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cervelletto_equilibrio_statico": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -3335,13 +3353,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "chemiorecettori_bromuro": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "chemiorecettori_bromuro": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -3389,13 +3407,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "chioma_parassita_canopica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "chioma_parassita_canopica": {
+      },
       "conflitti": [],
       "debolezza": "Se la pianta ospite muore la chioma psionica collassa causando shock sistemico.",
       "famiglia_tipologia": "Simbiotico/Utility",
@@ -3442,13 +3460,13 @@
       ],
       "spinta_selettiva": "Stabilizzare piattaforme mobili e reti di trasporto tra gli alberi viventi.",
       "tier": "T1",
-      "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi.",
+      "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi."
+    },
+    "circolazione_bifasica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "circolazione_bifasica": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -3496,13 +3514,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "circolazione_bifasica_palude": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "circolazione_bifasica_palude": {
+      },
       "conflitti": [
         "sangue_piroforico"
       ],
@@ -3550,13 +3568,13 @@
       ],
       "spinta_selettiva": "Resistere a tossine e anossia tipiche delle paludi psioniche.",
       "tier": "T2",
-      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate.",
+      "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate."
+    },
+    "circolazione_cooling_loop": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "circolazione_cooling_loop": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -3604,13 +3622,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "circolazione_doppia": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "circolazione_doppia": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -3658,13 +3676,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "circolazione_supercritica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "circolazione_supercritica": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -3712,13 +3730,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "ciste_riduttive": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ciste_riduttive": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -3766,13 +3784,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ciste_salmastre": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ciste_salmastre": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -3820,13 +3838,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "cisti_iperbariche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cisti_iperbariche": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -3874,13 +3892,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "coda_balanciere": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "coda_balanciere": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -3928,13 +3946,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "coda_contrappeso": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "coda_contrappeso": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -3982,13 +4000,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "coda_coppia_retroattiva": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "coda_coppia_retroattiva": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -4036,13 +4054,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "coda_frusta_cinetica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "coda_frusta_cinetica": {
+      },
       "conflitti": [],
       "debolezza": "Richiede un periodo di inattività o movimento preparatorio per massimizzare il danno.",
       "famiglia_tipologia": "Locomotorio/Difensivo",
@@ -4173,13 +4191,13 @@
       ],
       "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
       "tier": "T1",
-      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente.",
+      "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
+    },
+    "coda_stabilizzatrice_filo": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "coda_stabilizzatrice_filo": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -4227,13 +4245,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "coda_stabilizzatrice_geiser": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "coda_stabilizzatrice_geiser": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -4281,13 +4299,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "coda_stabilizzatrice_vortex": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "coda_stabilizzatrice_vortex": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -4335,13 +4353,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "colonne_vibromagnetiche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "colonne_vibromagnetiche": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -4389,13 +4407,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "coralli_partner": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "coralli_partner": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -4443,13 +4461,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "criostasi_adattiva": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "criostasi_adattiva": {
+      },
       "conflitti": [
         "sangue_piroforico",
         "sacche_galleggianti_ascensoriali"
@@ -4512,7 +4530,21 @@
           "roles": [
             "optional"
           ],
+          "species_id": "balor-fission",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "canopia-psionica-leggera-trait-keeper",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "cryo-lynx",
           "weight": 1
         },
         {
@@ -4532,13 +4564,13 @@
       ],
       "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
       "tier": "T1",
-      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme.",
+      "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
+    },
+    "cromofori_alert_acido": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cromofori_alert_acido": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -4586,13 +4618,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "cuore_multicamera_bassa_pressione": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cuore_multicamera_bassa_pressione": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -4640,13 +4672,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "cuscinetti_elettrostatici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cuscinetti_elettrostatici": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -4694,13 +4726,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "cute_resistente_sali": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "cute_resistente_sali": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -4763,13 +4795,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T2",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
     },
     "cuticole_cerose": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -4846,13 +4878,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
     },
     "cuticole_neutralizzanti": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -4900,13 +4932,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "denti_chelatanti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "denti_chelatanti": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -4954,13 +4986,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "denti_ossidoferro": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "denti_ossidoferro": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -5008,13 +5040,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "denti_silice_termici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "denti_silice_termici": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -5062,13 +5094,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "denti_tuning_fork": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "denti_tuning_fork": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -5116,13 +5148,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "echi_risonanti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "echi_risonanti": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -5170,13 +5202,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "eco_interno_riflesso": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "eco_interno_riflesso": {
+      },
       "conflitti": [],
       "debolezza": "Estremamente disorientato da suoni o vibrazioni esterne forti e continue.",
       "famiglia_tipologia": "Sensoriale/Nervoso",
@@ -5274,19 +5306,33 @@
           "roles": [
             "optional"
           ],
+          "species_id": "resonant-claw-hunter",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "thaw-rot",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "zephyr-spore-courier",
           "weight": 1
         }
       ],
       "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
       "tier": "T2",
-      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
     },
     "empatia_coordinativa": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
       "famiglia_tipologia": "Supporto/Empatico",
@@ -5385,17 +5431,24 @@
           ],
           "species_id": "rakshasa-corte",
           "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "sentinella-radice",
+          "weight": 1
         }
       ],
       "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
       "tier": "T1",
-      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
     },
     "enzimi_antifase_termica": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -5443,13 +5496,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "enzimi_antipredatori_algali": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "enzimi_antipredatori_algali": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -5497,13 +5550,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
     },
     "enzimi_chelanti": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -5546,13 +5599,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
     },
     "enzimi_chelatori_rapidi": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -5600,13 +5653,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "enzimi_metanoossidanti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "enzimi_metanoossidanti": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -5654,13 +5707,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "epidermide_dielettrica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "epidermide_dielettrica": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -5708,13 +5761,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "epitelio_fosforescente": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "epitelio_fosforescente": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -5762,13 +5815,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "filamenti_digestivi_compattanti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "filamenti_digestivi_compattanti": {
+      },
       "conflitti": [],
       "debolezza": "Blocco intestinale se la dieta è priva di materiale 'legante'.",
       "famiglia_tipologia": "Digestivo/Escretorio",
@@ -5858,6 +5911,13 @@
           "roles": [
             "optional"
           ],
+          "species_id": "blight-micotico",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "caverna-risonante-trait-keeper",
           "weight": 1
         },
@@ -5892,13 +5952,13 @@
       ],
       "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
       "tier": "T2",
-      "uso_funzione": "Espulsione compatta e ordinata di scorie.",
+      "uso_funzione": "Espulsione compatta e ordinata di scorie."
+    },
+    "filamenti_magnetotrofi": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "filamenti_magnetotrofi": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -5946,13 +6006,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "filamenti_superconduttivi": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "filamenti_superconduttivi": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -6000,13 +6060,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "filamenti_termoconduzione": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "filamenti_termoconduzione": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -6054,13 +6114,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "filtri_planctonici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "filtri_planctonici": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -6108,13 +6168,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "flagelli_ancoranti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "flagelli_ancoranti": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -6162,13 +6222,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
     },
     "focus_frazionato": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Rischio di overload mentale se tilt e aggro salgono oltre le soglie HUD.",
       "famiglia_tipologia": "Strategico/Psionico",
@@ -6238,17 +6298,34 @@
         },
         {
           "roles": [
-            "core"
+            "optional",
+            "synergy"
           ],
-          "species_id": "marilith-vault",
+          "species_id": "archon-solare",
           "weight": 3
         },
         {
           "roles": [
+            "optional",
             "synergy"
           ],
-          "species_id": "archon-solare",
-          "weight": 2
+          "species_id": "banshee-risonante",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "optional",
+            "synergy"
+          ],
+          "species_id": "couatl-aurora",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "marilith-vault",
+          "weight": 3
         },
         {
           "roles": [
@@ -6259,17 +6336,31 @@
         },
         {
           "roles": [
-            "synergy"
+            "optional"
           ],
-          "species_id": "banshee-risonante",
-          "weight": 2
+          "species_id": "glowcap-weaver",
+          "weight": 1
         },
         {
           "roles": [
-            "synergy"
+            "optional"
           ],
-          "species_id": "couatl-aurora",
-          "weight": 2
+          "species_id": "lupus-temperatus",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "myco-spire-warden",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "rakshasa-corte",
+          "weight": 1
         },
         {
           "roles": [
@@ -6281,13 +6372,13 @@
       ],
       "spinta_selettiva": "Comunicazioni piatte dove occorre coprire minacce su più fronti.",
       "tier": "T1",
-      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Permette di gestire due ingaggi paralleli senza perdere efficienza."
     },
     "foliage_fotocatodico": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -6335,13 +6426,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "foliaggio_spugna": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "foliaggio_spugna": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -6389,13 +6480,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "frusta_fiammeggiante": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "frusta_fiammeggiante": {
+      },
       "conflitti": [
         "armatura_pietra_planare"
       ],
@@ -6455,13 +6546,13 @@
       ],
       "spinta_selettiva": "Creare distanza di sicurezza contro predatori d'élite nelle zone instabili.",
       "tier": "T2",
-      "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia.",
+      "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia."
+    },
+    "ghiaccio_piezoelettrico": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiaccio_piezoelettrico": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -6509,13 +6600,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
     },
     "ghiandola_caustica": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Gestione accurata delle riserve per non calare sotto i budget PE previsto.",
       "famiglia_tipologia": "Offensivo/Chimico",
@@ -6561,13 +6652,13 @@
       ],
       "spinta_selettiva": "Squadre che devono rispondere a guardie situazionali al turno 1-2.",
       "tier": "T1",
-      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Sblocco early di danni da acido per rompere armature leggere."
     },
     "ghiandole_cambio_salino": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -6615,13 +6706,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ghiandole_condensa_ozono": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_condensa_ozono": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -6669,13 +6760,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "ghiandole_eco_mappanti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_eco_mappanti": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -6723,13 +6814,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ghiandole_fango_calde": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_fango_calde": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -6777,13 +6868,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "ghiandole_fango_coesivo": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_fango_coesivo": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -6831,13 +6922,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "ghiandole_grafene": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_grafene": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -6885,13 +6976,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "ghiandole_inchiostro_luce": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_inchiostro_luce": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -6939,13 +7030,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "ghiandole_iodoattive": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_iodoattive": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -6993,13 +7084,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "ghiandole_minerali": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_minerali": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -7047,13 +7138,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "ghiandole_nebbia_acida": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_nebbia_acida": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -7101,13 +7192,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "ghiandole_nebbia_ionica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_nebbia_ionica": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -7155,13 +7246,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "ghiandole_resina_conduttiva": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_resina_conduttiva": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -7209,13 +7300,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ghiandole_ventosa": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ghiandole_ventosa": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -7263,13 +7354,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "giunti_antitorsione": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "giunti_antitorsione": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -7317,13 +7408,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
     },
     "grassi_termici": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -7400,13 +7491,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
     },
     "gusci_criovetro": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -7454,13 +7545,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "gusci_magnesio": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "gusci_magnesio": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -7508,13 +7599,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "lamelle_shear": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "lamelle_shear": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -7562,13 +7653,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "lamelle_sincroniche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "lamelle_sincroniche": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -7616,13 +7707,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "lamelle_termoforetiche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "lamelle_termoforetiche": {
+      },
       "conflitti": [
         "criostasi_adattiva"
       ],
@@ -7664,6 +7755,13 @@
           "roles": [
             "optional"
           ],
+          "species_id": "archon-solare",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "bulette-fase",
           "weight": 1
         },
@@ -7698,13 +7796,13 @@
       ],
       "spinta_selettiva": "Sopravvivere a fluidi tossici e temperature estreme nelle fumarole geotermiche.",
       "tier": "T2",
-      "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati.",
+      "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati."
+    },
+    "lamine_filtranti_aeree": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "lamine_filtranti_aeree": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -7752,13 +7850,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "lamine_scudo_silice": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "lamine_scudo_silice": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -7806,13 +7904,13 @@
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "linfa_tampone": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "linfa_tampone": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -7860,13 +7958,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "lingua_cristallina": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "lingua_cristallina": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -7914,13 +8012,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "lingua_tattile_trama": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "lingua_tattile_trama": {
+      },
       "conflitti": [],
       "debolezza": "Estrema vulnerabilità della lingua a contaminanti chimici o acidi.",
       "famiglia_tipologia": "Sensoriale/Alimentare",
@@ -7960,6 +8058,13 @@
           "roles": [
             "optional"
           ],
+          "species_id": "aurora-bridge-runner",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "blight-micotico",
           "weight": 1
         },
@@ -7983,17 +8088,38 @@
           ],
           "species_id": "ferrocolonia-magnetotattica",
           "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "glowcap-weaver",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "resonant-claw-hunter",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "zephyr-spore-courier",
+          "weight": 1
         }
       ],
       "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
       "tier": "T1",
-      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture.",
+      "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+    },
+    "luminescenza_aurorale": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "luminescenza_aurorale": {
+      },
       "conflitti": [],
       "debolezza": "Sensibile a tossine sconosciute finché non vengono adattate.",
       "famiglia_tipologia": "Digestivo/Metabolico",
@@ -8041,13 +8167,13 @@
       ],
       "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
       "tier": "T1",
-      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+      "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+    },
+    "luminescenza_hydrotermica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "luminescenza_hydrotermica": {
+      },
       "conflitti": [],
       "debolezza": "Soffre se separato dalla rete cooperativa del gruppo.",
       "famiglia_tipologia": "Supporto/Logistico",
@@ -8095,13 +8221,13 @@
       ],
       "spinta_selettiva": "Aumentare la resilienza coordinativa durante campagne prolungate.",
       "tier": "T1",
-      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione.",
+      "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
+    },
+    "mantelli_geotermici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "mantelli_geotermici": {
+      },
       "conflitti": [],
       "debolezza": "Rischio di sovraccarico se scaricato senza controllo.",
       "famiglia_tipologia": "Offensivo/Assalto",
@@ -8149,13 +8275,13 @@
       ],
       "spinta_selettiva": "Garantire pressione costante sulle difese avversarie.",
       "tier": "T1",
-      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità.",
+      "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
+    },
+    "mantello_meteoritico": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "mantello_meteoritico": {
+      },
       "conflitti": [
         "aura_scudo_radianza"
       ],
@@ -8215,13 +8341,13 @@
       ],
       "spinta_selettiva": "Sopravvivere a bombardamenti planari e piogge di meteore dimensionali.",
       "tier": "T3",
-      "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi.",
+      "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi."
+    },
+    "membrane_captura_rugiada": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "membrane_captura_rugiada": {
+      },
       "conflitti": [],
       "debolezza": "Richiede tempo di pianificazione prima di rendere il massimo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -8269,13 +8395,13 @@
       ],
       "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
       "tier": "T1",
-      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+      "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+    },
+    "membrane_eliofiltranti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "membrane_eliofiltranti": {
+      },
       "conflitti": [],
       "debolezza": "Atmosfere acide degradano rapidamente il film eliofiltrante.",
       "famiglia_tipologia": "Respiratorio/Protezione",
@@ -8322,13 +8448,13 @@
       ],
       "spinta_selettiva": "Proteggersi da radiazioni e agenti patogeni in altopiani ipersalini.",
       "tier": "T2",
-      "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati.",
+      "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
+    },
+    "membrane_planata_vectored": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "membrane_planata_vectored": {
+      },
       "conflitti": [],
       "debolezza": "Dipendenza da partner stabili per evitare collasso funzionale.",
       "famiglia_tipologia": "Simbiotico/Cooperativo",
@@ -8376,13 +8502,13 @@
       ],
       "spinta_selettiva": "Coltivare ecosistemi interdipendenti resilienti.",
       "tier": "T1",
-      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici.",
+      "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
+    },
+    "membrane_pneumatofori": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "membrane_pneumatofori": {
+      },
       "conflitti": [],
       "debolezza": "Risonanze errate possono generare microfratture.",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -8430,13 +8556,13 @@
       ],
       "spinta_selettiva": "Mantenere integrità strutturale durante stress ciclici.",
       "tier": "T1",
-      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini.",
+      "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
+    },
+    "midollo_antivibrazione": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "midollo_antivibrazione": {
+      },
       "conflitti": [],
       "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -8480,17 +8606,24 @@
           ],
           "species_id": "caverna-risonante-trait-keeper",
           "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "resonant-claw-hunter",
+          "weight": 1
         }
       ],
       "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
       "tier": "T1",
-      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "mimetismo_cromatico_passivo": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "mimetismo_cromatico_passivo": {
+      },
       "conflitti": [],
       "debolezza": "La colorazione è fissa finché non c'è un nuovo contatto prolungato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -8581,6 +8714,13 @@
           "roles": [
             "optional"
           ],
+          "species_id": "blight-micotico",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "canopia-psionica-leggera-trait-keeper",
           "weight": 1
         },
@@ -8595,19 +8735,26 @@
           "roles": [
             "optional"
           ],
+          "species_id": "resonant-claw-hunter",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "zephyr-spore-courier",
           "weight": 1
         }
       ],
       "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
       "tier": "T1",
-      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto.",
+      "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
+    },
+    "mucillagine_simbionte_mangrovie": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "mucillagine_simbionte_mangrovie": {
+      },
       "conflitti": [
         "ghiandola_caustica"
       ],
@@ -8670,13 +8817,13 @@
       ],
       "spinta_selettiva": "Respinge tossine e predatori microbici tipici dei delta paludosi.",
       "tier": "T1",
-      "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite.",
+      "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
+    },
+    "mucose_aderenza_sonica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "mucose_aderenza_sonica": {
+      },
       "conflitti": [],
       "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
       "famiglia_tipologia": "Locomotorio/Mobilità",
@@ -8724,13 +8871,13 @@
       ],
       "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
       "tier": "T1",
-      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali.",
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "mucose_barofile": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "mucose_barofile": {
+      },
       "conflitti": [],
       "debolezza": "Peso aggiuntivo che riduce agilità se non calibrato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -8778,13 +8925,13 @@
       ],
       "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
       "tier": "T1",
-      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+      "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+    },
+    "nodi_micorrizici_oracolari": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "nodi_micorrizici_oracolari": {
+      },
       "conflitti": [
         "spore_psichiche_silenziate"
       ],
@@ -8847,13 +8994,13 @@
       ],
       "spinta_selettiva": "Anticipare frane psioniche e predatori guidati da reti vegetali senzienti.",
       "tier": "T3",
-      "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra.",
+      "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
+    },
+    "nucleo_ovomotore_rotante": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "nucleo_ovomotore_rotante": {
+      },
       "conflitti": [
         "secrezione_rallentante_palmi"
       ],
@@ -8930,13 +9077,13 @@
       ],
       "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
       "tier": "T1",
-      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento.",
+      "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento."
+    },
+    "occhi_infrarosso_composti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "occhi_infrarosso_composti": {
+      },
       "conflitti": [],
       "debolezza": "Accecamento temporaneo da fonti di calore intenso e concentrato.",
       "famiglia_tipologia": "Sensoriale/Visivo",
@@ -8984,19 +9131,61 @@
           "roles": [
             "optional"
           ],
+          "species_id": "aurora-bridge-runner",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "aurora-gull",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "caverna-risonante-trait-keeper",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "couatl-aurora",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "lupus-temperatus",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "resonant-claw-hunter",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "zephyr-spore-courier",
           "weight": 1
         }
       ],
       "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
       "tier": "T1",
-      "uso_funzione": "Vista specializzata che percepisce il calore corporeo.",
+      "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+    },
+    "olfatto_risonanza_magnetica": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "olfatto_risonanza_magnetica": {
+      },
       "conflitti": [],
       "debolezza": "Sensibilità a forti interferenze elettromagnetiche (es. fulmini o minerali magnetici).",
       "famiglia_tipologia": "Sensoriale/Nervoso",
@@ -9115,14 +9304,20 @@
       ],
       "spinta_selettiva": "Orientamento in ambienti sotterranei senza luce o caccia a prede metallifere.",
       "tier": "T2",
-      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Percepire la direzione e la composizione di metalli o campi energetici."
     },
     "pathfinder": {
+      "biome_tags": [
+        "foresta_acida",
+        "foresta_miceliale"
+      ],
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
       "conflitti": [],
+      "data_origin": "controllo_psionico",
       "debolezza": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato.",
       "famiglia_tipologia": "Esplorazione/Tattico",
       "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
@@ -9150,20 +9345,6 @@
         "complementare": "ricognizione",
         "core": "strategia"
       },
-      "biome_tags": [
-        "foresta_acida",
-        "foresta_miceliale"
-      ],
-      "usage_tags": [
-        "scout",
-        "support"
-      ],
-      "data_origin": "controllo_psionico",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true,
-        "has_usage_tags": true
-      },
       "species_affinity": [
         {
           "roles": [
@@ -9175,9 +9356,17 @@
       ],
       "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
       "tier": "T1",
+      "usage_tags": [
+        "scout",
+        "support"
+      ],
       "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
     },
     "pianificatore": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Rigidità tattica se gli input di telemetria arrivano in ritardo.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -9238,13 +9427,13 @@
       ],
       "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
       "tier": "T1",
-      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
     },
     "piume_solari_fotovoltaiche": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [
         "criostasi_adattiva"
       ],
@@ -9293,13 +9482,13 @@
       ],
       "spinta_selettiva": "Massimizzare l'autonomia energetica per migrazioni aeree sopra deserti e oceani.",
       "tier": "T2",
-      "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio.",
+      "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio."
+    },
+    "polmoni_cristallini_alta_quota": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "polmoni_cristallini_alta_quota": {
+      },
       "conflitti": [
         "branchie_osmotiche_salmastra"
       ],
@@ -9347,13 +9536,13 @@
       ],
       "spinta_selettiva": "Operare in missioni d'alta quota senza supporto logistico esterno.",
       "tier": "T2",
-      "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi."
     },
     "random": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Bassa affidabilità: richiede slot aggiuntivi per mitigare risultati sfavorevoli.",
       "famiglia_tipologia": "Flessibile/Generico",
@@ -9394,13 +9583,13 @@
       ],
       "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
       "tier": "T1",
-      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
     },
     "respiro_a_scoppio": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Vulnerabilità respiratoria subito dopo l'utilizzo (tempo di ricarica).",
       "famiglia_tipologia": "Respiratorio/Propulsivo",
@@ -9483,13 +9672,13 @@
       ],
       "spinta_selettiva": "Spostamento rapido tramite getto d'aria in ambienti a bassa resistenza.",
       "tier": "T1",
-      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Rilasciare grandi quantità d'aria o energia in un getto potente."
     },
     "risonanza_di_branco": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Stress elevato se la coesione cala sotto i target di telemetria.",
       "famiglia_tipologia": "Supporto/Coordinativo",
@@ -9544,17 +9733,18 @@
       "species_affinity": [
         {
           "roles": [
+            "core",
+            "optional"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 4
+        },
+        {
+          "roles": [
             "optional",
             "synergy"
           ],
           "species_id": "archon-solare",
-          "weight": 3
-        },
-        {
-          "roles": [
-            "core"
-          ],
-          "species_id": "banshee-risonante",
           "weight": 3
         },
         {
@@ -9588,13 +9778,13 @@
       ],
       "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
       "tier": "T1",
-      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
     },
     "sacche_galleggianti_ascensoriali": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Rischio di barotrauma se la pressione esterna cambia troppo rapidamente.",
       "famiglia_tipologia": "Idrostatico/Locomotorio",
@@ -9681,6 +9871,20 @@
           "roles": [
             "optional"
           ],
+          "species_id": "aurora-gull",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "bulette-fase",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "canopia-psionica-leggera-trait-keeper",
           "weight": 1
         },
@@ -9702,19 +9906,26 @@
           "roles": [
             "optional"
           ],
+          "species_id": "steppe-bison-mini",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "zephyr-spore-courier",
           "weight": 1
         }
       ],
       "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
       "tier": "T1",
-      "uso_funzione": "Controllo preciso della profondità e del movimento verticale.",
+      "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+    },
+    "sacche_spore_stratosferiche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "sacche_spore_stratosferiche": {
+      },
       "conflitti": [
         "respiro_a_scoppio"
       ],
@@ -9762,13 +9973,13 @@
       ],
       "spinta_selettiva": "Dispersone genetica rapida tra arcipelaghi aerei e piattaforme galleggianti.",
       "tier": "T3",
-      "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra.",
+      "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
+    },
+    "sangue_piroforico": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "sangue_piroforico": {
+      },
       "conflitti": [
         "criostasi_adattiva",
         "scheletro_idro_regolante"
@@ -9852,13 +10063,13 @@
       ],
       "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
       "tier": "T1",
-      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria.",
+      "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria."
+    },
+    "scheletro_idro_regolante": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "scheletro_idro_regolante": {
+      },
       "conflitti": [
         "sangue_piroforico"
       ],
@@ -9988,13 +10199,13 @@
       ],
       "spinta_selettiva": "Alternare vita terrestre e vita acquatica/aerea.",
       "tier": "T1",
-      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso.",
+      "uso_funzione": "Assorbire o espellere rapidamente acqua dai tessuti ossei per modificare il peso."
+    },
+    "secrezione_rallentante_palmi": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "secrezione_rallentante_palmi": {
+      },
       "conflitti": [
         "carapace_fase_variabile",
         "nucleo_ovomotore_rotante"
@@ -10045,17 +10256,24 @@
           ],
           "species_id": "caverna-risonante-trait-keeper",
           "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "thaw-rot",
+          "weight": 1
         }
       ],
       "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
       "tier": "T1",
-      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici.",
+      "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
+    },
+    "sensori_geomagnetici": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "sensori_geomagnetici": {
+      },
       "conflitti": [],
       "debolezza": "Tempeste solari possono saturare il segnale magnetico, causando disorientamento prolungato.",
       "famiglia_tipologia": "Sensoriale/Navigazione",
@@ -10123,13 +10341,13 @@
       ],
       "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
       "tier": "T1",
-      "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione.",
+      "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
+    },
+    "sinapsi_coraline_polifoniche": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "sinapsi_coraline_polifoniche": {
+      },
       "conflitti": [
         "spore_psichiche_silenziate"
       ],
@@ -10192,13 +10410,13 @@
       ],
       "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
       "tier": "T2",
-      "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee.",
+      "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
+    },
+    "sonno_emisferico_alternato": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "sonno_emisferico_alternato": {
+      },
       "conflitti": [],
       "debolezza": "Vulnerabilità a suoni/stimoli che colpiscono entrambi i lobi contemporaneamente.",
       "famiglia_tipologia": "Nervoso/Omeostatico",
@@ -10260,13 +10478,13 @@
       ],
       "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
       "tier": "T1",
-      "uso_funzione": "Vigilanza continua pur garantendo riposo.",
+      "uso_funzione": "Vigilanza continua pur garantendo riposo."
+    },
+    "spore_psichiche_silenziate": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "spore_psichiche_silenziate": {
+      },
       "conflitti": [
         "respiro_a_scoppio"
       ],
@@ -10328,19 +10546,33 @@
           "roles": [
             "optional"
           ],
+          "species_id": "myco-spire-warden",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "psionic-canopy-scout",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "thaw-rot",
           "weight": 1
         }
       ],
       "spinta_selettiva": "Neutralizzare gruppi di prede o predatori senza impegnare in combattimento.",
       "tier": "T1",
-      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini.",
+      "uso_funzione": "Indurre uno stato di confusione o letargia negli individui vicini."
+    },
+    "squame_rifrangenti_deserto": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "squame_rifrangenti_deserto": {
+      },
       "conflitti": [
         "mimetismo_cromatico_passivo"
       ],
@@ -10388,13 +10620,13 @@
       ],
       "spinta_selettiva": "Sopravvivere a intensi flare termici e accecanti miraggi desertici.",
       "tier": "T2",
-      "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici.",
+      "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici."
+    },
+    "struttura_elastica_amorfa": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "struttura_elastica_amorfa": {
+      },
       "conflitti": [],
       "debolezza": "Vulnerabilità a danni da taglio o perforazione (difficile cauterizzazione).",
       "famiglia_tipologia": "Strutturale/Locomotorio",
@@ -10529,13 +10761,13 @@
       ],
       "spinta_selettiva": "Fuga rapida da predatori in spazi confinati.",
       "tier": "T1",
-      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Flessibilità estrema e capacità di assumere forme diverse."
     },
     "tattiche_di_branco": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Richiede formazione stabile; cala se la coesione precipita sotto il target.",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -10601,19 +10833,26 @@
           "roles": [
             "optional"
           ],
+          "species_id": "balor-fission",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "lupus-temperatus",
           "weight": 1
         }
       ],
       "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
       "tier": "T1",
-      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
     },
     "vello_condensatore_nebbie": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "In ambienti aridi accumula detriti che riducono la capacità di condensa.",
       "famiglia_tipologia": "Tegumentario/Idratazione",
@@ -10659,13 +10898,13 @@
       ],
       "spinta_selettiva": "Garantire idratazione in climi montani dove l'acqua liquida è scarsa ma la nebbia abbondante.",
       "tier": "T1",
-      "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo.",
+      "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo."
+    },
+    "ventriglio_gastroliti": {
       "completion_flags": {
         "has_biome": true,
         "has_species_link": true
-      }
-    },
-    "ventriglio_gastroliti": {
+      },
       "conflitti": [],
       "debolezza": "Usura e rottura del ventriglio se i gastroliti sono esauriti o troppo lisci.",
       "famiglia_tipologia": "Digestivo/Alimentare",
@@ -10746,13 +10985,13 @@
       ],
       "spinta_selettiva": "Dieta basata su semi, conchiglie o insetti corazzati.",
       "tier": "T1",
-      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Macinazione di cibo duro all'interno di un ventriglio."
     },
     "zampe_a_molla": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_species_link": true
+      },
       "conflitti": [],
       "debolezza": "Perdita di valore su mappe con spazi stretti o controllo setup elevato.",
       "famiglia_tipologia": "Mobilità/Cinetico",
@@ -10804,19 +11043,26 @@
           "roles": [
             "optional"
           ],
+          "species_id": "cryo-lynx",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
           "species_id": "sand-burrower",
           "weight": 1
         }
       ],
       "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
       "tier": "T1",
-      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno.",
-      "completion_flags": {
-        "has_biome": false,
-        "has_species_link": true
-      }
+      "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
     },
     "zoccoli_risonanti_steppe": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_species_link": true
+      },
       "conflitti": [
         "zampe_a_molla"
       ],
@@ -10864,22 +11110,18 @@
       ],
       "spinta_selettiva": "Mantenere coesione di branchi su grandi distanze e rilevare predatori sotterranei.",
       "tier": "T1",
-      "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_species_link": true
-      }
+      "uso_funzione": "Propaga segnali ritmici che sincronizzano movimenti e abilità di squadra."
     }
   },
   "types": {
     "difensivo": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "difensivo"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "ali_membrana_sonica",
@@ -10901,12 +11143,12 @@
     },
     "difesa": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "difesa"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "armatura_pietra_planare",
@@ -10916,12 +11158,12 @@
     },
     "digestivo": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "digestivo"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "filamenti_digestivi_compattanti",
@@ -10931,12 +11173,12 @@
     },
     "escretorio": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "escretorio"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "spore_psichiche_silenziate"
@@ -10945,12 +11187,12 @@
     },
     "idrostatico": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "idrostatico"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "sacche_galleggianti_ascensoriali"
@@ -10959,12 +11201,12 @@
     },
     "locomotorio": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "locomotorio"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "ali_ioniche",
@@ -10992,12 +11234,12 @@
     },
     "metabolico": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "metabolico"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "antenne_dustsense",
@@ -11020,12 +11262,12 @@
     },
     "nervoso": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "nervoso"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "sonno_emisferico_alternato"
@@ -11034,12 +11276,12 @@
     },
     "offensivo": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "offensivo"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "antenne_flusso_mareale",
@@ -11063,12 +11305,12 @@
     },
     "respiratorio": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "respiratorio"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "branchie_osmotiche_salmastra",
@@ -11081,12 +11323,12 @@
     },
     "riproduttivo": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "riproduttivo"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "nucleo_ovomotore_rotante"
@@ -11095,12 +11337,12 @@
     },
     "sensoriale": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "sensoriale"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "ali_fulminee",
@@ -11129,12 +11371,12 @@
     },
     "simbiotico": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "simbiotico"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "antenne_reagenti",
@@ -11161,12 +11403,12 @@
     },
     "strategia": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "strategia"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "antenne_microonde_cavernose",
@@ -11192,12 +11434,12 @@
     },
     "strutturale": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "strutturale"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "antenne_tesla",
@@ -11222,12 +11464,12 @@
     },
     "supporto": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "supporto"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "antenne_eco_turbina",
@@ -11251,12 +11493,12 @@
     },
     "tegumentario": {
       "query": {
-        "source": "data/traits/index.json",
         "filters": {
           "type": [
             "tegumentario"
           ]
-        }
+        },
+        "source": "data/traits/index.json"
       },
       "traits": [
         "mimetismo_cromatico_passivo",

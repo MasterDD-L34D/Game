@@ -529,6 +529,15 @@
       "weight": 1
     }
   ],
+  "campo_di_fase": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "golem-runico",
+      "weight": 1
+    }
+  ],
   "capillari_criogenici": [
     {
       "roles": [
@@ -628,6 +637,13 @@
       ],
       "species_id": "sand-burrower",
       "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "steppe-bison-mini",
+      "weight": 1
     }
   ],
   "carapace_luminiscente_abissale": [
@@ -690,6 +706,13 @@
         "optional"
       ],
       "species_id": "caverna-risonante-trait-keeper",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "resonant-claw-hunter",
       "weight": 1
     }
   ],
@@ -1031,7 +1054,21 @@
       "roles": [
         "optional"
       ],
+      "species_id": "balor-fission",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
       "species_id": "canopia-psionica-leggera-trait-keeper",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "cryo-lynx",
       "weight": 1
     },
     {
@@ -1253,6 +1290,20 @@
       "roles": [
         "optional"
       ],
+      "species_id": "resonant-claw-hunter",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "thaw-rot",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
       "species_id": "zephyr-spore-courier",
       "weight": 1
     }
@@ -1321,6 +1372,13 @@
         "optional"
       ],
       "species_id": "rakshasa-corte",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
       "weight": 1
     }
   ],
@@ -1419,6 +1477,13 @@
       ],
       "species_id": "rust-scavenger",
       "weight": 4
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "blight-micotico",
+      "weight": 1
     },
     {
       "roles": [
@@ -1538,17 +1603,34 @@
     },
     {
       "roles": [
-        "core"
+        "optional",
+        "synergy"
       ],
-      "species_id": "marilith-vault",
+      "species_id": "archon-solare",
       "weight": 3
     },
     {
       "roles": [
+        "optional",
         "synergy"
       ],
-      "species_id": "archon-solare",
-      "weight": 2
+      "species_id": "banshee-risonante",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "optional",
+        "synergy"
+      ],
+      "species_id": "couatl-aurora",
+      "weight": 3
+    },
+    {
+      "roles": [
+        "core"
+      ],
+      "species_id": "marilith-vault",
+      "weight": 3
     },
     {
       "roles": [
@@ -1559,17 +1641,31 @@
     },
     {
       "roles": [
-        "synergy"
+        "optional"
       ],
-      "species_id": "banshee-risonante",
-      "weight": 2
+      "species_id": "glowcap-weaver",
+      "weight": 1
     },
     {
       "roles": [
-        "synergy"
+        "optional"
       ],
-      "species_id": "couatl-aurora",
-      "weight": 2
+      "species_id": "lupus-temperatus",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "myco-spire-warden",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "rakshasa-corte",
+      "weight": 1
     },
     {
       "roles": [
@@ -1594,6 +1690,15 @@
         "optional"
       ],
       "species_id": "mangrovieto-cinetico-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "fotosintesi_bifase": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "treant-portale",
       "weight": 1
     }
   ],
@@ -1875,6 +1980,13 @@
       "roles": [
         "optional"
       ],
+      "species_id": "archon-solare",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
       "species_id": "bulette-fase",
       "weight": 1
     },
@@ -1957,6 +2069,13 @@
       "roles": [
         "optional"
       ],
+      "species_id": "aurora-bridge-runner",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
       "species_id": "blight-micotico",
       "weight": 1
     },
@@ -1979,6 +2098,27 @@
         "optional"
       ],
       "species_id": "ferrocolonia-magnetotattica",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "glowcap-weaver",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "resonant-claw-hunter",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "zephyr-spore-courier",
       "weight": 1
     }
   ],
@@ -2170,6 +2310,13 @@
       ],
       "species_id": "caverna-risonante-trait-keeper",
       "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "resonant-claw-hunter",
+      "weight": 1
     }
   ],
   "mimetismo_cromatico_passivo": [
@@ -2200,6 +2347,13 @@
       "roles": [
         "optional"
       ],
+      "species_id": "blight-micotico",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
       "species_id": "canopia-psionica-leggera-trait-keeper",
       "weight": 1
     },
@@ -2208,6 +2362,13 @@
         "optional"
       ],
       "species_id": "falde-magnetiche-psioniche-trait-keeper",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "resonant-claw-hunter",
       "weight": 1
     },
     {
@@ -2251,6 +2412,22 @@
         "optional"
       ],
       "species_id": "reti-micorriziche-trait-keeper",
+      "weight": 1
+    }
+  ],
+  "nodi_micotici": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "otyugh-sentinella",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "treant-portale",
       "weight": 1
     }
   ],
@@ -2316,7 +2493,49 @@
       "roles": [
         "optional"
       ],
+      "species_id": "aurora-bridge-runner",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "aurora-gull",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
       "species_id": "caverna-risonante-trait-keeper",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "couatl-aurora",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "lupus-temperatus",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "resonant-claw-hunter",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "zephyr-spore-courier",
       "weight": 1
     }
   ],
@@ -2654,6 +2873,15 @@
       "weight": 1
     }
   ],
+  "random": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "sentinella-radice",
+      "weight": 1
+    }
+  ],
   "respirazione_biologica": [
     {
       "roles": [
@@ -2815,20 +3043,39 @@
       "weight": 1
     }
   ],
+  "riflessi_preternaturali": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "marilith-vault",
+      "weight": 1
+    }
+  ],
+  "rinforzi_modulari": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "golem-runico",
+      "weight": 1
+    }
+  ],
   "risonanza_di_branco": [
+    {
+      "roles": [
+        "core",
+        "optional"
+      ],
+      "species_id": "banshee-risonante",
+      "weight": 4
+    },
     {
       "roles": [
         "optional",
         "synergy"
       ],
       "species_id": "archon-solare",
-      "weight": 3
-    },
-    {
-      "roles": [
-        "core"
-      ],
-      "species_id": "banshee-risonante",
       "weight": 3
     },
     {
@@ -2896,6 +3143,20 @@
       "roles": [
         "optional"
       ],
+      "species_id": "aurora-gull",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "bulette-fase",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
       "species_id": "canopia-psionica-leggera-trait-keeper",
       "weight": 1
     },
@@ -2911,6 +3172,13 @@
         "optional"
       ],
       "species_id": "orbita-psionica-inversa-trait-keeper",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "steppe-bison-mini",
       "weight": 1
     },
     {
@@ -3052,6 +3320,22 @@
       ],
       "species_id": "caverna-risonante-trait-keeper",
       "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "thaw-rot",
+      "weight": 1
+    }
+  ],
+  "secrezioni_antisepsi": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "otyugh-sentinella",
+      "weight": 1
     }
   ],
   "sensori_chimici": [
@@ -3102,6 +3386,15 @@
       "weight": 1
     }
   ],
+  "sinapsi_riflettenti": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "rakshasa-corte",
+      "weight": 1
+    }
+  ],
   "sonno_emisferico_alternato": [
     {
       "roles": [
@@ -3147,6 +3440,20 @@
         "optional"
       ],
       "species_id": "caverna-risonante-trait-keeper",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "myco-spire-warden",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "psionic-canopy-scout",
       "weight": 1
     },
     {
@@ -3254,11 +3561,25 @@
       "roles": [
         "optional"
       ],
+      "species_id": "balor-fission",
+      "weight": 1
+    },
+    {
+      "roles": [
+        "optional"
+      ],
       "species_id": "lupus-temperatus",
       "weight": 1
     }
   ],
   "tessuti_adattivi": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "marilith-vault",
+      "weight": 1
+    },
     {
       "roles": [
         "optional"
@@ -3333,6 +3654,13 @@
     }
   ],
   "zampe_a_molla": [
+    {
+      "roles": [
+        "optional"
+      ],
+      "species_id": "cryo-lynx",
+      "weight": 1
+    },
     {
       "roles": [
         "optional"
