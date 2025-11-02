@@ -2,6 +2,287 @@
   "schema_version": "2.0",
   "trait_glossary": "data/core/traits/glossary.json",
   "traits": {
+    "Invoker": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede concentrazione e difesa durante l'incanalamento.",
+      "famiglia_tipologia": "Strategico/Psionico",
+      "fattore_mantenimento_energetico": "Medio (Ciclico)",
+      "id": "Invoker",
+      "label": "Canalizzatore",
+      "mutazione_indotta": "Stabilisce glifi viventi che ruotano energia tramite il nucleo dell'unità.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "canalizzazione",
+        "core": "strategia"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Sostenere squadre psioniche nelle fasi più intense di incursioni planari.",
+      "tier": "T2",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Amplifica combo energetiche e rituali di rinforzo."
+    },
+    "Skirmisher": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Ridotta resistenza in ingaggi prolungati.",
+      "famiglia_tipologia": "Locomotorio/Predatorio",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "Skirmisher",
+      "label": "Incursore Rapido",
+      "mutazione_indotta": "Riprogramma fibre muscolari per sprint brevi ad alta accelerazione.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "assalto",
+        "core": "locomotorio"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Contenere bersagli mobili e sfruttare flanchi.",
+      "tier": "T1",
+      "usage_tags": [
+        "breaker"
+      ],
+      "uso_funzione": "Apre varchi rapidi nelle linee avversarie e si ritira prima della reazione."
+    },
+    "Strategist": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede telemetria costante; degrada in presenza di disturbi psionici prolungati.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "Strategist",
+      "label": "Stratega di Campo",
+      "mutazione_indotta": "Installa nodi decisionali ausiliari che calcolano traiettorie ottimali per l'intero plotone.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "coordinazione",
+        "core": "strategia"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Mantenere vantaggio decisionale su fronti dinamici con squilibri di numeri.",
+      "tier": "T1",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Dirige ingaggi multipli garantendo priorità condivise e gestione ordinata delle risorse."
+    },
+    "Support": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Vulnerabile a sovraccarichi se più unità critiche richiedono assistenza simultanea.",
+      "famiglia_tipologia": "Supporto/Coordinativo",
+      "fattore_mantenimento_energetico": "Medio (Ciclico)",
+      "id": "Support",
+      "label": "Supporto Primario",
+      "mutazione_indotta": "Integra sacche di distribuzione e nodi telemetrici per seguire lo stato alleato in tempo reale.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "logistica",
+        "core": "supporto"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Prolungare l'operatività delle squadre lontano da basi logistiche dedicate.",
+      "tier": "T1",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Stabilizza il team fornendo risorse rigenerate, cure leggere e compensazioni di morale."
+    },
+    "Vanguard": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Mobilità ridotta mentre le ancore sono estese.",
+      "famiglia_tipologia": "Supporto/Difesa",
+      "fattore_mantenimento_energetico": "Medio (Continuo)",
+      "id": "Vanguard",
+      "label": "Avanguardia Rinforzata",
+      "mutazione_indotta": "Addensa carapaci frontali e spine di stabilizzazione.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "difesa",
+        "core": "supporto"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Stabilizzare linee di combattimento contro assalti pesanti.",
+      "tier": "T1",
+      "usage_tags": [
+        "tank"
+      ],
+      "uso_funzione": "Tiene posizione e protegge assetti fragili durante l'ingaggio iniziale."
+    },
+    "Warden": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede costante consapevolezza situazionale e canali di comando puliti.",
+      "famiglia_tipologia": "Supporto/Difesa",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "Warden",
+      "label": "Custode Difensivo",
+      "mutazione_indotta": "Integra glifi difensivi che redistribuiscono danni.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "controllo",
+        "core": "supporto"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Creare zone sicure in campagne prolungate.",
+      "tier": "T1",
+      "usage_tags": [
+        "tank"
+      ],
+      "uso_funzione": "Protegge linee arretrate e convoglia minacce su traiettorie previste."
+    },
+    "adattamento_volo": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Sensibile a shock sonici che alterano la pressione interna delle camere.",
+      "famiglia_tipologia": "Locomotorio/Adattivo",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "adattamento_volo",
+      "label": "Adattamento al Volo",
+      "mutazione_indotta": "Ristruttura fasci muscolari e sacche pneumatiche per ottimizzare rollio e planata prolungata.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilità",
+        "core": "locomotorio"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "archon-solare",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "balor-fission",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "couatl-aurora",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Garantire copertura aerea persistente su regioni con venti multidirezionali.",
+      "tier": "T1",
+      "usage_tags": [
+        "scout"
+      ],
+      "uso_funzione": "Consente volo continuo anche in correnti erratiche e durante transizioni gravitazionali."
+    },
     "ali_fulminee": {
       "label": "Ali Fulminee",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -121,6 +402,57 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "ali_solari_fotoni": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Perde efficienza in ombra persistente o durante tempeste di cenere.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ali_solari_fotoni",
+      "label": "Ali Solari a Fotoni",
+      "mutazione_indotta": "Genera membrane cristalline che immagazzinano fotoni e rilasciano microspinte direzionali.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "energia",
+        "core": "locomotorio"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "archon-solare",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "couatl-aurora",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Ridurre il fabbisogno energetico delle unità volanti su rotte lunghe.",
+      "tier": "T1",
+      "usage_tags": [
+        "scout"
+      ],
+      "uso_funzione": "Fornisce accelerazioni gratuite durante pattugliamenti diurni o orbitali."
     },
     "antenne_dustsense": {
       "label": "Antenne Dustsense",
@@ -572,6 +904,42 @@
         "tabelle_random": []
       }
     },
+    "architetto": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Necessita riserva materica dedicata; rallenta se le scorte crollano.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "architetto",
+      "label": "Nodo Architetto",
+      "mutazione_indotta": "Sviluppa sinapsi geometriche che tracciano ancoraggi e blueprint modulari.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "ingegneria",
+        "core": "supporto"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Stabilizzare avamposti improvvisati in territori instabili.",
+      "tier": "T1",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Coordina costruzioni rapide, ponti provvisori e riparazioni sincronizzate."
+    },
     "armatura_pietra_planare": {
       "label": "Armatura di Pietra Planare",
       "famiglia_tipologia": "Difesa/Strutturale",
@@ -694,6 +1062,50 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "artigli_psionici": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Assorbe molta concentrazione; vulnerabile a interferenze antimagia.",
+      "famiglia_tipologia": "Offensivo/Assalto",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "artigli_psionici",
+      "label": "Artigli Psionici",
+      "mutazione_indotta": "Canalizza creste neuroconduttive che formano lame psioniche a geometria variabile.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "psionico",
+        "core": "offensivo"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "rakshasa-corte",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Conferire ad assetti leggeri capacità d'assalto contro bersagli schermati.",
+      "tier": "T2",
+      "usage_tags": [
+        "breaker"
+      ],
+      "uso_funzione": "Taglia armature leggere e disarma avversari concentrando colpi telecinetici."
     },
     "artigli_radice": {
       "label": "Artigli Radice",
@@ -912,6 +1324,57 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "assenza_respirazione": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede spurghi frequenti per evitare accumulo di sottoprodotti metabolici.",
+      "famiglia_tipologia": "Respiratorio/Protezione",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "assenza_respirazione",
+      "label": "Assenza di Respirazione",
+      "mutazione_indotta": "Sigilla alveoli e inserisce camere catalitiche per riciclare gas metabolici.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "respiratorio"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "golem-runico",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Garantire continuità operativa in camere sigillate, vacuum o piani corrosivi.",
+      "tier": "T1",
+      "usage_tags": [
+        "tank"
+      ],
+      "uso_funzione": "Permette operazioni in ambienti privi di aria o saturi di agenti tossici."
     },
     "aura_scudo_radianza": {
       "label": "Aura Scudo di Radianza",
@@ -1735,6 +2198,42 @@
         "tabelle_random": []
       }
     },
+    "campo_di_fase": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Genera risonanze collaterali che possono interferire con apparati sensoriali alleati.",
+      "famiglia_tipologia": "Strategico/Psionico",
+      "fattore_mantenimento_energetico": "Alto (Continuo)",
+      "id": "campo_di_fase",
+      "label": "Campo di Fase",
+      "mutazione_indotta": "Stabilisce matrici cristalline che modulano frequenze di fase sui tessuti.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "psionico",
+        "core": "strategia"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Consentire manovre evasive decisive contro artiglieria o trappole planari.",
+      "tier": "T2",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Offre invulnerabilità breve o passaggio attraverso coperture non line-of-sight."
+    },
     "capillari_criogenici": {
       "label": "Capillari Criogenici",
       "famiglia_tipologia": "Strutturale/Adattivo",
@@ -2485,6 +2984,150 @@
         "tabelle_random": []
       }
     },
+    "ciclo_vitale_anomalo": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Difficile sincronizzare con programmi di allevamento o catene logistiche standard.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ciclo_vitale_anomalo",
+      "label": "Ciclo Vitale Anomalo",
+      "mutazione_indotta": "Ristruttura organi germinali per riattivarsi su cicli imprevedibili.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "resilienza",
+        "core": "supporto"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "golem-runico",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Garantire persistenza di specie sintetiche o planari in ecosistemi ostili.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Mantiene popolazioni attive anche dopo perdite massicce tramite scissioni rigenerative."
+    },
+    "ciclo_vitale_completo": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Prevedibilità elevata che può essere sfruttata da predatori intelligenti.",
+      "famiglia_tipologia": "Supporto/Logistico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ciclo_vitale_completo",
+      "label": "Ciclo Vitale Completo",
+      "mutazione_indotta": "Affina ghiandole endocrine e pattern epigenetici per mantenere cicli regolari.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "riproduttivo",
+        "core": "supporto"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "archon-solare",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "balor-fission",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "bulette-fase",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "couatl-aurora",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "marilith-vault",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "otyugh-sentinella",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "rakshasa-corte",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "treant-portale",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Massimizzare rendimento riproduttivo in ambienti regolati.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Facilita allevamento e rotazioni pianificate nelle colonie adattive."
+    },
     "circolazione_bifasica": {
       "label": "Circolazione Bifasica",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -3203,6 +3846,50 @@
         "tabelle_random": []
       }
     },
+    "corteccia_memetica": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Suscettibile a sovraccarichi memetici se esposto a segnali ostili.",
+      "famiglia_tipologia": "Sensoriale/Nervoso",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "corteccia_memetica",
+      "label": "Corteccia Memetica",
+      "mutazione_indotta": "Integra dendriti cristallini che replicano rapidamente schemi imparati.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "memetica",
+        "core": "sensoriale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "treant-portale",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Ridurre tempi di addestramento per squadre miste e neoformate.",
+      "tier": "T2",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Condivide schemi di combattimento e soluzioni ambientali in tempo reale."
+    },
     "criostasi_adattiva": {
       "label": "Criostasi",
       "famiglia_tipologia": "Metabolico/Difensivo",
@@ -3737,6 +4424,50 @@
         "tabelle_random": []
       }
     },
+    "eco_sismico": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Rumore meccanico continuo può saturare i recettori.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "eco_sismico",
+      "label": "Eco Sismico",
+      "mutazione_indotta": "Forma camere ossee e filamenti sensibili a microfratture e onde elastiche.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "geofonia",
+        "core": "sensoriale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Garantire sicurezza in biomi instabili o in città sotterranee.",
+      "tier": "T1",
+      "usage_tags": [
+        "scout"
+      ],
+      "uso_funzione": "Anticipa frane, movimenti sotterranei e intrusioni mimetizzate."
+    },
     "empatia_coordinativa": {
       "label": "Empatia Coordinativa",
       "famiglia_tipologia": "Supporto/Empatico",
@@ -4234,6 +4965,50 @@
         "tabelle_random": []
       }
     },
+    "filtri_bioattivi": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Rallenta la digestione in assenza di sostanze da metabolizzare.",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Medio (Ciclico)",
+      "id": "filtri_bioattivi",
+      "label": "Filtri Bioattivi",
+      "mutazione_indotta": "Introduce microcolonie simbionti che degradano agenti chimici in catene nutrienti.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "detox",
+        "core": "metabolico"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "otyugh-sentinella",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Espandere la gamma alimentare in territori compromessi.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Permette ingestione sicura di biomi contaminati e risorse marginali."
+    },
     "filtri_planctonici": {
       "label": "Filtri Planctonici",
       "famiglia_tipologia": "Tegumentario/Difensivo",
@@ -4273,6 +5048,50 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "fisiologia_predatoria": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede apporto calorico elevato per mantenere performance.",
+      "famiglia_tipologia": "Locomotorio/Predatorio",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "fisiologia_predatoria",
+      "label": "Fisiologia Predatoria",
+      "mutazione_indotta": "Potenzia fibre muscolari e dentizione per impatti rapidi e trattenimento.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "predazione",
+        "core": "offensivo"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "bulette-fase",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Dominare catene alimentari dinamiche e contenere infestazioni aggressive.",
+      "tier": "T1",
+      "usage_tags": [
+        "breaker"
+      ],
+      "uso_funzione": "Eleva l'efficacia offensiva contro bersagli mobili o evasivi."
     },
     "flagelli_ancoranti": {
       "label": "Flagelli Ancoranti",
@@ -4447,6 +5266,42 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "fotosintesi_bifase": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Sensibile a blackout prolungati o cieli oscurati.",
+      "famiglia_tipologia": "Metabolico/Resilienza",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "fotosintesi_bifase",
+      "label": "Fotosintesi Bifase",
+      "mutazione_indotta": "Introduce lamelle pigmentate che cambiano configurazione tra fase diurna e notturna.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "energia",
+        "core": "metabolico"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Stabilizzare colonie vegetali o fotosensibili in cicli lunghi irregolari.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Mantiene produzione energetica senza dipendere da fonti esterne continuative."
     },
     "frusta_fiammeggiante": {
       "label": "Frusta Fiammeggiante",
@@ -5003,6 +5858,50 @@
         "tabelle_random": []
       }
     },
+    "ghiandole_nettare_memetico": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Può attrarre parassiti memetici se non schermato.",
+      "famiglia_tipologia": "Supporto/Empatico",
+      "fattore_mantenimento_energetico": "Medio (Ciclico)",
+      "id": "ghiandole_nettare_memetico",
+      "label": "Ghiandole di Nettare Memetico",
+      "mutazione_indotta": "Coltiva sacche ghiandolari che diffondono feromoni memetici con pattern coordinativi.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cooperazione",
+        "core": "supporto"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "couatl-aurora",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Ridurre caos operativo in battaglie multi-nodo.",
+      "tier": "T2",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Aumenta coesione di squadra e velocità di risposta degli sciami collegati."
+    },
     "ghiandole_resina_conduttiva": {
       "label": "Ghiandole Resina Conduttiva",
       "famiglia_tipologia": "Sensoriale/Analitico",
@@ -5230,6 +6129,50 @@
         "tabelle_random": []
       }
     },
+    "intangibilita_parziale": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Fatica a mantenersi attivo sotto fuoco concentrato o campi antimagia.",
+      "famiglia_tipologia": "Strategico/Psionico",
+      "fattore_mantenimento_energetico": "Alto (Continuo)",
+      "id": "intangibilita_parziale",
+      "label": "Intangibilità Parziale",
+      "mutazione_indotta": "Installa nodi quantici che modulano densità atomica per pochi istanti.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "evasione",
+        "core": "strategia"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Sbloccare percorsi impraticabili e sfuggire a crowd control.",
+      "tier": "T2",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Permette attraversamento di barriere, trappole e catene di contenimento."
+    },
     "lamelle_shear": {
       "label": "Lamelle Shear",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -5349,6 +6292,50 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "lamenti_diradanti": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Efficacia ridotta contro unità sorde o schermate.",
+      "famiglia_tipologia": "Sensoriale/Supporto",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "lamenti_diradanti",
+      "label": "Lamenti Diradanti",
+      "mutazione_indotta": "Sviluppa corde vocali multiple che modulano frequenze dissonanti.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "psicoacustica",
+        "core": "sensoriale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Contenere assalti di massa e agevolare disperdimento di branchi planari.",
+      "tier": "T2",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Riduce precisione e morale dei bersagli nell'area d'effetto."
     },
     "lamine_filtranti_aeree": {
       "label": "Lamine Filtranti Aeree",
@@ -5712,6 +6699,94 @@
         "tabelle_random": []
       }
     },
+    "maschera_illusoria": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Fragile contro sensori multispettrali avanzati.",
+      "famiglia_tipologia": "Strategico/Tattico",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "maschera_illusoria",
+      "label": "Maschera Illusoria",
+      "mutazione_indotta": "Genera organi olografici che rifrangono segnali in output scelti.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mimetismo",
+        "core": "strategia"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "rakshasa-corte",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Confondere targeting automatico e ritardare rilevamento.",
+      "tier": "T1",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Occulta assetti prioritari o li presenta come obiettivi minori."
+    },
+    "matrice_antimagia": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Surriscaldamento se l'esposizione è prolungata senza dissipazione.",
+      "famiglia_tipologia": "Strategico/Psionico",
+      "fattore_mantenimento_energetico": "Alto (Continuo)",
+      "id": "matrice_antimagia",
+      "label": "Matrice Antimagia",
+      "mutazione_indotta": "Integra nodi parafulmine e cristalli paraeterei nel tegumento.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "strategia"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "golem-runico",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Neutralizzare minacce magiche in scenari ad alta densità psionica.",
+      "tier": "T2",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Spezza incantesimi ostili, annulla campi di controllo e protegge assetti tecnologici."
+    },
     "membrane_captura_rugiada": {
       "label": "Membrane Captura Rugiada",
       "famiglia_tipologia": "Strategico/Tattico",
@@ -5790,6 +6865,50 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "membrane_osmotiche": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede cicli di purga regolari per evitare saturazione.",
+      "famiglia_tipologia": "Respiratorio/Osmoregolazione",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "membrane_osmotiche",
+      "label": "Membrane Osmotiche",
+      "mutazione_indotta": "Aggiunge microcanali adattivi che bilanciano gradienti salini.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "omeostasi",
+        "core": "respiratorio"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "otyugh-sentinella",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Garantire equilibrio idrico per assetti anfibi o planari.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Permette sopravvivenza prolungata in acque salmastre o deserti ionici."
     },
     "membrane_planata_vectored": {
       "label": "Membrane Planata Vectored",
@@ -5870,6 +6989,150 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "metabolismo_attivo": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Consumo calorico elevato che impone rifornimenti frequenti.",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Medio (Continuo)",
+      "id": "metabolismo_attivo",
+      "label": "Metabolismo Attivo",
+      "mutazione_indotta": "Amplifica mitocondri e flussi enzimatici per sprigionare energia immediata.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "energia",
+        "core": "metabolico"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "archon-solare",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "balor-fission",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "bulette-fase",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "couatl-aurora",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "marilith-vault",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "otyugh-sentinella",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "rakshasa-corte",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "treant-portale",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Potenziare unità che necessitano output costante e recupero accelerato.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Supporta sforzi intensi e rigenerazione rapida durante campagne estese."
+    },
+    "metabolismo_sostentato": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Output esplosivo limitato rispetto ai profili attivi.",
+      "famiglia_tipologia": "Digestivo/Metabolico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "metabolismo_sostentato",
+      "label": "Metabolismo Sostentato",
+      "mutazione_indotta": "Riprogramma cicli catabolici per recuperare ogni caloria disponibile.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "risparmio",
+        "core": "metabolico"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "golem-runico",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Mantenere operativi esploratori e costrutti in ambienti poveri di nutrienti.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Permette sopravvivenza prolungata senza rifornimenti o durante letarghi tattici."
     },
     "midollo_antivibrazione": {
       "label": "Midollo Antivibrazione",
@@ -6167,6 +7430,86 @@
         "tabelle_random": []
       }
     },
+    "nodi_micotici": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Vulnerabile a agenti antifungini mirati.",
+      "famiglia_tipologia": "Simbiotico/Supporto",
+      "fattore_mantenimento_energetico": "Medio (Ciclico)",
+      "id": "nodi_micotici",
+      "label": "Nodi Micotici",
+      "mutazione_indotta": "Coltiva rizomi sensibili che formano hub di comunicazione sotterranei.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "simbiosi",
+        "core": "supporto"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Stabilizzare difese statiche e colonie radicate.",
+      "tier": "T2",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Fornisce backup energetico e sincronizzazione di stato agli alleati connessi."
+    },
+    "nuclei_di_controllo": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Punto singolo d'insuccesso se neutralizzato.",
+      "famiglia_tipologia": "Strategico/Psionico",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "nuclei_di_controllo",
+      "label": "Nuclei di Controllo",
+      "mutazione_indotta": "Integra nuclei gangliari corazzati con capacità broadcast a lungo raggio.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "comando",
+        "core": "strategia"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "golem-runico",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Aumentare coesione di reti comandate da remoto.",
+      "tier": "T2",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Gestisce droni, appendici autonome e reparti subordinati."
+    },
     "nucleo_ovomotore_rotante": {
       "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
       "famiglia_tipologia": "Riproduttivo/Locomotorio",
@@ -6295,6 +7638,57 @@
         "tabelle_random": []
       }
     },
+    "origine_artificiale": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Dipende da ricambi o blueprint specifici.",
+      "famiglia_tipologia": "Strutturale/Omeostatico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "origine_artificiale",
+      "label": "Origine Artificiale",
+      "mutazione_indotta": "Installa matrici di auto-diagnosi e punti di montaggio standardizzati.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "ingegneria",
+        "core": "supporto"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "golem-runico",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Rendere replicabili gli assetti costruiti in laboratorio.",
+      "tier": "T1",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Facilita riparazioni rapide e riprogrammazione modulare."
+    },
     "pathfinder": {
       "label": "Pathfinder",
       "famiglia_tipologia": "Esplorazione/Tattico",
@@ -6326,6 +7720,188 @@
         ],
         "tabelle_random": []
       }
+    },
+    "pelli_anti_ustione": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Riduce elasticità cutanea se disidratato.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "pelli_anti_ustione",
+      "label": "Pelli Anti Ustione",
+      "mutazione_indotta": "Deposita scaglie silicatiche e fluidi anti-piretici negli strati superficiali.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "termico",
+        "core": "tegumentario"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "species_id": "evento-tempesta-ferrosa",
+          "weight": 4
+        }
+      ],
+      "spinta_selettiva": "Consentire presenza prolungata in deserti ionici e fonderie planari.",
+      "tier": "T1",
+      "usage_tags": [
+        "tank"
+      ],
+      "uso_funzione": "Protegge da ustioni, plasma e scariche termiche improvvise."
+    },
+    "pelli_cave": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Ingombro aggiuntivo che rallenta in ambienti saturi d'acqua.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "pelli_cave",
+      "label": "Pelli Cave",
+      "mutazione_indotta": "Forma alveoli dermici che catturano aria calda o fredda a seconda del gradiente.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "termico",
+        "core": "tegumentario"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "cactus-weaver",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-brinastorm",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-ondata-termica",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "global-trait-keeper",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "noctule-termico",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "silica-bloom",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "thermo-raptor",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Ridurre shock termici durante spostamenti rapidi tra biomi.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Stabilizza temperatura in climi continentali estremi."
+    },
+    "pelli_fitte": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Peso extra che limita movimenti rapidi.",
+      "famiglia_tipologia": "Tegumentario/Difensivo",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "pelli_fitte",
+      "label": "Pelli Fitte",
+      "mutazione_indotta": "Addensa fibre collagene e microplacche cheratiniche.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "tegumentario"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-seme-uragano",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "global-trait-keeper",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Rendere le linee frontali più resistenti senza sacrificare mobilità di base.",
+      "tier": "T1",
+      "usage_tags": [
+        "tank"
+      ],
+      "uso_funzione": "Riduce penetrazione di proiettili leggeri e dissipa impatti blandi."
     },
     "pianificatore": {
       "label": "Pianificatore",
@@ -6379,6 +7955,144 @@
         ],
         "tabelle_random": []
       }
+    },
+    "pigmenti_aurorali": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Può rendere visibili in scenari stealth.",
+      "famiglia_tipologia": "Tegumentario/Energetico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "pigmenti_aurorali",
+      "label": "Pigmenti Aurorali",
+      "mutazione_indotta": "Distribuisce cristalli fotoreattivi sotto la pelle.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "luminescenza",
+        "core": "tegumentario"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "cactus-weaver",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-brinastorm",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-ondata-termica",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "global-trait-keeper",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "noctule-termico",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "silica-bloom",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "thermo-raptor",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "treant-portale",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Coordinare movimenti in tempeste magnetiche e notti polari.",
+      "tier": "T1",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Aiuta a disperdere gelo e funge da comunicazione ottica in tundre oscure."
+    },
+    "pigmenti_termici": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede cicli di scarico per non accumulare eccesso.",
+      "famiglia_tipologia": "Tegumentario/Energetico",
+      "fattore_mantenimento_energetico": "Medio (Ciclico)",
+      "id": "pigmenti_termici",
+      "label": "Pigmenti Termici",
+      "mutazione_indotta": "Integra melanofori specializzati che modulano conduzione termica.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "termico",
+        "core": "tegumentario"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core",
+            "optional"
+          ],
+          "species_id": "evento-tempesta-ferrosa",
+          "weight": 4
+        }
+      ],
+      "spinta_selettiva": "Evitare colpi di calore e gestire improvvisi gradienti termici.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Regola sforzi in deserti ionici o camere vulcaniche."
     },
     "piume_solari_fotovoltaiche": {
       "label": "Piume Solari Fotovoltaiche",
@@ -6461,6 +8175,180 @@
         "tabelle_random": []
       }
     },
+    "proboscide_polifaga": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede igiene costante per prevenire infezioni crociate.",
+      "famiglia_tipologia": "Digestivo/Alimentare",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "proboscide_polifaga",
+      "label": "Proboscide Polifaga",
+      "mutazione_indotta": "Crea canali telescopici con denticoli intercambiabili e ghiandole solventi.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "raccolta",
+        "core": "digestivo"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "otyugh-sentinella",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Espandere dieta delle unità planarie adattabili.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Permette nutrimento versatile e raccolta risorse in biomi poveri."
+    },
+    "proteine_shock_termico": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Efficienza ridotta in ambienti criogenici senza co-tratti dedicati.",
+      "famiglia_tipologia": "Metabolico/Resilienza",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "proteine_shock_termico",
+      "label": "Proteine Shock Termico",
+      "mutazione_indotta": "Amplifica espressione di chaperon molecolari e sistemi di riparazione rapida.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "protezione",
+        "core": "metabolico"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "cactus-weaver",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-brinastorm",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-ondata-termica",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "global-trait-keeper",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "noctule-termico",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "silica-bloom",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "thermo-raptor",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Consentire operazioni in deserti e camere vulcaniche.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Impedisce denaturazione enzimatica in shock termici improvvisi."
+    },
+    "radici_ancora_planare": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Difficile da rimuovere rapidamente senza danni.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "radici_ancora_planare",
+      "label": "Radici Ancora Planare",
+      "mutazione_indotta": "Fa crescere radici cristalline che si agganciano a frattali rocciosi.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "ancoraggio",
+        "core": "strutturale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "treant-portale",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Stabilizzare infrastrutture mobili e punti di evacuazione.",
+      "tier": "T2",
+      "usage_tags": [
+        "tank"
+      ],
+      "uso_funzione": "Impedisce trascinamento da tempeste planari e crea nodi energetici stabili."
+    },
     "random": {
       "label": "Trait Random",
       "famiglia_tipologia": "Flessibile/Generico",
@@ -6493,6 +8381,99 @@
         ],
         "tabelle_random": []
       }
+    },
+    "respirazione_biologica": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Dipendenza da atmosfere respirabili.",
+      "famiglia_tipologia": "Respiratorio/Aerobico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "respirazione_biologica",
+      "label": "Respirazione Biologica",
+      "mutazione_indotta": "Ottimizza alveoli e rete capillare per massimizzare assorbimento di ossigeno.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "ossigeno",
+        "core": "respiratorio"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "archon-solare",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "balor-fission",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "bulette-fase",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "couatl-aurora",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "marilith-vault",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "otyugh-sentinella",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "rakshasa-corte",
+          "weight": 3
+        },
+        {
+          "roles": [
+            "core"
+          ],
+          "species_id": "treant-portale",
+          "weight": 3
+        }
+      ],
+      "spinta_selettiva": "Aumentare resistenza delle unità organiche convenzionali.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Supporta sforzi prolungati in atmosfere standard."
     },
     "respiro_a_scoppio": {
       "label": "Respiro a scoppio",
@@ -6532,6 +8513,171 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "reti_capillari_radici": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Rotture della rete possono causare shock sistemici.",
+      "famiglia_tipologia": "Strutturale/Omeostatico",
+      "fattore_mantenimento_energetico": "Medio (Ciclico)",
+      "id": "reti_capillari_radici",
+      "label": "Reti Capillari Radici",
+      "mutazione_indotta": "Crea capillari lignificati che collegano nodi periferici.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "nutrizione",
+        "core": "strutturale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "cactus-weaver",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-brinastorm",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "evento-ondata-termica",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "global-trait-keeper",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "noctule-termico",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "silica-bloom",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "thermo-raptor",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "treant-portale",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Sostenere megaflora e colonie interconnesse.",
+      "tier": "T2",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Bilancia idratazione e risorse tra esemplari distanti."
+    },
+    "riflessi_preternaturali": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Affatica il sistema nervoso se mantenuto troppo a lungo.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Alto (Continuo)",
+      "id": "riflessi_preternaturali",
+      "label": "Riflessi Preternaturali",
+      "mutazione_indotta": "Aggiunge sinapsi a doppio stadio e buffer neurochimici.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "reazione",
+        "core": "sensoriale"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Superare predatori rapidi o automatismi letali.",
+      "tier": "T2",
+      "usage_tags": [
+        "scout"
+      ],
+      "uso_funzione": "Consente schivate fulminee e contromisure immediate."
+    },
+    "rinforzi_modulari": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede manutenzione costante delle connessioni.",
+      "famiglia_tipologia": "Strutturale/Difensivo",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "rinforzi_modulari",
+      "label": "Rinforzi Modulari",
+      "mutazione_indotta": "Installa giunti magnetici che rilasciano moduli sacrificabili.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "armatura",
+        "core": "strutturale"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Prolungare integrità di strutture e bestie da assedio.",
+      "tier": "T2",
+      "usage_tags": [
+        "tank"
+      ],
+      "uso_funzione": "Distribuisce danni e protegge componenti vitali durante assedi."
     },
     "risonanza_di_branco": {
       "label": "Risonanza di Branco",
@@ -6830,6 +8976,86 @@
         "tabelle_random": []
       }
     },
+    "secrezioni_antisepsi": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Può interferire con simbionti benefici se abusato.",
+      "famiglia_tipologia": "Digestivo/Escretorio",
+      "fattore_mantenimento_energetico": "Medio (Ciclico)",
+      "id": "secrezioni_antisepsi",
+      "label": "Secrezioni Antisepsi",
+      "mutazione_indotta": "Potenzia ghiandole escretorie con cocktail enzimatici disinfettanti.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "cura",
+        "core": "digestivo"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Mantenere linee operative in ambienti contaminati.",
+      "tier": "T1",
+      "usage_tags": [
+        "sustain"
+      ],
+      "uso_funzione": "Disinfetta compagni feriti e riduce tempi di recupero."
+    },
+    "sensori_chimici": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Saturazione olfattiva può richiedere reset prolungato.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "sensori_chimici",
+      "label": "Sensori Chimici",
+      "mutazione_indotta": "Crea papille multifilari e camere olfattive potenziate.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "chimica",
+        "core": "sensoriale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "otyugh-sentinella",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Assicurare consapevolezza ambientale in regioni toxiche.",
+      "tier": "T1",
+      "usage_tags": [
+        "scout"
+      ],
+      "uso_funzione": "Identifica veleni, prede e tracce invisibili."
+    },
     "sensori_geomagnetici": {
       "label": "Sensori Geomagnetici",
       "famiglia_tipologia": "Sensoriale/Navigazione",
@@ -6923,6 +9149,78 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "sinapsi_riflettenti": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Può creare dipendenza da pattern preimpostati.",
+      "famiglia_tipologia": "Sensoriale/Nervoso",
+      "fattore_mantenimento_energetico": "Medio (Continuo)",
+      "id": "sinapsi_riflettenti",
+      "label": "Sinapsi Riflettenti",
+      "mutazione_indotta": "Integra specchi sinaptici che ricalcano impulsi ottimali.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "memoria",
+        "core": "sensoriale"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Velocizzare addestramento di unità d'élite.",
+      "tier": "T2",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Riduce errori motori e migliora coordinazione con compagni."
+    },
+    "sinergizzatore_team": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Caduta drastica di resa se i ruoli previsti mancano.",
+      "famiglia_tipologia": "Supporto/Coordinativo",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "sinergizzatore_team",
+      "label": "Sinergizzatore di Team",
+      "mutazione_indotta": "Installa relè neurali che sincronizzano potenziamenti e cooldown condivisi.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "sinergia",
+        "core": "supporto"
+      },
+      "species_affinity": [],
+      "spinta_selettiva": "Massimizzare output di squadre composite.",
+      "tier": "T2",
+      "usage_tags": [
+        "support"
+      ],
+      "uso_funzione": "Aumenta efficacia delle abilità combinate e delle catene di ruolo."
     },
     "sonno_emisferico_alternato": {
       "label": "Dormire con solo metà cervello alla volta",
@@ -7158,6 +9456,50 @@
         "tabelle_random": []
       }
     },
+    "tessuti_adattivi": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Rallenta se sottoposto a stress costante senza riposo.",
+      "famiglia_tipologia": "Strutturale/Adattivo",
+      "fattore_mantenimento_energetico": "Medio (Continuo)",
+      "id": "tessuti_adattivi",
+      "label": "Tessuti Adattivi",
+      "mutazione_indotta": "Sviluppa fibre viscoelastiche con risposta controllata.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "adattamento",
+        "core": "strutturale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "rakshasa-corte",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Adattarsi a pressioni variabili e combattimenti multi-terreno.",
+      "tier": "T2",
+      "usage_tags": [
+        "tank"
+      ],
+      "uso_funzione": "Permette alternanza rapida tra postura difensiva e sprint improvvisi."
+    },
     "vello_condensatore_nebbie": {
       "label": "Vello Condensatore di Nebbie",
       "famiglia_tipologia": "Tegumentario/Idratazione",
@@ -7246,6 +9588,101 @@
         "forme": [],
         "tabelle_random": []
       }
+    },
+    "visione_spettrale": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Abbagliamento nelle esplosioni fotoniche improvvise.",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Medio (Continuo)",
+      "id": "visione_spettrale",
+      "label": "Visione Spettrale",
+      "mutazione_indotta": "Aggiunge lenti multifase e filtri psionici alle unità ottiche.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "ricognizione",
+        "core": "sensoriale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "archon-solare",
+          "weight": 1
+        },
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "marilith-vault",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Garantire copertura sensoriale totale in ambienti oscurati.",
+      "tier": "T1",
+      "usage_tags": [
+        "scout"
+      ],
+      "uso_funzione": "Scova minacce occultate da camuffamenti energetici o oscurità."
+    },
+    "voce_spettrale": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Può attirare creature sensibili al suono se non schermato.",
+      "famiglia_tipologia": "Sensoriale/Supporto",
+      "fattore_mantenimento_energetico": "Medio (Attivo)",
+      "id": "voce_spettrale",
+      "label": "Voce Spettrale",
+      "mutazione_indotta": "Configura corde vocali a risonanza variabile che modulano segnali armonici.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 0,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "comunicazione",
+        "core": "supporto"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "banshee-risonante",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Mantenere controllo tattico in labirinti e dimensioni sovrapposte.",
+      "tier": "T1",
+      "usage_tags": [
+        "controller"
+      ],
+      "uso_funzione": "Coordina squadre separate, disorienta nemici e amplifica comandi psionici."
     },
     "zampe_a_molla": {
       "label": "Zampe a Molla",
