@@ -12,6 +12,12 @@
         <span>{{ t('views.consoleHub.grid.flow.cta') }}</span>
       </RouterLink>
 
+      <RouterLink class="console-hub__card" :to="{ name: 'console-hud-smart-alerts' }">
+        <h2>{{ t('views.consoleHub.grid.hud.title') }}</h2>
+        <p>{{ t('views.consoleHub.grid.hud.description') }}</p>
+        <span>{{ t('views.consoleHub.grid.hud.cta') }}</span>
+      </RouterLink>
+
       <RouterLink class="console-hub__card" :to="{ name: 'console-traits-editor' }">
         <h2>{{ t('views.consoleHub.grid.traits.title') }}</h2>
         <p>{{ t('views.consoleHub.grid.traits.description') }}</p>
@@ -89,7 +95,9 @@ const { t } = useI18n();
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
   color: inherit;
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .console-hub__card h2 {

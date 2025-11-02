@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2025-11-12T18:42:10Z",
+  "alerts": [
+    {
+      "alertId": "risk-high:skydock_siege_tier3_retest",
+      "missionId": "skydock_siege_tier3_retest",
+      "missionTag": "delta",
+      "status": "raised",
+      "turn": 11,
+      "weightedIndex": 0.62,
+      "timeLowHpTurns": 3,
+      "timestamp": "2025-11-05T10:11:42Z"
+    },
+    {
+      "alertId": "risk-high:skydock_siege_tier3_retest",
+      "missionId": "skydock_siege_tier3_retest",
+      "missionTag": "delta",
+      "status": "acknowledged",
+      "turn": 12,
+      "weightedIndex": 0.6,
+      "timeLowHpTurns": 3,
+      "timestamp": "2025-11-05T10:12:07Z",
+      "ackRecipients": ["HUD", "pi.balance.alerts"]
+    },
+    {
+      "alertId": "risk-high:skydock_siege_tier3_retest",
+      "missionId": "skydock_siege_tier3_retest",
+      "missionTag": "delta",
+      "status": "cleared",
+      "turn": 13,
+      "weightedIndex": 0.57,
+      "timeLowHpTurns": 2,
+      "timestamp": "2025-11-05T10:13:31Z",
+      "ackRecipients": ["HUD", "pi.balance.alerts"]
+    },
+    {
+      "alertId": "risk-high:skydock_siege_tier3_coop",
+      "missionId": "skydock_siege_tier3_coop",
+      "missionTag": "echo",
+      "status": "filtered",
+      "turn": 9,
+      "weightedIndex": 0.55,
+      "timeLowHpTurns": 1,
+      "timestamp": "2025-11-05T11:04:58Z",
+      "filterName": "stabilizerWindow"
+    }
+  ],
+  "metrics": {
+    "ackRate": 1,
+    "filterRatio": 0.5,
+    "cohesion": {
+      "delta": 0.72,
+      "echo": 0.8
+    },
+    "supportActions": {
+      "delta": 13,
+      "echo": 18
+    }
+  }
+}

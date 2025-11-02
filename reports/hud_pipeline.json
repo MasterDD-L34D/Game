@@ -1,0 +1,74 @@
+[
+  {
+    "path": "logs/playtests/2025-02-15-vc/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  },
+  {
+    "path": "logs/playtests/2025-02-26/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  },
+  {
+    "path": "logs/playtests/2025-02-27-vc/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  },
+  {
+    "path": "logs/playtests/2025-10-24-vc/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  },
+  {
+    "path": "logs/playtests/2025-11-01-vc/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  },
+  {
+    "path": "logs/playtests/2025-11-05-vc/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  },
+  {
+    "path": "logs/playtests/2025-11-06-vc/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  },
+  {
+    "path": "logs/playtests/2025-11-07-vc/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  },
+  {
+    "path": "logs/playtests/2025-11-12/hud_alert_log.json",
+    "total_raised": 1,
+    "ack_rate": 1.0,
+    "ack_events": 1,
+    "filter_events": 1,
+    "issues": []
+  }
+]

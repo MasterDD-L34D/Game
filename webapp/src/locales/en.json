@@ -63,6 +63,11 @@
           "description": "Sequence species generation, validation and publishing steps.",
           "cta": "Open flow →"
         },
+        "hud": {
+          "title": "HUD Smart Alerts",
+          "description": "Review canary risk overlays, thresholds and offline fallbacks.",
+          "cta": "View overlay →"
+        },
         "traits": {
           "title": "Trait Editor",
           "description": "Edit canonical traits with real-time schema validation.",
@@ -83,6 +88,16 @@
           "description": "Check status, metrics and species generation trends.",
           "cta": "View metrics →"
         }
+      }
+    },
+    "hudSmartAlerts": {
+      "title": "HUD Smart Alerts",
+      "subtitle": "Mission delta · Smart risk overlay with contextual metrics and QA filters.",
+      "notesTitle": "Highlights",
+      "notes": {
+        "riskThreshold": "Risk index threshold locked at {value}% with adaptive clear window.",
+        "cohesionHighlight": "Cohesion Echo peaks at 80% (≥0.78) confirming squad stability.",
+        "filterRouting": "Filtered warnings are routed to the stabilizer window backlog for follow-up."
       }
     },
     "notFound": {

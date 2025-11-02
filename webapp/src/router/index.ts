@@ -39,12 +39,17 @@ type PrefetchSection = 'flow' | 'nebula' | 'atlas';
 const ConsoleLayout = createLazyView(() => import('../layouts/ConsoleLayout.vue'));
 const ConsoleHubView = createLazyView(() => import('../views/ConsoleHubView.vue'));
 const FlowShellView = createLazyView(() => import('../views/FlowShellView.vue'));
+const HudSmartAlertsView = createLazyView(() => import('../views/HudSmartAlertsView.vue'));
 const TraitEditorView = createLazyView(() => import('../views/traits/TraitEditorView.vue'));
 const AtlasLayout = createLazyView(() => import('../layouts/AtlasLayout.vue'));
 const AtlasOverviewView = createLazyView(() => import('../views/atlas/AtlasOverviewView.vue'));
 const AtlasPokedexView = createLazyView(() => import('../views/atlas/AtlasPokedexView.vue'));
-const AtlasWorldBuilderView = createLazyView(() => import('../views/atlas/AtlasWorldBuilderView.vue'));
-const AtlasEncounterLabView = createLazyView(() => import('../views/atlas/AtlasEncounterLabView.vue'));
+const AtlasWorldBuilderView = createLazyView(
+  () => import('../views/atlas/AtlasWorldBuilderView.vue'),
+);
+const AtlasEncounterLabView = createLazyView(
+  () => import('../views/atlas/AtlasEncounterLabView.vue'),
+);
 const AtlasTelemetryView = createLazyView(() => import('../views/atlas/AtlasTelemetryView.vue'));
 const AtlasGeneratorView = createLazyView(() => import('../views/atlas/AtlasGeneratorView.vue'));
 const NotFoundView = createLazyView(() => import('../views/NotFound.vue'));
@@ -54,9 +59,10 @@ const prefetchedSections = new Set<PrefetchSection>();
 const sectionPreloaders: Record<PrefetchSection, () => Promise<void>> = {
   flow: () => warmup(() => FlowShellView.preload()),
   nebula: () =>
-    Promise.all([warmup(() => ConsoleHubView.preload()), warmup(() => TraitEditorView.preload())]).then(
-      () => undefined,
-    ),
+    Promise.all([
+      warmup(() => ConsoleHubView.preload()),
+      warmup(() => TraitEditorView.preload()),
+    ]).then(() => undefined),
   atlas: () =>
     Promise.all([
       warmup(() => AtlasLayout.preload()),
@@ -122,10 +128,10 @@ function buildBreadcrumbs(to: RouteLocationNormalizedLoaded, router: Router): Br
       const target: RouteLocationRaw | null = breadcrumbMeta.to
         ? breadcrumbMeta.to
         : record.name
-        ? { name: record.name, params: to.params, query: to.query }
-        : record.path
-        ? { path: record.path }
-        : null;
+          ? { name: record.name, params: to.params, query: to.query }
+          : record.path
+            ? { path: record.path }
+            : null;
       const resolved = target ? router.resolve(target) : null;
       return {
         key: record.name?.toString() || record.path || String(index),
@@ -166,7 +172,10 @@ function buildStateTokens(to: RouteLocationNormalizedLoaded): NavigationToken[] 
   return tokens;
 }
 
-export function createAppRouter({ base, history }: { base?: string; history?: Router['history'] } = {}): Router {
+export function createAppRouter({
+  base,
+  history,
+}: { base?: string; history?: Router['history'] } = {}): Router {
   const resolvedHistory = history || createWebHistory(base ?? import.meta.env.BASE_URL);
 
   const routes: RouteRecordRaw[] = [
@@ -198,12 +207,25 @@ export function createAppRouter({ base, history }: { base?: string; history?: Ro
           component: FlowShellView,
           meta: {
             title: 'Workflow Orchestrator',
-            description: 'Coordina i passaggi del generatore Nebula e monitora lo stato delle pipeline.',
+            description:
+              'Coordina i passaggi del generatore Nebula e monitora lo stato delle pipeline.',
             breadcrumb: { label: 'Workflow Orchestrator' },
-            stateTokens: [
-              { id: 'flow-live', label: 'Pipeline live', variant: 'info', icon: '⟳' },
-            ],
+            stateTokens: [{ id: 'flow-live', label: 'Pipeline live', variant: 'info', icon: '⟳' }],
             prefetchSections: ['atlas'],
+          },
+        },
+        {
+          path: 'hud/smart-alerts',
+          name: 'console-hud-smart-alerts',
+          component: HudSmartAlertsView,
+          meta: {
+            title: 'HUD Smart Alerts',
+            description: 'Overlay smart alerts con timeline canary e fallback offline.',
+            breadcrumb: { label: 'HUD Smart Alerts' },
+            stateTokens: [
+              { id: 'hud-smart-alerts', label: 'Smart alerts', variant: 'info', icon: '⚡' },
+            ],
+            prefetchSections: ['flow'],
           },
         },
         {

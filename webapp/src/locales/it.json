@@ -63,6 +63,11 @@
           "description": "Sequenzia i passaggi di generazione specie, validazione e publishing.",
           "cta": "Apri flusso →"
         },
+        "hud": {
+          "title": "HUD Smart Alerts",
+          "description": "Rivedi overlay rischio canary, soglie e fallback offline.",
+          "cta": "Apri overlay →"
+        },
         "traits": {
           "title": "Trait Editor",
           "description": "Modifica i tratti canonici con validazione schema in tempo reale.",
@@ -83,6 +88,16 @@
           "description": "Controlla stato, metriche e trend di generazione delle specie.",
           "cta": "Consulta metriche →"
         }
+      }
+    },
+    "hudSmartAlerts": {
+      "title": "HUD Smart Alerts",
+      "subtitle": "Missione Delta · Overlay rischio smart con metriche contestuali e filtri QA.",
+      "notesTitle": "Highlight",
+      "notes": {
+        "riskThreshold": "Soglia risk index fissata a {value}% con finestra clear adattiva.",
+        "cohesionHighlight": "Cohesion Echo al 80% (≥0.78) conferma la stabilità della squadra.",
+        "filterRouting": "Gli avvisi filtrati vengono instradati nella backlog stabilizer per follow-up."
       }
     },
     "notFound": {
