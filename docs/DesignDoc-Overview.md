@@ -4,7 +4,7 @@
 
 - **Visione** — Co-op tattico TV/app dove cellule di resistenza guidano forme bio-meccanoidi in campagne generate, alternando briefing, incursioni e fasi Nido per difendere habitat in mutazione costante.【F:appendici/A-CANVAS_ORIGINALE.txt†L10-L24】
 - **Statement** — "Trasformare l'ansia da tiro di dado in un'intesa condivisa": ogni scelta comunica impatto immediato (risk/cohesion) e conseguenze a lungo termine (stress, fiducia, reputazione) tramite HUD sincronizzato tra TV e companion.【F:appendici/A-CANVAS_ORIGINALE.txt†L26-L33】
-- **Esperienza target** — Gruppi da 3-4 giocatori in sessioni da ~90 minuti con onboarding <10 minuti supportato da preset di Forme e direttive assistite.【F:appendici/A-CANVAS_ORIGINALE.txt†L35-L41】
+- **Esperienza target** — Gruppi da 3-6 giocatori in sessioni da ~90 minuti con onboarding <10 minuti supportato da preset di Forme e direttive assistite.【F:appendici/A-CANVAS_ORIGINALE.txt†L35-L41】
 
 ## Pilastri
 
