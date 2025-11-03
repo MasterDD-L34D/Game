@@ -19,10 +19,10 @@
   font-size: var(--type-md);
   cursor: pointer;
   transition:
-    transform 160ms ease,
-    box-shadow 160ms ease,
-    filter 160ms ease;
-  box-shadow: 0 14px 30px rgba(81, 101, 255, 0.35);
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    filter var(--transition-base);
+  box-shadow: var(--shadow-button);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -39,9 +39,7 @@
 
 .button:focus-visible {
   outline: none;
-  box-shadow:
-    0 0 0 3px rgba(81, 101, 255, 0.35),
-    0 14px 30px rgba(81, 101, 255, 0.35);
+  box-shadow: var(--shadow-focus), var(--shadow-button);
 }
 
 .button:disabled {
@@ -58,18 +56,22 @@
   box-shadow: none;
 }
 
+.button--secondary:hover,
+.button--secondary:focus-visible {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
 .button--ghost {
-  background: rgba(81, 101, 255, 0.1);
+  background: var(--color-accent-muted);
   color: var(--color-accent);
-  border-color: rgba(81, 101, 255, 0.3);
+  border-color: var(--color-accent-soft);
   box-shadow: none;
 }
 
-.button--secondary:hover,
 .button--ghost:hover,
-.button--secondary:focus-visible,
 .button--ghost:focus-visible {
-  background: rgba(81, 101, 255, 0.14);
+  background: var(--color-accent-soft);
   color: var(--color-accent-strong);
 }
 
@@ -97,8 +99,8 @@
   background: var(--color-surface);
   color: var(--color-text-primary);
   transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease;
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
 }
 
 .form-field__input:focus-visible,
@@ -106,7 +108,7 @@
 .form-field__select:focus-visible {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(81, 101, 255, 0.25);
+  box-shadow: var(--shadow-focus-strong);
 }
 
 .form-field__hint {
@@ -158,21 +160,27 @@
 }
 
 .banner--success {
-  border-color: rgba(26, 127, 59, 0.35);
-  background: rgba(26, 127, 59, 0.1);
+  border-color: var(--color-success-border);
+  background: var(--color-success-soft);
   color: var(--color-success);
 }
 
 .banner--warning {
-  border-color: rgba(180, 83, 9, 0.35);
-  background: rgba(180, 83, 9, 0.1);
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-soft);
   color: var(--color-warning);
 }
 
 .banner--danger {
-  border-color: rgba(185, 28, 28, 0.35);
-  background: rgba(185, 28, 28, 0.1);
+  border-color: var(--color-danger-border);
+  background: var(--color-danger-soft);
   color: var(--color-danger);
+}
+
+.banner--info {
+  border-color: var(--color-info-border);
+  background: var(--color-info-soft);
+  color: var(--color-accent);
 }
 
 .tag,

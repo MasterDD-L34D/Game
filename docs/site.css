@@ -24,31 +24,31 @@
   --space-responsive-sm: clamp(var(--space-2), 0.6vw + 0.4rem, var(--space-3));
   --space-responsive-md: clamp(var(--space-3), 0.8vw + 0.55rem, var(--space-6));
   --color-canvas: var(--color-bg);
-  --color-surface-low: rgba(15, 23, 42, 0.72);
-  --color-surface-base: rgba(15, 23, 42, 0.82);
-  --color-surface-raised: rgba(15, 23, 42, 0.9);
-  --color-surface-overlay: rgba(15, 23, 42, 0.96);
-  --color-border-subtle: rgba(208, 214, 225, 0.28);
-  --color-border-glow: rgba(81, 101, 255, 0.35);
-  --color-text-muted: rgba(248, 250, 252, 0.72);
-  --color-accent-soft: rgba(81, 101, 255, 0.16);
-  --color-accent-muted: rgba(81, 101, 255, 0.1);
-  --tone-success-border: rgba(26, 127, 59, 0.5);
-  --tone-success-surface: rgba(26, 127, 59, 0.14);
-  --tone-success-backdrop: rgba(12, 46, 25, 0.9);
-  --tone-success-foreground: rgba(229, 255, 238, 0.95);
-  --tone-warn-border: rgba(180, 83, 9, 0.5);
-  --tone-warn-surface: rgba(180, 83, 9, 0.16);
-  --tone-warn-backdrop: rgba(59, 29, 5, 0.9);
-  --tone-warn-foreground: rgba(255, 243, 219, 0.95);
-  --tone-error-border: rgba(185, 28, 28, 0.55);
-  --tone-error-surface: rgba(185, 28, 28, 0.16);
-  --tone-error-backdrop: rgba(64, 16, 16, 0.9);
-  --tone-error-foreground: rgba(255, 226, 226, 0.95);
-  --tone-info-border: rgba(81, 101, 255, 0.5);
-  --tone-info-surface: rgba(81, 101, 255, 0.14);
-  --tone-info-backdrop: rgba(20, 30, 65, 0.92);
-  --tone-info-foreground: rgba(224, 231, 255, 0.95);
+  --color-surface-low: var(--layer-surface-low);
+  --color-surface-base: var(--layer-surface-base);
+  --color-surface-raised: var(--layer-surface-raised);
+  --color-surface-overlay: var(--layer-surface-overlay);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-glow: var(--color-accent-glow);
+  --color-text-muted: var(--color-text-muted);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-accent-muted: var(--color-accent-muted);
+  --tone-success-border: var(--color-success-border);
+  --tone-success-surface: var(--color-success-soft);
+  --tone-success-backdrop: var(--color-success-backdrop);
+  --tone-success-foreground: var(--color-success-foreground);
+  --tone-warn-border: var(--color-warning-border);
+  --tone-warn-surface: var(--color-warning-soft);
+  --tone-warn-backdrop: var(--color-warning-backdrop);
+  --tone-warn-foreground: var(--color-warning-foreground);
+  --tone-error-border: var(--color-danger-border);
+  --tone-error-surface: var(--color-danger-soft);
+  --tone-error-backdrop: var(--color-danger-backdrop);
+  --tone-error-foreground: var(--color-danger-foreground);
+  --tone-info-border: var(--color-info-border);
+  --tone-info-surface: var(--color-info-soft);
+  --tone-info-backdrop: var(--color-info-backdrop);
+  --tone-info-foreground: var(--color-info-foreground);
   --shadow-xs: 0 8px 18px rgba(15, 23, 42, 0.3);
   --shadow-sm: 0 12px 24px rgba(15, 23, 42, 0.35);
   --shadow-md: 0 18px 40px rgba(15, 23, 42, 0.4);
@@ -66,7 +66,6 @@
   --surface: var(--color-surface-base);
   --surface-strong: var(--color-surface-overlay);
   --transition: 200ms ease;
-
   font-family: var(--font-sans);
 }
 
@@ -79,8 +78,17 @@ body {
   margin: 0;
   padding: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(81, 101, 255, 0.16), transparent 55%),
-    radial-gradient(circle at 80% 0%, rgba(51, 70, 211, 0.12), transparent 50%), var(--color-canvas);
+    radial-gradient(
+      circle at 20% 20%,
+      color-mix(in srgb, var(--color-accent) 24%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 80% 0%,
+      color-mix(in srgb, var(--color-accent-strong) 18%, transparent),
+      transparent 50%
+    ),
+    var(--color-canvas);
   color: var(--text);
   min-height: 100%;
 }
@@ -109,8 +117,17 @@ a:focus-visible {
   overflow: hidden;
   border-bottom: 1px solid var(--color-border-subtle);
   background:
-    radial-gradient(circle at 12% 18%, rgba(81, 101, 255, 0.28), transparent 58%),
-    radial-gradient(circle at 82% 8%, rgba(51, 70, 211, 0.24), transparent 48%), var(--color-canvas);
+    radial-gradient(
+      circle at 12% 18%,
+      color-mix(in srgb, var(--color-accent) 32%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      circle at 82% 8%,
+      color-mix(in srgb, var(--color-accent-strong) 28%, transparent),
+      transparent 48%
+    ),
+    var(--color-canvas);
   color: var(--text);
 }
 
@@ -119,8 +136,16 @@ a:focus-visible {
   position: absolute;
   inset: -160px;
   background:
-    radial-gradient(circle at 10% 20%, rgba(81, 101, 255, 0.4), transparent 58%),
-    radial-gradient(circle at 78% 14%, rgba(51, 70, 211, 0.32), transparent 46%);
+    radial-gradient(
+      circle at 10% 20%,
+      color-mix(in srgb, var(--color-accent) 40%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      circle at 78% 14%,
+      color-mix(in srgb, var(--color-accent-strong) 32%, transparent),
+      transparent 46%
+    );
   filter: blur(40px);
   opacity: 0.85;
   z-index: 0;
