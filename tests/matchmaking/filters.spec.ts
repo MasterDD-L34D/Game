@@ -108,11 +108,20 @@ describe('Matchmaking — combinazione filtri', () => {
 
     const first = await client.fetchSummaries(filters);
     assert.strictEqual(fetchCount, 1, 'la prima chiamata deve interrogare la rete');
-    first[0].playersInQueue = 9999;
+
+    const firstEntry = first[0];
+    assert.ok(firstEntry, 'la risposta iniziale deve contenere un elemento');
+    first.pop();
+    firstEntry.playersInQueue = 9999;
 
     const second = await client.fetchSummaries(filters);
     assert.strictEqual(fetchCount, 1, 'la seconda chiamata deve usare la cache');
     assert.notStrictEqual(second, first, 'la cache deve restituire un nuovo array');
+    assert.strictEqual(
+      second.length,
+      responsePayload.length,
+      'la risposta cache deve mantenere la stessa cardinalità dei dati originali',
+    );
     assert.strictEqual(
       second[0].playersInQueue,
       responsePayload[0].playersInQueue,
