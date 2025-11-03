@@ -62,7 +62,33 @@ def _try_load_real_jsonschema() -> ModuleType | None:
 _REAL_JSONSCHEMA = _try_load_real_jsonschema()
 
 
+def _mirror_package_metadata(real_module: ModuleType) -> None:
+    """Copy package metadata from the real module onto this stub.
+
+    Restoring the stub module in ``sys.modules`` after importing the real
+    package means Python would otherwise keep using the stub's ``__spec__`` and
+    ``__path__`` for submodule resolution. Mirroring the key metadata ensures
+    that imports such as ``jsonschema.cli`` continue to resolve against the
+    installed distribution when available.
+    """
+
+    current_module = sys.modules.get(__name__)
+    if current_module is None:
+        return
+
+    for attribute in ("__file__", "__spec__", "__loader__", "__package__"):
+        value = getattr(real_module, attribute, None)
+        if value is not None:
+            setattr(current_module, attribute, value)
+            globals()[attribute] = value
+
+    if hasattr(real_module, "__path__"):
+        current_module.__path__ = real_module.__path__  # type: ignore[attr-defined]
+        globals()["__path__"] = real_module.__path__  # type: ignore[attr-defined]
+
+
 if _REAL_JSONSCHEMA is not None:
+    _mirror_package_metadata(_REAL_JSONSCHEMA)
     Draft202012Validator = _REAL_JSONSCHEMA.Draft202012Validator
     RefResolver = _REAL_JSONSCHEMA.RefResolver
     SchemaError = _REAL_JSONSCHEMA.SchemaError
