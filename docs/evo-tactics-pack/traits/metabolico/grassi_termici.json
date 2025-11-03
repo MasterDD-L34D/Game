@@ -7,10 +7,7 @@
   "label": "Grassi Termici",
   "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
   "requisiti_ambientali": [],
-  "sinergie": [
-    "filamenti_digestivi_compattanti",
-    "ventriglio_gastroliti"
-  ],
+  "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 2,
@@ -24,5 +21,6 @@
   },
   "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
   "tier": "T1",
-  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+  "data_origin": "controllo_psionico"
 }

@@ -1,8 +1,5 @@
 {
-  "conflitti": [
-    "sangue_piroforico",
-    "sacche_galleggianti_ascensoriali"
-  ],
+  "conflitti": ["sangue_piroforico", "sacche_galleggianti_ascensoriali"],
   "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi.",
   "famiglia_tipologia": "Metabolico/Difensivo",
   "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
@@ -35,9 +32,7 @@
       }
     }
   ],
-  "sinergie": [
-    "cavita_risonanti_tundra"
-  ],
+  "sinergie": ["cavita_risonanti_tundra"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -51,5 +46,6 @@
   },
   "spinta_selettiva": "Inverni prolungati o lunghi periodi di scarsità di cibo.",
   "tier": "T1",
-  "uso_funzione": "Sopravvivenza a condizioni ambientali estreme."
+  "uso_funzione": "Sopravvivenza a condizioni ambientali estreme.",
+  "data_origin": "controllo_psionico"
 }

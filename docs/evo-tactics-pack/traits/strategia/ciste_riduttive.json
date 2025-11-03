@@ -20,10 +20,7 @@
       }
     }
   ],
-  "sinergie": [
-    "pianificatore",
-    "tattiche_di_branco"
-  ],
+  "sinergie": ["pianificatore", "tattiche_di_branco"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 2,
@@ -37,5 +34,6 @@
   },
   "spinta_selettiva": "Allineare tattiche di lungo termine con segnali ambientali.",
   "tier": "T1",
-  "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate."
+  "uso_funzione": "Sblocca pattern predittivi per trappole e imboscate coordinate.",
+  "data_origin": "coverage_q4_2025"
 }

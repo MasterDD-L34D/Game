@@ -1,8 +1,5 @@
 {
-  "conflitti": [
-    "criostasi_adattiva",
-    "scheletro_idro_regolante"
-  ],
+  "conflitti": ["criostasi_adattiva", "scheletro_idro_regolante"],
   "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno.",
   "famiglia_tipologia": "Offensivo/Cinetico",
   "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
@@ -51,5 +48,6 @@
   },
   "spinta_selettiva": "Difesa contro predatori che tentano di estrarre fluidi corporei.",
   "tier": "T1",
-  "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria."
+  "uso_funzione": "Meccanismo di difesa termico o chimico che si attiva con l'aria.",
+  "data_origin": "controllo_psionico"
 }

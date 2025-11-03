@@ -23,32 +23,18 @@
     "membrane_captura_rugiada"
   ],
   "sinergie_pi": {
-    "co_occorrenze": [
-      "PE",
-      "cap_pt",
-      "guardia_situazionale",
-      "sigillo_forma",
-      "starter_bioma"
-    ],
+    "co_occorrenze": ["PE", "cap_pt", "guardia_situazionale", "sigillo_forma", "starter_bioma"],
     "combo_totale": 6,
-    "forme": [
-      "ENTJ",
-      "ENTP",
-      "ESTJ",
-      "INTJ",
-      "ISTJ"
-    ],
+    "forme": ["ENTJ", "ENTP", "ESTJ", "INTJ", "ISTJ"],
     "tabelle_random": []
   },
-  "slot": [
-    "A",
-    "C"
-  ],
+  "slot": ["A", "C"],
   "slot_profile": {
     "complementare": "tattico",
     "core": "strategia"
   },
   "spinta_selettiva": "Squadre che devono mantenere priorità multiple su turni lunghi.",
   "tier": "T1",
-  "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI."
+  "uso_funzione": "Coordina finestre di danno e difesa, mantenendo la squadra allineata al piano PI.",
+  "data_origin": "controllo_psionico"
 }

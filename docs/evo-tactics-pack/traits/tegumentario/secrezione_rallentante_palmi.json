@@ -1,8 +1,5 @@
 {
-  "conflitti": [
-    "carapace_fase_variabile",
-    "nucleo_ovomotore_rotante"
-  ],
+  "conflitti": ["carapace_fase_variabile", "nucleo_ovomotore_rotante"],
   "debolezza": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato.",
   "famiglia_tipologia": "Tegumentario/Difensivo",
   "fattore_mantenimento_energetico": "Medio (Produzione del liquido)",
@@ -36,5 +33,6 @@
   },
   "spinta_selettiva": "Cattura di prede veloci o difesa da aggressori corpo a corpo.",
   "tier": "T1",
-  "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
+  "uso_funzione": "Neutralizzare o immobilizzare prede/nemici.",
+  "data_origin": "controllo_psionico"
 }

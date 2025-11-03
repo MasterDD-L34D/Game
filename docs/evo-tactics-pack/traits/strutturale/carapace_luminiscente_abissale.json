@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "carapace_fase_variabile"
-  ],
+  "conflitti": ["carapace_fase_variabile"],
   "debolezza": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile.",
   "famiglia_tipologia": "Strutturale/Sensoriale",
   "fattore_mantenimento_energetico": "Alto (Bioluminescenza controllata)",
@@ -33,13 +31,8 @@
       "hud:AbyssLight_Array"
     ],
     "combo_totale": 3,
-    "forme": [
-      "Forma:Lanterna_Abissale",
-      "HUD:LuminaNet"
-    ],
-    "tabelle_random": [
-      "tabella:segnali_bioluminosi"
-    ]
+    "forme": ["Forma:Lanterna_Abissale", "HUD:LuminaNet"],
+    "tabelle_random": ["tabella:segnali_bioluminosi"]
   },
   "slot": [],
   "slot_profile": {
@@ -48,5 +41,6 @@
   },
   "spinta_selettiva": "Comunicare e mimetizzarsi nelle profondità prive di luce naturale.",
   "tier": "T3",
-  "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti."
+  "uso_funzione": "Emette segnali di branco e devia attacchi grazie a pattern luminosi cangianti.",
+  "data_origin": "controllo_psionico"
 }

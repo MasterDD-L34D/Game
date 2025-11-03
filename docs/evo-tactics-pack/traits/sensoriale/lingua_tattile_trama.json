@@ -19,9 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "olfatto_risonanza_magnetica"
-  ],
+  "sinergie": ["olfatto_risonanza_magnetica"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -35,5 +33,6 @@
   },
   "spinta_selettiva": "Individuare movimenti sismici o cibi sepolti.",
   "tier": "T1",
-  "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture."
+  "uso_funzione": "\"Leggere\" la tessitura delle superfici per vibrazioni o micro-fratture.",
+  "data_origin": "controllo_psionico"
 }

@@ -31,13 +31,8 @@
       "hud:RootMesh_Psi"
     ],
     "combo_totale": 3,
-    "forme": [
-      "Forma:Archivio_Subglaciale",
-      "HUD:Radice_Proxy"
-    ],
-    "tabelle_random": [
-      "tabella:riserva_empatica"
-    ]
+    "forme": ["Forma:Archivio_Subglaciale", "HUD:Radice_Proxy"],
+    "tabelle_random": ["tabella:riserva_empatica"]
   },
   "slot": [],
   "slot_profile": {
@@ -46,5 +41,6 @@
   },
   "spinta_selettiva": "Sostenere campagne lunghe in climi artici con riserve nutrizionali concentrate.",
   "tier": "T2",
-  "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale."
+  "uso_funzione": "Rilascia energia e calore agli alleati radicati nella stessa rete subglaciale.",
+  "data_origin": "controllo_psionico"
 }

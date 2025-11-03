@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "spore_psichiche_silenziate"
-  ],
+  "conflitti": ["spore_psichiche_silenziate"],
   "debolezza": "Se la rete micorrizica viene recisa, l'organismo soffre crisi percettive e perdita di orientamento.",
   "famiglia_tipologia": "Simbiotico/Nervoso",
   "fattore_mantenimento_energetico": "Medio (Scambio continuo di segnali con simbionti)",
@@ -52,5 +50,6 @@
   },
   "spinta_selettiva": "Anticipare frane psioniche e predatori guidati da reti vegetali senzienti.",
   "tier": "T3",
-  "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
+  "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra.",
+  "data_origin": "controllo_psionico"
 }

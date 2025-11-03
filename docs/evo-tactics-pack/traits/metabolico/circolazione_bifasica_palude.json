@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "sangue_piroforico"
-  ],
+  "conflitti": ["sangue_piroforico"],
   "debolezza": "Zone asciutte e calde causano stagnazione del circuito linfatico portando a tossicosi.",
   "famiglia_tipologia": "Metabolico/Resilienza",
   "fattore_mantenimento_energetico": "Medio (Doppio circuito emolinfa/linfa)",
@@ -21,9 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "mucillagine_simbionte_mangrovie"
-  ],
+  "sinergie": ["mucillagine_simbionte_mangrovie"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -37,5 +33,6 @@
   },
   "spinta_selettiva": "Resistere a tossine e anossia tipiche delle paludi psioniche.",
   "tier": "T2",
-  "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate."
+  "uso_funzione": "Gestisce due circuiti circolatori per filtrare veleni e mantenere prestazioni elevate.",
+  "data_origin": "controllo_psionico"
 }

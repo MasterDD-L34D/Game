@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "ghiandola_caustica"
-  ],
+  "conflitti": ["ghiandola_caustica"],
   "debolezza": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione.",
   "famiglia_tipologia": "Simbiotico/Difensivo",
   "fattore_mantenimento_energetico": "Medio (Coltura simbiotica costante)",
@@ -52,5 +50,6 @@
   },
   "spinta_selettiva": "Respinge tossine e predatori microbici tipici dei delta paludosi.",
   "tier": "T1",
-  "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
+  "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite.",
+  "data_origin": "controllo_psionico"
 }

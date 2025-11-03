@@ -19,10 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "bulbi_radici_permafrost",
-    "nodi_micorrizici_oracolari"
-  ],
+  "sinergie": ["bulbi_radici_permafrost", "nodi_micorrizici_oracolari"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -36,5 +33,6 @@
   },
   "spinta_selettiva": "Stabilizzare piattaforme mobili e reti di trasporto tra gli alberi viventi.",
   "tier": "T1",
-  "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi."
+  "uso_funzione": "Crea passaggi e nodi energetici condivisi nella canopia per movimenti rapidi.",
+  "data_origin": "controllo_psionico"
 }

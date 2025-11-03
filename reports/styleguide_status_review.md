@@ -20,41 +20,28 @@ incompleti da colmare per considerare il progetto terminato.
 
 | Area | Stato attuale | Fonte |
 | --- | --- | --- |
-| **Specie collegate** | 1 tratto (`random`) privo di `species_affinity` | `data/traits/index.json`
+| **Specie collegate** | Copertura completa | `data/traits/index.json`
 | **Tag bioma** | 173 tratti ancora senza `biome_tags` | `reports/trait_progress.md`
-| **Tag d'uso** | 173 tratti privi di `usage_tags` | `reports/trait_progress.md`
-| **Origine dati** | 173 tratti senza `data_origin` | `reports/trait_progress.md`
+| **Tag d'uso** | Copertura completa | `reports/trait_progress.md`
+| **Origine dati** | Copertura completa | `reports/trait_progress.md`
 
 ## Piano di chiusura
 
-1. **Collegare i tratti orfani a specie specifiche**
-   - Aggiornare `data/traits/strategia/random.json` completando `species_affinity` e riflettere il
-     collegamento anche in `data/traits/index.json`.
-   - Rieseguire `python tools/py/build_species_trait_bridge.py` per validare che gli hook
-     specie ↔ tratto restino coerenti dopo l'aggiornamento.
+1. **Mantenere la copertura delle specie collegate**
+   - Verificare ogni nuovo tratto o revisione su `data/traits/` assicurandosi che `species_affinity` resti valorizzato.
+   - Rieseguire `python tools/py/build_species_trait_bridge.py` dopo inserimenti massivi per intercettare regressioni sugli hook specie ↔ tratto.
 
-2. **Popolare `biome_tags` e requisiti ambientali mancanti**
-   - Priorità ai tratti già utilizzati nei pacchetti (`coverage_q4_2025`, `controllo_psionico`).
-   - Usare `tools/py/normalize_trait_style.py --dry-run` per evidenziare i file privi di metadati
-     e aggiornare gradualmente le liste di bioma, seguendo le corrispondenze in
-     `packs/evo_tactics_pack/docs/catalog/env_traits.json`.
+2. **Popolare i `biome_tags` mancanti**
+   - Priorità ai 173 tratti privi di annotazioni, soprattutto quelli già presenti nei pacchetti (`coverage_q4_2025`, `controllo_psionico`).
+   - Usare `tools/py/normalize_trait_style.py --dry-run` per identificare i file scoperti e colmare gradualmente le liste di bioma con riferimento a `packs/evo_tactics_pack/docs/catalog/env_traits.json`.
 
-3. **Definire i `usage_tags` tattici**
-   - Adottare il vocabolario documentato in `docs/process/trait_data_reference.md` e annotare i ruoli
-     principali (es. `scout`, `breaker`, `support`).
-   - Automatizzare il controllo aggiungendo i tag mancanti alla checklist dell'editor (`webapp`)
-     e rieseguendo `npm run style:check` per assicurare la copertura completa.
+3. **Presidiare i `usage_tags` tattici**
+   - Continuare a usare il vocabolario in `docs/process/trait_data_reference.md` e validare che ogni nuovo tratto mantenga i tag esistenti.
+   - Integrare il controllo nella checklist editoriale e rieseguire `npm run style:check` quando vengono introdotte nuove tipologie.
 
-4. **Compilare `data_origin` per il catalogo canonico**
-   - Creare una mappa sorgenti → slug (`controllo_psionico`, `coverage_q4_2025`, ecc.) nel
-     glossario editoriale e applicarla batch con `tools/py/normalize_trait_style.py`.
-   - Aggiornare `docs/traits_template.md` con una nota rapida che ricordi di impostare sempre
-     `data_origin` durante la creazione di nuovi tratti.
-
-5. **Report di chiusura**
-   - Dopo aver popolato i campi, rigenerare `reports/trait_progress.md` e `reports/styleguide_compliance.md`
-     per ottenere un'istantanea finale.
-   - Allegare gli output ai prossimi PR insieme alla checklist di conformità.
+4. **Consolidare `data_origin` nel catalogo**
+   - Riutilizzare la mappa sorgenti → slug del glossario editoriale e applicarla immediatamente ai nuovi tratti o alle revisioni.
+   - Programmare verifiche periodiche con `tools/py/normalize_trait_style.py` per assicurare che la copertura resti completa dopo merge multipli.
 
 Seguendo il piano sopra, la style guide risulterà completamente applicata a dati, workflow e
 strumenti, chiudendo le ultime lacune operative.

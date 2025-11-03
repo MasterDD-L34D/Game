@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "branchie_osmotiche_salmastra"
-  ],
+  "conflitti": ["branchie_osmotiche_salmastra"],
   "debolezza": "Particolato pesante o sabbia vulcanica graffia i cristalli riducendo l'efficienza respiratoria.",
   "famiglia_tipologia": "Respiratorio/Aerobico",
   "fattore_mantenimento_energetico": "Medio (Pulizia periodica dei cristalli)",
@@ -21,9 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "membrane_eliofiltranti"
-  ],
+  "sinergie": ["membrane_eliofiltranti"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -37,5 +33,6 @@
   },
   "spinta_selettiva": "Operare in missioni d'alta quota senza supporto logistico esterno.",
   "tier": "T2",
-  "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi."
+  "uso_funzione": "Massimizza l'assorbimento di ossigeno rarefatto e filtra agenti nocivi.",
+  "data_origin": "controllo_psionico"
 }

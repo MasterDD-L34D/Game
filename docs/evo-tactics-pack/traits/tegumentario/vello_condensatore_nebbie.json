@@ -19,9 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "bulbi_radici_permafrost"
-  ],
+  "sinergie": ["bulbi_radici_permafrost"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -35,5 +33,6 @@
   },
   "spinta_selettiva": "Garantire idratazione in climi montani dove l'acqua liquida è scarsa ma la nebbia abbondante.",
   "tier": "T1",
-  "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo."
+  "uso_funzione": "Condensa acqua atmosferica per supportare abilità metaboliche ad alto consumo.",
+  "data_origin": "controllo_psionico"
 }

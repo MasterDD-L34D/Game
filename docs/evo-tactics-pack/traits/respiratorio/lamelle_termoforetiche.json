@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "criostasi_adattiva"
-  ],
+  "conflitti": ["criostasi_adattiva"],
   "debolezza": "Rende instabile la fisiologia in ambienti a gelo improvviso, con rischio di microfratture vascolari.",
   "famiglia_tipologia": "Respiratorio/Termoregolazione",
   "fattore_mantenimento_energetico": "Medio (Flusso continuo di fluidi caldi)",
@@ -21,9 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "sangue_piroforico"
-  ],
+  "sinergie": ["sangue_piroforico"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -37,5 +33,6 @@
   },
   "spinta_selettiva": "Sopravvivere a fluidi tossici e temperature estreme nelle fumarole geotermiche.",
   "tier": "T2",
-  "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati."
+  "uso_funzione": "Regola lo scambio gassoso sfruttando gradienti termici controllati.",
+  "data_origin": "controllo_psionico"
 }

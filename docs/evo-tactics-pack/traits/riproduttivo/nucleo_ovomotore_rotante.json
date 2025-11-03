@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "secrezione_rallentante_palmi"
-  ],
+  "conflitti": ["secrezione_rallentante_palmi"],
   "debolezza": "Impossibilità di muoversi su superfici irregolari o in salita ripida.",
   "famiglia_tipologia": "Riproduttivo/Locomotorio",
   "fattore_mantenimento_energetico": "Alto (Rotolamento)",
@@ -35,5 +33,6 @@
   },
   "spinta_selettiva": "Necessità di spostarsi rapidamente su terreni uniformi in assenza di arti.",
   "tier": "T1",
-  "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento."
+  "uso_funzione": "Organo Motorio Rotante: usato come 'ruota' centrale per il rotolamento.",
+  "data_origin": "controllo_psionico"
 }

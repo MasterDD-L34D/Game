@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "struttura_elastica_amorfa"
-  ],
+  "conflitti": ["struttura_elastica_amorfa"],
   "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza.",
   "famiglia_tipologia": "Strutturale/Difensivo",
   "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
@@ -61,13 +59,8 @@
       "hud:PhaseShift_Plate"
     ],
     "combo_totale": 3,
-    "forme": [
-      "Forma:Guardiano_Cangiante",
-      "HUD:Placca_Sintonica"
-    ],
-    "tabelle_random": [
-      "tabella:assetto_fase"
-    ]
+    "forme": ["Forma:Guardiano_Cangiante", "HUD:Placca_Sintonica"],
+    "tabelle_random": ["tabella:assetto_fase"]
   },
   "slot": [],
   "slot_profile": {
@@ -76,5 +69,6 @@
   },
   "spinta_selettiva": "Alternanza tra ambienti con attacchi cinetici pesanti e ambienti che richiedono velocità.",
   "tier": "T1",
-  "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
+  "uso_funzione": "Durezza/densità del guscio modificabile rapidamente.",
+  "data_origin": "controllo_psionico"
 }

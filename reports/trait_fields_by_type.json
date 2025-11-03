@@ -2,8 +2,10 @@
   "Difesa/Strutturale": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -17,14 +19,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Difesa/Termoregolazione": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -38,14 +43,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Digestivo/Alimentare": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -59,14 +67,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Digestivo/Escretorio": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -80,14 +91,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Digestivo/Metabolico": {
     "trait_count": 13,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -101,14 +115,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Escretorio/Psichico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -122,6 +139,7 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
@@ -152,8 +170,10 @@
   "Flessibile/Generico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -165,16 +185,20 @@
       "sinergie_pi",
       "slot",
       "slot_profile",
+      "species_affinity",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Idrostatico/Locomotorio": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -188,14 +212,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Locomotorio/Adattivo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -209,14 +236,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Locomotorio/Difensivo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -230,14 +260,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Locomotorio/Mobilità": {
     "trait_count": 14,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -251,14 +284,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Locomotorio/Predatorio": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -272,14 +308,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Locomotorio/Prensile": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -293,14 +332,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Locomotorio/Supporto": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -314,14 +356,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Metabolico/Difensivo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -335,14 +380,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Metabolico/Resilienza": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -356,14 +404,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Mobilità/Cinetico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -377,14 +428,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Nervoso/Omeostatico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -398,14 +452,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Offensivo/Assalto": {
     "trait_count": 13,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -419,14 +476,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Offensivo/Chimico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -440,14 +500,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Offensivo/Cinetico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -461,14 +524,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Offensivo/Controllo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -482,14 +548,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Respiratorio/Aerobico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -503,14 +572,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Respiratorio/Osmoregolazione": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -524,14 +596,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Respiratorio/Propulsivo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -545,14 +620,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Respiratorio/Protezione": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -566,14 +644,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Respiratorio/Termoregolazione": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -587,14 +668,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Riproduttivo/Locomotorio": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -608,14 +692,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Sensoriale/Alimentare": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -629,14 +716,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Sensoriale/Analitico": {
     "trait_count": 14,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -650,14 +740,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Sensoriale/Navigazione": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -671,14 +764,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Sensoriale/Nervoso": {
     "trait_count": 2,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -692,14 +788,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Sensoriale/Offensivo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -713,14 +812,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Sensoriale/Supporto": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -734,14 +836,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Sensoriale/Visivo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -755,14 +860,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Simbiotico/Comunicazione": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -776,14 +884,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Simbiotico/Cooperativo": {
     "trait_count": 13,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -797,14 +908,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Simbiotico/Difensivo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -818,14 +932,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Simbiotico/Nervoso": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -839,14 +956,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Simbiotico/Nutrizione": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -860,14 +980,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Simbiotico/Supporto": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -881,14 +1004,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Simbiotico/Utility": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -902,14 +1028,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Strategico/Psionico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -923,14 +1052,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Strategico/Tattico": {
     "trait_count": 15,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -944,14 +1076,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Strutturale/Adattivo": {
     "trait_count": 13,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -965,14 +1100,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Strutturale/Difensivo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -986,14 +1124,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Strutturale/Locomotorio": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1007,14 +1148,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Strutturale/Omeostatico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1028,14 +1172,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Strutturale/Sensoriale": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1049,14 +1196,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Supporto/Coordinativo": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1070,14 +1220,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Supporto/Difesa": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1091,14 +1244,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Supporto/Empatico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1112,14 +1268,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Supporto/Logistico": {
     "trait_count": 13,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1133,6 +1292,7 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
@@ -1158,8 +1318,10 @@
   "Tegumentario/Difensivo": {
     "trait_count": 17,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1173,14 +1335,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Tegumentario/Energetico": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1194,14 +1359,17 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   },
   "Tegumentario/Idratazione": {
     "trait_count": 1,
     "fields": [
+      "biome_tags",
       "completion_flags",
       "conflitti",
+      "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
@@ -1215,6 +1383,7 @@
       "slot_profile",
       "spinta_selettiva",
       "tier",
+      "usage_tags",
       "uso_funzione"
     ]
   }

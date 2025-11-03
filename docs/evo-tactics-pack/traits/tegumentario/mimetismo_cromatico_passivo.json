@@ -63,5 +63,6 @@
   },
   "spinta_selettiva": "Ambiente con pattern cromatici molto variabili che cambiano lentamente.",
   "tier": "T1",
-  "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
+  "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto.",
+  "data_origin": "controllo_psionico"
 }

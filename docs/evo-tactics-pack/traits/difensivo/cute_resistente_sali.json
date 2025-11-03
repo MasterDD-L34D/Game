@@ -20,10 +20,7 @@
       }
     }
   ],
-  "sinergie": [
-    "carapace_fase_variabile",
-    "mimetismo_cromatico_passivo"
-  ],
+  "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 2,
@@ -37,5 +34,6 @@
   },
   "spinta_selettiva": "Assorbire shock continui proteggendo unità di supporto.",
   "tier": "T2",
-  "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali."
+  "uso_funzione": "Crea rivestimenti adattivi contro agenti ostili e bombardamenti ambientali.",
+  "data_origin": "coverage_q4_2025"
 }

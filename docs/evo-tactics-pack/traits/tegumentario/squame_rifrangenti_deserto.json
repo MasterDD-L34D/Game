@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "mimetismo_cromatico_passivo"
-  ],
+  "conflitti": ["mimetismo_cromatico_passivo"],
   "debolezza": "Soffre danni da feedback termico se colpito da raggi concentrati o laser.",
   "famiglia_tipologia": "Tegumentario/Difensivo",
   "fattore_mantenimento_energetico": "Medio (Richiede riallineamento delle placche)",
@@ -21,9 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "respiro_a_scoppio"
-  ],
+  "sinergie": ["respiro_a_scoppio"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -37,5 +33,6 @@
   },
   "spinta_selettiva": "Sopravvivere a intensi flare termici e accecanti miraggi desertici.",
   "tier": "T2",
-  "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici."
+  "uso_funzione": "Rifrange la luce generando miraggi e dissipando attacchi energetici.",
+  "data_origin": "controllo_psionico"
 }

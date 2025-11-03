@@ -27,30 +27,18 @@
     "aura_scudo_radianza"
   ],
   "sinergie_pi": {
-    "co_occorrenze": [
-      "PE",
-      "cap_pt",
-      "guardia_situazionale",
-      "starter_bioma"
-    ],
+    "co_occorrenze": ["PE", "cap_pt", "guardia_situazionale", "starter_bioma"],
     "combo_totale": 3,
-    "forme": [
-      "ENFJ",
-      "INFP",
-      "ISFJ"
-    ],
+    "forme": ["ENFJ", "INFP", "ISFJ"],
     "tabelle_random": []
   },
-  "slot": [
-    "A",
-    "B",
-    "C"
-  ],
+  "slot": ["A", "B", "C"],
   "slot_profile": {
     "complementare": "coordinazione",
     "core": "supporto"
   },
   "spinta_selettiva": "Forme che eccellono in difesa coordinata e scudi sovrapposti.",
   "tier": "T1",
-  "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra."
+  "uso_funzione": "Amplifica buff condivisi sincronizzando i timer di squadra.",
+  "data_origin": "controllo_psionico"
 }

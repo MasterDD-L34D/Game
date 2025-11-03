@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "armatura_pietra_planare"
-  ],
+  "conflitti": ["armatura_pietra_planare"],
   "debolezza": "Consumante: richiede costante dissipazione termica per non bruciare la matrice portante.",
   "famiglia_tipologia": "Offensivo/Controllo",
   "fattore_mantenimento_energetico": "Medio (Filamenti di plasma vincolato)",
@@ -10,9 +8,7 @@
   "mutazione_indotta": "Genera appendici tentacolari avvolte da plasma infernale controllato.",
   "requisiti_ambientali": [
     {
-      "capacita_richieste": [
-        "void_stride"
-      ],
+      "capacita_richieste": ["void_stride"],
       "condizioni": {
         "biome_class": "rovine_planari"
       },
@@ -24,10 +20,7 @@
       }
     }
   ],
-  "sinergie": [
-    "focus_frazionato",
-    "mantello_meteoritico"
-  ],
+  "sinergie": ["focus_frazionato", "mantello_meteoritico"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -41,5 +34,6 @@
   },
   "spinta_selettiva": "Creare distanza di sicurezza contro predatori d'élite nelle zone instabili.",
   "tier": "T2",
-  "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia."
+  "uso_funzione": "Afferra e disarma avversari o sigilla varchi planari con tagli di energia.",
+  "data_origin": "pathfinder_dataset"
 }

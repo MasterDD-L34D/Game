@@ -24,28 +24,18 @@
     "membrane_captura_rugiada"
   ],
   "sinergie_pi": {
-    "co_occorrenze": [
-      "PE",
-      "cap_pt",
-      "guardia_situazionale",
-      "sigillo_forma",
-      "starter_bioma"
-    ],
+    "co_occorrenze": ["PE", "cap_pt", "guardia_situazionale", "sigillo_forma", "starter_bioma"],
     "combo_totale": 2,
-    "forme": [
-      "ESFJ",
-      "ESFP"
-    ],
+    "forme": ["ESFJ", "ESFP"],
     "tabelle_random": []
   },
-  "slot": [
-    "B"
-  ],
+  "slot": ["B"],
   "slot_profile": {
     "complementare": "coordinazione",
     "core": "strategia"
   },
   "spinta_selettiva": "Squadre che puntano a style bonus tramite assist e controllo spazio.",
   "tier": "T1",
-  "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità."
+  "uso_funzione": "Coordina prese e focus bersaglio condividendo segnali di priorità.",
+  "data_origin": "controllo_psionico"
 }

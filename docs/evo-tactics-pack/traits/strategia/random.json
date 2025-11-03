@@ -21,5 +21,6 @@
   },
   "spinta_selettiva": "Draft rapidi o recuperi quando il tavolo necessita sorprese adattive.",
   "tier": "T1",
-  "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà."
+  "uso_funzione": "Slot jolly per testing o pareggiare budget PI quando serve varietà.",
+  "data_origin": "controllo_psionico"
 }

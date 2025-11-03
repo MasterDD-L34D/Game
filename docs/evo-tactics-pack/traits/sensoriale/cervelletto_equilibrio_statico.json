@@ -20,10 +20,7 @@
       }
     }
   ],
-  "sinergie": [
-    "focus_frazionato",
-    "sinapsi_coraline_polifoniche"
-  ],
+  "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 2,
@@ -37,5 +34,6 @@
   },
   "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
   "tier": "T1",
-  "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+  "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato.",
+  "data_origin": "coverage_q4_2025"
 }

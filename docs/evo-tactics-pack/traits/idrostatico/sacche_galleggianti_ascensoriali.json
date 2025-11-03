@@ -51,5 +51,6 @@
   },
   "spinta_selettiva": "Vivere in un ambiente acquatico con forti correnti verticali.",
   "tier": "T1",
-  "uso_funzione": "Controllo preciso della profondità e del movimento verticale."
+  "uso_funzione": "Controllo preciso della profondità e del movimento verticale.",
+  "data_origin": "controllo_psionico"
 }

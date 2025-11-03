@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "frusta_fiammeggiante"
-  ],
+  "conflitti": ["frusta_fiammeggiante"],
   "debolezza": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità.",
   "famiglia_tipologia": "Difesa/Strutturale",
   "fattore_mantenimento_energetico": "Basso (Risonanza geodetica stabile)",
@@ -10,9 +8,7 @@
   "mutazione_indotta": "Cristallizza il dermascheletro con nodi rune che deviano energia.",
   "requisiti_ambientali": [
     {
-      "capacita_richieste": [
-        "deploy_barrier"
-      ],
+      "capacita_richieste": ["deploy_barrier"],
       "condizioni": {
         "biome_class": "rovine_planari"
       },
@@ -24,9 +20,7 @@
       }
     }
   ],
-  "sinergie": [
-    "carapace_fase_variabile"
-  ],
+  "sinergie": ["carapace_fase_variabile"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -40,5 +34,6 @@
   },
   "spinta_selettiva": "Stabilizzare varchi e proteggere infrastrutture dalle onde d'urto.",
   "tier": "T2",
-  "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali."
+  "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali.",
+  "data_origin": "pathfinder_dataset"
 }
