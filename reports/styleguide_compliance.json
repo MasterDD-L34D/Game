@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-11-02T14:11:27Z",
+  "generated_at": "2025-11-03T19:52:35Z",
   "kpi": {
     "name_compliance": {
       "label": "Nomi conformi",
@@ -28,5 +28,32 @@
       "sla_threshold": 0.8,
       "status": "ok"
     }
+  },
+  "summary": {
+    "breach_count": 0,
+    "breach_labels": [],
+    "overview": [
+      {
+        "metric": "name_compliance",
+        "label": "Nomi conformi",
+        "percent": 100.0,
+        "status": "ok",
+        "sla_threshold": 0.95
+      },
+      {
+        "metric": "description_completeness",
+        "label": "Descrizioni complete",
+        "percent": 100.0,
+        "status": "ok",
+        "sla_threshold": 0.95
+      },
+      {
+        "metric": "ucum_presence",
+        "label": "UCUM presenti",
+        "percent": 100.0,
+        "status": "ok",
+        "sla_threshold": 0.8
+      }
+    ]
   }
 }

@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "criostasi_adattiva"
-  ],
+  "conflitti": ["criostasi_adattiva"],
   "debolezza": "Ombre prolungate o polveri dense riducono drasticamente la produzione energetica.",
   "famiglia_tipologia": "Tegumentario/Energetico",
   "fattore_mantenimento_energetico": "Alto (Richiede manutenzione delle lamine fotoreattive)",
@@ -21,10 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "membrane_eliofiltranti",
-    "sacche_spore_stratosferiche"
-  ],
+  "sinergie": ["membrane_eliofiltranti", "sacche_spore_stratosferiche"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -38,5 +33,6 @@
   },
   "spinta_selettiva": "Massimizzare l'autonomia energetica per migrazioni aeree sopra deserti e oceani.",
   "tier": "T2",
-  "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio."
+  "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio.",
+  "data_origin": "controllo_psionico"
 }

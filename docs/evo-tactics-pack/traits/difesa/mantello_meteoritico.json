@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "aura_scudo_radianza"
-  ],
+  "conflitti": ["aura_scudo_radianza"],
   "debolezza": "Vulnerabile a scariche di freddo gravitazionale che irrigidiscono il mantello.",
   "famiglia_tipologia": "Difesa/Termoregolazione",
   "fattore_mantenimento_energetico": "Alto (Rivestimento ablativo rigenerante)",
@@ -10,9 +8,7 @@
   "mutazione_indotta": "Deposita strati sovrapposti di materiale meteorico che vaporizzano l'impatto e rilasciano radianza.",
   "requisiti_ambientali": [
     {
-      "capacita_richieste": [
-        "fire_resist"
-      ],
+      "capacita_richieste": ["fire_resist"],
       "condizioni": {
         "biome_class": "rovine_planari"
       },
@@ -24,10 +20,7 @@
       }
     }
   ],
-  "sinergie": [
-    "frusta_fiammeggiante",
-    "carapace_fase_variabile"
-  ],
+  "sinergie": ["frusta_fiammeggiante", "carapace_fase_variabile"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -41,5 +34,6 @@
   },
   "spinta_selettiva": "Sopravvivere a bombardamenti planari e piogge di meteore dimensionali.",
   "tier": "T3",
-  "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi."
+  "uso_funzione": "Assorbe colpi energetici estremi e converte il surplus in impulsi offensivi.",
+  "data_origin": "pathfinder_dataset"
 }

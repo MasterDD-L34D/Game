@@ -37,6 +37,7 @@ rispettare le regole indicate e sono validati automaticamente dal comando
 | `slot`                            | array[string] | ciascun elemento `^[A-Z]$`, array vuoto consentito   | Slot occupati.                                                           |
 | `sinergie`                        | array[string] | elementi `^[a-z0-9_]+$`                              | Trait compatibili.                                                       |
 | `conflitti`                       | array[string] | elementi `^[a-z0-9_]+$`                              | Trait incompatibili.                                                     |
+| `data_origin`                     | string        | `^[a-z0-9_]+$`                                       | Fonte editoriale/glossario (es. `controllo_psionico`).                   |
 | `mutazione_indotta`               | string        | non vuota                                            | Sintesi dell'adattamento.                                                |
 | `uso_funzione`                    | string        | non vuota                                            | Funzione in gioco.                                                       |
 | `spinta_selettiva`                | string        | non vuota                                            | Motivazione evolutiva/tattica.                                           |
@@ -57,6 +58,7 @@ per riflettere la modifica nelle localizzazioni.
   "slot": [],
   "sinergie": [],
   "conflitti": [],
+  "data_origin": "controllo_psionico",
   "mutazione_indotta": "Descrizione sintetica.",
   "uso_funzione": "Uso principale.",
   "spinta_selettiva": "Motivazione principale."
@@ -71,7 +73,6 @@ per riflettere la modifica nelle localizzazioni.
 | `requisiti_ambientali` | Array di vincoli contestuali. Ogni elemento include `condizioni.biome_class`, la sorgente (`fonte`) e facoltativamente `capacita_richieste` e `meta` (`expansion`, `tier`, `notes`). |
 | `biome_tags`           | Array di biomi affini (stringhe `^[a-z0-9_]+$`) usati per indicare ambienti secondari o sinergie narrative.                                                                          |
 | `usage_tags`           | Array di tag tattici (`scout`, `breaker`, `tank`, ecc.) normalizzati (`^[a-z0-9_]+$`) per filtri UI e analytics.                                                                     |
-| `data_origin`          | Stringa (`^[a-z0-9_]+$`) che identifica il pacchetto o la fonte editoriale (es. `controllo_psionico`, `coverage_q4_2025`).                                                           |
 | `completion_flags`     | Oggetto di flag booleani (es. `has_biome`, `has_species_link`) per tracciare rapidamente lacune editoriali.                                                                          |
 | `debolezza`            | Stringa opzionale per limiti intrinseci o vulnerabilità.                                                                                                                             |
 | `sinergie_pi`          | Oggetto con `co_occorrenze`, `forme`, `tabelle_random`, `combo_totale`. Serve per gli strumenti di pianificazione PI.                                                                |

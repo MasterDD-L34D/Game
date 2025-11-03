@@ -32,13 +32,8 @@
       "bioma:cicloni_psionici"
     ],
     "combo_totale": 3,
-    "forme": [
-      "Forma:Tempestarii",
-      "HUD:Fulcro_Tempesta"
-    ],
-    "tabelle_random": [
-      "tabella:fulmini_empatici"
-    ]
+    "forme": ["Forma:Tempestarii", "HUD:Fulcro_Tempesta"],
+    "tabelle_random": ["tabella:fulmini_empatici"]
   },
   "slot": [],
   "slot_profile": {
@@ -47,5 +42,6 @@
   },
   "spinta_selettiva": "Comandare fulmini e navigare in cieli turbolenti durante campagne aeree.",
   "tier": "T3",
-  "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici."
+  "uso_funzione": "Canalizza scariche atmosferiche in attacchi direzionati o scudi ionici.",
+  "data_origin": "controllo_psionico"
 }

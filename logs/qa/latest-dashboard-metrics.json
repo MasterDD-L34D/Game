@@ -41,5 +41,65 @@
     "score": 0.0,
     "tolerance": 0.08,
     "snapshot": "logs/visual_runs/20251027T042511Z/generator.png"
-  }
+  },
+  "styleguide": {
+    "generated_at": "2025-11-03T19:52:35Z",
+    "kpi": {
+      "name_compliance": {
+        "label": "Nomi conformi",
+        "compliant": 174,
+        "total": 174,
+        "percent": 100.0,
+        "violations": [],
+        "sla_threshold": 0.95,
+        "status": "ok"
+      },
+      "description_completeness": {
+        "label": "Descrizioni complete",
+        "compliant": 174,
+        "total": 174,
+        "percent": 100.0,
+        "violations": [],
+        "sla_threshold": 0.95,
+        "status": "ok"
+      },
+      "ucum_presence": {
+        "label": "UCUM presenti",
+        "compliant": 174,
+        "total": 174,
+        "percent": 100.0,
+        "violations": [],
+        "sla_threshold": 0.8,
+        "status": "ok"
+      }
+    },
+    "summary": {
+      "breach_count": 0,
+      "breach_labels": [],
+      "overview": [
+        {
+          "metric": "name_compliance",
+          "label": "Nomi conformi",
+          "percent": 100.0,
+          "status": "ok",
+          "sla_threshold": 0.95
+        },
+        {
+          "metric": "description_completeness",
+          "label": "Descrizioni complete",
+          "percent": 100.0,
+          "status": "ok",
+          "sla_threshold": 0.95
+        },
+        {
+          "metric": "ucum_presence",
+          "label": "UCUM presenti",
+          "percent": 100.0,
+          "status": "ok",
+          "sla_threshold": 0.8
+        }
+      ]
+    }
+  },
+  "styleguide_generated_at": "2025-11-03T19:52:35Z"
 }

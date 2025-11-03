@@ -20,10 +20,7 @@
       }
     }
   ],
-  "sinergie": [
-    "filamenti_digestivi_compattanti",
-    "ventriglio_gastroliti"
-  ],
+  "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 2,
@@ -37,5 +34,6 @@
   },
   "spinta_selettiva": "Ridurre downtime energetico in condizioni di risorse instabili.",
   "tier": "T1",
-  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
+  "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate.",
+  "data_origin": "coverage_q4_2025"
 }

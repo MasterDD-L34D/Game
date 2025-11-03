@@ -61,5 +61,6 @@
   },
   "spinta_selettiva": "Necessità di mantenere la pulizia del territorio/nido.",
   "tier": "T2",
-  "uso_funzione": "Espulsione compatta e ordinata di scorie."
+  "uso_funzione": "Espulsione compatta e ordinata di scorie.",
+  "data_origin": "controllo_psionico"
 }

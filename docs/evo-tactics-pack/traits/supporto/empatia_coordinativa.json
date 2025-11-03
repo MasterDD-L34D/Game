@@ -37,5 +37,6 @@
   },
   "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
   "tier": "T1",
-  "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio."
+  "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
+  "data_origin": "controllo_psionico"
 }

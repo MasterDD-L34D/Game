@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "scheletro_idro_regolante"
-  ],
+  "conflitti": ["scheletro_idro_regolante"],
   "debolezza": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento.",
   "famiglia_tipologia": "Locomotorio/Adattivo",
   "fattore_mantenimento_energetico": "Medio (Richiede frequenti riallineamenti fibrosi)",
@@ -34,12 +32,8 @@
       "hud:VentSplice_Halo"
     ],
     "combo_totale": 3,
-    "forme": [
-      "Forma:Planatore_Psionico"
-    ],
-    "tabelle_random": [
-      "tabella:assetto_eolico"
-    ]
+    "forme": ["Forma:Planatore_Psionico"],
+    "tabelle_random": ["tabella:assetto_eolico"]
   },
   "slot": [],
   "slot_profile": {
@@ -48,5 +42,6 @@
   },
   "spinta_selettiva": "Scalare falesie e planare tra correnti ascensionali turbolente.",
   "tier": "T2",
-  "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide."
+  "uso_funzione": "Modula elasticità e rigidità muscolo-scheletrica per manovre evasive rapide.",
+  "data_origin": "controllo_psionico"
 }

@@ -9,25 +9,18 @@
   "requisiti_ambientali": [],
   "sinergie": [],
   "sinergie_pi": {
-    "co_occorrenze": [
-      "PE",
-      "cap_pt",
-      "starter_bioma"
-    ],
+    "co_occorrenze": ["PE", "cap_pt", "starter_bioma"],
     "combo_totale": 1,
-    "forme": [
-      "ENFP"
-    ],
+    "forme": ["ENFP"],
     "tabelle_random": []
   },
-  "slot": [
-    "A"
-  ],
+  "slot": ["A"],
   "slot_profile": {
     "complementare": "ricognizione",
     "core": "strategia"
   },
   "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
   "tier": "T1",
-  "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+  "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma.",
+  "data_origin": "controllo_psionico"
 }

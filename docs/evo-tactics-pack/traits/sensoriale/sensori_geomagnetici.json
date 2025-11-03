@@ -19,10 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "carapace_fase_variabile",
-    "eco_interno_riflesso"
-  ],
+  "sinergie": ["carapace_fase_variabile", "eco_interno_riflesso"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -36,5 +33,6 @@
   },
   "spinta_selettiva": "Orientarsi in steppe polarizzate e tunnel sotterranei privi di riferimenti visivi.",
   "tier": "T1",
-  "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione."
+  "uso_funzione": "Traccia linee di campo e memorizza corridoi magnetici per la migrazione.",
+  "data_origin": "controllo_psionico"
 }

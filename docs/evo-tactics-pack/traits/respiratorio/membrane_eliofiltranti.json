@@ -19,10 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "piume_solari_fotovoltaiche",
-    "polmoni_cristallini_alta_quota"
-  ],
+  "sinergie": ["piume_solari_fotovoltaiche", "polmoni_cristallini_alta_quota"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -36,5 +33,6 @@
   },
   "spinta_selettiva": "Proteggersi da radiazioni e agenti patogeni in altopiani ipersalini.",
   "tier": "T2",
-  "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
+  "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati.",
+  "data_origin": "controllo_psionico"
 }

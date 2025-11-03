@@ -19,10 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "artigli_sghiaccio_glaciale",
-    "occhi_infrarosso_composti"
-  ],
+  "sinergie": ["artigli_sghiaccio_glaciale", "occhi_infrarosso_composti"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -36,5 +33,6 @@
   },
   "spinta_selettiva": "Monitoraggio costante dei predatori in ambienti ad alto rischio.",
   "tier": "T1",
-  "uso_funzione": "Vigilanza continua pur garantendo riposo."
+  "uso_funzione": "Vigilanza continua pur garantendo riposo.",
+  "data_origin": "controllo_psionico"
 }

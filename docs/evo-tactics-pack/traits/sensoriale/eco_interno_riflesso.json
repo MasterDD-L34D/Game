@@ -32,11 +32,7 @@
       }
     }
   ],
-  "sinergie": [
-    "cavita_risonanti_tundra",
-    "olfatto_risonanza_magnetica",
-    "sensori_geomagnetici"
-  ],
+  "sinergie": ["cavita_risonanti_tundra", "olfatto_risonanza_magnetica", "sensori_geomagnetici"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -50,5 +46,6 @@
   },
   "spinta_selettiva": "Orientamento in ambienti completamente privi di luce.",
   "tier": "T2",
-  "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
+  "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente.",
+  "data_origin": "controllo_psionico"
 }

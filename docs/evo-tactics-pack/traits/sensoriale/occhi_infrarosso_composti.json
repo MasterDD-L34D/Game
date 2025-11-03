@@ -19,9 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "sonno_emisferico_alternato"
-  ],
+  "sinergie": ["sonno_emisferico_alternato"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -35,5 +33,6 @@
   },
   "spinta_selettiva": "Caccia notturna o nell'oscurità totale basata sul gradiente termico.",
   "tier": "T1",
-  "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
+  "uso_funzione": "Vista specializzata che percepisce il calore corporeo.",
+  "data_origin": "controllo_psionico"
 }

@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "respiro_a_scoppio"
-  ],
+  "conflitti": ["respiro_a_scoppio"],
   "debolezza": "Correnti ionizzate possono incendiare le sacche rendendo l'organismo instabile.",
   "famiglia_tipologia": "Simbiotico/Supporto",
   "fattore_mantenimento_energetico": "Alto (Coltura continua di spore portanti)",
@@ -21,9 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "piume_solari_fotovoltaiche"
-  ],
+  "sinergie": ["piume_solari_fotovoltaiche"],
   "sinergie_pi": {
     "co_occorrenze": [],
     "combo_totale": 0,
@@ -37,5 +33,6 @@
   },
   "spinta_selettiva": "Dispersone genetica rapida tra arcipelaghi aerei e piattaforme galleggianti.",
   "tier": "T3",
-  "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
+  "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra.",
+  "data_origin": "controllo_psionico"
 }

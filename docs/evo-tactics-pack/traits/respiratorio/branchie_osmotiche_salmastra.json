@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "polmoni_cristallini_alta_quota"
-  ],
+  "conflitti": ["polmoni_cristallini_alta_quota"],
   "debolezza": "Richiede accesso costante ad acqua salmastra; ambienti d'acqua dolce provocano stress ionico.",
   "famiglia_tipologia": "Respiratorio/Osmoregolazione",
   "fattore_mantenimento_energetico": "Medio (Pompe ioniche attive)",
@@ -21,10 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "mucillagine_simbionte_mangrovie",
-    "scheletro_idro_regolante"
-  ],
+  "sinergie": ["mucillagine_simbionte_mangrovie", "scheletro_idro_regolante"],
   "sinergie_pi": {
     "co_occorrenze": [
       "boardgame:Evolution/Symbiosis",
@@ -32,12 +27,8 @@
       "hud:EstuarioPsi"
     ],
     "combo_totale": 3,
-    "forme": [
-      "Forma:Amfibio_Oracolare"
-    ],
-    "tabelle_random": [
-      "tabella:osmosi_psionica"
-    ]
+    "forme": ["Forma:Amfibio_Oracolare"],
+    "tabelle_random": ["tabella:osmosi_psionica"]
   },
   "slot": [],
   "slot_profile": {
@@ -46,5 +37,6 @@
   },
   "spinta_selettiva": "Colonizzare mangrovie psioniche e barriere di estuario soggette a maree estreme.",
   "tier": "T2",
-  "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente."
+  "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente.",
+  "data_origin": "controllo_psionico"
 }

@@ -19,11 +19,7 @@
       }
     }
   ],
-  "sinergie": [
-    "cartilagine_flessotermica_venti",
-    "sonno_emisferico_alternato",
-    "zampe_a_molla"
-  ],
+  "sinergie": ["cartilagine_flessotermica_venti", "sonno_emisferico_alternato", "zampe_a_molla"],
   "sinergie_pi": {
     "co_occorrenze": [
       "boardgame:DominantSpecies/Glaciation",
@@ -31,12 +27,8 @@
       "hud:GlacierClaw_UI"
     ],
     "combo_totale": 3,
-    "forme": [
-      "Forma:Assaltatore_Criogenico"
-    ],
-    "tabelle_random": [
-      "tabella:presa_criostatica"
-    ]
+    "forme": ["Forma:Assaltatore_Criogenico"],
+    "tabelle_random": ["tabella:presa_criostatica"]
   },
   "slot": [],
   "slot_profile": {
@@ -45,5 +37,6 @@
   },
   "spinta_selettiva": "Cacciare su superfici gelate e pareti verticali di ghiaccio vivo.",
   "tier": "T2",
-  "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto."
+  "uso_funzione": "Scalza e immobilizza i bersagli congelandoli al contatto.",
+  "data_origin": "controllo_psionico"
 }

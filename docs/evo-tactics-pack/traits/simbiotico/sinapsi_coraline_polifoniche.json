@@ -1,7 +1,5 @@
 {
-  "conflitti": [
-    "spore_psichiche_silenziate"
-  ],
+  "conflitti": ["spore_psichiche_silenziate"],
   "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
   "famiglia_tipologia": "Simbiotico/Comunicazione",
   "fattore_mantenimento_energetico": "Medio (Scambio continuo di impulsi corallini)",
@@ -52,5 +50,6 @@
   },
   "spinta_selettiva": "Coordinare banchi e alleati in ambienti tridimensionali complessi.",
   "tier": "T2",
-  "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee."
+  "uso_funzione": "Trasmette comandi e pattern tattici sfruttando armoniche subacquee.",
+  "data_origin": "controllo_psionico"
 }

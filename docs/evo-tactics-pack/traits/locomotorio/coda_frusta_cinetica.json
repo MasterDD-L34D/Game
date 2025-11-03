@@ -75,5 +75,6 @@
   },
   "spinta_selettiva": "Necessità di un attacco di \"sfondamento\" dopo movimento preparatorio.",
   "tier": "T1",
-  "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente."
+  "uso_funzione": "Immagazzinare energia da ogni movimento per un colpo finale potente.",
+  "data_origin": "controllo_psionico"
 }

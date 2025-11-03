@@ -32,13 +32,8 @@
       "hud:GripNode_Psion"
     ],
     "combo_totale": 4,
-    "forme": [
-      "Forma:Predatore_Tessuto",
-      "HUD:GrappleBurst"
-    ],
-    "tabelle_random": [
-      "tabella:predazione_multicanale"
-    ]
+    "forme": ["Forma:Predatore_Tessuto", "HUD:GrappleBurst"],
+    "tabelle_random": ["tabella:predazione_multicanale"]
   },
   "slot": [],
   "slot_profile": {
@@ -47,5 +42,6 @@
   },
   "spinta_selettiva": "Arrampicarsi su pareti rocciose o vegetazione densa.",
   "tier": "T1",
-  "uso_funzione": "Afferrare superfici irregolari o oggetti multipli."
+  "uso_funzione": "Afferrare superfici irregolari o oggetti multipli.",
+  "data_origin": "controllo_psionico"
 }

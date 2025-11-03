@@ -37,5 +37,6 @@
   },
   "spinta_selettiva": "Metagame con forte pressione di aggro e necessità di riposizionamento.",
   "tier": "T1",
-  "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
+  "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno.",
+  "data_origin": "controllo_psionico"
 }
