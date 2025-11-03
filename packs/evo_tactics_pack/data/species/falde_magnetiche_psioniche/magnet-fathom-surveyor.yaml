@@ -62,8 +62,8 @@ derived_from_environment:
     - dr_impact_cap
     - seal_vents
 jobs_bias:
-  - Warden
-  - Vanguard
+  - warden
+  - vanguard
 telemetry:
   expected_pick_rate: null
   spawn_weight: 0.06

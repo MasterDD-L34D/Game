@@ -7,7 +7,7 @@ environment_affinity:
   - FORESTA_TEMPERATA
 derived_from_environment:
   jobs_bias:
-  - Skirmisher
+  - skirmisher
 network_bridge_roles:
 - dispersore_ponte
 - impollinatore

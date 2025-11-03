@@ -21,19 +21,19 @@
 | 14        | I          | trait_T1 + guardia_situazionale + sigillo_forma                                   | Difesa adattiva e crescita Forma.                   |
 | 15        | J          | job_ability + PE ×3                                                               | Spike abilità.                                      |
 | 16-17     | Bias Forma | Rimanda alla tabella d12 della Forma scelta.                                      |
-| 18-19     | Bias Job   | Mappa preferenze per ruolo (Vanguard B/D, Skirmisher C/E, ecc.).                  |
+| 18-19     | Bias Job   | Mappa preferenze per ruolo (vanguard B/D, skirmisher C/E, ecc.).                  |
 | 20        | Scelta     | Qualsiasi pack disponibile; usato per correzioni bilanciamento o focus narrativo. |
 
 【F:data/packs.yaml†L9-L23】
 
 ## Job Bias
 
-- Vanguard → preferenza B/D per tanking e controllo frontline.
-- Skirmisher → preferenza C/E per mobilità e danno a singolo bersaglio.
-- Warden → E/G per protezione e sustain.
-- Artificer → A/F per strumenti tattici e controllo area.
-- Invoker → A/J per poteri psionici burst.
-- Harvester → D/J per utility predatoria e economia risorse.
+- vanguard → preferenza B/D per tanking e controllo frontline.
+- skirmisher → preferenza C/E per mobilità e danno a singolo bersaglio.
+- warden → E/G per protezione e sustain.
+- artificer → A/F per strumenti tattici e controllo area.
+- invoker → A/J per poteri psionici burst.
+- harvester → D/J per utility predatoria e economia risorse.
   【F:data/packs.yaml†L21-L32】
 
 ## Forme Base (d12 bias)

@@ -61,8 +61,8 @@ derived_from_environment:
     - lift_control
     - res_psionic
 jobs_bias:
-  - Vanguard
-  - Invoker
+  - vanguard
+  - invoker
 telemetry:
   expected_pick_rate: null
   spawn_weight: 0.04

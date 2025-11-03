@@ -67,8 +67,8 @@ derived_from_environment:
   services_links:
     - minaccia:propagazione_iconica
   jobs_bias:
-    - Invoker
-    - Skirmisher
+    - invoker
+    - skirmisher
 genetic_traits:
   core:
     - ciclo_vitale_completo

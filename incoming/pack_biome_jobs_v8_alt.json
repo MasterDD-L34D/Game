@@ -2,10 +2,7 @@
   "generated": "2025-10-24",
   "count": 13,
   "profile": "alt",
-  "source": [
-    "pack_biome_jobs_v7.json",
-    "director/npg_*.yaml"
-  ],
+  "source": ["pack_biome_jobs_v7.json", "director/npg_*.yaml"],
   "items": [
     {
       "id": "npg_skirmisher_desert_01",
@@ -17,42 +14,23 @@
         "morph_budget": 11,
         "parts": {
           "locomotion": "spring_legs",
-          "offense": [
-            "acid_gland"
-          ],
-          "defense": [
-            "elastomer_skin"
-          ],
-          "senses": [
-            "echolocate"
-          ],
+          "offense": ["acid_gland"],
+          "defense": ["elastomer_skin"],
+          "senses": ["echolocate"],
           "metabolism": "burst_anaerobic"
         }
       },
       "job": {
         "id": "skirmisher",
         "rank": 1,
-        "actives": [
-          "dash_cut"
-        ],
-        "passives": [
-          "flank_mastery",
-          "backstab"
-        ]
+        "actives": ["dash_cut"],
+        "passives": ["flank_mastery", "backstab"]
       },
-      "traits": [
-        "focus_frazionato"
-      ],
+      "traits": ["focus_frazionato"],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Tecnico",
-          "Impattante"
-        ],
-        "surges": [
-          "pierce",
-          "spin"
-        ]
+        "tags": ["Tecnico", "Impattante"],
+        "surges": ["pierce", "spin"]
       },
       "tactics": {
         "opener": "Avvicinati da fuori adiacenza per attivare backstab, poi dash_cut.",
@@ -60,13 +38,8 @@
         "if_outnumbered": "Cerca flanking con alleati; evita terreno difficile."
       },
       "social_hooks": {
-        "likes": [
-          "flanking",
-          "preda isolata"
-        ],
-        "dislikes": [
-          "fuoco continuo"
-        ],
+        "likes": ["flanking", "preda isolata"],
+        "dislikes": ["fuoco continuo"],
         "recruit_threshold": "Affinity ≥ 0, Trust ≥ 2",
         "mating_threshold": "Trust ≥ 3 + Nest OK"
       },
@@ -104,35 +77,22 @@
         "parts": {
           "locomotion": "spring_legs",
           "offense": [],
-          "defense": [
-            "elastomer_skin"
-          ],
-          "senses": [
-            "echolocate"
-          ],
+          "defense": ["elastomer_skin"],
+          "senses": ["echolocate"],
           "metabolism": "burst_anaerobic"
         }
       },
       "job": {
         "id": "warden",
         "rank": 1,
-        "actives": [
-          "root_field",
-          "zone_denial"
-        ],
-        "passives": [
-          "sentinel_mark"
-        ]
+        "actives": ["root_field", "zone_denial"],
+        "passives": ["sentinel_mark"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Impattante"
-        ],
-        "surges": [
-          "spin"
-        ]
+        "tags": ["Impattante"],
+        "surges": ["spin"]
       },
       "tactics": {
         "opener": "Chiudi le strettoie con root_field; costringe a passaggi obbligati.",
@@ -140,13 +100,8 @@
         "if_outnumbered": "Zona di negazione e arretramento controllato."
       },
       "social_hooks": {
-        "likes": [
-          "strozzature naturali",
-          "difendere il territorio"
-        ],
-        "dislikes": [
-          "ponti instabili"
-        ]
+        "likes": ["strozzature naturali", "difendere il territorio"],
+        "dislikes": ["ponti instabili"]
       },
       "rewards": {
         "pe": 1,
@@ -179,38 +134,23 @@
         "morph_budget": 12,
         "parts": {
           "locomotion": "burrow_claws",
-          "offense": [
-            "iron_spine"
-          ],
-          "defense": [
-            "ferrous_carapace"
-          ],
-          "senses": [
-            "mag_sense"
-          ],
+          "offense": ["iron_spine"],
+          "defense": ["ferrous_carapace"],
+          "senses": ["mag_sense"],
           "metabolism": "burst_anaerobic"
         }
       },
       "job": {
         "id": "vanguard",
         "rank": 1,
-        "actives": [
-          "shoulder_rush",
-          "intercept"
-        ],
-        "passives": [
-          "guard_wall"
-        ]
+        "actives": ["shoulder_rush", "intercept"],
+        "passives": ["guard_wall"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Impattante"
-        ],
-        "surges": [
-          "pierce"
-        ]
+        "tags": ["Impattante"],
+        "surges": ["pierce"]
       },
       "tactics": {
         "opener": "Esci dalla sabbia con shoulder_rush per spingere dal bordo duna.",
@@ -248,40 +188,23 @@
         "morph_budget": 11,
         "parts": {
           "locomotion": "glide_wings",
-          "offense": [
-            "iron_spine"
-          ],
-          "defense": [
-            "elastomer_skin"
-          ],
-          "senses": [
-            "echolocate"
-          ],
+          "offense": ["iron_spine"],
+          "defense": ["elastomer_skin"],
+          "senses": ["echolocate"],
           "metabolism": "aero_exchange"
         }
       },
       "job": {
         "id": "invoker",
         "rank": 1,
-        "actives": [
-          "arc_bolt",
-          "pulse_cone"
-        ],
-        "passives": [
-          "disrupt_field"
-        ]
+        "actives": ["arc_bolt", "pulse_cone"],
+        "passives": ["disrupt_field"]
       },
       "traits": [],
       "gear": {
         "weapon": "arc_rod",
-        "tags": [
-          "Tecnico",
-          "Elettrico"
-        ],
-        "surges": [
-          "chain",
-          "pulse"
-        ]
+        "tags": ["Tecnico", "Elettrico"],
+        "surges": ["chain", "pulse"]
       },
       "tactics": {
         "opener": "Scendi da quota e lancia arc_bolt sfruttando rimbalzi sonori.",
@@ -321,38 +244,23 @@
         "morph_budget": 13,
         "parts": {
           "locomotion": "spring_legs",
-          "offense": [
-            "acid_gland"
-          ],
-          "defense": [
-            "ferrous_carapace"
-          ],
-          "senses": [
-            "mag_sense"
-          ],
+          "offense": ["acid_gland"],
+          "defense": ["ferrous_carapace"],
+          "senses": ["mag_sense"],
           "metabolism": "rust_ingest"
         }
       },
       "job": {
         "id": "artificer",
         "rank": 1,
-        "actives": [
-          "overclock",
-          "deploy_drone"
-        ],
-        "passives": [
-          "patchwork_armor"
-        ]
+        "actives": ["overclock", "deploy_drone"],
+        "passives": ["patchwork_armor"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Tecnico"
-        ],
-        "surges": [
-          "spin"
-        ]
+        "tags": ["Tecnico"],
+        "surges": ["spin"]
       },
       "tactics": {
         "opener": "Deploy_drone per vantaggio percezione; overclock all'alleato più mobile.",
@@ -390,38 +298,23 @@
         "morph_budget": 13,
         "parts": {
           "locomotion": "spring_legs",
-          "offense": [
-            "acid_gland"
-          ],
-          "defense": [
-            "ferrous_carapace"
-          ],
-          "senses": [
-            "mag_sense"
-          ],
+          "offense": ["acid_gland"],
+          "defense": ["ferrous_carapace"],
+          "senses": ["mag_sense"],
           "metabolism": "rust_ingest"
         }
       },
       "job": {
         "id": "harvester",
         "rank": 1,
-        "actives": [
-          "siphon_seed",
-          "scavenge_field"
-        ],
-        "passives": [
-          "graft_shift"
-        ]
+        "actives": ["siphon_seed", "scavenge_field"],
+        "passives": ["graft_shift"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Impattante"
-        ],
-        "surges": [
-          "pierce"
-        ]
+        "tags": ["Impattante"],
+        "surges": ["pierce"]
       },
       "tactics": {
         "opener": "Siphon_seed su bersagli <50% HP; priorità semina risorse.",
@@ -453,7 +346,7 @@
     },
     {
       "id": "npg_invoker_desert_02",
-      "name": "Invoker Desert 2",
+      "name": "invoker Desert 2",
       "biome": "desert",
       "role": "invoker",
       "attitude": "neutrale",
@@ -462,40 +355,23 @@
         "morph_budget": 12,
         "parts": {
           "locomotion": "glide_wings",
-          "offense": [
-            "iron_spine"
-          ],
-          "defense": [
-            "elastomer_skin"
-          ],
-          "senses": [
-            "echolocate"
-          ],
+          "offense": ["iron_spine"],
+          "defense": ["elastomer_skin"],
+          "senses": ["echolocate"],
           "metabolism": "aero_exchange"
         }
       },
       "job": {
         "id": "invoker",
         "rank": 1,
-        "actives": [
-          "arc_bolt",
-          "pulse_cone"
-        ],
-        "passives": [
-          "disrupt_field"
-        ]
+        "actives": ["arc_bolt", "pulse_cone"],
+        "passives": ["disrupt_field"]
       },
       "traits": [],
       "gear": {
         "weapon": "arc_rod",
-        "tags": [
-          "Tecnico",
-          "Elettrico"
-        ],
-        "surges": [
-          "chain",
-          "pulse"
-        ]
+        "tags": ["Tecnico", "Elettrico"],
+        "surges": ["chain", "pulse"]
       },
       "tactics": {
         "opener": "Usa la prima attiva coerente col terreno.",
@@ -526,7 +402,7 @@
     },
     {
       "id": "npg_skirmisher_cavern_03",
-      "name": "Skirmisher Cavern 3",
+      "name": "skirmisher Cavern 3",
       "biome": "cavern",
       "role": "skirmisher",
       "attitude": "ostile",
@@ -535,40 +411,23 @@
         "morph_budget": 12,
         "parts": {
           "locomotion": "spring_legs",
-          "offense": [
-            "acid_gland"
-          ],
-          "defense": [
-            "elastomer_skin"
-          ],
-          "senses": [
-            "echolocate"
-          ],
+          "offense": ["acid_gland"],
+          "defense": ["elastomer_skin"],
+          "senses": ["echolocate"],
           "metabolism": "burst_anaerobic"
         }
       },
       "job": {
         "id": "skirmisher",
         "rank": 1,
-        "actives": [
-          "dash_cut"
-        ],
-        "passives": [
-          "flank_mastery",
-          "backstab"
-        ]
+        "actives": ["dash_cut"],
+        "passives": ["flank_mastery", "backstab"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Tecnico",
-          "Impattante"
-        ],
-        "surges": [
-          "pierce",
-          "spin"
-        ]
+        "tags": ["Tecnico", "Impattante"],
+        "surges": ["pierce", "spin"]
       },
       "tactics": {
         "opener": "Usa la prima attiva coerente col terreno.",
@@ -599,7 +458,7 @@
     },
     {
       "id": "npg_warden_badlands_04",
-      "name": "Warden Badlands 4",
+      "name": "warden Badlands 4",
       "biome": "badlands",
       "role": "warden",
       "attitude": "ostile",
@@ -608,38 +467,23 @@
         "morph_budget": 12,
         "parts": {
           "locomotion": "spring_legs",
-          "offense": [
-            "acid_gland"
-          ],
-          "defense": [
-            "ferrous_carapace"
-          ],
-          "senses": [
-            "mag_sense"
-          ],
+          "offense": ["acid_gland"],
+          "defense": ["ferrous_carapace"],
+          "senses": ["mag_sense"],
           "metabolism": "rust_ingest"
         }
       },
       "job": {
         "id": "warden",
         "rank": 1,
-        "actives": [
-          "root_field",
-          "zone_denial"
-        ],
-        "passives": [
-          "sentinel_mark"
-        ]
+        "actives": ["root_field", "zone_denial"],
+        "passives": ["sentinel_mark"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Impattante"
-        ],
-        "surges": [
-          "spin"
-        ]
+        "tags": ["Impattante"],
+        "surges": ["spin"]
       },
       "tactics": {
         "opener": "Usa la prima attiva coerente col terreno.",
@@ -668,7 +512,7 @@
     },
     {
       "id": "npg_vanguard_cavern_05",
-      "name": "Vanguard Cavern 5",
+      "name": "vanguard Cavern 5",
       "biome": "cavern",
       "role": "vanguard",
       "attitude": "ostile",
@@ -677,38 +521,23 @@
         "morph_budget": 12,
         "parts": {
           "locomotion": "burrow_claws",
-          "offense": [
-            "iron_spine"
-          ],
-          "defense": [
-            "ferrous_carapace"
-          ],
-          "senses": [
-            "mag_sense"
-          ],
+          "offense": ["iron_spine"],
+          "defense": ["ferrous_carapace"],
+          "senses": ["mag_sense"],
           "metabolism": "burst_anaerobic"
         }
       },
       "job": {
         "id": "vanguard",
         "rank": 1,
-        "actives": [
-          "shoulder_rush",
-          "intercept"
-        ],
-        "passives": [
-          "guard_wall"
-        ]
+        "actives": ["shoulder_rush", "intercept"],
+        "passives": ["guard_wall"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Impattante"
-        ],
-        "surges": [
-          "pierce"
-        ]
+        "tags": ["Impattante"],
+        "surges": ["pierce"]
       },
       "tactics": {
         "opener": "Usa la prima attiva coerente col terreno.",
@@ -737,7 +566,7 @@
     },
     {
       "id": "npg_artificer_desert_06",
-      "name": "Artificer Desert 6",
+      "name": "artificer Desert 6",
       "biome": "desert",
       "role": "artificer",
       "attitude": "neutrale",
@@ -746,38 +575,23 @@
         "morph_budget": 12,
         "parts": {
           "locomotion": "spring_legs",
-          "offense": [
-            "acid_gland"
-          ],
-          "defense": [
-            "ferrous_carapace"
-          ],
-          "senses": [
-            "mag_sense"
-          ],
+          "offense": ["acid_gland"],
+          "defense": ["ferrous_carapace"],
+          "senses": ["mag_sense"],
           "metabolism": "rust_ingest"
         }
       },
       "job": {
         "id": "artificer",
         "rank": 1,
-        "actives": [
-          "overclock",
-          "deploy_drone"
-        ],
-        "passives": [
-          "patchwork_armor"
-        ]
+        "actives": ["overclock", "deploy_drone"],
+        "passives": ["patchwork_armor"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Tecnico"
-        ],
-        "surges": [
-          "spin"
-        ]
+        "tags": ["Tecnico"],
+        "surges": ["spin"]
       },
       "tactics": {
         "opener": "Usa la prima attiva coerente col terreno.",
@@ -806,7 +620,7 @@
     },
     {
       "id": "npg_harvester_desert_07",
-      "name": "Harvester Desert 7",
+      "name": "harvester Desert 7",
       "biome": "desert",
       "role": "harvester",
       "attitude": "neutrale",
@@ -815,38 +629,23 @@
         "morph_budget": 12,
         "parts": {
           "locomotion": "burrow_claws",
-          "offense": [
-            "iron_spine"
-          ],
-          "defense": [
-            "ferrous_carapace"
-          ],
-          "senses": [
-            "mag_sense"
-          ],
+          "offense": ["iron_spine"],
+          "defense": ["ferrous_carapace"],
+          "senses": ["mag_sense"],
           "metabolism": "burst_anaerobic"
         }
       },
       "job": {
         "id": "harvester",
         "rank": 1,
-        "actives": [
-          "siphon_seed",
-          "scavenge_field"
-        ],
-        "passives": [
-          "graft_shift"
-        ]
+        "actives": ["siphon_seed", "scavenge_field"],
+        "passives": ["graft_shift"]
       },
       "traits": [],
       "gear": {
         "weapon": "twin_blades",
-        "tags": [
-          "Impattante"
-        ],
-        "surges": [
-          "pierce"
-        ]
+        "tags": ["Impattante"],
+        "surges": ["pierce"]
       },
       "tactics": {
         "opener": "Usa la prima attiva coerente col terreno.",

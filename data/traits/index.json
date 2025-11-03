@@ -5833,7 +5833,7 @@
       },
       "conflitti": [],
       "data_origin": "controllo_psionico",
-      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate warden scende.",
       "famiglia_tipologia": "Supporto/Empatico",
       "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
       "id": "empatia_coordinativa",
