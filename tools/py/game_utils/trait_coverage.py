@@ -19,6 +19,18 @@ except ModuleNotFoundError:  # pragma: no cover
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
+def _stringify_path(path: Path | None) -> str | None:
+    """Return a stable, repository-relative string for the given path."""
+
+    if path is None:
+        return None
+
+    try:
+        return str(path.resolve().relative_to(PROJECT_ROOT))
+    except ValueError:
+        return str(path)
+
+
 def _load_json(path: Path) -> Mapping[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
@@ -393,11 +405,11 @@ def generate_trait_coverage(
         "schema_version": "1.0",
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "sources": {
-            "env_traits": str(env_traits_path),
-            "trait_reference": str(trait_reference_path),
-            "trait_glossary": str(trait_glossary_path) if trait_glossary_path else None,
-            "species_root": str(species_root),
-            "species_affinity": str(affinity_path_resolved) if affinity_map else None,
+            "env_traits": _stringify_path(env_traits_path),
+            "trait_reference": _stringify_path(trait_reference_path),
+            "trait_glossary": _stringify_path(trait_glossary_path),
+            "species_root": _stringify_path(species_root),
+            "species_affinity": _stringify_path(affinity_path_resolved) if affinity_map else None,
         },
         "summary": summary,
         "traits": report_traits,
