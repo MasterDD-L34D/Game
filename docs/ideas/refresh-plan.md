@@ -139,39 +139,70 @@
 - **Pagina Invia idea** – Layout due colonne: a sinistra card widget (header con istruzioni, form embed), sotto sezione "Checklist export". A destra aside con promemoria tassonomia (accordion) e pannello report: header, spinner stato, contenuto tabellare, CTA feedback.
 - **Changelog & Tutorial index** – Pagina elenco con hero breve, filtri (release/tag), due sezioni: timeline changelog (cards con data, link PR) e griglia tutorial (card con descrizione e durata). Footer con CTA "Suggerisci modifica".
 
-## 7. Piano operativo (PR atomiche)
+## 7. Piano operativo organizzato
 
-1. **Refactor struttura pagina Idea Engine**
-   - File: `docs/ideas/index.html`, `docs/assets/styles/pages.css`, `docs/assets/styles/components.css`.
-   - Diff: aggiornare markup hero, navigation, aside; applicare nuovi componenti e landmark.
-   - Test: apertura statica, verifica montaggio widget, validazione HTML.
+### 7.1 Workstream & dipendenze
 
-2. **Introduzione design token e componenti**
-   - File: `docs/assets/styles/tokens.css`, `docs/assets/styles/components.css`, `docs/site.css` (includere nuovi file).
-   - Diff: definire variabili, aggiornare importi, rimuovere stili inline.
-   - Test: lint CSS (se disponibile), smoke test rendering.
+| Milestone                                    | Obiettivo                                         | Dipendenze                 | Output principali                                               |
+| -------------------------------------------- | ------------------------------------------------- | -------------------------- | --------------------------------------------------------------- |
+| **M0 – Preparazione** (settimana 1)          | Creare base design system e allineare tassonomie  | Nessuna                    | Token CSS condivisi, schema file, issue board                   |
+| **M1 – UI & contenuti** (settimane 2-3)      | Restyle hub Idea Engine + navigazione docs        | M0                         | Pagina `docs/ideas/index.html` aggiornata, indice docs coerente |
+| **M2 – Widget & backend UX** (settimane 3-4) | Rifattorizzare embed, stati ARIA e feedback       | M1 parziale (token pronti) | `docs/public/embed.js` modulare, lazy load feedback             |
+| **M3 – QA & contributi** (settimana 4)       | QA accessibilità/performance e guida contributori | M2                         | Checklist QA eseguita, nuova guida `docs/CONTRIBUTING_SITE.md`  |
 
-3. **Refactor widget embed.js**
-   - File: `docs/public/embed.js`, nuovi moduli se necessario.
-   - Diff: estrarre funzioni UI (ReportPanel, FeedbackCard), aggiungere stati ARIA, lazy load feedback, ottimizzare clipboard fallback.
-   - Test: `npm run build:idea-taxonomy`, `npm run test:api` (se definito), smoke test locale con backend.
+### 7.2 Backlog Kanban (Issues/PR)
 
-4. **Aggiornamento contenuti & navigazione**
-   - File: `docs/README.md`, `docs/ideas/changelog.md`, `README_IDEAS.md`, nuova `docs/ideas/tutorials.md` (opzionale).
-   - Diff: aggiungere indice, breadcrumb, link coerenti.
-   - Test: controllo link (script `npm run lint:links` se esiste) o check manuale.
+| Stato target                 | Titolo                                                                | Scope file                                                                            | Criteri di accettazione                                                   |
+| ---------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **To Do**                    | Setup design tokens & reset CSS                                       | `docs/assets/styles/tokens.css`, `docs/assets/styles/components.css`, `docs/site.css` | Variabili applicate almeno a hero/CTA, nessun regressione layout mobile   |
+| **To Do**                    | Ristrutturare `docs/ideas/index.html` con layout 2-col                | `docs/ideas/index.html`, nuovi partial CSS                                            | Landmark ARIA corretti, 3 CTA principali visibili above-the-fold          |
+| **To Do**                    | Aggiornare `docs/README.md` e `README_IDEAS.md` con indice e tutorial | `docs/README.md`, `README_IDEAS.md`, `docs/ideas/changelog.md`                        | Link coerenti, breadcrumb aggiunta, sezione tutorial referenziata         |
+| **Blocked (attende tokens)** | Estrarre componenti UI in `docs/public/embed.js`                      | `docs/public/embed.js`, eventuali `docs/public/ui/*.js`                               | Stati loading/accessibilità implementati, coverage export `.md` invariato |
+| **Upcoming**                 | Redigere `docs/CONTRIBUTING_SITE.md` + checklist QA                   | Nuovo file, aggiornamento `docs/index.html` se necessario                             | Guida include flussi test statico/backend, link a workflow CI             |
+| **Upcoming**                 | Script smoke-test Pages (serve docs + Lighthouse)                     | `package.json` (script), `docs/qa-checklist.md` (nuovo)                               | Comando automatizzabile documentato, risultati QA salvati                 |
 
-5. **Documentazione contributo sito**
-   - File: `docs/CONTRIBUTING_SITE.md` (nuovo).
-   - Diff: integrare bozza README "Come contribuire" di seguito.
-   - Test: revisione formattazione Markdown.
+### 7.3 Sequenza PR suggerita
 
-### Script e workflow da eseguire
+1. **PR #1 – Design foundation**  
+   _Branch_: `feature/docs-tokens`  
+   _Scope_: creare `tokens.css`, `components.css`, import in `docs/site.css`. Aggiornare 1-2 componenti esistenti come prova.  
+   _Test_: `npx prettier --check docs/assets/styles`, validazione rendering manuale.
+
+2. **PR #2 – Restyle Hub**  
+   _Branch_: `feature/idea-hub-layout`  
+   _Scope_: ristrutturare `docs/ideas/index.html`, aggiungere hero, CTA, aside, includere checklist export.  
+   _Test_: `npm run build:idea-taxonomy`, validazione HTML (`npx html-validate docs/ideas/index.html` se disponibile).
+
+3. **PR #3 – Aggiornamento navigazione & contenuti**  
+   _Branch_: `feature/docs-nav-refresh`  
+   _Scope_: aggiornare `docs/README.md`, `README_IDEAS.md`, `docs/ideas/changelog.md`, creare pagina tutorial se mancante.  
+   _Test_: controllo link (`npm run lint:links` o script manuale), verifica breadcrumb e CTA.
+
+4. **PR #4 – Refactor widget embed**  
+   _Branch_: `feature/idea-widget-ui`  
+   _Scope_: estrarre componenti UI, stati ARIA, lazy load feedback/report, ottimizzare clipboard fallback.  
+   _Test_: `npm run build:idea-taxonomy`, `npm run start:api` + invio idea, test export `.md`.
+
+5. **PR #5 – QA & contributori**  
+   _Branch_: `feature/docs-contributing`  
+   _Scope_: pubblicare `docs/CONTRIBUTING_SITE.md`, aggiungere checklist QA centralizzata, documentare anteprima Pages.  
+   _Test_: `npx prettier --write docs/CONTRIBUTING_SITE.md`, eseguire smoke test `npx serve docs`.
+
+### 7.4 Riti di progetto & coordinamento
+
+- **Kick-off** (giorno 1): review blueprint, assegnazione owner per ogni milestone, apertura issue GitHub corrispondenti.
+- **Sync settimanale**: verificare avanzamento, aggiornare tabella backlog, registrare impedimenti (es. dipendenze dataset).
+- **Design crit** (prima di PR #2): walkthrough wireframe low-fi e component library.
+- **QA day** (fine M2): eseguire audit Lighthouse/Axe, raccogliere screenshot per documentare stato prima del deploy.
+- **Retro finale** (dopo M3): raccogliere feedback su processi, aggiornare `docs/CONTRIBUTING_SITE.md` con lezioni apprese.
+
+### 7.5 Script e workflow obbligatori
 
 - `npm run build:idea-taxonomy` – rigenera tassonomia widget. 【F:README_IDEAS.md†L56-L74】
 - `npm run start:api` – testare backend in locale. 【F:README_IDEAS.md†L31-L40】
 - `npm run test:api` / `npm run webapp:deploy` (richiamati in README docs) per assicurare sincronizzazione dataset. 【F:docs/README.md†L20-L23】
-- Workflow CI: assicurarsi che `daily-pr-summary` continui a girare senza modifiche (solo documentare). 【F:docs/workflows/daily-pr-summary-2025-10-29.md†L1-L40】
+- Workflow CI: verificare che `daily-pr-summary` continui a girare senza modifiche, documentando eventuali impatti. 【F:docs/workflows/daily-pr-summary-2025-10-29.md†L1-L40】
+- Audit Lighthouse manuale e validazione HTML da registrare in `docs/qa-checklist.md` (nuovo artefatto proposto).
 
 ## 8. Checklist di accettazione per journey
 
