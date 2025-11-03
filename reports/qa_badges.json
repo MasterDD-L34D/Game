@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-11-02T20:58:14.328556Z",
+  "generated_at": "2025-11-03T11:37:45.252152Z",
   "summary": {
     "total_traits": 174,
     "glossary_ok": 174,
@@ -22,7 +22,6 @@
     "glossary_missing": [],
     "matrix_only_traits": [
       "Strategist",
-      "Support",
       "adattamento_volo",
       "ali_solari_fotoni",
       "architetto",
@@ -40,7 +39,8 @@
       "intangibilita_parziale",
       "lamenti_diradanti",
       "maschera_illusoria",
-      "matrice_antimagia"
+      "matrice_antimagia",
+      "membrane_osmotiche"
     ],
     "matrix_mismatch_traits": [],
     "zero_coverage_traits": [],
