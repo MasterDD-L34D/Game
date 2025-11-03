@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
   <head>
     <meta charset="utf-8" />
@@ -12,181 +12,320 @@
     <link rel="stylesheet" href="idea-intake.css" />
   </head>
   <body class="idea-intake">
-    <header class="idea-intake__header" id="top">
-      <div class="idea-intake__intro">
-        <p class="idea-intake__eyebrow">Mission Control Toolkit</p>
-        <h1>Idea Engine Evo-Tactics</h1>
-        <p class="idea-intake__lead">
-          Centralizza la raccolta delle idee di design. Compila il form per inviarle al backend Idea Intake oppure
-          esporta il Markdown pronto da archiviare nella cartella <code>ideas/</code> del repository.
-        </p>
-        <div class="idea-intake__actions">
-          <a class="button" href="../index.html">← Torna al Support Hub</a>
-          <a
-            class="button button--secondary"
-            href="https://github.com/MasterDD-L34D/Game/blob/main/README_IDEAS.md"
-            target="_blank"
-            rel="noreferrer"
-            >Guida setup</a
-          >
+    <header class="idea-intake__header" id="top" aria-labelledby="idea-hero-title">
+      <div class="page-shell">
+        <div class="idea-intake__hero">
+          <div class="idea-intake__intro">
+            <p class="idea-intake__eyebrow">Mission Control Toolkit</p>
+            <h1 id="idea-hero-title">Idea Engine Evo-Tactics</h1>
+            <p class="idea-intake__lead">
+              Centralizza la raccolta delle idee di design. Scegli se esportare il Markdown per la
+              cartella
+              <code>ideas/</code> oppure inviare tutto al backend Idea Intake per generare il brief
+              Codex GPT incrementale.
+            </p>
+            <div class="idea-intake__actions" role="group" aria-label="Percorsi rapidi Idea Engine">
+              <a class="button" href="#idea-workflows">Quick Start</a>
+              <a
+                class="button button--secondary"
+                href="https://github.com/MasterDD-L34D/Game/blob/main/README_IDEAS.md#backend-api-node"
+                target="_blank"
+                rel="noreferrer"
+                >Configura backend</a
+              >
+              <a class="button button--ghost" href="./changelog.md" target="_blank" rel="noreferrer"
+                >Consulta changelog</a
+              >
+            </div>
+            <div class="idea-intake__journeys" role="list">
+              <article class="idea-intake__journey" role="listitem">
+                <h2 id="journey-export">Export <code>.md</code> immediato</h2>
+                <p>
+                  Usa il widget per compilare i campi, quindi premi
+                  <strong>Anteprima / Export .md</strong>: scarichi il file pronto per la cartella
+                  <code>ideas/</code> e lo alleghi al prossimo commit.
+                </p>
+              </article>
+              <article class="idea-intake__journey" role="listitem">
+                <h2 id="journey-backend">Invio al backend</h2>
+                <p>
+                  Configura l'endpoint con <code>?apiBase</code> e <code>?apiToken</code>:
+                  <strong>Invia al backend</strong>
+                  salva l'idea, genera il brief Codex GPT e aggiorna lo storico report consultabile
+                  dall'aside.
+                </p>
+              </article>
+              <article class="idea-intake__journey" role="listitem">
+                <h2 id="journey-feedback">Feedback post-submit</h2>
+                <p>
+                  Dopo l'invio appare il modulo feedback rapido: compila le note di playtest o apri
+                  la pagina dedicata per una retrospettiva più ampia.
+                </p>
+              </article>
+            </div>
+          </div>
+          <div class="idea-intake__hero-aside">
+            <h2 class="idea-intake__hero-aside-title">Step di sincronizzazione</h2>
+            <ol class="idea-intake__steps">
+              <li>
+                <span class="idea-intake__step-label">1.</span>
+                Prepara tag e categoria coerenti con i dataset (Biomi, Ecosistemi, Specie, Tratti,
+                Funzioni…).
+              </li>
+              <li>
+                <span class="idea-intake__step-label">2.</span>
+                Allinea i riferimenti con i file YAML ufficiali così che il reminder resti in
+                sincronia con il repository.
+              </li>
+              <li>
+                <span class="idea-intake__step-label">3.</span>
+                Esporta il Markdown oppure invia al backend per generare il report Codex
+                condivisibile.
+              </li>
+            </ol>
+          </div>
         </div>
-        <nav class="idea-intake__nav" aria-label="Navigazione Support Hub">
+        <nav class="idea-intake__nav" aria-labelledby="idea-nav-title">
+          <h2 class="idea-intake__visually-hidden" id="idea-nav-title">Navigazione Support Hub</h2>
+          <a href="../index.html">Support Hub</a>
           <a href="../index.html#mission-control">Mission Control</a>
           <a href="../test-interface/index.html">Interfaccia Test</a>
           <a href="../evo-tactics-pack/generator.html">Generatore</a>
           <a href="../evo-tactics-pack/index.html">Ecosystem Pack</a>
         </nav>
       </div>
-      <ul class="idea-intake__steps">
-        <li>
-          <span class="idea-intake__step-label">1.</span>
-          Prepara i tag e scegli la categoria coerente con il repository (Biomi, Ecosistemi, Specie, Tratti, Funzioni…).
-        </li>
-        <li>
-          <span class="idea-intake__step-label">2.</span>
-          Mappa biomi, ecosistemi, specie, tratti e funzioni di gioco: il reminder resterà allineato con i dataset del repo.
-        </li>
-        <li>
-          <span class="idea-intake__step-label">3.</span>
-          Invia verso il backend configurato oppure scarica il file <code>.md</code> pronto per la cartella <code>ideas/</code>.
-        </li>
-      </ul>
     </header>
 
-    <main class="idea-intake__main">
-      <section class="idea-intake__panel card card--highlight">
-        <div class="idea-intake__panel-header">
-          <h2>Invia o esporta una nuova idea</h2>
-          <p>
-            I campi seguono il formato richiesto dal workflow automatico. Gli errori vengono mostrati in tempo reale, la preview
-            genera il Reminder Block pronto da copiare e il backend salva l'idea nel database generando un brief Codex GPT
-            incrementale.
-          </p>
-        </div>
-        <div id="idea-widget" class="idea-intake__widget" aria-live="polite">
-          <p class="idea-intake__fallback">Caricamento widget Idea Intake…</p>
-        </div>
-      </section>
+    <main
+      class="idea-intake__main"
+      aria-labelledby="idea-workflows-title"
+      aria-describedby="journey-export journey-backend"
+    >
+      <div class="page-shell page-shell--tight">
+        <div class="page-grid page-grid--two-col idea-intake__layout">
+          <section
+            class="idea-intake__panel card card--highlight"
+            id="idea-workflows"
+            aria-labelledby="idea-workflows-title"
+          >
+            <div class="idea-intake__panel-header">
+              <h2 id="idea-workflows-title">Invia o esporta una nuova idea</h2>
+              <p>
+                Il widget valida i campi in tempo reale, propone il Reminder Block e coordina
+                l'export oppure la chiamata API. Se il backend è online vedrai lo stato della
+                richiesta e il report Codex apparirà nell'aside.
+              </p>
+            </div>
+            <div id="idea-widget" class="idea-intake__widget" aria-live="polite">
+              <p class="idea-intake__fallback">Caricamento widget Idea Intake…</p>
+            </div>
+          </section>
 
-      <aside class="idea-intake__aside">
-        <article class="surface-panel surface-panel--overlay idea-intake__reminder">
-          <h3>Promemoria campi</h3>
-          <dl>
-            <div>
-              <dt>Categoria</dt>
-              <dd id="idea-categories-list">Caricamento tassonomia…</dd>
-            </div>
-            <div>
-              <dt>Tags</dt>
-              <dd>Usa <code>#</code> davanti alle keyword. Esempio: <code>#mission</code> <code>#telemetria</code></dd>
-            </div>
-            <div>
-              <dt>Biomi</dt>
-              <dd>Elenca gli ID ufficiali da <code>data/core/biomes.yaml</code>. Usa virgole o nuove righe.</dd>
-            </div>
-            <div>
-              <dt>Ecosistemi</dt>
-              <dd>Meta-nodi o pack: <em>ecosistema_alpha</em>, <em>fangwood_cluster</em>, ecc.</dd>
-            </div>
-            <div>
-              <dt>Specie &amp; Tratti</dt>
-              <dd>Specie da <code>data/core/species.yaml</code> e tratti/mutazioni da <code>data/core/traits/</code>.</dd>
-            </div>
-            <div>
-              <dt>Funzioni di gioco</dt>
-              <dd>Telemetria, mating, progressione, HUD… usa slug coerenti con <code>docs/</code> e <code>packs/</code>.</dd>
-            </div>
-            <div>
-              <dt>Priorità</dt>
-              <dd>P0 (urgente) → P3 (bassa). Default: P2.</dd>
-            </div>
-            <div>
-              <dt>Azioni Next</dt>
-              <dd>Mantieni la sintassi checklist <code>- [ ]</code> per facilitare il parsing.</dd>
-            </div>
-          </dl>
-        </article>
+          <aside class="idea-intake__aside" aria-labelledby="idea-aside-title">
+            <h2 class="idea-intake__aside-title" id="idea-aside-title">
+              Tassonomia e report Idea Engine
+            </h2>
+            <section
+              class="surface-panel surface-panel--overlay idea-intake__reminder"
+              aria-labelledby="idea-taxonomy-title"
+            >
+              <h3 id="idea-taxonomy-title">Tassonomia sincronizzata</h3>
+              <p class="idea-intake__aside-lead">
+                Il widget carica <code>config/idea_engine_taxonomy.json</code> per restare allineato
+                con i dataset del repo.
+              </p>
+              <dl>
+                <div>
+                  <dt>Categoria</dt>
+                  <dd id="idea-categories-list">Caricamento tassonomia…</dd>
+                </div>
+                <div>
+                  <dt>Tags</dt>
+                  <dd>
+                    Usa <code>#</code> davanti alle keyword. Esempio: <code>#mission</code>
+                    <code>#telemetria</code>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Biomi</dt>
+                  <dd>
+                    Elenca gli ID ufficiali da <code>data/core/biomes.yaml</code>. Usa virgole o
+                    nuove righe.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Ecosistemi</dt>
+                  <dd>
+                    Meta-nodi o pack: <em>ecosistema_alpha</em>, <em>fangwood_cluster</em>, ecc.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Specie &amp; Tratti</dt>
+                  <dd>
+                    Specie da <code>data/core/species.yaml</code> e tratti/mutazioni da
+                    <code>data/core/traits/</code>.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Funzioni di gioco</dt>
+                  <dd>
+                    Telemetria, mating, progressione, HUD… usa slug coerenti con
+                    <code>docs/</code> e <code>packs/</code>.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Priorità</dt>
+                  <dd>P0 (urgente) → P3 (bassa). Default: P2.</dd>
+                </div>
+                <div>
+                  <dt>Azioni Next</dt>
+                  <dd>
+                    Mantieni la sintassi checklist <code>- [ ]</code> per facilitare il parsing.
+                  </dd>
+                </div>
+              </dl>
+            </section>
 
-        <article class="surface-panel idea-intake__tips">
-          <h3>Config backend opzionale</h3>
-          <p>
-            Senza backend il bottone <strong>Anteprima / Export .md</strong> scarica il file già formattato. Con il servizio Node
-            attivo (<code>npm run start:api</code>) il tasto <strong>Invia al backend</strong> registra nel database e mostra un
-            report "Codex GPT Integration Brief" pronto da condividere.
-          </p>
-          <ul>
-            <li>Inserisci <code>?apiBase=https://server</code> e <code>?apiToken=XXX</code> nell'URL per override rapido.</li>
-            <li>Prefiltra i campi con <code>?biomes=foresta_temperata</code>, <code>?ecosystems=ecosistema_alpha</code>, <code>?species=cervo_bianco</code> o <code>?traits=muta_respiratoria</code>; la priorità resta configurabile con <code>?priority=P1</code>.</li>
-            <li>Salva il file Markdown esportato in <code>ideas/</code>: il workflow aggiorna <code>IDEAS_INDEX.md</code>.</li>
-          </ul>
-        </article>
-      </aside>
+            <section class="surface-panel idea-intake__report" aria-labelledby="idea-report-title">
+              <h3 id="idea-report-title">Report Codex &amp; feedback</h3>
+              <p>
+                Quando il backend conferma l'invio, la pagina mostra l'estratto del brief Codex
+                generato. Se lavori offline, conserva l'export e sincronizzalo in repository per
+                tenerne traccia.
+              </p>
+              <ul class="idea-intake__report-list">
+                <li>
+                  <strong>Backend attivo:</strong> controlla lo stato nella toast di conferma prima
+                  di aggiornare la pagina.
+                </li>
+                <li>
+                  <strong>Export manuale:</strong> rinomina il file con timestamp ISO per facilitare
+                  la tracciabilità.
+                </li>
+                <li>
+                  <strong>Feedback:</strong> raccogli le note post-submit dal widget o dalla pagina
+                  dedicata.
+                </li>
+              </ul>
+              <a
+                class="button button--secondary"
+                href="./feedback.md"
+                target="_blank"
+                rel="noreferrer"
+                >Apri pagina feedback</a
+              >
+            </section>
+          </aside>
+
+          <section
+            class="surface-panel idea-intake__checklist"
+            aria-labelledby="idea-checklist-title"
+          >
+            <div class="idea-intake__panel-header">
+              <h2 id="idea-checklist-title">Checklist export offline</h2>
+              <p>
+                Segui questi passaggi per pubblicare l'idea tramite export <code>.md</code> e
+                garantire che gli automatismi CI si attivino correttamente.
+              </p>
+            </div>
+            <ol class="idea-intake__checklist-list">
+              <li>
+                Compila tutti i campi obbligatori del widget finché non compaiono conferme verdi.
+              </li>
+              <li>
+                Scarica il file con <strong>Anteprima / Export .md</strong> e rinominalo con
+                prefisso <code>idea-</code>.
+              </li>
+              <li>
+                Salva il file in <code>ideas/</code>, aggiorna <code>IDEAS_INDEX.md</code> se
+                necessario e apri la pull request.
+              </li>
+              <li>
+                Condividi il link alla PR nel canale <code>#feedback-enhancements</code> per
+                raccogliere il parere del team.
+              </li>
+            </ol>
+          </section>
+        </div>
+      </div>
     </main>
 
     <footer class="idea-intake__footer">
-      Idea Intake widget — v2.0 · Allineato ai dataset biomi/ecosistemi/specie e compatibile con export offline o backend Node/Express.
+      <div class="page-shell page-shell--tight">
+        Idea Intake widget — v2.0 · Allineato ai dataset biomi/ecosistemi/specie e compatibile con
+        export offline o backend Node/Express.
+      </div>
     </footer>
 
     <script>
       window.IDEA_WIDGET_CONFIG = {
-        apiBase: "",
-        apiToken: "",
-        defaultModule: "",
-        defaultBiomes: "",
-        defaultEcosystems: "",
-        defaultSpecies: "",
-        defaultTraits: "",
-        defaultFunctions: "",
-        defaultPriority: "P2",
-        categoriesUrl: "../config/idea_engine_taxonomy.json",
-        feedbackChannel: "#feedback-enhancements",
+        apiBase: '',
+        apiToken: '',
+        defaultModule: '',
+        defaultBiomes: '',
+        defaultEcosystems: '',
+        defaultSpecies: '',
+        defaultTraits: '',
+        defaultFunctions: '',
+        defaultPriority: 'P2',
+        categoriesUrl: '../config/idea_engine_taxonomy.json',
+        feedbackChannel: '#feedback-enhancements',
       };
 
-      if (!window.IDEA_WIDGET_CONFIG.apiBase && window.location.hostname === "localhost") {
-        window.IDEA_WIDGET_CONFIG.apiBase = "http://localhost:3333";
+      if (!window.IDEA_WIDGET_CONFIG.apiBase && window.location.hostname === 'localhost') {
+        window.IDEA_WIDGET_CONFIG.apiBase = 'http://localhost:3333';
       }
 
       (function applyOverrides() {
         try {
           const params = new URLSearchParams(window.location.search);
-          if (params.has("apiBase")) window.IDEA_WIDGET_CONFIG.apiBase = params.get("apiBase") || "";
-          if (params.has("apiToken")) window.IDEA_WIDGET_CONFIG.apiToken = params.get("apiToken") || "";
-          if (params.has("module")) {
-            const value = params.get("module") || "";
+          if (params.has('apiBase'))
+            window.IDEA_WIDGET_CONFIG.apiBase = params.get('apiBase') || '';
+          if (params.has('apiToken'))
+            window.IDEA_WIDGET_CONFIG.apiToken = params.get('apiToken') || '';
+          if (params.has('module')) {
+            const value = params.get('module') || '';
             window.IDEA_WIDGET_CONFIG.defaultModule = value;
             window.IDEA_WIDGET_CONFIG.defaultEcosystems = value;
           }
-          if (params.has("biomes")) window.IDEA_WIDGET_CONFIG.defaultBiomes = params.get("biomes") || "";
-          if (params.has("ecosystems")) window.IDEA_WIDGET_CONFIG.defaultEcosystems = params.get("ecosystems") || "";
-          if (params.has("species")) window.IDEA_WIDGET_CONFIG.defaultSpecies = params.get("species") || "";
-          if (params.has("traits")) window.IDEA_WIDGET_CONFIG.defaultTraits = params.get("traits") || "";
-          if (params.has("functions")) window.IDEA_WIDGET_CONFIG.defaultFunctions = params.get("functions") || "";
-          if (params.has("priority")) window.IDEA_WIDGET_CONFIG.defaultPriority = params.get("priority") || "P2";
-          if (params.has("categoriesUrl")) window.IDEA_WIDGET_CONFIG.categoriesUrl = params.get("categoriesUrl") || "";
-          if (params.has("feedbackChannel")) window.IDEA_WIDGET_CONFIG.feedbackChannel = params.get("feedbackChannel") || "";
+          if (params.has('biomes'))
+            window.IDEA_WIDGET_CONFIG.defaultBiomes = params.get('biomes') || '';
+          if (params.has('ecosystems'))
+            window.IDEA_WIDGET_CONFIG.defaultEcosystems = params.get('ecosystems') || '';
+          if (params.has('species'))
+            window.IDEA_WIDGET_CONFIG.defaultSpecies = params.get('species') || '';
+          if (params.has('traits'))
+            window.IDEA_WIDGET_CONFIG.defaultTraits = params.get('traits') || '';
+          if (params.has('functions'))
+            window.IDEA_WIDGET_CONFIG.defaultFunctions = params.get('functions') || '';
+          if (params.has('priority'))
+            window.IDEA_WIDGET_CONFIG.defaultPriority = params.get('priority') || 'P2';
+          if (params.has('categoriesUrl'))
+            window.IDEA_WIDGET_CONFIG.categoriesUrl = params.get('categoriesUrl') || '';
+          if (params.has('feedbackChannel'))
+            window.IDEA_WIDGET_CONFIG.feedbackChannel = params.get('feedbackChannel') || '';
         } catch (error) {
-          console.warn("Impossibile applicare gli override del widget", error);
+          console.warn('Impossibile applicare gli override del widget', error);
         }
       })();
     </script>
     <script src="../public/embed.js"></script>
     <script>
       (function mountIdeaWidget() {
-        const container = document.querySelector("#idea-widget");
+        const container = document.querySelector('#idea-widget');
         if (!container) return;
-        if (window.IdeaWidget && typeof window.IdeaWidget.mount === "function") {
-          window.IdeaWidget
-            .mount("#idea-widget", window.IDEA_WIDGET_CONFIG)
+        if (window.IdeaWidget && typeof window.IdeaWidget.mount === 'function') {
+          window.IdeaWidget.mount('#idea-widget', window.IDEA_WIDGET_CONFIG)
             .then((categories) => {
-              const list = document.getElementById("idea-categories-list");
+              const list = document.getElementById('idea-categories-list');
               if (list && Array.isArray(categories) && categories.length) {
-                list.textContent = categories.join(" · ");
+                list.textContent = categories.join(' · ');
               }
             })
             .catch(() => {
-              const list = document.getElementById("idea-categories-list");
+              const list = document.getElementById('idea-categories-list');
               if (list) {
-                list.textContent = window.IdeaWidget.DEFAULT_CATEGORIES.join(" · ");
+                list.textContent = window.IdeaWidget.DEFAULT_CATEGORIES.join(' · ');
               }
             });
         } else {

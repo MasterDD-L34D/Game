@@ -1,5 +1,6 @@
 @import url('./assets/styles/tokens.css');
 @import url('./assets/styles/components.css');
+@import url('./assets/styles/pages.css');
 
 :root {
   color-scheme: dark;
