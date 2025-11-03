@@ -83,8 +83,8 @@ derived_from_environment:
     - supporto:rinforzo_barriere
     - culturale:guida_spirituale
   jobs_bias:
-    - Invoker
-    - Skirmisher
+    - invoker
+    - skirmisher
 genetic_traits:
   core:
     - ciclo_vitale_completo

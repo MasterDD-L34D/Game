@@ -63,8 +63,8 @@ derived_from_environment:
     - non_metal_gear
     - seal_vents
   jobs_bias:
-    - Vanguard
-    - Warden
+    - vanguard
+    - warden
 telemetry:
   expected_pick_rate: null
   spawn_weight: null

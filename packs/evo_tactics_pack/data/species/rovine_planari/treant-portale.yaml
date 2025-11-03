@@ -70,8 +70,8 @@ derived_from_environment:
     - supporto:rinforzo_strutturale
     - regolazione:depurazione_flussi
   jobs_bias:
-    - Artificer
-    - Warden
+    - artificer
+    - warden
 genetic_traits:
   core:
     - ciclo_vitale_completo

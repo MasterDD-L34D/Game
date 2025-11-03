@@ -68,8 +68,8 @@ derived_from_environment:
     - supporto:manutenzione_sigilli
     - regolazione:smaltimento_residui
   jobs_bias:
-    - Warden
-    - Artificer
+    - warden
+    - artificer
 genetic_traits:
   core:
     - ciclo_vitale_anomalo

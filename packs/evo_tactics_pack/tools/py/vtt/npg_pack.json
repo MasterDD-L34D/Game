@@ -16,7 +16,7 @@
       }
     },
     "job": {
-      "id": "Vanguard",
+      "id": "vanguard",
       "rank": 3,
       "actives": ["muraglia_termica", "carica_scintilla"],
       "passives": ["resistenza_termica", "guardia_pressurizzata"]
@@ -60,7 +60,7 @@
       }
     },
     "job": {
-      "id": "Artificer",
+      "id": "artificer",
       "rank": 2,
       "actives": ["torretta_prismi", "campo_lente"],
       "passives": ["stabilizzatori_sabbia"]
@@ -102,7 +102,7 @@
       }
     },
     "job": {
-      "id": "Harvester",
+      "id": "harvester",
       "rank": 2,
       "actives": ["rete_spinata", "sifone_sap"],
       "passives": ["raccolto_notturno"]
@@ -146,7 +146,7 @@
       }
     },
     "job": {
-      "id": "Invoker",
+      "id": "invoker",
       "rank": 2,
       "actives": ["risonanza_termica", "sciame_echolink"],
       "passives": ["sincronizza_branchi"]
@@ -188,7 +188,7 @@
       }
     },
     "job": {
-      "id": "Warden",
+      "id": "warden",
       "rank": 3,
       "actives": ["aura_dissonanza", "baluardo_risonante"],
       "passives": ["sentinella_caverna", "eco_vigil"]
@@ -232,7 +232,7 @@
       }
     },
     "job": {
-      "id": "Invoker",
+      "id": "invoker",
       "rank": 3,
       "actives": ["rituale_vibrante", "spira_convergenza"],
       "passives": ["mantello_risonante"]
@@ -274,7 +274,7 @@
       }
     },
     "job": {
-      "id": "Skirmisher",
+      "id": "skirmisher",
       "rank": 2,
       "actives": ["dash_fango", "colpo_vitale"],
       "passives": ["mimetismo_fungino"]
@@ -318,7 +318,7 @@
       }
     },
     "job": {
-      "id": "Harvester",
+      "id": "harvester",
       "rank": 1,
       "actives": ["drenaggio_luce", "trappola_silice"],
       "passives": ["raccolta_notturna"]
@@ -362,7 +362,7 @@
       }
     },
     "job": {
-      "id": "Vanguard",
+      "id": "vanguard",
       "rank": 3,
       "actives": ["assalto_valanga", "sfida_predatoria"],
       "passives": ["armatura_magnetica"]
@@ -406,7 +406,7 @@
       }
     },
     "job": {
-      "id": "Artificer",
+      "id": "artificer",
       "rank": 3,
       "actives": ["campo_magnetico", "mine_ferrose"],
       "passives": ["sinapsi_colla"]
@@ -450,7 +450,7 @@
       }
     },
     "job": {
-      "id": "Skirmisher",
+      "id": "skirmisher",
       "rank": 2,
       "actives": ["raffica_lame", "tuffo_sonico"],
       "passives": ["radar_stormo"]
@@ -492,7 +492,7 @@
       }
     },
     "job": {
-      "id": "Harvester",
+      "id": "harvester",
       "rank": 2,
       "actives": ["carico_sabbia", "drenaggio_metalli"],
       "passives": ["minatore_notturno"]

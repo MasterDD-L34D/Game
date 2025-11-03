@@ -61,7 +61,7 @@ derived_from_environment:
     - dr_impact_cap
     - non_metal_gear
 jobs_bias:
-  - Warden
+  - warden
 telemetry:
   expected_pick_rate: null
   spawn_weight: 0.08

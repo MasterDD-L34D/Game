@@ -3472,7 +3472,7 @@
       "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
       "uso_funzione": "Collega cooldown difensivi e cura quando la squadra entra in finestra rischio.",
       "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
-      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate warden scende.",
       "sinergie_pi": {
         "co_occorrenze": ["job_ability:warden/scudo_di_risonanza"],
         "combo_totale": 1,

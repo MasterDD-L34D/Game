@@ -60,7 +60,7 @@ derived_from_environment:
   required_capabilities:
     - long_range_scan
 jobs_bias:
-  - Support
+  - support
 telemetry:
   expected_pick_rate: null
   spawn_weight: 0.11

@@ -356,7 +356,7 @@
       "synergy_traits": ["focus_frazionato", "risonanza_di_branco", "empatia_coordinativa"]
     },
     "aurora-bridge-runner": {
-      "archetypes": ["Skirmisher"],
+      "archetypes": ["skirmisher"],
       "biomes": ["mezzanotte_orbitale"],
       "core_traits": [
         "sacche_galleggianti_ascensoriali",
@@ -383,11 +383,11 @@
       "required_capabilities": ["deploy_support_field", "long_range_scan"],
       "role": "dispersore_ponte",
       "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/aurora-bridge-runner.yaml"],
-      "synergy_hints": ["Support", "Skirmisher"],
-      "synergy_traits": ["Support"]
+      "synergy_hints": ["support", "skirmisher"],
+      "synergy_traits": ["support"]
     },
     "aurora-gull": {
-      "archetypes": ["Skirmisher", "Invoker"],
+      "archetypes": ["skirmisher", "invoker"],
       "biomes": ["mezzanotte_orbitale"],
       "core_traits": ["criostasi_adattiva", "eco_interno_riflesso", "sonno_emisferico_alternato"],
       "display_name": "Gabbiano d’Aurora",
@@ -543,7 +543,7 @@
       "synergy_traits": []
     },
     "cactus-weaver": {
-      "archetypes": ["Warden", "Artificer"],
+      "archetypes": ["warden", "artificer"],
       "biomes": ["abisso_vulcanico"],
       "core_traits": [
         "cuticole_cerose",
@@ -1005,7 +1005,7 @@
       "synergy_traits": ["focus_frazionato", "risonanza_di_branco", "tattiche_di_branco"]
     },
     "echo-wing": {
-      "archetypes": ["Skirmisher", "Invoker"],
+      "archetypes": ["skirmisher", "invoker"],
       "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "eco_interno_riflesso",
@@ -1072,7 +1072,7 @@
       "synergy_traits": []
     },
     "ferrocolonia-magnetotattica": {
-      "archetypes": ["Warden", "Artificer"],
+      "archetypes": ["warden", "artificer"],
       "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "mimetismo_cromatico_passivo",
@@ -1228,7 +1228,7 @@
       "required_capabilities": ["deploy_support_field"],
       "role": "ingegneri_ecosistema",
       "source_files": ["packs/evo_tactics_pack/data/species/foresta_temperata/glowcap-weaver.yaml"],
-      "synergy_hints": ["Support"],
+      "synergy_hints": ["support"],
       "synergy_traits": []
     },
     "gole-ventose-trait-keeper": {
@@ -1393,11 +1393,11 @@
       "source_files": [
         "packs/evo_tactics_pack/data/species/falde_magnetiche_psioniche/magnet-fathom-surveyor.yaml"
       ],
-      "synergy_hints": ["Warden", "Vanguard"],
+      "synergy_hints": ["warden", "vanguard"],
       "synergy_traits": []
     },
     "magneto-ridge-hunter": {
-      "archetypes": ["Vanguard"],
+      "archetypes": ["vanguard"],
       "biomes": ["dorsale_termale_tropicale"],
       "core_traits": ["coda_frusta_cinetica", "scheletro_idro_regolante", "artigli_sette_vie"],
       "display_name": "Magneto Ridge Hunter",
@@ -1420,7 +1420,7 @@
       "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
       "role": "predatore_terziario_apex",
       "source_files": ["packs/evo_tactics_pack/data/species/badlands/magneto-ridge-hunter.yaml"],
-      "synergy_hints": ["Vanguard", "Skirmisher"],
+      "synergy_hints": ["vanguard", "skirmisher"],
       "synergy_traits": ["tattiche_di_branco", "struttura_elastica_amorfa"]
     },
     "mangrovie-risonanti-trait-keeper": {
@@ -1515,14 +1515,14 @@
       "synergy_traits": []
     },
     "myco-spire-warden": {
-      "archetypes": ["Support"],
+      "archetypes": ["support"],
       "biomes": ["foresta_miceliale"],
       "core_traits": [
         "filamenti_digestivi_compattanti",
         "empatia_coordinativa",
         "struttura_elastica_amorfa"
       ],
-      "display_name": "Myco Spire Warden",
+      "display_name": "Myco Spire warden",
       "environment_focus": {
         "biome_class": "foresta_miceliale"
       },
@@ -1544,7 +1544,7 @@
       "source_files": [
         "packs/evo_tactics_pack/data/species/foresta_temperata/myco-spire-warden.yaml"
       ],
-      "synergy_hints": ["Support", "Strategist"],
+      "synergy_hints": ["support", "Strategist"],
       "synergy_traits": ["Strategist"]
     },
     "nano-rust-bloom": {
@@ -1576,7 +1576,7 @@
       "synergy_traits": []
     },
     "noctule-termico": {
-      "archetypes": ["Skirmisher", "Invoker"],
+      "archetypes": ["skirmisher", "invoker"],
       "biomes": ["abisso_vulcanico"],
       "core_traits": [
         "cuticole_cerose",
@@ -1669,7 +1669,7 @@
       "source_files": [
         "packs/evo_tactics_pack/data/species/orbita_psionica_inversa/orbital-ascendant.yaml"
       ],
-      "synergy_hints": ["Vanguard", "Invoker"],
+      "synergy_hints": ["vanguard", "invoker"],
       "synergy_traits": []
     },
     "otyugh-sentinella": {
@@ -1851,7 +1851,7 @@
       "source_files": [
         "packs/evo_tactics_pack/data/species/canopia_psionica_leggera/psionic-canopy-scout.yaml"
       ],
-      "synergy_hints": ["Support", "Invoker"],
+      "synergy_hints": ["support", "invoker"],
       "synergy_traits": []
     },
     "rakshasa-corte": {
@@ -1966,7 +1966,7 @@
       "synergy_traits": []
     },
     "rust-scavenger": {
-      "archetypes": ["Warden", "Artificer"],
+      "archetypes": ["warden", "artificer"],
       "biomes": ["dorsale_termale_tropicale"],
       "core_traits": [
         "ventriglio_gastroliti",
@@ -1993,7 +1993,7 @@
       "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"],
       "role": "ingegneri_ecosistema",
       "source_files": ["packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"],
-      "synergy_hints": ["Vanguard", "Warden"],
+      "synergy_hints": ["vanguard", "warden"],
       "synergy_traits": []
     },
     "sand-burrower": {
@@ -2110,7 +2110,7 @@
       "required_capabilities": ["dr_impact_cap", "non_metal_gear"],
       "role": "predatore_terziario_apex",
       "source_files": ["packs/evo_tactics_pack/data/species/badlands/slag-veil-ambusher.yaml"],
-      "synergy_hints": ["Warden"],
+      "synergy_hints": ["warden"],
       "synergy_traits": ["tattiche_di_branco", "scheletro_idro_regolante"]
     },
     "sorgenti-geotermiche-trait-keeper": {
@@ -2170,7 +2170,7 @@
       "synergy_traits": []
     },
     "steppe-bison-mini": {
-      "archetypes": ["Warden", "Vanguard"],
+      "archetypes": ["warden", "vanguard"],
       "biomes": ["mezzanotte_orbitale"],
       "core_traits": ["ventriglio_gastroliti", "scheletro_idro_regolante", "respiro_a_scoppio"],
       "display_name": "Bisonte Nano della Steppa",
@@ -2407,7 +2407,7 @@
       "required_capabilities": ["long_range_scan"],
       "role": "dispersore_ponte",
       "source_files": ["packs/evo_tactics_pack/data/species/cryosteppe/zephyr-spore-courier.yaml"],
-      "synergy_hints": ["Support"],
+      "synergy_hints": ["support"],
       "synergy_traits": []
     }
   }

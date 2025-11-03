@@ -8,8 +8,8 @@ rules:
     effects:
       res_cold: '+1'
     jobs_bias:
-    - Warden
-    - Skirmisher
+    - warden
+    - skirmisher
 - when:
     koppen_in:
     - Cfb
@@ -49,8 +49,8 @@ rules:
     effects:
       res_fire: '+1'
     jobs_bias:
-    - Vanguard
-    - Warden
+    - vanguard
+    - warden
 - when:
     hazard_any:
     - iron_shards
@@ -81,8 +81,8 @@ rules:
       res_fire: '+1'
       res_salt: '+1'
     jobs_bias:
-    - Warden
-    - Skirmisher
+    - warden
+    - skirmisher
 - when:
     koppen_any:
     - BSk
@@ -96,8 +96,8 @@ rules:
       res_cold: '+1'
       ignore_fog_penalty: true
     jobs_bias:
-    - Vanguard
-    - Warden
+    - vanguard
+    - warden
 - when:
     biome_class: caldera_glaciale
   meta:
@@ -133,8 +133,8 @@ rules:
       res_fire: '+1'
       pressure_tolerance: true
     jobs_bias:
-    - Warden
-    - Invoker
+    - warden
+    - invoker
 - when:
     biome_class: foresta_acida
   meta:
@@ -169,8 +169,8 @@ rules:
       res_acid: '+2'
       detox_cycle: true
     jobs_bias:
-    - Warden
-    - Vanguard
+    - warden
+    - vanguard
 - when:
     biome_class: pianura_salina_iperarida
   meta:
@@ -206,8 +206,8 @@ rules:
       res_salt: '+2'
       moisture_harvest: true
     jobs_bias:
-    - Skirmisher
-    - Invoker
+    - skirmisher
+    - invoker
 - when:
     biome_class: stratosfera_tempestosa
   meta:
@@ -243,8 +243,8 @@ rules:
       res_electric: '+2'
       wind_sense: true
     jobs_bias:
-    - Skirmisher
-    - Invoker
+    - skirmisher
+    - invoker
 - when:
     biome_class: abisso_vulcanico
   meta:
@@ -280,8 +280,8 @@ rules:
       dark_vision: true
       res_heat: '+1'
     jobs_bias:
-    - Vanguard
-    - Warden
+    - vanguard
+    - warden
 - when:
     biome_class: laguna_bioreattiva
   meta:
@@ -314,8 +314,8 @@ rules:
       tidal_sync: true
       res_salt: '+1'
     jobs_bias:
-    - Warden
-    - Skirmisher
+    - warden
+    - skirmisher
 - when:
     biome_class: mangrovieto_cinetico
   meta:
@@ -348,8 +348,8 @@ rules:
       climb_bonus: true
       mire_immunity: true
     jobs_bias:
-    - Vanguard
-    - Skirmisher
+    - vanguard
+    - skirmisher
 - when:
     biome_class: reef_luminescente
   meta:
@@ -383,8 +383,8 @@ rules:
       res_acid: '+1'
       night_vision: true
     jobs_bias:
-    - Invoker
-    - Skirmisher
+    - invoker
+    - skirmisher
 - when:
     biome_class: dorsale_termale_tropicale
   meta:
@@ -417,8 +417,8 @@ rules:
       res_heat: '+2'
       pressure_tolerance: true
     jobs_bias:
-    - Vanguard
-    - Warden
+    - vanguard
+    - warden
 - when:
     biome_class: canopia_ionica
   meta:
@@ -451,8 +451,8 @@ rules:
       glide_bonus: true
       res_electric: '+2'
     jobs_bias:
-    - Skirmisher
-    - Invoker
+    - skirmisher
+    - invoker
 - when:
     biome_class: steppe_algoritmiche
   meta:
@@ -485,8 +485,8 @@ rules:
       res_psionic: '+1'
       initiative_bonus: true
     jobs_bias:
-    - Skirmisher
-    - Vanguard
+    - skirmisher
+    - vanguard
 - when:
     biome_class: caverna_risonante
   meta:
@@ -519,8 +519,8 @@ rules:
       stealth_bonus: true
       echolocation: true
     jobs_bias:
-    - Invoker
-    - Warden
+    - invoker
+    - warden
 - when:
     biome_class: caverna_risonante
   meta:
@@ -564,8 +564,8 @@ rules:
       res_psionic: '+1'
       stealth_bonus: true
     jobs_bias:
-    - Invoker
-    - Support
+    - invoker
+    - support
 - when:
     biome_class: falde_magnetiche_psioniche
   meta:
@@ -582,8 +582,8 @@ rules:
       res_psionic: '+2'
       hazard_sense_magnetico: true
     jobs_bias:
-    - Warden
-    - Vanguard
+    - warden
+    - vanguard
 - when:
     biome_class: orbita_psionica_inversa
   meta:
@@ -600,5 +600,5 @@ rules:
       res_psionic: '+2'
       lift_control: true
     jobs_bias:
-    - Invoker
-    - Skirmisher
+    - invoker
+    - skirmisher

@@ -79,8 +79,8 @@ derived_from_environment:
     - supporto:rituale_migrazione
     - culturale:memoria_delle_porte
   jobs_bias:
-    - Invoker
-    - Skirmisher
+    - invoker
+    - skirmisher
 genetic_traits:
   core:
     - ciclo_vitale_completo

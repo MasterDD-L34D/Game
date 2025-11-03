@@ -23,11 +23,11 @@ roles:
 - evento_ecologico
 - dispersore_ponte
 jobs:
-- Warden
-- Vanguard
-- Skirmisher
-- Artificer
-- Invoker
+- warden
+- vanguard
+- skirmisher
+- artificer
+- invoker
 encounter_roles:
 - minion
 - elite
@@ -195,22 +195,22 @@ parts_capabilities:
   - dash_free_once
   claw_finesse: []
 jobs_pi_requirements:
-  Skirmisher:
+  skirmisher:
     require_any_capabilities:
     - jump_bonus
     - landing_on_ice
     - dash_free_once
-  Vanguard:
+  vanguard:
     require_any_slots:
     - defense
-  Warden:
+  warden:
     require_any_slots:
     - senses
     - defense
-  Artificer:
+  artificer:
     require_any_slots:
     - senses
-  Invoker:
+  invoker:
     require_any_slots:
     - senses
 telemetry_targets:

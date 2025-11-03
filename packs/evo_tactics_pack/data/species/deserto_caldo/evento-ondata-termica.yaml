@@ -59,9 +59,9 @@ derived_from_environment:
   required_capabilities: []
   services_links: []
   jobs_bias:
-    - Skirmisher
-    - Vanguard
-    - Warden
+    - skirmisher
+    - vanguard
+    - warden
 telemetry:
   expected_pick_rate: null
   spawn_weight: null

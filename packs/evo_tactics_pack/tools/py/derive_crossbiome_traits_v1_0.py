@@ -31,7 +31,7 @@ def run(net_path, outdir):
                    'multibiome': sorted(list(present)),
                },
                'derived_from_environment': {
-                   'jobs_bias': sorted(list(set(['Warden' if 'sentinella' in roles else 'Skirmisher'])))
+                   'jobs_bias': sorted(list(set(['warden' if 'sentinella' in roles else 'skirmisher'])))
                },
                'network_bridge_roles': sorted(list(roles)),
                'biomes_add': []}

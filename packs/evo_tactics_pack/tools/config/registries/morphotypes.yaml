@@ -7,38 +7,38 @@ types:
       defense: 1
       senses: 1
     bias:
-    - Skirmisher
-    - Vanguard
+    - skirmisher
+    - vanguard
   volatore_planatore:
     default_slots:
       locomotion: 1
       offense: 1
       senses: 1
     bias:
-    - Skirmisher
-    - Invoker
+    - skirmisher
+    - invoker
   scavenger_corazzato:
     default_slots:
       defense: 2
       offense: 1
       senses: 1
     bias:
-    - Warden
-    - Vanguard
+    - warden
+    - vanguard
   ingegnere_radicante:
     default_slots:
       defense: 1
       senses: 1
     bias:
-    - Artificer
-    - Warden
+    - artificer
+    - warden
   anfibio_filtratore:
     default_slots:
       locomotion: 1
       senses: 1
     bias:
-    - Invoker
-    - Artificer
+    - invoker
+    - artificer
 slot_caps:
   defense: 3
   offense: 2

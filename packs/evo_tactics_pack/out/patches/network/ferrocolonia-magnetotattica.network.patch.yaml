@@ -4,7 +4,7 @@ environment_affinity:
   - BADLANDS
 derived_from_environment:
   jobs_bias:
-  - Warden
+  - warden
 network_bridge_roles:
 - ingegnere_ecosistema
 - sentinella

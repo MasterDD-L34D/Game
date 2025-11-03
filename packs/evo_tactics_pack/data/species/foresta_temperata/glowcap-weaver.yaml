@@ -59,7 +59,7 @@ derived_from_environment:
   required_capabilities:
     - deploy_support_field
 jobs_bias:
-  - Support
+  - support
 telemetry:
   expected_pick_rate: null
   spawn_weight: 0.1

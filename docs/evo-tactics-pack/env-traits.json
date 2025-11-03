@@ -7,29 +7,19 @@
         "biome_class": "foresta_temperata"
       },
       "suggest": {
-        "traits": [
-          "peli_idrofobici"
-        ],
+        "traits": ["peli_idrofobici"],
         "effects": {
           "res_cold": "+1"
         },
-        "jobs_bias": [
-          "Warden",
-          "Skirmisher"
-        ]
+        "jobs_bias": ["warden", "skirmisher"]
       }
     },
     {
       "when": {
-        "koppen_in": [
-          "Cfb",
-          "Cfa"
-        ]
+        "koppen_in": ["Cfb", "Cfa"]
       },
       "suggest": {
-        "traits": [
-          "pelli_fitte"
-        ],
+        "traits": ["pelli_fitte"],
         "effects": {
           "guard_stance": true
         }
@@ -37,36 +27,24 @@
     },
     {
       "when": {
-        "hazard_any": [
-          "pendenze_instabili"
-        ]
+        "hazard_any": ["pendenze_instabili"]
       },
-      "require_capability_any": [
-        "jump_bonus",
-        "pathing_bonus"
-      ]
+      "require_capability_any": ["jump_bonus", "pathing_bonus"]
     },
     {
       "when": {
         "morphotype": "ingegnere_radicante"
       },
       "suggest": {
-        "services_links": [
-          "regolazione:ritenzione_idrica",
-          "supporto:stabilizzazione_suolo"
-        ]
+        "services_links": ["regolazione:ritenzione_idrica", "supporto:stabilizzazione_suolo"]
       }
     },
     {
       "when": {
-        "salinita_in": [
-          "salina interna"
-        ]
+        "salinita_in": ["salina interna"]
       },
       "suggest": {
-        "traits": [
-          "cute_resistente_sali"
-        ],
+        "traits": ["cute_resistente_sali"],
         "effects": {
           "res_salt": "+1"
         }
@@ -77,94 +55,55 @@
         "biome_class": "badlands"
       },
       "suggest": {
-        "traits": [
-          "pelli_anti_ustione",
-          "pigmenti_termici",
-          "cute_resistente_sali"
-        ],
+        "traits": ["pelli_anti_ustione", "pigmenti_termici", "cute_resistente_sali"],
         "effects": {
           "res_fire": "+1"
         },
-        "jobs_bias": [
-          "Vanguard",
-          "Warden"
-        ]
+        "jobs_bias": ["vanguard", "warden"]
       }
     },
     {
       "when": {
-        "hazard_any": [
-          "iron_shards"
-        ]
+        "hazard_any": ["iron_shards"]
       },
-      "require_capability_any": [
-        "dr_impact_cap",
-        "build_cover"
-      ]
+      "require_capability_any": ["dr_impact_cap", "build_cover"]
     },
     {
       "when": {
-        "hazard_any": [
-          "magnetic_patches"
-        ]
+        "hazard_any": ["magnetic_patches"]
       },
       "suggest": {
-        "traits": [
-          "enzimi_chelanti"
-        ],
+        "traits": ["enzimi_chelanti"],
         "effects": {
           "trap_detect_ion": true
         }
       },
-      "require_capability_any": [
-        "non_metal_gear",
-        "seal_vents"
-      ]
+      "require_capability_any": ["non_metal_gear", "seal_vents"]
     },
     {
       "when": {
-        "koppen_any": [
-          "BWh",
-          "BSh"
-        ]
+        "koppen_any": ["BWh", "BSh"]
       },
       "suggest": {
-        "traits": [
-          "cuticole_cerose",
-          "reti_capillari_radici",
-          "proteine_shock_termico"
-        ],
+        "traits": ["cuticole_cerose", "reti_capillari_radici", "proteine_shock_termico"],
         "effects": {
           "res_fire": "+1",
           "res_salt": "+1"
         },
-        "jobs_bias": [
-          "Warden",
-          "Skirmisher"
-        ]
+        "jobs_bias": ["warden", "skirmisher"]
       }
     },
     {
       "when": {
-        "koppen_any": [
-          "BSk",
-          "Dfc"
-        ]
+        "koppen_any": ["BSk", "Dfc"]
       },
       "suggest": {
-        "traits": [
-          "pelli_cave",
-          "grassi_termici",
-          "pigmenti_aurorali"
-        ],
+        "traits": ["pelli_cave", "grassi_termici", "pigmenti_aurorali"],
         "effects": {
           "res_cold": "+1",
           "ignore_fog_penalty": true
         },
-        "jobs_bias": [
-          "Vanguard",
-          "Warden"
-        ]
+        "jobs_bias": ["vanguard", "warden"]
       }
     },
     {
@@ -174,10 +113,7 @@
       "meta": {
         "category": "biomi_estremi",
         "description": "Caldera vulcanica intrappolata in ghiacci iperpressurizzati.",
-        "hazard_profile": [
-          "shock_termici",
-          "geiser_criogenici"
-        ]
+        "hazard_profile": ["shock_termici", "geiser_criogenici"]
       },
       "suggest": {
         "traits": [
@@ -207,10 +143,7 @@
           "res_fire": "+1",
           "pressure_tolerance": true
         },
-        "jobs_bias": [
-          "Warden",
-          "Invoker"
-        ]
+        "jobs_bias": ["warden", "invoker"]
       }
     },
     {
@@ -220,10 +153,7 @@
       "meta": {
         "category": "biomi_estremi",
         "description": "Foresta pluviale satura di vapori acidi e precipitazioni caustiche.",
-        "hazard_profile": [
-          "piogge_acide",
-          "aerosol_solfurei"
-        ]
+        "hazard_profile": ["piogge_acide", "aerosol_solfurei"]
       },
       "suggest": {
         "traits": [
@@ -252,10 +182,7 @@
           "res_acid": "+2",
           "detox_cycle": true
         },
-        "jobs_bias": [
-          "Warden",
-          "Vanguard"
-        ]
+        "jobs_bias": ["warden", "vanguard"]
       }
     },
     {
@@ -265,10 +192,7 @@
       "meta": {
         "category": "biomi_estremi",
         "description": "Distese saline iperaride con evaporiti taglienti e miraggi termici.",
-        "hazard_profile": [
-          "tempeste_salate",
-          "miraggi_termici"
-        ]
+        "hazard_profile": ["tempeste_salate", "miraggi_termici"]
       },
       "suggest": {
         "traits": [
@@ -298,10 +222,7 @@
           "res_salt": "+2",
           "moisture_harvest": true
         },
-        "jobs_bias": [
-          "Skirmisher",
-          "Invoker"
-        ]
+        "jobs_bias": ["skirmisher", "invoker"]
       }
     },
     {
@@ -311,10 +232,7 @@
       "meta": {
         "category": "biomi_estremi",
         "description": "Corridoi stratosferici battuti da fulmini permanenti e venti a getto.",
-        "hazard_profile": [
-          "fulmini_perpetui",
-          "shearing_winds"
-        ]
+        "hazard_profile": ["fulmini_perpetui", "shearing_winds"]
       },
       "suggest": {
         "traits": [
@@ -344,10 +262,7 @@
           "res_electric": "+2",
           "wind_sense": true
         },
-        "jobs_bias": [
-          "Skirmisher",
-          "Invoker"
-        ]
+        "jobs_bias": ["skirmisher", "invoker"]
       }
     },
     {
@@ -357,10 +272,7 @@
       "meta": {
         "category": "biomi_estremi",
         "description": "Fosse abissali con sfiati vulcanici e pressioni titaniche.",
-        "hazard_profile": [
-          "sfiati_sulfurei",
-          "frane_abissali"
-        ]
+        "hazard_profile": ["sfiati_sulfurei", "frane_abissali"]
       },
       "suggest": {
         "traits": [
@@ -390,10 +302,7 @@
           "dark_vision": true,
           "res_heat": "+1"
         },
-        "jobs_bias": [
-          "Vanguard",
-          "Warden"
-        ]
+        "jobs_bias": ["vanguard", "warden"]
       }
     },
     {
@@ -432,10 +341,7 @@
           "tidal_sync": true,
           "res_salt": "+1"
         },
-        "jobs_bias": [
-          "Warden",
-          "Skirmisher"
-        ]
+        "jobs_bias": ["warden", "skirmisher"]
       }
     },
     {
@@ -474,10 +380,7 @@
           "climb_bonus": true,
           "mire_immunity": true
         },
-        "jobs_bias": [
-          "Vanguard",
-          "Skirmisher"
-        ]
+        "jobs_bias": ["vanguard", "skirmisher"]
       }
     },
     {
@@ -517,10 +420,7 @@
           "res_acid": "+1",
           "night_vision": true
         },
-        "jobs_bias": [
-          "Invoker",
-          "Skirmisher"
-        ]
+        "jobs_bias": ["invoker", "skirmisher"]
       }
     },
     {
@@ -559,10 +459,7 @@
           "res_heat": "+2",
           "pressure_tolerance": true
         },
-        "jobs_bias": [
-          "Vanguard",
-          "Warden"
-        ]
+        "jobs_bias": ["vanguard", "warden"]
       }
     },
     {
@@ -601,10 +498,7 @@
           "glide_bonus": true,
           "res_electric": "+2"
         },
-        "jobs_bias": [
-          "Skirmisher",
-          "Invoker"
-        ]
+        "jobs_bias": ["skirmisher", "invoker"]
       }
     },
     {
@@ -643,10 +537,7 @@
           "res_psionic": "+1",
           "initiative_bonus": true
         },
-        "jobs_bias": [
-          "Skirmisher",
-          "Vanguard"
-        ]
+        "jobs_bias": ["skirmisher", "vanguard"]
       }
     },
     {
@@ -686,10 +577,7 @@
           "stealth_bonus": true,
           "echolocation": true
         },
-        "jobs_bias": [
-          "Invoker",
-          "Warden"
-        ]
+        "jobs_bias": ["invoker", "warden"]
       }
     },
     {

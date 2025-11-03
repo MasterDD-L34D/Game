@@ -763,7 +763,7 @@
       "uso_funzione": "Utilizzo di onde sonore emesse internamente per mappare l'ambiente."
     },
     "empatia_coordinativa": {
-      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate warden scende.",
       "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
       "label": "Empatia Coordinativa",
       "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",

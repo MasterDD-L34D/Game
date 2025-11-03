@@ -62,8 +62,8 @@ derived_from_environment:
   required_capabilities:
     - lift_control
 jobs_bias:
-  - Support
-  - Invoker
+  - support
+  - invoker
 telemetry:
   expected_pick_rate: null
   spawn_weight: 0.08

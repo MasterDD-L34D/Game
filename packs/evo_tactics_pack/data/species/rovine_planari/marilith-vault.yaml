@@ -68,8 +68,8 @@ derived_from_environment:
   services_links:
     - sicurezza:controllo_passaggi
   jobs_bias:
-    - Vanguard
-    - Skirmisher
+    - vanguard
+    - skirmisher
 genetic_traits:
   core:
     - ciclo_vitale_completo
