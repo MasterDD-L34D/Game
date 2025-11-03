@@ -12,6 +12,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -49,6 +50,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -86,6 +88,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -123,6 +126,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -160,6 +164,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -197,6 +202,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -234,6 +240,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -271,6 +278,7 @@
         "complementare": "offensivo",
         "core": "sensoriale"
       },
+      "usage_tags": ["breaker", "scout"],
       "sinergie": [
         "carapace_luminiscente_abissale",
         "focus_frazionato",
@@ -316,6 +324,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -353,6 +362,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -390,6 +400,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -427,6 +438,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -464,6 +476,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -501,6 +514,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -538,6 +552,7 @@
         "complementare": "strutturale",
         "core": "difesa"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile"],
       "conflitti": ["frusta_fiammeggiante"],
       "requisiti_ambientali": [
@@ -575,6 +590,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -612,6 +628,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -649,6 +666,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -686,6 +704,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -723,6 +742,7 @@
         "complementare": "prensile",
         "core": "locomotorio"
       },
+      "usage_tags": ["breaker", "scout"],
       "sinergie": [
         "coda_frusta_cinetica",
         "mimetismo_cromatico_passivo",
@@ -768,6 +788,7 @@
         "complementare": "predatorio",
         "core": "locomotorio"
       },
+      "usage_tags": ["breaker", "scout"],
       "sinergie": [
         "cartilagine_flessotermica_venti",
         "sonno_emisferico_alternato",
@@ -812,6 +833,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -849,6 +871,7 @@
         "complementare": "difesa",
         "core": "supporto"
       },
+      "usage_tags": ["support", "tank"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": ["mantello_meteoritico"],
       "requisiti_ambientali": [
@@ -886,6 +909,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -923,6 +947,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -960,6 +985,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -997,6 +1023,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1034,6 +1061,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1071,6 +1099,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1108,6 +1137,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1145,6 +1175,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1182,6 +1213,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1219,6 +1251,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1256,6 +1289,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1293,6 +1327,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1330,6 +1365,7 @@
         "complementare": "osmoregolazione",
         "core": "respiratorio"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "scheletro_idro_regolante"],
       "conflitti": ["polmoni_cristallini_alta_quota"],
       "requisiti_ambientali": [
@@ -1370,6 +1406,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1407,6 +1444,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1444,6 +1482,7 @@
         "complementare": "nutrizione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support", "sustain"],
       "sinergie": [
         "chioma_parassita_canopica",
         "nodi_micorrizici_oracolari",
@@ -1488,6 +1527,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1525,6 +1565,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1562,6 +1603,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1599,6 +1641,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1636,6 +1679,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1673,6 +1717,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1710,6 +1755,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1747,6 +1793,7 @@
         "complementare": "difensivo",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": [
         "ali_membrana_sonica",
         "appendici_risonanti_marea",
@@ -1819,6 +1866,7 @@
         "complementare": "sensoriale",
         "core": "strutturale"
       },
+      "usage_tags": ["scout", "tank"],
       "sinergie": [
         "antenne_plasmatiche_tempesta",
         "risonanza_di_branco",
@@ -1863,6 +1911,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1900,6 +1949,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -1937,6 +1987,7 @@
         "complementare": "adattivo",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout", "tank"],
       "sinergie": [
         "artigli_sghiaccio_glaciale",
         "carapace_fase_variabile",
@@ -1982,6 +2033,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2019,6 +2071,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2056,6 +2109,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2093,6 +2147,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2130,6 +2185,7 @@
         "complementare": "supporto",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": [
         "criostasi_adattiva",
         "eco_interno_riflesso",
@@ -2175,6 +2231,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2212,6 +2269,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2249,6 +2307,7 @@
         "complementare": "utility",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["bulbi_radici_permafrost", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2285,6 +2344,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2322,6 +2382,7 @@
         "complementare": "resilienza",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain", "tank"],
       "sinergie": ["mucillagine_simbionte_mangrovie"],
       "conflitti": ["sangue_piroforico"],
       "requisiti_ambientali": [
@@ -2358,6 +2419,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2395,6 +2457,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2432,6 +2495,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2469,6 +2533,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2506,6 +2571,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2543,6 +2609,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2580,6 +2647,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2617,6 +2685,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2654,6 +2723,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2691,6 +2761,7 @@
         "complementare": "difensivo",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout", "tank"],
       "sinergie": [
         "ali_ioniche",
         "antenne_flusso_mareale",
@@ -2769,6 +2840,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2806,6 +2878,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2843,6 +2916,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2880,6 +2954,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2917,6 +2992,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -2954,6 +3030,7 @@
         "complementare": "difensivo",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain", "tank"],
       "sinergie": ["cavita_risonanti_tundra"],
       "conflitti": ["sangue_piroforico", "sacche_galleggianti_ascensoriali"],
       "requisiti_ambientali": [
@@ -3003,6 +3080,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3040,6 +3118,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3077,6 +3156,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3114,6 +3194,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3151,6 +3232,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [],
@@ -3175,6 +3257,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3212,6 +3295,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3249,6 +3333,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3286,6 +3371,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3323,6 +3409,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3360,6 +3447,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3397,6 +3485,7 @@
         "complementare": "nervoso",
         "core": "sensoriale"
       },
+      "usage_tags": ["controller", "scout"],
       "sinergie": [
         "cavita_risonanti_tundra",
         "olfatto_risonanza_magnetica",
@@ -3450,6 +3539,7 @@
         "complementare": "coordinazione",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": [
         "antenne_eco_turbina",
         "artigli_acidofagi",
@@ -3490,6 +3580,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3527,6 +3618,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3564,6 +3656,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [],
@@ -3588,6 +3681,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3625,6 +3719,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3662,6 +3757,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3699,6 +3795,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3736,6 +3833,7 @@
         "complementare": "escretorio",
         "core": "digestivo"
       },
+      "usage_tags": ["sustain"],
       "sinergie": [
         "antenne_dustsense",
         "appendici_thermotattiche",
@@ -3800,6 +3898,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3837,6 +3936,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3874,6 +3974,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3911,6 +4012,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3948,6 +4050,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -3985,6 +4088,7 @@
         "complementare": "psionico",
         "core": "strategia"
       },
+      "usage_tags": ["controller", "support"],
       "sinergie": [
         "ali_fulminee",
         "antenne_plasmatiche_tempesta",
@@ -4032,6 +4136,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4069,6 +4174,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4106,6 +4212,7 @@
         "complementare": "controllo",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker", "controller"],
       "sinergie": ["focus_frazionato", "mantello_meteoritico"],
       "conflitti": ["armatura_pietra_planare"],
       "requisiti_ambientali": [
@@ -4143,6 +4250,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4180,6 +4288,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": [],
       "conflitti": [],
       "requisiti_ambientali": [],
@@ -4204,6 +4313,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4241,6 +4351,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4278,6 +4389,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4315,6 +4427,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4352,6 +4465,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4389,6 +4503,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4426,6 +4541,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4463,6 +4579,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4500,6 +4617,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4537,6 +4655,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4574,6 +4693,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4611,6 +4731,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4648,6 +4769,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4685,6 +4807,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4722,6 +4845,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [],
@@ -4746,6 +4870,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4783,6 +4908,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4820,6 +4946,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4857,6 +4984,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4894,6 +5022,7 @@
         "complementare": "termoregolazione",
         "core": "respiratorio"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["sangue_piroforico"],
       "conflitti": ["criostasi_adattiva"],
       "requisiti_ambientali": [
@@ -4930,6 +5059,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -4967,6 +5097,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5004,6 +5135,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5041,6 +5173,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5078,6 +5211,7 @@
         "complementare": "alimentare",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "sustain"],
       "sinergie": ["olfatto_risonanza_magnetica"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5114,6 +5248,7 @@
         "complementare": "energia",
         "core": "metabolico"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5151,6 +5286,7 @@
         "complementare": "logistico",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5188,6 +5324,7 @@
         "complementare": "assalto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5225,6 +5362,7 @@
         "complementare": "termico",
         "core": "difesa"
       },
+      "usage_tags": ["sustain", "tank"],
       "sinergie": ["frusta_fiammeggiante", "carapace_fase_variabile"],
       "conflitti": ["aura_scudo_radianza"],
       "requisiti_ambientali": [
@@ -5262,6 +5400,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": ["pianificatore", "tattiche_di_branco"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5299,6 +5438,7 @@
         "complementare": "protezione",
         "core": "respiratorio"
       },
+      "usage_tags": ["sustain", "tank"],
       "sinergie": ["piume_solari_fotovoltaiche", "polmoni_cristallini_alta_quota"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5335,6 +5475,7 @@
         "complementare": "cooperazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5372,6 +5513,7 @@
         "complementare": "resilienza",
         "core": "strutturale"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5409,6 +5551,7 @@
         "complementare": "analitico",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5446,6 +5589,7 @@
         "complementare": "difensivo",
         "core": "tegumentario"
       },
+      "usage_tags": ["tank"],
       "sinergie": [
         "ali_membrana_sonica",
         "appendici_risonanti_marea",
@@ -5512,6 +5656,7 @@
         "complementare": "difensivo",
         "core": "simbiotico"
       },
+      "usage_tags": ["support", "tank"],
       "sinergie": [
         "antenne_reagenti",
         "artigli_scivolo_silente",
@@ -5565,6 +5710,7 @@
         "complementare": "mobilita",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5602,6 +5748,7 @@
         "complementare": "protezione",
         "core": "difensivo"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["carapace_fase_variabile", "mimetismo_cromatico_passivo"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5639,6 +5786,7 @@
         "complementare": "nervoso",
         "core": "simbiotico"
       },
+      "usage_tags": ["controller", "support"],
       "sinergie": [
         "antenne_reagenti",
         "artigli_scivolo_silente",
@@ -5692,6 +5840,7 @@
         "complementare": "locomotorio",
         "core": "riproduttivo"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": [],
       "conflitti": ["secrezione_rallentante_palmi"],
       "requisiti_ambientali": [
@@ -5728,6 +5877,7 @@
         "complementare": "visivo",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["sonno_emisferico_alternato"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5764,6 +5914,7 @@
         "complementare": "nervoso",
         "core": "sensoriale"
       },
+      "usage_tags": ["controller", "scout"],
       "sinergie": ["eco_interno_riflesso", "lingua_tattile_trama"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -5813,6 +5964,7 @@
         "complementare": "ricognizione",
         "core": "strategia"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": [],
       "conflitti": [],
       "requisiti_ambientali": [],
@@ -5837,6 +5989,7 @@
         "complementare": "tattico",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": [
         "antenne_microonde_cavernose",
         "artigli_radice",
@@ -5875,6 +6028,7 @@
         "complementare": "energetico",
         "core": "tegumentario"
       },
+      "usage_tags": ["sustain", "tank"],
       "sinergie": ["membrane_eliofiltranti", "sacche_spore_stratosferiche"],
       "conflitti": ["criostasi_adattiva"],
       "requisiti_ambientali": [
@@ -5911,6 +6065,7 @@
         "complementare": "aerobico",
         "core": "respiratorio"
       },
+      "usage_tags": ["sustain"],
       "sinergie": ["membrane_eliofiltranti"],
       "conflitti": ["branchie_osmotiche_salmastra"],
       "requisiti_ambientali": [
@@ -5947,6 +6102,7 @@
         "complementare": "adattivo",
         "core": "strategia"
       },
+      "usage_tags": ["support", "tank"],
       "sinergie": [],
       "conflitti": [],
       "requisiti_ambientali": [],
@@ -5971,6 +6127,7 @@
         "complementare": "propulsivo",
         "core": "respiratorio"
       },
+      "usage_tags": ["scout", "sustain"],
       "sinergie": ["sacche_galleggianti_ascensoriali", "squame_rifrangenti_deserto"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -6007,6 +6164,7 @@
         "complementare": "coordinazione",
         "core": "supporto"
       },
+      "usage_tags": ["support"],
       "sinergie": [
         "antenne_eco_turbina",
         "antenne_plasmatiche_tempesta",
@@ -6049,6 +6207,7 @@
         "complementare": "locomotorio",
         "core": "idrostatico"
       },
+      "usage_tags": ["scout", "tank"],
       "sinergie": [
         "cartilagine_flessotermica_venti",
         "respiro_a_scoppio",
@@ -6103,6 +6262,7 @@
         "complementare": "supporto",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": ["piume_solari_fotovoltaiche"],
       "conflitti": ["respiro_a_scoppio"],
       "requisiti_ambientali": [
@@ -6139,6 +6299,7 @@
         "complementare": "impatto",
         "core": "offensivo"
       },
+      "usage_tags": ["breaker"],
       "sinergie": [
         "antenne_flusso_mareale",
         "artigli_induzione",
@@ -6190,6 +6351,7 @@
         "complementare": "omeostatico",
         "core": "strutturale"
       },
+      "usage_tags": ["sustain", "tank"],
       "sinergie": [
         "antenne_tesla",
         "artigli_vetrificati",
@@ -6243,6 +6405,7 @@
         "complementare": "difensivo",
         "core": "tegumentario"
       },
+      "usage_tags": ["tank"],
       "sinergie": [],
       "conflitti": ["carapace_fase_variabile", "nucleo_ovomotore_rotante"],
       "requisiti_ambientali": [
@@ -6279,6 +6442,7 @@
         "complementare": "navigazione",
         "core": "sensoriale"
       },
+      "usage_tags": ["scout"],
       "sinergie": ["carapace_fase_variabile", "eco_interno_riflesso"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -6315,6 +6479,7 @@
         "complementare": "comunicazione",
         "core": "simbiotico"
       },
+      "usage_tags": ["support"],
       "sinergie": [
         "ali_fulminee",
         "antenne_plasmatiche_tempesta",
@@ -6368,6 +6533,7 @@
         "complementare": "omeostatico",
         "core": "nervoso"
       },
+      "usage_tags": ["controller", "sustain"],
       "sinergie": ["artigli_sghiaccio_glaciale", "occhi_infrarosso_composti"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -6404,6 +6570,7 @@
         "complementare": "psichico",
         "core": "escretorio"
       },
+      "usage_tags": ["controller", "sustain"],
       "sinergie": [],
       "conflitti": ["respiro_a_scoppio"],
       "requisiti_ambientali": [
@@ -6440,6 +6607,7 @@
         "complementare": "difensivo",
         "core": "tegumentario"
       },
+      "usage_tags": ["tank"],
       "sinergie": ["respiro_a_scoppio"],
       "conflitti": ["mimetismo_cromatico_passivo"],
       "requisiti_ambientali": [
@@ -6476,6 +6644,7 @@
         "complementare": "locomotorio",
         "core": "strutturale"
       },
+      "usage_tags": ["scout", "tank"],
       "sinergie": [
         "antenne_tesla",
         "artigli_sette_vie",
@@ -6543,6 +6712,7 @@
         "complementare": "coordinazione",
         "core": "strategia"
       },
+      "usage_tags": ["support"],
       "sinergie": [
         "antenne_microonde_cavernose",
         "artigli_radice",
@@ -6582,6 +6752,7 @@
         "complementare": "idratazione",
         "core": "tegumentario"
       },
+      "usage_tags": ["sustain", "tank"],
       "sinergie": ["bulbi_radici_permafrost"],
       "conflitti": [],
       "requisiti_ambientali": [
@@ -6618,6 +6789,7 @@
         "complementare": "alimentare",
         "core": "digestivo"
       },
+      "usage_tags": ["sustain"],
       "sinergie": [
         "antenne_dustsense",
         "appendici_thermotattiche",
@@ -6669,6 +6841,7 @@
         "complementare": "propulsione",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout"],
       "sinergie": [
         "ali_ioniche",
         "antenne_wideband",
@@ -6709,6 +6882,7 @@
         "complementare": "supporto",
         "core": "locomotorio"
       },
+      "usage_tags": ["scout", "support"],
       "sinergie": ["cartilagine_flessotermica_venti"],
       "conflitti": ["zampe_a_molla"],
       "requisiti_ambientali": [
