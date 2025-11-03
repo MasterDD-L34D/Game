@@ -29,6 +29,10 @@
   --color-surface-overlay: rgba(15, 23, 42, 0.96);
   --color-border-subtle: rgba(208, 214, 225, 0.28);
   --color-border-glow: rgba(81, 101, 255, 0.35);
+  --color-accent-400: var(--color-accent);
+  --color-success-400: var(--color-success);
+  --color-error-400: var(--color-danger);
+  --color-warn-400: var(--color-warning);
   --color-text-muted: rgba(248, 250, 252, 0.72);
   --color-accent-soft: rgba(81, 101, 255, 0.16);
   --color-accent-muted: rgba(81, 101, 255, 0.1);
@@ -53,6 +57,7 @@
   --shadow-md: 0 18px 40px rgba(15, 23, 42, 0.4);
   --shadow-lg: 0 24px 56px rgba(15, 23, 42, 0.48);
   --radius: var(--radius-lg);
+  --radius-pill: 999px;
   --shadow: var(--shadow-lg);
   --accent: var(--color-accent);
   --accent-strong: var(--color-accent-strong);
