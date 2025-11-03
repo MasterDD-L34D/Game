@@ -22,11 +22,14 @@ import sys
 from pathlib import Path
 from typing import Dict, Iterable, List, Tuple
 
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from jsonschema import Draft202012Validator
 
 from collect_trait_fields import load_traits
 
-ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SCHEMA = ROOT / "config" / "schemas" / "trait.schema.json"
 DEFAULT_TRAITS_DIR = ROOT / "data" / "traits"
 DEFAULT_INDEX = DEFAULT_TRAITS_DIR / "index.json"
