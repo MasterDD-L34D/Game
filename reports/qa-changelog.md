@@ -1,6 +1,6 @@
 # QA export changelog
 
-Generato: 2025-11-03T11:37:45.252152Z
+Generato: 2025-11-03T11:47:31.961687Z
 Baseline precedente: 2025-11-02T20:59:54.779814Z
 
 ## Metriche baseline
