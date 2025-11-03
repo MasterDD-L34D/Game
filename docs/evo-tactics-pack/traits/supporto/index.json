@@ -23,10 +23,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -64,10 +61,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -84,9 +78,7 @@
       "uso_funzione": "Distribuisce riserve e modulazioni ritmiche per mantenere coesione."
     },
     "aura_scudo_radianza": {
-      "conflitti": [
-        "mantello_meteoritico"
-      ],
+      "conflitti": ["mantello_meteoritico"],
       "debolezza": "Soffre saturazione se esposta a ombre gravitazionali o zone di antimagia.",
       "famiglia_tipologia": "Supporto/Difesa",
       "fattore_mantenimento_energetico": "Alto (Canalizzazione fotonica continua)",
@@ -95,9 +87,7 @@
       "mutazione_indotta": "Innesta organi fotoplasmatici che diffondono uno scudo radiante sugli alleati vicini.",
       "requisiti_ambientali": [
         {
-          "capacita_richieste": [
-            "flight"
-          ],
+          "capacita_richieste": ["flight"],
           "condizioni": {
             "biome_class": "rovine_planari"
           },
@@ -109,10 +99,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -150,10 +137,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -191,10 +175,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -232,10 +213,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -273,10 +251,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -314,10 +289,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -355,10 +327,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -401,18 +370,12 @@
         "aura_scudo_radianza"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [
-          "job_ability:Warden/Scudo_di_Risonanza"
-        ],
+        "co_occorrenze": ["job_ability:warden/scudo_di_risonanza"],
         "combo_totale": 1,
-        "forme": [
-          "INFP"
-        ],
+        "forme": ["INFP"],
         "tabelle_random": []
       },
-      "slot": [
-        "A"
-      ],
+      "slot": ["A"],
       "slot_profile": {
         "complementare": "coordinazione",
         "core": "supporto"
@@ -443,10 +406,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -484,10 +444,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -525,10 +482,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -566,10 +520,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -607,10 +558,7 @@
           }
         }
       ],
-      "sinergie": [
-        "empatia_coordinativa",
-        "risonanza_di_branco"
-      ],
+      "sinergie": ["empatia_coordinativa", "risonanza_di_branco"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -655,25 +603,12 @@
         "aura_scudo_radianza"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [
-          "PE",
-          "cap_pt",
-          "guardia_situazionale",
-          "starter_bioma"
-        ],
+        "co_occorrenze": ["PE", "cap_pt", "guardia_situazionale", "starter_bioma"],
         "combo_totale": 3,
-        "forme": [
-          "ENFJ",
-          "INFP",
-          "ISFJ"
-        ],
+        "forme": ["ENFJ", "INFP", "ISFJ"],
         "tabelle_random": []
       },
-      "slot": [
-        "A",
-        "B",
-        "C"
-      ],
+      "slot": ["A", "B", "C"],
       "slot_profile": {
         "complementare": "coordinazione",
         "core": "supporto"

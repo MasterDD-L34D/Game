@@ -25,22 +25,12 @@
     "mucose_aderenza_sonica"
   ],
   "sinergie_pi": {
-    "co_occorrenze": [
-      "cap_pt",
-      "guardia_situazionale",
-      "job_ability:Skirmisher/Dash_Cut"
-    ],
+    "co_occorrenze": ["cap_pt", "guardia_situazionale", "job_ability:skirmisher/dash_cut"],
     "combo_totale": 2,
-    "forme": [
-      "ESTP",
-      "ISFP"
-    ],
+    "forme": ["ESTP", "ISFP"],
     "tabelle_random": []
   },
-  "slot": [
-    "A",
-    "B"
-  ],
+  "slot": ["A", "B"],
   "slot_profile": {
     "complementare": "propulsione",
     "core": "locomotorio"

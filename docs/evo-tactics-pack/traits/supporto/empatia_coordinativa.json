@@ -25,18 +25,12 @@
     "aura_scudo_radianza"
   ],
   "sinergie_pi": {
-    "co_occorrenze": [
-      "job_ability:Warden/Scudo_di_Risonanza"
-    ],
+    "co_occorrenze": ["job_ability:warden/scudo_di_risonanza"],
     "combo_totale": 1,
-    "forme": [
-      "INFP"
-    ],
+    "forme": ["INFP"],
     "tabelle_random": []
   },
-  "slot": [
-    "A"
-  ],
+  "slot": ["A"],
   "slot_profile": {
     "complementare": "coordinazione",
     "core": "supporto"

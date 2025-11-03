@@ -23,10 +23,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -64,10 +61,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -117,13 +111,8 @@
           "hud:GripNode_Psion"
         ],
         "combo_totale": 4,
-        "forme": [
-          "Forma:Predatore_Tessuto",
-          "HUD:GrappleBurst"
-        ],
-        "tabelle_random": [
-          "tabella:predazione_multicanale"
-        ]
+        "forme": ["Forma:Predatore_Tessuto", "HUD:GrappleBurst"],
+        "tabelle_random": ["tabella:predazione_multicanale"]
       },
       "slot": [],
       "slot_profile": {
@@ -167,12 +156,8 @@
           "hud:GlacierClaw_UI"
         ],
         "combo_totale": 3,
-        "forme": [
-          "Forma:Assaltatore_Criogenico"
-        ],
-        "tabelle_random": [
-          "tabella:presa_criostatica"
-        ]
+        "forme": ["Forma:Assaltatore_Criogenico"],
+        "tabelle_random": ["tabella:presa_criostatica"]
       },
       "slot": [],
       "slot_profile": {
@@ -205,10 +190,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -246,10 +228,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -287,10 +266,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -307,9 +283,7 @@
       "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
     },
     "cartilagine_flessotermica_venti": {
-      "conflitti": [
-        "scheletro_idro_regolante"
-      ],
+      "conflitti": ["scheletro_idro_regolante"],
       "debolezza": "Temperature stabili riducono la reattività della cartilagine rendendo l'organismo lento.",
       "famiglia_tipologia": "Locomotorio/Adattivo",
       "fattore_mantenimento_energetico": "Medio (Richiede frequenti riallineamenti fibrosi)",
@@ -342,12 +316,8 @@
           "hud:VentSplice_Halo"
         ],
         "combo_totale": 3,
-        "forme": [
-          "Forma:Planatore_Psionico"
-        ],
-        "tabelle_random": [
-          "tabella:assetto_eolico"
-        ]
+        "forme": ["Forma:Planatore_Psionico"],
+        "tabelle_random": ["tabella:assetto_eolico"]
       },
       "slot": [],
       "slot_profile": {
@@ -380,10 +350,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -421,10 +388,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -541,10 +505,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -582,10 +543,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -623,10 +581,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -664,10 +619,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -705,10 +657,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -746,10 +695,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -787,10 +733,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "zampe_a_molla"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "zampe_a_molla"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -833,22 +776,12 @@
         "mucose_aderenza_sonica"
       ],
       "sinergie_pi": {
-        "co_occorrenze": [
-          "cap_pt",
-          "guardia_situazionale",
-          "job_ability:Skirmisher/Dash_Cut"
-        ],
+        "co_occorrenze": ["cap_pt", "guardia_situazionale", "job_ability:skirmisher/dash_cut"],
         "combo_totale": 2,
-        "forme": [
-          "ESTP",
-          "ISFP"
-        ],
+        "forme": ["ESTP", "ISFP"],
         "tabelle_random": []
       },
-      "slot": [
-        "A",
-        "B"
-      ],
+      "slot": ["A", "B"],
       "slot_profile": {
         "complementare": "propulsione",
         "core": "locomotorio"
@@ -858,9 +791,7 @@
       "uso_funzione": "Dash esplosivi per mantenere il ritmo di ingaggio o disimpegno."
     },
     "zoccoli_risonanti_steppe": {
-      "conflitti": [
-        "zampe_a_molla"
-      ],
+      "conflitti": ["zampe_a_molla"],
       "debolezza": "Suoli cedevoli come sabbie mobili annullano la vibrazione e riducono la trazione.",
       "famiglia_tipologia": "Locomotorio/Supporto",
       "fattore_mantenimento_energetico": "Basso (Vibrazione passiva del suolo)",
@@ -880,9 +811,7 @@
           }
         }
       ],
-      "sinergie": [
-        "cartilagine_flessotermica_venti"
-      ],
+      "sinergie": ["cartilagine_flessotermica_venti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
