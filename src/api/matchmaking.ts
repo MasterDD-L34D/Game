@@ -32,6 +32,9 @@ interface CacheEntry {
   payload: MatchmakingSummary[];
 }
 
+const cloneSummaries = (summaries: MatchmakingSummary[]): MatchmakingSummary[] =>
+  summaries.map((entry) => ({ ...entry }));
+
 export type FlattenedFilters = Record<string, string | number | boolean>;
 
 export const MATCHMAKING_ENDPOINT = '/api/matchmaking';
@@ -125,7 +128,7 @@ export class MatchmakingClient {
     const cached = this.cache.get(key);
 
     if (cached && cached.expiresAt > currentTime) {
-      return cached.payload;
+      return cloneSummaries(cached.payload);
     }
 
     const url = `${this.baseUrl}${buildQueryString(filters)}`;
@@ -142,14 +145,14 @@ export class MatchmakingClient {
       throw new Error('Risposta matchmaking non valida.');
     }
 
-    const immutablePayload = payload.map((entry) => ({ ...entry }));
+    const cachedPayload = cloneSummaries(payload);
 
     this.cache.set(key, {
       expiresAt: currentTime + this.cacheTtlMs,
-      payload: immutablePayload,
+      payload: cachedPayload,
     });
 
-    return immutablePayload;
+    return cloneSummaries(cachedPayload);
   }
 }
 
