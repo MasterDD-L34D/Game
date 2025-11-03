@@ -9,20 +9,31 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 - `Mating-Reclutamento-Nido.md` — Attrazione, Affinità/Fiducia, standard di nido, eredità (Canvas D).
 
 ## Aggiornamenti rapidi
+
 - **Changelog** — la sintesi delle ultime release è integrata nel [README principale](../README.md#storico-aggiornamenti--archivio) e centralizzata in [`changelog.md`](changelog.md).
 - **Tutorial multimediali** — consulta `tutorials/` per schede SVG e passaggi rapidi dedicati a CLI, Idea Engine e dashboard (`docs/tutorials/*.md`).
 - **Feedback potenziato** — il modulo in `docs/public/embed.js` è attivo di default e rimanda al canale Slack `#feedback-enhancements` quando l'API non è configurata.
 
+## Idea Engine in breve
+
+- **Per iniziare** — segui il [tutorial Idea Engine](tutorials/idea-engine.md) per configurare widget, backend e percorso di approvazione.
+- **Ultimi rilasci** — consulta il [changelog dedicato](ideas/changelog.md) per aggiornamenti di widget e API.
+- **Raccogli feedback** — usa il [modulo espresso](https://forms.gle/evoTacticsIdeaFeedback) o la pagina Support Hub [Idea Engine](ideas/index.html) per convogliare note e follow-up.
+- **Tassonomia ufficiale** — verifica categorie e slug in [`config/idea_engine_taxonomy.json`](../config/idea_engine_taxonomy.json) prima di inviare proposte al backend.
+
 ## Settori operativi
+
 - **Flow** – orchestratore e validator (`services/generation/`, `tools/py`, `tools/ts`) sincronizzati con i dataset `data/core/`.
 - **Atlas** – webapp Vite (`webapp/`) e pannelli statici (`docs/test-interface/`) basati su snapshot `data/derived/` e fallback `webapp/public/data/`.
 - **Backend Idea Engine** – servizi Express (`server/`, `services/`) che espongono API consumate da Flow e Atlas e producono artefatti in `reports/`.
 - **Dataset & pack** – fonte unica (`data/`, `packs/`, `reports/`) che alimenta gli altri settori; ogni modifica richiede la verifica incrociata dei workflow (`npm run test:api`, `npm run webapp:deploy`).
 
 ## Procedure post-ottobre 2025
+
 Dal ciclo VC-2025-10 in avanti utilizziamo un flusso documentale condiviso con Support/QA e Telemetria. Con l'estensione di novembre 2025 il refactor della CLI introduce anche un percorso di approvazione per i profili `playtest`, `telemetry` e `support`.
 
 ### Decisioni architetturali
+
 - **ADR-XXX — Refactor CLI, determinismo e pipeline HUD**: `docs/adr/ADR-XXX-refactor-cli.md` raccoglie le motivazioni fornite dal team lead e formalizza le opzioni valutate, gli impatti sugli strumenti (`roll_pack`, `hud_alerts.ts`) e i follow-up richiesti.
 
 1. **Sync settimanale (martedì, 15:00 CET)** — raccogli log telemetrici e note playtest in `docs/chatgpt_changes/` (`sync-<AAAAMMGG>.md`) e annota la versione CLI attiva (`game-cli version --json`).
