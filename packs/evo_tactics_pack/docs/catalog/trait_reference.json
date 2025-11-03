@@ -3774,7 +3774,7 @@
       "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
       "sinergie_pi": {
         "co_occorrenze": [
-          "job_ability:Warden/Scudo_di_Risonanza"
+          "job_ability:warden/scudo_di_risonanza"
         ],
         "combo_totale": 1,
         "forme": [
@@ -4355,7 +4355,7 @@
         "co_occorrenze": [
           "PE",
           "cap_pt",
-          "job_ability:Invoker/Sincronia",
+          "job_ability:invoker/sincronia",
           "sigillo_forma",
           "starter_bioma"
         ],
@@ -6485,7 +6485,7 @@
         "co_occorrenze": [
           "cap_pt",
           "guardia_situazionale",
-          "job_ability:Random"
+          "job_ability:random"
         ],
         "combo_totale": 2,
         "forme": [
@@ -7287,7 +7287,7 @@
         "co_occorrenze": [
           "cap_pt",
           "guardia_situazionale",
-          "job_ability:Skirmisher/Dash_Cut"
+          "job_ability:skirmisher/dash_cut"
         ],
         "combo_totale": 2,
         "forme": [

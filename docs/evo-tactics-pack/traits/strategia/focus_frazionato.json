@@ -29,22 +29,15 @@
     "co_occorrenze": [
       "PE",
       "cap_pt",
-      "job_ability:Invoker/Sincronia",
+      "job_ability:invoker/sincronia",
       "sigillo_forma",
       "starter_bioma"
     ],
     "combo_totale": 3,
-    "forme": [
-      "ENTP",
-      "INFJ",
-      "INTP"
-    ],
+    "forme": ["ENTP", "INFJ", "INTP"],
     "tabelle_random": []
   },
-  "slot": [
-    "A",
-    "C"
-  ],
+  "slot": ["A", "C"],
   "slot_profile": {
     "complementare": "psionico",
     "core": "strategia"

@@ -9,21 +9,12 @@
   "requisiti_ambientali": [],
   "sinergie": [],
   "sinergie_pi": {
-    "co_occorrenze": [
-      "cap_pt",
-      "guardia_situazionale",
-      "job_ability:Random"
-    ],
+    "co_occorrenze": ["cap_pt", "guardia_situazionale", "job_ability:random"],
     "combo_totale": 2,
-    "forme": [
-      "NEUTRA"
-    ],
+    "forme": ["NEUTRA"],
     "tabelle_random": []
   },
-  "slot": [
-    "A",
-    "B"
-  ],
+  "slot": ["A", "B"],
   "slot_profile": {
     "complementare": "adattivo",
     "core": "strategia"

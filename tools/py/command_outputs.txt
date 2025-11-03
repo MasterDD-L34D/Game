@@ -3,7 +3,7 @@ python3 roll_pack.py ENTP invoker ../../data/packs.yaml
   "d20": 17,
   "pack": "C",
   "combo": [
-    "trait_T1:Pianificatore",
+    "trait_T1:pianificatore",
     "guardia_situazionale",
     "sigillo_forma"
   ]
