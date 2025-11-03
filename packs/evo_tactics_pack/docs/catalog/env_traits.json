@@ -14,8 +14,8 @@
           "res_cold": "+1"
         },
         "jobs_bias": [
-          "Warden",
-          "Skirmisher"
+          "warden",
+          "skirmisher"
         ]
       }
     },
@@ -86,8 +86,8 @@
           "res_fire": "+1"
         },
         "jobs_bias": [
-          "Vanguard",
-          "Warden"
+          "vanguard",
+          "warden"
         ]
       }
     },
@@ -139,8 +139,8 @@
           "res_salt": "+1"
         },
         "jobs_bias": [
-          "Warden",
-          "Skirmisher"
+          "warden",
+          "skirmisher"
         ]
       }
     },
@@ -162,8 +162,8 @@
           "ignore_fog_penalty": true
         },
         "jobs_bias": [
-          "Vanguard",
-          "Warden"
+          "vanguard",
+          "warden"
         ]
       }
     },
@@ -208,8 +208,8 @@
           "pressure_tolerance": true
         },
         "jobs_bias": [
-          "Warden",
-          "Invoker"
+          "warden",
+          "invoker"
         ]
       }
     },
@@ -253,8 +253,8 @@
           "detox_cycle": true
         },
         "jobs_bias": [
-          "Warden",
-          "Vanguard"
+          "warden",
+          "vanguard"
         ]
       }
     },
@@ -299,8 +299,8 @@
           "moisture_harvest": true
         },
         "jobs_bias": [
-          "Skirmisher",
-          "Invoker"
+          "skirmisher",
+          "invoker"
         ]
       }
     },
@@ -345,8 +345,8 @@
           "wind_sense": true
         },
         "jobs_bias": [
-          "Skirmisher",
-          "Invoker"
+          "skirmisher",
+          "invoker"
         ]
       }
     },
@@ -391,8 +391,8 @@
           "res_heat": "+1"
         },
         "jobs_bias": [
-          "Vanguard",
-          "Warden"
+          "vanguard",
+          "warden"
         ]
       }
     },
@@ -433,8 +433,8 @@
           "res_salt": "+1"
         },
         "jobs_bias": [
-          "Warden",
-          "Skirmisher"
+          "warden",
+          "skirmisher"
         ]
       }
     },
@@ -475,8 +475,8 @@
           "mire_immunity": true
         },
         "jobs_bias": [
-          "Vanguard",
-          "Skirmisher"
+          "vanguard",
+          "skirmisher"
         ]
       }
     },
@@ -518,8 +518,8 @@
           "night_vision": true
         },
         "jobs_bias": [
-          "Invoker",
-          "Skirmisher"
+          "invoker",
+          "skirmisher"
         ]
       }
     },
@@ -560,8 +560,8 @@
           "pressure_tolerance": true
         },
         "jobs_bias": [
-          "Vanguard",
-          "Warden"
+          "vanguard",
+          "warden"
         ]
       }
     },
@@ -602,8 +602,8 @@
           "res_electric": "+2"
         },
         "jobs_bias": [
-          "Skirmisher",
-          "Invoker"
+          "skirmisher",
+          "invoker"
         ]
       }
     },
@@ -644,8 +644,8 @@
           "initiative_bonus": true
         },
         "jobs_bias": [
-          "Skirmisher",
-          "Vanguard"
+          "skirmisher",
+          "vanguard"
         ]
       }
     },
@@ -687,8 +687,8 @@
           "echolocation": true
         },
         "jobs_bias": [
-          "Invoker",
-          "Warden"
+          "invoker",
+          "warden"
         ]
       }
     },
@@ -714,8 +714,8 @@
           "stealth_bonus": true
         },
         "jobs_bias": [
-          "Invoker",
-          "Support"
+          "invoker",
+          "support"
         ]
       }
     },
@@ -741,8 +741,8 @@
           "hazard_sense_magnetico": true
         },
         "jobs_bias": [
-          "Warden",
-          "Vanguard"
+          "warden",
+          "vanguard"
         ]
       }
     },
@@ -768,8 +768,8 @@
           "lift_control": true
         },
         "jobs_bias": [
-          "Invoker",
-          "Skirmisher"
+          "invoker",
+          "skirmisher"
         ]
       }
     },
@@ -794,8 +794,8 @@
           "struttura_elastica_amorfa"
         ],
         "jobs_bias": [
-          "Vanguard",
-          "Skirmisher"
+          "vanguard",
+          "skirmisher"
         ]
       }
     },
@@ -816,8 +816,8 @@
           "secrezione_rallentante_palmi"
         ],
         "jobs_bias": [
-          "Warden",
-          "Support"
+          "warden",
+          "support"
         ]
       }
     },
@@ -840,8 +840,8 @@
           "ventriglio_gastroliti"
         ],
         "jobs_bias": [
-          "Vanguard",
-          "Warden"
+          "vanguard",
+          "warden"
         ]
       }
     },
@@ -862,8 +862,8 @@
           "sonno_emisferico_alternato"
         ],
         "jobs_bias": [
-          "Invoker",
-          "Skirmisher"
+          "invoker",
+          "skirmisher"
         ]
       }
     },
@@ -891,9 +891,9 @@
           "struttura_elastica_amorfa"
         ],
         "jobs_bias": [
-          "Warden",
-          "Support",
-          "Invoker"
+          "warden",
+          "support",
+          "invoker"
         ]
       }
     },
@@ -917,8 +917,8 @@
           "ventriglio_gastroliti"
         ],
         "jobs_bias": [
-          "Vanguard",
-          "Skirmisher"
+          "vanguard",
+          "skirmisher"
         ]
       }
     },
@@ -939,8 +939,8 @@
           "spore_psichiche_silenziate"
         ],
         "jobs_bias": [
-          "Warden",
-          "Support"
+          "warden",
+          "support"
         ]
       }
     },
@@ -963,8 +963,8 @@
           "sacche_galleggianti_ascensoriali"
         ],
         "jobs_bias": [
-          "Invoker",
-          "Skirmisher"
+          "invoker",
+          "skirmisher"
         ]
       }
     }

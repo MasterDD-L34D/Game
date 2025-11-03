@@ -71,8 +71,8 @@ derived_from_environment:
     - non_metal_gear
     - seal_vents
 jobs_bias:
-  - Vanguard
-  - Skirmisher
+  - vanguard
+  - skirmisher
 telemetry:
   expected_pick_rate: 0.42
   spawn_weight: 0.16
@@ -90,5 +90,5 @@ genetic_traits:
     - struttura_elastica_amorfa
 mate_synergy: []
 jobs_synergy:
-  - Vanguard
+  - vanguard
 description: i18n:species.magneto-ridge-hunter.description

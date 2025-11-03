@@ -6571,7 +6571,7 @@
         "synergy": ["aurora-bridge-runner", "zephyr-spore-courier"]
       },
       "usage_tags": ["support"],
-      "weakness": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende."
+      "weakness": "Richiede squadra disciplinata; cade in efficacia se pick rate warden scende."
     },
     "enzimi_antifase_termica": {
       "completion_flags": {

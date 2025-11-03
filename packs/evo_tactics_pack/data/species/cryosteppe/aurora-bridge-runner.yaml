@@ -69,15 +69,15 @@ derived_from_environment:
     - deploy_support_field
     - long_range_scan
 jobs_bias:
-  - Support
-  - Skirmisher
+  - support
+  - skirmisher
 telemetry:
   expected_pick_rate: 0.48
   spawn_weight: 0.14
 services_links: []
 genetic_traits: []
 mate_synergy:
-  - Support
+  - support
 jobs_synergy:
-  - Skirmisher
+  - skirmisher
 description: i18n:species.aurora-bridge-runner.description

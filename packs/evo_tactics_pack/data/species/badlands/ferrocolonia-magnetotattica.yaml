@@ -54,8 +54,8 @@ telemetry:
   expected_pick_rate: 0.1
   spawn_weight: 0.12
 jobs_synergy:
-  - Warden
-  - Artificer
+  - warden
+  - artificer
 mate_synergy:
   - sinergizzatore_team
   - architetto
@@ -98,8 +98,8 @@ derived_from_environment:
     - regolazione:ritenzione_idrica
     - supporto:stabilizzazione_suolo
   jobs_bias:
-    - Vanguard
-    - Warden
+    - vanguard
+    - warden
 network_bridge_roles:
   - ingegnere_ecosistema
   - sentinella

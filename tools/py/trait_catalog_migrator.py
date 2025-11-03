@@ -114,7 +114,7 @@ PI_TRAIT_METADATA: Mapping[str, Mapping[str, str]] = {
         "mutazione_indotta": "Circuiti sensorio-emotivi collegati al feed HUD PI.",
         "spinta_selettiva": "Turni lunghi con rischio alto in cui serve mitigare tilt e HP critici.",
         "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
-        "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+        "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate warden scende.",
     },
     "pathfinder": {
         "label": "Pathfinder",

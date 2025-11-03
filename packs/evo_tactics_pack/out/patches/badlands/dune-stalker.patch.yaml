@@ -38,6 +38,6 @@ derived_from_environment:
   - seal_vents
   services_links: []
   jobs_bias:
-  - Skirmisher
-  - Vanguard
-  - Warden
+  - skirmisher
+  - vanguard
+  - warden

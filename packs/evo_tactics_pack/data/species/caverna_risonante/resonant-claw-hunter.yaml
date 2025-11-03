@@ -63,8 +63,8 @@ derived_from_environment:
     - track_resonance
     - counter_burrow
   jobs_bias:
-    - Vanguard
-    - Invoker
+    - vanguard
+    - invoker
 telemetry:
   expected_pick_rate: null
   spawn_weight: null

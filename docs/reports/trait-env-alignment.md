@@ -15,7 +15,7 @@
 ## Esempi applicativi per le squadre
 ### pianificatore + slot C controllato
 - Composizioni INTJ/ENTJ/ESTJ sfruttano `pianificatore` nello slot C con `sigillo_forma` e `starter_bioma`, mantenendo budget PE equilibrato e garantendo capienza difensiva tramite `guardia_situazionale` negli slot A/B.【F:data/packs.yaml†L32-L110】
-- Le telemetrie raccomandano pick-rate equilibrati fra Vanguard (22%) e Invoker (16%): il tratto supporta le rotazioni per entrambe le classi nelle finestre mid/late (phase weights 0.40).【F:data/core/telemetry.yaml†L5-L41】
+- Le telemetrie raccomandano pick-rate equilibrati fra vanguard (22%) e invoker (16%): il tratto supporta le rotazioni per entrambe le classi nelle finestre mid/late (phase weights 0.40).【F:data/core/telemetry.yaml†L5-L41】
 - Nota di design: usare `sinergie_pi.combo_totale` per valutare saturazione del tratto — 6 combinazioni già tracciate, suggerendo di limitarne l’accesso in nuove forme finché i target HUD restano stabili.【F:data/traits/index.json†L493-L517】【F:data/derived/analysis/trait_env_mapping.json†L574-L608】
 
 ### Focus Frazionato per doppio ingaggio

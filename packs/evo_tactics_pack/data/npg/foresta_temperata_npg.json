@@ -13,7 +13,7 @@
       }
     },
     "job": {
-      "id": "Skirmisher",
+      "id": "skirmisher",
       "rank": 1,
       "actives": [
         "dash"

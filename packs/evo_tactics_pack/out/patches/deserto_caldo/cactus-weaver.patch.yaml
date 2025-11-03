@@ -19,6 +19,6 @@ derived_from_environment:
   - regolazione:ritenzione_idrica
   - supporto:stabilizzazione_suolo
   jobs_bias:
-  - Skirmisher
-  - Vanguard
-  - Warden
+  - skirmisher
+  - vanguard
+  - warden

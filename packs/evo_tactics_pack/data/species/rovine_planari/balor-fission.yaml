@@ -66,8 +66,8 @@ derived_from_environment:
     - fire_resist
     - void_stride
   jobs_bias:
-    - Vanguard
-    - Warden
+    - vanguard
+    - warden
 genetic_traits:
   core:
     - ciclo_vitale_completo

@@ -1,6 +1,6 @@
 schema_version: 1.5
 roles: [produttore, produttore_chemiotrofo, erbivoro_primario, erbivoro_primario_dispersore, filtratore_grazing, predatore_secondario, predatore_filtratore_secondario, predatore_regolatore_simbionte, predatore_terziario_apex, decompositore, impollinatore, impollinatore_notturno, commensale, commensale_opportunista, parassita, parassita_acquatico, detritivoro, ingegnere_ecosistema, onnivoro_invasivo, minaccia_microbica, evento_ecologico, dispersore_ponte]
-jobs: [Warden, Vanguard, Skirmisher, Artificer, Invoker]
+jobs: [warden, vanguard, skirmisher, artificer, invoker]
 encounter_roles: [minion, elite, boss, ambient]
 spawn: {orario: [diurno, notte, crepuscolo, continuo], meteo: [sereno_freddo, whiteout, whiteout_ionico, nebbia_ionica, caldo_pulsato]}
 budget_tiers: {default_max: 12, apex_or_keystone_max: 14, sentient_S2_plus_max: 13, enforce_mode: warn}
@@ -20,11 +20,11 @@ parts_capabilities:
   burst_anaerobic: [dash_free_once]
   claw_finesse: []
 jobs_pi_requirements:
-  Skirmisher: {require_any_capabilities: [jump_bonus, landing_on_ice, dash_free_once]}
-  Vanguard: {require_any_slots: [defense]}
-  Warden: {require_any_slots: [senses, defense]}
-  Artificer: {require_any_slots: [senses]}
-  Invoker: {require_any_slots: [senses]}
+  skirmisher: {require_any_capabilities: [jump_bonus, landing_on_ice, dash_free_once]}
+  vanguard: {require_any_slots: [defense]}
+  warden: {require_any_slots: [senses, defense]}
+  artificer: {require_any_slots: [senses]}
+  invoker: {require_any_slots: [senses]}
 telemetry_targets:
   pick_rate_by_role: {minion: [0.1, 0.3], elite: [0.05, 0.15], boss: [0.01, 0.05], ambient: [0.05, 0.2]}
   spawn_weight_by_rarity: {R1: [0.2, 0.4], R2: [0.1, 0.3], R3: [0.05, 0.2], R4: [0.01, 0.1], R5: [0.0, 0.05]}

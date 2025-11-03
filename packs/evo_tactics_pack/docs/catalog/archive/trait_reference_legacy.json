@@ -3652,7 +3652,7 @@
     },
     "empatia_coordinativa": {
       "conflitti": [],
-      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate Warden scende.",
+      "debolezza": "Richiede squadra disciplinata; cade in efficacia se pick rate warden scende.",
       "famiglia_tipologia": "Supporto/Empatico",
       "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
       "label": "Empatia Coordinativa",

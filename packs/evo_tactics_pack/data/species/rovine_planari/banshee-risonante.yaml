@@ -67,8 +67,8 @@ derived_from_environment:
     - culturale:memorie_orali
     - regolazione:scarico_emozionale
   jobs_bias:
-    - Invoker
-    - Support
+    - invoker
+    - support
 genetic_traits:
   core:
     - ciclo_vitale_anomalo
