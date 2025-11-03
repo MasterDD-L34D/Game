@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -97,6 +98,11 @@ def _collect_roles_from_species(data: Mapping[str, Any]) -> dict[str, SpeciesTra
                 # I suggerimenti ambientali sono assimilati a ruoli opzionali.
                 traits_map[trait_id].add_role("optional")
 
+        optional_traits = _ensure_list(derived.get("optional_traits"))
+        for trait_id in optional_traits:
+            if trait_id:
+                traits_map[trait_id].add_role("optional")
+
     return traits_map
 
 
@@ -156,6 +162,114 @@ def merge_into_trait_index(
     return index_data
 
 
+def _normalize_affinity_entries(entries: Any) -> list[dict[str, Any]]:
+    if not isinstance(entries, list):
+        return []
+
+    normalized: list[dict[str, Any]] = []
+    for entry in entries:
+        if not isinstance(entry, Mapping):
+            continue
+
+        species_id = entry.get("species_id")
+        if not isinstance(species_id, str):
+            continue
+
+        raw_roles = _ensure_list(entry.get("roles"))
+        roles = sorted({role for role in raw_roles if isinstance(role, str) and role in ROLE_WEIGHTS})
+
+        weight = entry.get("weight", 0)
+        if isinstance(weight, str) and weight.isdigit():
+            weight = int(weight)
+        if not isinstance(weight, int):
+            try:
+                weight = int(weight)
+            except (TypeError, ValueError):
+                weight = 0
+
+        normalized.append({"species_id": species_id, "roles": roles, "weight": weight})
+
+    normalized.sort(key=lambda item: (-item["weight"], item["species_id"]))
+    return normalized
+
+
+def _collect_trait_payloads(traits_root: Path) -> dict[str, Mapping[str, Any]]:
+    trait_payloads: dict[str, Mapping[str, Any]] = {}
+    for json_path in traits_root.rglob("*.json"):
+        if json_path.name in {"index.json", "species_affinity.json"}:
+            continue
+
+        data = _load_json(json_path)
+        if not isinstance(data, Mapping):
+            continue
+
+        trait_id = data.get("id") or json_path.stem
+        if not isinstance(trait_id, str):
+            trait_id = str(trait_id)
+
+        trait_payloads[trait_id] = data
+
+    return trait_payloads
+
+
+def validate_trait_index(trait_index_path: Path, traits_root: Path) -> list[str]:
+    index_data = _load_json(trait_index_path)
+    traits = index_data.get("traits")
+    if not isinstance(traits, dict):
+        raise RuntimeError(
+            "Indice tratti non valido: campo 'traits' assente o non è un dizionario"
+        )
+
+    trait_files = _collect_trait_payloads(traits_root)
+    mismatches: list[str] = []
+
+    for trait_id, payload in trait_files.items():
+        file_entries = _normalize_affinity_entries(payload.get("species_affinity"))
+        if not file_entries:
+            continue
+
+        index_payload = traits.get(trait_id)
+        if not isinstance(index_payload, Mapping):
+            mismatches.append(
+                f"Il tratto '{trait_id}' ha associazioni specie nel file ma non nell'indice principale"
+            )
+            continue
+
+        index_entries = _normalize_affinity_entries(index_payload.get("species_affinity"))
+        if not index_entries:
+            mismatches.append(
+                f"Il tratto '{trait_id}' ha associazioni specie nel file ma non nell'indice principale"
+            )
+        elif file_entries != index_entries:
+            mismatches.append(
+                f"Il tratto '{trait_id}' ha una sezione species_affinity differente tra file e indice"
+            )
+
+    for trait_id, payload in traits.items():
+        if not isinstance(payload, Mapping):
+            continue
+
+        index_entries = _normalize_affinity_entries(payload.get("species_affinity"))
+        if not index_entries:
+            continue
+
+        if trait_id not in trait_files:
+            continue
+
+        file_entries = _normalize_affinity_entries(
+            trait_files[trait_id].get("species_affinity")
+        )
+        if not file_entries:
+            continue
+
+        if file_entries != index_entries:
+            mismatches.append(
+                f"Il tratto '{trait_id}' ha una sezione species_affinity differente tra file e indice"
+            )
+
+    return mismatches
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -171,6 +285,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Indice principale dei tratti da aggiornare",
     )
     parser.add_argument(
+        "--traits-root",
+        type=Path,
+        default=Path("data/traits"),
+        help="Directory radice contenente i file dei singoli trait",
+    )
+    parser.add_argument(
         "--out-json",
         type=Path,
         default=Path("data/traits/species_affinity.json"),
@@ -181,11 +301,29 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Non scrive i file, stampa solo un riepilogo",
     )
+    parser.add_argument(
+        "--validate-only",
+        action="store_true",
+        help="Confronta le associazioni calcolate con l'indice senza scrivere file",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+
+    if args.validate_only:
+        mismatches = validate_trait_index(args.trait_index, args.traits_root)
+        if mismatches:
+            print("Rilevate incongruenze nelle associazioni specie↔trait:", file=sys.stderr)
+            for message in mismatches:
+                print(f"- {message}", file=sys.stderr)
+            return 1
+
+        print(
+            "Specie↔trait coerenti fra file individuali e indice aggregato"
+        )
+        return 0
 
     affinity = build_species_affinity(args.species_root)
 
@@ -198,10 +336,6 @@ def main(argv: list[str] | None = None) -> int:
     index_payload = merge_into_trait_index(args.trait_index, affinity)
     _write_json(args.trait_index, index_payload)
 
-    print(
-        "Specie associate a %d trait. File aggiornati: %s, %s"
-        % (len(affinity), args.out_json, args.trait_index)
-    )
     return 0
 
 
