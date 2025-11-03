@@ -3,6 +3,7 @@
 Questa cartella raccoglie tutorial sintetici corredati da schede SVG per i flussi principali.
 
 - [CLI Evo Tactics](cli-quickstart.md)
+- [Idea Engine end-to-end](idea-engine.md)
 - [Feedback Idea Engine](idea-engine-feedback.md)
 - [Dashboard & Showcase](dashboard-tour.md)
 - [Overlay HUD canary](hud-overlay-quickstart.md)
