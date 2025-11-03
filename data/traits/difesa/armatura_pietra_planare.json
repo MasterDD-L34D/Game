@@ -50,5 +50,8 @@
     "has_usage_tags": true,
     "has_data_origin": true
   },
+  "biome_tags": [
+    "rovine_planari"
+  ],
   "data_origin": "pathfinder_dataset"
 }
