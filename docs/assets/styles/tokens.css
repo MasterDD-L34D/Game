@@ -1,36 +1,88 @@
 :root {
+  /* Base palette */
   --color-bg: #0f172a;
   --color-surface: #ffffff;
   --color-surface-muted: #f3f5ff;
   --color-border: #d0d6e1;
   --color-border-strong: #94a3b8;
+  --color-border-subtle: rgba(208, 214, 225, 0.28);
+
+  /* Typography */
   --color-text-primary: #0b1120;
   --color-text-secondary: #334155;
   --color-text-inverse: #f8fafc;
+  --color-text-muted: rgba(248, 250, 252, 0.72);
+
+  /* Accent & feedback */
   --color-accent: #5165ff;
   --color-accent-strong: #3346d3;
+  --color-accent-soft: rgba(81, 101, 255, 0.16);
+  --color-accent-muted: rgba(81, 101, 255, 0.1);
+  --color-accent-glow: rgba(81, 101, 255, 0.35);
+
   --color-success: #1a7f3b;
+  --color-success-soft: rgba(26, 127, 59, 0.1);
+  --color-success-border: rgba(26, 127, 59, 0.35);
+  --color-success-backdrop: rgba(12, 46, 25, 0.9);
+  --color-success-foreground: rgba(229, 255, 238, 0.95);
+
   --color-warning: #b45309;
+  --color-warning-soft: rgba(180, 83, 9, 0.1);
+  --color-warning-border: rgba(180, 83, 9, 0.35);
+  --color-warning-backdrop: rgba(59, 29, 5, 0.9);
+  --color-warning-foreground: rgba(255, 243, 219, 0.95);
+
   --color-danger: #b91c1c;
+  --color-danger-soft: rgba(185, 28, 28, 0.1);
+  --color-danger-border: rgba(185, 28, 28, 0.35);
+  --color-danger-backdrop: rgba(64, 16, 16, 0.9);
+  --color-danger-foreground: rgba(255, 226, 226, 0.95);
+
+  --color-info-soft: rgba(81, 101, 255, 0.14);
+  --color-info-border: rgba(81, 101, 255, 0.5);
+  --color-info-backdrop: rgba(20, 30, 65, 0.92);
+  --color-info-foreground: rgba(224, 231, 255, 0.95);
+
+  /* Layered surfaces */
+  --layer-surface-low: rgba(15, 23, 42, 0.72);
+  --layer-surface-base: rgba(15, 23, 42, 0.82);
+  --layer-surface-raised: rgba(15, 23, 42, 0.9);
+  --layer-surface-overlay: rgba(15, 23, 42, 0.96);
+
+  /* Shadows & radii */
   --shadow-soft: 0 12px 32px rgba(15, 23, 42, 0.08);
+  --shadow-button: 0 14px 30px rgba(81, 101, 255, 0.35);
+  --shadow-focus: 0 0 0 3px rgba(81, 101, 255, 0.35);
+  --shadow-focus-strong: 0 0 0 3px rgba(81, 101, 255, 0.25);
+
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
+
+  /* Spacing scale */
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
+
+  /* Typography scale */
   --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
   --type-xs: 0.75rem;
   --type-sm: 0.875rem;
   --type-md: 1rem;
   --type-lg: 1.25rem;
   --type-xl: 1.5rem;
   --type-2xl: 2rem;
+
   --line-tight: 1.2;
   --line-normal: 1.5;
+
+  /* Layout */
   --container-max: 1120px;
   --container-wide: 1280px;
+
+  --transition-base: 160ms ease;
 }
