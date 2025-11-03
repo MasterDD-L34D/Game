@@ -1,6 +1,6 @@
 # QA export changelog
 
-Generato: 2025-11-02T20:59:54.779814Z
+Generato: 2025-11-03T11:37:45.252152Z
 Baseline precedente: 2025-11-02T20:59:54.779814Z
 
 ## Metriche baseline
@@ -10,8 +10,14 @@ Baseline precedente: 2025-11-02T20:59:54.779814Z
 - Mismatch matrice: 0 (0 vs precedente)
 - Tratti con conflitti: 0 (0 vs precedente)
 
+### tratti presenti solo nel matrix
+- Nuovi:
+  - support
+- Risolti:
+  - Support
+
 ## Highlights UI
-- Solo matrice: Strategist, Support, adattamento_volo, ali_solari_fotoni, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo
+- Solo matrice: Strategist, adattamento_volo, ali_solari_fotoni, architetto, artigli_psionici, assenza_respirazione, campo_di_fase, ciclo_vitale_anomalo, ciclo_vitale_completo, corteccia_memetica
 
 ## Validazione generatore
 - Check passati: 0 (0 vs precedente)
