@@ -38,7 +38,7 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 - **Dataset & pack** – `data/`, `packs/` e `reports/` raccolgono la fonte unica per specie, trait, biomi e analisi.
   Ogni aggiornamento dei dataset è propagato verso Flow (validator/orchestratore), Atlas (snapshot), backend (API) e documentazione (`docs/catalog/`).
 
-> Quando modifichi un settore, verifica le dipendenze a valle: ad esempio una variazione nei dataset implica rigenerare la webapp (`npm run webapp:deploy`), aggiornare i report (`reports/`) e rieseguire i test backend (`npm run test:api`).
+> Quando modifichi un settore, verifica le dipendenze a valle: ad esempio una variazione nei dataset implica rigenerare la webapp (`npm run webapp:deploy`, build + preview locale), aggiornare i report (`reports/`) e rieseguire i test backend (`npm run test:api`).
 
 ## Tour del repository
 
@@ -296,7 +296,12 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Webapp**: `npm --prefix webapp test` esegue la suite Vitest/JSDOM.
 - **Webapp build & preview**: `npm --prefix webapp run build && npm --prefix webapp run preview`
   serve la build hashata su `http://localhost:4173`; in alternativa usa lo shortcut monorepo
-  `npm run webapp:deploy` per installare dipendenze, buildare e avviare il preview in un solo comando.
+  `npm run webapp:deploy` che esegue build + server di anteprima locale in un solo comando.
+- **Pubblicazione produzione**:
+  1. Imposta `VITE_BASE_PATH` e le variabili API (`VITE_API_BASE`, `VITE_*_URL`) in base all'hosting di destinazione.
+  2. Esegui `npm run build --workspace webapp` per generare `webapp/dist`.
+  3. Verifica l'output con `npm run webapp:deploy` oppure `npm --prefix webapp run preview`.
+  4. Carica il contenuto di `webapp/dist` sul bucket/CDN di riferimento (es. GitHub Pages, S3, Firebase Hosting) oppure usa la pipeline `npm run stage:publishing` per lo staging automatizzato.
 - **HUD & dashboard**: test Playwright dedicati (`tools/ts/tests`, `tests/hud_alerts.spec.ts`) e `tests/validate_dashboard.py` per smoke test.
 
 ## Integrazioni esterne
@@ -318,8 +323,16 @@ node dist/roll_pack.js ENTP invoker --seed demo
   valorizza i singoli `VITE_*_URL` con percorsi assoluti. Se una variabile viene lasciata vuota o a
   `null`, il registry passa automaticamente al fallback successivo (JSON locale in `public/data`).
 - **Verifica locale**: esegui `npm --prefix webapp run build && npm --prefix webapp run preview` (o lo
-  shortcut `npm run webapp:deploy`) per controllare la build ottimizzata e le rewrite gestite da
-  `import.meta.env.BASE_URL` prima di caricare gli asset su hosting statico.
+  shortcut `npm run webapp:deploy`, che combina build + preview locale) per controllare la build
+  ottimizzata e le rewrite gestite da `import.meta.env.BASE_URL` prima di caricare gli asset su hosting
+  statico.
+
+### Deploy produzione
+
+1. Esegui `npm run build --workspace webapp` per generare l'output statico in `webapp/dist`.
+2. Se necessario, popola `webapp/dist/.well-known/` o altre cartelle di servizio richieste dall'hosting.
+3. Carica i file su Pages/S3/Cloud Storage, mantenendo invariata la struttura di directory generata da Vite.
+4. (Opzionale) Usa `npm run stage:publishing` per validare l'upload verso ambienti di staging gestiti dallo script.
 
 ### Pubblicazione GitHub
 
