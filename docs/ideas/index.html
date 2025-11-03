@@ -37,16 +37,16 @@
                 >Consulta changelog</a
               >
             </div>
-            <div class="idea-intake__journeys" role="list">
-              <article class="idea-intake__journey" role="listitem">
+            <ul class="idea-intake__journeys">
+              <li class="idea-intake__journey">
                 <h2 id="journey-export">Export <code>.md</code> immediato</h2>
                 <p>
                   Usa il widget per compilare i campi, quindi premi
                   <strong>Anteprima / Export .md</strong>: scarichi il file pronto per la cartella
                   <code>ideas/</code> e lo alleghi al prossimo commit.
                 </p>
-              </article>
-              <article class="idea-intake__journey" role="listitem">
+              </li>
+              <li class="idea-intake__journey">
                 <h2 id="journey-backend">Invio al backend</h2>
                 <p>
                   Configura l'endpoint con <code>?apiBase</code> e <code>?apiToken</code>:
@@ -54,15 +54,15 @@
                   salva l'idea, genera il brief Codex GPT e aggiorna lo storico report consultabile
                   dall'aside.
                 </p>
-              </article>
-              <article class="idea-intake__journey" role="listitem">
+              </li>
+              <li class="idea-intake__journey">
                 <h2 id="journey-feedback">Feedback post-submit</h2>
                 <p>
                   Dopo l'invio appare il modulo feedback rapido: compila le note di playtest o apri
                   la pagina dedicata per una retrospettiva più ampia.
                 </p>
-              </article>
-            </div>
+              </li>
+            </ul>
           </div>
           <div class="idea-intake__hero-aside">
             <h2 class="idea-intake__hero-aside-title">Step di sincronizzazione</h2>
@@ -99,27 +99,59 @@
     <main
       class="idea-intake__main"
       aria-labelledby="idea-workflows-title"
-      aria-describedby="journey-export journey-backend"
+      aria-describedby="journey-export journey-backend journey-feedback"
     >
       <div class="page-shell page-shell--tight">
         <div class="page-grid page-grid--two-col idea-intake__layout">
-          <section
-            class="idea-intake__panel card card--highlight"
-            id="idea-workflows"
-            aria-labelledby="idea-workflows-title"
-          >
-            <div class="idea-intake__panel-header">
-              <h2 id="idea-workflows-title">Invia o esporta una nuova idea</h2>
-              <p>
-                Il widget valida i campi in tempo reale, propone il Reminder Block e coordina
-                l'export oppure la chiamata API. Se il backend è online vedrai lo stato della
-                richiesta e il report Codex apparirà nell'aside.
-              </p>
-            </div>
-            <div id="idea-widget" class="idea-intake__widget" aria-live="polite">
-              <p class="idea-intake__fallback">Caricamento widget Idea Intake…</p>
-            </div>
-          </section>
+          <div class="idea-intake__primary">
+            <section
+              class="idea-intake__panel card card--highlight"
+              id="idea-workflows"
+              aria-labelledby="idea-workflows-title"
+            >
+              <div class="idea-intake__panel-header">
+                <h2 id="idea-workflows-title">Invia o esporta una nuova idea</h2>
+                <p>
+                  Il widget valida i campi in tempo reale, propone il Reminder Block e coordina
+                  l'export oppure la chiamata API. Se il backend è online vedrai lo stato della
+                  richiesta e il report Codex apparirà nell'aside.
+                </p>
+              </div>
+              <div id="idea-widget" class="idea-intake__widget" aria-live="polite">
+                <p class="idea-intake__fallback">Caricamento widget Idea Intake…</p>
+              </div>
+            </section>
+
+            <section
+              class="surface-panel idea-intake__checklist"
+              aria-labelledby="idea-checklist-title"
+            >
+              <div class="idea-intake__panel-header">
+                <h2 id="idea-checklist-title">Checklist export offline</h2>
+                <p>
+                  Segui questi passaggi per pubblicare l'idea tramite export <code>.md</code> e
+                  garantire che gli automatismi CI si attivino correttamente.
+                </p>
+              </div>
+              <ol class="idea-intake__checklist-list">
+                <li>
+                  Compila tutti i campi obbligatori del widget finché non compaiono conferme verdi.
+                </li>
+                <li>
+                  Scarica il file con <strong>Anteprima / Export .md</strong> e rinominalo con
+                  prefisso <code>idea-</code>.
+                </li>
+                <li>
+                  Salva il file in <code>ideas/</code>, aggiorna <code>IDEAS_INDEX.md</code> se
+                  necessario e apri la pull request.
+                </li>
+                <li>
+                  Condividi il link alla PR nel canale <code>#feedback-enhancements</code> per
+                  raccogliere il parere del team.
+                </li>
+              </ol>
+            </section>
+          </div>
 
           <aside class="idea-intake__aside" aria-labelledby="idea-aside-title">
             <h2 class="idea-intake__aside-title" id="idea-aside-title">
@@ -216,36 +248,6 @@
               >
             </section>
           </aside>
-
-          <section
-            class="surface-panel idea-intake__checklist"
-            aria-labelledby="idea-checklist-title"
-          >
-            <div class="idea-intake__panel-header">
-              <h2 id="idea-checklist-title">Checklist export offline</h2>
-              <p>
-                Segui questi passaggi per pubblicare l'idea tramite export <code>.md</code> e
-                garantire che gli automatismi CI si attivino correttamente.
-              </p>
-            </div>
-            <ol class="idea-intake__checklist-list">
-              <li>
-                Compila tutti i campi obbligatori del widget finché non compaiono conferme verdi.
-              </li>
-              <li>
-                Scarica il file con <strong>Anteprima / Export .md</strong> e rinominalo con
-                prefisso <code>idea-</code>.
-              </li>
-              <li>
-                Salva il file in <code>ideas/</code>, aggiorna <code>IDEAS_INDEX.md</code> se
-                necessario e apri la pull request.
-              </li>
-              <li>
-                Condividi il link alla PR nel canale <code>#feedback-enhancements</code> per
-                raccogliere il parere del team.
-              </li>
-            </ol>
-          </section>
         </div>
       </div>
     </main>

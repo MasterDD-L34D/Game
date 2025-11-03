@@ -69,7 +69,9 @@
 .idea-intake__journeys {
   display: grid;
   gap: 18px;
-  margin-top: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
 .idea-intake__journey {
@@ -174,6 +176,27 @@
 
 .idea-intake__layout {
   align-items: start;
+}
+
+.idea-intake__primary {
+  display: grid;
+  gap: var(--page-grid-gap);
+  grid-column: 1;
+}
+
+.idea-intake__aside {
+  grid-column: 2;
+}
+
+.idea-intake__aside > .surface-panel {
+  height: fit-content;
+}
+
+@media (max-width: 1023px) {
+  .idea-intake__primary,
+  .idea-intake__aside {
+    grid-column: auto;
+  }
 }
 
 .idea-intake__panel {
