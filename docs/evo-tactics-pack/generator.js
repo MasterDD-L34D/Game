@@ -24,6 +24,12 @@ import {
   buildPressKitMarkdown as buildPressKitMarkdownService,
   generatePresetFileContents as generatePresetFileContentsService,
 } from '../../services/export/dossier.ts';
+import * as parametersView from './views/parameters.js';
+import * as traitsView from './views/traits.js';
+import * as biomesView from './views/biomes.js';
+import * as seedsView from './views/seeds.js';
+import * as composerView from './views/composer.js';
+import * as insightsView from './views/insights.js';
 
 const elements = resolveGeneratorElements(document);
 const anchorUi = resolveAnchorUi(document);
@@ -331,6 +337,87 @@ let chartUnavailableNotified = false;
 let composerRadarChart = null;
 let composerChartUnavailable = false;
 
+const panelRegistry = new Map();
+
+function registerPanel(id, viewModule, dependenciesFactory = () => ({})) {
+  const controller = {
+    setup() {
+      if (typeof viewModule?.setup === 'function') {
+        viewModule.setup(state, elements, dependenciesFactory());
+      }
+    },
+    render(context) {
+      if (typeof viewModule?.render === 'function') {
+        viewModule.render(state, elements, {
+          ...dependenciesFactory(),
+          context: context ?? {},
+        });
+      }
+    },
+  };
+  panelRegistry.set(id, controller);
+  return controller;
+}
+
+const parametersPanel = registerPanel('parameters', parametersView, () => ({
+  setupFilterChangeHandlers,
+  setupExportControls,
+  attachProfileHandlers,
+  renderProfileSlots,
+  renderExportManifest,
+  renderKpiSidebar,
+  currentFilters,
+}));
+
+const traitsPanel = registerPanel('traits', traitsView, () => ({
+  renderTraitExpansions,
+}));
+
+const biomesPanel = registerPanel('biomes', biomesView, () => ({
+  renderBiomes,
+  currentFilters,
+  attachComparisonHandlers,
+}));
+
+const seedsPanel = registerPanel('seeds', seedsView, () => ({
+  renderSeeds,
+}));
+
+const composerPanel = registerPanel('composer', composerView, () => ({
+  renderComposerPanel,
+  attachComposerHandlers,
+}));
+
+const insightsPanel = registerPanel('insights', insightsView, () => ({
+  renderContextualInsights,
+  attachInsightHandlers,
+  getRecommendations: () => state.narrative?.recommendations ?? [],
+}));
+
+function renderParametersPanel(context = {}) {
+  parametersPanel.render(context);
+}
+
+function renderTraitsPanel(context = {}) {
+  traitsPanel.render(context);
+}
+
+function renderBiomesPanel(filters = currentFilters()) {
+  biomesPanel.render({ filters });
+}
+
+function renderSeedsPanel(context = {}) {
+  seedsPanel.render(context);
+}
+
+function renderComposerPanelView(context = {}) {
+  composerPanel.render(context);
+}
+
+function renderInsightsPanel(recommendations = state.narrative?.recommendations ?? []) {
+  insightsPanel.render({ recommendations });
+}
+
 if (typeof window !== 'undefined' && typeof window.__EVO_TACTICS_API_BASE__ === 'string') {
   state.api.base = window.__EVO_TACTICS_API_BASE__;
 }
@@ -500,9 +587,9 @@ function updateSummaryCounts() {
   }
 
   state.metrics.uniqueSpecies = uniqueSpeciesCount;
-  renderKpiSidebar();
+  renderParametersPanel({ refresh: ['kpi'] });
 
-  renderExportManifest();
+  renderParametersPanel({ refresh: ['export'] });
   renderPinnedSummary();
 }
 
@@ -728,7 +815,7 @@ function updateNarrativePrompts(filters = state.lastFilters) {
     elements.narrativeHook.textContent = context.narrativeHook;
   }
 
-  renderContextualInsights(state.narrative.recommendations);
+  renderInsightsPanel(state.narrative.recommendations);
 
   pulseElement(elements.briefingPanel);
   pulseElement(elements.hookPanel);
@@ -1754,7 +1841,7 @@ function attachProfileHandlers() {
     if (action === 'profile-clear-all') {
       state.filterProfiles = new Array(PROFILE_SLOT_COUNT).fill(null);
       persistFilterProfiles();
-      renderProfileSlots();
+      renderParametersPanel({ refresh: ['profiles'] });
       setStatus('Profili filtro azzerati.', 'info', {
         tags: ['profili', 'reset'],
         action: 'profiles-reset',
@@ -1769,7 +1856,7 @@ function attachProfileHandlers() {
       case 'profile-save': {
         const filters = currentFilters();
         saveProfileSlot(index, filters);
-        renderProfileSlots();
+        renderParametersPanel({ refresh: ['profiles'] });
         const savedProfile = state.filterProfiles[index];
         const summary = summariseFilters(savedProfile?.filters ?? filters ?? {});
         setStatus(`Filtri salvati nel profilo ${index + 1}.`, 'success', {
@@ -1817,7 +1904,7 @@ function attachProfileHandlers() {
           break;
         }
         renameProfileSlot(index, name);
-        renderProfileSlots();
+        renderParametersPanel({ refresh: ['profiles'] });
         setStatus('Nome profilo aggiornato.', 'success', {
           tags: ['profili', 'rinomina'],
           action: 'profile-rename',
@@ -1830,7 +1917,7 @@ function attachProfileHandlers() {
       }
       case 'profile-clear': {
         clearProfileSlot(index);
-        renderProfileSlots();
+        renderParametersPanel({ refresh: ['profiles'] });
         setStatus('Profilo liberato.', 'info', {
           tags: ['profili', 'clear'],
           action: 'profile-clear',
@@ -2409,7 +2496,7 @@ function recalculateActivityMetrics() {
   });
   state.metrics.rerollCount = rerollCount;
   state.metrics.filterProfileReuses = profileReuses;
-  renderKpiSidebar();
+  renderParametersPanel({ refresh: ['kpi'] });
 }
 
 function formatAverageRollInterval(ms) {
@@ -3293,7 +3380,7 @@ function setupExportControls() {
       const { value } = event.target;
       const fallbackPresetId = MANIFEST_PRESETS[0]?.id ?? null;
       state.exportState.presetId = value || fallbackPresetId;
-      renderExportManifest();
+      renderParametersPanel({ refresh: ['export'] });
     });
   }
   if (elements.exportList) {
@@ -3308,7 +3395,7 @@ function setupExportControls() {
       checklist.set(manifestItem, target.checked);
     });
   }
-  renderExportManifest();
+  renderParametersPanel({ refresh: ['export'] });
 }
 
 function getSelectedValues(select) {
@@ -4328,19 +4415,19 @@ function formatEffects(effects = {}) {
 function setTraitRegistry(registry) {
   state.traitRegistry = registry ?? null;
   state.traitsIndex = indexTraitRegistry(registry);
-  renderTraitExpansions();
+  renderTraitsPanel();
 }
 
 function setTraitReference(catalog) {
   state.traitReference = catalog ?? null;
   state.traitDetailsIndex = indexTraitDetails(catalog);
-  renderTraitExpansions();
+  renderTraitsPanel();
 }
 
 function setTraitGlossary(glossary) {
   state.traitGlossary = glossary ?? null;
   state.traitGlossaryIndex = indexTraitGlossary(glossary);
-  renderTraitExpansions();
+  renderTraitsPanel();
 }
 
 function indexHazardRegistry(registry) {
@@ -4362,7 +4449,7 @@ function indexHazardRegistry(registry) {
 function setHazardRegistry(registry) {
   state.hazardRegistry = registry ?? null;
   state.hazardsIndex = indexHazardRegistry(registry);
-  renderTraitExpansions();
+  renderTraitsPanel();
 }
 
 function describeHazards(hazardIds = []) {
@@ -7368,7 +7455,7 @@ function updateComposerState(filters) {
   state.composer.suggestions = suggestions;
   state.metrics.roleUsage = roleStats;
 
-  renderComposerPanel();
+  renderComposerPanelView();
 }
 
 function applyComposerPreset(preset) {
@@ -7384,13 +7471,13 @@ function applyComposerPreset(preset) {
   filters.roles.forEach((role) => {
     if (role) preferred.add(role);
   });
-  renderComposerPanel();
+  renderComposerPanelView();
   if (state.pick.biomes.length) {
     const current = currentFilters();
     rerollSpecies(current);
-    renderBiomes(current);
+    renderBiomesPanel(current);
     rerollSeeds(current);
-    renderSeeds();
+    renderSeedsPanel();
   }
   setStatus(`Preset ${preset.label} applicato.`, 'success', {
     tags: ['composer', 'preset'],
@@ -7404,13 +7491,13 @@ function applyComposerPreset(preset) {
 }
 
 function applyComposerConstraintUpdate({ announce = false } = {}) {
-  renderComposerPanel();
+  renderComposerPanelView();
   if (!state.pick.biomes.length) return;
   const filters = currentFilters();
   rerollSpecies(filters);
-  renderBiomes(filters);
+  renderBiomesPanel(filters);
   rerollSeeds(filters);
-  renderSeeds();
+  renderSeedsPanel();
   if (announce) {
     const value = Number.isFinite(state.composer?.constraints?.minSynergy)
       ? state.composer.constraints.minSynergy
@@ -7958,8 +8045,8 @@ function attachActions() {
         state.pick.exportSlug = null;
         rerollSpecies(filters);
         rerollSeeds(filters);
-        renderBiomes(filters);
-        renderSeeds();
+        renderBiomesPanel(filters);
+        renderSeedsPanel();
         focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
         const summaryParts = [];
@@ -8038,8 +8125,8 @@ function attachActions() {
         state.pick.exportSlug = null;
         rerollSpecies(filters);
         rerollSeeds(filters);
-        renderBiomes(filters);
-        renderSeeds();
+        renderBiomesPanel(filters);
+        renderSeedsPanel();
         focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
         const rerollSummary = [];
@@ -8068,7 +8155,7 @@ function attachActions() {
           return;
         }
         rerollSpecies(filters);
-        renderBiomes(filters);
+        renderBiomesPanel(filters);
         focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
         setStatus('Specie ricalcolate.', 'success', {
@@ -8089,7 +8176,7 @@ function attachActions() {
           return;
         }
         rerollSeeds(filters);
-        renderSeeds();
+        renderSeedsPanel();
         focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
         setStatus('Seed rigenerati.', 'success', {
@@ -8106,7 +8193,7 @@ function attachActions() {
         const slug = ensureExportSlug();
         downloadFile(`${slug}.json`, JSON.stringify(payload, null, 2), 'application/json');
         markCurrentPresetByBuilder('ecosystem-json');
-        renderExportManifest(filters);
+        renderParametersPanel({ refresh: ['export'], filters });
         setStatus('Esportazione JSON completata.', 'success', {
           tags: ['export', 'json'],
           action: 'export-json',
@@ -8119,7 +8206,7 @@ function attachActions() {
         const slug = ensureExportSlug();
         downloadFile(`${slug}.yaml`, yaml, 'text/yaml');
         markCurrentPresetByBuilder('ecosystem-yaml');
-        renderExportManifest(filters);
+        renderParametersPanel({ refresh: ['export'], filters });
         setStatus('Esportazione YAML completata.', 'success', {
           tags: ['export', 'yaml'],
           action: 'export-yaml',
@@ -8138,7 +8225,7 @@ function attachActions() {
         const slug = ensureExportSlug();
         downloadFile(`${slug}-log.json`, JSON.stringify(entries, null, 2), 'application/json');
         markCurrentPresetByBuilder('activity-json');
-        renderExportManifest(filters);
+        renderParametersPanel({ refresh: ['export'], filters });
         setStatus('Registro attività esportato in JSON.', 'success', {
           tags: ['export', 'log', 'json'],
           action: 'export-log-json',
@@ -8157,7 +8244,7 @@ function attachActions() {
         const slug = ensureExportSlug();
         downloadFile(`${slug}-log.csv`, activityLogToCsv(entries), 'text/csv');
         markCurrentPresetByBuilder('activity-csv');
-        renderExportManifest(filters);
+        renderParametersPanel({ refresh: ['export'], filters });
         setStatus('Registro attività esportato in CSV.', 'success', {
           tags: ['export', 'log', 'csv'],
           action: 'export-log-csv',
@@ -8175,7 +8262,7 @@ function attachActions() {
         }
         try {
           const { zipName, fileCount } = await downloadPresetZip(preset, filters);
-          renderExportManifest(filters);
+          renderParametersPanel({ refresh: ['export'], filters });
           setStatus(`Bundle ZIP "${zipName}" generato (${fileCount} file).`, 'success', {
             tags: ['export', 'zip'],
             action: 'export-zip',
@@ -8200,7 +8287,7 @@ function attachActions() {
           const fileName = `${slug}-dossier.html`;
           downloadFile(fileName, html, 'text/html');
           markCurrentPresetByBuilder('dossier-html');
-          renderExportManifest(filters);
+          renderParametersPanel({ refresh: ['export'], filters });
           setStatus('Dossier HTML esportato.', 'success', {
             tags: ['export', 'dossier', 'html'],
             action: 'export-dossier-html',
@@ -8221,7 +8308,7 @@ function attachActions() {
           const slug = ensureExportSlug();
           downloadFile(`${slug}-dossier.pdf`, blob, 'application/pdf');
           markCurrentPresetByBuilder('dossier-pdf');
-          renderExportManifest(filters);
+          renderParametersPanel({ refresh: ['export'], filters });
           setStatus('Dossier PDF esportato.', 'success', {
             tags: ['export', 'dossier', 'pdf'],
             action: 'export-dossier-pdf',
@@ -8298,25 +8385,24 @@ recalculateActivityMetrics();
 renderActivityLog();
 setupActivityControls();
 setupAudioControls();
-renderKpiSidebar();
+parametersPanel.setup();
+traitsPanel.setup();
+biomesPanel.setup();
+seedsPanel.setup();
+composerPanel.setup();
+insightsPanel.setup();
 setupAnchorNavigation();
 setupCodexControls();
-renderTraitExpansions();
-setupExportControls();
-renderProfileSlots();
+renderTraitsPanel();
+renderParametersPanel();
 renderHistoryPanel();
 renderPinnedSummary();
 renderComparisonPanel();
 updateNarrativePrompts();
-attachProfileHandlers();
-attachInsightHandlers();
+renderComposerPanelView();
 attachHistoryHandlers();
-attachComparisonHandlers();
-attachComposerHandlers();
-renderComposerPanel();
 attachActions();
 setupFlowMapControls();
-setupFilterChangeHandlers();
 loadData();
 
 if (typeof window !== 'undefined') {
