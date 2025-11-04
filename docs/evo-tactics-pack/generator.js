@@ -4,8 +4,8 @@ import {
   getPackRootCandidates,
   PACK_PATH,
 } from './pack-data.js';
-import { resolveGeneratorElements, resolveAnchorUi } from './ui/elements.ts';
-import { createSessionState } from './state/session.ts';
+import { resolveGeneratorElements, resolveAnchorUi } from './ui/elements.js';
+import { createSessionState } from './state/session.js';
 
 const elements = resolveGeneratorElements(document);
 const anchorUi = resolveAnchorUi(document);
