@@ -5,7 +5,11 @@ export default defineConfig({
     globals: true,
     include: ['tests/docs-generator/**/*.{test,spec}.ts'],
     environment: 'node',
-    environmentMatchGlobs: [['tests/docs-generator/integration/**', 'jsdom']],
+    environmentMatchGlobs: [
+      ['tests/docs-generator/unit/dossier.test.ts', 'jsdom'],
+      ['tests/docs-generator/unit/**', 'node'],
+      ['tests/docs-generator/integration/**', 'jsdom'],
+    ],
     setupFiles: [],
     hookTimeout: 20000,
   },
