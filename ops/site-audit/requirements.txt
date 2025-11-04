@@ -1,0 +1,4 @@
+PyYAML==6.*
+requests==2.*
+beautifulsoup4==4.*
+jsonschema==4.*

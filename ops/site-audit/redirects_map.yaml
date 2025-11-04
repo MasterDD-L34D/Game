@@ -1,0 +1,6 @@
+# Mappa redirects 301 old → new
+# Aggiungi qui eventuali vecchi URL (inglesi/legacy) da redirigere alle nuove sezioni italiane.
+redirects:
+  - { from: "/species/echo_wing", to: "/bestiario/echo-wing", code: 301 }
+  - { from: "/rules/synergies", to: "/regole/synergies", code: 301 }
+  - { from: "/weapons/arc-rod", to: "/equipaggiamento/armi/arc-rod", code: 301 }
