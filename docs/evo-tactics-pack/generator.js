@@ -9,6 +9,21 @@ import { createSessionState } from './state/session.ts';
 import { randomId } from './utils/ids.ts';
 import { buildGenerationConstraints, createTagEntry } from './utils/normalizers.ts';
 import { activityLogToCsv, serialiseActivityLogEntry, toYAML } from './utils/serializers.ts';
+import {
+  fetchTraitRegistry,
+  fetchTraitReference,
+  fetchTraitGlossary,
+  fetchHazardRegistry,
+  fetchSpecies,
+} from '../../services/api/generatorClient.ts';
+import {
+  loadDossierTemplate as loadDossierTemplateService,
+  generateDossierDocument as generateDossierDocumentService,
+  generateDossierHtml as generateDossierHtmlService,
+  generateDossierPdfBlob as generateDossierPdfBlobService,
+  buildPressKitMarkdown as buildPressKitMarkdownService,
+  generatePresetFileContents as generatePresetFileContentsService,
+} from '../../services/export/dossier.ts';
 
 const elements = resolveGeneratorElements(document);
 const anchorUi = resolveAnchorUi(document);
@@ -315,7 +330,6 @@ let comparisonChart = null;
 let chartUnavailableNotified = false;
 let composerRadarChart = null;
 let composerChartUnavailable = false;
-const fetchFailureNotices = new Set();
 
 if (typeof window !== 'undefined' && typeof window.__EVO_TACTICS_API_BASE__ === 'string') {
   state.api.base = window.__EVO_TACTICS_API_BASE__;
@@ -3148,241 +3162,27 @@ function renderExportManifest(filters = state.lastFilters) {
 }
 
 async function loadDossierTemplate() {
-  if (state.exportState.dossierTemplate) {
-    return state.exportState.dossierTemplate;
-  }
-  if (typeof fetch === 'undefined') {
-    return null;
-  }
-  try {
-    const response = await fetch(DOSSIER_TEMPLATE_PATH, { cache: 'no-cache' });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    const template = await response.text();
-    state.exportState.dossierTemplate = template;
-    return template;
-  } catch (error) {
-    console.warn('Impossibile caricare il template del dossier', error);
-    state.exportState.dossierTemplate = null;
-    return null;
-  }
-}
-
-function flattenSpeciesBuckets(buckets = {}) {
-  if (!buckets || typeof buckets !== 'object') return [];
-  const seen = new Map();
-  Object.values(buckets)
-    .filter((list) => Array.isArray(list))
-    .forEach((list) => {
-      list.forEach((species) => {
-        if (!species) return;
-        const key =
-          species.id || species.display_name || species.displayName || species.speciesId || null;
-        if (!key || seen.has(key)) return;
-        seen.set(key, species);
-      });
-    });
-  return Array.from(seen.values());
-}
-
-function summariseSeedParty(seed) {
-  if (!Array.isArray(seed?.party) || !seed.party.length) {
-    return 'Nessuna specie associata al seed con i filtri correnti.';
-  }
-  return seed.party
-    .map((entry) => {
-      const parts = [entry.display_name];
-      const meta = [];
-      if (entry.role) meta.push(entry.role);
-      if (typeof entry.tier === 'number') meta.push(`T${entry.tier}`);
-      if (entry.count && entry.count > 1) meta.push(`x${entry.count}`);
-      if (meta.length) {
-        parts.push(`(${meta.join(' · ')})`);
-      }
-      return parts.join(' ');
-    })
-    .join('; ');
+  const template = await loadDossierTemplateService(DOSSIER_TEMPLATE_PATH, {
+    cache: {
+      get: () => state.exportState.dossierTemplate,
+      set: (value) => {
+        state.exportState.dossierTemplate = value;
+      },
+    },
+  });
+  return template;
 }
 
 async function generateDossierDocument(context) {
   const template = await loadDossierTemplate();
   if (!template) return null;
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(template, 'text/html');
-  const setSlotText = (slot, value) => {
-    const target = doc.querySelector(`[data-slot="${slot}"]`);
-    if (target) {
-      target.textContent = value;
-    }
-  };
-
-  const preset = getCurrentPreset();
-  const generatedAt = context.generatedAt ?? new Date();
-  const locale = 'it-IT';
-  const generatedLabel = generatedAt.toLocaleString(locale, {
-    hour12: false,
+  return generateDossierDocumentService(context, {
+    template,
+    presetLabel: getCurrentPreset()?.label ?? null,
+    roleLabels: SPECIES_ROLE_LABELS,
+    titleCase,
+    findBiomeLabelById,
   });
-
-  setSlotText('title', `${context.ecosystemLabel} · Dossier`);
-  setSlotText('heading', context.ecosystemLabel);
-  setSlotText('badge', preset ? `Preset · ${preset.label}` : 'Ecosystem dossier');
-  setSlotText('meta', `Generato il ${generatedLabel}`);
-
-  const summaryParts = [
-    `${context.metrics.biomeCount} biomi`,
-    `${context.metrics.speciesCount} specie`,
-    `${context.metrics.seedCount} seed`,
-  ];
-  if (context.metrics.uniqueSpeciesCount) {
-    summaryParts.push(`${context.metrics.uniqueSpeciesCount} specie uniche`);
-  }
-  if (context.filterSummary) {
-    summaryParts.push(`Filtri: ${context.filterSummary}`);
-  }
-  setSlotText(
-    'summary',
-    `Pacchetto esportato con ${summaryParts.join(' · ')}.` ||
-      'Pacchetto esportato dal generatore di ecosistemi.',
-  );
-
-  const metricsContainer = doc.querySelector('[data-slot="metrics"]');
-  if (metricsContainer) {
-    metricsContainer.innerHTML = '';
-    const metricEntries = [
-      { label: 'Biomi', value: context.metrics.biomeCount },
-      { label: 'Specie', value: context.metrics.speciesCount },
-      { label: 'Seed', value: context.metrics.seedCount },
-      { label: 'Specie uniche', value: context.metrics.uniqueSpeciesCount },
-    ];
-    metricEntries.forEach((metric) => {
-      const span = doc.createElement('span');
-      const strong = doc.createElement('strong');
-      strong.textContent = `${metric.label}:`;
-      span.append(strong, doc.createTextNode(` ${metric.value ?? 0}`));
-      metricsContainer.appendChild(span);
-    });
-  }
-
-  const biomesContainer = doc.querySelector('[data-slot="biomes"]');
-  if (biomesContainer) {
-    biomesContainer.innerHTML = '';
-    context.biomes.slice(0, 8).forEach((biome) => {
-      const item = doc.createElement('li');
-      item.className = 'dossier__list-item';
-      const heading = doc.createElement('h3');
-      heading.textContent = biome.label ?? titleCase(biome.id ?? 'Bioma');
-      const summary = doc.createElement('p');
-      const biomeSpeciesCount = Array.isArray(biome.species) ? biome.species.length : 0;
-      summary.textContent = `Specie disponibili: ${biomeSpeciesCount}.`;
-      item.append(heading, summary);
-
-      const groups = new Set(biome.manifest?.functional_groups_present ?? []);
-      if (Array.isArray(biome.species)) {
-        biome.species.forEach((sp) => {
-          (sp.functional_tags ?? []).forEach((tag) => groups.add(tag));
-        });
-      }
-      if (groups.size) {
-        const chipList = doc.createElement('div');
-        chipList.className = 'dossier__chips';
-        Array.from(groups)
-          .slice(0, 8)
-          .forEach((tag) => {
-            const chip = doc.createElement('span');
-            chip.className = 'dossier__chip';
-            chip.textContent = tag;
-            chipList.appendChild(chip);
-          });
-        item.appendChild(chipList);
-      }
-      biomesContainer.appendChild(item);
-    });
-  }
-
-  const speciesContainer = doc.querySelector('[data-slot="species"]');
-  if (speciesContainer) {
-    speciesContainer.innerHTML = '';
-    const speciesList = flattenSpeciesBuckets(context.speciesBuckets)
-      .slice(0, 12)
-      .sort((a, b) => a.display_name.localeCompare(b.display_name));
-    speciesList.forEach((species) => {
-      const item = doc.createElement('li');
-      item.className = 'dossier__list-item';
-      const heading = doc.createElement('h3');
-      heading.textContent = species.display_name ?? species.id ?? 'Specie';
-      const meta = doc.createElement('p');
-      const metaParts = [];
-      if (species.role_trofico) metaParts.push(species.role_trofico);
-      const tier = species.balance?.threat_tier ?? species.syntheticTier;
-      if (tier) metaParts.push(typeof tier === 'number' ? `T${tier}` : tier);
-      if (species.biomes?.length) metaParts.push(`Biomi: ${species.biomes.join(', ')}`);
-      meta.textContent = metaParts.length ? metaParts.join(' · ') : 'Dati sintetici';
-      item.append(heading, meta);
-
-      const tags = species.functional_tags ?? [];
-      if (tags.length) {
-        const chipList = doc.createElement('div');
-        chipList.className = 'dossier__chips';
-        tags.slice(0, 8).forEach((tag) => {
-          const chip = doc.createElement('span');
-          chip.className = 'dossier__chip';
-          chip.textContent = tag;
-          chipList.appendChild(chip);
-        });
-        item.appendChild(chipList);
-      }
-      speciesContainer.appendChild(item);
-    });
-  }
-
-  const seedsContainer = doc.querySelector('[data-slot="seeds"]');
-  if (seedsContainer) {
-    seedsContainer.innerHTML = '';
-    context.seeds.slice(0, 10).forEach((seed) => {
-      const item = doc.createElement('li');
-      item.className = 'dossier__list-item';
-      const heading = doc.createElement('h3');
-      const headingParts = [seed.biome_id];
-      if (seed.label) headingParts.push(seed.label);
-      heading.textContent = headingParts.join(' · ');
-      const meta = doc.createElement('p');
-      meta.textContent = `Budget minaccia: T${seed.threat_budget ?? '?'}`;
-      const composition = doc.createElement('p');
-      composition.textContent = summariseSeedParty(seed);
-      item.append(heading, meta, composition);
-      seedsContainer.appendChild(item);
-    });
-  }
-
-  return doc;
-}
-
-async function generateDossierHtml(context = buildPresetContext(state.lastFilters)) {
-  const doc = await generateDossierDocument(context);
-  if (!doc) return null;
-  return `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
-}
-
-async function generateDossierPdfBlob(context) {
-  if (typeof window === 'undefined' || typeof window.html2pdf === 'undefined') {
-    throw new Error('html2pdf non disponibile');
-  }
-  const html = await generateDossierHtml(context);
-  if (!html) {
-    throw new Error('Impossibile generare il dossier HTML');
-  }
-  const worker = window
-    .html2pdf()
-    .set({
-      margin: 10,
-      filename: `${context.slug}-dossier.pdf`,
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    })
-    .from(html);
-  const blob = await worker.outputPdf('blob');
-  return blob;
 }
 
 async function refreshDossierPreview(context) {
@@ -3406,220 +3206,55 @@ async function refreshDossierPreview(context) {
   preview.innerHTML = body ? body.innerHTML : '';
 }
 
-function formatSpotlightLine(entry) {
-  if (!entry) return null;
-  const name = entry.displayName || entry.display_name || entry.speciesId || entry.id;
-  if (!name) return null;
-  const biomeLabel = entry.biomeLabel || entry.biome_id || entry.biome || null;
-  const tierLabel = entry.tier ? `T${entry.tier}` : null;
-  const synthLabel = entry.synthetic ? 'Synth' : null;
-  const tags = [biomeLabel, tierLabel, synthLabel].filter(Boolean).join(' · ');
-  return tags ? `- ${name} (${tags})` : `- ${name}`;
+async function generateDossierHtml(context = buildPresetContext(state.lastFilters)) {
+  return generateDossierHtmlService(context, {
+    presetLabel: getCurrentPreset()?.label ?? null,
+    roleLabels: SPECIES_ROLE_LABELS,
+    titleCase,
+    findBiomeLabelById,
+    templateLoader: () => loadDossierTemplate(),
+  });
 }
 
-function formatSpeciesFallbackLine(species) {
-  if (!species) return null;
-  const name = species.display_name || species.id || 'Specie';
-  const biomeCode = species.biome_id || species.biome || species.habitat_code || null;
-  const biomeLabel = biomeCode ? findBiomeLabelById(biomeCode) || biomeCode : null;
-  const roleCode = species.role_trofico || species.role || null;
-  const roleLabel = roleCode
-    ? SPECIES_ROLE_LABELS[roleCode] || titleCase(roleCode.replace(/_/g, ' '))
-    : null;
-  const tags = [biomeLabel, roleLabel].filter(Boolean).join(' · ');
-  return tags ? `- ${name} (${tags})` : `- ${name}`;
-}
-
-function formatSeedSummary(seed) {
-  if (!seed) return null;
-  const label = seed.label || seed.id || 'Seed';
-  const biomeCode = seed.biome_id || seed.biome || null;
-  const biomeLabel = biomeCode ? findBiomeLabelById(biomeCode) || biomeCode : null;
-  const threat = typeof seed.threat_budget === 'number' ? `Budget T${seed.threat_budget}` : null;
-  const synth = seed.synthetic ? 'Synth' : null;
-  const segments = [label, biomeLabel, threat, synth].filter(Boolean).join(' · ');
-  return `- ${segments}`;
+async function generateDossierPdfBlob(context) {
+  const template = await loadDossierTemplate();
+  if (!template) {
+    throw new Error('Template dossier non disponibile');
+  }
+  return generateDossierPdfBlobService(context, {
+    presetLabel: getCurrentPreset()?.label ?? null,
+    roleLabels: SPECIES_ROLE_LABELS,
+    titleCase,
+    findBiomeLabelById,
+    template,
+    templateLoader: () => Promise.resolve(template),
+    slug: context.slug ?? ensureExportSlug(),
+    html2pdf: typeof window !== 'undefined' ? window.html2pdf : undefined,
+  });
 }
 
 function buildPressKitMarkdown(context) {
-  const metrics = context.metrics || {
-    biomeCount: 0,
-    speciesCount: 0,
-    uniqueSpeciesCount: 0,
-    seedCount: 0,
-  };
-  const generatedAt =
-    context.generatedAt instanceof Date
-      ? context.generatedAt
-      : new Date(context.generatedAt || Date.now());
-
-  const lines = [];
-  lines.push(`# ${context.ecosystemLabel} — Demo pubblico`);
-  lines.push('');
-  lines.push(
-    `Generato il ${generatedAt.toLocaleString('it-IT', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    })} con ${metrics.biomeCount} biomi, ${metrics.speciesCount} specie (${metrics.uniqueSpeciesCount} uniche) e ${metrics.seedCount} seed narrativi.`,
-  );
-  lines.push(`Filtri attivi: ${context.filterSummary}.`);
-  lines.push('');
-
-  lines.push('## Metriche chiave');
-  lines.push('');
-  lines.push(`- Biomi selezionati: ${metrics.biomeCount}`);
-  lines.push(`- Specie totali: ${metrics.speciesCount} (${metrics.uniqueSpeciesCount} uniche)`);
-  lines.push(`- Seed narrativi: ${metrics.seedCount}`);
-  const highlightBiome =
-    Array.isArray(context.biomes) && context.biomes.length ? context.biomes[0] : null;
-  if (highlightBiome) {
-    const highlightLabel = highlightBiome.label || highlightBiome.id || 'Bioma';
-    lines.push(`- Bioma in evidenza: ${highlightLabel}`);
-  }
-  lines.push('');
-
-  const pinnedLines = Array.isArray(context.pinnedEntries)
-    ? context.pinnedEntries.map(formatSpotlightLine).filter(Boolean)
-    : [];
-  let spotlightLines = pinnedLines.slice(0, 3);
-  if (!spotlightLines.length) {
-    spotlightLines = flattenSpeciesBuckets(context.speciesBuckets ?? {})
-      .map(formatSpeciesFallbackLine)
-      .filter(Boolean)
-      .slice(0, 3);
-  }
-  if (spotlightLines.length) {
-    lines.push('## Specie spotlight');
-    lines.push('');
-    spotlightLines.forEach((line) => lines.push(line));
-    lines.push('');
-  }
-
-  const seedLines = Array.isArray(context.seeds)
-    ? context.seeds.map(formatSeedSummary).filter(Boolean).slice(0, 4)
-    : [];
-  if (seedLines.length) {
-    lines.push('## Seed narrativi in evidenza');
-    lines.push('');
-    seedLines.forEach((line) => lines.push(line));
-    lines.push('');
-  }
-
-  const recommendations = Array.isArray(context.insights) ? context.insights : [];
-  if (recommendations.length) {
-    lines.push('## Insight operativi');
-    lines.push('');
-    recommendations.slice(0, 4).forEach((rec) => {
-      if (!rec?.message) return;
-      const tone = rec.tone ? rec.tone.toUpperCase() : null;
-      const prefix = tone ? `[${tone}] ` : '';
-      lines.push(`- ${prefix}${rec.message}`);
-    });
-    lines.push('');
-  }
-
-  if (context.narrative?.narrativeHook) {
-    lines.push('## Hook narrativo');
-    lines.push('');
-    lines.push(context.narrative.narrativeHook);
-    lines.push('');
-  }
-
-  lines.push('## Call to action');
-  lines.push('');
-  lines.push('- Condividi il dossier HTML con Marketing/Comms per asset visivi aggiornati.');
-  lines.push('- Usa il manifesto YAML per predisporre il deploy statico o la CDN demo.');
-  lines.push('- Integra il press kit nelle note di rilascio e nella newsletter della demo.');
-  lines.push('');
-
-  return lines.join('\n').replace(/\n{3,}/g, '\n\n');
+  return buildPressKitMarkdownService(context, {
+    presetLabel: getCurrentPreset()?.label ?? null,
+    roleLabels: SPECIES_ROLE_LABELS,
+    titleCase,
+    findBiomeLabelById,
+  });
 }
 
 async function generatePresetFileContents(preset, filters) {
   const context = buildPresetContext(filters);
-  const files = [];
-  for (const file of preset.files) {
-    const descriptor = describePresetFile(file, context);
-    if (!descriptor.available) continue;
-    try {
-      switch (file.builder) {
-        case 'ecosystem-json':
-          files.push({
-            id: file.id,
-            name: descriptor.name,
-            mime: 'application/json',
-            data: JSON.stringify(context.payload, null, 2),
-          });
-          break;
-        case 'ecosystem-yaml':
-          files.push({
-            id: file.id,
-            name: descriptor.name,
-            mime: 'text/yaml',
-            data: toYAML(context.payload),
-          });
-          break;
-        case 'activity-json':
-          files.push({
-            id: file.id,
-            name: descriptor.name,
-            mime: 'application/json',
-            data: JSON.stringify(context.activityEntries, null, 2),
-          });
-          break;
-        case 'activity-csv':
-          files.push({
-            id: file.id,
-            name: descriptor.name,
-            mime: 'text/csv',
-            data: activityLogToCsv(context.activityEntries),
-          });
-          break;
-        case 'dossier-html':
-          {
-            const html = await generateDossierHtml(context);
-            if (html) {
-              files.push({
-                id: file.id,
-                name: descriptor.name,
-                mime: 'text/html',
-                data: html,
-              });
-            }
-          }
-          break;
-        case 'dossier-pdf':
-          {
-            const blob = await generateDossierPdfBlob(context);
-            if (blob) {
-              files.push({
-                id: file.id,
-                name: descriptor.name,
-                mime: 'application/pdf',
-                data: blob,
-                binary: true,
-              });
-            }
-          }
-          break;
-        case 'press-kit-md':
-          {
-            const markdown = buildPressKitMarkdown(context);
-            files.push({
-              id: file.id,
-              name: descriptor.name,
-              mime: 'text/markdown',
-              data: markdown,
-            });
-          }
-          break;
-        default:
-          break;
-      }
-    } catch (error) {
-      console.warn(`Impossibile generare il file ${descriptor.name}`, error);
-    }
-  }
+  const { files } = await generatePresetFileContentsService({ files: preset.files }, context, {
+    presetLabel: preset?.label ?? null,
+    roleLabels: SPECIES_ROLE_LABELS,
+    titleCase,
+    findBiomeLabelById,
+    templateLoader: () => loadDossierTemplate(),
+    slug: context.slug,
+    html2pdf: typeof window !== 'undefined' ? window.html2pdf : undefined,
+    toYAML,
+    activityLogToCsv,
+  });
   return { files, context };
 }
 
@@ -8064,346 +7699,201 @@ function downloadFile(name, content, type) {
   URL.revokeObjectURL(url);
 }
 
-async function tryFetchJson(url, { silent = false } = {}) {
-  if (!url) return null;
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.warn('Caricamento JSON fallito', url, error);
-    if (!silent && !fetchFailureNotices.has(url)) {
-      fetchFailureNotices.add(url);
-      const reason = error instanceof Error ? error.message : String(error);
-      const resourceName = (() => {
-        try {
-          const base = typeof window !== 'undefined' ? window.location.href : 'http://localhost';
-          const parsed = new URL(url, base);
-          return parsed.pathname.split('/').filter(Boolean).slice(-1)[0] ?? parsed.pathname;
-        } catch (parseError) {
-          console.warn('Impossibile derivare il nome risorsa da', url, parseError);
-          return url;
-        }
-      })();
-      const tags = ['fetch', 'catalog'];
-      if (/trait/i.test(url)) tags.push('traits');
-      if (/hazard/i.test(url)) tags.push('hazard');
-      if (/glossary/i.test(url)) tags.push('glossary');
-      setStatus(`Impossibile caricare ${resourceName}: ${reason}.`, 'error', {
-        tags,
-        metadata: { url, reason },
-      });
-    }
-    throw error;
+function buildTraitRegistryCandidates(context) {
+  const candidates = new Set();
+  if (context) {
+    candidates.add('env_traits.json');
+    candidates.add('docs/catalog/env_traits.json');
   }
+  return Array.from(candidates).filter(Boolean);
 }
 
-function localTraitFallbackUrl() {
-  try {
-    return new URL('./env-traits.json', import.meta.url).toString();
-  } catch (error) {
-    console.warn('Impossibile calcolare il percorso locale dei tratti', error);
-    return null;
-  }
+function buildTraitReferenceCandidates(context) {
+  const candidates = new Set([
+    'traits/index.json',
+    'trait_reference.json',
+    'trait-reference.json',
+    'docs/catalog/trait_reference.json',
+    'docs/catalog/trait-reference.json',
+    'data/traits/index.json',
+  ]);
+  return Array.from(candidates).filter(Boolean);
 }
 
-async function loadTraitRegistry(context) {
-  const tried = new Set();
-  const candidates = [];
-  const fallback = localTraitFallbackUrl();
-  if (context?.resolveDocHref) {
-    try {
-      candidates.push(context.resolveDocHref('env_traits.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere env_traits.json tramite docsBase', error);
-    }
-  }
-  if (context?.resolvePackHref) {
-    try {
-      candidates.push(context.resolvePackHref('docs/catalog/env_traits.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere env_traits.json tramite packBase', error);
-    }
-  }
-  if (fallback) {
-    candidates.push(fallback);
-  }
-
-  let lastError = null;
-  for (const candidate of candidates) {
-    if (!candidate || tried.has(candidate)) continue;
-    const hadPreviousAttempts = tried.size > 0;
-    tried.add(candidate);
-    try {
-      const registry = await tryFetchJson(candidate, { silent: true });
-      if (registry) {
-        setTraitRegistry(registry);
-        if (candidate === fallback && hadPreviousAttempts) {
-          setStatus('Registro tratti caricato dal fallback locale.', 'info', {
-            tags: ['catalogo', 'traits', 'fallback'],
-            action: 'traits-registry-fallback',
-            metadata: { url: candidate },
-          });
-        }
-        return;
-      }
-    } catch (error) {
-      lastError = error;
-      console.warn('Caricamento registry tratti fallito', candidate, error);
-    }
-  }
-
-  console.warn('Nessuna sorgente valida per il registry tratti trovata.');
-  setTraitRegistry({ schema_version: '0', rules: [] });
-  setStatus('Impossibile caricare il registro dei tratti.', 'error', {
-    tags: ['catalogo', 'traits', 'errore'],
-    action: 'traits-registry-error',
-    metadata: {
-      reason: lastError instanceof Error ? lastError.message : String(lastError ?? '') || undefined,
-    },
-  });
-}
-
-function localTraitReferenceFallbackUrl() {
-  const candidates = ['./traits/index.json', './trait-reference.json', './trait_reference.json'];
-  for (const candidate of candidates) {
-    try {
-      return new URL(candidate, import.meta.url).toString();
-    } catch (error) {
-      console.warn(
-        'Impossibile calcolare il percorso locale del reference tratti',
-        candidate,
-        error,
-      );
-    }
-  }
-  return null;
-}
-
-function localTraitGlossaryFallbackUrl() {
-  try {
-    return new URL('./trait-glossary.json', import.meta.url).toString();
-  } catch (error) {
-    console.warn('Impossibile calcolare il percorso locale del glossario tratti', error);
-    return null;
-  }
-}
-
-async function loadTraitGlossary(context, hint) {
-  const tried = new Set();
-  const candidates = [];
+function buildTraitGlossaryCandidates(context, hint) {
   const normalizedHint = typeof hint === 'string' ? hint.trim() : '';
-
-  const potential = [
+  const baseCandidates = [
     normalizedHint,
     'trait_glossary.json',
     'trait-glossary.json',
     'data/core/traits/glossary.json',
   ].filter(Boolean);
-
-  for (const name of potential) {
-    if (context?.resolveDocHref) {
-      try {
-        candidates.push(context.resolveDocHref(name));
-      } catch (error) {
-        console.warn('Impossibile risolvere', name, 'tramite docsBase', error);
-      }
+  const candidates = new Set();
+  baseCandidates.forEach((name) => {
+    candidates.add(name);
+    if (!name.startsWith('docs/')) {
+      candidates.add(`docs/catalog/${name}`);
     }
-    if (context?.resolvePackHref) {
-      try {
-        candidates.push(
-          context.resolvePackHref(name.startsWith('docs/') ? name : `docs/catalog/${name}`),
-        );
-      } catch (error) {
-        console.warn('Impossibile risolvere', name, 'tramite packBase', error);
+  });
+  return Array.from(candidates).filter(Boolean);
+}
+
+function buildHazardRegistryCandidates() {
+  return ['hazards.json', 'docs/catalog/hazards.json'];
+}
+
+async function loadTraitRegistry(context) {
+  try {
+    const result = await fetchTraitRegistry({
+      context,
+      candidates: buildTraitRegistryCandidates(context),
+    });
+    if (result?.data) {
+      setTraitRegistry(result.data);
+      if (result.fromFallback) {
+        setStatus('Registro tratti caricato dal fallback locale.', 'info', {
+          tags: ['catalogo', 'traits', 'fallback'],
+          action: 'traits-registry-fallback',
+          metadata: { url: result.url ?? undefined },
+        });
       }
+      return;
     }
+  } catch (error) {
+    console.warn('Caricamento registry tratti fallito', error);
+    setStatus('Errore durante il caricamento del registro tratti.', 'warn', {
+      tags: ['catalogo', 'traits', 'errore'],
+      action: 'traits-registry-error-fetch',
+      metadata: { reason: error instanceof Error ? error.message : String(error ?? '') },
+    });
   }
-
-  const fallback = localTraitGlossaryFallbackUrl();
-  if (fallback) {
-    candidates.push(fallback);
-  }
-
-  let lastError = null;
-  for (const candidate of candidates) {
-    if (!candidate || tried.has(candidate)) continue;
-    const hadPreviousAttempts = tried.size > 0;
-    tried.add(candidate);
-    try {
-      const glossary = await tryFetchJson(candidate, { silent: true });
-      if (glossary) {
-        setTraitGlossary(glossary);
-        if (candidate === fallback && hadPreviousAttempts) {
-          setStatus('Glossario tratti caricato dal fallback locale.', 'info', {
-            tags: ['catalogo', 'traits', 'fallback'],
-            action: 'traits-glossary-fallback',
-            metadata: { url: candidate },
-          });
-        }
-        return;
-      }
-    } catch (error) {
-      lastError = error;
-      console.warn('Caricamento glossario tratti fallito', candidate, error);
-    }
-  }
-
-  console.warn('Nessuna sorgente valida per il glossario tratti trovata.');
-  setTraitGlossary(null);
-  setStatus('Impossibile caricare il glossario dei tratti.', 'error', {
+  console.warn('Nessuna sorgente valida per il registry tratti trovata.');
+  setTraitRegistry({ schema_version: '0', rules: [] });
+  setStatus('Impossibile caricare il registro dei tratti.', 'error', {
     tags: ['catalogo', 'traits', 'errore'],
-    action: 'traits-glossary-error',
-    metadata: {
-      reason: lastError instanceof Error ? lastError.message : String(lastError ?? '') || undefined,
-    },
+    action: 'traits-registry-error',
   });
 }
 
 async function loadTraitReference(context) {
-  const tried = new Set();
-  const candidates = [];
-  const fallback = localTraitReferenceFallbackUrl();
-  if (context?.resolveDocHref) {
-    try {
-      candidates.push(context.resolveDocHref('traits/index.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere traits/index.json tramite docsBase', error);
-    }
-    try {
-      candidates.push(context.resolveDocHref('trait_reference.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere trait_reference.json tramite docsBase', error);
-    }
-    try {
-      candidates.push(context.resolveDocHref('trait-reference.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere trait-reference.json tramite docsBase', error);
-    }
-  }
-  if (context?.resolvePackHref) {
-    try {
-      candidates.push(context.resolvePackHref('data/traits/index.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere data/traits/index.json tramite packBase', error);
-    }
-    try {
-      candidates.push(context.resolvePackHref('docs/catalog/trait_reference.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere trait_reference.json tramite packBase', error);
-    }
-    try {
-      candidates.push(context.resolvePackHref('docs/catalog/trait-reference.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere trait-reference.json tramite packBase', error);
-    }
-  }
-  if (fallback) {
-    candidates.push(fallback);
-  }
-
-  let lastError = null;
-  for (const candidate of candidates) {
-    if (!candidate || tried.has(candidate)) continue;
-    const hadPreviousAttempts = tried.size > 0;
-    tried.add(candidate);
-    try {
-      const catalog = await tryFetchJson(candidate, { silent: true });
-      if (catalog) {
-        setTraitReference(catalog);
-        if (candidate === fallback && hadPreviousAttempts) {
-          setStatus('Reference tratti caricato dal fallback locale.', 'info', {
-            tags: ['catalogo', 'traits', 'fallback'],
-            action: 'traits-reference-fallback',
-            metadata: { url: candidate },
-          });
-        }
-        await loadTraitGlossary(context, catalog?.trait_glossary);
-        return;
+  try {
+    const result = await fetchTraitReference({
+      context,
+      candidates: buildTraitReferenceCandidates(context),
+    });
+    if (result?.data) {
+      setTraitReference(result.data);
+      if (result.fromFallback) {
+        setStatus('Reference tratti caricato dal fallback locale.', 'info', {
+          tags: ['catalogo', 'traits', 'fallback'],
+          action: 'traits-reference-fallback',
+          metadata: { url: result.url ?? undefined },
+        });
       }
-    } catch (error) {
-      lastError = error;
-      console.warn('Caricamento reference tratti fallito', candidate, error);
+      if (result.data?.trait_glossary && !state.traitGlossary) {
+        await loadTraitGlossary(context, result.data.trait_glossary);
+      }
+      return;
     }
+  } catch (error) {
+    console.warn('Caricamento reference tratti fallito', error);
+    setStatus('Errore durante il caricamento del reference tratti.', 'warn', {
+      tags: ['catalogo', 'traits', 'errore'],
+      action: 'traits-reference-error-fetch',
+      metadata: { reason: error instanceof Error ? error.message : String(error ?? '') },
+    });
   }
-
   console.warn('Nessuna sorgente valida per il reference tratti trovata.');
   setTraitReference({ schema_version: '0', traits: {} });
   setStatus('Impossibile caricare il reference dei tratti.', 'error', {
     tags: ['catalogo', 'traits', 'errore'],
     action: 'traits-reference-error',
-    metadata: {
-      reason: lastError instanceof Error ? lastError.message : String(lastError ?? '') || undefined,
-    },
   });
 }
 
-function localHazardFallbackUrl() {
+async function loadTraitGlossary(context, hint) {
   try {
-    return new URL('./hazards.json', import.meta.url).toString();
+    const result = await fetchTraitGlossary({
+      context,
+      candidates: buildTraitGlossaryCandidates(context, hint),
+    });
+    if (result?.data) {
+      setTraitGlossary(result.data);
+      if (result.fromFallback) {
+        setStatus('Glossario tratti caricato dal fallback locale.', 'info', {
+          tags: ['catalogo', 'traits', 'fallback'],
+          action: 'traits-glossary-fallback',
+          metadata: { url: result.url ?? undefined },
+        });
+      }
+      return;
+    }
   } catch (error) {
-    console.warn('Impossibile calcolare il percorso locale degli hazard', error);
-    return null;
+    console.warn('Caricamento glossario tratti fallito', error);
+    setStatus('Errore durante il caricamento del glossario tratti.', 'warn', {
+      tags: ['catalogo', 'traits', 'errore'],
+      action: 'traits-glossary-error-fetch',
+      metadata: { reason: error instanceof Error ? error.message : String(error ?? '') },
+    });
   }
+  console.warn('Nessuna sorgente valida per il glossario tratti trovata.');
+  setTraitGlossary(null);
+  setStatus('Impossibile caricare il glossario dei tratti.', 'error', {
+    tags: ['catalogo', 'traits', 'errore'],
+    action: 'traits-glossary-error',
+  });
 }
 
 async function loadHazardRegistry(context) {
-  const tried = new Set();
-  const candidates = [];
-  const fallback = localHazardFallbackUrl();
-  if (context?.resolveDocHref) {
-    try {
-      candidates.push(context.resolveDocHref('hazards.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere hazards.json tramite docsBase', error);
-    }
-  }
-  if (context?.resolvePackHref) {
-    try {
-      candidates.push(context.resolvePackHref('docs/catalog/hazards.json'));
-    } catch (error) {
-      console.warn('Impossibile risolvere hazards.json tramite packBase', error);
-    }
-  }
-  if (fallback) {
-    candidates.push(fallback);
-  }
-
-  let lastError = null;
-  for (const candidate of candidates) {
-    if (!candidate || tried.has(candidate)) continue;
-    const hadPreviousAttempts = tried.size > 0;
-    tried.add(candidate);
-    try {
-      const registry = await tryFetchJson(candidate, { silent: true });
-      if (registry) {
-        setHazardRegistry(registry);
-        if (candidate === fallback && hadPreviousAttempts) {
-          setStatus('Registro hazard caricato dal fallback locale.', 'info', {
-            tags: ['catalogo', 'hazard', 'fallback'],
-            action: 'hazard-registry-fallback',
-            metadata: { url: candidate },
-          });
-        }
-        return;
+  try {
+    const result = await fetchHazardRegistry({
+      context,
+      candidates: buildHazardRegistryCandidates(),
+    });
+    if (result?.data) {
+      setHazardRegistry(result.data);
+      if (result.fromFallback) {
+        setStatus('Registro hazard caricato dal fallback locale.', 'info', {
+          tags: ['catalogo', 'hazard', 'fallback'],
+          action: 'hazard-registry-fallback',
+          metadata: { url: result.url ?? undefined },
+        });
       }
-    } catch (error) {
-      lastError = error;
-      console.warn('Caricamento registry hazard fallito', candidate, error);
+      return;
     }
+  } catch (error) {
+    console.warn('Caricamento registry hazard fallito', error);
+    setStatus('Errore durante il caricamento del registro hazard.', 'warn', {
+      tags: ['catalogo', 'hazard', 'errore'],
+      action: 'hazard-registry-error-fetch',
+      metadata: { reason: error instanceof Error ? error.message : String(error ?? '') },
+    });
   }
-
   console.warn('Nessuna sorgente valida per il registry hazard trovata.');
   setHazardRegistry({ schema_version: '0', hazards: {} });
   setStatus('Impossibile caricare il registro degli hazard.', 'error', {
     tags: ['catalogo', 'hazard', 'errore'],
     action: 'hazard-registry-error',
-    metadata: {
-      reason: lastError instanceof Error ? lastError.message : String(lastError ?? '') || undefined,
-    },
   });
+}
+
+async function loadSpeciesIndex(context) {
+  try {
+    const result = await fetchSpecies({ context, speciesId: null });
+    if (result?.data) {
+      state.data = state.data || {};
+      state.data.speciesIndex = result.data;
+      if (result.fromFallback) {
+        setStatus('Indice specie caricato dal fallback locale.', 'info', {
+          tags: ['catalogo', 'species', 'fallback'],
+          action: 'species-index-fallback',
+          metadata: { url: result.url ?? undefined },
+        });
+      }
+    }
+  } catch (error) {
+    console.warn('Indice specie non disponibile', error);
+  }
 }
 
 function attachActions() {
@@ -8762,6 +8252,7 @@ async function loadData() {
     await loadTraitRegistry(context);
     await loadTraitReference(context);
     await loadHazardRegistry(context);
+    await loadSpeciesIndex(context);
     setStatus("Catalogo pronto all'uso. Genera un ecosistema!", 'success', {
       tags: ['catalogo', 'ready'],
       action: 'catalog-load-ready',
@@ -8777,6 +8268,7 @@ async function loadData() {
     await loadTraitRegistry(context);
     await loadTraitReference(context);
     await loadHazardRegistry(context);
+    await loadSpeciesIndex(context);
     setStatus("Catalogo pronto all'uso dal fallback manuale. Genera un ecosistema!", 'success', {
       tags: ['catalogo', 'ready', 'fallback'],
       action: 'catalog-load-ready-fallback',
@@ -8785,7 +8277,9 @@ async function loadData() {
     console.error('Impossibile caricare il catalogo da alcuna sorgente', error);
     await loadTraitRegistry(packContext);
     await loadTraitReference(packContext);
+    await loadTraitGlossary(packContext);
     await loadHazardRegistry(packContext);
+    await loadSpeciesIndex(packContext);
     setStatus('Errore durante il caricamento del catalogo. Controlla la console.', 'error', {
       tags: ['catalogo', 'errore'],
       action: 'catalog-load-error',
