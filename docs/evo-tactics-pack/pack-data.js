@@ -1,9 +1,11 @@
-export const PACK_PATH = "packs/evo_tactics_pack/";
-export const DEFAULT_BRANCH = "main";
+import { fetchCatalog } from '../../services/api/generatorClient.ts';
+
+export const PACK_PATH = 'packs/evo_tactics_pack/';
+export const DEFAULT_BRANCH = 'main';
 
 export function ensureTrailingSlash(value) {
   if (!value) return value;
-  return value.endsWith("/") ? value : `${value}/`;
+  return value.endsWith('/') ? value : `${value}/`;
 }
 
 export function normalizeBase(value) {
@@ -12,7 +14,7 @@ export function normalizeBase(value) {
     const absolute = new URL(value, window.location.href);
     return ensureTrailingSlash(absolute.toString());
   } catch (error) {
-    console.warn("Impossibile normalizzare la base dati", value, error);
+    console.warn('Impossibile normalizzare la base dati', value, error);
     return ensureTrailingSlash(value);
   }
 }
@@ -20,20 +22,20 @@ export function normalizeBase(value) {
 export function detectRepoBase() {
   try {
     const origin = window.location.origin;
-    if (!origin || origin === "null") {
+    if (!origin || origin === 'null') {
       return null;
     }
 
-    const segments = window.location.pathname.split("/").filter(Boolean);
+    const segments = window.location.pathname.split('/').filter(Boolean);
     const withoutFile = segments.slice(0, Math.max(segments.length - 1, 0));
     let baseSegments = [];
 
-    if (window.location.hostname.endsWith("github.io")) {
+    if (window.location.hostname.endsWith('github.io')) {
       if (withoutFile.length > 0) {
         baseSegments = [withoutFile[0]];
       }
     } else {
-      const docsIndex = withoutFile.indexOf("docs");
+      const docsIndex = withoutFile.indexOf('docs');
       if (docsIndex > 0) {
         baseSegments = withoutFile.slice(0, docsIndex);
       } else if (docsIndex === 0) {
@@ -43,10 +45,10 @@ export function detectRepoBase() {
       }
     }
 
-    const basePath = baseSegments.length ? `/${baseSegments.join("/")}/` : "/";
+    const basePath = baseSegments.length ? `/${baseSegments.join('/')}/` : '/';
     return ensureTrailingSlash(`${origin}${basePath}`);
   } catch (error) {
-    console.warn("Impossibile determinare la base del repository", error);
+    console.warn('Impossibile determinare la base del repository', error);
     return null;
   }
 }
@@ -55,8 +57,8 @@ export function detectPackRootOverride() {
   try {
     const params = new URLSearchParams(window.location.search);
     const override =
-      params.get("pack-root") ||
-      document.querySelector('meta[name="pack-root"]')?.getAttribute("content");
+      params.get('pack-root') ||
+      document.querySelector('meta[name="pack-root"]')?.getAttribute('content');
     return normalizeBase(override);
   } catch (error) {
     console.warn("Impossibile leggere l'override della base pack", error);
@@ -65,22 +67,20 @@ export function detectPackRootOverride() {
 }
 
 export function detectGitHubRawRoot() {
-  if (!window.location.hostname.endsWith("github.io")) {
+  if (!window.location.hostname.endsWith('github.io')) {
     return null;
   }
 
   const owner =
-    document.querySelector('meta[name="data-owner"]')?.getAttribute("content") ||
-    window.location.hostname.split(".")[0];
-  const pathParts = window.location.pathname.split("/").filter(Boolean);
+    document.querySelector('meta[name="data-owner"]')?.getAttribute('content') ||
+    window.location.hostname.split('.')[0];
+  const pathParts = window.location.pathname.split('/').filter(Boolean);
   const repo =
-    document.querySelector('meta[name="data-repo"]')?.getAttribute("content") ||
-    pathParts[0] ||
-    "";
+    document.querySelector('meta[name="data-repo"]')?.getAttribute('content') || pathParts[0] || '';
   const params = new URLSearchParams(window.location.search);
   const branch =
-    params.get("ref") ||
-    document.querySelector('meta[name="data-branch"]')?.getAttribute("content") ||
+    params.get('ref') ||
+    document.querySelector('meta[name="data-branch"]')?.getAttribute('content') ||
     DEFAULT_BRANCH;
 
   if (!owner || !repo) {
@@ -88,7 +88,7 @@ export function detectGitHubRawRoot() {
   }
 
   return ensureTrailingSlash(
-    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${PACK_PATH}`
+    `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${PACK_PATH}`,
   );
 }
 
@@ -110,20 +110,20 @@ export function candidatePackRoots() {
     try {
       candidates.push(ensureTrailingSlash(new URL(PACK_PATH, repoBase).toString()));
     } catch (error) {
-      console.warn("Impossibile costruire la base dati dal repository", error);
+      console.warn('Impossibile costruire la base dati dal repository', error);
     }
   }
 
   try {
     candidates.push(
-      ensureTrailingSlash(new URL(`../${PACK_PATH}`, window.location.href).toString())
+      ensureTrailingSlash(new URL(`../${PACK_PATH}`, window.location.href).toString()),
     );
   } catch (error) {
-    console.warn("Impossibile calcolare la base dati relativa", error);
+    console.warn('Impossibile calcolare la base dati relativa', error);
   }
 
-  if (window.location.origin && window.location.origin !== "null") {
-    const origin = window.location.origin.endsWith("/")
+  if (window.location.origin && window.location.origin !== 'null') {
+    const origin = window.location.origin.endsWith('/')
       ? window.location.origin
       : `${window.location.origin}/`;
     candidates.push(ensureTrailingSlash(`${origin}${PACK_PATH}`));
@@ -142,7 +142,7 @@ export function resolveRelative(relativePath, base) {
   try {
     return new URL(relativePath, base).toString();
   } catch (error) {
-    console.warn("Impossibile risolvere il percorso relativo", relativePath, base, error);
+    console.warn('Impossibile risolvere il percorso relativo', relativePath, base, error);
     return relativePath;
   }
 }
@@ -151,56 +151,8 @@ export function getPackRootCandidates() {
   return [...PACK_ROOT_CANDIDATES];
 }
 
-export async function loadCatalogFromCandidates(
-  candidates = PACK_ROOT_CANDIDATES
-) {
-  let lastError = null;
-
-  for (const base of candidates) {
-    try {
-      const resolvedBase = ensureTrailingSlash(base);
-      const catalogUrl = resolveRelative("docs/catalog/catalog_data.json", resolvedBase);
-      const response = await fetch(catalogUrl);
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
-      let docsBase = null;
-      try {
-        docsBase = ensureTrailingSlash(new URL("docs/catalog/", resolvedBase).toString());
-      } catch (error) {
-        console.warn("Impossibile definire la base documenti del pack", error);
-        docsBase = null;
-      }
-
-      const context = {
-        resolvedBase,
-        docsBase,
-        catalogUrl,
-        resolveDocHref(relativePath) {
-          if (docsBase) {
-            return resolveRelative(relativePath, docsBase);
-          }
-          return resolveRelative(relativePath, resolvedBase);
-        },
-        resolvePackHref(relativePath) {
-          return resolveRelative(relativePath, resolvedBase);
-        },
-      };
-
-      return { data, context };
-    } catch (error) {
-      lastError = error;
-      console.warn("Tentativo di caricamento del catalogo fallito", base, error);
-    }
-  }
-
-  const error = new Error("Impossibile caricare il catalogo del pack da alcuna sorgente candidata.");
-  if (lastError) {
-    error.cause = lastError;
-  }
-  throw error;
+export async function loadCatalogFromCandidates(candidates = PACK_ROOT_CANDIDATES) {
+  return fetchCatalog({ candidates });
 }
 
 export async function manualLoadCatalog(options = {}) {
@@ -213,7 +165,7 @@ export async function loadPackCatalog(options = {}) {
   return loadCatalogFromCandidates(candidates);
 }
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   window.EvoPack = window.EvoPack || {};
   window.EvoPack.utils = window.EvoPack.utils || {};
   window.EvoPack.PACK_PATH = PACK_PATH;
