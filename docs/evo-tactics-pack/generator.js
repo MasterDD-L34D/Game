@@ -30,6 +30,8 @@ import * as biomesView from './views/biomes.js';
 import * as seedsView from './views/seeds.js';
 import * as composerView from './views/composer.js';
 import * as insightsView from './views/insights.js';
+import * as activityView from './views/activity.js';
+import * as exportView from './views/export.js';
 
 const elements = resolveGeneratorElements(document);
 const anchorUi = resolveAnchorUi(document);
@@ -66,6 +68,19 @@ const TONE_LABELS = {
   warn: 'Avviso',
   error: 'Errore',
 };
+
+function getActivityViewDeps() {
+  return {
+    defaultTones: DEFAULT_ACTIVITY_TONES,
+    toneLabels: TONE_LABELS,
+    buildActivityHaystack,
+    activityFiltersActive: () => activityFiltersActive(),
+    titleCase,
+    getSelectedValues,
+    resetFilters: resetActivityFilters,
+    togglePin: toggleActivityPin,
+  };
+}
 const REROLL_ACTIONS = new Set(['reroll-biomi', 'reroll-species', 'reroll-seeds']);
 const ROLL_ACTIONS = new Set(['roll-ecos', 'reroll-biomi', 'reroll-species', 'reroll-seeds']);
 
@@ -2545,146 +2560,7 @@ function renderKpiSidebar() {
 }
 
 function renderActivityLog() {
-  const list = elements.logList;
-  const empty = elements.logEmpty;
-  if (!list) return;
-
-  list.innerHTML = '';
-  const entries = Array.isArray(state.activityLog) ? state.activityLog : [];
-  const filters = state.activityFilters ?? {};
-  const toneFilterActive = filters.tones instanceof Set;
-  const toneSet = toneFilterActive ? filters.tones : new Set(DEFAULT_ACTIVITY_TONES);
-  const tagSet = filters.tags instanceof Set ? filters.tags : new Set();
-  const query = String(filters.query ?? '')
-    .trim()
-    .toLowerCase();
-  const pinnedOnly = Boolean(filters.pinnedOnly);
-
-  const filtered = entries.filter((entry) => {
-    const tone = entry.tone ?? 'info';
-    if (toneFilterActive) {
-      if (!toneSet.size) {
-        return false;
-      }
-      if (!toneSet.has(tone)) {
-        return false;
-      }
-    }
-    if (pinnedOnly && !entry.pinned) {
-      return false;
-    }
-    if (tagSet.size) {
-      const tagIds = (entry.tags ?? []).map((tag) => tag.id);
-      const hasTag = tagIds.some((id) => tagSet.has(id));
-      if (!hasTag) {
-        return false;
-      }
-    }
-    if (query) {
-      const haystack = buildActivityHaystack(entry);
-      if (!haystack.includes(query)) {
-        return false;
-      }
-    }
-    return true;
-  });
-
-  const hasEntries = filtered.length > 0;
-  list.hidden = !hasEntries;
-  if (empty) {
-    empty.hidden = hasEntries;
-    empty.textContent =
-      hasEntries || !activityFiltersActive()
-        ? 'Nessuna attività registrata.'
-        : 'Nessun evento corrisponde ai filtri.';
-  }
-
-  if (!hasEntries) {
-    return;
-  }
-
-  filtered.forEach((entry) => {
-    const item = document.createElement('li');
-    item.className = 'generator-timeline__item';
-    item.dataset.tone = entry.tone ?? 'info';
-    item.dataset.pinned = entry.pinned ? 'true' : 'false';
-
-    const marker = document.createElement('div');
-    marker.className = 'generator-timeline__marker';
-    marker.setAttribute('aria-hidden', 'true');
-    item.appendChild(marker);
-
-    const content = document.createElement('div');
-    content.className = 'generator-timeline__content';
-    item.appendChild(content);
-
-    const header = document.createElement('header');
-    header.className = 'generator-timeline__header';
-    content.appendChild(header);
-
-    const time = document.createElement('time');
-    time.className = 'generator-timeline__time';
-    const stamp = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
-    const safeStamp = Number.isNaN(stamp.getTime()) ? new Date() : stamp;
-    time.dateTime = safeStamp.toISOString();
-    time.textContent = safeStamp.toLocaleString('it-IT', {
-      hour: '2-digit',
-      minute: '2-digit',
-      day: '2-digit',
-      month: '2-digit',
-    });
-    time.title = safeStamp.toLocaleString('it-IT');
-    header.appendChild(time);
-
-    const controls = document.createElement('div');
-    controls.className = 'generator-timeline__controls';
-    header.appendChild(controls);
-
-    const toneBadge = document.createElement('span');
-    toneBadge.className = `generator-timeline__tone generator-timeline__tone--${entry.tone ?? 'info'}`;
-    toneBadge.textContent = TONE_LABELS[entry.tone ?? 'info'] ?? titleCase(entry.tone ?? 'info');
-    controls.appendChild(toneBadge);
-
-    const pinButton = document.createElement('button');
-    pinButton.type = 'button';
-    pinButton.className = 'generator-timeline__pin';
-    pinButton.dataset.action = 'toggle-activity-pin';
-    pinButton.dataset.eventId = entry.id;
-    pinButton.setAttribute('aria-pressed', entry.pinned ? 'true' : 'false');
-    pinButton.title = entry.pinned ? 'Rimuovi pin evento' : 'Pin evento';
-    pinButton.textContent = entry.pinned ? '📌' : '📍';
-    controls.appendChild(pinButton);
-
-    if (entry.action) {
-      const meta = document.createElement('p');
-      meta.className = 'generator-timeline__meta';
-      meta.textContent = titleCase(entry.action.replace(/[-_]/g, ' '));
-      content.appendChild(meta);
-    }
-
-    const messageText = document.createElement('p');
-    messageText.className = 'generator-timeline__message';
-    messageText.textContent = entry.message;
-    content.appendChild(messageText);
-
-    if (entry.tags?.length) {
-      const tagsContainer = document.createElement('div');
-      tagsContainer.className = 'chip-list chip-list--compact generator-timeline__tags';
-      entry.tags.forEach((tag) => {
-        if (!tag?.label) return;
-        const chip = document.createElement('span');
-        chip.className = 'chip';
-        chip.dataset.tagId = tag.id;
-        chip.textContent = tag.label;
-        tagsContainer.appendChild(chip);
-      });
-      if (tagsContainer.childElementCount) {
-        content.appendChild(tagsContainer);
-      }
-    }
-
-    list.appendChild(item);
-  });
+  activityView.render(state, elements, getActivityViewDeps());
 }
 
 function toggleActivityPin(eventId) {
@@ -2707,94 +2583,11 @@ function resetActivityFilters() {
 }
 
 function syncActivityControls() {
-  if (elements.activitySearch) {
-    elements.activitySearch.value = state.activityFilters.query ?? '';
-  }
-  if (elements.activityPinnedOnly) {
-    elements.activityPinnedOnly.checked = Boolean(state.activityFilters.pinnedOnly);
-  }
-  if (Array.isArray(elements.activityToneToggles)) {
-    elements.activityToneToggles.forEach((toggle) => {
-      if (!(toggle instanceof HTMLInputElement)) return;
-      const tone = toggle.value || toggle.dataset.activityTone;
-      if (!tone) return;
-      if (!(state.activityFilters.tones instanceof Set)) {
-        state.activityFilters.tones = new Set(DEFAULT_ACTIVITY_TONES);
-      }
-      toggle.checked = state.activityFilters.tones.has(tone);
-    });
-  }
-  if (elements.activityTagFilter) {
-    const selected = state.activityFilters.tags ?? new Set();
-    Array.from(elements.activityTagFilter.options).forEach((option) => {
-      option.selected = selected instanceof Set ? selected.has(option.value) : false;
-    });
-  }
+  activityView.syncControls(state, elements, getActivityViewDeps());
 }
 
 function setupActivityControls() {
-  if (elements.activitySearch) {
-    elements.activitySearch.addEventListener('input', (event) => {
-      state.activityFilters.query = String(event.target.value ?? '');
-      renderActivityLog();
-    });
-  }
-
-  if (elements.activityTagFilter) {
-    elements.activityTagFilter.addEventListener('change', () => {
-      const values = new Set(getSelectedValues(elements.activityTagFilter));
-      state.activityFilters.tags = values;
-      renderActivityLog();
-    });
-  }
-
-  if (elements.activityPinnedOnly) {
-    elements.activityPinnedOnly.addEventListener('change', (event) => {
-      state.activityFilters.pinnedOnly = Boolean(event.target.checked);
-      renderActivityLog();
-    });
-  }
-
-  if (Array.isArray(elements.activityToneToggles)) {
-    elements.activityToneToggles.forEach((toggle) => {
-      if (!(toggle instanceof HTMLInputElement)) return;
-      toggle.addEventListener('change', (event) => {
-        const tone = event.target.value || event.target.dataset.activityTone;
-        if (!tone) return;
-        if (!(state.activityFilters.tones instanceof Set)) {
-          state.activityFilters.tones = new Set(DEFAULT_ACTIVITY_TONES);
-        }
-        if (event.target.checked) {
-          state.activityFilters.tones.add(tone);
-        } else {
-          state.activityFilters.tones.delete(tone);
-        }
-        renderActivityLog();
-      });
-    });
-  }
-
-  if (elements.activityReset) {
-    elements.activityReset.addEventListener('click', (event) => {
-      event.preventDefault();
-      resetActivityFilters();
-    });
-  }
-
-  if (elements.logList) {
-    elements.logList.addEventListener('click', (event) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) return;
-      const button = target.closest('[data-action="toggle-activity-pin"]');
-      if (!button) return;
-      event.preventDefault();
-      const { eventId } = button.dataset;
-      if (!eventId) return;
-      toggleActivityPin(eventId);
-    });
-  }
-
-  syncActivityControls();
+  activityView.setup(state, elements, getActivityViewDeps());
 }
 
 function refreshExportSupportTelemetry() {
@@ -2835,36 +2628,7 @@ function ensureExportSlug() {
 }
 
 function renderExportPreview(payload) {
-  const container = elements.exportPreview;
-  const empty = elements.exportPreviewEmpty;
-  if (!container || !empty) return;
-
-  const hasPayload = Boolean(payload);
-  container.hidden = !hasPayload;
-  empty.hidden = hasPayload;
-
-  if (!hasPayload) {
-    if (elements.exportPreviewJson) elements.exportPreviewJson.textContent = '';
-    if (elements.exportPreviewYaml) elements.exportPreviewYaml.textContent = '';
-    if (elements.exportPreviewJsonDetails) elements.exportPreviewJsonDetails.open = false;
-    if (elements.exportPreviewYamlDetails) elements.exportPreviewYamlDetails.open = false;
-    return;
-  }
-
-  const jsonDetails = elements.exportPreviewJsonDetails;
-  const yamlDetails = elements.exportPreviewYamlDetails;
-  const jsonWasOpen = Boolean(jsonDetails?.open);
-  const yamlWasOpen = Boolean(yamlDetails?.open);
-
-  if (elements.exportPreviewJson) {
-    elements.exportPreviewJson.textContent = JSON.stringify(payload, null, 2);
-  }
-  if (elements.exportPreviewYaml) {
-    elements.exportPreviewYaml.textContent = toYAML(payload);
-  }
-
-  if (jsonDetails) jsonDetails.open = jsonWasOpen;
-  if (yamlDetails) yamlDetails.open = yamlWasOpen;
+  exportView.render(state, elements, { payload, toYAML });
 }
 
 function updateExportPresetStatus(message = '', tone = 'info') {
