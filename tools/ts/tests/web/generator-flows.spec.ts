@@ -1,4 +1,15 @@
 import { expect, test } from '@playwright/test';
+import ts from 'typescript';
+
+const transpileOptions: ts.TranspileOptions = {
+  compilerOptions: {
+    module: ts.ModuleKind.ESNext,
+    target: ts.ScriptTarget.ES2020,
+    moduleResolution: ts.ModuleResolutionKind.NodeNext,
+    esModuleInterop: true,
+    resolveJsonModule: true,
+  },
+};
 
 test.describe('Evo generator flows', () => {
   test('loads catalog data and performs a roll workflow', async ({ page, baseURL }) => {
@@ -8,11 +19,24 @@ test.describe('Evo generator flows', () => {
 
     await page.route('**/*.ts', async (route) => {
       const response = await route.fetch();
+      const originalBody = await response.text();
+      let body = originalBody;
+
+      try {
+        const result = ts.transpileModule(originalBody, {
+          ...transpileOptions,
+          fileName: route.request().url().split('/').pop() ?? 'module.ts',
+        });
+        body = result.outputText || originalBody;
+      } catch (error) {
+        console.warn('Impossibile transpile il modulo TypeScript', route.request().url(), error);
+      }
+
       const headers = {
         ...response.headers(),
         'content-type': 'text/javascript',
       };
-      const body = await response.text();
+
       await route.fulfill({
         status: response.status(),
         body,
