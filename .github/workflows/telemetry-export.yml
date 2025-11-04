@@ -54,10 +54,10 @@ jobs:
             echo "Slack webhook non configurato, skip notifica."
             exit 0
           fi
-          payload=$(cat <<EOF
-{
-  "text": "[telemetry-export] stato: ${WORKFLOW_STATUS}\nDettagli run: ${RUN_URL}"
-}
-EOF
-)
+          payload=$(cat <<'EOF'
+          {
+            "text": "[telemetry-export] stato: ${WORKFLOW_STATUS}\nDettagli run: ${RUN_URL}"
+          }
+          EOF
+          )
           curl -X POST -H 'Content-type: application/json' --data "$payload" "$SLACK_WEBHOOK_URL"
