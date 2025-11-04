@@ -2,6 +2,8 @@ name: Idea Intake Index
 on:
   push:
     paths: ['docs/ideas/submissions/**']
+permissions:
+  contents: write
 jobs:
   index:
     runs-on: ubuntu-latest
