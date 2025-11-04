@@ -1,4 +1,9 @@
 
+import { el } from './ui/dom.js';
+import { createMultiSelectField } from './ui/token-selector.js';
+import { createStatusBanner } from './ui/status-banner.js';
+import { createReportCard } from './ui/report-card.js';
+
 // Evo Tactics — Idea Intake Widget
 // Nota: mantenere sincronizzato con docs/public/embed.js (GitHub Pages).
 (function(){
@@ -59,6 +64,7 @@
       .multi-select__token button:hover { opacity:0.7; }
       .multi-select__input { flex:1 1 8rem; border:0; outline:none; font:inherit; padding:0.25rem; min-width:8rem; }
       .multi-select__hint { font-size:0.8rem; color:#8b1a1a; }
+      .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
       .feedback-card { margin-top:1.5rem; padding:1rem; border:1px solid #d0d6e1; border-radius:12px; background:#f8f9ff; displ
 ay:flex; flex-direction:column; gap:0.75rem; }
       .feedback-card h4 { margin:0; font-size:1rem; }
@@ -213,161 +219,12 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
       .filter(Boolean);
   }
 
-  function el(tag, attrs={}, children=[]) {
-    const e = document.createElement(tag);
-    Object.entries(attrs||{}).forEach(([k,v]) => {
-      if (k === "class") e.className = v;
-      else if (k === "for") e.setAttribute("for", v);
-      else if (k.startsWith("on") && typeof v === "function") e.addEventListener(k.substring(2), v);
-      else e.setAttribute(k,v);
-    });
-    (Array.isArray(children) ? children : [children]).forEach(c => {
-      if (typeof c === "string") e.appendChild(document.createTextNode(c));
-      else if (c) e.appendChild(c);
-    });
-    return e;
-  }
-
   function wrap(labelText, control, cls) {
     const c = el("div", { class: cls === "full" ? "full" : "" });
     const lbl = el("label", {}, labelText);
     c.appendChild(lbl);
     c.appendChild(control);
     return c;
-  }
-
-  function createMultiSelectField(config) {
-    const {
-      id,
-      placeholder,
-      taxonomy,
-      defaults = []
-    } = config;
-
-    const canonicalSet = taxonomy.canonicalSet || new Set();
-    const aliasMap = taxonomy.aliasMap || {};
-    const suggestions = taxonomy.suggestions || [];
-
-    const wrapper = el('div', { class: 'multi-select', 'data-field': id });
-    const control = el('div', { class: 'multi-select__control' });
-    const tokens = el('div', { class: 'multi-select__tokens' });
-    const input = el('input', { type: 'text', id: id + '_input', class: 'multi-select__input', placeholder: placeholder || '', autocomplete: 'off' });
-    const datalistId = id + '-options';
-    const datalist = el('datalist', { id: datalistId });
-    suggestions.forEach((item) => {
-      datalist.appendChild(el('option', { value: item }));
-    });
-    input.setAttribute('list', datalistId);
-    const hidden = el('input', { type: 'hidden', id: id });
-    hidden.dataset.multi = 'json';
-    hidden.value = '[]';
-    const hint = el('div', { class: 'multi-select__hint', hidden: true });
-
-    control.appendChild(tokens);
-    control.appendChild(input);
-    wrapper.appendChild(control);
-    wrapper.appendChild(hint);
-    wrapper.appendChild(hidden);
-    wrapper.appendChild(datalist);
-
-    const state = [];
-
-    function sync() {
-      hidden.value = JSON.stringify(state.map((item) => item.value));
-      const unknown = state.filter((item) => !item.known);
-      hidden.dataset.unknownValues = JSON.stringify(unknown.map((item) => item.display || item.value));
-      hidden.dataset.unknownCount = String(unknown.length);
-      if (unknown.length) {
-        hint.hidden = false;
-        hint.textContent = 'Slug non catalogati: ' + unknown.map((item) => item.display || item.value).join(', ');
-      } else {
-        hint.hidden = true;
-        hint.textContent = '';
-      }
-    }
-
-    function addToken(rawValue) {
-      const normalisedInput = slugify(rawValue);
-      if (!normalisedInput) return;
-      const canonical = aliasMap[normalisedInput] || normalisedInput;
-      if (state.some((item) => item.value === canonical)) {
-        return;
-      }
-      const known = canonicalSet.has(canonical);
-      const aliasUsed = canonical !== normalisedInput;
-      const originalDisplay = rawValue && rawValue.trim() ? rawValue.trim() : canonical;
-      const token = el('span', { class: 'multi-select__token' + (known ? '' : ' multi-select__token--unknown') + (aliasUsed ? ' multi-select__token--alias' : '') });
-      token.appendChild(el('span', { class: 'multi-select__label' }, canonical));
-      const removeButton = el('button', { type: 'button', 'aria-label': `Rimuovi ${canonical}` }, '×');
-      removeButton.addEventListener('click', () => {
-        const index = state.findIndex((item) => item.value === canonical);
-        if (index >= 0) {
-          state.splice(index, 1);
-        }
-        tokens.removeChild(token);
-        sync();
-        input.focus();
-      });
-      if (aliasUsed || originalDisplay !== canonical) {
-        token.title = `Inserito come: ${originalDisplay}`;
-      }
-      token.appendChild(removeButton);
-      state.push({ value: canonical, display: originalDisplay, known });
-      tokens.appendChild(token);
-      sync();
-    }
-
-    function removeLastToken() {
-      if (!state.length) return;
-      const last = state.pop();
-      const tokenNodes = tokens.querySelectorAll('.multi-select__token');
-      if (tokenNodes.length) {
-        tokens.removeChild(tokenNodes[tokenNodes.length - 1]);
-      }
-      sync();
-      input.value = slugify(last.display || last.value);
-      input.select();
-    }
-
-    function commitInput() {
-      if (!input.value) return;
-      const raw = input.value;
-      input.value = '';
-      addToken(raw);
-    }
-
-    input.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ',' || event.key === 'Tab') {
-        event.preventDefault();
-        commitInput();
-        if (event.key === 'Tab') {
-          const form = input.closest('form');
-          if (form) {
-            const focusable = form.querySelectorAll('input, button, textarea, select');
-            const elements = Array.from(focusable).filter((el) => !el.disabled && el.tabIndex !== -1);
-            const index = elements.indexOf(input);
-            if (index >= 0 && index + 1 < elements.length) {
-              elements[index + 1].focus();
-            }
-          }
-        }
-      } else if (event.key === 'Backspace' && !input.value) {
-        removeLastToken();
-      }
-    });
-
-    input.addEventListener('change', () => {
-      commitInput();
-    });
-
-    input.addEventListener('blur', () => {
-      commitInput();
-    });
-
-    defaults.forEach((value) => addToken(value));
-    sync();
-
-    return wrapper;
   }
 
   function createValidator(categories) {
@@ -464,171 +321,61 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
     setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 300);
   }
 
-  function createFeedbackModule(options, idea) {
-    const apiBase = (options && options.apiBase) ? options.apiBase.replace(/\/$/, '') : '';
-    const apiToken = options && options.apiToken;
-    const templateUrl = options && options.feedbackTemplateUrl;
-    const slackChannel = options && options.feedbackChannel ? String(options.feedbackChannel).trim() : '';
-    const slackLink = slackChannel ? `https://slack.com/app_redirect?channel=${slackChannel.replace(/^#/, '')}` : '';
-    const hasApi = Boolean(apiBase && idea && idea.id);
-    if (!hasApi && !slackLink) return null;
-
-    const wrapper = el('div', { class: 'feedback-card' });
-    wrapper.appendChild(el('h4', {}, 'Idea Engine Feedback'));
-
-    const introParts = [];
-    if (templateUrl) {
-      const link = el('a', { href: templateUrl, target: '_blank', rel: 'noreferrer', class: 'feedback-link' }, 'template completo');
-      introParts.push('Aiutaci a migliorare il flusso (feedback rapido qui sotto o apri il ', link, ').');
-    } else {
-      introParts.push('Aiutaci a migliorare il flusso: lascia un commento rapido qui sotto.');
-    }
-    if (!hasApi && slackChannel) {
-      const slackAnchor = el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'feedback-link' }, slackChannel);
-      introParts.push(' Puoi anche aprire ', slackAnchor, ' per discutere follow-up o allegare materiali.');
-    }
-    wrapper.appendChild(el('p', { class: 'note small' }, introParts));
-
-    if (hasApi) {
-      const textarea = el('textarea', { placeholder: 'Cosa ha funzionato? Cosa manca?' });
-      const contact = el('input', { type: 'text', placeholder: 'Contatto o handle (opzionale)' });
-      const actions = el('div', { class: 'actions' });
-      const status = el('div', { class: 'status', 'aria-live': 'polite' });
-      const submit = el('button', { type: 'button', class: 'button button--secondary' }, 'Invia feedback');
-
-      let busy = false;
-      function setBusy(isBusy) {
-        busy = isBusy;
-        submit.disabled = isBusy;
-        submit.classList.toggle('button--busy', isBusy);
-        submit.textContent = isBusy ? 'Invio feedback…' : 'Invia feedback';
-      }
-
-      submit.addEventListener('click', async () => {
-        if (busy) return;
-        const message = (textarea.value || '').trim();
-        const contactValue = (contact.value || '').trim();
-        if (!message) {
-          status.textContent = 'Inserisci un commento prima di inviare.';
-          status.className = 'status err';
-          return;
+  function scheduleFeedbackLoad(statusBanner, options, idea) {
+    const loadFeedback = () => {
+      import('./ui/feedback-card.js').then(({ createFeedbackCard }) => {
+        const card = createFeedbackCard(options, idea);
+        if (card) {
+          statusBanner.append(card);
         }
-        status.textContent = '';
-        status.className = 'status';
-        try {
-          setBusy(true);
-          const response = await fetch(`${apiBase}/api/ideas/${idea.id}/feedback`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              ...(apiToken ? { 'Authorization': 'Bearer ' + apiToken } : {})
-            },
-            body: JSON.stringify({ message, contact: contactValue })
-          });
-          const json = await response.json().catch(() => ({}));
-          if (!response.ok) {
-            throw new Error((json && json.error) ? json.error : `${response.status} ${response.statusText}`);
-          }
-          textarea.value = '';
-          contact.value = '';
-          status.textContent = 'Grazie! Feedback registrato.';
-          status.className = 'status ok';
-        } catch (error) {
-          status.textContent = 'Errore invio feedback: ' + (error && error.message ? error.message : error);
-          status.className = 'status err';
-        } finally {
-          setBusy(false);
-        }
+      }).catch((error) => {
+        console.warn('Impossibile caricare modulo feedback', error);
       });
+    };
 
-      actions.appendChild(submit);
-      if (slackLink) {
-        const slackButton = el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'button button--ghost' }, `Apri ${slackChannel}`);
-        actions.appendChild(slackButton);
-      }
-      wrapper.appendChild(textarea);
-      wrapper.appendChild(contact);
-      wrapper.appendChild(actions);
-      wrapper.appendChild(status);
-    } else if (slackLink) {
-      const fallback = el('p', { class: 'note small' }, [
-        'API non configurata: usa ',
-        el('a', { href: slackLink, target: '_blank', rel: 'noreferrer', class: 'feedback-link' }, slackChannel),
-        ' per condividere il feedback (allega log o screenshot rilevanti).'
-      ]);
-      wrapper.appendChild(fallback);
+    if (typeof window !== 'undefined' && typeof IntersectionObserver !== 'undefined' && statusBanner?.element) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          loadFeedback();
+        }
+      }, { rootMargin: '32px' });
+      observer.observe(statusBanner.element);
+      return;
     }
-    return wrapper;
+
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(loadFeedback);
+    } else {
+      setTimeout(loadFeedback, 200);
+    }
   }
 
-  function renderSuccess(container, data, options) {
+  function renderSuccess(statusBanner, data, options) {
     const fragments = [
-      "<div class='ok'>✅ Idea registrata.</div>"
+      el('div', { class: 'ok' }, '✅ Idea registrata.')
     ];
     if (data.idea && data.idea.id) {
-      fragments.push(`<div class='note small'>ID database: ${data.idea.id}</div>`);
+      fragments.push(el('div', { class: 'note small' }, `ID database: ${data.idea.id}`));
     }
     if (data.exportPr && data.exportPr.pr_url) {
-      fragments.push(`<div>PR: <a class='linkish' href='${data.exportPr.pr_url}' target='_blank' rel='noreferrer'>apri</a></div>`);
+      fragments.push(el('div', {}, ['PR: ', el('a', { class: 'linkish', href: data.exportPr.pr_url, target: '_blank', rel: 'noreferrer' }, 'apri')]));
     }
     if (data.ghIssue && data.ghIssue.html_url) {
-      fragments.push(`<div>Issue: <a class='linkish' href='${data.ghIssue.html_url}' target='_blank' rel='noreferrer'>apri</a></div>`);
+      fragments.push(el('div', {}, ['Issue: ', el('a', { class: 'linkish', href: data.ghIssue.html_url, target: '_blank', rel: 'noreferrer' }, 'apri')]));
     }
     if (data.driveDoc && data.driveDoc.url) {
-      fragments.push(`<div>Doc: <a class='linkish' href='${data.driveDoc.url}' target='_blank' rel='noreferrer'>apri</a></div>`);
+      fragments.push(el('div', {}, ['Doc: ', el('a', { class: 'linkish', href: data.driveDoc.url, target: '_blank', rel: 'noreferrer' }, 'apri')]));
     }
 
-    container.innerHTML = fragments.join("");
+    statusBanner.setContent(fragments);
 
     if (data.report) {
-      const reportWrapper = el("div", { class: "report" }, [
-        el("div", { class: "report__header" }, [
-          el("h4", {}, "Report Codex GPT"),
-          (function createActions() {
-            const copyButton = el("button", { type: "button", class: "button button--ghost" }, "Copia");
-            copyButton.addEventListener("click", () => {
-              if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
-                navigator.clipboard.writeText(data.report).then(() => {
-                  copyButton.textContent = "Copiato!";
-                  setTimeout(() => { copyButton.textContent = "Copia"; }, 2000);
-                }).catch(() => {
-                  copyButton.textContent = "Errore copia";
-                  setTimeout(() => { copyButton.textContent = "Copia"; }, 2000);
-                });
-              } else {
-                const textArea = document.createElement("textarea");
-                textArea.value = data.report;
-                textArea.setAttribute("readonly", "readonly");
-                textArea.style.position = "absolute";
-                textArea.style.left = "-9999px";
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                  document.execCommand("copy");
-                  copyButton.textContent = "Copiato!";
-                } catch (err) {
-                  copyButton.textContent = "Errore copia";
-                }
-                document.body.removeChild(textArea);
-                setTimeout(() => { copyButton.textContent = "Copia"; }, 2000);
-              }
-            });
-            const downloadButton = el("button", { type: "button", class: "button button--ghost" }, "Scarica report");
-            downloadButton.addEventListener("click", () => {
-              downloadMarkdown(data.report, `codex-report-${(data.idea && data.idea.id) ? data.idea.id : 'idea'}`);
-            });
-            return el("div", { class: "report__actions" }, [copyButton, downloadButton]);
-          })()
-        ]),
-        el("pre", { class: "report__body" }, data.report)
-      ]);
-      container.appendChild(reportWrapper);
+      const reportCard = createReportCard(data.report, downloadMarkdown, data.idea && data.idea.id);
+      statusBanner.append(reportCard);
     }
 
-    const feedbackModule = createFeedbackModule(options, data.idea);
-    if (feedbackModule) {
-      container.appendChild(feedbackModule);
-    }
+    scheduleFeedbackLoad(statusBanner, options, data.idea);
   }
 
   function buildForm(container, opts, categories, taxonomyRaw) {
@@ -664,11 +411,11 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
           return sel;
         })()),
         wrap("Tags (spazio separati)", el("input", { type:"text", id:"tags", placeholder:"#ideazione #bioma #specie" })),
-        wrap("Biomi coinvolti", createMultiSelectField({ id: 'biomes', placeholder: 'foresta_miceliale, dorsale_termale_tropicale…', taxonomy: taxonomy.biomes, defaults: defaultBiomes }), "full"),
-        wrap("Ecosistemi / Meta-nodi", createMultiSelectField({ id: 'ecosystems', placeholder: 'meta_ecosistema_alpha, deserto_caldo…', taxonomy: taxonomy.ecosystems, defaults: defaultEcosystems }), "full"),
-        wrap("Specie coinvolte", createMultiSelectField({ id: 'species', placeholder: 'dune-stalker, sentinella-radice…', taxonomy: taxonomy.species, defaults: defaultSpecies }), "full"),
-        wrap("Tratti o mutazioni", createMultiSelectField({ id: 'traits', placeholder: 'focus_frazionato, zampe_a_molla…', taxonomy: taxonomy.traits, defaults: defaultTraits }), "full"),
-        wrap("Funzioni di gioco / sistemi", createMultiSelectField({ id: 'game_functions', placeholder: 'telemetria_vc, progressione_pe…', taxonomy: taxonomy.game_functions, defaults: defaultFunctions }), "full"),
+        wrap("Biomi coinvolti", createMultiSelectField({ slugify }, { id: 'biomes', placeholder: 'foresta_miceliale, dorsale_termale_tropicale…', taxonomy: taxonomy.biomes, defaults: defaultBiomes }), "full"),
+        wrap("Ecosistemi / Meta-nodi", createMultiSelectField({ slugify }, { id: 'ecosystems', placeholder: 'meta_ecosistema_alpha, deserto_caldo…', taxonomy: taxonomy.ecosystems, defaults: defaultEcosystems }), "full"),
+        wrap("Specie coinvolte", createMultiSelectField({ slugify }, { id: 'species', placeholder: 'dune-stalker, sentinella-radice…', taxonomy: taxonomy.species, defaults: defaultSpecies }), "full"),
+        wrap("Tratti o mutazioni", createMultiSelectField({ slugify }, { id: 'traits', placeholder: 'focus_frazionato, zampe_a_molla…', taxonomy: taxonomy.traits, defaults: defaultTraits }), "full"),
+        wrap("Funzioni di gioco / sistemi", createMultiSelectField({ slugify }, { id: 'game_functions', placeholder: 'telemetria_vc, progressione_pe…', taxonomy: taxonomy.game_functions, defaults: defaultFunctions }), "full"),
         wrap("Priorità", (function(){
           const sel = el("select", { id:"priority" });
           PRIORITIES.forEach(p => sel.appendChild(el("option", { value: p, selected: p===defaultPriority? "selected": undefined}, p)));
@@ -693,10 +440,11 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
         const previewButton = el("button", { type:"button", class:"button button--secondary", id:"preview" }, "Anteprima / Export .md");
         formActions.push(sendButton, previewButton);
         return el("div", { class: "actions" }, [sendButton, previewButton]);
-      })(),
-      el("div", { id:"result", class:"note", role:"status", "aria-live":"polite" })
+      })()
     ]);
     container.appendChild(f);
+    const statusBanner = createStatusBanner();
+    f.appendChild(statusBanner.element);
 
     const sendButton = formActions[0];
     const previewButton = formActions[1];
@@ -710,12 +458,18 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
 
     sendButton?.addEventListener("click", async () => {
       const payload = readPayload(f);
-      const res = document.getElementById("result");
-      res.innerHTML = "";
+      statusBanner.clear();
       const err = validate(payload);
-      if (err) { res.innerHTML = "<span class='err'>" + err + "</span>"; return; }
+      if (err) { statusBanner.showError(err); return; }
       delete payload.__unknownSlugs;
-      if (!state.apiBase) { res.innerHTML = "<span class='err'>Configura <code>apiBase</code> per inviare al backend oppure usa Export .md.</span>"; return; }
+      if (!state.apiBase) {
+        statusBanner.setContent(el('span', { class: 'err' }, [
+          'Configura ',
+          el('code', {}, 'apiBase'),
+          ' per inviare al backend oppure usa Export .md.'
+        ]));
+        return;
+      }
 
       try {
         setBusy(true);
@@ -729,9 +483,9 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
         });
         const data = await r.json();
         if (!r.ok) throw new Error(data && data.error ? data.error : r.status + " " + r.statusText);
-        renderSuccess(res, data, state);
+        renderSuccess(statusBanner, data, state);
       } catch (e) {
-        res.innerHTML = "<span class='err'>Errore: " + (e && e.message ? e.message : e) + "</span>";
+        statusBanner.showError('Errore: ' + (e && e.message ? e.message : e));
       } finally {
         setBusy(false);
       }
@@ -739,18 +493,19 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
 
     previewButton?.addEventListener("click", () => {
       const payload = readPayload(f);
-      const res = document.getElementById("result");
+      statusBanner.clear();
       const err = validate(payload);
-      if (err) { res.innerHTML = "<span class='err'>" + err + "</span>"; return; }
+      if (err) { statusBanner.showError(err); return; }
       delete payload.__unknownSlugs;
       const md = buildMarkdown(payload);
       const pre = el("pre", { class:"preview" }, md);
       const dl = el("button", { type:"button", class:"button button--ghost", id:"download" }, "Scarica .md");
       dl.addEventListener("click", () => downloadMarkdown(md, payload.title));
-      res.innerHTML = "";
-      res.appendChild(pre);
-      res.appendChild(el("div", { class:"actions" }, [dl]));
-      res.appendChild(el("div", { class:"note small" }, "Metti il file in  /ideas  e fai commit. Il workflow aggiornerà IDEAS_INDEX.md."));
+      statusBanner.setContent([
+        pre,
+        el("div", { class:"actions" }, [dl]),
+        el("div", { class:"note small" }, "Metti il file in  /ideas  e fai commit. Il workflow aggiornerà IDEAS_INDEX.md.")
+      ]);
     });
   }
 
