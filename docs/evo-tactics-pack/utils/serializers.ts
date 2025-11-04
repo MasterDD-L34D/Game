@@ -1,7 +1,16 @@
 import { normaliseTagId } from './normalizers.ts';
-import type { ActivityLogEntryInput, ActivityLogTag, SerialisedActivityLogEntry } from './types.ts';
 
-function toIsoTimestamp(value: ActivityLogEntryInput['timestamp']): string {
+/**
+ * @typedef {import('./types.ts').ActivityLogEntryInput} ActivityLogEntryInput
+ * @typedef {import('./types.ts').ActivityLogTag} ActivityLogTag
+ * @typedef {import('./types.ts').SerialisedActivityLogEntry} SerialisedActivityLogEntry
+ */
+
+/**
+ * @param {ActivityLogEntryInput['timestamp']} value
+ * @returns {string}
+ */
+function toIsoTimestamp(value) {
   if (value instanceof Date) {
     return value.toISOString();
   }
@@ -15,36 +24,39 @@ function toIsoTimestamp(value: ActivityLogEntryInput['timestamp']): string {
   return date.toISOString();
 }
 
-export function serialiseActivityLogEntry(
-  entry: ActivityLogEntryInput,
-): SerialisedActivityLogEntry | null {
+/**
+ * @param {ActivityLogEntryInput} entry
+ * @returns {SerialisedActivityLogEntry | null}
+ */
+export function serialiseActivityLogEntry(entry) {
   if (!entry) return null;
-  const tags: ActivityLogTag[] = Array.isArray(entry.tags)
+  const tags = Array.isArray(entry.tags)
     ? entry.tags
         .map((tag) => {
           if (!tag) return null;
           if (typeof tag === 'object') {
-            const id =
-              (tag as { id?: string | null; value?: string | null }).id ??
-              (tag as { value?: string | null }).value ??
+            const tagObject = /** @type {Record<string, unknown>} */ tag;
+            const idValue =
+              (typeof tagObject.id === 'string' ? tagObject.id : null) ??
+              (typeof tagObject.value === 'string' ? tagObject.value : null) ??
               null;
-            const label =
-              (tag as { label?: string | null }).label ??
-              (tag as { name?: string | null }).name ??
-              (tag as { value?: string | null }).value ??
-              (tag as { id?: string | null }).id ??
+            const labelValue =
+              (typeof tagObject.label === 'string' ? tagObject.label : null) ??
+              (typeof tagObject.name === 'string' ? tagObject.name : null) ??
+              (typeof tagObject.value === 'string' ? tagObject.value : null) ??
+              (typeof tagObject.id === 'string' ? tagObject.id : null) ??
               null;
-            if (!id && !label) return null;
+            if (!idValue && !labelValue) return null;
             return {
-              id: id ?? (label ? normaliseTagId(label) || null : null),
-              label: label ?? (id ? String(id) : ''),
-            } as ActivityLogTag;
+              id: idValue ?? (labelValue ? normaliseTagId(labelValue) || null : null),
+              label: labelValue ?? (idValue ? String(idValue) : ''),
+            };
           }
           const label = String(tag ?? '').trim();
           if (!label) return null;
-          return { id: normaliseTagId(label) || null, label } as ActivityLogTag;
+          return { id: normaliseTagId(label) || null, label };
         })
-        .filter((tag): tag is ActivityLogTag => Boolean(tag))
+        .filter((tag) => Boolean(tag))
     : [];
 
   return {
@@ -52,26 +64,25 @@ export function serialiseActivityLogEntry(
     message: entry.message ?? '',
     tone: entry.tone ?? 'info',
     timestamp: toIsoTimestamp(entry.timestamp ?? null),
-    tags,
+    tags: /** @type {ActivityLogTag[]} */ tags,
     action: entry.action ?? null,
     pinned: Boolean(entry.pinned),
     metadata: entry.metadata ?? null,
   };
 }
 
-export function activityLogToCsv(entries: SerialisedActivityLogEntry[]): string {
-  const columns: (keyof SerialisedActivityLogEntry)[] = [
-    'id',
-    'timestamp',
-    'tone',
-    'message',
-    'tags',
-    'action',
-    'pinned',
-    'metadata',
-  ];
+/**
+ * @param {SerialisedActivityLogEntry[]} entries
+ * @returns {string}
+ */
+export function activityLogToCsv(entries) {
+  const columns = ['id', 'timestamp', 'tone', 'message', 'tags', 'action', 'pinned', 'metadata'];
 
-  const escape = (value: unknown): string => {
+  /**
+   * @param {unknown} value
+   * @returns {string}
+   */
+  const escape = (value) => {
     if (value === null || value === undefined) return '';
     const stringValue = String(value);
     if (/[",\n]/.test(stringValue)) {
@@ -93,7 +104,7 @@ export function activityLogToCsv(entries: SerialisedActivityLogEntry[]): string 
             const label = tag.label ?? tag.id ?? '';
             return label ? String(label) : null;
           })
-          .filter((value): value is string => Boolean(value))
+          .filter((value) => Boolean(value))
           .join('|')
       : '';
     const metadata =
@@ -102,7 +113,7 @@ export function activityLogToCsv(entries: SerialisedActivityLogEntry[]): string 
         : typeof entry.metadata === 'string'
           ? entry.metadata
           : JSON.stringify(entry.metadata);
-    const record: Record<string, unknown> = {
+    const record = {
       id: entry.id ?? '',
       timestamp: entry.timestamp ?? '',
       tone: entry.tone ?? '',
@@ -118,7 +129,12 @@ export function activityLogToCsv(entries: SerialisedActivityLogEntry[]): string 
   return [header, ...rows].join('\n');
 }
 
-export function toYAML(value: unknown, indent = 0): string {
+/**
+ * @param {unknown} value
+ * @param {number} [indent=0]
+ * @returns {string}
+ */
+export function toYAML(value, indent = 0) {
   const space = '  '.repeat(indent);
   if (value === null || value === undefined) return 'null';
   if (Array.isArray(value)) {
@@ -128,7 +144,7 @@ export function toYAML(value: unknown, indent = 0): string {
       .join('\n');
   }
   if (typeof value === 'object') {
-    const entries = Object.entries(value as Record<string, unknown>);
+    const entries = Object.entries(/** @type {Record<string, unknown>} */ value);
     if (!entries.length) return '{}';
     return entries
       .map(([key, val]) => {
