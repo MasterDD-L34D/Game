@@ -3,105 +3,12 @@ import {
   manualLoadCatalog,
   getPackRootCandidates,
   PACK_PATH,
-} from "./pack-data.js";
+} from './pack-data.js';
+import { resolveGeneratorElements, resolveAnchorUi } from './ui/elements.ts';
+import { createSessionState } from './state/session.ts';
 
-const elements = {
-  form: document.getElementById("generator-form"),
-  flags: document.getElementById("flags"),
-  roles: document.getElementById("roles"),
-  tags: document.getElementById("tags"),
-  filtersHint: document.getElementById("generator-filters-hint"),
-  nBiomi: document.getElementById("nBiomi"),
-  biomeGrid: document.getElementById("biome-grid"),
-  traitGrid: document.getElementById("trait-grid"),
-  seedGrid: document.getElementById("seed-grid"),
-  status: document.getElementById("generator-status"),
-  summaryContainer: document.getElementById("generator-summary"),
-  summaryCounts: {
-    biomes: document.querySelector("[data-summary=\"biomes\"]"),
-    species: document.querySelector("[data-summary=\"species\"]"),
-    seeds: document.querySelector("[data-summary=\"seeds\"]"),
-  },
-  narrativePanel: document.getElementById("generator-narrative"),
-  narrativeBriefing: document.querySelector("[data-narrative=\"briefing\"]"),
-  narrativeHook: document.querySelector("[data-narrative=\"hook\"]"),
-  narrativeInsightPanel: document.getElementById("generator-insight-panel"),
-  narrativeInsightEmpty: document.getElementById("generator-insight-empty"),
-  narrativeInsightList: document.getElementById("generator-insight-list"),
-  briefingPanel: document.getElementById("generator-briefing-panel"),
-  hookPanel: document.getElementById("generator-hook-panel"),
-  audioControls: document.getElementById("generator-audio-controls"),
-  audioMute: document.getElementById("generator-audio-mute"),
-  audioVolume: document.getElementById("generator-audio-volume"),
-  profilePanel: document.getElementById("generator-profiles"),
-  profileSlots: document.getElementById("generator-profile-slots"),
-  profileEmpty: document.getElementById("generator-profile-empty"),
-  composerPanel: document.getElementById("generator-composer"),
-  composerPresetList: document.getElementById("generator-composer-presets"),
-  composerPresetEmpty: document.getElementById("generator-composer-presets-empty"),
-  composerSuggestions: document.getElementById("generator-composer-suggestions"),
-  composerSuggestionsEmpty: document.getElementById("generator-composer-suggestions-empty"),
-  composerRoleToggles: document.getElementById("generator-composer-role-toggles"),
-  composerSynergySlider: document.getElementById("generator-composer-synergy"),
-  composerSynergyValue: document.getElementById("generator-composer-synergy-value"),
-  composerRadarCanvas: document.getElementById("generator-synergy-radar"),
-  composerHeatmap: document.getElementById("generator-role-heatmap"),
-  comparePanel: document.getElementById("generator-compare-panel"),
-  compareList: document.getElementById("generator-compare-list"),
-  compareEmpty: document.getElementById("generator-compare-empty"),
-  compareChartContainer: document.getElementById("generator-compare-chart"),
-  compareCanvas: document.getElementById("generator-compare-canvas"),
-  compareFallback: document.getElementById("generator-compare-fallback"),
-  pinnedList: document.getElementById("generator-pinned-list"),
-  pinnedEmpty: document.getElementById("generator-pinned-empty"),
-  flowMapList: document.getElementById("generator-flow-map-list"),
-  flowNodes: Array.from(document.querySelectorAll("[data-flow-node]")),
-  historyPanel: document.getElementById("generator-history"),
-  historyList: document.getElementById("generator-history-list"),
-  historyEmpty: document.getElementById("generator-history-empty"),
-  lastAction: document.getElementById("generator-last-action"),
-  logList: document.getElementById("generator-log"),
-  logEmpty: document.getElementById("generator-log-empty"),
-  activitySearch: document.getElementById("activity-search"),
-  activityTagFilter: document.getElementById("activity-tags"),
-  activityPinnedOnly: document.getElementById("activity-pinned-only"),
-  activityToneToggles: Array.from(document.querySelectorAll("[data-activity-tone]")),
-  activityReset: document.querySelector("[data-action=\"reset-activity-filters\"]"),
-  exportMeta: document.getElementById("generator-export-meta"),
-  exportList: document.getElementById("generator-export-list"),
-  exportEmpty: document.getElementById("generator-export-empty"),
-  exportActions: document.getElementById("generator-export-actions"),
-  exportPreset: document.getElementById("generator-export-preset"),
-  exportPresetStatus: document.getElementById("generator-export-preset-status"),
-  exportPreview: document.getElementById("generator-export-preview"),
-  exportPreviewEmpty: document.getElementById("generator-preview-empty"),
-  exportPreviewJson: document.getElementById("generator-preview-json"),
-  exportPreviewYaml: document.getElementById("generator-preview-yaml"),
-  exportPreviewJsonDetails: document.getElementById("generator-preview-json-details"),
-  exportPreviewYamlDetails: document.getElementById("generator-preview-yaml-details"),
-  dossierPreview: document.getElementById("generator-dossier-preview"),
-  dossierEmpty: document.getElementById("generator-dossier-empty"),
-  insightsPanel: document.getElementById("generator-insights-panel"),
-  insightsEmpty: document.getElementById("generator-insights-empty"),
-  insightsList: document.getElementById("generator-insights-list"),
-  kpi: {
-    averageRoll: document.querySelector("[data-kpi=\"avg-roll\"]"),
-    rerollCount: document.querySelector("[data-kpi=\"reroll-count\"]"),
-    uniqueSpecies: document.querySelector("[data-kpi=\"unique-species\"]"),
-    profileReuses: document.querySelector("[data-kpi=\"profile-reuse\"]"),
-  },
-};
-
-const anchorUi = {
-  root: document.querySelector("[data-anchor-root]"),
-  anchors: Array.from(document.querySelectorAll("[data-anchor-target]")),
-  panels: Array.from(document.querySelectorAll("[data-panel]")),
-  breadcrumbTargets: Array.from(document.querySelectorAll("[data-anchor-breadcrumb]")),
-  minimapContainers: Array.from(document.querySelectorAll("[data-anchor-minimap]")),
-  overlay: document.querySelector("[data-codex-overlay]"),
-  codexToggles: Array.from(document.querySelectorAll("[data-codex-toggle]")),
-  codexClosers: Array.from(document.querySelectorAll("[data-codex-close]")),
-};
+const elements = resolveGeneratorElements(document);
+const anchorUi = resolveAnchorUi(document);
 
 const anchorState = {
   descriptors: [],
@@ -117,83 +24,83 @@ const anchorState = {
 const PACK_ROOT_CANDIDATES = getPackRootCandidates();
 const EXPORT_BASE_FOLDER = `${PACK_PATH}out/generator/`;
 const STORAGE_KEYS = {
-  activityLog: "evo-generator-activity-log",
-  filterProfiles: "evo-generator-filter-profiles",
-  history: "evo-generator-history",
-  pinned: "evo-generator-pinned",
-  locks: "evo-generator-locks",
-  preferences: "evo-generator-preferences",
+  activityLog: 'evo-generator-activity-log',
+  filterProfiles: 'evo-generator-filter-profiles',
+  history: 'evo-generator-history',
+  pinned: 'evo-generator-pinned',
+  locks: 'evo-generator-locks',
+  preferences: 'evo-generator-preferences',
 };
 
-const DEFAULT_ACTIVITY_TONES = ["info", "success", "warn", "error"];
+const DEFAULT_ACTIVITY_TONES = ['info', 'success', 'warn', 'error'];
 const MAX_ACTIVITY_EVENTS = 150;
-const DOSSIER_TEMPLATE_PATH = "../templates/dossier.html";
-const initialPdfSupport = typeof window !== "undefined" && typeof window.html2pdf !== "undefined";
+const DOSSIER_TEMPLATE_PATH = '../templates/dossier.html';
+const initialPdfSupport = typeof window !== 'undefined' && typeof window.html2pdf !== 'undefined';
 const TONE_LABELS = {
-  info: "Info",
-  success: "Successo",
-  warn: "Avviso",
-  error: "Errore",
+  info: 'Info',
+  success: 'Successo',
+  warn: 'Avviso',
+  error: 'Errore',
 };
-const REROLL_ACTIONS = new Set(["reroll-biomi", "reroll-species", "reroll-seeds"]);
-const ROLL_ACTIONS = new Set(["roll-ecos", "reroll-biomi", "reroll-species", "reroll-seeds"]);
+const REROLL_ACTIONS = new Set(['reroll-biomi', 'reroll-species', 'reroll-seeds']);
+const ROLL_ACTIONS = new Set(['roll-ecos', 'reroll-biomi', 'reroll-species', 'reroll-seeds']);
 
 const SPECIES_ROLE_LABELS = {
-  apex: "Apex",
-  keystone: "Specie chiave",
-  bridge: "Specie ponte",
-  threat: "Minaccia",
-  event: "Evento dinamico",
+  apex: 'Apex',
+  keystone: 'Specie chiave',
+  bridge: 'Specie ponte',
+  threat: 'Minaccia',
+  event: 'Evento dinamico',
 };
 
 const CONNECTION_TYPE_LABELS = {
-  corridor: "Corridoio stagionale",
-  trophic_spillover: "Spillover trofico",
-  seasonal_bridge: "Ponte stagionale",
+  corridor: 'Corridoio stagionale',
+  trophic_spillover: 'Spillover trofico',
+  seasonal_bridge: 'Ponte stagionale',
 };
 
 const PANEL_LABELS = {
-  parameters: "Parametri",
-  traits: "Pacchetti ambientali",
-  biomes: "Biomi selezionati",
-  seeds: "Encounter seed",
-  composer: "Composizione avanzata",
-  insights: "Insight contestuali",
+  parameters: 'Parametri',
+  traits: 'Pacchetti ambientali',
+  biomes: 'Biomi selezionati',
+  seeds: 'Encounter seed',
+  composer: 'Composizione avanzata',
+  insights: 'Insight contestuali',
 };
 
 const FLOW_STATUS_LABELS = {
-  pending: "In attesa",
-  active: "In corso",
-  complete: "Completato",
+  pending: 'In attesa',
+  active: 'In corso',
+  complete: 'Completato',
 };
 
 const FLOW_STATUS_ICONS = {
-  pending: "○",
-  active: "◔",
-  complete: "●",
+  pending: '○',
+  active: '◔',
+  complete: '●',
 };
 
 const USER_FLOWS = [
   {
-    id: "onboarding",
-    label: "Onboarding form",
-    target: "#generator-parameters",
+    id: 'onboarding',
+    label: 'Onboarding form',
+    target: '#generator-parameters',
     description:
-      "Configura vincoli, filtri e profili per ottenere un roll coerente prima della generazione.",
+      'Configura vincoli, filtri e profili per ottenere un roll coerente prima della generazione.',
   },
   {
-    id: "summary",
-    label: "Riepilogo e narrativa",
-    target: "#generator-summary",
+    id: 'summary',
+    label: 'Riepilogo e narrativa',
+    target: '#generator-summary',
     description:
-      "Monitora metriche, narrativa dinamica e pinnature per ottimizzare la sessione in corso.",
+      'Monitora metriche, narrativa dinamica e pinnature per ottimizzare la sessione in corso.',
   },
   {
-    id: "history",
-    label: "Cronologia snapshot",
-    target: "#generator-history",
+    id: 'history',
+    label: 'Cronologia snapshot',
+    target: '#generator-history',
     description:
-      "Raccogli snapshot e timeline per confrontare le estrazioni e condividere i risultati.",
+      'Raccogli snapshot e timeline per confrontare le estrazioni e condividere i risultati.',
   },
 ];
 
@@ -201,269 +108,197 @@ const PROFILE_SLOT_COUNT = 5;
 const MAX_SPECIES_PER_BIOME = 3;
 const MAX_HISTORY_ENTRIES = 12;
 const HISTORY_ACTION_LABELS = {
-  "roll-ecos": "Nuovo ecosistema",
-  "reroll-biomi": "Biomi aggiornati",
-  "reroll-species": "Specie aggiornate",
-  "reroll-seeds": "Seed rigenerati",
+  'roll-ecos': 'Nuovo ecosistema',
+  'reroll-biomi': 'Biomi aggiornati',
+  'reroll-species': 'Specie aggiornate',
+  'reroll-seeds': 'Seed rigenerati',
 };
 const MANIFEST_PRESETS = [
   {
-    id: "playtest-bundle",
-    label: "Bundle playtest",
+    id: 'playtest-bundle',
+    label: 'Bundle playtest',
     description:
-      "Pacchetto completo per sessioni di prova con dati serializzati e registro attività.",
-    zipSuffix: "playtest",
+      'Pacchetto completo per sessioni di prova con dati serializzati e registro attività.',
+    zipSuffix: 'playtest',
     files: [
       {
-        id: "ecosystem-json",
-        format: "JSON",
+        id: 'ecosystem-json',
+        format: 'JSON',
         filename: (slug) => `${slug}.json`,
         description: (context) =>
           `Dump completo dell'ecosistema "${context.ecosystemLabel}" con ${context.metrics.biomeCount} biomi, ${context.metrics.speciesCount} specie e ${context.metrics.seedCount} seed generati.`,
-        builder: "ecosystem-json",
+        builder: 'ecosystem-json',
       },
       {
-        id: "ecosystem-yaml",
-        format: "YAML",
+        id: 'ecosystem-yaml',
+        format: 'YAML',
         filename: (slug) => `${slug}.yaml`,
         description: () =>
-          "Manifesto YAML utilizzabile per commit rapidi o pipeline di integrazione continua.",
-        builder: "ecosystem-yaml",
+          'Manifesto YAML utilizzabile per commit rapidi o pipeline di integrazione continua.',
+        builder: 'ecosystem-yaml',
       },
       {
-        id: "activity-json",
-        format: "JSON",
+        id: 'activity-json',
+        format: 'JSON',
         filename: (slug) => `${slug}-log.json`,
         description: () =>
-          "Registro attività in formato JSON con tutti gli eventi ordinati cronologicamente.",
-        builder: "activity-json",
+          'Registro attività in formato JSON con tutti gli eventi ordinati cronologicamente.',
+        builder: 'activity-json',
         optional: true,
       },
       {
-        id: "activity-csv",
-        format: "CSV",
+        id: 'activity-csv',
+        format: 'CSV',
         filename: (slug) => `${slug}-log.csv`,
         description: () =>
-          "Registro attività pronto per spreadsheet, pivot e annotazioni durante il playtest.",
-        builder: "activity-csv",
+          'Registro attività pronto per spreadsheet, pivot e annotazioni durante il playtest.',
+        builder: 'activity-csv',
         optional: true,
       },
     ],
   },
   {
-    id: "report-design",
-    label: "Report design",
+    id: 'report-design',
+    label: 'Report design',
     description:
-      "Materiale di documentazione per pitch, hand-off designer e revisioni art direction.",
-    zipSuffix: "report",
+      'Materiale di documentazione per pitch, hand-off designer e revisioni art direction.',
+    zipSuffix: 'report',
     files: [
       {
-        id: "ecosystem-yaml",
-        format: "YAML",
+        id: 'ecosystem-yaml',
+        format: 'YAML',
         filename: (slug) => `${slug}.yaml`,
         description: () =>
-          "Manifesto YAML curato per alimentare design docs, report e versioning narrativo.",
-        builder: "ecosystem-yaml",
+          'Manifesto YAML curato per alimentare design docs, report e versioning narrativo.',
+        builder: 'ecosystem-yaml',
       },
       {
-        id: "dossier-html",
-        format: "HTML",
+        id: 'dossier-html',
+        format: 'HTML',
         filename: (slug) => `${slug}-dossier.html`,
         description: () =>
-          "Dossier HTML con panoramica visiva dei biomi, specie chiave e seed generati.",
-        builder: "dossier-html",
+          'Dossier HTML con panoramica visiva dei biomi, specie chiave e seed generati.',
+        builder: 'dossier-html',
       },
       {
-        id: "dossier-pdf",
-        format: "PDF",
+        id: 'dossier-pdf',
+        format: 'PDF',
         filename: (slug) => `${slug}-dossier.pdf`,
         description: () =>
-          "Versione PDF del dossier, pronta per la condivisione con stakeholder esterni.",
-        builder: "dossier-pdf",
+          'Versione PDF del dossier, pronta per la condivisione con stakeholder esterni.',
+        builder: 'dossier-pdf',
       },
     ],
   },
   {
-    id: "demo-bundle",
-    label: "Bundle demo pubblico",
+    id: 'demo-bundle',
+    label: 'Bundle demo pubblico',
     description:
-      "Kit leggero per distribuzioni pubbliche con manifesto, dossier e press kit narrativo.",
-    zipSuffix: "demo",
+      'Kit leggero per distribuzioni pubbliche con manifesto, dossier e press kit narrativo.',
+    zipSuffix: 'demo',
     files: [
       {
-        id: "ecosystem-yaml",
-        format: "YAML",
+        id: 'ecosystem-yaml',
+        format: 'YAML',
         filename: (slug) => `${slug}.yaml`,
         description: () =>
-          "Manifesto YAML allineato al bundle demo, pronto per deploy statici o CDN.",
-        builder: "ecosystem-yaml",
+          'Manifesto YAML allineato al bundle demo, pronto per deploy statici o CDN.',
+        builder: 'ecosystem-yaml',
       },
       {
-        id: "dossier-html",
-        format: "HTML",
+        id: 'dossier-html',
+        format: 'HTML',
         filename: (slug) => `${slug}-dossier.html`,
         description: () =>
-          "Dossier HTML riassuntivo con biomi, specie in evidenza e seed narrativi per la demo.",
-        builder: "dossier-html",
+          'Dossier HTML riassuntivo con biomi, specie in evidenza e seed narrativi per la demo.',
+        builder: 'dossier-html',
       },
       {
-        id: "press-kit-md",
-        format: "Markdown",
+        id: 'press-kit-md',
+        format: 'Markdown',
         filename: (slug) => `${slug}-press-kit.md`,
         description: () =>
-          "Press kit markdown con punti chiave, highlight e call-to-action per il lancio pubblico.",
-        builder: "press-kit-md",
+          'Press kit markdown con punti chiave, highlight e call-to-action per il lancio pubblico.',
+        builder: 'press-kit-md',
       },
     ],
   },
 ];
 
-const RARE_CUE_SOURCE = "data:audio/wav;base64,UklGRiYfAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YQIfAAAAALwL+hZBISMqQTFONhM5d" +
-  "DlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rH" +
-  "aMawx1XLMNEC2XbiJ+2j+G0ECBD3GsUkCC1nM543gDn5OA023jChKaYgTBYCC0P/jPNa6CbeXdVeznXJ1cabxsnISM3o02HcWeZk8Q390wg9FMweESioLz81" +
-  "mziWOSc4XTRhLnIm5xwmEqEG1/pD72LkqtqD0kXMMsh2xiTHNcqHz+LW999j6rj1egEtDVIYcyIhKwEyxzZBOVU5ADddMp4rCiP9GOQNNwJy9hPrleBo1+/P" +
-  "espEx2/GBMjzyxDSG9q9447uG/rlBXIRQxzlJfAtDTT8N5E5vDiGNREwmChrH+0UjgnJ/RzyA+f23GLUo80AyavGv8Y5yf/N39SN3a7n0/KG/kgKnRUJIB4p" +
-  "eTDLNdw4ijnON7szfS1WJZ4bvRApBV/52u0Z447Zn9Gjy9nHasZlx8HKWNDv1zThw+st9/MCnA6nGZ8jGCy4Mjc3ZTkrOYs2ojGjKtohphd0DL0A/vS06Vrf" +
-  "X9Yiz/PJB8eAxmLImcz40jvbCeX475P7XQfZEood/ibQLqs0UDiYOXY49jQ9L4knLB6LExgIUPyu8LDlzdtv0+/MlMiMxu3Gssm/zt3Vv94G6UT0AAC8C/oW" +
-  "QSEjKkExTjYTOXQ5bDcRM5EsMyRQGlIPsAPo93Xs1OF32MPQCsuKx2jGsMdVyzDRAtl24ifto/htBAgQ9xrFJAgtZzOeN4A5+TgNNt4woSmmIEwWAgtD/4zz" +
-  "Wugm3l3VXs51ydXGm8bJyEjN6NNh3FnmZPEN/dMIPRTMHhEoqC8/NZs4ljknOF00YS5yJuccJhKhBtf6Q+9i5Krag9JFzDLIdsYkxzXKh8/i1vffY+q49XoB" +
-  "LQ1SGHMiISsBMsc2QTlVOQA3XTKeKwoj/RjkDTcCcvYT65XgaNfvz3rKRMdvxgTI88sQ0hvaveOO7hv65QVyEUMc5SXwLQ00/DeRObw4hjURMJgoax/tFI4J" +
-  "yf0c8gPn9txi1KPNAMmrxr/GOcn/zd/Ujd2u59Pyhv5ICp0VCSAeKXkwyzXcOIo5zje7M30tViWeG70QKQVf+drtGeOO2Z/Ro8vZx2rGZcfByljQ79c04cPr" +
-  "LffzApwOpxmfIxgsuDI3N2U5KzmLNqIxoyraIaYXdAy9AP70tOla31/WIs/zyQfHgMZiyJnM+NI72wnl+O+T+10H2RKKHf4m0C6rNFA4mDl2OPY0PS+JJywe" +
-  "ixMYCFD8rvCw5c3bb9PvzJTIjMbtxrLJv87d1b/eBulE9AAAvAv6FkEhIypBMU42Ezl0OWw3ETORLDMkUBpSD7AD6Pd17NThd9jD0ArLisdoxrDHVcsw0QLZ" +
-  "duIn7aP4bQQIEPcaxSQILWcznjeAOfk4DTbeMKEppiBMFgILQ/+M81roJt5d1V7OdcnVxpvGychIzejTYdxZ5mTxDf3TCD0UzB4RKKgvPzWbOJY5JzhdNGEu" +
-  "cibnHCYSoQbX+kPvYuSq2oPSRcwyyHbGJMc1yofP4tb332PquPV6AS0NUhhzIiErATLHNkE5VTkAN10ynisKI/0Y5A03AnL2E+uV4GjX7896ykTHb8YEyPPL" +
-  "ENIb2r3jju4b+uUFchFDHOUl8C0NNPw3kTm8OIY1ETCYKGsf7RSOCcn9HPID5/bcYtSjzQDJq8a/xjnJ/83f1I3drufT8ob+SAqdFQkgHil5MMs13DiKOc43" +
-  "uzN9LVYlnhu9ECkFX/na7Rnjjtmf0aPL2cdqxmXHwcpY0O/XNOHD6y338wKcDqcZnyMYLLgyNzdlOSs5izaiMaMq2iGmF3QMvQD+9LTpWt9f1iLP88kHx4DG" +
-  "YsiZzPjSO9sJ5fjvk/tdB9kSih3+JtAuqzRQOJg5djj2ND0viScsHosTGAhQ/K7wsOXN22/T78yUyIzG7cayyb/O3dW/3gbpRPQAALwL+hZBISMqQTFONhM5" +
-  "dDlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rHaMawx1XLMNEC2XbiJ+2j+G0ECBD3GsUkCC1nM543gDn5OA023jChKaYgTBYCC0P/jPNa6CbeXdVeznXJ" +
-  "1cabxsnISM3o02HcWeZk8Q390wg9FMweESioLz81mziWOSc4XTRhLnIm5xwmEqEG1/pD72LkqtqD0kXMMsh2xiTHNcqHz+LW999j6rj1egEtDVIYcyIhKwEy" +
-  "xzZBOVU5ADddMp4rCiP9GOQNNwJy9hPrleBo1+/PespEx2/GBMjzyxDSG9q9447uG/rlBXIRQxzlJfAtDTT8N5E5vDiGNREwmChrH+0UjgnJ/RzyA+f23GLU" +
-  "o80AyavGv8Y5yf/N39SN3a7n0/KG/kgKnRUJIB4peTDLNdw4ijnON7szfS1WJZ4bvRApBV/52u0Z447Zn9Gjy9nHasZlx8HKWNDv1zThw+st9/MCnA6nGZ8j" +
-  "GCy4Mjc3ZTkrOYs2ojGjKtohphd0DL0A/vS06VrfX9Yiz/PJB8eAxmLImcz40jvbCeX475P7XQfZEood/ibQLqs0UDiYOXY49jQ9L4knLB6LExgIUPyu8LDl" +
-  "zdtv0+/MlMiMxu3Gssm/zt3Vv94G6UT0AAC8C/oWQSEjKkExTjYTOXQ5bDcRM5EsMyRQGlIPsAPo93Xs1OF32MPQCsuKx2jGsMdVyzDRAtl24ifto/htBAgQ" +
-  "9xrFJAgtZzOeN4A5+TgNNt4woSmmIEwWAgtD/4zzWugm3l3VXs51ydXGm8bJyEjN6NNh3FnmZPEN/dMIPRTMHhEoqC8/NZs4ljknOF00YS5yJuccJhKhBtf6" +
-  "Q+9i5Krag9JFzDLIdsYkxzXKh8/i1vffY+q49XoBLQ1SGHMiISsBMsc2QTlVOQA3XTKeKwoj/RjkDTcCcvYT65XgaNfvz3rKRMdvxgTI88sQ0hvaveOO7hv6" +
-  "5QVyEUMc5SXwLQ00/DeRObw4hjURMJgoax/tFI4Jyf0c8gPn9txi1KPNAMmrxr/GOcn/zd/Ujd2u59Pyhv5ICp0VCSAeKXkwyzXcOIo5zje7M30tViWeG70Q" +
-  "KQVf+drtGeOO2Z/Ro8vZx2rGZcfByljQ79c04cPrLffzApwOpxmfIxgsuDI3N2U5KzmLNqIxoyraIaYXdAy9AP70tOla31/WIs/zyQfHgMZiyJnM+NI72wnl" +
-  "+O+T+10H2RKKHf4m0C6rNFA4mDl2OPY0PS+JJyweixMYCFD8rvCw5c3bb9PvzJTIjMbtxrLJv87d1b/eBulE9AAAvAv6FkEhIypBMU42Ezl0OWw3ETORLDMk" +
-  "UBpSD7AD6Pd17NThd9jD0ArLisdoxrDHVcsw0QLZduIn7aP4bQQIEPcaxSQILWcznjeAOfk4DTbeMKEppiBMFgILQ/+M81roJt5d1V7OdcnVxpvGychIzejT" +
-  "YdxZ5mTxDf3TCD0UzB4RKKgvPzWbOJY5JzhdNGEucibnHCYSoQbX+kPvYuSq2oPSRcwyyHbGJMc1yofP4tb332PquPV6AS0NUhhzIiErATLHNkE5VTkAN10y" +
-  "nisKI/0Y5A03AnL2E+uV4GjX7896ykTHb8YEyPPLENIb2r3jju4b+uUFchFDHOUl8C0NNPw3kTm8OIY1ETCYKGsf7RSOCcn9HPID5/bcYtSjzQDJq8a/xjnJ" +
-  "/83f1I3drufT8ob+SAqdFQkgHil5MMs13DiKOc43uzN9LVYlnhu9ECkFX/na7Rnjjtmf0aPL2cdqxmXHwcpY0O/XNOHD6y338wKcDqcZnyMYLLgyNzdlOSs5" +
-  "izaiMaMq2iGmF3QMvQD+9LTpWt9f1iLP88kHx4DGYsiZzPjSO9sJ5fjvk/tdB9kSih3+JtAuqzRQOJg5djj2ND0viScsHosTGAhQ/K7wsOXN22/T78yUyIzG" +
-  "7cayyb/O3dW/3gbpRPQAALwL+hZBISMqQTFONhM5dDlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rHaMawx1XLMNEC2XbiJ+2j+G0ECBD3GsUkCC1nM543" +
-  "gDn5OA023jChKaYgTBYCC0P/jPNa6CbeXdVeznXJ1cabxsnISM3o02HcWeZk8Q390wg9FMweESioLz81mziWOSc4XTRhLnIm5xwmEqEG1/pD72LkqtqD0kXM" +
-  "Msh2xiTHNcqHz+LW999j6rj1egEtDVIYcyIhKwEyxzZBOVU5ADddMp4rCiP9GOQNNwJy9hPrleBo1+/PespEx2/GBMjzyxDSG9q9447uG/rlBXIRQxzlJfAt" +
-  "DTT8N5E5vDiGNREwmChrH+0UjgnJ/RzyA+f23GLUo80AyavGv8Y5yf/N39SN3a7n0/KG/kgKnRUJIB4peTDLNdw4ijnON7szfS1WJZ4bvRApBV/52u0Z447Z" +
-  "n9Gjy9nHasZlx8HKWNDv1zThw+st9/MCnA6nGZ8jGCy4Mjc3ZTkrOYs2ojGjKtohphd0DL0A/vS06VrfX9Yiz/PJB8eAxmLImcz40jvbCeX475P7XQfZEood" +
-  "/ibQLqs0UDiYOXY49jQ9L4knLB6LExgIUPyu8LDlzdtv0+/MlMiMxu3Gssm/zt3Vv94G6UT0AAC8C/oWQSEjKkExTjYTOXQ5bDcRM5EsMyRQGlIPsAPo93Xs" +
-  "1OF32MPQCsuKx2jGsMdVyzDRAtl24ifto/htBAgQ9xrFJAgtZzOeN4A5+TgNNt4woSmmIEwWAgtD/4zzWugm3l3VXs51ydXGm8bJyEjN6NNh3FnmZPEN/dMI" +
-  "PRTMHhEoqC8/NZs4ljknOF00YS5yJuccJhKhBtf6Q+9i5Krag9JFzDLIdsYkxzXKh8/i1vffY+q49XoBLQ1SGHMiISsBMsc2QTlVOQA3XTKeKwoj/RjkDTcC" +
-  "cvYT65XgaNfvz3rKRMdvxgTI88sQ0hvaveOO7hv65QVyEUMc5SXwLQ00/DeRObw4hjURMJgoax/tFI4Jyf0c8gPn9txi1KPNAMmrxr/GOcn/zd/Ujd2u59Py" +
-  "hv5ICp0VCSAeKXkwyzXcOIo5zje7M30tViWeG70QKQVf+drtGeOO2Z/Ro8vZx2rGZcfByljQ79c04cPrLffzApwOpxmfIxgsuDI3N2U5KzmLNqIxoyraIaYX" +
-  "dAy9AP70tOla31/WIs/zyQfHgMZiyJnM+NI72wnl+O+T+10H2RKKHf4m0C6rNFA4mDl2OPY0PS+JJyweixMYCFD8rvCw5c3bb9PvzJTIjMbtxrLJv87d1b/e" +
-  "BulE9AAAvAv6FkEhIypBMU42Ezl0OWw3ETORLDMkUBpSD7AD6Pd17NThd9jD0ArLisdoxrDHVcsw0QLZduIn7aP4bQQIEPcaxSQILWcznjeAOfk4DTbeMKEp" +
-  "piBMFgILQ/+M81roJt5d1V7OdcnVxpvGychIzejTYdxZ5mTxDf3TCD0UzB4RKKgvPzWbOJY5JzhdNGEucibnHCYSoQbX+kPvYuSq2oPSRcwyyHbGJMc1yofP" +
-  "4tb332PquPV6AS0NUhhzIiErATLHNkE5VTkAN10ynisKI/0Y5A03AnL2E+uV4GjX7896ykTHb8YEyPPLENIb2r3jju4b+uUFchFDHOUl8C0NNPw3kTm8OIY1" +
-  "ETCYKGsf7RSOCcn9HPID5/bcYtSjzQDJq8a/xjnJ/83f1I3drufT8ob+SAqdFQkgHil5MMs13DiKOc43uzN9LVYlnhu9ECkFX/na7Rnjjtmf0aPL2cdqxmXH" +
-  "wcpY0O/XNOHD6y338wKcDqcZnyMYLLgyNzdlOSs5izaiMaMq2iGmF3QMvQD+9LTpWt9f1iLP88kHx4DGYsiZzPjSO9sJ5fjvk/tdB9kSih3+JtAuqzRQOJg5" +
-  "djj2ND0viScsHosTGAhQ/K7wsOXN22/T78yUyIzG7cayyb/O3dW/3gbpRPQAALwL+hZBISMqQTFONhM5dDlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rH" +
-  "aMawx1XLMNEC2XbiJ+2j+G0ECBD3GsUkCC1nM543gDn5OA023jChKaYgTBYCC0P/jPNa6CbeXdVeznXJ1cabxsnISM3o02HcWeZk8Q390wg9FMweESioLz81" +
-  "mziWOSc4XTRhLnIm5xwmEqEG1/pD72LkqtqD0kXMMsh2xiTHNcqHz+LW999j6rj1egEtDVIYcyIhKwEyxzZBOVU5ADddMp4rCiP9GOQNNwJy9hPrleBo1+/P" +
-  "espEx2/GBMjzyxDSG9q9447uG/rlBXIRQxzlJfAtDTT8N5E5vDiGNREwmChrH+0UjgnJ/RzyA+f23GLUo80AyavGv8Y5yf/N39SN3a7n0/KG/kgKnRUJIB4p" +
-  "eTDLNdw4ijnON7szfS1WJZ4bvRApBV/52u0Z447Zn9Gjy9nHasZlx8HKWNDv1zThw+st9/MCnA6nGZ8jGCy4Mjc3ZTkrOYs2ojGjKtohphd0DL0A/vS06Vrf" +
-  "X9Yiz/PJB8eAxmLImcz40jvbCeX475P7XQfZEood/ibQLqs0UDiYOXY49jQ9L4knLB6LExgIUPyu8LDlzdtv0+/MlMiMxu3Gssm/zt3Vv94G6UT0AAC8C/oW" +
-  "QSEjKkExTjYTOXQ5bDcRM5EsMyRQGlIPsAPo93Xs1OF32MPQCsuKx2jGsMdVyzDRAtl24ifto/htBAgQ9xrFJAgtZzOeN4A5+TgNNt4woSmmIEwWAgtD/4zz" +
-  "Wug=";
+const RARE_CUE_SOURCE =
+  'data:audio/wav;base64,UklGRiYfAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YQIfAAAAALwL+hZBISMqQTFONhM5d' +
+  'DlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rH' +
+  'aMawx1XLMNEC2XbiJ+2j+G0ECBD3GsUkCC1nM543gDn5OA023jChKaYgTBYCC0P/jPNa6CbeXdVeznXJ1cabxsnISM3o02HcWeZk8Q390wg9FMweESioLz81' +
+  'mziWOSc4XTRhLnIm5xwmEqEG1/pD72LkqtqD0kXMMsh2xiTHNcqHz+LW999j6rj1egEtDVIYcyIhKwEyxzZBOVU5ADddMp4rCiP9GOQNNwJy9hPrleBo1+/P' +
+  'espEx2/GBMjzyxDSG9q9447uG/rlBXIRQxzlJfAtDTT8N5E5vDiGNREwmChrH+0UjgnJ/RzyA+f23GLUo80AyavGv8Y5yf/N39SN3a7n0/KG/kgKnRUJIB4p' +
+  'eTDLNdw4ijnON7szfS1WJZ4bvRApBV/52u0Z447Zn9Gjy9nHasZlx8HKWNDv1zThw+st9/MCnA6nGZ8jGCy4Mjc3ZTkrOYs2ojGjKtohphd0DL0A/vS06Vrf' +
+  'X9Yiz/PJB8eAxmLImcz40jvbCeX475P7XQfZEood/ibQLqs0UDiYOXY49jQ9L4knLB6LExgIUPyu8LDlzdtv0+/MlMiMxu3Gssm/zt3Vv94G6UT0AAC8C/oW' +
+  'QSEjKkExTjYTOXQ5bDcRM5EsMyRQGlIPsAPo93Xs1OF32MPQCsuKx2jGsMdVyzDRAtl24ifto/htBAgQ9xrFJAgtZzOeN4A5+TgNNt4woSmmIEwWAgtD/4zz' +
+  'Wugm3l3VXs51ydXGm8bJyEjN6NNh3FnmZPEN/dMIPRTMHhEoqC8/NZs4ljknOF00YS5yJuccJhKhBtf6Q+9i5Krag9JFzDLIdsYkxzXKh8/i1vffY+q49XoB' +
+  'LQ1SGHMiISsBMsc2QTlVOQA3XTKeKwoj/RjkDTcCcvYT65XgaNfvz3rKRMdvxgTI88sQ0hvaveOO7hv65QVyEUMc5SXwLQ00/DeRObw4hjURMJgoax/tFI4J' +
+  'yf0c8gPn9txi1KPNAMmrxr/GOcn/zd/Ujd2u59Pyhv5ICp0VCSAeKXkwyzXcOIo5zje7M30tViWeG70QKQVf+drtGeOO2Z/Ro8vZx2rGZcfByljQ79c04cPr' +
+  'LffzApwOpxmfIxgsuDI3N2U5KzmLNqIxoyraIaYXdAy9AP70tOla31/WIs/zyQfHgMZiyJnM+NI72wnl+O+T+10H2RKKHf4m0C6rNFA4mDl2OPY0PS+JJywe' +
+  'ixMYCFD8rvCw5c3bb9PvzJTIjMbtxrLJv87d1b/eBulE9AAAvAv6FkEhIypBMU42Ezl0OWw3ETORLDMkUBpSD7AD6Pd17NThd9jD0ArLisdoxrDHVcsw0QLZ' +
+  'duIn7aP4bQQIEPcaxSQILWcznjeAOfk4DTbeMKEppiBMFgILQ/+M81roJt5d1V7OdcnVxpvGychIzejTYdxZ5mTxDf3TCD0UzB4RKKgvPzWbOJY5JzhdNGEu' +
+  'cibnHCYSoQbX+kPvYuSq2oPSRcwyyHbGJMc1yofP4tb332PquPV6AS0NUhhzIiErATLHNkE5VTkAN10ynisKI/0Y5A03AnL2E+uV4GjX7896ykTHb8YEyPPL' +
+  'ENIb2r3jju4b+uUFchFDHOUl8C0NNPw3kTm8OIY1ETCYKGsf7RSOCcn9HPID5/bcYtSjzQDJq8a/xjnJ/83f1I3drufT8ob+SAqdFQkgHil5MMs13DiKOc43' +
+  'uzN9LVYlnhu9ECkFX/na7Rnjjtmf0aPL2cdqxmXHwcpY0O/XNOHD6y338wKcDqcZnyMYLLgyNzdlOSs5izaiMaMq2iGmF3QMvQD+9LTpWt9f1iLP88kHx4DG' +
+  'YsiZzPjSO9sJ5fjvk/tdB9kSih3+JtAuqzRQOJg5djj2ND0viScsHosTGAhQ/K7wsOXN22/T78yUyIzG7cayyb/O3dW/3gbpRPQAALwL+hZBISMqQTFONhM5' +
+  'dDlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rHaMawx1XLMNEC2XbiJ+2j+G0ECBD3GsUkCC1nM543gDn5OA023jChKaYgTBYCC0P/jPNa6CbeXdVeznXJ' +
+  '1cabxsnISM3o02HcWeZk8Q390wg9FMweESioLz81mziWOSc4XTRhLnIm5xwmEqEG1/pD72LkqtqD0kXMMsh2xiTHNcqHz+LW999j6rj1egEtDVIYcyIhKwEy' +
+  'xzZBOVU5ADddMp4rCiP9GOQNNwJy9hPrleBo1+/PespEx2/GBMjzyxDSG9q9447uG/rlBXIRQxzlJfAtDTT8N5E5vDiGNREwmChrH+0UjgnJ/RzyA+f23GLU' +
+  'o80AyavGv8Y5yf/N39SN3a7n0/KG/kgKnRUJIB4peTDLNdw4ijnON7szfS1WJZ4bvRApBV/52u0Z447Zn9Gjy9nHasZlx8HKWNDv1zThw+st9/MCnA6nGZ8j' +
+  'GCy4Mjc3ZTkrOYs2ojGjKtohphd0DL0A/vS06VrfX9Yiz/PJB8eAxmLImcz40jvbCeX475P7XQfZEood/ibQLqs0UDiYOXY49jQ9L4knLB6LExgIUPyu8LDl' +
+  'zdtv0+/MlMiMxu3Gssm/zt3Vv94G6UT0AAC8C/oWQSEjKkExTjYTOXQ5bDcRM5EsMyRQGlIPsAPo93Xs1OF32MPQCsuKx2jGsMdVyzDRAtl24ifto/htBAgQ' +
+  '9xrFJAgtZzOeN4A5+TgNNt4woSmmIEwWAgtD/4zzWugm3l3VXs51ydXGm8bJyEjN6NNh3FnmZPEN/dMIPRTMHhEoqC8/NZs4ljknOF00YS5yJuccJhKhBtf6' +
+  'Q+9i5Krag9JFzDLIdsYkxzXKh8/i1vffY+q49XoBLQ1SGHMiISsBMsc2QTlVOQA3XTKeKwoj/RjkDTcCcvYT65XgaNfvz3rKRMdvxgTI88sQ0hvaveOO7hv6' +
+  '5QVyEUMc5SXwLQ00/DeRObw4hjURMJgoax/tFI4Jyf0c8gPn9txi1KPNAMmrxr/GOcn/zd/Ujd2u59Pyhv5ICp0VCSAeKXkwyzXcOIo5zje7M30tViWeG70Q' +
+  'KQVf+drtGeOO2Z/Ro8vZx2rGZcfByljQ79c04cPrLffzApwOpxmfIxgsuDI3N2U5KzmLNqIxoyraIaYXdAy9AP70tOla31/WIs/zyQfHgMZiyJnM+NI72wnl' +
+  '+O+T+10H2RKKHf4m0C6rNFA4mDl2OPY0PS+JJyweixMYCFD8rvCw5c3bb9PvzJTIjMbtxrLJv87d1b/eBulE9AAAvAv6FkEhIypBMU42Ezl0OWw3ETORLDMk' +
+  'UBpSD7AD6Pd17NThd9jD0ArLisdoxrDHVcsw0QLZduIn7aP4bQQIEPcaxSQILWcznjeAOfk4DTbeMKEppiBMFgILQ/+M81roJt5d1V7OdcnVxpvGychIzejT' +
+  'YdxZ5mTxDf3TCD0UzB4RKKgvPzWbOJY5JzhdNGEucibnHCYSoQbX+kPvYuSq2oPSRcwyyHbGJMc1yofP4tb332PquPV6AS0NUhhzIiErATLHNkE5VTkAN10y' +
+  'nisKI/0Y5A03AnL2E+uV4GjX7896ykTHb8YEyPPLENIb2r3jju4b+uUFchFDHOUl8C0NNPw3kTm8OIY1ETCYKGsf7RSOCcn9HPID5/bcYtSjzQDJq8a/xjnJ' +
+  '/83f1I3drufT8ob+SAqdFQkgHil5MMs13DiKOc43uzN9LVYlnhu9ECkFX/na7Rnjjtmf0aPL2cdqxmXHwcpY0O/XNOHD6y338wKcDqcZnyMYLLgyNzdlOSs5' +
+  'izaiMaMq2iGmF3QMvQD+9LTpWt9f1iLP88kHx4DGYsiZzPjSO9sJ5fjvk/tdB9kSih3+JtAuqzRQOJg5djj2ND0viScsHosTGAhQ/K7wsOXN22/T78yUyIzG' +
+  '7cayyb/O3dW/3gbpRPQAALwL+hZBISMqQTFONhM5dDlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rHaMawx1XLMNEC2XbiJ+2j+G0ECBD3GsUkCC1nM543' +
+  'gDn5OA023jChKaYgTBYCC0P/jPNa6CbeXdVeznXJ1cabxsnISM3o02HcWeZk8Q390wg9FMweESioLz81mziWOSc4XTRhLnIm5xwmEqEG1/pD72LkqtqD0kXM' +
+  'Msh2xiTHNcqHz+LW999j6rj1egEtDVIYcyIhKwEyxzZBOVU5ADddMp4rCiP9GOQNNwJy9hPrleBo1+/PespEx2/GBMjzyxDSG9q9447uG/rlBXIRQxzlJfAt' +
+  'DTT8N5E5vDiGNREwmChrH+0UjgnJ/RzyA+f23GLUo80AyavGv8Y5yf/N39SN3a7n0/KG/kgKnRUJIB4peTDLNdw4ijnON7szfS1WJZ4bvRApBV/52u0Z447Z' +
+  'n9Gjy9nHasZlx8HKWNDv1zThw+st9/MCnA6nGZ8jGCy4Mjc3ZTkrOYs2ojGjKtohphd0DL0A/vS06VrfX9Yiz/PJB8eAxmLImcz40jvbCeX475P7XQfZEood' +
+  '/ibQLqs0UDiYOXY49jQ9L4knLB6LExgIUPyu8LDlzdtv0+/MlMiMxu3Gssm/zt3Vv94G6UT0AAC8C/oWQSEjKkExTjYTOXQ5bDcRM5EsMyRQGlIPsAPo93Xs' +
+  '1OF32MPQCsuKx2jGsMdVyzDRAtl24ifto/htBAgQ9xrFJAgtZzOeN4A5+TgNNt4woSmmIEwWAgtD/4zzWugm3l3VXs51ydXGm8bJyEjN6NNh3FnmZPEN/dMI' +
+  'PRTMHhEoqC8/NZs4ljknOF00YS5yJuccJhKhBtf6Q+9i5Krag9JFzDLIdsYkxzXKh8/i1vffY+q49XoBLQ1SGHMiISsBMsc2QTlVOQA3XTKeKwoj/RjkDTcC' +
+  'cvYT65XgaNfvz3rKRMdvxgTI88sQ0hvaveOO7hv65QVyEUMc5SXwLQ00/DeRObw4hjURMJgoax/tFI4Jyf0c8gPn9txi1KPNAMmrxr/GOcn/zd/Ujd2u59Py' +
+  'hv5ICp0VCSAeKXkwyzXcOIo5zje7M30tViWeG70QKQVf+drtGeOO2Z/Ro8vZx2rGZcfByljQ79c04cPrLffzApwOpxmfIxgsuDI3N2U5KzmLNqIxoyraIaYX' +
+  'dAy9AP70tOla31/WIs/zyQfHgMZiyJnM+NI72wnl+O+T+10H2RKKHf4m0C6rNFA4mDl2OPY0PS+JJyweixMYCFD8rvCw5c3bb9PvzJTIjMbtxrLJv87d1b/e' +
+  'BulE9AAAvAv6FkEhIypBMU42Ezl0OWw3ETORLDMkUBpSD7AD6Pd17NThd9jD0ArLisdoxrDHVcsw0QLZduIn7aP4bQQIEPcaxSQILWcznjeAOfk4DTbeMKEp' +
+  'piBMFgILQ/+M81roJt5d1V7OdcnVxpvGychIzejTYdxZ5mTxDf3TCD0UzB4RKKgvPzWbOJY5JzhdNGEucibnHCYSoQbX+kPvYuSq2oPSRcwyyHbGJMc1yofP' +
+  '4tb332PquPV6AS0NUhhzIiErATLHNkE5VTkAN10ynisKI/0Y5A03AnL2E+uV4GjX7896ykTHb8YEyPPLENIb2r3jju4b+uUFchFDHOUl8C0NNPw3kTm8OIY1' +
+  'ETCYKGsf7RSOCcn9HPID5/bcYtSjzQDJq8a/xjnJ/83f1I3drufT8ob+SAqdFQkgHil5MMs13DiKOc43uzN9LVYlnhu9ECkFX/na7Rnjjtmf0aPL2cdqxmXH' +
+  'wcpY0O/XNOHD6y338wKcDqcZnyMYLLgyNzdlOSs5izaiMaMq2iGmF3QMvQD+9LTpWt9f1iLP88kHx4DGYsiZzPjSO9sJ5fjvk/tdB9kSih3+JtAuqzRQOJg5' +
+  'djj2ND0viScsHosTGAhQ/K7wsOXN22/T78yUyIzG7cayyb/O3dW/3gbpRPQAALwL+hZBISMqQTFONhM5dDlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rH' +
+  'aMawx1XLMNEC2XbiJ+2j+G0ECBD3GsUkCC1nM543gDn5OA023jChKaYgTBYCC0P/jPNa6CbeXdVeznXJ1cabxsnISM3o02HcWeZk8Q390wg9FMweESioLz81' +
+  'mziWOSc4XTRhLnIm5xwmEqEG1/pD72LkqtqD0kXMMsh2xiTHNcqHz+LW999j6rj1egEtDVIYcyIhKwEyxzZBOVU5ADddMp4rCiP9GOQNNwJy9hPrleBo1+/P' +
+  'espEx2/GBMjzyxDSG9q9447uG/rlBXIRQxzlJfAtDTT8N5E5vDiGNREwmChrH+0UjgnJ/RzyA+f23GLUo80AyavGv8Y5yf/N39SN3a7n0/KG/kgKnRUJIB4p' +
+  'eTDLNdw4ijnON7szfS1WJZ4bvRApBV/52u0Z447Zn9Gjy9nHasZlx8HKWNDv1zThw+st9/MCnA6nGZ8jGCy4Mjc3ZTkrOYs2ojGjKtohphd0DL0A/vS06Vrf' +
+  'X9Yiz/PJB8eAxmLImcz40jvbCeX475P7XQfZEood/ibQLqs0UDiYOXY49jQ9L4knLB6LExgIUPyu8LDlzdtv0+/MlMiMxu3Gssm/zt3Vv94G6UT0AAC8C/oW' +
+  'QSEjKkExTjYTOXQ5bDcRM5EsMyRQGlIPsAPo93Xs1OF32MPQCsuKx2jGsMdVyzDRAtl24ifto/htBAgQ9xrFJAgtZzOeN4A5+TgNNt4woSmmIEwWAgtD/4zz' +
+  'Wug=';
 
 const AUDIO_CUES = {
   rare: null,
 };
 
-const DEFAULT_BRIEFING_TEXT = "Genera un ecosistema per ottenere il briefing operativo.";
-const DEFAULT_HOOK_TEXT = "Gli hook narrativi compariranno dopo la prima generazione.";
+const DEFAULT_BRIEFING_TEXT = 'Genera un ecosistema per ottenere il briefing operativo.';
+const DEFAULT_HOOK_TEXT = 'Gli hook narrativi compariranno dopo la prima generazione.';
 
-const state = {
-  data: null,
-  traitRegistry: null,
-  traitReference: null,
-  traitGlossary: null,
-  traitsIndex: new Map(),
-  traitDetailsIndex: new Map(),
-  traitGlossaryIndex: new Map(),
-  hazardRegistry: null,
-  hazardsIndex: new Map(),
-  activityLog: [],
-  activityFilters: {
-    query: "",
-    tones: new Set(DEFAULT_ACTIVITY_TONES),
-    tags: new Set(),
-    pinnedOnly: false,
-  },
-  activityTagCounts: new Map(),
-  metrics: {
-    averageRollIntervalMs: null,
-    rerollCount: 0,
-    uniqueSpecies: 0,
-    filterProfileReuses: 0,
-    roleUsage: new Map(),
-  },
-  lastFilters: { flags: [], roles: [], tags: [] },
-  pick: {
-    ecosystem: {},
-    biomes: [],
-    species: {},
-    seeds: [],
-    exportSlug: null,
-  },
-  cardState: {
-    pinned: new Map(),
-    squad: new Map(),
-    comparison: new Map(),
-    locks: {
-      biomes: new Set(),
-      species: new Set(),
-    },
-  },
-  exportState: {
-    presetId: MANIFEST_PRESETS[0]?.id ?? null,
-    checklist: new Map(),
-    dossierTemplate: null,
-    pdfSupported: initialPdfSupport,
-    pdfSupportNotified: false,
-  },
-  filterProfiles: [],
-  history: [],
-  preferences: {
-    audioMuted: false,
-    volume: 0.75,
-  },
-  api: {
-    base: null,
-  },
-  lastGenerationMeta: null,
-  narrative: {
-    missionBriefing: DEFAULT_BRIEFING_TEXT,
-    narrativeHook: DEFAULT_HOOK_TEXT,
-    rare: false,
-    reason: null,
-    recommendations: [],
-  },
-  composer: {
-    constraints: {
-      minSynergy: 45,
-      preferredRoles: new Set(),
-    },
-    combinedPresets: [],
-    suggestions: [],
-    metrics: {
-      radar: [],
-      heatmap: [],
-    },
-    roleStats: new Map(),
-  },
-};
+const state = createSessionState({
+  defaultActivityTones: DEFAULT_ACTIVITY_TONES,
+  manifestPresets: MANIFEST_PRESETS,
+  initialPdfSupported: initialPdfSupport,
+  defaultBriefingText: DEFAULT_BRIEFING_TEXT,
+  defaultHookText: DEFAULT_HOOK_TEXT,
+});
 
 let summaryFocusTimer = null;
 
@@ -479,56 +314,54 @@ let composerRadarChart = null;
 let composerChartUnavailable = false;
 const fetchFailureNotices = new Set();
 
-if (typeof window !== "undefined" && typeof window.__EVO_TACTICS_API_BASE__ === "string") {
+if (typeof window !== 'undefined' && typeof window.__EVO_TACTICS_API_BASE__ === 'string') {
   state.api.base = window.__EVO_TACTICS_API_BASE__;
 }
 
-const COMPARISON_LABELS = ["Tier medio", "Densità hazard", "Diversità ruoli"];
+const COMPARISON_LABELS = ['Tier medio', 'Densità hazard', 'Diversità ruoli'];
 
-const ROLE_FLAGS = ["apex", "keystone", "bridge", "threat", "event"];
+const ROLE_FLAGS = ['apex', 'keystone', 'bridge', 'threat', 'event'];
 
 const ROLE_FLAG_LABELS = {
-  apex: "Apex",
-  keystone: "Specie chiave",
-  bridge: "Specie ponte",
-  threat: "Minaccia",
-  event: "Evento dinamico",
+  apex: 'Apex',
+  keystone: 'Specie chiave',
+  bridge: 'Specie ponte',
+  threat: 'Minaccia',
+  event: 'Evento dinamico',
 };
 
 const ROLE_FLAG_TOKENS = {
-  apex: "--color-accent-400",
-  keystone: "--color-success-400",
-  bridge: "--color-info-400",
-  threat: "--color-error-400",
-  event: "--color-warn-400",
+  apex: '--color-accent-400',
+  keystone: '--color-success-400',
+  bridge: '--color-info-400',
+  threat: '--color-error-400',
+  event: '--color-warn-400',
 };
 
-const COMPOSER_RADAR_LABELS = ROLE_FLAGS.map(
-  (flag) => ROLE_FLAG_LABELS[flag] ?? titleCase(flag)
-);
+const COMPOSER_RADAR_LABELS = ROLE_FLAGS.map((flag) => ROLE_FLAG_LABELS[flag] ?? titleCase(flag));
 
 const TRAIT_CATEGORY_LABELS = {
-  biomi_estremi: "Biomi estremi",
-  rete_connessa: "Rete connessa",
-  avanzati_specializzati: "Cluster avanzati",
+  biomi_estremi: 'Biomi estremi',
+  rete_connessa: 'Rete connessa',
+  avanzati_specializzati: 'Cluster avanzati',
 };
 
 const API_ENDPOINTS = {
-  biomeGeneration: "/api/v1/generation/biomes",
+  biomeGeneration: '/api/v1/generation/biomes',
 };
 
 const CLIMATE_HINTS = [
-  { pattern: /frost|criogen|ghiacci|ice/i, value: "frozen" },
-  { pattern: /desert|sabbia|arid|dust/i, value: "arid" },
-  { pattern: /tempesta|storm|ion|vento/i, value: "storm" },
-  { pattern: /fung|micel|caver/i, value: "subterranean" },
-  { pattern: /abiss|idro|mare|ocean/i, value: "aquatic" },
+  { pattern: /frost|criogen|ghiacci|ice/i, value: 'frozen' },
+  { pattern: /desert|sabbia|arid|dust/i, value: 'arid' },
+  { pattern: /tempesta|storm|ion|vento/i, value: 'storm' },
+  { pattern: /fung|micel|caver/i, value: 'subterranean' },
+  { pattern: /abiss|idro|mare|ocean/i, value: 'aquatic' },
 ];
 
 const HAZARD_LABELS = {
-  low: "Basso",
-  medium: "Medio",
-  high: "Alto",
+  low: 'Basso',
+  medium: 'Medio',
+  high: 'Alto',
 };
 
 function filtersInclude(values, pattern) {
@@ -545,11 +378,11 @@ function extractRequiredRoles(filters = {}) {
   });
   (Array.isArray(filters.roles) ? filters.roles : []).forEach((token) => {
     const value = String(token).toLowerCase();
-    if (/apic|predator|apex/i.test(value)) roles.add("apex");
-    if (/chiav|custod|warden|keystone/i.test(value)) roles.add("keystone");
-    if (/ponte|bridge|logist|corridor/i.test(value)) roles.add("bridge");
-    if (/minacc|threat|assalt|predator/i.test(value)) roles.add("threat");
-    if (/evento|anomalia|event/i.test(value)) roles.add("event");
+    if (/apic|predator|apex/i.test(value)) roles.add('apex');
+    if (/chiav|custod|warden|keystone/i.test(value)) roles.add('keystone');
+    if (/ponte|bridge|logist|corridor/i.test(value)) roles.add('bridge');
+    if (/minacc|threat|assalt|predator/i.test(value)) roles.add('threat');
+    if (/evento|anomalia|event/i.test(value)) roles.add('event');
   });
   return Array.from(roles);
 }
@@ -563,26 +396,26 @@ function collectPreferredTags(filters = {}) {
   });
   (Array.isArray(filters.roles) ? filters.roles : []).forEach((token) => {
     const value = String(token).toLowerCase();
-    if (/criogen|frost|ghiacci/i.test(value)) tags.add("criogenico");
-    if (/desert|sabbia|arid/i.test(value)) tags.add("desertico");
-    if (/idro|abiss|marino|ocean/i.test(value)) tags.add("abissale");
-    if (/fung|micel/i.test(value)) tags.add("micelico");
+    if (/criogen|frost|ghiacci/i.test(value)) tags.add('criogenico');
+    if (/desert|sabbia|arid/i.test(value)) tags.add('desertico');
+    if (/idro|abiss|marino|ocean/i.test(value)) tags.add('abissale');
+    if (/fung|micel/i.test(value)) tags.add('micelico');
   });
   return Array.from(tags);
 }
 
 function inferHazardFromFilters(filters = {}) {
   const flags = Array.isArray(filters.flags) ? filters.flags : [];
-  if (flags.includes("threat") || flags.includes("apex")) {
-    return "high";
+  if (flags.includes('threat') || flags.includes('apex')) {
+    return 'high';
   }
   if (filtersInclude(filters.tags, /tempest|storm|pericolo|hazard|ferro/i)) {
-    return "high";
+    return 'high';
   }
   if (filtersInclude(filters.tags, /rifug|tranquill|shelter|safe/i)) {
-    return "low";
+    return 'low';
   }
-  return "medium";
+  return 'medium';
 }
 
 function inferClimateFromFilters(filters = {}) {
@@ -592,9 +425,9 @@ function inferClimateFromFilters(filters = {}) {
       return hint.value;
     }
   }
-  if (filtersInclude(filters.roles, /criogen|ghiacci|frost/i)) return "frozen";
-  if (filtersInclude(filters.roles, /fung|micel/i)) return "subterranean";
-  if (filtersInclude(filters.roles, /idro|abiss|mare|ocean/i)) return "aquatic";
+  if (filtersInclude(filters.roles, /criogen|ghiacci|frost/i)) return 'frozen';
+  if (filtersInclude(filters.roles, /fung|micel/i)) return 'subterranean';
+  if (filtersInclude(filters.roles, /idro|abiss|mare|ocean/i)) return 'aquatic';
   return null;
 }
 
@@ -629,7 +462,7 @@ function buildGenerationConstraints(filters = {}) {
 
 function resolveApiEndpoint(pathname) {
   const bases = [state.api?.base, packContext?.apiBase];
-  if (typeof window !== "undefined" && typeof window.__EVO_TACTICS_API_BASE__ === "string") {
+  if (typeof window !== 'undefined' && typeof window.__EVO_TACTICS_API_BASE__ === 'string') {
     bases.push(window.__EVO_TACTICS_API_BASE__);
   }
   for (const base of bases) {
@@ -644,10 +477,9 @@ function resolveApiEndpoint(pathname) {
 }
 
 function formatHazardSeverity(severity) {
-  if (!severity) return "";
+  if (!severity) return '';
   return HAZARD_LABELS[severity] ?? titleCase(severity);
 }
-
 
 function applyCatalogContext(data, context) {
   packContext = context ?? null;
@@ -669,7 +501,7 @@ function calculatePickMetrics() {
   const biomeCount = Array.isArray(biomes) ? biomes.length : 0;
   const speciesCount = Object.values(speciesBuckets).reduce(
     (sum, list) => sum + (Array.isArray(list) ? list.length : 0),
-    0
+    0,
   );
   const seedCount = Array.isArray(seeds) ? seeds.length : 0;
   const uniqueSpecies = new Set();
@@ -687,45 +519,45 @@ function calculatePickMetrics() {
 
 function focusSummaryPanel() {
   if (!elements.summaryContainer) return;
-  if (!elements.summaryContainer.hasAttribute("tabindex")) {
-    elements.summaryContainer.setAttribute("tabindex", "-1");
+  if (!elements.summaryContainer.hasAttribute('tabindex')) {
+    elements.summaryContainer.setAttribute('tabindex', '-1');
   }
-  if (typeof elements.summaryContainer.focus === "function") {
+  if (typeof elements.summaryContainer.focus === 'function') {
     try {
       elements.summaryContainer.focus({ preventScroll: true });
     } catch (error) {
-      console.warn("Impossibile portare il focus sul riepilogo", error);
+      console.warn('Impossibile portare il focus sul riepilogo', error);
     }
   }
-  if (typeof elements.summaryContainer.scrollIntoView === "function") {
+  if (typeof elements.summaryContainer.scrollIntoView === 'function') {
     try {
-      elements.summaryContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+      elements.summaryContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (error) {
-      console.warn("Impossibile scorrere verso il riepilogo", error);
+      console.warn('Impossibile scorrere verso il riepilogo', error);
     }
   }
-  elements.summaryContainer.classList.add("is-focused");
-  if (typeof window !== "undefined") {
+  elements.summaryContainer.classList.add('is-focused');
+  if (typeof window !== 'undefined') {
     if (summaryFocusTimer) {
       window.clearTimeout(summaryFocusTimer);
     }
     summaryFocusTimer = window.setTimeout(() => {
-      elements.summaryContainer.classList.remove("is-focused");
+      elements.summaryContainer.classList.remove('is-focused');
     }, 1400);
   }
 }
 
-function setStatus(message, tone = "info", options = {}) {
+function setStatus(message, tone = 'info', options = {}) {
   const now = new Date();
   if (elements.status) {
     elements.status.textContent = message;
     elements.status.dataset.tone = tone;
   }
   if (elements.lastAction) {
-    const formatted = now.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+    const formatted = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
     elements.lastAction.textContent = `Ultimo aggiornamento: ${formatted}`;
     elements.lastAction.dataset.tone = tone;
-    elements.lastAction.title = now.toLocaleString("it-IT");
+    elements.lastAction.title = now.toLocaleString('it-IT');
   }
   recordActivity(message, tone, now, options);
 
@@ -751,7 +583,7 @@ function updateSummaryCounts() {
 
   if (elements.summaryContainer) {
     const hasResults = biomeCount + speciesCount + seedCount > 0;
-    elements.summaryContainer.dataset.hasResults = hasResults ? "true" : "false";
+    elements.summaryContainer.dataset.hasResults = hasResults ? 'true' : 'false';
   }
 
   state.metrics.uniqueSpecies = uniqueSpeciesCount;
@@ -763,7 +595,7 @@ function updateSummaryCounts() {
 
 function formatAverageRollMetric(ms) {
   if (!Number.isFinite(ms) || ms <= 0) {
-    return "—";
+    return '—';
   }
   if (ms < 1000) {
     return `${Math.round(ms)} ms`;
@@ -790,14 +622,14 @@ function deriveFlowSnapshot() {
 
   return {
     onboarding: {
-      status: hasResults ? "complete" : hasCatalog ? "active" : "pending",
+      status: hasResults ? 'complete' : hasCatalog ? 'active' : 'pending',
       details: [
         `Biomi selezionati: ${metrics.biomeCount}`,
-        filtersSummary ? `Filtri attivi: ${filtersSummary}` : "Filtri attivi: nessuno",
+        filtersSummary ? `Filtri attivi: ${filtersSummary}` : 'Filtri attivi: nessuno',
       ],
     },
     summary: {
-      status: hasResults ? (hasSeeds ? "complete" : "active") : hasCatalog ? "pending" : "pending",
+      status: hasResults ? (hasSeeds ? 'complete' : 'active') : hasCatalog ? 'pending' : 'pending',
       details: [
         `Specie totali: ${metrics.speciesCount}`,
         `Seed generati: ${metrics.seedCount}`,
@@ -806,7 +638,7 @@ function deriveFlowSnapshot() {
       ],
     },
     history: {
-      status: hasHistory ? "complete" : hasResults ? "active" : hasCatalog ? "pending" : "pending",
+      status: hasHistory ? 'complete' : hasResults ? 'active' : hasCatalog ? 'pending' : 'pending',
       details: [
         `Snapshot salvati: ${state.history?.length ?? 0}`,
         `Click per roll: ${Math.max(1, rerollCount + 1)}`,
@@ -820,62 +652,62 @@ function renderFlowMap() {
   if (!list) return;
 
   const snapshot = deriveFlowSnapshot();
-  list.innerHTML = "";
+  list.innerHTML = '';
 
   USER_FLOWS.forEach((flow) => {
-    const entry = snapshot[flow.id] ?? { status: "pending", details: [] };
+    const entry = snapshot[flow.id] ?? { status: 'pending', details: [] };
     const status = entry.status;
     const icon = FLOW_STATUS_ICONS[status] ?? FLOW_STATUS_ICONS.pending;
     const label = FLOW_STATUS_LABELS[status] ?? FLOW_STATUS_LABELS.pending;
 
-    const item = document.createElement("li");
-    item.className = "generator-flow-map__item";
+    const item = document.createElement('li');
+    item.className = 'generator-flow-map__item';
     item.dataset.flowId = flow.id;
     item.dataset.flowStatus = status;
 
-    const article = document.createElement("article");
-    article.className = "card generator-flow-map__card";
+    const article = document.createElement('article');
+    article.className = 'card generator-flow-map__card';
 
-    const header = document.createElement("div");
-    header.className = "generator-flow-map__header";
+    const header = document.createElement('div');
+    header.className = 'generator-flow-map__header';
 
-    const statusLabel = document.createElement("p");
-    statusLabel.className = "generator-flow-map__status";
+    const statusLabel = document.createElement('p');
+    statusLabel.className = 'generator-flow-map__status';
     statusLabel.textContent = `${icon} ${label}`;
     header.appendChild(statusLabel);
 
-    const title = document.createElement("h3");
-    title.className = "generator-flow-map__title";
+    const title = document.createElement('h3');
+    title.className = 'generator-flow-map__title';
     title.textContent = flow.label;
     header.appendChild(title);
 
     article.appendChild(header);
 
-    const description = document.createElement("p");
-    description.className = "generator-flow-map__description";
+    const description = document.createElement('p');
+    description.className = 'generator-flow-map__description';
     description.textContent = flow.description;
     article.appendChild(description);
 
     if (Array.isArray(entry.details) && entry.details.length) {
-      const details = document.createElement("ul");
-      details.className = "generator-flow-map__details";
+      const details = document.createElement('ul');
+      details.className = 'generator-flow-map__details';
       entry.details.forEach((detail) => {
-        const li = document.createElement("li");
+        const li = document.createElement('li');
         li.textContent = detail;
         details.appendChild(li);
       });
       article.appendChild(details);
     }
 
-    const actions = document.createElement("div");
-    actions.className = "generator-flow-map__actions";
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "button button--ghost generator-flow-map__action";
+    const actions = document.createElement('div');
+    actions.className = 'generator-flow-map__actions';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'button button--ghost generator-flow-map__action';
     button.dataset.flowTarget = flow.target;
     button.dataset.flowId = flow.id;
-    button.textContent = "Apri sezione";
-    button.setAttribute("aria-label", `Apri sezione ${flow.label}`);
+    button.textContent = 'Apri sezione';
+    button.setAttribute('aria-label', `Apri sezione ${flow.label}`);
     actions.appendChild(button);
     article.appendChild(actions);
 
@@ -889,7 +721,7 @@ function renderFlowMap() {
       const flowId = node.dataset.flowNode;
       if (!flowId) return;
       const entry = snapshot[flowId];
-      node.dataset.flowStatus = entry?.status ?? "pending";
+      node.dataset.flowStatus = entry?.status ?? 'pending';
     });
   }
 }
@@ -897,29 +729,29 @@ function renderFlowMap() {
 function setupFlowMapControls() {
   const list = elements.flowMapList;
   if (!list) return;
-  list.addEventListener("click", (event) => {
+  list.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
-    const button = target.closest("[data-flow-target]");
+    const button = target.closest('[data-flow-target]');
     if (!(button instanceof HTMLElement)) return;
     const selector = button.dataset.flowTarget;
     if (!selector) return;
     const destination = document.querySelector(selector);
     if (destination instanceof HTMLElement) {
-      destination.scrollIntoView({ behavior: "smooth", block: "start" });
+      destination.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 }
 
 const RARE_TARGET_MAP = {
-  seed: "hook",
-  species: "briefing",
-  both: "both",
+  seed: 'hook',
+  species: 'briefing',
+  both: 'both',
 };
 
 let rareFeedbackTimer = null;
 
-function pulseElement(element, className = "is-animated", duration = 900) {
+function pulseElement(element, className = 'is-animated', duration = 900) {
   if (!element) return;
   const timerKey = `__${className}Timer`;
   if (element[timerKey]) {
@@ -928,7 +760,7 @@ function pulseElement(element, className = "is-animated", duration = 900) {
   element.classList.remove(className);
   void element.offsetWidth;
   element.classList.add(className);
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     element[timerKey] = window.setTimeout(() => {
       element.classList.remove(className);
       element[timerKey] = null;
@@ -938,32 +770,35 @@ function pulseElement(element, className = "is-animated", duration = 900) {
 
 function triggerRareEventFeedback(context = {}) {
   if (elements.summaryContainer) {
-    elements.summaryContainer.classList.remove("is-rare-event");
+    elements.summaryContainer.classList.remove('is-rare-event');
     void elements.summaryContainer.offsetWidth;
-    elements.summaryContainer.classList.add("is-rare-event");
-    if (rareFeedbackTimer && typeof window !== "undefined") {
+    elements.summaryContainer.classList.add('is-rare-event');
+    if (rareFeedbackTimer && typeof window !== 'undefined') {
       clearTimeout(rareFeedbackTimer);
     }
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       rareFeedbackTimer = window.setTimeout(() => {
-        elements.summaryContainer?.classList.remove("is-rare-event");
+        elements.summaryContainer?.classList.remove('is-rare-event');
       }, 1000);
     }
   }
 
-  const target = context.target ? RARE_TARGET_MAP[context.target] ?? context.target : null;
-  if (target === "hook" || target === "both") {
-    pulseElement(elements.hookPanel, "narrative-panel--rare", 900);
+  const target = context.target ? (RARE_TARGET_MAP[context.target] ?? context.target) : null;
+  if (target === 'hook' || target === 'both') {
+    pulseElement(elements.hookPanel, 'narrative-panel--rare', 900);
   }
-  if (target === "briefing" || target === "both") {
-    pulseElement(elements.briefingPanel, "narrative-panel--rare", 900);
+  if (target === 'briefing' || target === 'both') {
+    pulseElement(elements.briefingPanel, 'narrative-panel--rare', 900);
   }
 
-  playAudioCue("rare");
+  playAudioCue('rare');
 }
 
 function updateNarrativePrompts(filters = state.lastFilters) {
-  const context = buildNarrativePrompts(state.pick, filters ?? state.lastFilters ?? { flags: [], roles: [], tags: [] });
+  const context = buildNarrativePrompts(
+    state.pick,
+    filters ?? state.lastFilters ?? { flags: [], roles: [], tags: [] },
+  );
   state.narrative.missionBriefing = context.missionBriefing;
   state.narrative.narrativeHook = context.narrativeHook;
   state.narrative.rare = context.isHighThreat;
@@ -971,7 +806,7 @@ function updateNarrativePrompts(filters = state.lastFilters) {
   state.narrative.recommendations = context.recommendations ?? [];
 
   if (elements.narrativePanel) {
-    elements.narrativePanel.dataset.hasNarrative = context.hasNarrative ? "true" : "false";
+    elements.narrativePanel.dataset.hasNarrative = context.hasNarrative ? 'true' : 'false';
   }
   if (elements.narrativeBriefing) {
     elements.narrativeBriefing.textContent = context.missionBriefing;
@@ -1013,16 +848,17 @@ function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] 
   const speciesBuckets = pick?.species ?? {};
   const seeds = Array.isArray(pick?.seeds) ? pick.seeds : [];
 
-  const highlightBiome = [...biomes].sort((a, b) => {
-    const syntheticDelta = (b.synthetic ? 1 : 0) - (a.synthetic ? 1 : 0);
-    if (syntheticDelta !== 0) return syntheticDelta;
-    const speciesA = Array.isArray(speciesBuckets[a.id]) ? speciesBuckets[a.id].length : 0;
-    const speciesB = Array.isArray(speciesBuckets[b.id]) ? speciesBuckets[b.id].length : 0;
-    if (speciesA !== speciesB) return speciesB - speciesA;
-    const labelA = a.label ?? a.id ?? "";
-    const labelB = b.label ?? b.id ?? "";
-    return labelA.localeCompare(labelB);
-  })[0] ?? null;
+  const highlightBiome =
+    [...biomes].sort((a, b) => {
+      const syntheticDelta = (b.synthetic ? 1 : 0) - (a.synthetic ? 1 : 0);
+      if (syntheticDelta !== 0) return syntheticDelta;
+      const speciesA = Array.isArray(speciesBuckets[a.id]) ? speciesBuckets[a.id].length : 0;
+      const speciesB = Array.isArray(speciesBuckets[b.id]) ? speciesBuckets[b.id].length : 0;
+      if (speciesA !== speciesB) return speciesB - speciesA;
+      const labelA = a.label ?? a.id ?? '';
+      const labelB = b.label ?? b.id ?? '';
+      return labelA.localeCompare(labelB);
+    })[0] ?? null;
 
   const speciesEntries = [];
   biomes.forEach((biome) => {
@@ -1030,9 +866,9 @@ function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] 
     list.forEach((sp) => {
       const tier = tierOf(sp);
       speciesEntries.push({
-        name: sp.display_name ?? sp.id ?? "Specie",
+        name: sp.display_name ?? sp.id ?? 'Specie',
         tier,
-        biomeLabel: biome.label ?? titleCase(biome.id ?? "bioma"),
+        biomeLabel: biome.label ?? titleCase(biome.id ?? 'bioma'),
         synthetic: Boolean(sp.synthetic || biome.synthetic),
       });
     });
@@ -1051,40 +887,44 @@ function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] 
           const parts = [`${entry.name}`, `T${entry.tier}`];
           parts.push(entry.biomeLabel);
           if (entry.synthetic) {
-            parts.push("Synth");
+            parts.push('Synth');
           }
-          return parts.join(" · ");
+          return parts.join(' · ');
         })
-        .join(" | ")
-    : "Nessuna specie prioritaria identificata";
+        .join(' | ')
+    : 'Nessuna specie prioritaria identificata';
 
   const highlightLabel = highlightBiome
-    ? highlightBiome.label ?? titleCase(highlightBiome.id ?? "bioma")
-    : "rete";
-  const highlightDescriptor = highlightBiome?.synthetic ? `${highlightLabel} · Synth` : highlightLabel;
+    ? (highlightBiome.label ?? titleCase(highlightBiome.id ?? 'bioma'))
+    : 'rete';
+  const highlightDescriptor = highlightBiome?.synthetic
+    ? `${highlightLabel} · Synth`
+    : highlightLabel;
 
   const hasFilters = Boolean(filterSummary && filterSummary.length);
 
   const missionBriefingParts = [
     `Deploy su ${metrics.biomeCount} biomi con ${metrics.speciesCount} specie (${metrics.uniqueSpeciesCount} uniche).`,
     highlightBiome ? `Priorità operativa: ${highlightDescriptor}.` : null,
-    topSpecies.length ? `Asset chiave: ${speciesSummary}.` : "Asset chiave: in attesa di estrazioni mirate.",
-    hasFilters ? `Filtri attivi: ${filterSummary}.` : "Filtri attivi: nessuno.",
+    topSpecies.length
+      ? `Asset chiave: ${speciesSummary}.`
+      : 'Asset chiave: in attesa di estrazioni mirate.',
+    hasFilters ? `Filtri attivi: ${filterSummary}.` : 'Filtri attivi: nessuno.',
   ].filter(Boolean);
 
-  const missionBriefing = missionBriefingParts.join(" ");
+  const missionBriefing = missionBriefingParts.join(' ');
 
   const sortedSeeds = [...seeds].sort((a, b) => (b.threat_budget ?? 0) - (a.threat_budget ?? 0));
   const dangerousSeed = sortedSeeds[0] ?? null;
 
   const hookParts = [];
   if (dangerousSeed) {
-    const seedLabel = dangerousSeed.label ?? "Encounter";
-    const origin = dangerousSeed.synthetic ? "sintetico" : "catalogo";
+    const seedLabel = dangerousSeed.label ?? 'Encounter';
+    const origin = dangerousSeed.synthetic ? 'sintetico' : 'catalogo';
     const biomeForSeed = biomes.find((biome) => biome.id === dangerousSeed.biome_id);
     const location = biomeForSeed
-      ? biomeForSeed.label ?? titleCase(biomeForSeed.id ?? "bioma")
-      : dangerousSeed.biome_id ?? "bioma bersaglio";
+      ? (biomeForSeed.label ?? titleCase(biomeForSeed.id ?? 'bioma'))
+      : (dangerousSeed.biome_id ?? 'bioma bersaglio');
     hookParts.push(`${seedLabel} attivo su ${location} (${origin}).`);
     if (dangerousSeed.threat_budget) {
       hookParts.push(`Budget minaccia T${dangerousSeed.threat_budget}.`);
@@ -1092,26 +932,26 @@ function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] 
     if (apex) {
       hookParts.push(`Risposta consigliata: ${apex.name} (T${apex.tier}).`);
     } else {
-      hookParts.push("Preparare asset di contenimento dedicati.");
+      hookParts.push('Preparare asset di contenimento dedicati.');
     }
   } else if (apex) {
     hookParts.push(`${apex.name} domina ${apex.biomeLabel}.`);
     hookParts.push(`Minaccia stimata T${apex.tier}.`);
   } else {
-    hookParts.push("Genera encounter seed per dettagli narrativi contestuali.");
+    hookParts.push('Genera encounter seed per dettagli narrativi contestuali.');
   }
 
-  const narrativeHook = hookParts.join(" ");
+  const narrativeHook = hookParts.join(' ');
 
   const highThreatFromSpecies = (apex?.tier ?? 0) >= 4;
   const highThreatFromSeed = (dangerousSeed?.threat_budget ?? 0) >= 12;
   let rareReason = null;
   if (highThreatFromSpecies && highThreatFromSeed) {
-    rareReason = "both";
+    rareReason = 'both';
   } else if (highThreatFromSeed) {
-    rareReason = "seed";
+    rareReason = 'seed';
   } else if (highThreatFromSpecies) {
-    rareReason = "species";
+    rareReason = 'species';
   }
 
   const recommendations = buildNarrativeRecommendations({
@@ -1133,14 +973,20 @@ function buildNarrativePrompts(pick, filters = { flags: [], roles: [], tags: [] 
   };
 }
 
-function buildNarrativeRecommendations({ highlightBiome, highlightLabel, apex, dangerousSeed, filterSummary }) {
+function buildNarrativeRecommendations({
+  highlightBiome,
+  highlightLabel,
+  apex,
+  dangerousSeed,
+  filterSummary,
+}) {
   const recommendations = [];
   const biomeId = highlightBiome?.id ?? null;
 
   if (biomeId) {
     const catalogBiome = findCatalogBiome(biomeId);
     const manifestCounts = catalogBiome?.manifest?.species_counts ?? null;
-    if (manifestCounts && typeof manifestCounts === "object") {
+    if (manifestCounts && typeof manifestCounts === 'object') {
       const entries = Object.entries(manifestCounts)
         .map(([role, value]) => ({ role, value: Number(value) }))
         .filter((entry) => Number.isFinite(entry.value) && entry.value > 0);
@@ -1148,18 +994,19 @@ function buildNarrativeRecommendations({ highlightBiome, highlightLabel, apex, d
       if (entries.length && total > 0) {
         entries.sort((a, b) => b.value - a.value);
         const dominant = entries[0];
-        const roleLabel = SPECIES_ROLE_LABELS[dominant.role] ?? titleCase(dominant.role.replace(/_/g, " "));
+        const roleLabel =
+          SPECIES_ROLE_LABELS[dominant.role] ?? titleCase(dominant.role.replace(/_/g, ' '));
         const messageParts = [
           `${highlightLabel} mette in risalto ${roleLabel.toLowerCase()}`,
           `(${dominant.value}/${total} specie monitorate).`,
-          "Allinea i filtri ruoli per sfruttare il vantaggio.",
+          'Allinea i filtri ruoli per sfruttare il vantaggio.',
         ];
         recommendations.push({
           id: `role-${biomeId}`,
-          tone: "info",
-          message: messageParts.join(" "),
-          targetPanel: "parameters",
-          targetLabel: getPanelLabel("parameters"),
+          tone: 'info',
+          message: messageParts.join(' '),
+          targetPanel: 'parameters',
+          targetLabel: getPanelLabel('parameters'),
           tooltip: `Distribuzione ruoli dal catalogo per ${highlightLabel}.`,
         });
       }
@@ -1167,45 +1014,48 @@ function buildNarrativeRecommendations({ highlightBiome, highlightLabel, apex, d
 
     const strongestConnection = pickStrongestConnection(biomeId);
     if (strongestConnection) {
-      const typeLabel = CONNECTION_TYPE_LABELS[strongestConnection.type] ?? titleCase(strongestConnection.type ?? "connessione");
+      const typeLabel =
+        CONNECTION_TYPE_LABELS[strongestConnection.type] ??
+        titleCase(strongestConnection.type ?? 'connessione');
       const connectedLabel =
         findBiomeLabelByCode(strongestConnection.to) ??
-        titleCase((strongestConnection.to ?? "bioma").toLowerCase());
+        titleCase((strongestConnection.to ?? 'bioma').toLowerCase());
       const resistanceLabel =
-        typeof strongestConnection.resistance === "number"
+        typeof strongestConnection.resistance === 'number'
           ? strongestConnection.resistance.toFixed(1)
-          : "—";
+          : '—';
       recommendations.push({
         id: `connection-${biomeId}`,
-        tone: "info",
+        tone: 'info',
         message: `${typeLabel} verso ${connectedLabel} (resistenza ${resistanceLabel}). Valuta sinergie cross-bioma.`,
-        targetPanel: "biomes",
-        targetLabel: getPanelLabel("biomes"),
+        targetPanel: 'biomes',
+        targetLabel: getPanelLabel('biomes'),
         tooltip: `Connessioni note per ${highlightLabel}.`,
       });
     }
   }
 
   if (dangerousSeed) {
-    const locationLabel = findBiomeLabelById(dangerousSeed.biome_id) ?? highlightLabel ?? "bioma bersaglio";
+    const locationLabel =
+      findBiomeLabelById(dangerousSeed.biome_id) ?? highlightLabel ?? 'bioma bersaglio';
     const threatLabel =
-      typeof dangerousSeed.threat_budget === "number" ? `T${dangerousSeed.threat_budget}` : null;
-    const parts = [`Seed ${dangerousSeed.label ?? "Encounter"} attivo su ${locationLabel}.`];
+      typeof dangerousSeed.threat_budget === 'number' ? `T${dangerousSeed.threat_budget}` : null;
+    const parts = [`Seed ${dangerousSeed.label ?? 'Encounter'} attivo su ${locationLabel}.`];
     if (threatLabel) {
       parts.push(`Budget minaccia ${threatLabel}.`);
     }
     if (apex?.name) {
       parts.push(`Sincronizza la risposta con ${apex.name}.`);
     } else {
-      parts.push("Prepara squadre di contenimento dedicate.");
+      parts.push('Prepara squadre di contenimento dedicate.');
     }
     recommendations.push({
-      id: `seed-${dangerousSeed.id ?? dangerousSeed.label ?? "primario"}`,
-      tone: (dangerousSeed.threat_budget ?? 0) >= 12 ? "warn" : "info",
-      message: parts.join(" "),
-      targetPanel: "seeds",
-      targetLabel: getPanelLabel("seeds"),
-      tooltip: "Consulta il pannello encounter seed per pianificare la risposta.",
+      id: `seed-${dangerousSeed.id ?? dangerousSeed.label ?? 'primario'}`,
+      tone: (dangerousSeed.threat_budget ?? 0) >= 12 ? 'warn' : 'info',
+      message: parts.join(' '),
+      targetPanel: 'seeds',
+      targetLabel: getPanelLabel('seeds'),
+      tooltip: 'Consulta il pannello encounter seed per pianificare la risposta.',
     });
   }
 
@@ -1219,22 +1069,23 @@ function buildNarrativeRecommendations({ highlightBiome, highlightLabel, apex, d
 
 function deriveProfileRecommendation({ filterSummary }) {
   const entries = Array.isArray(state.activityLog) ? state.activityLog : [];
-  const lastLoad = entries.find((entry) => entry?.action === "profile-load");
+  const lastLoad = entries.find((entry) => entry?.action === 'profile-load');
   if (lastLoad) {
     const metadata = lastLoad.metadata ?? {};
     const profileIndex = Number.isInteger(metadata.profileIndex) ? metadata.profileIndex : null;
-    const profileName = metadata.profileName ?? (profileIndex !== null ? `Slot ${profileIndex + 1}` : "Profilo");
+    const profileName =
+      metadata.profileName ?? (profileIndex !== null ? `Slot ${profileIndex + 1}` : 'Profilo');
     const summary = metadata.filtersSummary ?? summariseFilters(metadata.filters ?? {});
     const reuseCount = state.metrics.filterProfileReuses ?? 0;
-    const reuseLabel = reuseCount === 1 ? "1 riuso registrato" : `${reuseCount} riusi registrati`;
-    const detail = summary ? `Filtri applicati: ${summary}. ` : "";
+    const reuseLabel = reuseCount === 1 ? '1 riuso registrato' : `${reuseCount} riusi registrati`;
+    const detail = summary ? `Filtri applicati: ${summary}. ` : '';
     return {
-      id: `profile-reuse-${profileIndex ?? "latest"}`,
-      tone: "success",
+      id: `profile-reuse-${profileIndex ?? 'latest'}`,
+      tone: 'success',
       message: `Profilo ${profileName} richiamato (${reuseLabel}). ${detail}Verifica i Parametri per salvare nuovi preset.`,
-      targetPanel: "parameters",
-      targetLabel: getPanelLabel("parameters"),
-      tooltip: "Apri Parametri per gestire i profili filtro.",
+      targetPanel: 'parameters',
+      targetLabel: getPanelLabel('parameters'),
+      tooltip: 'Apri Parametri per gestire i profili filtro.',
     };
   }
 
@@ -1248,12 +1099,12 @@ function deriveProfileRecommendation({ filterSummary }) {
   if (!enriched.length) {
     if (filterSummary) {
       return {
-        id: "profile-suggestion",
-        tone: "info",
+        id: 'profile-suggestion',
+        tone: 'info',
         message: `Salva i filtri correnti (${filterSummary}) in un profilo per riutilizzarli rapidamente.`,
-        targetPanel: "parameters",
-        targetLabel: getPanelLabel("parameters"),
-        tooltip: "Usa il pannello Profili filtro per salvare la configurazione.",
+        targetPanel: 'parameters',
+        targetLabel: getPanelLabel('parameters'),
+        tooltip: 'Usa il pannello Profili filtro per salvare la configurazione.',
       };
     }
     return null;
@@ -1266,14 +1117,14 @@ function deriveProfileRecommendation({ filterSummary }) {
   });
   const latest = enriched[0];
   const updatedAt = formatIsoToLocale(latest.profile.updatedAt);
-  const updatedSuffix = updatedAt ? ` il ${updatedAt}` : "";
+  const updatedSuffix = updatedAt ? ` il ${updatedAt}` : '';
   return {
     id: `profile-reminder-${latest.index}`,
-    tone: "info",
+    tone: 'info',
     message: `Profilo ${latest.profile.name ?? `Slot ${latest.index + 1}`} aggiornato${updatedSuffix}. Applicalo dai Parametri per accelerare il setup.`,
-    targetPanel: "parameters",
-    targetLabel: getPanelLabel("parameters"),
-    tooltip: "Apri il pannello Parametri per gestire il profilo salvato.",
+    targetPanel: 'parameters',
+    targetLabel: getPanelLabel('parameters'),
+    tooltip: 'Apri il pannello Parametri per gestire il profilo salvato.',
   };
 }
 
@@ -1281,13 +1132,15 @@ function renderContextualInsights(recommendations = []) {
   const entries = Array.isArray(recommendations)
     ? recommendations.filter((entry) => entry && entry.message)
     : [];
-  renderInsightList(elements.narrativeInsightList, elements.narrativeInsightEmpty, entries, { compact: true });
+  renderInsightList(elements.narrativeInsightList, elements.narrativeInsightEmpty, entries, {
+    compact: true,
+  });
   renderInsightList(elements.insightsList, elements.insightsEmpty, entries, { compact: false });
 }
 
 function renderInsightList(listElement, emptyElement, entries, { compact = false } = {}) {
   if (!listElement || !emptyElement) return;
-  listElement.innerHTML = "";
+  listElement.innerHTML = '';
   if (!entries.length) {
     listElement.hidden = true;
     emptyElement.hidden = false;
@@ -1297,14 +1150,16 @@ function renderInsightList(listElement, emptyElement, entries, { compact = false
   emptyElement.hidden = true;
 
   entries.forEach((entry) => {
-    const item = document.createElement("li");
-    item.className = compact ? "generator-insight__item generator-insight__item--compact" : "generator-insight__item";
+    const item = document.createElement('li');
+    item.className = compact
+      ? 'generator-insight__item generator-insight__item--compact'
+      : 'generator-insight__item';
     if (entry.tone) {
       item.dataset.tone = entry.tone;
     }
 
-    const text = document.createElement("p");
-    text.className = "generator-insight__copy";
+    const text = document.createElement('p');
+    text.className = 'generator-insight__copy';
     text.textContent = entry.message;
     if (entry.tooltip) {
       text.title = entry.tooltip;
@@ -1312,10 +1167,10 @@ function renderInsightList(listElement, emptyElement, entries, { compact = false
     item.appendChild(text);
 
     if (entry.targetPanel) {
-      const action = document.createElement("button");
-      action.type = "button";
-      action.className = "chip generator-insight__action";
-      action.dataset.action = "focus-panel";
+      const action = document.createElement('button');
+      action.type = 'button';
+      action.className = 'chip generator-insight__action';
+      action.dataset.action = 'focus-panel';
       action.dataset.panelId = entry.targetPanel;
       if (entry.id) {
         action.dataset.insightId = entry.id;
@@ -1323,7 +1178,7 @@ function renderInsightList(listElement, emptyElement, entries, { compact = false
       if (entry.targetLabel) {
         action.dataset.panelLabel = entry.targetLabel;
       }
-      action.textContent = entry.targetLabel ?? getPanelLabel(entry.targetPanel) ?? "Apri";
+      action.textContent = entry.targetLabel ?? getPanelLabel(entry.targetPanel) ?? 'Apri';
       action.title = entry.tooltip || `Vai alla sezione ${entry.targetLabel ?? entry.targetPanel}`;
       item.appendChild(action);
     }
@@ -1333,12 +1188,14 @@ function renderInsightList(listElement, emptyElement, entries, { compact = false
 }
 
 function normaliseBiomeId(value) {
-  return String(value ?? "").trim().toLowerCase();
+  return String(value ?? '')
+    .trim()
+    .toLowerCase();
 }
 
 function canonicalBiomeCode(value) {
-  const normalised = normaliseBiomeId(value).replace(/[^a-z0-9]+/g, "_");
-  return normalised ? normalised.toUpperCase() : "";
+  const normalised = normaliseBiomeId(value).replace(/[^a-z0-9]+/g, '_');
+  return normalised ? normalised.toUpperCase() : '';
 }
 
 function findCatalogBiome(biomeId) {
@@ -1351,14 +1208,14 @@ function findCatalogBiome(biomeId) {
 function findBiomeLabelById(biomeId) {
   if (!biomeId) return null;
   const fromPick = (state.pick?.biomes ?? []).find(
-    (biome) => normaliseBiomeId(biome?.id) === normaliseBiomeId(biomeId)
+    (biome) => normaliseBiomeId(biome?.id) === normaliseBiomeId(biomeId),
   );
   if (fromPick) {
-    return fromPick.label ?? titleCase(fromPick.id ?? "bioma");
+    return fromPick.label ?? titleCase(fromPick.id ?? 'bioma');
   }
   const catalog = findCatalogBiome(biomeId);
   if (catalog) {
-    return catalog.label ?? titleCase(catalog.id ?? "bioma");
+    return catalog.label ?? titleCase(catalog.id ?? 'bioma');
   }
   return null;
 }
@@ -1369,7 +1226,7 @@ function findBiomeLabelByCode(code) {
   const list = Array.isArray(state.data?.biomi) ? state.data.biomi : [];
   const match = list.find((entry) => canonicalBiomeCode(entry.id) === canonical);
   if (match) {
-    return match.label ?? titleCase(match.id ?? "bioma");
+    return match.label ?? titleCase(match.id ?? 'bioma');
   }
   return null;
 }
@@ -1387,8 +1244,8 @@ function pickStrongestConnection(biomeId) {
   const connections = findCatalogConnections(biomeId);
   if (!connections.length) return null;
   const sorted = connections.slice().sort((a, b) => {
-    const resA = typeof a.resistance === "number" ? a.resistance : Number.POSITIVE_INFINITY;
-    const resB = typeof b.resistance === "number" ? b.resistance : Number.POSITIVE_INFINITY;
+    const resA = typeof a.resistance === 'number' ? a.resistance : Number.POSITIVE_INFINITY;
+    const resB = typeof b.resistance === 'number' ? b.resistance : Number.POSITIVE_INFINITY;
     return resA - resB;
   });
   return sorted[0] ?? null;
@@ -1406,7 +1263,7 @@ function formatIsoToLocale(value) {
   if (Number.isNaN(date.getTime())) {
     return null;
   }
-  return date.toLocaleDateString("it-IT", { day: "2-digit", month: "2-digit" });
+  return date.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' });
 }
 
 function getActivityStorage() {
@@ -1415,16 +1272,16 @@ function getActivityStorage() {
   }
   storageChecked = true;
   try {
-    if (typeof window === "undefined" || !window.localStorage) {
+    if (typeof window === 'undefined' || !window.localStorage) {
       cachedStorage = null;
       return cachedStorage;
     }
-    const testKey = "__generator_log_test__";
-    window.localStorage.setItem(testKey, "1");
+    const testKey = '__generator_log_test__';
+    window.localStorage.setItem(testKey, '1');
     window.localStorage.removeItem(testKey);
     cachedStorage = window.localStorage;
   } catch (error) {
-    console.warn("LocalStorage non disponibile per il monitor del generatore", error);
+    console.warn('LocalStorage non disponibile per il monitor del generatore', error);
     cachedStorage = null;
   }
   return cachedStorage;
@@ -1449,7 +1306,7 @@ function ensureAudioCue(key) {
   }
 
   switch (key) {
-    case "rare":
+    case 'rare':
       AUDIO_CUES.rare = createAudioElement(RARE_CUE_SOURCE);
       return AUDIO_CUES.rare;
     default:
@@ -1458,14 +1315,14 @@ function ensureAudioCue(key) {
 }
 
 function createAudioElement(src) {
-  if (typeof Audio === "undefined") return null;
+  if (typeof Audio === 'undefined') return null;
   try {
     const audio = new Audio(src);
-    audio.preload = "auto";
+    audio.preload = 'auto';
     audio.volume = clampVolume(state.preferences.volume);
     return audio;
   } catch (error) {
-    console.warn("Impossibile inizializzare il cue audio", error);
+    console.warn('Impossibile inizializzare il cue audio', error);
     return null;
   }
 }
@@ -1475,9 +1332,9 @@ function applyAudioPreferences() {
   const volume = clampVolume(state.preferences.volume);
 
   if (elements.audioMute) {
-    elements.audioMute.classList.toggle("is-muted", muted);
-    elements.audioMute.setAttribute("aria-pressed", muted ? "true" : "false");
-    elements.audioMute.textContent = muted ? "🔇 Audio disattivato" : "🔈 Audio attivo";
+    elements.audioMute.classList.toggle('is-muted', muted);
+    elements.audioMute.setAttribute('aria-pressed', muted ? 'true' : 'false');
+    elements.audioMute.textContent = muted ? '🔇 Audio disattivato' : '🔈 Audio attivo';
   }
 
   if (elements.audioVolume) {
@@ -1499,11 +1356,11 @@ function playAudioCue(key) {
   if (!audio) return;
   const volume = clampVolume(state.preferences.volume);
   if (state.preferences.audioMuted || volume <= 0) {
-    if (typeof audio.pause === "function") {
+    if (typeof audio.pause === 'function') {
       try {
         audio.pause();
       } catch (error) {
-        console.warn("Impossibile mettere in pausa il cue audio", error);
+        console.warn('Impossibile mettere in pausa il cue audio', error);
       }
     }
     return;
@@ -1512,15 +1369,15 @@ function playAudioCue(key) {
     audio.currentTime = 0;
     audio.volume = volume;
     const playback = audio.play();
-    if (playback && typeof playback.catch === "function") {
+    if (playback && typeof playback.catch === 'function') {
       playback.catch((error) => {
-        if (error && error.name !== "NotAllowedError") {
-          console.warn("Riproduzione audio non riuscita", error);
+        if (error && error.name !== 'NotAllowedError') {
+          console.warn('Riproduzione audio non riuscita', error);
         }
       });
     }
   } catch (error) {
-    console.warn("Impossibile riprodurre il cue audio", key, error);
+    console.warn('Impossibile riprodurre il cue audio', key, error);
   }
 }
 
@@ -1534,7 +1391,7 @@ function persistPreferences() {
     };
     storage.setItem(STORAGE_KEYS.preferences, JSON.stringify(payload));
   } catch (error) {
-    console.warn("Impossibile salvare le preferenze audio", error);
+    console.warn('Impossibile salvare le preferenze audio', error);
   }
 }
 
@@ -1551,8 +1408,8 @@ function restorePreferences() {
       return;
     }
     const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object") {
-      if (typeof parsed.audioMuted === "boolean") {
+    if (parsed && typeof parsed === 'object') {
+      if (typeof parsed.audioMuted === 'boolean') {
         state.preferences.audioMuted = parsed.audioMuted;
       }
       if (parsed.volume !== undefined) {
@@ -1560,21 +1417,21 @@ function restorePreferences() {
       }
     }
   } catch (error) {
-    console.warn("Impossibile ripristinare le preferenze audio", error);
+    console.warn('Impossibile ripristinare le preferenze audio', error);
   }
   applyAudioPreferences();
 }
 
 function setupAudioControls() {
-  const supported = Boolean(ensureAudioCue("rare"));
+  const supported = Boolean(ensureAudioCue('rare'));
   if (!supported && elements.audioControls) {
     elements.audioControls.hidden = true;
-    elements.audioControls.setAttribute("aria-hidden", "true");
+    elements.audioControls.setAttribute('aria-hidden', 'true');
     return;
   }
 
   if (elements.audioMute) {
-    elements.audioMute.addEventListener("click", (event) => {
+    elements.audioMute.addEventListener('click', (event) => {
       event.preventDefault();
       const nextMuted = !state.preferences.audioMuted;
       state.preferences.audioMuted = nextMuted;
@@ -1598,10 +1455,10 @@ function setupAudioControls() {
       }
       applyAudioPreferences();
     };
-    elements.audioVolume.addEventListener("input", (event) => {
+    elements.audioVolume.addEventListener('input', (event) => {
       handleVolume(event.target.value);
     });
-    elements.audioVolume.addEventListener("change", () => {
+    elements.audioVolume.addEventListener('change', () => {
       persistPreferences();
     });
   }
@@ -1626,7 +1483,7 @@ function persistPinnedState() {
     }));
     storage.setItem(STORAGE_KEYS.pinned, JSON.stringify(serialisable));
   } catch (error) {
-    console.warn("Impossibile salvare lo stato dei pin", error);
+    console.warn('Impossibile salvare lo stato dei pin', error);
   }
 }
 
@@ -1648,16 +1505,16 @@ function restorePinnedState() {
         key,
         speciesId: entry.speciesId,
         biomeId: entry.biomeId,
-        displayName: entry.displayName ?? entry.speciesId ?? "Specie",
-        biomeLabel: entry.biomeLabel ?? entry.biomeId ?? "Bioma",
+        displayName: entry.displayName ?? entry.speciesId ?? 'Specie',
+        biomeLabel: entry.biomeLabel ?? entry.biomeId ?? 'Bioma',
         tier: entry.tier ?? 1,
-        rarity: entry.rarity ?? "Comune",
-        slug: entry.slug ?? "common",
+        rarity: entry.rarity ?? 'Comune',
+        slug: entry.slug ?? 'common',
         synthetic: Boolean(entry.synthetic),
       });
     });
   } catch (error) {
-    console.warn("Impossibile ripristinare lo stato dei pin", error);
+    console.warn('Impossibile ripristinare lo stato dei pin', error);
   }
 }
 
@@ -1671,7 +1528,7 @@ function persistLockState() {
     };
     storage.setItem(STORAGE_KEYS.locks, JSON.stringify(payload));
   } catch (error) {
-    console.warn("Impossibile salvare lo stato dei lock", error);
+    console.warn('Impossibile salvare lo stato dei lock', error);
   }
 }
 
@@ -1682,20 +1539,22 @@ function restoreLockState() {
     const raw = storage.getItem(STORAGE_KEYS.locks);
     if (!raw) return;
     const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object") return;
+    if (!parsed || typeof parsed !== 'object') return;
     const biomeLocks = Array.isArray(parsed.biomes) ? parsed.biomes : [];
     const speciesLocks = Array.isArray(parsed.species) ? parsed.species : [];
     state.cardState.locks.biomes = new Set(biomeLocks);
     state.cardState.locks.species = new Set(speciesLocks);
   } catch (error) {
-    console.warn("Impossibile ripristinare lo stato dei lock", error);
+    console.warn('Impossibile ripristinare lo stato dei lock', error);
   }
 }
 
 function pruneLockState() {
-  const availableBiomes = new Set((state.pick.biomes ?? []).map((biome) => biome?.id).filter(Boolean));
+  const availableBiomes = new Set(
+    (state.pick.biomes ?? []).map((biome) => biome?.id).filter(Boolean),
+  );
   state.cardState.locks.biomes = new Set(
-    Array.from(state.cardState.locks.biomes ?? []).filter((id) => availableBiomes.has(id))
+    Array.from(state.cardState.locks.biomes ?? []).filter((id) => availableBiomes.has(id)),
   );
   const availableSpecies = new Set();
   Object.entries(state.pick.species ?? {}).forEach(([biomeId, speciesList]) => {
@@ -1706,7 +1565,7 @@ function pruneLockState() {
     });
   });
   state.cardState.locks.species = new Set(
-    Array.from(state.cardState.locks.species ?? []).filter((key) => availableSpecies.has(key))
+    Array.from(state.cardState.locks.species ?? []).filter((key) => availableSpecies.has(key)),
   );
   persistLockState();
 }
@@ -1742,7 +1601,7 @@ function persistFilterProfiles() {
     });
     storage.setItem(STORAGE_KEYS.filterProfiles, JSON.stringify(payload));
   } catch (error) {
-    console.warn("Impossibile salvare i profili filtro", error);
+    console.warn('Impossibile salvare i profili filtro', error);
   }
 }
 
@@ -1770,7 +1629,7 @@ function restoreFilterProfiles() {
     });
     ensureProfileState();
   } catch (error) {
-    console.warn("Impossibile ripristinare i profili filtro", error);
+    console.warn('Impossibile ripristinare i profili filtro', error);
   }
 }
 
@@ -1828,7 +1687,7 @@ function persistHistoryEntries() {
     }));
     storage.setItem(STORAGE_KEYS.history, JSON.stringify(serialisable));
   } catch (error) {
-    console.warn("Impossibile salvare la cronologia del generatore", error);
+    console.warn('Impossibile salvare la cronologia del generatore', error);
   }
 }
 
@@ -1840,37 +1699,40 @@ function restoreHistoryEntries() {
     if (!raw) return;
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return;
-    state.history = parsed.slice(0, MAX_HISTORY_ENTRIES).map((entry) => {
-      if (!entry) return null;
-      let timestamp = entry.timestamp ? new Date(entry.timestamp) : new Date();
-      if (Number.isNaN(timestamp.getTime())) {
-        timestamp = new Date();
-      }
-      return {
-        id: entry.id ?? randomId("hist"),
-        action: entry.action ?? "roll-ecos",
-        label: entry.label ?? HISTORY_ACTION_LABELS[entry.action] ?? "Snapshot",
-        timestamp,
-        counts: entry.counts ?? { biomes: 0, species: 0, seeds: 0 },
-        filters: {
-          flags: Array.isArray(entry.filters?.flags) ? entry.filters.flags : [],
-          roles: Array.isArray(entry.filters?.roles) ? entry.filters.roles : [],
-          tags: Array.isArray(entry.filters?.tags) ? entry.filters.tags : [],
-        },
-        preview: {
-          biomes: Array.isArray(entry.preview?.biomes) ? entry.preview.biomes : [],
-          species: Array.isArray(entry.preview?.species) ? entry.preview.species : [],
-        },
-      };
-    }).filter(Boolean);
+    state.history = parsed
+      .slice(0, MAX_HISTORY_ENTRIES)
+      .map((entry) => {
+        if (!entry) return null;
+        let timestamp = entry.timestamp ? new Date(entry.timestamp) : new Date();
+        if (Number.isNaN(timestamp.getTime())) {
+          timestamp = new Date();
+        }
+        return {
+          id: entry.id ?? randomId('hist'),
+          action: entry.action ?? 'roll-ecos',
+          label: entry.label ?? HISTORY_ACTION_LABELS[entry.action] ?? 'Snapshot',
+          timestamp,
+          counts: entry.counts ?? { biomes: 0, species: 0, seeds: 0 },
+          filters: {
+            flags: Array.isArray(entry.filters?.flags) ? entry.filters.flags : [],
+            roles: Array.isArray(entry.filters?.roles) ? entry.filters.roles : [],
+            tags: Array.isArray(entry.filters?.tags) ? entry.filters.tags : [],
+          },
+          preview: {
+            biomes: Array.isArray(entry.preview?.biomes) ? entry.preview.biomes : [],
+            species: Array.isArray(entry.preview?.species) ? entry.preview.species : [],
+          },
+        };
+      })
+      .filter(Boolean);
   } catch (error) {
-    console.warn("Impossibile ripristinare la cronologia del generatore", error);
+    console.warn('Impossibile ripristinare la cronologia del generatore', error);
   }
 }
 
 function summariseProfile(profile) {
   if (!profile?.filters) {
-    return "Nessun filtro salvato";
+    return 'Nessun filtro salvato';
   }
   return summariseFilters(profile.filters);
 }
@@ -1879,85 +1741,85 @@ function renderProfileSlots() {
   const list = elements.profileSlots;
   if (!list) return;
   ensureProfileState();
-  list.innerHTML = "";
+  list.innerHTML = '';
   const hasProfiles = state.filterProfiles.some((profile) => Boolean(profile));
   if (elements.profileEmpty) {
     elements.profileEmpty.hidden = hasProfiles;
   }
   list.hidden = !state.filterProfiles.length;
   if (elements.profilePanel) {
-    elements.profilePanel.dataset.hasProfiles = hasProfiles ? "true" : "false";
+    elements.profilePanel.dataset.hasProfiles = hasProfiles ? 'true' : 'false';
   }
 
   state.filterProfiles.forEach((profile, index) => {
-    const item = document.createElement("li");
-    item.className = "generator-profiles__slot";
+    const item = document.createElement('li');
+    item.className = 'generator-profiles__slot';
     item.dataset.slotIndex = String(index);
 
-    const header = document.createElement("div");
-    header.className = "generator-profiles__slot-header";
-    const name = document.createElement("h4");
-    name.className = "generator-profiles__slot-name";
+    const header = document.createElement('div');
+    header.className = 'generator-profiles__slot-header';
+    const name = document.createElement('h4');
+    name.className = 'generator-profiles__slot-name';
     name.textContent = profile?.name ?? `Slot ${index + 1}`;
     header.appendChild(name);
 
-    const actions = document.createElement("div");
-    actions.className = "generator-profiles__slot-actions";
+    const actions = document.createElement('div');
+    actions.className = 'generator-profiles__slot-actions';
 
-    const load = document.createElement("button");
-    load.type = "button";
-    load.className = "generator-profiles__action";
-    load.dataset.action = "profile-load";
+    const load = document.createElement('button');
+    load.type = 'button';
+    load.className = 'generator-profiles__action';
+    load.dataset.action = 'profile-load';
     load.dataset.slotIndex = String(index);
-    load.textContent = "Applica";
+    load.textContent = 'Applica';
     actions.appendChild(load);
 
-    const save = document.createElement("button");
-    save.type = "button";
-    save.className = "generator-profiles__action";
-    save.dataset.action = "profile-save";
+    const save = document.createElement('button');
+    save.type = 'button';
+    save.className = 'generator-profiles__action';
+    save.dataset.action = 'profile-save';
     save.dataset.slotIndex = String(index);
-    save.textContent = "Salva";
+    save.textContent = 'Salva';
     actions.appendChild(save);
 
-    const rename = document.createElement("button");
-    rename.type = "button";
-    rename.className = "generator-profiles__action";
-    rename.dataset.action = "profile-rename";
+    const rename = document.createElement('button');
+    rename.type = 'button';
+    rename.className = 'generator-profiles__action';
+    rename.dataset.action = 'profile-rename';
     rename.dataset.slotIndex = String(index);
-    rename.textContent = "Rinomina";
+    rename.textContent = 'Rinomina';
     actions.appendChild(rename);
 
-    const clear = document.createElement("button");
-    clear.type = "button";
-    clear.className = "generator-profiles__action";
-    clear.dataset.action = "profile-clear";
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'generator-profiles__action';
+    clear.dataset.action = 'profile-clear';
     clear.dataset.slotIndex = String(index);
-    clear.textContent = "Svuota";
+    clear.textContent = 'Svuota';
     actions.appendChild(clear);
 
     header.appendChild(actions);
     item.appendChild(header);
 
-    const summary = document.createElement("p");
-    summary.className = "generator-profiles__summary";
+    const summary = document.createElement('p');
+    summary.className = 'generator-profiles__summary';
     summary.textContent = summariseProfile(profile);
     item.appendChild(summary);
 
     if (profile?.updatedAt) {
-      const time = document.createElement("time");
-      time.className = "generator-profiles__timestamp";
+      const time = document.createElement('time');
+      time.className = 'generator-profiles__timestamp';
       const ts = new Date(profile.updatedAt);
       if (!Number.isNaN(ts.getTime())) {
         time.dateTime = ts.toISOString();
-        time.textContent = ts.toLocaleString("it-IT", {
-          hour: "2-digit",
-          minute: "2-digit",
-          day: "2-digit",
-          month: "2-digit",
+        time.textContent = ts.toLocaleString('it-IT', {
+          hour: '2-digit',
+          minute: '2-digit',
+          day: '2-digit',
+          month: '2-digit',
         });
       } else {
-        time.textContent = "Ultimo aggiornamento sconosciuto";
+        time.textContent = 'Ultimo aggiornamento sconosciuto';
       }
       item.appendChild(time);
     }
@@ -1969,37 +1831,37 @@ function renderProfileSlots() {
 function attachProfileHandlers() {
   const panel = elements.profilePanel;
   if (!panel) return;
-  panel.addEventListener("click", (event) => {
+  panel.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
-    const button = target.closest("[data-action]");
+    const button = target.closest('[data-action]');
     if (!(button instanceof HTMLElement)) return;
     const { action, slotIndex } = button.dataset;
     if (!action) return;
-    if (action === "profile-clear-all") {
+    if (action === 'profile-clear-all') {
       state.filterProfiles = new Array(PROFILE_SLOT_COUNT).fill(null);
       persistFilterProfiles();
       renderProfileSlots();
-      setStatus("Profili filtro azzerati.", "info", {
-        tags: ["profili", "reset"],
-        action: "profiles-reset",
+      setStatus('Profili filtro azzerati.', 'info', {
+        tags: ['profili', 'reset'],
+        action: 'profiles-reset',
       });
       return;
     }
-    const index = Number.parseInt(slotIndex ?? "", 10);
+    const index = Number.parseInt(slotIndex ?? '', 10);
     if (!Number.isInteger(index) || index < 0 || index >= PROFILE_SLOT_COUNT) {
       return;
     }
     switch (action) {
-      case "profile-save": {
+      case 'profile-save': {
         const filters = currentFilters();
         saveProfileSlot(index, filters);
         renderProfileSlots();
         const savedProfile = state.filterProfiles[index];
         const summary = summariseFilters(savedProfile?.filters ?? filters ?? {});
-        setStatus(`Filtri salvati nel profilo ${index + 1}.`, "success", {
-          tags: ["profili", "salvataggio"],
-          action: "profile-save",
+        setStatus(`Filtri salvati nel profilo ${index + 1}.`, 'success', {
+          tags: ['profili', 'salvataggio'],
+          action: 'profile-save',
           metadata: {
             profileIndex: index,
             profileName: savedProfile?.name ?? `Slot ${index + 1}`,
@@ -2009,20 +1871,20 @@ function attachProfileHandlers() {
         });
         break;
       }
-      case "profile-load": {
+      case 'profile-load': {
         const profile = state.filterProfiles[index];
         if (!profile) {
-          setStatus("Nessun profilo salvato in questo slot.", "warn", {
-            tags: ["profili", "vuoto"],
-            action: "profile-empty",
+          setStatus('Nessun profilo salvato in questo slot.', 'warn', {
+            tags: ['profili', 'vuoto'],
+            action: 'profile-empty',
           });
           break;
         }
         applyFiltersToForm(profile.filters);
         const summary = summariseFilters(profile.filters ?? {});
-        setStatus(`Filtri applicati dal profilo ${profile.name ?? index + 1}.`, "info", {
-          tags: ["profili", "applica"],
-          action: "profile-load",
+        setStatus(`Filtri applicati dal profilo ${profile.name ?? index + 1}.`, 'info', {
+          tags: ['profili', 'applica'],
+          action: 'profile-load',
           metadata: {
             profileIndex: index,
             profileName: profile.name ?? `Slot ${index + 1}`,
@@ -2032,17 +1894,20 @@ function attachProfileHandlers() {
         });
         break;
       }
-      case "profile-rename": {
+      case 'profile-rename': {
         const currentName = state.filterProfiles[index]?.name ?? `Slot ${index + 1}`;
-        const name = typeof window !== "undefined" ? window.prompt("Nuovo nome profilo", currentName) : currentName;
+        const name =
+          typeof window !== 'undefined'
+            ? window.prompt('Nuovo nome profilo', currentName)
+            : currentName;
         if (name === null) {
           break;
         }
         renameProfileSlot(index, name);
         renderProfileSlots();
-        setStatus("Nome profilo aggiornato.", "success", {
-          tags: ["profili", "rinomina"],
-          action: "profile-rename",
+        setStatus('Nome profilo aggiornato.', 'success', {
+          tags: ['profili', 'rinomina'],
+          action: 'profile-rename',
           metadata: {
             profileIndex: index,
             profileName: name,
@@ -2050,12 +1915,12 @@ function attachProfileHandlers() {
         });
         break;
       }
-      case "profile-clear": {
+      case 'profile-clear': {
         clearProfileSlot(index);
         renderProfileSlots();
-        setStatus("Profilo liberato.", "info", {
-          tags: ["profili", "clear"],
-          action: "profile-clear",
+        setStatus('Profilo liberato.', 'info', {
+          tags: ['profili', 'clear'],
+          action: 'profile-clear',
         });
         break;
       }
@@ -2069,10 +1934,10 @@ function attachInsightHandlers() {
   const panels = [elements.insightsPanel, elements.narrativeInsightPanel];
   panels.forEach((panel) => {
     if (!panel) return;
-    panel.addEventListener("click", (event) => {
+    panel.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
-      const button = target.closest("[data-action=\"focus-panel\"]");
+      const button = target.closest('[data-action="focus-panel"]');
       if (!(button instanceof HTMLElement)) return;
       event.preventDefault();
       const panelId = button.dataset.panelId;
@@ -2082,9 +1947,9 @@ function attachInsightHandlers() {
         scrollToPanel(panelId);
       }
       const label = button.dataset.panelLabel ?? getPanelLabel(panelId) ?? panelId;
-      setStatus(`Navigazione rapida: ${label}.`, "info", {
-        tags: ["insight", "navigazione"],
-        action: "insight-navigate",
+      setStatus(`Navigazione rapida: ${label}.`, 'info', {
+        tags: ['insight', 'navigazione'],
+        action: 'insight-navigate',
         metadata: {
           panelId,
           insightId: button.dataset.insightId ?? null,
@@ -2097,13 +1962,13 @@ function attachInsightHandlers() {
 function formatHistoryTimestamp(date) {
   const ts = date instanceof Date ? date : new Date(date);
   if (Number.isNaN(ts.getTime())) {
-    return "Data sconosciuta";
+    return 'Data sconosciuta';
   }
-  return ts.toLocaleString("it-IT", {
-    hour: "2-digit",
-    minute: "2-digit",
-    day: "2-digit",
-    month: "2-digit",
+  return ts.toLocaleString('it-IT', {
+    hour: '2-digit',
+    minute: '2-digit',
+    day: '2-digit',
+    month: '2-digit',
   });
 }
 
@@ -2111,17 +1976,17 @@ function renderHistoryPanel() {
   const list = elements.historyList;
   if (!list) return;
   const entries = state.history ?? [];
-  list.innerHTML = "";
+  list.innerHTML = '';
   const hasEntries = entries.length > 0;
   list.hidden = !hasEntries;
   if (elements.historyEmpty) {
     elements.historyEmpty.hidden = hasEntries;
   }
   if (elements.historyPanel) {
-    elements.historyPanel.dataset.hasEntries = hasEntries ? "true" : "false";
+    elements.historyPanel.dataset.hasEntries = hasEntries ? 'true' : 'false';
   }
   if (elements.summaryContainer) {
-    elements.summaryContainer.dataset.hasHistory = hasEntries ? "true" : "false";
+    elements.summaryContainer.dataset.hasHistory = hasEntries ? 'true' : 'false';
   }
   if (!hasEntries) {
     renderFlowMap();
@@ -2131,41 +1996,41 @@ function renderHistoryPanel() {
   const appendChips = (container, values, limit) => {
     const entries = Array.isArray(values) ? values : [];
     if (!entries.length) {
-      const placeholder = document.createElement("span");
-      placeholder.className = "chip chip--compact";
-      placeholder.textContent = "—";
+      const placeholder = document.createElement('span');
+      placeholder.className = 'chip chip--compact';
+      placeholder.textContent = '—';
       container.appendChild(placeholder);
       return;
     }
     entries.slice(0, limit).forEach((label) => {
-      const chip = document.createElement("span");
-      chip.className = "chip chip--compact";
+      const chip = document.createElement('span');
+      chip.className = 'chip chip--compact';
       chip.textContent = label;
       container.appendChild(chip);
     });
     if (entries.length > limit) {
-      const remainder = document.createElement("span");
-      remainder.className = "chip chip--compact";
+      const remainder = document.createElement('span');
+      remainder.className = 'chip chip--compact';
       remainder.textContent = `+${entries.length - limit}`;
       container.appendChild(remainder);
     }
   };
 
   entries.forEach((entry) => {
-    const item = document.createElement("li");
-    item.className = "generator-history__entry";
+    const item = document.createElement('li');
+    item.className = 'generator-history__entry';
     item.dataset.historyId = entry.id;
 
-    const header = document.createElement("div");
-    header.className = "generator-history__entry-header";
-    const title = document.createElement("h4");
-    title.className = "generator-history__entry-title";
-    title.textContent = entry.label ?? HISTORY_ACTION_LABELS[entry.action] ?? "Snapshot";
+    const header = document.createElement('div');
+    header.className = 'generator-history__entry-header';
+    const title = document.createElement('h4');
+    title.className = 'generator-history__entry-title';
+    title.textContent = entry.label ?? HISTORY_ACTION_LABELS[entry.action] ?? 'Snapshot';
     header.appendChild(title);
 
     if (entry.timestamp) {
-      const time = document.createElement("time");
-      time.className = "generator-history__entry-time";
+      const time = document.createElement('time');
+      time.className = 'generator-history__entry-time';
       const ts = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
       if (!Number.isNaN(ts.getTime())) {
         time.dateTime = ts.toISOString();
@@ -2176,19 +2041,19 @@ function renderHistoryPanel() {
 
     item.appendChild(header);
 
-    const metrics = document.createElement("dl");
-    metrics.className = "generator-history__metrics";
+    const metrics = document.createElement('dl');
+    metrics.className = 'generator-history__metrics';
     const metricEntries = [
-      { label: "Biomi", value: entry.counts?.biomes ?? 0 },
-      { label: "Specie", value: entry.counts?.species ?? 0 },
-      { label: "Seed", value: entry.counts?.seeds ?? 0 },
+      { label: 'Biomi', value: entry.counts?.biomes ?? 0 },
+      { label: 'Specie', value: entry.counts?.species ?? 0 },
+      { label: 'Seed', value: entry.counts?.seeds ?? 0 },
     ];
     metricEntries.forEach((metric) => {
-      const block = document.createElement("div");
-      block.className = "generator-history__metric";
-      const dt = document.createElement("dt");
+      const block = document.createElement('div');
+      block.className = 'generator-history__metric';
+      const dt = document.createElement('dt');
       dt.textContent = metric.label;
-      const dd = document.createElement("dd");
+      const dd = document.createElement('dd');
       dd.textContent = String(metric.value ?? 0);
       block.appendChild(dt);
       block.appendChild(dd);
@@ -2196,50 +2061,50 @@ function renderHistoryPanel() {
     });
     item.appendChild(metrics);
 
-    const preview = document.createElement("div");
-    preview.className = "generator-history__preview";
-    const biomePreview = document.createElement("div");
-    biomePreview.className = "generator-history__preview-group";
-    const biomeLabel = document.createElement("p");
-    biomeLabel.className = "generator-history__preview-label";
-    biomeLabel.textContent = "Biomi";
+    const preview = document.createElement('div');
+    preview.className = 'generator-history__preview';
+    const biomePreview = document.createElement('div');
+    biomePreview.className = 'generator-history__preview-group';
+    const biomeLabel = document.createElement('p');
+    biomeLabel.className = 'generator-history__preview-label';
+    biomeLabel.textContent = 'Biomi';
     biomePreview.appendChild(biomeLabel);
-    const biomeChips = document.createElement("div");
-    biomeChips.className = "generator-history__chips";
+    const biomeChips = document.createElement('div');
+    biomeChips.className = 'generator-history__chips';
     appendChips(biomeChips, entry.preview?.biomes ?? [], 4);
     biomePreview.appendChild(biomeChips);
     preview.appendChild(biomePreview);
 
-    const speciesPreview = document.createElement("div");
-    speciesPreview.className = "generator-history__preview-group";
-    const speciesLabel = document.createElement("p");
-    speciesLabel.className = "generator-history__preview-label";
-    speciesLabel.textContent = "Specie";
+    const speciesPreview = document.createElement('div');
+    speciesPreview.className = 'generator-history__preview-group';
+    const speciesLabel = document.createElement('p');
+    speciesLabel.className = 'generator-history__preview-label';
+    speciesLabel.textContent = 'Specie';
     speciesPreview.appendChild(speciesLabel);
-    const speciesChips = document.createElement("div");
-    speciesChips.className = "generator-history__chips";
+    const speciesChips = document.createElement('div');
+    speciesChips.className = 'generator-history__chips';
     appendChips(speciesChips, entry.preview?.species ?? [], 5);
     speciesPreview.appendChild(speciesChips);
     preview.appendChild(speciesPreview);
 
     item.appendChild(preview);
 
-    const entryActions = document.createElement("div");
-    entryActions.className = "generator-history__entry-actions";
-    const applyButton = document.createElement("button");
-    applyButton.type = "button";
-    applyButton.className = "generator-history__action";
-    applyButton.dataset.action = "history-apply";
+    const entryActions = document.createElement('div');
+    entryActions.className = 'generator-history__entry-actions';
+    const applyButton = document.createElement('button');
+    applyButton.type = 'button';
+    applyButton.className = 'generator-history__action';
+    applyButton.dataset.action = 'history-apply';
     applyButton.dataset.historyId = entry.id;
-    applyButton.textContent = "Applica filtri";
+    applyButton.textContent = 'Applica filtri';
     entryActions.appendChild(applyButton);
 
-    const removeButton = document.createElement("button");
-    removeButton.type = "button";
-    removeButton.className = "generator-history__action";
-    removeButton.dataset.action = "history-remove";
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = 'generator-history__action';
+    removeButton.dataset.action = 'history-remove';
     removeButton.dataset.historyId = entry.id;
-    removeButton.textContent = "Rimuovi";
+    removeButton.textContent = 'Rimuovi';
     entryActions.appendChild(removeButton);
 
     item.appendChild(entryActions);
@@ -2256,16 +2121,16 @@ function getHistoryEntry(historyId) {
 function applyHistoryEntry(historyId) {
   const entry = getHistoryEntry(historyId);
   if (!entry) {
-    setStatus("Nessuna voce di cronologia trovata.", "warn", {
-      tags: ["history", "missing"],
-      action: "history-missing",
+    setStatus('Nessuna voce di cronologia trovata.', 'warn', {
+      tags: ['history', 'missing'],
+      action: 'history-missing',
     });
     return;
   }
   applyFiltersToForm(entry.filters);
-  setStatus(`Filtri applicati dalla cronologia (${entry.label}).`, "info", {
-    tags: ["history", "apply"],
-    action: "history-apply",
+  setStatus(`Filtri applicati dalla cronologia (${entry.label}).`, 'info', {
+    tags: ['history', 'apply'],
+    action: 'history-apply',
   });
 }
 
@@ -2288,33 +2153,33 @@ function clearHistoryEntries() {
 function attachHistoryHandlers() {
   const panel = elements.historyPanel;
   if (!panel) return;
-  panel.addEventListener("click", (event) => {
+  panel.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
-    const button = target.closest("[data-action]");
+    const button = target.closest('[data-action]');
     if (!(button instanceof HTMLElement)) return;
     const { action, historyId } = button.dataset;
     if (!action) return;
     switch (action) {
-      case "history-apply":
+      case 'history-apply':
         if (historyId) {
           applyHistoryEntry(historyId);
         }
         break;
-      case "history-remove":
+      case 'history-remove':
         if (historyId) {
           removeHistoryEntry(historyId);
-          setStatus("Voce di cronologia rimossa.", "info", {
-            tags: ["history", "remove"],
-            action: "history-remove",
+          setStatus('Voce di cronologia rimossa.', 'info', {
+            tags: ['history', 'remove'],
+            action: 'history-remove',
           });
         }
         break;
-      case "history-clear":
+      case 'history-clear':
         clearHistoryEntries();
-        setStatus("Cronologia del generatore svuotata.", "info", {
-          tags: ["history", "clear"],
-          action: "history-clear",
+        setStatus('Cronologia del generatore svuotata.', 'info', {
+          tags: ['history', 'clear'],
+          action: 'history-clear',
         });
         break;
       default:
@@ -2328,23 +2193,29 @@ function recordHistoryEntry(action, filters) {
     return;
   }
   const counts = calculatePickMetrics();
-  if ((counts.biomeCount ?? 0) === 0 && (counts.speciesCount ?? 0) === 0 && (counts.seedCount ?? 0) === 0) {
+  if (
+    (counts.biomeCount ?? 0) === 0 &&
+    (counts.speciesCount ?? 0) === 0 &&
+    (counts.seedCount ?? 0) === 0
+  ) {
     return;
   }
   const timestamp = new Date();
-  const biomePreview = state.pick.biomes.slice(0, 4).map((biome) => biome?.label ?? titleCase(biome?.id ?? ""));
+  const biomePreview = state.pick.biomes
+    .slice(0, 4)
+    .map((biome) => biome?.label ?? titleCase(biome?.id ?? ''));
   const speciesPreview = [];
   state.pick.biomes.forEach((biome) => {
     const speciesList = state.pick.species?.[biome.id] ?? [];
     speciesList.forEach((sp) => {
       if (speciesPreview.length >= 8) return;
-      speciesPreview.push(sp?.display_name ?? sp?.id ?? biome.id ?? "Specie");
+      speciesPreview.push(sp?.display_name ?? sp?.id ?? biome.id ?? 'Specie');
     });
   });
   const entry = {
-    id: randomId("hist"),
+    id: randomId('hist'),
     action,
-    label: HISTORY_ACTION_LABELS[action] ?? "Snapshot",
+    label: HISTORY_ACTION_LABELS[action] ?? 'Snapshot',
     timestamp,
     counts: {
       biomes: counts.biomeCount ?? 0,
@@ -2361,38 +2232,41 @@ function recordHistoryEntry(action, filters) {
       species: speciesPreview,
     },
   };
-  state.history = [entry, ...state.history.filter((existing) => existing.id !== entry.id)].slice(0, MAX_HISTORY_ENTRIES);
+  state.history = [entry, ...state.history.filter((existing) => existing.id !== entry.id)].slice(
+    0,
+    MAX_HISTORY_ENTRIES,
+  );
   persistHistoryEntries();
   renderHistoryPanel();
 }
 
 function normaliseTagId(value) {
-  return String(value ?? "")
+  return String(value ?? '')
     .trim()
     .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 function createTagEntry(tag) {
-  if (tag && typeof tag === "object") {
+  if (tag && typeof tag === 'object') {
     const labelCandidate =
-      tag.label ?? tag.name ?? tag.title ?? tag.text ?? tag.value ?? tag.id ?? "";
-    const label = String(labelCandidate || "").trim();
+      tag.label ?? tag.name ?? tag.title ?? tag.text ?? tag.value ?? tag.id ?? '';
+    const label = String(labelCandidate || '').trim();
     if (!label) {
       return null;
     }
     const idCandidate = tag.id ?? tag.value ?? normaliseTagId(label);
-    const id = normaliseTagId(idCandidate || label) || normaliseTagId(label) || randomId("tag");
-    return { id: id || randomId("tag"), label };
+    const id = normaliseTagId(idCandidate || label) || normaliseTagId(label) || randomId('tag');
+    return { id: id || randomId('tag'), label };
   }
-  const label = String(tag ?? "").trim();
+  const label = String(tag ?? '').trim();
   if (!label) {
     return null;
   }
-  const id = normaliseTagId(label) || randomId("tag");
+  const id = normaliseTagId(label) || randomId('tag');
   return { id, label };
 }
 
@@ -2400,7 +2274,7 @@ function toIsoTimestamp(value) {
   if (value instanceof Date) {
     return value.toISOString();
   }
-  if (value === null || value === undefined || value === "") {
+  if (value === null || value === undefined || value === '') {
     return new Date().toISOString();
   }
   const date = new Date(value);
@@ -2416,16 +2290,16 @@ function serialiseActivityLogEntry(entry) {
     ? entry.tags
         .map((tag) => {
           if (!tag) return null;
-          if (typeof tag === "object") {
+          if (typeof tag === 'object') {
             const id = tag.id ?? tag.value ?? null;
             const label = tag.label ?? tag.name ?? tag.value ?? tag.id ?? null;
             if (!id && !label) return null;
             return {
               id: id ?? (label ? normaliseTagId(label) || null : null),
-              label: label ?? (id ? String(id) : ""),
+              label: label ?? (id ? String(id) : ''),
             };
           }
-          const label = String(tag ?? "").trim();
+          const label = String(tag ?? '').trim();
           if (!label) return null;
           return { id: normaliseTagId(label) || null, label };
         })
@@ -2434,8 +2308,8 @@ function serialiseActivityLogEntry(entry) {
 
   return {
     id: entry.id ?? null,
-    message: entry.message ?? "",
-    tone: entry.tone ?? "info",
+    message: entry.message ?? '',
+    tone: entry.tone ?? 'info',
     timestamp: toIsoTimestamp(entry.timestamp),
     tags,
     action: entry.action ?? null,
@@ -2450,14 +2324,20 @@ function trimActivityLog() {
     return;
   }
   state.activityLog.sort((a, b) => {
-    const aTime = a.timestamp instanceof Date ? a.timestamp.getTime() : new Date(a.timestamp).getTime();
-    const bTime = b.timestamp instanceof Date ? b.timestamp.getTime() : new Date(b.timestamp).getTime();
+    const aTime =
+      a.timestamp instanceof Date ? a.timestamp.getTime() : new Date(a.timestamp).getTime();
+    const bTime =
+      b.timestamp instanceof Date ? b.timestamp.getTime() : new Date(b.timestamp).getTime();
     return bTime - aTime;
   });
   if (state.activityLog.length <= MAX_ACTIVITY_EVENTS) {
     return;
   }
-  for (let i = state.activityLog.length - 1; i >= 0 && state.activityLog.length > MAX_ACTIVITY_EVENTS; i -= 1) {
+  for (
+    let i = state.activityLog.length - 1;
+    i >= 0 && state.activityLog.length > MAX_ACTIVITY_EVENTS;
+    i -= 1
+  ) {
     const entry = state.activityLog[i];
     if (!entry?.pinned) {
       state.activityLog.splice(i, 1);
@@ -2481,7 +2361,7 @@ function persistActivityLog() {
       }));
     storage.setItem(STORAGE_KEYS.activityLog, JSON.stringify(serialisable));
   } catch (error) {
-    console.warn("Impossibile salvare il registro attività", error);
+    console.warn('Impossibile salvare il registro attività', error);
   }
 }
 
@@ -2504,8 +2384,8 @@ function restoreActivityLog() {
           ? entry.tags
               .map((tag) => {
                 if (!tag) return null;
-                if (typeof tag === "object") {
-                  const label = tag.label ?? tag.name ?? tag.id ?? tag.value ?? "";
+                if (typeof tag === 'object') {
+                  const label = tag.label ?? tag.name ?? tag.id ?? tag.value ?? '';
                   return createTagEntry({ id: tag.id ?? tag.value, label });
                 }
                 return createTagEntry(tag);
@@ -2520,9 +2400,9 @@ function restoreActivityLog() {
           dedupedTags.push(tag);
         });
         return {
-          id: entry.id ?? randomId("event"),
+          id: entry.id ?? randomId('event'),
           message: entry.message,
-          tone: entry.tone ?? "info",
+          tone: entry.tone ?? 'info',
           timestamp,
           tags: dedupedTags,
           action: entry.action ?? null,
@@ -2536,7 +2416,7 @@ function restoreActivityLog() {
     updateActivityTagRegistry();
     recalculateActivityMetrics();
   } catch (error) {
-    console.warn("Impossibile ripristinare il registro attività", error);
+    console.warn('Impossibile ripristinare il registro attività', error);
   }
 }
 
@@ -2545,7 +2425,8 @@ function activityFiltersActive() {
   if (filters.query?.trim()) return true;
   if (filters.pinnedOnly) return true;
   if (filters.tags instanceof Set && filters.tags.size) return true;
-  if (filters.tones instanceof Set && filters.tones.size !== DEFAULT_ACTIVITY_TONES.length) return true;
+  if (filters.tones instanceof Set && filters.tones.size !== DEFAULT_ACTIVITY_TONES.length)
+    return true;
   return false;
 }
 
@@ -2553,14 +2434,14 @@ function renderActivityTagFilters() {
   const select = elements.activityTagFilter;
   if (!select) return;
   const entries = Array.from(state.activityTagCounts.entries()).sort((a, b) =>
-    a[1].label.localeCompare(b[1].label, "it", { sensitivity: "base" })
+    a[1].label.localeCompare(b[1].label, 'it', { sensitivity: 'base' }),
   );
   const selected = state.activityFilters.tags ?? new Set();
-  select.innerHTML = "";
+  select.innerHTML = '';
   if (!entries.length) {
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = "Nessun tag registrato";
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Nessun tag registrato';
     placeholder.disabled = true;
     select.appendChild(placeholder);
     select.disabled = true;
@@ -2568,7 +2449,7 @@ function renderActivityTagFilters() {
   }
   select.disabled = false;
   entries.forEach(([id, info]) => {
-    const option = document.createElement("option");
+    const option = document.createElement('option');
     option.value = id;
     option.textContent = info.count > 1 ? `${info.label} (${info.count})` : info.label;
     option.selected = selected instanceof Set ? selected.has(id) : false;
@@ -2591,8 +2472,8 @@ function buildActivityHaystack(entry) {
   }
 
   return parts
-    .filter((value) => value !== null && value !== undefined && value !== "")
-    .join(" ")
+    .filter((value) => value !== null && value !== undefined && value !== '')
+    .join(' ')
     .toLowerCase();
 }
 
@@ -2600,7 +2481,7 @@ function collectMetadataText(source, parts) {
   if (source === null || source === undefined) {
     return;
   }
-  if (typeof source === "string" || typeof source === "number" || typeof source === "boolean") {
+  if (typeof source === 'string' || typeof source === 'number' || typeof source === 'boolean') {
     parts.push(String(source));
     return;
   }
@@ -2608,7 +2489,7 @@ function collectMetadataText(source, parts) {
     source.forEach((item) => collectMetadataText(item, parts));
     return;
   }
-  if (typeof source === "object") {
+  if (typeof source === 'object') {
     Object.values(source).forEach((value) => collectMetadataText(value, parts));
   }
 }
@@ -2629,7 +2510,7 @@ function updateActivityTagRegistry() {
   syncActivityControls();
 }
 
-function recordActivity(message, tone = "info", timestamp = new Date(), options = {}) {
+function recordActivity(message, tone = 'info', timestamp = new Date(), options = {}) {
   if (!message) return;
   const ts = timestamp instanceof Date ? timestamp : new Date(timestamp);
   const safeTimestamp = Number.isNaN(ts.getTime()) ? new Date() : ts;
@@ -2643,7 +2524,7 @@ function recordActivity(message, tone = "info", timestamp = new Date(), options 
     processedTags.push(entry);
   });
   const activityEntry = {
-    id: options.id ?? randomId("event"),
+    id: options.id ?? randomId('event'),
     message,
     tone,
     timestamp: safeTimestamp,
@@ -2687,7 +2568,7 @@ function recalculateActivityMetrics() {
     if (entry?.action && REROLL_ACTIONS.has(entry.action)) {
       rerollCount += 1;
     }
-    if (entry?.action === "profile-load") {
+    if (entry?.action === 'profile-load') {
       profileReuses += 1;
     }
   });
@@ -2698,7 +2579,7 @@ function recalculateActivityMetrics() {
 
 function formatAverageRollInterval(ms) {
   if (!Number.isFinite(ms) || ms <= 0) {
-    return "—";
+    return '—';
   }
   const totalSeconds = Math.round(ms / 1000);
   if (totalSeconds < 60) {
@@ -2721,13 +2602,13 @@ function formatAverageRollInterval(ms) {
   if (!parts.length) {
     return `${totalMinutes}m`;
   }
-  return parts.join(" ");
+  return parts.join(' ');
 }
 
 function renderKpiSidebar() {
   if (elements.kpi?.averageRoll) {
     elements.kpi.averageRoll.textContent = formatAverageRollInterval(
-      state.metrics.averageRollIntervalMs
+      state.metrics.averageRollIntervalMs,
     );
   }
   if (elements.kpi?.rerollCount) {
@@ -2746,17 +2627,19 @@ function renderActivityLog() {
   const empty = elements.logEmpty;
   if (!list) return;
 
-  list.innerHTML = "";
+  list.innerHTML = '';
   const entries = Array.isArray(state.activityLog) ? state.activityLog : [];
   const filters = state.activityFilters ?? {};
   const toneFilterActive = filters.tones instanceof Set;
   const toneSet = toneFilterActive ? filters.tones : new Set(DEFAULT_ACTIVITY_TONES);
   const tagSet = filters.tags instanceof Set ? filters.tags : new Set();
-  const query = String(filters.query ?? "").trim().toLowerCase();
+  const query = String(filters.query ?? '')
+    .trim()
+    .toLowerCase();
   const pinnedOnly = Boolean(filters.pinnedOnly);
 
   const filtered = entries.filter((entry) => {
-    const tone = entry.tone ?? "info";
+    const tone = entry.tone ?? 'info';
     if (toneFilterActive) {
       if (!toneSet.size) {
         return false;
@@ -2788,9 +2671,10 @@ function renderActivityLog() {
   list.hidden = !hasEntries;
   if (empty) {
     empty.hidden = hasEntries;
-    empty.textContent = hasEntries || !activityFiltersActive()
-      ? "Nessuna attività registrata."
-      : "Nessun evento corrisponde ai filtri.";
+    empty.textContent =
+      hasEntries || !activityFiltersActive()
+        ? 'Nessuna attività registrata.'
+        : 'Nessun evento corrisponde ai filtri.';
   }
 
   if (!hasEntries) {
@@ -2798,76 +2682,76 @@ function renderActivityLog() {
   }
 
   filtered.forEach((entry) => {
-    const item = document.createElement("li");
-    item.className = "generator-timeline__item";
-    item.dataset.tone = entry.tone ?? "info";
-    item.dataset.pinned = entry.pinned ? "true" : "false";
+    const item = document.createElement('li');
+    item.className = 'generator-timeline__item';
+    item.dataset.tone = entry.tone ?? 'info';
+    item.dataset.pinned = entry.pinned ? 'true' : 'false';
 
-    const marker = document.createElement("div");
-    marker.className = "generator-timeline__marker";
-    marker.setAttribute("aria-hidden", "true");
+    const marker = document.createElement('div');
+    marker.className = 'generator-timeline__marker';
+    marker.setAttribute('aria-hidden', 'true');
     item.appendChild(marker);
 
-    const content = document.createElement("div");
-    content.className = "generator-timeline__content";
+    const content = document.createElement('div');
+    content.className = 'generator-timeline__content';
     item.appendChild(content);
 
-    const header = document.createElement("header");
-    header.className = "generator-timeline__header";
+    const header = document.createElement('header');
+    header.className = 'generator-timeline__header';
     content.appendChild(header);
 
-    const time = document.createElement("time");
-    time.className = "generator-timeline__time";
+    const time = document.createElement('time');
+    time.className = 'generator-timeline__time';
     const stamp = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
     const safeStamp = Number.isNaN(stamp.getTime()) ? new Date() : stamp;
     time.dateTime = safeStamp.toISOString();
-    time.textContent = safeStamp.toLocaleString("it-IT", {
-      hour: "2-digit",
-      minute: "2-digit",
-      day: "2-digit",
-      month: "2-digit",
+    time.textContent = safeStamp.toLocaleString('it-IT', {
+      hour: '2-digit',
+      minute: '2-digit',
+      day: '2-digit',
+      month: '2-digit',
     });
-    time.title = safeStamp.toLocaleString("it-IT");
+    time.title = safeStamp.toLocaleString('it-IT');
     header.appendChild(time);
 
-    const controls = document.createElement("div");
-    controls.className = "generator-timeline__controls";
+    const controls = document.createElement('div');
+    controls.className = 'generator-timeline__controls';
     header.appendChild(controls);
 
-    const toneBadge = document.createElement("span");
-    toneBadge.className = `generator-timeline__tone generator-timeline__tone--${entry.tone ?? "info"}`;
-    toneBadge.textContent = TONE_LABELS[entry.tone ?? "info"] ?? titleCase(entry.tone ?? "info");
+    const toneBadge = document.createElement('span');
+    toneBadge.className = `generator-timeline__tone generator-timeline__tone--${entry.tone ?? 'info'}`;
+    toneBadge.textContent = TONE_LABELS[entry.tone ?? 'info'] ?? titleCase(entry.tone ?? 'info');
     controls.appendChild(toneBadge);
 
-    const pinButton = document.createElement("button");
-    pinButton.type = "button";
-    pinButton.className = "generator-timeline__pin";
-    pinButton.dataset.action = "toggle-activity-pin";
+    const pinButton = document.createElement('button');
+    pinButton.type = 'button';
+    pinButton.className = 'generator-timeline__pin';
+    pinButton.dataset.action = 'toggle-activity-pin';
     pinButton.dataset.eventId = entry.id;
-    pinButton.setAttribute("aria-pressed", entry.pinned ? "true" : "false");
-    pinButton.title = entry.pinned ? "Rimuovi pin evento" : "Pin evento";
-    pinButton.textContent = entry.pinned ? "📌" : "📍";
+    pinButton.setAttribute('aria-pressed', entry.pinned ? 'true' : 'false');
+    pinButton.title = entry.pinned ? 'Rimuovi pin evento' : 'Pin evento';
+    pinButton.textContent = entry.pinned ? '📌' : '📍';
     controls.appendChild(pinButton);
 
     if (entry.action) {
-      const meta = document.createElement("p");
-      meta.className = "generator-timeline__meta";
-      meta.textContent = titleCase(entry.action.replace(/[-_]/g, " "));
+      const meta = document.createElement('p');
+      meta.className = 'generator-timeline__meta';
+      meta.textContent = titleCase(entry.action.replace(/[-_]/g, ' '));
       content.appendChild(meta);
     }
 
-    const messageText = document.createElement("p");
-    messageText.className = "generator-timeline__message";
+    const messageText = document.createElement('p');
+    messageText.className = 'generator-timeline__message';
     messageText.textContent = entry.message;
     content.appendChild(messageText);
 
     if (entry.tags?.length) {
-      const tagsContainer = document.createElement("div");
-      tagsContainer.className = "chip-list chip-list--compact generator-timeline__tags";
+      const tagsContainer = document.createElement('div');
+      tagsContainer.className = 'chip-list chip-list--compact generator-timeline__tags';
       entry.tags.forEach((tag) => {
         if (!tag?.label) return;
-        const chip = document.createElement("span");
-        chip.className = "chip";
+        const chip = document.createElement('span');
+        chip.className = 'chip';
         chip.dataset.tagId = tag.id;
         chip.textContent = tag.label;
         tagsContainer.appendChild(chip);
@@ -2892,7 +2776,7 @@ function toggleActivityPin(eventId) {
 }
 
 function resetActivityFilters() {
-  state.activityFilters.query = "";
+  state.activityFilters.query = '';
   state.activityFilters.pinnedOnly = false;
   state.activityFilters.tags = new Set();
   state.activityFilters.tones = new Set(DEFAULT_ACTIVITY_TONES);
@@ -2902,7 +2786,7 @@ function resetActivityFilters() {
 
 function syncActivityControls() {
   if (elements.activitySearch) {
-    elements.activitySearch.value = state.activityFilters.query ?? "";
+    elements.activitySearch.value = state.activityFilters.query ?? '';
   }
   if (elements.activityPinnedOnly) {
     elements.activityPinnedOnly.checked = Boolean(state.activityFilters.pinnedOnly);
@@ -2928,14 +2812,14 @@ function syncActivityControls() {
 
 function setupActivityControls() {
   if (elements.activitySearch) {
-    elements.activitySearch.addEventListener("input", (event) => {
-      state.activityFilters.query = String(event.target.value ?? "");
+    elements.activitySearch.addEventListener('input', (event) => {
+      state.activityFilters.query = String(event.target.value ?? '');
       renderActivityLog();
     });
   }
 
   if (elements.activityTagFilter) {
-    elements.activityTagFilter.addEventListener("change", () => {
+    elements.activityTagFilter.addEventListener('change', () => {
       const values = new Set(getSelectedValues(elements.activityTagFilter));
       state.activityFilters.tags = values;
       renderActivityLog();
@@ -2943,7 +2827,7 @@ function setupActivityControls() {
   }
 
   if (elements.activityPinnedOnly) {
-    elements.activityPinnedOnly.addEventListener("change", (event) => {
+    elements.activityPinnedOnly.addEventListener('change', (event) => {
       state.activityFilters.pinnedOnly = Boolean(event.target.checked);
       renderActivityLog();
     });
@@ -2952,7 +2836,7 @@ function setupActivityControls() {
   if (Array.isArray(elements.activityToneToggles)) {
     elements.activityToneToggles.forEach((toggle) => {
       if (!(toggle instanceof HTMLInputElement)) return;
-      toggle.addEventListener("change", (event) => {
+      toggle.addEventListener('change', (event) => {
         const tone = event.target.value || event.target.dataset.activityTone;
         if (!tone) return;
         if (!(state.activityFilters.tones instanceof Set)) {
@@ -2969,17 +2853,17 @@ function setupActivityControls() {
   }
 
   if (elements.activityReset) {
-    elements.activityReset.addEventListener("click", (event) => {
+    elements.activityReset.addEventListener('click', (event) => {
       event.preventDefault();
       resetActivityFilters();
     });
   }
 
   if (elements.logList) {
-    elements.logList.addEventListener("click", (event) => {
+    elements.logList.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
-      const button = target.closest("[data-action=\"toggle-activity-pin\"]");
+      const button = target.closest('[data-action="toggle-activity-pin"]');
       if (!button) return;
       event.preventDefault();
       const { eventId } = button.dataset;
@@ -2992,21 +2876,21 @@ function setupActivityControls() {
 }
 
 function refreshExportSupportTelemetry() {
-  const hasPdfSupport = typeof window !== "undefined" && typeof window.html2pdf !== "undefined";
+  const hasPdfSupport = typeof window !== 'undefined' && typeof window.html2pdf !== 'undefined';
   const wasNotified = state.exportState.pdfSupportNotified;
   state.exportState.pdfSupported = hasPdfSupport;
 
   if (!hasPdfSupport) {
     if (!wasNotified) {
-      console.warn("html2pdf non è disponibile: esportazione PDF disabilitata.");
+      console.warn('html2pdf non è disponibile: esportazione PDF disabilitata.');
       recordActivity(
-        "Libreria html2pdf non caricata: esportazione PDF disabilitata.",
-        "warn",
+        'Libreria html2pdf non caricata: esportazione PDF disabilitata.',
+        'warn',
         new Date(),
         {
-          tags: ["export", "dossier", "pdf", "missing"],
-          action: "export-pdf-missing",
-        }
+          tags: ['export', 'dossier', 'pdf', 'missing'],
+          action: 'export-pdf-missing',
+        },
       );
       state.exportState.pdfSupportNotified = true;
     }
@@ -3021,10 +2905,10 @@ function ensureExportSlug() {
   if (state.pick.exportSlug) {
     return state.pick.exportSlug;
   }
-  const base = state.pick.ecosystem?.id || randomId("ecos");
-  const stamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const base = state.pick.ecosystem?.id || randomId('ecos');
+  const stamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
   const slug = slugify(`${base}-${stamp}`);
-  state.pick.exportSlug = slug || randomId("ecos");
+  state.pick.exportSlug = slug || randomId('ecos');
   return state.pick.exportSlug;
 }
 
@@ -3038,8 +2922,8 @@ function renderExportPreview(payload) {
   empty.hidden = hasPayload;
 
   if (!hasPayload) {
-    if (elements.exportPreviewJson) elements.exportPreviewJson.textContent = "";
-    if (elements.exportPreviewYaml) elements.exportPreviewYaml.textContent = "";
+    if (elements.exportPreviewJson) elements.exportPreviewJson.textContent = '';
+    if (elements.exportPreviewYaml) elements.exportPreviewYaml.textContent = '';
     if (elements.exportPreviewJsonDetails) elements.exportPreviewJsonDetails.open = false;
     if (elements.exportPreviewYamlDetails) elements.exportPreviewYamlDetails.open = false;
     return;
@@ -3061,7 +2945,7 @@ function renderExportPreview(payload) {
   if (yamlDetails) yamlDetails.open = yamlWasOpen;
 }
 
-function updateExportPresetStatus(message = "", tone = "info") {
+function updateExportPresetStatus(message = '', tone = 'info') {
   const hint = elements.exportPresetStatus;
   if (!hint) return;
   if (message) {
@@ -3069,7 +2953,7 @@ function updateExportPresetStatus(message = "", tone = "info") {
     hint.dataset.tone = tone;
     hint.hidden = false;
   } else {
-    hint.textContent = "";
+    hint.textContent = '';
     hint.hidden = true;
     delete hint.dataset.tone;
   }
@@ -3079,31 +2963,31 @@ function populateExportPresetOptions() {
   const select = elements.exportPreset;
   if (!select) return;
   const wasFocused = document.activeElement === select;
-  select.innerHTML = "";
+  select.innerHTML = '';
   MANIFEST_PRESETS.forEach((preset) => {
-    const option = document.createElement("option");
+    const option = document.createElement('option');
     option.value = preset.id;
     option.textContent = preset.label;
     select.appendChild(option);
   });
   if (!MANIFEST_PRESETS.length) {
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = "Nessun preset disponibile";
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Nessun preset disponibile';
     placeholder.disabled = true;
     placeholder.selected = true;
     select.appendChild(placeholder);
     select.disabled = true;
-    select.setAttribute("aria-disabled", "true");
+    select.setAttribute('aria-disabled', 'true');
     updateExportPresetStatus(
-      "Nessun preset manifest configurato. Verifica il pacchetto o carica manualmente i preset.",
-      "warn"
+      'Nessun preset manifest configurato. Verifica il pacchetto o carica manualmente i preset.',
+      'warn',
     );
     return;
   }
   const current = getCurrentPreset();
   select.disabled = false;
-  select.removeAttribute("aria-disabled");
+  select.removeAttribute('aria-disabled');
   if (current) {
     select.value = current.id;
   }
@@ -3149,9 +3033,7 @@ function markCurrentPresetByBuilder(builderId) {
   if (!builderId) return;
   const preset = getCurrentPreset();
   if (!preset) return;
-  const matches = preset.files
-    .filter((file) => file.builder === builderId)
-    .map((file) => file.id);
+  const matches = preset.files.filter((file) => file.builder === builderId).map((file) => file.id);
   if (matches.length) {
     markPresetItemsComplete(preset.id, matches, true);
   }
@@ -3188,9 +3070,7 @@ function buildComposerExportSnapshot() {
     : [];
   return {
     constraints: {
-      min_synergy: Number.isFinite(constraints.minSynergy)
-        ? constraints.minSynergy
-        : 0,
+      min_synergy: Number.isFinite(constraints.minSynergy) ? constraints.minSynergy : 0,
       preferred_roles: Array.from(preferred),
     },
     presets: presets.map((preset) => ({
@@ -3211,20 +3091,16 @@ function buildPresetContext(filters = state.lastFilters) {
   const folder = EXPORT_BASE_FOLDER;
   const metrics = calculatePickMetrics();
   const filterSummary = summariseFilters(filters ?? {});
-  const ecosystemLabel = state.pick.ecosystem?.label ?? "Ecosistema sintetico";
+  const ecosystemLabel = state.pick.ecosystem?.label ?? 'Ecosistema sintetico';
   const payload = exportPayload(filters);
   const activityEntries = exportActivityLogEntries();
   const biomes = Array.isArray(state.pick.biomes) ? state.pick.biomes : [];
   const speciesBuckets = state.pick.species ?? {};
   const seeds = Array.isArray(state.pick.seeds) ? state.pick.seeds : [];
   const pinnedEntries =
-    state.cardState?.pinned instanceof Map
-      ? Array.from(state.cardState.pinned.values())
-      : [];
+    state.cardState?.pinned instanceof Map ? Array.from(state.cardState.pinned.values()) : [];
   const narrative = { ...(state.narrative ?? {}) };
-  const insights = Array.isArray(narrative.recommendations)
-    ? narrative.recommendations
-    : [];
+  const insights = Array.isArray(narrative.recommendations) ? narrative.recommendations : [];
   return {
     slug,
     folder,
@@ -3246,25 +3122,27 @@ function buildPresetContext(filters = state.lastFilters) {
 }
 
 function describePresetFile(file, context) {
-  const name = typeof file.filename === "function" ? file.filename(context.slug) : file.filename;
+  const name = typeof file.filename === 'function' ? file.filename(context.slug) : file.filename;
   const description =
-    typeof file.description === "function"
-      ? file.description(context)
-      : file.description ?? "";
+    typeof file.description === 'function' ? file.description(context) : (file.description ?? '');
   let available = true;
-  let reason = "";
-  if (file.builder === "activity-json" || file.builder === "activity-csv") {
+  let reason = '';
+  if (file.builder === 'activity-json' || file.builder === 'activity-csv') {
     if (!context.activityEntries.length) {
       available = false;
-      reason = "Il registro attività è vuoto.";
+      reason = 'Il registro attività è vuoto.';
     }
   }
-  if (file.builder === "dossier-html" || file.builder === "dossier-pdf" || file.builder === "press-kit-md") {
+  if (
+    file.builder === 'dossier-html' ||
+    file.builder === 'dossier-pdf' ||
+    file.builder === 'press-kit-md'
+  ) {
     const hasPayload =
       context.metrics.biomeCount + context.metrics.speciesCount + context.metrics.seedCount > 0;
     if (!hasPayload) {
       available = false;
-      reason = "Genera prima un ecosistema completo.";
+      reason = 'Genera prima un ecosistema completo.';
     }
   }
   return {
@@ -3293,11 +3171,11 @@ function renderExportManifest(filters = state.lastFilters) {
   const pdfSupported = refreshExportSupportTelemetry();
 
   if (!MANIFEST_PRESETS.length) {
-    list.innerHTML = "";
+    list.innerHTML = '';
     list.hidden = true;
     empty.hidden = false;
-    empty.textContent = "Nessun manifest di esportazione disponibile.";
-    meta.textContent = "Carica un preset per abilitare il manifest dei file.";
+    empty.textContent = 'Nessun manifest di esportazione disponibile.';
+    meta.textContent = 'Carica un preset per abilitare il manifest dei file.';
     if (actions) actions.hidden = true;
     renderExportPreview(null);
     refreshDossierPreview(null);
@@ -3313,11 +3191,12 @@ function renderExportManifest(filters = state.lastFilters) {
   }
 
   if (!hasContent || !preset) {
-    list.innerHTML = "";
+    list.innerHTML = '';
     list.hidden = true;
     empty.hidden = false;
-    empty.textContent = "Nessun contenuto disponibile. Genera un ecosistema per sbloccare i preset.";
-    meta.textContent = "Genera un ecosistema per preparare il manifest dei file.";
+    empty.textContent =
+      'Nessun contenuto disponibile. Genera un ecosistema per sbloccare i preset.';
+    meta.textContent = 'Genera un ecosistema per preparare il manifest dei file.';
     if (actions) actions.hidden = true;
     renderExportPreview(null);
     refreshDossierPreview(null);
@@ -3328,61 +3207,61 @@ function renderExportManifest(filters = state.lastFilters) {
   const descriptors = preset.files.map((file) => describePresetFile(file, context));
   const checklist = getPresetChecklist(preset.id);
 
-  list.innerHTML = "";
+  list.innerHTML = '';
 
   descriptors.forEach((descriptor) => {
-    const item = document.createElement("li");
-    item.className = "generator-export__item";
+    const item = document.createElement('li');
+    item.className = 'generator-export__item';
     if (!descriptor.available) {
-      item.classList.add("generator-export__item--disabled");
+      item.classList.add('generator-export__item--disabled');
     }
 
-    const label = document.createElement("label");
-    label.className = "generator-export__item-label";
+    const label = document.createElement('label');
+    label.className = 'generator-export__item-label';
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
     checkbox.value = descriptor.id;
     checkbox.dataset.manifestItem = descriptor.id;
     checkbox.disabled = !descriptor.available;
     checkbox.checked = descriptor.available && checklist.get(descriptor.id) === true;
 
-    const content = document.createElement("div");
-    content.className = "generator-export__item-content";
+    const content = document.createElement('div');
+    content.className = 'generator-export__item-content';
 
-    const header = document.createElement("div");
-    header.className = "generator-export__item-header";
+    const header = document.createElement('div');
+    header.className = 'generator-export__item-header';
 
-    const title = document.createElement("span");
-    title.className = "generator-export__item-title";
+    const title = document.createElement('span');
+    title.className = 'generator-export__item-title';
     title.textContent = descriptor.name;
 
-    const format = document.createElement("span");
-    format.className = "generator-export__item-format";
+    const format = document.createElement('span');
+    format.className = 'generator-export__item-format';
     format.textContent = descriptor.format;
 
     header.append(title, format);
 
-    const description = document.createElement("p");
-    description.className = "generator-export__item-description";
+    const description = document.createElement('p');
+    description.className = 'generator-export__item-description';
     description.textContent = descriptor.description;
 
-    const path = document.createElement("p");
-    path.className = "generator-export__item-path";
+    const path = document.createElement('p');
+    path.className = 'generator-export__item-path';
     path.textContent = descriptor.path;
 
     content.append(header, description, path);
 
     if (descriptor.optional) {
-      const badge = document.createElement("span");
-      badge.className = "generator-export__item-badge";
-      badge.textContent = "Opzionale";
+      const badge = document.createElement('span');
+      badge.className = 'generator-export__item-badge';
+      badge.textContent = 'Opzionale';
       header.appendChild(badge);
     }
 
     if (!descriptor.available && descriptor.reason) {
-      const hint = document.createElement("p");
-      hint.className = "generator-export__item-hint";
+      const hint = document.createElement('p');
+      hint.className = 'generator-export__item-hint';
       hint.textContent = descriptor.reason;
       content.appendChild(hint);
     }
@@ -3395,49 +3274,49 @@ function renderExportManifest(filters = state.lastFilters) {
   list.hidden = !descriptors.length;
   if (!descriptors.length) {
     empty.hidden = false;
-    empty.textContent = "Il preset selezionato non ha elementi configurati.";
+    empty.textContent = 'Il preset selezionato non ha elementi configurati.';
   } else if (descriptors.some((descriptor) => descriptor.available)) {
     empty.hidden = true;
   } else {
     empty.hidden = false;
-    empty.textContent = "Tutti gli elementi del preset sono temporaneamente non disponibili.";
+    empty.textContent = 'Tutti gli elementi del preset sono temporaneamente non disponibili.';
   }
 
   const pdfNotice = pdfSupported
-    ? ""
-    : " · <strong>Avviso:</strong> esportazione PDF disabilitata (html2pdf non caricato).";
-  meta.dataset.pdfSupported = pdfSupported ? "true" : "false";
+    ? ''
+    : ' · <strong>Avviso:</strong> esportazione PDF disabilitata (html2pdf non caricato).';
+  meta.dataset.pdfSupported = pdfSupported ? 'true' : 'false';
   meta.innerHTML = `Preset <strong>${preset.label}</strong>: ${preset.description} · Cartella consigliata: <code>${context.folder}</code> · ${
-    context.filterSummary ? `Filtri attivi: ${context.filterSummary}.` : "Nessun filtro attivo."
+    context.filterSummary ? `Filtri attivi: ${context.filterSummary}.` : 'Nessun filtro attivo.'
   }${pdfNotice}`;
 
   if (actions) {
     actions.hidden = false;
     const zipButton = actions.querySelector('[data-action="download-preset-zip"]');
     if (zipButton) {
-      const hasZipSupport = typeof window !== "undefined" && window.JSZip;
+      const hasZipSupport = typeof window !== 'undefined' && window.JSZip;
       const anyAvailable = descriptors.some((descriptor) => descriptor.available);
       zipButton.disabled = !hasZipSupport || !anyAvailable;
       zipButton.title = !hasZipSupport
-        ? "JSZip non disponibile. Verifica il caricamento della libreria."
-        : "";
+        ? 'JSZip non disponibile. Verifica il caricamento della libreria.'
+        : '';
     }
     const htmlButton = actions.querySelector('[data-action="download-dossier-html"]');
     if (htmlButton) {
       const htmlAvailable = descriptors.some(
-        (descriptor) => descriptor.builder === "dossier-html" && descriptor.available
+        (descriptor) => descriptor.builder === 'dossier-html' && descriptor.available,
       );
       htmlButton.disabled = !htmlAvailable;
     }
     const pdfButton = actions.querySelector('[data-action="download-dossier-pdf"]');
     if (pdfButton) {
       const pdfDescriptor = descriptors.find(
-        (descriptor) => descriptor.builder === "dossier-pdf" && descriptor.available
+        (descriptor) => descriptor.builder === 'dossier-pdf' && descriptor.available,
       );
       pdfButton.disabled = !pdfDescriptor || !pdfSupported;
       pdfButton.title = !pdfSupported
-        ? "html2pdf non disponibile. Controlla la connessione o ricarica la pagina."
-        : "";
+        ? 'html2pdf non disponibile. Controlla la connessione o ricarica la pagina.'
+        : '';
     }
   }
 
@@ -3451,11 +3330,11 @@ async function loadDossierTemplate() {
   if (state.exportState.dossierTemplate) {
     return state.exportState.dossierTemplate;
   }
-  if (typeof fetch === "undefined") {
+  if (typeof fetch === 'undefined') {
     return null;
   }
   try {
-    const response = await fetch(DOSSIER_TEMPLATE_PATH, { cache: "no-cache" });
+    const response = await fetch(DOSSIER_TEMPLATE_PATH, { cache: 'no-cache' });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
@@ -3463,14 +3342,14 @@ async function loadDossierTemplate() {
     state.exportState.dossierTemplate = template;
     return template;
   } catch (error) {
-    console.warn("Impossibile caricare il template del dossier", error);
+    console.warn('Impossibile caricare il template del dossier', error);
     state.exportState.dossierTemplate = null;
     return null;
   }
 }
 
 function flattenSpeciesBuckets(buckets = {}) {
-  if (!buckets || typeof buckets !== "object") return [];
+  if (!buckets || typeof buckets !== 'object') return [];
   const seen = new Map();
   Object.values(buckets)
     .filter((list) => Array.isArray(list))
@@ -3478,11 +3357,7 @@ function flattenSpeciesBuckets(buckets = {}) {
       list.forEach((species) => {
         if (!species) return;
         const key =
-          species.id ||
-          species.display_name ||
-          species.displayName ||
-          species.speciesId ||
-          null;
+          species.id || species.display_name || species.displayName || species.speciesId || null;
         if (!key || seen.has(key)) return;
         seen.set(key, species);
       });
@@ -3492,28 +3367,28 @@ function flattenSpeciesBuckets(buckets = {}) {
 
 function summariseSeedParty(seed) {
   if (!Array.isArray(seed?.party) || !seed.party.length) {
-    return "Nessuna specie associata al seed con i filtri correnti.";
+    return 'Nessuna specie associata al seed con i filtri correnti.';
   }
   return seed.party
     .map((entry) => {
       const parts = [entry.display_name];
       const meta = [];
       if (entry.role) meta.push(entry.role);
-      if (typeof entry.tier === "number") meta.push(`T${entry.tier}`);
+      if (typeof entry.tier === 'number') meta.push(`T${entry.tier}`);
       if (entry.count && entry.count > 1) meta.push(`x${entry.count}`);
       if (meta.length) {
-        parts.push(`(${meta.join(" · ")})`);
+        parts.push(`(${meta.join(' · ')})`);
       }
-      return parts.join(" ");
+      return parts.join(' ');
     })
-    .join("; ");
+    .join('; ');
 }
 
 async function generateDossierDocument(context) {
   const template = await loadDossierTemplate();
   if (!template) return null;
   const parser = new DOMParser();
-  const doc = parser.parseFromString(template, "text/html");
+  const doc = parser.parseFromString(template, 'text/html');
   const setSlotText = (slot, value) => {
     const target = doc.querySelector(`[data-slot="${slot}"]`);
     if (target) {
@@ -3523,15 +3398,15 @@ async function generateDossierDocument(context) {
 
   const preset = getCurrentPreset();
   const generatedAt = context.generatedAt ?? new Date();
-  const locale = "it-IT";
+  const locale = 'it-IT';
   const generatedLabel = generatedAt.toLocaleString(locale, {
     hour12: false,
   });
 
-  setSlotText("title", `${context.ecosystemLabel} · Dossier`);
-  setSlotText("heading", context.ecosystemLabel);
-  setSlotText("badge", preset ? `Preset · ${preset.label}` : "Ecosystem dossier");
-  setSlotText("meta", `Generato il ${generatedLabel}`);
+  setSlotText('title', `${context.ecosystemLabel} · Dossier`);
+  setSlotText('heading', context.ecosystemLabel);
+  setSlotText('badge', preset ? `Preset · ${preset.label}` : 'Ecosystem dossier');
+  setSlotText('meta', `Generato il ${generatedLabel}`);
 
   const summaryParts = [
     `${context.metrics.biomeCount} biomi`,
@@ -3545,23 +3420,23 @@ async function generateDossierDocument(context) {
     summaryParts.push(`Filtri: ${context.filterSummary}`);
   }
   setSlotText(
-    "summary",
-    `Pacchetto esportato con ${summaryParts.join(" · ")}.` ||
-      "Pacchetto esportato dal generatore di ecosistemi."
+    'summary',
+    `Pacchetto esportato con ${summaryParts.join(' · ')}.` ||
+      'Pacchetto esportato dal generatore di ecosistemi.',
   );
 
   const metricsContainer = doc.querySelector('[data-slot="metrics"]');
   if (metricsContainer) {
-    metricsContainer.innerHTML = "";
+    metricsContainer.innerHTML = '';
     const metricEntries = [
-      { label: "Biomi", value: context.metrics.biomeCount },
-      { label: "Specie", value: context.metrics.speciesCount },
-      { label: "Seed", value: context.metrics.seedCount },
-      { label: "Specie uniche", value: context.metrics.uniqueSpeciesCount },
+      { label: 'Biomi', value: context.metrics.biomeCount },
+      { label: 'Specie', value: context.metrics.speciesCount },
+      { label: 'Seed', value: context.metrics.seedCount },
+      { label: 'Specie uniche', value: context.metrics.uniqueSpeciesCount },
     ];
     metricEntries.forEach((metric) => {
-      const span = doc.createElement("span");
-      const strong = doc.createElement("strong");
+      const span = doc.createElement('span');
+      const strong = doc.createElement('strong');
       strong.textContent = `${metric.label}:`;
       span.append(strong, doc.createTextNode(` ${metric.value ?? 0}`));
       metricsContainer.appendChild(span);
@@ -3570,13 +3445,13 @@ async function generateDossierDocument(context) {
 
   const biomesContainer = doc.querySelector('[data-slot="biomes"]');
   if (biomesContainer) {
-    biomesContainer.innerHTML = "";
+    biomesContainer.innerHTML = '';
     context.biomes.slice(0, 8).forEach((biome) => {
-      const item = doc.createElement("li");
-      item.className = "dossier__list-item";
-      const heading = doc.createElement("h3");
-      heading.textContent = biome.label ?? titleCase(biome.id ?? "Bioma");
-      const summary = doc.createElement("p");
+      const item = doc.createElement('li');
+      item.className = 'dossier__list-item';
+      const heading = doc.createElement('h3');
+      heading.textContent = biome.label ?? titleCase(biome.id ?? 'Bioma');
+      const summary = doc.createElement('p');
       const biomeSpeciesCount = Array.isArray(biome.species) ? biome.species.length : 0;
       summary.textContent = `Specie disponibili: ${biomeSpeciesCount}.`;
       item.append(heading, summary);
@@ -3588,13 +3463,13 @@ async function generateDossierDocument(context) {
         });
       }
       if (groups.size) {
-        const chipList = doc.createElement("div");
-        chipList.className = "dossier__chips";
+        const chipList = doc.createElement('div');
+        chipList.className = 'dossier__chips';
         Array.from(groups)
           .slice(0, 8)
           .forEach((tag) => {
-            const chip = doc.createElement("span");
-            chip.className = "dossier__chip";
+            const chip = doc.createElement('span');
+            chip.className = 'dossier__chip';
             chip.textContent = tag;
             chipList.appendChild(chip);
           });
@@ -3606,31 +3481,31 @@ async function generateDossierDocument(context) {
 
   const speciesContainer = doc.querySelector('[data-slot="species"]');
   if (speciesContainer) {
-    speciesContainer.innerHTML = "";
+    speciesContainer.innerHTML = '';
     const speciesList = flattenSpeciesBuckets(context.speciesBuckets)
       .slice(0, 12)
       .sort((a, b) => a.display_name.localeCompare(b.display_name));
     speciesList.forEach((species) => {
-      const item = doc.createElement("li");
-      item.className = "dossier__list-item";
-      const heading = doc.createElement("h3");
-      heading.textContent = species.display_name ?? species.id ?? "Specie";
-      const meta = doc.createElement("p");
+      const item = doc.createElement('li');
+      item.className = 'dossier__list-item';
+      const heading = doc.createElement('h3');
+      heading.textContent = species.display_name ?? species.id ?? 'Specie';
+      const meta = doc.createElement('p');
       const metaParts = [];
       if (species.role_trofico) metaParts.push(species.role_trofico);
       const tier = species.balance?.threat_tier ?? species.syntheticTier;
-      if (tier) metaParts.push(typeof tier === "number" ? `T${tier}` : tier);
-      if (species.biomes?.length) metaParts.push(`Biomi: ${species.biomes.join(", ")}`);
-      meta.textContent = metaParts.length ? metaParts.join(" · ") : "Dati sintetici";
+      if (tier) metaParts.push(typeof tier === 'number' ? `T${tier}` : tier);
+      if (species.biomes?.length) metaParts.push(`Biomi: ${species.biomes.join(', ')}`);
+      meta.textContent = metaParts.length ? metaParts.join(' · ') : 'Dati sintetici';
       item.append(heading, meta);
 
       const tags = species.functional_tags ?? [];
       if (tags.length) {
-        const chipList = doc.createElement("div");
-        chipList.className = "dossier__chips";
+        const chipList = doc.createElement('div');
+        chipList.className = 'dossier__chips';
         tags.slice(0, 8).forEach((tag) => {
-          const chip = doc.createElement("span");
-          chip.className = "dossier__chip";
+          const chip = doc.createElement('span');
+          chip.className = 'dossier__chip';
           chip.textContent = tag;
           chipList.appendChild(chip);
         });
@@ -3642,17 +3517,17 @@ async function generateDossierDocument(context) {
 
   const seedsContainer = doc.querySelector('[data-slot="seeds"]');
   if (seedsContainer) {
-    seedsContainer.innerHTML = "";
+    seedsContainer.innerHTML = '';
     context.seeds.slice(0, 10).forEach((seed) => {
-      const item = doc.createElement("li");
-      item.className = "dossier__list-item";
-      const heading = doc.createElement("h3");
+      const item = doc.createElement('li');
+      item.className = 'dossier__list-item';
+      const heading = doc.createElement('h3');
       const headingParts = [seed.biome_id];
       if (seed.label) headingParts.push(seed.label);
-      heading.textContent = headingParts.join(" · ");
-      const meta = doc.createElement("p");
-      meta.textContent = `Budget minaccia: T${seed.threat_budget ?? "?"}`;
-      const composition = doc.createElement("p");
+      heading.textContent = headingParts.join(' · ');
+      const meta = doc.createElement('p');
+      meta.textContent = `Budget minaccia: T${seed.threat_budget ?? '?'}`;
+      const composition = doc.createElement('p');
       composition.textContent = summariseSeedParty(seed);
       item.append(heading, meta, composition);
       seedsContainer.appendChild(item);
@@ -3669,12 +3544,12 @@ async function generateDossierHtml(context = buildPresetContext(state.lastFilter
 }
 
 async function generateDossierPdfBlob(context) {
-  if (typeof window === "undefined" || typeof window.html2pdf === "undefined") {
-    throw new Error("html2pdf non disponibile");
+  if (typeof window === 'undefined' || typeof window.html2pdf === 'undefined') {
+    throw new Error('html2pdf non disponibile');
   }
   const html = await generateDossierHtml(context);
   if (!html) {
-    throw new Error("Impossibile generare il dossier HTML");
+    throw new Error('Impossibile generare il dossier HTML');
   }
   const worker = window
     .html2pdf()
@@ -3682,10 +3557,10 @@ async function generateDossierPdfBlob(context) {
       margin: 10,
       filename: `${context.slug}-dossier.pdf`,
       html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     })
     .from(html);
-  const blob = await worker.outputPdf("blob");
+  const blob = await worker.outputPdf('blob');
   return blob;
 }
 
@@ -3694,20 +3569,20 @@ async function refreshDossierPreview(context) {
   const hint = elements.dossierEmpty;
   if (!preview || !hint) return;
   if (!context) {
-    preview.innerHTML = "";
+    preview.innerHTML = '';
     hint.hidden = false;
     return;
   }
   const doc = await generateDossierDocument(context);
   if (!doc) {
-    preview.innerHTML = "";
+    preview.innerHTML = '';
     hint.hidden = false;
-    hint.textContent = "Impossibile caricare il template del dossier.";
+    hint.textContent = 'Impossibile caricare il template del dossier.';
     return;
   }
   hint.hidden = true;
-  const body = doc.body ?? doc.querySelector("body");
-  preview.innerHTML = body ? body.innerHTML : "";
+  const body = doc.body ?? doc.querySelector('body');
+  preview.innerHTML = body ? body.innerHTML : '';
 }
 
 function formatSpotlightLine(entry) {
@@ -3716,30 +3591,32 @@ function formatSpotlightLine(entry) {
   if (!name) return null;
   const biomeLabel = entry.biomeLabel || entry.biome_id || entry.biome || null;
   const tierLabel = entry.tier ? `T${entry.tier}` : null;
-  const synthLabel = entry.synthetic ? "Synth" : null;
-  const tags = [biomeLabel, tierLabel, synthLabel].filter(Boolean).join(" · ");
+  const synthLabel = entry.synthetic ? 'Synth' : null;
+  const tags = [biomeLabel, tierLabel, synthLabel].filter(Boolean).join(' · ');
   return tags ? `- ${name} (${tags})` : `- ${name}`;
 }
 
 function formatSpeciesFallbackLine(species) {
   if (!species) return null;
-  const name = species.display_name || species.id || "Specie";
+  const name = species.display_name || species.id || 'Specie';
   const biomeCode = species.biome_id || species.biome || species.habitat_code || null;
   const biomeLabel = biomeCode ? findBiomeLabelById(biomeCode) || biomeCode : null;
   const roleCode = species.role_trofico || species.role || null;
-  const roleLabel = roleCode ? SPECIES_ROLE_LABELS[roleCode] || titleCase(roleCode.replace(/_/g, " ")) : null;
-  const tags = [biomeLabel, roleLabel].filter(Boolean).join(" · ");
+  const roleLabel = roleCode
+    ? SPECIES_ROLE_LABELS[roleCode] || titleCase(roleCode.replace(/_/g, ' '))
+    : null;
+  const tags = [biomeLabel, roleLabel].filter(Boolean).join(' · ');
   return tags ? `- ${name} (${tags})` : `- ${name}`;
 }
 
 function formatSeedSummary(seed) {
   if (!seed) return null;
-  const label = seed.label || seed.id || "Seed";
+  const label = seed.label || seed.id || 'Seed';
   const biomeCode = seed.biome_id || seed.biome || null;
   const biomeLabel = biomeCode ? findBiomeLabelById(biomeCode) || biomeCode : null;
-  const threat = typeof seed.threat_budget === "number" ? `Budget T${seed.threat_budget}` : null;
-  const synth = seed.synthetic ? "Synth" : null;
-  const segments = [label, biomeLabel, threat, synth].filter(Boolean).join(" · ");
+  const threat = typeof seed.threat_budget === 'number' ? `Budget T${seed.threat_budget}` : null;
+  const synth = seed.synthetic ? 'Synth' : null;
+  const segments = [label, biomeLabel, threat, synth].filter(Boolean).join(' · ');
   return `- ${segments}`;
 }
 
@@ -3757,27 +3634,28 @@ function buildPressKitMarkdown(context) {
 
   const lines = [];
   lines.push(`# ${context.ecosystemLabel} — Demo pubblico`);
-  lines.push("");
+  lines.push('');
   lines.push(
-    `Generato il ${generatedAt.toLocaleString("it-IT", {
-      dateStyle: "medium",
-      timeStyle: "short",
-    })} con ${metrics.biomeCount} biomi, ${metrics.speciesCount} specie (${metrics.uniqueSpeciesCount} uniche) e ${metrics.seedCount} seed narrativi.`
+    `Generato il ${generatedAt.toLocaleString('it-IT', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    })} con ${metrics.biomeCount} biomi, ${metrics.speciesCount} specie (${metrics.uniqueSpeciesCount} uniche) e ${metrics.seedCount} seed narrativi.`,
   );
   lines.push(`Filtri attivi: ${context.filterSummary}.`);
-  lines.push("");
+  lines.push('');
 
-  lines.push("## Metriche chiave");
-  lines.push("");
+  lines.push('## Metriche chiave');
+  lines.push('');
   lines.push(`- Biomi selezionati: ${metrics.biomeCount}`);
   lines.push(`- Specie totali: ${metrics.speciesCount} (${metrics.uniqueSpeciesCount} uniche)`);
   lines.push(`- Seed narrativi: ${metrics.seedCount}`);
-  const highlightBiome = Array.isArray(context.biomes) && context.biomes.length ? context.biomes[0] : null;
+  const highlightBiome =
+    Array.isArray(context.biomes) && context.biomes.length ? context.biomes[0] : null;
   if (highlightBiome) {
-    const highlightLabel = highlightBiome.label || highlightBiome.id || "Bioma";
+    const highlightLabel = highlightBiome.label || highlightBiome.id || 'Bioma';
     lines.push(`- Bioma in evidenza: ${highlightLabel}`);
   }
-  lines.push("");
+  lines.push('');
 
   const pinnedLines = Array.isArray(context.pinnedEntries)
     ? context.pinnedEntries.map(formatSpotlightLine).filter(Boolean)
@@ -3790,50 +3668,50 @@ function buildPressKitMarkdown(context) {
       .slice(0, 3);
   }
   if (spotlightLines.length) {
-    lines.push("## Specie spotlight");
-    lines.push("");
+    lines.push('## Specie spotlight');
+    lines.push('');
     spotlightLines.forEach((line) => lines.push(line));
-    lines.push("");
+    lines.push('');
   }
 
   const seedLines = Array.isArray(context.seeds)
     ? context.seeds.map(formatSeedSummary).filter(Boolean).slice(0, 4)
     : [];
   if (seedLines.length) {
-    lines.push("## Seed narrativi in evidenza");
-    lines.push("");
+    lines.push('## Seed narrativi in evidenza');
+    lines.push('');
     seedLines.forEach((line) => lines.push(line));
-    lines.push("");
+    lines.push('');
   }
 
   const recommendations = Array.isArray(context.insights) ? context.insights : [];
   if (recommendations.length) {
-    lines.push("## Insight operativi");
-    lines.push("");
+    lines.push('## Insight operativi');
+    lines.push('');
     recommendations.slice(0, 4).forEach((rec) => {
       if (!rec?.message) return;
       const tone = rec.tone ? rec.tone.toUpperCase() : null;
-      const prefix = tone ? `[${tone}] ` : "";
+      const prefix = tone ? `[${tone}] ` : '';
       lines.push(`- ${prefix}${rec.message}`);
     });
-    lines.push("");
+    lines.push('');
   }
 
   if (context.narrative?.narrativeHook) {
-    lines.push("## Hook narrativo");
-    lines.push("");
+    lines.push('## Hook narrativo');
+    lines.push('');
     lines.push(context.narrative.narrativeHook);
-    lines.push("");
+    lines.push('');
   }
 
-  lines.push("## Call to action");
-  lines.push("");
-  lines.push("- Condividi il dossier HTML con Marketing/Comms per asset visivi aggiornati.");
-  lines.push("- Usa il manifesto YAML per predisporre il deploy statico o la CDN demo.");
-  lines.push("- Integra il press kit nelle note di rilascio e nella newsletter della demo.");
-  lines.push("");
+  lines.push('## Call to action');
+  lines.push('');
+  lines.push('- Condividi il dossier HTML con Marketing/Comms per asset visivi aggiornati.');
+  lines.push('- Usa il manifesto YAML per predisporre il deploy statico o la CDN demo.');
+  lines.push('- Integra il press kit nelle note di rilascio e nella newsletter della demo.');
+  lines.push('');
 
-  return lines.join("\n").replace(/\n{3,}/g, "\n\n");
+  return lines.join('\n').replace(/\n{3,}/g, '\n\n');
 }
 
 async function generatePresetFileContents(preset, filters) {
@@ -3844,72 +3722,72 @@ async function generatePresetFileContents(preset, filters) {
     if (!descriptor.available) continue;
     try {
       switch (file.builder) {
-        case "ecosystem-json":
+        case 'ecosystem-json':
           files.push({
             id: file.id,
             name: descriptor.name,
-            mime: "application/json",
+            mime: 'application/json',
             data: JSON.stringify(context.payload, null, 2),
           });
           break;
-        case "ecosystem-yaml":
+        case 'ecosystem-yaml':
           files.push({
             id: file.id,
             name: descriptor.name,
-            mime: "text/yaml",
+            mime: 'text/yaml',
             data: toYAML(context.payload),
           });
           break;
-        case "activity-json":
+        case 'activity-json':
           files.push({
             id: file.id,
             name: descriptor.name,
-            mime: "application/json",
+            mime: 'application/json',
             data: JSON.stringify(context.activityEntries, null, 2),
           });
           break;
-        case "activity-csv":
+        case 'activity-csv':
           files.push({
             id: file.id,
             name: descriptor.name,
-            mime: "text/csv",
+            mime: 'text/csv',
             data: activityLogToCsv(context.activityEntries),
           });
           break;
-        case "dossier-html":
+        case 'dossier-html':
           {
             const html = await generateDossierHtml(context);
             if (html) {
               files.push({
                 id: file.id,
                 name: descriptor.name,
-                mime: "text/html",
+                mime: 'text/html',
                 data: html,
               });
             }
           }
           break;
-        case "dossier-pdf":
+        case 'dossier-pdf':
           {
             const blob = await generateDossierPdfBlob(context);
             if (blob) {
               files.push({
                 id: file.id,
                 name: descriptor.name,
-                mime: "application/pdf",
+                mime: 'application/pdf',
                 data: blob,
                 binary: true,
               });
             }
           }
           break;
-        case "press-kit-md":
+        case 'press-kit-md':
           {
             const markdown = buildPressKitMarkdown(context);
             files.push({
               id: file.id,
               name: descriptor.name,
-              mime: "text/markdown",
+              mime: 'text/markdown',
               data: markdown,
             });
           }
@@ -3925,12 +3803,12 @@ async function generatePresetFileContents(preset, filters) {
 }
 
 async function downloadPresetZip(preset, filters) {
-  if (typeof window === "undefined" || typeof window.JSZip === "undefined") {
-    throw new Error("JSZip non disponibile");
+  if (typeof window === 'undefined' || typeof window.JSZip === 'undefined') {
+    throw new Error('JSZip non disponibile');
   }
   const { files, context } = await generatePresetFileContents(preset, filters);
   if (!files.length) {
-    throw new Error("Nessun file disponibile per il preset selezionato");
+    throw new Error('Nessun file disponibile per il preset selezionato');
   }
   const zip = new window.JSZip();
   files.forEach((file) => {
@@ -3941,13 +3819,13 @@ async function downloadPresetZip(preset, filters) {
       zip.file(file.name, file.data, { binary: false });
     }
   });
-  const blob = await zip.generateAsync({ type: "blob" });
+  const blob = await zip.generateAsync({ type: 'blob' });
   const zipName = `${context.slug}-${preset.zipSuffix ?? preset.id}.zip`;
-  downloadFile(zipName, blob, "application/zip");
+  downloadFile(zipName, blob, 'application/zip');
   markPresetItemsComplete(
     preset.id,
     files.map((file) => file.id),
-    true
+    true,
   );
   return { zipName, fileCount: files.length };
 }
@@ -3955,7 +3833,7 @@ async function downloadPresetZip(preset, filters) {
 function setupExportControls() {
   populateExportPresetOptions();
   if (elements.exportPreset) {
-    elements.exportPreset.addEventListener("change", (event) => {
+    elements.exportPreset.addEventListener('change', (event) => {
       const { value } = event.target;
       const fallbackPresetId = MANIFEST_PRESETS[0]?.id ?? null;
       state.exportState.presetId = value || fallbackPresetId;
@@ -3963,10 +3841,10 @@ function setupExportControls() {
     });
   }
   if (elements.exportList) {
-    elements.exportList.addEventListener("change", (event) => {
+    elements.exportList.addEventListener('change', (event) => {
       const target = event.target;
       if (!(target instanceof HTMLInputElement)) return;
-      if (target.type !== "checkbox") return;
+      if (target.type !== 'checkbox') return;
       const { manifestItem } = target.dataset;
       const preset = getCurrentPreset();
       if (!preset || !manifestItem) return;
@@ -3984,7 +3862,7 @@ function getSelectedValues(select) {
   }
   return Array.from(select.querySelectorAll(`${MULTISELECT_OPTION_SELECTOR}[aria-pressed="true"]`))
     .map((button) => button.dataset.value)
-    .filter((value) => typeof value === "string" && value.length);
+    .filter((value) => typeof value === 'string' && value.length);
 }
 
 function setSelectValues(select, values) {
@@ -4022,22 +3900,26 @@ function applyFiltersToForm(filters = {}) {
 }
 
 function getCssVariableValue(name) {
-  if (typeof window === "undefined") return "";
+  if (typeof window === 'undefined') return '';
   try {
     const root = document.documentElement;
     const styles = window.getComputedStyle(root);
-    return styles.getPropertyValue(name)?.trim() ?? "";
+    return styles.getPropertyValue(name)?.trim() ?? '';
   } catch (error) {
-    console.warn("Impossibile leggere la variabile CSS", name, error);
-    return "";
+    console.warn('Impossibile leggere la variabile CSS', name, error);
+    return '';
   }
 }
 
 function hexToRgba(hex, alpha = 1) {
-  if (typeof hex !== "string") return "";
-  const normalized = hex.replace(/^#/, "").trim();
-  if (!normalized) return "";
-  const expand = (value) => value.split("").map((char) => `${char}${char}`).join("");
+  if (typeof hex !== 'string') return '';
+  const normalized = hex.replace(/^#/, '').trim();
+  if (!normalized) return '';
+  const expand = (value) =>
+    value
+      .split('')
+      .map((char) => `${char}${char}`)
+      .join('');
   let r;
   let g;
   let b;
@@ -4051,21 +3933,21 @@ function hexToRgba(hex, alpha = 1) {
     g = parseInt(normalized.slice(2, 4), 16);
     b = parseInt(normalized.slice(4, 6), 16);
   } else {
-    return "";
+    return '';
   }
   if ([r, g, b].some((component) => Number.isNaN(component))) {
-    return "";
+    return '';
   }
   const clampedAlpha = Math.min(1, Math.max(0, alpha));
   return `rgba(${r}, ${g}, ${b}, ${clampedAlpha.toFixed(3)})`;
 }
 
 function parseRgbColor(value) {
-  if (typeof value !== "string") return null;
+  if (typeof value !== 'string') return null;
   const match = value.match(/rgba?\(([^)]+)\)/i);
   if (!match) return null;
   const parts = match[1]
-    .split(",")
+    .split(',')
     .map((segment) => Number.parseFloat(segment.trim()))
     .filter((segment) => !Number.isNaN(segment));
   if (parts.length < 3) return null;
@@ -4075,8 +3957,8 @@ function parseRgbColor(value) {
 function resolveHeatmapColor(tokenName, intensity) {
   const baseAlpha = 0.12 + Math.max(0, Math.min(1, intensity)) * 0.45;
   const clampedAlpha = Math.max(0.08, Math.min(0.85, baseAlpha));
-  const raw = tokenName ? getCssVariableValue(tokenName) : "";
-  if (raw.startsWith("#")) {
+  const raw = tokenName ? getCssVariableValue(tokenName) : '';
+  if (raw.startsWith('#')) {
     const converted = hexToRgba(raw, clampedAlpha);
     if (converted) return converted;
   }
@@ -4101,9 +3983,7 @@ function ensurePreferredRoleSet() {
   }
   const constraints = state.composer.constraints ?? {};
   if (!(constraints.preferredRoles instanceof Set)) {
-    const values = Array.isArray(constraints.preferredRoles)
-      ? constraints.preferredRoles
-      : [];
+    const values = Array.isArray(constraints.preferredRoles) ? constraints.preferredRoles : [];
     constraints.preferredRoles = new Set(values);
   }
   return constraints.preferredRoles;
@@ -4147,11 +4027,11 @@ function syncPreferredRolesWithAvailability() {
 
 function applyHeatmapColor(element, role, percent) {
   if (!(element instanceof HTMLElement)) return;
-  const token = ROLE_FLAG_TOKENS[role] ?? "--color-accent-400";
+  const token = ROLE_FLAG_TOKENS[role] ?? '--color-accent-400';
   const numericPercent = Number.isFinite(percent) ? percent : Number(percent) || 0;
   const intensity = Math.max(0, Math.min(1, numericPercent / 100));
-  element.style.setProperty("--heat-intensity", intensity.toFixed(2));
-  element.style.setProperty("--heat-color-token", `var(${token})`);
+  element.style.setProperty('--heat-intensity', intensity.toFixed(2));
+  element.style.setProperty('--heat-color-token', `var(${token})`);
   const background = resolveHeatmapColor(token, intensity);
   if (background) {
     element.style.background = background;
@@ -4163,14 +4043,12 @@ function passesComposerConstraints(species, biome) {
   const constraints = state.composer.constraints;
   const preferred = ensurePreferredRoleSet();
   if (preferred.size) {
-    const roleKey = species?.role_trofico ?? "";
+    const roleKey = species?.role_trofico ?? '';
     if (!preferred.has(roleKey)) {
       return false;
     }
   }
-  const minSynergy = Number.isFinite(constraints.minSynergy)
-    ? constraints.minSynergy
-    : 0;
+  const minSynergy = Number.isFinite(constraints.minSynergy) ? constraints.minSynergy : 0;
   if (minSynergy > 0) {
     const synergy = calculateSynergy(species, biome);
     if ((synergy?.percent ?? 0) < minSynergy) {
@@ -4207,24 +4085,24 @@ function titleCase(value) {
     .split(/[-_\s]+/)
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
+    .join(' ');
 }
 
 function slugify(value) {
   return String(value)
     .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
     .slice(0, 60);
 }
 
 function getPanelIdFromHash() {
-  if (typeof window === "undefined") return null;
-  const hash = window.location.hash ?? "";
+  if (typeof window === 'undefined') return null;
+  const hash = window.location.hash ?? '';
   if (!hash) return null;
-  const id = hash.replace(/^#/, "");
+  const id = hash.replace(/^#/, '');
   if (!id) return null;
   const target = document.getElementById(id);
   if (!target) return null;
@@ -4236,11 +4114,11 @@ function scrollToPanel(panelId, { smooth = true } = {}) {
   const entry = anchorState.sectionsById.get(panelId);
   const panel = entry?.element;
   if (!panel) return;
-  if (!panel.hasAttribute("tabindex")) {
-    panel.setAttribute("tabindex", "-1");
+  if (!panel.hasAttribute('tabindex')) {
+    panel.setAttribute('tabindex', '-1');
   }
-  const behavior = smooth ? "smooth" : "auto";
-  panel.scrollIntoView({ behavior, block: "start" });
+  const behavior = smooth ? 'smooth' : 'auto';
+  panel.scrollIntoView({ behavior, block: 'start' });
   window.requestAnimationFrame(() => {
     try {
       panel.focus({ preventScroll: true });
@@ -4252,11 +4130,11 @@ function scrollToPanel(panelId, { smooth = true } = {}) {
 
 function updateBreadcrumbs(sectionId) {
   const descriptor = anchorState.descriptorsById.get(sectionId);
-  const label = descriptor?.label ?? "";
+  const label = descriptor?.label ?? '';
   anchorUi.breadcrumbTargets.forEach((target) => {
     if (target) {
       target.textContent = label;
-      target.dataset.activeAnchor = sectionId ?? "";
+      target.dataset.activeAnchor = sectionId ?? '';
     }
   });
 }
@@ -4267,11 +4145,11 @@ function updateMinimapState() {
       const descriptor = anchorState.descriptorsById.get(id);
       if (!descriptor) return;
       const ratio = Math.max(0, Math.min(1, descriptor.progress ?? 0));
-      progress.style.setProperty("--progress", `${Math.round(ratio * 100)}%`);
+      progress.style.setProperty('--progress', `${Math.round(ratio * 100)}%`);
       if (anchorState.activeId === id) {
-        item.classList.add("is-active");
+        item.classList.add('is-active');
       } else {
-        item.classList.remove("is-active");
+        item.classList.remove('is-active');
       }
     });
   });
@@ -4288,11 +4166,11 @@ function setActiveSection(sectionId, { updateHash = false, silent = false } = {}
   if (previous !== sectionId || !silent) {
     anchorState.descriptors.forEach((descriptor) => {
       if (descriptor.id === sectionId) {
-        descriptor.anchor.classList.add("is-active");
-        descriptor.anchor.setAttribute("aria-current", "location");
+        descriptor.anchor.classList.add('is-active');
+        descriptor.anchor.setAttribute('aria-current', 'location');
       } else {
-        descriptor.anchor.classList.remove("is-active");
-        descriptor.anchor.removeAttribute("aria-current");
+        descriptor.anchor.classList.remove('is-active');
+        descriptor.anchor.removeAttribute('aria-current');
       }
     });
     updateBreadcrumbs(sectionId);
@@ -4301,8 +4179,8 @@ function setActiveSection(sectionId, { updateHash = false, silent = false } = {}
 
   if (updateHash) {
     const panel = anchorState.sectionsById.get(sectionId)?.element;
-    if (panel?.id && typeof window !== "undefined" && window.history?.replaceState) {
-      window.history.replaceState(null, "", `#${panel.id}`);
+    if (panel?.id && typeof window !== 'undefined' && window.history?.replaceState) {
+      window.history.replaceState(null, '', `#${panel.id}`);
     }
   }
 }
@@ -4352,11 +4230,11 @@ function handleAnchorObserver(entries) {
 }
 
 function cleanupScrollFallback() {
-  if (!anchorState.scrollHandler || typeof window === "undefined") {
+  if (!anchorState.scrollHandler || typeof window === 'undefined') {
     return;
   }
-  window.removeEventListener("scroll", anchorState.scrollHandler);
-  window.removeEventListener("resize", anchorState.scrollHandler);
+  window.removeEventListener('scroll', anchorState.scrollHandler);
+  window.removeEventListener('resize', anchorState.scrollHandler);
   anchorState.scrollHandler = null;
 }
 
@@ -4367,13 +4245,12 @@ function createAnchorObserver() {
   cleanupScrollFallback();
   if (!anchorUi.panels.length) return;
 
-  if (typeof IntersectionObserver === "undefined") {
-    if (typeof window === "undefined") {
+  if (typeof IntersectionObserver === 'undefined') {
+    if (typeof window === 'undefined') {
       return;
     }
     anchorState.scrollHandler = () => {
-      const viewportHeight =
-        window.innerHeight || document.documentElement?.clientHeight || 1;
+      const viewportHeight = window.innerHeight || document.documentElement?.clientHeight || 1;
 
       anchorState.descriptors.forEach((descriptor) => {
         const section = anchorState.sectionsById.get(descriptor.id);
@@ -4398,8 +4275,8 @@ function createAnchorObserver() {
       updateMinimapState();
     };
 
-    window.addEventListener("scroll", anchorState.scrollHandler, { passive: true });
-    window.addEventListener("resize", anchorState.scrollHandler);
+    window.addEventListener('scroll', anchorState.scrollHandler, { passive: true });
+    window.addEventListener('resize', anchorState.scrollHandler);
     anchorState.scrollHandler();
     return;
   }
@@ -4410,7 +4287,7 @@ function createAnchorObserver() {
   }
 
   anchorState.observer = new IntersectionObserver(handleAnchorObserver, {
-    rootMargin: "-40% 0px -40% 0px",
+    rootMargin: '-40% 0px -40% 0px',
     threshold: thresholds,
   });
 
@@ -4426,33 +4303,34 @@ function setupMinimaps() {
 
   anchorUi.minimapContainers.forEach((container) => {
     if (!container) return;
-    const isOverlay = container.dataset.minimapMode === "overlay";
-    const existingTitle = container.querySelector(".codex-minimap__title");
-    const label = container.dataset.minimapLabel || existingTitle?.textContent?.trim() || "Minimappa";
+    const isOverlay = container.dataset.minimapMode === 'overlay';
+    const existingTitle = container.querySelector('.codex-minimap__title');
+    const label =
+      container.dataset.minimapLabel || existingTitle?.textContent?.trim() || 'Minimappa';
 
-    container.innerHTML = "";
+    container.innerHTML = '';
 
     if (!isOverlay) {
-      const title = document.createElement("p");
-      title.className = "codex-minimap__title";
+      const title = document.createElement('p');
+      title.className = 'codex-minimap__title';
       title.textContent = label;
       container.appendChild(title);
     }
 
-    const list = document.createElement("ol");
-    list.className = isOverlay ? "codex-overlay__list" : "codex-minimap__list";
+    const list = document.createElement('ol');
+    list.className = isOverlay ? 'codex-overlay__list' : 'codex-minimap__list';
     const registry = new Map();
 
     anchorState.descriptors.forEach((descriptor) => {
-      const item = document.createElement("li");
-      item.className = isOverlay ? "codex-overlay__item" : "codex-minimap__item";
+      const item = document.createElement('li');
+      item.className = isOverlay ? 'codex-overlay__item' : 'codex-minimap__item';
       item.dataset.minimapItem = descriptor.id;
 
-      const trigger = document.createElement("button");
-      trigger.type = "button";
-      trigger.className = isOverlay ? "codex-overlay__link" : "codex-minimap__link";
+      const trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = isOverlay ? 'codex-overlay__link' : 'codex-minimap__link';
       trigger.textContent = descriptor.label;
-      trigger.addEventListener("click", () => {
+      trigger.addEventListener('click', () => {
         setActiveSection(descriptor.id, { updateHash: true });
         scrollToPanel(descriptor.id);
         if (isOverlay) {
@@ -4460,9 +4338,9 @@ function setupMinimaps() {
         }
       });
 
-      const progress = document.createElement("span");
-      progress.className = isOverlay ? "codex-overlay__progress" : "codex-minimap__progress";
-      progress.style.setProperty("--progress", "0%");
+      const progress = document.createElement('span');
+      progress.className = isOverlay ? 'codex-overlay__progress' : 'codex-minimap__progress';
+      progress.style.setProperty('--progress', '0%');
 
       item.append(trigger, progress);
       list.appendChild(item);
@@ -4481,9 +4359,9 @@ function closeCodex() {
     return;
   }
   anchorUi.overlay.hidden = true;
-  anchorUi.overlay.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("codex-open");
-  if (anchorState.lastToggle && typeof anchorState.lastToggle.focus === "function") {
+  anchorUi.overlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('codex-open');
+  if (anchorState.lastToggle && typeof anchorState.lastToggle.focus === 'function') {
     anchorState.lastToggle.focus();
   }
   anchorState.lastToggle = null;
@@ -4499,8 +4377,8 @@ function setupAnchorNavigation() {
     const panelId = panel.dataset.panel;
     if (!panelId) return;
     anchorState.sectionsById.set(panelId, { element: panel });
-    if (!panel.hasAttribute("tabindex")) {
-      panel.setAttribute("tabindex", "-1");
+    if (!panel.hasAttribute('tabindex')) {
+      panel.setAttribute('tabindex', '-1');
     }
   });
 
@@ -4514,7 +4392,7 @@ function setupAnchorNavigation() {
     .filter(Boolean);
 
   anchorState.descriptorsById = new Map(
-    anchorState.descriptors.map((descriptor) => [descriptor.id, descriptor])
+    anchorState.descriptors.map((descriptor) => [descriptor.id, descriptor]),
   );
 
   if (!anchorState.descriptors.length) {
@@ -4522,7 +4400,7 @@ function setupAnchorNavigation() {
   }
 
   anchorState.descriptors.forEach((descriptor) => {
-    descriptor.anchor.addEventListener("click", (event) => {
+    descriptor.anchor.addEventListener('click', (event) => {
       event.preventDefault();
       setActiveSection(descriptor.id, { updateHash: true });
       scrollToPanel(descriptor.id);
@@ -4540,7 +4418,7 @@ function setupAnchorNavigation() {
     setActiveSection(anchorState.descriptors[0].id, { silent: true });
   }
 
-  window.addEventListener("hashchange", () => {
+  window.addEventListener('hashchange', () => {
     const fromHash = getPanelIdFromHash();
     if (fromHash && anchorState.descriptorsById.has(fromHash)) {
       setActiveSection(fromHash, { silent: true });
@@ -4554,10 +4432,10 @@ function openCodex() {
     setupMinimaps();
   }
   anchorUi.overlay.hidden = false;
-  anchorUi.overlay.setAttribute("aria-hidden", "false");
-  document.body.classList.add("codex-open");
+  anchorUi.overlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('codex-open');
   updateMinimapState();
-  const closeButton = anchorUi.overlay.querySelector("[data-codex-close]");
+  const closeButton = anchorUi.overlay.querySelector('[data-codex-close]');
   if (closeButton) {
     closeButton.focus({ preventScroll: true });
   }
@@ -4568,7 +4446,7 @@ function setupCodexControls() {
 
   anchorUi.codexToggles.forEach((button) => {
     if (!button) return;
-    button.addEventListener("click", () => {
+    button.addEventListener('click', () => {
       anchorState.lastToggle = button;
       openCodex();
     });
@@ -4576,19 +4454,19 @@ function setupCodexControls() {
 
   anchorUi.codexClosers.forEach((button) => {
     if (!button) return;
-    button.addEventListener("click", () => {
+    button.addEventListener('click', () => {
       closeCodex();
     });
   });
 
-  anchorUi.overlay.addEventListener("click", (event) => {
+  anchorUi.overlay.addEventListener('click', (event) => {
     if (event.target === anchorUi.overlay) {
       closeCodex();
     }
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && document.body.classList.contains("codex-open")) {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && document.body.classList.contains('codex-open')) {
       closeCodex();
     }
   });
@@ -4605,27 +4483,27 @@ function uniqueById(items) {
   return Array.from(seen.values());
 }
 
-function randomId(prefix = "synt") {
+function randomId(prefix = 'synt') {
   const suffix = Math.random().toString(36).slice(2, 8);
   return `${prefix}-${suffix}`;
 }
 
 function combineNames(primaryName, secondaryName) {
-  const firstTokens = String(primaryName || "Alpha")
+  const firstTokens = String(primaryName || 'Alpha')
     .split(/\s+/)
     .filter(Boolean);
-  const secondTokens = String(secondaryName || "Beta")
+  const secondTokens = String(secondaryName || 'Beta')
     .split(/\s+/)
     .filter(Boolean);
-  const first = firstTokens[0] || "Neo";
-  const last = secondTokens.length ? secondTokens[secondTokens.length - 1] : "Synth";
+  const first = firstTokens[0] || 'Neo';
+  const last = secondTokens.length ? secondTokens[secondTokens.length - 1] : 'Synth';
   return `${first} ${last}`;
 }
 
 function mixFlags(primary = {}, secondary = {}) {
   const result = { ...primary };
   Object.entries(secondary).forEach(([key, value]) => {
-    if (typeof value === "boolean") {
+    if (typeof value === 'boolean') {
       result[key] = Boolean(value || result[key]);
     } else if (value && !result[key]) {
       result[key] = value;
@@ -4639,7 +4517,7 @@ function combineTags(primary = [], secondary = []) {
   primary.forEach((tag) => merged.add(tag));
   secondary.forEach((tag) => merged.add(tag));
   if (!merged.size) {
-    merged.add("ibrido");
+    merged.add('ibrido');
   }
   return Array.from(merged);
 }
@@ -4667,22 +4545,23 @@ function traitLabel(traitId) {
       }
     }
   }
-  if (typeof traitId === "string") {
+  if (typeof traitId === 'string') {
     return titleCase(traitId);
   }
   return traitId;
 }
 
 function createChipElement(value) {
-  const chip = document.createElement("span");
-  chip.className = "chip";
+  const chip = document.createElement('span');
+  chip.className = 'chip';
   const info = getTraitDetails(value);
   chip.textContent = info?.label ?? value;
   chip.dataset.traitId = value;
   const tooltip = [];
   const glossaryEntry =
     state.traitGlossaryIndex instanceof Map ? state.traitGlossaryIndex.get(value) : null;
-  const glossaryDescription = glossaryEntry?.description_it || glossaryEntry?.description_en || null;
+  const glossaryDescription =
+    glossaryEntry?.description_it || glossaryEntry?.description_en || null;
   if (info?.usage) tooltip.push(`Uso: ${info.usage}`);
   if (info?.family) tooltip.push(`Famiglia: ${info.family}`);
   if (info?.mutation) tooltip.push(`Mutazione: ${info.mutation}`);
@@ -4690,20 +4569,20 @@ function createChipElement(value) {
   if (info?.fme) tooltip.push(`FME: ${info.fme}`);
   if (info?.weakness) tooltip.push(`Debolezza: ${info.weakness}`);
   if (info?.synergy?.length) {
-    tooltip.push(`Sinergie: ${info.synergy.map((id) => traitLabel(id)).join(", ")}`);
+    tooltip.push(`Sinergie: ${info.synergy.map((id) => traitLabel(id)).join(', ')}`);
   }
   if (info?.conflict?.length) {
-    tooltip.push(`Conflitti: ${info.conflict.map((id) => traitLabel(id)).join(", ")}`);
+    tooltip.push(`Conflitti: ${info.conflict.map((id) => traitLabel(id)).join(', ')}`);
   }
   if (info?.tier) {
     tooltip.push(`Tier: ${info.tier}`);
   }
   if (info?.slots?.length) {
-    tooltip.push(`Slot PI: ${info.slots.join(", ")}`);
+    tooltip.push(`Slot PI: ${info.slots.join(', ')}`);
   }
   if (info?.piSynergy?.combo_totale) {
     const formList = Array.isArray(info.piSynergy.forme) ? info.piSynergy.forme : [];
-    const formsNote = formList.length ? ` · Forme: ${formList.join(", ")}` : "";
+    const formsNote = formList.length ? ` · Forme: ${formList.join(', ')}` : '';
     tooltip.push(`Combo PI: ${info.piSynergy.combo_totale}${formsNote}`);
   }
   if (info?.environmentRequirements?.length) {
@@ -4713,12 +4592,12 @@ function createChipElement(value) {
     tooltip.push(`Sintesi: ${glossaryDescription}`);
   }
   if (tooltip.length) {
-    chip.title = tooltip.join("\n");
+    chip.title = tooltip.join('\n');
   }
   return chip;
 }
 
-function inferThreatTierFromRole(role = "", flags = {}) {
+function inferThreatTierFromRole(role = '', flags = {}) {
   if (flags.apex) return 4;
   if (flags.threat) return 3;
   if (flags.keystone) return 3;
@@ -4734,39 +4613,40 @@ function tierOf(species) {
   if (species?.syntheticTier) {
     return Math.max(1, Math.min(species.syntheticTier, 5));
   }
-  const raw = species?.balance?.threat_tier ?? "T1";
-  const parsed = parseInt(String(raw).replace(/\D/g, ""), 10);
+  const raw = species?.balance?.threat_tier ?? 'T1';
+  const parsed = parseInt(String(raw).replace(/\D/g, ''), 10);
   if (Number.isNaN(parsed)) return 1;
   return Math.max(1, Math.min(parsed, 5));
 }
 
-const MULTISELECT_OPTION_SELECTOR = "[data-multiselect-option]";
+const MULTISELECT_OPTION_SELECTOR = '[data-multiselect-option]';
 
 function isSelectElement(element) {
-  return typeof HTMLSelectElement !== "undefined" && element instanceof HTMLSelectElement;
+  return typeof HTMLSelectElement !== 'undefined' && element instanceof HTMLSelectElement;
 }
 
 function renderMultiselectPlaceholder(container, message) {
   if (!container || isSelectElement(container)) return;
-  Array.from(container.querySelectorAll(".chip-multiselect__empty")).forEach((node) =>
-    node.remove()
+  Array.from(container.querySelectorAll('.chip-multiselect__empty')).forEach((node) =>
+    node.remove(),
   );
-  const empty = document.createElement("p");
-  empty.className = "chip-multiselect__empty";
-  empty.textContent = message || container.dataset.emptyLabel || "Nessuna opzione disponibile";
+  const empty = document.createElement('p');
+  empty.className = 'chip-multiselect__empty';
+  empty.textContent = message || container.dataset.emptyLabel || 'Nessuna opzione disponibile';
   container.appendChild(empty);
 }
 
 function toggleMultiselectOption(button, pressed) {
   if (!button) return;
-  const next = typeof pressed === "boolean" ? pressed : button.getAttribute("aria-pressed") !== "true";
-  button.setAttribute("aria-pressed", next ? "true" : "false");
-  button.classList.toggle("chip--active", next);
+  const next =
+    typeof pressed === 'boolean' ? pressed : button.getAttribute('aria-pressed') !== 'true';
+  button.setAttribute('aria-pressed', next ? 'true' : 'false');
+  button.classList.toggle('chip--active', next);
 }
 
 function notifyMultiselectChange(container) {
   if (!container || isSelectElement(container)) return;
-  const event = new CustomEvent("multiselect-change", {
+  const event = new CustomEvent('multiselect-change', {
     bubbles: false,
     detail: { values: getSelectedValues(container) },
   });
@@ -4776,27 +4656,27 @@ function notifyMultiselectChange(container) {
 function ensureOption(select, value, label = value, options = {}) {
   if (!select) return;
   if (isSelectElement(select)) {
-    const option = document.createElement("option");
+    const option = document.createElement('option');
     option.value = value;
     option.textContent = label;
     select.appendChild(option);
     return;
   }
 
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "chip chip-multiselect__option";
-  button.dataset.multiselectOption = "true";
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'chip chip-multiselect__option';
+  button.dataset.multiselectOption = 'true';
   button.dataset.value = String(value);
-  button.setAttribute("aria-pressed", "false");
+  button.setAttribute('aria-pressed', 'false');
   button.textContent = label;
   const tooltip = options?.description
     ? `${label} · ${options.description}`
     : label === value
-    ? label
-    : `${label} · ${value}`;
+      ? label
+      : `${label} · ${value}`;
   button.title = tooltip;
-  button.addEventListener("click", () => {
+  button.addEventListener('click', () => {
     toggleMultiselectOption(button);
     notifyMultiselectChange(select);
   });
@@ -4832,16 +4712,16 @@ function collectTags(data) {
 }
 
 function populateFilters(data) {
-  elements.flags.innerHTML = "";
-  elements.roles.innerHTML = "";
-  elements.tags.innerHTML = "";
+  elements.flags.innerHTML = '';
+  elements.roles.innerHTML = '';
+  elements.tags.innerHTML = '';
 
   const flags = collectFlags(data);
   if (flags.length) {
     flags.forEach((flag) =>
       ensureOption(elements.flags, flag, formatFlagLabel(flag), {
         description: SPECIES_ROLE_LABELS[flag] ?? undefined,
-      })
+      }),
     );
   } else {
     renderMultiselectPlaceholder(elements.flags);
@@ -4867,9 +4747,9 @@ function populateFilters(data) {
 function setupFilterChangeHandlers() {
   const groups = [elements.flags, elements.roles, elements.tags];
   groups.forEach((group) => {
-    if (!group || group.dataset.multiselectListener === "true") return;
-    group.dataset.multiselectListener = "true";
-    group.addEventListener("multiselect-change", () => {
+    if (!group || group.dataset.multiselectListener === 'true') return;
+    group.dataset.multiselectListener = 'true';
+    group.addEventListener('multiselect-change', () => {
       currentFilters();
     });
   });
@@ -4909,13 +4789,13 @@ function indexTraitRegistry(registry) {
 function indexTraitGlossary(glossary) {
   const map = new Map();
   const entries = glossary?.traits;
-  if (!entries || typeof entries !== "object") {
+  if (!entries || typeof entries !== 'object') {
     return map;
   }
 
   Object.entries(entries).forEach(([traitId, info]) => {
     if (!traitId) return;
-    if (!info || typeof info !== "object") {
+    if (!info || typeof info !== 'object') {
       map.set(traitId, {});
       return;
     }
@@ -4935,7 +4815,7 @@ function indexTraitGlossary(glossary) {
 function normalizeTraitList(value) {
   if (!value) return [];
   if (Array.isArray(value)) {
-    return value.filter((item) => typeof item === "string" && item.length);
+    return value.filter((item) => typeof item === 'string' && item.length);
   }
   return [];
 }
@@ -4958,14 +4838,14 @@ function indexTraitDetails(catalog) {
     const conflict = normalizeTraitList(raw?.conflitti ?? raw?.conflict);
     const tier = raw?.tier ?? null;
     const slotList = Array.isArray(raw?.slot ?? raw?.slots)
-      ? (raw?.slot ?? raw?.slots).filter((item) => typeof item === "string" && item.length)
+      ? (raw?.slot ?? raw?.slots).filter((item) => typeof item === 'string' && item.length)
       : [];
     const piSynergy = raw?.sinergie_pi ?? raw?.pi_synergy ?? null;
     const environmentRequirements = Array.isArray(raw?.requisiti_ambientali)
       ? raw.requisiti_ambientali
       : Array.isArray(raw?.environment_requirements)
-      ? raw.environment_requirements
-      : [];
+        ? raw.environment_requirements
+        : [];
     const entry = {
       id: traitId,
       label: raw?.label ?? titleCase(traitId),
@@ -4991,9 +4871,7 @@ function indexTraitDetails(catalog) {
 function formatEffects(effects = {}) {
   const entries = Object.entries(effects);
   if (!entries.length) return null;
-  return entries
-    .map(([key, value]) => `${key}: ${value}`)
-    .join(", ");
+  return entries.map(([key, value]) => `${key}: ${value}`).join(', ');
 }
 
 function setTraitRegistry(registry) {
@@ -5054,19 +4932,19 @@ function describeHazards(hazardIds = []) {
     summaryParts.push(name);
     const notes = [];
     if (entry.requires_any_of?.length) {
-      notes.push(`cap: ${entry.requires_any_of.join(" / ")}`);
+      notes.push(`cap: ${entry.requires_any_of.join(' / ')}`);
     }
     if (entry.effect) {
       notes.push(entry.effect);
     }
     if (notes.length) {
-      detailParts.push(`${name}: ${notes.join(" — ")}`);
+      detailParts.push(`${name}: ${notes.join(' — ')}`);
     }
   });
 
   return {
-    summary: summaryParts.join(", "),
-    details: detailParts.join(" · "),
+    summary: summaryParts.join(', '),
+    details: detailParts.join(' · '),
   };
 }
 
@@ -5111,54 +4989,56 @@ function gatherTraitInfoForBiome(biome) {
     traits: Array.from(traitSet).sort((a, b) => a.localeCompare(b)),
     jobs: Array.from(jobSet).sort((a, b) => a.localeCompare(b)),
     effects,
-    description: descriptions.join(" · ") || null,
+    description: descriptions.join(' · ') || null,
     meta: null,
   };
 }
 
 function buildTraitBlock(info, { synthetic = false } = {}) {
   if (!info?.traits?.length) return null;
-  const details = document.createElement("details");
-  details.className = "trait-block";
+  const details = document.createElement('details');
+  details.className = 'trait-block';
   details.open = false;
 
-  const summary = document.createElement("summary");
+  const summary = document.createElement('summary');
   summary.textContent = synthetic
     ? `Tratti ambientali ereditati (${info.traits.length})`
     : `Tratti ambientali suggeriti (${info.traits.length})`;
   details.appendChild(summary);
 
-  const chipList = document.createElement("div");
-  chipList.className = "chip-list chip-list--compact";
-  const sortedTraitsForChips = [...info.traits].sort((a, b) => traitLabel(a).localeCompare(traitLabel(b)));
+  const chipList = document.createElement('div');
+  chipList.className = 'chip-list chip-list--compact';
+  const sortedTraitsForChips = [...info.traits].sort((a, b) =>
+    traitLabel(a).localeCompare(traitLabel(b)),
+  );
   sortedTraitsForChips.forEach((trait) => {
     chipList.appendChild(createChipElement(trait));
   });
   details.appendChild(chipList);
 
   if (info.meta?.expansion) {
-    const expansion = document.createElement("p");
-    expansion.className = "form__hint";
+    const expansion = document.createElement('p');
+    expansion.className = 'form__hint';
     expansion.textContent = `Espansione: ${titleCase(info.meta.expansion)}`;
     details.appendChild(expansion);
   }
 
   if (info.meta?.notes) {
-    const notes = document.createElement("p");
-    notes.className = "form__hint";
+    const notes = document.createElement('p');
+    notes.className = 'form__hint';
     notes.textContent = info.meta.notes;
     details.appendChild(notes);
   }
 
   if (info.description) {
-    const desc = document.createElement("p");
-    desc.className = "form__hint";
+    const desc = document.createElement('p');
+    desc.className = 'form__hint';
     desc.textContent = info.description;
     details.appendChild(desc);
   }
 
-  const detailList = document.createElement("dl");
-  detailList.className = "trait-details";
+  const detailList = document.createElement('dl');
+  detailList.className = 'trait-details';
   const orderedTraits = [...info.traits].sort((a, b) => traitLabel(a).localeCompare(traitLabel(b)));
   orderedTraits.forEach((trait) => {
     const traitInfo = getTraitDetails(trait);
@@ -5170,20 +5050,20 @@ function buildTraitBlock(info, { synthetic = false } = {}) {
     if (traitInfo.selectiveDrive) pieces.push(`Spinta: ${traitInfo.selectiveDrive}`);
     if (traitInfo.mutation) pieces.push(`Mutazione: ${traitInfo.mutation}`);
     if (traitInfo.synergy?.length) {
-      pieces.push(`Sinergie: ${traitInfo.synergy.map((id) => traitLabel(id)).join(", ")}`);
+      pieces.push(`Sinergie: ${traitInfo.synergy.map((id) => traitLabel(id)).join(', ')}`);
     }
     if (traitInfo.conflict?.length) {
-      pieces.push(`Conflitti: ${traitInfo.conflict.map((id) => traitLabel(id)).join(", ")}`);
+      pieces.push(`Conflitti: ${traitInfo.conflict.map((id) => traitLabel(id)).join(', ')}`);
     }
     if (traitInfo.weakness) pieces.push(`Debolezza: ${traitInfo.weakness}`);
     if (!pieces.length) return;
-    const term = document.createElement("dt");
-    term.className = "trait-details__term";
+    const term = document.createElement('dt');
+    term.className = 'trait-details__term';
     term.textContent = traitInfo.label ?? traitLabel(trait);
     detailList.appendChild(term);
-    const desc = document.createElement("dd");
-    desc.className = "trait-details__desc";
-    desc.textContent = pieces.join(" · ");
+    const desc = document.createElement('dd');
+    desc.className = 'trait-details__desc';
+    desc.textContent = pieces.join(' · ');
     detailList.appendChild(desc);
   });
   if (detailList.children.length) {
@@ -5191,16 +5071,16 @@ function buildTraitBlock(info, { synthetic = false } = {}) {
   }
 
   if (info.jobs?.length) {
-    const jobs = document.createElement("p");
-    jobs.className = "form__hint";
-    jobs.textContent = `Bias ruoli: ${info.jobs.join(", ")}`;
+    const jobs = document.createElement('p');
+    jobs.className = 'form__hint';
+    jobs.textContent = `Bias ruoli: ${info.jobs.join(', ')}`;
     details.appendChild(jobs);
   }
 
   const effectsSummary = formatEffects(info.effects);
   if (effectsSummary) {
-    const eff = document.createElement("p");
-    eff.className = "form__hint";
+    const eff = document.createElement('p');
+    eff.className = 'form__hint';
     eff.textContent = `Effetti suggeriti: ${effectsSummary}`;
     details.appendChild(eff);
   }
@@ -5211,12 +5091,12 @@ function buildTraitBlock(info, { synthetic = false } = {}) {
 function renderTraitExpansions() {
   const container = elements.traitGrid;
   if (!container) return;
-  container.innerHTML = "";
+  container.innerHTML = '';
 
   if (!(state.traitsIndex instanceof Map) || !state.traitsIndex.size) {
-    const placeholder = document.createElement("p");
-    placeholder.className = "placeholder";
-    placeholder.textContent = "Carica il catalogo per vedere i set di tratti ambientali.";
+    const placeholder = document.createElement('p');
+    placeholder.className = 'placeholder';
+    placeholder.textContent = 'Carica il catalogo per vedere i set di tratti ambientali.';
     container.appendChild(placeholder);
     return;
   }
@@ -5234,19 +5114,19 @@ function renderTraitExpansions() {
   });
 
   if (!orderedEntries.length) {
-    const placeholder = document.createElement("p");
-    placeholder.className = "placeholder";
-    placeholder.textContent = "Nessun set di tratti ambientali avanzati registrato.";
+    const placeholder = document.createElement('p');
+    placeholder.className = 'placeholder';
+    placeholder.textContent = 'Nessun set di tratti ambientali avanzati registrato.';
     container.appendChild(placeholder);
     return;
   }
 
   orderedEntries.forEach(({ classId, entry }) => {
-    const card = document.createElement("article");
-    card.className = "card";
+    const card = document.createElement('article');
+    card.className = 'card';
 
-    const title = document.createElement("h3");
-    title.textContent = titleCase(classId ?? "Bioma sconosciuto");
+    const title = document.createElement('h3');
+    title.textContent = titleCase(classId ?? 'Bioma sconosciuto');
     card.appendChild(title);
 
     const metaParts = [];
@@ -5261,33 +5141,33 @@ function renderTraitExpansions() {
       metaParts.push(`Hazard: ${hazardInfo.summary}`);
       hazardDetails = hazardInfo.details;
     }
-    const meta = document.createElement("p");
-    meta.className = "form__hint";
-    meta.textContent = metaParts.join(" · ") || "Set di tratti ambientali";
+    const meta = document.createElement('p');
+    meta.className = 'form__hint';
+    meta.textContent = metaParts.join(' · ') || 'Set di tratti ambientali';
     card.appendChild(meta);
 
     if (hazardDetails) {
-      const hazardNote = document.createElement("p");
-      hazardNote.className = "form__hint";
+      const hazardNote = document.createElement('p');
+      hazardNote.className = 'form__hint';
       hazardNote.textContent = hazardDetails;
       card.appendChild(hazardNote);
     }
 
     if (entry.meta?.notes) {
-      const note = document.createElement("p");
-      note.className = "form__hint";
+      const note = document.createElement('p');
+      note.className = 'form__hint';
       note.textContent = entry.meta.notes;
       card.appendChild(note);
     }
 
     if (entry.meta?.description) {
-      const desc = document.createElement("p");
+      const desc = document.createElement('p');
       desc.textContent = entry.meta.description;
       card.appendChild(desc);
     }
 
-    const traitList = document.createElement("div");
-    traitList.className = "chip-list chip-list--compact";
+    const traitList = document.createElement('div');
+    traitList.className = 'chip-list chip-list--compact';
     Array.from(entry.traits)
       .sort((a, b) => traitLabel(a).localeCompare(traitLabel(b)))
       .forEach((trait) => {
@@ -5297,19 +5177,19 @@ function renderTraitExpansions() {
 
     const effectsSummary = formatEffects(entry.effects ?? {});
     if (effectsSummary) {
-      const eff = document.createElement("p");
-      eff.className = "form__hint";
+      const eff = document.createElement('p');
+      eff.className = 'form__hint';
       eff.textContent = `Effetti: ${effectsSummary}`;
       card.appendChild(eff);
     }
 
     const jobBias = Array.from(entry.jobs ?? [])
-      .filter((job) => typeof job === "string")
+      .filter((job) => typeof job === 'string')
       .sort((a, b) => a.localeCompare(b));
     if (jobBias.length) {
-      const jobsEl = document.createElement("p");
-      jobsEl.className = "form__hint";
-      jobsEl.textContent = `Bias ruoli: ${jobBias.join(", ")}`;
+      const jobsEl = document.createElement('p');
+      jobsEl.className = 'form__hint';
+      jobsEl.textContent = `Bias ruoli: ${jobBias.join(', ')}`;
       card.appendChild(jobsEl);
     }
 
@@ -5317,51 +5197,44 @@ function renderTraitExpansions() {
   });
 }
 
-const CONNECTION_TYPES = ["corridor", "trophic_spillover", "seasonal_bridge"];
-const SEASONALITY = [
-  "primavera",
-  "estate",
-  "autunno",
-  "inverno",
-  "episodico",
-  "multistagionale",
-];
+const CONNECTION_TYPES = ['corridor', 'trophic_spillover', 'seasonal_bridge'];
+const SEASONALITY = ['primavera', 'estate', 'autunno', 'inverno', 'episodico', 'multistagionale'];
 
 const ENCOUNTER_BLUEPRINTS = [
   {
-    id: "scout",
-    label: "Pattuglia rapida",
+    id: 'scout',
+    label: 'Pattuglia rapida',
     summary: "Piccolo gruppo mobile per ingaggi d'avanscoperta.",
     minSize: 2,
     targetSize: 3,
-    priorities: ["threat", "bridge"],
+    priorities: ['threat', 'bridge'],
   },
   {
-    id: "strike",
-    label: "Assalto mirato",
+    id: 'strike',
+    label: 'Assalto mirato',
     summary: "Forza d'attacco centrata su predatori e specie chiave.",
     minSize: 3,
     targetSize: 4,
-    priorities: ["apex", "keystone", "threat"],
+    priorities: ['apex', 'keystone', 'threat'],
   },
   {
-    id: "gauntlet",
-    label: "Crisi apex",
-    summary: "Scenario culminante con il massimo della pressione ecologica.",
+    id: 'gauntlet',
+    label: 'Crisi apex',
+    summary: 'Scenario culminante con il massimo della pressione ecologica.',
     minSize: 4,
     targetSize: 5,
-    priorities: ["apex", "keystone", "threat", "bridge"],
+    priorities: ['apex', 'keystone', 'threat', 'bridge'],
   },
 ];
 
 function synthesiseBiome(parents) {
   const parentIds = parents.map((parent) => parent.id);
-  const displayName = parents.map((parent) => titleCase(parent.id)).join(" / ");
-  const idBase = slugify(`${parentIds.join("-")}-${randomId("bio")}`);
+  const displayName = parents.map((parent) => titleCase(parent.id)).join(' / ');
+  const idBase = slugify(`${parentIds.join('-')}-${randomId('bio')}`);
   const sourceSpecies = uniqueById(
     parents.flatMap((parent) =>
-      (parent.species ?? []).map((sp) => ({ ...sp, source_biome: parent.id }))
-    )
+      (parent.species ?? []).map((sp) => ({ ...sp, source_biome: parent.id })),
+    ),
   );
 
   const counts = sourceSpecies.reduce(
@@ -5373,7 +5246,7 @@ function synthesiseBiome(parents) {
       if (sp.flags?.event) acc.event += 1;
       return acc;
     },
-    { apex: 0, keystone: 0, bridge: 0, threat: 0, event: 0 }
+    { apex: 0, keystone: 0, bridge: 0, threat: 0, event: 0 },
   );
 
   const functionalGroups = new Set();
@@ -5382,7 +5255,7 @@ function synthesiseBiome(parents) {
   });
 
   return {
-    id: idBase || randomId("biome"),
+    id: idBase || randomId('biome'),
     label: `Bioma sintetico ${displayName}`,
     synthetic: true,
     parents: parents.map((parent) => ({
@@ -5419,8 +5292,8 @@ async function requestBiomeSynthesis(count, filters) {
   const constraints = buildGenerationConstraints(filters);
   const endpoint = resolveApiEndpoint(API_ENDPOINTS.biomeGeneration);
   const response = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ count, constraints }),
   });
   if (!response.ok) {
@@ -5435,21 +5308,23 @@ async function requestBiomeSynthesis(count, filters) {
 
 function normaliseGeneratedSpecies(species, biomeId) {
   if (!species) return null;
-  const id = species.id || `${slugify(species.display_name || species.role_trofico || "specie")}-${Math.random()
-    .toString(36)
-    .slice(2, 6)}`;
+  const id =
+    species.id ||
+    `${slugify(species.display_name || species.role_trofico || 'specie')}-${Math.random()
+      .toString(36)
+      .slice(2, 6)}`;
   const flags = { ...species.flags };
   ROLE_FLAGS.forEach((flag) => {
     flags[flag] = Boolean(flags?.[flag]);
   });
   const tier = Number.isFinite(species.syntheticTier)
     ? species.syntheticTier
-    : inferThreatTierFromRole(species.role_trofico ?? "", flags);
+    : inferThreatTierFromRole(species.role_trofico ?? '', flags);
   return {
     ...species,
     id,
     display_name: species.display_name || titleCase(id),
-    role_trofico: species.role_trofico || "ruolo_sintetico",
+    role_trofico: species.role_trofico || 'ruolo_sintetico',
     functional_tags: Array.isArray(species.functional_tags) ? species.functional_tags : [],
     flags,
     biomes: Array.isArray(species.biomes) && species.biomes.length ? species.biomes : [biomeId],
@@ -5464,7 +5339,7 @@ function normaliseGeneratedBiome(entry) {
   if (entry.synthetic === false) {
     return entry;
   }
-  const id = entry.id || randomId("biome");
+  const id = entry.id || randomId('biome');
   const species = Array.isArray(entry.species)
     ? entry.species.map((sp) => normaliseGeneratedSpecies(sp, id)).filter(Boolean)
     : [];
@@ -5503,9 +5378,7 @@ function normaliseGeneratedBiome(entry) {
 
 function normaliseBiomeCollection(biomes) {
   if (!Array.isArray(biomes)) return [];
-  return biomes
-    .map((biome) => normaliseGeneratedBiome(biome))
-    .filter(Boolean);
+  return biomes.map((biome) => normaliseGeneratedBiome(biome)).filter(Boolean);
 }
 
 function synthesiseConnections(biomes) {
@@ -5515,10 +5388,10 @@ function synthesiseConnections(biomes) {
       {
         from: biomes[0].id.toUpperCase(),
         to: biomes[0].id.toUpperCase(),
-        type: "nested_loop",
+        type: 'nested_loop',
         resistance: 0.5,
-        seasonality: "continuo",
-        notes: "Bioma autosufficiente generato proceduralmente.",
+        seasonality: 'continuo',
+        notes: 'Bioma autosufficiente generato proceduralmente.',
       },
     ];
   }
@@ -5528,8 +5401,8 @@ function synthesiseConnections(biomes) {
     const current = shuffled[i];
     const next = shuffled[(i + 1) % shuffled.length];
     if (!next) continue;
-    const type = sample(CONNECTION_TYPES) ?? "corridor";
-    const seasonality = sample(SEASONALITY) ?? "episodico";
+    const type = sample(CONNECTION_TYPES) ?? 'corridor';
+    const seasonality = sample(SEASONALITY) ?? 'episodico';
     connections.push({
       from: current.id.toUpperCase(),
       to: next.id.toUpperCase(),
@@ -5537,8 +5410,8 @@ function synthesiseConnections(biomes) {
       resistance: Math.round((0.3 + Math.random() * 0.5) * 100) / 100,
       seasonality,
       notes: `Connessione sintetica derivata da ${
-        current.parents?.map((p) => p.id).join("+") ?? "sorgenti ignote"
-      } verso ${next.parents?.map((p) => p.id).join("+") ?? "target ignoto"}.`,
+        current.parents?.map((p) => p.id).join('+') ?? 'sorgenti ignote'
+      } verso ${next.parents?.map((p) => p.id).join('+') ?? 'target ignoto'}.`,
     });
   }
   return connections;
@@ -5550,28 +5423,36 @@ function resolvePackHref(relativePath) {
     try {
       return packContext.resolveDocHref(relativePath);
     } catch (error) {
-      console.warn("Impossibile risolvere il percorso tramite resolveDocHref", relativePath, error);
+      console.warn('Impossibile risolvere il percorso tramite resolveDocHref', relativePath, error);
     }
   }
   if (packDocsBase) {
     try {
       return new URL(relativePath, packDocsBase).toString();
     } catch (error) {
-      console.warn("Impossibile risolvere il percorso tramite packDocsBase", relativePath, error);
+      console.warn('Impossibile risolvere il percorso tramite packDocsBase', relativePath, error);
     }
   }
   if (packContext?.resolvePackHref) {
     try {
       return packContext.resolvePackHref(relativePath);
     } catch (error) {
-      console.warn("Impossibile risolvere il percorso tramite resolvePackHref", relativePath, error);
+      console.warn(
+        'Impossibile risolvere il percorso tramite resolvePackHref',
+        relativePath,
+        error,
+      );
     }
   }
   if (resolvedPackRoot) {
     try {
       return new URL(relativePath, resolvedPackRoot).toString();
     } catch (error) {
-      console.warn("Impossibile risolvere il percorso tramite resolvedPackRoot", relativePath, error);
+      console.warn(
+        'Impossibile risolvere il percorso tramite resolvedPackRoot',
+        relativePath,
+        error,
+      );
     }
   }
   return relativePath;
@@ -5589,27 +5470,27 @@ function currentFilters() {
 }
 
 function formatFlagLabel(flag) {
-  if (!flag) return "";
-  return ROLE_FLAG_LABELS[flag] ?? titleCase(String(flag).replace(/[_-]+/g, " "));
+  if (!flag) return '';
+  return ROLE_FLAG_LABELS[flag] ?? titleCase(String(flag).replace(/[_-]+/g, ' '));
 }
 
 function formatTagLabel(tag) {
-  if (!tag) return "";
-  return titleCase(String(tag).replace(/[_-]+/g, " "));
+  if (!tag) return '';
+  return titleCase(String(tag).replace(/[_-]+/g, ' '));
 }
 
 function summariseFilters(filters = {}) {
   const segments = [];
   if (filters.flags?.length) {
-    segments.push(`Flag: ${filters.flags.map(formatFlagLabel).join(", ")}`);
+    segments.push(`Flag: ${filters.flags.map(formatFlagLabel).join(', ')}`);
   }
   if (filters.roles?.length) {
-    segments.push(`Ruoli: ${filters.roles.map((role) => formatRoleTokenLabel(role)).join(", ")}`);
+    segments.push(`Ruoli: ${filters.roles.map((role) => formatRoleTokenLabel(role)).join(', ')}`);
   }
   if (filters.tags?.length) {
-    segments.push(`Tag: ${filters.tags.map(formatTagLabel).join(", ")}`);
+    segments.push(`Tag: ${filters.tags.map(formatTagLabel).join(', ')}`);
   }
-  return segments.join(" · ");
+  return segments.join(' · ');
 }
 
 function updateFilterSummaryHint(filters = {}) {
@@ -5619,7 +5500,7 @@ function updateFilterSummaryHint(filters = {}) {
     elements.filtersHint.textContent = `Filtri attivi → ${summary}.`;
   } else {
     elements.filtersHint.textContent =
-      "Nessun filtro attivo. Tocca le capsule per attivare vincoli specifici.";
+      'Nessun filtro attivo. Tocca le capsule per attivare vincoli specifici.';
   }
 }
 
@@ -5631,7 +5512,7 @@ function matchesFlags(species, requiredFlags) {
 
 function matchesRoles(species, requiredRoles) {
   if (!requiredRoles.length) return true;
-  return requiredRoles.includes(species.role_trofico ?? "");
+  return requiredRoles.includes(species.role_trofico ?? '');
 }
 
 function matchesTags(species, requiredTags) {
@@ -5814,13 +5695,13 @@ function filteredPool(biome, filters) {
       matchesFlags(sp, flags) &&
       matchesRoles(sp, roles) &&
       matchesTags(sp, tags) &&
-      passesComposerConstraints(sp, biome)
+      passesComposerConstraints(sp, biome),
   );
 }
 
 function generateHybridSpecies(biome, filters, desiredCount = 3) {
   const pool = filteredPool(biome, filters);
-  const basePool = pool.length ? pool : biome.species ?? [];
+  const basePool = pool.length ? pool : (biome.species ?? []);
   if (!basePool.length) return [];
 
   const hybrids = [];
@@ -5837,10 +5718,10 @@ function generateHybridSpecies(biome, filters, desiredCount = 3) {
     const combinedFlags = mixFlags(primary.flags, secondary?.flags);
     const combinedTags = combineTags(primary.functional_tags, secondary?.functional_tags);
     const roleOptions = [primary.role_trofico, secondary?.role_trofico].filter(Boolean);
-    const role = roleOptions.length ? sample(roleOptions) : primary.role_trofico ?? null;
+    const role = roleOptions.length ? sample(roleOptions) : (primary.role_trofico ?? null);
     const displayName = combineNames(primary.display_name, secondary?.display_name);
-    const baseId = slugify(displayName) || slugify(`${primary.id}-${secondary?.id ?? "solo"}`);
-    const tier = inferThreatTierFromRole(role ?? "", combinedFlags);
+    const baseId = slugify(displayName) || slugify(`${primary.id}-${secondary?.id ?? 'solo'}`);
+    const tier = inferThreatTierFromRole(role ?? '', combinedFlags);
 
     const hybrid = {
       id: `${baseId}-${Math.random().toString(36).slice(2, 6)}`,
@@ -5889,9 +5770,10 @@ function generateHybridSpecies(biome, filters, desiredCount = 3) {
       const rarity = rarityFromTraitSet(traitIds);
       const summary = profile.summary || sp.summary || sp.display_name || sp.id;
       const description = profile.description || sp.description || summary;
-      const displayName = profile.labels.length >= 2
-        ? `${profile.labels[0]} / ${profile.labels[1]}`
-        : `${sp.display_name ?? sp.id} Synth`;
+      const displayName =
+        profile.labels.length >= 2
+          ? `${profile.labels[0]} / ${profile.labels[1]}`
+          : `${sp.display_name ?? sp.id} Synth`;
       const syntheticTier = Math.max(baseTier, computedTier);
       const synergyScore = profile.derived.length
         ? Math.min(1, profile.derived.length / Math.max(traitIds.length || 1, 1))
@@ -5943,10 +5825,12 @@ const ROLE_MATCHERS = {
   keystone: (sp) => sp.flags?.keystone,
   threat: (sp) =>
     sp.flags?.threat ||
-    /predatore|incursore|menace|minaccia/i.test(sp.role_trofico ?? "") ||
+    /predatore|incursore|menace|minaccia/i.test(sp.role_trofico ?? '') ||
     tierOf(sp) >= 3,
   bridge: (sp) =>
-    sp.flags?.bridge || sp.flags?.event || /supporto|ponte|trasferimento/i.test(sp.role_trofico ?? ""),
+    sp.flags?.bridge ||
+    sp.flags?.event ||
+    /supporto|ponte|trasferimento/i.test(sp.role_trofico ?? ''),
 };
 
 function buildCandidatePools(biome, filters) {
@@ -6027,11 +5911,12 @@ function ensureMinimumIndividuals(party, blueprint, fallback) {
 function describeSeedNotes(biome, blueprint, filters, preferGenerated) {
   const filterSummary = summariseFilters(filters);
   if (biome.synthetic) {
-    const sources = (biome.parents ?? [])
-      .map((parent) => parent.label ?? titleCase(parent.id ?? ""))
-      .filter(Boolean)
-      .join(" + ") || "fonti miste";
-    const origin = preferGenerated ? "specie ibride" : "catalogo originale";
+    const sources =
+      (biome.parents ?? [])
+        .map((parent) => parent.label ?? titleCase(parent.id ?? ''))
+        .filter(Boolean)
+        .join(' + ') || 'fonti miste';
+    const origin = preferGenerated ? 'specie ibride' : 'catalogo originale';
     return `${blueprint.label} sintetico (${filterSummary}). Origine: ${sources}. Sorgente: ${origin}.`;
   }
   return `${blueprint.label} dal catalogo (${filterSummary}).`;
@@ -6090,19 +5975,19 @@ function rerollSpecies(filters) {
   const hasActiveBiomes = Array.isArray(state.pick?.biomes) && state.pick.biomes.length > 0;
   if (removedPreferredRoles.length && hasActiveBiomes) {
     const labels = removedPreferredRoles
-      .map((role) => titleCase(String(role).replace(/[_-]+/g, " ")))
-      .join(", ");
+      .map((role) => titleCase(String(role).replace(/[_-]+/g, ' ')))
+      .join(', ');
     const plural = removedPreferredRoles.length > 1;
     setStatus(
       plural
         ? `Ruoli preferiti rimossi perché non più disponibili: ${labels}.`
         : `Ruolo preferito rimosso perché non più disponibile: ${labels}.`,
-      "info",
+      'info',
       {
-        tags: ["composer", "ruoli"],
-        action: "composer-preferred-pruned",
+        tags: ['composer', 'ruoli'],
+        action: 'composer-preferred-pruned',
         metadata: { roles: removedPreferredRoles },
-      }
+      },
     );
   }
 
@@ -6180,9 +6065,7 @@ function rerollSeeds(filters) {
   const next = [];
   state.pick.biomes.forEach((biome) => {
     if (lockedBiomes.has(biome.id)) {
-      previous
-        .filter((seed) => seed?.biome_id === biome.id)
-        .forEach((seed) => next.push(seed));
+      previous.filter((seed) => seed?.biome_id === biome.id).forEach((seed) => next.push(seed));
       return;
     }
     ENCOUNTER_BLUEPRINTS.forEach((blueprint) => {
@@ -6195,26 +6078,25 @@ function rerollSeeds(filters) {
   state.pick.seeds = next;
 }
 
-
 function createPinKey(biome, species) {
-  const biomeId = biome?.id ?? "biome";
-  const speciesId = species?.id ?? "species";
+  const biomeId = biome?.id ?? 'biome';
+  const speciesId = species?.id ?? 'species';
   return `${biomeId}::${speciesId}`;
 }
 
 function queryPinButton(key) {
-  if (typeof document === "undefined") return null;
+  if (typeof document === 'undefined') return null;
   const safeKey =
-    typeof CSS !== "undefined" && typeof CSS.escape === "function"
+    typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
       ? CSS.escape(key)
       : key.replace(/"/g, '\"');
   return document.querySelector(`button[data-pin-key="${safeKey}"]`);
 }
 
 function queryCompareButton(key) {
-  if (typeof document === "undefined") return null;
+  if (typeof document === 'undefined') return null;
   const safeKey =
-    typeof CSS !== "undefined" && typeof CSS.escape === "function"
+    typeof CSS !== 'undefined' && typeof CSS.escape === 'function'
       ? CSS.escape(key)
       : key.replace(/"/g, '\"');
   return document.querySelector(`button[data-compare-key="${safeKey}"]`);
@@ -6222,17 +6104,17 @@ function queryCompareButton(key) {
 
 function applyQuickButtonState(button, isActive) {
   if (!button) return;
-  button.classList.toggle("is-active", Boolean(isActive));
-  button.setAttribute("aria-pressed", isActive ? "true" : "false");
+  button.classList.toggle('is-active', Boolean(isActive));
+  button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
 }
 
 function updatePinButtonState(key, active) {
   const button = queryPinButton(key);
   if (!button) return;
   applyQuickButtonState(button, active);
-  const card = button.closest(".species-card");
+  const card = button.closest('.species-card');
   if (card) {
-    card.dataset.pinned = active ? "true" : "false";
+    card.dataset.pinned = active ? 'true' : 'false';
   }
 }
 
@@ -6240,13 +6122,13 @@ function updateCompareButtonState(key, active) {
   const button = queryCompareButton(key);
   if (!button) return;
   applyQuickButtonState(button, active);
-  const card = button.closest(".species-card");
+  const card = button.closest('.species-card');
   if (card) {
-    card.dataset.compare = active ? "true" : "false";
+    card.dataset.compare = active ? 'true' : 'false';
   }
 }
 
-function stringHash(value = "") {
+function stringHash(value = '') {
   let hash = 0;
   for (let i = 0; i < value.length; i += 1) {
     hash = value.charCodeAt(i) + ((hash << 5) - hash);
@@ -6255,14 +6137,14 @@ function stringHash(value = "") {
   return Math.abs(hash);
 }
 
-function gradientFromString(value = "") {
+function gradientFromString(value = '') {
   const hash = stringHash(value);
   const hue = hash % 360;
   const hueOffset = (hue + 36) % 360;
   return `linear-gradient(135deg, hsl(${hue}, 68%, 26%), hsl(${hueOffset}, 70%, 38%))`;
 }
 
-function colorPairFromString(value = "") {
+function colorPairFromString(value = '') {
   const hash = stringHash(value);
   const hue = hash % 360;
   const saturation = 70;
@@ -6274,20 +6156,20 @@ function colorPairFromString(value = "") {
 }
 
 function initialsFromLabel(label) {
-  if (!label) return "??";
+  if (!label) return '??';
   return label
     .split(/[^a-zA-Z0-9]+/)
     .filter(Boolean)
     .map((segment) => segment[0])
-    .join("")
+    .join('')
     .slice(0, 2)
     .toUpperCase();
 }
 
-function createPlaceholderImage(label, { variant = "card", seed } = {}) {
-  const baseSeed = `${variant}:${seed ?? label ?? ""}`;
-  const width = variant === "species" ? 200 : 320;
-  const height = variant === "species" ? 200 : 180;
+function createPlaceholderImage(label, { variant = 'card', seed } = {}) {
+  const baseSeed = `${variant}:${seed ?? label ?? ''}`;
+  const width = variant === 'species' ? 200 : 320;
+  const height = variant === 'species' ? 200 : 180;
   const hash = stringHash(baseSeed);
   const hue = hash % 360;
   const accent = (hue + 34) % 360;
@@ -6311,23 +6193,24 @@ function createPlaceholderImage(label, { variant = "card", seed } = {}) {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
-function createCardMedia({ label, variant = "card", icon, backgroundKey, alt }) {
-  const className = variant === "species" ? "species-card__media" : "generator-card__media";
-  const wrapper = document.createElement("div");
+function createCardMedia({ label, variant = 'card', icon, backgroundKey, alt }) {
+  const className = variant === 'species' ? 'species-card__media' : 'generator-card__media';
+  const wrapper = document.createElement('div');
   wrapper.className = className;
-  const seed = backgroundKey ?? label ?? "";
+  const seed = backgroundKey ?? label ?? '';
   if (seed) {
     wrapper.style.background = gradientFromString(seed);
   }
-  const image = document.createElement("img");
-  image.loading = "lazy";
-  image.decoding = "async";
-  image.alt = alt ?? `Illustrazione segnaposto per ${label ?? "la carta"}`;
+  const image = document.createElement('img');
+  image.loading = 'lazy';
+  image.decoding = 'async';
+  image.alt = alt ?? `Illustrazione segnaposto per ${label ?? 'la carta'}`;
   image.src = createPlaceholderImage(label, { variant, seed });
   wrapper.appendChild(image);
   if (icon) {
-    const glyphClass = variant === "species" ? "species-card__glyph" : "generator-card__media-glyph";
-    const glyph = document.createElement("span");
+    const glyphClass =
+      variant === 'species' ? 'species-card__glyph' : 'generator-card__media-glyph';
+    const glyph = document.createElement('span');
     glyph.className = glyphClass;
     glyph.textContent = icon;
     wrapper.appendChild(glyph);
@@ -6344,40 +6227,40 @@ function clampScale(value, max = 5) {
 function biomePlaceholderLabel(biome) {
   if (biome?.emoji) return biome.emoji;
   if (biome?.icon) return biome.icon;
-  const id = (biome?.id ?? "").toLowerCase();
-  if (/ghiaccio|cryosteppe|neve|tundra/.test(id)) return "❄️";
-  if (/foresta|bosco|giungla/.test(id)) return "🌲";
-  if (/deserto|sabbia|duna/.test(id)) return "🏜️";
-  if (/palude|swamp|marsh|laguna/.test(id)) return "🦎";
-  if (/mont|rupe|alp/.test(id)) return "⛰️";
-  if (/costa|reef|mare|oceano|litor/.test(id)) return "🌊";
-  if (/vulc|lava|fuoco/.test(id)) return "🌋";
-  const initials = (biome?.label ?? biome?.id ?? "??")
+  const id = (biome?.id ?? '').toLowerCase();
+  if (/ghiaccio|cryosteppe|neve|tundra/.test(id)) return '❄️';
+  if (/foresta|bosco|giungla/.test(id)) return '🌲';
+  if (/deserto|sabbia|duna/.test(id)) return '🏜️';
+  if (/palude|swamp|marsh|laguna/.test(id)) return '🦎';
+  if (/mont|rupe|alp/.test(id)) return '⛰️';
+  if (/costa|reef|mare|oceano|litor/.test(id)) return '🌊';
+  if (/vulc|lava|fuoco/.test(id)) return '🌋';
+  const initials = (biome?.label ?? biome?.id ?? '??')
     .split(/[^a-zA-Z0-9]+/)
     .filter(Boolean)
     .map((segment) => segment[0])
-    .join("")
+    .join('')
     .slice(0, 2)
     .toUpperCase();
-  return initials || "🜨";
+  return initials || '🜨';
 }
 
 function speciesPlaceholderIcon(species) {
   if (species?.emoji) return species.emoji;
   if (species?.icon) return species.icon;
-  const role = (species?.role_trofico ?? "").toLowerCase();
-  if (/predatore_terziario|apex/.test(role)) return "🦈";
-  if (/predatore/.test(role)) return "🦖";
-  if (/erbivoro|prede|pastoral/.test(role)) return "🦌";
-  if (/impollin/.test(role)) return "🪲";
-  if (/detrit|saprof/.test(role)) return "🪱";
-  if (/evento|anomalia|hazard/.test(role)) return "⚡";
-  return "🧬";
+  const role = (species?.role_trofico ?? '').toLowerCase();
+  if (/predatore_terziario|apex/.test(role)) return '🦈';
+  if (/predatore/.test(role)) return '🦖';
+  if (/erbivoro|prede|pastoral/.test(role)) return '🦌';
+  if (/impollin/.test(role)) return '🪲';
+  if (/detrit|saprof/.test(role)) return '🪱';
+  if (/evento|anomalia|hazard/.test(role)) return '⚡';
+  return '🧬';
 }
 
 function createBadgeElement(label, modifier) {
-  const badge = document.createElement("span");
-  badge.className = "badge";
+  const badge = document.createElement('span');
+  badge.className = 'badge';
   if (modifier) {
     badge.classList.add(`badge--${modifier}`);
   }
@@ -6386,11 +6269,11 @@ function createBadgeElement(label, modifier) {
 }
 
 function rarityFromTier(tier) {
-  if (tier <= 1) return { label: "Comune", slug: "common" };
-  if (tier === 2) return { label: "Non comune", slug: "uncommon" };
-  if (tier === 3) return { label: "Raro", slug: "rare" };
-  if (tier === 4) return { label: "Epico", slug: "epic" };
-  return { label: "Leggendario", slug: "legendary" };
+  if (tier <= 1) return { label: 'Comune', slug: 'common' };
+  if (tier === 2) return { label: 'Non comune', slug: 'uncommon' };
+  if (tier === 3) return { label: 'Raro', slug: 'rare' };
+  if (tier === 4) return { label: 'Epico', slug: 'epic' };
+  return { label: 'Leggendario', slug: 'legendary' };
 }
 
 function extractFunctionalGroups(biome) {
@@ -6432,10 +6315,10 @@ function calculateSynergy(species, biome) {
   percent += Math.max(0, tierOf(species) - 2) * 4;
   percent = Math.max(10, Math.min(100, percent));
   const summary = matches.length
-    ? `Sinergie attive: ${matches.join(", ")}`
+    ? `Sinergie attive: ${matches.join(', ')}`
     : tags.length
-    ? `Tag funzionali da connettere: ${tags.join(", ")}`
-    : "Nessun tag funzionale dichiarato.";
+      ? `Tag funzionali da connettere: ${tags.join(', ')}`
+      : 'Nessun tag funzionale dichiarato.';
   return {
     percent,
     matches,
@@ -6446,22 +6329,22 @@ function calculateSynergy(species, biome) {
 }
 
 function createSynergyMeter(info) {
-  const meter = document.createElement("div");
-  meter.className = "synergy-meter";
-  const labelRow = document.createElement("div");
-  labelRow.className = "synergy-meter__label";
-  const label = document.createElement("span");
-  label.textContent = "Sinergia ecosistema";
-  const value = document.createElement("span");
-  value.className = "synergy-meter__value";
+  const meter = document.createElement('div');
+  meter.className = 'synergy-meter';
+  const labelRow = document.createElement('div');
+  labelRow.className = 'synergy-meter__label';
+  const label = document.createElement('span');
+  label.textContent = 'Sinergia ecosistema';
+  const value = document.createElement('span');
+  value.className = 'synergy-meter__value';
   value.textContent = `${info.percent}%`;
   labelRow.append(label, value);
   meter.appendChild(labelRow);
-  const track = document.createElement("div");
-  track.className = "synergy-meter__track";
-  const progress = document.createElement("div");
-  progress.className = "synergy-meter__progress";
-  progress.style.setProperty("--progress", `${info.percent}%`);
+  const track = document.createElement('div');
+  track.className = 'synergy-meter__track';
+  const progress = document.createElement('div');
+  progress.className = 'synergy-meter__progress';
+  progress.style.setProperty('--progress', `${info.percent}%`);
   track.appendChild(progress);
   meter.appendChild(track);
   return meter;
@@ -6484,7 +6367,7 @@ function findSpeciesInPick(biomeId, speciesId) {
 }
 
 function splitRoleTokens(value) {
-  if (typeof value !== "string") return [];
+  if (typeof value !== 'string') return [];
   return value
     .split(/[^a-z0-9]+/i)
     .map((token) => token.trim())
@@ -6506,7 +6389,7 @@ function collectRoleTokenDetails(species) {
   if (Array.isArray(species?.roles)) {
     species.roles.forEach((role) => consider(role));
   }
-  consider(species?.role_trofico ?? "");
+  consider(species?.role_trofico ?? '');
   return tokens;
 }
 
@@ -6515,8 +6398,8 @@ function roleTokenCount(species) {
 }
 
 function formatRoleTokenLabel(token) {
-  if (!token) return "";
-  return titleCase(token.replace(/[_-]+/g, " "));
+  if (!token) return '';
+  return titleCase(token.replace(/[_-]+/g, ' '));
 }
 
 function collectHazardIds(species) {
@@ -6527,7 +6410,7 @@ function collectHazardIds(species) {
       value.forEach((item) => add(item));
       return;
     }
-    if (typeof value === "string") {
+    if (typeof value === 'string') {
       value
         .split(/[\s,;]+/)
         .map((item) => item.trim())
@@ -6535,7 +6418,7 @@ function collectHazardIds(species) {
         .forEach((item) => hazardIds.add(item));
       return;
     }
-    if (typeof value === "object") {
+    if (typeof value === 'object') {
       Object.keys(value).forEach((key) => hazardIds.add(key));
     }
   };
@@ -6549,7 +6432,7 @@ function collectHazardIds(species) {
 }
 
 function formatHazardLabel(hazardId) {
-  if (!hazardId) return "";
+  if (!hazardId) return '';
   const entry = state.hazardsIndex.get(hazardId);
   if (entry?.label) return entry.label;
   return titleCase(String(hazardId));
@@ -6558,7 +6441,7 @@ function formatHazardLabel(hazardId) {
 function hazardSignalInfo(species) {
   const hazardIds = collectHazardIds(species);
   let hazardSignals = hazardIds.length;
-  const roleHint = species?.role_trofico ?? "";
+  const roleHint = species?.role_trofico ?? '';
   if (species?.flags?.threat || /minaccia|hazard|evento/i.test(roleHint)) {
     hazardSignals = Math.max(hazardSignals + 1, 2);
   }
@@ -6593,9 +6476,9 @@ function calculateSpeciesMetrics(species) {
 
 function roleDisplayName(species) {
   if (!species?.role_trofico) {
-    return "Ruolo sconosciuto";
+    return 'Ruolo sconosciuto';
   }
-  return titleCase(species.role_trofico.replace(/_/g, " "));
+  return titleCase(species.role_trofico.replace(/_/g, ' '));
 }
 
 function formatTierValue(value) {
@@ -6608,10 +6491,10 @@ function createComparisonEntry(biome, species) {
   const key = createPinKey(biome, species);
   return {
     key,
-    biomeId: biome?.id ?? "biome",
-    biomeLabel: biome?.label ?? titleCase(biome?.id ?? ""),
+    biomeId: biome?.id ?? 'biome',
+    biomeLabel: biome?.label ?? titleCase(biome?.id ?? ''),
     speciesId: species?.id ?? key,
-    displayName: species?.display_name ?? species?.id ?? "Specie",
+    displayName: species?.display_name ?? species?.id ?? 'Specie',
     roleName: roleDisplayName(species),
     metrics: calculateSpeciesMetrics(species),
     synthetic: Boolean(species?.synthetic || biome?.synthetic),
@@ -6619,11 +6502,11 @@ function createComparisonEntry(biome, species) {
 }
 
 function createQuickButton({ icon, label, className }) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = ["quick-button", className].filter(Boolean).join(" ");
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = ['quick-button', className].filter(Boolean).join(' ');
   button.innerHTML = `<span aria-hidden="true">${icon}</span><span class="visually-hidden">${label}</span>`;
-  button.setAttribute("aria-pressed", "false");
+  button.setAttribute('aria-pressed', 'false');
   return button;
 }
 
@@ -6636,24 +6519,24 @@ function toggleBiomeLock(biome, { announce = true } = {}) {
   const id = biome?.id;
   if (!id) return false;
   const locks = state.cardState.locks.biomes;
-  const label = biome?.label ?? titleCase(id ?? "");
+  const label = biome?.label ?? titleCase(id ?? '');
   let locked;
   if (locks.has(id)) {
     locks.delete(id);
     locked = false;
     if (announce) {
-      setStatus(`${label} sbloccato.`, "info", {
-        tags: ["lock", "bioma"],
-        action: "biome-unlock",
+      setStatus(`${label} sbloccato.`, 'info', {
+        tags: ['lock', 'bioma'],
+        action: 'biome-unlock',
       });
     }
   } else {
     locks.add(id);
     locked = true;
     if (announce) {
-      setStatus(`${label} bloccato per i prossimi re-roll.`, "success", {
-        tags: ["lock", "bioma"],
-        action: "biome-lock",
+      setStatus(`${label} bloccato per i prossimi re-roll.`, 'success', {
+        tags: ['lock', 'bioma'],
+        action: 'biome-lock',
       });
     }
   }
@@ -6669,24 +6552,24 @@ function isSpeciesLocked(biome, species) {
 function toggleSpeciesLock(biome, species, { announce = true } = {}) {
   const key = createPinKey(biome, species);
   const locks = state.cardState.locks.species;
-  const displayName = species?.display_name ?? species?.id ?? "Specie";
+  const displayName = species?.display_name ?? species?.id ?? 'Specie';
   let locked;
   if (locks.has(key)) {
     locks.delete(key);
     locked = false;
     if (announce) {
-      setStatus(`${displayName} sbloccata.`, "info", {
-        tags: ["lock", "specie"],
-        action: "species-unlock",
+      setStatus(`${displayName} sbloccata.`, 'info', {
+        tags: ['lock', 'specie'],
+        action: 'species-unlock',
       });
     }
   } else {
     locks.add(key);
     locked = true;
     if (announce) {
-      setStatus(`${displayName} bloccata nei prossimi re-roll.`, "success", {
-        tags: ["lock", "specie"],
-        action: "species-lock",
+      setStatus(`${displayName} bloccata nei prossimi re-roll.`, 'success', {
+        tags: ['lock', 'specie'],
+        action: 'species-lock',
       });
     }
   }
@@ -6697,13 +6580,13 @@ function toggleSpeciesLock(biome, species, { announce = true } = {}) {
 function togglePinned(biome, species, { announce = true } = {}) {
   const key = createPinKey(biome, species);
   const store = state.cardState.pinned;
-  const displayName = species?.display_name ?? species?.id ?? "Specie";
+  const displayName = species?.display_name ?? species?.id ?? 'Specie';
   if (store.has(key)) {
     store.delete(key);
     if (announce) {
-      setStatus(`${displayName} rimosso dalle specie pinnate.`, "info", {
-        tags: ["specie", "pin"],
-        action: "species-unpin",
+      setStatus(`${displayName} rimosso dalle specie pinnate.`, 'info', {
+        tags: ['specie', 'pin'],
+        action: 'species-unpin',
       });
     }
     updatePinButtonState(key, false);
@@ -6716,18 +6599,18 @@ function togglePinned(biome, species, { announce = true } = {}) {
   store.set(key, {
     key,
     speciesId: species?.id ?? key,
-    biomeId: biome?.id ?? "biome",
+    biomeId: biome?.id ?? 'biome',
     displayName,
-    biomeLabel: biome?.label ?? titleCase(biome?.id ?? ""),
+    biomeLabel: biome?.label ?? titleCase(biome?.id ?? ''),
     tier,
     rarity: rarity.label,
     slug: rarity.slug,
     synthetic: Boolean(species?.synthetic || biome?.synthetic),
   });
   if (announce) {
-    setStatus(`${displayName} aggiunto alle specie pinnate.`, "success", {
-      tags: ["specie", "pin"],
-      action: "species-pin",
+    setStatus(`${displayName} aggiunto alle specie pinnate.`, 'success', {
+      tags: ['specie', 'pin'],
+      action: 'species-pin',
     });
   }
   updatePinButtonState(key, true);
@@ -6743,10 +6626,10 @@ function removeComparisonEntry(key, { announce = false, reRender = true } = {}) 
   store.delete(key);
   updateCompareButtonState(key, false);
   if (announce) {
-    const label = entry?.displayName ?? "Specie";
-    setStatus(`${label} rimossa dal confronto.`, "info", {
-      tags: ["confronto"],
-      action: "compare-remove",
+    const label = entry?.displayName ?? 'Specie';
+    setStatus(`${label} rimossa dal confronto.`, 'info', {
+      tags: ['confronto'],
+      action: 'compare-remove',
     });
   }
   if (reRender) {
@@ -6763,9 +6646,9 @@ function toggleComparison(biome, species, { announce = true } = {}) {
   }
   if (store.size >= 3) {
     if (announce) {
-      setStatus("Puoi confrontare al massimo tre specie alla volta.", "warn", {
-        tags: ["confronto", "limite"],
-        action: "compare-limit",
+      setStatus('Puoi confrontare al massimo tre specie alla volta.', 'warn', {
+        tags: ['confronto', 'limite'],
+        action: 'compare-limit',
       });
     }
     return false;
@@ -6775,9 +6658,9 @@ function toggleComparison(biome, species, { announce = true } = {}) {
   updateCompareButtonState(key, true);
   renderComparisonPanel();
   if (announce) {
-    setStatus(`${entry.displayName} aggiunta al confronto.`, "success", {
-      tags: ["confronto"],
-      action: "compare-add",
+    setStatus(`${entry.displayName} aggiunta al confronto.`, 'success', {
+      tags: ['confronto'],
+      action: 'compare-add',
     });
   }
   return true;
@@ -6797,7 +6680,7 @@ function syncComparisonStore() {
     entry.roleName = roleDisplayName(species);
     entry.metrics = calculateSpeciesMetrics(species);
     const biome = findBiomeById(entry.biomeId);
-    entry.biomeLabel = biome?.label ?? titleCase(biome?.id ?? entry.biomeId ?? "");
+    entry.biomeLabel = biome?.label ?? titleCase(biome?.id ?? entry.biomeId ?? '');
     entry.synthetic = Boolean(species.synthetic || biome?.synthetic);
   });
   stale.forEach((key) => {
@@ -6810,11 +6693,9 @@ function syncComparisonStore() {
 function ensureComparisonChart() {
   if (!elements.compareCanvas) return null;
   if (comparisonChart) return comparisonChart;
-  if (typeof Chart === "undefined") {
+  if (typeof Chart === 'undefined') {
     if (!chartUnavailableNotified) {
-      console.warn(
-        "Chart.js non disponibile: il confronto radar verrà mostrato solo come elenco."
-      );
+      console.warn('Chart.js non disponibile: il confronto radar verrà mostrato solo come elenco.');
       chartUnavailableNotified = true;
     }
     if (elements.compareFallback) {
@@ -6829,11 +6710,11 @@ function ensureComparisonChart() {
     elements.compareFallback.hidden = true;
   }
 
-  const context = elements.compareCanvas.getContext("2d");
+  const context = elements.compareCanvas.getContext('2d');
   if (!context) return null;
 
   comparisonChart = new Chart(context, {
-    type: "radar",
+    type: 'radar',
     data: {
       labels: COMPARISON_LABELS,
       datasets: [],
@@ -6845,15 +6726,15 @@ function ensureComparisonChart() {
         r: {
           beginAtZero: true,
           suggestedMax: 5,
-          angleLines: { color: "rgba(148, 196, 255, 0.18)" },
-          grid: { color: "rgba(148, 196, 255, 0.12)" },
+          angleLines: { color: 'rgba(148, 196, 255, 0.18)' },
+          grid: { color: 'rgba(148, 196, 255, 0.12)' },
           ticks: {
             stepSize: 1,
             showLabelBackdrop: false,
-            color: "rgba(148, 196, 255, 0.65)",
+            color: 'rgba(148, 196, 255, 0.65)',
           },
           pointLabels: {
-            color: "rgba(226, 240, 255, 0.82)",
+            color: 'rgba(226, 240, 255, 0.82)',
             font: { size: 12 },
           },
         },
@@ -6861,15 +6742,15 @@ function ensureComparisonChart() {
       plugins: {
         legend: {
           labels: {
-            color: "#e2f0ff",
+            color: '#e2f0ff',
             font: { size: 12 },
           },
         },
         tooltip: {
-          backgroundColor: "rgba(15, 23, 42, 0.92)",
-          titleColor: "#f8fafc",
-          bodyColor: "#f8fafc",
-          borderColor: "rgba(148, 196, 255, 0.35)",
+          backgroundColor: 'rgba(15, 23, 42, 0.92)',
+          titleColor: '#f8fafc',
+          bodyColor: '#f8fafc',
+          borderColor: 'rgba(148, 196, 255, 0.35)',
           borderWidth: 1,
           callbacks: {
             label(context) {
@@ -6883,28 +6764,28 @@ function ensureComparisonChart() {
                   const hazard = Number.isFinite(detail.hazardSignals)
                     ? detail.hazardSignals
                     : context.parsed.r;
-                  const label = hazard === 1 ? "segnale" : "segnali";
+                  const label = hazard === 1 ? 'segnale' : 'segnali';
                   const hazardNames = Array.isArray(detail.hazardNames)
                     ? detail.hazardNames.filter(Boolean)
                     : [];
                   const maxDisplay = 3;
                   const display = hazardNames.slice(0, maxDisplay);
-                  const more = hazardNames.length > display.length ? "…" : "";
-                  const hint = display.length ? ` (${display.join(", ")}${more})` : "";
+                  const more = hazardNames.length > display.length ? '…' : '';
+                  const hint = display.length ? ` (${display.join(', ')}${more})` : '';
                   return `Densità hazard: ${hazard} ${label}${hint}`;
                 }
                 case 2: {
                   const roles = Number.isFinite(detail.roleTokens)
                     ? detail.roleTokens
                     : context.parsed.r;
-                  const label = roles === 1 ? "archetipo" : "archetipi";
+                  const label = roles === 1 ? 'archetipo' : 'archetipi';
                   const roleTokens = Array.isArray(detail.roleTokenList)
                     ? detail.roleTokenList.filter(Boolean)
                     : [];
                   const maxDisplay = 4;
                   const display = roleTokens.slice(0, maxDisplay);
-                  const more = roleTokens.length > display.length ? "…" : "";
-                  const hint = display.length ? ` (${display.join(", ")}${more})` : "";
+                  const more = roleTokens.length > display.length ? '…' : '';
+                  const hint = display.length ? ` (${display.join(', ')}${more})` : '';
                   return `Diversità ruoli: ${roles} ${label}${hint}`;
                 }
                 default:
@@ -6942,17 +6823,13 @@ function updateComparisonChart(entries) {
     const colors = colorPairFromString(entry.key);
     return {
       label: entry.displayName,
-      data: [
-        entry.metrics.tierAverage,
-        entry.metrics.hazardDensity,
-        entry.metrics.roleDiversity,
-      ],
+      data: [entry.metrics.tierAverage, entry.metrics.hazardDensity, entry.metrics.roleDiversity],
       fill: true,
       backgroundColor: colors.fill,
       borderColor: colors.border,
       pointBackgroundColor: colors.border,
-      pointBorderColor: "#0f172a",
-      pointHoverBackgroundColor: "#f8fafc",
+      pointBorderColor: '#0f172a',
+      pointHoverBackgroundColor: '#f8fafc',
       pointHoverBorderColor: colors.border,
       metaDetails: entry.metrics.detail,
     };
@@ -6962,7 +6839,7 @@ function updateComparisonChart(entries) {
       acc,
       entry.metrics.tierAverage,
       entry.metrics.hazardDensity,
-      entry.metrics.roleDiversity
+      entry.metrics.roleDiversity,
     );
   }, 0);
   if (chart.options?.scales?.r) {
@@ -6976,91 +6853,97 @@ function renderComparisonPanel() {
   const list = elements.compareList;
   if (!list) return;
   const entries = Array.from(state.cardState.comparison.values());
-  list.innerHTML = "";
+  list.innerHTML = '';
   const hasEntries = entries.length > 0;
   list.hidden = !hasEntries;
   if (elements.compareEmpty) {
     elements.compareEmpty.hidden = hasEntries;
   }
   if (elements.comparePanel) {
-    elements.comparePanel.dataset.state = hasEntries ? "filled" : "empty";
+    elements.comparePanel.dataset.state = hasEntries ? 'filled' : 'empty';
   }
   if (elements.summaryContainer) {
-    elements.summaryContainer.dataset.hasComparison = hasEntries ? "true" : "false";
+    elements.summaryContainer.dataset.hasComparison = hasEntries ? 'true' : 'false';
   }
   if (elements.compareChartContainer) {
     elements.compareChartContainer.hidden = !hasEntries;
   }
 
   entries.forEach((entry) => {
-    const item = document.createElement("li");
-    item.className = "generator-compare__item";
+    const item = document.createElement('li');
+    item.className = 'generator-compare__item';
     item.dataset.compareKey = entry.key;
 
-    const info = document.createElement("div");
-    info.className = "generator-compare__info";
+    const info = document.createElement('div');
+    info.className = 'generator-compare__info';
     item.appendChild(info);
 
-    const name = document.createElement("p");
-    name.className = "generator-compare__name";
+    const name = document.createElement('p');
+    name.className = 'generator-compare__name';
     name.textContent = entry.displayName;
     info.appendChild(name);
 
-    const meta = document.createElement("p");
-    meta.className = "generator-compare__meta";
+    const meta = document.createElement('p');
+    meta.className = 'generator-compare__meta';
     const metaParts = [entry.biomeLabel];
     if (entry.roleName) {
       metaParts.push(entry.roleName);
     }
     if (entry.synthetic) {
-      metaParts.push("Synth");
+      metaParts.push('Synth');
     }
-    meta.textContent = metaParts.filter(Boolean).join(" · ");
+    meta.textContent = metaParts.filter(Boolean).join(' · ');
     info.appendChild(meta);
 
-    const metrics = document.createElement("div");
-    metrics.className = "generator-compare__metrics";
+    const metrics = document.createElement('div');
+    metrics.className = 'generator-compare__metrics';
 
-    const tierMetric = document.createElement("span");
-    tierMetric.className = "generator-compare__metric";
+    const tierMetric = document.createElement('span');
+    tierMetric.className = 'generator-compare__metric';
     tierMetric.innerHTML = `<span class="generator-compare__metric-label">Tier medio</span> ${formatTierValue(
-      entry.metrics.detail.tier
+      entry.metrics.detail.tier,
     )}`;
     tierMetric.title = `Tier stimato: ${formatTierValue(entry.metrics.detail.tier)}`;
     metrics.appendChild(tierMetric);
 
-    const hazardMetric = document.createElement("span");
-    hazardMetric.className = "generator-compare__metric";
+    const hazardMetric = document.createElement('span');
+    hazardMetric.className = 'generator-compare__metric';
     const hazardSignals = Number.isFinite(entry.metrics.detail.hazardSignals)
       ? entry.metrics.detail.hazardSignals
       : 0;
-    const hazardLabel = hazardSignals === 1 ? "segnale" : "segnali";
+    const hazardLabel = hazardSignals === 1 ? 'segnale' : 'segnali';
     hazardMetric.innerHTML = `<span class="generator-compare__metric-label">Densità hazard</span> ${hazardSignals} ${hazardLabel}`;
-    if (Array.isArray(entry.metrics.detail.hazardNames) && entry.metrics.detail.hazardNames.length) {
-      hazardMetric.title = entry.metrics.detail.hazardNames.join(", ");
+    if (
+      Array.isArray(entry.metrics.detail.hazardNames) &&
+      entry.metrics.detail.hazardNames.length
+    ) {
+      hazardMetric.title = entry.metrics.detail.hazardNames.join(', ');
     }
     metrics.appendChild(hazardMetric);
 
-    const roleMetric = document.createElement("span");
-    roleMetric.className = "generator-compare__metric";
+    const roleMetric = document.createElement('span');
+    roleMetric.className = 'generator-compare__metric';
     const roleTokens = Number.isFinite(entry.metrics.detail.roleTokens)
       ? entry.metrics.detail.roleTokens
       : 0;
-    const roleLabel = roleTokens === 1 ? "archetipo" : "archetipi";
+    const roleLabel = roleTokens === 1 ? 'archetipo' : 'archetipi';
     roleMetric.innerHTML = `<span class="generator-compare__metric-label">Diversità ruoli</span> ${roleTokens} ${roleLabel}`;
-    if (Array.isArray(entry.metrics.detail.roleTokenList) && entry.metrics.detail.roleTokenList.length) {
-      roleMetric.title = entry.metrics.detail.roleTokenList.join(", ");
+    if (
+      Array.isArray(entry.metrics.detail.roleTokenList) &&
+      entry.metrics.detail.roleTokenList.length
+    ) {
+      roleMetric.title = entry.metrics.detail.roleTokenList.join(', ');
     }
     metrics.appendChild(roleMetric);
 
     info.appendChild(metrics);
 
-    const remove = document.createElement("button");
-    remove.type = "button";
-    remove.className = "generator-compare__remove";
-    remove.dataset.action = "remove-compare";
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'generator-compare__remove';
+    remove.dataset.action = 'remove-compare';
     remove.dataset.compareKey = entry.key;
-    remove.innerHTML = "&times;";
+    remove.innerHTML = '&times;';
     item.appendChild(remove);
 
     list.appendChild(item);
@@ -7080,10 +6963,10 @@ function renderComparisonPanel() {
 function attachComparisonHandlers() {
   const list = elements.compareList;
   if (!list) return;
-  list.addEventListener("click", (event) => {
+  list.addEventListener('click', (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
-    const button = target.closest("[data-action=\"remove-compare\"]");
+    const button = target.closest('[data-action="remove-compare"]');
     if (!button) return;
     event.preventDefault();
     const { compareKey } = button.dataset;
@@ -7095,43 +6978,43 @@ function attachComparisonHandlers() {
 function toggleSquad(biome, species) {
   const key = createPinKey(biome, species);
   const store = state.cardState.squad;
-  const displayName = species?.display_name ?? species?.id ?? "Specie";
+  const displayName = species?.display_name ?? species?.id ?? 'Specie';
   if (store.has(key)) {
     store.delete(key);
-    setStatus(`${displayName} rimosso dalla squadra rapida.`, "info", {
-      tags: ["squadra"],
-      action: "squad-remove",
+    setStatus(`${displayName} rimosso dalla squadra rapida.`, 'info', {
+      tags: ['squadra'],
+      action: 'squad-remove',
     });
     return false;
   }
   store.set(key, {
     key,
     speciesId: species?.id ?? key,
-    biomeId: biome?.id ?? "biome",
+    biomeId: biome?.id ?? 'biome',
     displayName,
     tier: tierOf(species),
   });
-  setStatus(`${displayName} aggiunto alla squadra rapida.`, "success", {
-    tags: ["squadra"],
-    action: "squad-add",
+  setStatus(`${displayName} aggiunto alla squadra rapida.`, 'success', {
+    tags: ['squadra'],
+    action: 'squad-add',
   });
   return true;
 }
 
 function createSpeciesCard(biome, species) {
-  const displayName = species?.display_name ?? species?.id ?? "Specie sconosciuta";
-  const card = document.createElement("article");
-  card.className = "species-card";
-  card.dataset.cardType = "species";
+  const displayName = species?.display_name ?? species?.id ?? 'Specie sconosciuta';
+  const card = document.createElement('article');
+  card.className = 'species-card';
+  card.dataset.cardType = 'species';
   const pinKey = createPinKey(biome, species);
   if (state.cardState.pinned.has(pinKey)) {
-    card.dataset.pinned = "true";
+    card.dataset.pinned = 'true';
   }
   if (state.cardState.comparison.has(pinKey)) {
-    card.dataset.compare = "true";
+    card.dataset.compare = 'true';
   }
   if (isSpeciesLocked(biome, species)) {
-    card.dataset.locked = "true";
+    card.dataset.locked = 'true';
   }
 
   const tier = tierOf(species);
@@ -7139,63 +7022,63 @@ function createSpeciesCard(biome, species) {
   card.dataset.rarity = rarity.slug;
   card.dataset.tier = `T${tier}`;
   if (species?.synthetic || biome?.synthetic) {
-    card.dataset.synthetic = "true";
+    card.dataset.synthetic = 'true';
   }
 
   const media = createCardMedia({
     label: displayName,
-    variant: "species",
+    variant: 'species',
     icon: speciesPlaceholderIcon(species),
     backgroundKey: species?.id ?? displayName,
     alt: `Segnaposto per ${displayName}`,
   });
   card.appendChild(media);
 
-  const info = document.createElement("div");
-  info.className = "species-card__info";
+  const info = document.createElement('div');
+  info.className = 'species-card__info';
   card.appendChild(info);
 
-  const header = document.createElement("div");
-  header.className = "species-card__header";
+  const header = document.createElement('div');
+  header.className = 'species-card__header';
   info.appendChild(header);
 
-  const title = document.createElement("div");
-  title.className = "species-card__title";
+  const title = document.createElement('div');
+  title.className = 'species-card__title';
   header.appendChild(title);
 
-  const name = document.createElement("h4");
-  name.className = "species-card__name";
+  const name = document.createElement('h4');
+  name.className = 'species-card__name';
   name.textContent = displayName;
   title.appendChild(name);
 
-  const id = document.createElement("p");
-  id.className = "species-card__id";
-  id.textContent = species?.id ?? "—";
+  const id = document.createElement('p');
+  id.className = 'species-card__id';
+  id.textContent = species?.id ?? '—';
   title.appendChild(id);
 
-  const controls = document.createElement("div");
-  controls.className = "species-card__controls";
+  const controls = document.createElement('div');
+  controls.className = 'species-card__controls';
   header.appendChild(controls);
 
-  const badges = document.createElement("div");
-  badges.className = "species-card__badges";
+  const badges = document.createElement('div');
+  badges.className = 'species-card__badges';
   badges.appendChild(createBadgeElement(rarity.label, `rarity-${rarity.slug}`));
   if (species?.synthetic || biome?.synthetic) {
-    badges.appendChild(createBadgeElement("Synth", "synth"));
+    badges.appendChild(createBadgeElement('Synth', 'synth'));
   }
   controls.appendChild(badges);
 
-  const actions = document.createElement("div");
-  actions.className = "species-card__actions";
+  const actions = document.createElement('div');
+  actions.className = 'species-card__actions';
   controls.appendChild(actions);
 
   const squadButton = createQuickButton({
-    icon: "⚔️",
+    icon: '⚔️',
     label: `Aggiungi ${displayName} alla squadra rapida`,
-    className: "quick-button--squad",
+    className: 'quick-button--squad',
   });
   applyQuickButtonState(squadButton, state.cardState.squad.has(pinKey));
-  squadButton.addEventListener("click", (event) => {
+  squadButton.addEventListener('click', (event) => {
     event.preventDefault();
     const active = toggleSquad(biome, species);
     applyQuickButtonState(squadButton, active);
@@ -7204,85 +7087,87 @@ function createSpeciesCard(biome, species) {
 
   const lockActive = isSpeciesLocked(biome, species);
   const lockButton = createQuickButton({
-    icon: lockActive ? "🔒" : "🔓",
+    icon: lockActive ? '🔒' : '🔓',
     label: `Blocca ${displayName} nei re-roll`,
-    className: "quick-button--lock",
+    className: 'quick-button--lock',
   });
   applyQuickButtonState(lockButton, lockActive);
   lockButton.dataset.lockKey = pinKey;
-  lockButton.addEventListener("click", (event) => {
+  lockButton.addEventListener('click', (event) => {
     event.preventDefault();
     const locked = toggleSpeciesLock(biome, species);
     applyQuickButtonState(lockButton, locked);
-    const icon = lockButton.querySelector("span");
+    const icon = lockButton.querySelector('span');
     if (icon) {
-      icon.textContent = locked ? "🔒" : "🔓";
+      icon.textContent = locked ? '🔒' : '🔓';
     }
-    card.dataset.locked = locked ? "true" : "false";
+    card.dataset.locked = locked ? 'true' : 'false';
   });
   actions.appendChild(lockButton);
 
   const pinButton = createQuickButton({
-    icon: "📌",
+    icon: '📌',
     label: `Pin ${displayName} nel riepilogo`,
-    className: "quick-button--pin",
+    className: 'quick-button--pin',
   });
   pinButton.dataset.pinKey = pinKey;
   applyQuickButtonState(pinButton, state.cardState.pinned.has(pinKey));
-  pinButton.addEventListener("click", (event) => {
+  pinButton.addEventListener('click', (event) => {
     event.preventDefault();
     const active = togglePinned(biome, species);
     applyQuickButtonState(pinButton, active);
-    card.dataset.pinned = active ? "true" : "false";
+    card.dataset.pinned = active ? 'true' : 'false';
   });
   actions.appendChild(pinButton);
 
   const compareButton = createQuickButton({
-    icon: "📊",
+    icon: '📊',
     label: `Confronta ${displayName} nel radar`,
-    className: "quick-button--compare",
+    className: 'quick-button--compare',
   });
   compareButton.dataset.compareKey = pinKey;
   applyQuickButtonState(compareButton, state.cardState.comparison.has(pinKey));
-  compareButton.addEventListener("click", (event) => {
+  compareButton.addEventListener('click', (event) => {
     event.preventDefault();
     const active = toggleComparison(biome, species);
     applyQuickButtonState(compareButton, active);
-    card.dataset.compare = active ? "true" : "false";
+    card.dataset.compare = active ? 'true' : 'false';
   });
   actions.appendChild(compareButton);
 
-  const meta = document.createElement("div");
-  meta.className = "species-card__meta";
-  const role = species?.role_trofico ? titleCase(species.role_trofico) : "Ruolo sconosciuto";
-  const roleSpan = document.createElement("span");
+  const meta = document.createElement('div');
+  meta.className = 'species-card__meta';
+  const role = species?.role_trofico ? titleCase(species.role_trofico) : 'Ruolo sconosciuto';
+  const roleSpan = document.createElement('span');
   roleSpan.textContent = role;
   meta.appendChild(roleSpan);
-  const tierSpan = document.createElement("span");
+  const tierSpan = document.createElement('span');
   tierSpan.textContent = `Tier T${tier}`;
   meta.appendChild(tierSpan);
-  const notableFlags = ["keystone", "apex", "bridge", "threat", "event"].filter((flag) => species.flags?.[flag]);
+  const notableFlags = ['keystone', 'apex', 'bridge', 'threat', 'event'].filter(
+    (flag) => species.flags?.[flag],
+  );
   if (notableFlags.length) {
-    const flagSpan = document.createElement("span");
-    flagSpan.textContent = `Flag: ${notableFlags.map((flag) => titleCase(flag.replace(/_/g, " "))).join(", ")}`;
+    const flagSpan = document.createElement('span');
+    flagSpan.textContent = `Flag: ${notableFlags.map((flag) => titleCase(flag.replace(/_/g, ' '))).join(', ')}`;
     meta.appendChild(flagSpan);
   }
   info.appendChild(meta);
 
   const tags = Array.isArray(species.functional_tags) ? species.functional_tags : [];
   if (tags.length) {
-    const tagContainer = document.createElement("div");
-    tagContainer.className = "species-card__tags";
+    const tagContainer = document.createElement('div');
+    tagContainer.className = 'species-card__tags';
     const maxVisible = 5;
     tags.slice(0, maxVisible).forEach((tag) => {
-      const chip = document.createElement("span");
-      chip.className = "chip";
+      const chip = document.createElement('span');
+      chip.className = 'chip';
       chip.textContent = tag;
       tagContainer.appendChild(chip);
     });
     if (tags.length > maxVisible) {
-      const remainder = document.createElement("span");
-      remainder.className = "chip";
+      const remainder = document.createElement('span');
+      remainder.className = 'chip';
       remainder.textContent = `+${tags.length - maxVisible}`;
       tagContainer.appendChild(remainder);
     }
@@ -7294,8 +7179,8 @@ function createSpeciesCard(biome, species) {
   info.appendChild(meter);
 
   if (synergy.summary) {
-    const summary = document.createElement("p");
-    summary.className = "species-card__summary";
+    const summary = document.createElement('p');
+    summary.className = 'species-card__summary';
     summary.textContent = synergy.summary;
     info.appendChild(summary);
   }
@@ -7304,100 +7189,98 @@ function createSpeciesCard(biome, species) {
 }
 
 function buildBiomeCard(biome, filters) {
-  const card = document.createElement("article");
-  card.className = "generator-card";
+  const card = document.createElement('article');
+  card.className = 'generator-card';
   card.dataset.biomeId = biome.id;
-  card.dataset.cardType = "biome";
+  card.dataset.cardType = 'biome';
   if (biome?.synthetic) {
-    card.dataset.synthetic = "true";
+    card.dataset.synthetic = 'true';
   }
   if (isBiomeLocked(biome.id)) {
-    card.dataset.locked = "true";
+    card.dataset.locked = 'true';
   }
-  card.setAttribute("role", "listitem");
+  card.setAttribute('role', 'listitem');
 
   const titleText = biome.synthetic
-    ? biome.label ?? titleCase(biome.id ?? "")
-    : titleCase(biome.id ?? "");
+    ? (biome.label ?? titleCase(biome.id ?? ''))
+    : titleCase(biome.id ?? '');
   const media = createCardMedia({
     label: titleText,
-    variant: "biome",
+    variant: 'biome',
     icon: biomePlaceholderLabel(biome),
     backgroundKey: biome.id ?? biome.label ?? titleText,
     alt: `Segnaposto per il bioma ${titleText}`,
   });
   card.appendChild(media);
 
-  const body = document.createElement("div");
-  body.className = "generator-card__body";
+  const body = document.createElement('div');
+  body.className = 'generator-card__body';
   card.appendChild(body);
 
-  const header = document.createElement("div");
-  header.className = "generator-card__header";
+  const header = document.createElement('div');
+  header.className = 'generator-card__header';
   body.appendChild(header);
 
-  const titleGroup = document.createElement("div");
-  titleGroup.className = "generator-card__title-group";
+  const titleGroup = document.createElement('div');
+  titleGroup.className = 'generator-card__title-group';
   header.appendChild(titleGroup);
 
-  const title = document.createElement("h3");
-  title.className = "generator-card__title";
+  const title = document.createElement('h3');
+  title.className = 'generator-card__title';
   title.textContent = titleText;
   titleGroup.appendChild(title);
 
-  const subtitle = document.createElement("p");
-  subtitle.className = "generator-card__subtitle";
+  const subtitle = document.createElement('p');
+  subtitle.className = 'generator-card__subtitle';
   subtitle.textContent = `ID: ${biome.id}`;
   titleGroup.appendChild(subtitle);
 
-  const badges = document.createElement("div");
-  badges.className = "generator-card__badges";
+  const badges = document.createElement('div');
+  badges.className = 'generator-card__badges';
   const speciesCount = (state.pick.species?.[biome.id] ?? []).length;
-  badges.appendChild(createBadgeElement(`${speciesCount} specie`, ""));
+  badges.appendChild(createBadgeElement(`${speciesCount} specie`, ''));
   if (biome.synthetic) {
-    badges.appendChild(createBadgeElement("Synth", "synth"));
+    badges.appendChild(createBadgeElement('Synth', 'synth'));
   }
-  const headerTools = document.createElement("div");
-  headerTools.className = "generator-card__header-tools";
+  const headerTools = document.createElement('div');
+  headerTools.className = 'generator-card__header-tools';
   headerTools.appendChild(badges);
 
   const biomeLocked = isBiomeLocked(biome.id);
-  const lockButton = document.createElement("button");
-  lockButton.type = "button";
-  lockButton.className = "generator-card__lock";
+  const lockButton = document.createElement('button');
+  lockButton.type = 'button';
+  lockButton.className = 'generator-card__lock';
   lockButton.dataset.biomeId = biome.id;
-  const lockIcon = document.createElement("span");
-  lockIcon.className = "generator-card__lock-icon";
-  lockIcon.textContent = biomeLocked ? "🔒" : "🔓";
+  const lockIcon = document.createElement('span');
+  lockIcon.className = 'generator-card__lock-icon';
+  lockIcon.textContent = biomeLocked ? '🔒' : '🔓';
   lockButton.appendChild(lockIcon);
-  const lockLabel = document.createElement("span");
-  lockLabel.className = "visually-hidden";
-  lockLabel.textContent = biomeLocked
-    ? `Sblocca ${titleText}`
-    : `Blocca ${titleText}`;
+  const lockLabel = document.createElement('span');
+  lockLabel.className = 'visually-hidden';
+  lockLabel.textContent = biomeLocked ? `Sblocca ${titleText}` : `Blocca ${titleText}`;
   lockButton.appendChild(lockLabel);
-  lockButton.addEventListener("click", (event) => {
+  lockButton.addEventListener('click', (event) => {
     event.preventDefault();
     const locked = toggleBiomeLock(biome);
-    lockIcon.textContent = locked ? "🔒" : "🔓";
+    lockIcon.textContent = locked ? '🔒' : '🔓';
     lockLabel.textContent = locked ? `Sblocca ${titleText}` : `Blocca ${titleText}`;
-    card.dataset.locked = locked ? "true" : "false";
+    card.dataset.locked = locked ? 'true' : 'false';
   });
   headerTools.appendChild(lockButton);
 
   header.appendChild(headerTools);
 
-  const meta = document.createElement("p");
-  meta.className = "generator-card__meta";
+  const meta = document.createElement('p');
+  meta.className = 'generator-card__meta';
   if (biome.synthetic) {
     const parents = (biome.parents ?? [])
-      .map((parent) => parent.label ?? titleCase(parent.id ?? ""))
+      .map((parent) => parent.label ?? titleCase(parent.id ?? ''))
       .filter(Boolean);
     meta.textContent = parents.length
-      ? `Origine sintetica da ${parents.join(" + ")}`
-      : "Origine sintetica procedurale.";
+      ? `Origine sintetica da ${parents.join(' + ')}`
+      : 'Origine sintetica procedurale.';
   } else {
-    meta.textContent = biome.description ?? "Bioma del catalogo originale.";
+    meta.textContent = biome.description ?? 'Bioma del catalogo originale.';
   }
   body.appendChild(meta);
 
@@ -7414,25 +7297,25 @@ function buildBiomeCard(biome, filters) {
       detailParts.push(`${biome.metrics.resourceRichness} risorse chiave`);
     }
     if (detailParts.length) {
-      const stats = document.createElement("p");
-      stats.className = "generator-card__meta generator-card__meta--emphasis";
-      stats.textContent = detailParts.join(" · ");
+      const stats = document.createElement('p');
+      stats.className = 'generator-card__meta generator-card__meta--emphasis';
+      stats.textContent = detailParts.join(' · ');
       body.appendChild(stats);
     }
 
     const traitDetails = Array.isArray(biome.traits?.details) ? biome.traits.details : [];
     if (traitDetails.length) {
-      const traitContainer = document.createElement("div");
-      traitContainer.className = "generator-card__traits";
+      const traitContainer = document.createElement('div');
+      traitContainer.className = 'generator-card__traits';
       traitDetails.slice(0, 6).forEach((trait) => {
-        const chip = document.createElement("span");
-        chip.className = "chip";
-        chip.textContent = trait.label ?? titleCase(trait.id ?? "trait");
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = trait.label ?? titleCase(trait.id ?? 'trait');
         traitContainer.appendChild(chip);
       });
       if (traitDetails.length > 6) {
-        const remainder = document.createElement("span");
-        remainder.className = "chip";
+        const remainder = document.createElement('span');
+        remainder.className = 'chip';
         remainder.textContent = `+${traitDetails.length - 6}`;
         traitContainer.appendChild(remainder);
       }
@@ -7441,59 +7324,59 @@ function buildBiomeCard(biome, filters) {
   }
 
   if (!biome.synthetic) {
-    const links = document.createElement("div");
-    links.className = "generator-card__links";
+    const links = document.createElement('div');
+    links.className = 'generator-card__links';
     const biomeHref = resolvePackHref(biome.path);
     if (biomeHref) {
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = biomeHref;
-      link.target = "_blank";
-      link.rel = "noreferrer";
-      link.textContent = "Bioma YAML";
+      link.target = '_blank';
+      link.rel = 'noreferrer';
+      link.textContent = 'Bioma YAML';
       links.appendChild(link);
     }
     const foodwebHref = biome.foodweb?.path ? resolvePackHref(biome.foodweb.path) : null;
     if (foodwebHref) {
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = foodwebHref;
-      link.target = "_blank";
-      link.rel = "noreferrer";
-      link.textContent = "Foodweb";
+      link.target = '_blank';
+      link.rel = 'noreferrer';
+      link.textContent = 'Foodweb';
       links.appendChild(link);
     }
     try {
       const reportHref = new URL(`catalog.html#bioma-${biome.id}`, window.location.href).toString();
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = reportHref;
-      link.textContent = "Report";
+      link.textContent = 'Report';
       links.appendChild(link);
     } catch (error) {
-      console.warn("Impossibile calcolare il link al report del bioma", biome.id, error);
+      console.warn('Impossibile calcolare il link al report del bioma', biome.id, error);
     }
     if (links.childElementCount) {
       body.appendChild(links);
     }
   }
 
-  const speciesContainer = document.createElement("ul");
-  speciesContainer.className = "generator-card__species";
-  speciesContainer.setAttribute("role", "list");
+  const speciesContainer = document.createElement('ul');
+  speciesContainer.className = 'generator-card__species';
+  speciesContainer.setAttribute('role', 'list');
   const picked = state.pick.species?.[biome.id] ?? [];
   if (!picked.length) {
-    const empty = document.createElement("li");
-    empty.className = "generator-card__empty";
+    const empty = document.createElement('li');
+    empty.className = 'generator-card__empty';
     const filtersText = [];
-    if (filters.flags.length) filtersText.push(`flag: ${filters.flags.join(", ")}`);
-    if (filters.roles.length) filtersText.push(`ruoli: ${filters.roles.join(", ")}`);
-    if (filters.tags.length) filtersText.push(`tag: ${filters.tags.join(", ")}`);
+    if (filters.flags.length) filtersText.push(`flag: ${filters.flags.join(', ')}`);
+    if (filters.roles.length) filtersText.push(`ruoli: ${filters.roles.join(', ')}`);
+    if (filters.tags.length) filtersText.push(`tag: ${filters.tags.join(', ')}`);
     empty.textContent = filtersText.length
-      ? `Nessuna specie soddisfa i filtri correnti (${filtersText.join(" · ")}).`
-      : "Nessuna specie estratta, effettua un nuovo re-roll.";
+      ? `Nessuna specie soddisfa i filtri correnti (${filtersText.join(' · ')}).`
+      : 'Nessuna specie estratta, effettua un nuovo re-roll.';
     speciesContainer.appendChild(empty);
   } else {
     picked.forEach((sp) => {
-      const item = document.createElement("li");
-      item.className = "generator-card__species-item";
+      const item = document.createElement('li');
+      item.className = 'generator-card__species-item';
       item.appendChild(createSpeciesCard(biome, sp));
       speciesContainer.appendChild(item);
     });
@@ -7501,7 +7384,9 @@ function buildBiomeCard(biome, filters) {
   body.appendChild(speciesContainer);
 
   const traitInfo = gatherTraitInfoForBiome(biome);
-  const traitBlock = traitInfo ? buildTraitBlock(traitInfo, { synthetic: Boolean(biome.synthetic) }) : null;
+  const traitBlock = traitInfo
+    ? buildTraitBlock(traitInfo, { synthetic: Boolean(biome.synthetic) })
+    : null;
   if (traitBlock) {
     body.appendChild(traitBlock);
   }
@@ -7523,8 +7408,8 @@ function buildCombinedRolePresets(roleStats) {
       const totalSynergy = info?.synergy ?? 0;
       const average = count ? Math.round(totalSynergy / count) : 0;
       const label = roleKey
-        ? titleCase(String(roleKey).replace(/[_-]+/g, " "))
-        : "Ruolo indefinito";
+        ? titleCase(String(roleKey).replace(/[_-]+/g, ' '))
+        : 'Ruolo indefinito';
       const flags = info?.flags instanceof Set ? Array.from(info.flags) : [];
       const tags = info?.tags instanceof Set ? Array.from(info.tags) : [];
       return { role: roleKey, label, count, average, flags, tags };
@@ -7550,7 +7435,7 @@ function buildCombinedRolePresets(roleStats) {
       .map((entry) => entry.role)
       .filter(Boolean)
       .sort()
-      .join("+");
+      .join('+');
     if (!key || seen.has(key)) return;
     const combinedFlags = new Set();
     const combinedTags = new Set();
@@ -7564,19 +7449,16 @@ function buildCombinedRolePresets(roleStats) {
     });
     const average = totalCount
       ? Math.round(weightedSum / totalCount)
-      : Math.round(
-          roleEntries.reduce((sum, entry) => sum + entry.average, 0) /
-            roleEntries.length
-        );
+      : Math.round(roleEntries.reduce((sum, entry) => sum + entry.average, 0) / roleEntries.length);
     const usage = roleEntries.reduce((sum, entry) => sum + entry.count, 0);
     const filters = {
       flags: Array.from(combinedFlags),
       roles: roleEntries.map((entry) => entry.role),
       tags: Array.from(combinedTags).slice(0, 4),
     };
-    const label = roleEntries.map((entry) => entry.label).join(" + ");
+    const label = roleEntries.map((entry) => entry.label).join(' + ');
     presets.push({
-      id: `composer-${slugify(key) || slugify(label) || randomId("preset")}`,
+      id: `composer-${slugify(key) || slugify(label) || randomId('preset')}`,
       label,
       filters,
       synergy: average,
@@ -7603,12 +7485,10 @@ function buildCombinedRolePresets(roleStats) {
 
 function buildComposerSuggestions({ heatmap, combinedPresets, constraints, flagStats }) {
   const suggestions = [];
-  const minSynergy = Number.isFinite(constraints?.minSynergy)
-    ? constraints.minSynergy
-    : 0;
+  const minSynergy = Number.isFinite(constraints?.minSynergy) ? constraints.minSynergy : 0;
   const populatedRows = Array.isArray(heatmap)
-    ? heatmap.filter((row) =>
-        Array.isArray(row?.values) && row.values.some((cell) => cell.count > 0)
+    ? heatmap.filter(
+        (row) => Array.isArray(row?.values) && row.values.some((cell) => cell.count > 0),
       )
     : [];
 
@@ -7627,14 +7507,14 @@ function buildComposerSuggestions({ heatmap, combinedPresets, constraints, flagS
       lowCells.sort((a, b) => a.cell.average - b.cell.average);
       const critical = lowCells[0];
       suggestions.push({
-        tone: "warn",
+        tone: 'warn',
         message: `${critical.row.label}: sinergia ${critical.cell.average}% su ${
           ROLE_FLAG_LABELS[critical.cell.role] ?? critical.cell.role
         }. Valuta un preset mirato o abbassa la soglia.`,
       });
     } else if (minSynergy > 0) {
       suggestions.push({
-        tone: "success",
+        tone: 'success',
         message: `Tutte le combinazioni rispettano la soglia minima di ${minSynergy}%.`,
       });
     }
@@ -7643,7 +7523,7 @@ function buildComposerSuggestions({ heatmap, combinedPresets, constraints, flagS
   if (Array.isArray(combinedPresets) && combinedPresets.length) {
     const topPreset = combinedPresets[0];
     suggestions.push({
-      tone: "info",
+      tone: 'info',
       message: `Preset ${topPreset.label}: ${topPreset.synergy}% di sinergia media su ${topPreset.usage} occorrenze recenti.`,
     });
   }
@@ -7655,18 +7535,18 @@ function buildComposerSuggestions({ heatmap, combinedPresets, constraints, flagS
     });
     if (missingRoles.length) {
       suggestions.push({
-        tone: "info",
+        tone: 'info',
         message: `Nessuna specie con flag ${missingRoles
           .map((flag) => ROLE_FLAG_LABELS[flag] ?? flag)
-          .join(", ")} nei roll correnti.`,
+          .join(', ')} nei roll correnti.`,
       });
     }
   }
 
   if (!suggestions.length) {
     suggestions.push({
-      tone: "info",
-      message: "Genera un ecosistema per sbloccare raccomandazioni dinamiche.",
+      tone: 'info',
+      message: 'Genera un ecosistema per sbloccare raccomandazioni dinamiche.',
     });
   }
 
@@ -7676,48 +7556,48 @@ function buildComposerSuggestions({ heatmap, combinedPresets, constraints, flagS
 function renderComposerHeatmap(rows) {
   const container = elements.composerHeatmap;
   if (!container) return;
-  container.innerHTML = "";
+  container.innerHTML = '';
   if (!Array.isArray(rows) || !rows.length) {
-    const placeholder = document.createElement("p");
-    placeholder.className = "generator-composer__empty";
-    placeholder.textContent = "Genera un ecosistema per popolare la heatmap.";
+    const placeholder = document.createElement('p');
+    placeholder.className = 'generator-composer__empty';
+    placeholder.textContent = 'Genera un ecosistema per popolare la heatmap.';
     container.appendChild(placeholder);
     return;
   }
 
-  const headerRow = document.createElement("div");
-  headerRow.className = "generator-composer__heatmap-row generator-composer__heatmap-row--header";
-  const labelHeading = document.createElement("span");
-  labelHeading.className = "generator-composer__heatmap-heading";
-  labelHeading.textContent = "Bioma";
+  const headerRow = document.createElement('div');
+  headerRow.className = 'generator-composer__heatmap-row generator-composer__heatmap-row--header';
+  const labelHeading = document.createElement('span');
+  labelHeading.className = 'generator-composer__heatmap-heading';
+  labelHeading.textContent = 'Bioma';
   headerRow.appendChild(labelHeading);
   ROLE_FLAGS.forEach((flag) => {
-    const heading = document.createElement("span");
-    heading.className = "generator-composer__heatmap-heading";
+    const heading = document.createElement('span');
+    heading.className = 'generator-composer__heatmap-heading';
     heading.textContent = ROLE_FLAG_LABELS[flag] ?? titleCase(flag);
     headerRow.appendChild(heading);
   });
   container.appendChild(headerRow);
 
   rows.forEach((row) => {
-    const rowElement = document.createElement("div");
-    rowElement.className = "generator-composer__heatmap-row";
-    const label = document.createElement("span");
-    label.className = "generator-composer__heatmap-label";
-    label.textContent = row.label ?? titleCase(row.biomeId ?? "Bioma");
+    const rowElement = document.createElement('div');
+    rowElement.className = 'generator-composer__heatmap-row';
+    const label = document.createElement('span');
+    label.className = 'generator-composer__heatmap-label';
+    label.textContent = row.label ?? titleCase(row.biomeId ?? 'Bioma');
     rowElement.appendChild(label);
     ROLE_FLAGS.forEach((flag) => {
       const cell = Array.isArray(row.values)
         ? row.values.find((entry) => entry.role === flag)
         : null;
-      const cellElement = document.createElement("span");
-      cellElement.className = "generator-composer__heatmap-cell";
+      const cellElement = document.createElement('span');
+      cellElement.className = 'generator-composer__heatmap-cell';
       const count = cell?.count ?? 0;
       const average = cell?.average ?? 0;
       cellElement.dataset.role = flag;
       cellElement.dataset.count = String(count);
       cellElement.dataset.synergy = String(average);
-      cellElement.textContent = count ? `${average}%` : "—";
+      cellElement.textContent = count ? `${average}%` : '—';
       cellElement.title = count
         ? `${count} specie · ${ROLE_FLAG_LABELS[flag] ?? flag} · sinergia ${average}%`
         : `Nessuna specie con flag ${ROLE_FLAG_LABELS[flag] ?? flag}`;
@@ -7731,19 +7611,19 @@ function renderComposerHeatmap(rows) {
 function ensureComposerRadarChart() {
   if (!elements.composerRadarCanvas) return null;
   if (composerRadarChart) return composerRadarChart;
-  if (typeof Chart === "undefined") {
+  if (typeof Chart === 'undefined') {
     if (!composerChartUnavailable) {
       console.warn(
-        "Chart.js non disponibile: il radar sinergie della composizione avanzata rimarrà nascosto."
+        'Chart.js non disponibile: il radar sinergie della composizione avanzata rimarrà nascosto.',
       );
       composerChartUnavailable = true;
     }
     return null;
   }
-  const context = elements.composerRadarCanvas.getContext("2d");
+  const context = elements.composerRadarCanvas.getContext('2d');
   if (!context) return null;
   composerRadarChart = new Chart(context, {
-    type: "radar",
+    type: 'radar',
     data: {
       labels: COMPOSER_RADAR_LABELS,
       datasets: [],
@@ -7758,12 +7638,12 @@ function ensureComposerRadarChart() {
           ticks: {
             stepSize: 20,
             showLabelBackdrop: false,
-            color: "rgba(148, 196, 255, 0.65)",
+            color: 'rgba(148, 196, 255, 0.65)',
           },
-          angleLines: { color: "rgba(148, 196, 255, 0.2)" },
-          grid: { color: "rgba(148, 196, 255, 0.12)" },
+          angleLines: { color: 'rgba(148, 196, 255, 0.2)' },
+          grid: { color: 'rgba(148, 196, 255, 0.12)' },
           pointLabels: {
-            color: "rgba(226, 240, 255, 0.82)",
+            color: 'rgba(226, 240, 255, 0.82)',
             font: { size: 11 },
           },
         },
@@ -7771,8 +7651,8 @@ function ensureComposerRadarChart() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "rgba(15, 23, 42, 0.92)",
-          borderColor: "rgba(148, 196, 255, 0.35)",
+          backgroundColor: 'rgba(15, 23, 42, 0.92)',
+          borderColor: 'rgba(148, 196, 255, 0.35)',
           borderWidth: 1,
         },
       },
@@ -7791,13 +7671,13 @@ function updateComposerRadarChart(values) {
   if (hasData) {
     chart.data.datasets = [
       {
-        label: "Sinergia media",
+        label: 'Sinergia media',
         data,
-        backgroundColor: "rgba(88, 166, 255, 0.25)",
-        borderColor: "rgba(88, 166, 255, 0.85)",
+        backgroundColor: 'rgba(88, 166, 255, 0.25)',
+        borderColor: 'rgba(88, 166, 255, 0.85)',
         borderWidth: 2,
-        pointBackgroundColor: "rgba(88, 166, 255, 0.95)",
-        pointBorderColor: "rgba(4, 7, 14, 0.9)",
+        pointBackgroundColor: 'rgba(88, 166, 255, 0.95)',
+        pointBorderColor: 'rgba(4, 7, 14, 0.9)',
         pointRadius: 3,
         pointHoverRadius: 4,
       },
@@ -7814,9 +7694,7 @@ function renderComposerPanel() {
   const composerState = state.composer ?? {};
   const constraints = composerState.constraints ?? {};
   const preferred = ensurePreferredRoleSet();
-  const minValue = Number.isFinite(constraints.minSynergy)
-    ? constraints.minSynergy
-    : 0;
+  const minValue = Number.isFinite(constraints.minSynergy) ? constraints.minSynergy : 0;
 
   if (elements.composerSynergySlider) {
     elements.composerSynergySlider.value = String(minValue);
@@ -7825,12 +7703,10 @@ function renderComposerPanel() {
     elements.composerSynergyValue.textContent = `${minValue}%`;
   }
 
-  const presets = Array.isArray(composerState.combinedPresets)
-    ? composerState.combinedPresets
-    : [];
+  const presets = Array.isArray(composerState.combinedPresets) ? composerState.combinedPresets : [];
   const presetList = elements.composerPresetList;
   if (presetList) {
-    presetList.innerHTML = "";
+    presetList.innerHTML = '';
     const hasPresets = presets.length > 0;
     presetList.hidden = !hasPresets;
     if (elements.composerPresetEmpty) {
@@ -7838,46 +7714,46 @@ function renderComposerPanel() {
     }
     if (hasPresets) {
       presets.forEach((preset) => {
-        const item = document.createElement("li");
-        item.className = "generator-composer__list-item";
+        const item = document.createElement('li');
+        item.className = 'generator-composer__list-item';
         item.dataset.presetId = preset.id;
 
-        const heading = document.createElement("div");
-        heading.className = "generator-composer__list-heading";
-        const title = document.createElement("p");
-        title.className = "generator-composer__preset-title";
+        const heading = document.createElement('div');
+        heading.className = 'generator-composer__list-heading';
+        const title = document.createElement('p');
+        title.className = 'generator-composer__preset-title';
         title.textContent = preset.label;
         heading.appendChild(title);
-        const badge = document.createElement("span");
-        badge.className = "generator-composer__badge";
+        const badge = document.createElement('span');
+        badge.className = 'generator-composer__badge';
         badge.textContent = `${preset.synergy}%`;
-        badge.title = "Sinergia media stimata";
+        badge.title = 'Sinergia media stimata';
         heading.appendChild(badge);
         item.appendChild(heading);
 
-        const metrics = document.createElement("div");
-        metrics.className = "generator-composer__metrics";
-        const roleMetric = document.createElement("span");
+        const metrics = document.createElement('div');
+        metrics.className = 'generator-composer__metrics';
+        const roleMetric = document.createElement('span');
         roleMetric.textContent = `Ruoli: ${preset.filters.roles
-          .map((role) => titleCase(String(role).replace(/[_-]+/g, " ")))
-          .join(", ")}`;
+          .map((role) => titleCase(String(role).replace(/[_-]+/g, ' ')))
+          .join(', ')}`;
         metrics.appendChild(roleMetric);
-        const usageMetric = document.createElement("span");
+        const usageMetric = document.createElement('span');
         usageMetric.textContent = `Utilizzo: ${preset.usage}`;
         metrics.appendChild(usageMetric);
         if (preset.highlightTags?.length) {
-          const tagMetric = document.createElement("span");
-          tagMetric.textContent = `Tag: ${preset.highlightTags.join(", ")}`;
+          const tagMetric = document.createElement('span');
+          tagMetric.textContent = `Tag: ${preset.highlightTags.join(', ')}`;
           metrics.appendChild(tagMetric);
         }
         item.appendChild(metrics);
 
-        const applyButton = document.createElement("button");
-        applyButton.type = "button";
-        applyButton.className = "button button--ghost generator-composer__apply";
-        applyButton.dataset.action = "composer-apply-preset";
+        const applyButton = document.createElement('button');
+        applyButton.type = 'button';
+        applyButton.className = 'button button--ghost generator-composer__apply';
+        applyButton.dataset.action = 'composer-apply-preset';
         applyButton.dataset.presetId = preset.id;
-        applyButton.textContent = "Applica preset";
+        applyButton.textContent = 'Applica preset';
         item.appendChild(applyButton);
 
         presetList.appendChild(item);
@@ -7887,7 +7763,7 @@ function renderComposerPanel() {
 
   const toggles = elements.composerRoleToggles;
   if (toggles) {
-    toggles.innerHTML = "";
+    toggles.innerHTML = '';
     const roleStats = composerState.roleStats instanceof Map ? composerState.roleStats : new Map();
     const roleEntries = Array.from(roleStats.entries())
       .map(([roleKey, info]) => {
@@ -7897,7 +7773,7 @@ function renderComposerPanel() {
         const average = count ? Math.round(totalSynergy / count) : 0;
         return {
           role: roleKey,
-          label: titleCase(String(roleKey).replace(/[_-]+/g, " ")),
+          label: titleCase(String(roleKey).replace(/[_-]+/g, ' ')),
           count,
           average,
         };
@@ -7911,20 +7787,20 @@ function renderComposerPanel() {
       });
 
     if (!roleEntries.length) {
-      const empty = document.createElement("p");
-      empty.className = "generator-composer__empty";
-      empty.textContent = "Nessun ruolo analizzato nei roll correnti.";
+      const empty = document.createElement('p');
+      empty.className = 'generator-composer__empty';
+      empty.textContent = 'Nessun ruolo analizzato nei roll correnti.';
       toggles.appendChild(empty);
     } else {
       roleEntries.forEach((entry) => {
-        const label = document.createElement("label");
-        label.className = "generator-composer__role-toggle";
-        const input = document.createElement("input");
-        input.type = "checkbox";
+        const label = document.createElement('label');
+        label.className = 'generator-composer__role-toggle';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
         input.dataset.roleKey = entry.role;
         input.checked = preferred.has(entry.role);
         label.appendChild(input);
-        const text = document.createElement("span");
+        const text = document.createElement('span');
         text.textContent = `${entry.label} (${entry.count})`;
         label.appendChild(text);
         toggles.appendChild(label);
@@ -7934,19 +7810,17 @@ function renderComposerPanel() {
 
   const suggestionList = elements.composerSuggestions;
   if (suggestionList) {
-    suggestionList.innerHTML = "";
-    const suggestions = Array.isArray(composerState.suggestions)
-      ? composerState.suggestions
-      : [];
+    suggestionList.innerHTML = '';
+    const suggestions = Array.isArray(composerState.suggestions) ? composerState.suggestions : [];
     const hasSuggestions = suggestions.length > 0;
     suggestionList.hidden = !hasSuggestions;
     if (elements.composerSuggestionsEmpty) {
       elements.composerSuggestionsEmpty.hidden = hasSuggestions;
     }
     suggestions.forEach((entry) => {
-      const item = document.createElement("li");
+      const item = document.createElement('li');
       const tone = entry?.tone ? String(entry.tone).toUpperCase() : null;
-      const message = entry?.message ?? "";
+      const message = entry?.message ?? '';
       item.textContent = tone ? `[${tone}] ${message}` : message;
       suggestionList.appendChild(item);
     });
@@ -7960,21 +7834,17 @@ function renderComposerPanel() {
 function updateComposerState(filters) {
   if (!elements.composerPanel) return;
   const roleStats = new Map();
-  const flagStats = new Map(
-    ROLE_FLAGS.map((flag) => [flag, { count: 0, synergy: 0 }])
-  );
+  const flagStats = new Map(ROLE_FLAGS.map((flag) => [flag, { count: 0, synergy: 0 }]));
   const heatmapRows = [];
 
   const biomes = Array.isArray(state.pick?.biomes) ? state.pick.biomes : [];
   const speciesBuckets = state.pick?.species ?? {};
 
   biomes.forEach((biome) => {
-    const bucket = Array.isArray(speciesBuckets[biome.id])
-      ? speciesBuckets[biome.id]
-      : [];
+    const bucket = Array.isArray(speciesBuckets[biome.id]) ? speciesBuckets[biome.id] : [];
     const row = {
       biomeId: biome.id,
-      label: biome.label ?? titleCase(biome.id ?? "Bioma"),
+      label: biome.label ?? titleCase(biome.id ?? 'Bioma'),
       values: ROLE_FLAGS.map((flag) => ({
         role: flag,
         count: 0,
@@ -7987,7 +7857,7 @@ function updateComposerState(filters) {
     bucket.forEach((species) => {
       if (!species) return;
       const synergy = calculateSynergy(species, biome);
-      const roleKey = species.role_trofico ?? "ruolo_indefinito";
+      const roleKey = species.role_trofico ?? 'ruolo_indefinito';
       let stats = roleStats.get(roleKey);
       if (!stats) {
         stats = {
@@ -8071,9 +7941,9 @@ function applyComposerPreset(preset) {
     rerollSeeds(current);
     renderSeeds();
   }
-  setStatus(`Preset ${preset.label} applicato.`, "success", {
-    tags: ["composer", "preset"],
-    action: "composer-apply-preset",
+  setStatus(`Preset ${preset.label} applicato.`, 'success', {
+    tags: ['composer', 'preset'],
+    action: 'composer-apply-preset',
     metadata: {
       presetId: preset.id,
       synergy: preset.synergy,
@@ -8094,9 +7964,9 @@ function applyComposerConstraintUpdate({ announce = false } = {}) {
     const value = Number.isFinite(state.composer?.constraints?.minSynergy)
       ? state.composer.constraints.minSynergy
       : 0;
-    setStatus(`Vincoli di sinergia aggiornati (≥ ${value}%).`, "info", {
-      tags: ["composer", "sinergia"],
-      action: "composer-constraints-update",
+    setStatus(`Vincoli di sinergia aggiornati (≥ ${value}%).`, 'info', {
+      tags: ['composer', 'sinergia'],
+      action: 'composer-constraints-update',
     });
   }
 }
@@ -8107,13 +7977,13 @@ function attachComposerHandlers() {
   ensurePreferredRoleSet();
   const slider = elements.composerSynergySlider;
   if (slider) {
-    slider.addEventListener("input", (event) => {
+    slider.addEventListener('input', (event) => {
       const value = Number.parseInt(event.target.value, 10) || 0;
       if (elements.composerSynergyValue) {
         elements.composerSynergyValue.textContent = `${value}%`;
       }
     });
-    slider.addEventListener("change", (event) => {
+    slider.addEventListener('change', (event) => {
       const value = Number.parseInt(event.target.value, 10) || 0;
       state.composer.constraints.minSynergy = Math.max(0, Math.min(100, value));
       applyComposerConstraintUpdate({ announce: true });
@@ -8121,10 +7991,10 @@ function attachComposerHandlers() {
   }
   const toggles = elements.composerRoleToggles;
   if (toggles) {
-    toggles.addEventListener("change", (event) => {
+    toggles.addEventListener('change', (event) => {
       const target = event.target;
       if (!(target instanceof HTMLInputElement)) return;
-      if (target.type !== "checkbox") return;
+      if (target.type !== 'checkbox') return;
       const { roleKey } = target.dataset;
       if (!roleKey) return;
       const preferred = ensurePreferredRoleSet();
@@ -8137,16 +8007,15 @@ function attachComposerHandlers() {
     });
   }
 
-  panel.addEventListener("click", (event) => {
-    const button = event.target instanceof HTMLElement ? event.target.closest("[data-action]") : null;
+  panel.addEventListener('click', (event) => {
+    const button =
+      event.target instanceof HTMLElement ? event.target.closest('[data-action]') : null;
     if (!(button instanceof HTMLElement)) return;
     const { action } = button.dataset;
-    if (action === "composer-apply-preset") {
+    if (action === 'composer-apply-preset') {
       const { presetId } = button.dataset;
       if (!presetId) return;
-      const preset = (state.composer?.combinedPresets ?? []).find(
-        (entry) => entry.id === presetId
-      );
+      const preset = (state.composer?.combinedPresets ?? []).find((entry) => entry.id === presetId);
       if (!preset) return;
       applyComposerPreset(preset);
     }
@@ -8157,21 +8026,21 @@ function renderBiomes(filters) {
   updateSummaryCounts();
   const grid = elements.biomeGrid;
   if (!grid) return;
-  grid.innerHTML = "";
+  grid.innerHTML = '';
 
   const removed = syncComparisonStore();
   if (removed) {
-    const label = removed === 1 ? "Una specie" : `${removed} specie`;
-    setStatus(`${label} rimosse dal confronto perché non più disponibili.`, "warn", {
-      tags: ["confronto", "sync"],
-      action: "compare-sync-remove",
+    const label = removed === 1 ? 'Una specie' : `${removed} specie`;
+    setStatus(`${label} rimosse dal confronto perché non più disponibili.`, 'warn', {
+      tags: ['confronto', 'sync'],
+      action: 'compare-sync-remove',
     });
   }
 
   if (!state.pick.biomes.length) {
-    const placeholder = document.createElement("p");
-    placeholder.className = "placeholder";
-    placeholder.textContent = "Genera un ecosistema per iniziare.";
+    const placeholder = document.createElement('p');
+    placeholder.className = 'placeholder';
+    placeholder.textContent = 'Genera un ecosistema per iniziare.';
     grid.appendChild(placeholder);
     renderComparisonPanel();
     updateComposerState(filters);
@@ -8191,14 +8060,14 @@ function renderPinnedSummary() {
   if (!list) return;
 
   const entries = Array.from(state.cardState.pinned.values());
-  list.innerHTML = "";
+  list.innerHTML = '';
   const hasEntries = entries.length > 0;
   list.hidden = !hasEntries;
   if (empty) {
     empty.hidden = hasEntries;
   }
   if (elements.summaryContainer) {
-    elements.summaryContainer.dataset.hasPins = hasEntries ? "true" : "false";
+    elements.summaryContainer.dataset.hasPins = hasEntries ? 'true' : 'false';
   }
   if (!hasEntries) {
     renderFlowMap();
@@ -8206,46 +8075,47 @@ function renderPinnedSummary() {
   }
 
   entries.forEach((entry) => {
-    const item = document.createElement("li");
-    item.className = "generator-pins__item";
+    const item = document.createElement('li');
+    item.className = 'generator-pins__item';
     item.dataset.pinKey = entry.key;
 
     const stillPresent = Boolean(findSpeciesInPick(entry.biomeId, entry.speciesId));
     if (!stillPresent) {
-      item.dataset.state = "stale";
+      item.dataset.state = 'stale';
     }
 
-    const header = document.createElement("div");
-    header.className = "generator-pins__header";
+    const header = document.createElement('div');
+    header.className = 'generator-pins__header';
 
-    const name = document.createElement("span");
-    name.className = "generator-pins__name";
+    const name = document.createElement('span');
+    name.className = 'generator-pins__name';
     name.textContent = entry.displayName;
     header.appendChild(name);
 
-    const controls = document.createElement("div");
-    controls.className = "generator-pins__controls";
+    const controls = document.createElement('div');
+    controls.className = 'generator-pins__controls';
 
     const rarityBadge = createBadgeElement(entry.rarity, `rarity-${entry.slug}`);
-    rarityBadge.classList.add("generator-pins__badge");
+    rarityBadge.classList.add('generator-pins__badge');
     controls.appendChild(rarityBadge);
 
-    const unpin = document.createElement("button");
-    unpin.type = "button";
-    unpin.className = "generator-pins__unpin";
-    unpin.textContent = "Rimuovi";
-    unpin.addEventListener("click", (event) => {
+    const unpin = document.createElement('button');
+    unpin.type = 'button';
+    unpin.className = 'generator-pins__unpin';
+    unpin.textContent = 'Rimuovi';
+    unpin.addEventListener('click', (event) => {
       event.preventDefault();
-      const biome =
-        findBiomeById(entry.biomeId) ?? { id: entry.biomeId, label: entry.biomeLabel, synthetic: entry.synthetic };
-      const species =
-        findSpeciesInPick(entry.biomeId, entry.speciesId) ??
-        {
-          id: entry.speciesId,
-          display_name: entry.displayName,
-          balance: { threat_tier: `T${entry.tier}` },
-          synthetic: entry.synthetic,
-        };
+      const biome = findBiomeById(entry.biomeId) ?? {
+        id: entry.biomeId,
+        label: entry.biomeLabel,
+        synthetic: entry.synthetic,
+      };
+      const species = findSpeciesInPick(entry.biomeId, entry.speciesId) ?? {
+        id: entry.speciesId,
+        display_name: entry.displayName,
+        balance: { threat_tier: `T${entry.tier}` },
+        synthetic: entry.synthetic,
+      };
       togglePinned(biome, species);
     });
     controls.appendChild(unpin);
@@ -8253,16 +8123,16 @@ function renderPinnedSummary() {
     header.appendChild(controls);
     item.appendChild(header);
 
-    const meta = document.createElement("span");
-    meta.className = "generator-pins__meta";
+    const meta = document.createElement('span');
+    meta.className = 'generator-pins__meta';
     const metaParts = [entry.biomeLabel, `T${entry.tier}`];
     if (entry.synthetic) {
-      metaParts.push("Synth");
+      metaParts.push('Synth');
     }
     if (!stillPresent) {
-      metaParts.push("fuori rotazione");
+      metaParts.push('fuori rotazione');
     }
-    meta.textContent = metaParts.join(" · ");
+    meta.textContent = metaParts.join(' · ');
     item.appendChild(meta);
 
     list.appendChild(item);
@@ -8274,60 +8144,60 @@ function renderSeeds() {
   updateSummaryCounts();
   const container = elements.seedGrid;
   if (!container) return;
-  container.innerHTML = "";
+  container.innerHTML = '';
 
   if (!state.pick.seeds.length) {
-    const placeholder = document.createElement("p");
-    placeholder.className = "placeholder";
-    placeholder.textContent = "Genera un ecosistema per ottenere encounter seed.";
+    const placeholder = document.createElement('p');
+    placeholder.className = 'placeholder';
+    placeholder.textContent = 'Genera un ecosistema per ottenere encounter seed.';
     container.appendChild(placeholder);
     return;
   }
 
   state.pick.seeds.forEach((seed) => {
-    const card = document.createElement("article");
-    card.className = "card";
-    card.setAttribute("role", "listitem");
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.setAttribute('role', 'listitem');
 
-    const header = document.createElement("h3");
+    const header = document.createElement('h3');
     const headingParts = [seed.biome_id];
     if (seed.label) {
       headingParts.push(seed.label);
     }
     if (seed.synthetic) {
-      headingParts.push("Synth");
+      headingParts.push('Synth');
     }
-    header.innerHTML = `${headingParts.join(" · ")} · <span class="form__hint">Budget T${seed.threat_budget}</span>`;
+    header.innerHTML = `${headingParts.join(' · ')} · <span class="form__hint">Budget T${seed.threat_budget}</span>`;
 
     if (seed.description || seed.notes) {
-      const meta = document.createElement("p");
-      meta.className = "form__hint";
+      const meta = document.createElement('p');
+      meta.className = 'form__hint';
       const metaParts = [];
       if (seed.description) metaParts.push(seed.description);
       if (seed.notes) metaParts.push(seed.notes);
-      meta.textContent = metaParts.join(" · ");
+      meta.textContent = metaParts.join(' · ');
       card.append(header, meta);
     } else {
       card.append(header);
     }
 
-    const list = document.createElement("ul");
+    const list = document.createElement('ul');
     if (!seed.party.length) {
-      const empty = document.createElement("li");
-      empty.className = "placeholder";
-      empty.textContent = "Nessuna specie disponibile per questo seed con i filtri selezionati.";
+      const empty = document.createElement('li');
+      empty.className = 'placeholder';
+      empty.textContent = 'Nessuna specie disponibile per questo seed con i filtri selezionati.';
       list.appendChild(empty);
     } else {
       seed.party.forEach((entry) => {
-        const item = document.createElement("li");
-        const parts = [entry.id, entry.role ?? "—", `T${entry.tier}`];
+        const item = document.createElement('li');
+        const parts = [entry.id, entry.role ?? '—', `T${entry.tier}`];
         if (entry.count && entry.count > 1) {
           parts.push(`x${entry.count}`);
         }
         if (entry.sources || entry.synthetic) {
-          parts.push("Synth");
+          parts.push('Synth');
         }
-        item.innerHTML = `${entry.display_name} <span class="form__hint">(${parts.join(" · ")})</span>`;
+        item.innerHTML = `${entry.display_name} <span class="form__hint">(${parts.join(' · ')})</span>`;
         list.appendChild(item);
       });
     }
@@ -8335,12 +8205,15 @@ function renderSeeds() {
     card.append(list);
     container.appendChild(card);
   });
-
 }
 
 function exportPayload(filters) {
   const catalogSource =
-    resolvedCatalogUrl || packContext?.catalogUrl || resolvedPackRoot || packContext?.resolvedBase || null;
+    resolvedCatalogUrl ||
+    packContext?.catalogUrl ||
+    resolvedPackRoot ||
+    packContext?.resolvedBase ||
+    null;
   return {
     pick: state.pick,
     filters,
@@ -8363,9 +8236,9 @@ function exportActivityLogEntries() {
 }
 
 function activityLogToCsv(entries) {
-  const columns = ["id", "timestamp", "tone", "message", "tags", "action", "pinned", "metadata"];
+  const columns = ['id', 'timestamp', 'tone', 'message', 'tags', 'action', 'pinned', 'metadata'];
   const escape = (value) => {
-    if (value === null || value === undefined) return "";
+    if (value === null || value === undefined) return '';
     const stringValue = String(value);
     if (/[",\n]/.test(stringValue)) {
       return `"${stringValue.replace(/"/g, '""')}"`;
@@ -8373,7 +8246,7 @@ function activityLogToCsv(entries) {
     return stringValue;
   };
 
-  const header = columns.join(",");
+  const header = columns.join(',');
   if (!entries.length) {
     return `${header}\n`;
   }
@@ -8383,41 +8256,41 @@ function activityLogToCsv(entries) {
       ? entry.tags
           .map((tag) => {
             if (!tag) return null;
-            const label = tag.label ?? tag.id ?? "";
+            const label = tag.label ?? tag.id ?? '';
             return label ? String(label) : null;
           })
           .filter(Boolean)
-          .join("|")
-      : "";
+          .join('|')
+      : '';
     const metadata =
       entry.metadata === null || entry.metadata === undefined
-        ? ""
-        : typeof entry.metadata === "string"
-        ? entry.metadata
-        : JSON.stringify(entry.metadata);
+        ? ''
+        : typeof entry.metadata === 'string'
+          ? entry.metadata
+          : JSON.stringify(entry.metadata);
     const record = {
-      id: entry.id ?? "",
-      timestamp: entry.timestamp ?? "",
-      tone: entry.tone ?? "",
-      message: entry.message ?? "",
+      id: entry.id ?? '',
+      timestamp: entry.timestamp ?? '',
+      tone: entry.tone ?? '',
+      message: entry.message ?? '',
       tags,
-      action: entry.action ?? "",
-      pinned: entry.pinned ? "true" : "false",
+      action: entry.action ?? '',
+      pinned: entry.pinned ? 'true' : 'false',
       metadata,
     };
-    return columns.map((column) => escape(record[column])).join(",");
+    return columns.map((column) => escape(record[column])).join(',');
   });
 
-  return [header, ...rows].join("\n");
+  return [header, ...rows].join('\n');
 }
 
 function downloadFile(name, content, type) {
   const blob =
     content instanceof Blob
       ? content
-      : new Blob([content], { type: type ?? "application/octet-stream" });
+      : new Blob([content], { type: type ?? 'application/octet-stream' });
   const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
+  const anchor = document.createElement('a');
   anchor.href = url;
   anchor.download = name;
   anchor.click();
@@ -8425,26 +8298,26 @@ function downloadFile(name, content, type) {
 }
 
 function toYAML(value, indent = 0) {
-  const space = "  ".repeat(indent);
-  if (value === null || value === undefined) return "null";
+  const space = '  '.repeat(indent);
+  if (value === null || value === undefined) return 'null';
   if (Array.isArray(value)) {
-    if (!value.length) return "[]";
+    if (!value.length) return '[]';
     return value
-      .map((item) => `${space}- ${toYAML(item, indent + 1).replace(/^\s*/, "")}`)
-      .join("\n");
+      .map((item) => `${space}- ${toYAML(item, indent + 1).replace(/^\s*/, '')}`)
+      .join('\n');
   }
-  if (typeof value === "object") {
+  if (typeof value === 'object') {
     const entries = Object.entries(value);
-    if (!entries.length) return "{}";
+    if (!entries.length) return '{}';
     return entries
       .map(([key, val]) => {
         const formatted = toYAML(val, indent + 1);
-        const needsBlock = typeof val === "object" && val !== null;
+        const needsBlock = typeof val === 'object' && val !== null;
         return `${space}${key}: ${needsBlock ? `\n${formatted}` : formatted}`;
       })
-      .join("\n");
+      .join('\n');
   }
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     if (/[:#\-\[\]\{\}\n]/.test(value)) {
       return JSON.stringify(value);
     }
@@ -8462,25 +8335,25 @@ async function tryFetchJson(url, { silent = false } = {}) {
     }
     return await response.json();
   } catch (error) {
-    console.warn("Caricamento JSON fallito", url, error);
+    console.warn('Caricamento JSON fallito', url, error);
     if (!silent && !fetchFailureNotices.has(url)) {
       fetchFailureNotices.add(url);
       const reason = error instanceof Error ? error.message : String(error);
       const resourceName = (() => {
         try {
-          const base = typeof window !== "undefined" ? window.location.href : "http://localhost";
+          const base = typeof window !== 'undefined' ? window.location.href : 'http://localhost';
           const parsed = new URL(url, base);
-          return parsed.pathname.split("/").filter(Boolean).slice(-1)[0] ?? parsed.pathname;
+          return parsed.pathname.split('/').filter(Boolean).slice(-1)[0] ?? parsed.pathname;
         } catch (parseError) {
-          console.warn("Impossibile derivare il nome risorsa da", url, parseError);
+          console.warn('Impossibile derivare il nome risorsa da', url, parseError);
           return url;
         }
       })();
-      const tags = ["fetch", "catalog"];
-      if (/trait/i.test(url)) tags.push("traits");
-      if (/hazard/i.test(url)) tags.push("hazard");
-      if (/glossary/i.test(url)) tags.push("glossary");
-      setStatus(`Impossibile caricare ${resourceName}: ${reason}.`, "error", {
+      const tags = ['fetch', 'catalog'];
+      if (/trait/i.test(url)) tags.push('traits');
+      if (/hazard/i.test(url)) tags.push('hazard');
+      if (/glossary/i.test(url)) tags.push('glossary');
+      setStatus(`Impossibile caricare ${resourceName}: ${reason}.`, 'error', {
         tags,
         metadata: { url, reason },
       });
@@ -8491,9 +8364,9 @@ async function tryFetchJson(url, { silent = false } = {}) {
 
 function localTraitFallbackUrl() {
   try {
-    return new URL("./env-traits.json", import.meta.url).toString();
+    return new URL('./env-traits.json', import.meta.url).toString();
   } catch (error) {
-    console.warn("Impossibile calcolare il percorso locale dei tratti", error);
+    console.warn('Impossibile calcolare il percorso locale dei tratti', error);
     return null;
   }
 }
@@ -8504,16 +8377,16 @@ async function loadTraitRegistry(context) {
   const fallback = localTraitFallbackUrl();
   if (context?.resolveDocHref) {
     try {
-      candidates.push(context.resolveDocHref("env_traits.json"));
+      candidates.push(context.resolveDocHref('env_traits.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere env_traits.json tramite docsBase", error);
+      console.warn('Impossibile risolvere env_traits.json tramite docsBase', error);
     }
   }
   if (context?.resolvePackHref) {
     try {
-      candidates.push(context.resolvePackHref("docs/catalog/env_traits.json"));
+      candidates.push(context.resolvePackHref('docs/catalog/env_traits.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere env_traits.json tramite packBase", error);
+      console.warn('Impossibile risolvere env_traits.json tramite packBase', error);
     }
   }
   if (fallback) {
@@ -8530,9 +8403,9 @@ async function loadTraitRegistry(context) {
       if (registry) {
         setTraitRegistry(registry);
         if (candidate === fallback && hadPreviousAttempts) {
-          setStatus("Registro tratti caricato dal fallback locale.", "info", {
-            tags: ["catalogo", "traits", "fallback"],
-            action: "traits-registry-fallback",
+          setStatus('Registro tratti caricato dal fallback locale.', 'info', {
+            tags: ['catalogo', 'traits', 'fallback'],
+            action: 'traits-registry-fallback',
             metadata: { url: candidate },
           });
         }
@@ -8540,26 +8413,32 @@ async function loadTraitRegistry(context) {
       }
     } catch (error) {
       lastError = error;
-      console.warn("Caricamento registry tratti fallito", candidate, error);
+      console.warn('Caricamento registry tratti fallito', candidate, error);
     }
   }
 
-  console.warn("Nessuna sorgente valida per il registry tratti trovata.");
-  setTraitRegistry({ schema_version: "0", rules: [] });
-  setStatus("Impossibile caricare il registro dei tratti.", "error", {
-    tags: ["catalogo", "traits", "errore"],
-    action: "traits-registry-error",
-    metadata: { reason: lastError instanceof Error ? lastError.message : String(lastError ?? "") || undefined },
+  console.warn('Nessuna sorgente valida per il registry tratti trovata.');
+  setTraitRegistry({ schema_version: '0', rules: [] });
+  setStatus('Impossibile caricare il registro dei tratti.', 'error', {
+    tags: ['catalogo', 'traits', 'errore'],
+    action: 'traits-registry-error',
+    metadata: {
+      reason: lastError instanceof Error ? lastError.message : String(lastError ?? '') || undefined,
+    },
   });
 }
 
 function localTraitReferenceFallbackUrl() {
-  const candidates = ["./traits/index.json", "./trait-reference.json", "./trait_reference.json"];
+  const candidates = ['./traits/index.json', './trait-reference.json', './trait_reference.json'];
   for (const candidate of candidates) {
     try {
       return new URL(candidate, import.meta.url).toString();
     } catch (error) {
-      console.warn("Impossibile calcolare il percorso locale del reference tratti", candidate, error);
+      console.warn(
+        'Impossibile calcolare il percorso locale del reference tratti',
+        candidate,
+        error,
+      );
     }
   }
   return null;
@@ -8567,9 +8446,9 @@ function localTraitReferenceFallbackUrl() {
 
 function localTraitGlossaryFallbackUrl() {
   try {
-    return new URL("./trait-glossary.json", import.meta.url).toString();
+    return new URL('./trait-glossary.json', import.meta.url).toString();
   } catch (error) {
-    console.warn("Impossibile calcolare il percorso locale del glossario tratti", error);
+    console.warn('Impossibile calcolare il percorso locale del glossario tratti', error);
     return null;
   }
 }
@@ -8577,13 +8456,13 @@ function localTraitGlossaryFallbackUrl() {
 async function loadTraitGlossary(context, hint) {
   const tried = new Set();
   const candidates = [];
-  const normalizedHint = typeof hint === "string" ? hint.trim() : "";
+  const normalizedHint = typeof hint === 'string' ? hint.trim() : '';
 
   const potential = [
     normalizedHint,
-    "trait_glossary.json",
-    "trait-glossary.json",
-    "data/core/traits/glossary.json",
+    'trait_glossary.json',
+    'trait-glossary.json',
+    'data/core/traits/glossary.json',
   ].filter(Boolean);
 
   for (const name of potential) {
@@ -8591,14 +8470,16 @@ async function loadTraitGlossary(context, hint) {
       try {
         candidates.push(context.resolveDocHref(name));
       } catch (error) {
-        console.warn("Impossibile risolvere", name, "tramite docsBase", error);
+        console.warn('Impossibile risolvere', name, 'tramite docsBase', error);
       }
     }
     if (context?.resolvePackHref) {
       try {
-        candidates.push(context.resolvePackHref(name.startsWith("docs/") ? name : `docs/catalog/${name}`));
+        candidates.push(
+          context.resolvePackHref(name.startsWith('docs/') ? name : `docs/catalog/${name}`),
+        );
       } catch (error) {
-        console.warn("Impossibile risolvere", name, "tramite packBase", error);
+        console.warn('Impossibile risolvere', name, 'tramite packBase', error);
       }
     }
   }
@@ -8618,9 +8499,9 @@ async function loadTraitGlossary(context, hint) {
       if (glossary) {
         setTraitGlossary(glossary);
         if (candidate === fallback && hadPreviousAttempts) {
-          setStatus("Glossario tratti caricato dal fallback locale.", "info", {
-            tags: ["catalogo", "traits", "fallback"],
-            action: "traits-glossary-fallback",
+          setStatus('Glossario tratti caricato dal fallback locale.', 'info', {
+            tags: ['catalogo', 'traits', 'fallback'],
+            action: 'traits-glossary-fallback',
             metadata: { url: candidate },
           });
         }
@@ -8628,16 +8509,18 @@ async function loadTraitGlossary(context, hint) {
       }
     } catch (error) {
       lastError = error;
-      console.warn("Caricamento glossario tratti fallito", candidate, error);
+      console.warn('Caricamento glossario tratti fallito', candidate, error);
     }
   }
 
-  console.warn("Nessuna sorgente valida per il glossario tratti trovata.");
+  console.warn('Nessuna sorgente valida per il glossario tratti trovata.');
   setTraitGlossary(null);
-  setStatus("Impossibile caricare il glossario dei tratti.", "error", {
-    tags: ["catalogo", "traits", "errore"],
-    action: "traits-glossary-error",
-    metadata: { reason: lastError instanceof Error ? lastError.message : String(lastError ?? "") || undefined },
+  setStatus('Impossibile caricare il glossario dei tratti.', 'error', {
+    tags: ['catalogo', 'traits', 'errore'],
+    action: 'traits-glossary-error',
+    metadata: {
+      reason: lastError instanceof Error ? lastError.message : String(lastError ?? '') || undefined,
+    },
   });
 }
 
@@ -8647,36 +8530,36 @@ async function loadTraitReference(context) {
   const fallback = localTraitReferenceFallbackUrl();
   if (context?.resolveDocHref) {
     try {
-      candidates.push(context.resolveDocHref("traits/index.json"));
+      candidates.push(context.resolveDocHref('traits/index.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere traits/index.json tramite docsBase", error);
+      console.warn('Impossibile risolvere traits/index.json tramite docsBase', error);
     }
     try {
-      candidates.push(context.resolveDocHref("trait_reference.json"));
+      candidates.push(context.resolveDocHref('trait_reference.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere trait_reference.json tramite docsBase", error);
+      console.warn('Impossibile risolvere trait_reference.json tramite docsBase', error);
     }
     try {
-      candidates.push(context.resolveDocHref("trait-reference.json"));
+      candidates.push(context.resolveDocHref('trait-reference.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere trait-reference.json tramite docsBase", error);
+      console.warn('Impossibile risolvere trait-reference.json tramite docsBase', error);
     }
   }
   if (context?.resolvePackHref) {
     try {
-      candidates.push(context.resolvePackHref("data/traits/index.json"));
+      candidates.push(context.resolvePackHref('data/traits/index.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere data/traits/index.json tramite packBase", error);
+      console.warn('Impossibile risolvere data/traits/index.json tramite packBase', error);
     }
     try {
-      candidates.push(context.resolvePackHref("docs/catalog/trait_reference.json"));
+      candidates.push(context.resolvePackHref('docs/catalog/trait_reference.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere trait_reference.json tramite packBase", error);
+      console.warn('Impossibile risolvere trait_reference.json tramite packBase', error);
     }
     try {
-      candidates.push(context.resolvePackHref("docs/catalog/trait-reference.json"));
+      candidates.push(context.resolvePackHref('docs/catalog/trait-reference.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere trait-reference.json tramite packBase", error);
+      console.warn('Impossibile risolvere trait-reference.json tramite packBase', error);
     }
   }
   if (fallback) {
@@ -8693,9 +8576,9 @@ async function loadTraitReference(context) {
       if (catalog) {
         setTraitReference(catalog);
         if (candidate === fallback && hadPreviousAttempts) {
-          setStatus("Reference tratti caricato dal fallback locale.", "info", {
-            tags: ["catalogo", "traits", "fallback"],
-            action: "traits-reference-fallback",
+          setStatus('Reference tratti caricato dal fallback locale.', 'info', {
+            tags: ['catalogo', 'traits', 'fallback'],
+            action: 'traits-reference-fallback',
             metadata: { url: candidate },
           });
         }
@@ -8704,24 +8587,26 @@ async function loadTraitReference(context) {
       }
     } catch (error) {
       lastError = error;
-      console.warn("Caricamento reference tratti fallito", candidate, error);
+      console.warn('Caricamento reference tratti fallito', candidate, error);
     }
   }
 
-  console.warn("Nessuna sorgente valida per il reference tratti trovata.");
-  setTraitReference({ schema_version: "0", traits: {} });
-  setStatus("Impossibile caricare il reference dei tratti.", "error", {
-    tags: ["catalogo", "traits", "errore"],
-    action: "traits-reference-error",
-    metadata: { reason: lastError instanceof Error ? lastError.message : String(lastError ?? "") || undefined },
+  console.warn('Nessuna sorgente valida per il reference tratti trovata.');
+  setTraitReference({ schema_version: '0', traits: {} });
+  setStatus('Impossibile caricare il reference dei tratti.', 'error', {
+    tags: ['catalogo', 'traits', 'errore'],
+    action: 'traits-reference-error',
+    metadata: {
+      reason: lastError instanceof Error ? lastError.message : String(lastError ?? '') || undefined,
+    },
   });
 }
 
 function localHazardFallbackUrl() {
   try {
-    return new URL("./hazards.json", import.meta.url).toString();
+    return new URL('./hazards.json', import.meta.url).toString();
   } catch (error) {
-    console.warn("Impossibile calcolare il percorso locale degli hazard", error);
+    console.warn('Impossibile calcolare il percorso locale degli hazard', error);
     return null;
   }
 }
@@ -8732,16 +8617,16 @@ async function loadHazardRegistry(context) {
   const fallback = localHazardFallbackUrl();
   if (context?.resolveDocHref) {
     try {
-      candidates.push(context.resolveDocHref("hazards.json"));
+      candidates.push(context.resolveDocHref('hazards.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere hazards.json tramite docsBase", error);
+      console.warn('Impossibile risolvere hazards.json tramite docsBase', error);
     }
   }
   if (context?.resolvePackHref) {
     try {
-      candidates.push(context.resolvePackHref("docs/catalog/hazards.json"));
+      candidates.push(context.resolvePackHref('docs/catalog/hazards.json'));
     } catch (error) {
-      console.warn("Impossibile risolvere hazards.json tramite packBase", error);
+      console.warn('Impossibile risolvere hazards.json tramite packBase', error);
     }
   }
   if (fallback) {
@@ -8758,9 +8643,9 @@ async function loadHazardRegistry(context) {
       if (registry) {
         setHazardRegistry(registry);
         if (candidate === fallback && hadPreviousAttempts) {
-          setStatus("Registro hazard caricato dal fallback locale.", "info", {
-            tags: ["catalogo", "hazard", "fallback"],
-            action: "hazard-registry-fallback",
+          setStatus('Registro hazard caricato dal fallback locale.', 'info', {
+            tags: ['catalogo', 'hazard', 'fallback'],
+            action: 'hazard-registry-fallback',
             metadata: { url: candidate },
           });
         }
@@ -8768,37 +8653,39 @@ async function loadHazardRegistry(context) {
       }
     } catch (error) {
       lastError = error;
-      console.warn("Caricamento registry hazard fallito", candidate, error);
+      console.warn('Caricamento registry hazard fallito', candidate, error);
     }
   }
 
-  console.warn("Nessuna sorgente valida per il registry hazard trovata.");
-  setHazardRegistry({ schema_version: "0", hazards: {} });
-  setStatus("Impossibile caricare il registro degli hazard.", "error", {
-    tags: ["catalogo", "hazard", "errore"],
-    action: "hazard-registry-error",
-    metadata: { reason: lastError instanceof Error ? lastError.message : String(lastError ?? "") || undefined },
+  console.warn('Nessuna sorgente valida per il registry hazard trovata.');
+  setHazardRegistry({ schema_version: '0', hazards: {} });
+  setStatus('Impossibile caricare il registro degli hazard.', 'error', {
+    tags: ['catalogo', 'hazard', 'errore'],
+    action: 'hazard-registry-error',
+    metadata: {
+      reason: lastError instanceof Error ? lastError.message : String(lastError ?? '') || undefined,
+    },
   });
 }
 
 function attachActions() {
   if (!elements.form) return;
-  elements.form.addEventListener("click", async (event) => {
+  elements.form.addEventListener('click', async (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
     const action = target.dataset.action;
     if (!action) return;
     event.preventDefault();
     if (!state.data) {
-      setStatus("Caricare i dati prima di utilizzare il generatore.", "error", {
-        tags: ["guardia", "catalogo"],
-        action: "guard-catalog",
+      setStatus('Caricare i dati prima di utilizzare il generatore.', 'error', {
+        tags: ['guardia', 'catalogo'],
+        action: 'guard-catalog',
       });
       return;
     }
     const filters = currentFilters();
     switch (action) {
-      case "roll-ecos": {
+      case 'roll-ecos': {
         const requested = Math.max(1, Math.min(parseInt(elements.nBiomi.value, 10) || 2, 6));
         const lockedBiomes = state.pick.biomes.filter((biome) => isBiomeLocked(biome.id));
         const targetCount = Math.max(requested, lockedBiomes.length || 0);
@@ -8814,22 +8701,25 @@ function attachActions() {
             generated = normaliseBiomeCollection(response.biomes);
             meta = response.meta ?? null;
             if (!generated.length) {
-              throw new Error("Nessun bioma sintetico restituito dal worker");
+              throw new Error('Nessun bioma sintetico restituito dal worker');
             }
           } catch (error) {
-            console.warn("Generazione biomi remota fallita", error);
-            setStatus("Worker biomi non disponibile, uso fallback locale.", "warn", {
-              tags: ["roll", "ecosistema", "fallback"],
-              action: "roll-ecos-fallback",
-              metadata: { reason: error instanceof Error ? error.message : String(error ?? "") },
+            console.warn('Generazione biomi remota fallita', error);
+            setStatus('Worker biomi non disponibile, uso fallback locale.', 'warn', {
+              tags: ['roll', 'ecosistema', 'fallback'],
+              action: 'roll-ecos-fallback',
+              metadata: { reason: error instanceof Error ? error.message : String(error ?? '') },
             });
             generated = fallbackGenerateBiomes(state.data.biomi, toGenerate);
             meta = null;
           }
         }
-        const combined = [...lockedBiomes.slice(0, targetCount), ...generated].slice(0, targetCount);
+        const combined = [...lockedBiomes.slice(0, targetCount), ...generated].slice(
+          0,
+          targetCount,
+        );
         state.pick.ecosystem = {
-          id: randomId("ecos"),
+          id: randomId('ecos'),
           label: `Rete sintetica (${combined.length} biomi)`,
           synthetic: true,
           sources: state.data.ecosistema?.biomi?.map((b) => b.id) ?? [],
@@ -8851,31 +8741,31 @@ function attachActions() {
         if (meta?.applied?.climate) {
           summaryParts.push(`clima ${titleCase(meta.applied.climate)}`);
         }
-        const metaSuffix = summaryParts.length ? ` (${summaryParts.join(" · ")})` : "";
+        const metaSuffix = summaryParts.length ? ` (${summaryParts.join(' · ')})` : '';
         setStatus(
           `Generati ${state.pick.biomes.length} biomi sintetici e ${state.pick.seeds.length} seed${metaSuffix}.`,
-          "success",
+          'success',
           {
-            tags: ["roll", "ecosistema"],
-            action: "roll-ecos",
+            tags: ['roll', 'ecosistema'],
+            action: 'roll-ecos',
             rare: Boolean(narrativeContext?.isHighThreat),
             rareTarget: narrativeContext?.rareReason ?? undefined,
-          }
+          },
         );
-        recordHistoryEntry("roll-ecos", filters);
+        recordHistoryEntry('roll-ecos', filters);
         break;
       }
-      case "reroll-biomi": {
+      case 'reroll-biomi': {
         if (!state.pick.biomes.length) {
-          setStatus("Genera prima un ecosistema completo.", "warn", {
-            tags: ["guardia", "reroll", "biomi"],
-            action: "guard-reroll-biomi",
+          setStatus('Genera prima un ecosistema completo.', 'warn', {
+            tags: ['guardia', 'reroll', 'biomi'],
+            action: 'guard-reroll-biomi',
           });
           return;
         }
         const requested = Math.max(
           1,
-          Math.min(parseInt(elements.nBiomi.value, 10) || state.pick.biomes.length, 6)
+          Math.min(parseInt(elements.nBiomi.value, 10) || state.pick.biomes.length, 6),
         );
         const lockedBiomes = state.pick.biomes.filter((biome) => isBiomeLocked(biome.id));
         const targetCount = Math.max(requested, lockedBiomes.length || 0);
@@ -8891,24 +8781,27 @@ function attachActions() {
             regenerated = normaliseBiomeCollection(response.biomes);
             meta = response.meta ?? null;
             if (!regenerated.length) {
-              throw new Error("Nessun bioma sintetico restituito dal worker");
+              throw new Error('Nessun bioma sintetico restituito dal worker');
             }
           } catch (error) {
-            console.warn("Reroll biomi remoto fallito", error);
-            setStatus("Worker biomi non disponibile, uso fallback locale.", "warn", {
-              tags: ["reroll", "biomi", "fallback"],
-              action: "reroll-biomi-fallback",
-              metadata: { reason: error instanceof Error ? error.message : String(error ?? "") },
+            console.warn('Reroll biomi remoto fallito', error);
+            setStatus('Worker biomi non disponibile, uso fallback locale.', 'warn', {
+              tags: ['reroll', 'biomi', 'fallback'],
+              action: 'reroll-biomi-fallback',
+              metadata: { reason: error instanceof Error ? error.message : String(error ?? '') },
             });
             regenerated = fallbackGenerateBiomes(state.data.biomi, toGenerate);
             meta = null;
           }
         }
-        const combined = [...lockedBiomes.slice(0, targetCount), ...regenerated].slice(0, targetCount);
+        const combined = [...lockedBiomes.slice(0, targetCount), ...regenerated].slice(
+          0,
+          targetCount,
+        );
         state.pick.biomes = combined;
         state.lastGenerationMeta = meta;
         state.pick.ecosystem = {
-          id: state.pick.ecosystem?.id || randomId("ecos"),
+          id: state.pick.ecosystem?.id || randomId('ecos'),
           label: `Rete sintetica (${combined.length} biomi)`,
           synthetic: true,
           sources: state.data.ecosistema?.biomi?.map((b) => b.id) ?? [],
@@ -8928,21 +8821,21 @@ function attachActions() {
         if (meta?.applied?.climate) {
           rerollSummary.push(`clima ${titleCase(meta.applied.climate)}`);
         }
-        const rerollSuffix = rerollSummary.length ? ` (${rerollSummary.join(" · ")})` : "";
-        setStatus(`Biomi sintetici ricalcolati con i filtri correnti${rerollSuffix}.`, "success", {
-          tags: ["reroll", "biomi"],
-          action: "reroll-biomi",
+        const rerollSuffix = rerollSummary.length ? ` (${rerollSummary.join(' · ')})` : '';
+        setStatus(`Biomi sintetici ricalcolati con i filtri correnti${rerollSuffix}.`, 'success', {
+          tags: ['reroll', 'biomi'],
+          action: 'reroll-biomi',
           rare: Boolean(narrativeContext?.isHighThreat),
           rareTarget: narrativeContext?.rareReason ?? undefined,
         });
-        recordHistoryEntry("reroll-biomi", filters);
+        recordHistoryEntry('reroll-biomi', filters);
         break;
       }
-      case "reroll-species": {
+      case 'reroll-species': {
         if (!state.pick.biomes.length) {
-          setStatus("Genera prima un ecosistema per estrarre le specie.", "warn", {
-            tags: ["guardia", "reroll", "specie"],
-            action: "guard-reroll-species",
+          setStatus('Genera prima un ecosistema per estrarre le specie.', 'warn', {
+            tags: ['guardia', 'reroll', 'specie'],
+            action: 'guard-reroll-species',
           });
           return;
         }
@@ -8950,20 +8843,20 @@ function attachActions() {
         renderBiomes(filters);
         focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
-        setStatus("Specie ricalcolate.", "success", {
-          tags: ["reroll", "specie"],
-          action: "reroll-species",
+        setStatus('Specie ricalcolate.', 'success', {
+          tags: ['reroll', 'specie'],
+          action: 'reroll-species',
           rare: Boolean(narrativeContext?.isHighThreat),
           rareTarget: narrativeContext?.rareReason ?? undefined,
         });
-        recordHistoryEntry("reroll-species", filters);
+        recordHistoryEntry('reroll-species', filters);
         break;
       }
-      case "reroll-seeds": {
+      case 'reroll-seeds': {
         if (!state.pick.biomes.length) {
-          setStatus("Genera prima un ecosistema per creare gli encounter seed.", "warn", {
-            tags: ["guardia", "reroll", "seed"],
-            action: "guard-reroll-seeds",
+          setStatus('Genera prima un ecosistema per creare gli encounter seed.', 'warn', {
+            tags: ['guardia', 'reroll', 'seed'],
+            action: 'guard-reroll-seeds',
           });
           return;
         }
@@ -8971,145 +8864,145 @@ function attachActions() {
         renderSeeds();
         focusSummaryPanel();
         const narrativeContext = updateNarrativePrompts(filters);
-        setStatus("Seed rigenerati.", "success", {
-          tags: ["reroll", "seed"],
-          action: "reroll-seeds",
+        setStatus('Seed rigenerati.', 'success', {
+          tags: ['reroll', 'seed'],
+          action: 'reroll-seeds',
           rare: Boolean(narrativeContext?.isHighThreat),
           rareTarget: narrativeContext?.rareReason ?? undefined,
         });
-        recordHistoryEntry("reroll-seeds", filters);
+        recordHistoryEntry('reroll-seeds', filters);
         break;
       }
-      case "export-json": {
+      case 'export-json': {
         const payload = exportPayload(filters);
         const slug = ensureExportSlug();
-        downloadFile(`${slug}.json`, JSON.stringify(payload, null, 2), "application/json");
-        markCurrentPresetByBuilder("ecosystem-json");
+        downloadFile(`${slug}.json`, JSON.stringify(payload, null, 2), 'application/json');
+        markCurrentPresetByBuilder('ecosystem-json');
         renderExportManifest(filters);
-        setStatus("Esportazione JSON completata.", "success", {
-          tags: ["export", "json"],
-          action: "export-json",
+        setStatus('Esportazione JSON completata.', 'success', {
+          tags: ['export', 'json'],
+          action: 'export-json',
         });
         break;
       }
-      case "export-yaml": {
+      case 'export-yaml': {
         const payload = exportPayload(filters);
         const yaml = toYAML(payload);
         const slug = ensureExportSlug();
-        downloadFile(`${slug}.yaml`, yaml, "text/yaml");
-        markCurrentPresetByBuilder("ecosystem-yaml");
+        downloadFile(`${slug}.yaml`, yaml, 'text/yaml');
+        markCurrentPresetByBuilder('ecosystem-yaml');
         renderExportManifest(filters);
-        setStatus("Esportazione YAML completata.", "success", {
-          tags: ["export", "yaml"],
-          action: "export-yaml",
+        setStatus('Esportazione YAML completata.', 'success', {
+          tags: ['export', 'yaml'],
+          action: 'export-yaml',
         });
         break;
       }
-      case "export-log-json": {
+      case 'export-log-json': {
         if (!state.activityLog.length) {
-          setStatus("Il registro attività è vuoto, nulla da esportare.", "warn", {
-            tags: ["export", "log", "vuoto"],
-            action: "export-log-empty",
+          setStatus('Il registro attività è vuoto, nulla da esportare.', 'warn', {
+            tags: ['export', 'log', 'vuoto'],
+            action: 'export-log-empty',
           });
           break;
         }
         const entries = exportActivityLogEntries();
         const slug = ensureExportSlug();
-        downloadFile(`${slug}-log.json`, JSON.stringify(entries, null, 2), "application/json");
-        markCurrentPresetByBuilder("activity-json");
+        downloadFile(`${slug}-log.json`, JSON.stringify(entries, null, 2), 'application/json');
+        markCurrentPresetByBuilder('activity-json');
         renderExportManifest(filters);
-        setStatus("Registro attività esportato in JSON.", "success", {
-          tags: ["export", "log", "json"],
-          action: "export-log-json",
+        setStatus('Registro attività esportato in JSON.', 'success', {
+          tags: ['export', 'log', 'json'],
+          action: 'export-log-json',
         });
         break;
       }
-      case "export-log-csv": {
+      case 'export-log-csv': {
         if (!state.activityLog.length) {
-          setStatus("Il registro attività è vuoto, nulla da esportare.", "warn", {
-            tags: ["export", "log", "vuoto"],
-            action: "export-log-empty",
+          setStatus('Il registro attività è vuoto, nulla da esportare.', 'warn', {
+            tags: ['export', 'log', 'vuoto'],
+            action: 'export-log-empty',
           });
           break;
         }
         const entries = exportActivityLogEntries();
         const slug = ensureExportSlug();
-        downloadFile(`${slug}-log.csv`, activityLogToCsv(entries), "text/csv");
-        markCurrentPresetByBuilder("activity-csv");
+        downloadFile(`${slug}-log.csv`, activityLogToCsv(entries), 'text/csv');
+        markCurrentPresetByBuilder('activity-csv');
         renderExportManifest(filters);
-        setStatus("Registro attività esportato in CSV.", "success", {
-          tags: ["export", "log", "csv"],
-          action: "export-log-csv",
+        setStatus('Registro attività esportato in CSV.', 'success', {
+          tags: ['export', 'log', 'csv'],
+          action: 'export-log-csv',
         });
         break;
       }
-      case "download-preset-zip": {
+      case 'download-preset-zip': {
         const preset = getCurrentPreset();
         if (!preset) {
-          setStatus("Nessun preset selezionato.", "warn", {
-            tags: ["export", "zip"],
-            action: "export-zip-missing-preset",
+          setStatus('Nessun preset selezionato.', 'warn', {
+            tags: ['export', 'zip'],
+            action: 'export-zip-missing-preset',
           });
           break;
         }
         try {
           const { zipName, fileCount } = await downloadPresetZip(preset, filters);
           renderExportManifest(filters);
-          setStatus(`Bundle ZIP "${zipName}" generato (${fileCount} file).`, "success", {
-            tags: ["export", "zip"],
-            action: "export-zip",
+          setStatus(`Bundle ZIP "${zipName}" generato (${fileCount} file).`, 'success', {
+            tags: ['export', 'zip'],
+            action: 'export-zip',
           });
         } catch (error) {
-          console.error("Errore durante la generazione del bundle ZIP", error);
-          setStatus("Impossibile generare il bundle ZIP.", "error", {
-            tags: ["export", "zip", "errore"],
-            action: "export-zip-error",
+          console.error('Errore durante la generazione del bundle ZIP', error);
+          setStatus('Impossibile generare il bundle ZIP.', 'error', {
+            tags: ['export', 'zip', 'errore'],
+            action: 'export-zip-error',
           });
         }
         break;
       }
-      case "download-dossier-html": {
+      case 'download-dossier-html': {
         try {
           const context = buildPresetContext(filters);
           const html = await generateDossierHtml(context);
           if (!html) {
-            throw new Error("HTML non disponibile");
+            throw new Error('HTML non disponibile');
           }
           const slug = ensureExportSlug();
           const fileName = `${slug}-dossier.html`;
-          downloadFile(fileName, html, "text/html");
-          markCurrentPresetByBuilder("dossier-html");
+          downloadFile(fileName, html, 'text/html');
+          markCurrentPresetByBuilder('dossier-html');
           renderExportManifest(filters);
-          setStatus("Dossier HTML esportato.", "success", {
-            tags: ["export", "dossier", "html"],
-            action: "export-dossier-html",
+          setStatus('Dossier HTML esportato.', 'success', {
+            tags: ['export', 'dossier', 'html'],
+            action: 'export-dossier-html',
           });
         } catch (error) {
           console.error("Errore durante l'esportazione del dossier HTML", error);
-          setStatus("Impossibile esportare il dossier HTML.", "error", {
-            tags: ["export", "dossier", "errore"],
-            action: "export-dossier-html-error",
+          setStatus('Impossibile esportare il dossier HTML.', 'error', {
+            tags: ['export', 'dossier', 'errore'],
+            action: 'export-dossier-html-error',
           });
         }
         break;
       }
-      case "download-dossier-pdf": {
+      case 'download-dossier-pdf': {
         try {
           const context = buildPresetContext(filters);
           const blob = await generateDossierPdfBlob(context);
           const slug = ensureExportSlug();
-          downloadFile(`${slug}-dossier.pdf`, blob, "application/pdf");
-          markCurrentPresetByBuilder("dossier-pdf");
+          downloadFile(`${slug}-dossier.pdf`, blob, 'application/pdf');
+          markCurrentPresetByBuilder('dossier-pdf');
           renderExportManifest(filters);
-          setStatus("Dossier PDF esportato.", "success", {
-            tags: ["export", "dossier", "pdf"],
-            action: "export-dossier-pdf",
+          setStatus('Dossier PDF esportato.', 'success', {
+            tags: ['export', 'dossier', 'pdf'],
+            action: 'export-dossier-pdf',
           });
         } catch (error) {
           console.error("Errore durante l'esportazione del dossier PDF", error);
-          setStatus("Impossibile esportare il dossier PDF.", "error", {
-            tags: ["export", "dossier", "errore"],
-            action: "export-dossier-pdf-error",
+          setStatus('Impossibile esportare il dossier PDF.', 'error', {
+            tags: ['export', 'dossier', 'errore'],
+            action: 'export-dossier-pdf-error',
           });
         }
         break;
@@ -9121,9 +9014,9 @@ function attachActions() {
 }
 
 async function loadData() {
-  setStatus("Caricamento catalogo in corso…", "info", {
-    tags: ["catalogo", "caricamento"],
-    action: "catalog-load-start",
+  setStatus('Caricamento catalogo in corso…', 'info', {
+    tags: ['catalogo', 'caricamento'],
+    action: 'catalog-load-start',
   });
   try {
     const { data, context } = await loadPackCatalog();
@@ -9131,13 +9024,13 @@ async function loadData() {
     await loadTraitRegistry(context);
     await loadTraitReference(context);
     await loadHazardRegistry(context);
-    setStatus("Catalogo pronto all'uso. Genera un ecosistema!", "success", {
-      tags: ["catalogo", "ready"],
-      action: "catalog-load-ready",
+    setStatus("Catalogo pronto all'uso. Genera un ecosistema!", 'success', {
+      tags: ['catalogo', 'ready'],
+      action: 'catalog-load-ready',
     });
     return;
   } catch (error) {
-    console.warn("Caricamento catalogo tramite loader condiviso fallito", error);
+    console.warn('Caricamento catalogo tramite loader condiviso fallito', error);
   }
 
   try {
@@ -9146,18 +9039,18 @@ async function loadData() {
     await loadTraitRegistry(context);
     await loadTraitReference(context);
     await loadHazardRegistry(context);
-    setStatus("Catalogo pronto all'uso dal fallback manuale. Genera un ecosistema!", "success", {
-      tags: ["catalogo", "ready", "fallback"],
-      action: "catalog-load-ready-fallback",
+    setStatus("Catalogo pronto all'uso dal fallback manuale. Genera un ecosistema!", 'success', {
+      tags: ['catalogo', 'ready', 'fallback'],
+      action: 'catalog-load-ready-fallback',
     });
   } catch (error) {
-    console.error("Impossibile caricare il catalogo da alcuna sorgente", error);
+    console.error('Impossibile caricare il catalogo da alcuna sorgente', error);
     await loadTraitRegistry(packContext);
     await loadTraitReference(packContext);
     await loadHazardRegistry(packContext);
-    setStatus("Errore durante il caricamento del catalogo. Controlla la console.", "error", {
-      tags: ["catalogo", "errore"],
-      action: "catalog-load-error",
+    setStatus('Errore durante il caricamento del catalogo. Controlla la console.', 'error', {
+      tags: ['catalogo', 'errore'],
+      action: 'catalog-load-error',
     });
   }
 }
@@ -9194,7 +9087,7 @@ setupFlowMapControls();
 setupFilterChangeHandlers();
 loadData();
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   window.EvoPack = window.EvoPack || {};
   window.EvoPack.packRootCandidates = PACK_ROOT_CANDIDATES;
   window.EvoPack.generator = {
