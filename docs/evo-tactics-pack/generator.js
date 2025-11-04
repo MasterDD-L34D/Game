@@ -47,6 +47,7 @@ const DEFAULT_ACTIVITY_TONES = ['info', 'success', 'warn', 'error'];
 const MAX_ACTIVITY_EVENTS = 150;
 const DOSSIER_TEMPLATE_PATH = '../templates/dossier.html';
 const initialPdfSupport = typeof window !== 'undefined' && typeof window.html2pdf !== 'undefined';
+const NEBULA_SNAPSHOT_PATH = '../mission-console/data/nebula/atlas.json';
 const TONE_LABELS = {
   info: 'Info',
   success: 'Successo',
@@ -259,6 +260,14 @@ const state = createSessionState({
   defaultBriefingText: DEFAULT_BRIEFING_TEXT,
   defaultHookText: DEFAULT_HOOK_TEXT,
 });
+
+state.nebula = state.nebula || {
+  dataset: null,
+  generator: null,
+  telemetry: null,
+  lastSyncedAt: null,
+  error: null,
+};
 
 const storageService = createStorageService({
   windowRef: typeof window !== 'undefined' ? window : null,
@@ -2222,6 +2231,24 @@ function recalculateActivityMetrics() {
   renderParametersPanel({ refresh: ['kpi'] });
 }
 
+function formatDateTime(value) {
+  if (!value) return '—';
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return '—';
+  }
+  try {
+    const formatter = new Intl.DateTimeFormat(undefined, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
+    return formatter.format(date);
+  } catch (error) {
+    console.warn('Impossibile formattare la data Nebula', error);
+    return date.toISOString();
+  }
+}
+
 function formatAverageRollInterval(ms) {
   if (!Number.isFinite(ms) || ms <= 0) {
     return '—';
@@ -2264,6 +2291,225 @@ function renderKpiSidebar() {
   }
   if (elements.kpi?.profileReuses) {
     elements.kpi.profileReuses.textContent = String(state.metrics.filterProfileReuses ?? 0);
+  }
+}
+
+function setNebulaStatus(message, tone = 'muted') {
+  const status = elements.nebula?.status;
+  if (!status) return;
+  status.textContent = message;
+  if (tone) {
+    status.dataset.tone = tone;
+  } else {
+    delete status.dataset.tone;
+  }
+}
+
+function renderNebulaHighlights(highlights = []) {
+  const list = elements.nebula?.highlights;
+  if (!list) return;
+  list.innerHTML = '';
+  const items = Array.isArray(highlights)
+    ? highlights.filter((item) => typeof item === 'string' && item.trim()).slice(0, 3)
+    : [];
+  if (!items.length) {
+    return;
+  }
+  items.forEach((item) => {
+    const entry = document.createElement('li');
+    entry.textContent = item;
+    list.appendChild(entry);
+  });
+}
+
+function renderNebulaPanel() {
+  const nebulaElements = elements.nebula;
+  if (!nebulaElements?.panel) {
+    return;
+  }
+
+  const nebulaState = state.nebula ?? {};
+  const dataset = nebulaState.dataset;
+  const generatorMeta = nebulaState.generator;
+  const telemetry = nebulaState.telemetry;
+  const hasSnapshot = Boolean(dataset || generatorMeta || telemetry);
+
+  if (!hasSnapshot) {
+    if (nebulaState.error) {
+      setNebulaStatus('Snapshot Nebula non disponibile', 'warn');
+      if (nebulaElements.summary) {
+        nebulaElements.summary.textContent =
+          'Impossibile raggiungere il Mission Console. Riprova più tardi o verifica la pubblicazione.';
+      }
+      if (nebulaElements.release) {
+        nebulaElements.release.textContent = 'Finestra release: —';
+      }
+      if (nebulaElements.metrics) {
+        if (nebulaElements.metrics.species) nebulaElements.metrics.species.textContent = '—';
+        if (nebulaElements.metrics.biomes) nebulaElements.metrics.biomes.textContent = '—';
+        if (nebulaElements.metrics.encounters) nebulaElements.metrics.encounters.textContent = '—';
+      }
+      renderNebulaHighlights([]);
+      if (nebulaElements.coverage) nebulaElements.coverage.textContent = 'Copertura media: —';
+      if (nebulaElements.events) nebulaElements.events.textContent = 'Eventi aperti: —';
+      if (nebulaElements.updated) {
+        nebulaElements.updated.textContent = `Ultimo aggiornamento: ${formatDateTime(nebulaState.lastSyncedAt)}`;
+      }
+    } else {
+      setNebulaStatus('Sincronizzazione in attesa', 'muted');
+    }
+    return;
+  }
+
+  if (nebulaElements.title && dataset?.title) {
+    nebulaElements.title.textContent = dataset.title;
+  }
+
+  if (nebulaElements.summary) {
+    nebulaElements.summary.textContent =
+      dataset?.summary ||
+      generatorMeta?.summary ||
+      'Snapshot Nebula sincronizzato dal Mission Console.';
+  }
+
+  if (nebulaElements.release) {
+    nebulaElements.release.textContent = dataset?.releaseWindow
+      ? `Finestra release: ${dataset.releaseWindow}`
+      : 'Finestra release: —';
+  }
+
+  if (nebulaElements.metrics) {
+    const metrics = dataset?.metrics || {};
+    if (nebulaElements.metrics.species) {
+      nebulaElements.metrics.species.textContent =
+        metrics.species != null ? String(metrics.species) : '—';
+    }
+    if (nebulaElements.metrics.biomes) {
+      nebulaElements.metrics.biomes.textContent =
+        metrics.biomes != null ? String(metrics.biomes) : '—';
+    }
+    if (nebulaElements.metrics.encounters) {
+      nebulaElements.metrics.encounters.textContent =
+        metrics.encounters != null ? String(metrics.encounters) : '—';
+    }
+  }
+
+  renderNebulaHighlights(dataset?.highlights);
+
+  const coverageAverage = telemetry?.coverage?.average;
+  const coverageHistory = Array.isArray(telemetry?.coverage?.history)
+    ? telemetry.coverage.history
+    : [];
+  let coverageTrend = null;
+  if (coverageHistory.length >= 2) {
+    coverageTrend = coverageHistory[coverageHistory.length - 1] - coverageHistory[0];
+  }
+  if (nebulaElements.coverage) {
+    const trendSuffix =
+      typeof coverageTrend === 'number' && coverageTrend !== 0
+        ? coverageTrend > 0
+          ? ` (↑ ${coverageTrend}%)`
+          : ` (↓ ${Math.abs(coverageTrend)}%)`
+        : '';
+    nebulaElements.coverage.textContent =
+      coverageAverage != null
+        ? `Copertura media: ${coverageAverage}%${trendSuffix}`
+        : 'Copertura media: —';
+  }
+
+  const summary = telemetry?.summary || {};
+  const openEvents = summary.openEvents;
+  const highPriority = summary.highPriorityEvents;
+  if (nebulaElements.events) {
+    if (openEvents != null) {
+      const highPriorityText = highPriority ? ` (${highPriority} alta priorità)` : '';
+      nebulaElements.events.textContent = `Eventi aperti: ${openEvents}${highPriorityText}`;
+    } else {
+      nebulaElements.events.textContent = 'Eventi aperti: —';
+    }
+  }
+
+  if (nebulaElements.updated) {
+    const updatedAt =
+      nebulaState.lastSyncedAt ||
+      generatorMeta?.updatedAt ||
+      dataset?.updatedAt ||
+      summary.lastEventAt;
+    nebulaElements.updated.textContent = `Ultimo aggiornamento: ${formatDateTime(updatedAt)}`;
+  }
+
+  const statusLabel = generatorMeta?.label || 'Snapshot Nebula sincronizzato';
+  const statusTone = (() => {
+    const baseStatus = (generatorMeta?.status || '').toLowerCase();
+    if (nebulaState.error) {
+      return 'warn';
+    }
+    if (baseStatus === 'success') return 'success';
+    if (baseStatus === 'warning' || baseStatus === 'warn') return 'warn';
+    if (baseStatus === 'error' || baseStatus === 'failed' || baseStatus === 'failure')
+      return 'error';
+    return 'muted';
+  })();
+
+  const statusMessage = nebulaState.error
+    ? `${statusLabel} · ultimo tentativo con avviso`
+    : statusLabel;
+  setNebulaStatus(statusMessage, statusTone);
+}
+
+async function loadNebulaSnapshot(options = {}) {
+  const { silent = false } = options;
+  if (!elements.nebula?.panel) {
+    return;
+  }
+  if (!silent) {
+    setNebulaStatus('Sincronizzazione in corso…', 'muted');
+  }
+
+  try {
+    const response = await fetch(NEBULA_SNAPSHOT_PATH, { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`Snapshot Nebula non disponibile (${response.status})`);
+    }
+    const payload = await response.json();
+    state.nebula.dataset = payload.dataset ?? null;
+    state.nebula.generator = payload.generator ?? null;
+    state.nebula.telemetry = payload.telemetry ?? payload;
+    state.nebula.lastSyncedAt =
+      payload.updatedAt || payload.generator?.updatedAt || new Date().toISOString();
+    state.nebula.error = null;
+    renderNebulaPanel();
+    if (!silent) {
+      const coverageAvg = state.nebula.telemetry?.coverage?.average ?? null;
+      recordActivity('Snapshot Nebula sincronizzato dal Mission Console.', 'info', new Date(), {
+        tags: ['nebula', 'telemetria'],
+        action: 'nebula-sync-success',
+        metadata: coverageAvg != null ? { coverage: coverageAvg } : undefined,
+      });
+    }
+  } catch (error) {
+    state.nebula.error = error;
+    console.warn('Impossibile sincronizzare il dataset Nebula', error);
+    renderNebulaPanel();
+    if (!silent) {
+      recordActivity('Impossibile sincronizzare il dataset Nebula.', 'warn', new Date(), {
+        tags: ['nebula', 'errore'],
+        action: 'nebula-sync-error',
+        metadata: {
+          reason: error instanceof Error ? error.message : String(error ?? ''),
+        },
+      });
+    }
+  }
+}
+
+function attachNebulaHandlers() {
+  const refresh = elements.nebula?.refresh;
+  if (refresh) {
+    refresh.addEventListener('click', (event) => {
+      event.preventDefault();
+      loadNebulaSnapshot({ silent: false });
+    });
   }
 }
 
@@ -7480,6 +7726,8 @@ restoreFilterProfiles();
 restoreHistoryEntries();
 updateActivityTagRegistry();
 recalculateActivityMetrics();
+renderNebulaPanel();
+attachNebulaHandlers();
 renderActivityLog();
 setupActivityControls();
 audioService.setupControls();
@@ -7500,6 +7748,7 @@ renderComposerPanelView();
 attachHistoryHandlers();
 attachActions();
 setupFlowMapControls();
+loadNebulaSnapshot({ silent: true });
 loadData();
 
 if (typeof window !== 'undefined') {
