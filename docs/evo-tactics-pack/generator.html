@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
   <head>
     <meta charset="utf-8" />
@@ -21,7 +21,7 @@
       referrerpolicy="no-referrer"
       defer
     ></script>
-    <script type="module" src="generator.js" defer></script>
+    <script type="module" src="generator.bundle.js" defer></script>
   </head>
   <body>
     <nav class="global-nav" aria-label="Navigazione globale">
@@ -39,8 +39,8 @@
         <p class="section__kicker">Ecosystem Pack</p>
         <h1>Generatore di ecosistemi</h1>
         <p>
-          Scegli il numero di biomi, applica filtri su flag, ruoli e tag funzionali, quindi
-          genera un set coerente di specie con seed d'incontro calcolati automaticamente.
+          Scegli il numero di biomi, applica filtri su flag, ruoli e tag funzionali, quindi genera
+          un set coerente di specie con seed d'incontro calcolati automaticamente.
         </p>
       </div>
       <nav class="chip-list" aria-label="Navigazione secondaria">
@@ -56,21 +56,13 @@
         <div class="anchor-nav">
           <div class="anchor-nav__header">
             <p class="anchor-nav__title">Sommario</p>
-            <button
-              type="button"
-              class="button button--ghost anchor-nav__toggle"
-              data-codex-toggle
-            >
+            <button type="button" class="button button--ghost anchor-nav__toggle" data-codex-toggle>
               ⌘ Codex mode
             </button>
           </div>
           <ol class="anchor-nav__list" data-anchor-list>
             <li class="anchor-nav__item">
-              <a
-                class="anchor-nav__link"
-                href="#generator-guide"
-                data-anchor-target="guide"
-              >
+              <a class="anchor-nav__link" href="#generator-guide" data-anchor-target="guide">
                 Mini guida
               </a>
             </li>
@@ -84,47 +76,27 @@
               </a>
             </li>
             <li class="anchor-nav__item">
-              <a
-                class="anchor-nav__link"
-                href="#generator-traits"
-                data-anchor-target="traits"
-              >
+              <a class="anchor-nav__link" href="#generator-traits" data-anchor-target="traits">
                 Pacchetti ambientali
               </a>
             </li>
             <li class="anchor-nav__item">
-              <a
-                class="anchor-nav__link"
-                href="#generator-biomes"
-                data-anchor-target="biomes"
-              >
+              <a class="anchor-nav__link" href="#generator-biomes" data-anchor-target="biomes">
                 Biomi selezionati
               </a>
             </li>
             <li class="anchor-nav__item">
-              <a
-                class="anchor-nav__link"
-                href="#generator-seeds"
-                data-anchor-target="seeds"
-              >
+              <a class="anchor-nav__link" href="#generator-seeds" data-anchor-target="seeds">
                 Encounter seed
               </a>
             </li>
             <li class="anchor-nav__item">
-              <a
-                class="anchor-nav__link"
-                href="#generator-composer"
-                data-anchor-target="composer"
-              >
+              <a class="anchor-nav__link" href="#generator-composer" data-anchor-target="composer">
                 Composizione avanzata
               </a>
             </li>
             <li class="anchor-nav__item">
-              <a
-                class="anchor-nav__link"
-                href="#generator-insights"
-                data-anchor-target="insights"
-              >
+              <a class="anchor-nav__link" href="#generator-insights" data-anchor-target="insights">
                 Insight contestuali
               </a>
             </li>
@@ -184,8 +156,8 @@
               <li>
                 <h3>Esporta e condividi</h3>
                 <p>
-                  Sfrutta i preset del pannello Export per scaricare manifest JSON/YAML, bundle ZIP e
-                  dossier PDF/HTML già pronti per il tavolo di gioco.
+                  Sfrutta i preset del pannello Export per scaricare manifest JSON/YAML, bundle ZIP
+                  e dossier PDF/HTML già pronti per il tavolo di gioco.
                 </p>
               </li>
             </ol>
@@ -254,7 +226,7 @@
                 <p class="form__hint" id="generator-filters-hint">
                   Nessun filtro attivo. Tocca le capsule per attivare vincoli specifici.
                 </p>
-            </div>
+              </div>
               <section
                 class="generator-profiles surface-panel surface-panel--overlay"
                 id="generator-profiles"
@@ -305,8 +277,8 @@
                 </button>
               </div>
               <p class="form__hint generator-form__result-hint">
-                Dopo la generazione i risultati vengono mostrati nel riepilogo sottostante e
-                nelle sezioni "Biomi selezionati" e "Encounter seed".
+                Dopo la generazione i risultati vengono mostrati nel riepilogo sottostante e nelle
+                sezioni "Biomi selezionati" e "Encounter seed".
               </p>
             </form>
             <section
@@ -320,7 +292,10 @@
                 </h3>
                 <label class="form__field generator-export-panel__preset">
                   <span>Preset</span>
-                  <select id="generator-export-preset" aria-describedby="generator-export-preset-status"></select>
+                  <select
+                    id="generator-export-preset"
+                    aria-describedby="generator-export-preset-status"
+                  ></select>
                 </label>
               </div>
               <p
@@ -336,19 +311,27 @@
               <p class="generator-export__empty" id="generator-export-empty">
                 Nessun contenuto disponibile. Genera un ecosistema per sbloccare i preset.
               </p>
-              <ul
-                class="generator-export__list"
-                id="generator-export-list"
-                aria-live="polite"
-              ></ul>
+              <ul class="generator-export__list" id="generator-export-list" aria-live="polite"></ul>
               <div class="generator-export__actions" id="generator-export-actions">
-                <button type="button" class="button button--ghost" data-action="download-preset-zip">
+                <button
+                  type="button"
+                  class="button button--ghost"
+                  data-action="download-preset-zip"
+                >
                   ⬇︎ Bundle ZIP
                 </button>
-                <button type="button" class="button button--ghost" data-action="download-dossier-html">
+                <button
+                  type="button"
+                  class="button button--ghost"
+                  data-action="download-dossier-html"
+                >
                   ⬇︎ Dossier HTML
                 </button>
-                <button type="button" class="button button--ghost" data-action="download-dossier-pdf">
+                <button
+                  type="button"
+                  class="button button--ghost"
+                  data-action="download-dossier-pdf"
+                >
                   ⬇︎ Dossier PDF
                 </button>
               </div>
@@ -389,8 +372,8 @@
                     Composizione avanzata
                   </h3>
                   <p class="generator-composer__description">
-                    Configura preset combinati e applica vincoli di sinergia basati sulle
-                    estrazioni correnti.
+                    Configura preset combinati e applica vincoli di sinergia basati sulle estrazioni
+                    correnti.
                   </p>
                 </div>
                 <div class="generator-composer__constraints">
@@ -415,7 +398,10 @@
                 </div>
               </header>
               <div class="generator-composer__grid">
-                <article class="generator-composer__module" aria-labelledby="composer-presets-title">
+                <article
+                  class="generator-composer__module"
+                  aria-labelledby="composer-presets-title"
+                >
                   <header class="generator-composer__module-header">
                     <h4 class="generator-composer__module-title" id="composer-presets-title">
                       Preset combinati suggeriti
@@ -452,7 +438,10 @@
                     class="generator-composer__suggestions"
                     aria-labelledby="composer-suggestions-title"
                   >
-                    <h5 class="generator-composer__suggestions-title" id="composer-suggestions-title">
+                    <h5
+                      class="generator-composer__suggestions-title"
+                      id="composer-suggestions-title"
+                    >
                       Suggerimenti contestuali
                     </h5>
                     <p class="generator-composer__empty" id="generator-composer-suggestions-empty">
@@ -478,7 +467,10 @@
                     <canvas id="generator-synergy-radar" aria-label="Radar sinergie"></canvas>
                   </div>
                 </article>
-                <article class="generator-composer__module" aria-labelledby="composer-heatmap-title">
+                <article
+                  class="generator-composer__module"
+                  aria-labelledby="composer-heatmap-title"
+                >
                   <header class="generator-composer__module-header">
                     <h4 class="generator-composer__module-title" id="composer-heatmap-title">
                       Heatmap ruoli per bioma
@@ -496,217 +488,234 @@
                 </article>
               </div>
             </section>
-          <section
-            class="generator-summary"
-            id="generator-summary"
-            aria-labelledby="generator-summary-title"
-            data-flow-node="summary"
-          >
-            <h3 class="generator-summary__title" id="generator-summary-title">Riepilogo rapido</h3>
-            <dl class="generator-summary__metrics">
-              <div class="generator-summary__metric">
-                <dt class="generator-summary__label">Biomi</dt>
-                <dd class="generator-summary__value" data-summary="biomes">0</dd>
-              </div>
-              <div class="generator-summary__metric">
-                <dt class="generator-summary__label">Specie</dt>
-                <dd class="generator-summary__value" data-summary="species">0</dd>
-              </div>
-              <div class="generator-summary__metric">
-                <dt class="generator-summary__label">Seed</dt>
-                <dd class="generator-summary__value" data-summary="seeds">0</dd>
-              </div>
-            </dl>
-            <p class="generator-summary__status" id="generator-status" aria-live="polite">
-              Carica il catalogo per iniziare.
-            </p>
-            <p class="generator-summary__note" id="generator-last-action">Ultimo aggiornamento: —</p>
             <section
-              class="generator-narrative"
-              id="generator-narrative"
-              aria-labelledby="generator-narrative-title"
-              data-has-narrative="false"
+              class="generator-summary"
+              id="generator-summary"
+              aria-labelledby="generator-summary-title"
+              data-flow-node="summary"
             >
-              <div class="generator-narrative__header">
-                <h4 class="generator-summary__subtitle" id="generator-narrative-title">
-                  Narrativa dinamica
-                </h4>
-                <div class="generator-audio-controls" id="generator-audio-controls">
+              <h3 class="generator-summary__title" id="generator-summary-title">
+                Riepilogo rapido
+              </h3>
+              <dl class="generator-summary__metrics">
+                <div class="generator-summary__metric">
+                  <dt class="generator-summary__label">Biomi</dt>
+                  <dd class="generator-summary__value" data-summary="biomes">0</dd>
+                </div>
+                <div class="generator-summary__metric">
+                  <dt class="generator-summary__label">Specie</dt>
+                  <dd class="generator-summary__value" data-summary="species">0</dd>
+                </div>
+                <div class="generator-summary__metric">
+                  <dt class="generator-summary__label">Seed</dt>
+                  <dd class="generator-summary__value" data-summary="seeds">0</dd>
+                </div>
+              </dl>
+              <p class="generator-summary__status" id="generator-status" aria-live="polite">
+                Carica il catalogo per iniziare.
+              </p>
+              <p class="generator-summary__note" id="generator-last-action">
+                Ultimo aggiornamento: —
+              </p>
+              <section
+                class="generator-narrative"
+                id="generator-narrative"
+                aria-labelledby="generator-narrative-title"
+                data-has-narrative="false"
+              >
+                <div class="generator-narrative__header">
+                  <h4 class="generator-summary__subtitle" id="generator-narrative-title">
+                    Narrativa dinamica
+                  </h4>
+                  <div class="generator-audio-controls" id="generator-audio-controls">
+                    <button
+                      type="button"
+                      class="button button--ghost generator-audio-controls__mute"
+                      id="generator-audio-mute"
+                      aria-pressed="false"
+                    >
+                      🔈 Audio attivo
+                    </button>
+                    <label class="generator-audio-controls__volume" for="generator-audio-volume">
+                      <span class="visually-hidden">Volume effetti sonori</span>
+                      <input
+                        type="range"
+                        id="generator-audio-volume"
+                        min="0"
+                        max="100"
+                        value="75"
+                      />
+                    </label>
+                  </div>
+                </div>
+                <article class="narrative-panel" id="generator-briefing-panel">
+                  <h5 class="narrative-panel__title">Mission briefing</h5>
+                  <p class="narrative-panel__body" data-narrative="briefing">
+                    Genera un ecosistema per ottenere il briefing operativo.
+                  </p>
+                </article>
+                <article class="narrative-panel" id="generator-hook-panel">
+                  <h5 class="narrative-panel__title">Hook narrativo</h5>
+                  <p class="narrative-panel__body" data-narrative="hook">
+                    Gli hook narrativi compariranno dopo la prima generazione.
+                  </p>
+                </article>
+                <article class="narrative-panel" id="generator-insight-panel">
+                  <h5 class="narrative-panel__title">Suggerimenti rapidi</h5>
+                  <p class="narrative-panel__body" id="generator-insight-empty">
+                    Genera un ecosistema per sbloccare consigli contestuali.
+                  </p>
+                  <ul class="generator-insight__list" id="generator-insight-list" hidden></ul>
+                </article>
+              </section>
+              <div class="generator-summary__pins surface-panel surface-panel--tight">
+                <h4 class="generator-summary__subtitle">Specie pinnate</h4>
+                <p class="generator-summary__empty" id="generator-pinned-empty">
+                  Nessuna specie pinnata. Usa il pulsante
+                  <span class="icon icon--inline" aria-hidden="true">📌</span>pin sulle card per
+                  aggiungerle.
+                </p>
+                <ul class="generator-pins" id="generator-pinned-list" aria-live="polite"></ul>
+              </div>
+              <section
+                class="generator-history surface-panel surface-panel--overlay"
+                id="generator-history"
+                aria-labelledby="generator-history-title"
+                data-flow-node="history"
+              >
+                <div class="generator-history__header">
+                  <h4 class="generator-summary__subtitle" id="generator-history-title">
+                    Cronologia snapshot
+                  </h4>
                   <button
                     type="button"
-                    class="button button--ghost generator-audio-controls__mute"
-                    id="generator-audio-mute"
-                    aria-pressed="false"
+                    class="button button--ghost generator-history__clear"
+                    data-action="history-clear"
                   >
-                    🔈 Audio attivo
+                    Svuota cronologia
                   </button>
-                  <label class="generator-audio-controls__volume" for="generator-audio-volume">
-                    <span class="visually-hidden">Volume effetti sonori</span>
-                    <input
-                      type="range"
-                      id="generator-audio-volume"
-                      min="0"
-                      max="100"
-                      value="75"
-                    />
-                  </label>
                 </div>
-              </div>
-              <article class="narrative-panel" id="generator-briefing-panel">
-                <h5 class="narrative-panel__title">Mission briefing</h5>
-                <p class="narrative-panel__body" data-narrative="briefing">
-                  Genera un ecosistema per ottenere il briefing operativo.
+                <p class="generator-summary__empty" id="generator-history-empty">
+                  Nessuna cronologia salvata. Genera o ricalcola un ecosistema per creare snapshot.
                 </p>
-              </article>
-              <article class="narrative-panel" id="generator-hook-panel">
-                <h5 class="narrative-panel__title">Hook narrativo</h5>
-                <p class="narrative-panel__body" data-narrative="hook">
-                  Gli hook narrativi compariranno dopo la prima generazione.
-                </p>
-              </article>
-              <article class="narrative-panel" id="generator-insight-panel">
-                <h5 class="narrative-panel__title">Suggerimenti rapidi</h5>
-                <p class="narrative-panel__body" id="generator-insight-empty">
-                  Genera un ecosistema per sbloccare consigli contestuali.
-                </p>
-                <ul class="generator-insight__list" id="generator-insight-list" hidden></ul>
-              </article>
-            </section>
-            <div class="generator-summary__pins surface-panel surface-panel--tight">
-              <h4 class="generator-summary__subtitle">Specie pinnate</h4>
-              <p class="generator-summary__empty" id="generator-pinned-empty">
-                Nessuna specie pinnata. Usa il pulsante
-                <span class="icon icon--inline" aria-hidden="true">📌</span>pin sulle card per aggiungerle.
-              </p>
-              <ul class="generator-pins" id="generator-pinned-list" aria-live="polite"></ul>
-            </div>
-            <section
-              class="generator-history surface-panel surface-panel--overlay"
-              id="generator-history"
-              aria-labelledby="generator-history-title"
-              data-flow-node="history"
-            >
-              <div class="generator-history__header">
-                <h4 class="generator-summary__subtitle" id="generator-history-title">
-                  Cronologia snapshot
-                </h4>
-                <button
-                  type="button"
-                  class="button button--ghost generator-history__clear"
-                  data-action="history-clear"
-                >
-                  Svuota cronologia
-                </button>
-              </div>
-              <p class="generator-summary__empty" id="generator-history-empty">
-                Nessuna cronologia salvata. Genera o ricalcola un ecosistema per creare snapshot.
-              </p>
-              <ol class="generator-history__list" id="generator-history-list" aria-live="polite"></ol>
-            </section>
-            <section
-              class="generator-activity surface-panel surface-panel--overlay"
-              id="generator-activity"
-              aria-labelledby="generator-activity-title"
-            >
-              <div class="generator-activity__header">
-                <h4 class="generator-summary__subtitle" id="generator-activity-title">
-                  Timeline attività
-                </h4>
-                <div class="generator-activity__controls">
-                  <label class="form__field generator-activity__search">
-                    <span class="visually-hidden">Cerca nella timeline</span>
-                    <input
-                      type="search"
-                      id="activity-search"
-                      placeholder="Cerca eventi nella timeline"
-                      autocomplete="off"
-                    />
-                  </label>
-                  <fieldset class="generator-activity__tones">
-                    <legend class="visually-hidden">Filtra per stato</legend>
-                    <label class="chip">
-                      <input type="checkbox" value="success" data-activity-tone checked />
-                      <span>Successo</span>
+                <ol
+                  class="generator-history__list"
+                  id="generator-history-list"
+                  aria-live="polite"
+                ></ol>
+              </section>
+              <section
+                class="generator-activity surface-panel surface-panel--overlay"
+                id="generator-activity"
+                aria-labelledby="generator-activity-title"
+              >
+                <div class="generator-activity__header">
+                  <h4 class="generator-summary__subtitle" id="generator-activity-title">
+                    Timeline attività
+                  </h4>
+                  <div class="generator-activity__controls">
+                    <label class="form__field generator-activity__search">
+                      <span class="visually-hidden">Cerca nella timeline</span>
+                      <input
+                        type="search"
+                        id="activity-search"
+                        placeholder="Cerca eventi nella timeline"
+                        autocomplete="off"
+                      />
                     </label>
-                    <label class="chip">
-                      <input type="checkbox" value="info" data-activity-tone checked />
-                      <span>Info</span>
+                    <fieldset class="generator-activity__tones">
+                      <legend class="visually-hidden">Filtra per stato</legend>
+                      <label class="chip">
+                        <input type="checkbox" value="success" data-activity-tone checked />
+                        <span>Successo</span>
+                      </label>
+                      <label class="chip">
+                        <input type="checkbox" value="info" data-activity-tone checked />
+                        <span>Info</span>
+                      </label>
+                      <label class="chip">
+                        <input type="checkbox" value="warn" data-activity-tone checked />
+                        <span>Avvisi</span>
+                      </label>
+                      <label class="chip">
+                        <input type="checkbox" value="error" data-activity-tone checked />
+                        <span>Errori</span>
+                      </label>
+                    </fieldset>
+                    <label class="form__field generator-activity__tags">
+                      <span>Tag</span>
+                      <select id="activity-tags" multiple size="4"></select>
                     </label>
-                    <label class="chip">
-                      <input type="checkbox" value="warn" data-activity-tone checked />
-                      <span>Avvisi</span>
+                    <label class="generator-activity__pinned">
+                      <input type="checkbox" id="activity-pinned-only" />
+                      <span>Solo eventi pinnati</span>
                     </label>
-                    <label class="chip">
-                      <input type="checkbox" value="error" data-activity-tone checked />
-                      <span>Errori</span>
-                    </label>
-                  </fieldset>
-                  <label class="form__field generator-activity__tags">
-                    <span>Tag</span>
-                    <select id="activity-tags" multiple size="4"></select>
-                  </label>
-                  <label class="generator-activity__pinned">
-                    <input type="checkbox" id="activity-pinned-only" />
-                    <span>Solo eventi pinnati</span>
-                  </label>
-                  <div class="generator-activity__export">
+                    <div class="generator-activity__export">
+                      <button
+                        type="button"
+                        class="button button--ghost"
+                        data-action="export-log-json"
+                      >
+                        ⬇︎ Log JSON
+                      </button>
+                      <button
+                        type="button"
+                        class="button button--ghost"
+                        data-action="export-log-csv"
+                      >
+                        ⬇︎ Log CSV
+                      </button>
+                    </div>
                     <button
                       type="button"
-                      class="button button--ghost"
-                      data-action="export-log-json"
+                      class="button button--ghost generator-activity__reset"
+                      data-action="reset-activity-filters"
                     >
-                      ⬇︎ Log JSON
-                    </button>
-                    <button
-                      type="button"
-                      class="button button--ghost"
-                      data-action="export-log-csv"
-                    >
-                      ⬇︎ Log CSV
+                      Azzera filtri
                     </button>
                   </div>
-                  <button
-                    type="button"
-                    class="button button--ghost generator-activity__reset"
-                    data-action="reset-activity-filters"
-                  >
-                    Azzera filtri
-                  </button>
                 </div>
-              </div>
-              <p class="generator-summary__empty" id="generator-log-empty">
-                Nessuna attività registrata.
-              </p>
-              <ol class="generator-timeline" id="generator-log" aria-live="polite"></ol>
-            </section>
-            <section
-              class="generator-compare surface-panel surface-panel--overlay"
-              id="generator-compare-panel"
-              aria-labelledby="generator-compare-title"
-            >
-              <div class="generator-compare__header">
-                <h4 class="generator-compare__title" id="generator-compare-title">
-                  Confronto specie
-                </h4>
-                <p class="generator-compare__hint">
-                  Seleziona fino a tre specie con il pulsante <span aria-hidden="true">📊</span>
-                  <span class="visually-hidden">Confronta</span> sulle card per visualizzare il grafico radar.
+                <p class="generator-summary__empty" id="generator-log-empty">
+                  Nessuna attività registrata.
                 </p>
-              </div>
-              <p class="generator-compare__empty" id="generator-compare-empty">
-                Nessuna specie in confronto. Usa il pulsante 📊 sulle card per aggiungerle.
-              </p>
-              <ul class="generator-compare__list" id="generator-compare-list" aria-live="polite"></ul>
-              <div class="generator-compare__chart" id="generator-compare-chart" hidden>
-                <canvas id="generator-compare-canvas" aria-describedby="generator-compare-title"></canvas>
-                <p class="generator-compare__fallback" id="generator-compare-fallback" hidden>
-                  Impossibile caricare il grafico radar. Controlla la connessione o la console per
-                  ulteriori dettagli.
+                <ol class="generator-timeline" id="generator-log" aria-live="polite"></ol>
+              </section>
+              <section
+                class="generator-compare surface-panel surface-panel--overlay"
+                id="generator-compare-panel"
+                aria-labelledby="generator-compare-title"
+              >
+                <div class="generator-compare__header">
+                  <h4 class="generator-compare__title" id="generator-compare-title">
+                    Confronto specie
+                  </h4>
+                  <p class="generator-compare__hint">
+                    Seleziona fino a tre specie con il pulsante <span aria-hidden="true">📊</span>
+                    <span class="visually-hidden">Confronta</span> sulle card per visualizzare il
+                    grafico radar.
+                  </p>
+                </div>
+                <p class="generator-compare__empty" id="generator-compare-empty">
+                  Nessuna specie in confronto. Usa il pulsante 📊 sulle card per aggiungerle.
                 </p>
-              </div>
+                <ul
+                  class="generator-compare__list"
+                  id="generator-compare-list"
+                  aria-live="polite"
+                ></ul>
+                <div class="generator-compare__chart" id="generator-compare-chart" hidden>
+                  <canvas
+                    id="generator-compare-canvas"
+                    aria-describedby="generator-compare-title"
+                  ></canvas>
+                  <p class="generator-compare__fallback" id="generator-compare-fallback" hidden>
+                    Impossibile caricare il grafico radar. Controlla la connessione o la console per
+                    ulteriori dettagli.
+                  </p>
+                </div>
+              </section>
             </section>
-          </section>
-        </article>
+          </article>
         </section>
 
         <section class="section" id="generator-traits" data-panel="traits">
@@ -773,9 +782,7 @@
       >
         <div class="codex-breadcrumb">
           <p class="codex-breadcrumb__label">Sezione attuale</p>
-          <p class="codex-breadcrumb__trail" data-anchor-breadcrumb aria-live="polite">
-            Parametri
-          </p>
+          <p class="codex-breadcrumb__trail" data-anchor-breadcrumb aria-live="polite">Parametri</p>
         </div>
         <div class="codex-minimap" data-anchor-minimap>
           <p class="codex-minimap__title">Minimappa</p>
@@ -801,6 +808,57 @@
             </div>
           </dl>
         </section>
+        <section
+          class="surface-panel generator-nebula"
+          id="generator-nebula"
+          aria-labelledby="generator-nebula-title"
+        >
+          <div class="generator-nebula__header">
+            <h3 class="generator-summary__subtitle" id="generator-nebula-title">Nebula Atlas</h3>
+            <p
+              class="generator-nebula__status"
+              id="generator-nebula-status"
+              aria-live="polite"
+              data-tone="muted"
+            >
+              Sincronizzazione in attesa
+            </p>
+          </div>
+          <p class="generator-nebula__description" id="generator-nebula-summary">
+            Collega il generatore alle metriche Nebula per monitorare copertura e incidenti in tempo
+            reale.
+          </p>
+          <p class="generator-nebula__meta" id="generator-nebula-release">Finestra release: —</p>
+          <dl class="generator-summary__metrics generator-nebula__metrics">
+            <div class="generator-summary__metric">
+              <dt class="generator-summary__label">Specie</dt>
+              <dd class="generator-summary__value" id="generator-nebula-metric-species">—</dd>
+            </div>
+            <div class="generator-summary__metric">
+              <dt class="generator-summary__label">Biomi</dt>
+              <dd class="generator-summary__value" id="generator-nebula-metric-biomes">—</dd>
+            </div>
+            <div class="generator-summary__metric">
+              <dt class="generator-summary__label">Encounter</dt>
+              <dd class="generator-summary__value" id="generator-nebula-metric-encounters">—</dd>
+            </div>
+          </dl>
+          <ul
+            class="generator-nebula__list"
+            id="generator-nebula-highlights"
+            aria-live="polite"
+          ></ul>
+          <p class="generator-nebula__stat" id="generator-nebula-coverage">Copertura media: —</p>
+          <p class="generator-nebula__stat" id="generator-nebula-events">Eventi aperti: —</p>
+          <p class="generator-nebula__stat" id="generator-nebula-updated">
+            Ultimo aggiornamento: —
+          </p>
+          <div class="generator-nebula__actions">
+            <button type="button" class="button button--ghost" data-action="nebula-refresh">
+              ↻ Aggiorna snapshot
+            </button>
+          </div>
+        </section>
       </aside>
     </main>
 
@@ -815,16 +873,14 @@
           >
             Parametri
           </p>
-          <button
-            type="button"
-            class="button button--ghost codex-overlay__close"
-            data-codex-close
-          >
+          <button type="button" class="button button--ghost codex-overlay__close" data-codex-close>
             Chiudi Codex
           </button>
         </header>
         <div class="codex-overlay__body">
-          <p class="codex-overlay__subtitle">Naviga tra le sezioni e ottieni una panoramica rapida.</p>
+          <p class="codex-overlay__subtitle">
+            Naviga tra le sezioni e ottieni una panoramica rapida.
+          </p>
           <nav
             class="codex-overlay__map"
             aria-label="Minimappa Codex"

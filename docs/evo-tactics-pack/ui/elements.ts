@@ -127,6 +127,23 @@ export function resolveGeneratorElements(root = document) {
       uniqueSpecies: query(root, '[data-kpi="unique-species"]'),
       profileReuses: query(root, '[data-kpi="profile-reuse"]'),
     },
+    nebula: {
+      title: byId(root, 'generator-nebula-title'),
+      panel: byId(root, 'generator-nebula'),
+      status: byId(root, 'generator-nebula-status'),
+      summary: byId(root, 'generator-nebula-summary'),
+      release: byId(root, 'generator-nebula-release'),
+      metrics: {
+        species: byId(root, 'generator-nebula-metric-species'),
+        biomes: byId(root, 'generator-nebula-metric-biomes'),
+        encounters: byId(root, 'generator-nebula-metric-encounters'),
+      },
+      highlights: byId(root, 'generator-nebula-highlights'),
+      coverage: byId(root, 'generator-nebula-coverage'),
+      events: byId(root, 'generator-nebula-events'),
+      updated: byId(root, 'generator-nebula-updated'),
+      refresh: query(root, '[data-action="nebula-refresh"]'),
+    },
   };
 }
 

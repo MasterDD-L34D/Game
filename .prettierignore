@@ -8,6 +8,8 @@ data/
 packs/
 public/
 docs/mission-console/
+docs/evo-tactics-pack/generator.bundle.js
+docs/evo-tactics-pack/generator.bundle.js.map
 .DS_Store
 *.log
 webapp/.vite/
