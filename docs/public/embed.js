@@ -28,8 +28,10 @@ import { createReportCard } from './ui/report-card.js';
     game_functions: "Funzioni di gioco"
   };
   const MULTI_FIELD_KEYS = Object.keys(MULTI_FIELD_LABELS);
-  const STYLE_ID = 'idea-widget-inline-style';
+  const STYLE_ATTRIBUTE = 'data-idea-widget-styles';
+  const STYLE_FILENAME_PATTERN = /widget\.css(\?|$)/;
   const FEEDBACK_TEMPLATE_FALLBACK = '../ideas/feedback.md';
+  let warnedMissingStyles = false;
 
   function unique(arr) {
     return Array.from(new Set((arr || []).filter(Boolean)));
@@ -46,39 +48,43 @@ import { createReportCard } from './ui/report-card.js';
       .replace(/^-+|-+$/g, '');
   }
 
-  function ensureStyles() {
-    if (typeof document === 'undefined') return;
-    if (document.getElementById(STYLE_ID)) return;
-    const style = document.createElement('style');
-    style.id = STYLE_ID;
-    style.type = 'text/css';
-    style.textContent = `
-      .multi-select { display:flex; flex-direction:column; gap:0.35rem; }
-      .multi-select__control { display:flex; flex-wrap:wrap; align-items:center; gap:0.3rem; min-height:2.75rem; padding:0.45rem 0.6rem; border:1px solid #d0d6e1; border-radius:8px; background:#fff; transition: border-color .2s ease, box-shadow .2s ease; }
-      .multi-select__control:focus-within { border-color:#4a64ff; box-shadow:0 0 0 2px rgba(74,100,255,0.15); }
-      .multi-select__tokens { display:flex; flex-wrap:wrap; gap:0.3rem; }
-      .multi-select__token { display:inline-flex; align-items:center; gap:0.25rem; background:#eef2ff; color:#243c8b; border-radius:999px; padding:0.15rem 0.55rem; font-size:0.85rem; line-height:1.4; }
-      .multi-select__token--alias { background:#e8f6ff; color:#124663; }
-      .multi-select__token--unknown { background:#ffecec; color:#8b1a1a; border:1px solid #ffb3b3; }
-      .multi-select__token button { border:0; background:none; color:inherit; cursor:pointer; font-size:1rem; line-height:1; padding:0; }
-      .multi-select__token button:hover { opacity:0.7; }
-      .multi-select__input { flex:1 1 8rem; border:0; outline:none; font:inherit; padding:0.25rem; min-width:8rem; }
-      .multi-select__hint { font-size:0.8rem; color:#8b1a1a; }
-      .visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-      .feedback-card { margin-top:1.5rem; padding:1rem; border:1px solid #d0d6e1; border-radius:12px; background:#f8f9ff; displ
-ay:flex; flex-direction:column; gap:0.75rem; }
-      .feedback-card h4 { margin:0; font-size:1rem; }
-      .feedback-card textarea { width:100%; min-height:5rem; resize:vertical; border:1px solid #d0d6e1; border-radius:8px; pad
-ding:0.5rem; font:inherit; }
-      .feedback-card input[type="text"], .feedback-card input[type="email"] { width:100%; border:1px solid #d0d6e1; border-rad
-ius:8px; padding:0.45rem 0.6rem; font:inherit; }
-      .feedback-card .actions { display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; }
-      .feedback-card .status { font-size:0.85rem; min-height:1.2rem; }
-      .feedback-card .status.err { color:#8b1a1a; }
-      .feedback-card .status.ok { color:#1a7f3b; }
-      .feedback-card .feedback-link { color:#3046c5; text-decoration:underline; }
-    `;
-    document.head.appendChild(style);
+  function nodeMatchesWidgetStyles(node) {
+    if (!node || node.nodeType !== 1) return false;
+    if (typeof node.getAttribute !== 'function') return false;
+    if (node.getAttribute(STYLE_ATTRIBUTE) !== null) return true;
+    const href = node.getAttribute('href') || node.getAttribute('data-href') || '';
+    return href ? STYLE_FILENAME_PATTERN.test(href) : false;
+  }
+
+  function widgetStylesAvailable() {
+    if (typeof document === 'undefined') return true;
+    if (document.querySelector(`[${STYLE_ATTRIBUTE}]`)) return true;
+    if (document.querySelector('link[href*="widget.css"]')) return true;
+    try {
+      const styleSheets = Array.from(document.styleSheets || []);
+      for (const sheet of styleSheets) {
+        if (nodeMatchesWidgetStyles(sheet.ownerNode)) {
+          return true;
+        }
+        if (sheet.href && STYLE_FILENAME_PATTERN.test(sheet.href)) {
+          return true;
+        }
+      }
+    } catch (error) {
+      // Access to document.styleSheets may fail for cross-origin styles; rely on DOM queries instead.
+    }
+    return false;
+  }
+
+  function assertWidgetStyles() {
+    const loaded = widgetStylesAvailable();
+    if (!loaded && !warnedMissingStyles) {
+      warnedMissingStyles = true;
+      console.warn(
+        'IdeaWidget: stili non trovati. Includi docs/assets/styles/widget.css e contrassegna il <link> con data-idea-widget-styles.'
+      );
+    }
+    return loaded;
   }
 
   async function fetchCategoriesFrom(url) {
@@ -379,7 +385,10 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
   }
 
   function buildForm(container, opts, categories, taxonomyRaw) {
-    ensureStyles();
+    assertWidgetStyles();
+    if (container && typeof container.classList?.add === 'function') {
+      container.classList.add('idea-widget');
+    }
     const taxonomy = prepareTaxonomy(taxonomyRaw);
     const state = {
       apiBase: (opts.apiBase||"").trim(),

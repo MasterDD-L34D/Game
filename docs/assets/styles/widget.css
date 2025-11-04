@@ -1,0 +1,242 @@
+.idea-widget {
+  --idea-widget-border: var(--color-border-subtle, #d0d6e1);
+  --idea-widget-border-strong: var(--color-border-strong, #aab2c5);
+  --idea-widget-surface: var(--color-surface-base, #ffffff);
+  --idea-widget-surface-alt: var(--color-surface-overlay, #f8f9ff);
+  --idea-widget-surface-backdrop: var(--color-surface-overlay, rgba(10, 14, 22, 0.9));
+  --idea-widget-surface-inset: var(--color-surface-overlay, rgba(15, 20, 28, 0.95));
+  --idea-widget-accent: var(--color-accent-soft, #3046c5);
+  --idea-widget-accent-strong: var(--color-accent-strong, #243c8b);
+  --idea-widget-accent-quiet: var(--color-accent-muted, #124663);
+  --idea-widget-accent-glow: var(--color-border-glow, rgba(74, 100, 255, 0.15));
+  --idea-widget-token-bg: rgba(238, 242, 255, 1);
+  --idea-widget-token-unknown-bg: #ffecec;
+  --idea-widget-token-unknown-border: #ffb3b3;
+  --idea-widget-token-alias-bg: #e8f6ff;
+  --idea-widget-danger: var(--tone-error-foreground, #8b1a1a);
+  --idea-widget-success: var(--tone-success-foreground, #1a7f3b);
+  --idea-widget-muted: var(--color-text-muted, #64748b);
+  --idea-widget-radius: var(--radius-lg, 12px);
+  --idea-widget-font-mono: var(
+    --font-family-mono,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    'Liberation Mono',
+    'Courier New',
+    monospace
+  );
+  --idea-widget-shadow: var(--shadow-md, 0 18px 45px rgba(2, 12, 26, 0.45));
+}
+
+.idea-widget .multi-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.idea-widget .multi-select__control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--idea-widget-border);
+  border-radius: var(--idea-widget-radius);
+  background: var(--idea-widget-surface);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.idea-widget .multi-select__control:focus-within {
+  border-color: var(--color-border-glow, #4a64ff);
+  box-shadow: 0 0 0 2px var(--idea-widget-accent-glow);
+}
+
+.idea-widget .multi-select__tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.idea-widget .multi-select__token {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--idea-widget-token-bg);
+  color: var(--idea-widget-accent-strong);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.idea-widget .multi-select__token--alias {
+  background: var(--idea-widget-token-alias-bg);
+  color: var(--idea-widget-accent-quiet);
+}
+
+.idea-widget .multi-select__token--unknown {
+  background: var(--idea-widget-token-unknown-bg);
+  color: var(--idea-widget-danger);
+  border: 1px solid var(--idea-widget-token-unknown-border);
+}
+
+.idea-widget .multi-select__token button {
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+}
+
+.idea-widget .multi-select__token button:hover {
+  opacity: 0.7;
+}
+
+.idea-widget .multi-select__input {
+  flex: 1 1 8rem;
+  border: 0;
+  outline: none;
+  font: inherit;
+  padding: 0.25rem;
+  min-width: 8rem;
+}
+
+.idea-widget .multi-select__hint {
+  font-size: 0.8rem;
+  color: var(--idea-widget-danger);
+}
+
+.idea-widget .visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.idea-widget .feedback-card {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--idea-widget-border);
+  border-radius: var(--idea-widget-radius);
+  background: var(--idea-widget-surface-alt);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.idea-widget .feedback-card h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.idea-widget .feedback-card textarea,
+.idea-widget .feedback-card input[type='text'],
+.idea-widget .feedback-card input[type='email'] {
+  width: 100%;
+  border: 1px solid var(--idea-widget-border);
+  border-radius: calc(var(--idea-widget-radius) - 4px);
+  padding: 0.5rem 0.6rem;
+  font: inherit;
+  background: var(--idea-widget-surface);
+  color: inherit;
+}
+
+.idea-widget .feedback-card textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.idea-widget .feedback-card .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.idea-widget .feedback-card .status {
+  font-size: 0.85rem;
+  min-height: 1.2rem;
+  color: var(--idea-widget-muted);
+}
+
+.idea-widget .feedback-card .status.err {
+  color: var(--idea-widget-danger);
+}
+
+.idea-widget .feedback-card .status.ok {
+  color: var(--idea-widget-success);
+}
+
+.idea-widget .feedback-card .feedback-link {
+  color: var(--idea-widget-accent);
+  text-decoration: underline;
+}
+
+.idea-widget .feedback-card .feedback-link:hover,
+.idea-widget .feedback-card .feedback-link:focus-visible {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.idea-widget .report {
+  margin-top: 1.5rem;
+  border: 1px solid var(--idea-widget-border-strong);
+  border-radius: var(--idea-widget-radius);
+  background: var(--idea-widget-surface-backdrop);
+  box-shadow: var(--idea-widget-shadow);
+}
+
+.idea-widget .report__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.125rem 0;
+}
+
+.idea-widget .report__header h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.idea-widget .report__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.idea-widget .report__body {
+  margin: 0.75rem 1.125rem 1.125rem;
+  padding: 1rem;
+  border-radius: calc(var(--idea-widget-radius) - 6px);
+  background: var(--idea-widget-surface-inset);
+  border: 1px solid rgba(88, 166, 255, 0.18);
+  font-family: var(--idea-widget-font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  max-height: 20rem;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.idea-widget .linkish {
+  color: var(--idea-widget-accent);
+}
+
+.idea-widget .linkish:hover,
+.idea-widget .linkish:focus-visible {
+  text-decoration: underline;
+}
