@@ -1,0 +1,41 @@
+name: Validate JSON Schemas
+
+on:
+  push:
+    paths:
+      - 'schemas/**'
+  pull_request:
+    paths:
+      - 'schemas/**'
+  workflow_dispatch: {}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install jsonschema
+        run: pip install jsonschema==4.*
+      - name: Validate all schemas/*.json
+        run: |
+          python - <<'PY'
+import json, os, sys, glob
+from jsonschema import Draft202012Validator
+errors = []
+for path in glob.glob('schemas/*.json'):
+    with open(path,'r', encoding='utf-8') as f:
+        data = json.load(f)
+    try:
+        Draft202012Validator.check_schema(data)
+    except Exception as e:
+        errors.append(f"{path}: {e}")
+if errors:
+    print("\n".join(errors))
+    sys.exit(1)
+else:
+    print("All schemas OK")
+PY
