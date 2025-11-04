@@ -58,6 +58,7 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
+  --radius-pill: 999px;
 
   /* Spacing scale */
   --space-2: 0.5rem;

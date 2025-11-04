@@ -560,9 +560,9 @@ a:focus-visible {
   gap: 8px;
   padding: 10px 16px;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--color-border-glow);
-  background: rgba(12, 20, 30, 0.78);
-  color: var(--color-text-primary);
+  border: 1px solid rgba(148, 163, 210, 0.45);
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.18), rgba(15, 23, 42, 0.85));
+  color: var(--color-text-inverse);
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
@@ -578,14 +578,14 @@ a:focus-visible {
 .global-nav__link:hover,
 .global-nav__link:focus-visible {
   transform: translateY(-2px);
-  background: rgba(22, 32, 48, 0.9);
-  border-color: var(--color-accent-400);
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.32), rgba(15, 23, 42, 0.92));
+  border-color: rgba(99, 179, 237, 0.8);
 }
 
 .global-nav__home[aria-current='page'],
 .global-nav__link[aria-current='page'] {
-  background: var(--color-accent-soft);
-  border-color: var(--color-accent-400);
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.42), rgba(88, 166, 255, 0.2));
+  border-color: rgba(125, 211, 252, 0.85);
 }
 
 .global-nav__links {
@@ -1140,9 +1140,9 @@ body.codex-open {
   align-items: center;
   padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(88, 166, 255, 0.35);
-  background: rgba(88, 166, 255, 0.08);
-  color: var(--text-muted);
+  border: 1px solid rgba(148, 163, 210, 0.45);
+  background: rgba(88, 166, 255, 0.16);
+  color: var(--color-text-inverse);
   font-size: 0.86rem;
   transition:
     background var(--transition),
@@ -1158,15 +1158,15 @@ body.codex-open {
 
 .chip:hover,
 .chip:focus-visible {
-  background: rgba(88, 166, 255, 0.2);
-  border-color: rgba(88, 166, 255, 0.6);
-  color: var(--text);
+  background: rgba(88, 166, 255, 0.28);
+  border-color: rgba(99, 179, 237, 0.75);
+  color: var(--color-text-inverse);
 }
 
 .chip--active {
-  background: rgba(88, 166, 255, 0.35);
-  border-color: rgba(88, 166, 255, 0.8);
-  color: var(--text);
+  background: rgba(88, 166, 255, 0.4);
+  border-color: rgba(125, 211, 252, 0.85);
+  color: var(--color-text-inverse);
 }
 
 .chip[data-status='ok'] {
