@@ -1,23 +1,16 @@
+
 #!/usr/bin/env python3
-"""
-Genera JSON-LD di base:
-- WebSite + SearchAction
-- Organization (placeholder)
-Scrive in public/structured-data.json se public/ esiste, altrimenti in ops/site-audit/_out/
-"""
-from __future__ import annotations
 import os, json, argparse
 from pathlib import Path
-from datetime import date
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--site-name", default="Gioco Evo Tactics")
-    ap.add_argument("--base-url", default=os.getenv("SITE_BASE_URL","https://example.com"))
+    ap.add_argument("--base-url", default=os.getenv("SITE_BASE_URL","https://tuo-dominio.tld"))
     ap.add_argument("--search-path", default="/cerca?q={query}")
     args = ap.parse_args()
 
-    j = [
+    data = [
         {
             "@context": "https://schema.org",
             "@type": "WebSite",
@@ -37,11 +30,10 @@ def main():
         }
     ]
     repo = Path(".").resolve()
-    pub = repo / "public"
-    out = pub / "structured-data.json" if pub.exists() else (repo / "ops/site-audit/_out" / "structured-data.json")
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(j, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"[structured-data] wrote {out}")
+    out_dir = repo / "public"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "structured-data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"[structured-data] wrote {out_dir/'structured-data.json'}")
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,138 @@
+{
+  "top_sections": [
+    {
+      "path": "/",
+      "title": "Home"
+    },
+    {
+      "path": "/generatore",
+      "title": "Generatore"
+    },
+    {
+      "path": "/bestiario",
+      "title": "Bestiario"
+    },
+    {
+      "path": "/biomi",
+      "title": "Biomi"
+    },
+    {
+      "path": "/tratti",
+      "title": "Tratti"
+    },
+    {
+      "path": "/morph",
+      "title": "Morph"
+    },
+    {
+      "path": "/ruoli",
+      "title": "Ruoli"
+    },
+    {
+      "path": "/manovre",
+      "title": "Manovre (Surge)"
+    },
+    {
+      "path": "/equipaggiamento",
+      "title": "Equipaggiamento"
+    },
+    {
+      "path": "/regole",
+      "title": "Regole"
+    },
+    {
+      "path": "/moduli/enneagramma",
+      "title": "Modulo Personalità: Enneagramma"
+    },
+    {
+      "path": "/docs/quickstart-gm",
+      "title": "Quickstart GM"
+    },
+    {
+      "path": "/download",
+      "title": "Download"
+    },
+    {
+      "path": "/api/schemas",
+      "title": "API Schemas"
+    },
+    {
+      "path": "/telemetria",
+      "title": "Telemetria"
+    },
+    {
+      "path": "/changelog",
+      "title": "Changelog"
+    },
+    {
+      "path": "/about",
+      "title": "About"
+    },
+    {
+      "path": "/contribuisci",
+      "title": "Contribuisci"
+    },
+    {
+      "path": "/privacy",
+      "title": "Privacy"
+    }
+  ],
+  "content_dirs": [
+    {
+      "dir": "species",
+      "url_base": "/bestiario"
+    },
+    {
+      "dir": "biomes",
+      "url_base": "/biomi"
+    },
+    {
+      "dir": "traits",
+      "url_base": "/tratti"
+    },
+    {
+      "dir": "morph",
+      "url_base": "/morph"
+    },
+    {
+      "dir": "jobs",
+      "url_base": "/ruoli"
+    },
+    {
+      "dir": "surge",
+      "url_base": "/manovre"
+    },
+    {
+      "dir": "gear/weapons",
+      "url_base": "/equipaggiamento/armi"
+    },
+    {
+      "dir": "rules",
+      "url_base": "/regole"
+    },
+    {
+      "dir": "modules/personality/enneagram",
+      "url_base": "/moduli/enneagramma"
+    },
+    {
+      "dir": "schemas",
+      "url_base": "/api/schemas",
+      "passthrough_filename": true
+    },
+    {
+      "dir": "exports/spawn_packs",
+      "url_base": "/download/spawn-packs",
+      "passthrough_filename": true
+    }
+  ],
+  "include_exts": [
+    ".yaml",
+    ".yml",
+    ".md",
+    ".json"
+  ],
+  "exclude_stems": [
+    "index",
+    "species_index"
+  ]
+}
