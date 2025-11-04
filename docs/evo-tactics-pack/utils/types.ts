@@ -75,4 +75,15 @@
  * @returns {string}
  */
 
-export {};
+export type {
+  ActivityLogEntryInput,
+  ActivityLogTag,
+  FilterSet,
+  FilterToken,
+  GenerationConstraints,
+  HazardLevel,
+  RandomIdGenerator,
+  SerialisedActivityLogEntry,
+  TagEntry,
+  TagLike,
+};
