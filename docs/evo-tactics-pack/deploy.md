@@ -17,6 +17,25 @@ Il preset `demo-bundle` presente in `generator.js` produce tre file:
 Il comando "Scarica preset" genera uno zip con questi asset nella cartella
 `packs/evo_tactics_pack/out/generator/`.
 
+### Nuova struttura modulare
+
+Il refactor del generatore introduce moduli specializzati che semplificano
+personalizzazioni, test e contributi:
+
+- **`views/*`** contiene i controller UI per ciascun pannello del generatore
+  (`parameters`, `traits`, `biomes`, `seeds`, `composer`, `insights`, `activity`,
+  `export`). Ogni modulo esporta funzioni `init`, `render` e helper per gli
+  eventi specifici della vista.
+- **`services/*`** espone servizi riutilizzabili lato browser come lo storage
+  persistente (`storage.ts`) e il layer audio (`audio.ts`) responsabile delle cue
+  dinamiche.
+- **`tests/docs-generator/*`** racchiude gli scenari di unit e integration test
+  dedicati al generatore, con suite distinte per servizi e viste.
+
+Le dipendenze principali vengono orchestrate da `docs/evo-tactics-pack/generator.js`,
+che carica i servizi condivisi, inizializza le viste e collega gli entry point
+di esportazione (`generateDossier*` e `generatePresetFileContents`).
+
 ## Override runtime del catalogo
 
 Entrambi i moduli `docs/evo-tactics-pack/pack-data.js` (frontend) e
@@ -33,14 +52,14 @@ Entrambi i moduli `docs/evo-tactics-pack/pack-data.js` (frontend) e
 Lo script `packs/pack-data.js` legge le seguenti variabili quando eseguito via
 Node o in pipeline CI:
 
-| Variabile             | Descrizione                                                   |
-| --------------------- | ------------------------------------------------------------- |
-| `EVO_PACK_ROOT`       | Percorso locale o URL prioritario per il pack.                |
-| `EVO_PACK_BASE`       | Alias di `EVO_PACK_ROOT` utile per ambienti legacy.           |
-| `EVO_PACK_OVERRIDE`   | Ulteriore override esplicito.                                |
-| `EVO_PACK_REMOTE`     | Lista (separata da spazi o virgole) di sorgenti remote (URL). |
-| `EVO_PACK_SOURCES`    | Lista aggiuntiva di sorgenti remote.                          |
-| `EVO_REPO_ROOT`       | Radice del repository da cui risolvere i percorsi locali.    |
+| Variabile           | Descrizione                                                   |
+| ------------------- | ------------------------------------------------------------- |
+| `EVO_PACK_ROOT`     | Percorso locale o URL prioritario per il pack.                |
+| `EVO_PACK_BASE`     | Alias di `EVO_PACK_ROOT` utile per ambienti legacy.           |
+| `EVO_PACK_OVERRIDE` | Ulteriore override esplicito.                                 |
+| `EVO_PACK_REMOTE`   | Lista (separata da spazi o virgole) di sorgenti remote (URL). |
+| `EVO_PACK_SOURCES`  | Lista aggiuntiva di sorgenti remote.                          |
+| `EVO_REPO_ROOT`     | Radice del repository da cui risolvere i percorsi locali.     |
 
 Esempio di invocazione per testare un mirror remoto:
 
@@ -59,8 +78,10 @@ sorgenti locali.
    Pages mantenendo la struttura `/packs/evo_tactics_pack/`.
 3. Aggiornare il sito statico impostando `pack-root` sull'URL pubblico (query
    string, meta tag o variabile `EVO_PACK_REMOTE`).
-4. Eseguire `tests/validate_dashboard.py` per assicurarsi che il preset demo e
-   le sorgenti remote siano configurate correttamente.
+4. Eseguire `npm run test:docs-generator` per validare servizi e viste del
+   generatore (`tests/docs-generator/*`). In aggiunta, mantenere `tests/validate_dashboard.py`
+   per assicurarsi che il preset demo e le sorgenti remote siano configurate
+   correttamente.
 5. Validare manualmente il caricamento su staging verificando che il generatore
    mostri le metriche demo e consenta il download dello zip completo.
 
@@ -72,4 +93,3 @@ sorgenti locali.
   comandi dalla root del repository.
 - **Press kit non generato** — assicurarsi di avere almeno un ecosistema
   generato prima del download del preset.
-
