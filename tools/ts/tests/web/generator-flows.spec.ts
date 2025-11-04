@@ -5,6 +5,21 @@ test.describe('Evo generator flows', () => {
     if (!baseURL) {
       throw new Error('Base URL non disponibile per il test Playwright');
     }
+
+    await page.route('**/*.ts', async (route) => {
+      const response = await route.fetch();
+      const headers = {
+        ...response.headers(),
+        'content-type': 'text/javascript',
+      };
+      const body = await response.text();
+      await route.fulfill({
+        status: response.status(),
+        body,
+        headers,
+      });
+    });
+
     const packRoot = new URL('/packs/evo_tactics_pack/', baseURL).toString();
     await page.goto(
       `/docs/evo-tactics-pack/generator.html?pack-root=${encodeURIComponent(packRoot)}`,

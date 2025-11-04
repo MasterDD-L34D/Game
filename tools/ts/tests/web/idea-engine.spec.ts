@@ -1,4 +1,33 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, Page } from '@playwright/test';
+
+declare global {
+  interface Window {
+    IdeaWidget?: {
+      mount: (selector: string, config: unknown) => Promise<unknown>;
+      DEFAULT_CATEGORIES: string[];
+    };
+    IDEA_WIDGET_CONFIG: Record<string, unknown>;
+  }
+}
+
+async function ensureIdeaWidgetMounted(page: Page) {
+  await page.waitForFunction(
+    () => typeof window !== 'undefined' && typeof window.IdeaWidget?.mount === 'function',
+    null,
+    { timeout: 30000 },
+  );
+
+  await page.evaluate(async () => {
+    if (window.IdeaWidget?.mount) {
+      const hasForm = document.querySelector('#idea-widget form');
+      if (!hasForm) {
+        await window.IdeaWidget.mount('#idea-widget', window.IDEA_WIDGET_CONFIG);
+      }
+    }
+  });
+
+  await page.waitForSelector('#idea-widget form', { timeout: 20000 });
+}
 
 test.beforeEach(async ({ context, page, baseURL }) => {
   await context.clearCookies();
@@ -16,10 +45,26 @@ test.beforeEach(async ({ context, page, baseURL }) => {
   if (!baseURL) {
     throw new Error('BaseURL non configurato per i test Playwright.');
   }
+
+  await page.route('**/*.ts', async (route) => {
+    const response = await route.fetch();
+    const headers = {
+      ...response.headers(),
+      'content-type': 'text/javascript',
+    };
+    const body = await response.text();
+    await route.fulfill({
+      status: response.status(),
+      body,
+      headers,
+    });
+  });
 });
 
 test('permette export markdown offline', async ({ page }) => {
   await page.goto('/docs/ideas/index.html');
+
+  await ensureIdeaWidgetMounted(page);
 
   await page.waitForSelector('#idea-widget #title', { timeout: 20000 });
 
@@ -78,6 +123,8 @@ test('invia idea al backend configurato', async ({ page }) => {
   });
 
   await page.goto('/docs/ideas/index.html?apiBase=https://api.example.test&apiToken=test-token');
+
+  await ensureIdeaWidgetMounted(page);
 
   await page.waitForSelector('#idea-widget #title', { timeout: 20000 });
 
