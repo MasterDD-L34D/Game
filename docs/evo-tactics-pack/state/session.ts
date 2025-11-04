@@ -144,5 +144,12 @@ export function createSessionState(options = {}) {
       recommendations: [],
     },
     composer: createComposerState(),
+    nebula: {
+      dataset: null,
+      generator: null,
+      telemetry: null,
+      lastSyncedAt: null,
+      error: null,
+    },
   };
 }
