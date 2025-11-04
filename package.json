@@ -12,6 +12,7 @@
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test:api && npm run test --workspace tools/ts && npm run test --workspace webapp",
+    "test:docs-generator": "npx vitest run --config vitest.config.docs-generator.ts",
     "preview": "npm run preview --workspace webapp",
     "test:web": "npm run test:web --workspace tools/ts",
     "test:api": "ORCHESTRATOR_AUTOCLOSE_MS=2000 node --test tests/api/*.test.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/generation/flow-shell.spec.ts && node --test tests/server/generationSnapshot.spec.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-latency.spec.ts && ./node_modules/.bin/tsx tests/scripts/tune_items.test.ts && ./node_modules/.bin/tsx tests/events/dynamicEvents.e2e.ts && node --test tests/tools/deploy-checks.spec.js",
