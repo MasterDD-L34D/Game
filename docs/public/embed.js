@@ -99,14 +99,33 @@ ius:8px; padding:0.45rem 0.6rem; font:inherit; }
     return [];
   }
 
+  const SCRIPT_BASE_URL = (() => {
+    try {
+      if (typeof import.meta !== 'undefined' && import.meta && import.meta.url) {
+        return new URL('.', import.meta.url);
+      }
+    } catch (error) {
+      console.warn('Errore calcolo base URL modulo', error);
+    }
+
+    try {
+      if (typeof document !== 'undefined') {
+        const currentScript = document.currentScript;
+        if (currentScript && currentScript.src) {
+          return new URL('.', new URL(currentScript.src, window.location.href));
+        }
+      }
+    } catch (error) {
+      console.warn('Errore calcolo base URL script', error);
+    }
+
+    return null;
+  })();
+
   function deriveAssetUrl(assetName) {
     try {
-      if (typeof document === 'undefined') return null;
-      const currentScript = document.currentScript;
-      if (currentScript && currentScript.src) {
-        const src = new URL(currentScript.src, window.location.href);
-        return new URL(assetName, src).toString();
-      }
+      if (!SCRIPT_BASE_URL) return null;
+      return new URL(assetName, SCRIPT_BASE_URL).toString();
     } catch (error) {
       console.warn('Errore calcolo asset URL', assetName, error);
     }
