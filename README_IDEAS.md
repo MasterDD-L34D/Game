@@ -60,8 +60,8 @@ Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee e 
   sito pubblico.
 - Con `apiBase` configurato verso il servizio Node, il tasto **Invia al backend** registra l'idea nel database e mostra il
   report "Codex GPT Integration Brief" completo di pulsanti per copia e download.
-- Se non hai backend, clicca **Anteprima / Export .md**: scarica un file già formattato da mettere in `ideas/`.
-- Il workflow `.github/workflows/idea-intake-index.yml` aggiorna `IDEAS_INDEX.md` ad ogni commit in `ideas/`.
+- Se non hai backend, clicca **Anteprima / Export .md**: scarica un file già formattato da mettere in `docs/ideas/submissions/`.
+- Il workflow `.github/workflows/idea-intake-index.yml` aggiorna `IDEAS_INDEX.md` ad ogni commit in `docs/ideas/submissions/`.
 
 ## Campi del Reminder
 

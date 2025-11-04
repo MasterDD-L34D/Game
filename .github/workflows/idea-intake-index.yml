@@ -1,7 +1,9 @@
 name: Idea Intake Index
 on:
   push:
-    paths: ['ideas/**']
+    paths: ['docs/ideas/submissions/**']
+permissions:
+  contents: write
 jobs:
   index:
     runs-on: ubuntu-latest
@@ -13,8 +15,8 @@ jobs:
         run: |
           echo "# Ideas Index" > IDEAS_INDEX.md
           echo "" >> IDEAS_INDEX.md
-          if ls ideas/*.md > /dev/null 2>&1; then
-            for f in ideas/*.md; do
+          if ls docs/ideas/submissions/*.md > /dev/null 2>&1; then
+            for f in docs/ideas/submissions/*.md; do
               [ -e "$f" ] || continue
               title=$(head -n 1 "$f" | sed 's/#\s*//')
               echo "- [$title]($f)" >> IDEAS_INDEX.md
@@ -34,4 +36,4 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore(ideas): update IDEAS_INDEX.md"
+          commit_message: 'chore(ideas): update IDEAS_INDEX.md'
