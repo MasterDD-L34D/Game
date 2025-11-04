@@ -104,17 +104,18 @@
         </div>
       </nav>
 
-      <div class="layout__content">
-        <section class="section" id="generator-flows" aria-labelledby="generator-flows-title">
-          <div class="section__header">
-            <h2 id="generator-flows-title">Mappa flussi utente</h2>
-            <p>
-              Stato in tempo reale dei tre percorsi chiave del generatore: onboarding, riepilogo e
-              cronologia.
-            </p>
-          </div>
-          <ol class="generator-flow-map" id="generator-flow-map-list" aria-live="polite"></ol>
-        </section>
+      <div class="layout__content generator-layout">
+        <div class="generator-layout__grid generator-layout__grid--overview">
+          <section class="section" id="generator-flows" aria-labelledby="generator-flows-title">
+            <div class="section__header">
+              <h2 id="generator-flows-title">Mappa flussi utente</h2>
+              <p>
+                Stato in tempo reale dei tre percorsi chiave del generatore: onboarding, riepilogo e
+                cronologia.
+              </p>
+            </div>
+            <ol class="generator-flow-map" id="generator-flow-map-list" aria-live="polite"></ol>
+          </section>
 
         <section
           class="section"
@@ -168,63 +169,161 @@
           </article>
         </section>
 
-        <section
-          class="section"
-          id="generator-parameters"
-          data-panel="parameters"
-          data-flow-node="onboarding"
-        >
-          <article class="card card--highlight">
-            <form class="form" id="generator-form">
-              <h2 class="form__title">Parametri</h2>
-              <div class="generator-form__section">
-                <h3 class="generator-form__legend">Vincoli principali</h3>
-                <div class="generator-form__grid">
-                  <label class="form__field">
-                    <span>Numero di biomi</span>
-                    <input id="nBiomi" type="number" min="1" max="6" value="2" />
+        <div class="generator-layout__grid generator-layout__grid--workspace">
+          <div class="generator-layout__grid generator-layout__grid--controls">
+            <section
+              class="section"
+              id="generator-parameters"
+              data-panel="parameters"
+              data-flow-node="onboarding"
+            >
+              <article
+                class="card card--highlight generator-panel"
+                aria-labelledby="generator-parameters-title"
+              >
+                <form class="form" id="generator-form">
+                  <h2 class="form__title" id="generator-parameters-title">Parametri</h2>
+                  <div class="generator-form__section">
+                    <h3 class="generator-form__legend">Vincoli principali</h3>
+                    <div class="generator-form__grid">
+                      <label class="form__field">
+                        <span>Numero di biomi</span>
+                        <input id="nBiomi" type="number" min="1" max="6" value="2" />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="generator-form__section">
+                    <h3 class="generator-form__legend">Filtra ecosistema</h3>
+                    <div class="generator-form__grid generator-form__grid--filters">
+                      <label class="form__field">
+                        <span>Flags richiesti</span>
+                        <div
+                          id="flags"
+                          class="chip-multiselect"
+                          data-multiselect
+                          data-empty-label="Nessun flag disponibile"
+                          role="group"
+                          aria-label="Seleziona uno o più flag ecosistemici"
+                        ></div>
+                      </label>
+                      <label class="form__field">
+                        <span>Ruoli trofici</span>
+                        <div
+                          id="roles"
+                          class="chip-multiselect"
+                          data-multiselect
+                          data-empty-label="Nessun ruolo disponibile"
+                          role="group"
+                          aria-label="Seleziona uno o più ruoli trofici"
+                        ></div>
+                      </label>
+                      <label class="form__field">
+                        <span>Tag funzionali</span>
+                        <div
+                          id="tags"
+                          class="chip-multiselect"
+                          data-multiselect
+                          data-empty-label="Nessun tag funzionale disponibile"
+                          role="group"
+                          aria-label="Seleziona uno o più tag funzionali"
+                        ></div>
+                      </label>
+                    </div>
+                    <p class="form__hint" id="generator-filters-hint">
+                      Nessun filtro attivo. Tocca le capsule per attivare vincoli specifici.
+                    </p>
+                  </div>
+                  <section
+                    class="generator-profiles surface-panel surface-panel--overlay"
+                    id="generator-profiles"
+                    aria-labelledby="generator-profiles-title"
+                  >
+                    <div class="generator-profiles__header">
+                      <h3 class="generator-form__legend" id="generator-profiles-title">
+                        Profili filtro
+                      </h3>
+                      <button
+                        type="button"
+                        class="button button--ghost generator-profiles__reset"
+                        data-action="profile-clear-all"
+                      >
+                        Svuota profili
+                      </button>
+                    </div>
+                    <p class="generator-profiles__hint">
+                      Salva combinazioni di filtri per richiamarle rapidamente durante i re-roll.
+                    </p>
+                    <p class="generator-profiles__empty" id="generator-profile-empty">
+                      Nessun profilo salvato. Usa "Salva" su uno slot per crearne uno nuovo.
+                    </p>
+                    <ul
+                      class="generator-profiles__slots"
+                      id="generator-profile-slots"
+                      aria-live="polite"
+                    ></ul>
+                  </section>
+                  <div class="form__actions generator-form__actions">
+                    <button type="button" class="button" data-action="roll-ecos">
+                      🎲 Genera ecosistema
+                    </button>
+                    <button
+                      type="button"
+                      class="button button--secondary"
+                      data-action="reroll-biomi"
+                    >
+                      ↻ Re-roll biomi
+                    </button>
+                    <button
+                      type="button"
+                      class="button button--secondary"
+                      data-action="reroll-species"
+                    >
+                      ↻ Re-roll specie
+                    </button>
+                    <button type="button" class="button button--ghost" data-action="reroll-seeds">
+                      ↻ Re-roll encounter seed
+                    </button>
+                    <button type="button" class="button button--ghost" data-action="export-json">
+                      ⬇︎ JSON
+                    </button>
+                    <button type="button" class="button button--ghost" data-action="export-yaml">
+                      ⬇︎ YAML
+                    </button>
+                  </div>
+                  <p class="form__hint generator-form__result-hint">
+                    Dopo la generazione i risultati vengono mostrati nel riepilogo e nelle sezioni
+                    "Biomi selezionati" e "Encounter seed".
+                  </p>
+                </form>
+              </article>
+            </section>
+
+            <section class="section" aria-labelledby="generator-export-title">
+              <article
+                class="generator-export-panel surface-panel surface-panel--overlay generator-panel"
+                id="generator-export"
+              >
+                <div class="generator-export-panel__header">
+                  <h3 class="generator-export-panel__title" id="generator-export-title">
+                    Manifest export
+                  </h3>
+                  <label class="form__field generator-export-panel__preset">
+                    <span>Preset</span>
+                    <select
+                      id="generator-export-preset"
+                      aria-describedby="generator-export-preset-status"
+                    ></select>
                   </label>
                 </div>
-              </div>
-              <div class="generator-form__section">
-                <h3 class="generator-form__legend">Filtra ecosistema</h3>
-                <div class="generator-form__grid generator-form__grid--filters">
-                  <label class="form__field">
-                    <span>Flags richiesti</span>
-                    <div
-                      id="flags"
-                      class="chip-multiselect"
-                      data-multiselect
-                      data-empty-label="Nessun flag disponibile"
-                      role="group"
-                      aria-label="Seleziona uno o più flag ecosistemici"
-                    ></div>
-                  </label>
-                  <label class="form__field">
-                    <span>Ruoli trofici</span>
-                    <div
-                      id="roles"
-                      class="chip-multiselect"
-                      data-multiselect
-                      data-empty-label="Nessun ruolo disponibile"
-                      role="group"
-                      aria-label="Seleziona uno o più ruoli trofici"
-                    ></div>
-                  </label>
-                  <label class="form__field">
-                    <span>Tag funzionali</span>
-                    <div
-                      id="tags"
-                      class="chip-multiselect"
-                      data-multiselect
-                      data-empty-label="Nessun tag funzionale disponibile"
-                      role="group"
-                      aria-label="Seleziona uno o più tag funzionali"
-                    ></div>
-                  </label>
-                </div>
-                <p class="form__hint" id="generator-filters-hint">
-                  Nessun filtro attivo. Tocca le capsule per attivare vincoli specifici.
+                <p
+                  class="form__hint generator-export__preset-hint"
+                  id="generator-export-preset-status"
+                  role="status"
+                  aria-live="polite"
+                  hidden
+                ></p>
+                <p class="generator-export__meta" id="generator-export-meta">
+                  Genera un ecosistema per preparare il manifest dei file.
                 </p>
               </div>
               <section
@@ -238,17 +337,42 @@
                   </h3>
                   <button
                     type="button"
-                    class="button button--ghost generator-profiles__reset"
-                    data-action="profile-clear-all"
+                    class="button button--ghost"
+                    data-action="download-dossier-html"
                   >
-                    Svuota profili
+                    ⬇︎ Dossier HTML
+                  </button>
+                  <button
+                    type="button"
+                    class="button button--ghost"
+                    data-action="download-dossier-pdf"
+                  >
+                    ⬇︎ Dossier PDF
                   </button>
                 </div>
-                <p class="generator-profiles__hint">
-                  Salva combinazioni di filtri per richiamarle rapidamente durante i re-roll.
-                </p>
-                <p class="generator-profiles__empty" id="generator-profile-empty">
-                  Nessun profilo salvato. Usa "Salva" su uno slot per crearne uno nuovo.
+                <div class="generator-export__preview" id="generator-export-preview" hidden>
+                  <details id="generator-preview-json-details">
+                    <summary>Anteprima JSON</summary>
+                    <pre id="generator-preview-json"></pre>
+                  </details>
+                  <details id="generator-preview-yaml-details">
+                    <summary>Anteprima YAML</summary>
+                    <pre id="generator-preview-yaml"></pre>
+                  </details>
+                  <section class="generator-dossier" aria-labelledby="generator-dossier-title">
+                    <header class="generator-dossier__header">
+                      <h4 class="generator-dossier__title" id="generator-dossier-title">
+                        Anteprima dossier
+                      </h4>
+                      <p class="generator-dossier__hint" id="generator-dossier-empty">
+                        Genera un ecosistema per abilitare il dossier.
+                      </p>
+                    </header>
+                    <div class="generator-dossier__preview" id="generator-dossier-preview"></div>
+                  </section>
+                </div>
+                <p class="generator-export__empty" id="generator-preview-empty">
+                  Genera un ecosistema per visualizzare le anteprime.
                 </p>
                 <ul
                   class="generator-profiles__slots"
@@ -360,9 +484,9 @@
                 Genera un ecosistema per visualizzare le anteprime.
               </p>
             </section>
+
             <section
-              class="generator-composer surface-panel surface-panel--overlay"
-              id="generator-composer"
+              class="section"
               aria-labelledby="generator-composer-title"
               data-panel="composer"
             >
@@ -427,16 +551,32 @@
                     <p class="generator-composer__module-hint">
                       Seleziona ruoli prioritari per guidare i prossimi re-roll.
                     </p>
-                  </header>
-                  <div
-                    class="generator-composer__roles"
-                    id="generator-composer-role-toggles"
-                    role="group"
-                    aria-label="Ruoli prioritari"
-                  ></div>
-                  <section
-                    class="generator-composer__suggestions"
-                    aria-labelledby="composer-suggestions-title"
+                  </div>
+                  <div class="generator-composer__constraints">
+                    <label class="generator-composer__slider" for="generator-composer-synergy">
+                      <span>Sinergia minima</span>
+                      <input
+                        type="range"
+                        id="generator-composer-synergy"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value="45"
+                      />
+                    </label>
+                    <output
+                      id="generator-composer-synergy-value"
+                      class="generator-composer__slider-output"
+                      for="generator-composer-synergy"
+                    >
+                      45%
+                    </output>
+                  </div>
+                </header>
+                <div class="generator-composer__grid">
+                  <article
+                    class="generator-composer__module"
+                    aria-labelledby="composer-presets-title"
                   >
                     <h5
                       class="generator-composer__suggestions-title"
@@ -448,23 +588,186 @@
                       Non appena generi un ecosistema compariranno raccomandazioni dinamiche.
                     </p>
                     <ul
-                      class="generator-composer__suggestion-list"
-                      id="generator-composer-suggestions"
+                      class="generator-composer__list"
+                      id="generator-composer-presets"
                       aria-live="polite"
                     ></ul>
+                  </article>
+                  <article
+                    class="generator-composer__module"
+                    aria-labelledby="composer-roles-title"
+                  >
+                    <header class="generator-composer__module-header">
+                      <h4 class="generator-composer__module-title" id="composer-roles-title">
+                        Vincoli ruoli &amp; sinergie
+                      </h4>
+                      <p class="generator-composer__module-hint">
+                        Seleziona ruoli prioritari per guidare i prossimi re-roll.
+                      </p>
+                    </header>
+                    <div
+                      class="generator-composer__roles"
+                      id="generator-composer-role-toggles"
+                      role="group"
+                      aria-label="Ruoli prioritari"
+                    ></div>
+                    <section
+                      class="generator-composer__suggestions"
+                      aria-labelledby="composer-suggestions-title"
+                    >
+                      <h5
+                        class="generator-composer__suggestions-title"
+                        id="composer-suggestions-title"
+                      >
+                        Suggerimenti contestuali
+                      </h5>
+                      <p
+                        class="generator-composer__empty"
+                        id="generator-composer-suggestions-empty"
+                      >
+                        Non appena generi un ecosistema compariranno raccomandazioni dinamiche.
+                      </p>
+                      <ul
+                        class="generator-composer__suggestion-list"
+                        id="generator-composer-suggestions"
+                        aria-live="polite"
+                      ></ul>
+                    </section>
+                  </article>
+                  <article
+                    class="generator-composer__module"
+                    aria-labelledby="composer-radar-title"
+                  >
+                    <header class="generator-composer__module-header">
+                      <h4 class="generator-composer__module-title" id="composer-radar-title">
+                        Radar sinergie
+                      </h4>
+                      <p class="generator-composer__module-hint">
+                        Visualizza gli spread dei punteggi combinati per ruoli chiave.
+                      </p>
+                    </header>
+                    <div class="generator-composer__chart" id="generator-synergy-radar"></div>
+                  </article>
+                  <article
+                    class="generator-composer__module"
+                    aria-labelledby="composer-heatmap-title"
+                  >
+                    <header class="generator-composer__module-header">
+                      <h4 class="generator-composer__module-title" id="composer-heatmap-title">
+                        Heatmap ruoli per bioma
+                      </h4>
+                      <p class="generator-composer__module-hint">
+                        Intensità calcolata sui punteggi di sinergia medi per flag.
+                      </p>
+                    </header>
+                    <div
+                      class="generator-composer__heatmap"
+                      id="generator-role-heatmap"
+                      role="table"
+                      aria-label="Matrice sinergie ruoli"
+                    ></div>
+                  </article>
+                </div>
+              </article>
+            </section>
+          </div>
+
+          <div class="generator-layout__grid generator-layout__grid--outcomes">
+            <section class="section" aria-labelledby="generator-summary-title">
+              <article
+                class="generator-summary surface-panel surface-panel--overlay generator-panel"
+                id="generator-summary"
+                aria-labelledby="generator-summary-title"
+                data-flow-node="summary"
+              >
+                <header class="generator-summary__header">
+                  <h3 class="generator-summary__title" id="generator-summary-title">
+                    Riepilogo rapido
+                  </h3>
+                  <dl class="generator-summary__metrics">
+                    <div class="generator-summary__metric">
+                      <dt class="generator-summary__label">Biomi</dt>
+                      <dd class="generator-summary__value" data-summary="biomes">0</dd>
+                    </div>
+                    <div class="generator-summary__metric">
+                      <dt class="generator-summary__label">Specie</dt>
+                      <dd class="generator-summary__value" data-summary="species">0</dd>
+                    </div>
+                    <div class="generator-summary__metric">
+                      <dt class="generator-summary__label">Seed</dt>
+                      <dd class="generator-summary__value" data-summary="seeds">0</dd>
+                    </div>
+                  </dl>
+                </header>
+                <p class="generator-summary__status" id="generator-status" aria-live="polite">
+                  Carica il catalogo per iniziare.
+                </p>
+                <p class="generator-summary__note" id="generator-last-action">
+                  Ultimo aggiornamento: —
+                </p>
+                <div class="generator-summary__grid">
+                  <section
+                    class="generator-narrative"
+                    id="generator-narrative"
+                    aria-labelledby="generator-narrative-title"
+                    data-has-narrative="false"
+                  >
+                    <div class="generator-narrative__header">
+                      <h4 class="generator-summary__subtitle" id="generator-narrative-title">
+                        Narrativa dinamica
+                      </h4>
+                      <div class="generator-audio-controls" id="generator-audio-controls">
+                        <button
+                          type="button"
+                          class="button button--ghost generator-audio-controls__mute"
+                          id="generator-audio-mute"
+                          aria-pressed="false"
+                        >
+                          🔈 Audio attivo
+                        </button>
+                        <label
+                          class="generator-audio-controls__volume"
+                          for="generator-audio-volume"
+                        >
+                          <span class="visually-hidden">Volume effetti sonori</span>
+                          <input
+                            type="range"
+                            id="generator-audio-volume"
+                            min="0"
+                            max="100"
+                            value="75"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    <article class="narrative-panel" id="generator-briefing-panel">
+                      <h5 class="narrative-panel__title">Mission briefing</h5>
+                      <p class="narrative-panel__body" data-narrative="briefing">
+                        Genera un ecosistema per ottenere il briefing operativo.
+                      </p>
+                    </article>
+                    <article class="narrative-panel" id="generator-hook-panel">
+                      <h5 class="narrative-panel__title">Hook narrativo</h5>
+                      <p class="narrative-panel__body" data-narrative="hook">
+                        Gli hook narrativi compariranno dopo la prima generazione.
+                      </p>
+                    </article>
+                    <article class="narrative-panel" id="generator-insight-panel">
+                      <h5 class="narrative-panel__title">Suggerimenti rapidi</h5>
+                      <p class="narrative-panel__body" id="generator-insight-empty">
+                        Genera un ecosistema per sbloccare consigli contestuali.
+                      </p>
+                      <ul class="generator-insight__list" id="generator-insight-list" hidden></ul>
+                    </article>
                   </section>
-                </article>
-                <article class="generator-composer__module" aria-labelledby="composer-radar-title">
-                  <header class="generator-composer__module-header">
-                    <h4 class="generator-composer__module-title" id="composer-radar-title">
-                      Radar sinergie ruoli
-                    </h4>
-                    <p class="generator-composer__module-hint">
-                      Visualizza la sinergia media per flag chiave dell'ecosistema.
+                  <div class="generator-summary__pins surface-panel surface-panel--tight">
+                    <h4 class="generator-summary__subtitle">Specie pinnate</h4>
+                    <p class="generator-summary__empty" id="generator-pinned-empty">
+                      Nessuna specie pinnata. Usa il pulsante
+                      <span class="icon icon--inline" aria-hidden="true">📌</span>pin sulle card per
+                      aggiungerle.
                     </p>
-                  </header>
-                  <div class="generator-composer__radar" id="generator-composer-radar-container">
-                    <canvas id="generator-synergy-radar" aria-label="Radar sinergie"></canvas>
+                    <ul class="generator-pins" id="generator-pinned-list" aria-live="polite"></ul>
                   </div>
                 </article>
                 <article
