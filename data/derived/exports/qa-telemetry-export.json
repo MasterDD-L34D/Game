@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "source": "slack:#vc-telemetry",
+    "summary": "Aggro spike for Vanguard loadouts after RM-1482 build",
+    "event_timestamp": "2025-11-06T08:45:00Z",
+    "owner": "qa.lead",
+    "priority": "high",
+    "status": "triaged",
+    "component_tag": "hud.vanguard.loadouts",
+    "roadmap_milestone": "RM-1482",
+    "detailed_description": "Initial post-patch scrim shows aggro and risk indices above alert thresholds for Vanguard R3 kits; cohesion dropped below 0.62 in early turns.",
+    "evidence_links": [
+      "https://drive.internal/telemetry/hud/vanguard-aggro-2025-11-06"
+    ],
+    "routing": {
+      "recipient_groups": ["hud_ops", "qa_leads"],
+      "notes": "Notify HUD Ops morning window and prep follow-up for QA review."
+    }
+  },
+  {
+    "source": "jira:HUD-1920",
+    "summary": "Tutorial feedback session flagged low artificer pick rate",
+    "event_timestamp": "2025-11-05T21:10:00Z",
+    "owner": "qa.shift",
+    "priority": "medium",
+    "status": "open",
+    "component_tag": "tutorial.onboarding.analytics",
+    "roadmap_milestone": "RM-1474",
+    "detailed_description": "Community test highlighted artificer role pick_rate below 0.12 with R2 rarity bundles; explore setup adjustments before retro.",
+    "evidence_links": [
+      "https://drive.internal/reports/tutorial/pick-rate-2025-11"
+    ],
+    "routing": {
+      "recipient_groups": ["feedback_enhancements", "support_ops_night"],
+      "notes": "Share context for overnight support sync and follow-up in #feedback-enhancements."
+    }
+  }
+]
