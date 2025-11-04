@@ -1,0 +1,2 @@
+source,target,status,note
+https://tuo-dominio.tld,https://tuo-dominio.tld,error,<urlopen error Tunnel connection failed: 403 Forbidden>

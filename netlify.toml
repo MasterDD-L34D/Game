@@ -1,0 +1,15 @@
+[build]
+  publish = "public"
+
+[[redirects]]
+  from = "/species/echo_wing"
+  to = "/bestiario/echo-wing"
+  status = 301
+[[redirects]]
+  from = "/rules/synergies"
+  to = "/regole/synergies"
+  status = 301
+[[redirects]]
+  from = "/weapons/arc-rod"
+  to = "/equipaggiamento/armi/arc-rod"
+  status = 301

@@ -1,0 +1,394 @@
+url,title,summary,source_file
+/appendici,,,
+/appendici/a-canvas-originale,A-Canvas Originale,,appendici/A-CANVAS_ORIGINALE.txt
+/appendici/c-canvas-npg-biomi,C-Canvas Npg Biomi,,appendici/C-CANVAS_NPG_BIOMI.txt
+/appendici/d-canvas-accoppiamento,D-Canvas Accoppiamento,,appendici/D-CANVAS_ACCOPPIAMENTO.txt
+/biomi,,,
+/biomi/terraforming-bands,Terraforming Bands,Bande di vitalità del bioma e sblocco slot.,biomes/terraforming_bands.yaml
+/docs,,,
+/docs/00-index,00-Index,- [01 Visione](01-VISIONE.md) - [02 Pilastri di Design](02-PILASTRI.md) - [03 Loop di Gioco](03-LOOP.md),docs/00-INDEX.md
+/docs/01-visione,01-Visione,“Tattica profonda a turni in cui **come giochi** modella **ciò che diventi**.”,docs/01-VISIONE.md
+/docs/02-pilastri,02-Pilastri,"1. **Tattica leggibile** (FFT-like): iniziativa, posizionamento, altezze, facing, reazioni. 2. **Evoluzione emergente** (Spore-like): tratti, morfologie e job **sbloccati da comportamenti**. 3. **Identità doppia**: Speci…",docs/02-PILASTRI.md
+/docs/03-loop,03-Loop,"Metagioco (epoche/stagioni) → draft/creazione specie → **Match TBT** (mappe a obiettivo) → telemetria VC → **mutazioni / rami sbloccati** → raffinamento build → matchmaking. Modalità: co-op vs Sistema (Director), 1v1/2v2…",docs/03-LOOP.md
+/docs/10-sistema-tattico,10-Sistema Tattico,- **Iniziativa**: CT a scatti; VEL può concedere riprese extra. - **Economia azioni**: 2 AP (movimento/azione) + **Reazioni** (parry/counter/overwatch). - **MoS (Margin of Success)**: ogni +5 sulla DC = +1 step danno; a …,docs/10-SISTEMA_TATTICO.md
+/docs/11-regole-d20-tv,11-Regole D20 Tv,"- **Schermo condiviso** (app/sito TV): stato gruppo, mappa, log VC, consigli sblocchi. - **Dadi**: d20 centrale; dadi “Descent-like” mappati su spese PT/PP (icona e pattern). - **Condivisione tavolo**: ogni turno produce…",docs/11-REGOLE_D20_TV.md
+/docs/20-specie-e-parti,20-Specie E Parti,"- **Slot**: locomotion / offense / defense / senses / metabolism. - **Budget**: `weight_budget` per specie, warning a ≥90%. Cap res/DR secondo `global_rules`. - **Sinergie & Ibridi**: vedi `catalog.synergies` e `legal_hy…",docs/20-SPECIE_E_PARTI.md
+/docs/2008-spore,2008 Spore,- Player Promise: crescere da cellula a civiltà spaziale con creatività guidata da editor a parti. - Pillars: Creazione libera · Evoluzione per parti · Progressione a stadi · UGC/Condivisione · Simulazione leggera. [Prog…,docs/research/refs/2008_spore.md
+/docs/2025-02-vc-briefing,2025-02-Vc-Briefing,- **Milestone:** Bilanciare pacchetti PI tra Forme (Roadmap #1) — focus sul tuning risk e bias d12 aggiornati.【F:docs/piani/roadmap.md†L5-L13】 - **Milestone:** Missioni verticali e supporto live (Roadmap #4) — applicazio…,docs/presentations/2025-02-vc-briefing.md
+/docs/2025-10-23,2025-10-23,- **Missione Skydock Siege** introduce una struttura multi-livello con timer di evacuazione che richiede coordinamento verticale. 【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】 - **Reattori Aeo…,docs/chatgpt_changes/2025-10-23.md
+/docs/2025-11-18-onboarding,2025-11-18-Onboarding,- Allineare il team sulle modifiche al refactor CLI e sui profili `playtest` e `support`. - Presentare il flusso post-ottobre 2025 per aggiornamento documentazione e raccolta FAQ. - Eseguire esercitazioni pratiche sulla …,docs/presentations/2025-11-18-onboarding.md
+/docs/2025-11-onboarding-recordings,2025-11-Onboarding-Recordings,"| Sessione | Data/Ora (CET) | Focus | Relatori | Link registrazione | Note | |----------|----------------|-------|----------|---------------------|------| | Batch Q4 | 2025-11-18 10:00-12:00 | Setup repo, workflow daily-…",docs/presentations/2025-11-onboarding-recordings.md
+/docs/22-forme-base-16,22-Forme Base 16,Ogni Forma assegna: 1 **innata** + **7 PI** (pacchetti preconfezionati) tematici. VC in-match sposta gradualmente i pesi (non è un test psicologico). (Tabella sintetica; pacchetti PI dettagliati in `data/forms.yaml` quan…,docs/22-FORME_BASE_16.md
+/docs/24-telemetria-vc,24-Telemetria Vc,"Eventi, finestre, indici (Aggro/Risk/Cohesion/Setup/Explore/Tilt) e mapping verso layer MBTI-like + Ennea-themes. - Log eventi: hit, miss, crit, heal, buff, debuff, objective_tick, tile_enter, LOS_gain, formation_time, c…",docs/24-TELEMETRIA_VC.md
+/docs/25-regole-sblocco-pe,25-Regole Sblocco Pe,"- PE da delta VC. - 12 regole base (vedi Design Doc): Ambusher, Pathfinder, Caregiver, Gambler, Stoic, Architect, ecc. - Caps e fairness: diminishing returns; ogni tratto forte ha counter esplicito.",docs/25-REGOLE_SBLOCCO_PE.md
+/docs/27-mating-nido,27-Mating Nido,- Attrazione/Convincimento: tabelle Piace/Non piace per specie/job; azioni sociali. - Reclutamento: ex-nemici → alleati dopo azioni chiave. - Nido: requisiti `env/structure/security/resources/privacy`.,docs/27-MATING_NIDO.md
+/docs/28-npc-biomi-spawn,28-Npc Biomi Spawn,"- Director: genera NPG con `spawn_profile` (power_range, group_size, role_weights). - Biomi: mood/diff_base_mod; affix_bias (sand_wind, crystalline, dense_spores…). - Allineamento dati: biomi/affissi validati da `global_…",docs/28-NPC_BIOMI_SPAWN.md
+/docs/30-ui-tv-identita,30-Ui Tv Identita,- Carte con 4 assi MBTI-like + temi Ennea-like; effetti **solo gameplay**. - Albero Evolutivo reattivo; nodi che pulsano quando “meriti” lo sblocco. - Registro Evoluzione: feed eventi → tratti ottenuti.,docs/30-UI_TV_IDENTITA.md
+/docs/40-roadmap,40-Roadmap,"- Core TBT, 6 Specie base, 6 Job base, Telemetria VC, 12 Regole Sblocco, UI identità. - 2 Mappe (caverna/savana), Matchmaking, Privacy/Reset, 50 partite playtest (audit predator/counter). - [x] EVO-421 · Ripristinata la …",docs/40-ROADMAP.md
+/docs/action-items,Action-Items,"- **2025-11-07** — Workflow `daily-pr-summary` senza merge; follow-up HUD overlay telemetrico → UI Systems (F. Conti), XP Cipher (PROG-04) → Progression Design (L. Serra), contrasto EVT-03 → VFX/Lighting (G. Leone). Docu…",docs/checklist/action-items.md
+/docs/adaptive-engine-quickstart,Adaptive-Engine-Quickstart,"Questa guida collega l'ETL canary di SquadSync con il motore adaptive, i test automatici e il canale `#feedback-enhancements`. 1. Esegui l'ETL aggiornato: ```bash",docs/tutorials/adaptive-engine-quickstart.md
+/docs/adr-2025-11-18-cli-rollout,Adr-2025-11-18-Cli-Rollout,- **Data**: 2025-11-09 - **Stato**: Proposto - **Owner**: Lead Dev Platform,docs/adr/ADR-2025-11-18-cli-rollout.md
+/docs/adr-2025-11-refactor-cli,Adr-2025-11-Refactor-Cli,- **Data**: 2025-11-05 - **Stato**: Proposto - **Owner**: Lead Dev Platform,docs/adr/ADR-2025-11-refactor-cli.md
+/docs/adr-2025-12-07-generation-orchestrator,Adr-2025-12-07-Generation-Orchestrator,- **Data**: 2025-12-07 - **Stato**: Approvato - **Owner**: Team Backend & Tools,docs/adr/ADR-2025-12-07-generation-orchestrator.md
+/docs/adr-xxx-refactor-cli,Adr-Xxx-Refactor-Cli,- **Data**: 2025-11-20 - **Stato**: Accettato - **Owner**: Team Lead Tools,docs/adr/ADR-XXX-refactor-cli.md
+/docs/ali-fulminee,Ali Fulminee,,docs/evo-tactics-pack/traits/sensoriale/ali_fulminee.json
+/docs/ali-ioniche,Ali Ioniche,,docs/evo-tactics-pack/traits/locomotorio/ali_ioniche.json
+/docs/ali-membrana-sonica,Ali Membrana Sonica,,docs/evo-tactics-pack/traits/difensivo/ali_membrana_sonica.json
+/docs/andrea-conti,Andrea-Conti,"- **Ruolo:** Systems analyst - **Scenario principali:** BAL-03, PROG-03 - **Osservazioni chiave:**",docs/playtest/SESSION-2025-02-26/feedback/andrea-conti.md
+/docs/antenne-dustsense,Antenne Dustsense,,docs/evo-tactics-pack/traits/metabolico/antenne_dustsense.json
+/docs/antenne-eco-turbina,Antenne Eco Turbina,,docs/evo-tactics-pack/traits/supporto/antenne_eco_turbina.json
+/docs/antenne-flusso-mareale,Antenne Flusso Mareale,,docs/evo-tactics-pack/traits/offensivo/antenne_flusso_mareale.json
+/docs/antenne-microonde-cavernose,Antenne Microonde Cavernose,,docs/evo-tactics-pack/traits/strategia/antenne_microonde_cavernose.json
+/docs/antenne-plasmatiche-tempesta,Antenne Plasmatiche Tempesta,,docs/evo-tactics-pack/traits/sensoriale/antenne_plasmatiche_tempesta.json
+/docs/antenne-reagenti,Antenne Reagenti,,docs/evo-tactics-pack/traits/simbiotico/antenne_reagenti.json
+/docs/antenne-tesla,Antenne Tesla,,docs/evo-tactics-pack/traits/strutturale/antenne_tesla.json
+/docs/antenne-waveguide,Antenne Waveguide,,docs/evo-tactics-pack/traits/sensoriale/antenne_waveguide.json
+/docs/antenne-wideband,Antenne Wideband,,docs/evo-tactics-pack/traits/locomotorio/antenne_wideband.json
+/docs/appendici-risonanti-marea,Appendici Risonanti Marea,,docs/evo-tactics-pack/traits/difensivo/appendici_risonanti_marea.json
+/docs/appendici-thermotattiche,Appendici Thermotattiche,,docs/evo-tactics-pack/traits/metabolico/appendici_thermotattiche.json
+/docs/apply,Apply,,docs/mission-console/data/flow/quality/suggestions/apply.json
+/docs/armatura-pietra-planare,Armatura Pietra Planare,,docs/evo-tactics-pack/traits/difesa/armatura_pietra_planare.json
+/docs/artigli-acidofagi,Artigli Acidofagi,,docs/evo-tactics-pack/traits/supporto/artigli_acidofagi.json
+/docs/artigli-induzione,Artigli Induzione,,docs/evo-tactics-pack/traits/offensivo/artigli_induzione.json
+/docs/artigli-radice,Artigli Radice,,docs/evo-tactics-pack/traits/strategia/artigli_radice.json
+/docs/artigli-scivolo-silente,Artigli Scivolo Silente,,docs/evo-tactics-pack/traits/simbiotico/artigli_scivolo_silente.json
+/docs/artigli-sette-vie,Artigli Sette Vie,,docs/evo-tactics-pack/traits/locomotorio/artigli_sette_vie.json
+/docs/artigli-sghiaccio-glaciale,Artigli Sghiaccio Glaciale,,docs/evo-tactics-pack/traits/locomotorio/artigli_sghiaccio_glaciale.json
+/docs/artigli-vetrificati,Artigli Vetrificati,,docs/evo-tactics-pack/traits/strutturale/artigli_vetrificati.json
+/docs/atlas,Atlas,,docs/mission-console/data/nebula/atlas.json
+/docs/aura-scudo-radianza,Aura Scudo Radianza,,docs/evo-tactics-pack/traits/supporto/aura_scudo_radianza.json
+/docs/baffi-mareomotori,Baffi Mareomotori,,docs/evo-tactics-pack/traits/sensoriale/baffi_mareomotori.json
+/docs/bal-03-ondata4-playbook,Bal-03-Ondata4-Playbook,"**Stato:** ⏳ In attesa di ricezione dal QA lead. Il 2025-11-07 è stata inviata una richiesta formale al QA lead per ottenere il playbook completo di setup per la sessione BAL-03/ondata 4, includendo: - Sequenza di spawn …",docs/playtest/BAL-03-ondata4-playbook.md
+/docs/barbigli-sensori-plasma,Barbigli Sensori Plasma,,docs/evo-tactics-pack/traits/locomotorio/barbigli_sensori_plasma.json
+/docs/barriere-miasma-glaciale,Barriere Miasma Glaciale,,docs/evo-tactics-pack/traits/difensivo/barriere_miasma_glaciale.json
+/docs/batteri-endosimbionti-chemio,Batteri Endosimbionti Chemio,,docs/evo-tactics-pack/traits/metabolico/batteri_endosimbionti_chemio.json
+/docs/batteri-termofili-endosimbiosi,Batteri Termofili Endosimbiosi,,docs/evo-tactics-pack/traits/supporto/batteri_termofili_endosimbiosi.json
+/docs/biochip-memoria,Biochip Memoria,,docs/evo-tactics-pack/traits/offensivo/biochip_memoria.json
+/docs/biofilm-glow,Biofilm Glow,,docs/evo-tactics-pack/traits/strategia/biofilm_glow.json
+/docs/biofilm-iperarido,Biofilm Iperarido,,docs/evo-tactics-pack/traits/simbiotico/biofilm_iperarido.json
+/docs/biome,Biome,,docs/mission-console/data/flow/validators/biome.json
+/docs/biomes,Biomes,"Questa guida descrive lo schema dei biomi usato dalla dashboard di test (`docs/test-interface`) e i passaggi consigliati per mantenere allineati dati, interfaccia e script di verifica. Ogni voce è indicizzata dal nome te…",docs/biomes.md
+/docs/branchie-dual-mode,Branchie Dual Mode,,docs/evo-tactics-pack/traits/strutturale/branchie_dual_mode.json
+/docs/branchie-eoliche,Branchie Eoliche,,docs/evo-tactics-pack/traits/sensoriale/branchie_eoliche.json
+/docs/branchie-metalloidi,Branchie Metalloidi,,docs/evo-tactics-pack/traits/locomotorio/branchie_metalloidi.json
+/docs/branchie-microfiltri,Branchie Microfiltri,,docs/evo-tactics-pack/traits/difensivo/branchie_microfiltri.json
+/docs/branchie-osmotiche-salmastra,Branchie Osmotiche Salmastra,,docs/evo-tactics-pack/traits/respiratorio/branchie_osmotiche_salmastra.json
+/docs/branchie-solfatiche,Branchie Solfatiche,,docs/evo-tactics-pack/traits/metabolico/branchie_solfatiche.json
+/docs/branchie-turbina,Branchie Turbina,,docs/evo-tactics-pack/traits/supporto/branchie_turbina.json
+/docs/bug-intake,Bug-Intake,Utilizzare questa checklist prima di spostare una segnalazione dalla vista `Backlog - Triage` a `QA - Triaged` o prima di inviare un ticket al canale `#vc-ops`. - [ ] `Fonte` impostata sul canale corretto (`telemetry-log…,docs/checklist/bug-intake.md
+/docs/bug-template,Bug-Template,- **Titolo**: `[CLI][<profile>] <descrizione>` - **Data**: `<AAAA-MM-GG>` - **Build CLI**: output di `game-cli version --json`,docs/support/bug-template.md
+/docs/bulbi-radici-permafrost,Bulbi Radici Permafrost,,docs/evo-tactics-pack/traits/simbiotico/bulbi_radici_permafrost.json
+/docs/camere-anticorrosione,Camere Anticorrosione,,docs/evo-tactics-pack/traits/offensivo/camere_anticorrosione.json
+/docs/camere-mirage,Camere Mirage,,docs/evo-tactics-pack/traits/strategia/camere_mirage.json
+/docs/camere-nutrienti-vent,Camere Nutrienti Vent,,docs/evo-tactics-pack/traits/simbiotico/camere_nutrienti_vent.json
+/docs/capillari-criogenici,Capillari Criogenici,,docs/evo-tactics-pack/traits/strutturale/capillari_criogenici.json
+/docs/capillari-fluoridici,Capillari Fluoridici,,docs/evo-tactics-pack/traits/sensoriale/capillari_fluoridici.json
+/docs/capillari-fotovoltaici,Capillari Fotovoltaici,,docs/evo-tactics-pack/traits/locomotorio/capillari_fotovoltaici.json
+/docs/capsule-paracadute,Capsule Paracadute,,docs/evo-tactics-pack/traits/difensivo/capsule_paracadute.json
+/docs/carapace-fase-variabile,Carapace Fase Variabile,,docs/evo-tactics-pack/traits/strutturale/carapace_fase_variabile.json
+/docs/carapace-luminiscente-abissale,Carapace Luminiscente Abissale,,docs/evo-tactics-pack/traits/strutturale/carapace_luminiscente_abissale.json
+/docs/carapace-segmenti-logici,Carapace Segmenti Logici,,docs/evo-tactics-pack/traits/metabolico/carapace_segmenti_logici.json
+/docs/carapaci-ferruginosi,Carapaci Ferruginosi,,docs/evo-tactics-pack/traits/supporto/carapaci_ferruginosi.json
+/docs/cartilagine-flessotermica-venti,Cartilagine Flessotermica Venti,,docs/evo-tactics-pack/traits/locomotorio/cartilagine_flessotermica_venti.json
+/docs/cartilagini-biofibre,Cartilagini Biofibre,,docs/evo-tactics-pack/traits/offensivo/cartilagini_biofibre.json
+/docs/cartilagini-desertiche,Cartilagini Desertiche,,docs/evo-tactics-pack/traits/strategia/cartilagini_desertiche.json
+/docs/cartilagini-flessoacustiche,Cartilagini Flessoacustiche,,docs/evo-tactics-pack/traits/simbiotico/cartilagini_flessoacustiche.json
+/docs/cartilagini-pseudometalliche,Cartilagini Pseudometalliche,,docs/evo-tactics-pack/traits/strutturale/cartilagini_pseudometalliche.json
+/docs/catalog-data,Catalog Data,,docs/catalog/catalog_data.json
+/docs/cavita-risonanti-tundra,Cavita Risonanti Tundra,,docs/evo-tactics-pack/traits/sensoriale/cavita_risonanti_tundra.json
+/docs/cervelletto-equilibrio-statico,Cervelletto Equilibrio Statico,,docs/evo-tactics-pack/traits/sensoriale/cervelletto_equilibrio_statico.json
+/docs/changelog,Changelog,"> Aggiorna questo file ad ogni promozione di widget/backend per mantenere una traccia unica delle novità. Duplica lo scheletro > qui sotto e collega sempre PR, issue o log operativi utili al review. - Pubblicato il tutor…",docs/ideas/changelog.md
+/docs/changelog,Changelog,- Trait reference aggiornato (`docs/catalog/trait_reference.md`) con mappatura glossario IT/EN e workflow di sincronizzazione. - Guida operativa aggiornata per autori di trait,docs/changelog.md
+/docs/chatgpt-sync-status,Chatgpt Sync Status,Questo file riepiloga l'ultima esecuzione degli script di sincronizzazione. - Script principale: `scripts/chatgpt_sync.py` - Configurazione di esempio: `data/external/chatgpt_sources.yaml`,docs/chatgpt_sync_status.md
+/docs/chemiorecettori-bromuro,Chemiorecettori Bromuro,,docs/evo-tactics-pack/traits/locomotorio/chemiorecettori_bromuro.json
+/docs/chioma-parassita-canopica,Chioma Parassita Canopica,,docs/evo-tactics-pack/traits/simbiotico/chioma_parassita_canopica.json
+/docs/ci,Ci,Questa pagina estende le note in [docs/ci-pipeline.md](ci-pipeline.md) descrivendo i workflow GitHub Actions dedicati a controlli specialistici oltre alla pipeline `CI` principale. | Workflow | File | Trigger | Scopo pri…,docs/ci.md
+/docs/ci-pipeline,Ci-Pipeline,"Il workflow GitHub Actions mantiene in salute la toolchain TS/Python e i dataset di gioco. Per evitare esecuzioni superflue, la pipeline principale è stata suddivisa in più job specializzati che si attivano solo quando i…",docs/ci-pipeline.md
+/docs/circolazione-bifasica,Circolazione Bifasica,,docs/evo-tactics-pack/traits/difensivo/circolazione_bifasica.json
+/docs/circolazione-bifasica-palude,Circolazione Bifasica Palude,,docs/evo-tactics-pack/traits/metabolico/circolazione_bifasica_palude.json
+/docs/circolazione-cooling-loop,Circolazione Cooling Loop,,docs/evo-tactics-pack/traits/metabolico/circolazione_cooling_loop.json
+/docs/circolazione-doppia,Circolazione Doppia,,docs/evo-tactics-pack/traits/supporto/circolazione_doppia.json
+/docs/circolazione-supercritica,Circolazione Supercritica,,docs/evo-tactics-pack/traits/offensivo/circolazione_supercritica.json
+/docs/ciste-riduttive,Ciste Riduttive,,docs/evo-tactics-pack/traits/strategia/ciste_riduttive.json
+/docs/ciste-salmastre,Ciste Salmastre,,docs/evo-tactics-pack/traits/simbiotico/ciste_salmastre.json
+/docs/cisti-iperbariche,Cisti Iperbariche,,docs/evo-tactics-pack/traits/strutturale/cisti_iperbariche.json
+/docs/cli,Cli,"Aggiornamento 2025-11-10 — Questa guida descrive la struttura dell'entrypoint modulare `tools/py/game_cli.py`, i profili CLI definiti in `config/cli/` e gli strumenti di automazione associati.",docs/tools/cli.md
+/docs/cli-quickstart,Cli-Quickstart,"![CLI quickstart](../../assets/tutorials/cli-quickstart.svg) Eseguire un ciclo completo di setup, validazione e generazione demo per verificare che la CLI sia operativa. 1. **Setup ambiente** — installa dipendenze Node e…",docs/tutorials/cli-quickstart.md
+/docs/clone-setup,Clone-Setup,"**Ultimo aggiornamento:** 2025-11-12 — referente Ops/ChatGPT. Questa guida descrive i passaggi necessari per replicare l'ambiente operativo utilizzato nel container di riferimento (`Ubuntu 22.04`, percorso `/workspace/Ga…",docs/checklist/clone-setup.md
+/docs/coda-balanciere,Coda Balanciere,,docs/evo-tactics-pack/traits/sensoriale/coda_balanciere.json
+/docs/coda-contrappeso,Coda Contrappeso,,docs/evo-tactics-pack/traits/locomotorio/coda_contrappeso.json
+/docs/coda-coppia-retroattiva,Coda Coppia Retroattiva,,docs/evo-tactics-pack/traits/difensivo/coda_coppia_retroattiva.json
+/docs/coda-frusta-cinetica,Coda Frusta Cinetica,,docs/evo-tactics-pack/traits/locomotorio/coda_frusta_cinetica.json
+/docs/coda-stabilizzatrice-filo,Coda Stabilizzatrice Filo,,docs/evo-tactics-pack/traits/metabolico/coda_stabilizzatrice_filo.json
+/docs/coda-stabilizzatrice-geiser,Coda Stabilizzatrice Geiser,,docs/evo-tactics-pack/traits/supporto/coda_stabilizzatrice_geiser.json
+/docs/coda-stabilizzatrice-vortex,Coda Stabilizzatrice Vortex,,docs/evo-tactics-pack/traits/offensivo/coda_stabilizzatrice_vortex.json
+/docs/colonne-vibromagnetiche,Colonne Vibromagnetiche,,docs/evo-tactics-pack/traits/strategia/colonne_vibromagnetiche.json
+/docs/coralli-partner,Coralli Partner,,docs/evo-tactics-pack/traits/simbiotico/coralli_partner.json
+/docs/criostasi-adattiva,Criostasi Adattiva,,docs/evo-tactics-pack/traits/metabolico/criostasi_adattiva.json
+/docs/cromofori-alert-acido,Cromofori Alert Acido,,docs/evo-tactics-pack/traits/strutturale/cromofori_alert_acido.json
+/docs/cuore-multicamera-bassa-pressione,Cuore Multicamera Bassa Pressione,,docs/evo-tactics-pack/traits/sensoriale/cuore_multicamera_bassa_pressione.json
+/docs/cuscinetti-elettrostatici,Cuscinetti Elettrostatici,,docs/evo-tactics-pack/traits/locomotorio/cuscinetti_elettrostatici.json
+/docs/cute-resistente-sali,Cute Resistente Sali,,docs/evo-tactics-pack/traits/difensivo/cute_resistente_sali.json
+/docs/cuticole-cerose,Cuticole Cerose,,docs/evo-tactics-pack/traits/metabolico/cuticole_cerose.json
+/docs/cuticole-neutralizzanti,Cuticole Neutralizzanti,,docs/evo-tactics-pack/traits/supporto/cuticole_neutralizzanti.json
+/docs/daily-pr-summary-2025-10-26,Daily-Pr-Summary-2025-10-26,_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |,docs/chatgpt_changes/daily-pr-summary-2025-10-26.md
+/docs/daily-pr-summary-2025-10-27,Daily-Pr-Summary-2025-10-27,_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |,docs/chatgpt_changes/daily-pr-summary-2025-10-27.md
+/docs/daily-pr-summary-2025-10-29,Daily-Pr-Summary-2025-10-29,_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | ------------------------------------------------------ | ------------------------------------------------------------…,docs/chatgpt_changes/daily-pr-summary-2025-10-29.md
+/docs/daily-pr-summary-2025-10-30,Daily-Pr-Summary-2025-10-30,_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |,docs/chatgpt_changes/daily-pr-summary-2025-10-30.md
+/docs/daily-pr-summary-2025-10-31,Daily-Pr-Summary-2025-10-31,_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |,docs/chatgpt_changes/daily-pr-summary-2025-10-31.md
+/docs/daily-pr-summary-2025-11-01,Daily-Pr-Summary-2025-11-01,_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |,docs/chatgpt_changes/daily-pr-summary-2025-11-01.md
+/docs/daily-pr-summary-2025-11-02,Daily-Pr-Summary-2025-11-02,_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |,docs/chatgpt_changes/daily-pr-summary-2025-11-02.md
+/docs/daily-pr-summary-2025-11-03,Daily-Pr-Summary-2025-11-03,_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |,docs/chatgpt_changes/daily-pr-summary-2025-11-03.md
+/docs/daily-pr-summary-2025-11-07,Daily-Pr-Summary-2025-11-07,_Generato automaticamente da `tools/py/daily_pr_report.py` (workflow `daily-pr-summary`)._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |,docs/chatgpt_changes/daily-pr-summary-2025-11-07.md
+/docs/dashboard-tour,Dashboard-Tour,![Dashboard tour](../../assets/tutorials/dashboard-tour.svg) Verificare rapidamente la dashboard Vue/Vite e documentare eventuali anomalie visive con materiale condivisibile. 1. **Avvio ambiente web** — esegui `npm --pre…,docs/tutorials/dashboard-tour.md
+/docs/data-guidelines,Data-Guidelines,Questo documento elenca i dataset archiviati in `data/` e definisce le regole operative per mantenerli coerenti. | File | Chiave radice | Contenuto | Note | | --- | --- | --- | --- |,docs/data-guidelines.md
+/docs/demo-release,Demo-Release,Questa checklist copre il rilascio del bundle demo dell'Evo Tactics Pack e le attività di coordinamento cross-team. - [ ] Generare ecosistema di riferimento e salvare lo zip del preset,docs/checklist/demo-release.md
+/docs/demo-walkthrough-script,Demo-Walkthrough-Script,- Evidenziare la generazione ecosistema con preset demo e pannelli guida. - Mostrare la catena export (dossier HTML/PDF + press kit) come materiale condivisibile. - Integrare cue telemetrici e HUD live per allineare mark…,docs/presentations/demo-walkthrough-script.md
+/docs/denti-chelatanti,Denti Chelatanti,,docs/evo-tactics-pack/traits/offensivo/denti_chelatanti.json
+/docs/denti-ossidoferro,Denti Ossidoferro,,docs/evo-tactics-pack/traits/strategia/denti_ossidoferro.json
+/docs/denti-silice-termici,Denti Silice Termici,,docs/evo-tactics-pack/traits/simbiotico/denti_silice_termici.json
+/docs/denti-tuning-fork,Denti Tuning Fork,,docs/evo-tactics-pack/traits/strutturale/denti_tuning_fork.json
+/docs/dependency-audit,Dependency Audit,"- `tools/py/requirements.txt` ora elenca le librerie richieste per eseguire gli script CLI e la sincronizzazione: `PyYAML`, `requests`, il client ufficiale `openai` (necessario per `scripts/chatgpt_sync.py`) e `pytest` p…",docs/dependency_audit.md
+/docs/deploy,Deploy,"Questa guida descrive come pubblicare il bundle demo del generatore su hosting statico, come forzare il caricamento del catalogo da sorgenti remote e quali variabili d'ambiente supporta lo script `packs/pack-data.js`.",docs/evo-tactics-pack/deploy.md
+/docs/designdoc-overview,Designdoc-Overview,"- **Visione** — Co-op tattico TV/app dove cellule di resistenza guidano forme bio-meccanoidi in campagne generate, alternando briefing, incursioni e fasi Nido per difendere habitat in mutazione costante.【F:appendici/A-CA…",docs/DesignDoc-Overview.md
+/docs/diagnostics,Diagnostics,,docs/mission-console/data/flow/traits/diagnostics.json
+/docs/drive-sync,Drive-Sync,Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google Apps Script per convertire i file YAML della repo in Google Sheet e mantenerli sincronizzati automaticamente. - **Account Google** con acces…,docs/drive-sync.md
+/docs/drive-sync,Drive Sync,"Questa procedura descrive come generare l'elenco di asset approvati da sincronizzare con `scripts/driveSync.gs`, inviarlo all'Apps Script e documentare i trigger e le credenziali necessari.",docs/workflows/drive_sync.md
+/docs/echi-risonanti,Echi Risonanti,,docs/evo-tactics-pack/traits/sensoriale/echi_risonanti.json
+/docs/eco-interno-riflesso,Eco Interno Riflesso,,docs/evo-tactics-pack/traits/sensoriale/eco_interno_riflesso.json
+/docs/ema-metrics,Ema-Metrics,"- Dataset sorgente: `data/core/telemetry.yaml` (`ema_alpha`, `windows.phase_weights`, normalizzazione `ema_capped_minmax`). - Mission tuning: `data/core/missions/skydock_siege.yaml` definisce target `risk.time_low_hp_tur…",docs/hooks/ema-metrics.md
+/docs/empatia-coordinativa,Empatia Coordinativa,,docs/evo-tactics-pack/traits/supporto/empatia_coordinativa.json
+/docs/encounter-bug-146-evt02-nar-01,Encounter-Bug-146-Evt02-Nar-01,"- **ID ufficiale**: #146 - **Data creazione**: 2025-11-12 - **Scenario**: EVT-02 ""Alleanza inattesa""",docs/playtest/tickets/encounter-bug-146-evt02-nar-01.md
+/docs/encounter-bug-147-evt02-nar-02,Encounter-Bug-147-Evt02-Nar-02,"- **ID ufficiale**: #147 - **Data creazione**: 2025-11-12 - **Scenario**: EVT-02 ""Alleanza inattesa""",docs/playtest/tickets/encounter-bug-147-evt02-nar-02.md
+/docs/encounter-caverna,Encounter Caverna,,docs/examples/encounter_caverna.txt
+/docs/encounter-palude,Encounter Palude,,docs/examples/encounter_palude.txt
+/docs/encounter-savana,Encounter Savana,,docs/examples/encounter_savana.txt
+/docs/ennea-themes,Ennea-Themes,"Questa nota di design sintetizza il ruolo dei temi Ennea utilizzati dal pack **Evo-Tactics** per collegare telemetria VC, dati di bioma e preferenze comportamentali. Le soglie di attivazione sono derivate dai dataset YAM…",docs/evo-tactics-pack/ennea-themes.md
+/docs/env-traits,Env-Traits,,docs/evo-tactics-pack/env-traits.json
+/docs/enzimi-antifase-termica,Enzimi Antifase Termica,,docs/evo-tactics-pack/traits/locomotorio/enzimi_antifase_termica.json
+/docs/enzimi-antipredatori-algali,Enzimi Antipredatori Algali,,docs/evo-tactics-pack/traits/difensivo/enzimi_antipredatori_algali.json
+/docs/enzimi-chelanti,Enzimi Chelanti,,docs/evo-tactics-pack/traits/metabolico/enzimi_chelanti.json
+/docs/enzimi-chelatori-rapidi,Enzimi Chelatori Rapidi,,docs/evo-tactics-pack/traits/supporto/enzimi_chelatori_rapidi.json
+/docs/enzimi-metanoossidanti,Enzimi Metanoossidanti,,docs/evo-tactics-pack/traits/offensivo/enzimi_metanoossidanti.json
+/docs/epidermide-dielettrica,Epidermide Dielettrica,,docs/evo-tactics-pack/traits/strategia/epidermide_dielettrica.json
+/docs/epitelio-fosforescente,Epitelio Fosforescente,,docs/evo-tactics-pack/traits/simbiotico/epitelio_fosforescente.json
+/docs/eventi,Eventi,- Garantire che ogni shard riceva i segnali di sincronizzazione entro la finestra prevista. - Validare la continuità dell'esperienza evento anche durante i picchi di traffico. - Monitorare la regressione su metriche di c…,docs/qa/playbooks/eventi.md
+/docs/evt-02-event-special,Evt-02-Event-Special,Le incongruenze riportate derivano dalle revisioni narrative precedenti al playtest dedicato (ultimo controllo 2025-02-20) e dovranno essere tracciate nel tracker principale con etichetta `event-special` oltre alle tag f…,docs/playtest/tickets/EVT-02-event-special.md
+/docs/evt-02-session-plan,Evt-02-Session-Plan,"- **Finestra confermata:** 2025-03-05, 15:00-17:00 CET. - **Modalità:** QA Lab Torino (2 postazioni co-op) + stanza Teams ""Narrative EVT-02"". - **Responsabile QA:** Andrea Conti (Narrative QA lead).",docs/playtest/EVT-02-session-plan.md
+/docs/faq,Faq,Aggiornato al ciclo VC-2025-11. Nuove domande vengono raccolte dopo ogni retro settimanale (martedì). | Domanda | Risposta rapida | Owner | Stato | | ------- | ---------------- | ----- | ----- |,docs/faq.md
+/docs/feature-updates,Feature-Updates,"- **Flow QA logger & timeline JRPG** — Il Flow Shell registra automaticamente snapshot, fallback e validazioni nel nuovo logger client-side. Dalla vista **Quality Release → Log runtime** è possibile filtrare gli scope e …",docs/Canvas/feature-updates.md
+/docs/feedback,Feedback,Grazie per voler contribuire al miglioramento del flusso di intake! Usa questa traccia quando vuoi lasciare note strutturate oltre al modulo rapido nel widget. - **Idea / Ticket correlato:** <!-- link o ID --> - **Data:*…,docs/ideas/feedback.md
+/docs/feedback-collection-pipeline,Feedback Collection Pipeline,"Questa guida descrive in dettaglio il flusso operativo per raccogliere, filtrare e integrare i feedback provenienti da playtest, demo interne e canali asincroni. È pensata per accompagnare il nuovo form centralizzato def…",docs/process/feedback_collection_pipeline.md
+/docs/feedback-form,Feedback-Form,"Questa guida illustra come accedere, compilare e monitorare il nuovo form di feedback introdotto con la pipeline descritta in `docs/process/feedback_collection_pipeline.md`. - **Dashboard documentazione**: link rapido ne…",docs/tutorials/feedback-form.md
+/docs/feedback-template,Feedback-Template,Compilare un documento per partecipante al termine della sessione (o durante pause concordate). Le domande aperte possono essere integrate con note dell'osservatore. Indicare sempre l'ID scenario (es. `BAL-01`) per facil…,docs/playtest/feedback-template.md
+/docs/filamenti-digestivi-compattanti,Filamenti Digestivi Compattanti,,docs/evo-tactics-pack/traits/digestivo/filamenti_digestivi_compattanti.json
+/docs/filamenti-magnetotrofi,Filamenti Magnetotrofi,,docs/evo-tactics-pack/traits/strutturale/filamenti_magnetotrofi.json
+/docs/filamenti-superconduttivi,Filamenti Superconduttivi,,docs/evo-tactics-pack/traits/sensoriale/filamenti_superconduttivi.json
+/docs/filamenti-termoconduzione,Filamenti Termoconduzione,,docs/evo-tactics-pack/traits/locomotorio/filamenti_termoconduzione.json
+/docs/filtri-planctonici,Filtri Planctonici,,docs/evo-tactics-pack/traits/difensivo/filtri_planctonici.json
+/docs/flagelli-ancoranti,Flagelli Ancoranti,,docs/evo-tactics-pack/traits/metabolico/flagelli_ancoranti.json
+/docs/flow-shell-snapshot,Flow-Shell-Snapshot,,docs/mission-console/data/flow/snapshots/flow-shell-snapshot.json
+/docs/flusso-richieste-idea-engine,Flusso-Richieste-Idea-Engine,Questo documento descrive in italiano il percorso completo seguito da una richiesta HTTP proveniente dal client fino alla persistenza nel database locale dell'Idea Engine. Il focus è sull'endpoint REST **POST `/api/ideas…,docs/architecture/flusso-richieste-idea-engine.md
+/docs/focus-frazionato,Focus Frazionato,,docs/evo-tactics-pack/traits/strategia/focus_frazionato.json
+/docs/foliage-fotocatodico,Foliage Fotocatodico,,docs/evo-tactics-pack/traits/supporto/foliage_fotocatodico.json
+/docs/foliaggio-spugna,Foliaggio Spugna,,docs/evo-tactics-pack/traits/offensivo/foliaggio_spugna.json
+/docs/foodweb,Foodweb,,docs/mission-console/data/flow/validators/foodweb.json
+/docs/foodweb-roles,Foodweb Roles,,docs/catalog/mockups/foodweb_roles.yaml
+/docs/frusta-fiammeggiante,Frusta Fiammeggiante,,docs/evo-tactics-pack/traits/offensivo/frusta_fiammeggiante.json
+/docs/generator-benchmarks,Generator-Benchmarks,"| Benchmark | Tipo | Evidenza chiave | Implicazioni per il generatore | | --- | --- | --- | --- | | Compilazione seed su *Aurora Playkit* | Funzionale | Roll completo in 5 click medi, export JSON immediato | Targetare pa…",docs/evo-tactics-pack/generator-benchmarks.md
+/docs/generatore,Generatore,- /generatore - /generatore/preset/<nome> - /generatore?bioma=desert&ruolo=harvester&rank=r2,docs/wireframes/generatore.md
+/docs/ghiaccio-piezoelettrico,Ghiaccio Piezoelettrico,,docs/evo-tactics-pack/traits/strategia/ghiaccio_piezoelettrico.json
+/docs/ghiandola-caustica,Ghiandola Caustica,,docs/evo-tactics-pack/traits/offensivo/ghiandola_caustica.json
+/docs/ghiandole-cambio-salino,Ghiandole Cambio Salino,,docs/evo-tactics-pack/traits/simbiotico/ghiandole_cambio_salino.json
+/docs/ghiandole-condensa-ozono,Ghiandole Condensa Ozono,,docs/evo-tactics-pack/traits/strutturale/ghiandole_condensa_ozono.json
+/docs/ghiandole-eco-mappanti,Ghiandole Eco Mappanti,,docs/evo-tactics-pack/traits/sensoriale/ghiandole_eco_mappanti.json
+/docs/ghiandole-fango-calde,Ghiandole Fango Calde,,docs/evo-tactics-pack/traits/locomotorio/ghiandole_fango_calde.json
+/docs/ghiandole-fango-coesivo,Ghiandole Fango Coesivo,,docs/evo-tactics-pack/traits/difensivo/ghiandole_fango_coesivo.json
+/docs/ghiandole-grafene,Ghiandole Grafene,,docs/evo-tactics-pack/traits/metabolico/ghiandole_grafene.json
+/docs/ghiandole-inchiostro-luce,Ghiandole Inchiostro Luce,,docs/evo-tactics-pack/traits/supporto/ghiandole_inchiostro_luce.json
+/docs/ghiandole-iodoattive,Ghiandole Iodoattive,,docs/evo-tactics-pack/traits/offensivo/ghiandole_iodoattive.json
+/docs/ghiandole-minerali,Ghiandole Minerali,,docs/evo-tactics-pack/traits/strategia/ghiandole_minerali.json
+/docs/ghiandole-nebbia-acida,Ghiandole Nebbia Acida,,docs/evo-tactics-pack/traits/simbiotico/ghiandole_nebbia_acida.json
+/docs/ghiandole-nebbia-ionica,Ghiandole Nebbia Ionica,,docs/evo-tactics-pack/traits/strutturale/ghiandole_nebbia_ionica.json
+/docs/ghiandole-resina-conduttiva,Ghiandole Resina Conduttiva,,docs/evo-tactics-pack/traits/sensoriale/ghiandole_resina_conduttiva.json
+/docs/ghiandole-ventosa,Ghiandole Ventosa,,docs/evo-tactics-pack/traits/locomotorio/ghiandole_ventosa.json
+/docs/git-setup,Git-Setup,Questa guida riassume i passaggi necessari per inizializzare il repository e pubblicarlo su GitHub. 1. Inizializza il repository (se non esiste già): ```bash,docs/git-setup.md
+/docs/giulia-parodi,Giulia-Parodi,"- **Ruolo:** Narrative liaison - **Scenario principali:** EVT-01, EVT-02 (non eseguito) - **Osservazioni chiave:**",docs/playtest/SESSION-2025-02-26/feedback/giulia-parodi.md
+/docs/giunti-antitorsione,Giunti Antitorsione,,docs/evo-tactics-pack/traits/difensivo/giunti_antitorsione.json
+/docs/grassi-termici,Grassi Termici,,docs/evo-tactics-pack/traits/metabolico/grassi_termici.json
+/docs/gusci-criovetro,Gusci Criovetro,,docs/evo-tactics-pack/traits/supporto/gusci_criovetro.json
+/docs/gusci-magnesio,Gusci Magnesio,,docs/evo-tactics-pack/traits/offensivo/gusci_magnesio.json
+/docs/handover-summary,Handover-Summary,"Questa nota funge da handover asincrono per il team. Riassume la nuova struttura modulare, i punti di integrazione aggiornati e l'esito del primo ciclo QA del generatore documentazione.",docs/evo-tactics-pack/handover-summary.md
+/docs/hazards,Hazards,,docs/evo-tactics-pack/hazards.json
+/docs/homepage,Homepage,"- Logo + Nav: Generatore | Bestiario | Biomi | Regole | Strumenti | Novità - Hero: Titolo H1, sottotitolo, CTA primario **Apri Generatore**, CTA secondario **Quickstart GM** - Pillole: 3 scorciatoie (Bestiario, Regole Ba…",docs/wireframes/homepage.md
+/docs/hud-overlay-quickstart,Hud-Overlay-Quickstart,Attiva e testa l'overlay HUD canary per condividere i log con SquadSync e raccogliere feedback nel canale `#feedback-enhancements`. - `public/hud/Overlay.tsx` aggiornato dalla branch corrente (include badge SquadSync e c…,docs/tutorials/hud-overlay-quickstart.md
+/docs/idea-engine,Idea-Engine,"![Idea Engine overview](../../assets/tutorials/idea-engine-feedback.svg) Attivare il percorso completo dall'ideazione alla raccolta feedback con il widget pubblico, il backend Node e la tassonomia condivisa. - Repository…",docs/tutorials/idea-engine.md
+/docs/idea-engine-feedback,Idea-Engine-Feedback,![Idea Engine feedback](../../assets/tutorials/idea-engine-feedback.svg) Attivare il flusso completo di ideazione e invio feedback sfruttando l'API Express e il canale Slack dedicato. 1. **Avvio backend** — dalla root de…,docs/tutorials/idea-engine-feedback.md
+/docs/idea-engine-taxonomy,Idea Engine Taxonomy,,docs/config/idea_engine_taxonomy.json
+/docs/idea-taxonomy,Idea-Taxonomy,,docs/public/idea-taxonomy.json
+/docs/incident-reporting-table,Incident Reporting Table,"- **Piattaforma**: Airtable (base dedicata ""VC Segnalazioni""). - **Motivazione**: - Permessi granulari (creator, editor, commenter, read-only) con possibilità di limitare l'editing delle viste condivise.",docs/process/incident_reporting_table.md
+/docs/incoming-agent-backlog,Incoming Agent Backlog,Questo backlog traduce le iniziative prioritarie emerse dal report di triage in task eseguibili da agenti specializzati. - **Owner**: `AG-Orchestrator` - **Obiettivo**: chiudere gli action item generati dal primo ciclo a…,docs/process/incoming_agent_backlog.md
+/docs/incoming-agent-streams,Incoming Agent Streams,"Questo documento sintetizza i flussi di lavoro per gli stream agentici che gestiscono la cartella `incoming/`, integrando le note presenti nel playbook e nei pacchetti di riferimento. - Programmare ed eseguire il ciclo s…",docs/process/incoming_agent_streams.md
+/docs/incoming-review-log,Incoming Review Log,`AG-Orchestrator` annota ogni sessione asincrona seguendo il [template](../templates/incoming_triage_meeting.md). Le nuove sezioni vengono aggiunte in cima al file. > Nota: il Support Hub (`docs/index.html`) legge la pri…,docs/process/incoming_review_log.md
+/docs/incoming-triage,Incoming Triage,"- [ ] `AG-Orchestrator` apre il Support Hub (`docs/index.html`) → sezione ""Incoming Pipeline"" e verifica che il widget ""Ultimo report triage"" confermi la chiusura dei follow-up della sessione precedente. - [ ] `AG-Orches…",docs/checklist/incoming_triage.md
+/docs/incoming-triage-meeting,Incoming Triage Meeting,"- **Data**: YYYY-MM-DD - **Agenti coinvolti**: `AG-Orchestrator`, `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith` - **Facilitatore**: `AG-Orchestrator`",docs/templates/incoming_triage_meeting.md
+/docs/incoming-triage-pipeline,Incoming Triage Pipeline,- Trasformare `incoming/` da deposito grezzo a flusso controllato e versionato orchestrato da agenti. - Garantire che ogni asset passi per analisi automatica (`scripts/report_incoming.sh`) e validazione cooperativa fra a…,docs/process/incoming_triage_pipeline.md
+/docs/index,Index,,docs/evo-tactics-pack/traits/sensoriale/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/riproduttivo/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/tegumentario/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/escretorio/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/digestivo/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/simbiotico/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/idrostatico/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/metabolico/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/difesa/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/strutturale/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/strategia/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/respiratorio/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/offensivo/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/locomotorio/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/difensivo/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/supporto/index.json
+/docs/index,Index,,docs/evo-tactics-pack/traits/nervoso/index.json
+/docs/insights-2025-11,Insights-2025-11,"- **Trend rischio/cohesion**: gli ultimi retest di ""Skydock Siege"" (05/11) mostrano risk index medio 0.565 (-0.045 rispetto al picco Tier 4 del 24/10) e cohesion medio 0.76 (+0.04), confermando l'efficacia del tuning EMA…",docs/playtest/INSIGHTS-2025-11.md
+/docs/internal-announcement,Internal-Announcement,"Il generatore dell'Evo Tactics Pack è stato modulato per separare viste, servizi e suite di test dedicate. Il nuovo assetto semplifica l'onboarding dei contributor, migliora la copertura QA e rende più prevedibili i depl…",docs/evo-tactics-pack/internal-announcement.md
+/docs/lamelle-shear,Lamelle Shear,,docs/evo-tactics-pack/traits/strategia/lamelle_shear.json
+/docs/lamelle-sincroniche,Lamelle Sincroniche,,docs/evo-tactics-pack/traits/simbiotico/lamelle_sincroniche.json
+/docs/lamelle-termoforetiche,Lamelle Termoforetiche,,docs/evo-tactics-pack/traits/respiratorio/lamelle_termoforetiche.json
+/docs/lamine-filtranti-aeree,Lamine Filtranti Aeree,,docs/evo-tactics-pack/traits/strutturale/lamine_filtranti_aeree.json
+/docs/lamine-scudo-silice,Lamine Scudo Silice,,docs/evo-tactics-pack/traits/sensoriale/lamine_scudo_silice.json
+/docs/linfa-tampone,Linfa Tampone,,docs/evo-tactics-pack/traits/locomotorio/linfa_tampone.json
+/docs/lingua-cristallina,Lingua Cristallina,,docs/evo-tactics-pack/traits/difensivo/lingua_cristallina.json
+/docs/lingua-tattile-trama,Lingua Tattile Trama,,docs/evo-tactics-pack/traits/sensoriale/lingua_tattile_trama.json
+/docs/loadout,Loadout,- Validare la generazione dei template stagionali con contenuti corretti per coorte. - Garantire la consistenza dei dati di progressione in presenza di rollback. - Misurare l'impatto sulle prestazioni durante la pubblica…,docs/qa/playbooks/loadout.md
+/docs/localization,Localization,"Questo documento descrive come estrarre i testi dai file trait, sincronizzare i bundle di localizzazione e collaborare con traduttori e revisori. 1. Assicurarsi di essere nella radice del repository (`/workspace/Game`).",docs/process/localization.md
+/docs/luca-rinaldi,Luca-Rinaldi,"- **Ruolo:** Tactical specialist - **Scenario principali:** BAL-02, BAL-03 - **Osservazioni chiave:**",docs/playtest/SESSION-2025-02-26/feedback/luca-rinaldi.md
+/docs/luminescenza-aurorale,Luminescenza Aurorale,,docs/evo-tactics-pack/traits/metabolico/luminescenza_aurorale.json
+/docs/luminescenza-hydrotermica,Luminescenza Hydrotermica,,docs/evo-tactics-pack/traits/supporto/luminescenza_hydrotermica.json
+/docs/maintenance,Maintenance,"La roadmap live è alimentata da snapshot di generazione, telemetria Nebula e verifiche QA raccolti in `reports/status.json`. Il file include anche la checklist **go/no-go** con riferimenti agli step Flow Shell; assicurat…",docs/roadmap/maintenance.md
+/docs/manifest,Manifest,"Questo documento elenca i biomi menzionati nei canvas progettuali, nei dataset delle specie e negli strumenti di generazione, fornendo un identificatore canonico da utilizzare in `data/core/biomes.yaml` e nelle integrazi…",docs/biomes/manifest.md
+/docs/manifest,Manifest,,docs/mission-console/.vite/manifest.json
+/docs/mantelli-geotermici,Mantelli Geotermici,,docs/evo-tactics-pack/traits/offensivo/mantelli_geotermici.json
+/docs/mantello-meteoritico,Mantello Meteoritico,,docs/evo-tactics-pack/traits/difesa/mantello_meteoritico.json
+/docs/mating-reclutamento-nido,Mating-Reclutamento-Nido,"- Dare peso narrativo/meccanico alle relazioni con NPG e compagni, trasformando il Nido in hub evolutivo che influenza mutazioni, reclutamento e economia sociale.【F:appendici/D-CANVAS_ACCOPPIAMENTO.txt†L1-L31】 - Scala -3…",docs/Mating-Reclutamento-Nido.md
+/docs/membrane-captura-rugiada,Membrane Captura Rugiada,,docs/evo-tactics-pack/traits/strategia/membrane_captura_rugiada.json
+/docs/membrane-eliofiltranti,Membrane Eliofiltranti,,docs/evo-tactics-pack/traits/respiratorio/membrane_eliofiltranti.json
+/docs/membrane-planata-vectored,Membrane Planata Vectored,,docs/evo-tactics-pack/traits/simbiotico/membrane_planata_vectored.json
+/docs/membrane-pneumatofori,Membrane Pneumatofori,,docs/evo-tactics-pack/traits/strutturale/membrane_pneumatofori.json
+/docs/midollo-antivibrazione,Midollo Antivibrazione,,docs/evo-tactics-pack/traits/sensoriale/midollo_antivibrazione.json
+/docs/milestones,Milestones,"- [x] Caricati dataset YAML di base (biomi, pacchetti PI, mating, telemetria).【F:data/core/biomes.yaml†L1-L17】【F:data/packs.yaml†L1-L88】【F:data/core/mating.yaml†L1-L32】【F:data/core/telemetry.yaml†L1-L29】 - [x] Pubblicati…",docs/checklist/milestones.md
+/docs/mimetismo-cromatico-passivo,Mimetismo Cromatico Passivo,,docs/evo-tactics-pack/traits/tegumentario/mimetismo_cromatico_passivo.json
+/docs/moderazione,Moderazione,- Validare la qualità dei suggerimenti ML nel pannello di moderazione assistita. - Garantire la riduzione del tempo di triage per i casi critici. - Assicurare il rispetto delle policy di sicurezza dati durante l'esecuzio…,docs/qa/playbooks/moderazione.md
+/docs/mucillagine-simbionte-mangrovie,Mucillagine Simbionte Mangrovie,,docs/evo-tactics-pack/traits/simbiotico/mucillagine_simbionte_mangrovie.json
+/docs/mucose-aderenza-sonica,Mucose Aderenza Sonica,,docs/evo-tactics-pack/traits/locomotorio/mucose_aderenza_sonica.json
+/docs/mucose-barofile,Mucose Barofile,,docs/evo-tactics-pack/traits/difensivo/mucose_barofile.json
+/docs/nodi-micorrizici-oracolari,Nodi Micorrizici Oracolari,,docs/evo-tactics-pack/traits/simbiotico/nodi_micorrizici_oracolari.json
+/docs/nucleo-ovomotore-rotante,Nucleo Ovomotore Rotante,,docs/evo-tactics-pack/traits/riproduttivo/nucleo_ovomotore_rotante.json
+/docs/observability,Observability,"Questo documento descrive come attivare, testare e monitorare i tre pilastri di osservabilità introdotti nella webapp: 1. **Error reporting** opzionale tramite Sentry (o compatibile) abilitabile da variabili d'ambiente. …",docs/observability.md
+/docs/occhi-infrarosso-composti,Occhi Infrarosso Composti,,docs/evo-tactics-pack/traits/sensoriale/occhi_infrarosso_composti.json
+/docs/olfatto-risonanza-magnetica,Olfatto Risonanza Magnetica,,docs/evo-tactics-pack/traits/sensoriale/olfatto_risonanza_magnetica.json
+/docs/operations-calendar,Operations Calendar,Questo calendario consolida le principali attività ricorrenti di manutenzione e controllo operative. Le finestre temporali sono espresse in UTC salvo indicazioni differenti. | Frequenza | Finestra | Attività | Automazion…,docs/process/operations_calendar.md
+/docs/overview,Overview,"**Scopo:** dare 3 scelte + Skip post-scontro minore, guidate da: - **Roll (Contesto):** bioma/tier -> tabella a dado -> grants carta - **Personalità:** Enneagram/MBTI -> pesi preferenze",docs/tri-sorgente/overview.md
+/docs/pathfinder,Pathfinder,,docs/evo-tactics-pack/traits/strategia/pathfinder.json
+/docs/pi-pacchetti-forme,Pi-Pacchetti-Forme,"- **Costo PI**: trait_T1 3 PE, trait_T2 6 PE, trait_T3 10 PE, job_ability 4 PE, ultimate_slot 6 PE, modulo_tattico 3 PE; cap acquisti su `cap_pt_max` e `starter_bioma_max` per evitare snowball precoce.【F:data/packs.yaml†…",docs/PI-Pacchetti-Forme.md
+/docs/pianificatore,Pianificatore,,docs/evo-tactics-pack/traits/strategia/pianificatore.json
+/docs/pilot-session-2025-11-12,Pilot-Session-2025-11-12,> **Nota di allineamento (aggiornamento 2025-02-18):** questo piano sostituisce le indicazioni scenario precedenti ed è sincronizzato con la scheda `docs/playtest/SESSION-2025-11-12.md`. - Validare gli scenari di bilanci…,docs/playtest/pilot-session-2025-11-12.md
+/docs/piume-solari-fotovoltaiche,Piume Solari Fotovoltaiche,,docs/evo-tactics-pack/traits/tegumentario/piume_solari_fotovoltaiche.json
+/docs/playtest-log-guidelines,Playtest-Log-Guidelines,"Per uniformare la raccolta dei risultati dei playtest, utilizzare la seguente struttura nella directory `logs/playtests/`. ``` logs/",docs/playtest-log-guidelines.md
+/docs/polmoni-cristallini-alta-quota,Polmoni Cristallini Alta Quota,,docs/evo-tactics-pack/traits/respiratorio/polmoni_cristallini_alta_quota.json
+/docs/procedura-post-sessione,Procedura-Post-Sessione,Questa procedura descrive i passaggi da completare immediatamente dopo ogni sessione di playtest. 1. Copiare il template `SESSION-template.md` e rinominarlo in `SESSION-YYYY-MM-DD.md` nella cartella `docs/playtest/`. 2. …,docs/playtest/procedura-post-sessione.md
+/docs/project-setup-todo,Project-Setup-Todo,"Questa checklist descrive tutti i passaggi necessari per avere il progetto pienamente funzionante, dalla configurazione dell'ambiente allo svolgimento dei test manuali e automatici. Aggiornala dopo ogni esecuzione import…",docs/checklist/project-setup-todo.md
+/docs/publishing-calendar,Publishing Calendar,"Il calendario editoriale coordina il rilascio dei contenuti nei diversi pacchetti, allineando QA, approvazioni e milestone di pubblicazione. Ogni riga rappresenta una finestra di pubblicazione pianificata; aggiorna il fi…",docs/publishing_calendar.md
+/docs/qa,Qa,- 10k offerte simulate - KPI: - ≥95% offerte con ≥1 sinergica,docs/tri-sorgente/qa.md
+/docs/qa,Qa,Questo documento riassume la procedura di QA manuale per la webapp Nebula e come raccogliere i log quando l'applicazione è pubblicata su hosting statico. 1. Installare le dipendenze nella root del repository (`npm instal…,docs/QA.md
+/docs/qa-hud,Qa Hud,"- **Ack rate ≥ 80%** — calcolato come numero di alert con almeno un ack su tutti gli alert `raised`. La pipeline `tools/ts/hud_alerts.ts` traccia `ackCount`, `ackRecipients` e `lastAckTimestamp` per ciascun evento.【F:too…",docs/process/qa_hud.md
+/docs/qa-playbook,Qa-Playbook,Questo playbook riassume come mantenere allineati i report QA orchestrati e come sfruttare la console UI per seguire i rilasci Nebula. I report vengono generati dal bridge Node ↔ orchestrator Python (`scripts/export-qa-r…,docs/recap/qa-playbook.md
+/docs/qa-reporting-schema,Qa Reporting Schema,| Categoria | Pipeline / Cartella | Descrizione operativa | Campi principali disponibili | Lacune per reporting | | --- | --- | --- | --- | --- | | Telemetria gioco | `logs/playtests/<data>-vc/session-metrics.yaml` | Log…,docs/process/qa_reporting_schema.md
+/docs/random,Random,,docs/evo-tactics-pack/traits/strategia/random.json
+/docs/readme-refresh-notes,Readme-Refresh-Notes,"- **Dataset e contenuti statici**: cartella `data/` con YAML principali, `data/derived/` per report analitici, `data/external/` per fonti sincronizzate. - **Pack ecosistemi**: `packs/evo_tactics_pack/` con dati, validato…",docs/readme-refresh-notes.md
+/docs/readme-traits,Readme Traits,"Questo pacchetto fornisce gli **schemi JSON**, il catalogo principale dei trait e gli strumenti necessari per validarli. ```text",docs/README_TRAITS.md
+/docs/refresh-plan,Refresh-Plan,| Percorso | Contenuto | Note flusso | | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ------------------------------…,docs/ideas/refresh-plan.md
+/docs/report-2025-11-06-bal03,Report-2025-11-06-Bal03,- **Obiettivo:** Validare la correzione del pathfinding per lo scenario BAL-03 (Horde mode) durante l'ondata 4. - **Checklist di riferimento:** `docs/checklist/action-items.md` ➜ voce `#143`. - **Documentazione consultat…,docs/playtest/REPORT-2025-11-06-bal03.md
+/docs/respiro-a-scoppio,Respiro A Scoppio,,docs/evo-tactics-pack/traits/respiratorio/respiro_a_scoppio.json
+/docs/risonanza-di-branco,Risonanza Di Branco,,docs/evo-tactics-pack/traits/supporto/risonanza_di_branco.json
+/docs/roadmap,Roadmap,"1. **Sync settimanale (martedì 15:00 CET)** — Importa log telemetrici e note playtest in `docs/chatgpt_changes/sync-<AAAA-MM-GG>.md`, annota la build `game-cli` utilizzata e aggiorna `docs/chatgpt_sync_status.md` se camb…",docs/piani/roadmap.md
+/docs/roadmap-generator,Roadmap Generator,- **Obiettivo**: coprire il gap prioritario emerso dal report `pathfinder_trait_gap.csv` sull'asse strutturale (`versatility`). - **Deliverable**: - 4 nuovi tratti `struttura` bilanciati su blueprint apex/microbici con s…,docs/roadmap_generator.md
+/docs/roll-pack-seed-demo,Roll Pack Seed Demo,,docs/examples/roll_pack_seed_demo.json
+/docs/rollout-checklist,Rollout Checklist,"Questa checklist coordina QA, Ops e Analytics durante il rollout canary di Mission Control. È allineata al flag `rollout.qaMetricsMonitoring` e alla pipeline programmata in `config/jobs/monitoring.yaml`. - [ ] Conferma c…",docs/qa/rollout_checklist.md
+/docs/sacche-galleggianti-ascensoriali,Sacche Galleggianti Ascensoriali,,docs/evo-tactics-pack/traits/idrostatico/sacche_galleggianti_ascensoriali.json
+/docs/sacche-spore-stratosferiche,Sacche Spore Stratosferiche,,docs/evo-tactics-pack/traits/simbiotico/sacche_spore_stratosferiche.json
+/docs/sangue-piroforico,Sangue Piroforico,,docs/evo-tactics-pack/traits/offensivo/sangue_piroforico.json
+/docs/sara-neri,Sara-Neri,"- **Ruolo:** Support controller - **Scenario principali:** BAL-02, EVT-01 - **Osservazioni chiave:**",docs/playtest/SESSION-2025-02-26/feedback/sara-neri.md
+/docs/scenari-critici,Scenari-Critici,"Questa lista evidenzia gli scenari che devono essere eseguiti a ogni ciclo di validazione per ridurre i rischi di regressione su bilanciamento, progressione e eventi speciali. È derivata da `scenari-test.md` ed è aggiorn…",docs/playtest/scenari-critici.md
+/docs/scenari-test,Scenari-Test,"Questo documento riassume gli scenari di playtest programmati per verificare bilanciamento, progressione e reazioni agli eventi speciali. Ogni scenario è progettato per essere eseguito in autonomia o all'interno di una s…",docs/playtest/scenari-test.md
+/docs/scheletro-idro-regolante,Scheletro Idro Regolante,,docs/evo-tactics-pack/traits/strutturale/scheletro_idro_regolante.json
+/docs/secrezione-rallentante-palmi,Secrezione Rallentante Palmi,,docs/evo-tactics-pack/traits/tegumentario/secrezione_rallentante_palmi.json
+/docs/sensori-geomagnetici,Sensori Geomagnetici,,docs/evo-tactics-pack/traits/sensoriale/sensori_geomagnetici.json
+/docs/sentience-rollout-plan,Sentience Rollout Plan,Questo documento coordina l'adozione dei nomi/codici definitivi dei tier di Sensienza all'interno del gioco e delle integrazioni esterne. - Sincronizzare i preset dei encounter generator con i nuovi slug,docs/process/sentience_rollout_plan.md
+/docs/sentience-sdk,Sentience Sdk,Questo documento riepiloga i codici definitivi dei tier di Sensienza da utilizzare nelle integrazioni API/SDK. | Codice | Label | Milestone gating | Note |,docs/public/sentience_sdk.md
+/docs/session-2025-02-26,Session-2025-02-26,- **Data:** 2025-02-26 - **Luogo/piattaforma:** Laboratorio QA interno — build `client-r2821` - **Sessione pilota o follow-up:** Follow-up sul vertical slice Skydock Siege,docs/playtest/SESSION-2025-02-26.md
+/docs/session-2025-11-12,Session-2025-11-12,"- **Data:** 2025-11-12 (pilota, conferma logistica entro 2025-11-05) - **Luogo/piattaforma:** QA Lab Torino + collegamento remoto (Teams «VC Playtest») - **Sessione pilota o follow-up:** Pilota ciclo Q4 2025",docs/playtest/SESSION-2025-11-12.md
+/docs/session-template,Session-Template,- **Data:** - **Luogo/piattaforma:** - **Sessione pilota o follow-up:**,docs/playtest/SESSION-template.md
+/docs/showcase-dossier,Showcase Dossier,,docs/presentations/showcase/showcase_dossier.yaml
+/docs/sinapsi-coraline-polifoniche,Sinapsi Coraline Polifoniche,,docs/evo-tactics-pack/traits/simbiotico/sinapsi_coraline_polifoniche.json
+/docs/sistemanpg-pf-mutazioni,Sistemanpg-Pf-Mutazioni,"- Generare incontri reattivi al valore StressWave, reputazione fazioni e progressione squadra, modulando reclutamento e ostilità tramite Affinità/Fiducia.【F:appendici/C-CANVAS_NPG_BIOMI.txt†L1-L31】 - Collegare Director, …",docs/SistemaNPG-PF-Mutazioni.md
+/docs/snapshot-20251023t174852z-local-export,Snapshot-20251023T174852Z-Local-Export,- **Namespace:** local - **Data cartella:** 2025-10-23 - **File snapshot:** `data/external/chatgpt/local/2025-10-23/snapshot-20251023T174852Z-local-export.json`,docs/chatgpt_changes/local/2025-10-23/snapshot-20251023T174852Z-local-export.md
+/docs/snapshot-20251023t231241z-daily-notes,Snapshot-20251023T231241Z-Daily-Notes,- **Namespace:** notes - **Data cartella:** 2025-10-23 - **File snapshot:** `data/external/chatgpt/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.json`,docs/chatgpt_changes/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.md
+/docs/snapshot-20251023t231241z-local-export,Snapshot-20251023T231241Z-Local-Export,- **Namespace:** local - **Data cartella:** 2025-10-23 - **File snapshot:** `data/external/chatgpt/local/2025-10-23/snapshot-20251023T231241Z-local-export.json`,docs/chatgpt_changes/local/2025-10-23/snapshot-20251023T231241Z-local-export.md
+/docs/snapshot-20251024t021001z-daily-notes,Snapshot-20251024T021001Z-Daily-Notes,- **Namespace:** notes - **Data cartella:** 2025-10-24 - **File snapshot:** `data/external/chatgpt/notes/2025-10-24/snapshot-20251024T021001Z-daily-notes.json`,docs/chatgpt_changes/notes/2025-10-24/snapshot-20251024T021001Z-daily-notes.md
+/docs/snapshot-20251024t021001z-local-export,Snapshot-20251024T021001Z-Local-Export,- **Namespace:** local - **Data cartella:** 2025-10-24 - **File snapshot:** `data/external/chatgpt/local/2025-10-24/snapshot-20251024T021001Z-local-export.json`,docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021001Z-local-export.md
+/docs/snapshot-20251024t021902z-daily-notes,Snapshot-20251024T021902Z-Daily-Notes,- **Namespace:** notes - **Data cartella:** 2025-10-24 - **File snapshot:** `data/external/chatgpt/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.json`,docs/chatgpt_changes/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.md
+/docs/snapshot-20251024t021902z-local-export,Snapshot-20251024T021902Z-Local-Export,- **Namespace:** local - **Data cartella:** 2025-10-24 - **File snapshot:** `data/external/chatgpt/local/2025-10-24/snapshot-20251024T021902Z-local-export.json`,docs/chatgpt_changes/local/2025-10-24/snapshot-20251024T021902Z-local-export.md
+/docs/sonno-emisferico-alternato,Sonno Emisferico Alternato,,docs/evo-tactics-pack/traits/nervoso/sonno_emisferico_alternato.json
+/docs/species,Species,,docs/mission-console/data/flow/generation/species.json
+/docs/species,Species,,docs/mission-console/data/flow/validators/species.json
+/docs/species-batch,Species-Batch,,docs/mission-console/data/flow/generation/species-batch.json
+/docs/species-preview,Species-Preview,,docs/mission-console/data/flow/generation/species-preview.json
+/docs/species-trait-matrix,Species Trait Matrix,,docs/catalog/species_trait_matrix.json
+/docs/spore-complexity-budget,Budget di complessità per build,"Un misuratore di complessità limita numero e livello delle parti, imponendo trade-off di design.",docs/research/refs/spore__complexity_budget.yaml
+/docs/spore-part-based-scaling,Scaling statistico basato su parti,Stats e abilità derivano da parti equipaggiate e dai loro livelli.,docs/research/refs/spore__part_based_scaling.yaml
+/docs/spore-psichiche-silenziate,Spore Psichiche Silenziate,,docs/evo-tactics-pack/traits/escretorio/spore_psichiche_silenziate.json
+/docs/spore-stage-gated-progression,Progressione ad archi con carry-over,Fasi distinte con soglie di avanzamento e trasferimento parziale di scelte pregresse.,docs/research/refs/spore__stage_gated_progression.yaml
+/docs/spore-terraforming-bands,Terraforming a bande con slot,Biomi con bande di vitalità; strumenti spostano parametri ambientali e sbloccano slot.,docs/research/refs/spore__terraforming_bands.yaml
+/docs/squame-rifrangenti-deserto,Squame Rifrangenti Deserto,,docs/evo-tactics-pack/traits/tegumentario/squame_rifrangenti_deserto.json
+/docs/structure-overview,Structure Overview,La radice `data/` è ora segmentata in tre bucket funzionali per distinguere i flussi di aggiornamento e i consumatori dei dataset: ```,docs/structure_overview.md
+/docs/struttura-elastica-amorfa,Struttura Elastica Amorfa,,docs/evo-tactics-pack/traits/strutturale/struttura_elastica_amorfa.json
+/docs/styleguide,Styleguide,Questa guida documenta i requisiti di accessibilità e contrasto cromatico per i componenti `webapp/src/components/evogene-deck`. Le regole valgono sia per la webapp principale sia per le pagine statiche di riferimento (a…,docs/ui/styleguide.md
+/docs/tattiche-di-branco,Tattiche Di Branco,,docs/evo-tactics-pack/traits/strategia/tattiche_di_branco.json
+/docs/telemetria-vc,Telemetria-Vc,"- Log turni catturano eventi `hit`, `miss`, `crit`, `heal`, `buff`, `debuff`, `objective_tick`, `tile_enter`, `LOS_gain`, `formation_time`, `chat_ping`, `surrender`, `tilt triggers`, `turn_time` per popolare il vettore V…",docs/Telemetria-VC.md
+/docs/telemetry,Telemetry,,docs/mission-console/data/nebula/telemetry.json
+/docs/telemetry,Telemetry,- [ ] Aggiorna la sorgente dati (`logs/playtests/...`) e lancia `convertYamlToSheetsDryRun()` verificando `filterSummary` per assicurarti che gli alert HUD previsti vengano mantenuti.【F:scripts/driveSync.gs†L31-L121】 - […,docs/checklist/telemetry.md
+/docs/telemetry-ingestion-pipeline,Telemetry Ingestion Pipeline,"Questo documento descrive la configurazione operativa per alimentare la tabella centrale di controllo (base Airtable `Segnalazioni` oppure equivalente DB relazionale) con tre canali di input — telemetria automatizzata, s…",docs/process/telemetry_ingestion_pipeline.md
+/docs/ticket-2025-10-27-playwright-deploy-checks,Ticket-2025-10-27-Playwright-Deploy-Checks,- **Data**: 2025-10-27 - **Build CLI**: N/A (script `scripts/run_deploy_checks.sh`) - **Profilo**: support,docs/support/ticket-2025-10-27-playwright-deploy-checks.md
+/docs/token-rotation,Token-Rotation,**Data aggiornamento:** 2025-11-10 — Allineamento con Support/QA Bridge. | Voce | Dettagli | | --- | --- |,docs/support/token-rotation.md
+/docs/tool-run-report,Tool Run Report,"- Consolidare gli esiti tecnici durante lo **stand-up di manutenzione del martedì (15:00 CET)**, riportando nel presente file eventuali anomalie o follow-up entro la stessa giornata. - **Comando manuale**: `python tools/…",docs/tool_run_report.md
+/docs/tooling-maintenance-log,Tooling Maintenance Log,"`AG-Toolsmith` registra le attività di manutenzione mensili relative a script, validatori e pipeline collegate all'onboarding degli asset in `incoming/`. | Data | Task | Agente owner | Stato | Note | | --- | --- | --- | …",docs/process/tooling_maintenance_log.md
+/docs/trait-data-reference,Trait Data Reference,Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare per mantenerli coerenti. È pensata come riferimento rapido durante l'aggiornamento dei registri o la creazione di nuovi tratti. | Percorso …,docs/process/trait_data_reference.md
+/docs/trait-env-alignment,Trait-Env-Alignment,"- **Tratti PI rilevati**: 8 identificatori (`T1`) usati nei pacchetti Forma (`empatia_coordinativa`, `focus_frazionato`, `ghiandola_caustica`, `pathfinder`, `pianificatore`, `random`, `risonanza_di_branco`, `tattiche_di_…",docs/reports/trait-env-alignment.md
+/docs/trait-glossary,Trait-Glossary,,docs/evo-tactics-pack/trait-glossary.json
+/docs/trait-reference,Trait Reference,"Questo riferimento sintetizza un sottoinsieme rappresentativo dei trait con i relativi ID, label approvate e descrizioni narrative nelle lingue attualmente supportate (italiano ed inglese). Tutti i valori provengono dal …",docs/catalog/trait_reference.md
+/docs/trait-reference,Trait-Reference,,docs/evo-tactics-pack/trait-reference.json
+/docs/trait-review,Trait Review,La pipeline automatizza la revisione dei trait generati da fonti esterne e assicura che soltanto i contenuti completi finiscano nel catalogo principale. Lo script `tools/py/review_external_traits.py` esegue le seguenti o…,docs/process/trait_review.md
+/docs/trait-rollout-plan,Trait Rollout Plan,"Questo piano coordina il lancio delle nuove funzionalità trait (editor collaborativo, report di validazione e processo di revisione esteso) assicurando che i team interessati siano pronti e che il rollout sia monitorato …",docs/process/trait_rollout_plan.md
+/docs/trait-sources,Trait Sources,,docs/editorial/trait_sources.json
+/docs/trait-style-session,Trait Style Session,"Sessione formativa dedicata alla guida di stile dei trait: nomenclatura, descrizioni editorali e requisiti ambientali. La sessione combina teoria e laboratorio pratico con l'editor interno aggiornato e i nuovi report aut…",docs/process/training/trait_style_session.md
+/docs/traits,Traits,"Questa guida riassume template, strumenti e controlli richiesti per proporre o aggiornare i trait. È pensata come integrazione al template dati ufficiale e alle checklist di processo già presenti nel repository e al vade…",docs/contributing/traits.md
+/docs/traits-checklist,Traits Checklist,"Queste checklist guidano ogni iterazione di aggiunta o revisione tratti, seguendo step incrementali che coprono revisione design, QA e telemetria. - [ ] Validare la proposta con il glossario (`data/core/traits/glossary.j…",docs/process/traits_checklist.md
+/docs/traits-inventory,Traits Inventory,,docs/catalog/traits_inventory.json
+/docs/traits-template,Traits Template,Questo documento descrive la struttura canonica dei trait archiviati in `data/traits`. Il template è definito dallo schema JSON condiviso in `config/schemas/trait.schema.json` ed è applicato sia ai file singoli sia,docs/traits_template.md
+/docs/vc-hud-briefing-deck,Vc-Hud-Briefing-Deck,"- Overview of the VC HUD changes introduced for the February 2025 build. - Key telemetry findings from the latest playtest (risk bias, squad cohesion, extraction timer). - Table of EMA trends for risk score vs. PI packag…",docs/presentations/assets/vc-hud-briefing-deck.md
+/docs/vc-playtest-plan,Vc Playtest Plan,"Coordinare tre sessioni di playtest focalizzate sugli indici VC definiti in `data/core/telemetry.yaml`, verificando che la raccolta dati rispetti finestre EMA, pesi e normalizzazioni attese. - **Build client**: `client-r…",docs/checklist/vc_playtest_plan.md
+/docs/vello-condensatore-nebbie,Vello Condensatore Nebbie,,docs/evo-tactics-pack/traits/tegumentario/vello_condensatore_nebbie.json
+/docs/ventriglio-gastroliti,Ventriglio Gastroliti,,docs/evo-tactics-pack/traits/digestivo/ventriglio_gastroliti.json
+/docs/web-handoff,Web Handoff,Questa nota supporta il passaggio di consegne verso il team web/UI dopo il ciclo di bilanciamento dedicato agli archetipi `ruolo_trofico × biome_class`. La documentazione integra la matrice `docs/catalog/species_trait_ma…,docs/process/web_handoff.md
+/docs/web-pipeline,Web Pipeline,Questa procedura definisce il percorso end-to-end per promuovere la web experience (dashboard di test e dataset statici) dall'ambiente di sviluppo alla pubblicazione su GitHub Pages. 1. **Inventario & trait readiness** –…,docs/process/web_pipeline.md
+/docs/zampe-a-molla,Zampe A Molla,,docs/evo-tactics-pack/traits/locomotorio/zampe_a_molla.json
+/docs/zoccoli-risonanti-steppe,Zoccoli Risonanti Steppe,,docs/evo-tactics-pack/traits/locomotorio/zoccoli_risonanti_steppe.json
+/rules,,,
+/rules/build-budget,Build Budget,Regole e soglie per il budget di complessità delle build.,rules/build_budget.yaml
+/rules/stages,Stages,Archi di progressione con soglie e carry-over selettivo.,rules/stages.yaml
+/services/package,Package,,services/eventsScheduler/package.json
+/services/workflowstate,Workflowstate,,services/publishing/workflowState.json
+/traits,,,
+/traits/parts-scaling,Parts Scaling,Derivazione stats/abilità da parti e livelli.,traits/parts_scaling.yaml

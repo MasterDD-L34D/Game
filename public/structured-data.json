@@ -1,0 +1,19 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://tuo-dominio.tld",
+    "name": "Gioco Evo Tactics",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://tuo-dominio.tld/cerca?q={query}",
+      "query-input": "required name=query"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Gioco Evo Tactics",
+    "url": "https://tuo-dominio.tld"
+  }
+]

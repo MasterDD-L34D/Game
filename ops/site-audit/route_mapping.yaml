@@ -1,0 +1,40 @@
+include_exts:
+  - .md
+  - .mdx
+  - .yaml
+  - .yml
+  - .json
+  - .txt
+exclude_stems:
+  - README
+  - SUMMARY
+  - LICENSE
+  - CHANGELOG
+
+# Sezioni principali mostrate nella home o nella navigazione.
+top_sections:
+  - title: Documentazione
+    path: /docs
+  - title: Appendici
+    path: /appendici
+  - title: Biomi
+    path: /biomi
+  - title: Traits
+    path: /traits
+  - title: Regole
+    path: /rules
+
+# Directory del repository da indicizzare.
+content_dirs:
+  - dir: docs
+    url_base: /docs
+  - dir: appendici
+    url_base: /appendici
+  - dir: biomes
+    url_base: /biomi
+  - dir: traits
+    url_base: /traits
+  - dir: rules
+    url_base: /rules
+  - dir: services
+    url_base: /services

@@ -1,0 +1,3 @@
+/species/echo_wing /bestiario/echo-wing 301
+/rules/synergies /regole/synergies 301
+/weapons/arc-rod /equipaggiamento/armi/arc-rod 301

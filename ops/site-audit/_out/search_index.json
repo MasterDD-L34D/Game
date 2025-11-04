@@ -1,0 +1,2755 @@
+{
+  "docs": [
+    {
+      "title": "Documentazione",
+      "path": "/docs",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Appendici",
+      "path": "/appendici",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Biomi",
+      "path": "/biomi",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Traits",
+      "path": "/traits",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Regole",
+      "path": "/rules",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Mating-Reclutamento-Nido",
+      "path": "/docs/mating-reclutamento-nido",
+      "type": "docs",
+      "summary": "- Dare peso narrativo/meccanico alle relazioni con NPG e compagni, trasformando il Nido in hub evolutivo che influenza mutazioni, reclutamento e economia sociale.【F:appendici/D-CANVAS_ACCOPPIAMENTO.txt†L1-L31】 - Scala -3…",
+      "tags": []
+    },
+    {
+      "title": "Readme-Refresh-Notes",
+      "path": "/docs/readme-refresh-notes",
+      "type": "docs",
+      "summary": "- **Dataset e contenuti statici**: cartella `data/` con YAML principali, `data/derived/` per report analitici, `data/external/` per fonti sincronizzate. - **Pack ecosistemi**: `packs/evo_tactics_pack/` con dati, validato…",
+      "tags": []
+    },
+    {
+      "title": "Sistemanpg-Pf-Mutazioni",
+      "path": "/docs/sistemanpg-pf-mutazioni",
+      "type": "docs",
+      "summary": "- Generare incontri reattivi al valore StressWave, reputazione fazioni e progressione squadra, modulando reclutamento e ostilità tramite Affinità/Fiducia.【F:appendici/C-CANVAS_NPG_BIOMI.txt†L1-L31】 - Collegare Director, …",
+      "tags": []
+    },
+    {
+      "title": "Qa",
+      "path": "/docs/qa",
+      "type": "docs",
+      "summary": "Questo documento riassume la procedura di QA manuale per la webapp Nebula e come raccogliere i log quando l'applicazione è pubblicata su hosting statico. 1. Installare le dipendenze nella root del repository (`npm instal…",
+      "tags": []
+    },
+    {
+      "title": "28-Npc Biomi Spawn",
+      "path": "/docs/28-npc-biomi-spawn",
+      "type": "docs",
+      "summary": "- Director: genera NPG con `spawn_profile` (power_range, group_size, role_weights). - Biomi: mood/diff_base_mod; affix_bias (sand_wind, crystalline, dense_spores…). - Allineamento dati: biomi/affissi validati da `global_…",
+      "tags": []
+    },
+    {
+      "title": "03-Loop",
+      "path": "/docs/03-loop",
+      "type": "docs",
+      "summary": "Metagioco (epoche/stagioni) → draft/creazione specie → **Match TBT** (mappe a obiettivo) → telemetria VC → **mutazioni / rami sbloccati** → raffinamento build → matchmaking. Modalità: co-op vs Sistema (Director), 1v1/2v2…",
+      "tags": []
+    },
+    {
+      "title": "20-Specie E Parti",
+      "path": "/docs/20-specie-e-parti",
+      "type": "docs",
+      "summary": "- **Slot**: locomotion / offense / defense / senses / metabolism. - **Budget**: `weight_budget` per specie, warning a ≥90%. Cap res/DR secondo `global_rules`. - **Sinergie & Ibridi**: vedi `catalog.synergies` e `legal_hy…",
+      "tags": []
+    },
+    {
+      "title": "24-Telemetria Vc",
+      "path": "/docs/24-telemetria-vc",
+      "type": "docs",
+      "summary": "Eventi, finestre, indici (Aggro/Risk/Cohesion/Setup/Explore/Tilt) e mapping verso layer MBTI-like + Ennea-themes. - Log eventi: hit, miss, crit, heal, buff, debuff, objective_tick, tile_enter, LOS_gain, formation_time, c…",
+      "tags": []
+    },
+    {
+      "title": "00-Index",
+      "path": "/docs/00-index",
+      "type": "docs",
+      "summary": "- [01 Visione](01-VISIONE.md) - [02 Pilastri di Design](02-PILASTRI.md) - [03 Loop di Gioco](03-LOOP.md)",
+      "tags": []
+    },
+    {
+      "title": "Designdoc-Overview",
+      "path": "/docs/designdoc-overview",
+      "type": "docs",
+      "summary": "- **Visione** — Co-op tattico TV/app dove cellule di resistenza guidano forme bio-meccanoidi in campagne generate, alternando briefing, incursioni e fasi Nido per difendere habitat in mutazione costante.【F:appendici/A-CA…",
+      "tags": []
+    },
+    {
+      "title": "Ci-Pipeline",
+      "path": "/docs/ci-pipeline",
+      "type": "docs",
+      "summary": "Il workflow GitHub Actions mantiene in salute la toolchain TS/Python e i dataset di gioco. Per evitare esecuzioni superflue, la pipeline principale è stata suddivisa in più job specializzati che si attivano solo quando i…",
+      "tags": []
+    },
+    {
+      "title": "02-Pilastri",
+      "path": "/docs/02-pilastri",
+      "type": "docs",
+      "summary": "1. **Tattica leggibile** (FFT-like): iniziativa, posizionamento, altezze, facing, reazioni. 2. **Evoluzione emergente** (Spore-like): tratti, morfologie e job **sbloccati da comportamenti**. 3. **Identità doppia**: Speci…",
+      "tags": []
+    },
+    {
+      "title": "Roadmap Generator",
+      "path": "/docs/roadmap-generator",
+      "type": "docs",
+      "summary": "- **Obiettivo**: coprire il gap prioritario emerso dal report `pathfinder_trait_gap.csv` sull'asse strutturale (`versatility`). - **Deliverable**: - 4 nuovi tratti `struttura` bilanciati su blueprint apex/microbici con s…",
+      "tags": []
+    },
+    {
+      "title": "40-Roadmap",
+      "path": "/docs/40-roadmap",
+      "type": "docs",
+      "summary": "- Core TBT, 6 Specie base, 6 Job base, Telemetria VC, 12 Regole Sblocco, UI identità. - 2 Mappe (caverna/savana), Matchmaking, Privacy/Reset, 50 partite playtest (audit predator/counter). - [x] EVO-421 · Ripristinata la …",
+      "tags": []
+    },
+    {
+      "title": "Readme Traits",
+      "path": "/docs/readme-traits",
+      "type": "docs",
+      "summary": "Questo pacchetto fornisce gli **schemi JSON**, il catalogo principale dei trait e gli strumenti necessari per validarli. ```text",
+      "tags": []
+    },
+    {
+      "title": "30-Ui Tv Identita",
+      "path": "/docs/30-ui-tv-identita",
+      "type": "docs",
+      "summary": "- Carte con 4 assi MBTI-like + temi Ennea-like; effetti **solo gameplay**. - Albero Evolutivo reattivo; nodi che pulsano quando “meriti” lo sblocco. - Registro Evoluzione: feed eventi → tratti ottenuti.",
+      "tags": []
+    },
+    {
+      "title": "Drive-Sync",
+      "path": "/docs/drive-sync",
+      "type": "docs",
+      "summary": "Questa guida spiega come configurare lo script `scripts/driveSync.gs` su Google Apps Script per convertire i file YAML della repo in Google Sheet e mantenerli sincronizzati automaticamente. - **Account Google** con acces…",
+      "tags": []
+    },
+    {
+      "title": "22-Forme Base 16",
+      "path": "/docs/22-forme-base-16",
+      "type": "docs",
+      "summary": "Ogni Forma assegna: 1 **innata** + **7 PI** (pacchetti preconfezionati) tematici. VC in-match sposta gradualmente i pesi (non è un test psicologico). (Tabella sintetica; pacchetti PI dettagliati in `data/forms.yaml` quan…",
+      "tags": []
+    },
+    {
+      "title": "Faq",
+      "path": "/docs/faq",
+      "type": "docs",
+      "summary": "Aggiornato al ciclo VC-2025-11. Nuove domande vengono raccolte dopo ogni retro settimanale (martedì). | Domanda | Risposta rapida | Owner | Stato | | ------- | ---------------- | ----- | ----- |",
+      "tags": []
+    },
+    {
+      "title": "Traits Template",
+      "path": "/docs/traits-template",
+      "type": "docs",
+      "summary": "Questo documento descrive la struttura canonica dei trait archiviati in `data/traits`. Il template è definito dallo schema JSON condiviso in `config/schemas/trait.schema.json` ed è applicato sia ai file singoli sia",
+      "tags": []
+    },
+    {
+      "title": "25-Regole Sblocco Pe",
+      "path": "/docs/25-regole-sblocco-pe",
+      "type": "docs",
+      "summary": "- PE da delta VC. - 12 regole base (vedi Design Doc): Ambusher, Pathfinder, Caregiver, Gambler, Stoic, Architect, ecc. - Caps e fairness: diminishing returns; ogni tratto forte ha counter esplicito.",
+      "tags": []
+    },
+    {
+      "title": "10-Sistema Tattico",
+      "path": "/docs/10-sistema-tattico",
+      "type": "docs",
+      "summary": "- **Iniziativa**: CT a scatti; VEL può concedere riprese extra. - **Economia azioni**: 2 AP (movimento/azione) + **Reazioni** (parry/counter/overwatch). - **MoS (Margin of Success)**: ogni +5 sulla DC = +1 step danno; a …",
+      "tags": []
+    },
+    {
+      "title": "Data-Guidelines",
+      "path": "/docs/data-guidelines",
+      "type": "docs",
+      "summary": "Questo documento elenca i dataset archiviati in `data/` e definisce le regole operative per mantenerli coerenti. | File | Chiave radice | Contenuto | Note | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Publishing Calendar",
+      "path": "/docs/publishing-calendar",
+      "type": "docs",
+      "summary": "Il calendario editoriale coordina il rilascio dei contenuti nei diversi pacchetti, allineando QA, approvazioni e milestone di pubblicazione. Ogni riga rappresenta una finestra di pubblicazione pianificata; aggiorna il fi…",
+      "tags": []
+    },
+    {
+      "title": "01-Visione",
+      "path": "/docs/01-visione",
+      "type": "docs",
+      "summary": "“Tattica profonda a turni in cui **come giochi** modella **ciò che diventi**.”",
+      "tags": []
+    },
+    {
+      "title": "Pi-Pacchetti-Forme",
+      "path": "/docs/pi-pacchetti-forme",
+      "type": "docs",
+      "summary": "- **Costo PI**: trait_T1 3 PE, trait_T2 6 PE, trait_T3 10 PE, job_ability 4 PE, ultimate_slot 6 PE, modulo_tattico 3 PE; cap acquisti su `cap_pt_max` e `starter_bioma_max` per evitare snowball precoce.【F:data/packs.yaml†…",
+      "tags": []
+    },
+    {
+      "title": "Structure Overview",
+      "path": "/docs/structure-overview",
+      "type": "docs",
+      "summary": "La radice `data/` è ora segmentata in tre bucket funzionali per distinguere i flussi di aggiornamento e i consumatori dei dataset: ```",
+      "tags": []
+    },
+    {
+      "title": "Biomes",
+      "path": "/docs/biomes",
+      "type": "docs",
+      "summary": "Questa guida descrive lo schema dei biomi usato dalla dashboard di test (`docs/test-interface`) e i passaggi consigliati per mantenere allineati dati, interfaccia e script di verifica. Ogni voce è indicizzata dal nome te…",
+      "tags": []
+    },
+    {
+      "title": "Git-Setup",
+      "path": "/docs/git-setup",
+      "type": "docs",
+      "summary": "Questa guida riassume i passaggi necessari per inizializzare il repository e pubblicarlo su GitHub. 1. Inizializza il repository (se non esiste già): ```bash",
+      "tags": []
+    },
+    {
+      "title": "Ci",
+      "path": "/docs/ci",
+      "type": "docs",
+      "summary": "Questa pagina estende le note in [docs/ci-pipeline.md](ci-pipeline.md) descrivendo i workflow GitHub Actions dedicati a controlli specialistici oltre alla pipeline `CI` principale. | Workflow | File | Trigger | Scopo pri…",
+      "tags": []
+    },
+    {
+      "title": "Observability",
+      "path": "/docs/observability",
+      "type": "docs",
+      "summary": "Questo documento descrive come attivare, testare e monitorare i tre pilastri di osservabilità introdotti nella webapp: 1. **Error reporting** opzionale tramite Sentry (o compatibile) abilitabile da variabili d'ambiente. …",
+      "tags": []
+    },
+    {
+      "title": "Changelog",
+      "path": "/docs/changelog",
+      "type": "docs",
+      "summary": "- Trait reference aggiornato (`docs/catalog/trait_reference.md`) con mappatura glossario IT/EN e workflow di sincronizzazione. - Guida operativa aggiornata per autori di trait",
+      "tags": []
+    },
+    {
+      "title": "27-Mating Nido",
+      "path": "/docs/27-mating-nido",
+      "type": "docs",
+      "summary": "- Attrazione/Convincimento: tabelle Piace/Non piace per specie/job; azioni sociali. - Reclutamento: ex-nemici → alleati dopo azioni chiave. - Nido: requisiti `env/structure/security/resources/privacy`.",
+      "tags": []
+    },
+    {
+      "title": "Telemetria-Vc",
+      "path": "/docs/telemetria-vc",
+      "type": "docs",
+      "summary": "- Log turni catturano eventi `hit`, `miss`, `crit`, `heal`, `buff`, `debuff`, `objective_tick`, `tile_enter`, `LOS_gain`, `formation_time`, `chat_ping`, `surrender`, `tilt triggers`, `turn_time` per popolare il vettore V…",
+      "tags": []
+    },
+    {
+      "title": "11-Regole D20 Tv",
+      "path": "/docs/11-regole-d20-tv",
+      "type": "docs",
+      "summary": "- **Schermo condiviso** (app/sito TV): stato gruppo, mappa, log VC, consigli sblocchi. - **Dadi**: d20 centrale; dadi “Descent-like” mappati su spese PT/PP (icona e pattern). - **Condivisione tavolo**: ogni turno produce…",
+      "tags": []
+    },
+    {
+      "title": "Tool Run Report",
+      "path": "/docs/tool-run-report",
+      "type": "docs",
+      "summary": "- Consolidare gli esiti tecnici durante lo **stand-up di manutenzione del martedì (15:00 CET)**, riportando nel presente file eventuali anomalie o follow-up entro la stessa giornata. - **Comando manuale**: `python tools/…",
+      "tags": []
+    },
+    {
+      "title": "Playtest-Log-Guidelines",
+      "path": "/docs/playtest-log-guidelines",
+      "type": "docs",
+      "summary": "Per uniformare la raccolta dei risultati dei playtest, utilizzare la seguente struttura nella directory `logs/playtests/`. ``` logs/",
+      "tags": []
+    },
+    {
+      "title": "Chatgpt Sync Status",
+      "path": "/docs/chatgpt-sync-status",
+      "type": "docs",
+      "summary": "Questo file riepiloga l'ultima esecuzione degli script di sincronizzazione. - Script principale: `scripts/chatgpt_sync.py` - Configurazione di esempio: `data/external/chatgpt_sources.yaml`",
+      "tags": []
+    },
+    {
+      "title": "Dependency Audit",
+      "path": "/docs/dependency-audit",
+      "type": "docs",
+      "summary": "- `tools/py/requirements.txt` ora elenca le librerie richieste per eseguire gli script CLI e la sincronizzazione: `PyYAML`, `requests`, il client ufficiale `openai` (necessario per `scripts/chatgpt_sync.py`) e `pytest` p…",
+      "tags": []
+    },
+    {
+      "title": "Overview",
+      "path": "/docs/overview",
+      "type": "docs",
+      "summary": "**Scopo:** dare 3 scelte + Skip post-scontro minore, guidate da: - **Roll (Contesto):** bioma/tier -> tabella a dado -> grants carta - **Personalità:** Enneagram/MBTI -> pesi preferenze",
+      "tags": []
+    },
+    {
+      "title": "Qa",
+      "path": "/docs/qa",
+      "type": "docs",
+      "summary": "- 10k offerte simulate - KPI: - ≥95% offerte con ≥1 sinergica",
+      "tags": []
+    },
+    {
+      "title": "Incoming Triage Meeting",
+      "path": "/docs/incoming-triage-meeting",
+      "type": "docs",
+      "summary": "- **Data**: YYYY-MM-DD - **Agenti coinvolti**: `AG-Orchestrator`, `AG-Validation`, `AG-Core`, `AG-Biome`, `AG-Personality`, `AG-Toolsmith` - **Facilitatore**: `AG-Orchestrator`",
+      "tags": []
+    },
+    {
+      "title": "Maintenance",
+      "path": "/docs/maintenance",
+      "type": "docs",
+      "summary": "La roadmap live è alimentata da snapshot di generazione, telemetria Nebula e verifiche QA raccolti in `reports/status.json`. Il file include anche la checklist **go/no-go** con riferimenti agli step Flow Shell; assicurat…",
+      "tags": []
+    },
+    {
+      "title": "Idea Engine Taxonomy",
+      "path": "/docs/idea-engine-taxonomy",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Rollout Checklist",
+      "path": "/docs/rollout-checklist",
+      "type": "docs",
+      "summary": "Questa checklist coordina QA, Ops e Analytics durante il rollout canary di Mission Control. È allineata al flag `rollout.qaMetricsMonitoring` e alla pipeline programmata in `config/jobs/monitoring.yaml`. - [ ] Conferma c…",
+      "tags": []
+    },
+    {
+      "title": "Moderazione",
+      "path": "/docs/moderazione",
+      "type": "docs",
+      "summary": "- Validare la qualità dei suggerimenti ML nel pannello di moderazione assistita. - Garantire la riduzione del tempo di triage per i casi critici. - Assicurare il rispetto delle policy di sicurezza dati durante l'esecuzio…",
+      "tags": []
+    },
+    {
+      "title": "Eventi",
+      "path": "/docs/eventi",
+      "type": "docs",
+      "summary": "- Garantire che ogni shard riceva i segnali di sincronizzazione entro la finestra prevista. - Validare la continuità dell'esperienza evento anche durante i picchi di traffico. - Monitorare la regressione su metriche di c…",
+      "tags": []
+    },
+    {
+      "title": "Loadout",
+      "path": "/docs/loadout",
+      "type": "docs",
+      "summary": "- Validare la generazione dei template stagionali con contenuti corretti per coorte. - Garantire la consistenza dei dati di progressione in presenza di rollback. - Misurare l'impatto sulle prestazioni durante la pubblica…",
+      "tags": []
+    },
+    {
+      "title": "Styleguide",
+      "path": "/docs/styleguide",
+      "type": "docs",
+      "summary": "Questa guida documenta i requisiti di accessibilità e contrasto cromatico per i componenti `webapp/src/components/evogene-deck`. Le regole valgono sia per la webapp principale sia per le pagine statiche di riferimento (a…",
+      "tags": []
+    },
+    {
+      "title": "Generatore",
+      "path": "/docs/generatore",
+      "type": "docs",
+      "summary": "- /generatore - /generatore/preset/<nome> - /generatore?bioma=desert&ruolo=harvester&rank=r2",
+      "tags": []
+    },
+    {
+      "title": "Homepage",
+      "path": "/docs/homepage",
+      "type": "docs",
+      "summary": "- Logo + Nav: Generatore | Bestiario | Biomi | Regole | Strumenti | Novità - Hero: Titolo H1, sottotitolo, CTA primario **Apri Generatore**, CTA secondario **Quickstart GM** - Pillole: 3 scorciatoie (Bestiario, Regole Ba…",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-10-30",
+      "path": "/docs/daily-pr-summary-2025-10-30",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-11-03",
+      "path": "/docs/daily-pr-summary-2025-11-03",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "2025-10-23",
+      "path": "/docs/2025-10-23",
+      "type": "docs",
+      "summary": "- **Missione Skydock Siege** introduce una struttura multi-livello con timer di evacuazione che richiede coordinamento verticale. 【F:data/external/chatgpt/2025-10-23/snapshot-20251023T101500Z.json†L1-L6】 - **Reattori Aeo…",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-10-31",
+      "path": "/docs/daily-pr-summary-2025-10-31",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-11-02",
+      "path": "/docs/daily-pr-summary-2025-11-02",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-11-07",
+      "path": "/docs/daily-pr-summary-2025-11-07",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py` (workflow `daily-pr-summary`)._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-10-26",
+      "path": "/docs/daily-pr-summary-2025-10-26",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-10-27",
+      "path": "/docs/daily-pr-summary-2025-10-27",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-10-29",
+      "path": "/docs/daily-pr-summary-2025-10-29",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | ------------------------------------------------------ | ------------------------------------------------------------…",
+      "tags": []
+    },
+    {
+      "title": "Daily-Pr-Summary-2025-11-01",
+      "path": "/docs/daily-pr-summary-2025-11-01",
+      "type": "docs",
+      "summary": "_Generato automaticamente da `tools/py/daily_pr_report.py`._ | PR | Titolo | Autore | Merged (UTC) | | --- | --- | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Snapshot-20251024T021001Z-Local-Export",
+      "path": "/docs/snapshot-20251024t021001z-local-export",
+      "type": "docs",
+      "summary": "- **Namespace:** local - **Data cartella:** 2025-10-24 - **File snapshot:** `data/external/chatgpt/local/2025-10-24/snapshot-20251024T021001Z-local-export.json`",
+      "tags": []
+    },
+    {
+      "title": "Snapshot-20251024T021902Z-Local-Export",
+      "path": "/docs/snapshot-20251024t021902z-local-export",
+      "type": "docs",
+      "summary": "- **Namespace:** local - **Data cartella:** 2025-10-24 - **File snapshot:** `data/external/chatgpt/local/2025-10-24/snapshot-20251024T021902Z-local-export.json`",
+      "tags": []
+    },
+    {
+      "title": "Snapshot-20251023T231241Z-Local-Export",
+      "path": "/docs/snapshot-20251023t231241z-local-export",
+      "type": "docs",
+      "summary": "- **Namespace:** local - **Data cartella:** 2025-10-23 - **File snapshot:** `data/external/chatgpt/local/2025-10-23/snapshot-20251023T231241Z-local-export.json`",
+      "tags": []
+    },
+    {
+      "title": "Snapshot-20251023T174852Z-Local-Export",
+      "path": "/docs/snapshot-20251023t174852z-local-export",
+      "type": "docs",
+      "summary": "- **Namespace:** local - **Data cartella:** 2025-10-23 - **File snapshot:** `data/external/chatgpt/local/2025-10-23/snapshot-20251023T174852Z-local-export.json`",
+      "tags": []
+    },
+    {
+      "title": "Snapshot-20251024T021001Z-Daily-Notes",
+      "path": "/docs/snapshot-20251024t021001z-daily-notes",
+      "type": "docs",
+      "summary": "- **Namespace:** notes - **Data cartella:** 2025-10-24 - **File snapshot:** `data/external/chatgpt/notes/2025-10-24/snapshot-20251024T021001Z-daily-notes.json`",
+      "tags": []
+    },
+    {
+      "title": "Snapshot-20251024T021902Z-Daily-Notes",
+      "path": "/docs/snapshot-20251024t021902z-daily-notes",
+      "type": "docs",
+      "summary": "- **Namespace:** notes - **Data cartella:** 2025-10-24 - **File snapshot:** `data/external/chatgpt/notes/2025-10-24/snapshot-20251024T021902Z-daily-notes.json`",
+      "tags": []
+    },
+    {
+      "title": "Snapshot-20251023T231241Z-Daily-Notes",
+      "path": "/docs/snapshot-20251023t231241z-daily-notes",
+      "type": "docs",
+      "summary": "- **Namespace:** notes - **Data cartella:** 2025-10-23 - **File snapshot:** `data/external/chatgpt/notes/2025-10-23/snapshot-20251023T231241Z-daily-notes.json`",
+      "tags": []
+    },
+    {
+      "title": "Operations Calendar",
+      "path": "/docs/operations-calendar",
+      "type": "docs",
+      "summary": "Questo calendario consolida le principali attività ricorrenti di manutenzione e controllo operative. Le finestre temporali sono espresse in UTC salvo indicazioni differenti. | Frequenza | Finestra | Attività | Automazion…",
+      "tags": []
+    },
+    {
+      "title": "Localization",
+      "path": "/docs/localization",
+      "type": "docs",
+      "summary": "Questo documento descrive come estrarre i testi dai file trait, sincronizzare i bundle di localizzazione e collaborare con traduttori e revisori. 1. Assicurarsi di essere nella radice del repository (`/workspace/Game`).",
+      "tags": []
+    },
+    {
+      "title": "Trait Data Reference",
+      "path": "/docs/trait-data-reference",
+      "type": "docs",
+      "summary": "Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare per mantenerli coerenti. È pensata come riferimento rapido durante l'aggiornamento dei registri o la creazione di nuovi tratti. | Percorso …",
+      "tags": []
+    },
+    {
+      "title": "Trait Rollout Plan",
+      "path": "/docs/trait-rollout-plan",
+      "type": "docs",
+      "summary": "Questo piano coordina il lancio delle nuove funzionalità trait (editor collaborativo, report di validazione e processo di revisione esteso) assicurando che i team interessati siano pronti e che il rollout sia monitorato …",
+      "tags": []
+    },
+    {
+      "title": "Incoming Agent Backlog",
+      "path": "/docs/incoming-agent-backlog",
+      "type": "docs",
+      "summary": "Questo backlog traduce le iniziative prioritarie emerse dal report di triage in task eseguibili da agenti specializzati. - **Owner**: `AG-Orchestrator` - **Obiettivo**: chiudere gli action item generati dal primo ciclo a…",
+      "tags": []
+    },
+    {
+      "title": "Incoming Triage Pipeline",
+      "path": "/docs/incoming-triage-pipeline",
+      "type": "docs",
+      "summary": "- Trasformare `incoming/` da deposito grezzo a flusso controllato e versionato orchestrato da agenti. - Garantire che ogni asset passi per analisi automatica (`scripts/report_incoming.sh`) e validazione cooperativa fra a…",
+      "tags": []
+    },
+    {
+      "title": "Trait Review",
+      "path": "/docs/trait-review",
+      "type": "docs",
+      "summary": "La pipeline automatizza la revisione dei trait generati da fonti esterne e assicura che soltanto i contenuti completi finiscano nel catalogo principale. Lo script `tools/py/review_external_traits.py` esegue le seguenti o…",
+      "tags": []
+    },
+    {
+      "title": "Tooling Maintenance Log",
+      "path": "/docs/tooling-maintenance-log",
+      "type": "docs",
+      "summary": "`AG-Toolsmith` registra le attività di manutenzione mensili relative a script, validatori e pipeline collegate all'onboarding degli asset in `incoming/`. | Data | Task | Agente owner | Stato | Note | | --- | --- | --- | …",
+      "tags": []
+    },
+    {
+      "title": "Incoming Agent Streams",
+      "path": "/docs/incoming-agent-streams",
+      "type": "docs",
+      "summary": "Questo documento sintetizza i flussi di lavoro per gli stream agentici che gestiscono la cartella `incoming/`, integrando le note presenti nel playbook e nei pacchetti di riferimento. - Programmare ed eseguire il ciclo s…",
+      "tags": []
+    },
+    {
+      "title": "Web Handoff",
+      "path": "/docs/web-handoff",
+      "type": "docs",
+      "summary": "Questa nota supporta il passaggio di consegne verso il team web/UI dopo il ciclo di bilanciamento dedicato agli archetipi `ruolo_trofico × biome_class`. La documentazione integra la matrice `docs/catalog/species_trait_ma…",
+      "tags": []
+    },
+    {
+      "title": "Sentience Rollout Plan",
+      "path": "/docs/sentience-rollout-plan",
+      "type": "docs",
+      "summary": "Questo documento coordina l'adozione dei nomi/codici definitivi dei tier di Sensienza all'interno del gioco e delle integrazioni esterne. - Sincronizzare i preset dei encounter generator con i nuovi slug",
+      "tags": []
+    },
+    {
+      "title": "Qa Reporting Schema",
+      "path": "/docs/qa-reporting-schema",
+      "type": "docs",
+      "summary": "| Categoria | Pipeline / Cartella | Descrizione operativa | Campi principali disponibili | Lacune per reporting | | --- | --- | --- | --- | --- | | Telemetria gioco | `logs/playtests/<data>-vc/session-metrics.yaml` | Log…",
+      "tags": []
+    },
+    {
+      "title": "Incident Reporting Table",
+      "path": "/docs/incident-reporting-table",
+      "type": "docs",
+      "summary": "- **Piattaforma**: Airtable (base dedicata \"VC Segnalazioni\"). - **Motivazione**: - Permessi granulari (creator, editor, commenter, read-only) con possibilità di limitare l'editing delle viste condivise.",
+      "tags": []
+    },
+    {
+      "title": "Web Pipeline",
+      "path": "/docs/web-pipeline",
+      "type": "docs",
+      "summary": "Questa procedura definisce il percorso end-to-end per promuovere la web experience (dashboard di test e dataset statici) dall'ambiente di sviluppo alla pubblicazione su GitHub Pages. 1. **Inventario & trait readiness** –…",
+      "tags": []
+    },
+    {
+      "title": "Telemetry Ingestion Pipeline",
+      "path": "/docs/telemetry-ingestion-pipeline",
+      "type": "docs",
+      "summary": "Questo documento descrive la configurazione operativa per alimentare la tabella centrale di controllo (base Airtable `Segnalazioni` oppure equivalente DB relazionale) con tre canali di input — telemetria automatizzata, s…",
+      "tags": []
+    },
+    {
+      "title": "Qa Hud",
+      "path": "/docs/qa-hud",
+      "type": "docs",
+      "summary": "- **Ack rate ≥ 80%** — calcolato come numero di alert con almeno un ack su tutti gli alert `raised`. La pipeline `tools/ts/hud_alerts.ts` traccia `ackCount`, `ackRecipients` e `lastAckTimestamp` per ciascun evento.【F:too…",
+      "tags": []
+    },
+    {
+      "title": "Incoming Review Log",
+      "path": "/docs/incoming-review-log",
+      "type": "docs",
+      "summary": "`AG-Orchestrator` annota ogni sessione asincrona seguendo il [template](../templates/incoming_triage_meeting.md). Le nuove sezioni vengono aggiunte in cima al file. > Nota: il Support Hub (`docs/index.html`) legge la pri…",
+      "tags": []
+    },
+    {
+      "title": "Feedback Collection Pipeline",
+      "path": "/docs/feedback-collection-pipeline",
+      "type": "docs",
+      "summary": "Questa guida descrive in dettaglio il flusso operativo per raccogliere, filtrare e integrare i feedback provenienti da playtest, demo interne e canali asincroni. È pensata per accompagnare il nuovo form centralizzato def…",
+      "tags": []
+    },
+    {
+      "title": "Traits Checklist",
+      "path": "/docs/traits-checklist",
+      "type": "docs",
+      "summary": "Queste checklist guidano ogni iterazione di aggiunta o revisione tratti, seguendo step incrementali che coprono revisione design, QA e telemetria. - [ ] Validare la proposta con il glossario (`data/core/traits/glossary.j…",
+      "tags": []
+    },
+    {
+      "title": "Trait Style Session",
+      "path": "/docs/trait-style-session",
+      "type": "docs",
+      "summary": "Sessione formativa dedicata alla guida di stile dei trait: nomenclatura, descrizioni editorali e requisiti ambientali. La sessione combina teoria e laboratorio pratico con l'editor interno aggiornato e i nuovi report aut…",
+      "tags": []
+    },
+    {
+      "title": "Trait-Env-Alignment",
+      "path": "/docs/trait-env-alignment",
+      "type": "docs",
+      "summary": "- **Tratti PI rilevati**: 8 identificatori (`T1`) usati nei pacchetti Forma (`empatia_coordinativa`, `focus_frazionato`, `ghiandola_caustica`, `pathfinder`, `pianificatore`, `random`, `risonanza_di_branco`, `tattiche_di_…",
+      "tags": []
+    },
+    {
+      "title": "Roadmap",
+      "path": "/docs/roadmap",
+      "type": "docs",
+      "summary": "1. **Sync settimanale (martedì 15:00 CET)** — Importa log telemetrici e note playtest in `docs/chatgpt_changes/sync-<AAAA-MM-GG>.md`, annota la build `game-cli` utilizzata e aggiorna `docs/chatgpt_sync_status.md` se camb…",
+      "tags": []
+    },
+    {
+      "title": "Scenari-Critici",
+      "path": "/docs/scenari-critici",
+      "type": "docs",
+      "summary": "Questa lista evidenzia gli scenari che devono essere eseguiti a ogni ciclo di validazione per ridurre i rischi di regressione su bilanciamento, progressione e eventi speciali. È derivata da `scenari-test.md` ed è aggiorn…",
+      "tags": []
+    },
+    {
+      "title": "Insights-2025-11",
+      "path": "/docs/insights-2025-11",
+      "type": "docs",
+      "summary": "- **Trend rischio/cohesion**: gli ultimi retest di \"Skydock Siege\" (05/11) mostrano risk index medio 0.565 (-0.045 rispetto al picco Tier 4 del 24/10) e cohesion medio 0.76 (+0.04), confermando l'efficacia del tuning EMA…",
+      "tags": []
+    },
+    {
+      "title": "Report-2025-11-06-Bal03",
+      "path": "/docs/report-2025-11-06-bal03",
+      "type": "docs",
+      "summary": "- **Obiettivo:** Validare la correzione del pathfinding per lo scenario BAL-03 (Horde mode) durante l'ondata 4. - **Checklist di riferimento:** `docs/checklist/action-items.md` ➜ voce `#143`. - **Documentazione consultat…",
+      "tags": []
+    },
+    {
+      "title": "Evt-02-Session-Plan",
+      "path": "/docs/evt-02-session-plan",
+      "type": "docs",
+      "summary": "- **Finestra confermata:** 2025-03-05, 15:00-17:00 CET. - **Modalità:** QA Lab Torino (2 postazioni co-op) + stanza Teams \"Narrative EVT-02\". - **Responsabile QA:** Andrea Conti (Narrative QA lead).",
+      "tags": []
+    },
+    {
+      "title": "Procedura-Post-Sessione",
+      "path": "/docs/procedura-post-sessione",
+      "type": "docs",
+      "summary": "Questa procedura descrive i passaggi da completare immediatamente dopo ogni sessione di playtest. 1. Copiare il template `SESSION-template.md` e rinominarlo in `SESSION-YYYY-MM-DD.md` nella cartella `docs/playtest/`. 2. …",
+      "tags": []
+    },
+    {
+      "title": "Session-Template",
+      "path": "/docs/session-template",
+      "type": "docs",
+      "summary": "- **Data:** - **Luogo/piattaforma:** - **Sessione pilota o follow-up:**",
+      "tags": []
+    },
+    {
+      "title": "Session-2025-11-12",
+      "path": "/docs/session-2025-11-12",
+      "type": "docs",
+      "summary": "- **Data:** 2025-11-12 (pilota, conferma logistica entro 2025-11-05) - **Luogo/piattaforma:** QA Lab Torino + collegamento remoto (Teams «VC Playtest») - **Sessione pilota o follow-up:** Pilota ciclo Q4 2025",
+      "tags": []
+    },
+    {
+      "title": "Scenari-Test",
+      "path": "/docs/scenari-test",
+      "type": "docs",
+      "summary": "Questo documento riassume gli scenari di playtest programmati per verificare bilanciamento, progressione e reazioni agli eventi speciali. Ogni scenario è progettato per essere eseguito in autonomia o all'interno di una s…",
+      "tags": []
+    },
+    {
+      "title": "Pilot-Session-2025-11-12",
+      "path": "/docs/pilot-session-2025-11-12",
+      "type": "docs",
+      "summary": "> **Nota di allineamento (aggiornamento 2025-02-18):** questo piano sostituisce le indicazioni scenario precedenti ed è sincronizzato con la scheda `docs/playtest/SESSION-2025-11-12.md`. - Validare gli scenari di bilanci…",
+      "tags": []
+    },
+    {
+      "title": "Bal-03-Ondata4-Playbook",
+      "path": "/docs/bal-03-ondata4-playbook",
+      "type": "docs",
+      "summary": "**Stato:** ⏳ In attesa di ricezione dal QA lead. Il 2025-11-07 è stata inviata una richiesta formale al QA lead per ottenere il playbook completo di setup per la sessione BAL-03/ondata 4, includendo: - Sequenza di spawn …",
+      "tags": []
+    },
+    {
+      "title": "Feedback-Template",
+      "path": "/docs/feedback-template",
+      "type": "docs",
+      "summary": "Compilare un documento per partecipante al termine della sessione (o durante pause concordate). Le domande aperte possono essere integrate con note dell'osservatore. Indicare sempre l'ID scenario (es. `BAL-01`) per facil…",
+      "tags": []
+    },
+    {
+      "title": "Session-2025-02-26",
+      "path": "/docs/session-2025-02-26",
+      "type": "docs",
+      "summary": "- **Data:** 2025-02-26 - **Luogo/piattaforma:** Laboratorio QA interno — build `client-r2821` - **Sessione pilota o follow-up:** Follow-up sul vertical slice Skydock Siege",
+      "tags": []
+    },
+    {
+      "title": "Giulia-Parodi",
+      "path": "/docs/giulia-parodi",
+      "type": "docs",
+      "summary": "- **Ruolo:** Narrative liaison - **Scenario principali:** EVT-01, EVT-02 (non eseguito) - **Osservazioni chiave:**",
+      "tags": []
+    },
+    {
+      "title": "Luca-Rinaldi",
+      "path": "/docs/luca-rinaldi",
+      "type": "docs",
+      "summary": "- **Ruolo:** Tactical specialist - **Scenario principali:** BAL-02, BAL-03 - **Osservazioni chiave:**",
+      "tags": []
+    },
+    {
+      "title": "Sara-Neri",
+      "path": "/docs/sara-neri",
+      "type": "docs",
+      "summary": "- **Ruolo:** Support controller - **Scenario principali:** BAL-02, EVT-01 - **Osservazioni chiave:**",
+      "tags": []
+    },
+    {
+      "title": "Andrea-Conti",
+      "path": "/docs/andrea-conti",
+      "type": "docs",
+      "summary": "- **Ruolo:** Systems analyst - **Scenario principali:** BAL-03, PROG-03 - **Osservazioni chiave:**",
+      "tags": []
+    },
+    {
+      "title": "Encounter-Bug-147-Evt02-Nar-02",
+      "path": "/docs/encounter-bug-147-evt02-nar-02",
+      "type": "docs",
+      "summary": "- **ID ufficiale**: #147 - **Data creazione**: 2025-11-12 - **Scenario**: EVT-02 \"Alleanza inattesa\"",
+      "tags": []
+    },
+    {
+      "title": "Evt-02-Event-Special",
+      "path": "/docs/evt-02-event-special",
+      "type": "docs",
+      "summary": "Le incongruenze riportate derivano dalle revisioni narrative precedenti al playtest dedicato (ultimo controllo 2025-02-20) e dovranno essere tracciate nel tracker principale con etichetta `event-special` oltre alle tag f…",
+      "tags": []
+    },
+    {
+      "title": "Encounter-Bug-146-Evt02-Nar-01",
+      "path": "/docs/encounter-bug-146-evt02-nar-01",
+      "type": "docs",
+      "summary": "- **ID ufficiale**: #146 - **Data creazione**: 2025-11-12 - **Scenario**: EVT-02 \"Alleanza inattesa\"",
+      "tags": []
+    },
+    {
+      "title": "Flusso-Richieste-Idea-Engine",
+      "path": "/docs/flusso-richieste-idea-engine",
+      "type": "docs",
+      "summary": "Questo documento descrive in italiano il percorso completo seguito da una richiesta HTTP proveniente dal client fino alla persistenza nel database locale dell'Idea Engine. Il focus è sull'endpoint REST **POST `/api/ideas…",
+      "tags": []
+    },
+    {
+      "title": "Telemetry",
+      "path": "/docs/telemetry",
+      "type": "docs",
+      "summary": "- [ ] Aggiorna la sorgente dati (`logs/playtests/...`) e lancia `convertYamlToSheetsDryRun()` verificando `filterSummary` per assicurarti che gli alert HUD previsti vengano mantenuti.【F:scripts/driveSync.gs†L31-L121】 - […",
+      "tags": []
+    },
+    {
+      "title": "Project-Setup-Todo",
+      "path": "/docs/project-setup-todo",
+      "type": "docs",
+      "summary": "Questa checklist descrive tutti i passaggi necessari per avere il progetto pienamente funzionante, dalla configurazione dell'ambiente allo svolgimento dei test manuali e automatici. Aggiornala dopo ogni esecuzione import…",
+      "tags": []
+    },
+    {
+      "title": "Vc Playtest Plan",
+      "path": "/docs/vc-playtest-plan",
+      "type": "docs",
+      "summary": "Coordinare tre sessioni di playtest focalizzate sugli indici VC definiti in `data/core/telemetry.yaml`, verificando che la raccolta dati rispetti finestre EMA, pesi e normalizzazioni attese. - **Build client**: `client-r…",
+      "tags": []
+    },
+    {
+      "title": "Demo-Release",
+      "path": "/docs/demo-release",
+      "type": "docs",
+      "summary": "Questa checklist copre il rilascio del bundle demo dell'Evo Tactics Pack e le attività di coordinamento cross-team. - [ ] Generare ecosistema di riferimento e salvare lo zip del preset",
+      "tags": []
+    },
+    {
+      "title": "Incoming Triage",
+      "path": "/docs/incoming-triage",
+      "type": "docs",
+      "summary": "- [ ] `AG-Orchestrator` apre il Support Hub (`docs/index.html`) → sezione \"Incoming Pipeline\" e verifica che il widget \"Ultimo report triage\" confermi la chiusura dei follow-up della sessione precedente. - [ ] `AG-Orches…",
+      "tags": []
+    },
+    {
+      "title": "Bug-Intake",
+      "path": "/docs/bug-intake",
+      "type": "docs",
+      "summary": "Utilizzare questa checklist prima di spostare una segnalazione dalla vista `Backlog - Triage` a `QA - Triaged` o prima di inviare un ticket al canale `#vc-ops`. - [ ] `Fonte` impostata sul canale corretto (`telemetry-log…",
+      "tags": []
+    },
+    {
+      "title": "Milestones",
+      "path": "/docs/milestones",
+      "type": "docs",
+      "summary": "- [x] Caricati dataset YAML di base (biomi, pacchetti PI, mating, telemetria).【F:data/core/biomes.yaml†L1-L17】【F:data/packs.yaml†L1-L88】【F:data/core/mating.yaml†L1-L32】【F:data/core/telemetry.yaml†L1-L29】 - [x] Pubblicati…",
+      "tags": []
+    },
+    {
+      "title": "Clone-Setup",
+      "path": "/docs/clone-setup",
+      "type": "docs",
+      "summary": "**Ultimo aggiornamento:** 2025-11-12 — referente Ops/ChatGPT. Questa guida descrive i passaggi necessari per replicare l'ambiente operativo utilizzato nel container di riferimento (`Ubuntu 22.04`, percorso `/workspace/Ga…",
+      "tags": []
+    },
+    {
+      "title": "Action-Items",
+      "path": "/docs/action-items",
+      "type": "docs",
+      "summary": "- **2025-11-07** — Workflow `daily-pr-summary` senza merge; follow-up HUD overlay telemetrico → UI Systems (F. Conti), XP Cipher (PROG-04) → Progression Design (L. Serra), contrasto EVT-03 → VFX/Lighting (G. Leone). Docu…",
+      "tags": []
+    },
+    {
+      "title": "Ema-Metrics",
+      "path": "/docs/ema-metrics",
+      "type": "docs",
+      "summary": "- Dataset sorgente: `data/core/telemetry.yaml` (`ema_alpha`, `windows.phase_weights`, normalizzazione `ema_capped_minmax`). - Mission tuning: `data/core/missions/skydock_siege.yaml` definisce target `risk.time_low_hp_tur…",
+      "tags": []
+    },
+    {
+      "title": "Encounter Palude",
+      "path": "/docs/encounter-palude",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Encounter Caverna",
+      "path": "/docs/encounter-caverna",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Roll Pack Seed Demo",
+      "path": "/docs/roll-pack-seed-demo",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Encounter Savana",
+      "path": "/docs/encounter-savana",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Scaling statistico basato su parti",
+      "path": "/docs/spore-part-based-scaling",
+      "type": "docs",
+      "summary": "Stats e abilità derivano da parti equipaggiate e dai loro livelli.",
+      "tags": []
+    },
+    {
+      "title": "Terraforming a bande con slot",
+      "path": "/docs/spore-terraforming-bands",
+      "type": "docs",
+      "summary": "Biomi con bande di vitalità; strumenti spostano parametri ambientali e sbloccano slot.",
+      "tags": []
+    },
+    {
+      "title": "2008 Spore",
+      "path": "/docs/2008-spore",
+      "type": "docs",
+      "summary": "- Player Promise: crescere da cellula a civiltà spaziale con creatività guidata da editor a parti. - Pillars: Creazione libera · Evoluzione per parti · Progressione a stadi · UGC/Condivisione · Simulazione leggera. [Prog…",
+      "tags": []
+    },
+    {
+      "title": "Budget di complessità per build",
+      "path": "/docs/spore-complexity-budget",
+      "type": "docs",
+      "summary": "Un misuratore di complessità limita numero e livello delle parti, imponendo trade-off di design.",
+      "tags": []
+    },
+    {
+      "title": "Progressione ad archi con carry-over",
+      "path": "/docs/spore-stage-gated-progression",
+      "type": "docs",
+      "summary": "Fasi distinte con soglie di avanzamento e trasferimento parziale di scelte pregresse.",
+      "tags": []
+    },
+    {
+      "title": "Cli",
+      "path": "/docs/cli",
+      "type": "docs",
+      "summary": "Aggiornamento 2025-11-10 — Questa guida descrive la struttura dell'entrypoint modulare `tools/py/game_cli.py`, i profili CLI definiti in `config/cli/` e gli strumenti di automazione associati.",
+      "tags": []
+    },
+    {
+      "title": "Qa-Playbook",
+      "path": "/docs/qa-playbook",
+      "type": "docs",
+      "summary": "Questo playbook riassume come mantenere allineati i report QA orchestrati e come sfruttare la console UI per seguire i rilasci Nebula. I report vengono generati dal bridge Node ↔ orchestrator Python (`scripts/export-qa-r…",
+      "tags": []
+    },
+    {
+      "title": "Adr-2025-11-18-Cli-Rollout",
+      "path": "/docs/adr-2025-11-18-cli-rollout",
+      "type": "docs",
+      "summary": "- **Data**: 2025-11-09 - **Stato**: Proposto - **Owner**: Lead Dev Platform",
+      "tags": []
+    },
+    {
+      "title": "Adr-Xxx-Refactor-Cli",
+      "path": "/docs/adr-xxx-refactor-cli",
+      "type": "docs",
+      "summary": "- **Data**: 2025-11-20 - **Stato**: Accettato - **Owner**: Team Lead Tools",
+      "tags": []
+    },
+    {
+      "title": "Adr-2025-11-Refactor-Cli",
+      "path": "/docs/adr-2025-11-refactor-cli",
+      "type": "docs",
+      "summary": "- **Data**: 2025-11-05 - **Stato**: Proposto - **Owner**: Lead Dev Platform",
+      "tags": []
+    },
+    {
+      "title": "Adr-2025-12-07-Generation-Orchestrator",
+      "path": "/docs/adr-2025-12-07-generation-orchestrator",
+      "type": "docs",
+      "summary": "- **Data**: 2025-12-07 - **Stato**: Approvato - **Owner**: Team Backend & Tools",
+      "tags": []
+    },
+    {
+      "title": "2025-11-Onboarding-Recordings",
+      "path": "/docs/2025-11-onboarding-recordings",
+      "type": "docs",
+      "summary": "| Sessione | Data/Ora (CET) | Focus | Relatori | Link registrazione | Note | |----------|----------------|-------|----------|---------------------|------| | Batch Q4 | 2025-11-18 10:00-12:00 | Setup repo, workflow daily-…",
+      "tags": []
+    },
+    {
+      "title": "2025-11-18-Onboarding",
+      "path": "/docs/2025-11-18-onboarding",
+      "type": "docs",
+      "summary": "- Allineare il team sulle modifiche al refactor CLI e sui profili `playtest` e `support`. - Presentare il flusso post-ottobre 2025 per aggiornamento documentazione e raccolta FAQ. - Eseguire esercitazioni pratiche sulla …",
+      "tags": []
+    },
+    {
+      "title": "2025-02-Vc-Briefing",
+      "path": "/docs/2025-02-vc-briefing",
+      "type": "docs",
+      "summary": "- **Milestone:** Bilanciare pacchetti PI tra Forme (Roadmap #1) — focus sul tuning risk e bias d12 aggiornati.【F:docs/piani/roadmap.md†L5-L13】 - **Milestone:** Missioni verticali e supporto live (Roadmap #4) — applicazio…",
+      "tags": []
+    },
+    {
+      "title": "Demo-Walkthrough-Script",
+      "path": "/docs/demo-walkthrough-script",
+      "type": "docs",
+      "summary": "- Evidenziare la generazione ecosistema con preset demo e pannelli guida. - Mostrare la catena export (dossier HTML/PDF + press kit) come materiale condivisibile. - Integrare cue telemetrici e HUD live per allineare mark…",
+      "tags": []
+    },
+    {
+      "title": "Vc-Hud-Briefing-Deck",
+      "path": "/docs/vc-hud-briefing-deck",
+      "type": "docs",
+      "summary": "- Overview of the VC HUD changes introduced for the February 2025 build. - Key telemetry findings from the latest playtest (risk bias, squad cohesion, extraction timer). - Table of EMA trends for risk score vs. PI packag…",
+      "tags": []
+    },
+    {
+      "title": "Showcase Dossier",
+      "path": "/docs/showcase-dossier",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Handover-Summary",
+      "path": "/docs/handover-summary",
+      "type": "docs",
+      "summary": "Questa nota funge da handover asincrono per il team. Riassume la nuova struttura modulare, i punti di integrazione aggiornati e l'esito del primo ciclo QA del generatore documentazione.",
+      "tags": []
+    },
+    {
+      "title": "Hazards",
+      "path": "/docs/hazards",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ennea-Themes",
+      "path": "/docs/ennea-themes",
+      "type": "docs",
+      "summary": "Questa nota di design sintetizza il ruolo dei temi Ennea utilizzati dal pack **Evo-Tactics** per collegare telemetria VC, dati di bioma e preferenze comportamentali. Le soglie di attivazione sono derivate dai dataset YAM…",
+      "tags": []
+    },
+    {
+      "title": "Trait-Reference",
+      "path": "/docs/trait-reference",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Env-Traits",
+      "path": "/docs/env-traits",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Deploy",
+      "path": "/docs/deploy",
+      "type": "docs",
+      "summary": "Questa guida descrive come pubblicare il bundle demo del generatore su hosting statico, come forzare il caricamento del catalogo da sorgenti remote e quali variabili d'ambiente supporta lo script `packs/pack-data.js`.",
+      "tags": []
+    },
+    {
+      "title": "Trait-Glossary",
+      "path": "/docs/trait-glossary",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Internal-Announcement",
+      "path": "/docs/internal-announcement",
+      "type": "docs",
+      "summary": "Il generatore dell'Evo Tactics Pack è stato modulato per separare viste, servizi e suite di test dedicate. Il nuovo assetto semplifica l'onboarding dei contributor, migliora la copertura QA e rende più prevedibili i depl…",
+      "tags": []
+    },
+    {
+      "title": "Generator-Benchmarks",
+      "path": "/docs/generator-benchmarks",
+      "type": "docs",
+      "summary": "| Benchmark | Tipo | Evidenza chiave | Implicazioni per il generatore | | --- | --- | --- | --- | | Compilazione seed su *Aurora Playkit* | Funzionale | Roll completo in 5 click medi, export JSON immediato | Targetare pa…",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ciste Riduttive",
+      "path": "/docs/ciste-riduttive",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Focus Frazionato",
+      "path": "/docs/focus-frazionato",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Tattiche Di Branco",
+      "path": "/docs/tattiche-di-branco",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Denti Ossidoferro",
+      "path": "/docs/denti-ossidoferro",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Random",
+      "path": "/docs/random",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Lamelle Shear",
+      "path": "/docs/lamelle-shear",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Pianificatore",
+      "path": "/docs/pianificatore",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cartilagini Desertiche",
+      "path": "/docs/cartilagini-desertiche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Pathfinder",
+      "path": "/docs/pathfinder",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Camere Mirage",
+      "path": "/docs/camere-mirage",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Epidermide Dielettrica",
+      "path": "/docs/epidermide-dielettrica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Minerali",
+      "path": "/docs/ghiandole-minerali",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Microonde Cavernose",
+      "path": "/docs/antenne-microonde-cavernose",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Membrane Captura Rugiada",
+      "path": "/docs/membrane-captura-rugiada",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiaccio Piezoelettrico",
+      "path": "/docs/ghiaccio-piezoelettrico",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Artigli Radice",
+      "path": "/docs/artigli-radice",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Colonne Vibromagnetiche",
+      "path": "/docs/colonne-vibromagnetiche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Biofilm Glow",
+      "path": "/docs/biofilm-glow",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Risonanza Di Branco",
+      "path": "/docs/risonanza-di-branco",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cuticole Neutralizzanti",
+      "path": "/docs/cuticole-neutralizzanti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Luminescenza Hydrotermica",
+      "path": "/docs/luminescenza-hydrotermica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Aura Scudo Radianza",
+      "path": "/docs/aura-scudo-radianza",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Carapaci Ferruginosi",
+      "path": "/docs/carapaci-ferruginosi",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Enzimi Chelatori Rapidi",
+      "path": "/docs/enzimi-chelatori-rapidi",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Gusci Criovetro",
+      "path": "/docs/gusci-criovetro",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Branchie Turbina",
+      "path": "/docs/branchie-turbina",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Eco Turbina",
+      "path": "/docs/antenne-eco-turbina",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Artigli Acidofagi",
+      "path": "/docs/artigli-acidofagi",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Inchiostro Luce",
+      "path": "/docs/ghiandole-inchiostro-luce",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Empatia Coordinativa",
+      "path": "/docs/empatia-coordinativa",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Circolazione Doppia",
+      "path": "/docs/circolazione-doppia",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Coda Stabilizzatrice Geiser",
+      "path": "/docs/coda-stabilizzatrice-geiser",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Batteri Termofili Endosimbiosi",
+      "path": "/docs/batteri-termofili-endosimbiosi",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Foliage Fotocatodico",
+      "path": "/docs/foliage-fotocatodico",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Reagenti",
+      "path": "/docs/antenne-reagenti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Biofilm Iperarido",
+      "path": "/docs/biofilm-iperarido",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Artigli Scivolo Silente",
+      "path": "/docs/artigli-scivolo-silente",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Nebbia Acida",
+      "path": "/docs/ghiandole-nebbia-acida",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Epitelio Fosforescente",
+      "path": "/docs/epitelio-fosforescente",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Sacche Spore Stratosferiche",
+      "path": "/docs/sacche-spore-stratosferiche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Nodi Micorrizici Oracolari",
+      "path": "/docs/nodi-micorrizici-oracolari",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Bulbi Radici Permafrost",
+      "path": "/docs/bulbi-radici-permafrost",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Cambio Salino",
+      "path": "/docs/ghiandole-cambio-salino",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Denti Silice Termici",
+      "path": "/docs/denti-silice-termici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Sinapsi Coraline Polifoniche",
+      "path": "/docs/sinapsi-coraline-polifoniche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Lamelle Sincroniche",
+      "path": "/docs/lamelle-sincroniche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Mucillagine Simbionte Mangrovie",
+      "path": "/docs/mucillagine-simbionte-mangrovie",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cartilagini Flessoacustiche",
+      "path": "/docs/cartilagini-flessoacustiche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Camere Nutrienti Vent",
+      "path": "/docs/camere-nutrienti-vent",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Chioma Parassita Canopica",
+      "path": "/docs/chioma-parassita-canopica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Membrane Planata Vectored",
+      "path": "/docs/membrane-planata-vectored",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Coralli Partner",
+      "path": "/docs/coralli-partner",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ciste Salmastre",
+      "path": "/docs/ciste-salmastre",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Piume Solari Fotovoltaiche",
+      "path": "/docs/piume-solari-fotovoltaiche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Vello Condensatore Nebbie",
+      "path": "/docs/vello-condensatore-nebbie",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Mimetismo Cromatico Passivo",
+      "path": "/docs/mimetismo-cromatico-passivo",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Squame Rifrangenti Deserto",
+      "path": "/docs/squame-rifrangenti-deserto",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Secrezione Rallentante Palmi",
+      "path": "/docs/secrezione-rallentante-palmi",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Nucleo Ovomotore Rotante",
+      "path": "/docs/nucleo-ovomotore-rotante",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Lingua Cristallina",
+      "path": "/docs/lingua-cristallina",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Mucose Barofile",
+      "path": "/docs/mucose-barofile",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Circolazione Bifasica",
+      "path": "/docs/circolazione-bifasica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Appendici Risonanti Marea",
+      "path": "/docs/appendici-risonanti-marea",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Filtri Planctonici",
+      "path": "/docs/filtri-planctonici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Coda Coppia Retroattiva",
+      "path": "/docs/coda-coppia-retroattiva",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Giunti Antitorsione",
+      "path": "/docs/giunti-antitorsione",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Enzimi Antipredatori Algali",
+      "path": "/docs/enzimi-antipredatori-algali",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cute Resistente Sali",
+      "path": "/docs/cute-resistente-sali",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Branchie Microfiltri",
+      "path": "/docs/branchie-microfiltri",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Fango Coesivo",
+      "path": "/docs/ghiandole-fango-coesivo",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ali Membrana Sonica",
+      "path": "/docs/ali-membrana-sonica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Barriere Miasma Glaciale",
+      "path": "/docs/barriere-miasma-glaciale",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Capsule Paracadute",
+      "path": "/docs/capsule-paracadute",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Lingua Tattile Trama",
+      "path": "/docs/lingua-tattile-trama",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Plasmatiche Tempesta",
+      "path": "/docs/antenne-plasmatiche-tempesta",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Waveguide",
+      "path": "/docs/antenne-waveguide",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Capillari Fluoridici",
+      "path": "/docs/capillari-fluoridici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Midollo Antivibrazione",
+      "path": "/docs/midollo-antivibrazione",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Lamine Scudo Silice",
+      "path": "/docs/lamine-scudo-silice",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Branchie Eoliche",
+      "path": "/docs/branchie-eoliche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Eco Interno Riflesso",
+      "path": "/docs/eco-interno-riflesso",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Eco Mappanti",
+      "path": "/docs/ghiandole-eco-mappanti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Filamenti Superconduttivi",
+      "path": "/docs/filamenti-superconduttivi",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Resina Conduttiva",
+      "path": "/docs/ghiandole-resina-conduttiva",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Coda Balanciere",
+      "path": "/docs/coda-balanciere",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cavita Risonanti Tundra",
+      "path": "/docs/cavita-risonanti-tundra",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Occhi Infrarosso Composti",
+      "path": "/docs/occhi-infrarosso-composti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Echi Risonanti",
+      "path": "/docs/echi-risonanti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ali Fulminee",
+      "path": "/docs/ali-fulminee",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Baffi Mareomotori",
+      "path": "/docs/baffi-mareomotori",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Sensori Geomagnetici",
+      "path": "/docs/sensori-geomagnetici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cuore Multicamera Bassa Pressione",
+      "path": "/docs/cuore-multicamera-bassa-pressione",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cervelletto Equilibrio Statico",
+      "path": "/docs/cervelletto-equilibrio-statico",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Olfatto Risonanza Magnetica",
+      "path": "/docs/olfatto-risonanza-magnetica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ventriglio Gastroliti",
+      "path": "/docs/ventriglio-gastroliti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Filamenti Digestivi Compattanti",
+      "path": "/docs/filamenti-digestivi-compattanti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Polmoni Cristallini Alta Quota",
+      "path": "/docs/polmoni-cristallini-alta-quota",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Respiro A Scoppio",
+      "path": "/docs/respiro-a-scoppio",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Membrane Eliofiltranti",
+      "path": "/docs/membrane-eliofiltranti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Lamelle Termoforetiche",
+      "path": "/docs/lamelle-termoforetiche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Branchie Osmotiche Salmastra",
+      "path": "/docs/branchie-osmotiche-salmastra",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Armatura Pietra Planare",
+      "path": "/docs/armatura-pietra-planare",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Mantello Meteoritico",
+      "path": "/docs/mantello-meteoritico",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Appendici Thermotattiche",
+      "path": "/docs/appendici-thermotattiche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Dustsense",
+      "path": "/docs/antenne-dustsense",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Grassi Termici",
+      "path": "/docs/grassi-termici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Enzimi Chelanti",
+      "path": "/docs/enzimi-chelanti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Flagelli Ancoranti",
+      "path": "/docs/flagelli-ancoranti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Circolazione Cooling Loop",
+      "path": "/docs/circolazione-cooling-loop",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Grafene",
+      "path": "/docs/ghiandole-grafene",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Criostasi Adattiva",
+      "path": "/docs/criostasi-adattiva",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Branchie Solfatiche",
+      "path": "/docs/branchie-solfatiche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Batteri Endosimbionti Chemio",
+      "path": "/docs/batteri-endosimbionti-chemio",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Circolazione Bifasica Palude",
+      "path": "/docs/circolazione-bifasica-palude",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Luminescenza Aurorale",
+      "path": "/docs/luminescenza-aurorale",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cuticole Cerose",
+      "path": "/docs/cuticole-cerose",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Carapace Segmenti Logici",
+      "path": "/docs/carapace-segmenti-logici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Coda Stabilizzatrice Filo",
+      "path": "/docs/coda-stabilizzatrice-filo",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Spore Psichiche Silenziate",
+      "path": "/docs/spore-psichiche-silenziate",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Sacche Galleggianti Ascensoriali",
+      "path": "/docs/sacche-galleggianti-ascensoriali",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Camere Anticorrosione",
+      "path": "/docs/camere-anticorrosione",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Gusci Magnesio",
+      "path": "/docs/gusci-magnesio",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Coda Stabilizzatrice Vortex",
+      "path": "/docs/coda-stabilizzatrice-vortex",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandola Caustica",
+      "path": "/docs/ghiandola-caustica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Biochip Memoria",
+      "path": "/docs/biochip-memoria",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Denti Chelatanti",
+      "path": "/docs/denti-chelatanti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Iodoattive",
+      "path": "/docs/ghiandole-iodoattive",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Enzimi Metanoossidanti",
+      "path": "/docs/enzimi-metanoossidanti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Mantelli Geotermici",
+      "path": "/docs/mantelli-geotermici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Artigli Induzione",
+      "path": "/docs/artigli-induzione",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Foliaggio Spugna",
+      "path": "/docs/foliaggio-spugna",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Frusta Fiammeggiante",
+      "path": "/docs/frusta-fiammeggiante",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cartilagini Biofibre",
+      "path": "/docs/cartilagini-biofibre",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Circolazione Supercritica",
+      "path": "/docs/circolazione-supercritica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Flusso Mareale",
+      "path": "/docs/antenne-flusso-mareale",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Sangue Piroforico",
+      "path": "/docs/sangue-piroforico",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cromofori Alert Acido",
+      "path": "/docs/cromofori-alert-acido",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Artigli Vetrificati",
+      "path": "/docs/artigli-vetrificati",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Scheletro Idro Regolante",
+      "path": "/docs/scheletro-idro-regolante",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Filamenti Magnetotrofi",
+      "path": "/docs/filamenti-magnetotrofi",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cisti Iperbariche",
+      "path": "/docs/cisti-iperbariche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Membrane Pneumatofori",
+      "path": "/docs/membrane-pneumatofori",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Condensa Ozono",
+      "path": "/docs/ghiandole-condensa-ozono",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Lamine Filtranti Aeree",
+      "path": "/docs/lamine-filtranti-aeree",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cartilagini Pseudometalliche",
+      "path": "/docs/cartilagini-pseudometalliche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Nebbia Ionica",
+      "path": "/docs/ghiandole-nebbia-ionica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Capillari Criogenici",
+      "path": "/docs/capillari-criogenici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Carapace Luminiscente Abissale",
+      "path": "/docs/carapace-luminiscente-abissale",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Tesla",
+      "path": "/docs/antenne-tesla",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Struttura Elastica Amorfa",
+      "path": "/docs/struttura-elastica-amorfa",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Denti Tuning Fork",
+      "path": "/docs/denti-tuning-fork",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Carapace Fase Variabile",
+      "path": "/docs/carapace-fase-variabile",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Branchie Dual Mode",
+      "path": "/docs/branchie-dual-mode",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Zoccoli Risonanti Steppe",
+      "path": "/docs/zoccoli-risonanti-steppe",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Filamenti Termoconduzione",
+      "path": "/docs/filamenti-termoconduzione",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Linfa Tampone",
+      "path": "/docs/linfa-tampone",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Branchie Metalloidi",
+      "path": "/docs/branchie-metalloidi",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Capillari Fotovoltaici",
+      "path": "/docs/capillari-fotovoltaici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Enzimi Antifase Termica",
+      "path": "/docs/enzimi-antifase-termica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cuscinetti Elettrostatici",
+      "path": "/docs/cuscinetti-elettrostatici",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Artigli Sette Vie",
+      "path": "/docs/artigli-sette-vie",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Coda Contrappeso",
+      "path": "/docs/coda-contrappeso",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Zampe A Molla",
+      "path": "/docs/zampe-a-molla",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Antenne Wideband",
+      "path": "/docs/antenne-wideband",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Coda Frusta Cinetica",
+      "path": "/docs/coda-frusta-cinetica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Barbigli Sensori Plasma",
+      "path": "/docs/barbigli-sensori-plasma",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Chemiorecettori Bromuro",
+      "path": "/docs/chemiorecettori-bromuro",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ali Ioniche",
+      "path": "/docs/ali-ioniche",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Mucose Aderenza Sonica",
+      "path": "/docs/mucose-aderenza-sonica",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Fango Calde",
+      "path": "/docs/ghiandole-fango-calde",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Cartilagine Flessotermica Venti",
+      "path": "/docs/cartilagine-flessotermica-venti",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Artigli Sghiaccio Glaciale",
+      "path": "/docs/artigli-sghiaccio-glaciale",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ghiandole Ventosa",
+      "path": "/docs/ghiandole-ventosa",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Index",
+      "path": "/docs/index",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Sonno Emisferico Alternato",
+      "path": "/docs/sonno-emisferico-alternato",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Drive Sync",
+      "path": "/docs/drive-sync",
+      "type": "docs",
+      "summary": "Questa procedura descrive come generare l'elenco di asset approvati da sincronizzare con `scripts/driveSync.gs`, inviarlo all'Apps Script e documentare i trigger e le credenziali necessari.",
+      "tags": []
+    },
+    {
+      "title": "Token-Rotation",
+      "path": "/docs/token-rotation",
+      "type": "docs",
+      "summary": "**Data aggiornamento:** 2025-11-10 — Allineamento con Support/QA Bridge. | Voce | Dettagli | | --- | --- |",
+      "tags": []
+    },
+    {
+      "title": "Ticket-2025-10-27-Playwright-Deploy-Checks",
+      "path": "/docs/ticket-2025-10-27-playwright-deploy-checks",
+      "type": "docs",
+      "summary": "- **Data**: 2025-10-27 - **Build CLI**: N/A (script `scripts/run_deploy_checks.sh`) - **Profilo**: support",
+      "tags": []
+    },
+    {
+      "title": "Bug-Template",
+      "path": "/docs/bug-template",
+      "type": "docs",
+      "summary": "- **Titolo**: `[CLI][<profile>] <descrizione>` - **Data**: `<AAAA-MM-GG>` - **Build CLI**: output di `game-cli version --json`",
+      "tags": []
+    },
+    {
+      "title": "Trait Sources",
+      "path": "/docs/trait-sources",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Feature-Updates",
+      "path": "/docs/feature-updates",
+      "type": "docs",
+      "summary": "- **Flow QA logger & timeline JRPG** — Il Flow Shell registra automaticamente snapshot, fallback e validazioni nel nuovo logger client-side. Dalla vista **Quality Release → Log runtime** è possibile filtrare gli scope e …",
+      "tags": []
+    },
+    {
+      "title": "Traits Inventory",
+      "path": "/docs/traits-inventory",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Species Trait Matrix",
+      "path": "/docs/species-trait-matrix",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Trait Reference",
+      "path": "/docs/trait-reference",
+      "type": "docs",
+      "summary": "Questo riferimento sintetizza un sottoinsieme rappresentativo dei trait con i relativi ID, label approvate e descrizioni narrative nelle lingue attualmente supportate (italiano ed inglese). Tutti i valori provengono dal …",
+      "tags": []
+    },
+    {
+      "title": "Catalog Data",
+      "path": "/docs/catalog-data",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Foodweb Roles",
+      "path": "/docs/foodweb-roles",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Idea-Taxonomy",
+      "path": "/docs/idea-taxonomy",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Sentience Sdk",
+      "path": "/docs/sentience-sdk",
+      "type": "docs",
+      "summary": "Questo documento riepiloga i codici definitivi dei tier di Sensienza da utilizzare nelle integrazioni API/SDK. | Codice | Label | Milestone gating | Note |",
+      "tags": []
+    },
+    {
+      "title": "Diagnostics",
+      "path": "/docs/diagnostics",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Species",
+      "path": "/docs/species",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Species-Preview",
+      "path": "/docs/species-preview",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Species-Batch",
+      "path": "/docs/species-batch",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Apply",
+      "path": "/docs/apply",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Species",
+      "path": "/docs/species",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Biome",
+      "path": "/docs/biome",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Foodweb",
+      "path": "/docs/foodweb",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Flow-Shell-Snapshot",
+      "path": "/docs/flow-shell-snapshot",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Atlas",
+      "path": "/docs/atlas",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Telemetry",
+      "path": "/docs/telemetry",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Manifest",
+      "path": "/docs/manifest",
+      "type": "docs",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Manifest",
+      "path": "/docs/manifest",
+      "type": "docs",
+      "summary": "Questo documento elenca i biomi menzionati nei canvas progettuali, nei dataset delle specie e negli strumenti di generazione, fornendo un identificatore canonico da utilizzare in `data/core/biomes.yaml` e nelle integrazi…",
+      "tags": []
+    },
+    {
+      "title": "Changelog",
+      "path": "/docs/changelog",
+      "type": "docs",
+      "summary": "> Aggiorna questo file ad ogni promozione di widget/backend per mantenere una traccia unica delle novità. Duplica lo scheletro > qui sotto e collega sempre PR, issue o log operativi utili al review. - Pubblicato il tutor…",
+      "tags": []
+    },
+    {
+      "title": "Feedback",
+      "path": "/docs/feedback",
+      "type": "docs",
+      "summary": "Grazie per voler contribuire al miglioramento del flusso di intake! Usa questa traccia quando vuoi lasciare note strutturate oltre al modulo rapido nel widget. - **Idea / Ticket correlato:** <!-- link o ID --> - **Data:*…",
+      "tags": []
+    },
+    {
+      "title": "Refresh-Plan",
+      "path": "/docs/refresh-plan",
+      "type": "docs",
+      "summary": "| Percorso | Contenuto | Note flusso | | ------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ------------------------------…",
+      "tags": []
+    },
+    {
+      "title": "Traits",
+      "path": "/docs/traits",
+      "type": "docs",
+      "summary": "Questa guida riassume template, strumenti e controlli richiesti per proporre o aggiornare i trait. È pensata come integrazione al template dati ufficiale e alle checklist di processo già presenti nel repository e al vade…",
+      "tags": []
+    },
+    {
+      "title": "Idea-Engine-Feedback",
+      "path": "/docs/idea-engine-feedback",
+      "type": "docs",
+      "summary": "![Idea Engine feedback](../../assets/tutorials/idea-engine-feedback.svg) Attivare il flusso completo di ideazione e invio feedback sfruttando l'API Express e il canale Slack dedicato. 1. **Avvio backend** — dalla root de…",
+      "tags": []
+    },
+    {
+      "title": "Dashboard-Tour",
+      "path": "/docs/dashboard-tour",
+      "type": "docs",
+      "summary": "![Dashboard tour](../../assets/tutorials/dashboard-tour.svg) Verificare rapidamente la dashboard Vue/Vite e documentare eventuali anomalie visive con materiale condivisibile. 1. **Avvio ambiente web** — esegui `npm --pre…",
+      "tags": []
+    },
+    {
+      "title": "Hud-Overlay-Quickstart",
+      "path": "/docs/hud-overlay-quickstart",
+      "type": "docs",
+      "summary": "Attiva e testa l'overlay HUD canary per condividere i log con SquadSync e raccogliere feedback nel canale `#feedback-enhancements`. - `public/hud/Overlay.tsx` aggiornato dalla branch corrente (include badge SquadSync e c…",
+      "tags": []
+    },
+    {
+      "title": "Feedback-Form",
+      "path": "/docs/feedback-form",
+      "type": "docs",
+      "summary": "Questa guida illustra come accedere, compilare e monitorare il nuovo form di feedback introdotto con la pipeline descritta in `docs/process/feedback_collection_pipeline.md`. - **Dashboard documentazione**: link rapido ne…",
+      "tags": []
+    },
+    {
+      "title": "Idea-Engine",
+      "path": "/docs/idea-engine",
+      "type": "docs",
+      "summary": "![Idea Engine overview](../../assets/tutorials/idea-engine-feedback.svg) Attivare il percorso completo dall'ideazione alla raccolta feedback con il widget pubblico, il backend Node e la tassonomia condivisa. - Repository…",
+      "tags": []
+    },
+    {
+      "title": "Adaptive-Engine-Quickstart",
+      "path": "/docs/adaptive-engine-quickstart",
+      "type": "docs",
+      "summary": "Questa guida collega l'ETL canary di SquadSync con il motore adaptive, i test automatici e il canale `#feedback-enhancements`. 1. Esegui l'ETL aggiornato: ```bash",
+      "tags": []
+    },
+    {
+      "title": "Cli-Quickstart",
+      "path": "/docs/cli-quickstart",
+      "type": "docs",
+      "summary": "![CLI quickstart](../../assets/tutorials/cli-quickstart.svg) Eseguire un ciclo completo di setup, validazione e generazione demo per verificare che la CLI sia operativa. 1. **Setup ambiente** — installa dipendenze Node e…",
+      "tags": []
+    },
+    {
+      "title": "C-Canvas Npg Biomi",
+      "path": "/appendici/c-canvas-npg-biomi",
+      "type": "appendici",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "D-Canvas Accoppiamento",
+      "path": "/appendici/d-canvas-accoppiamento",
+      "type": "appendici",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "A-Canvas Originale",
+      "path": "/appendici/a-canvas-originale",
+      "type": "appendici",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Terraforming Bands",
+      "path": "/biomi/terraforming-bands",
+      "type": "biomi",
+      "summary": "Bande di vitalità del bioma e sblocco slot.",
+      "tags": []
+    },
+    {
+      "title": "Parts Scaling",
+      "path": "/traits/parts-scaling",
+      "type": "traits",
+      "summary": "Derivazione stats/abilità da parti e livelli.",
+      "tags": []
+    },
+    {
+      "title": "Build Budget",
+      "path": "/rules/build-budget",
+      "type": "rules",
+      "summary": "Regole e soglie per il budget di complessità delle build.",
+      "tags": []
+    },
+    {
+      "title": "Stages",
+      "path": "/rules/stages",
+      "type": "rules",
+      "summary": "Archi di progressione con soglie e carry-over selettivo.",
+      "tags": []
+    },
+    {
+      "title": "Workflowstate",
+      "path": "/services/workflowstate",
+      "type": "services",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Package",
+      "path": "/services/package",
+      "type": "services",
+      "summary": "",
+      "tags": []
+    }
+  ]
+}
