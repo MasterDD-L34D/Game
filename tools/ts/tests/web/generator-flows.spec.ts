@@ -10,7 +10,9 @@ test.describe('Evo generator flows', () => {
       `/docs/evo-tactics-pack/generator.html?pack-root=${encodeURIComponent(packRoot)}`,
     );
 
-    await page.waitForSelector('#generator-status[data-tone="success"]', { timeout: 20000 });
+    const status = page.locator('#generator-status');
+    await expect(status).toContainText("Catalogo pronto all'uso", { timeout: 45000 });
+    await expect(status).toHaveAttribute('data-tone', 'success');
 
     const flagButton = await page.waitForSelector('#flags [data-multiselect-option]', {
       timeout: 10000,
