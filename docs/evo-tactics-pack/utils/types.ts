@@ -1,64 +1,78 @@
-export type FilterToken = string | number | boolean | null | undefined | { [key: string]: unknown };
+/**
+ * @typedef {string | number | boolean | null | undefined | Record<string, unknown>} FilterToken
+ */
 
-export interface FilterSet {
-  flags?: FilterToken[] | null;
-  roles?: FilterToken[] | null;
-  tags?: FilterToken[] | null;
-}
+/**
+ * @typedef {Object} FilterSet
+ * @property {(FilterToken[] | null | undefined)} [flags]
+ * @property {(FilterToken[] | null | undefined)} [roles]
+ * @property {(FilterToken[] | null | undefined)} [tags]
+ */
 
-export type HazardLevel = 'low' | 'medium' | 'high';
+/**
+ * @typedef {'low' | 'medium' | 'high'} HazardLevel
+ */
 
-export interface GenerationConstraints {
-  requiredRoles?: string[];
-  preferredTags?: string[];
-  hazard?: HazardLevel;
-  climate?: string | null;
-  minSize?: number;
-}
+/**
+ * @typedef {Object} GenerationConstraints
+ * @property {string[]} [requiredRoles]
+ * @property {string[]} [preferredTags]
+ * @property {HazardLevel} [hazard]
+ * @property {string | null} [climate]
+ * @property {number} [minSize]
+ */
 
-export interface TagEntry {
-  id: string;
-  label: string;
-}
+/**
+ * @typedef {Object} TagEntry
+ * @property {string} id
+ * @property {string} label
+ */
 
-export interface ActivityLogTag {
-  id: string | null;
-  label: string;
-}
+/**
+ * @typedef {Object} ActivityLogTag
+ * @property {string | null} id
+ * @property {string} label
+ */
 
-export type TagLike =
-  | TagEntry
-  | ActivityLogTag
-  | string
-  | {
-      id?: string | null;
-      value?: string | null;
-      label?: string | null;
-      name?: string | null;
-      title?: string | null;
-      text?: string | null;
-    }
-  | null
-  | undefined;
+/**
+ * @typedef {TagEntry | ActivityLogTag | string | {
+ *   id?: string | null,
+ *   value?: string | null,
+ *   label?: string | null,
+ *   name?: string | null,
+ *   title?: string | null,
+ *   text?: string | null,
+ * } | null | undefined} TagLike
+ */
 
-export interface ActivityLogEntryInput {
-  id?: string | null;
-  message?: string | null;
-  tone?: string | null;
-  timestamp?: string | number | Date | null;
-  tags?: TagLike[] | null;
-  action?: string | null;
-  pinned?: boolean | null;
-  metadata?: unknown;
-}
+/**
+ * @typedef {Object} ActivityLogEntryInput
+ * @property {string | null} [id]
+ * @property {string | null} [message]
+ * @property {string | null} [tone]
+ * @property {string | number | Date | null} [timestamp]
+ * @property {TagLike[] | null} [tags]
+ * @property {string | null} [action]
+ * @property {boolean | null} [pinned]
+ * @property {unknown} [metadata]
+ */
 
-export interface SerialisedActivityLogEntry {
-  id: string | null;
-  message: string;
-  tone: string;
-  timestamp: string;
-  tags: ActivityLogTag[];
-  action: string | null;
-  pinned: boolean;
-  metadata: unknown;
-}
+/**
+ * @typedef {Object} SerialisedActivityLogEntry
+ * @property {string | null} id
+ * @property {string} message
+ * @property {string} tone
+ * @property {string} timestamp
+ * @property {ActivityLogTag[]} tags
+ * @property {string | null} action
+ * @property {boolean} pinned
+ * @property {unknown} metadata
+ */
+
+/**
+ * @callback RandomIdGenerator
+ * @param {string} [prefix]
+ * @returns {string}
+ */
+
+export {};
