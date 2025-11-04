@@ -9,6 +9,8 @@ import { createSessionState } from './state/session.ts';
 import { randomId } from './utils/ids.ts';
 import { buildGenerationConstraints, createTagEntry } from './utils/normalizers.ts';
 import { activityLogToCsv, serialiseActivityLogEntry, toYAML } from './utils/serializers.ts';
+import { createStorageService } from './services/storage.ts';
+import { createAudioService, DEFAULT_AUDIO_CUES } from './services/audio.ts';
 import {
   fetchTraitRegistry,
   fetchTraitReference,
@@ -49,14 +51,6 @@ const anchorState = {
 
 const PACK_ROOT_CANDIDATES = getPackRootCandidates();
 const EXPORT_BASE_FOLDER = `${PACK_PATH}out/generator/`;
-const STORAGE_KEYS = {
-  activityLog: 'evo-generator-activity-log',
-  filterProfiles: 'evo-generator-filter-profiles',
-  history: 'evo-generator-history',
-  pinned: 'evo-generator-pinned',
-  locks: 'evo-generator-locks',
-  preferences: 'evo-generator-preferences',
-};
 
 const DEFAULT_ACTIVITY_TONES = ['info', 'success', 'warn', 'error'];
 const MAX_ACTIVITY_EVENTS = 150;
@@ -264,70 +258,6 @@ const MANIFEST_PRESETS = [
   },
 ];
 
-const RARE_CUE_SOURCE =
-  'data:audio/wav;base64,UklGRiYfAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YQIfAAAAALwL+hZBISMqQTFONhM5d' +
-  'DlsNxEzkSwzJFAaUg+wA+j3dezU4XfYw9AKy4rH' +
-  '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' +
-  'Wug=';
-
-const AUDIO_CUES = {
-  rare: null,
-};
-
 const DEFAULT_BRIEFING_TEXT = 'Genera un ecosistema per ottenere il briefing operativo.';
 const DEFAULT_HOOK_TEXT = 'Gli hook narrativi compariranno dopo la prima generazione.';
 
@@ -339,14 +269,33 @@ const state = createSessionState({
   defaultHookText: DEFAULT_HOOK_TEXT,
 });
 
+const storageService = createStorageService({
+  windowRef: typeof window !== 'undefined' ? window : null,
+  logger: typeof console !== 'undefined' ? console : undefined,
+});
+
+const audioService = createAudioService({
+  cues: DEFAULT_AUDIO_CUES,
+  preferences: state.preferences,
+  elements: {
+    controls: elements.audioControls,
+    mute: elements.audioMute,
+    volume: elements.audioVolume,
+  },
+  loadPreferences: () => storageService.loadPreferences(),
+  savePreferences: (prefs) => storageService.savePreferences(prefs),
+  logger: typeof console !== 'undefined' ? console : undefined,
+  defaultVolume: typeof state.preferences?.volume === 'number' ? state.preferences.volume : 0.75,
+});
+
+audioService.restorePreferences();
+
 let summaryFocusTimer = null;
 
 let packContext = null;
 let resolvedCatalogUrl = null;
 let resolvedPackRoot = null;
 let packDocsBase = null;
-let cachedStorage = null;
-let storageChecked = false;
 let comparisonChart = null;
 let chartUnavailableNotified = false;
 let composerRadarChart = null;
@@ -806,7 +755,7 @@ function triggerRareEventFeedback(context = {}) {
     pulseElement(elements.briefingPanel, 'narrative-panel--rare', 900);
   }
 
-  playAudioCue('rare');
+  audioService.playCue('rare');
 }
 
 function updateNarrativePrompts(filters = state.lastFilters) {
@@ -1281,209 +1230,7 @@ function formatIsoToLocale(value) {
   return date.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' });
 }
 
-function getActivityStorage() {
-  if (storageChecked) {
-    return cachedStorage;
-  }
-  storageChecked = true;
-  try {
-    if (typeof window === 'undefined' || !window.localStorage) {
-      cachedStorage = null;
-      return cachedStorage;
-    }
-    const testKey = '__generator_log_test__';
-    window.localStorage.setItem(testKey, '1');
-    window.localStorage.removeItem(testKey);
-    cachedStorage = window.localStorage;
-  } catch (error) {
-    console.warn('LocalStorage non disponibile per il monitor del generatore', error);
-    cachedStorage = null;
-  }
-  return cachedStorage;
-}
-
-function getPersistentStorage() {
-  return getActivityStorage();
-}
-
-function clampVolume(value) {
-  if (!Number.isFinite(value)) return 0.5;
-  if (value < 0) return 0;
-  if (value > 1) return 1;
-  return value;
-}
-
-function ensureAudioCue(key) {
-  if (!key) return null;
-  const existing = AUDIO_CUES[key];
-  if (existing) {
-    return existing;
-  }
-
-  switch (key) {
-    case 'rare':
-      AUDIO_CUES.rare = createAudioElement(RARE_CUE_SOURCE);
-      return AUDIO_CUES.rare;
-    default:
-      return existing ?? null;
-  }
-}
-
-function createAudioElement(src) {
-  if (typeof Audio === 'undefined') return null;
-  try {
-    const audio = new Audio(src);
-    audio.preload = 'auto';
-    audio.volume = clampVolume(state.preferences.volume);
-    return audio;
-  } catch (error) {
-    console.warn('Impossibile inizializzare il cue audio', error);
-    return null;
-  }
-}
-
-function applyAudioPreferences() {
-  const muted = Boolean(state.preferences.audioMuted);
-  const volume = clampVolume(state.preferences.volume);
-
-  if (elements.audioMute) {
-    elements.audioMute.classList.toggle('is-muted', muted);
-    elements.audioMute.setAttribute('aria-pressed', muted ? 'true' : 'false');
-    elements.audioMute.textContent = muted ? '🔇 Audio disattivato' : '🔈 Audio attivo';
-  }
-
-  if (elements.audioVolume) {
-    const targetValue = String(Math.round(volume * 100));
-    if (elements.audioVolume.value !== targetValue) {
-      elements.audioVolume.value = targetValue;
-    }
-  }
-
-  Object.keys(AUDIO_CUES).forEach((key) => {
-    const audio = ensureAudioCue(key);
-    if (!audio) return;
-    audio.volume = muted ? 0 : volume;
-  });
-}
-
-function playAudioCue(key) {
-  const audio = ensureAudioCue(key);
-  if (!audio) return;
-  const volume = clampVolume(state.preferences.volume);
-  if (state.preferences.audioMuted || volume <= 0) {
-    if (typeof audio.pause === 'function') {
-      try {
-        audio.pause();
-      } catch (error) {
-        console.warn('Impossibile mettere in pausa il cue audio', error);
-      }
-    }
-    return;
-  }
-  try {
-    audio.currentTime = 0;
-    audio.volume = volume;
-    const playback = audio.play();
-    if (playback && typeof playback.catch === 'function') {
-      playback.catch((error) => {
-        if (error && error.name !== 'NotAllowedError') {
-          console.warn('Riproduzione audio non riuscita', error);
-        }
-      });
-    }
-  } catch (error) {
-    console.warn('Impossibile riprodurre il cue audio', key, error);
-  }
-}
-
-function persistPreferences() {
-  const storage = getPersistentStorage();
-  if (!storage) return;
-  try {
-    const payload = {
-      audioMuted: Boolean(state.preferences.audioMuted),
-      volume: clampVolume(Number(state.preferences.volume)),
-    };
-    storage.setItem(STORAGE_KEYS.preferences, JSON.stringify(payload));
-  } catch (error) {
-    console.warn('Impossibile salvare le preferenze audio', error);
-  }
-}
-
-function restorePreferences() {
-  const storage = getPersistentStorage();
-  if (!storage) {
-    applyAudioPreferences();
-    return;
-  }
-  try {
-    const raw = storage.getItem(STORAGE_KEYS.preferences);
-    if (!raw) {
-      applyAudioPreferences();
-      return;
-    }
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === 'object') {
-      if (typeof parsed.audioMuted === 'boolean') {
-        state.preferences.audioMuted = parsed.audioMuted;
-      }
-      if (parsed.volume !== undefined) {
-        state.preferences.volume = clampVolume(Number(parsed.volume));
-      }
-    }
-  } catch (error) {
-    console.warn('Impossibile ripristinare le preferenze audio', error);
-  }
-  applyAudioPreferences();
-}
-
-function setupAudioControls() {
-  const supported = Boolean(ensureAudioCue('rare'));
-  if (!supported && elements.audioControls) {
-    elements.audioControls.hidden = true;
-    elements.audioControls.setAttribute('aria-hidden', 'true');
-    return;
-  }
-
-  if (elements.audioMute) {
-    elements.audioMute.addEventListener('click', (event) => {
-      event.preventDefault();
-      const nextMuted = !state.preferences.audioMuted;
-      state.preferences.audioMuted = nextMuted;
-      if (!nextMuted && clampVolume(state.preferences.volume) <= 0) {
-        state.preferences.volume = 0.5;
-      }
-      applyAudioPreferences();
-      persistPreferences();
-    });
-  }
-
-  if (elements.audioVolume) {
-    const handleVolume = (value) => {
-      const numeric = clampVolume(Number(value) / 100);
-      state.preferences.volume = numeric;
-      if (numeric > 0 && state.preferences.audioMuted) {
-        state.preferences.audioMuted = false;
-      }
-      if (numeric === 0) {
-        state.preferences.audioMuted = true;
-      }
-      applyAudioPreferences();
-    };
-    elements.audioVolume.addEventListener('input', (event) => {
-      handleVolume(event.target.value);
-    });
-    elements.audioVolume.addEventListener('change', () => {
-      persistPreferences();
-    });
-  }
-
-  applyAudioPreferences();
-}
-
 function persistPinnedState() {
-  const storage = getPersistentStorage();
-  if (!storage) return;
   try {
     const serialisable = Array.from(state.cardState.pinned.values()).map((entry) => ({
       key: entry.key,
@@ -1496,19 +1243,15 @@ function persistPinnedState() {
       slug: entry.slug,
       synthetic: Boolean(entry.synthetic),
     }));
-    storage.setItem(STORAGE_KEYS.pinned, JSON.stringify(serialisable));
+    storageService.savePinnedState(serialisable);
   } catch (error) {
     console.warn('Impossibile salvare lo stato dei pin', error);
   }
 }
 
 function restorePinnedState() {
-  const storage = getPersistentStorage();
-  if (!storage) return;
   try {
-    const raw = storage.getItem(STORAGE_KEYS.pinned);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
+    const parsed = storageService.loadPinnedState();
     if (!Array.isArray(parsed)) return;
     const store = state.cardState.pinned;
     store.clear();
@@ -1534,27 +1277,20 @@ function restorePinnedState() {
 }
 
 function persistLockState() {
-  const storage = getPersistentStorage();
-  if (!storage) return;
   try {
     const payload = {
       biomes: Array.from(state.cardState.locks.biomes.values()),
       species: Array.from(state.cardState.locks.species.values()),
     };
-    storage.setItem(STORAGE_KEYS.locks, JSON.stringify(payload));
+    storageService.saveLocks(payload);
   } catch (error) {
     console.warn('Impossibile salvare lo stato dei lock', error);
   }
 }
 
 function restoreLockState() {
-  const storage = getPersistentStorage();
-  if (!storage) return;
   try {
-    const raw = storage.getItem(STORAGE_KEYS.locks);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object') return;
+    const parsed = storageService.loadLocks();
     const biomeLocks = Array.isArray(parsed.biomes) ? parsed.biomes : [];
     const speciesLocks = Array.isArray(parsed.species) ? parsed.species : [];
     state.cardState.locks.biomes = new Set(biomeLocks);
@@ -1598,8 +1334,6 @@ function ensureProfileState() {
 }
 
 function persistFilterProfiles() {
-  const storage = getPersistentStorage();
-  if (!storage) return;
   ensureProfileState();
   try {
     const payload = state.filterProfiles.map((profile) => {
@@ -1614,20 +1348,16 @@ function persistFilterProfiles() {
         updatedAt: profile.updatedAt ?? null,
       };
     });
-    storage.setItem(STORAGE_KEYS.filterProfiles, JSON.stringify(payload));
+    storageService.saveFilterProfiles(payload);
   } catch (error) {
     console.warn('Impossibile salvare i profili filtro', error);
   }
 }
 
 function restoreFilterProfiles() {
-  const storage = getPersistentStorage();
   ensureProfileState();
-  if (!storage) return;
   try {
-    const raw = storage.getItem(STORAGE_KEYS.filterProfiles);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
+    const parsed = storageService.loadFilterProfiles();
     if (!Array.isArray(parsed)) return;
     state.filterProfiles = parsed.slice(0, PROFILE_SLOT_COUNT).map((profile, index) => {
       if (!profile) return null;
@@ -1688,8 +1418,6 @@ function clearProfileSlot(index) {
 }
 
 function persistHistoryEntries() {
-  const storage = getPersistentStorage();
-  if (!storage) return;
   try {
     const serialisable = state.history.map((entry) => ({
       id: entry.id,
@@ -1700,19 +1428,15 @@ function persistHistoryEntries() {
       filters: entry.filters,
       preview: entry.preview,
     }));
-    storage.setItem(STORAGE_KEYS.history, JSON.stringify(serialisable));
+    storageService.saveHistory(serialisable);
   } catch (error) {
     console.warn('Impossibile salvare la cronologia del generatore', error);
   }
 }
 
 function restoreHistoryEntries() {
-  const storage = getPersistentStorage();
-  if (!storage) return;
   try {
-    const raw = storage.getItem(STORAGE_KEYS.history);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
+    const parsed = storageService.loadHistory();
     if (!Array.isArray(parsed)) return;
     state.history = parsed
       .slice(0, MAX_HISTORY_ENTRIES)
@@ -2286,8 +2010,6 @@ function trimActivityLog() {
 }
 
 function persistActivityLog() {
-  const storage = getActivityStorage();
-  if (!storage) return;
   try {
     const serialisable = state.activityLog
       .map(serialiseActivityLogEntry)
@@ -2296,19 +2018,15 @@ function persistActivityLog() {
         ...entry,
         timestamp: entry.timestamp,
       }));
-    storage.setItem(STORAGE_KEYS.activityLog, JSON.stringify(serialisable));
+    storageService.saveActivityLog(serialisable);
   } catch (error) {
     console.warn('Impossibile salvare il registro attività', error);
   }
 }
 
 function restoreActivityLog() {
-  const storage = getActivityStorage();
-  if (!storage) return;
   try {
-    const raw = storage.getItem(STORAGE_KEYS.activityLog);
-    if (!raw) return;
-    const parsed = JSON.parse(raw);
+    const parsed = storageService.loadActivityLog();
     if (!Array.isArray(parsed)) return;
     const restored = parsed
       .map((entry) => {
@@ -8141,14 +7859,14 @@ async function loadData() {
 restoreActivityLog();
 restorePinnedState();
 restoreLockState();
-restorePreferences();
+audioService.restorePreferences();
 restoreFilterProfiles();
 restoreHistoryEntries();
 updateActivityTagRegistry();
 recalculateActivityMetrics();
 renderActivityLog();
 setupActivityControls();
-setupAudioControls();
+audioService.setupControls();
 parametersPanel.setup();
 traitsPanel.setup();
 biomesPanel.setup();
