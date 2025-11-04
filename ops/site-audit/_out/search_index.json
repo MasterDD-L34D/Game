@@ -1,0 +1,193 @@
+{
+  "docs": [
+    {
+      "title": "Home",
+      "path": "/",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Generatore",
+      "path": "/generatore",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Bestiario",
+      "path": "/bestiario",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Biomi",
+      "path": "/biomi",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Tratti",
+      "path": "/tratti",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Morph",
+      "path": "/morph",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Ruoli",
+      "path": "/ruoli",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Manovre (Surge)",
+      "path": "/manovre",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Equipaggiamento",
+      "path": "/equipaggiamento",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Regole",
+      "path": "/regole",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Modulo Personalità: Enneagramma",
+      "path": "/moduli/enneagramma",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Quickstart GM",
+      "path": "/docs/quickstart-gm",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Download",
+      "path": "/download",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "API Schemas",
+      "path": "/api/schemas",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Telemetria",
+      "path": "/telemetria",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Changelog",
+      "path": "/changelog",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "About",
+      "path": "/about",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Contribuisci",
+      "path": "/contribuisci",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Privacy",
+      "path": "/privacy",
+      "type": "toplevel",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Terraforming Bands",
+      "path": "/biomi/terraforming-bands",
+      "type": "biomi",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Parts Scaling",
+      "path": "/tratti/parts-scaling",
+      "type": "tratti",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Build Budget",
+      "path": "/regole/build-budget",
+      "type": "regole",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Seme",
+      "path": "/regole/stages",
+      "type": "regole",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Nome Carta",
+      "path": "/api/schemas/card_schema.yaml",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Nome voce",
+      "path": "/api/schemas/roll_table_schema.yaml",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Suggestions-Apply-Request.Schema",
+      "path": "/api/schemas/suggestions-apply-request.schema.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Suggestion.Schema",
+      "path": "/api/schemas/suggestion.schema.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    }
+  ]
+}
