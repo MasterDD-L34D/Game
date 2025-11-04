@@ -18,9 +18,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
     "types": ["vite/client"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.d.ts", "env.d.ts"],
+  "include": ["src/**/*.ts", "env.d.ts"],
   "exclude": ["src/**/__tests__/**", "src/**/__mocks__/**"]
 }
