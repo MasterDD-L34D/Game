@@ -152,14 +152,19 @@
 
 ### 7.2 Backlog Kanban (Issues/PR)
 
-| Stato target                 | Titolo                                                                | Scope file                                                                            | Criteri di accettazione                                                   |
-| ---------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| **To Do**                    | Setup design tokens & reset CSS                                       | `docs/assets/styles/tokens.css`, `docs/assets/styles/components.css`, `docs/site.css` | Variabili applicate almeno a hero/CTA, nessun regressione layout mobile   |
-| **To Do**                    | Ristrutturare `docs/ideas/index.html` con layout 2-col                | `docs/ideas/index.html`, nuovi partial CSS                                            | Landmark ARIA corretti, 3 CTA principali visibili above-the-fold          |
-| **To Do**                    | Aggiornare `docs/README.md` e `README_IDEAS.md` con indice e tutorial | `docs/README.md`, `README_IDEAS.md`, `docs/ideas/changelog.md`                        | Link coerenti, breadcrumb aggiunta, sezione tutorial referenziata         |
-| **Blocked (attende tokens)** | Estrarre componenti UI in `docs/public/embed.js`                      | `docs/public/embed.js`, eventuali `docs/public/ui/*.js`                               | Stati loading/accessibilità implementati, coverage export `.md` invariato |
-| **Upcoming**                 | Redigere `docs/CONTRIBUTING_SITE.md` + checklist QA                   | Nuovo file, aggiornamento `docs/index.html` se necessario                             | Guida include flussi test statico/backend, link a workflow CI             |
-| **Upcoming**                 | Script smoke-test Pages (serve docs + Lighthouse)                     | `package.json` (script), `docs/qa-checklist.md` (nuovo)                               | Comando automatizzabile documentato, risultati QA salvati                 |
+| Stato target          | Titolo                                             | Scope file                                                  | Criteri di accettazione                                                   |
+| --------------------- | -------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **To Do**             | Eseguire QA accessibilità & performance            | `docs/ideas/`, `docs/public/embed.js`, `webapp/`            | Checklist QA completata, report con esiti e follow-up documentati         |
+| **To Do**             | Documentare guida contributori Idea Engine         | `docs/CONTRIBUTING_SITE.md`, `README_IDEAS.md`              | Guida pubblicata e collegata dall'hub, include checklist PR e workflow CI |
+| **To Do**             | Automatizzare script smoke-test widget Idea Engine | `scripts/`, `docs/public/embed.js`                          | Script eseguibile da CI, verifica export `.md` e invio backend            |
+| **M2→M3 · Tech Debt** | Estrarre CSS widget in asset statico               | `docs/assets/styles/components.css`, `docs/public/embed.js` | CSS dedicato generato in build, rimozione iniezione runtime e fallback OK |
+
+#### Done
+
+- Setup design tokens & reset CSS (`docs/assets/styles/tokens.css`, `docs/assets/styles/components.css`, `docs/site.css`).
+- Ristrutturato `docs/ideas/index.html` con layout 2-col e CTA aggiornate.
+- Aggiornati `docs/README.md` e `README_IDEAS.md` con indice e tutorial.
+- Rifattorizzati i componenti UI di `docs/public/embed.js` (completato, precedentemente bloccato in attesa dei tokens).
 
 ### 7.3 Sequenza PR suggerita
 
