@@ -441,17 +441,16 @@ function createAnchorUi() {
   minimap.dataset.anchorMinimap = 'parameters';
   document.body.appendChild(minimap);
 
-  const overlay = document.createElement('div');
-  overlay.dataset.codexOverlay = 'true';
-  document.body.appendChild(overlay);
-
   const toggle = document.createElement('button');
   toggle.dataset.codexToggle = 'true';
   document.body.appendChild(toggle);
 
   const closer = document.createElement('button');
   closer.dataset.codexClose = 'true';
-  document.body.appendChild(closer);
+  const overlay = document.createElement('div');
+  overlay.dataset.codexOverlay = 'true';
+  overlay.appendChild(closer);
+  document.body.appendChild(overlay);
 
   return {
     root,
