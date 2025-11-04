@@ -6,6 +6,9 @@ import {
 } from './pack-data.js';
 import { resolveGeneratorElements, resolveAnchorUi } from './ui/elements.ts';
 import { createSessionState } from './state/session.ts';
+import { randomId } from './utils/ids.ts';
+import { buildGenerationConstraints, createTagEntry } from './utils/normalizers.ts';
+import { activityLogToCsv, serialiseActivityLogEntry, toYAML } from './utils/serializers.ts';
 
 const elements = resolveGeneratorElements(document);
 const anchorUi = resolveAnchorUi(document);
@@ -350,115 +353,11 @@ const API_ENDPOINTS = {
   biomeGeneration: '/api/v1/generation/biomes',
 };
 
-const CLIMATE_HINTS = [
-  { pattern: /frost|criogen|ghiacci|ice/i, value: 'frozen' },
-  { pattern: /desert|sabbia|arid|dust/i, value: 'arid' },
-  { pattern: /tempesta|storm|ion|vento/i, value: 'storm' },
-  { pattern: /fung|micel|caver/i, value: 'subterranean' },
-  { pattern: /abiss|idro|mare|ocean/i, value: 'aquatic' },
-];
-
 const HAZARD_LABELS = {
   low: 'Basso',
   medium: 'Medio',
   high: 'Alto',
 };
-
-function filtersInclude(values, pattern) {
-  if (!Array.isArray(values) || !values.length) return false;
-  return values.some((value) => pattern.test(String(value)));
-}
-
-function extractRequiredRoles(filters = {}) {
-  const roles = new Set();
-  (Array.isArray(filters.flags) ? filters.flags : []).forEach((flag) => {
-    if (ROLE_FLAGS.includes(flag)) {
-      roles.add(flag);
-    }
-  });
-  (Array.isArray(filters.roles) ? filters.roles : []).forEach((token) => {
-    const value = String(token).toLowerCase();
-    if (/apic|predator|apex/i.test(value)) roles.add('apex');
-    if (/chiav|custod|warden|keystone/i.test(value)) roles.add('keystone');
-    if (/ponte|bridge|logist|corridor/i.test(value)) roles.add('bridge');
-    if (/minacc|threat|assalt|predator/i.test(value)) roles.add('threat');
-    if (/evento|anomalia|event/i.test(value)) roles.add('event');
-  });
-  return Array.from(roles);
-}
-
-function collectPreferredTags(filters = {}) {
-  const tags = new Set();
-  (Array.isArray(filters.tags) ? filters.tags : []).forEach((tag) => {
-    if (tag) {
-      tags.add(String(tag));
-    }
-  });
-  (Array.isArray(filters.roles) ? filters.roles : []).forEach((token) => {
-    const value = String(token).toLowerCase();
-    if (/criogen|frost|ghiacci/i.test(value)) tags.add('criogenico');
-    if (/desert|sabbia|arid/i.test(value)) tags.add('desertico');
-    if (/idro|abiss|marino|ocean/i.test(value)) tags.add('abissale');
-    if (/fung|micel/i.test(value)) tags.add('micelico');
-  });
-  return Array.from(tags);
-}
-
-function inferHazardFromFilters(filters = {}) {
-  const flags = Array.isArray(filters.flags) ? filters.flags : [];
-  if (flags.includes('threat') || flags.includes('apex')) {
-    return 'high';
-  }
-  if (filtersInclude(filters.tags, /tempest|storm|pericolo|hazard|ferro/i)) {
-    return 'high';
-  }
-  if (filtersInclude(filters.tags, /rifug|tranquill|shelter|safe/i)) {
-    return 'low';
-  }
-  return 'medium';
-}
-
-function inferClimateFromFilters(filters = {}) {
-  const tags = Array.isArray(filters.tags) ? filters.tags : [];
-  for (const hint of CLIMATE_HINTS) {
-    if (filtersInclude(tags, hint.pattern)) {
-      return hint.value;
-    }
-  }
-  if (filtersInclude(filters.roles, /criogen|ghiacci|frost/i)) return 'frozen';
-  if (filtersInclude(filters.roles, /fung|micel/i)) return 'subterranean';
-  if (filtersInclude(filters.roles, /idro|abiss|mare|ocean/i)) return 'aquatic';
-  return null;
-}
-
-function inferMinSize(filters = {}) {
-  const roles = extractRequiredRoles(filters);
-  const tagCount = Array.isArray(filters.tags) ? filters.tags.length : 0;
-  const base = roles.length >= 3 ? 4 : 3;
-  const bonus = tagCount >= 4 ? 2 : tagCount >= 2 ? 1 : 0;
-  return Math.min(6, base + bonus);
-}
-
-function buildGenerationConstraints(filters = {}) {
-  const requiredRoles = extractRequiredRoles(filters);
-  const preferredTags = collectPreferredTags(filters);
-  const hazard = inferHazardFromFilters(filters);
-  const climate = inferClimateFromFilters(filters);
-  const minSize = inferMinSize(filters);
-  const constraints = {
-    requiredRoles,
-    preferredTags,
-    hazard,
-    climate,
-    minSize,
-  };
-  if (!constraints.requiredRoles.length) delete constraints.requiredRoles;
-  if (!constraints.preferredTags.length) delete constraints.preferredTags;
-  if (!constraints.hazard) delete constraints.hazard;
-  if (!constraints.climate) delete constraints.climate;
-  if (!Number.isFinite(constraints.minSize)) delete constraints.minSize;
-  return constraints;
-}
 
 function resolveApiEndpoint(pathname) {
   const bases = [state.api?.base, packContext?.apiBase];
@@ -2238,84 +2137,6 @@ function recordHistoryEntry(action, filters) {
   );
   persistHistoryEntries();
   renderHistoryPanel();
-}
-
-function normaliseTagId(value) {
-  return String(value ?? '')
-    .trim()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-function createTagEntry(tag) {
-  if (tag && typeof tag === 'object') {
-    const labelCandidate =
-      tag.label ?? tag.name ?? tag.title ?? tag.text ?? tag.value ?? tag.id ?? '';
-    const label = String(labelCandidate || '').trim();
-    if (!label) {
-      return null;
-    }
-    const idCandidate = tag.id ?? tag.value ?? normaliseTagId(label);
-    const id = normaliseTagId(idCandidate || label) || normaliseTagId(label) || randomId('tag');
-    return { id: id || randomId('tag'), label };
-  }
-  const label = String(tag ?? '').trim();
-  if (!label) {
-    return null;
-  }
-  const id = normaliseTagId(label) || randomId('tag');
-  return { id, label };
-}
-
-function toIsoTimestamp(value) {
-  if (value instanceof Date) {
-    return value.toISOString();
-  }
-  if (value === null || value === undefined || value === '') {
-    return new Date().toISOString();
-  }
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return new Date().toISOString();
-  }
-  return date.toISOString();
-}
-
-function serialiseActivityLogEntry(entry) {
-  if (!entry) return null;
-  const tags = Array.isArray(entry.tags)
-    ? entry.tags
-        .map((tag) => {
-          if (!tag) return null;
-          if (typeof tag === 'object') {
-            const id = tag.id ?? tag.value ?? null;
-            const label = tag.label ?? tag.name ?? tag.value ?? tag.id ?? null;
-            if (!id && !label) return null;
-            return {
-              id: id ?? (label ? normaliseTagId(label) || null : null),
-              label: label ?? (id ? String(id) : ''),
-            };
-          }
-          const label = String(tag ?? '').trim();
-          if (!label) return null;
-          return { id: normaliseTagId(label) || null, label };
-        })
-        .filter(Boolean)
-    : [];
-
-  return {
-    id: entry.id ?? null,
-    message: entry.message ?? '',
-    tone: entry.tone ?? 'info',
-    timestamp: toIsoTimestamp(entry.timestamp),
-    tags,
-    action: entry.action ?? null,
-    pinned: Boolean(entry.pinned),
-    metadata: entry.metadata ?? null,
-  };
 }
 
 function trimActivityLog() {
@@ -4483,11 +4304,6 @@ function uniqueById(items) {
   return Array.from(seen.values());
 }
 
-function randomId(prefix = 'synt') {
-  const suffix = Math.random().toString(36).slice(2, 8);
-  return `${prefix}-${suffix}`;
-}
-
 function combineNames(primaryName, secondaryName) {
   const firstTokens = String(primaryName || 'Alpha')
     .split(/\s+/)
@@ -5289,7 +5105,7 @@ async function requestBiomeSynthesis(count, filters) {
   if (!count) {
     return { biomes: [], meta: null };
   }
-  const constraints = buildGenerationConstraints(filters);
+  const constraints = buildGenerationConstraints(filters, { roleFlags: ROLE_FLAGS });
   const endpoint = resolveApiEndpoint(API_ENDPOINTS.biomeGeneration);
   const response = await fetch(endpoint, {
     method: 'POST',
@@ -8235,55 +8051,6 @@ function exportActivityLogEntries() {
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 }
 
-function activityLogToCsv(entries) {
-  const columns = ['id', 'timestamp', 'tone', 'message', 'tags', 'action', 'pinned', 'metadata'];
-  const escape = (value) => {
-    if (value === null || value === undefined) return '';
-    const stringValue = String(value);
-    if (/[",\n]/.test(stringValue)) {
-      return `"${stringValue.replace(/"/g, '""')}"`;
-    }
-    return stringValue;
-  };
-
-  const header = columns.join(',');
-  if (!entries.length) {
-    return `${header}\n`;
-  }
-
-  const rows = entries.map((entry) => {
-    const tags = Array.isArray(entry.tags)
-      ? entry.tags
-          .map((tag) => {
-            if (!tag) return null;
-            const label = tag.label ?? tag.id ?? '';
-            return label ? String(label) : null;
-          })
-          .filter(Boolean)
-          .join('|')
-      : '';
-    const metadata =
-      entry.metadata === null || entry.metadata === undefined
-        ? ''
-        : typeof entry.metadata === 'string'
-          ? entry.metadata
-          : JSON.stringify(entry.metadata);
-    const record = {
-      id: entry.id ?? '',
-      timestamp: entry.timestamp ?? '',
-      tone: entry.tone ?? '',
-      message: entry.message ?? '',
-      tags,
-      action: entry.action ?? '',
-      pinned: entry.pinned ? 'true' : 'false',
-      metadata,
-    };
-    return columns.map((column) => escape(record[column])).join(',');
-  });
-
-  return [header, ...rows].join('\n');
-}
-
 function downloadFile(name, content, type) {
   const blob =
     content instanceof Blob
@@ -8295,35 +8062,6 @@ function downloadFile(name, content, type) {
   anchor.download = name;
   anchor.click();
   URL.revokeObjectURL(url);
-}
-
-function toYAML(value, indent = 0) {
-  const space = '  '.repeat(indent);
-  if (value === null || value === undefined) return 'null';
-  if (Array.isArray(value)) {
-    if (!value.length) return '[]';
-    return value
-      .map((item) => `${space}- ${toYAML(item, indent + 1).replace(/^\s*/, '')}`)
-      .join('\n');
-  }
-  if (typeof value === 'object') {
-    const entries = Object.entries(value);
-    if (!entries.length) return '{}';
-    return entries
-      .map(([key, val]) => {
-        const formatted = toYAML(val, indent + 1);
-        const needsBlock = typeof val === 'object' && val !== null;
-        return `${space}${key}: ${needsBlock ? `\n${formatted}` : formatted}`;
-      })
-      .join('\n');
-  }
-  if (typeof value === 'string') {
-    if (/[:#\-\[\]\{\}\n]/.test(value)) {
-      return JSON.stringify(value);
-    }
-    return value;
-  }
-  return String(value);
 }
 
 async function tryFetchJson(url, { silent = false } = {}) {
