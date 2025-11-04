@@ -193,21 +193,21 @@
     ],
     "Appendici di stato": [
       {
-        "path": "appendici/A-CANVAS_ORIGINALE.txt",
+        "path": "docs/appendici/A-CANVAS_ORIGINALE.txt",
         "title": "Canvas A — Originale",
         "purpose": "Visione principale con note telemetria/Resonance Shards.",
         "owner": "N/D",
         "last_update": "2025-10-27"
       },
       {
-        "path": "appendici/C-CANVAS_NPG_BIOMI.txt",
+        "path": "docs/appendici/C-CANVAS_NPG_BIOMI.txt",
         "title": "Canvas C — NPG & Biomi",
         "purpose": "Canvas NPG reattivi, biomi e protocolli soccorso.",
         "owner": "N/D",
         "last_update": "2025-10-26"
       },
       {
-        "path": "appendici/D-CANVAS_ACCOPPIAMENTO.txt",
+        "path": "docs/appendici/D-CANVAS_ACCOPPIAMENTO.txt",
         "title": "Canvas D — Mating, Reclutamento & Nido",
         "purpose": "Canvas sistemi attrazione, nido e ereditarietà parti.",
         "owner": "N/D",

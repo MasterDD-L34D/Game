@@ -35,7 +35,7 @@ Questa guida riassume dove risiedono i dati dei tratti e quali script utilizzare
 
 Per monitorare gli asset consegnati nei canvas e nei drop YAML è disponibile lo script `tools/py/import_external_traits.py`. Il parser utilizza:
 
-- **Appendici** (`appendici/*.txt`): front matter YAML per metadati e bullet `- **<sezione Tier N>**: ...` per estrarre i nomi dei tratti.
+- **Appendici** (`docs/appendici/*.txt`): front matter YAML per metadati e bullet `- **<sezione Tier N>**: ...` per estrarre i nomi dei tratti.
 - **Manifest sentience** (`incoming/sentience_traits_v1.0.yaml`): loader YAML definitivo con milestone sensoriali/motorie T1…T6 e hook interocettivi da cui derivare descrizioni e gating ufficiali.
 
 Esecuzione standard:

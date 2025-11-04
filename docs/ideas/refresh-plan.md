@@ -22,9 +22,9 @@
 ## 2. Journey UX prioritari
 
 1. **Invio idea senza backend**
-   - Passi: apri `/docs/ideas/index.html` → compila form → usa "Anteprima / Export .md" → salva file in `ideas/`.
+   - Passi: apri `/docs/ideas/index.html` → compila form → usa "Anteprima / Export .md" → salva file in `docs/ideas/submissions/`.
    - Attriti: messaggio CTA poco evidente; mancano istruzioni inline su dove salvare il file; feedback stato download affidato al browser.
-   - Microcopy proposti: "Scarica il Markdown e caricalo in `ideas/`" con nota su workflow CI.
+   - Microcopy proposti: "Scarica il Markdown e caricalo in `docs/ideas/submissions/`" con nota su workflow CI.
 
 2. **Invio con backend + report Codex GPT**
    - Passi: config `apiBase`/`apiToken` (config o query) → invia → visualizza report → copia/condividi.

@@ -9,7 +9,7 @@ team can iterate on the content without breaking validation tooling.
 Usage example::
 
     python tools/py/import_external_traits.py \
-        --appendix-dir appendici \
+        --appendix-dir docs/appendici \
         --incoming incoming/sentience_traits_v1.0.yaml \
         --output-dir data/traits/_drafts
 
@@ -30,7 +30,7 @@ from typing import Dict, Iterable, List, Sequence, Tuple
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_APPENDIX_DIR = REPO_ROOT / "appendici"
+DEFAULT_APPENDIX_DIR = REPO_ROOT / "docs" / "appendici"
 DEFAULT_INCOMING_PATH = REPO_ROOT / "incoming" / "sentience_traits_v1.0.yaml"
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "data" / "traits" / "_drafts"
 TRAIT_INDEX_PATH = REPO_ROOT / "data" / "traits" / "index.json"

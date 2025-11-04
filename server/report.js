@@ -1,8 +1,6 @@
 function formatTags(tags) {
   if (!tags || !tags.length) return '-';
-  return tags
-    .map((tag) => (tag.startsWith('#') ? tag : `#${tag}`))
-    .join(' ');
+  return tags.map((tag) => (tag.startsWith('#') ? tag : `#${tag}`)).join(' ');
 }
 
 function formatList(items) {
@@ -28,30 +26,37 @@ function formatChecklist(actions) {
 
 function formatFeedbackEntries(feedback) {
   if (!Array.isArray(feedback) || !feedback.length) return '-';
-  return feedback
-    .map((entry) => {
-      if (!entry || !entry.message) return null;
-      const message = String(entry.message).trim();
-      if (!message) return null;
-      const contact = entry.contact ? ` (${String(entry.contact).trim()})` : '';
-      let created = '';
-      if (entry.created_at) {
-        const date = new Date(entry.created_at);
-        created = Number.isNaN(date.getTime()) ? ` · ${entry.created_at}` : ` · ${date.toISOString()}`;
-      }
-      return `- ${message}${contact}${created}`;
-    })
-    .filter(Boolean)
-    .join('\n') || '-';
+  return (
+    feedback
+      .map((entry) => {
+        if (!entry || !entry.message) return null;
+        const message = String(entry.message).trim();
+        if (!message) return null;
+        const contact = entry.contact ? ` (${String(entry.contact).trim()})` : '';
+        let created = '';
+        if (entry.created_at) {
+          const date = new Date(entry.created_at);
+          created = Number.isNaN(date.getTime())
+            ? ` · ${entry.created_at}`
+            : ` · ${date.toISOString()}`;
+        }
+        return `- ${message}${contact}${created}`;
+      })
+      .filter(Boolean)
+      .join('\n') || '-'
+  );
 }
 
 function latestFeedback(feedback) {
   if (!Array.isArray(feedback) || !feedback.length) return '-';
-  const entries = feedback.filter((entry) => entry && entry.message).map((entry) => ({
-    message: String(entry.message).trim(),
-    contact: entry.contact ? String(entry.contact).trim() : '',
-    created_at: entry.created_at || '',
-  })).filter((entry) => entry.message);
+  const entries = feedback
+    .filter((entry) => entry && entry.message)
+    .map((entry) => ({
+      message: String(entry.message).trim(),
+      contact: entry.contact ? String(entry.contact).trim() : '',
+      created_at: entry.created_at || '',
+    }))
+    .filter((entry) => entry.message);
   if (!entries.length) return '-';
   const last = entries[entries.length - 1];
   const contact = last.contact ? ` (${last.contact})` : '';
@@ -81,9 +86,7 @@ function reminderBlock(idea) {
     ['NOTE', idea.note],
     ['FEEDBACK_RECENTE', latestFeedback(idea.feedback)],
   ];
-  return fields
-    .map(([label, value]) => `${label}: ${value || '-'}`)
-    .join('\n');
+  return fields.map(([label, value]) => `${label}: ${value || '-'}`).join('\n');
 }
 
 function repoTouchpoints(idea) {
@@ -92,21 +95,29 @@ function repoTouchpoints(idea) {
     paths.push(`- Existing reference: ${idea.github}`);
   }
   if (idea.biomes && idea.biomes.length) {
-    paths.push(`- Biomi da aggiornare: ${idea.biomes.join(', ')} (data/core/biomes.yaml, docs/evo-tactics-pack/)`);
+    paths.push(
+      `- Biomi da aggiornare: ${idea.biomes.join(', ')} (data/core/biomes.yaml, docs/evo-tactics-pack/)`,
+    );
   }
   if (idea.ecosystems && idea.ecosystems.length) {
     paths.push(`- Ecosistemi/metanodi: ${idea.ecosystems.join(', ')} (docs/evo-tactics-pack/)`);
   }
   if (idea.species && idea.species.length) {
-    paths.push(`- Specie coinvolte: ${idea.species.join(', ')} (data/core/species.yaml, docs/catalog/)`);
+    paths.push(
+      `- Specie coinvolte: ${idea.species.join(', ')} (data/core/species.yaml, docs/catalog/)`,
+    );
   }
   if (idea.traits && idea.traits.length) {
-    paths.push(`- Tratti/Morph: ${idea.traits.join(', ')} (data/core/traits/, docs/catalog/species_trait_matrix.json)`);
+    paths.push(
+      `- Tratti/Morph: ${idea.traits.join(', ')} (data/core/traits/, docs/catalog/species_trait_matrix.json)`,
+    );
   }
   if (idea.game_functions && idea.game_functions.length) {
-    paths.push(`- Funzioni di gioco: ${idea.game_functions.join(', ')} (docs/telemetria, packs/, tools/)`);
+    paths.push(
+      `- Funzioni di gioco: ${idea.game_functions.join(', ')} (docs/telemetria, packs/, tools/)`,
+    );
   }
-  paths.push('- Suggested idea file: ideas/new-idea.md');
+  paths.push('- Suggested idea file: docs/ideas/submissions/new-idea.md');
   paths.push('- Sync index: README_IDEAS.md and IDEAS_INDEX.md');
   return paths.join('\n');
 }
@@ -132,7 +143,11 @@ function buildIncrementalPlan(idea) {
     '- Merge once documentation and checklists below are satisfied.',
   ];
   if (idea.game_functions && idea.game_functions.length) {
-    plan.splice(6, 0, `- Coordina le funzioni di gioco (${formatList(idea.game_functions)}) con docs/telemetria, tools/ e packs/ pertinenti.`);
+    plan.splice(
+      6,
+      0,
+      `- Coordina le funzioni di gioco (${formatList(idea.game_functions)}) con docs/telemetria, tools/ e packs/ pertinenti.`,
+    );
   }
   if (checklist !== '-') {
     plan.push('', '### Next Actions (from intake)', checklist);
