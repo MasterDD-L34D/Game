@@ -33,6 +33,7 @@ class HtmlSnapshot(HTMLParser):
         self.ids: set[str] = set()
         self.anchors: list[str] = []
         self.sections: list[str] = []
+        self.scripts: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attr_map = dict(attrs)
@@ -47,6 +48,10 @@ class HtmlSnapshot(HTMLParser):
             section_id = attr_map.get("id")
             if section_id:
                 self.sections.append(section_id)
+        if tag == "script":
+            src = attr_map.get("src")
+            if src:
+                self.scripts.append(src)
 
 
 def load_html_snapshot(path: Path) -> HtmlSnapshot:
@@ -65,6 +70,7 @@ def _collect_dashboard_metrics(snapshot: HtmlSnapshot) -> dict[str, Any]:
         "ids_total": len(snapshot.ids),
         "anchors_total": len(snapshot.anchors),
         "sections_total": len(snapshot.sections),
+        "scripts_total": len(snapshot.scripts),
     }
 
 
@@ -128,9 +134,9 @@ def validate_generator() -> dict[str, Any]:
         "biome-grid",
         "seed-grid",
         "generator-status",
-        "generator-composer",
         "generator-composer-presets",
         "generator-composer-suggestions",
+        "generator-composer-title",
         "generator-synergy-radar",
         "generator-role-heatmap",
     }
@@ -181,9 +187,22 @@ def validate_generator() -> dict[str, Any]:
         "exportPayload non include i dati del compositore",
     )
 
+    required_scripts = {
+        "chart.js@4.4.0/dist/chart.umd.min.js": "Chart.js non incluso nella pagina del generatore",
+        "jszip@3.10.1/dist/jszip.min.js": "JSZip non incluso nella pagina del generatore",
+        "html2pdf.js/0.10.1/html2pdf.bundle.min.js": "html2pdf non incluso nella pagina del generatore",
+    }
+    for snippet, error_message in required_scripts.items():
+        assert_requirements(
+            "generator",
+            any(snippet in src for src in snapshot.scripts),
+            error_message,
+        )
+
     metrics = {
         "ids_total": len(snapshot.ids),
         "anchors_total": len(snapshot.anchors),
+        "scripts_total": len(snapshot.scripts),
         "catalog_biomes": len(catalog.get("biomi", [])),
         "catalog_species": len(catalog.get("species", [])),
         "catalog_ecosystems": len(catalog.get("ecosistema", []))
@@ -201,12 +220,12 @@ def validate_demo_bundle() -> dict[str, Any]:
     source = generator_path.read_text(encoding="utf-8")
     assert_requirements(
         "generator-demo",
-        'id: "demo-bundle"' in source,
+        any(token in source for token in ("id: 'demo-bundle'", 'id: "demo-bundle"')),
         "Preset demo-bundle non trovato in generator.js",
     )
     assert_requirements(
         "generator-demo",
-        'builder: "press-kit-md"' in source,
+        any(token in source for token in ("builder: 'press-kit-md'", 'builder: "press-kit-md"')),
         "Builder press-kit-md mancante per il bundle demo",
     )
 
