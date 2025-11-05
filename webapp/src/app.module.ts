@@ -4,6 +4,10 @@ import { registerDashboardPage } from './pages/dashboard/dashboard.page';
 import { registerAtlasPage } from './pages/atlas/atlas.page';
 import { registerTraitsPage } from './pages/traits/traits.page';
 import { registerNebulaPage } from './pages/nebula/nebula.page';
+import { registerGeneratorPage } from './pages/generator/generator.page';
+import { registerMissionControlPage } from './pages/mission-control/mission-control.page';
+import { registerMissionConsolePage } from './pages/mission-console/mission-console.page';
+import { registerEcosystemPackPage } from './pages/ecosystem-pack/ecosystem-pack.page';
 import { registerDataStoreService } from './services/data-store.service';
 
 class AppRootController {
@@ -51,6 +55,10 @@ export function registerAppModule(): any {
             template: '<mission-dashboard></mission-dashboard>',
             reloadOnUrl: false,
           })
+          .when('/mission-console', {
+            template: '<mission-console-page></mission-console-page>',
+            reloadOnUrl: false,
+          })
           .when('/atlas', {
             template: '<atlas-explorer></atlas-explorer>',
           })
@@ -59,6 +67,15 @@ export function registerAppModule(): any {
           })
           .when('/nebula', {
             template: '<nebula-console></nebula-console>',
+          })
+          .when('/generator', {
+            template: '<mission-generator></mission-generator>',
+          })
+          .when('/mission-control', {
+            template: '<mission-control></mission-control>',
+          })
+          .when('/ecosystem-pack', {
+            template: '<ecosystem-pack></ecosystem-pack>',
           })
           .otherwise({ redirectTo: '/' });
       },
@@ -70,6 +87,10 @@ export function registerAppModule(): any {
   registerAtlasPage(module);
   registerTraitsPage(module);
   registerNebulaPage(module);
+  registerGeneratorPage(module);
+  registerMissionControlPage(module);
+  registerMissionConsolePage(module);
+  registerEcosystemPackPage(module);
 
   module.component('appRoot', {
     controller: AppRootController,
