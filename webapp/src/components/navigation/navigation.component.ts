@@ -99,6 +99,8 @@ export const registerNavigationComponent = (module: any): void => {
         ng-class="{ 'navigation--open': $ctrl.isOpen }"
         role="navigation"
         aria-label="Primary"
+        ng-attr-aria-hidden="{{ $ctrl.isOpen ? undefined : 'true' }}"
+        ng-attr-inert="{{ $ctrl.isOpen ? undefined : 'inert' }}"
       >
         <div class="navigation__header">
           <button
