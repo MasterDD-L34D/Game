@@ -96,32 +96,28 @@ export function registerAppModule(): any {
     controller: AppRootController,
     template: `
       <div class="app-shell" ng-class="{ 'app-shell--menu-open': $ctrl.isMenuVisible }">
-        <div class="app-shell__sidebar">
-          <mission-console-navigation
-            current="$ctrl.currentRoute"
-            is-open="$ctrl.isMenuVisible"
-            on-toggle="$ctrl.toggleMenu()"
-          ></mission-console-navigation>
-        </div>
-        <div class="app-shell__main">
-          <button
-            class="app-shell__menu-toggle"
-            type="button"
-            ng-click="$ctrl.toggleMenu()"
-            aria-controls="mission-console-navigation"
-            aria-expanded="{{ $ctrl.isMenuVisible ? 'true' : 'false' }}"
-          >
-            <span class="visually-hidden">Apri il menù Evo-Tactics Console</span>
-            <span aria-hidden="true">☰</span>
-          </button>
-          <div
-            class="app-shell__overlay"
-            ng-class="{ 'app-shell__overlay--visible': $ctrl.isMenuVisible }"
-            ng-click="$ctrl.toggleMenu()"
-            aria-hidden="true"
-          ></div>
-          <main class="app-shell__content" ng-view></main>
-        </div>
+        <button
+          class="app-shell__menu-toggle"
+          type="button"
+          ng-click="$ctrl.toggleMenu()"
+          aria-controls="mission-console-navigation"
+          aria-expanded="{{ $ctrl.isMenuVisible ? 'true' : 'false' }}"
+        >
+          <span class="visually-hidden">Apri il menù Evo-Tactics Console</span>
+          <span aria-hidden="true">☰</span>
+        </button>
+        <mission-console-navigation
+          current="$ctrl.currentRoute"
+          is-open="$ctrl.isMenuVisible"
+          on-toggle="$ctrl.toggleMenu()"
+        ></mission-console-navigation>
+        <div
+          class="app-shell__overlay"
+          ng-class="{ 'app-shell__overlay--visible': $ctrl.isMenuVisible }"
+          ng-click="$ctrl.toggleMenu()"
+          aria-hidden="true"
+        ></div>
+        <main class="app-shell__content" ng-view></main>
       </div>
     `,
   });
