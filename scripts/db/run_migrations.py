@@ -24,10 +24,12 @@ import os
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Callable, Iterable, List
+from typing import Any, Callable, Dict, Iterable, List, Tuple
 
 from pymongo import MongoClient
 from pymongo.database import Database
+
+from config_loader import load_mongo_config
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MIGRATIONS_DIR = REPO_ROOT / "migrations" / "evo_tactics_pack"
@@ -135,7 +137,38 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("command", choices=["up", "down", "status"], help="Operation to perform")
     parser.add_argument("--mongo-url", default=os.environ.get("MONGO_URL", "mongodb://localhost:27017"))
     parser.add_argument("--database", default=os.environ.get("MONGO_DB", "evo_tactics"))
+    parser.add_argument(
+        "--config",
+        help="Percorso del file JSON con la configurazione MongoDB (es. config/mongodb.dev.json)",
+    )
     return parser
+
+
+def resolve_connection_settings(args: argparse.Namespace) -> Tuple[str, str, Dict[str, Any]]:
+    config = load_mongo_config(args.config) if args.config else None
+
+    mongo_url = args.mongo_url or ""
+    database = args.database or ""
+    options: Dict[str, Any] = {}
+
+    if config:
+        mongo_url = config.mongo_url or mongo_url
+        database = config.database or database
+        options = dict(config.options)
+
+    mongo_url = mongo_url.strip()
+    database = database.strip()
+
+    if not mongo_url:
+        raise RuntimeError(
+            "MongoDB URL non configurato: utilizzare --mongo-url oppure specificare 'mongoUrl' nel file di configurazione"
+        )
+    if not database:
+        raise RuntimeError(
+            "Nome del database MongoDB non configurato: utilizzare --database oppure specificare 'database' nel file"
+        )
+
+    return mongo_url, database, options
 
 
 def main() -> None:
@@ -147,8 +180,9 @@ def main() -> None:
         print(f"No migrations found under {MIGRATIONS_DIR}")
         return
 
-    client = MongoClient(args.mongo_url)
-    db = client[args.database]
+    mongo_url, database, mongo_options = resolve_connection_settings(args)
+    client = MongoClient(mongo_url, **mongo_options)
+    db = client[database]
 
     if args.command == "up":
         action_up(db, migrations)
