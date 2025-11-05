@@ -113,6 +113,33 @@ jobs:
           path: ${{ steps.chromium_meta.outputs.archive }}
           retention-days: 5
 
+  generator-dashboard-validation:
+    runs-on: ubuntu-latest
+    needs:
+      - paths-filter
+      - playwright-bundle
+    if: needs.paths-filter.outputs.deploy == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate generator dashboard
+        run: |
+          python tests/validate_dashboard.py --metrics-output logs/qa/dashboard_ci_metrics.json --no-log
+
+      - name: Upload dashboard metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: generator-dashboard-metrics
+          path: logs/qa/dashboard_ci_metrics.json
+          if-no-files-found: error
+
   typescript-tests:
     runs-on: ubuntu-latest
     needs: paths-filter
