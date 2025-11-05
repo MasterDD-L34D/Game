@@ -85,6 +85,66 @@ sorgenti locali.
 5. Validare manualmente il caricamento su staging verificando che il generatore
    mostri le metriche demo e consenta il download dello zip completo.
 
+## Configurazione endpoint generazione
+
+Il worker remoto espone l'endpoint ufficiale
+`https://api.evo-tactics.dev/api/v1/generation/biomes`, pubblicato anche via
+costanti in `server/routes/generation.js`. La stessa base
+`https://api.evo-tactics.dev/` va propagata al frontend impostando
+`window.__EVO_TACTICS_API_BASE__` in modo che le build statiche puntino al
+dominio corretto.【F:server/routes/generation.js†L3-L15】【F:docs/evo-tactics-pack/generator.html†L21-L26】【F:docs/evo-tactics-pack/generator.js†L267-L298】
+
+### CDN statiche
+
+- Inserire nello `head` della pagina hostata (es. rewrite CDN) lo snippet:
+
+  ```html
+  <script>
+    window.__EVO_TACTICS_API_BASE__ = 'https://api.evo-tactics.dev/';
+  </script>
+  ```
+
+- In alternativa, utilizzare i meccanismi di templating della CDN (Cloudflare
+  Workers, Netlify Edge Functions) per valorizzare la variabile partendo da
+  una secret oppure da un `config.json` distribuito insieme al bundle.
+- Verificare che eventuali proxy CDN mantengano il percorso
+  `/api/v1/generation/biomes` senza riscritture, e abilitare caching solo per
+  le risposte 200/204 di breve durata.
+
+### Ambienti self-hosted
+
+- Esportare l'ambiente `EVO_TACTICS_API_BASE` quando si avvia l'app Express per
+  allineare il dominio ufficiale anche lato server:
+
+  ```bash
+  export EVO_TACTICS_API_BASE="https://api.evo-tactics.dev/"
+  npm run start:api
+  ```
+
+- Nei template HTML renderizzati dal proprio hosting inserire lo stesso
+  snippet `window.__EVO_TACTICS_API_BASE__`, eventualmente parametrizzato via
+  variabile d'ambiente o configurazione Ansible/Kubernetes.
+- Per mirror interni è possibile puntare la variabile a un dominio privato
+  (es. `https://api.internal.evo/`) mantenendo la stessa struttura di path;
+  ricordarsi di aggiungere certificati validi per il browser.
+
+## Monitoraggio worker di generazione
+
+- **Metriche HTTP** — strumentare gateway o service mesh per registrare latency,
+  throughput e tasso d'errore delle chiamate verso
+  `OFFICIAL_BIOME_GENERATION_URL`, sfruttando la costante esportata in
+  `server/routes/generation.js` per mantenere una singola fonte.
+- **Fallback e log strutturati** — il client registra nel `state.activityLog`
+  ogni fallback locale con `action: 'roll-ecos-fallback'` e motivo (`metadata.reason`).
+  Le voci vengono gestite da `recordActivity` e sono consultabili dal pannello
+  Activity o esportate in CSV via `activityLogToCsv`. Monitorare questi eventi
+  nel tempo consente di validare l'affidabilità del worker.【F:docs/evo-tactics-pack/generator.js†L514-L559】【F:docs/evo-tactics-pack/generator.js†L1995-L2223】【F:docs/evo-tactics-pack/utils/serializers.ts†L62-L109】
+- **Pipeline di alerting** — aggregare i log backend con gli eventi UI
+  (es. streaming verso ELK) per correlare i 500/timeout alle sessioni che
+  attivano il fallback. Configurare notifiche quando il rate di fallback supera
+  una soglia prefissata oppure quando `state.metrics.averageRollIntervalMs`
+  aumenta drasticamente, segnale di worker degradato.
+
 ## Troubleshooting
 
 - **Errore HTTP durante il fetch** — controllare che i file `catalog_data.json`

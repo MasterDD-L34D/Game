@@ -261,6 +261,18 @@ const state = createSessionState({
   defaultHookText: DEFAULT_HOOK_TEXT,
 });
 
+const OFFICIAL_EVO_TACTICS_API_BASE = 'https://api.evo-tactics.dev/';
+
+function normaliseApiBase(value) {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.endsWith('/') ? trimmed : `${trimmed}/`;
+}
+
+state.api = state.api || {};
+state.api.base = normaliseApiBase(state.api.base) ?? OFFICIAL_EVO_TACTICS_API_BASE;
+
 state.nebula = state.nebula || {
   dataset: null,
   generator: null,
@@ -382,8 +394,11 @@ function renderInsightsPanel(recommendations = state.narrative?.recommendations 
   insightsPanel.render({ recommendations });
 }
 
-if (typeof window !== 'undefined' && typeof window.__EVO_TACTICS_API_BASE__ === 'string') {
-  state.api.base = window.__EVO_TACTICS_API_BASE__;
+if (typeof window !== 'undefined') {
+  const overrideBase = normaliseApiBase(window.__EVO_TACTICS_API_BASE__);
+  if (overrideBase) {
+    state.api.base = overrideBase;
+  }
 }
 
 const COMPARISON_LABELS = ['Tier medio', 'Densità hazard', 'Diversità ruoli'];
@@ -425,9 +440,12 @@ const HAZARD_LABELS = {
 };
 
 function resolveApiEndpoint(pathname) {
-  const bases = [state.api?.base, packContext?.apiBase];
-  if (typeof window !== 'undefined' && typeof window.__EVO_TACTICS_API_BASE__ === 'string') {
-    bases.push(window.__EVO_TACTICS_API_BASE__);
+  const bases = [normaliseApiBase(state.api?.base), normaliseApiBase(packContext?.apiBase)];
+  if (typeof window !== 'undefined') {
+    const overrideBase = normaliseApiBase(window.__EVO_TACTICS_API_BASE__);
+    if (overrideBase) {
+      bases.push(overrideBase);
+    }
   }
   for (const base of bases) {
     if (!base) continue;
@@ -450,8 +468,9 @@ function applyCatalogContext(data, context) {
   resolvedCatalogUrl = context?.catalogUrl ?? null;
   resolvedPackRoot = context?.resolvedBase ?? null;
   packDocsBase = context?.docsBase ?? null;
-  if (context?.apiBase) {
-    state.api.base = context.apiBase;
+  const contextApiBase = normaliseApiBase(context?.apiBase);
+  if (contextApiBase) {
+    state.api.base = contextApiBase;
   }
   state.data = data;
   populateFilters(data);
