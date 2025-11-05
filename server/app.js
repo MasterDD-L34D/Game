@@ -18,6 +18,7 @@ const { createQualityRouter } = require('./routes/quality');
 const { createValidatorsRouter } = require('./routes/validators');
 const { createNebulaTelemetryAggregator } = require('./services/nebulaTelemetryAggregator');
 const { createReleaseReporter } = require('./services/releaseReporter');
+const { createCatalogService } = require('./services/catalog');
 const { createSchemaValidator, SchemaValidationError } = require('./middleware/schemaValidator');
 const {
   generationSnapshotSchema,
@@ -247,8 +248,16 @@ function createApp(options = {}) {
   const repo = options.repo || new IdeaRepository(databasePath);
   const runtimeValidator =
     options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
+  const catalogService =
+    options.catalogService ||
+    createCatalogService({
+      dataRoot,
+      mongo: options.mongo,
+      logger: options.logger,
+    });
   const biomeSynthesizer =
-    options.biomeSynthesizer || createBiomeSynthesizer({ dataRoot, runtimeValidator });
+    options.biomeSynthesizer ||
+    createBiomeSynthesizer({ dataRoot, runtimeValidator, catalogService });
   const generationSnapshotOptions = options.generationSnapshot || {};
   const generationSnapshotStore =
     generationSnapshotOptions.store ||
@@ -755,10 +764,12 @@ function createApp(options = {}) {
   const generationRoutes = createGenerationRoutes({
     biomeSynthesizer,
     generationOrchestrator,
+    catalogService,
   });
   const generationRouter = createGenerationRouter({
     biomeSynthesizer,
     generationOrchestrator,
+    catalogService,
   });
 
   app.use('/api/v1/generation', generationRouter);

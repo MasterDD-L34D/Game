@@ -84,7 +84,13 @@ function normaliseTraitGlossary(glossary) {
     const descriptionIt = entry?.description_it || null;
     const descriptionEn = entry?.description_en || null;
     const description = descriptionIt || descriptionEn || null;
-    map.set(id, { id, label, description, description_it: descriptionIt, description_en: descriptionEn });
+    map.set(id, {
+      id,
+      label,
+      description,
+      description_it: descriptionIt,
+      description_en: descriptionEn,
+    });
   });
   return map;
 }
@@ -138,7 +144,9 @@ function computeScore(pool, constraints, traitGlossary) {
   if (constraints.climate && matchesClimate(pool, constraints.climate)) {
     score += 4;
   }
-  const requiredRoles = ensureArray(constraints.requiredRoles).filter((role) => ROLE_FLAG_SET.has(role));
+  const requiredRoles = ensureArray(constraints.requiredRoles).filter((role) =>
+    ROLE_FLAG_SET.has(role),
+  );
   if (requiredRoles.length) {
     const roles = new Set((pool?.role_templates ?? []).map((template) => template.role));
     requiredRoles.forEach((role) => {
@@ -151,12 +159,9 @@ function computeScore(pool, constraints, traitGlossary) {
     .map((tag) => String(tag).toLowerCase())
     .filter(Boolean);
   if (preferredTags.length) {
-    const traitIds = [
-      ...(pool?.traits?.core ?? []),
-      ...(pool?.traits?.support ?? []),
-    ];
+    const traitIds = [...(pool?.traits?.core ?? []), ...(pool?.traits?.support ?? [])];
     const labels = traitIds.map((traitId) =>
-      (traitGlossary.get(traitId)?.label || traitId).toLowerCase()
+      (traitGlossary.get(traitId)?.label || traitId).toLowerCase(),
     );
     preferredTags.forEach((tag) => {
       if (labels.some((label) => label.includes(tag) || tag.includes(label))) {
@@ -169,7 +174,9 @@ function computeScore(pool, constraints, traitGlossary) {
 
 function pickCandidatePools(pools, constraints, traitGlossary) {
   const minSize = Number.isFinite(constraints.minSize) ? constraints.minSize : 0;
-  const requiredRoles = ensureArray(constraints.requiredRoles).filter((role) => ROLE_FLAG_SET.has(role));
+  const requiredRoles = ensureArray(constraints.requiredRoles).filter((role) =>
+    ROLE_FLAG_SET.has(role),
+  );
   const filtered = (pools ?? []).filter((pool) => {
     if (!pool) return false;
     const maxSize = pool?.size?.max ?? pool?.size?.min ?? 0;
@@ -184,13 +191,15 @@ function pickCandidatePools(pools, constraints, traitGlossary) {
     }
     if (
       requiredRoles.length &&
-      requiredRoles.some((role) => !(pool?.role_templates ?? []).some((template) => template.role === role))
+      requiredRoles.some(
+        (role) => !(pool?.role_templates ?? []).some((template) => template.role === role),
+      )
     ) {
       return false;
     }
     return true;
   });
-  const candidates = (filtered.length ? filtered : pools ?? []).map((pool) => ({
+  const candidates = (filtered.length ? filtered : (pools ?? [])).map((pool) => ({
     pool,
     score: computeScore(pool, constraints, traitGlossary),
   }));
@@ -227,11 +236,13 @@ function selectTraits(pool, rng) {
 
 function cloneAffinity(entries) {
   if (!Array.isArray(entries)) return [];
-  return entries.map((entry) => ({
-    species_id: entry?.species_id || entry?.speciesId || null,
-    roles: Array.isArray(entry?.roles) ? entry.roles.filter(Boolean) : [],
-    weight: Number.isFinite(entry?.weight) ? entry.weight : Number.parseFloat(entry?.weight) || 0,
-  })).filter((entry) => entry.species_id);
+  return entries
+    .map((entry) => ({
+      species_id: entry?.species_id || entry?.speciesId || null,
+      roles: Array.isArray(entry?.roles) ? entry.roles.filter(Boolean) : [],
+      weight: Number.isFinite(entry?.weight) ? entry.weight : Number.parseFloat(entry?.weight) || 0,
+    }))
+    .filter((entry) => entry.species_id);
 }
 
 function buildTraitMetadataFromCatalog(traitIds, traitCatalog) {
@@ -248,9 +259,10 @@ function buildTraitMetadataFromCatalog(traitIds, traitCatalog) {
     const id = entry.id || traitId;
     const traitUsage = Array.isArray(entry.usage_tags) ? entry.usage_tags.filter(Boolean) : [];
     traitUsage.forEach((tag) => usageTags.add(tag));
-    const flags = entry.completion_flags && typeof entry.completion_flags === 'object'
-      ? entry.completion_flags
-      : {};
+    const flags =
+      entry.completion_flags && typeof entry.completion_flags === 'object'
+        ? entry.completion_flags
+        : {};
     Object.entries(flags).forEach(([key, value]) => {
       if (typeof value === 'boolean') {
         completionFlags[key] = completionFlags[key] || value;
@@ -273,11 +285,13 @@ function buildTraitMetadataFromCatalog(traitIds, traitCatalog) {
       species_affinity: affinityEntries,
     };
   });
-  const speciesAffinity = Array.from(affinityMap.values()).map((entry) => ({
-    species_id: entry.species_id,
-    roles: Array.from(entry.roles).sort(),
-    weight: Math.round(entry.weight * 1000) / 1000,
-  })).sort((a, b) => (b.weight - a.weight) || a.species_id.localeCompare(b.species_id));
+  const speciesAffinity = Array.from(affinityMap.values())
+    .map((entry) => ({
+      species_id: entry.species_id,
+      roles: Array.from(entry.roles).sort(),
+      weight: Math.round(entry.weight * 1000) / 1000,
+    }))
+    .sort((a, b) => b.weight - a.weight || a.species_id.localeCompare(b.species_id));
   return {
     usage_tags: Array.from(usageTags).sort(),
     species_affinity: speciesAffinity,
@@ -289,9 +303,8 @@ function buildTraitMetadataFromCatalog(traitIds, traitCatalog) {
 function mapTraitDetails(traits, traitGlossary, traitCatalog) {
   return traits.map((traitId) => {
     const glossaryEntry = traitGlossary.get(traitId) || {};
-    const catalogEntry = traitCatalog && typeof traitCatalog.get === 'function'
-      ? traitCatalog.get(traitId)
-      : null;
+    const catalogEntry =
+      traitCatalog && typeof traitCatalog.get === 'function' ? traitCatalog.get(traitId) : null;
     return {
       id: traitId,
       label: glossaryEntry.label || titleCase(traitId),
@@ -300,7 +313,9 @@ function mapTraitDetails(traits, traitGlossary, traitCatalog) {
       description_en: glossaryEntry.description_en || null,
       usage_tags: Array.isArray(catalogEntry?.usage_tags) ? [...catalogEntry.usage_tags] : [],
       completion_flags: catalogEntry?.completion_flags ? { ...catalogEntry.completion_flags } : {},
-      species_affinity: catalogEntry?.species_affinity ? cloneAffinity(catalogEntry.species_affinity) : [],
+      species_affinity: catalogEntry?.species_affinity
+        ? cloneAffinity(catalogEntry.species_affinity)
+        : [],
     };
   });
 }
@@ -336,7 +351,9 @@ async function buildSpecies(
   runtimeValidator,
 ) {
   const templates = Array.isArray(pool?.role_templates) ? pool.role_templates : [];
-  const preferredRoles = ensureArray(constraints.requiredRoles).filter((role) => ROLE_FLAG_SET.has(role));
+  const preferredRoles = ensureArray(constraints.requiredRoles).filter((role) =>
+    ROLE_FLAG_SET.has(role),
+  );
   const shuffled = shuffle(templates, rng);
   const species = [];
   const takenRoles = new Set();
@@ -373,7 +390,12 @@ async function buildSpecies(
       description: template.summary || null,
       morphology: null,
       behavior: null,
-      statistics: { threat_tier: `T${tier}`, rarity: null, energy_profile: null, synergy_score: null },
+      statistics: {
+        threat_tier: `T${tier}`,
+        rarity: null,
+        energy_profile: null,
+        synergy_score: null,
+      },
       traits: { core: preferredTraits, derived: [], conflicts: [], metadata: fallbackMetadata },
     };
 
@@ -425,7 +447,11 @@ async function buildSpecies(
 
   let validation = null;
   let correctedSpecies = species;
-  if (runtimeValidator && typeof runtimeValidator.validateSpeciesBatch === 'function' && species.length) {
+  if (
+    runtimeValidator &&
+    typeof runtimeValidator.validateSpeciesBatch === 'function' &&
+    species.length
+  ) {
     try {
       const result = await runtimeValidator.validateSpeciesBatch(species, { biomeId });
       validation = {
@@ -471,7 +497,15 @@ function summariseRolePresence(species) {
   return Array.from(presence);
 }
 
-async function buildBiomeFromPool(pool, context, traitGlossary, traitCatalog, rng, speciesBuilder, runtimeValidator) {
+async function buildBiomeFromPool(
+  pool,
+  context,
+  traitGlossary,
+  traitCatalog,
+  rng,
+  speciesBuilder,
+  runtimeValidator,
+) {
   const traits = selectTraits(pool, rng);
   const traitDetails = mapTraitDetails(traits, traitGlossary, traitCatalog);
   const id = randomId(slugify(pool.id) || 'bioma', rng);
@@ -480,7 +514,8 @@ async function buildBiomeFromPool(pool, context, traitGlossary, traitCatalog, rn
   const requestedMin = Number.isFinite(context?.minSize) ? context.minSize : poolMin;
   const effectiveMin = Math.min(poolMax, Math.max(poolMin, requestedMin));
   const range = Math.max(poolMax - effectiveMin, 0);
-  const zoneCount = effectiveMin + (range > 0 ? Math.floor((rng() || Math.random()) * (range + 1)) : 0);
+  const zoneCount =
+    effectiveMin + (range > 0 ? Math.floor((rng() || Math.random()) * (range + 1)) : 0);
   const speciesResult = await buildSpecies(
     pool,
     id,
@@ -535,12 +570,12 @@ async function buildBiomeFromPool(pool, context, traitGlossary, traitCatalog, rn
 
   const validationReport = {};
   if (
-    speciesResult.validation
-    && (
-      speciesResult.validation.error
-      || (Array.isArray(speciesResult.validation.messages) && speciesResult.validation.messages.length)
-      || (Array.isArray(speciesResult.validation.discarded) && speciesResult.validation.discarded.length)
-    )
+    speciesResult.validation &&
+    (speciesResult.validation.error ||
+      (Array.isArray(speciesResult.validation.messages) &&
+        speciesResult.validation.messages.length) ||
+      (Array.isArray(speciesResult.validation.discarded) &&
+        speciesResult.validation.discarded.length))
   ) {
     validationReport.species = speciesResult.validation;
   }
@@ -550,7 +585,11 @@ async function buildBiomeFromPool(pool, context, traitGlossary, traitCatalog, rn
       const biomeValidation = await runtimeValidator.validateBiome(biome, {
         defaultHazard: pool?.hazard?.id || null,
       });
-      if (biomeValidation && biomeValidation.corrected && typeof biomeValidation.corrected === 'object') {
+      if (
+        biomeValidation &&
+        biomeValidation.corrected &&
+        typeof biomeValidation.corrected === 'object'
+      ) {
         biome = { ...biome, ...biomeValidation.corrected };
       }
       if (biomeValidation && Array.isArray(biomeValidation.messages)) {
@@ -579,16 +618,30 @@ function resolveDataPath(dataRoot, segments = []) {
 
 function createBiomeSynthesizer(options = {}) {
   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
-  const traitGlossaryPath = options.traitGlossaryPath
-    || resolveDataPath(dataRoot, ['traits', 'glossary.json']);
-  const traitPoolPath = options.traitPoolPath
-    || resolveDataPath(dataRoot, ['traits', 'biome_pools.json']);
+  const traitGlossaryPath =
+    options.traitGlossaryPath || resolveDataPath(dataRoot, ['traits', 'glossary.json']);
+  const traitPoolPath =
+    options.traitPoolPath || resolveDataPath(dataRoot, ['traits', 'biome_pools.json']);
+  const catalogService = options.catalogService || null;
   const speciesBuilderInstance = createSpeciesBuilder(
-    options.speciesBuilder || {
-      catalogPath: path.resolve(__dirname, '..', '..', 'docs', 'catalog', 'catalog_data.json'),
-    }
+    options.speciesBuilder ||
+      (catalogService
+        ? {
+            catalogLoader: () => catalogService.loadTraitCatalog(),
+          }
+        : {
+            catalogPath: path.resolve(
+              __dirname,
+              '..',
+              '..',
+              'docs',
+              'catalog',
+              'catalog_data.json',
+            ),
+          }),
   );
-  const runtimeValidator = options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
+  const runtimeValidator =
+    options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
 
   let loaded = null;
   let loadingPromise = null;
@@ -596,6 +649,23 @@ function createBiomeSynthesizer(options = {}) {
   async function load() {
     if (loaded) return loaded;
     if (loadingPromise) return loadingPromise;
+    if (catalogService) {
+      loadingPromise = Promise.all([
+        catalogService.loadTraitGlossary(),
+        catalogService.loadBiomePools(),
+        speciesBuilderInstance.ensureCatalog(),
+      ])
+        .then(([glossary, pools, catalog]) => {
+          const traitGlossary = normaliseTraitGlossary(glossary);
+          const poolList = Array.isArray(pools?.pools) ? pools.pools : [];
+          loaded = { traitGlossary, poolList, traitCatalog: catalog };
+          return loaded;
+        })
+        .finally(() => {
+          loadingPromise = null;
+        });
+      return loadingPromise;
+    }
     loadingPromise = Promise.all([
       loadJson(traitGlossaryPath),
       loadJson(traitPoolPath),
@@ -661,7 +731,9 @@ function createBiomeSynthesizer(options = {}) {
         applied: {
           hazard: constraints.hazard || null,
           climate: constraints.climate || null,
-          requiredRoles: ensureArray(constraints.requiredRoles).filter((role) => ROLE_FLAG_SET.has(role)),
+          requiredRoles: ensureArray(constraints.requiredRoles).filter((role) =>
+            ROLE_FLAG_SET.has(role),
+          ),
           preferredTags: ensureArray(constraints.preferredTags),
           minSize: Number.isFinite(constraints.minSize) ? constraints.minSize : null,
         },
@@ -672,6 +744,9 @@ function createBiomeSynthesizer(options = {}) {
 
   async function reload() {
     loaded = null;
+    if (catalogService && typeof catalogService.reload === 'function') {
+      await catalogService.reload();
+    }
     return load();
   }
 
