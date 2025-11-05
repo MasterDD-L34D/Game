@@ -84,7 +84,7 @@ _Nessuna esecuzione registrata. Eseguire `python tools/py/update_web_checklist.p
 
 1. **Trigger di build CI**
    - Il branch principale avvia la pipeline `ci-pipeline.md#web` a ogni push o PR.
-   - Il branch di staging avvia la pipeline notturna che esegue smoke test e audit accessibilità (`npm run test:web`, `npm run lint:web`, `npm run audit:web`).
+   - Il branch di staging avvia la pipeline notturna che esegue smoke test e audit accessibilità (`npm run test:web`, `npm run audit:web`).
 2. **Trigger manuali**
    - Per hotfix o campagne marketing, eseguire `scripts/deploy_web_preview.sh` per il deploy su ambiente di preview.
    - Lanciare `python tools/py/update_web_checklist.py --tests-command "npm run test:web" --coverage 85.0 --regressions "nessuna"` per registrare l'esito.

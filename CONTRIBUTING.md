@@ -20,27 +20,24 @@ Il repository usa [npm workspaces](https://docs.npmjs.com/cli/v10/using-npm/work
 per orchestrare strumenti e webapp. I comandi principali sono già esposti nel
 `package.json` di root e delegano ai workspace pertinenti.
 
-| Script | Descrizione |
-| --- | --- |
-| `npm run dev` | Avvia il server Vite della webapp (`webapp`). |
-| `npm run build` | Esegue `build` su tutti i workspace che espongono lo script. |
-| `npm run lint` | Lancia ESLint sui workspace (`webapp`, `tools/ts`). |
-| `npm run test` | Esegue i test API/TS e i test unitari della webapp. |
-| `npm run preview` | Avvia `vite preview` della webapp dopo un build locale. |
-| `npm run format` | Applica Prettier ai file supportati. Usa `format:check` in CI. |
+| Script            | Descrizione                                                    |
+| ----------------- | -------------------------------------------------------------- |
+| `npm run dev`     | Avvia il server Vite della webapp (`webapp`).                  |
+| `npm run build`   | Esegue `build` su tutti i workspace che espongono lo script.   |
+| `npm run test`    | Esegue i test API/TS e i test unitari della webapp.            |
+| `npm run preview` | Avvia `vite preview` della webapp dopo un build locale.        |
+| `npm run format`  | Applica Prettier ai file supportati. Usa `format:check` in CI. |
 
 Per eseguire uno script in un workspace specifico puoi usare `npm run <script>
 --workspace <nome-workspace>`.
 
-## Standard di codice: ESLint, Prettier e Husky
+## Standard di codice: Prettier e Husky
 
-- **ESLint** è configurato nella radice (`.eslintrc.cjs`) con regole per
-  TypeScript, React, Vue e Vitest. Esegui `npm run lint` prima di ogni PR.
 - **Prettier** fornisce la formattazione automatica (`.prettierrc.json`). Usa
   `npm run format` per applicare le regole o `npm run format:check` per una
   verifica non distruttiva.
-- **Husky** installa un hook `pre-commit` che lancia `npm run lint` e
-  `npm run format:check`. Assicurati di aver eseguito `npm run prepare` dopo il
+- **Husky** installa un hook `pre-commit` che esegue un controllo Prettier sui
+  file in staging. Assicurati di aver eseguito `npm run prepare` dopo il
   checkout per abilitare gli hook locali.
 
 ## Test e QA
@@ -58,9 +55,9 @@ Per eseguire uno script in un workspace specifico puoi usare `npm run <script>
 1. Crea una branch descrittiva e collega eventuali issue.
 2. Applica le checklist pertinenti (QA, telemetria, web) citate in
    `docs/process/traits_checklist.md` e allega log significativi nella PR.
-3. Verifica in locale `npm run lint`, `npm run format:check`, `npm run test` e,
+3. Verifica in locale `npm run format:check`, `npm run test` e,
    per modifiche front-end, `npm run build`/`npm run preview`.
-4. Le pipeline CI rilanciano lint, test, build Vite con base relativa e uno
+4. Le pipeline CI rilanciano test, build Vite con base relativa e uno
    smoke-test del preview server; assicurati che la tua PR non rompa questi
    step.
 
