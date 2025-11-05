@@ -4,6 +4,11 @@ import {
   getPackRootCandidates,
   PACK_PATH,
 } from './pack-data.js';
+import {
+  createCatalogDataSource,
+  createEmbeddedCatalogSnapshot,
+  getEmbeddedCatalogData,
+} from '../../services/data-source.js';
 import { resolveGeneratorElements, resolveAnchorUi } from './ui/elements.ts';
 import { createAnchorNavigator } from './views/anchor.js';
 import { createSessionState } from './state/session.ts';
@@ -48,6 +53,8 @@ const MAX_ACTIVITY_EVENTS = 150;
 const DOSSIER_TEMPLATE_PATH = '../templates/dossier.html';
 const initialPdfSupport = typeof window !== 'undefined' && typeof window.html2pdf !== 'undefined';
 const NEBULA_SNAPSHOT_PATH = '../mission-console/data/nebula/atlas.json';
+const windowRef = typeof window !== 'undefined' ? window : undefined;
+const documentRef = typeof document !== 'undefined' ? document : undefined;
 const TONE_LABELS = {
   info: 'Info',
   success: 'Successo',
@@ -272,6 +279,41 @@ function normaliseApiBase(value) {
 
 state.api = state.api || {};
 state.api.base = normaliseApiBase(state.api.base) ?? OFFICIAL_EVO_TACTICS_API_BASE;
+
+let catalogDataSource = null;
+
+function createDataSourceForCurrentConfig() {
+  const dataSource = createCatalogDataSource({
+    baseUrl: state.api?.base ?? OFFICIAL_EVO_TACTICS_API_BASE,
+    defaultBase: OFFICIAL_EVO_TACTICS_API_BASE,
+    fetchImpl: typeof fetch === 'function' ? fetch : undefined,
+    windowRef,
+    documentRef,
+  });
+  const resolvedBase = typeof dataSource.getBase === 'function' ? dataSource.getBase() : null;
+  if (resolvedBase) {
+    state.api.base = resolvedBase;
+  }
+  return dataSource;
+}
+
+catalogDataSource = createDataSourceForCurrentConfig();
+
+const EMBEDDED_BASELINE_DATA = getEmbeddedCatalogData();
+const EMBEDDED_BASELINE_BIOMES = Array.isArray(EMBEDDED_BASELINE_DATA.biomi)
+  ? EMBEDDED_BASELINE_DATA.biomi
+  : [];
+
+function cloneValue(value) {
+  if (typeof structuredClone === 'function') {
+    try {
+      return structuredClone(value);
+    } catch (error) {
+      // ignore and fallback
+    }
+  }
+  return JSON.parse(JSON.stringify(value));
+}
 
 state.nebula = state.nebula || {
   dataset: null,
@@ -2326,6 +2368,61 @@ function renderKpiSidebar() {
   }
 }
 
+const EMBEDDED_NEBULA_TEMPLATE = {
+  dataset: {
+    id: 'nebula-fallback',
+    title: 'Nebula Ops (modalità offline)',
+    summary:
+      'Dati di cortesia integrati localmente per supportare le dashboard Nebula durante le interruzioni.',
+    releaseWindow: 'Fallback locale',
+    metrics: {
+      species: 3,
+      biomes: 2,
+      encounters: 2,
+    },
+    highlights: [
+      'Blueprint di esempio per validare le sinergie Nebula senza connettività.',
+      'Copertura telemetrica simulata per verificare layout e messaggistica.',
+      'Segnaposto narrativi per comunicare lo stato di manutenzione agli operatori.',
+    ],
+  },
+  generator: {
+    label: 'Snapshot Nebula non disponibile (dati integrati)',
+    status: 'warning',
+    summary:
+      'Dataset sintetico fornito automaticamente quando il Mission Console non è raggiungibile.',
+  },
+  telemetry: {
+    coverage: {
+      average: 62,
+      history: [58, 62],
+    },
+    summary: {
+      openEvents: 0,
+      highPriorityEvents: 0,
+      lastEventAt: null,
+    },
+  },
+};
+
+function buildEmbeddedNebulaSnapshot() {
+  const now = new Date().toISOString();
+  const dataset = cloneValue(EMBEDDED_NEBULA_TEMPLATE.dataset);
+  dataset.updatedAt = now;
+  const generatorMeta = cloneValue(EMBEDDED_NEBULA_TEMPLATE.generator);
+  generatorMeta.updatedAt = now;
+  const telemetry = cloneValue(EMBEDDED_NEBULA_TEMPLATE.telemetry);
+  if (telemetry?.summary) {
+    telemetry.summary = { ...telemetry.summary, lastEventAt: now };
+  }
+  return {
+    dataset,
+    generator: generatorMeta,
+    telemetry,
+    updatedAt: now,
+  };
+}
+
 function setNebulaStatus(message, tone = 'muted') {
   const status = elements.nebula?.status;
   if (!status) return;
@@ -2522,15 +2619,41 @@ async function loadNebulaSnapshot(options = {}) {
   } catch (error) {
     state.nebula.error = error;
     console.warn('Impossibile sincronizzare il dataset Nebula', error);
+    let fallbackApplied = false;
+    if (!state.nebula.dataset && !state.nebula.generator && !state.nebula.telemetry) {
+      const fallback = buildEmbeddedNebulaSnapshot();
+      state.nebula.dataset = fallback.dataset;
+      state.nebula.generator = fallback.generator;
+      state.nebula.telemetry = fallback.telemetry;
+      state.nebula.lastSyncedAt = fallback.updatedAt;
+      fallbackApplied = true;
+    }
     renderNebulaPanel();
     if (!silent) {
-      recordActivity('Impossibile sincronizzare il dataset Nebula.', 'warn', new Date(), {
-        tags: ['nebula', 'errore'],
-        action: 'nebula-sync-error',
-        metadata: {
-          reason: error instanceof Error ? error.message : String(error ?? ''),
+      const reason = error instanceof Error ? error.message : String(error ?? '');
+      const tags = ['nebula', 'errore'];
+      if (fallbackApplied) {
+        tags.push('fallback');
+      }
+      if (fallbackApplied) {
+        setStatus('Snapshot Nebula offline, mostrati dati integrati di cortesia.', 'warn', {
+          tags: ['nebula', 'fallback'],
+          action: 'nebula-sync-fallback',
+          metadata: { reason },
+        });
+      }
+      recordActivity(
+        fallbackApplied
+          ? 'Impossibile sincronizzare il dataset Nebula. Attivato fallback locale.'
+          : 'Impossibile sincronizzare il dataset Nebula.',
+        'warn',
+        new Date(),
+        {
+          tags,
+          action: fallbackApplied ? 'nebula-sync-fallback' : 'nebula-sync-error',
+          metadata: { reason },
         },
-      });
+      );
     }
   }
 }
@@ -4189,11 +4312,13 @@ function synthesiseBiome(parents) {
 // Pipeline legacy: seleziona biomi preesistenti e li combina per ottenere varianti sintetiche.
 // Rimane come fallback locale quando il worker di generazione non è disponibile.
 function fallbackGenerateBiomes(baseBiomes, count) {
-  if (!baseBiomes?.length) return [];
+  const sourceBiomes =
+    Array.isArray(baseBiomes) && baseBiomes.length ? baseBiomes : EMBEDDED_BASELINE_BIOMES;
+  if (!sourceBiomes.length) return [];
   const result = [];
   for (let i = 0; i < count; i += 1) {
     const parentCount = Math.min(3, Math.max(2, Math.floor(Math.random() * 3) + 2));
-    const parents = pickMany(baseBiomes, Math.min(parentCount, baseBiomes.length));
+    const parents = pickMany(sourceBiomes, Math.min(parentCount, sourceBiomes.length));
     result.push(synthesiseBiome(parents));
   }
   return result;
@@ -7709,6 +7834,30 @@ async function loadData() {
     tags: ['catalogo', 'caricamento'],
     action: 'catalog-load-start',
   });
+  catalogDataSource = createDataSourceForCurrentConfig();
+  try {
+    const { data, context } = await catalogDataSource.loadCatalog();
+    applyCatalogContext(data, context);
+    await loadTraitRegistry(context);
+    await loadTraitReference(context);
+    await loadHazardRegistry(context);
+    await loadSpeciesIndex(context);
+    setStatus('Catalogo caricato via API. Genera un ecosistema!', 'success', {
+      tags: ['catalogo', 'ready', 'api'],
+      action: 'catalog-load-api-ready',
+    });
+    return;
+  } catch (error) {
+    console.warn('Caricamento catalogo via API fallito', error);
+    setStatus('API catalogo non raggiungibile, attivo il fallback statico.', 'warn', {
+      tags: ['catalogo', 'caricamento', 'fallback'],
+      action: 'catalog-load-api-fallback',
+      metadata: {
+        reason: error instanceof Error ? error.message : String(error ?? ''),
+      },
+    });
+  }
+
   try {
     const { data, context } = await loadPackCatalog();
     applyCatalogContext(data, context);
@@ -7716,7 +7865,7 @@ async function loadData() {
     await loadTraitReference(context);
     await loadHazardRegistry(context);
     await loadSpeciesIndex(context);
-    setStatus("Catalogo pronto all'uso. Genera un ecosistema!", 'success', {
+    setStatus("Catalogo statico pronto all'uso. Genera un ecosistema!", 'success', {
       tags: ['catalogo', 'ready'],
       action: 'catalog-load-ready',
     });
@@ -7736,18 +7885,26 @@ async function loadData() {
       tags: ['catalogo', 'ready', 'fallback'],
       action: 'catalog-load-ready-fallback',
     });
+    return;
   } catch (error) {
     console.error('Impossibile caricare il catalogo da alcuna sorgente', error);
-    await loadTraitRegistry(packContext);
-    await loadTraitReference(packContext);
-    await loadTraitGlossary(packContext);
-    await loadHazardRegistry(packContext);
-    await loadSpeciesIndex(packContext);
-    setStatus('Errore durante il caricamento del catalogo. Controlla la console.', 'error', {
-      tags: ['catalogo', 'errore'],
-      action: 'catalog-load-error',
-    });
   }
+
+  const embedded = createEmbeddedCatalogSnapshot({ apiBase: state.api?.base ?? null });
+  applyCatalogContext(embedded.data, embedded.context);
+  await loadTraitRegistry(embedded.context);
+  await loadTraitReference(embedded.context);
+  await loadTraitGlossary(embedded.context);
+  await loadHazardRegistry(embedded.context);
+  await loadSpeciesIndex(embedded.context);
+  setStatus(
+    'Modalità offline attivata con dataset integrato. Alcune metriche potrebbero essere limitate.',
+    'warn',
+    {
+      tags: ['catalogo', 'errore', 'fallback'],
+      action: 'catalog-load-embedded-fallback',
+    },
+  );
 }
 
 restoreActivityLog();
