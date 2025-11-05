@@ -11,6 +11,7 @@ docs/mission-console/
 docs/evo-tactics-pack/generator.html
 docs/evo-tactics-pack/generator.bundle.js
 docs/evo-tactics-pack/generator.bundle.js.map
+assets/vendor/evo-tactics-pack/jszip.min.js
 .DS_Store
 *.log
 webapp/.vite/

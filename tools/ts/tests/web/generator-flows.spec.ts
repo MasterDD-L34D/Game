@@ -59,9 +59,9 @@ test.describe('Evo generator flows', () => {
     await flagButton.click();
     await expect(page.locator('#generator-filters-hint')).toContainText('Filtri attivi');
 
-    await page.locator('[data-action="roll-ecos"]').click();
+    await page.locator('[data-action="roll-ecos"]').first().click();
 
-    const summary = page.locator('#generator-summary');
+    const summary = page.locator('article#generator-summary');
     await expect(summary).toHaveAttribute('data-has-results', 'true', { timeout: 20000 });
     await expect(page.locator('[data-summary="biomes"]')).not.toHaveText('0', { timeout: 20000 });
   });

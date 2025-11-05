@@ -1,5 +1,5 @@
 
-.PHONY: sitemap links report search redirects structured audit
+.PHONY: sitemap links report search redirects structured audit evo-tactics-pack
 
 sitemap:
 \tpython ops/site-audit/build_sitemap.py
@@ -20,3 +20,6 @@ structured:
 \tpython ops/site-audit/generate_structured_data.py --base-url "$${SITE_BASE_URL}"
 
 audit: sitemap links report search redirects structured
+
+evo-tactics-pack:
+node scripts/build_evo_tactics_pack_dist.mjs
