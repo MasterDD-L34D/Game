@@ -85,12 +85,31 @@ sorgenti locali.
 5. Validare manualmente il caricamento su staging verificando che il generatore
    mostri le metriche demo e consenta il download dello zip completo.
 
+## API catalogo e override runtime
+
+Il generatore interroga prima il backend REST per caricare i cataloghi. Gli
+endpoint esposti devono condividere la stessa base URL configurata tramite
+`window.__EVO_TACTICS_API_BASE__`, la query string `?api-base=` oppure il meta
+tag `<meta name="evo-api-base">`. I percorsi attesi sono:
+
+- `GET /api/v1/catalog/biomes`
+- `GET /api/v1/catalog/ecosystem`
+- `GET /api/v1/catalog/species`
+
+Il servizio `services/data-source.js` gestisce la sequenza di fallback: tenta gli
+endpoint remoti, poi ricade sugli asset statici del bundle e infine attiva un
+dataset embedded minimale affinché il generatore resti operativo anche offline.
+Lo stesso dataset viene riutilizzato da `fallbackGenerateBiomes` e dal loader
+Nebula per mostrare dati di cortesia quando il Mission Console non è
+raggiungibile.【F:services/data-source.js†L1-L235】【F:docs/evo-tactics-pack/generator.js†L4136-L4228】
+
 ## Configurazione endpoint generazione
 
 Il worker remoto espone l'endpoint ufficiale
 `https://api.evo-tactics.dev/api/v1/generation/biomes`, pubblicato anche via
 costanti in `server/routes/generation.js`. La stessa base
-`https://api.evo-tactics.dev/` va propagata al frontend impostando
+`https://api.evo-tactics.dev/` viene riutilizzata anche dagli endpoint catalogo
+(`api/v1/catalog/*`) e va propagata al frontend impostando
 `window.__EVO_TACTICS_API_BASE__` in modo che le build statiche puntino al
 dominio corretto.【F:server/routes/generation.js†L3-L15】【F:docs/evo-tactics-pack/generator.html†L21-L26】【F:docs/evo-tactics-pack/generator.js†L267-L298】
 
