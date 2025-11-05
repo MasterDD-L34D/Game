@@ -272,6 +272,57 @@ describe('docs generator — browser integration', () => {
       globalWithFetch.fetch = originalFetch;
     }
   });
+
+  it('shows a warning tone and logs an activity when Nebula snapshot sync fails', async () => {
+    const globalWithFetch = globalThis as { fetch?: typeof fetch };
+    const originalFetch = globalWithFetch.fetch;
+    const fetchMock = vi
+      .fn(() => Promise.reject(new Error('nebula dataset unreachable')))
+      .mockName('fetch') as unknown as typeof fetch;
+    globalWithFetch.fetch = fetchMock;
+
+    try {
+      await import('../../../docs/evo-tactics-pack/generator.js');
+      await tick();
+      await tick();
+
+      const nebulaElements = elements.nebula;
+      expect(nebulaElements?.status?.dataset.tone).toBe('warn');
+      expect(nebulaElements?.status?.textContent).toContain('Snapshot Nebula non disponibile');
+
+      fetchMock.mockClear();
+
+      const generatorApi = (window as {
+        EvoPack?: {
+          generator?: {
+            loadNebulaSnapshot?: (options?: { silent?: boolean }) => Promise<unknown> | unknown;
+          };
+        };
+      }).EvoPack?.generator;
+
+      if (typeof generatorApi?.loadNebulaSnapshot === 'function') {
+        await generatorApi.loadNebulaSnapshot({ silent: false });
+      } else {
+        nebulaElements?.refresh?.click();
+      }
+
+      await tick();
+      await tick();
+
+      expect(fetchMock).toHaveBeenCalled();
+
+      const generator = (window as {
+        EvoPack?: { generator?: { state?: { activityLog?: Array<{ action?: string }>; nebula?: { error?: unknown } } } };
+      }).EvoPack?.generator;
+      const state = generator?.state;
+
+      expect(state?.nebula?.error).toBeDefined();
+      expect(state?.activityLog?.some((entry) => entry?.action === 'nebula-sync-error')).toBe(true);
+      expect(nebulaElements?.status?.dataset.tone).toBe('warn');
+    } finally {
+      globalWithFetch.fetch = originalFetch;
+    }
+  });
 });
 
 function createStubElements() {
@@ -457,7 +508,45 @@ function createStubElements() {
     kpi,
   } as const;
 
-  return filters;
+  const nebulaPanel = create('section');
+  nebulaPanel.id = 'generator-nebula';
+
+  const nebulaTitle = create('h2');
+  const nebulaStatus = create('p');
+  nebulaStatus.id = 'generator-nebula-status';
+  const nebulaSummary = create('p');
+  const nebulaRelease = create('p');
+
+  const nebulaMetrics = {
+    species: create('span'),
+    biomes: create('span'),
+    encounters: create('span'),
+  } as const;
+
+  const nebulaHighlights = document.createElement('ul');
+  root.appendChild(nebulaHighlights);
+
+  const nebulaCoverage = create('p');
+  const nebulaEvents = create('p');
+  const nebulaUpdated = create('p');
+  const nebulaRefresh = makeButton('refresh nebula');
+  nebulaRefresh.dataset.action = 'nebula-refresh';
+
+  const nebula = {
+    panel: nebulaPanel,
+    title: nebulaTitle,
+    status: nebulaStatus,
+    summary: nebulaSummary,
+    release: nebulaRelease,
+    metrics: nebulaMetrics,
+    highlights: nebulaHighlights,
+    coverage: nebulaCoverage,
+    events: nebulaEvents,
+    updated: nebulaUpdated,
+    refresh: nebulaRefresh,
+  } as const;
+
+  return { ...filters, nebula } as const;
 }
 
 function createAnchorUi() {
