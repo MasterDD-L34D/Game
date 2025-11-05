@@ -1,0 +1,65 @@
+{
+  "id": "blight-micotico",
+  "display_name": "Blight Micotico",
+  "biomes": ["foresta_temperata"],
+  "role_trofico": "minaccia_microbica",
+  "functional_tags": ["patogeno"],
+  "flags": {
+    "apex": false,
+    "keystone": false,
+    "sentient": false,
+    "bridge": false,
+    "threat": true,
+    "event": false
+  },
+  "path": "../../data/species/foresta_temperata/blight-micotico.yaml",
+  "balance": {
+    "rarity": "R3",
+    "threat_tier": "T3",
+    "encounter_role": "boss"
+  },
+  "playable_unit": false,
+  "morphotype": null,
+  "vc": {
+    "aggro": 0.2,
+    "risk": 0.7,
+    "cohesion": 0.3,
+    "setup": 0.5,
+    "explore": 0.2,
+    "tilt": 0.6
+  },
+  "spawn_rules": {
+    "orario": ["continuo"],
+    "meteo": ["whiteout"],
+    "densita": "high"
+  },
+  "environment_affinity": {
+    "biome_class": "foresta_miceliale",
+    "koppen": ["Cfb"],
+    "hazards_expected": ["alluvioni lampo", "incendi sporadici"]
+  },
+  "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "spore_psichiche_silenziate",
+      "lingua_tattile_trama",
+      "ghiandola_caustica"
+    ],
+    "optional_traits": ["mimetismo_cromatico_passivo", "filamenti_digestivi_compattanti"]
+  },
+  "jobs_bias": [],
+  "telemetry": {
+    "expected_pick_rate": null,
+    "spawn_weight": null
+  },
+  "genetic_traits": [],
+  "services_links": [],
+  "description": "i18n:species.blight-micotico.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}

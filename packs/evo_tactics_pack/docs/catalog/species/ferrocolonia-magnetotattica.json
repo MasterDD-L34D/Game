@@ -1,0 +1,127 @@
+{
+  "id": "ferrocolonia-magnetotattica",
+  "display_name": "Ferrocolonia Magnetotattica",
+  "biomes": [
+    "badlands"
+  ],
+  "role_trofico": "predatore_regolatore_simbionte",
+  "functional_tags": [
+    "simbionte",
+    "regolazione_parassiti"
+  ],
+  "flags": {
+    "apex": false,
+    "keystone": true,
+    "sentient": true,
+    "sapience_tier": "S2",
+    "bridge": false,
+    "threat": false,
+    "event": false
+  },
+  "path": "../../data/species/badlands/ferrocolonia-magnetotattica.yaml",
+  "balance": {
+    "rarity": "R3",
+    "threat_tier": "T2",
+    "encounter_role": "elite"
+  },
+  "playable_unit": true,
+  "morphotype": "ingegnere_radicante",
+  "vc": {
+    "aggro": 0.4,
+    "risk": 0.3,
+    "cohesion": 0.9,
+    "setup": 0.6,
+    "explore": 0.5,
+    "tilt": 0.2
+  },
+  "spawn_rules": {
+    "orario": [
+      "diurno"
+    ],
+    "meteo": [
+      "tempesta_sabbia_magnetica"
+    ],
+    "densita": "low"
+  },
+  "environment_affinity": {
+    "biome_class": "dorsale_termale_tropicale",
+    "koppen": [
+      "BSk",
+      "BWk"
+    ],
+    "hazards_expected": [
+      "tempeste_sabbia",
+      "collassi di scarpate",
+      "tempesta_sabbia_magnetica",
+      "iron_shards",
+      "magnetic_patches"
+    ],
+    "multibiome": [
+      "canyons_risonanti"
+    ]
+  },
+  "hazards_expected": [
+    "collassi di scarpate",
+    "iron_shards",
+    "magnetic_patches",
+    "tempesta_sabbia_magnetica",
+    "tempeste_sabbia"
+  ],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "mimetismo_cromatico_passivo",
+      "sangue_piroforico",
+      "secrezione_rallentante_palmi"
+    ],
+    "optional_traits": [
+      "lingua_tattile_trama",
+      "ventriglio_gastroliti"
+    ],
+    "required_capabilities": [
+      "build_cover",
+      "dr_impact_cap",
+      "non_metal_gear",
+      "seal_vents"
+    ],
+    "services_links": [
+      "regolazione:ritenzione_idrica",
+      "supporto:stabilizzazione_suolo"
+    ],
+    "jobs_bias": [
+      "vanguard",
+      "warden"
+    ]
+  },
+  "jobs_bias": [
+    "vanguard",
+    "warden"
+  ],
+  "telemetry": {
+    "expected_pick_rate": 0.1,
+    "spawn_weight": 0.12
+  },
+  "genetic_traits": {
+    "core": [
+      "mimetismo_cromatico_passivo",
+      "sangue_piroforico",
+      "secrezione_rallentante_palmi"
+    ],
+    "optional": [
+      "lingua_tattile_trama",
+      "ventriglio_gastroliti"
+    ],
+    "synergy": []
+  },
+  "services_links": [
+    "regolazione:parassiti",
+    "supporto:reticoli_biometallici"
+  ],
+  "description": "i18n:species.ferrocolonia-magnetotattica.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}

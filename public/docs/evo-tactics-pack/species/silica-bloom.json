@@ -1,0 +1,89 @@
+{
+  "id": "silica-bloom",
+  "display_name": "Silica Bloom",
+  "biomes": [
+    "deserto_caldo"
+  ],
+  "role_trofico": "minaccia_microbica",
+  "functional_tags": [
+    "patogeno"
+  ],
+  "flags": {
+    "apex": false,
+    "keystone": false,
+    "sentient": false,
+    "bridge": false,
+    "threat": true,
+    "event": false
+  },
+  "path": "../../data/species/deserto_caldo/silica-bloom.yaml",
+  "balance": {
+    "rarity": "R3",
+    "threat_tier": "T3",
+    "encounter_role": "boss"
+  },
+  "playable_unit": false,
+  "morphotype": "scavenger_corazzato",
+  "vc": {
+    "aggro": 0.3,
+    "risk": 0.85,
+    "cohesion": 0.4,
+    "setup": 0.7,
+    "explore": 0.2,
+    "tilt": 0.8
+  },
+  "spawn_rules": {
+    "orario": [
+      "notte"
+    ],
+    "meteo": [
+      "foschia_ferrosa",
+      "caldo_pulsato"
+    ],
+    "densita": "mid"
+  },
+  "environment_affinity": {
+    "biome_class": "abisso_vulcanico",
+    "koppen": [
+      "BWh",
+      "BSh"
+    ]
+  },
+  "hazards_expected": [],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "cuticole_cerose",
+      "grassi_termici",
+      "pelli_cave",
+      "pigmenti_aurorali",
+      "proteine_shock_termico",
+      "reti_capillari_radici"
+    ],
+    "required_capabilities": [],
+    "services_links": [],
+    "jobs_bias": [
+      "skirmisher",
+      "vanguard",
+      "warden"
+    ]
+  },
+  "jobs_bias": [
+    "skirmisher",
+    "vanguard",
+    "warden"
+  ],
+  "telemetry": {
+    "expected_pick_rate": null,
+    "spawn_weight": null
+  },
+  "genetic_traits": [],
+  "services_links": [],
+  "description": "i18n:species.silica-bloom.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}

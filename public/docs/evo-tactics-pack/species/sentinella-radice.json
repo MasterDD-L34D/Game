@@ -1,0 +1,88 @@
+{
+  "id": "sentinella-radice",
+  "display_name": "Sentinella Radice",
+  "biomes": [
+    "foresta_temperata"
+  ],
+  "role_trofico": "ingegneri_ecosistema",
+  "functional_tags": [
+    "specie_chiave"
+  ],
+  "flags": {
+    "apex": false,
+    "keystone": true,
+    "sentient": true,
+    "sapience_tier": "S2",
+    "bridge": true,
+    "threat": false,
+    "event": false
+  },
+  "path": "../../data/species/foresta_temperata/sentinella-radice.yaml",
+  "balance": {
+    "rarity": "R3",
+    "threat_tier": "T1",
+    "encounter_role": "ambient"
+  },
+  "playable_unit": true,
+  "morphotype": null,
+  "vc": {
+    "aggro": 0.3,
+    "risk": 0.2,
+    "cohesion": 0.8,
+    "setup": 0.6,
+    "explore": 0.4,
+    "tilt": 0.2
+  },
+  "spawn_rules": {
+    "orario": [
+      "diurno"
+    ],
+    "meteo": [
+      "nebbia_ionica"
+    ],
+    "densita": "low"
+  },
+  "environment_affinity": {
+    "biome_class": "foresta_miceliale",
+    "koppen": [
+      "Cfb"
+    ],
+    "hazards_expected": [
+      "alluvioni lampo",
+      "incendi sporadici"
+    ]
+  },
+  "hazards_expected": [
+    "alluvioni lampo",
+    "incendi sporadici"
+  ],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "focus_frazionato",
+      "pathfinder",
+      "pianificatore"
+    ],
+    "optional_traits": [
+      "random",
+      "empatia_coordinativa"
+    ]
+  },
+  "jobs_bias": [],
+  "telemetry": {
+    "expected_pick_rate": 0.12,
+    "spawn_weight": 0.18
+  },
+  "genetic_traits": [],
+  "services_links": [
+    "supporto:formazione_suolo",
+    "regolazione:ritenzione_idrica"
+  ],
+  "description": "i18n:species.sentinella-radice.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}

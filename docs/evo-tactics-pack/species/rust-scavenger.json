@@ -1,0 +1,82 @@
+{
+  "id": "rust-scavenger",
+  "display_name": "Rust Scavenger",
+  "biomes": ["badlands"],
+  "role_trofico": "ingegneri_ecosistema",
+  "functional_tags": ["specie_chiave", "detritivoro"],
+  "flags": {
+    "apex": false,
+    "keystone": true,
+    "sentient": false,
+    "bridge": false,
+    "threat": false,
+    "event": false
+  },
+  "path": "../../data/species/badlands/rust-scavenger.yaml",
+  "balance": {
+    "rarity": "R2",
+    "threat_tier": "T1",
+    "encounter_role": "ambient"
+  },
+  "playable_unit": true,
+  "morphotype": "scavenger_corazzato",
+  "vc": {
+    "aggro": 0.3,
+    "risk": 0.3,
+    "cohesion": 0.7,
+    "setup": 0.5,
+    "explore": 0.4,
+    "tilt": 0.2
+  },
+  "spawn_rules": {
+    "orario": ["diurno"],
+    "meteo": ["foschia_ferrosa"],
+    "densita": "mid"
+  },
+  "environment_affinity": {
+    "biome_class": "dorsale_termale_tropicale",
+    "koppen": ["BSk", "BWk"],
+    "hazards_expected": [
+      "tempeste_sabbia",
+      "collassi di scarpate",
+      "tempesta_sabbia_magnetica",
+      "iron_shards",
+      "magnetic_patches"
+    ]
+  },
+  "hazards_expected": [
+    "collassi di scarpate",
+    "iron_shards",
+    "magnetic_patches",
+    "tempesta_sabbia_magnetica",
+    "tempeste_sabbia"
+  ],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "ventriglio_gastroliti",
+      "respiro_a_scoppio",
+      "filamenti_digestivi_compattanti"
+    ],
+    "optional_traits": ["nucleo_ovomotore_rotante", "scheletro_idro_regolante"],
+    "required_capabilities": ["build_cover", "dr_impact_cap", "non_metal_gear", "seal_vents"]
+  },
+  "jobs_bias": [],
+  "telemetry": {
+    "expected_pick_rate": 0.15,
+    "spawn_weight": 0.22
+  },
+  "genetic_traits": {
+    "core": ["ventriglio_gastroliti", "respiro_a_scoppio", "filamenti_digestivi_compattanti"],
+    "optional": ["nucleo_ovomotore_rotante", "scheletro_idro_regolante"],
+    "synergy": []
+  },
+  "services_links": ["supporto:stabilizzazione_suolo", "regolazione:riciclo_metalli"],
+  "description": "i18n:species.rust-scavenger.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}

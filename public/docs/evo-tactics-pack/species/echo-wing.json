@@ -1,0 +1,127 @@
+{
+  "id": "echo-wing",
+  "display_name": "Echo Wing",
+  "biomes": [
+    "badlands",
+    "FORESTA_TEMPERATA",
+    "DESERTO_CALDO",
+    "CRYOSTEPPE"
+  ],
+  "role_trofico": "dispersore_ponte",
+  "functional_tags": [
+    "impollinatore",
+    "dispersore_semi"
+  ],
+  "flags": {
+    "apex": false,
+    "keystone": false,
+    "sentient": false,
+    "bridge": true,
+    "threat": false,
+    "event": false
+  },
+  "path": "../../data/species/badlands/echo-wing.yaml",
+  "balance": {
+    "rarity": "R2",
+    "threat_tier": "T1",
+    "encounter_role": "ambient"
+  },
+  "playable_unit": true,
+  "morphotype": "volatore_planatore",
+  "vc": {
+    "aggro": 0.2,
+    "risk": 0.2,
+    "cohesion": 0.8,
+    "setup": 0.6,
+    "explore": 0.7,
+    "tilt": 0.2
+  },
+  "spawn_rules": {
+    "orario": [
+      "diurno"
+    ],
+    "meteo": [
+      "sereno_freddo"
+    ],
+    "densita": "mid"
+  },
+  "environment_affinity": {
+    "biome_class": "dorsale_termale_tropicale",
+    "koppen": [
+      "BSk",
+      "BWk"
+    ],
+    "hazards_expected": [
+      "tempeste_sabbia",
+      "collassi di scarpate",
+      "tempesta_sabbia_magnetica",
+      "iron_shards",
+      "magnetic_patches"
+    ],
+    "multibiome": [
+      "canyons_risonanti",
+      "mezzanotte_orbitale",
+      "savana",
+      "foresta_miceliale"
+    ]
+  },
+  "hazards_expected": [
+    "collassi di scarpate",
+    "iron_shards",
+    "magnetic_patches",
+    "tempesta_sabbia_magnetica",
+    "tempeste_sabbia"
+  ],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "eco_interno_riflesso",
+      "occhi_infrarosso_composti",
+      "sonno_emisferico_alternato"
+    ],
+    "optional_traits": [
+      "sacche_galleggianti_ascensoriali",
+      "lingua_tattile_trama"
+    ],
+    "required_capabilities": [
+      "build_cover",
+      "dr_impact_cap",
+      "non_metal_gear",
+      "seal_vents"
+    ],
+    "jobs_bias": [
+      "skirmisher",
+      "vanguard",
+      "warden"
+    ]
+  },
+  "jobs_bias": [
+    "skirmisher",
+    "vanguard",
+    "warden"
+  ],
+  "telemetry": {
+    "expected_pick_rate": 0.18,
+    "spawn_weight": 0.25
+  },
+  "genetic_traits": {
+    "core": [
+      "eco_interno_riflesso",
+      "occhi_infrarosso_composti",
+      "sonno_emisferico_alternato"
+    ],
+    "optional": [
+      "sacche_galleggianti_ascensoriali",
+      "lingua_tattile_trama"
+    ],
+    "synergy": []
+  },
+  "services_links": [],
+  "description": "i18n:species.echo-wing.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}

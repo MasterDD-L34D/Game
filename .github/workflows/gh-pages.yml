@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
     paths:
       - 'public/**'
       - 'docs/**'
@@ -22,6 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Sync Evo Tactics pack assets
+        run: |
+          node scripts/update_evo_pack_catalog.js
+          node scripts/sync_evo_pack_assets.js
       - name: Prepare static bundle
         run: |
           mkdir -p ./_site
