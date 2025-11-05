@@ -7,6 +7,7 @@ interface NavigationLink {
 
 class NavigationController {
   public current?: string;
+  public isOpen?: boolean;
   public onToggle?: () => void;
   public links: NavigationLink[] = [
     {
@@ -60,16 +61,29 @@ export const registerNavigationComponent = (module: any): void => {
   module.component('missionConsoleNavigation', {
     bindings: {
       current: '<',
+      isOpen: '<',
       onToggle: '&',
     },
     controller: NavigationController,
     controllerAs: '$ctrl',
     template: `
-      <nav class="navigation" role="navigation" aria-label="Primary">
+      <nav
+        id="mission-console-navigation"
+        class="navigation"
+        ng-class="{ 'navigation--open': $ctrl.isOpen }"
+        role="navigation"
+        aria-label="Primary"
+      >
         <div class="navigation__header">
-          <button class="navigation__menu-button" type="button" ng-click="$ctrl.toggleMenu()">
+          <button
+            class="navigation__menu-button"
+            type="button"
+            ng-click="$ctrl.toggleMenu()"
+            aria-expanded="{{ $ctrl.isOpen ? 'true' : 'false' }}"
+            aria-controls="mission-console-navigation"
+          >
             <span class="visually-hidden">Toggle menu</span>
-            &#9776;
+            <span aria-hidden="true">{{ $ctrl.isOpen ? '✕' : '☰' }}</span>
           </button>
           <div class="navigation__brand">
             <span class="navigation__title">Evo-Tactics Console</span>
