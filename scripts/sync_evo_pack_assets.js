@@ -27,6 +27,19 @@ function copyFile(sourcePath, targetPath) {
   fs.copyFileSync(sourcePath, targetPath);
 }
 
+function copyRecursive(sourcePath, targetPath) {
+  const stats = fs.statSync(sourcePath);
+  if (stats.isDirectory()) {
+    fs.mkdirSync(targetPath, { recursive: true });
+    fs.readdirSync(sourcePath, { withFileTypes: true }).forEach((entry) => {
+      copyRecursive(path.join(sourcePath, entry.name), path.join(targetPath, entry.name));
+    });
+    return;
+  }
+
+  copyFile(sourcePath, targetPath);
+}
+
 function syncAssets() {
   ASSET_MAP.forEach(({ source, targets }) => {
     const sourcePath = path.join(PACK_DOCS_DIR, source);
@@ -47,11 +60,7 @@ function syncAssets() {
     entries.forEach((entry) => {
       const sourcePath = path.join(traitIndexSource, entry.name);
       const targetPath = path.join(PUBLIC_TARGET, 'traits', entry.name);
-      if (entry.isDirectory()) {
-        fs.mkdirSync(targetPath, { recursive: true });
-      } else {
-        copyFile(sourcePath, targetPath);
-      }
+      copyRecursive(sourcePath, targetPath);
     });
   }
 
