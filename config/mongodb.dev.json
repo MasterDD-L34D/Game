@@ -1,0 +1,19 @@
+{
+  "$schema": "./schemas/mongodb-config.schema.json",
+  "description": "Configurazione MongoDB per ambienti di sviluppo locale e pipeline CI.",
+  "mongoUrl": {
+    "env": "MONGODB_DEV_URI",
+    "default": "mongodb://localhost:27017"
+  },
+  "database": {
+    "env": "MONGODB_DEV_DB",
+    "default": "evo_tactics_dev"
+  },
+  "options": {
+    "appName": "game-dev",
+    "retryWrites": true
+  },
+  "seed": {
+    "dryRun": false
+  }
+}

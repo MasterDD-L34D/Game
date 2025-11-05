@@ -1,0 +1,19 @@
+{
+  "$schema": "./schemas/mongodb-config.schema.json",
+  "description": "Configurazione MongoDB per ambienti di produzione e pre-produzione.",
+  "mongoUrl": {
+    "env": "MONGODB_PROD_URI"
+  },
+  "database": {
+    "env": "MONGODB_PROD_DB",
+    "default": "evo_tactics"
+  },
+  "options": {
+    "appName": "game-prod",
+    "retryWrites": true,
+    "readPreference": "primaryPreferred"
+  },
+  "seed": {
+    "dryRun": false
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MongoDB deployment configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "value": {
+      "anyOf": [{ "type": "string" }, { "$ref": "#/definitions/envRef" }]
+    },
+    "envRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["env"],
+      "properties": {
+        "env": {
+          "type": "string",
+          "description": "Nome della variabile d'ambiente da leggere"
+        },
+        "default": {
+          "description": "Valore di fallback utilizzato quando la variabile non è impostata"
+        }
+      }
+    }
+  },
+  "properties": {
+    "description": {
+      "type": "string"
+    },
+    "mongoUrl": {
+      "$ref": "#/definitions/value"
+    },
+    "uri": {
+      "$ref": "#/definitions/value"
+    },
+    "database": {
+      "$ref": "#/definitions/value"
+    },
+    "dbName": {
+      "$ref": "#/definitions/value"
+    },
+    "options": {
+      "type": "object",
+      "default": {},
+      "description": "Opzioni da passare al driver MongoClient",
+      "additionalProperties": {
+        "description": "Parametri aggiuntivi per MongoClient"
+      }
+    },
+    "seed": {
+      "type": "object",
+      "default": {},
+      "description": "Impostazioni dedicate allo script di seeding",
+      "additionalProperties": true,
+      "properties": {
+        "dryRun": {
+          "type": "boolean",
+          "description": "Forza l'esecuzione in modalità dry-run"
+        }
+      }
+    }
+  },
+  "anyOf": [{ "required": ["mongoUrl"] }, { "required": ["uri"] }],
+  "allOf": [
+    {
+      "anyOf": [{ "required": ["database"] }, { "required": ["dbName"] }]
+    }
+  ]
+}

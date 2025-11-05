@@ -25,10 +25,12 @@ import os
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, MutableMapping
+from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Tuple
 
 from pymongo import MongoClient, ReplaceOne
 from pymongo.collection import Collection
+
+from config_loader import load_mongo_config
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CATALOG_ROOT = REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog"
@@ -200,6 +202,34 @@ def seed_database(client: MongoClient, database_name: str, dry_run: bool = False
     bulk_upsert(db["traits"], traits)
 
 
+def resolve_connection_settings(args: argparse.Namespace) -> Tuple[str, str, Dict[str, Any], Dict[str, Any]]:
+    config = load_mongo_config(args.config) if args.config else None
+
+    mongo_url = args.mongo_url or ""
+    database = args.database or ""
+    options: Dict[str, Any] = {}
+
+    if config:
+        mongo_url = config.mongo_url or mongo_url
+        database = config.database or database
+        options = dict(config.options)
+
+    mongo_url = mongo_url.strip()
+    database = database.strip()
+
+    if not mongo_url:
+        raise RuntimeError(
+            "MongoDB URL non configurato: utilizzare --mongo-url oppure specificare 'mongoUrl' nel file di configurazione"
+        )
+    if not database:
+        raise RuntimeError(
+            "Nome del database MongoDB non configurato: utilizzare --database oppure specificare 'database' nel file"
+        )
+
+    extras = config.extras if config else {}
+    return mongo_url, database, options, extras
+
+
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Seed MongoDB with Evo Tactics catalog data")
     parser.add_argument(
@@ -213,10 +243,22 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Target database name",
     )
     parser.add_argument(
+        "--config",
+        help="Percorso del file JSON con la configurazione MongoDB (es. config/mongodb.dev.json)",
+    )
+    parser.add_argument(
         "--dry-run",
+        dest="dry_run",
         action="store_true",
         help="Do not write anything, only print stats",
     )
+    parser.add_argument(
+        "--no-dry-run",
+        dest="dry_run",
+        action="store_false",
+        help="Force data writes even if the configuration suggests a dry run",
+    )
+    parser.set_defaults(dry_run=None)
     return parser
 
 
@@ -224,8 +266,18 @@ def main() -> None:
     parser = build_arg_parser()
     args = parser.parse_args()
 
-    client = MongoClient(args.mongo_url)
-    seed_database(client, args.database, dry_run=args.dry_run)
+    mongo_url, database, mongo_options, extras = resolve_connection_settings(args)
+
+    dry_run_flag = args.dry_run
+    if dry_run_flag is None:
+        seed_config = extras.get("seed") if isinstance(extras, Mapping) else {}
+        if isinstance(seed_config, Mapping) and "dryRun" in seed_config:
+            dry_run_flag = bool(seed_config.get("dryRun"))
+        else:
+            dry_run_flag = False
+
+    client = MongoClient(mongo_url, **mongo_options)
+    seed_database(client, database, dry_run=bool(dry_run_flag))
 
 
 if __name__ == "__main__":
