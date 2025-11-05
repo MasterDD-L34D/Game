@@ -1,9 +1,19 @@
 const express = require('express');
 
+const DEFAULT_EVO_TACTICS_API_BASE =
+  process.env.EVO_TACTICS_API_BASE || 'https://api.evo-tactics.dev/';
+const BIOME_GENERATION_ROUTE_PATH = '/api/v1/generation/biomes';
+const OFFICIAL_BIOME_GENERATION_URL = new URL(
+  BIOME_GENERATION_ROUTE_PATH,
+  DEFAULT_EVO_TACTICS_API_BASE,
+).toString();
+
 function createGenerationHandler(executor, options = {}) {
   const mapResult = typeof options.mapResult === 'function' ? options.mapResult : (value) => value;
-  const resolveStatus = typeof options.resolveStatus === 'function' ? options.resolveStatus : () => 500;
-  const defaultError = typeof options.defaultError === 'string' ? options.defaultError : 'Errore generazione';
+  const resolveStatus =
+    typeof options.resolveStatus === 'function' ? options.resolveStatus : () => 500;
+  const defaultError =
+    typeof options.defaultError === 'string' ? options.defaultError : 'Errore generazione';
 
   return async function generationRoute(req, res) {
     const payload = req.body || {};
@@ -86,4 +96,7 @@ module.exports = {
   createGenerationHandler,
   createGenerationRoutes,
   createGenerationRouter,
+  DEFAULT_EVO_TACTICS_API_BASE,
+  BIOME_GENERATION_ROUTE_PATH,
+  OFFICIAL_BIOME_GENERATION_URL,
 };
