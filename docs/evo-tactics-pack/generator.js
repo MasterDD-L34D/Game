@@ -517,11 +517,24 @@ function setStatus(message, tone = 'info', options = {}) {
     elements.status.textContent = message;
     elements.status.dataset.tone = tone;
   }
+  if (elements.statusMirrors && elements.statusMirrors.length > 0) {
+    for (const mirror of elements.statusMirrors) {
+      mirror.textContent = message;
+      mirror.dataset.tone = tone;
+    }
+  }
   if (elements.lastAction) {
     const formatted = now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
     elements.lastAction.textContent = `Ultimo aggiornamento: ${formatted}`;
     elements.lastAction.dataset.tone = tone;
     elements.lastAction.title = now.toLocaleString('it-IT');
+    if (elements.lastActionMirrors && elements.lastActionMirrors.length > 0) {
+      for (const mirror of elements.lastActionMirrors) {
+        mirror.textContent = `Ultimo aggiornamento: ${formatted}`;
+        mirror.dataset.tone = tone;
+        mirror.title = now.toLocaleString('it-IT');
+      }
+    }
   }
   recordActivity(message, tone, now, options);
 

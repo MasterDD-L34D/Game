@@ -1,22 +1,25 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
-import './styles/theme.css';
-import './styles/evogene-deck.css';
-import { installErrorReporting } from './observability/errorReporting';
-import { installPerformanceMetrics } from './observability/metrics';
-import { createI18nInstance } from './locales';
+import { registerAppModule } from './app.module';
+import './styles/main.css';
 
-const app = createApp(App);
-const i18n = createI18nInstance();
-app.use(router);
-app.use(i18n);
+declare const document: Document;
+declare const angular: any;
 
-if (typeof window !== 'undefined') {
-  installPerformanceMetrics();
-  installErrorReporting(app, router).catch((error) => {
-    console.warn('[observability] inizializzazione error reporting fallita', error);
-  });
+if (typeof angular === 'undefined') {
+  throw new Error('AngularJS non è stato caricato. Verifica gli script nel file index.html.');
 }
 
-app.mount('#app');
+const appModule = registerAppModule();
+
+angular.element(document).ready(() => {
+  const rootElement = document.getElementById('app');
+  if (!rootElement) {
+    throw new Error('Unable to find application mount element with id "app".');
+  }
+
+  if (!rootElement.hasChildNodes()) {
+    const appRoot = document.createElement('app-root');
+    rootElement.append(appRoot);
+  }
+
+  angular.bootstrap(rootElement, [appModule.name], { strictDi: true });
+});
