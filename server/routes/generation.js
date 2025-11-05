@@ -7,6 +7,7 @@ const OFFICIAL_BIOME_GENERATION_URL = new URL(
   BIOME_GENERATION_ROUTE_PATH,
   DEFAULT_EVO_TACTICS_API_BASE,
 ).toString();
+const { createBiomeGenerationRoute } = require('./api/generation/biomes');
 
 function createGenerationHandler(executor, options = {}) {
   const mapResult = typeof options.mapResult === 'function' ? options.mapResult : (value) => value;
@@ -34,7 +35,7 @@ function createGenerationHandler(executor, options = {}) {
   };
 }
 
-function createGenerationRoutes({ biomeSynthesizer, generationOrchestrator }) {
+function createGenerationRoutes({ biomeSynthesizer, generationOrchestrator, catalogService } = {}) {
   if (!biomeSynthesizer || typeof biomeSynthesizer.generate !== 'function') {
     throw new Error('biomeSynthesizer con metodo generate richiesto');
   }
@@ -47,20 +48,11 @@ function createGenerationRoutes({ biomeSynthesizer, generationOrchestrator }) {
     return message.includes('trait_ids') ? 400 : 500;
   };
 
-  const biomes = createGenerationHandler(
-    async (payload) => {
-      const result = await biomeSynthesizer.generate({
-        count: payload.count,
-        constraints: payload.constraints || {},
-        seed: payload.seed,
-      });
-      return result;
-    },
-    {
-      mapResult: (result) => ({ biomes: result.biomes, meta: result.constraints }),
-      defaultError: 'Errore generazione biomi',
-    },
-  );
+  const biomes = createBiomeGenerationRoute({
+    biomeSynthesizer,
+    catalogService,
+    createGenerationHandler,
+  });
 
   const species = createGenerationHandler(
     (payload) => generationOrchestrator.generateSpecies(payload),

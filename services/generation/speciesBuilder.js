@@ -1,7 +1,14 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const DEFAULT_CATALOG_PATH = path.resolve(__dirname, '..', '..', 'docs', 'catalog', 'catalog_data.json');
+const DEFAULT_CATALOG_PATH = path.resolve(
+  __dirname,
+  '..',
+  '..',
+  'docs',
+  'catalog',
+  'catalog_data.json',
+);
 
 const FAMILY_KEYWORDS = new Map([
   ['locomotorio', 'locomotor'],
@@ -38,9 +45,7 @@ const USAGE_TAG_PATTERN = /^[a-z0-9_]+$/;
 function normaliseList(value) {
   if (!value) return [];
   if (Array.isArray(value)) {
-    return value
-      .map((item) => (typeof item === 'string' ? item.trim() : ''))
-      .filter(Boolean);
+    return value.map((item) => (typeof item === 'string' ? item.trim() : '')).filter(Boolean);
   }
   if (typeof value === 'string') {
     return value.trim() ? [value.trim()] : [];
@@ -144,7 +149,7 @@ function aggregateSpeciesAffinity(traits) {
       roles: Array.from(entry.roles).sort(),
       weight: Math.round(entry.weight * 1000) / 1000,
     }))
-    .sort((a, b) => (b.weight - a.weight) || a.species_id.localeCompare(b.species_id));
+    .sort((a, b) => b.weight - a.weight || a.species_id.localeCompare(b.species_id));
 }
 
 function cloneAffinity(entries) {
@@ -304,7 +309,10 @@ function deriveBehaviour(traits) {
 }
 
 function composeSummary(traits) {
-  return traits.slice(0, 3).map((trait) => trait.label).join(', ');
+  return traits
+    .slice(0, 3)
+    .map((trait) => trait.label)
+    .join(', ');
 }
 
 function composeDescription(traits, morphology, behaviour) {
@@ -397,7 +405,9 @@ function buildPathfinderProfile(statblock, options = {}) {
   const rarity = rarityFromScore(axes.versatility);
   const fallbackTraits = Array.isArray(options.fallbackTraits) ? options.fallbackTraits : [];
   const geneticTraits = Array.isArray(statblock.genetic_traits) ? statblock.genetic_traits : [];
-  const abilities = Array.isArray(statblock.special_abilities) ? statblock.special_abilities.filter(Boolean) : [];
+  const abilities = Array.isArray(statblock.special_abilities)
+    ? statblock.special_abilities.filter(Boolean)
+    : [];
   const environmentTags = Array.isArray(statblock.environment_tags)
     ? statblock.environment_tags.filter(Boolean)
     : [];
@@ -408,7 +418,11 @@ function buildPathfinderProfile(statblock, options = {}) {
     summary: abilities.length ? `Capacità chiave: ${abilities.slice(0, 3).join(', ')}` : null,
     description: statblock.visual_description || null,
     role_trofico: roleFromType(statblock),
-    functional_tags: ['pathfinder', String(statblock.type || '').toLowerCase(), String(statblock.subtype || '').toLowerCase()].filter(Boolean),
+    functional_tags: [
+      'pathfinder',
+      String(statblock.type || '').toLowerCase(),
+      String(statblock.subtype || '').toLowerCase(),
+    ].filter(Boolean),
     biomes: options.biomeId ? [options.biomeId] : [],
     vc,
     playable_unit: false,
@@ -457,12 +471,13 @@ function buildPathfinderProfile(statblock, options = {}) {
   };
 }
 
-async function loadCatalog(catalogPath = DEFAULT_CATALOG_PATH) {
-  const buffer = await fs.readFile(catalogPath, 'utf8');
-  const payload = JSON.parse(buffer);
+function buildCatalogMap(payload = {}) {
   const entries = payload?.traits || {};
   const traits = new Map();
   Object.entries(entries).forEach(([traitId, raw]) => {
+    if (!traitId || !raw) {
+      return;
+    }
     traits.set(traitId, {
       id: traitId,
       label: raw.label || traitId,
@@ -484,15 +499,32 @@ async function loadCatalog(catalogPath = DEFAULT_CATALOG_PATH) {
   return traits;
 }
 
+async function loadCatalog(catalogPath = DEFAULT_CATALOG_PATH, loader = null) {
+  if (typeof loader === 'function') {
+    const payload = await loader();
+    if (payload instanceof Map) {
+      return payload;
+    }
+    if (payload && typeof payload === 'object') {
+      return buildCatalogMap(payload);
+    }
+    throw new Error('Catalog loader deve restituire una Map o un oggetto JSON');
+  }
+  const buffer = await fs.readFile(catalogPath, 'utf8');
+  const payload = JSON.parse(buffer);
+  return buildCatalogMap(payload);
+}
+
 function createSpeciesBuilder(options = {}) {
   const catalogPath = options.catalogPath || DEFAULT_CATALOG_PATH;
+  const catalogLoader = typeof options.catalogLoader === 'function' ? options.catalogLoader : null;
   let traitCatalog = null;
   let loading = null;
 
   async function ensureCatalog() {
     if (traitCatalog) return traitCatalog;
     if (!loading) {
-      loading = loadCatalog(catalogPath).then((map) => {
+      loading = loadCatalog(catalogPath, catalogLoader).then((map) => {
         traitCatalog = map;
         return map;
       });
@@ -505,9 +537,7 @@ function createSpeciesBuilder(options = {}) {
       throw new Error('Impossibile generare specie: nessun tratto fornito');
     }
     const catalog = await ensureCatalog();
-    const traits = traitIds
-      .map((traitId) => catalog.get(traitId))
-      .filter(Boolean);
+    const traits = traitIds.map((traitId) => catalog.get(traitId)).filter(Boolean);
     if (!traits.length) {
       throw new Error('Impossibile generare specie: tratti sconosciuti');
     }
@@ -531,14 +561,13 @@ function createSpeciesBuilder(options = {}) {
       }
     }
 
-    const derived = uniqueSorted(
-      traits.flatMap((trait) => trait.synergies || [])
-    );
-    const conflicts = uniqueSorted(
-      traits.flatMap((trait) => trait.conflicts || [])
-    );
+    const derived = uniqueSorted(traits.flatMap((trait) => trait.synergies || []));
+    const conflicts = uniqueSorted(traits.flatMap((trait) => trait.conflicts || []));
     const identifierSeed = `${displayName}-${threat}-${rarity}-${rng().toFixed(4)}`;
-    const digest = Buffer.from(identifierSeed).toString('base64').replace(/[^a-z0-9]/gi, '').slice(0, 10);
+    const digest = Buffer.from(identifierSeed)
+      .toString('base64')
+      .replace(/[^a-z0-9]/gi, '')
+      .slice(0, 10);
     const identifier = `synthetic-${digest || '0000000000'}`;
 
     return {
@@ -572,4 +601,5 @@ function createSpeciesBuilder(options = {}) {
 module.exports = {
   createSpeciesBuilder,
   buildPathfinderProfile,
+  buildCatalogMap,
 };
