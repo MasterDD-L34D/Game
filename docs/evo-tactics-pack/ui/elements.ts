@@ -53,6 +53,7 @@ export function resolveGeneratorElements(root = document) {
     traitGrid: byId(root, 'trait-grid'),
     seedGrid: byId(root, 'seed-grid'),
     status: byId(root, 'generator-status'),
+    statusMirrors: queryAll(root, '[data-generator-status-inline]'),
     summaryContainer: byId(root, 'generator-summary'),
     summaryCounts: {
       biomes: query(root, '[data-summary="biomes"]'),
@@ -97,6 +98,7 @@ export function resolveGeneratorElements(root = document) {
     historyList: byId(root, 'generator-history-list'),
     historyEmpty: byId(root, 'generator-history-empty'),
     lastAction: byId(root, 'generator-last-action'),
+    lastActionMirrors: queryAll(root, '[data-generator-last-action-inline]'),
     logList: byId(root, 'generator-log'),
     logEmpty: byId(root, 'generator-log-empty'),
     activitySearch: byId(root, 'activity-search'),

@@ -421,6 +421,7 @@ function resolveGeneratorElements(root = document) {
     traitGrid: byId(root, "trait-grid"),
     seedGrid: byId(root, "seed-grid"),
     status: byId(root, "generator-status"),
+    statusMirrors: queryAll(root, "[data-generator-status-inline]"),
     summaryContainer: byId(root, "generator-summary"),
     summaryCounts: {
       biomes: query(root, '[data-summary="biomes"]'),
@@ -465,6 +466,7 @@ function resolveGeneratorElements(root = document) {
     historyList: byId(root, "generator-history-list"),
     historyEmpty: byId(root, "generator-history-empty"),
     lastAction: byId(root, "generator-last-action"),
+    lastActionMirrors: queryAll(root, "[data-generator-last-action-inline]"),
     logList: byId(root, "generator-log"),
     logEmpty: byId(root, "generator-log-empty"),
     activitySearch: byId(root, "activity-search"),
@@ -2997,11 +2999,24 @@ function setStatus(message, tone = "info", options = {}) {
     elements.status.textContent = message;
     elements.status.dataset.tone = tone;
   }
+  if (elements.statusMirrors && elements.statusMirrors.length > 0) {
+    for (const mirror of elements.statusMirrors) {
+      mirror.textContent = message;
+      mirror.dataset.tone = tone;
+    }
+  }
   if (elements.lastAction) {
     const formatted = now.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
     elements.lastAction.textContent = `Ultimo aggiornamento: ${formatted}`;
     elements.lastAction.dataset.tone = tone;
     elements.lastAction.title = now.toLocaleString("it-IT");
+    if (elements.lastActionMirrors && elements.lastActionMirrors.length > 0) {
+      for (const mirror of elements.lastActionMirrors) {
+        mirror.textContent = `Ultimo aggiornamento: ${formatted}`;
+        mirror.dataset.tone = tone;
+        mirror.title = now.toLocaleString("it-IT");
+      }
+    }
   }
   recordActivity(message, tone, now, options);
   if (options.rare) {
