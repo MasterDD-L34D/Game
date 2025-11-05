@@ -9,6 +9,32 @@ class NavigationController {
   public current?: string;
   public isOpen?: boolean;
   public onToggle?: () => void;
+  public topLinks: NavigationLink[] = [
+    {
+      label: 'Generatore',
+      route: '/generator',
+      description: 'Crea scenari procedurali e parametri operativi.',
+      icon: '⚙️',
+    },
+    {
+      label: 'Mission Control',
+      route: '/mission-control',
+      description: 'Coordinamento strategico e autorizzazioni istantanee.',
+      icon: '🛰️',
+    },
+    {
+      label: 'Mission Console',
+      route: '/mission-console',
+      description: 'Quadro sinottico delle operazioni in tempo reale.',
+      icon: '🖥️',
+    },
+    {
+      label: 'Ecosystem Pack',
+      route: '/ecosystem-pack',
+      description: 'Risorse, moduli e pacchetti di estensione.',
+      icon: '🧩',
+    },
+  ];
   public links: NavigationLink[] = [
     {
       label: 'Dashboard',
@@ -90,6 +116,25 @@ export const registerNavigationComponent = (module: any): void => {
             <span class="navigation__subtitle">Mission Control</span>
           </div>
         </div>
+        <ul class="navigation__topbar" role="menubar">
+          <li
+            class="navigation__topbar-item"
+            ng-repeat="topLink in $ctrl.topLinks"
+            ng-class="{ 'navigation__topbar-item--active': $ctrl.isActive(topLink.route) }"
+          >
+            <button
+              class="navigation__topbar-link"
+              ng-class="{ 'navigation__topbar-link--active': $ctrl.isActive(topLink.route) }"
+              type="button"
+              ng-click="$ctrl.handleLinkClick(topLink.route)"
+              aria-label="{{ topLink.label }}"
+              role="menuitem"
+            >
+              <span class="navigation__topbar-icon" aria-hidden="true">{{ topLink.icon }}</span>
+              <span class="navigation__topbar-text">{{ topLink.label }}</span>
+            </button>
+          </li>
+        </ul>
         <ul class="navigation__list">
           <li
             class="navigation__item"

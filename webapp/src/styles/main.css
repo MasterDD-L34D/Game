@@ -181,6 +181,60 @@ body {
   flex-direction: column;
 }
 
+.navigation__topbar {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.navigation__topbar-item {
+  flex: 1 1 auto;
+}
+
+.navigation__topbar-item--active .navigation__topbar-link {
+  border-color: rgba(79, 140, 255, 0.8);
+  background-color: rgba(79, 140, 255, 0.2);
+}
+
+.navigation__topbar-link {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.navigation__topbar-link:hover,
+.navigation__topbar-link:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.navigation__topbar-link--active {
+  border-color: rgba(79, 140, 255, 0.8);
+  background-color: rgba(79, 140, 255, 0.2);
+}
+
+.navigation__topbar-icon {
+  font-size: 1.1rem;
+}
+
+.navigation__topbar-text {
+  white-space: nowrap;
+}
+
 .navigation__title {
   font-size: 1.1rem;
   font-weight: 600;
