@@ -22,4 +22,4 @@ structured:
 audit: sitemap links report search redirects structured
 
 evo-tactics-pack:
-node scripts/build_evo_tactics_pack_dist.mjs
+	node scripts/build_evo_tactics_pack_dist.mjs
