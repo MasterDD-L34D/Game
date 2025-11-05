@@ -34,7 +34,10 @@
     "format:check": "prettier --check .",
     "style:check": "node scripts/trait_style_check.js",
     "prepare": "node scripts/husky-install.cjs",
-    "sync:evo-pack": "node scripts/update_evo_pack_catalog.js && node scripts/sync_evo_pack_assets.js"
+    "sync:evo-pack": "node scripts/update_evo_pack_catalog.js && node scripts/sync_evo_pack_assets.js",
+    "db:migrate": "python scripts/db/run_migrations.py up",
+    "db:migrate:down": "python scripts/db/run_migrations.py down",
+    "db:migrate:status": "python scripts/db/run_migrations.py status"
   },
   "dependencies": {
     "ajv": "^8.17.1",
