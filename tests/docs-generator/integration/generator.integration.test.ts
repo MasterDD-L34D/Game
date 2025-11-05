@@ -142,6 +142,8 @@ describe('docs generator — browser integration', () => {
     elements = createStubElements();
     anchorUi = createAnchorUi();
 
+    delete (window as { __EVO_TACTICS_API_BASE__?: unknown }).__EVO_TACTICS_API_BASE__;
+
     globalThis.CSS = globalThis.CSS || { escape: (value: string) => String(value) };
     (globalThis as unknown as { fetch: typeof fetch }).fetch = vi.fn(async () => {
       throw new Error('fetch unavailable in tests');
@@ -195,6 +197,7 @@ describe('docs generator — browser integration', () => {
   afterEach(() => {
     document.body.innerHTML = '';
     delete (window as { EvoPack?: unknown }).EvoPack;
+    delete (window as { __EVO_TACTICS_API_BASE__?: unknown }).__EVO_TACTICS_API_BASE__;
     HTMLCanvasElement.prototype.getContext = originalGetContext;
     Element.prototype.scrollIntoView = originalScrollIntoView;
     HTMLElement.prototype.focus = originalFocus;
@@ -213,6 +216,26 @@ describe('docs generator — browser integration', () => {
       preferences: { audioMuted: false, volume: 0.75 },
     });
     expect(Array.isArray(generator?.state?.activityLog)).toBe(true);
+  });
+
+  it('honours the __EVO_TACTICS_API_BASE__ override when available', async () => {
+    const apiBase = 'https://generator-api.example.test/v1/';
+    Object.defineProperty(window, '__EVO_TACTICS_API_BASE__', {
+      value: apiBase,
+      configurable: true,
+      writable: true,
+    });
+
+    await import('../../../docs/evo-tactics-pack/generator.js');
+    await tick();
+
+    const generator = (
+      window as {
+        EvoPack?: { generator?: { state?: { api?: { base?: string } } } };
+      }
+    ).EvoPack?.generator;
+
+    expect(generator?.state?.api?.base).toBe(apiBase);
   });
 
   it('updates filters when multiselect change events fire', async () => {
