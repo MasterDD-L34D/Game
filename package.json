@@ -30,7 +30,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "style:check": "node scripts/trait_style_check.js",
-    "prepare": "node scripts/husky-install.cjs"
+    "prepare": "node scripts/husky-install.cjs",
+    "sync:evo-pack": "node scripts/update_evo_pack_catalog.js && node scripts/sync_evo_pack_assets.js"
   },
   "dependencies": {
     "ajv": "^8.17.1",

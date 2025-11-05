@@ -1,0 +1,89 @@
+{
+  "id": "noctule-termico",
+  "display_name": "Noctule Termico",
+  "biomes": [
+    "deserto_caldo"
+  ],
+  "role_trofico": "dispersore_ponte",
+  "functional_tags": [
+    "impollinatore",
+    "dispersore_semi"
+  ],
+  "flags": {
+    "apex": false,
+    "keystone": false,
+    "sentient": false,
+    "bridge": true,
+    "threat": false,
+    "event": false
+  },
+  "path": "../../data/species/deserto_caldo/noctule-termico.yaml",
+  "balance": {
+    "rarity": "R2",
+    "threat_tier": "T1",
+    "encounter_role": "ambient"
+  },
+  "playable_unit": true,
+  "morphotype": "volatore_planatore",
+  "vc": {
+    "aggro": 0.2,
+    "risk": 0.2,
+    "cohesion": 0.7,
+    "setup": 0.6,
+    "explore": 0.8,
+    "tilt": 0.2
+  },
+  "spawn_rules": {
+    "orario": [
+      "notte"
+    ],
+    "meteo": [
+      "sereno_freddo"
+    ],
+    "densita": "mid"
+  },
+  "environment_affinity": {
+    "biome_class": "abisso_vulcanico",
+    "koppen": [
+      "BWh",
+      "BSh"
+    ]
+  },
+  "hazards_expected": [],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "cuticole_cerose",
+      "grassi_termici",
+      "pelli_cave",
+      "pigmenti_aurorali",
+      "proteine_shock_termico",
+      "reti_capillari_radici"
+    ],
+    "required_capabilities": [],
+    "services_links": [],
+    "jobs_bias": [
+      "skirmisher",
+      "vanguard",
+      "warden"
+    ]
+  },
+  "jobs_bias": [
+    "skirmisher",
+    "vanguard",
+    "warden"
+  ],
+  "telemetry": {
+    "expected_pick_rate": 0.17,
+    "spawn_weight": 0.23
+  },
+  "genetic_traits": [],
+  "services_links": [],
+  "description": "i18n:species.noctule-termico.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "thermo-raptor",
+  "display_name": "Thermo Raptor",
+  "biomes": ["deserto_caldo"],
+  "role_trofico": "predatore_terziario_apex",
+  "functional_tags": ["predatore", "specie_chiave"],
+  "flags": {
+    "apex": true,
+    "keystone": false,
+    "sentient": false,
+    "bridge": false,
+    "threat": false,
+    "event": false
+  },
+  "path": "../../data/species/deserto_caldo/thermo-raptor.yaml",
+  "balance": {
+    "rarity": "R3",
+    "threat_tier": "T3",
+    "encounter_role": "elite"
+  },
+  "playable_unit": false,
+  "morphotype": "cursoriale_quadrupede",
+  "vc": {
+    "aggro": 0.8,
+    "risk": 0.7,
+    "cohesion": 0.3,
+    "setup": 0.5,
+    "explore": 0.6,
+    "tilt": 0.4
+  },
+  "spawn_rules": {
+    "orario": ["notte", "crepuscolo"],
+    "meteo": ["caldo_pulsato"],
+    "densita": "low"
+  },
+  "environment_affinity": {
+    "biome_class": "abisso_vulcanico",
+    "koppen": ["BWh", "BSh"]
+  },
+  "hazards_expected": [],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "cuticole_cerose",
+      "grassi_termici",
+      "pelli_cave",
+      "pigmenti_aurorali",
+      "proteine_shock_termico",
+      "reti_capillari_radici"
+    ],
+    "required_capabilities": [],
+    "services_links": [],
+    "jobs_bias": ["skirmisher", "vanguard", "warden"]
+  },
+  "jobs_bias": ["skirmisher", "vanguard", "warden"],
+  "telemetry": {
+    "expected_pick_rate": null,
+    "spawn_weight": null
+  },
+  "genetic_traits": [],
+  "services_links": [],
+  "description": "i18n:species.thermo-raptor.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}

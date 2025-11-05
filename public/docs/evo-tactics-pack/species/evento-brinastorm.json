@@ -1,0 +1,89 @@
+{
+  "id": "evento-brinastorm",
+  "display_name": "Evento: Brina Tempestosa",
+  "biomes": [
+    "cryosteppe"
+  ],
+  "role_trofico": "evento_ecologico",
+  "functional_tags": [
+    "pulse_climatico"
+  ],
+  "flags": {
+    "apex": false,
+    "keystone": false,
+    "sentient": false,
+    "bridge": false,
+    "threat": false,
+    "event": true
+  },
+  "path": "../../data/species/cryosteppe/evento-brinastorm.yaml",
+  "balance": {
+    "rarity": "R5",
+    "threat_tier": "T4",
+    "encounter_role": "boss"
+  },
+  "playable_unit": false,
+  "morphotype": "volatore_planatore",
+  "vc": {
+    "aggro": 0.1,
+    "risk": 0.97,
+    "cohesion": 0.2,
+    "setup": 0.85,
+    "explore": 0.1,
+    "tilt": 0.95
+  },
+  "spawn_rules": {
+    "orario": [
+      "notte"
+    ],
+    "meteo": [
+      "whiteout",
+      "whiteout_ionico"
+    ],
+    "densita": "low"
+  },
+  "environment_affinity": {
+    "biome_class": "mezzanotte_orbitale",
+    "koppen": [
+      "BSk",
+      "Dfc"
+    ]
+  },
+  "hazards_expected": [],
+  "derived_from_environment": {
+    "suggested_traits": [
+      "cuticole_cerose",
+      "grassi_termici",
+      "pelli_cave",
+      "pigmenti_aurorali",
+      "proteine_shock_termico",
+      "reti_capillari_radici"
+    ],
+    "required_capabilities": [],
+    "services_links": [],
+    "jobs_bias": [
+      "skirmisher",
+      "vanguard",
+      "warden"
+    ]
+  },
+  "jobs_bias": [
+    "skirmisher",
+    "vanguard",
+    "warden"
+  ],
+  "telemetry": {
+    "expected_pick_rate": null,
+    "spawn_weight": null
+  },
+  "genetic_traits": [],
+  "services_links": [],
+  "description": "i18n:species.evento-brinastorm.description",
+  "receipt": {
+    "source": "PTPF.v1.0",
+    "author": "designer",
+    "date": "2025-10-25",
+    "trace_hash": "to-fill"
+  },
+  "last_synced_at": "2025-11-05T18:52:43.280Z"
+}
