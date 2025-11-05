@@ -3,6 +3,8 @@ import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 
 let elements: ReturnType<typeof createStubElements>;
 let anchorUi: ReturnType<typeof createAnchorUi>;
+let traitReferencePayload: { traits: Record<string, unknown>; trait_glossary: unknown };
+let traitGlossaryPayload: { traits: Record<string, any> };
 const canvasContextStub = {
   clearRect: vi.fn(),
   fillRect: vi.fn(),
@@ -21,6 +23,24 @@ const canvasContextStub = {
 let originalGetContext: typeof HTMLCanvasElement.prototype.getContext;
 let originalScrollIntoView: typeof Element.prototype.scrollIntoView;
 let originalFocus: typeof HTMLElement.prototype.focus;
+const loadPreferencesMock = vi.fn();
+const savePreferencesMock = vi.fn();
+const storageServiceMock = {
+  isPersistent: vi.fn(() => true),
+  loadActivityLog: vi.fn(() => []),
+  saveActivityLog: vi.fn(),
+  loadFilterProfiles: vi.fn(() => []),
+  saveFilterProfiles: vi.fn(),
+  loadPreferences: loadPreferencesMock,
+  savePreferences: savePreferencesMock,
+  loadPinnedState: vi.fn(() => []),
+  savePinnedState: vi.fn(),
+  loadLocks: vi.fn(() => ({ biomes: [], species: [] })),
+  saveLocks: vi.fn(),
+  loadHistory: vi.fn(() => []),
+  saveHistory: vi.fn(),
+};
+const createStorageService = vi.fn(() => storageServiceMock);
 
 const stubCatalog = {
   species: [
@@ -62,12 +82,12 @@ const fetchTraitRegistry = vi.fn(async () => ({
   fromFallback: false,
 }));
 const fetchTraitReference = vi.fn(async () => ({
-  data: { traits: {}, trait_glossary: null },
+  data: traitReferencePayload,
   url: null,
   fromFallback: false,
 }));
 const fetchTraitGlossary = vi.fn(async () => ({
-  data: { traits: {} },
+  data: traitGlossaryPayload,
   url: null,
   fromFallback: false,
 }));
@@ -108,6 +128,18 @@ vi.mock('../../../services/api/generatorClient.ts', () => ({
   fetchSpecies,
 }));
 
+vi.mock('../../../docs/evo-tactics-pack/services/storage.ts', () => ({
+  createStorageService,
+  STORAGE_KEYS: {
+    activityLog: 'activity-log',
+    filterProfiles: 'filter-profiles',
+    history: 'history',
+    pinned: 'pinned',
+    locks: 'locks',
+    preferences: 'preferences',
+  },
+}));
+
 vi.mock('../../../services/export/dossier.ts', () => ({
   loadDossierTemplate: vi.fn(async () => '<div>Dossier</div>'),
   generateDossierDocument: vi.fn(async () => ({ sections: [] })),
@@ -137,6 +169,21 @@ describe('docs generator — browser integration', () => {
   beforeEach(() => {
     vi.resetModules();
     vi.clearAllMocks();
+
+    traitReferencePayload = { traits: {}, trait_glossary: null };
+    traitGlossaryPayload = { traits: {} };
+
+    loadPreferencesMock.mockReset();
+    savePreferencesMock.mockReset();
+    loadPreferencesMock.mockReturnValue(null);
+    savePreferencesMock.mockImplementation(() => {});
+
+    storageServiceMock.isPersistent.mockReturnValue(true);
+    storageServiceMock.loadActivityLog.mockReturnValue([]);
+    storageServiceMock.loadFilterProfiles.mockReturnValue([]);
+    storageServiceMock.loadPinnedState.mockReturnValue([]);
+    storageServiceMock.loadLocks.mockReturnValue({ biomes: [], species: [] });
+    storageServiceMock.loadHistory.mockReturnValue([]);
 
     document.body.innerHTML = '';
     elements = createStubElements();
@@ -255,6 +302,87 @@ describe('docs generator — browser integration', () => {
     expect(elements.filtersHint.textContent).toContain('Filtri attivi');
   });
 
+  it('indexes trait glossary entries across languages', async () => {
+    traitReferencePayload = { traits: {}, trait_glossary: 'trait_glossary.json' };
+    traitGlossaryPayload = {
+      traits: {
+        cryostasis: {
+          label_it: 'Criostasi',
+          label_en: 'Cryostasis',
+          description_it: 'Adattamento criostatico',
+          description_en: 'Cryostasis adaptation',
+        },
+        'storm-call': {
+          label_en: 'Stormcall',
+          description_en: 'Richiama tempeste improvvise.',
+        },
+      },
+    };
+
+    await import('../../../docs/evo-tactics-pack/generator.js');
+    await tick();
+
+    const generator = (
+      window as {
+        EvoPack?: { generator?: { state?: { traitGlossaryIndex?: Map<string, any> } } };
+      }
+    ).EvoPack?.generator;
+    const glossaryIndex = generator?.state?.traitGlossaryIndex;
+
+    expect(glossaryIndex instanceof Map).toBe(true);
+
+    const cryostasisEntry = glossaryIndex?.get('cryostasis');
+    expect(cryostasisEntry).toMatchObject({
+      label_it: 'Criostasi',
+      label_en: 'Cryostasis',
+      description_it: 'Adattamento criostatico',
+      description_en: 'Cryostasis adaptation',
+      description: 'Adattamento criostatico',
+    });
+
+    const stormCallEntry = glossaryIndex?.get('storm-call');
+    expect(stormCallEntry).toMatchObject({
+      label_en: 'Stormcall',
+      description_en: 'Richiama tempeste improvvise.',
+      description: 'Richiama tempeste improvvise.',
+    });
+
+    expect(fetchTraitGlossary).toHaveBeenCalled();
+  });
+
+  it('restores and persists audio preferences from session storage', async () => {
+    loadPreferencesMock.mockReturnValue({ audioMuted: true, volume: 0.25 });
+
+    await import('../../../docs/evo-tactics-pack/generator.js');
+    await tick();
+
+    const generator = (
+      window as {
+        EvoPack?: {
+          generator?: { state?: { preferences: { audioMuted: boolean; volume: number } } };
+        };
+      }
+    ).EvoPack?.generator;
+    const state = generator?.state as {
+      preferences: { audioMuted: boolean; volume: number };
+    };
+
+    expect(loadPreferencesMock).toHaveBeenCalled();
+    expect(state?.preferences).toMatchObject({ audioMuted: true, volume: 0.25 });
+
+    const muteButton = elements.audioMute as HTMLButtonElement;
+    muteButton.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(state?.preferences.audioMuted).toBe(false);
+    expect(savePreferencesMock).toHaveBeenCalledWith({ audioMuted: false, volume: 0.25 });
+
+    const volumeInput = elements.audioVolume as HTMLInputElement;
+    volumeInput.value = '40';
+    volumeInput.dispatchEvent(new Event('input', { bubbles: true }));
+    expect(state?.preferences.volume).toBeCloseTo(0.4, 2);
+    volumeInput.dispatchEvent(new Event('change', { bubbles: true }));
+    expect(savePreferencesMock).toHaveBeenLastCalledWith({ audioMuted: false, volume: 0.4 });
+  });
+
   it('falls back to local biome synthesis when the remote worker is unavailable', async () => {
     const globalWithFetch = globalThis as { fetch?: typeof fetch };
     const originalFetch = globalWithFetch.fetch;
@@ -315,13 +443,15 @@ describe('docs generator — browser integration', () => {
 
       fetchMock.mockClear();
 
-      const generatorApi = (window as {
-        EvoPack?: {
-          generator?: {
-            loadNebulaSnapshot?: (options?: { silent?: boolean }) => Promise<unknown> | unknown;
+      const generatorApi = (
+        window as {
+          EvoPack?: {
+            generator?: {
+              loadNebulaSnapshot?: (options?: { silent?: boolean }) => Promise<unknown> | unknown;
+            };
           };
-        };
-      }).EvoPack?.generator;
+        }
+      ).EvoPack?.generator;
 
       if (typeof generatorApi?.loadNebulaSnapshot === 'function') {
         await generatorApi.loadNebulaSnapshot({ silent: false });
@@ -334,9 +464,15 @@ describe('docs generator — browser integration', () => {
 
       expect(fetchMock).toHaveBeenCalled();
 
-      const generator = (window as {
-        EvoPack?: { generator?: { state?: { activityLog?: Array<{ action?: string }>; nebula?: { error?: unknown } } } };
-      }).EvoPack?.generator;
+      const generator = (
+        window as {
+          EvoPack?: {
+            generator?: {
+              state?: { activityLog?: Array<{ action?: string }>; nebula?: { error?: unknown } };
+            };
+          };
+        }
+      ).EvoPack?.generator;
       const state = generator?.state;
 
       expect(state?.nebula?.error).toBeDefined();

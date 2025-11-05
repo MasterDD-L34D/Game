@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Produce un profilo di run del generatore a partire dalla species trait matrix."""
+"""Produce un profilo di run del generatore e verifica opzionale della coverage trait."""
 from __future__ import annotations
 
 import argparse
@@ -15,10 +15,19 @@ from typing import Any, Dict, Iterable, List, Mapping, Sequence
 import yaml
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from tools.py.game_utils.trait_coverage import generate_trait_coverage
+
 DEFAULT_DATA_ROOT = ROOT_DIR / "data" / "core"
 DEFAULT_MATRIX_PATH = ROOT_DIR / "docs" / "catalog" / "species_trait_matrix.json"
 DEFAULT_OUTPUT_PATH = ROOT_DIR / "logs" / "tooling" / "generator_run_profile.json"
 DEFAULT_INVENTORY_PATH = ROOT_DIR / "docs" / "catalog" / "traits_inventory.json"
+DEFAULT_COVERAGE_ENV_TRAITS = ROOT_DIR / "packs" / "evo_tactics_pack" / "docs" / "catalog" / "env_traits.json"
+DEFAULT_COVERAGE_TRAIT_REFERENCE = ROOT_DIR / "data" / "traits" / "index.json"
+DEFAULT_COVERAGE_SPECIES_ROOT = ROOT_DIR / "packs" / "evo_tactics_pack" / "data" / "species"
+DEFAULT_COVERAGE_OUTPUT_PATH = ROOT_DIR / "logs" / "tooling" / "trait_coverage_report.json"
 
 
 @dataclass
@@ -40,6 +49,10 @@ class EntrySummary:
 
 class GeneratorProfileError(RuntimeError):
     """Errore bloccante durante la generazione del profilo."""
+
+
+class CoverageAuditError(RuntimeError):
+    """Errore bloccante durante la verifica di coverage dei trait."""
 
 
 def _load_json(path: Path) -> Mapping[str, Any]:
@@ -161,7 +174,7 @@ def _relative_to_root(path: Path) -> str:
         return str(path)
 
 
-def _default_path_from_env(env_var: str, fallback: Path) -> Path:
+def _default_path_from_env(env_var: str, fallback: Path | None) -> Path | None:
     value = os.environ.get(env_var)
     if not value:
         return fallback
@@ -291,6 +304,72 @@ def generate_profile(
     return profile
 
 
+def run_trait_coverage_audit(
+    env_traits: Path,
+    trait_reference: Path,
+    species_root: Path,
+    output_path: Path,
+    *,
+    affinity_path: Path | None = None,
+    glossary_path: Path | None = None,
+) -> tuple[dict[str, Any], list[str]]:
+    required = [
+        ("env_traits", env_traits),
+        ("trait_reference", trait_reference),
+        ("species_root", species_root),
+    ]
+    for label, candidate in required:
+        if not candidate.exists():
+            raise CoverageAuditError(f"Percorso {label} non trovato: {candidate}")
+
+    try:
+        report = generate_trait_coverage(
+            env_traits_path=env_traits,
+            trait_reference_path=trait_reference,
+            species_root=species_root,
+            species_affinity_path=affinity_path,
+            trait_glossary_path=glossary_path,
+        )
+    except Exception as exc:  # pragma: no cover - dipende dal dataset corrente
+        raise CoverageAuditError(f"Impossibile generare il report di coverage: {exc}") from exc
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8") as handle:
+        json.dump(report, handle, indent=2, ensure_ascii=False)
+        handle.write("\n")
+
+    summary = report.get("summary", {}) if isinstance(report, Mapping) else {}
+    issues: list[str] = []
+
+    missing_species = summary.get("traits_missing_species") or []
+    if missing_species:
+        preview = ", ".join(missing_species[:5])
+        if len(missing_species) > 5:
+            preview += ", …"
+        issues.append(f"Trait senza specie coperte: {preview}")
+
+    missing_rules = summary.get("traits_missing_rules") or []
+    if missing_rules:
+        preview = ", ".join(missing_rules[:5])
+        if len(missing_rules) > 5:
+            preview += ", …"
+        issues.append(f"Trait con regole mancanti: {preview}")
+
+    affinity_missing_species = summary.get("affinity_missing_species_total") or 0
+    if affinity_missing_species:
+        issues.append(
+            f"Specie presenti nelle combinazioni ma assenti nella mappa affinity: {affinity_missing_species}"
+        )
+
+    affinity_missing_matrix = summary.get("affinity_missing_matrix_total") or 0
+    if affinity_missing_matrix:
+        issues.append(
+            f"Specie presenti nella mappa affinity ma non nella matrix: {affinity_missing_matrix}"
+        )
+
+    return report, issues
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Genera un profilo del trait generator")
     parser.add_argument(
@@ -317,6 +396,56 @@ def build_parser() -> argparse.ArgumentParser:
         default=_default_path_from_env("GENERATOR_OUTPUT_PATH", DEFAULT_OUTPUT_PATH),
         help="Percorso file JSON di output",
     )
+    parser.add_argument(
+        "--coverage",
+        action="store_true",
+        help="Esegue anche la verifica di coverage trait↔biomi",
+    )
+    parser.add_argument(
+        "--coverage-env-traits",
+        type=Path,
+        default=_default_path_from_env("GENERATOR_COVERAGE_ENV_TRAITS", DEFAULT_COVERAGE_ENV_TRAITS),
+        help="Percorso al file env_traits.json per la coverage",
+    )
+    parser.add_argument(
+        "--coverage-trait-reference",
+        type=Path,
+        default=_default_path_from_env(
+            "GENERATOR_COVERAGE_TRAIT_REFERENCE", DEFAULT_COVERAGE_TRAIT_REFERENCE
+        ),
+        help="Percorso al trait reference per la coverage",
+    )
+    parser.add_argument(
+        "--coverage-species-root",
+        type=Path,
+        default=_default_path_from_env(
+            "GENERATOR_COVERAGE_SPECIES_ROOT", DEFAULT_COVERAGE_SPECIES_ROOT
+        ),
+        help="Directory o file YAML delle specie da analizzare",
+    )
+    parser.add_argument(
+        "--coverage-affinity",
+        type=Path,
+        default=_default_path_from_env("GENERATOR_COVERAGE_AFFINITY", None),
+        help="Mappa trait→specie (facoltativa) per controlli aggiuntivi",
+    )
+    parser.add_argument(
+        "--coverage-glossary",
+        type=Path,
+        default=_default_path_from_env("GENERATOR_COVERAGE_GLOSSARY", None),
+        help="Glossario trait personalizzato per la coverage",
+    )
+    parser.add_argument(
+        "--coverage-output",
+        type=Path,
+        default=_default_path_from_env("GENERATOR_COVERAGE_OUTPUT", DEFAULT_COVERAGE_OUTPUT_PATH),
+        help="Percorso del report JSON di coverage generato",
+    )
+    parser.add_argument(
+        "--coverage-strict",
+        action="store_true",
+        help="Termina con errore se la coverage segnala lacune critiche",
+    )
     return parser
 
 
@@ -336,6 +465,27 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     metrics = profile.get("metrics", {})
     highlights = profile.get("highlights", [])
+
+    coverage_report: dict[str, Any] | None = None
+    coverage_issues: list[str] = []
+    coverage_output: Path | None = None
+
+    if getattr(args, "coverage", False):
+        try:
+            coverage_output = (
+                args.coverage_output.resolve() if args.coverage_output else DEFAULT_COVERAGE_OUTPUT_PATH
+            )
+            coverage_report, coverage_issues = run_trait_coverage_audit(
+                env_traits=args.coverage_env_traits.resolve(),
+                trait_reference=args.coverage_trait_reference.resolve(),
+                species_root=args.coverage_species_root.resolve(),
+                output_path=coverage_output,
+                affinity_path=args.coverage_affinity.resolve() if args.coverage_affinity else None,
+                glossary_path=args.coverage_glossary.resolve() if args.coverage_glossary else None,
+            )
+        except CoverageAuditError as exc:
+            print(f"[generator] Errore coverage: {exc}", file=sys.stderr)
+            return 1
 
     print(
         "[generator] Profilo generato:",
@@ -357,6 +507,28 @@ def main(argv: Sequence[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 1
+
+    if coverage_report is not None:
+        summary = coverage_report.get("summary", {}) if isinstance(coverage_report, Mapping) else {}
+        traits_total = summary.get("traits_total")
+        traits_with_species = summary.get("traits_with_species")
+        missing_species_count = len(summary.get("traits_missing_species", []))
+        missing_rules_count = len(summary.get("traits_missing_rules", []))
+        print(
+            "[generator] Coverage:",
+            f"traits_with_species={traits_with_species}/{traits_total}",
+            f"missing_species={missing_species_count}",
+            f"missing_rules={missing_rules_count}",
+        )
+        if coverage_output is not None:
+            print(
+                f"[generator] Report coverage salvato in `{_relative_to_root(coverage_output)}`.",
+            )
+        for notice in coverage_issues:
+            stream = sys.stderr if getattr(args, "coverage_strict", False) else sys.stdout
+            print(f"[generator] Avviso coverage: {notice}", file=stream)
+        if getattr(args, "coverage_strict", False) and coverage_issues:
+            return 1
 
     return 0
 
