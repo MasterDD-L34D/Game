@@ -231,6 +231,47 @@ describe('docs generator — browser integration', () => {
     expect(state?.lastFilters?.flags).toEqual(['apex']);
     expect(elements.filtersHint.textContent).toContain('Filtri attivi');
   });
+
+  it('falls back to local biome synthesis when the remote worker is unavailable', async () => {
+    const globalWithFetch = globalThis as { fetch?: typeof fetch };
+    const originalFetch = globalWithFetch.fetch;
+    const fetchMock = vi
+      .fn(() => Promise.reject(new Error('biome worker unavailable')))
+      .mockName('fetch') as unknown as typeof fetch;
+    globalWithFetch.fetch = fetchMock;
+
+    try {
+      await import('../../../docs/evo-tactics-pack/generator.js');
+      await tick();
+      await tick();
+
+      const generator = (
+        window as {
+          EvoPack?: { generator?: { state: { activityLog: any[]; pick: any } } };
+        }
+      ).EvoPack?.generator;
+      expect(generator).toBeDefined();
+
+      const rollButton = document.createElement('button');
+      rollButton.type = 'button';
+      rollButton.dataset.action = 'roll-ecos';
+      elements.form?.appendChild(rollButton);
+
+      rollButton.click();
+      await tick();
+      await tick();
+
+      const state = generator?.state as {
+        activityLog: Array<{ action?: string; message?: string }>;
+        pick: { biomes: Array<{ synthetic?: boolean }> };
+      };
+      expect(state?.activityLog.some((entry) => entry?.action === 'roll-ecos-fallback')).toBe(true);
+      expect(state?.pick.biomes.length).toBeGreaterThan(0);
+      expect(state.pick.biomes.every((biome) => biome.synthetic === true)).toBe(true);
+    } finally {
+      globalWithFetch.fetch = originalFetch;
+    }
+  });
 });
 
 function createStubElements() {
