@@ -186,8 +186,8 @@ jobs:
       - name: Install workspace dependencies
         run: npm ci
 
-      - name: Run workspace lint checks
-        run: npm run lint
+      - name: Run workspace format checks
+        run: npm run format:check
 
       - name: Run webapp unit tests
         run: npm run test --workspace webapp
