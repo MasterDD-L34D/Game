@@ -381,8 +381,8 @@ export function createCatalogDataSource(options = {}) {
     [
       readQueryOverride(windowRef),
       readMetaOverride(documentRef),
-      normaliseBase(baseUrl),
       readWindowOverride(windowRef),
+      normaliseBase(baseUrl),
       normaliseBase(defaultBase),
     ].filter(Boolean);
 
