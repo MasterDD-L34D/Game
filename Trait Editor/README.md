@@ -26,15 +26,26 @@ npm install
 ## Origine dei dati
 
 Di default l'app utilizza i mock definiti in `src/data/traits.sample.ts`.
-Per collegarsi al dataset reale (`../data/traits/index.json` nel monorepo) esporta le seguenti variabili d'ambiente prima di avviare Vite:
+Per collegarsi al dataset reale (`../data/traits/index.json` nel monorepo) puoi:
 
-```bash
-export VITE_TRAIT_DATA_SOURCE=remote
-# opzionale: override dell'endpoint relativo
-export VITE_TRAIT_DATA_URL=../data/traits/index.json
-```
+1. Esportare le variabili d'ambiente prima di avviare Vite:
 
-Il servizio `TraitDataService` effettua automaticamente il fallback ai mock se il fetch remoto non è disponibile.
+   ```bash
+   export VITE_TRAIT_DATA_SOURCE=remote
+   # opzionale: override dell'endpoint relativo
+   export VITE_TRAIT_DATA_URL=../data/traits/index.json
+   ```
+
+2. Oppure creare un file `.env.local` nella cartella `Trait Editor/` con il seguente contenuto (comodo per lo sviluppo locale):
+
+   ```bash
+   VITE_TRAIT_DATA_SOURCE=remote
+   VITE_TRAIT_DATA_URL=../data/traits/index.json
+   ```
+
+Durante lo sviluppo Vite carica automaticamente `.env.local`. In produzione puoi applicare le stesse variabili sul runtime di hosting.
+
+Il servizio `TraitDataService` effettua automaticamente il fallback ai mock se il fetch remoto non è disponibile, registrando l'errore in console.
 
 ## Pubblicazione
 
