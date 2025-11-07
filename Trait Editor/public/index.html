@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trait Editor</title>
+  </head>
+  <body>
+    <div id="app" ng-cloak></div>
+    <script>
+      (() => {
+        if (typeof window === 'undefined') {
+          return;
+        }
+        const win = window;
+        const { pathname, search, hash } = win.location;
+
+        const normaliseBasePath = (value) => {
+          if (!value || typeof value !== 'string') {
+            return '/';
+          }
+          const trimmed = value.trim();
+          if (!trimmed) {
+            return '/';
+          }
+          const withoutIndex = trimmed.endsWith('/index.html')
+            ? trimmed.slice(0, -'/index.html'.length)
+            : trimmed;
+          const editorIndex = withoutIndex.indexOf('/trait-editor/');
+          const baseCandidate =
+            editorIndex >= 0 ? withoutIndex.slice(0, editorIndex) : withoutIndex;
+          if (!baseCandidate) {
+            return '/';
+          }
+          return baseCandidate.endsWith('/') ? baseCandidate : `${baseCandidate}/`;
+        };
+
+        const basePath = normaliseBasePath(pathname);
+        win.__TRAIT_EDITOR_BASE__ = basePath;
+
+        if (pathname.endsWith('/index.html')) {
+          const newUrl = `${basePath}${search}${hash}`;
+          win.history.replaceState({}, '', newUrl);
+        }
+      })();
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-sanitize.min.js"></script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
