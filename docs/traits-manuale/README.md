@@ -9,6 +9,7 @@ Questa sezione raccoglie la guida consolidata per modellare, documentare e colle
 3. [Tassonomia e famiglie funzionali](03-tassonomia-famiglie.md)
 4. [Collegamenti a specie, eventi e regole ambientali](04-collegamenti-cross-dataset.md)
 5. [Workflow & strumenti](05-workflow-strumenti.md)
+6. [STANDALONE Trait Editor](06-standalone-trait-editor.md)
 
 Ogni capitolo include tabelle di riferimento, rimandi incrociati e collegamenti rapidi ai dataset o agli script che abilitano la manutenzione quotidiana.
 
