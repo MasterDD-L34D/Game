@@ -242,6 +242,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
      ```
   3. Controlla i log in `reports/incoming/` e `logs/traits_tracking.md`.
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
+- **Trait Editor standalone** (`Trait Editor/`): esegui `npm run dev` (con `VITE_TRAIT_DATA_SOURCE=remote`, `VITE_TRAIT_DATA_URL=../data/traits/index.json`) per validare rapidamente i trait aggiornati senza avviare la webapp principale. Il README del pacchetto descrive fallback mock, preview (`npm run preview`) e opzioni di deploy statico.
 
 ## Storico aggiornamenti & archivio
 
