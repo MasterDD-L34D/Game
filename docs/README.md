@@ -7,6 +7,7 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 - `PI-Pacchetti-Forme.md` — 16 Forme, 7 PI, pacchetti A/B/C, tabelle d20/d12 (Canvas B).
 - `SistemaNPG-PF-Mutazioni.md` — NPG reattivi, PF, mutazioni T0/T1/T2, fusioni (Canvas C).
 - `Mating-Reclutamento-Nido.md` — Attrazione, Affinità/Fiducia, standard di nido, eredità (Canvas D).
+- `traits-manuale/` — guida operativa completa su schema, tassonomia e workflow trait (`docs/traits-manuale/README.md`).
 
 ## Aggiornamenti rapidi
 

@@ -1,7 +1,8 @@
 # Evo Tactics — Trait Schema Pack
 
 Questo pacchetto fornisce gli **schemi JSON**, il catalogo principale dei trait e gli strumenti
-necessari per validarli.
+necessari per validarli. Per una guida narrativa e operativa consulta anche il
+[`Manuale Trait`](traits-manuale/README.md) che riassume modello dati, tassonomia e workflow.
 
 ## Struttura
 ```text
