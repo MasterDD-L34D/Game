@@ -14,6 +14,9 @@ cd "Trait Editor"
 npm install
 ```
 
+> **Suggerimento:** se devi eseguire l'installazione in ambienti bloccati (es. CI) puoi utilizzare `npm install --ignore-scripts`.
+> Il progetto non applica patch automatiche post-install, quindi l'opzione non comporta effetti collaterali.
+
 ## Comandi disponibili
 
 - `npm run dev` avvia il dev server Vite su <http://localhost:5173> con hot module replacement.
