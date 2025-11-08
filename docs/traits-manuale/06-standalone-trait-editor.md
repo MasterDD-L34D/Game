@@ -3,6 +3,11 @@
 ## Panoramica
 Il pacchetto **Trait Editor/** mette a disposizione un editor standalone per la manutenzione del catalogo trait senza dover avviare l'intera webapp di gioco. L'obiettivo è velocizzare le iterazioni sul dataset, sfruttando un'interfaccia dedicata ma coerente con i modelli descritti nello [schema e dataset dei trait](../README_TRAITS.md). Il capitolo estende il workflow operativo presentato in [Workflow & strumenti](05-workflow-strumenti.md) con indicazioni specifiche per l'esecuzione e la sincronizzazione del pacchetto.
 
+## Documentazione locale
+- Una copia curata dei capitoli essenziali è distribuita insieme al pacchetto nella cartella [`Trait Editor/docs/`](../../Trait%20Editor/docs/README.md).
+- Ogni file locale riporta il percorso d'origine (es. `docs/traits-manuale/05-workflow-strumenti.md`, `README_HOWTO_AUTHOR_TRAIT.md`) per facilitare i confronti.
+- Per mantenere sincronizzati i contenuti, confronta periodicamente i file con le rispettive controparti nel monorepo e aggiorna note o date di revisione in entrambi i percorsi.
+
 ## Prerequisiti
 - Node.js >= 18 (versione allineata con quella usata dal repository).
 - Gestore pacchetti `npm` (installato insieme a Node.js).

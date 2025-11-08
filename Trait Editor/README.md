@@ -2,6 +2,11 @@
 
 Sandbox indipendente per la libreria dei tratti, pensata per revisioni rapide e pubblicazione statica.
 
+## Documentazione
+
+- Consulta la cartella [`docs/`](docs/README.md) per l'indice locale dei capitoli duplicati dal manuale (`docs/traits-manuale/**/*`) e dal vademecum `README_HOWTO_AUTHOR_TRAIT.md`.
+- Ogni file indica il percorso sorgente nel monorepo: quando aggiorni il materiale, ricordati di sincronizzare entrambe le copie (locale e originale) e di riportare la data dell'ultima revisione.
+
 ## Requisiti
 
 - Node.js 18+
