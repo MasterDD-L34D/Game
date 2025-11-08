@@ -1,26 +1,61 @@
 import type { Trait } from '../../types/trait';
 import { TraitDataService } from '../../services/trait-data.service';
+import { TraitStateService, type TraitUiState } from '../../services/trait-state.service';
 
 class TraitLibraryController {
   public traits: Trait[] = [];
   public filter = '';
   public selectedArchetype = 'all';
-  public isLoading = false;
+  public ui: TraitUiState = { isLoading: false, status: null, previewTrait: null };
 
-  static $inject = ['TraitDataService'];
+  static $inject = ['$scope', 'TraitDataService', 'TraitStateService'];
 
-  constructor(private readonly dataService: TraitDataService) {}
+  constructor(
+    private readonly $scope: any,
+    private readonly dataService: TraitDataService,
+    private readonly stateService: TraitStateService,
+  ) {}
 
   $onInit(): void {
-    this.isLoading = true;
+    this.stateService.subscribe(this.$scope, (state) => {
+      this.ui = state;
+    });
+
+    this.stateService.setLoading(true);
+    this.stateService.setStatus(null);
     this.dataService
       .getTraits()
       .then((traits) => {
         this.traits = traits;
+        const lastError = this.dataService.getLastError();
+        if (lastError) {
+          this.stateService.setStatus('Dati caricati da backup locale a causa di un problema di rete.', 'info');
+        }
+      })
+      .catch((error: Error) => {
+        console.error('Errore durante il caricamento dei tratti:', error);
+        this.stateService.setStatus('Impossibile recuperare la libreria tratti in questo momento.', 'error');
       })
       .finally(() => {
-        this.isLoading = false;
+        this.stateService.setLoading(false);
       });
+  }
+
+  statusIcon(): string {
+    const status = this.ui.status;
+    if (!status) {
+      return '';
+    }
+
+    if (status.variant === 'error') {
+      return '⚠️';
+    }
+
+    if (status.variant === 'success') {
+      return '✅';
+    }
+
+    return 'ℹ️';
   }
 
   archetypes(): string[] {
@@ -64,12 +99,12 @@ export const registerTraitLibraryPage = (module: any): void => {
                 placeholder="Cerca per nome o stile di gioco"
                 ng-model="$ctrl.filter"
                 class="search-field__input"
-                ng-disabled="$ctrl.isLoading"
+                ng-disabled="$ctrl.ui.isLoading"
               />
             </label>
             <label class="select-field">
               <span class="visually-hidden">Filtra per archetipo</span>
-              <select ng-model="$ctrl.selectedArchetype" class="select-field__input" ng-disabled="$ctrl.isLoading">
+              <select ng-model="$ctrl.selectedArchetype" class="select-field__input" ng-disabled="$ctrl.ui.isLoading">
                 <option ng-repeat="archetype in $ctrl.archetypes()" ng-value="archetype">
                   {{ archetype === 'all' ? 'Tutti gli archetipi' : archetype }}
                 </option>
@@ -78,10 +113,22 @@ export const registerTraitLibraryPage = (module: any): void => {
           </div>
         </header>
 
-        <section class="traits-grid" ng-if="!$ctrl.isLoading">
+        <div class="status-banner" ng-if="$ctrl.ui.status" ng-class="'status-banner--' + $ctrl.ui.status.variant">
+          <span class="status-banner__icon" aria-hidden="true">{{ $ctrl.statusIcon() }}</span>
+          <p class="status-banner__text">{{ $ctrl.ui.status.message }}</p>
+        </div>
+
+        <div class="loader" ng-if="$ctrl.ui.isLoading">
+          <span class="loader__spinner" aria-hidden="true"></span>
+          <p class="loader__label">Caricamento dei tratti in corso...</p>
+        </div>
+
+        <section class="traits-grid" ng-if="!$ctrl.ui.isLoading">
           <article class="trait-card" ng-repeat="trait in $ctrl.filteredTraits()">
             <header class="trait-card__header">
-              <h2 class="trait-card__name">{{ trait.name }}</h2>
+              <h2 class="trait-card__name">
+                <a class="trait-card__link" ng-href="#!/traits/{{ trait.id }}">{{ trait.name }}</a>
+              </h2>
               <span class="trait-card__archetype">{{ trait.archetype }}</span>
             </header>
             <p class="trait-card__description">{{ trait.description }}</p>
@@ -99,12 +146,15 @@ export const registerTraitLibraryPage = (module: any): void => {
                 </dd>
               </div>
             </dl>
+            <footer class="trait-card__footer">
+              <a class="button button--ghost" ng-href="#!/traits/{{ trait.id }}">Dettagli</a>
+              <a class="button" ng-href="#!/traits/{{ trait.id }}/edit">Modifica</a>
+            </footer>
           </article>
           <p class="traits-empty" ng-if="!$ctrl.filteredTraits().length">
             Nessun tratto corrisponde ai filtri selezionati.
           </p>
         </section>
-        <p class="traits-empty" ng-if="$ctrl.isLoading">Caricamento dei tratti in corso...</p>
       </section>
     `,
   });

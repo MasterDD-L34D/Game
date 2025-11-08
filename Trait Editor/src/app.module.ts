@@ -2,6 +2,10 @@ declare const angular: any;
 
 import { registerTraitLibraryPage } from './pages/trait-library/trait-library.page';
 import { registerTraitDataService } from './services/trait-data.service';
+import { registerTraitDetailPage } from './pages/trait-detail/trait-detail.page';
+import { registerTraitEditorPage } from './pages/trait-editor/trait-editor.page';
+import { registerTraitStateService } from './services/trait-state.service';
+import { registerTraitPreviewComponent } from './components/trait-preview/trait-preview.component';
 
 export function registerAppModule(): any {
   const module = angular
@@ -14,7 +18,18 @@ export function registerAppModule(): any {
 
         $routeProvider
           .when('/', {
+            redirectTo: '/traits',
+          })
+          .when('/traits', {
             template: '<trait-library></trait-library>',
+            reloadOnUrl: false,
+          })
+          .when('/traits/:id', {
+            template: '<trait-detail></trait-detail>',
+            reloadOnUrl: false,
+          })
+          .when('/traits/:id/edit', {
+            template: '<trait-editor></trait-editor>',
             reloadOnUrl: false,
           })
           .otherwise({ redirectTo: '/' });
@@ -22,7 +37,11 @@ export function registerAppModule(): any {
     ]);
 
   registerTraitDataService(module);
+  registerTraitStateService(module);
   registerTraitLibraryPage(module);
+  registerTraitDetailPage(module);
+  registerTraitEditorPage(module);
+  registerTraitPreviewComponent(module);
 
   module.component('appRoot', {
     template: `
