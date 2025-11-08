@@ -1,64 +1,17 @@
 const express = require('express');
-const fs = require('node:fs/promises');
 const path = require('node:path');
-const Ajv = require('ajv/dist/2020');
 const { evaluateTraitStyle } = require('../services/traitStyleGuide');
-
-const DEFAULT_SCHEMA_PATH = path.resolve(
-  __dirname,
-  '..',
-  '..',
-  'config',
-  'schemas',
-  'trait.schema.json',
-);
+const { TraitRepository } = require('../services/traitRepository');
 
 function createTraitRouter(options = {}) {
   const router = express.Router();
   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
-  const traitsRoot = path.resolve(dataRoot, 'traits');
-  const schemaPath = options.schemaPath || DEFAULT_SCHEMA_PATH;
-  const versionRoot = path.join(traitsRoot, '_versions');
+  const repository = new TraitRepository({
+    dataRoot,
+    schemaPath: options.schemaPath,
+  });
   const authToken =
     options.token || process.env.TRAIT_EDITOR_TOKEN || process.env.TRAITS_API_TOKEN || null;
-  const ajvOptions = {
-    allErrors: true,
-    strict: false,
-    strictSchema: false,
-    allowUnionTypes: true,
-    validateFormats: false,
-  };
-  let schemaCache = null;
-  let validator = null;
-
-  async function readJsonFile(filePath, fallback = null) {
-    try {
-      const content = await fs.readFile(filePath, 'utf8');
-      return JSON.parse(content);
-    } catch (error) {
-      if (error && error.code === 'ENOENT') {
-        return fallback;
-      }
-      throw error;
-    }
-  }
-
-  async function writeJsonFile(filePath, payload) {
-    const directory = path.dirname(filePath);
-    await fs.mkdir(directory, { recursive: true });
-    await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-  }
-
-  function prepareForSchemaValidation(trait) {
-    const candidate = JSON.parse(JSON.stringify(trait || {}));
-    if (candidate && typeof candidate.tier === 'string') {
-      const normalisedTier = candidate.tier.trim();
-      if (normalisedTier) {
-        candidate.tier = normalisedTier.toUpperCase();
-      }
-    }
-    return candidate;
-  }
 
   function isAutoApplicableFix(fix) {
     if (!fix || typeof fix !== 'object') {
@@ -80,123 +33,16 @@ function createTraitRouter(options = {}) {
     return false;
   }
 
-  async function loadSchema() {
-    if (schemaCache) {
-      return schemaCache;
-    }
-    const loaded = await readJsonFile(schemaPath, null);
-    if (!loaded) {
-      throw new Error('Schema trait non disponibile');
-    }
-    schemaCache = loaded;
-    return schemaCache;
-  }
-
-  async function getValidator() {
-    if (validator) {
-      return validator;
-    }
-    const schema = await loadSchema();
-    const ajv = new Ajv(ajvOptions);
-    validator = ajv.compile(schema);
-    return validator;
-  }
-
-  async function listTraitDirectories(includeDrafts = false) {
-    const entries = await fs.readdir(traitsRoot, { withFileTypes: true });
-    return entries
-      .filter((entry) => entry.isDirectory())
-      .filter((entry) => {
-        if (entry.name === '_versions') {
-          return false;
-        }
-        if (entry.name === '_drafts') {
-          return includeDrafts;
-        }
-        return true;
-      })
-      .map((entry) => entry.name);
-  }
-
-  async function loadTraitSummary(category, fileName) {
-    const filePath = path.join(traitsRoot, category, fileName);
-    const trait = await readJsonFile(filePath, null);
-    if (!trait || typeof trait !== 'object') {
-      return null;
-    }
-    const stat = await fs.stat(filePath);
-    const id = trait.id || fileName.replace(/\.json$/i, '');
-    return {
-      id,
-      label: trait.label || id,
-      category,
-      path: path.relative(dataRoot, filePath),
-      updatedAt: stat.mtime.toISOString(),
-      isDraft: category === '_drafts',
-    };
-  }
-
-  async function listTraits(includeDrafts = false) {
-    const directories = await listTraitDirectories(includeDrafts);
-    const summaries = [];
-    for (const directory of directories) {
-      const directoryPath = path.join(traitsRoot, directory);
-      const files = await fs.readdir(directoryPath, { withFileTypes: true });
-      for (const file of files) {
-        if (!file.isFile()) {
-          continue;
-        }
-        if (!file.name.endsWith('.json')) {
-          continue;
-        }
-        if (
-          file.name === 'index.json' ||
-          file.name === 'index.csv' ||
-          file.name === 'species_affinity.json'
-        ) {
-          continue;
-        }
-        const summary = await loadTraitSummary(directory, file.name);
-        if (summary) {
-          summaries.push(summary);
-        }
+  function handleError(res, error, fallbackMessage) {
+    if (error && error.statusCode) {
+      const payload = { error: error.message || fallbackMessage };
+      if (error.details) {
+        payload.details = error.details;
       }
+      res.status(error.statusCode).json(payload);
+      return;
     }
-    summaries.sort((a, b) => a.label.localeCompare(b.label, 'it')); // prefer locale aware sort
-    return summaries;
-  }
-
-  function normaliseTraitId(rawId) {
-    const id = String(rawId || '').trim();
-    if (!id) {
-      throw createHttpError(400, 'Trait ID richiesto');
-    }
-    if (!/^[a-z0-9_]+$/.test(id)) {
-      throw createHttpError(400, 'Trait ID non valido: utilizzare slug a-z0-9_');
-    }
-    return id;
-  }
-
-  function createHttpError(statusCode, message) {
-    const error = new Error(message);
-    error.statusCode = statusCode;
-    return error;
-  }
-
-  async function resolveTraitPath(traitId) {
-    const directories = await listTraitDirectories(true);
-    for (const directory of directories) {
-      const candidate = path.join(traitsRoot, directory, `${traitId}.json`);
-      try {
-        await fs.access(candidate);
-        return { filePath: candidate, category: directory };
-      } catch (error) {
-        if (!error || error.code !== 'ENOENT') {
-          throw error;
-        }
-      }
-    }
-    return null;
+    res.status(500).json({ error: error?.message || fallbackMessage });
   }
 
   function ensureAuthorised(req, res, next) {
@@ -219,12 +65,25 @@ function createTraitRouter(options = {}) {
     res.status(401).json({ error: 'Token mancante o non valido' });
   }
 
+  function parseBoolean(input) {
+    if (typeof input === 'string') {
+      const normalised = input.trim().toLowerCase();
+      if (normalised === 'true' || normalised === '1') {
+        return true;
+      }
+      if (normalised === 'false' || normalised === '0' || normalised === '') {
+        return false;
+      }
+    }
+    return Boolean(input);
+  }
+
   router.get('/schema', async (req, res) => {
     try {
-      const schema = await loadSchema();
+      const schema = await repository.loadSchema();
       res.json({ schema });
     } catch (error) {
-      res.status(500).json({ error: error.message || 'Errore caricamento schema trait' });
+      handleError(res, error, 'Errore caricamento schema trait');
     }
   });
 
@@ -245,9 +104,9 @@ function createTraitRouter(options = {}) {
     if (traitId && (candidate.id === undefined || candidate.id === null)) {
       candidate.id = traitId;
     }
-    const schemaPayload = prepareForSchemaValidation(candidate);
     try {
-      const validate = await getValidator();
+      const schemaPayload = repository.prepareForValidation(candidate, traitId);
+      const validate = await repository.getValidator();
       const valid = Boolean(validate(schemaPayload));
       const errors = valid ? [] : validate.errors || [];
       const style = evaluateTraitStyle(candidate, { traitId });
@@ -308,7 +167,7 @@ function createTraitRouter(options = {}) {
         },
       });
     } catch (error) {
-      res.status(500).json({ error: error.message || 'Errore validazione trait' });
+      handleError(res, error, 'Errore validazione trait');
     }
   });
 
@@ -318,90 +177,96 @@ function createTraitRouter(options = {}) {
     ).toLowerCase();
     const shouldIncludeDrafts = includeDrafts === 'true' || includeDrafts === '1';
     try {
-      const traits = await listTraits(shouldIncludeDrafts);
+      const traits = await repository.listTraits(shouldIncludeDrafts);
       res.json({ traits });
     } catch (error) {
-      res.status(500).json({ error: error.message || 'Errore caricamento lista trait' });
+      handleError(res, error, 'Errore caricamento lista trait');
+    }
+  });
+
+  router.get('/index', ensureAuthorised, async (req, res) => {
+    try {
+      const index = await repository.getIndex();
+      res.json({ index });
+    } catch (error) {
+      handleError(res, error, 'Errore caricamento indice trait');
+    }
+  });
+
+  router.post('/', ensureAuthorised, async (req, res) => {
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
+    const traitPayload =
+      body.trait && typeof body.trait === 'object'
+        ? body.trait
+        : Object.keys(body).length > 0
+          ? { ...body }
+          : {};
+    if (!traitPayload || typeof traitPayload !== 'object' || Object.keys(traitPayload).length === 0) {
+      res.status(400).json({ error: 'Payload trait richiesto' });
+      return;
+    }
+    try {
+      const created = await repository.createTrait(traitPayload, {
+        category: body.category || body.targetCategory || null,
+        draft: parseBoolean(body.draft) || parseBoolean(body.isDraft),
+        traitId: body.traitId || body.slug || body.id || null,
+      });
+      res.status(201).json(created);
+    } catch (error) {
+      handleError(res, error, 'Errore creazione trait');
+    }
+  });
+
+  router.post('/clone', ensureAuthorised, async (req, res) => {
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
+    const sourceId = String(body.sourceId || body.source || '').trim();
+    if (!sourceId) {
+      res.status(400).json({ error: 'sourceId richiesto per la clonazione' });
+      return;
+    }
+    const overrides = body.overrides && typeof body.overrides === 'object' ? body.overrides : {};
+    try {
+      const cloned = await repository.cloneTrait(sourceId, {
+        overrides,
+        category: body.category || body.targetCategory || overrides.category || null,
+        draft: parseBoolean(body.draft),
+        traitId: body.traitId || body.slug || overrides.traitId || overrides.slug || null,
+      });
+      res.status(201).json(cloned);
+    } catch (error) {
+      handleError(res, error, 'Errore clonazione trait');
     }
   });
 
   router.get('/:traitId', ensureAuthorised, async (req, res) => {
-    let traitId;
     try {
-      traitId = normaliseTraitId(req.params.traitId);
+      const result = await repository.getTrait(req.params.traitId);
+      res.json(result);
     } catch (error) {
-      res.status(error.statusCode || 400).json({ error: error.message || 'ID trait non valido' });
-      return;
-    }
-    try {
-      const resolved = await resolveTraitPath(traitId);
-      if (!resolved) {
-        res.status(404).json({ error: 'Trait non trovato' });
-        return;
-      }
-      const trait = await readJsonFile(resolved.filePath, null);
-      if (!trait) {
-        res.status(404).json({ error: 'Trait non trovato' });
-        return;
-      }
-      res.json({
-        trait,
-        meta: {
-          path: path.relative(dataRoot, resolved.filePath),
-          category: resolved.category,
-        },
-      });
-    } catch (error) {
-      res.status(500).json({ error: error.message || 'Errore caricamento trait' });
+      handleError(res, error, 'Errore caricamento trait');
     }
   });
 
   router.put('/:traitId', ensureAuthorised, async (req, res) => {
-    let traitId;
-    try {
-      traitId = normaliseTraitId(req.params.traitId);
-    } catch (error) {
-      res.status(error.statusCode || 400).json({ error: error.message || 'ID trait non valido' });
-      return;
-    }
     const payload = req.body || {};
     if (!payload || typeof payload !== 'object') {
       res.status(400).json({ error: 'Payload JSON richiesto' });
       return;
     }
-    payload.id = traitId;
-    const schemaPayload = prepareForSchemaValidation(payload);
     try {
-      const validate = await getValidator();
-      const valid = validate(schemaPayload);
-      if (!valid) {
-        res.status(400).json({ error: 'Validazione fallita', details: validate.errors || [] });
-        return;
-      }
-      const resolved = await resolveTraitPath(traitId);
-      if (!resolved) {
-        res.status(404).json({ error: 'Trait non trovato' });
-        return;
-      }
-      const existing = await readJsonFile(resolved.filePath, null);
-      if (existing) {
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const versionPath = path.join(versionRoot, traitId, `${timestamp}.json`);
-        await writeJsonFile(versionPath, existing);
-      }
-      await writeJsonFile(resolved.filePath, schemaPayload);
-      const stat = await fs.stat(resolved.filePath);
-      res.json({
-        trait: schemaPayload,
-        meta: {
-          path: path.relative(dataRoot, resolved.filePath),
-          category: resolved.category,
-          savedAt: stat.mtime.toISOString(),
-          versioned: Boolean(existing),
-        },
-      });
+      const updated = await repository.updateTrait(req.params.traitId, payload);
+      res.json(updated);
     } catch (error) {
-      res.status(500).json({ error: error.message || 'Errore salvataggio trait' });
+      handleError(res, error, 'Errore salvataggio trait');
+    }
+  });
+
+  router.delete('/:traitId', ensureAuthorised, async (req, res) => {
+    try {
+      const deleted = await repository.deleteTrait(req.params.traitId);
+      res.json(deleted);
+    } catch (error) {
+      handleError(res, error, 'Errore eliminazione trait');
     }
   });
 
