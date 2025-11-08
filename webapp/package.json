@@ -12,6 +12,10 @@
     "qa": "node ./scripts/print-qa-checklist.mjs"
   },
   "dependencies": {
+    "angular": "file:../packages/angular",
+    "angular-animate": "file:../packages/angular-animate",
+    "angular-route": "file:../packages/angular-route",
+    "angular-sanitize": "file:../packages/angular-sanitize",
     "ajv": "^8.17.1",
     "dompurify": "^3.1.7",
     "marked": "^15.0.11",
