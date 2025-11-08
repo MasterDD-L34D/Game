@@ -1,0 +1,184 @@
+{
+  "schema_version": "2.0",
+  "trait_glossary": "data/core/traits/glossary.json",
+  "traits": {
+    "ali_fulminee": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Suscettibile a disturbi elettromagnetici e saturazione sensoriale.",
+      "famiglia_tipologia": "Sensoriale/Analitico",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ali_fulminee",
+      "label": "Ali Fulminee",
+      "mutazione_indotta": "innesta recettori stratificati che filtrano impulsi elettromagnetici e feromoni.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "stratosfera_tempestosa"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ali Fulminee ottimizza le operazioni sensoriale nelle condizioni di stratosfera tempestosa.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "focus_frazionato",
+        "sinapsi_coraline_polifoniche"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "analitico",
+        "core": "sensoriale"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "stratosfera-tempestosa-trait-keeper",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Mantenere consapevolezza costante in biomi ad alta entropia percettiva.",
+      "tier": "T1",
+      "usage_tags": [
+        "scout",
+        "support"
+      ],
+      "uso_funzione": "Amplifica percezioni multi-spettro e fornisce orientamento tattile immediato."
+    },
+    "ali_ioniche": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "coverage_q4_2025",
+      "debolezza": "Richiede manutenzione costante delle strutture propulsive.",
+      "famiglia_tipologia": "Locomotorio/Mobilità",
+      "fattore_mantenimento_energetico": "Basso (Passivo)",
+      "id": "ali_ioniche",
+      "label": "Ali Ioniche",
+      "mutazione_indotta": "rimodella appendici elastiche e membrane propulsive con microattuatori.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "canopia_ionica"
+          },
+          "fonte": "env_to_traits",
+          "meta": {
+            "expansion": "coverage_q4_2025",
+            "notes": "Ali Ioniche ottimizza le operazioni locomotorio nelle condizioni di canopia ionica.",
+            "tier": "T1"
+          }
+        }
+      ],
+      "sinergie": [
+        "coda_frusta_cinetica",
+        "zampe_a_molla"
+      ],
+      "sinergie_pi": {
+        "co_occorrenze": [],
+        "combo_totale": 2,
+        "forme": [],
+        "tabelle_random": []
+      },
+      "slot": [],
+      "slot_profile": {
+        "complementare": "mobilita",
+        "core": "locomotorio"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "canopia-ionica-trait-keeper",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Garantire continuità di movimento durante rotte multi-bioma.",
+      "tier": "T1",
+      "usage_tags": [
+        "scout"
+      ],
+      "uso_funzione": "Ottimizza scatti direzionali e transizioni rapide fra livelli verticali."
+    },
+    "pathfinder": {
+      "biome_tags": [
+        "foresta_acida",
+        "foresta_miceliale"
+      ],
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": true,
+        "has_usage_tags": true
+      },
+      "conflitti": [],
+      "data_origin": "controllo_psionico",
+      "debolezza": "Valore ridotto in scenari a corridoio o con tilt già stabilizzato.",
+      "famiglia_tipologia": "Esplorazione/Tattico",
+      "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
+      "id": "pathfinder",
+      "label": "Pathfinder",
+      "mutazione_indotta": "Suite sensoriale orientata a scouting e lettura minacce.",
+      "requisiti_ambientali": [],
+      "sinergie": [],
+      "sinergie_pi": {
+        "co_occorrenze": [
+          "PE",
+          "cap_pt",
+          "starter_bioma"
+        ],
+        "combo_totale": 1,
+        "forme": [
+          "ENFP"
+        ],
+        "tabelle_random": []
+      },
+      "slot": [
+        "A"
+      ],
+      "slot_profile": {
+        "complementare": "ricognizione",
+        "core": "strategia"
+      },
+      "species_affinity": [
+        {
+          "roles": [
+            "optional"
+          ],
+          "species_id": "sentinella-radice",
+          "weight": 1
+        }
+      ],
+      "spinta_selettiva": "Missioni con indice explore alto e opzioni opzionali da capitalizzare.",
+      "tier": "T1",
+      "usage_tags": [
+        "scout",
+        "support"
+      ],
+      "uso_funzione": "Ottimizza esplorazione e controllo mappe multi-bioma."
+    }
+  }
+}

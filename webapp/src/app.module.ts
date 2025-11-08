@@ -9,6 +9,7 @@ import { registerMissionControlPage } from './pages/mission-control/mission-cont
 import { registerMissionConsolePage } from './pages/mission-console/mission-console.page';
 import { registerEcosystemPackPage } from './pages/ecosystem-pack/ecosystem-pack.page';
 import { registerDataStoreService } from './services/data-store.service';
+import { registerTraitService } from './app/services/trait.service';
 
 class AppRootController {
   public isMenuVisible = false;
@@ -91,6 +92,7 @@ export function registerAppModule(): any {
   registerMissionControlPage(module);
   registerMissionConsolePage(module);
   registerEcosystemPackPage(module);
+  registerTraitService(module);
 
   module.component('appRoot', {
     controller: AppRootController,
