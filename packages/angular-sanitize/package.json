@@ -1,0 +1,18 @@
+{
+  "name": "angular-sanitize",
+  "version": "1.8.3",
+  "type": "module",
+  "description": "Stub module providing a placeholder ngSanitize implementation",
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "module": "index.js",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "default": "./index.js"
+    }
+  },
+  "dependencies": {
+    "angular": "file:../angular"
+  }
+}

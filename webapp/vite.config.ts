@@ -1,3 +1,5 @@
+import { resolve } from 'node:path';
+
 import { defineConfig, loadEnv } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 
@@ -29,11 +31,22 @@ export default defineConfig(({ command, mode }) => {
         allow: ['..'],
       },
     },
+    resolve: {
+      alias: {
+        angular: resolve(__dirname, '../packages/angular/index.js'),
+        'angular-route': resolve(__dirname, '../packages/angular-route/index.js'),
+        'angular-animate': resolve(__dirname, '../packages/angular-animate/index.js'),
+        'angular-sanitize': resolve(__dirname, '../packages/angular-sanitize/index.js'),
+      },
+    },
     build: {
       outDir: 'dist',
       emptyOutDir: true,
       manifest: true,
       rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'index.html'),
+        },
         output: {
           entryFileNames: 'assets/[name]-[hash].js',
           chunkFileNames: 'assets/[name]-[hash].js',

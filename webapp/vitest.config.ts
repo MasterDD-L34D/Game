@@ -20,15 +20,18 @@ export default defineConfig(async () => {
   const testUtilsWorkspacePath = resolve(__dirname, '../node_modules/@vue/test-utils');
   const hasVueTestUtils = existsSync(testUtilsLocalPath) || existsSync(testUtilsWorkspacePath);
 
+  const baseInclude = ['tests/config/**/*.spec.ts'];
+
   const includePatterns =
     vuePlugin && hasVueTestUtils
       ? [
+          ...baseInclude,
           'tests/**/*.spec.ts',
           '../tests/webapp/**/*.spec.ts',
           '../tests/vfx/**/*.spec.ts',
           '../tests/analytics/**/*.test.ts',
         ]
-      : ['../tests/analytics/squadsync_responses.test.ts'];
+      : [...baseInclude, '../tests/analytics/squadsync_responses.test.ts'];
 
   if (!vuePlugin || !hasVueTestUtils) {
     console.warn(

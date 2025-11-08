@@ -1,4 +1,7 @@
-declare const angular: any;
+import angular from 'angular';
+import 'angular-route';
+import 'angular-animate';
+import 'angular-sanitize';
 import { registerNavigationComponent } from './components/navigation/navigation.component';
 import { registerDashboardPage } from './pages/dashboard/dashboard.page';
 import { registerAtlasPage } from './pages/atlas/atlas.page';
