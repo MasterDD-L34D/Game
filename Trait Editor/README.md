@@ -12,6 +12,22 @@ Sandbox indipendente per la libreria dei tratti, pensata per revisioni rapide e 
 - Node.js 18+
 - npm 9+
 
+Puoi verificare rapidamente la versione disponibile con:
+
+```bash
+node --version
+npm --version
+```
+
+Se hai bisogno di installare gli strumenti da zero su macOS/Linux, il metodo più rapido è:
+
+```bash
+corepack enable
+corepack prepare npm@latest --activate
+```
+
+Su Windows o in ambienti dove `corepack` non è disponibile, scarica il pacchetto LTS da <https://nodejs.org/> e assicurati che il comando `npm` sia nel `PATH` prima di proseguire.
+
 ## Installazione
 
 ```bash
@@ -28,30 +44,39 @@ npm install
 - `npm run build` genera la build statica nella cartella `dist/`.
 - `npm run preview` esegue una preview locale della build prodotta.
 
+## Flussi di test e note di esecuzione
+
+| Comando | Esito | Note |
+| --- | --- | --- |
+| `npm install` | ✅ | L'ambiente risultava già allineato; l'esecuzione termina con lo stato "up to date". Npm mostra l'avviso `Unknown env config "http-proxy"`, sintomo di una variabile d'ambiente obsoleta che conviene rimuovere prima dei prossimi upgrade di npm.【ce75e8†L1-L2】【b3f4a1†L1-L5】 |
+| `npm run dev` | ⚠️ | Il dev server parte correttamente, ma il comando eredita lo stesso warning `Unknown env config "http-proxy"`. Interrompi con `CTRL+C` quando hai finito di testare.【a76019†L1-L6】 |
+| `npm run build` | ❌ | L'operazione fallisce perché manca un `index.html` nella root del pacchetto; Vite non riesce a risolvere il modulo di ingresso e interrompe la build. Valuta di aggiungere il file (o aggiornare `build.rollupOptions.input`) prima di pubblicare.【83547a†L1-L4】【073449†L1-L11】 |
+| `npm run preview` | ⚠️ | Il server di anteprima si avvia comunque, ma riutilizza eventuali asset già presenti sotto `dist/`. Ferma il processo con `CTRL+C` e ricordati che serve una build valida per testare la versione prodotta.【2af6f3†L1-L6】【aa993a†L1-L4】【3c2019†L1-L1】 |
+
+## Variabili d'ambiente `VITE_*`
+
+| Variabile | Default | Quando usarla |
+| --- | --- | --- |
+| `VITE_TRAIT_DATA_SOURCE` | `sample` | Scegli `remote` per istruire `TraitDataService` a leggere il dataset JSON reale. Qualunque altro valore o stringa vuota forza il fallback sui mock locali. |
+| `VITE_TRAIT_DATA_URL` | *(vuoto)* | Indirizzo del file JSON da caricare quando `VITE_TRAIT_DATA_SOURCE=remote`. Può essere un percorso relativo al progetto (`../data/traits/index.json`) oppure un URL assoluto. |
+| `VITE_BASE_PATH` | *(vuoto)* | Prefisso da applicare alle rotte quando l'app viene pubblicata sotto una sottocartella (es. `/trait-editor/`). La build accetta anche `BASE_PATH`, utile in ambienti che non supportano il prefisso `VITE_`. |
+
+Per applicarle temporaneamente:
+
+```bash
+export VITE_TRAIT_DATA_SOURCE=remote
+export VITE_TRAIT_DATA_URL=../data/traits/index.json
+```
+
+Oppure crea un file `.env.local` (ignorato da Git) con gli stessi valori; Vite lo carica automaticamente in sviluppo. In produzione puoi esportarle nel runtime del servizio di hosting prima di eseguire `npm run build`.
+
 ## Origine dei dati
 
 Di default l'app utilizza i mock definiti in `src/data/traits.sample.ts`.
-Per collegarsi al dataset reale (`../data/traits/index.json` nel monorepo) puoi:
+Quando le variabili precedenti sono impostate su `remote`, `TraitDataService` tenta di caricare il dataset reale e registra in console sia gli errori (`console.error('Impossibile caricare i tratti:', error)`) sia l'eventuale fallback ai mock (`console.warn('Falling back to sample traits after remote fetch failure:', error)`).
+Per verificare entrambe le condizioni puoi eseguire `node scripts/simulate-trait-source.mjs`, che mocka `fetch` prima con un payload valido e poi con un `503`, mostrando il ritorno ai mock (`fallback traits length: 4`).
 
-1. Esportare le variabili d'ambiente prima di avviare Vite:
-
-   ```bash
-   export VITE_TRAIT_DATA_SOURCE=remote
-   # opzionale: override dell'endpoint relativo
-   export VITE_TRAIT_DATA_URL=../data/traits/index.json
-   ```
-
-2. Oppure creare un file `.env.local` nella cartella `Trait Editor/` con il seguente contenuto (comodo per lo sviluppo locale):
-
-   ```bash
-   VITE_TRAIT_DATA_SOURCE=remote
-   VITE_TRAIT_DATA_URL=../data/traits/index.json
-   ```
-
-Durante lo sviluppo Vite carica automaticamente `.env.local`. In produzione puoi applicare le stesse variabili sul runtime di hosting.
-
-Il servizio `TraitDataService` effettua automaticamente il fallback ai mock se il fetch remoto non è disponibile, registrando l'errore in console con `console.error('Impossibile caricare i tratti:', error)` e delegando a `resolveTraitSource` la gestione dell'avviso `console.warn('Falling back to sample traits after remote fetch failure:', error)`.
-Per verificare localmente entrambe le condizioni puoi eseguire `node scripts/simulate-trait-source.mjs`, che mocka `fetch` prima con un payload remoto e poi con un `503`, mostrando la ricaduta sui mock (`fallback traits length: 4`).
+Ricorda di aggiornare `VITE_BASE_PATH` o `BASE_PATH` quando distribuisci l'app in sottocartelle per mantenere coerenti gli asset generati dalla build.
 
 ## Pubblicazione
 
