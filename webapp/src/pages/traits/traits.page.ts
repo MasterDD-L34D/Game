@@ -3,6 +3,8 @@ import type {
   TraitEnvironment,
   TraitListItem,
   TraitDataSource,
+  TraitValidationIssue,
+  TraitIndexEntry,
 } from '../../app/models/traits';
 import { TraitService, TraitServiceError } from '../../app/services/trait.service';
 
@@ -22,10 +24,20 @@ class TraitsController {
   public detailStatus?: number;
   public detailSource: TraitDataSource | null = null;
   public detailUsingMock = false;
+  public validationIssues: TraitValidationIssue[] = [];
+  public isValidationLoading = false;
+  public validationError: string | null = null;
+  public validationChecked = false;
+  public validationValid = false;
 
   static $inject = ['$scope', 'TraitService'];
 
   constructor(private readonly $scope: any, private readonly traitService: TraitService) {}
+
+  private selectedEntry: TraitIndexEntry | null = null;
+  private detailHistory: TraitIndexEntry[] = [];
+  private historyIndex = -1;
+  private validationRequestId = 0;
 
   $onInit(): void {
     void this.loadTraits();
@@ -62,14 +74,22 @@ class TraitsController {
     this.detailStatus = undefined;
     this.detailSource = null;
     this.detailUsingMock = false;
+    this.selectedTrait = null;
+    this.selectedEntry = null;
+    this.resetValidationState();
 
     try {
       const response = await this.traitService.getTraitById(traitId);
-      this.selectedTrait = response.trait;
       this.detailSource = response.source;
       this.detailUsingMock = response.usedMock;
+      this.setCurrentEntry(response.rawEntry, { resetHistory: true });
+      this.validationChecked = false;
+      void this.runValidation(this.selectedEntry);
     } catch (error) {
       this.selectedTrait = null;
+      this.selectedEntry = null;
+      this.detailHistory = [];
+      this.historyIndex = -1;
       if (error instanceof TraitServiceError) {
         this.detailStatus = error.status;
         if (error.status === 404) {
@@ -95,6 +115,120 @@ class TraitsController {
     this.detailStatus = undefined;
     this.detailSource = null;
     this.detailUsingMock = false;
+    this.selectedEntry = null;
+    this.detailHistory = [];
+    this.historyIndex = -1;
+    this.resetValidationState();
+  }
+
+  canUndo(): boolean {
+    return this.historyIndex > 0;
+  }
+
+  canRedo(): boolean {
+    return this.historyIndex >= 0 && this.historyIndex < this.detailHistory.length - 1;
+  }
+
+  undo(): void {
+    if (!this.canUndo()) {
+      return;
+    }
+    this.historyIndex -= 1;
+    const snapshot = this.detailHistory[this.historyIndex];
+    this.setCurrentEntry(snapshot);
+    this.validationError = null;
+    void this.runValidation(this.selectedEntry);
+  }
+
+  redo(): void {
+    if (!this.canRedo()) {
+      return;
+    }
+    this.historyIndex += 1;
+    const snapshot = this.detailHistory[this.historyIndex];
+    this.setCurrentEntry(snapshot);
+    this.validationError = null;
+    void this.runValidation(this.selectedEntry);
+  }
+
+  revalidate(): void {
+    if (!this.selectedEntry) {
+      return;
+    }
+    this.validationError = null;
+    void this.runValidation(this.selectedEntry);
+  }
+
+  issueGroups(): { severity: TraitValidationIssue['severity']; title: string; issues: TraitValidationIssue[] }[] {
+    const severities: TraitValidationIssue['severity'][] = ['error', 'warning', 'suggestion'];
+    const labels: Record<TraitValidationIssue['severity'], string> = {
+      error: 'Errori',
+      warning: 'Avvisi',
+      suggestion: 'Suggerimenti',
+    };
+    return severities
+      .map((severity) => ({
+        severity,
+        title: labels[severity],
+        issues: this.validationIssues.filter((issue) => issue.severity === severity),
+      }))
+      .filter((group) => group.issues.length > 0);
+  }
+
+  issueSeverityLabel(severity: TraitValidationIssue['severity']): string {
+    if (severity === 'error') {
+      return 'Errore';
+    }
+    if (severity === 'warning') {
+      return 'Avviso';
+    }
+    return 'Suggerimento';
+  }
+
+  badgeClass(severity: TraitValidationIssue['severity']): string {
+    return `trait-issues__badge trait-issues__badge--${severity}`;
+  }
+
+  canApplyFix(issue: TraitValidationIssue): boolean {
+    const fix = issue.fix;
+    if (!fix) {
+      return false;
+    }
+    const type = typeof fix.type === 'string' ? fix.type.toLowerCase() : 'set';
+    if (type !== 'set') {
+      return false;
+    }
+    if (!Object.prototype.hasOwnProperty.call(fix, 'value')) {
+      return false;
+    }
+    if (fix.autoApplicable === false) {
+      return false;
+    }
+    return true;
+  }
+
+  applyFix(issue: TraitValidationIssue): void {
+    if (!this.selectedEntry || !this.canApplyFix(issue) || !issue.fix) {
+      return;
+    }
+    try {
+      const next = this.applySetFix(this.selectedEntry, issue.path, issue.fix.value);
+      this.setCurrentEntry(next, { pushHistory: true });
+      this.validationError = null;
+      void this.runValidation(this.selectedEntry);
+    } catch (error) {
+      console.error('Impossibile applicare la correzione del tratto:', error);
+      this.validationError = 'Impossibile applicare automaticamente la correzione suggerita.';
+      this.$scope.$applyAsync();
+    }
+  }
+
+  formatDisplayPath(issue: TraitValidationIssue): string {
+    return issue.displayPath || 'payload';
+  }
+
+  hasFixValue(issue: TraitValidationIssue): boolean {
+    return Boolean(issue.fix && Object.prototype.hasOwnProperty.call(issue.fix, 'value'));
   }
 
   private async loadTraits(): Promise<void> {
@@ -123,6 +257,126 @@ class TraitsController {
       this.isListLoading = false;
       this.$scope.$applyAsync();
     }
+  }
+
+  private setCurrentEntry(entry: TraitIndexEntry, options: { resetHistory?: boolean; pushHistory?: boolean } = {}): void {
+    const snapshot = this.cloneEntry(entry);
+    this.selectedEntry = snapshot;
+    this.selectedTrait = this.traitService.toTraitDetail(snapshot);
+    if (options.resetHistory) {
+      this.detailHistory = [this.cloneEntry(snapshot)];
+      this.historyIndex = 0;
+    } else if (options.pushHistory) {
+      this.detailHistory = this.detailHistory.slice(0, this.historyIndex + 1);
+      this.detailHistory.push(this.cloneEntry(snapshot));
+      this.historyIndex = this.detailHistory.length - 1;
+    }
+  }
+
+  private cloneEntry(entry: TraitIndexEntry): TraitIndexEntry {
+    return JSON.parse(JSON.stringify(entry)) as TraitIndexEntry;
+  }
+
+  private resetValidationState(): void {
+    this.validationIssues = [];
+    this.validationError = null;
+    this.validationChecked = false;
+    this.validationValid = false;
+    this.isValidationLoading = false;
+    this.validationRequestId += 1;
+  }
+
+  private async runValidation(entry: TraitIndexEntry | null): Promise<void> {
+    if (!entry) {
+      return;
+    }
+    const requestId = ++this.validationRequestId;
+    this.isValidationLoading = true;
+    this.validationError = null;
+
+    try {
+      const result = await this.traitService.validateTrait(entry);
+      if (this.validationRequestId !== requestId) {
+        return;
+      }
+      this.validationIssues = result.issues;
+      this.validationValid = result.valid;
+      this.validationChecked = true;
+    } catch (error) {
+      if (this.validationRequestId !== requestId) {
+        return;
+      }
+      this.validationIssues = [];
+      this.validationValid = false;
+      if (error instanceof TraitServiceError) {
+        if (error.status === 401) {
+          this.validationError = 'Non autorizzato ad eseguire la validazione del tratto.';
+        } else if (error.status === 404) {
+          this.validationError = 'Endpoint di validazione non trovato (404).';
+        } else if (error.status === 500) {
+          this.validationError = 'Errore interno durante la validazione del tratto (500).';
+        } else {
+          this.validationError = error.message || 'Impossibile completare la validazione del tratto.';
+        }
+      } else {
+        this.validationError = 'Errore imprevisto durante la validazione del tratto.';
+      }
+      this.validationChecked = true;
+    } finally {
+      if (this.validationRequestId === requestId) {
+        this.isValidationLoading = false;
+        this.$scope.$applyAsync();
+      }
+    }
+  }
+
+  private parsePointer(pointer: string): string[] {
+    if (!pointer) {
+      return [];
+    }
+    const cleaned = pointer.startsWith('/') ? pointer.slice(1) : pointer;
+    if (!cleaned) {
+      return [];
+    }
+    return cleaned.split('/').map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
+  }
+
+  private applySetFix(entry: TraitIndexEntry, pointer: string, value: unknown): TraitIndexEntry {
+    const segments = this.parsePointer(pointer);
+    if (segments.length === 0) {
+      throw new Error('Percorso della correzione non valido.');
+    }
+    const clone = this.cloneEntry(entry);
+    let current: any = clone;
+    for (let i = 0; i < segments.length - 1; i += 1) {
+      const segment = segments[i];
+      if (Array.isArray(current)) {
+        const index = Number(segment);
+        if (!Number.isInteger(index) || index < 0) {
+          throw new Error('Indice non valido nella correzione.');
+        }
+        if (current[index] === undefined) {
+          current[index] = {};
+        }
+        current = current[index];
+      } else {
+        if (!Object.prototype.hasOwnProperty.call(current, segment) || current[segment] === null) {
+          current[segment] = {};
+        }
+        current = current[segment];
+      }
+    }
+    const lastSegment = segments[segments.length - 1];
+    if (Array.isArray(current)) {
+      const index = Number(lastSegment);
+      if (!Number.isInteger(index) || index < 0) {
+        throw new Error('Indice non valido nella correzione.');
+      }
+      current[index] = value;
+    } else {
+      current[lastSegment] = value;
+    }
+    return clone;
   }
 }
 
@@ -207,6 +461,75 @@ export const registerTraitsPage = (module: any): void => {
           <div class="trait-detail__body" ng-if="$ctrl.selectedTrait && !$ctrl.isDetailLoading">
             <h3 class="trait-detail__name">{{ $ctrl.selectedTrait.label }}</h3>
             <p class="trait-detail__summary">{{ $ctrl.selectedTrait.function }}</p>
+            <div class="trait-detail__toolbar">
+              <button type="button" class="button button--ghost" ng-click="$ctrl.undo()" ng-disabled="!$ctrl.canUndo()">
+                Annulla
+              </button>
+              <button type="button" class="button button--ghost" ng-click="$ctrl.redo()" ng-disabled="!$ctrl.canRedo()">
+                Ripristina
+              </button>
+              <button
+                type="button"
+                class="button button--secondary"
+                ng-click="$ctrl.revalidate()"
+                ng-disabled="$ctrl.isValidationLoading"
+              >
+                Rivalida
+              </button>
+            </div>
+            <section class="trait-detail__section trait-issues">
+              <h4>Diagnostica</h4>
+              <p
+                class="trait-issues__status trait-issues__status--info"
+                ng-if="!$ctrl.validationChecked && !$ctrl.isValidationLoading && !$ctrl.validationError"
+              >
+                Esegui la validazione per analizzare il payload del tratto.
+              </p>
+              <p class="trait-issues__status trait-issues__status--info" ng-if="$ctrl.isValidationLoading">
+                Validazione in corso...
+              </p>
+              <p
+                class="trait-issues__status trait-issues__status--error"
+                ng-if="$ctrl.validationError && !$ctrl.isValidationLoading"
+              >
+                {{ $ctrl.validationError }}
+              </p>
+              <p
+                class="trait-issues__status trait-issues__status--success"
+                ng-if="!$ctrl.isValidationLoading && !$ctrl.validationError && $ctrl.validationChecked && !$ctrl.validationIssues.length"
+              >
+                Nessun problema rilevato sul payload attuale.
+              </p>
+              <div class="trait-issues__groups" ng-if="$ctrl.validationIssues.length">
+                <div class="trait-issues__group" ng-repeat="group in $ctrl.issueGroups() track by group.severity">
+                  <h5 class="trait-issues__group-title">{{ group.title }}</h5>
+                  <ul class="trait-issues__list">
+                    <li class="trait-issues__item" ng-repeat="issue in group.issues track by issue.id">
+                      <span ng-class="$ctrl.badgeClass(group.severity)">
+                        {{ $ctrl.issueSeverityLabel(group.severity) }}
+                      </span>
+                      <div class="trait-issues__content">
+                        <p class="trait-issues__message">{{ issue.message }}</p>
+                        <p class="trait-issues__path">Campo: {{ $ctrl.formatDisplayPath(issue) }}</p>
+                        <p class="trait-issues__note" ng-if="issue.fix && issue.fix.note">{{ issue.fix.note }}</p>
+                        <p class="trait-issues__note" ng-if="$ctrl.hasFixValue(issue)">
+                          Valore suggerito: <code>{{ issue.fix.value | json }}</code>
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        class="button button--ghost trait-issues__action"
+                        ng-if="$ctrl.canApplyFix(issue)"
+                        ng-click="$ctrl.applyFix(issue)"
+                        ng-disabled="$ctrl.isValidationLoading"
+                      >
+                        Applica fix
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
             <dl class="trait-detail__meta">
               <div>
                 <dt>Tier</dt>

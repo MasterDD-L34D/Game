@@ -126,8 +126,33 @@ export interface TraitListResponse {
   usedMock: boolean;
 }
 
+export type TraitValidationSeverity = 'error' | 'warning' | 'suggestion';
+
+export interface TraitValidationFix {
+  type?: string;
+  value?: unknown;
+  note?: string;
+  autoApplicable?: boolean;
+}
+
+export interface TraitValidationIssue {
+  id: string;
+  path: string;
+  displayPath: string;
+  message: string;
+  severity: TraitValidationSeverity;
+  source: 'schema' | 'style';
+  fix?: TraitValidationFix;
+}
+
+export interface TraitValidationResult {
+  valid: boolean;
+  issues: TraitValidationIssue[];
+}
+
 export interface TraitDetailResponse {
   trait: TraitDetail;
+  rawEntry: TraitIndexEntry;
   environment: TraitEnvironment;
   source: TraitDataSource;
   usedMock: boolean;
