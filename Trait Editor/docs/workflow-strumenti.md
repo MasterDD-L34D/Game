@@ -42,6 +42,7 @@ Questa sezione raccoglie il flusso operativo consolidato e i comandi principali 
 | Baseline & coverage | `python tools/py/build_trait_baseline.py ...` + `python tools/py/report_trait_coverage.py ...` | Aggiorna `data/derived/analysis/` e fallisce in strict se mancano collegamenti. |
 | Audit completo | `python3 scripts/trait_audit.py --check` | Produce/valida `logs/trait_audit.md` e pipeline di verifica finale. |
 | Anteprima editor standalone | `npm run dev` (da `Trait Editor/`, con `VITE_TRAIT_DATA_SOURCE`, `VITE_TRAIT_DATA_URL`) | Interfaccia AngularJS con sync remoto e fallback mock automatico. |
+| Verifica TraitDataService | `node scripts/simulate-trait-source.mjs` | Simula un fetch remoto riuscito e un fallimento forzato, mostrando il ritorno ai mock. |
 
 ## Checklist rapida
 
@@ -53,3 +54,16 @@ Questa sezione raccoglie il flusso operativo consolidato e i comandi principali 
 - [ ] Collegamenti cross-dataset aggiornati quando necessario (`docs/traits-manuale/04-collegamenti-cross-dataset.md`).
 
 Per esplorare ulteriori analisi (gap, coverage storica, baseline PI) consulta la directory `data/derived/analysis/` e i report JSON/CSV generati dagli script ETL. Mantieni i link aggiornati nelle note PR quando vengono rigenerati.
+
+## Test del datasource remoto
+
+- Il servizio [`TraitDataService`](../src/services/trait-data.service.ts) legge la configurazione da `import.meta.env`.
+  - Se `VITE_TRAIT_DATA_SOURCE=remote`, delega il recupero a `resolveTraitSource`, passando l'eventuale override definito in `VITE_TRAIT_DATA_URL`.
+  - Qualunque eccezione genera un `console.error('Impossibile caricare i tratti:', error)` e popola la cache locale con i mock (`getSampleTraits`).
+- Il modulo [`resolveTraitSource`](../src/data/traits.sample.ts) tenta il fetch e, in caso di risposta non ok o di errore runtime, logga `console.warn('Falling back to sample traits after remote fetch failure:', error)` prima di restituire i mock.
+- Puoi validare il comportamento senza avviare Vite eseguendo:
+  ```bash
+  cd "Trait Editor"
+  node scripts/simulate-trait-source.mjs
+  ```
+  L'esecuzione produce un caso di successo con payload mock e un fallimento forzato (`503`) che conferma il fallback alla lista sample (`fallback traits length: 4`, matching sugli ID). Questo riflette esattamente ciò che accade in runtime quando l'endpoint remoto non risponde.
