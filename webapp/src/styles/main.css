@@ -878,6 +878,17 @@ body {
   color: var(--color-text-secondary);
 }
 
+.trait-detail__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.trait-detail__toolbar .button {
+  min-width: 0;
+}
+
 .trait-detail__meta {
   margin: 0;
   display: grid;
@@ -907,6 +918,140 @@ body {
 
 .trait-detail__section p {
   margin: 0;
+}
+
+.trait-issues {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trait-issues__status {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.trait-issues__status--info {
+  color: var(--color-text-secondary);
+}
+
+.trait-issues__status--error {
+  color: var(--color-alert);
+  font-weight: 600;
+}
+
+.trait-issues__status--success {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.trait-issues__groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trait-issues__group {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.75rem;
+}
+
+.trait-issues__group:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.trait-issues__group-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.trait-issues__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.trait-issues__item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: flex-start;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.trait-issues__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.trait-issues__badge--error {
+  color: var(--color-alert);
+  border-color: rgba(255, 95, 95, 0.3);
+  background: rgba(255, 95, 95, 0.15);
+}
+
+.trait-issues__badge--warning {
+  color: var(--color-warning);
+  border-color: rgba(245, 166, 35, 0.28);
+  background: rgba(245, 166, 35, 0.14);
+}
+
+.trait-issues__badge--suggestion {
+  color: var(--color-accent);
+  border-color: rgba(79, 140, 255, 0.3);
+  background: rgba(79, 140, 255, 0.16);
+}
+
+.trait-issues__content {
+  flex: 1 1 220px;
+  min-width: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.trait-issues__message {
+  margin: 0;
+  font-weight: 600;
+}
+
+.trait-issues__path,
+.trait-issues__note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.trait-issues__note code {
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+}
+
+.trait-issues__action {
+  align-self: flex-start;
 }
 
 .trait-detail__tags,

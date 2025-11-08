@@ -7,6 +7,8 @@ import {
   TraitListItem,
   TraitListResponse,
   TraitDataSource,
+  TraitValidationIssue,
+  TraitValidationResult,
   traitIndexEntrySchema,
   traitIndexSchema,
 } from '../models/traits';
@@ -15,8 +17,10 @@ interface TraitServiceConfig {
   environment: TraitEnvironment;
   remoteIndexUrl: string | null;
   remoteDetailUrlTemplate: string | null;
+  remoteValidateUrl: string | null;
   mockIndexUrl: string;
   mockDetailUrlTemplate: string;
+  authToken: string | null;
 }
 
 const HTTP_URL_PATTERN = /^https?:\/\//i;
@@ -89,16 +93,23 @@ const traitServiceConfig: TraitServiceConfig = (() => {
 
   const remoteIndexUrl = resolveWithApiBase(env.VITE_TRAITS_INDEX_URL, apiBase);
   const remoteDetailUrlTemplate = resolveWithApiBase(env.VITE_TRAITS_DETAIL_URL, apiBase);
+  const validateCandidate = env.VITE_TRAITS_VALIDATE_URL ?? '/api/traits/validate';
+  const remoteValidateUrl = resolveWithApiBase(validateCandidate, apiBase);
 
   const mockIndexCandidate = env.VITE_TRAITS_MOCK_INDEX ?? 'data/traits/index.mock.json';
   const mockDetailCandidate = env.VITE_TRAITS_MOCK_DETAIL ?? 'data/traits/details/:id.json';
+
+  const rawToken = env.VITE_TRAITS_AUTH_TOKEN;
+  const authToken = rawToken && rawToken.trim() !== '' ? rawToken.trim() : null;
 
   return {
     environment,
     remoteIndexUrl,
     remoteDetailUrlTemplate,
+    remoteValidateUrl,
     mockIndexUrl: resolveAssetPath(mockIndexCandidate, baseUrl),
     mockDetailUrlTemplate: resolveAssetPath(mockDetailCandidate, baseUrl),
+    authToken,
   };
 })();
 
@@ -203,6 +214,29 @@ export class TraitService {
     throw lastError ?? fallback.error;
   }
 
+  async validateTrait(entry: TraitIndexEntry): Promise<TraitValidationResult> {
+    if (!this.config.remoteValidateUrl) {
+      throw new TraitServiceError('Endpoint validazione non configurato', { source: 'remote' });
+    }
+
+    try {
+      const body = { payload: entry, traitId: entry.id };
+      const response = await this.postJson(
+        this.config.remoteValidateUrl,
+        body,
+        this.config.authToken,
+      );
+      return this.normaliseValidationResponse(response.data);
+    } catch (error) {
+      if (error instanceof TraitServiceError) {
+        throw error;
+      }
+      throw new TraitServiceError('Errore sconosciuto durante la validazione del tratto', {
+        source: 'remote',
+      });
+    }
+  }
+
   private getCachedTrait(traitId: string): TraitIndexEntry | null {
     if (!this.indexCache) {
       return null;
@@ -290,6 +324,43 @@ export class TraitService {
     }
   }
 
+  private async postJson(
+    url: string,
+    body: unknown,
+    token: string | null,
+  ): Promise<{ data: unknown; status: number }> {
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    if (token) {
+      headers['X-Trait-Editor-Token'] = token;
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body ?? {}),
+      });
+      if (!response.ok) {
+        const message = `Validazione tratto fallita (${response.status})`;
+        throw new TraitServiceError(message, { status: response.status, source: 'remote' });
+      }
+      const data = await response.json();
+      return { data, status: response.status };
+    } catch (error) {
+      if (error instanceof TraitServiceError) {
+        throw error;
+      }
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Errore di rete durante la validazione del tratto';
+      throw new TraitServiceError(message, { source: 'remote' });
+    }
+  }
+
   private buildListResponse(
     document: TraitIndexDocument,
     environment: TraitEnvironment,
@@ -310,15 +381,126 @@ export class TraitService {
     };
   }
 
+  private normaliseValidationResponse(payload: unknown): TraitValidationResult {
+    if (!payload || typeof payload !== 'object') {
+      return { valid: false, issues: [] };
+    }
+    const raw = payload as Record<string, unknown>;
+    const issues: TraitValidationIssue[] = [];
+    const schemaErrors = Array.isArray(raw.errors) ? raw.errors : [];
+    schemaErrors.forEach((entry, index) => {
+      if (!entry || typeof entry !== 'object') {
+        return;
+      }
+      const pointer =
+        typeof (entry as Record<string, unknown>).instancePath === 'string'
+          ? ((entry as Record<string, unknown>).instancePath as string)
+          : typeof (entry as Record<string, unknown>).dataPath === 'string'
+            ? ((entry as Record<string, unknown>).dataPath as string)
+            : '';
+      const message =
+        typeof (entry as Record<string, unknown>).message === 'string'
+          ? ((entry as Record<string, unknown>).message as string)
+          : 'Errore di validazione dello schema.';
+      issues.push({
+        id: `schema-${index}`,
+        path: pointer,
+        displayPath: this.formatValidationPath(pointer),
+        message,
+        severity: 'error',
+        source: 'schema',
+      });
+    });
+
+    const suggestions = Array.isArray(raw.suggestions) ? raw.suggestions : [];
+    suggestions.forEach((entry, index) => {
+      if (!entry || typeof entry !== 'object') {
+        return;
+      }
+      const container = entry as Record<string, unknown>;
+      const pointer = typeof container.path === 'string' ? container.path : '';
+      const message =
+        typeof container.message === 'string'
+          ? container.message
+          : 'Suggerimento disponibile.';
+      const severity = this.normaliseSeverity(container.severity);
+      const fix = this.normaliseFix(container.fix);
+      issues.push({
+        id: `style-${index}`,
+        path: pointer,
+        displayPath: this.formatValidationPath(pointer),
+        message,
+        severity,
+        source: 'style',
+        fix,
+      });
+    });
+
+    const valid = Boolean(raw.valid);
+    return { valid, issues };
+  }
+
+  private normaliseFix(raw: unknown): TraitValidationIssue['fix'] | undefined {
+    if (!raw || typeof raw !== 'object') {
+      return undefined;
+    }
+    const container = raw as Record<string, unknown>;
+    const fix: TraitValidationIssue['fix'] = {};
+    if (typeof container.type === 'string') {
+      fix.type = container.type;
+    }
+    if (Object.prototype.hasOwnProperty.call(container, 'value')) {
+      fix.value = container.value;
+    }
+    if (typeof container.note === 'string') {
+      fix.note = container.note;
+    }
+    if (Object.prototype.hasOwnProperty.call(container, 'autoApplicable')) {
+      fix.autoApplicable = Boolean(container.autoApplicable);
+    }
+    return Object.keys(fix).length > 0 ? fix : undefined;
+  }
+
+  private normaliseSeverity(value: unknown): TraitValidationIssue['severity'] {
+    const label = typeof value === 'string' ? value.toLowerCase() : '';
+    if (label === 'error') {
+      return 'error';
+    }
+    if (label === 'warning') {
+      return 'warning';
+    }
+    return 'suggestion';
+  }
+
+  private formatValidationPath(pointer: string): string {
+    if (!pointer || pointer === '' || pointer === '/') {
+      return 'payload';
+    }
+    const cleaned = pointer.startsWith('/') ? pointer.slice(1) : pointer;
+    if (!cleaned) {
+      return 'payload';
+    }
+    return cleaned
+      .split('/')
+      .map((segment) => this.decodePointerSegment(segment))
+      .join(' › ');
+  }
+
+  private decodePointerSegment(segment: string): string {
+    return segment.replace(/~1/g, '/').replace(/~0/g, '~');
+  }
+
   private buildDetailResponse(
     entry: TraitIndexEntry,
     environment: TraitEnvironment,
     source: TraitDataSource,
     usedMock: boolean,
   ): TraitDetailResponse {
-    const trait = this.toDetail(entry);
+    const snapshot = this.cloneEntry(entry);
+    const trait = this.convertEntryToDetail(snapshot);
     return {
       trait,
+      rawEntry: snapshot,
       environment,
       source,
       usedMock,
@@ -354,7 +536,11 @@ export class TraitService {
     };
   }
 
-  private toDetail(entry: TraitIndexEntry): TraitDetail {
+  public toTraitDetail(entry: TraitIndexEntry): TraitDetail {
+    return this.convertEntryToDetail(entry);
+  }
+
+  private convertEntryToDetail(entry: TraitIndexEntry): TraitDetail {
     const listItem = this.toListItem(entry);
     return {
       ...listItem,
@@ -386,6 +572,10 @@ export class TraitService {
       },
       biomeTags: entry.biome_tags ? [...entry.biome_tags] : undefined,
     };
+  }
+
+  private cloneEntry(entry: TraitIndexEntry): TraitIndexEntry {
+    return JSON.parse(JSON.stringify(entry)) as TraitIndexEntry;
   }
 }
 
