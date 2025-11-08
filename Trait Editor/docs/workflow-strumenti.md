@@ -22,14 +22,14 @@ Questa sezione raccoglie il flusso operativo consolidato e i comandi principali 
    - Esegui `python tools/py/collect_trait_fields.py` per aggiornare `reports/trait_fields_by_type.json` e `reports/trait_texts.json`.
    - Propaga le localizzazioni con `python scripts/sync_trait_locales.py`.
 5. **Rigenerare indice, baseline e coverage**
-   - `node scripts/build_trait_index.js --output data/traits/index.csv`.
-   - `python tools/py/build_trait_baseline.py` e `python tools/py/report_trait_coverage.py` per aggiornare `data/derived/analysis/`.
+   - `node scripts/build_trait_index.js --output data/traits/index.csv` e verifica che il CSV sia versionato/aggiornato.
+   - `python tools/py/build_trait_baseline.py` e `python tools/py/report_trait_coverage.py` per aggiornare `data/derived/analysis/` (in particolare `trait_baseline.yaml` e `trait_coverage_report.json`).
 6. **Eseguire gli audit finali**
    - `python3 scripts/trait_audit.py --check`.
-   - Archivia i log in `logs/` come parte della PR.
+   - Archivia i log in `logs/` (es. `logs/trait_audit.md`) come parte della PR e annota eventuali warning.
 7. **Compilare la checklist PR**
    - Rivedi flag di completezza, localizzazioni, impatti su coverage/baseline.
-   - Segui le checklist riportate in `README_HOWTO_AUTHOR_TRAIT.md` e `docs/contributing/traits.md`.
+   - Segui le checklist riportate in `README_HOWTO_AUTHOR_TRAIT.md` e `docs/contributing/traits.md`, riportando l'esito direttamente nella descrizione della PR.
 
 ## Strumenti e comandi principali
 
