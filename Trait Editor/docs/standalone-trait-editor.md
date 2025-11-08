@@ -41,7 +41,8 @@ Il pacchetto **Trait Editor/** mette a disposizione un editor standalone per la 
   export VITE_TRAIT_DATA_URL=../data/traits/index.json
   ```
   In alternativa puoi creare un file `.env.local` con gli stessi valori (caricato automaticamente da Vite) oppure puntare a una copia locale con `VITE_TRAIT_DATA_URL=/percorso/custom/index.json`.
-- In assenza di una sorgente remota valida l'applicazione esegue il fallback automatico ai mock definiti in `src/data/traits.sample.ts`, loggando l'evento in console.
+- In assenza di una sorgente remota valida l'applicazione esegue il fallback automatico ai mock definiti in `src/data/traits.sample.ts`, loggando l'evento in console (`console.error('Impossibile caricare i tratti:', error)` dal servizio AngularJS e `console.warn('Falling back to sample traits after remote fetch failure:', error)` dalla funzione di fetch).
+- Puoi riprodurre facilmente entrambi i casi senza avviare l'interfaccia grazie allo script `node scripts/simulate-trait-source.mjs`, che alterna una risposta mock remota ad un `503` simulato.
 - Riprendi le checklist operative descritte in [Workflow & strumenti](workflow-strumenti.md) per assicurare la coerenza tra aggiornamenti manuali, script di validazione e pubblicazione.
 
 ## Risorse collegate

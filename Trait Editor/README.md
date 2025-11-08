@@ -50,7 +50,8 @@ Per collegarsi al dataset reale (`../data/traits/index.json` nel monorepo) puoi:
 
 Durante lo sviluppo Vite carica automaticamente `.env.local`. In produzione puoi applicare le stesse variabili sul runtime di hosting.
 
-Il servizio `TraitDataService` effettua automaticamente il fallback ai mock se il fetch remoto non è disponibile, registrando l'errore in console.
+Il servizio `TraitDataService` effettua automaticamente il fallback ai mock se il fetch remoto non è disponibile, registrando l'errore in console con `console.error('Impossibile caricare i tratti:', error)` e delegando a `resolveTraitSource` la gestione dell'avviso `console.warn('Falling back to sample traits after remote fetch failure:', error)`.
+Per verificare localmente entrambe le condizioni puoi eseguire `node scripts/simulate-trait-source.mjs`, che mocka `fetch` prima con un payload remoto e poi con un `503`, mostrando la ricaduta sui mock (`fallback traits length: 4`).
 
 ## Pubblicazione
 
