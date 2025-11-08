@@ -11,6 +11,7 @@ Sandbox indipendente per la libreria dei tratti, pensata per revisioni rapide e 
 
 - Node.js 18+
 - npm 9+
+- Accesso alla CDN Google per AngularJS 1.8.x **oppure** mirror locale configurato (vedi [nota dedicata](#nota-sul-caricamento-di-angularjs)).
 
 Puoi verificare rapidamente la versione disponibile con:
 
@@ -43,13 +44,14 @@ npm install
 - `npm run dev` avvia il dev server Vite su <http://localhost:5173> con hot module replacement.
 - `npm run build` genera la build statica nella cartella `dist/`.
 - `npm run preview` esegue una preview locale della build prodotta.
+- `node scripts/simulate-trait-source.mjs` verifica rapidamente il comportamento di `TraitDataService` con sorgente remota e fallback ai mock.
 
 ## Flussi di test e note di esecuzione
 
 | Comando | Esito | Note |
 | --- | --- | --- |
 | `npm install` | ✅ | L'ambiente risultava già allineato; l'esecuzione termina con lo stato "up to date". Npm mostra l'avviso `Unknown env config "http-proxy"`, sintomo di una variabile d'ambiente obsoleta che conviene rimuovere prima dei prossimi upgrade di npm.【ce75e8†L1-L2】【b3f4a1†L1-L5】 |
-| `npm run dev` | ⚠️ | Il dev server parte correttamente, ma il comando eredita lo stesso warning `Unknown env config "http-proxy"`. Interrompi con `CTRL+C` quando hai finito di testare.【a76019†L1-L6】 |
+| `npm run dev` | ⚠️ | Il dev server parte correttamente, ma il comando eredita lo stesso warning `Unknown env config "http-proxy"`. Interrompi con `CTRL+C` quando hai finito di testare. Ricorda di configurare le variabili `VITE_*` se vuoi collegarti al dataset remoto.【a76019†L1-L6】 |
 | `npm run build` | ❌ | L'operazione fallisce perché manca un `index.html` nella root del pacchetto; Vite non riesce a risolvere il modulo di ingresso e interrompe la build. Valuta di aggiungere il file (o aggiornare `build.rollupOptions.input`) prima di pubblicare.【83547a†L1-L4】【073449†L1-L11】 |
 | `npm run preview` | ⚠️ | Il server di anteprima si avvia comunque, ma riutilizza eventuali asset già presenti sotto `dist/`. Ferma il processo con `CTRL+C` e ricordati che serve una build valida per testare la versione prodotta.【2af6f3†L1-L6】【aa993a†L1-L4】【3c2019†L1-L1】 |
 
@@ -77,6 +79,16 @@ Quando le variabili precedenti sono impostate su `remote`, `TraitDataService` te
 Per verificare entrambe le condizioni puoi eseguire `node scripts/simulate-trait-source.mjs`, che mocka `fetch` prima con un payload valido e poi con un `503`, mostrando il ritorno ai mock (`fallback traits length: 4`).
 
 Ricorda di aggiornare `VITE_BASE_PATH` o `BASE_PATH` quando distribuisci l'app in sottocartelle per mantenere coerenti gli asset generati dalla build.
+
+### Output attesi dai passi 5–7 del workflow
+
+I capitoli [Workflow & strumenti](docs/workflow-strumenti.md) e [Manuale operativo](docs/manuale-operativo.md) indicano i controlli finali prima di chiudere una PR sui trait. Qui trovi un riepilogo rapido dei deliverable che dovrebbero risultare completati:
+
+1. **Rigenerazione indice/baseline/coverage** – assicurati che `data/traits/index.csv`, `data/derived/analysis/trait_baseline.yaml` e `data/derived/analysis/trait_coverage_report.json` riflettano l'ultima modifica.
+2. **Audit finale** – allega i log generati da `python3 scripts/trait_audit.py --check` in `logs/trait_audit.md` (o nel file specificato dallo script) e annota eventuali anomalie.
+3. **Checklist PR** – compila le checklist contributive (`README_HOWTO_AUTHOR_TRAIT.md`, `docs/contributing/traits.md`) e riportane lo stato nella descrizione della PR.
+
+Se qualcuno di questi artefatti non è aggiornato, torna sui passi corrispondenti del workflow prima di procedere alla revisione.
 
 ## Pubblicazione
 
