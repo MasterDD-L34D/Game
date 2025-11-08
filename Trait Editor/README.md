@@ -60,4 +60,52 @@ Il servizio `TraitDataService` effettua automaticamente il fallback ai mock se i
 
 ## Nota sul caricamento di AngularJS
 
-L'app si affida alla CDN Google per caricare AngularJS 1.8.x (`angular`, `angular-route`, `angular-animate`, `angular-sanitize`). Verifica le policy di Content Security Policy del target di pubblicazione e aggiungi eventuali eccezioni se richiesto.
+L'app si affida alla CDN Google per caricare AngularJS 1.8.x. I file esterni attualmente inclusi sono:
+
+| Script | Origine |
+| --- | --- |
+| `angular.min.js` | `https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js` |
+| `angular-route.min.js` | `https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js` |
+| `angular-animate.min.js` | `https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-animate.min.js` |
+| `angular-sanitize.min.js` | `https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-sanitize.min.js` |
+
+Verifica le policy di Content Security Policy del target di pubblicazione e aggiungi eventuali eccezioni se richiesto.
+
+### Strategie per CDN e mirror locali
+
+Di seguito sono riportate due configurazioni alternative. Scegli quella più adatta all'ambiente di distribuzione (es. dev offline, produzione con CSP restrittiva, ecc.).
+
+#### 1. CDN Google (configurazione di default)
+
+- Nessuna azione aggiuntiva: i tag `<script>` in `public/index.html` puntano direttamente alla CDN.
+- Assicurati che l'hosting finale consenta connessioni in uscita verso `ajax.googleapis.com` e, se necessario, registra il dominio tra le eccezioni CSP.
+
+#### 2. Bundle locale/mirror degli asset AngularJS
+
+1. Scarica i pacchetti AngularJS in locale. Puoi usare `npm` per mantenere i file versionati assieme al progetto:
+
+   ```bash
+   npm install --save angular@1.8.3 angular-route@1.8.3 angular-animate@1.8.3 angular-sanitize@1.8.3
+   ```
+
+   In alternativa, utilizza `curl`/`wget` per scaricare gli asset direttamente nella cartella `public/vendor/angular/`.
+
+2. Copia (o linka) i file minimizzati nel percorso statico servito da Vite:
+
+   ```bash
+   mkdir -p public/vendor/angular
+   cp node_modules/angular/angular.min.js public/vendor/angular/
+   cp node_modules/angular-route/angular-route.min.js public/vendor/angular/
+   cp node_modules/angular-animate/angular-animate.min.js public/vendor/angular/
+   cp node_modules/angular-sanitize/angular-sanitize.min.js public/vendor/angular/
+   ```
+
+   Durante `vite build` tutti i file sotto `public/` vengono copiati in `dist/`, così da essere serviti dal tuo hosting.
+
+3. Aggiorna i tag `<script>` in `public/index.html` sostituendo gli URL CDN con i riferimenti locali (es. `/vendor/angular/angular.min.js`). Mantieni un commento o un diff pronto per facilitare lo switch.
+
+4. Commita i file copiati solo se desideri versionarli nel repository. In alternativa, automatizza la copia con uno script (es. `npm run prepare` o `postinstall`) per ridurre il rischio di divergenze.
+
+5. (Opzionale) Conserva un file di checksum o una nota sulle versioni per verificare rapidamente la corrispondenza con l'upstream.
+
+Per passare da una modalità all'altra è sufficiente modificare i riferimenti in `public/index.html`. Mantieni la documentazione allineata quando aggiorni le librerie.
