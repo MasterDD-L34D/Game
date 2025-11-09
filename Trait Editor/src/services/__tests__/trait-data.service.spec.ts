@@ -458,3 +458,104 @@ describe('TraitDataService remote mutations', () => {
     expect(detailCalls).toBeGreaterThanOrEqual(2);
   });
 });
+
+describe('TraitDataService validation workflow', () => {
+  let originalFetch: typeof fetch | undefined;
+
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    vi.stubEnv('VITE_TRAIT_DATA_SOURCE', 'remote');
+    vi.stubEnv('VITE_TRAIT_DATA_URL', 'https://example.com/data/traits/index.json?auth=1');
+    originalFetch = globalThis.fetch;
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    if (originalFetch) {
+      globalThis.fetch = originalFetch;
+    } else {
+      delete (globalThis as typeof globalThis & { fetch?: typeof fetch }).fetch;
+    }
+  });
+
+  it('posts the trait payload to the validation endpoint and normalises the response', async () => {
+    const trait = getSampleTraits()[0];
+    const validationResponse = {
+      summary: { errors: 1, warnings: 1, suggestions: 1 },
+      issues: [
+        {
+          id: 'missing-label',
+          severity: 'ERROR',
+          message: 'Il label è obbligatorio.',
+          code: 'TRT001',
+          path: '/entry/label',
+          autoFixes: [
+            {
+              id: 'align-label',
+              label: 'Allinea nome e label',
+              operations: [
+                { op: 'replace', path: '/name', value: trait.name },
+                { op: 'replace', path: '/entry/label', value: trait.name },
+              ],
+            },
+          ],
+        },
+        {
+          severity: 'INFO',
+          message: 'Considera di aggiungere un tag informativo.',
+          autoFixes: [],
+        },
+      ],
+    };
+
+    const fetchMock = vi
+      .fn<Parameters<typeof fetch>, Promise<Response>>()
+      .mockResolvedValue({
+        ok: true,
+        json: async () => validationResponse,
+      } as unknown as Response);
+
+    globalThis.fetch = fetchMock as unknown as typeof fetch;
+
+    const service = new TraitDataService(createFakeQ());
+    const result = await service.validateTrait(trait);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe('https://example.com/api/traits/validate?auth=1');
+    expect(init?.method).toBe('POST');
+    expect(init?.headers).toMatchObject({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    expect(typeof init?.body).toBe('string');
+    const payload = JSON.parse(init?.body as string);
+    expect(payload.name).toBe(trait.name);
+    expect(payload.entry.label).toBe(trait.entry.label);
+
+    expect(result.summary).toEqual({ errors: 1, warnings: 1, suggestions: 1 });
+    expect(result.issues).toHaveLength(2);
+    expect(result.issues[0]).toMatchObject({
+      id: 'missing-label',
+      severity: 'error',
+      autoFixes: [
+        expect.objectContaining({
+          id: 'align-label',
+          operations: [
+            expect.objectContaining({ op: 'replace', path: '/name', value: trait.name }),
+            expect.objectContaining({ op: 'replace', path: '/entry/label', value: trait.name }),
+          ],
+        }),
+      ],
+    });
+    expect(result.issues[1]).toMatchObject({ severity: 'suggestion' });
+  });
+
+  it('returns an empty validation result when the remote source is disabled', async () => {
+    vi.unstubAllEnvs();
+    vi.stubEnv('VITE_TRAIT_DATA_SOURCE', 'local');
+    const service = new TraitDataService(createFakeQ());
+    const result = await service.validateTrait(getSampleTraits()[0]);
+    expect(result).toEqual({ summary: { errors: 0, warnings: 0, suggestions: 0 }, issues: [] });
+  });
+});
