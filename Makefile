@@ -1,5 +1,5 @@
 
-.PHONY: sitemap links report search redirects structured audit evo-tactics-pack
+.PHONY: sitemap links report search redirects structured audit evo-tactics-pack dev-stack test-stack ci-stack
 
 sitemap:
 \tpython ops/site-audit/build_sitemap.py
@@ -23,3 +23,12 @@ audit: sitemap links report search redirects structured
 
 evo-tactics-pack:
 node scripts/build_evo_tactics_pack_dist.mjs
+
+dev-stack:
+npm run dev:stack
+
+test-stack:
+npm run test:stack
+
+ci-stack:
+npm run ci:stack
