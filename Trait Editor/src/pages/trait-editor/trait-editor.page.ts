@@ -1,6 +1,7 @@
 import type { Trait } from '../../types/trait';
 import { TraitDataService } from '../../services/trait-data.service';
 import { TraitStateService, type TraitUiState } from '../../services/trait-state.service';
+import { cloneTrait, synchroniseTraitPresentation } from '../../utils/trait-helpers';
 
 interface TraitFormModel extends Trait {}
 
@@ -38,6 +39,7 @@ class TraitEditorController {
   addSignatureMove(): void {
     if (this.formModel) {
       this.formModel.signatureMoves.push('');
+      this.syncFormModel();
       this.propagatePreview();
     }
   }
@@ -45,11 +47,13 @@ class TraitEditorController {
   removeSignatureMove(index: number): void {
     if (this.formModel) {
       this.formModel.signatureMoves.splice(index, 1);
+      this.syncFormModel();
       this.propagatePreview();
     }
   }
 
   onFormChange(): void {
+    this.syncFormModel();
     this.propagatePreview();
   }
 
@@ -62,7 +66,7 @@ class TraitEditorController {
       return;
     }
 
-    const payload = this.cloneTrait(this.formModel);
+    const payload = cloneTrait(this.formModel);
     this.stateService.setStatus(null);
     this.stateService.setLoading(true);
 
@@ -70,7 +74,7 @@ class TraitEditorController {
       .saveTrait(payload)
       .then((savedTrait) => {
         this.trait = savedTrait;
-        this.formModel = this.cloneTrait(savedTrait);
+        this.formModel = cloneTrait(savedTrait);
         this.stateService.setPreviewTrait(savedTrait);
         this.stateService.setStatus('Modifiche salvate con successo.', 'success');
         this.$timeout(() => this.stateService.setStatus(null), 3000);
@@ -93,7 +97,7 @@ class TraitEditorController {
       return;
     }
 
-    this.formModel = this.cloneTrait(this.trait);
+    this.formModel = cloneTrait(this.trait);
     this.stateService.setPreviewTrait(this.trait);
     this.stateService.setStatus(null);
     this.$location.path(`/traits/${this.trait.id}`);
@@ -123,7 +127,7 @@ class TraitEditorController {
         }
 
         this.trait = trait;
-        this.formModel = this.cloneTrait(trait);
+        this.formModel = cloneTrait(trait);
         this.stateService.setPreviewTrait(trait);
         const lastError = this.dataService.getLastError();
         if (lastError) {
@@ -160,12 +164,15 @@ class TraitEditorController {
 
   private propagatePreview(): void {
     if (this.formModel) {
+      this.syncFormModel();
       this.stateService.setPreviewTrait(this.formModel);
     }
   }
 
-  private cloneTrait(trait: Trait): Trait {
-    return { ...trait, signatureMoves: [...trait.signatureMoves] };
+  private syncFormModel(): void {
+    if (this.formModel) {
+      synchroniseTraitPresentation(this.formModel);
+    }
   }
 }
 

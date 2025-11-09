@@ -1,4 +1,5 @@
 import type { Trait } from '../types/trait';
+import { cloneTrait } from '../utils/trait-helpers';
 
 export interface TraitStatus {
   message: string;
@@ -44,7 +45,7 @@ export class TraitStateService {
   }
 
   setPreviewTrait(trait: Trait | null): void {
-    this.state.previewTrait = trait ? this.cloneTrait(trait) : null;
+    this.state.previewTrait = trait ? cloneTrait(trait) : null;
     this.broadcast();
   }
 
@@ -61,13 +62,10 @@ export class TraitStateService {
     return {
       isLoading: this.state.isLoading,
       status: this.state.status ? { ...this.state.status } : null,
-      previewTrait: this.state.previewTrait ? this.cloneTrait(this.state.previewTrait) : null,
+      previewTrait: this.state.previewTrait ? cloneTrait(this.state.previewTrait) : null,
     };
   }
 
-  private cloneTrait(trait: Trait): Trait {
-    return { ...trait, signatureMoves: [...trait.signatureMoves] };
-  }
 }
 
 export const registerTraitStateService = (module: any): void => {

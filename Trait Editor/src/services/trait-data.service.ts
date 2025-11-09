@@ -1,8 +1,24 @@
-import { TRAIT_DATA_ENDPOINT, getSampleTraits, resolveTraitSource } from '../data/traits.sample';
+import {
+  TRAIT_DATA_ENDPOINT,
+  fetchTraitsFromMonorepo,
+  getSampleTraits,
+} from '../data/traits.sample';
 import type { Trait } from '../types/trait';
+import { cloneTrait, cloneTraits, synchroniseTraitPresentation } from '../utils/trait-helpers';
+
+export const FALLBACK_CACHE_TTL_MS = 60_000;
+
+type TraitCacheSource = 'remote' | 'fallback' | 'mock';
+
+interface TraitCacheEntry {
+  traits: Trait[];
+  source: TraitCacheSource;
+  timestamp: number;
+}
 
 export class TraitDataService {
-  private cache: Trait[] | null = null;
+  private cache: TraitCacheEntry | null = null;
+  private fallbackExpiry: number | null = null;
   private readonly useRemoteSource: boolean;
   private readonly endpointOverride?: string;
   private lastError: Error | null = null;
@@ -19,36 +35,43 @@ export class TraitDataService {
     }
   }
 
-  getTraits(): Promise<Trait[]> {
-    if (this.cache) {
-      return this.$q.resolve(this.cloneTraits(this.cache));
+  getTraits(options?: { forceRemote?: boolean }): Promise<Trait[]> {
+    const forceRemote = options?.forceRemote ?? false;
+
+    if (this.cache && this.isCacheUsable(forceRemote)) {
+      return this.$q.resolve(cloneTraits(this.cache.traits));
     }
 
-    return this.$q
-      .when(resolveTraitSource(this.useRemoteSource, this.endpointOverride))
-      .then((traits) => {
-        this.cache = traits;
-        this.lastError = null;
-        return this.cloneTraits(traits);
-      })
-      .catch((error) => {
-        console.error('Impossibile caricare i tratti:', error);
-        this.lastError = error instanceof Error ? error : new Error(String(error));
-        const fallback = getSampleTraits();
-        this.cache = fallback;
-        return this.cloneTraits(fallback);
-      });
+    return this.$q.when(this.loadTraits()).then((traits) => cloneTraits(traits));
+  }
+
+  refreshTraitsFromRemote(): Promise<Trait[]> {
+    return this.getTraits({ forceRemote: true });
+  }
+
+  invalidateCache(): void {
+    this.cache = null;
+    this.fallbackExpiry = null;
+  }
+
+  getCacheSource(): TraitCacheSource | null {
+    return this.cache?.source ?? null;
+  }
+
+  isUsingFallback(): boolean {
+    return this.cache?.source === 'fallback';
   }
 
   getTraitById(id: string): Promise<Trait | null> {
     return this.getTraits().then((traits) => {
       const trait = traits.find((item) => item.id === id);
-      return trait ? this.cloneTrait(trait) : null;
+      return trait ? cloneTrait(trait) : null;
     });
   }
 
   saveTrait(updatedTrait: Trait): Promise<Trait> {
-    const traitCopy = this.cloneTrait(updatedTrait);
+    const traitCopy = cloneTrait(updatedTrait);
+    synchroniseTraitPresentation(traitCopy);
 
     const persist = async (): Promise<void> => {
       if (!this.useRemoteSource) {
@@ -83,17 +106,8 @@ export class TraitDataService {
       .when(persist())
       .then(() => {
         this.lastError = null;
-        if (!this.cache) {
-          this.cache = [traitCopy];
-        } else {
-          const index = this.cache.findIndex((trait) => trait.id === traitCopy.id);
-          if (index >= 0) {
-            this.cache.splice(index, 1, traitCopy);
-          } else {
-            this.cache.push(traitCopy);
-          }
-        }
-        return this.cloneTrait(traitCopy);
+        this.updateLocalCache(traitCopy);
+        return cloneTrait(traitCopy);
       })
       .catch((error: Error) => {
         const err = error instanceof Error ? error : new Error(String(error));
@@ -106,12 +120,73 @@ export class TraitDataService {
     return this.lastError;
   }
 
-  private cloneTraits(traits: Trait[]): Trait[] {
-    return traits.map((trait) => ({ ...trait, signatureMoves: [...trait.signatureMoves] }));
+  private async loadTraits(): Promise<Trait[]> {
+    if (!this.useRemoteSource) {
+      return this.updateCache(getSampleTraits(), 'mock');
+    }
+
+    try {
+      const endpoint = this.endpointOverride ?? TRAIT_DATA_ENDPOINT;
+      const traits = await fetchTraitsFromMonorepo(endpoint);
+      this.lastError = null;
+      return this.updateCache(traits, 'remote');
+    } catch (error) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      this.lastError = err;
+      const fallback = getSampleTraits();
+      return this.updateCache(fallback, 'fallback');
+    }
   }
 
-  private cloneTrait(trait: Trait): Trait {
-    return { ...trait, signatureMoves: [...trait.signatureMoves] };
+  private updateCache(traits: Trait[], source: TraitCacheSource): Trait[] {
+    const canonical = cloneTraits(traits);
+    this.cache = {
+      traits: canonical,
+      source,
+      timestamp: Date.now(),
+    };
+    this.fallbackExpiry = source === 'fallback' ? Date.now() + FALLBACK_CACHE_TTL_MS : null;
+    return cloneTraits(this.cache.traits);
+  }
+
+  private updateLocalCache(trait: Trait): void {
+    if (!this.cache) {
+      const source: TraitCacheSource = this.useRemoteSource ? 'remote' : 'mock';
+      this.cache = { traits: [cloneTrait(trait)], source, timestamp: Date.now() };
+      this.fallbackExpiry = source === 'fallback' ? Date.now() + FALLBACK_CACHE_TTL_MS : null;
+      return;
+    }
+
+    const updated = cloneTrait(trait);
+    const index = this.cache.traits.findIndex((item) => item.id === updated.id);
+    if (index >= 0) {
+      this.cache.traits.splice(index, 1, updated);
+    } else {
+      this.cache.traits.push(updated);
+    }
+    this.cache.timestamp = Date.now();
+    if (this.cache.source === 'fallback') {
+      this.fallbackExpiry = Date.now() + FALLBACK_CACHE_TTL_MS;
+    }
+  }
+
+  private isCacheUsable(forceRemote: boolean): boolean {
+    if (!this.cache) {
+      return false;
+    }
+
+    if (forceRemote) {
+      return false;
+    }
+
+    if (this.cache.source === 'fallback') {
+      if (this.fallbackExpiry === null) {
+        return false;
+      }
+      return Date.now() <= this.fallbackExpiry;
+    }
+
+    return true;
   }
 
   private buildRemoteMutationEndpoint(baseEndpoint: string, id: string): string | null {
