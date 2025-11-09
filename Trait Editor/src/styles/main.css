@@ -546,6 +546,30 @@ body {
   color: #ff9d9d;
 }
 
+.form-field-group {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.form-field--checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.form-field--checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.form-field--checkbox input {
+  width: auto;
+  margin: 0;
+}
+
 .signature-moves {
   display: flex;
   flex-direction: column;
@@ -556,6 +580,27 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.nested-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.nested-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nested-list__title {
+  margin: 0;
+  font-size: 1rem;
 }
 
 .signature-moves__controls {
