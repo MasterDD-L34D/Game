@@ -5,6 +5,7 @@ const fs = require('node:fs/promises');
 const request = require('supertest');
 
 const { createApp } = require('../../server/app');
+const { signJwt } = require('../../server/utils/jwt');
 
 const SAMPLE_TRAIT = path.resolve(
   __dirname,
@@ -16,15 +17,34 @@ const SAMPLE_TRAIT = path.resolve(
   'circolazione_cooling_loop.json',
 );
 
+const AUTH_SECRET = 'test-secret';
+
+function buildAuthToken(roles) {
+  return signJwt({ sub: 'tester', roles }, AUTH_SECRET, { expiresIn: '1h' });
+}
+
+function createAuthenticatedApp() {
+  const { app } = createApp({
+    traits: {
+      auth: {
+        secret: AUTH_SECRET,
+      },
+    },
+  });
+  return app;
+}
+
 test('POST /api/traits/validate restituisce suggerimenti stile', async () => {
   const payload = JSON.parse(await fs.readFile(SAMPLE_TRAIT, 'utf8'));
   payload.label = 'Circolazione Cooling Loop';
   payload.tier = 't1';
 
-  const { app } = createApp({ traits: { token: null } });
+  const app = createAuthenticatedApp();
+  const token = buildAuthToken(['reviewer']);
 
   const response = await request(app)
     .post('/api/traits/validate')
+    .set('Authorization', `Bearer ${token}`)
     .send({ payload })
     .expect(200);
 
@@ -45,10 +65,12 @@ test('POST /api/traits/validate restituisce suggerimenti stile', async () => {
 });
 
 test('POST /api/traits/validate segnala errori schema quando il payload è incompleto', async () => {
-  const { app } = createApp({ traits: { token: null } });
+  const app = createAuthenticatedApp();
+  const token = buildAuthToken(['reviewer']);
 
   const response = await request(app)
     .post('/api/traits/validate')
+    .set('Authorization', `Bearer ${token}`)
     .send({ payload: { label: 'Trait incompleto' } })
     .expect(200);
 

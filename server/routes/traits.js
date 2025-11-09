@@ -2,16 +2,34 @@ const express = require('express');
 const path = require('node:path');
 const { evaluateTraitStyle } = require('../services/traitStyleGuide');
 const { TraitRepository } = require('../services/traitRepository');
+const { createAuthHandlers } = require('../middleware/auth');
 
 function createTraitRouter(options = {}) {
   const router = express.Router();
   const dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
-  const repository = new TraitRepository({
-    dataRoot,
-    schemaPath: options.schemaPath,
-  });
-  const authToken =
-    options.token || process.env.TRAIT_EDITOR_TOKEN || process.env.TRAITS_API_TOKEN || null;
+  const repository =
+    options.repository ||
+    new TraitRepository({
+      dataRoot,
+      schemaPath: options.schemaPath,
+    });
+
+  const authConfig = {
+    token: options.token,
+    ...(options.auth || {}),
+  };
+  if (options.audit) {
+    authConfig.audit = options.audit;
+  }
+  const authHandlers = createAuthHandlers(authConfig);
+  const authenticate = authHandlers.authenticate;
+  const requireRoles = authHandlers.requireRoles;
+  const auditTrail = authHandlers.auditTrail;
+
+  const readAccess = [authenticate, requireRoles(['reviewer', 'editor', 'admin'])];
+  const validateAccess = [authenticate, requireRoles(['reviewer', 'editor', 'admin'])];
+  const editAccess = [authenticate, requireRoles(['editor', 'admin'])];
+  const adminAccess = [authenticate, requireRoles(['admin'])];
 
   function isAutoApplicableFix(fix) {
     if (!fix || typeof fix !== 'object') {
@@ -43,26 +61,6 @@ function createTraitRouter(options = {}) {
       return;
     }
     res.status(500).json({ error: error?.message || fallbackMessage });
-  }
-
-  function ensureAuthorised(req, res, next) {
-    if (!authToken) {
-      next();
-      return;
-    }
-    const headerToken = String(req.get('X-Trait-Editor-Token') || '').trim();
-    const bearerToken = String(req.get('Authorization') || '')
-      .replace(/^Bearer\s+/i, '')
-      .trim();
-    if (headerToken && headerToken === authToken) {
-      next();
-      return;
-    }
-    if (bearerToken && bearerToken === authToken) {
-      next();
-      return;
-    }
-    res.status(401).json({ error: 'Token mancante o non valido' });
   }
 
   function parseBoolean(input) {
@@ -136,7 +134,7 @@ function createTraitRouter(options = {}) {
     }
   });
 
-  router.post('/validate', ensureAuthorised, async (req, res) => {
+  router.post('/validate', ...validateAccess, async (req, res) => {
     const body = req.body && typeof req.body === 'object' ? req.body : {};
     const payload =
       body.payload && typeof body.payload === 'object'
@@ -220,7 +218,7 @@ function createTraitRouter(options = {}) {
     }
   });
 
-  router.get('/', ensureAuthorised, async (req, res) => {
+  router.get('/', ...readAccess, async (req, res) => {
     const includeDrafts = String(
       req.query.includeDrafts || req.query.include_drafts || 'false',
     ).toLowerCase();
@@ -233,7 +231,7 @@ function createTraitRouter(options = {}) {
     }
   });
 
-  router.get('/index', ensureAuthorised, async (req, res) => {
+  router.get('/index', ...readAccess, async (req, res) => {
     try {
       const index = await repository.getIndex();
       res.json({ index });
@@ -242,7 +240,7 @@ function createTraitRouter(options = {}) {
     }
   });
 
-  router.post('/', ensureAuthorised, async (req, res) => {
+  router.post('/', ...editAccess, async (req, res) => {
     const body = req.body && typeof req.body === 'object' ? req.body : {};
     const traitPayload =
       body.trait && typeof body.trait === 'object'
@@ -266,12 +264,17 @@ function createTraitRouter(options = {}) {
         res.set('ETag', created.meta.etag);
       }
       res.status(201).json(created);
+      await auditTrail(req, 'trait.create', {
+        traitId: created?.meta?.id || null,
+        category: created?.meta?.category || null,
+        draft: Boolean(created?.meta?.isDraft),
+      });
     } catch (error) {
       handleError(res, error, 'Errore creazione trait');
     }
   });
 
-  router.post('/clone', ensureAuthorised, async (req, res) => {
+  router.post('/clone', ...editAccess, async (req, res) => {
     const body = req.body && typeof req.body === 'object' ? req.body : {};
     const sourceId = String(body.sourceId || body.source || '').trim();
     if (!sourceId) {
@@ -292,12 +295,18 @@ function createTraitRouter(options = {}) {
         res.set('ETag', cloned.meta.etag);
       }
       res.status(201).json(cloned);
+      await auditTrail(req, 'trait.clone', {
+        sourceId,
+        traitId: cloned?.meta?.id || null,
+        category: cloned?.meta?.category || null,
+        draft: Boolean(cloned?.meta?.isDraft),
+      });
     } catch (error) {
       handleError(res, error, 'Errore clonazione trait');
     }
   });
 
-  router.get('/:traitId/versions', ensureAuthorised, async (req, res) => {
+  router.get('/:traitId/versions', ...readAccess, async (req, res) => {
     try {
       const versions = await repository.listTraitVersions(req.params.traitId);
       res.json({ versions });
@@ -306,7 +315,7 @@ function createTraitRouter(options = {}) {
     }
   });
 
-  router.get('/:traitId/versions/:versionId', ensureAuthorised, async (req, res) => {
+  router.get('/:traitId/versions/:versionId', ...readAccess, async (req, res) => {
     try {
       const version = await repository.getTraitVersion(
         req.params.traitId,
@@ -321,7 +330,7 @@ function createTraitRouter(options = {}) {
     }
   });
 
-  router.post('/:traitId/versions/:versionId/restore', ensureAuthorised, async (req, res) => {
+  router.post('/:traitId/versions/:versionId/restore', ...editAccess, async (req, res) => {
     const body = req.body && typeof req.body === 'object' ? req.body : {};
     try {
       const author = resolveAuthor(req, body);
@@ -340,12 +349,16 @@ function createTraitRouter(options = {}) {
         res.set('ETag', restored.meta.etag);
       }
       res.json(restored);
+      await auditTrail(req, 'trait.restore', {
+        traitId: req.params.traitId,
+        versionId: req.params.versionId,
+      });
     } catch (error) {
       handleError(res, error, 'Errore ripristino versione trait');
     }
   });
 
-  router.get('/:traitId', ensureAuthorised, async (req, res) => {
+  router.get('/:traitId', ...readAccess, async (req, res) => {
     try {
       const result = await repository.getTrait(req.params.traitId);
       if (result?.meta?.etag) {
@@ -357,7 +370,7 @@ function createTraitRouter(options = {}) {
     }
   });
 
-  router.put('/:traitId', ensureAuthorised, async (req, res) => {
+  router.put('/:traitId', ...editAccess, async (req, res) => {
     const payload = req.body || {};
     if (!payload || typeof payload !== 'object') {
       res.status(400).json({ error: 'Payload JSON richiesto' });
@@ -376,16 +389,24 @@ function createTraitRouter(options = {}) {
         res.set('ETag', updated.meta.etag);
       }
       res.json(updated);
+      await auditTrail(req, 'trait.update', {
+        traitId: req.params.traitId,
+        version: updated?.meta?.version || null,
+        draft: Boolean(updated?.meta?.isDraft),
+      });
     } catch (error) {
       handleError(res, error, 'Errore salvataggio trait');
     }
   });
 
-  router.delete('/:traitId', ensureAuthorised, async (req, res) => {
+  router.delete('/:traitId', ...adminAccess, async (req, res) => {
     try {
       const author = resolveAuthor(req, null);
       const deleted = await repository.deleteTrait(req.params.traitId, { author });
       res.json(deleted);
+      await auditTrail(req, 'trait.delete', {
+        traitId: req.params.traitId,
+      });
     } catch (error) {
       handleError(res, error, 'Errore eliminazione trait');
     }
