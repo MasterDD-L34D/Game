@@ -6,6 +6,7 @@ import { registerTraitDetailPage } from './pages/trait-detail/trait-detail.page'
 import { registerTraitEditorPage } from './pages/trait-editor/trait-editor.page';
 import { registerTraitStateService } from './services/trait-state.service';
 import { registerTraitPreviewComponent } from './components/trait-preview/trait-preview.component';
+import { registerTraitValidationPanelComponent } from './components/trait-validation-panel/trait-validation-panel.component';
 
 export function registerAppModule(): any {
   const module = angular
@@ -42,6 +43,7 @@ export function registerAppModule(): any {
   registerTraitDetailPage(module);
   registerTraitEditorPage(module);
   registerTraitPreviewComponent(module);
+  registerTraitValidationPanelComponent(module);
 
   module.component('appRoot', {
     template: `

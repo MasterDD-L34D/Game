@@ -1,14 +1,26 @@
 import type { Trait, TraitRequirement, TraitSpeciesAffinity } from '../../types/trait';
+import type {
+  TraitValidationAutoFix,
+  TraitValidationAutoFixOperation,
+  TraitValidationResult,
+} from '../../types/trait-validation';
 import { TraitDataService } from '../../services/trait-data.service';
 import { TraitStateService, type TraitUiState } from '../../services/trait-state.service';
-import { cloneTrait, mergeTrait, synchroniseTraitPresentation } from '../../utils/trait-helpers';
+import { cloneTrait, deepClone, mergeTrait, synchroniseTraitPresentation } from '../../utils/trait-helpers';
+
+type PointerSegment = string | number | { append: true };
 
 interface TraitFormModel extends Trait {}
 
-class TraitEditorController {
+export class TraitEditorController {
   public trait: Trait | null = null;
   public formModel: TraitFormModel | null = null;
   public ui: TraitUiState = { isLoading: false, status: null, previewTrait: null };
+  public validationResult: TraitValidationResult | null = null;
+  public validationError: string | null = null;
+  public isValidating = false;
+  private autoFixHistory: TraitFormModel[] = [];
+  private isApplyingAutoFix = false;
 
   static $inject = ['$routeParams', '$scope', '$location', '$timeout', 'TraitDataService', 'TraitStateService'];
 
@@ -231,8 +243,92 @@ class TraitEditorController {
   }
 
   onFormChange(): void {
+    if (!this.isApplyingAutoFix) {
+      this.resetValidationFeedback();
+    }
     this.syncFormModel();
     this.propagatePreview();
+  }
+
+  validateCurrentTrait(): void {
+    if (!this.formModel) {
+      return;
+    }
+
+    const baseline = this.trait ? mergeTrait(this.trait, this.formModel) : cloneTrait(this.formModel);
+    const payload = synchroniseTraitPresentation(baseline);
+
+    this.validationResult = null;
+    this.validationError = null;
+    this.isValidating = true;
+
+    this.dataService
+      .validateTrait(payload)
+      .then((result) => {
+        this.validationResult = result;
+      })
+      .catch((error: Error) => {
+        console.error('Errore durante la validazione del tratto:', error);
+        const message =
+          error?.message ?? 'Si è verificato un errore imprevisto durante la validazione del tratto.';
+        this.validationError = message;
+      })
+      .finally(() => {
+        this.isValidating = false;
+        this.notifyScope();
+      });
+  }
+
+  applyValidationFix(fix: TraitValidationAutoFix): void {
+    if (!this.formModel) {
+      return;
+    }
+
+    const snapshot = this.cloneFormModel(this.formModel);
+    this.autoFixHistory.push(snapshot);
+
+    const workingCopy = this.cloneFormModel(this.formModel);
+    this.isApplyingAutoFix = true;
+    try {
+      const updated = this.applyAutoFixOperations(workingCopy, fix);
+      this.formModel = this.ensureCollections(updated);
+      this.syncFormModel();
+      this.propagatePreview();
+    } finally {
+      this.isApplyingAutoFix = false;
+    }
+
+    this.notifyScope();
+    this.resetValidationFeedback({ preserveHistory: true });
+    this.validateCurrentTrait();
+  }
+
+  canUndoAutoFix(): boolean {
+    return this.autoFixHistory.length > 0;
+  }
+
+  undoLastAutoFix(): void {
+    if (!this.formModel || this.autoFixHistory.length === 0) {
+      return;
+    }
+
+    const previous = this.autoFixHistory.pop();
+    if (!previous) {
+      return;
+    }
+
+    this.isApplyingAutoFix = true;
+    try {
+      this.formModel = this.cloneFormModel(previous);
+      this.syncFormModel();
+      this.propagatePreview();
+    } finally {
+      this.isApplyingAutoFix = false;
+    }
+
+    this.notifyScope();
+    this.resetValidationFeedback({ preserveHistory: true });
+    this.validateCurrentTrait();
   }
 
   canConfirm(editorForm: any): boolean {
@@ -255,6 +351,7 @@ class TraitEditorController {
         this.trait = savedTrait;
         this.formModel = this.prepareFormModel(savedTrait);
         this.stateService.setPreviewTrait(this.formModel);
+        this.resetValidationFeedback();
         this.stateService.setStatus('Modifiche salvate con successo.', 'success');
         this.$timeout(() => this.stateService.setStatus(null), 3000);
         this.$location.path(`/traits/${savedTrait.id}`);
@@ -279,6 +376,7 @@ class TraitEditorController {
     this.formModel = this.prepareFormModel(this.trait);
     this.stateService.setPreviewTrait(this.formModel);
     this.stateService.setStatus(null);
+    this.resetValidationFeedback();
     this.$location.path(`/traits/${this.trait.id}`);
   }
 
@@ -292,6 +390,7 @@ class TraitEditorController {
 
   private loadTrait(id: string): void {
     this.stateService.setStatus(null);
+    this.resetValidationFeedback();
     this.stateService.setLoading(true);
 
     this.dataService
@@ -308,6 +407,7 @@ class TraitEditorController {
         this.trait = trait;
         this.formModel = this.prepareFormModel(trait);
         this.stateService.setPreviewTrait(this.formModel);
+        this.resetValidationFeedback();
         const lastError = this.dataService.getLastError();
         if (lastError) {
           this.stateService.setStatus('Modifica locale: la sorgente remota non è stata raggiunta.', 'info');
@@ -318,6 +418,7 @@ class TraitEditorController {
         this.stateService.setStatus('Non è stato possibile preparare il tratto per la modifica.', 'error');
         this.trait = null;
         this.formModel = null;
+        this.resetValidationFeedback();
       })
       .finally(() => {
         this.stateService.setLoading(false);
@@ -407,6 +508,249 @@ class TraitEditorController {
   private syncFormModel(): void {
     if (this.formModel) {
       synchroniseTraitPresentation(this.formModel);
+    }
+  }
+
+  private resetValidationFeedback(options?: { preserveHistory?: boolean; preserveLoading?: boolean }): void {
+    this.validationResult = null;
+    this.validationError = null;
+    if (!options?.preserveLoading) {
+      this.isValidating = false;
+    }
+    if (!options?.preserveHistory) {
+      this.autoFixHistory = [];
+    }
+  }
+
+  private cloneFormModel(model: TraitFormModel): TraitFormModel {
+    return this.ensureCollections(cloneTrait(model));
+  }
+
+  private applyAutoFixOperations(model: TraitFormModel, fix: TraitValidationAutoFix): TraitFormModel {
+    const result = this.cloneFormModel(model);
+    fix.operations.forEach((operation) => {
+      const segments = this.parsePointer(operation.path);
+      if (!segments || segments.length === 0) {
+        return;
+      }
+      this.applyOperationSegments(result, segments, operation);
+    });
+    return this.ensureCollections(result);
+  }
+
+  private applyOperationSegments(
+    target: unknown,
+    segments: PointerSegment[],
+    operation: TraitValidationAutoFixOperation,
+  ): void {
+    if (!segments.length) {
+      return;
+    }
+
+    const [head, ...tail] = segments;
+    if (tail.length === 0) {
+      this.applyOperationAtLeaf(target, head, operation);
+      return;
+    }
+
+    const next = this.resolveChildTarget(target, head, tail[0], operation);
+    if (next === undefined) {
+      return;
+    }
+
+    this.applyOperationSegments(next, tail, operation);
+  }
+
+  private resolveChildTarget(
+    target: unknown,
+    segment: PointerSegment,
+    nextSegment: PointerSegment | undefined,
+    operation: TraitValidationAutoFixOperation,
+  ): unknown {
+    if (Array.isArray(target)) {
+      const index = this.resolveArrayIndex(segment, target.length, operation.op === 'add');
+      if (index === null) {
+        return undefined;
+      }
+
+      if (index === target.length) {
+        if (operation.op !== 'add') {
+          return undefined;
+        }
+        const container = this.createContainerForSegment(nextSegment);
+        target.push(container);
+        return container;
+      }
+
+      if (target[index] === undefined && operation.op === 'add') {
+        target[index] = this.createContainerForSegment(nextSegment);
+      }
+
+      return target[index];
+    }
+
+    if (!target || typeof target !== 'object') {
+      return undefined;
+    }
+
+    const key = this.resolveObjectKey(segment);
+    if (key === null) {
+      return undefined;
+    }
+
+    const record = target as Record<string, unknown>;
+    if (!(key in record) || record[key] === undefined) {
+      if (operation.op === 'add' && nextSegment !== undefined) {
+        record[key] = this.createContainerForSegment(nextSegment);
+      } else if (Array.isArray(record[key])) {
+        // keep array as is
+      } else if (typeof nextSegment === 'number' || (nextSegment && typeof nextSegment === 'object')) {
+        record[key] = record[key] ?? [];
+      } else if (nextSegment !== undefined) {
+        record[key] = record[key] ?? {};
+      }
+    }
+
+    return record[key];
+  }
+
+  private createContainerForSegment(segment: PointerSegment | undefined): unknown {
+    if (segment === undefined) {
+      return {};
+    }
+
+    if (typeof segment === 'number') {
+      return [];
+    }
+
+    if (typeof segment === 'object' && 'append' in segment) {
+      return [];
+    }
+
+    return {};
+  }
+
+  private applyOperationAtLeaf(
+    target: unknown,
+    segment: PointerSegment,
+    operation: TraitValidationAutoFixOperation,
+  ): void {
+    if (Array.isArray(target)) {
+      const allowAppend = operation.op === 'add';
+      const index = this.resolveArrayIndex(segment, target.length, allowAppend);
+      if (index === null) {
+        return;
+      }
+
+      if (operation.op === 'remove') {
+        if (index >= 0 && index < target.length) {
+          target.splice(index, 1);
+        }
+        return;
+      }
+
+      const value = operation.value === undefined ? undefined : deepClone(operation.value);
+      const insertIndex = allowAppend ? Math.min(index, target.length) : index;
+
+      if (operation.op === 'add') {
+        target.splice(insertIndex, 0, value);
+        return;
+      }
+
+      if (insertIndex >= 0 && insertIndex < target.length) {
+        target[insertIndex] = value;
+      }
+      return;
+    }
+
+    if (!target || typeof target !== 'object') {
+      return;
+    }
+
+    const key = this.resolveObjectKey(segment);
+    if (key === null) {
+      return;
+    }
+
+    const record = target as Record<string, unknown>;
+    if (operation.op === 'remove') {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete record[key];
+      return;
+    }
+
+    record[key] = operation.value === undefined ? undefined : deepClone(operation.value);
+  }
+
+  private resolveArrayIndex(
+    segment: PointerSegment,
+    length: number,
+    allowAppend: boolean,
+  ): number | null {
+    if (typeof segment === 'number') {
+      if (segment < 0) {
+        return null;
+      }
+      if (segment > length && !(allowAppend && segment === length)) {
+        return null;
+      }
+      return segment;
+    }
+
+    if (typeof segment === 'object' && 'append' in segment) {
+      return allowAppend ? length : null;
+    }
+
+    if (typeof segment === 'string') {
+      if (!/^[0-9]+$/.test(segment)) {
+        return null;
+      }
+      const parsed = Number(segment);
+      if (parsed > length && !(allowAppend && parsed === length)) {
+        return null;
+      }
+      return parsed;
+    }
+
+    return null;
+  }
+
+  private resolveObjectKey(segment: PointerSegment): string | null {
+    if (typeof segment === 'object') {
+      return null;
+    }
+
+    if (typeof segment === 'number') {
+      return String(segment);
+    }
+
+    return segment;
+  }
+
+  private parsePointer(path: string): PointerSegment[] | null {
+    if (!path || typeof path !== 'string' || !path.startsWith('/')) {
+      return null;
+    }
+
+    const segments = path
+      .split('/')
+      .slice(1)
+      .map((segment) => segment.replace(/~1/g, '/').replace(/~0/g, '~'));
+
+    return segments.map((segment) => {
+      if (segment === '-') {
+        return { append: true } as const;
+      }
+      if (/^[0-9]+$/.test(segment)) {
+        return Number(segment);
+      }
+      return segment;
+    });
+  }
+
+  private notifyScope(): void {
+    if (this.$scope && typeof this.$scope.$applyAsync === 'function') {
+      this.$scope.$applyAsync();
     }
   }
 }
@@ -1104,6 +1448,14 @@ export const registerTraitEditorPage = (module: any): void => {
             </fieldset>
 
             <div class="trait-form__actions">
+              <button
+                type="button"
+                class="button button--ghost"
+                ng-click="$ctrl.validateCurrentTrait()"
+                ng-disabled="!$ctrl.formModel || $ctrl.isValidating"
+              >
+                Valida tratto
+              </button>
               <button type="submit" class="button" ng-disabled="!$ctrl.canConfirm(editorForm)">
                 Conferma modifiche
               </button>
@@ -1116,6 +1468,14 @@ export const registerTraitEditorPage = (module: any): void => {
           <aside class="editor-layout__preview">
             <h2 class="editor-layout__title">Anteprima live</h2>
             <trait-preview trait="$ctrl.formModel"></trait-preview>
+            <trait-validation-panel
+              result="$ctrl.validationResult"
+              is-loading="$ctrl.isValidating"
+              error="$ctrl.validationError"
+              can-undo="$ctrl.canUndoAutoFix()"
+              on-apply-fix="$ctrl.applyValidationFix(fix)"
+              on-undo="$ctrl.undoLastAutoFix()"
+            ></trait-validation-panel>
           </aside>
         </div>
       </section>

@@ -4,6 +4,13 @@ import {
   getSampleTraits,
 } from '../data/traits.sample';
 import type { Trait, TraitIndexEntry } from '../types/trait';
+import type {
+  TraitValidationAutoFix,
+  TraitValidationAutoFixOperation,
+  TraitValidationIssue,
+  TraitValidationResult,
+  TraitValidationSeverity,
+} from '../types/trait-validation';
 import { cloneTrait, cloneTraits, synchroniseTraitPresentation } from '../utils/trait-helpers';
 
 export const FALLBACK_CACHE_TTL_MS = 60_000;
@@ -181,6 +188,18 @@ export class TraitDataService {
     return this.lastError;
   }
 
+  validateTrait(trait: Trait): Promise<TraitValidationResult> {
+    const candidate = cloneTrait(trait);
+    synchroniseTraitPresentation(candidate);
+
+    return this.$q
+      .when(this.performTraitValidation(candidate))
+      .catch((error: Error) => {
+        const err = error instanceof Error ? error : new Error(String(error));
+        return this.$q.reject(err);
+      });
+  }
+
   private async loadTraits(): Promise<Trait[]> {
     if (!this.useRemoteSource) {
       return this.updateCache(getSampleTraits(), 'mock');
@@ -196,6 +215,40 @@ export class TraitDataService {
       this.lastError = err;
       const fallback = getSampleTraits();
       return this.updateCache(fallback, 'fallback');
+    }
+  }
+
+  private async performTraitValidation(trait: Trait): Promise<TraitValidationResult> {
+    if (!this.useRemoteSource) {
+      return this.createEmptyValidationResult();
+    }
+
+    const endpoint = this.endpointOverride ?? TRAIT_DATA_ENDPOINT;
+    const target = this.buildValidationEndpoint(endpoint);
+
+    if (!target) {
+      throw new Error('Endpoint di validazione non configurato.');
+    }
+
+    const payload = this.createMutationPayload(trait);
+    const response = await this.fetchWithAuth(target, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw await this.buildRemoteValidationError(response);
+    }
+
+    try {
+      const result = await response.json();
+      return this.normaliseValidationResult(result);
+    } catch (error) {
+      throw new Error(`Impossibile interpretare la risposta della validazione: ${String(error)}`);
     }
   }
 
@@ -229,6 +282,240 @@ export class TraitDataService {
     if (this.cache.source === 'fallback') {
       this.fallbackExpiry = Date.now() + FALLBACK_CACHE_TTL_MS;
     }
+  }
+
+  private buildValidationEndpoint(baseEndpoint: string): string | null {
+    if (!baseEndpoint || typeof baseEndpoint !== 'string') {
+      return null;
+    }
+
+    const trimmed = baseEndpoint.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    const queryIndex = trimmed.indexOf('?');
+    const query = queryIndex >= 0 ? trimmed.slice(queryIndex) : '';
+    const cleanQuery = query && !query.startsWith('?') ? `?${query}` : query;
+    const apiPath = `/api/traits/validate`;
+
+    if (this.isAbsoluteUrl(trimmed)) {
+      try {
+        const base = new URL(trimmed);
+        const target = new URL(apiPath, `${base.protocol}//${base.host}`);
+        target.search = cleanQuery;
+        return target.toString();
+      } catch (error) {
+        console.warn('Impossibile costruire endpoint di validazione assoluto', error);
+        return null;
+      }
+    }
+
+    if (trimmed.startsWith('/')) {
+      return `${apiPath}${cleanQuery}`;
+    }
+
+    if (this.locationOrigin) {
+      try {
+        const base = new URL(trimmed, this.locationOrigin);
+        const target = new URL(apiPath, this.locationOrigin);
+        target.search = cleanQuery || base.search;
+        return target.toString();
+      } catch (error) {
+        console.warn('Impossibile costruire endpoint di validazione relativo', error);
+      }
+    }
+
+    return `${apiPath}${cleanQuery}`;
+  }
+
+  private normaliseValidationResult(payload: unknown): TraitValidationResult {
+    if (!payload || typeof payload !== 'object') {
+      return this.createEmptyValidationResult();
+    }
+
+    const record = payload as Record<string, unknown>;
+    const issuesRaw = Array.isArray(record.issues) ? record.issues : [];
+    const issues = issuesRaw
+      .map((issue, index) => this.normaliseValidationIssue(issue, index))
+      .filter((issue): issue is TraitValidationIssue => Boolean(issue));
+
+    const summary = this.normaliseValidationSummary(record.summary, issues);
+    return { issues, summary };
+  }
+
+  private normaliseValidationIssue(source: unknown, index: number): TraitValidationIssue | null {
+    if (!source || typeof source !== 'object') {
+      return null;
+    }
+
+    const record = source as Record<string, unknown>;
+    const severity = this.normaliseValidationSeverity(record.severity);
+    const rawMessage = typeof record.message === 'string' ? record.message.trim() : '';
+
+    if (!severity || !rawMessage) {
+      return null;
+    }
+
+    const idCandidate = typeof record.id === 'string' && record.id.trim() ? record.id.trim() : null;
+    const id = idCandidate ?? `${severity}-${index}`;
+    const code = typeof record.code === 'string' && record.code.trim() ? record.code.trim() : undefined;
+    const path = typeof record.path === 'string' && record.path.trim() ? record.path.trim() : undefined;
+
+    const fixesRaw = Array.isArray(record.autoFixes) ? record.autoFixes : [];
+    const autoFixes = fixesRaw
+      .map((fix, fixIndex) => this.normaliseValidationAutoFix(fix, `${id}-${fixIndex}`))
+      .filter((fix): fix is TraitValidationAutoFix => Boolean(fix));
+
+    return {
+      id,
+      severity,
+      message: rawMessage,
+      code,
+      path,
+      autoFixes,
+    };
+  }
+
+  private normaliseValidationAutoFix(source: unknown, fallbackId: string): TraitValidationAutoFix | null {
+    if (!source || typeof source !== 'object') {
+      return null;
+    }
+
+    const record = source as Record<string, unknown>;
+    const operationsRaw = Array.isArray(record.operations) ? record.operations : [];
+    const operations = operationsRaw
+      .map((operation) => this.normaliseValidationAutoFixOperation(operation))
+      .filter((operation): operation is TraitValidationAutoFixOperation => Boolean(operation));
+
+    if (operations.length === 0) {
+      return null;
+    }
+
+    const id = typeof record.id === 'string' && record.id.trim() ? record.id.trim() : fallbackId;
+    const labelCandidate = typeof record.label === 'string' && record.label.trim() ? record.label.trim() : null;
+    const descriptionCandidate =
+      typeof record.description === 'string' && record.description.trim() ? record.description.trim() : null;
+    const label = labelCandidate ?? descriptionCandidate ?? 'Correzione automatica';
+
+    return {
+      id,
+      label,
+      description: descriptionCandidate ?? undefined,
+      operations,
+    };
+  }
+
+  private normaliseValidationAutoFixOperation(source: unknown): TraitValidationAutoFixOperation | null {
+    if (!source || typeof source !== 'object') {
+      return null;
+    }
+
+    const record = source as Record<string, unknown>;
+    const opCandidate = typeof record.op === 'string' ? record.op.trim().toLowerCase() : '';
+    if (opCandidate !== 'add' && opCandidate !== 'replace' && opCandidate !== 'remove') {
+      return null;
+    }
+
+    const path = typeof record.path === 'string' && record.path.trim() ? record.path.trim() : '';
+    if (!path.startsWith('/')) {
+      return null;
+    }
+
+    const operation: TraitValidationAutoFixOperation = { op: opCandidate as TraitValidationAutoFixOperation['op'], path };
+
+    if (opCandidate !== 'remove') {
+      if ('value' in record) {
+        operation.value = record.value;
+      } else if ('newValue' in record) {
+        operation.value = (record as Record<string, unknown>).newValue;
+      } else if ('replacement' in record) {
+        operation.value = (record as Record<string, unknown>).replacement;
+      }
+    }
+
+    return operation;
+  }
+
+  private normaliseValidationSummary(
+    summary: unknown,
+    issues: TraitValidationIssue[],
+  ): TraitValidationResult['summary'] {
+    const fallback = this.countIssues(issues);
+
+    if (!summary || typeof summary !== 'object') {
+      return fallback;
+    }
+
+    const record = summary as Record<string, unknown>;
+    const parseCount = (value: unknown): number | null => {
+      if (typeof value === 'number' && Number.isFinite(value)) {
+        return Math.max(0, Math.floor(value));
+      }
+      if (typeof value === 'string') {
+        const parsed = Number(value);
+        if (!Number.isNaN(parsed)) {
+          return Math.max(0, Math.floor(parsed));
+        }
+      }
+      return null;
+    };
+
+    const errors =
+      parseCount(record.errors ?? record.error ?? record.errorCount ?? record.errori ?? record.falli) ?? fallback.errors;
+    const warnings =
+      parseCount(record.warnings ?? record.warning ?? record.warningCount ?? record.avvisi) ?? fallback.warnings;
+    const suggestions =
+      parseCount(
+        record.suggestions ?? record.suggestion ?? record.suggestionCount ?? record.infos ?? record.info ?? record.suggerimenti,
+      ) ?? fallback.suggestions;
+
+    return { errors, warnings, suggestions };
+  }
+
+  private countIssues(issues: TraitValidationIssue[]): TraitValidationResult['summary'] {
+    return issues.reduce(
+      (acc, issue) => {
+        if (issue.severity === 'error') {
+          acc.errors += 1;
+        } else if (issue.severity === 'warning') {
+          acc.warnings += 1;
+        } else {
+          acc.suggestions += 1;
+        }
+        return acc;
+      },
+      { errors: 0, warnings: 0, suggestions: 0 },
+    );
+  }
+
+  private normaliseValidationSeverity(candidate: unknown): TraitValidationSeverity | null {
+    if (typeof candidate !== 'string') {
+      return null;
+    }
+
+    const value = candidate.trim().toLowerCase();
+    if (!value) {
+      return null;
+    }
+
+    if (value === 'error' || value === 'errors' || value === 'critical' || value === 'critico') {
+      return 'error';
+    }
+
+    if (value === 'warning' || value === 'warn' || value === 'avviso') {
+      return 'warning';
+    }
+
+    if (value === 'suggestion' || value === 'suggestions' || value === 'info' || value === 'hint') {
+      return 'suggestion';
+    }
+
+    return null;
+  }
+
+  private createEmptyValidationResult(): TraitValidationResult {
+    return { summary: { errors: 0, warnings: 0, suggestions: 0 }, issues: [] };
   }
 
   private isCacheUsable(forceRemote: boolean): boolean {
@@ -666,6 +953,20 @@ export class TraitDataService {
     } catch (error) {
       console.warn('Impossibile sincronizzare il tratto dopo un conflitto', error);
     }
+  }
+
+  private async buildRemoteValidationError(response: Response): Promise<Error> {
+    let message = `La validazione remota è fallita con stato ${response.status}.`;
+    try {
+      const payload = await response.json();
+      if (payload?.error && typeof payload.error === 'string') {
+        message = payload.error;
+      }
+    } catch (error) {
+      console.warn('Impossibile leggere il messaggio di errore della validazione', error);
+    }
+
+    return new Error(message);
   }
 
   private async buildRemoteError(response: Response, id: string): Promise<Error> {
