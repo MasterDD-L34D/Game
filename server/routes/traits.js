@@ -78,6 +78,55 @@ function createTraitRouter(options = {}) {
     return Boolean(input);
   }
 
+  function normaliseString(value) {
+    if (typeof value !== 'string') {
+      return null;
+    }
+    const trimmed = value.trim();
+    return trimmed || null;
+  }
+
+  function extractMeta(payload) {
+    if (!payload || typeof payload !== 'object') {
+      return {};
+    }
+    const meta = payload.meta && typeof payload.meta === 'object' ? payload.meta : {};
+    return meta;
+  }
+
+  function resolveAuthor(req, payload) {
+    const meta = extractMeta(payload);
+    return (
+      normaliseString(req.get('X-Trait-Author')) ||
+      normaliseString(payload?.author) ||
+      normaliseString(meta.author) ||
+      null
+    );
+  }
+
+  function resolveExpectedVersion(req, payload) {
+    const meta = extractMeta(payload);
+    return (
+      normaliseString(meta.version) ||
+      normaliseString(payload?.expectedVersion) ||
+      normaliseString(req.get('X-Trait-Version')) ||
+      null
+    );
+  }
+
+  function resolveExpectedEtag(req, payload) {
+    const meta = extractMeta(payload);
+    const metaEtag = normaliseString(meta.etag) || normaliseString(payload?.expectedEtag);
+    const header = normaliseString(req.get('If-Match'));
+    if (metaEtag) {
+      return metaEtag;
+    }
+    if (!header || header === '*') {
+      return null;
+    }
+    return header.replace(/^W\//i, '');
+  }
+
   router.get('/schema', async (req, res) => {
     try {
       const schema = await repository.loadSchema();
@@ -206,11 +255,16 @@ function createTraitRouter(options = {}) {
       return;
     }
     try {
+      const author = resolveAuthor(req, traitPayload);
       const created = await repository.createTrait(traitPayload, {
         category: body.category || body.targetCategory || null,
         draft: parseBoolean(body.draft) || parseBoolean(body.isDraft),
         traitId: body.traitId || body.slug || body.id || null,
+        author,
       });
+      if (created?.meta?.etag) {
+        res.set('ETag', created.meta.etag);
+      }
       res.status(201).json(created);
     } catch (error) {
       handleError(res, error, 'Errore creazione trait');
@@ -226,21 +280,77 @@ function createTraitRouter(options = {}) {
     }
     const overrides = body.overrides && typeof body.overrides === 'object' ? body.overrides : {};
     try {
+      const author = resolveAuthor(req, body);
       const cloned = await repository.cloneTrait(sourceId, {
         overrides,
         category: body.category || body.targetCategory || overrides.category || null,
         draft: parseBoolean(body.draft),
         traitId: body.traitId || body.slug || overrides.traitId || overrides.slug || null,
+        author,
       });
+      if (cloned?.meta?.etag) {
+        res.set('ETag', cloned.meta.etag);
+      }
       res.status(201).json(cloned);
     } catch (error) {
       handleError(res, error, 'Errore clonazione trait');
     }
   });
 
+  router.get('/:traitId/versions', ensureAuthorised, async (req, res) => {
+    try {
+      const versions = await repository.listTraitVersions(req.params.traitId);
+      res.json({ versions });
+    } catch (error) {
+      handleError(res, error, 'Errore caricamento versioni trait');
+    }
+  });
+
+  router.get('/:traitId/versions/:versionId', ensureAuthorised, async (req, res) => {
+    try {
+      const version = await repository.getTraitVersion(
+        req.params.traitId,
+        req.params.versionId,
+      );
+      if (version?.meta?.etag) {
+        res.set('ETag', version.meta.etag);
+      }
+      res.json(version);
+    } catch (error) {
+      handleError(res, error, 'Errore caricamento versione trait');
+    }
+  });
+
+  router.post('/:traitId/versions/:versionId/restore', ensureAuthorised, async (req, res) => {
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
+    try {
+      const author = resolveAuthor(req, body);
+      const expectedVersion = resolveExpectedVersion(req, body);
+      const expectedEtag = resolveExpectedEtag(req, body);
+      const restored = await repository.restoreTraitVersion(
+        req.params.traitId,
+        req.params.versionId,
+        {
+          author,
+          expectedVersion,
+          expectedEtag,
+        },
+      );
+      if (restored?.meta?.etag) {
+        res.set('ETag', restored.meta.etag);
+      }
+      res.json(restored);
+    } catch (error) {
+      handleError(res, error, 'Errore ripristino versione trait');
+    }
+  });
+
   router.get('/:traitId', ensureAuthorised, async (req, res) => {
     try {
       const result = await repository.getTrait(req.params.traitId);
+      if (result?.meta?.etag) {
+        res.set('ETag', result.meta.etag);
+      }
       res.json(result);
     } catch (error) {
       handleError(res, error, 'Errore caricamento trait');
@@ -254,7 +364,17 @@ function createTraitRouter(options = {}) {
       return;
     }
     try {
-      const updated = await repository.updateTrait(req.params.traitId, payload);
+      const author = resolveAuthor(req, payload);
+      const expectedVersion = resolveExpectedVersion(req, payload);
+      const expectedEtag = resolveExpectedEtag(req, payload);
+      const updated = await repository.updateTrait(req.params.traitId, payload, {
+        author,
+        expectedVersion,
+        expectedEtag,
+      });
+      if (updated?.meta?.etag) {
+        res.set('ETag', updated.meta.etag);
+      }
       res.json(updated);
     } catch (error) {
       handleError(res, error, 'Errore salvataggio trait');
@@ -263,7 +383,8 @@ function createTraitRouter(options = {}) {
 
   router.delete('/:traitId', ensureAuthorised, async (req, res) => {
     try {
-      const deleted = await repository.deleteTrait(req.params.traitId);
+      const author = resolveAuthor(req, null);
+      const deleted = await repository.deleteTrait(req.params.traitId, { author });
       res.json(deleted);
     } catch (error) {
       handleError(res, error, 'Errore eliminazione trait');
