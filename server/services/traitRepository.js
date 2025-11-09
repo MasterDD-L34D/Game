@@ -11,12 +11,28 @@ const DEFAULT_SCHEMA_PATH = path.resolve(
   'trait.schema.json',
 );
 
+const DEFAULT_VERSION_RETENTION = {
+  maxEntries: 50,
+  maxAgeDays: 365,
+};
+
 class TraitRepository {
   constructor(options = {}) {
     this.dataRoot = options.dataRoot || path.resolve(__dirname, '..', '..', 'data');
     this.traitsRoot = path.join(this.dataRoot, 'traits');
     this.versionRoot = path.join(this.traitsRoot, '_versions');
     this.schemaPath = options.schemaPath || DEFAULT_SCHEMA_PATH;
+    const retention = options.versionRetention || {};
+    this.versionRetention = {
+      maxEntries:
+        typeof retention.maxEntries === 'number' && retention.maxEntries > 0
+          ? Math.floor(retention.maxEntries)
+          : DEFAULT_VERSION_RETENTION.maxEntries,
+      maxAgeDays:
+        typeof retention.maxAgeDays === 'number' && retention.maxAgeDays > 0
+          ? Number(retention.maxAgeDays)
+          : DEFAULT_VERSION_RETENTION.maxAgeDays,
+    };
     this.ajvOptions = {
       allErrors: true,
       strict: false,
@@ -87,6 +103,39 @@ class TraitRepository {
     return Boolean(value);
   }
 
+  static #normaliseString(value) {
+    if (typeof value !== 'string') {
+      return null;
+    }
+    const trimmed = value.trim();
+    return trimmed || null;
+  }
+
+  static #generateEtagFromStat(stat) {
+    const sizeHex = Number(stat.size || 0).toString(16);
+    const mtimeHex = Math.floor(Number(stat.mtimeMs || Date.now())).toString(16);
+    return `"${sizeHex}-${mtimeHex}"`;
+  }
+
+  static #parseDateLike(value) {
+    if (typeof value !== 'string' || !value) {
+      return Number.NaN;
+    }
+    const direct = Date.parse(value);
+    if (!Number.isNaN(direct)) {
+      return direct;
+    }
+    const restored = value.replace(
+      /^(\d{4}-\d{2}-\d{2})T(\d{2})-(\d{2})-(\d{2})-(\d{3})Z$/,
+      '$1T$2:$3:$4.$5Z',
+    );
+    const reparsed = Date.parse(restored);
+    if (!Number.isNaN(reparsed)) {
+      return reparsed;
+    }
+    return Number.NaN;
+  }
+
   async #readJsonFile(filePath, fallback = null) {
     try {
       const content = await fs.readFile(filePath, 'utf8');
@@ -103,6 +152,171 @@ class TraitRepository {
     const directory = path.dirname(filePath);
     await fs.mkdir(directory, { recursive: true });
     await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  }
+
+  async #getFileState(filePath) {
+    const stat = await fs.stat(filePath);
+    const savedAt = stat.mtime.toISOString();
+    return {
+      savedAt,
+      version: savedAt,
+      etag: TraitRepository.#generateEtagFromStat(stat),
+    };
+  }
+
+  #normaliseMetadata(rawPayload, overrides = {}) {
+    const meta =
+      rawPayload &&
+      typeof rawPayload === 'object' &&
+      rawPayload.meta &&
+      typeof rawPayload.meta === 'object'
+        ? rawPayload.meta
+        : {};
+    const author =
+      TraitRepository.#normaliseString(overrides.author) ||
+      TraitRepository.#normaliseString(meta.author);
+    const version =
+      TraitRepository.#normaliseString(overrides.version) ||
+      TraitRepository.#normaliseString(meta.version);
+    const etag =
+      TraitRepository.#normaliseString(overrides.etag) ||
+      TraitRepository.#normaliseString(meta.etag);
+    return {
+      author: author || null,
+      version: version || null,
+      etag: etag || null,
+    };
+  }
+
+  async #ensureVersionDirectory(traitId) {
+    const directory = path.join(this.versionRoot, traitId);
+    await fs.mkdir(directory, { recursive: true });
+    return directory;
+  }
+
+  async #loadVersionManifest(traitId) {
+    const manifestPath = path.join(this.versionRoot, traitId, 'manifest.json');
+    const loaded = await this.#readJsonFile(manifestPath, null);
+    let entries = Array.isArray(loaded?.entries) ? loaded.entries.filter(Boolean) : [];
+    const directory = path.join(this.versionRoot, traitId);
+    let directoryEntries = [];
+    try {
+      directoryEntries = await fs.readdir(directory, { withFileTypes: true });
+    } catch (error) {
+      if (!error || error.code !== 'ENOENT') {
+        throw error;
+      }
+      return { entries: [] };
+    }
+    const knownIds = new Set(entries.map((entry) => entry.id));
+    for (const entry of directoryEntries) {
+      if (!entry.isFile()) {
+        continue;
+      }
+      if (!entry.name.endsWith('.json')) {
+        continue;
+      }
+      if (entry.name === 'manifest.json') {
+        continue;
+      }
+      const id = entry.name.replace(/\.json$/i, '');
+      if (knownIds.has(id)) {
+        continue;
+      }
+      entries.push({
+        id,
+        createdAt: null,
+        author: null,
+        version: null,
+        etag: null,
+        path: path.relative(this.dataRoot, path.join(directory, entry.name)),
+      });
+    }
+    return { entries };
+  }
+
+  async #saveVersionManifest(traitId, manifest) {
+    const manifestPath = path.join(this.versionRoot, traitId, 'manifest.json');
+    await this.#writeJsonFile(manifestPath, {
+      entries: Array.isArray(manifest.entries) ? manifest.entries : [],
+    });
+  }
+
+  async #applyRetention(traitId, entries) {
+    const now = Date.now();
+    const retention = this.versionRetention || {};
+    let filtered = entries.slice();
+    let removed = [];
+    if (retention.maxAgeDays && retention.maxAgeDays > 0) {
+      const maxAgeMs = Number(retention.maxAgeDays) * 24 * 60 * 60 * 1000;
+      const { keep, drop } = filtered.reduce(
+        (acc, entry) => {
+          const createdAtValue = TraitRepository.#parseDateLike(
+            entry.createdAt || entry.id || '',
+          );
+          if (Number.isNaN(createdAtValue) || now - createdAtValue <= maxAgeMs) {
+            acc.keep.push(entry);
+          } else {
+            acc.drop.push(entry);
+          }
+          return acc;
+        },
+        { keep: [], drop: [] },
+      );
+      filtered = keep;
+      removed = removed.concat(drop);
+    }
+    if (retention.maxEntries && retention.maxEntries > 0 && filtered.length > retention.maxEntries) {
+      const sorted = filtered.slice().sort((a, b) => {
+        const dateA = TraitRepository.#parseDateLike(a.createdAt || a.id || '');
+        const dateB = TraitRepository.#parseDateLike(b.createdAt || b.id || '');
+        if (Number.isNaN(dateA) && Number.isNaN(dateB)) {
+          return 0;
+        }
+        if (Number.isNaN(dateA)) {
+          return 1;
+        }
+        if (Number.isNaN(dateB)) {
+          return -1;
+        }
+        return dateB - dateA;
+      });
+      const keep = sorted.slice(0, retention.maxEntries);
+      const drop = sorted.slice(retention.maxEntries);
+      const keepIds = new Set(keep.map((entry) => entry.id));
+      filtered = filtered.filter((entry) => keepIds.has(entry.id));
+      removed = removed.concat(drop);
+    }
+    if (removed.length > 0) {
+      await Promise.all(
+        removed.map(async (entry) => {
+          if (!entry || !entry.path) {
+            return;
+          }
+          const absolute = path.join(this.dataRoot, entry.path);
+          try {
+            await fs.unlink(absolute);
+          } catch (error) {
+            if (!error || error.code !== 'ENOENT') {
+              throw error;
+            }
+          }
+        }),
+      );
+      // Remove directories that may now be empty
+      const versionDir = path.join(this.versionRoot, traitId);
+      try {
+        const remaining = await fs.readdir(versionDir);
+        if (remaining.length === 0) {
+          await fs.rmdir(versionDir);
+        }
+      } catch (error) {
+        if (!error || (error.code !== 'ENOENT' && error.code !== 'ENOTEMPTY')) {
+          throw error;
+        }
+      }
+    }
+    return filtered;
   }
 
   #prepareForSchemaValidation(trait) {
@@ -237,6 +451,7 @@ class TraitRepository {
     if (!trait) {
       throw TraitRepository.createHttpError(404, 'Trait non trovato');
     }
+    const fileState = await this.#getFileState(resolved.filePath);
     return {
       trait,
       meta: {
@@ -244,6 +459,9 @@ class TraitRepository {
         path: path.relative(this.dataRoot, resolved.filePath),
         category: resolved.category,
         isDraft: resolved.isDraft,
+        savedAt: fileState.savedAt,
+        version: fileState.version,
+        etag: fileState.etag,
       },
     };
   }
@@ -301,13 +519,46 @@ class TraitRepository {
     return candidate;
   }
 
-  async #snapshotVersion(traitId, existing) {
+  async #snapshotVersion(traitId, existing, context = {}) {
     if (!existing) {
-      return;
+      return null;
     }
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const versionPath = path.join(this.versionRoot, traitId, `${timestamp}.json`);
+    const isoTimestamp = new Date().toISOString();
+    const safeTimestamp = isoTimestamp.replace(/[:.]/g, '-');
+    const versionDirectory = await this.#ensureVersionDirectory(traitId);
+    const fileName = `${safeTimestamp}.json`;
+    const versionPath = path.join(versionDirectory, fileName);
     await this.#writeJsonFile(versionPath, existing);
+    const manifest = await this.#loadVersionManifest(traitId);
+    const entry = {
+      id: fileName.replace(/\.json$/i, ''),
+      createdAt: isoTimestamp,
+      author: context.author || null,
+      version: context.version || null,
+      etag: context.etag || null,
+      path: path.relative(this.dataRoot, versionPath),
+      category: context.category || null,
+      sourcePath: context.sourcePath || null,
+    };
+    const filtered = manifest.entries.filter((item) => item && item.id !== entry.id);
+    const withCurrent = [entry, ...filtered];
+    const retained = await this.#applyRetention(traitId, withCurrent);
+    const sorted = retained.slice().sort((a, b) => {
+      const dateA = TraitRepository.#parseDateLike(a.createdAt || a.id || '');
+      const dateB = TraitRepository.#parseDateLike(b.createdAt || b.id || '');
+      if (Number.isNaN(dateA) && Number.isNaN(dateB)) {
+        return 0;
+      }
+      if (Number.isNaN(dateA)) {
+        return 1;
+      }
+      if (Number.isNaN(dateB)) {
+        return -1;
+      }
+      return dateB - dateA;
+    });
+    await this.#saveVersionManifest(traitId, { entries: sorted });
+    return entry;
   }
 
   async #updateIndexEntry(trait, { remove = false } = {}) {
@@ -368,6 +619,7 @@ class TraitRepository {
   }
 
   async createTrait(rawPayload, options = {}) {
+    const metadata = this.#normaliseMetadata(rawPayload, { author: options.author });
     const payload = this.#stripMetaFields(rawPayload);
     const requestedId = options.traitId || rawPayload?.traitId || rawPayload?.slug;
     let traitId;
@@ -392,47 +644,84 @@ class TraitRepository {
     if (!draft) {
       await this.#updateIndexEntry(validated, { remove: false });
     }
-    const stat = await fs.stat(filePath);
+    const state = await this.#getFileState(filePath);
     return {
       trait: validated,
       meta: {
         id: traitId,
         path: path.relative(this.dataRoot, filePath),
         category: draft ? '_drafts' : category,
-        savedAt: stat.mtime.toISOString(),
+        savedAt: state.savedAt,
+        version: state.version,
+        etag: state.etag,
         created: true,
         isDraft: draft,
+        ...(metadata.author ? { savedBy: metadata.author } : {}),
       },
     };
   }
 
-  async updateTrait(traitId, rawPayload) {
+  async updateTrait(traitId, rawPayload, options = {}) {
     const normalisedId = TraitRepository.normaliseTraitId(traitId);
     const resolved = await this.resolveTraitPath(normalisedId);
     if (!resolved) {
       throw TraitRepository.createHttpError(404, 'Trait non trovato');
     }
+    const metadata = this.#normaliseMetadata(rawPayload, {
+      author: options.author,
+      version: options.expectedVersion,
+      etag: options.expectedEtag,
+    });
+    if (!metadata.version && !metadata.etag) {
+      throw TraitRepository.createHttpError(
+        428,
+        'Versione o ETag richiesto per aggiornare il trait',
+      );
+    }
     const payload = this.#stripMetaFields(rawPayload);
     payload.id = normalisedId;
     const validated = await this.#validateTraitPayload(payload, { traitId: normalisedId });
     const existing = await this.#readJsonFile(resolved.filePath, null);
+    const currentState = await this.#getFileState(resolved.filePath);
+    if (metadata.version && metadata.version !== currentState.version) {
+      throw TraitRepository.createHttpError(
+        412,
+        'Versione del trait non aggiornata: ricaricare prima di salvare',
+      );
+    }
+    if (metadata.etag && metadata.etag !== currentState.etag) {
+      throw TraitRepository.createHttpError(
+        412,
+        'ETag del trait non aggiornato: ricaricare prima di salvare',
+      );
+    }
     if (existing) {
-      await this.#snapshotVersion(normalisedId, existing);
+      await this.#snapshotVersion(normalisedId, existing, {
+        author: metadata.author,
+        version: currentState.version,
+        etag: currentState.etag,
+        category: resolved.category,
+        sourcePath: path.relative(this.dataRoot, resolved.filePath),
+      });
     }
     await this.#writeJsonFile(resolved.filePath, validated);
     if (!resolved.isDraft) {
       await this.#updateIndexEntry(validated, { remove: false });
     }
-    const stat = await fs.stat(resolved.filePath);
+    const newState = await this.#getFileState(resolved.filePath);
     return {
       trait: validated,
       meta: {
         id: normalisedId,
         path: path.relative(this.dataRoot, resolved.filePath),
         category: resolved.category,
-        savedAt: stat.mtime.toISOString(),
+        savedAt: newState.savedAt,
+        version: newState.version,
+        etag: newState.etag,
         versioned: Boolean(existing),
         isDraft: resolved.isDraft,
+        ...(metadata.author ? { savedBy: metadata.author } : {}),
+        ...(options.restoreFrom ? { restoredFrom: options.restoreFrom } : {}),
       },
     };
   }
@@ -462,20 +751,140 @@ class TraitRepository {
       category: categoryOverride || meta.category,
       draft,
       traitId: traitIdOverride,
+      author: options.author,
     });
     created.meta.clonedFrom = meta.id;
     return created;
   }
 
-  async deleteTrait(traitId) {
+  async listTraitVersions(traitId) {
+    const normalisedId = TraitRepository.normaliseTraitId(traitId);
+    const manifest = await this.#loadVersionManifest(normalisedId);
+    const entries = manifest.entries
+      .slice()
+      .sort((a, b) => {
+        const dateA = TraitRepository.#parseDateLike(a.createdAt || a.id || '');
+        const dateB = TraitRepository.#parseDateLike(b.createdAt || b.id || '');
+        if (Number.isNaN(dateA) && Number.isNaN(dateB)) {
+          return 0;
+        }
+        if (Number.isNaN(dateA)) {
+          return 1;
+        }
+        if (Number.isNaN(dateB)) {
+          return -1;
+        }
+        return dateB - dateA;
+      });
+    return entries.map((entry) => ({
+      id: entry.id,
+      traitId: normalisedId,
+      createdAt: entry.createdAt || null,
+      author: entry.author || null,
+      version: entry.version || null,
+      etag: entry.etag || null,
+      path: entry.path || path.relative(
+        this.dataRoot,
+        path.join(this.versionRoot, normalisedId, `${entry.id}.json`),
+      ),
+      category: entry.category || null,
+      sourcePath: entry.sourcePath || null,
+    }));
+  }
+
+  async #resolveVersionEntry(traitId, versionId) {
+    const manifest = await this.#loadVersionManifest(traitId);
+    const normalisedVersionId = String(versionId || '').replace(/\.json$/i, '');
+    const entry = manifest.entries.find((item) => item && item.id === normalisedVersionId);
+    if (!entry) {
+      throw TraitRepository.createHttpError(404, 'Versione trait non trovata');
+    }
+    const relativePath = entry.path || path.relative(
+      this.dataRoot,
+      path.join(this.versionRoot, traitId, `${entry.id}.json`),
+    );
+    const absolutePath = path.join(this.dataRoot, relativePath);
+    const trait = await this.#readJsonFile(absolutePath, null);
+    if (!trait) {
+      throw TraitRepository.createHttpError(404, 'Dati versione trait non disponibili');
+    }
+    return {
+      entry: {
+        ...entry,
+        path: relativePath,
+      },
+      trait,
+      filePath: absolutePath,
+    };
+  }
+
+  async getTraitVersion(traitId, versionId) {
+    const normalisedId = TraitRepository.normaliseTraitId(traitId);
+    const { entry, trait } = await this.#resolveVersionEntry(normalisedId, versionId);
+    return {
+      trait,
+      meta: {
+        id: entry.id,
+        traitId: normalisedId,
+        createdAt: entry.createdAt || null,
+        author: entry.author || null,
+        version: entry.version || null,
+        etag: entry.etag || null,
+        path: entry.path,
+        category: entry.category || null,
+        sourcePath: entry.sourcePath || null,
+      },
+    };
+  }
+
+  async restoreTraitVersion(traitId, versionId, options = {}) {
     const normalisedId = TraitRepository.normaliseTraitId(traitId);
     const resolved = await this.resolveTraitPath(normalisedId);
     if (!resolved) {
       throw TraitRepository.createHttpError(404, 'Trait non trovato');
     }
+    const { entry, trait } = await this.#resolveVersionEntry(normalisedId, versionId);
+    const currentState = await this.#getFileState(resolved.filePath);
+    const expectedVersion =
+      TraitRepository.#normaliseString(options.expectedVersion) || currentState.version;
+    const expectedEtag = TraitRepository.#normaliseString(options.expectedEtag) || currentState.etag;
+    const author =
+      TraitRepository.#normaliseString(options.author) ||
+      TraitRepository.#normaliseString(entry.author) ||
+      null;
+    const payload = JSON.parse(JSON.stringify(trait));
+    payload.meta = {
+      version: expectedVersion,
+      etag: expectedEtag,
+      ...(author ? { author } : {}),
+      restoredFrom: entry.id,
+    };
+    return this.updateTrait(normalisedId, payload, {
+      author,
+      expectedVersion,
+      expectedEtag,
+      restoreFrom: entry.id,
+    });
+  }
+
+  async deleteTrait(traitId, options = {}) {
+    const normalisedId = TraitRepository.normaliseTraitId(traitId);
+    const resolved = await this.resolveTraitPath(normalisedId);
+    if (!resolved) {
+      throw TraitRepository.createHttpError(404, 'Trait non trovato');
+    }
+    const author = TraitRepository.#normaliseString(options.author) || null;
     const existing = await this.#readJsonFile(resolved.filePath, null);
+    let currentState = null;
     if (existing) {
-      await this.#snapshotVersion(normalisedId, existing);
+      currentState = await this.#getFileState(resolved.filePath);
+      await this.#snapshotVersion(normalisedId, existing, {
+        author,
+        version: currentState.version,
+        etag: currentState.etag,
+        category: resolved.category,
+        sourcePath: path.relative(this.dataRoot, resolved.filePath),
+      });
     }
     await fs.unlink(resolved.filePath);
     if (!resolved.isDraft) {
@@ -489,6 +898,8 @@ class TraitRepository {
         versioned: Boolean(existing),
         deleted: true,
         isDraft: resolved.isDraft,
+        ...(author ? { savedBy: author } : {}),
+        ...(currentState ? { version: currentState.version, etag: currentState.etag } : {}),
       },
     };
   }
