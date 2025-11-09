@@ -79,6 +79,30 @@ evo-tactics/
    export PYTHONPATH=tools/py
    ```
 
+## Stack locale: sviluppo, test e verifica
+
+- **Avvio simultaneo backend + webapp**:
+  ```bash
+  npm run dev:stack
+  # oppure
+  make dev-stack
+  ```
+  Lo script avvia `npm run start:api` e `npm run dev --workspace webapp`, interrompendo entrambi i processi se uno dei due termina o in caso di `CTRL+C`.
+- **Test coordinati backend/frontend**:
+  ```bash
+  npm run test:stack
+  # oppure
+  make test-stack
+  ```
+  Esegue `npm run test:api` seguito dai test unitari della webapp (`npm run test --workspace webapp`).
+- **Verifica pre-deploy**:
+  ```bash
+  npm run ci:stack
+  # oppure
+  make ci-stack
+  ```
+  Comprende lint (`npm run lint:stack` → Prettier sui file modificati dello stack), suite API e test webapp, più una build produzione con `VITE_BASE_PATH=./`.
+
 ## CLI & strumenti
 
 ### Strumenti Python (`tools/py`)
@@ -242,7 +266,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
      ```
   3. Controlla i log in `reports/incoming/` e `logs/traits_tracking.md`.
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
-- **Trait Editor standalone** (`Trait Editor/`): esegui `npm run dev` (con `VITE_TRAIT_DATA_SOURCE=remote`, `VITE_TRAIT_DATA_URL=../data/traits/index.json`) per validare rapidamente i trait aggiornati senza avviare la webapp principale. Il README del pacchetto descrive fallback mock, preview (`npm run preview`) e opzioni di deploy statico.
+- **Trait Editor standalone** (`Trait Editor/`): consulta [docs/trait-editor.md](docs/trait-editor.md) per setup, variabili `VITE_*`, script disponibili (`npm run dev`, `npm run build`, `npm run preview`) e workflow di deploy statico con dataset remoti.
 
 ## Storico aggiornamenti & archivio
 
