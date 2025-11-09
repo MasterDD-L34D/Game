@@ -44,6 +44,31 @@ alle checklist di processo già presenti nel repository e al vademecum operativo
 Per setup locale ricorda di installare le dipendenze (`npm ci` e `python -m pip
 install -r requirements-dev.txt`) prima di lanciare gli script di cui sopra.
 
+## Autenticazione API e ruoli
+
+L'API trait è protetta da JWT firmati tramite `AUTH_SECRET` con controllo RBAC
+su tre ruoli (`reviewer`, `editor`, `admin`). Imposta almeno:
+
+- `AUTH_SECRET`: secret condiviso per la verifica della firma (obbligatorio in
+  ambienti condivisi).
+- `AUTH_TOKEN_MAX_AGE`: durata massima accettata (es. `8h`).
+- `AUTH_ISSUER`, `AUTH_AUDIENCE`, `AUTH_CLOCK_TOLERANCE`: opzionali per
+  restringere ulteriormente i token.
+- `AUDIT_LOG_PATH`: percorso alternativo dove salvare l'audit trail.
+
+Genera i token di lavoro includendo il claim `roles` con il permesso richiesto
+(per esempio `['editor']` per modifiche e ripristini). Il repository espone un
+helper rapido:
+
+```bash
+node -e "const { signJwt } = require('./server/utils/jwt'); \
+  console.log(signJwt({ sub: 'local-editor', roles: ['editor'] }, process.env.AUTH_SECRET, { expiresIn: '8h' }));"
+```
+
+Il token ottenuto va passato nell'header `Authorization: Bearer <jwt>`. Il
+vecchio `TRAIT_EDITOR_TOKEN` resta disponibile solo come fallback locale (non
+abilita l'audit trail né i controlli sui ruoli).
+
 ## Flussi di revisione
 
 ### Percorso manuale (file + script)
@@ -91,15 +116,20 @@ install -r requirements-dev.txt`) prima di lanciare gli script di cui sopra.
 
 ### Percorso con editor UI
 
-1. Esporta un token di scrittura e avvia l'API:
+1. Configura il secret e, facoltativamente, la durata massima dei token, quindi
+   avvia l'API:
    ```bash
-   export TRAIT_EDITOR_TOKEN="<token>"
+   export AUTH_SECRET="$(openssl rand -hex 32)"
+   export AUTH_TOKEN_MAX_AGE="8h"
    npm run start:api
    ```
-2. In una seconda shell avvia la webapp: `npm --prefix webapp run dev`.
-3. Apri `http://localhost:5173/console/traits`, inserisci il token e modifica i
-   campi necessari. Ogni salvataggio crea automaticamente una versione in
-   `data/traits/_versions/<trait_id>/` prima di sovrascrivere l'originale.
+2. Genera un token con il ruolo adeguato tramite `server/utils/jwt` (vedi
+   esempio sopra) e tienilo a portata di mano.
+3. In una seconda shell avvia la webapp: `npm --prefix webapp run dev`.
+4. Apri `http://localhost:5173/console/traits`, inserisci il token Bearer e
+   modifica i campi necessari. Ogni salvataggio crea automaticamente una
+   versione in `data/traits/_versions/<trait_id>/` prima di sovrascrivere
+   l'originale.
 4. Chiudi il ciclo eseguendo comunque gli script di coverage/audit per
    allinearti con il percorso manuale.
 

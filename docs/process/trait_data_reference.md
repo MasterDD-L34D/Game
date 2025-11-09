@@ -71,22 +71,65 @@ analytics e checklist automatiche. I valori ammessi sono:
 
 ## Workflow di aggiornamento
 
+## Autenticazione API e ruoli
+
+L'API `POST/PUT/DELETE /api/traits` utilizza token JWT firmati (HS256) e un
+controllo degli accessi basato sui ruoli. Prima di avviare l'editor o gli
+script che interagiscono con l'API assicurati di configurare le variabili
+d'ambiente:
+
+- `AUTH_SECRET` (**obbligatorio**): secret condiviso usato per verificare la
+  firma dei token. Mantienilo al sicuro e ruotalo periodicamente.
+- `AUTH_TOKEN_MAX_AGE` (opzionale): durata massima accettata per i token,
+  espressa in secondi o in formato compatto (`15m`, `8h`, `7d`). In assenza del
+  claim `exp` viene applicato come timeout hard.
+- `AUTH_ISSUER` e `AUTH_AUDIENCE` (opzionali): vincoli aggiuntivi per issuer e
+  audience del token.
+- `AUTH_CLOCK_TOLERANCE` (opzionale): tolleranza in secondi per compensare
+  piccoli skew temporali.
+- `AUDIT_LOG_PATH` (opzionale): percorso del file JSON Lines che riceverà
+  l'audit trail (`logs/audit.log` è il default).
+
+Ogni token deve includere il claim `roles` (array o stringa) con almeno uno dei
+ruoli riconosciuti dal middleware RBAC:
+
+| Ruolo    | Permessi principali |
+| -------- | ------------------- |
+| reviewer | Lettura catalogo e validazione (`GET`, `POST /validate`). |
+| editor   | Tutti i permessi di `reviewer` più creazione, clonazione, aggiornamento e ripristino versioni. |
+| admin    | Tutti i permessi precedenti più eliminazione definitiva dei trait. |
+
+I token vengono validati tramite header `Authorization: Bearer <jwt>`; in
+ambiente legacy è ancora possibile utilizzare `TRAIT_EDITOR_TOKEN`, ma solo per
+scenari locali o di emergenza (nessun audit trail).
+
 ### Editor schema-driven
 
 Per modifiche iterative è disponibile l'editor React ospitato nella mission console (`/console/traits`). Il modulo monta un form dinamico generato da `config/schemas/trait.schema.json` e valida ogni modifica sia lato client (AJV) sia lato server.
 
-1. Avviare l'API locale esportando un token di scrittura (obbligatorio in produzione):
+1. Avviare l'API locale impostando il secret di firma e, se necessario, la
+   durata massima dei token:
    ```bash
-   export TRAIT_EDITOR_TOKEN="<token-segreto>"
+   export AUTH_SECRET="$(openssl rand -hex 32)"
+   export AUTH_TOKEN_MAX_AGE="8h"
    npm run start:api
    ```
-2. In una seconda shell, avviare la webapp:
+2. Generare un token con il ruolo adeguato (es. `editor`) e copiarlo per
+   l'utilizzo nell'editor. È possibile sfruttare l'helper incluso nel repo:
+   ```bash
+   node -e "const { signJwt } = require('./server/utils/jwt'); \
+     console.log(signJwt({ sub: 'local-editor', roles: ['editor'] }, process.env.AUTH_SECRET, { expiresIn: '8h' }));"
+   ```
+3. In una seconda shell, avviare la webapp:
    ```bash
    npm --prefix webapp install   # solo al primo avvio
    npm --prefix webapp run dev
    ```
-3. Aprire `http://localhost:5173/console/traits` e inserire il token nel pannello laterale. Tutte le richieste inviano sia `X-Trait-Editor-Token` sia `Authorization: Bearer` con il valore fornito.
-4. Ogni salvataggio crea una copia della versione precedente in `data/traits/_versions/<trait_id>/<timestamp>.json` prima di sovrascrivere il file canonico.
+4. Aprire `http://localhost:5173/console/traits` e inserire il token nel pannello
+   laterale. Le richieste verso l'API useranno l'header Bearer automaticamente.
+5. Ogni salvataggio crea una copia della versione precedente in
+   `data/traits/_versions/<trait_id>/<timestamp>.json` prima di sovrascrivere il
+   file canonico.
 
 ### Percorso manuale
 
