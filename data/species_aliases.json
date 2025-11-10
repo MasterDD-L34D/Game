@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "aliases": [
+    {
+      "from": "Hydrogluteus pinguis",
+      "to": "Gulogluteus scutiger"
+    },
+    {
+      "from": "Glutogulo scutatus",
+      "to": "Gulogluteus scutiger"
+    }
+  ]
+}

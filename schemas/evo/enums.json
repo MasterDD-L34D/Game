@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/enums.json",
+  "title": "Evo Tactics Enumerations",
+  "description": "Shared enumeration sets used by the Evo Tactics JSON schemas.",
+  "type": "object",
+  "$defs": {
+    "macro_class": {
+      "type": "string",
+      "enum": [
+        "Artropode",
+        "Aves",
+        "Insecta",
+        "Mammalia",
+        "Mammalo-artropode",
+        "Protista complesso",
+        "Reptilia",
+        "Reptilia/Pisces"
+      ]
+    },
+    "habitat_profile": {
+      "type": "string",
+      "enum": [
+        "corsi d’acqua e coste sabbiose",
+        "falesie e praterie montane",
+        "foreste e sistemi carsici",
+        "foreste pluviali e canyon notturni",
+        "foreste tropicali",
+        "foreste umide con corsi d'acqua",
+        "savana calda con gole rocciose",
+        "savanes e bacini termici",
+        "steppe e savane aperte",
+        "zone umide, acque dolci"
+      ]
+    },
+    "sentience_tier": {
+      "type": "string",
+      "enum": [
+        "T0",
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6"
+      ]
+    },
+    "energy_upkeep_level": {
+      "type": "string",
+      "enum": [
+        "Basso",
+        "Medio",
+        "Alto"
+      ]
+    },
+    "danger_level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "metric_unit": {
+      "type": "string",
+      "enum": [
+        "1",
+        "1/season",
+        "A",
+        "Cel",
+        "Hz",
+        "J",
+        "K",
+        "K/W",
+        "L",
+        "L/min",
+        "Pa",
+        "T",
+        "V",
+        "W/kg",
+        "dB",
+        "dB·s",
+        "m",
+        "m/s",
+        "m/s2",
+        "mm",
+        "s"
+      ]
+    },
+    "ecotype_cluster": {
+      "type": "string",
+      "enum": [
+        "Canopy Ombrosa",
+        "Canyon Notturno",
+        "Cavernicolo",
+        "Cenge Calcarenitiche",
+        "Chioma Elettrofilo",
+        "Chioma Umida",
+        "Dorsali Ventose",
+        "Estuario Torbido",
+        "Forre Umide",
+        "Gole Ventose",
+        "Laguna Quieta",
+        "Letti Fluviali",
+        "Oasi Termica",
+        "Pianure Ventose",
+        "Prateria Arbustiva",
+        "Radura Acida",
+        "Radura Notturna",
+        "Savanicola Notturno",
+        "Stagno Quieto",
+        "Torrente Lento"
+      ]
+    }
+  },
+  "additionalProperties": false
+}
