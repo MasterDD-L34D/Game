@@ -2,34 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://console.evo-tactics.example/console/</loc>
-    <lastmod>2025-02-01</lastmod>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://console.evo-tactics.example/console/mission-console</loc>
-    <lastmod>2025-02-01</lastmod>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://console.evo-tactics.example/console/mission-control</loc>
-    <lastmod>2025-02-01</lastmod>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://console.evo-tactics.example/console/atlas</loc>
-    <lastmod>2025-02-01</lastmod>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://console.evo-tactics.example/console/traits</loc>
-    <lastmod>2025-02-01</lastmod>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://console.evo-tactics.example/console/nebula</loc>
-    <lastmod>2025-02-01</lastmod>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://console.evo-tactics.example/console/generator</loc>
-    <lastmod>2025-02-01</lastmod>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://console.evo-tactics.example/console/ecosystem-pack</loc>
-    <lastmod>2025-02-01</lastmod>
+    <lastmod>2025-11-05</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
 </urlset>
