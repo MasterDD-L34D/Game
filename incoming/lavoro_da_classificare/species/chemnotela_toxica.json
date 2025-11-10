@@ -1,0 +1,47 @@
+{
+  "species": {
+    "scientific_name": "Chemnotela toxica",
+    "common_names": [
+      "Aracnide Alchemico"
+    ],
+    "classification": {
+      "macro_class": "Artropode",
+      "habitat": "foreste tropicali"
+    },
+    "functional_signature": "Acido industriale biologico e seta elettroconduttiva per trappole stordenti e corrosive.",
+    "visual_description": "Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio. Cuticola lucida con bande metalliche.",
+    "risk_profile": {
+      "danger_level": 3,
+      "vectors": [
+        "acidi forti",
+        "scariche elettriche"
+      ]
+    },
+    "interactions": {
+      "predates_on": [
+        "rettili arboricoli",
+        "uccelli piccoli"
+      ],
+      "predated_by": [
+        "ofidi grandi"
+      ],
+      "symbiosis": "alghe epifite su tela in radure umide"
+    },
+    "constraints": [
+      "Acido inefficace su basalto o ceramiche vetrose",
+      "Tela sensibile a piogge torrenziali"
+    ],
+    "sentience_index": "T1",
+    "ecotypes": [
+      "Radura Acida",
+      "Chioma Elettrofilo"
+    ],
+    "trait_refs": [
+      "TR-1501",
+      "TR-1502",
+      "TR-1503",
+      "TR-1504",
+      "TR-1505"
+    ]
+  }
+}
