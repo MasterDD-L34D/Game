@@ -3,6 +3,17 @@
 Questa pagina descrive i flussi di lavoro disponibili per supportare le attività
 Evo-Tactics nel repository.
 
+## Logging condiviso
+
+Gli script in `tools/automation/` utilizzano un namespace comune per il logging
+(`tools.automation`).  Il modulo di supporto espone l'helper
+`tools.automation.configure_logging(verbose=..., logger=...)` che inizializza il
+root logger con un formatter minimale e imposta il livello del logger passato.
+Per ottenere un'istanza coerente è sufficiente dichiarare `LOGGER =
+get_logger(__name__)`, che garantisce un nome uniforme anche quando lo script è
+eseguito stand-alone. Tutte le utility riportate di seguito seguono questo
+pattern e scrivono messaggi di stato/errore su stderr.
+
 ## Runner dei batch
 
 - Script: `python tools/automation/evo_batch_runner.py`
@@ -17,10 +28,9 @@ Evo-Tactics nel repository.
   - `--tasks-file` consente di puntare a un registro alternativo, mentre
     `--verbose` abilita il logging esteso.
 
-L'output operativo viene inviato su stderr tramite il logger condiviso
-`tools.automation.evo_batch_runner`, mentre gli elenchi e i piani restano su
-stdout per facilitare piping/reportistica. Il logging condiviso è gestito da
-`tools.automation.configure_logging` che uniforma il formato CLI.
+L'output operativo viene inviato su stderr tramite il logger condiviso,
+mentre gli elenchi e i piani restano su stdout per facilitare
+piping/reportistica.
 
 ## Lint degli schemi JSON
 
@@ -35,9 +45,8 @@ stdout per facilitare piping/reportistica. Il logging condiviso è gestito da
   - Riporta i risultati con gli indicatori ✅/❌ sul logger
     `tools.automation.evo_schema_lint` (usare `--verbose` per il debug).
 
-Il comando è disponibile anche tramite `make evo-lint` (variabile opzionale
-`EVO_LINT_PATH=<percorso>` per restringere il controllo a un sottoinsieme di
-file).
+Il comando è disponibile anche tramite `make evo-lint` (variabili opzionali
+`EVO_LINT_PATH=<percorso>` e `EVO_TASKS_FILE=<file>` per adattare l'ambiente).
 
 ## Make target di supporto
 
@@ -45,11 +54,24 @@ I flussi di lavoro descritti sono esposti nel `Makefile` tramite:
 
 - `make evo-list`: elenca i batch disponibili (variabile `EVO_TASKS_FILE`
   opzionale per puntare a un file alternativo).
-- `make evo-plan batch=<nome>`: mostra il piano del batch specificato.
-- `make evo-run batch=<nome> flags="--execute --auto"`: esegue i comandi con le
-  opzioni desiderate.
+- `make evo-plan EVO_BATCH=<nome>`: mostra il piano del batch specificato.
+- `make evo-run EVO_BATCH=<nome> EVO_FLAGS="--execute --auto"`: esegue i
+  comandi con le opzioni desiderate.
 - `make evo-lint [EVO_LINT_PATH=...]`: lancia il lint sugli schemi
   (percorso personalizzabile).
 
-I target legacy `evo-batch-plan` ed `evo-batch-run` restano disponibili come
-alias per compatibilità (internamente delegano alle nuove ricette).
+Le variabili condivise `EVO_BATCH`, `EVO_FLAGS` ed `EVO_TASKS_FILE` sono
+propagate anche nei target alias `evo-batch-plan` ed `evo-batch-run` per
+compatibilità.
+
+## Site audit
+
+Per verificare la pubblicazione è disponibile la suite `ops/site-audit`, che
+integra gli script ereditati tramite l'orchestratore
+`python ops/site-audit/run_suite.py`. Il target `make audit` utilizza la suite
+passando automaticamente `SITE_BASE_URL` (se definita) e replica la sequenza di
+controlli usata in CI: sitemap, search index, redirect, link checker, report e
+structured data. Gli artefatti sono raccolti in `ops/site-audit/_out/`.
+
+Quando `SITE_BASE_URL` non è impostata, gli step che richiedono lo scraping del
+sito vengono saltati ma gli output generati localmente restano disponibili.

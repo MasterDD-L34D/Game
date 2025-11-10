@@ -15,7 +15,7 @@ from jsonschema.validators import validator_for
 from tools.automation import configure_logging, get_logger
 
 
-LOGGER = get_logger("tools.automation.evo_schema_lint")
+LOGGER = get_logger(__name__)
 
 
 def discover_schema_files(root: Path) -> Iterable[Path]:
@@ -75,7 +75,7 @@ def parse_args(argv: List[str] | None = None) -> argparse.Namespace:
 
 def main(argv: List[str] | None = None) -> int:
     args = parse_args(argv)
-    configure_logging(verbose=args.verbose)
+    configure_logging(verbose=args.verbose, logger=LOGGER)
 
     schema_paths = list(discover_schema_files(args.path))
     if not schema_paths:

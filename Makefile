@@ -2,10 +2,11 @@
         evo-tactics-pack dev-stack test-stack ci-stack \
         evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint
 
-batch ?= all
-flags ?=
+EVO_BATCH ?= all
+EVO_FLAGS ?=
 EVO_TASKS_FILE ?= incoming/lavoro_da_classificare/tasks.yml
 EVO_LINT_PATH ?=
+SITE_BASE_URL ?=
 
 sitemap:
 	python ops/site-audit/build_sitemap.py
@@ -25,7 +26,8 @@ redirects:
 structured:
 	python ops/site-audit/generate_structured_data.py --base-url "${SITE_BASE_URL}"
 
-audit: sitemap links report search redirects structured
+audit:
+	python ops/site-audit/run_suite.py --base-url "${SITE_BASE_URL}" --max-pages 2000 --timeout 10
 
 evo-tactics-pack:
 	node scripts/build_evo_tactics_pack_dist.mjs
@@ -40,13 +42,13 @@ ci-stack:
 	npm run ci:stack
 
 evo-list:
-        python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" list
+	python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" list
 
 evo-plan:
-        python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" plan --batch "${batch}"
+	python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" plan --batch "${EVO_BATCH}"
 
 evo-run:
-        python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" run --batch "${batch}" ${flags}
+	python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" run --batch "${EVO_BATCH}" ${EVO_FLAGS}
 
 evo-lint:
         @if [ -n "${EVO_LINT_PATH}" ]; then \
@@ -56,7 +58,7 @@ evo-lint:
         fi
 
 evo-batch-plan:
-	$(MAKE) --no-print-directory evo-plan batch="${batch}" EVO_TASKS_FILE="${EVO_TASKS_FILE}"
+	$(MAKE) --no-print-directory evo-plan EVO_BATCH="${EVO_BATCH}" EVO_TASKS_FILE="${EVO_TASKS_FILE}"
 
 evo-batch-run:
-	$(MAKE) --no-print-directory evo-run batch="${batch}" flags="${flags}" EVO_TASKS_FILE="${EVO_TASKS_FILE}"
+	$(MAKE) --no-print-directory evo-run EVO_BATCH="${EVO_BATCH}" EVO_FLAGS="${EVO_FLAGS}" EVO_TASKS_FILE="${EVO_TASKS_FILE}"
