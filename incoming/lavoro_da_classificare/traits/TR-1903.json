@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1903",
+  "label": "Motore Biologico Silenzioso",
+  "famiglia_tipologia": "Fisiologico/Metabolico",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "TR-1901"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Tendini frangi-rumore + piume a bordo seghettato.",
+  "uso_funzione": "Volo prolungato a bassissimo SPL.",
+  "spinta_selettiva": "Caccia persistente con sorpresa tattica.",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 8,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "SPL < 20 dB a 5 m in volo",
+    "scene_prompt": "Misura sonoro in tunnel"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "trait_code": "TR-1701",
+  "label": "Ali Fono-Risonanti",
+  "famiglia_tipologia": "Locomotivo/Aereo",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1702",
+    "TR-1703"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Venature come corde vibranti controllate.",
+  "uso_funzione": "Generare ampia banda sonora in volo.",
+  "spinta_selettiva": "Mappatura ambiente e segnalazione.",
+  "metrics": [
+    {
+      "name": "dose_acustica",
+      "value": 100,
+      "unit": "dB·s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Varia frequenza 1–40 kHz",
+    "scene_prompt": "Spettrogramma durante manovre"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

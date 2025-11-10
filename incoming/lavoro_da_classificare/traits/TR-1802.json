@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1802",
+  "label": "Elettromagnete Biologico",
+  "famiglia_tipologia": "Offensivo/Elettrico",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "TR-1801"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Organo elettrico a pacchetti sincro.",
+  "uso_funzione": "Interferire con sistema nervoso preda.",
+  "spinta_selettiva": "Immobilizzare pesci e piccoli rettili.",
+  "metrics": [
+    {
+      "name": "corrente_picco",
+      "value": 15,
+      "unit": "A"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Stordisce tilapia a 1 m",
+    "scene_prompt": "Misura corrente in impulso su sonda"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

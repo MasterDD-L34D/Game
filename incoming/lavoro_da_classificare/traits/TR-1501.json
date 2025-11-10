@@ -1,0 +1,57 @@
+{
+  "trait_code": "TR-1501",
+  "label": "Zanne Idracida",
+  "famiglia_tipologia": "Offensivo/Chimico",
+  "fattore_mantenimento_energetico": "Alto",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "TR-1502",
+    "TR-1503"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Ghiandole acido-termiche nei cheliceri.",
+  "uso_funzione": "Corrodere tessuti e metalli.",
+  "spinta_selettiva": "Predazione su prede in corazza minerale.",
+  "metrics": [
+    {
+      "name": "pressione_getto",
+      "value": 1000000,
+      "unit": "Pa"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Perfora lamina d’alluminio 1 mm",
+    "scene_prompt": "Spruzzo controllato su pannello metallico"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

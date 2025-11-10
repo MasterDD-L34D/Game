@@ -1,0 +1,58 @@
+{
+  "trait_code": "TR-1303",
+  "label": "Estroflessione Gastrica Acida",
+  "famiglia_tipologia": "Offensivo/Chimico",
+  "fattore_mantenimento_energetico": "Alto",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "TR-1304"
+  ],
+  "conflitti": [
+    "TR-1305"
+  ],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Sacca digestiva everted con enzimi proteolitici.",
+  "uso_funzione": "Liquefare tessuti su contatto e aspirare.",
+  "spinta_selettiva": "Cattura prede più grandi con rischio minimo.",
+  "metrics": [
+    {
+      "name": "pressione_getto",
+      "value": 50000,
+      "unit": "Pa"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Disgrega 1 kg gel proteico in < 60 s",
+    "scene_prompt": "Versa su supporto standard e misura tempo liquefazione"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

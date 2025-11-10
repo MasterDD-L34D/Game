@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1601",
+  "label": "Membrana Plastica Continua",
+  "famiglia_tipologia": "Difensivo/Camuffamento",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1602"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Struttura citoscheletrica rimodulabile.",
+  "uso_funzione": "Assumere forme e densità diverse.",
+  "spinta_selettiva": "Elusione predatori e passaggio micro-fessure.",
+  "metrics": [
+    {
+      "name": "rilevabilita_visiva",
+      "value": 0.2,
+      "unit": "1"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Forma blob semitrasparente in 3 s",
+    "scene_prompt": "Documenta transito in fessura 5 mm"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

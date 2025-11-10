@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1902",
+  "label": "Visione Multi-Spettrale Amplificata",
+  "famiglia_tipologia": "Sensoriale/Visivo",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1901"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Bastoncelli potenziati + recettori IR/UV.",
+  "uso_funzione": "Vedere in luminanza estremamente bassa.",
+  "spinta_selettiva": "Predazione su prede a sangue caldo.",
+  "metrics": [
+    {
+      "name": "acuita_visiva",
+      "value": 0.95,
+      "unit": "1"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Rileva topo a 30 m al chiaro di luna",
+    "scene_prompt": "Prova campo notturna con target termico"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "trait_code": "TR-1204",
+  "label": "Coda Prensile Muscolare",
+  "famiglia_tipologia": "Locomotivo/Arboricolo",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1203",
+    "TR-1205"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Fasci caudali spiralizzati, vertebre con verticilli.",
+  "uso_funzione": "Appendere e contro-bilanciare",
+  "spinta_selettiva": "Foraggiamento in chioma; attraversamento gole",
+  "metrics": [
+    {
+      "name": "salto_verticale",
+      "value": 1.8,
+      "unit": "m"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Sospensione 30 s su ramo standard",
+    "scene_prompt": "Cronometrare appensione su trave 6 cm"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}
