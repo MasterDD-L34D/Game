@@ -2,7 +2,7 @@
 
 meta:
   version: 1
-  last_update: 2024-05-24
+  last_update: 2025-11-10
   notes: "Aggiornare status e assegnatari quando i task vengono presi in carico. Directory di destinazione già disponibili: docs/evo-tactics, docs/security, data/external/evo, reports/evo, incoming/archive/documents, tools/automation, docs/wireframes/evo. Utilizzare tools/automation/evo_batch_runner.py per automatizzare i comandi batch (dry-run di default)."
 
 tasks:
@@ -47,7 +47,7 @@ tasks:
     batch: data-models
     title: Lint schemi Evo
     description: "Eseguire lint sugli schema JSON e introdurre namespace evo."
-    status: in_progress
+    status: done
     owner: null
     depends_on: []
     deliverables:
@@ -59,20 +59,19 @@ tasks:
     batch: data-models
     title: Revisione enum con gameplay
     description: "Validare nuovi enum con il team gameplay e registrare feedback."
-    status: blocked
+    status: done
     owner: gameplay-team
     depends_on:
       - DAT-01
     deliverables:
       - docs/meeting-notes/evo-enum-review.md
-    blockers:
-      - "Disponibilità team gameplay"
+    blockers: []
 
   - id: DAT-03
     batch: data-models
     title: Merge alias specie
     description: "Inserire alias confermati in data/core/species/aliases.json."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - DAT-02
@@ -86,7 +85,7 @@ tasks:
     batch: species_ecotypes
     title: Validazione JSON specie/ecotipi
     description: "Validare file specie ed ecotipi con lo script aggiornato."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - DAT-01
@@ -99,7 +98,7 @@ tasks:
     batch: species_ecotypes
     title: Generazione report sommario specie
     description: "Creare report riepilogativo con species_summary_script.py."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - SPEC-01
@@ -110,7 +109,7 @@ tasks:
     batch: species_ecotypes
     title: Mappatura ecotipi
     description: "Collegare gli ecotipi Evo agli ecosistemi esistenti."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - SPEC-01

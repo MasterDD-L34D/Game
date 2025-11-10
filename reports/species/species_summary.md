@@ -1,6 +1,6 @@
 # Evo Species Summary
 
-*Source*: `incoming/lavoro_da_classificare/species`
+*Source*: `incoming/species`
 *Total species analysed*: **10**
 
 ## Macro class distribution

@@ -7,6 +7,7 @@
   "$defs": {
     "macro_class": {
       "type": "string",
+      "description": "Macro-classi tassonomiche approvate con il team gameplay.",
       "enum": [
         "Artropode",
         "Aves",
@@ -20,6 +21,7 @@
     },
     "habitat_profile": {
       "type": "string",
+      "description": "Profili habitat confermati per le nuove specie Evo.",
       "enum": [
         "corsi d’acqua e coste sabbiose",
         "falesie e praterie montane",
@@ -35,6 +37,7 @@
     },
     "sentience_tier": {
       "type": "string",
+      "description": "Livelli della Sentience Track T0–T6 utilizzati nel pacchetto Evo.",
       "enum": [
         "T0",
         "T1",
@@ -47,6 +50,7 @@
     },
     "energy_upkeep_level": {
       "type": "string",
+      "description": "Range di mantenimento energetico (il vecchio stato 'blocked' è stato rimosso).",
       "enum": [
         "Basso",
         "Medio",
@@ -55,11 +59,13 @@
     },
     "danger_level": {
       "type": "integer",
+      "description": "Scala di pericolosità da 0 a 5 approvata per il bestiario.",
       "minimum": 0,
       "maximum": 5
     },
     "metric_unit": {
       "type": "string",
+      "description": "Unità UCUM utilizzate nelle metriche delle specie e dei tratti.",
       "enum": [
         "1",
         "1/season",
@@ -86,6 +92,7 @@
     },
     "ecotype_cluster": {
       "type": "string",
+      "description": "Etichette ecotipo risultanti dalla revisione con gameplay.",
       "enum": [
         "Canopy Ombrosa",
         "Canyon Notturno",
