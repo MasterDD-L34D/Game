@@ -5,7 +5,7 @@ Il pacchetto [`Trait Editor/`](../Trait%20Editor/) fornisce un editor AngularJS 
 ## Prerequisiti
 
 - **Node.js 18+** e **npm 9+** (il pacchetto sfrutta Vite 5).
-- Accesso alla CDN Google per AngularJS **oppure** mirror locale configurato (vedi nota nel [`Trait Editor/README.md`](../Trait%20Editor/README.md#nota-sul-caricamento-di-angularjs)).
+- Dipendenze JavaScript installate con `npm install` (AngularJS e moduli correlati sono risolti via npm e inclusi nella build).
 - Dataset trait aggiornato in `data/traits/` quando si lavora con sorgente remota (`VITE_TRAIT_DATA_SOURCE=remote`).
 
 Suggerimenti rapidi:
@@ -82,9 +82,10 @@ Il comando `npm run test:stack` esegue sia la suite API (`npm run test:api`) sia
 ## Deploy statico
 
 1. Imposta le variabili `VITE_TRAIT_DATA_SOURCE`, `VITE_TRAIT_DATA_URL` e (se necessario) `VITE_BASE_PATH`.
-2. Genera la build:
+2. Genera la build dopo aver installato le dipendenze:
    ```bash
    cd "Trait Editor"
+   npm install
    VITE_BASE_PATH=/trait-editor/ npm run build
    ```
 3. Distribuisci il contenuto di `dist/` su hosting statico (GitHub Pages, Netlify, S3, ecc.).
@@ -94,6 +95,6 @@ Per pipeline automatiche puoi riutilizzare lo script `npm run ci:stack` dalla ro
 
 ## Troubleshooting rapido
 
-- **AngularJS da CDN bloccata** → Replica gli asset in `public/vendor/angular/` e aggiorna i tag `<script>` come descritto nel [`Trait Editor/README.md`](../Trait%20Editor/README.md#strategia-2-bundle-localemirror-degli-asset-angularjs).
+- **Dipendenze AngularJS non installate** → Esegui `npm install` nella root di `Trait Editor/` per ripristinare i moduli (`angular`, `angular-route`, `angular-animate`, `angular-sanitize`) prima di lanciare `npm run build`.
 - **Dataset remoto non raggiungibile** → Controlla il log del browser: l'app registra `console.error('Impossibile caricare i tratti:', error)` e fa fallback ai mock con `console.warn('Falling back to sample traits after remote fetch failure:', error)`.
 - **Deploy in sottocartella** → Verifica che `VITE_BASE_PATH`/`BASE_PATH` combaci con il percorso pubblicato; riesegui `npm run build` se cambi il prefisso.
