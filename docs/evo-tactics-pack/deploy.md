@@ -95,6 +95,7 @@ tag `<meta name="evo-api-base">`. I percorsi attesi sono:
 - `GET /api/v1/catalog/biomes`
 - `GET /api/v1/catalog/ecosystem`
 - `GET /api/v1/catalog/species`
+- `GET /api/v1/catalog/pools`
 
 Il servizio `services/data-source.js` gestisce la sequenza di fallback: tenta gli
 endpoint remoti, poi ricade sugli asset statici del bundle e infine attiva un

@@ -776,6 +776,26 @@ function createApp(options = {}) {
   app.use('/api/generation', generationRouter);
   app.post('/api/biomes/generate', generationRoutes.biomes);
 
+  async function sendCatalogPools(req, res) {
+    try {
+      if (catalogService && typeof catalogService.ensureReady === 'function') {
+        await catalogService.ensureReady();
+      }
+      if (!catalogService || typeof catalogService.loadBiomePools !== 'function') {
+        res.status(503).json({ error: 'Catalog service non disponibile' });
+        return;
+      }
+      const biomePools = await catalogService.loadBiomePools();
+      res.json(biomePools);
+    } catch (error) {
+      console.warn('[catalog] errore caricamento biome pools', error);
+      res.status(500).json({ error: 'Errore caricamento pool catalogo' });
+    }
+  }
+
+  app.get('/api/v1/catalog/pools', sendCatalogPools);
+  app.get('/api/catalog/pools', sendCatalogPools);
+
   return { app, repo };
 }
 
