@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const { MongoClient } = require('mongodb');
 const request = require('supertest');
@@ -119,6 +120,13 @@ test('POST /api/v1/generation/biomes utilizza i dati MongoDB quando disponibili'
   const databaseName = 'evo_generator_test';
   const client = new MongoClient(mongoUri);
   await client.connect();
+
+  t.after(async () => {
+    await closeMongo();
+    await client.close();
+    await mongoServer.stop();
+  });
+
   const db = client.db(databaseName);
   await seedMongo(db);
 
@@ -181,4 +189,125 @@ test('POST /api/v1/generation/biomes utilizza i dati MongoDB quando disponibili'
     assert.equal(species.synthetic, true);
     assert.ok(species.display_name);
   });
+});
+
+test('seed_evo_generator.seed_database popola il catalogo MongoDB e le API espongono i pool', async (t) => {
+  const mongoServer = await MongoMemoryServer.create();
+  const mongoUri = mongoServer.getUri();
+  const databaseName = 'evo_seed_catalog_test';
+
+  const pythonEnv = { ...process.env };
+  const pythonCheck = spawnSync('python3', ['-c', 'import pymongo'], { env: pythonEnv });
+  if (pythonCheck.status !== 0) {
+    const pipInstall = spawnSync('python3', ['-m', 'pip', 'install', '--quiet', 'pymongo'], {
+      env: pythonEnv,
+    });
+    if (pipInstall.status !== 0) {
+      const stderr = pipInstall.stderr ? pipInstall.stderr.toString() : '';
+      const stdout = pipInstall.stdout ? pipInstall.stdout.toString() : '';
+      throw new Error(`Impossibile installare pymongo: ${stderr || stdout}`);
+    }
+  }
+
+  const seedScriptPath = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    'scripts',
+    'db',
+    'seed_evo_generator.py',
+  );
+  const seedResult = spawnSync(
+    'python3',
+    [seedScriptPath, '--mongo-url', mongoUri, '--database', databaseName],
+    {
+      cwd: path.resolve(__dirname, '..', '..'),
+      env: pythonEnv,
+    },
+  );
+  if (seedResult.status !== 0) {
+    const stderr = seedResult.stderr ? seedResult.stderr.toString() : '';
+    const stdout = seedResult.stdout ? seedResult.stdout.toString() : '';
+    throw new Error(`Seed script fallito: ${stderr || stdout}`);
+  }
+
+  const client = new MongoClient(mongoUri);
+  await client.connect();
+
+  t.after(async () => {
+    await closeMongo();
+    await client.close();
+    await mongoServer.stop();
+  });
+
+  const db = client.db(databaseName);
+  const seededPoolsCount = await db.collection('biome_pools').countDocuments({});
+  assert.ok(seededPoolsCount > 0, 'il seed deve popolare almeno un pool');
+  const seededPool = await db.collection('biome_pools').findOne({ _id: 'cryosteppe_convergence' });
+  assert.ok(seededPool, 'il pool cryosteppe_convergence deve essere presente');
+
+  const catalogService = createCatalogService({
+    useMongo: true,
+    mongo: { uri: mongoUri, dbName: databaseName },
+  });
+  const readiness = await catalogService.ensureReady();
+  assert.equal(readiness.source, 'mongo');
+  assert.equal(readiness.poolCount, seededPoolsCount);
+  assert.ok(readiness.traitCount > 0, 'il catalogo deve esporre tratti seedati');
+
+  const { pools: servicePools } = await catalogService.loadBiomePools();
+  assert.ok(Array.isArray(servicePools));
+  assert.equal(servicePools.length, seededPoolsCount);
+  const servicePool = servicePools.find((pool) => pool.id === 'cryosteppe_convergence');
+  assert.ok(servicePool, 'il catalog service deve esporre il pool cryosteppe_convergence');
+  assert.equal(servicePool.hazard?.severity, seededPool.hazard?.severity);
+  assert.equal(servicePool.metadata?.schema_version, seededPool.metadata?.schema_version);
+
+  const { app } = createApp({
+    dataRoot: path.resolve(__dirname, '..', '..', 'data'),
+    catalogService,
+  });
+
+  const apiCandidates = [
+    { path: '/api/v1/catalog/pools', extract: (body) => body?.pools },
+    { path: '/api/v1/catalog/biome-pools', extract: (body) => body?.pools },
+    { path: '/api/v1/catalog/biomes', extract: (body) => body?.pools || body?.biomes },
+    { path: '/api/catalog/pools', extract: (body) => body?.pools },
+  ];
+
+  let apiPools = null;
+  let apiPathUsed = null;
+  let lastResponse = null;
+  for (const candidate of apiCandidates) {
+    const response = await request(app).get(candidate.path);
+    lastResponse = response;
+    if (response.status !== 200) {
+      continue;
+    }
+    const extracted = candidate.extract(response.body);
+    if (Array.isArray(extracted) && extracted.length > 0) {
+      apiPools = extracted;
+      apiPathUsed = candidate.path;
+      break;
+    }
+  }
+
+  assert.ok(
+    apiPools,
+    `Nessun endpoint catalog disponibile (ultimo stato ${lastResponse ? lastResponse.status : 'n/d'})`,
+  );
+
+  const apiPool = apiPools.find((entry) => {
+    const entryId = entry?.id || entry?._id;
+    return entryId === 'cryosteppe_convergence';
+  });
+  assert.ok(apiPool, `Il pool cryosteppe_convergence non è stato esposto da ${apiPathUsed}`);
+
+  const apiHazard = apiPool.hazard || (apiPool.details ? apiPool.details.hazard : null);
+  const apiMetadata = apiPool.metadata || apiPool.meta || {};
+  const apiSchemaVersion = apiMetadata.schema_version || apiMetadata.schemaVersion || null;
+  assert.equal(apiHazard?.severity, seededPool.hazard?.severity);
+  assert.equal(apiSchemaVersion, seededPool.metadata?.schema_version);
+
+  // cleanup gestito da t.after sopra
 });
