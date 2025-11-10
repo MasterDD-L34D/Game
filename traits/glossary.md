@@ -10,11 +10,12 @@ l'integrazione nel glossario canonico.
 ## Sintesi audit duplicati (TRT-01)
 
 - **Comando eseguito**: `python traits/scripts/audit_duplicates.py`
-- **Data ultima esecuzione**: 2025-11-10T20:48:25Z (UTC)
+- **Data ultima esecuzione**: 2025-11-10T21:02:42Z (UTC)
 - **Esito**: nessun gruppo di etichette duplicate individuato.
 - **Messaggio CLI**: `Nessun duplicato individuato.`
 - **Output strutturato**: `reports/traits/duplicates.csv` (solo intestazione,
-  nessuna riga di conflitto).
+  nessuna riga di conflitto) e log sintetico in
+  `reports/traits/audit_duplicates_TRT-01.md`.
 
 ## Copertura del dataset
 
