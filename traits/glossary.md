@@ -4,13 +4,15 @@ Questo documento raccoglie i risultati del controllo duplicati (`TRT-01`) e
 normalizza i cinquanta nuovi trait consegnati nel pacchetto
 `incoming/lavoro_da_classificare/traits`. I dati sono stati nuovamente
 verificati con lo script [`traits/scripts/audit_duplicates.py`](scripts/audit_duplicates.py)
-e riassunti per agevolare l'integrazione nel glossario canonico.
+(ultima esecuzione registrata di seguito) e riassunti per agevolare
+l'integrazione nel glossario canonico.
 
 ## Sintesi audit duplicati (TRT-01)
 
 - **Comando eseguito**: `python traits/scripts/audit_duplicates.py`
-- **Data ultima esecuzione**: 2025-11-10T19:30:29Z (UTC)
+- **Data ultima esecuzione**: 2025-11-10T20:48:25Z (UTC)
 - **Esito**: nessun gruppo di etichette duplicate individuato.
+- **Messaggio CLI**: `Nessun duplicato individuato.`
 - **Output strutturato**: `reports/traits/duplicates.csv` (solo intestazione,
   nessuna riga di conflitto).
 
