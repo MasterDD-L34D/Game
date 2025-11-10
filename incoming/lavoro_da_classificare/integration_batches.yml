@@ -1,0 +1,123 @@
+# Piano strutturato per integrare `incoming/lavoro_da_classificare`
+batches:
+  - id: documentation
+    title: Documentazione e guide
+    scope:
+      - docs/**/*
+      - README*.md
+      - "Guida Ai tratti *.docx"
+      - "Progetto unico e fonti (*.pdf)"
+    destination:
+      primary: docs/evo-tactics/
+      security: docs/security/
+      archives: incoming/archive/documents/
+    status: pronti_per_revisione
+    actions:
+      - Convertire i file DOCX/PDF in Markdown usando pandoc e aggiungere metadata frontmatter.
+      - Uniformare titoli e slug alla convenzione `docs/` (kebab-case, prefisso `evo-`).
+      - Aggiornare `docs/README.md` con indice alle nuove sezioni.
+    blockers:
+      - Conferma stakeholder su versioni ufficiali delle guide trait.
+  - id: data-models
+    title: Schemi e alias
+    scope:
+      - templates/*.schema.json
+      - data/aliases/*.json
+    destination:
+      schemas: schemas/evo/
+      data: data/core/species/aliases.json
+    status: in_analisi
+    actions:
+      - Validare gli schema con `npm run schema:lint` e verificare compatibilità con pipeline AJV esistente.
+      - Allineare i campi `sentience_index` e `ecotypes` alle enum globali (`data/core/traits/glossary.json`).
+      - Inserire gli alias confermati in `data/core/species/aliases.json` e aggiornare la documentazione.
+    blockers:
+      - Revisione con team gameplay per i nuovi enum.
+  - id: species_ecotypes
+    title: Specie ed ecotipi
+    scope:
+      - species/*.json
+      - ecotypes/*.json
+      - species_catalog.*
+    destination:
+      data: data/external/evo/species/
+      catalog: data/external/evo/species_catalog.json
+    status: pronti_per_validazione
+    actions:
+      - Validare i JSON con `scripts/validate.sh` (aggiornare i path).
+      - Generare il report aggregato con `species_summary_script.py` e allegarlo in `reports/`.
+      - Collegare gli ecotipi al registry esistente in `data/ecosystems/`.
+    blockers:
+      - Decisione su naming finale (latino vs. alias italiano).
+  - id: traits
+    title: Trait atomici e aggregati
+    scope:
+      - traits/TR-*.json
+      - traits/traits_aggregate.json
+      - docs/analysis/trait_*.
+    destination:
+      data: data/external/evo/traits/
+      glossary: data/core/traits/glossary.json
+    status: pronti_per_validazione
+    actions:
+      - Lanciare `trait_review.py` per generare CSV con anomalie e duplicati.
+      - Integrare i nuovi trait nel glossario assicurando unicità degli ID `TR-####`.
+      - Aggiornare `docs/analysis/trait_merge_proposals.md` con gli esiti della revisione.
+    blockers:
+      - Risoluzione conflitti con trait già presenti in `data/core/traits/glossary.json`.
+  - id: tooling
+    title: Script di automazione
+    scope:
+      - scripts/*.py
+      - scripts/validate.sh
+      - setup_backlog.py
+      - species_summary_script.py
+      - trait_review.py
+    destination:
+      incoming_scripts: incoming/scripts/
+      tools: tools/automation/
+    status: in_corso
+    actions:
+      - Uniformare intestazioni shebang e licenze.
+      - Aggiungere target dedicati nel `Makefile` (`make evo-validate`, `make evo-backlog`).
+      - Documentare l'uso in `incoming/README.md` e nel wiki interno.
+    blockers:
+      - Definizione credenziali/secret per GitHub API (setup backlog).
+  - id: ops_ci
+    title: Workflow CI e site audit
+    scope:
+      - workflows/*.yml
+      - security.yml
+      - init_security_checks.sh
+      - ops/site-audit/**/*
+      - lighthouserc.json
+    destination:
+      workflows: .github/workflows/
+      ops: ops/site-audit/
+      config: config/lighthouse/
+    status: da_revisionare
+    actions:
+      - Confrontare ogni workflow con l'equivalente in `.github/workflows/` e fondere solo gli step mancanti.
+      - Integrare gli script site-audit nel tooling esistente (`tools/site-audit`).
+      - Aggiornare `config/lighthouserc.json` e predisporre test `npm run lint:lighthouse`.
+    blockers:
+      - Disponibilità ambienti CI per Playwright/Lighthouse.
+  - id: frontend
+    title: Test end-to-end e sitemap
+    scope:
+      - tests/playwright/**/*
+      - proposed_routes.csv
+      - proposed_sitemap.xml
+      - mockup_evo_tactics.png
+      - robots.txt
+    destination:
+      tests: tests/playwright/evo/
+      sitemap: public/
+      docs: docs/wireframes/
+    status: pianificato
+    actions:
+      - Trasporre gli spec Playwright nel formato usato da `tests/e2e` (vitest + playwright).
+      - Verificare la sitemap con `sitemap_link_checker.py` e aggiornare `public/sitemap.xml`.
+      - Allegare i mockup nella documentazione UI (`docs/wireframes/`).
+    blockers:
+      - Coordinamento con il team webapp per URL definitivi.
