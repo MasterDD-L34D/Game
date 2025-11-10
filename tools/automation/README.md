@@ -9,7 +9,9 @@ necessario, lint con `ruff`/`eslint`).
 
 Il comando `tools/automation/evo_batch_runner.py` permette di pianificare o
 eseguire automaticamente i comandi registrati in
-`incoming/lavoro_da_classificare/tasks.yml`.
+`incoming/lavoro_da_classificare/tasks.yml`. Lo script usa un logging uniforme
+(`--verbose` per maggiori dettagli) condiviso con gli altri strumenti di
+automazione.
 
 ```bash
 # Elencare i batch disponibili
@@ -25,6 +27,14 @@ python tools/automation/evo_batch_runner.py run --batch data-models --execute
 I comandi che contengono placeholder (`<...>`) vengono saltati e marcati come
 interventi manuali. Per evitare che un singolo fallimento interrompa l'intero
 batch, è possibile passare `--ignore-errors`.
+
+## Lint degli schemi
+
+`tools/automation/evo_schema_lint.py` esegue i controlli strutturali degli
+schemi JSON Evo sfruttando la stessa configurazione di logging del batch runner
+(`--verbose` abilita i messaggi di debug). Il comando accetta un percorso come
+argomento opzionale (file singolo o directory) e viene esposto anche tramite
+`make evo-lint`.
 
 ## Step di preparazione
 
