@@ -1,0 +1,87 @@
+section,title,path,source_file
+Toplevel,Home,/,
+Toplevel,About,/about,
+Toplevel,API Schemas,/api/schemas,
+Toplevel,Bestiario,/bestiario,
+Toplevel,Biomi,/biomi,
+Toplevel,Changelog,/changelog,
+Toplevel,Contribuisci,/contribuisci,
+Toplevel,Quickstart GM,/docs/quickstart-gm,
+Toplevel,Download,/download,
+Toplevel,Equipaggiamento,/equipaggiamento,
+Toplevel,Generatore,/generatore,
+Toplevel,Manovre (Surge),/manovre,
+Toplevel,Modulo Personalità: Enneagramma,/moduli/enneagramma,
+Toplevel,Morph,/morph,
+Toplevel,Privacy,/privacy,
+Toplevel,Regole,/regole,
+Toplevel,Ruoli,/ruoli,
+Toplevel,Telemetria,/telemetria,
+Toplevel,Tratti,/tratti,
+api,Npg.Schema,/api/schemas/npg.schema.json,schemas/npg.schema.json
+api,Pg.Schema,/api/schemas/pg.schema.json,schemas/pg.schema.json
+bestiario,Dune Stalker,/bestiario/dune-stalker,species/dune_stalker.yaml
+bestiario,Echo Wing,/bestiario/echo-wing,species/echo_wing.yaml
+bestiario,Rust Scavenger,/bestiario/rust-scavenger,species/rust_scavenger.yaml
+bestiario,Sand Burrower,/bestiario/sand-burrower,species/sand_burrower.yaml
+biomi,Brulle Terre Ferrose,/biomi/badlands,biomes/badlands.yaml
+biomi,Caverne di Basalto,/biomi/cavern,biomes/cavern.yaml
+biomi,Deserto Ferroso,/biomi/desert,biomes/desert.yaml
+biomi,Starter Biomes,/biomi/starter-biomes,biomes/starter_biomes.yaml
+download,Pack Biome Jobs V1,/download/spawn-packs/pack_biome_jobs_v1.json,exports/spawn_packs/pack_biome_jobs_v1.json
+download,Pack Biome Jobs V7,/download/spawn-packs/pack_biome_jobs_v7.json,exports/spawn_packs/pack_biome_jobs_v7.json
+download,Pack Biome Jobs V8 Alt,/download/spawn-packs/pack_biome_jobs_v8_alt.json,exports/spawn_packs/pack_biome_jobs_v8_alt.json
+equipaggiamento,Arc Rod,/equipaggiamento/armi/arc-rod,gear/weapons/arc_rod.yaml
+equipaggiamento,Twin Blades,/equipaggiamento/armi/twin-blades,gear/weapons/twin_blades.yaml
+manovre,Chain,/manovre/chain,surge/chain.yaml
+manovre,Overdrive,/manovre/overdrive,surge/overdrive.yaml
+manovre,Pierce,/manovre/pierce,surge/pierce.yaml
+manovre,Pulse,/manovre/pulse,surge/pulse.yaml
+manovre,Spin,/manovre/spin,surge/spin.yaml
+moduli,Compat Map,/moduli/enneagramma/compat-map,modules/personality/enneagram/compat_map.json
+moduli,Enneagramma Dataset,/moduli/enneagramma/enneagramma-dataset,modules/personality/enneagram/enneagramma_dataset.json
+moduli,Enneagramma Schema,/moduli/enneagramma/enneagramma-schema,modules/personality/enneagram/enneagramma_schema.json
+moduli,Howto Evo Tactics,/moduli/enneagramma/howto-evo-tactics,modules/personality/enneagram/HOWTO_EVO_TACTICS.md
+moduli,Personality Module.V1,/moduli/enneagramma/personality-modulev1,modules/personality/enneagram/personality_module.v1.json
+moduli,Pg Enneagram Template,/moduli/enneagramma/pg-enneagram-template,modules/personality/enneagram/pg_enneagram_template.yaml
+moduli,Readme Addon Per Pacchetto,/moduli/enneagramma/readme-addon-per-pacchetto,modules/personality/enneagram/README_ADDON_PER_PACCHETTO.md
+moduli,Readme Enneagramma,/moduli/enneagramma/readme-enneagramma,modules/personality/enneagram/README_ENNEAGRAMMA.md
+moduli,Readme Integrazione Meccaniche,/moduli/enneagramma/readme-integrazione-meccaniche,modules/personality/enneagram/README_INTEGRAZIONE_MECCANICHE.md
+moduli,Role Theme Mappings,/moduli/enneagramma/role-theme-mappings,modules/personality/enneagram/role_theme_mappings.yaml
+moduli,Role Theme Profile,/moduli/enneagramma/role-theme-profile,modules/personality/enneagram/role_theme_profile.yaml
+morph,Acid Gland,/morph/acid-gland,morph/acid_gland.yaml
+morph,Aero Exchange,/morph/aero-exchange,morph/aero_exchange.yaml
+morph,Burrow Claws,/morph/burrow-claws,morph/burrow_claws.yaml
+morph,Burst Anaerobic,/morph/burst-anaerobic,morph/burst_anaerobic.yaml
+morph,Echolocate,/morph/echolocate,morph/echolocate.yaml
+morph,Elastomer Skin,/morph/elastomer-skin,morph/elastomer_skin.yaml
+morph,Ferrous Carapace,/morph/ferrous-carapace,morph/ferrous_carapace.yaml
+morph,Glide Wings,/morph/glide-wings,morph/glide_wings.yaml
+morph,Iron Spine,/morph/iron-spine,morph/iron_spine.yaml
+morph,Mag Sense,/morph/mag-sense,morph/mag_sense.yaml
+morph,Rust Ingest,/morph/rust-ingest,morph/rust_ingest.yaml
+morph,Spring Legs,/morph/spring-legs,morph/spring_legs.yaml
+regole,Checklists,/regole/checklists,rules/checklists.md
+regole,Checks,/regole/checks,rules/checks.md
+regole,Economy,/regole/economy,rules/economy.md
+regole,Job Gates,/regole/job-gates,rules/job_gates.yaml
+regole,Mating Biome Links,/regole/mating-biome-links,rules/mating_biome_links.md
+regole,Preferences Tables,/regole/preferences-tables,rules/preferences_tables.md
+regole,Privacy,/regole/privacy,rules/privacy.md
+regole,Proficiency,/regole/proficiency,rules/proficiency.md
+regole,Resources,/regole/resources,rules/resources.md
+regole,Stances,/regole/stances,rules/stances.yaml
+regole,Stats,/regole/stats,rules/stats.md
+regole,Synergies,/regole/synergies,rules/synergies.yaml
+regole,Synergy Tuning,/regole/synergy-tuning,rules/synergy_tuning.yaml
+regole,Tuning,/regole/tuning,rules/tuning.md
+regole,Units Grid,/regole/units-grid,rules/units_grid.md
+regole,Validation,/regole/validation,rules/validation.md
+ruoli,Artificer,/ruoli/artificer,jobs/artificer.yaml
+ruoli,Harvester,/ruoli/harvester,jobs/harvester.yaml
+ruoli,Invoker,/ruoli/invoker,jobs/invoker.yaml
+ruoli,Skirmisher,/ruoli/skirmisher,jobs/skirmisher.yaml
+ruoli,Vanguard,/ruoli/vanguard,jobs/vanguard.yaml
+ruoli,Warden,/ruoli/warden,jobs/warden.yaml
+tratti,Backstab,/tratti/backstab,traits/backstab.yaml
+tratti,Focus Frazionato,/tratti/focus-frazionato,traits/focus_frazionato.yaml
