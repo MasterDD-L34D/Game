@@ -1,0 +1,256 @@
+# task registry derivato da `INTEGRATION_PLAN.md`
+
+meta:
+  version: 1
+  last_update: 2024-05-24
+  notes: "Aggiornare status e assegnatari quando i task vengono presi in carico."
+
+tasks:
+  - id: DOC-01
+    batch: documentation
+    title: Conversione sorgenti Evo-Tactics
+    description: "Convertire file DOCX/PDF in Markdown con frontmatter conforme."
+    status: todo
+    owner: null
+    depends_on: []
+    deliverables:
+      - docs/evo-tactics/*.md
+    commands:
+      - pandoc <input.docx> -o docs/evo-tactics/<slug>.md --metadata title="<Titolo>"
+
+  - id: DOC-02
+    batch: documentation
+    title: Aggiornare indice documentazione
+    description: "Integrare le nuove guide nel README principale e nel wiki."
+    status: todo
+    owner: null
+    depends_on:
+      - DOC-01
+    deliverables:
+      - docs/README.md
+    commands:
+      - npm run docs:lint
+
+  - id: DOC-03
+    batch: documentation
+    title: Archiviazione duplicati documentazione
+    description: "Spostare copie sorgenti in incoming/archive e aggiornare inventario."
+    status: todo
+    owner: null
+    depends_on:
+      - DOC-01
+    deliverables:
+      - incoming/archive/documents/
+      - incoming/lavoro_da_classificare/inventario.yml
+
+  - id: DAT-01
+    batch: data-models
+    title: Lint schemi Evo
+    description: "Eseguire lint sugli schema JSON e introdurre namespace evo."
+    status: in_progress
+    owner: null
+    depends_on: []
+    deliverables:
+      - schemas/evo/*.schema.json
+    commands:
+      - npm run schema:lint
+
+  - id: DAT-02
+    batch: data-models
+    title: Revisione enum con gameplay
+    description: "Validare nuovi enum con il team gameplay e registrare feedback."
+    status: blocked
+    owner: gameplay-team
+    depends_on:
+      - DAT-01
+    deliverables:
+      - docs/meeting-notes/evo-enum-review.md
+    blockers:
+      - "Disponibilità team gameplay"
+
+  - id: DAT-03
+    batch: data-models
+    title: Merge alias specie
+    description: "Inserire alias confermati in data/core/species/aliases.json."
+    status: todo
+    owner: null
+    depends_on:
+      - DAT-02
+    deliverables:
+      - data/core/species/aliases.json
+    commands:
+      - jq '. + input' data/core/species/aliases.json \
+          incoming/lavoro_da_classificare/data/aliases/new_aliases.json
+
+  - id: SPEC-01
+    batch: species_ecotypes
+    title: Validazione JSON specie/ecotipi
+    description: "Validare file specie ed ecotipi con lo script aggiornato."
+    status: todo
+    owner: null
+    depends_on:
+      - DAT-01
+    deliverables:
+      - reports/incoming/species_validation.log
+    commands:
+      - ./scripts/validate.sh --dataset evo-species
+
+  - id: SPEC-02
+    batch: species_ecotypes
+    title: Generazione report sommario specie
+    description: "Creare report riepilogativo con species_summary_script.py."
+    status: todo
+    owner: null
+    depends_on:
+      - SPEC-01
+    deliverables:
+      - reports/evo/species_summary.md
+
+  - id: SPEC-03
+    batch: species_ecotypes
+    title: Mappatura ecotipi
+    description: "Collegare gli ecotipi Evo agli ecosistemi esistenti."
+    status: todo
+    owner: null
+    depends_on:
+      - SPEC-01
+    deliverables:
+      - data/external/evo/species_ecotype_map.json
+
+  - id: TRT-01
+    batch: traits
+    title: Audit duplicati trait
+    description: "Eseguire trait_review.py e classificare le anomalie."
+    status: todo
+    owner: null
+    depends_on:
+      - DAT-01
+    deliverables:
+      - reports/evo/traits_anomalies.csv
+    commands:
+      - python incoming/lavoro_da_classificare/scripts/trait_review.py
+
+  - id: TRT-02
+    batch: traits
+    title: Merge glossario trait
+    description: "Integrare nuovi trait nel glossario mantenendo gli ID univoci."
+    status: todo
+    owner: null
+    depends_on:
+      - TRT-01
+    deliverables:
+      - data/core/traits/glossary.json
+
+  - id: TRT-03
+    batch: traits
+    title: Aggiornare analisi merge trait
+    description: "Riassumere esiti revisione nel documento di analisi."
+    status: todo
+    owner: null
+    depends_on:
+      - TRT-02
+    deliverables:
+      - docs/analysis/trait_merge_proposals.md
+
+  - id: TOL-01
+    batch: tooling
+    title: Uniformare script
+    description: "Allineare header, permessi e licenze degli script importati."
+    status: in_progress
+    owner: devops
+    depends_on: []
+    deliverables:
+      - incoming/scripts/*.py
+      - incoming/scripts/validate_evo_pack.sh
+
+  - id: TOL-02
+    batch: tooling
+    title: Target Makefile per Evo
+    description: "Aggiungere target make per validazione e backlog."
+    status: todo
+    owner: null
+    depends_on:
+      - TOL-01
+    deliverables:
+      - Makefile
+
+  - id: TOL-03
+    batch: tooling
+    title: Documentare tooling Evo
+    description: "Scrivere guida all'uso degli script Evo."
+    status: todo
+    owner: null
+    depends_on:
+      - TOL-01
+    deliverables:
+      - docs/tooling/evo.md
+
+  - id: OPS-01
+    batch: ops_ci
+    title: Gap analysis workflow CI
+    description: "Confrontare workflow importati con pipeline esistenti."
+    status: todo
+    owner: qa
+    depends_on:
+      - TOL-01
+    deliverables:
+      - ops/workflow_diff.md
+
+  - id: OPS-02
+    batch: ops_ci
+    title: Site audit integration
+    description: "Integrare script site-audit e aggiornare README."
+    status: todo
+    owner: qa
+    depends_on:
+      - OPS-01
+    deliverables:
+      - ops/site-audit/
+
+  - id: OPS-03
+    batch: ops_ci
+    title: Configurazione Lighthouse Evo
+    description: "Aggiornare configurazione lighthouse e test correlati."
+    status: todo
+    owner: qa
+    depends_on:
+      - OPS-02
+    deliverables:
+      - config/lighthouse/evo.lighthouserc.json
+    commands:
+      - npm run lint:lighthouse
+
+  - id: FRN-01
+    batch: frontend
+    title: Porting test Playwright
+    description: "Adattare gli test E2E al setup vitest/playwright del repo."
+    status: planned
+    owner: frontend
+    depends_on:
+      - OPS-01
+    deliverables:
+      - tests/playwright/evo/
+
+  - id: FRN-02
+    batch: frontend
+    title: Aggiornare sitemap
+    description: "Integrare sitemap e robots aggiornati e verificarli."
+    status: planned
+    owner: frontend
+    depends_on:
+      - FRN-01
+    deliverables:
+      - public/sitemap.xml
+      - public/robots.txt
+
+  - id: FRN-03
+    batch: frontend
+    title: Documentare mockup Evo
+    description: "Pubblicare mockup nella documentazione wireframe."
+    status: planned
+    owner: frontend
+    depends_on:
+      - FRN-01
+    deliverables:
+      - docs/wireframes/evo/
+
