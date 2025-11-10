@@ -5,12 +5,25 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 from pathlib import Path
 from typing import Dict, Iterable, List
 
 from jsonschema import RefResolver
 from jsonschema.exceptions import RefResolutionError, SchemaError
 from jsonschema.validators import validator_for
+
+
+LOGGER = logging.getLogger("tools.automation.evo_schema_lint")
+
+
+def configure_logging(verbose: bool = False) -> None:
+    level = logging.DEBUG if verbose else logging.INFO
+    root_logger = logging.getLogger()
+    if root_logger.handlers:
+        root_logger.setLevel(level)
+        return
+    logging.basicConfig(level=level, format="%(message)s")
 
 
 def discover_schema_files(root: Path) -> Iterable[Path]:
@@ -44,10 +57,10 @@ def lint(paths: List[Path]) -> int:
             validator_cls.check_schema(schema)
             # Instantiate the validator once to ensure references can be resolved.
             validator_cls(schema, resolver=resolver)
-            print(f"✅ {path}")
+            LOGGER.info("✅ %s", path)
         except (SchemaError, RefResolutionError, json.JSONDecodeError) as exc:
             failures += 1
-            print(f"❌ {path} -> {exc}")
+            LOGGER.error("❌ %s -> %s", path, exc)
     return failures
 
 
@@ -60,19 +73,26 @@ def parse_args(argv: List[str] | None = None) -> argparse.Namespace:
         default=Path("schemas/evo"),
         help="File or directory containing schema JSON documents",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable debug logging output.",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: List[str] | None = None) -> int:
     args = parse_args(argv)
+    configure_logging(verbose=args.verbose)
+
     schema_paths = list(discover_schema_files(args.path))
     if not schema_paths:
-        print(f"No schema files found under {args.path}.")
+        LOGGER.error("No schema files found under %s.", args.path)
         return 1
     failures = lint(schema_paths)
     if failures:
         return 1
-    print("All schemas passed structural validation.")
+    LOGGER.info("All schemas passed structural validation.")
     return 0
 
 

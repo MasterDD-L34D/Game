@@ -8,7 +8,12 @@
         "$SITE_BASE_URL/biomi"
       ],
       "startServerCommand": "",
-      "numberOfRuns": 1
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "desktop",
+        "disableStorageReset": true,
+        "chromeFlags": "--no-sandbox --headless=new"
+      }
     },
     "assert": {
       "assertions": {

@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import dataclasses
+import logging
 import re
 import subprocess
 import sys
@@ -23,6 +24,20 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Set
 
 import yaml
+
+
+LOGGER = logging.getLogger("tools.automation.evo_batch_runner")
+
+
+def configure_logging(verbose: bool = False) -> None:
+    """Configure a simple, uniform logging style for automation scripts."""
+
+    level = logging.DEBUG if verbose else logging.INFO
+    root_logger = logging.getLogger()
+    if root_logger.handlers:
+        root_logger.setLevel(level)
+        return
+    logging.basicConfig(level=level, format="%(message)s")
 
 # Status names considered to be completed and therefore eligible to unblock
 # dependent tasks. The tracker currently uses lowercase strings.
@@ -148,10 +163,6 @@ def topological_sort_all(tasks: Iterable[Task]) -> List[Task]:
     return ordered
 
 
-def log(message: str) -> None:
-    print(message, file=sys.stderr)
-
-
 def describe_task(task: Task, registry: TaskRegistry) -> str:
     deps = ", ".join(task.depends_on) if task.depends_on else "—"
     manual_flag = " (manual placeholders)" if task.has_placeholders() else ""
@@ -188,21 +199,25 @@ def ensure_dependencies_satisfied(
             if other.status not in COMPLETED_STATUSES:
                 missing.append(f"{dep} ({other.status or 'unknown'})")
     if missing:
-        log(f"⚠️  Skipping {task.id} because dependencies are not complete: {', '.join(missing)}")
+        LOGGER.warning(
+            "⚠️  Skipping %s because dependencies are not complete: %s",
+            task.id,
+            ", ".join(missing),
+        )
         return False
     return True
 
 
 def run_command(command: str, execute: bool, ignore_errors: bool) -> bool:
     if not execute:
-        log(f"  → [dry-run] {command}")
+        LOGGER.info("  → [dry-run] %s", command)
         return True
-    log(f"  → {command}")
+    LOGGER.info("  → %s", command)
     try:
         subprocess.run(command, shell=True, check=True)
         return True
     except subprocess.CalledProcessError as exc:
-        log(f"  ✖ command failed with exit code {exc.returncode}")
+        LOGGER.error("  ✖ command failed with exit code %s", exc.returncode)
         if ignore_errors:
             return False
         raise
@@ -219,9 +234,10 @@ def plan_batch(args: argparse.Namespace) -> int:
         )
     else:
         if args.batch not in registry.batches():
-            log(
-                f"Unknown batch '{args.batch}'. Available: all, "
-                + ", ".join(registry.batches())
+            LOGGER.error(
+                "Unknown batch '%s'. Available: all, %s",
+                args.batch,
+                ", ".join(registry.batches()),
             )
             return 1
         ordered_tasks = topological_sort(registry.tasks_for_batch(args.batch))
@@ -239,19 +255,19 @@ def run_batch(args: argparse.Namespace) -> int:
         tasks = topological_sort_all(registry.all_tasks())
     else:
         if args.batch not in registry.batches():
-            log(
-                f"Unknown batch '{args.batch}'. Available: all, "
-                + ", ".join(registry.batches())
+            LOGGER.error(
+                "Unknown batch '%s'. Available: all, %s",
+                args.batch,
+                ", ".join(registry.batches()),
             )
             return 1
         tasks = topological_sort(registry.tasks_for_batch(args.batch))
 
     if not tasks:
-        log(
-            f"No tasks found for batch '{args.batch}'."
-            if args.batch != "all"
-            else "No tasks found in the tracker."
-        )
+        if args.batch == "all":
+            LOGGER.info("No tasks found in the tracker.")
+        else:
+            LOGGER.info("No tasks found for batch '%s'.", args.batch)
         return 0
 
     skipped_for_status: List[str] = []
@@ -272,7 +288,7 @@ def run_batch(args: argparse.Namespace) -> int:
         ):
             continue
         if not task.commands:
-            log(f"ℹ️  Task {task.id} has no commands recorded; skipping.")
+            LOGGER.info("ℹ️  Task %s has no commands recorded; skipping.", task.id)
             if args.auto:
                 completed_in_session.add(task.id)
             continue
@@ -293,14 +309,16 @@ def run_batch(args: argparse.Namespace) -> int:
         if args.auto and task_successful and not task_had_manual:
             completed_in_session.add(task.id)
     if skipped_for_status:
-        log("\nSkipped tasks due to status: " + ", ".join(skipped_for_status))
+        LOGGER.info("\nSkipped tasks due to status: %s", ", ".join(skipped_for_status))
     if manual_commands:
-        log("\nCommands requiring manual intervention:")
+        LOGGER.info("\nCommands requiring manual intervention:")
         for cmd in manual_commands:
-            log(f"  - {cmd}")
-    log(
-        f"\nSummary: {executed_commands} command(s) executed"
-        f"{'' if args.execute else ' (dry-run)'}; {failed_commands} failure(s)."
+            LOGGER.info("  - %s", cmd)
+    LOGGER.info(
+        "\nSummary: %s command(s) executed%s; %s failure(s).",
+        executed_commands,
+        "" if args.execute else " (dry-run)",
+        failed_commands,
     )
     return 0 if (failed_commands == 0 or args.ignore_errors) else 1
 
@@ -319,6 +337,11 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("incoming/lavoro_da_classificare/tasks.yml"),
         help="Path to the Evo-Tactics task registry.",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable debug logging output.",
     )
 
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -366,6 +389,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+    configure_logging(verbose=args.verbose)
     return args.func(args)
 
 
