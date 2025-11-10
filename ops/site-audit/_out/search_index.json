@@ -148,6 +148,13 @@
       "tags": []
     },
     {
+      "title": "Glossary",
+      "path": "/tratti/glossary",
+      "type": "tratti",
+      "summary": "Questo documento raccoglie i risultati del controllo duplicati (`TRT-01`) e normalizza i cinquanta nuovi trait consegnati nel pacchetto `incoming/lavoro_da_classificare/traits`. I dati sono stati verificati con lo",
+      "tags": []
+    },
+    {
       "title": "Build Budget",
       "path": "/regole/build-budget",
       "type": "regole",
