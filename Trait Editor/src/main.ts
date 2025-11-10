@@ -1,12 +1,12 @@
+import angular from 'angular';
+import 'angular-route';
+import 'angular-animate';
+import 'angular-sanitize';
+
 import { registerAppModule } from './app.module';
 import './styles/main.css';
 
 declare const document: Document;
-declare const angular: any;
-
-if (typeof angular === 'undefined') {
-  throw new Error('AngularJS non è stato caricato. Verifica gli script nel file index.html.');
-}
 
 const appModule = registerAppModule();
 
