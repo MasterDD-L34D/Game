@@ -14,6 +14,11 @@ chiudere il batch corrispondente.
 > `incoming/archive/documents/`, `tools/automation/`, `docs/wireframes/evo/`.
 > Utilizzarle per atterrare i deliverable mano a mano che i batch avanzano.
 
+> Directory operative già presenti nel repository: `docs/evo-tactics/`,
+> `docs/security/`, `data/external/evo/`, `reports/evo/`,
+> `incoming/archive/documents/`, `tools/automation/`, `docs/wireframes/evo/`.
+> Utilizzarle per atterrare i deliverable mano a mano che i batch avanzano.
+
 ## Batch `documentation`
 
 - [ ] **DOC-01 – Conversione sorgenti**  
