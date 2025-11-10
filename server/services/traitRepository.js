@@ -151,10 +151,11 @@ class TraitRepository {
 
   async #getFileState(filePath) {
     const stat = await fs.stat(filePath);
-    const savedAt = stat.mtime.toISOString();
+    const updatedAt = stat.mtime.toISOString();
     return {
-      savedAt,
-      version: savedAt,
+      savedAt: updatedAt,
+      updatedAt,
+      version: updatedAt,
       etag: TraitRepository.#generateEtagFromStat(stat),
     };
   }
@@ -456,6 +457,7 @@ class TraitRepository {
         path: path.relative(this.dataRoot, resolved.filePath),
         category: resolved.category,
         isDraft: resolved.isDraft,
+        updatedAt: fileState.updatedAt,
         savedAt: fileState.savedAt,
         version: fileState.version,
         etag: fileState.etag,
@@ -668,6 +670,7 @@ class TraitRepository {
         id: traitId,
         path: path.relative(this.dataRoot, filePath),
         category: draft ? '_drafts' : category,
+        updatedAt: state.updatedAt,
         savedAt: state.savedAt,
         version: state.version,
         etag: state.etag,
@@ -732,6 +735,7 @@ class TraitRepository {
         id: normalisedId,
         path: path.relative(this.dataRoot, resolved.filePath),
         category: resolved.category,
+        updatedAt: newState.updatedAt,
         savedAt: newState.savedAt,
         version: newState.version,
         etag: newState.etag,
@@ -929,7 +933,14 @@ class TraitRepository {
         deleted: true,
         isDraft: resolved.isDraft,
         ...(author ? { savedBy: author } : {}),
-        ...(currentState ? { version: currentState.version, etag: currentState.etag } : {}),
+        ...(currentState
+          ? {
+              version: currentState.version,
+              etag: currentState.etag,
+              updatedAt: currentState.updatedAt,
+              savedAt: currentState.savedAt,
+            }
+          : {}),
       },
     };
   }
@@ -999,7 +1010,8 @@ class TraitRepository {
           path: path.relative(this.dataRoot, filePath),
           category: directory === '_drafts' ? null : directory,
           isDraft: directory === '_drafts',
-          updatedAt: fileState.savedAt,
+          updatedAt: fileState.updatedAt,
+          savedAt: fileState.savedAt,
           version: fileState.version,
           etag: fileState.etag,
         };
