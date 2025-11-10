@@ -1,28 +1,44 @@
-# Integrazione Evo-Tactics
+---
+title: Evo-Tactics · Hub Documentale
+description: Raccolta normalizzata dei materiali Evo-Tactics con log degli interventi di integrazione.
+tags:
+  - evo-tactics
+  - documentazione
+  - integrazione
+updated: 2025-11-10
+---
 
-Questa directory ospiterà la documentazione Markdown convertita dal pacchetto
-Evo-Tactics presente in `incoming/lavoro_da_classificare/`. Le guide originali
-sono fornite in formato DOCX/PDF e verranno progressivamente normalizzate in
-Markdown seguendo il piano di integrazione.
+# Evo-Tactics — Hub Documentale
 
-## Struttura prevista
+Questa sezione consolida i contenuti provenienti dai pacchetti Evo-Tactics. Ogni file è stato verificato
+contro le linee guida PTPF e collegato all'indice generale del repository.
 
-- `guides/` — conversione delle guide principali (`Game_EvoTactics_Guida_Pacchetto`,
-  guide trait, policy operative).
-- `reports/` — riepiloghi sintetici e log di revisione.
-- `security/` — documenti di sicurezza collegati al pacchetto.
-- `changelog/` — note di avanzamento per l'integrazione.
+## Documenti principali
 
-Le sottocartelle verranno create durante i batch `documentation` e `ops_ci`.
+| Percorso | Contenuto |
+| --- | --- |
+| [`guides/visione-struttura.md`](guides/visione-struttura.md) | Visione concettuale, struttura modulare ad anello e raccomandazioni PrimeTalk. |
+| [`guides/template-ptpf.md`](guides/template-ptpf.md) | Template operativo PTPF per mantenere coerenza fra moduli e tracciamento drift. |
+| [`reports/integration-log.md`](reports/integration-log.md) | Registro puntuale degli interventi e delle scelte di normalizzazione. |
 
-## Checklist di atterraggio
+## Strumenti correlati
 
-1. Convertire ogni sorgente DOCX/PDF con `pandoc` assicurando frontmatter
-   coerente (`title`, `description`, `tags`).
-2. Collegare le nuove pagine all'indice generale aggiornando `docs/README.md`.
-3. Archiviare i sorgenti originali nella cartella `incoming/archive/documents/`
-   annotando `inventario.yml`.
-4. Verificare i link interni con `npm run docs:lint` prima del merge.
+- **Validator e script**: consulta [`incoming/docs/yaml_validator.py`](../../incoming/docs/yaml_validator.py)
+  e [`incoming/docs/auto_eval_from_yaml.py`](../../incoming/docs/auto_eval_from_yaml.py) per controllare i dataset.
+- **Template Obsidian**: il vault suggerito è disponibile in [`incoming/docs/obsidian_template.md`](../../incoming/docs/obsidian_template.md).
+- **Telemetria**: la base YAML per gli encounter è in [`incoming/docs/bioma_encounters.yaml`](../../incoming/docs/bioma_encounters.yaml).
 
-Tutti i progressi devono essere tracciati in `incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md`
-e nel relativo `tasks.yml`.
+## Collegamenti rapidi
+
+- Indice generale della documentazione: [`docs/INDEX.md`](../INDEX.md).
+- Archivio dei materiali preliminari: [`docs/archive/`](../archive/).
+- Piano di integrazione meccaniche: [`incoming/README_INTEGRAZIONE_MECCANICHE.md`](../../incoming/README_INTEGRAZIONE_MECCANICHE.md).
+
+## Registro interventi
+
+| Data | Azione | Note |
+| --- | --- | --- |
+| 2025-11-10 | Normalizzazione contenuti `guides/` | Conversione markdown dei template PTPF e della visione strutturale. |
+| 2025-11-10 | Aggiornamento hub documentale | Sostituzione del placeholder iniziale con struttura navigabile e metadata. |
+| 2025-11-10 | Archiviazione placeholder storico | Spostato il testo originale in `../archive/evo-tactics-readme-placeholder.md`. |
+
