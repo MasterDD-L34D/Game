@@ -7,7 +7,9 @@ operators to list, plan, and execute the commands associated with each batch.
 The script is designed to automate the "from here" execution of the integration
 plan. It understands task dependencies, skips commands that require manual
 inputs (identified by ``<placeholder>`` markers), and can optionally execute the
-shell commands recorded in the tracker.
+shell commands recorded in the tracker. Use ``--batch all`` to aggregate every
+batch in a single run and ``--auto`` to ignore status gates while marking
+dependency chains as completed when their commands succeed.
 """
 
 from __future__ import annotations
@@ -93,6 +95,9 @@ class TaskRegistry:
     def get(self, task_id: str) -> Optional[Task]:
         return self._tasks.get(task_id)
 
+    def all_tasks(self) -> List[Task]:
+        return list(self._tasks.values())
+
 
 def topological_sort(tasks: Iterable[Task]) -> List[Task]:
     """Return tasks ordered by their intra-batch dependencies."""
@@ -118,6 +123,31 @@ def topological_sort(tasks: Iterable[Task]) -> List[Task]:
     return ordered
 
 
+def topological_sort_all(tasks: Iterable[Task]) -> List[Task]:
+    """Return tasks ordered by dependencies, even across batches."""
+
+    tasks_by_id: Dict[str, Task] = {task.id: task for task in tasks}
+    remaining: Dict[str, Task] = dict(tasks_by_id)
+    ordered: List[Task] = []
+
+    while remaining:
+        progressed = False
+        for task_id, task in list(remaining.items()):
+            blocking = [dep for dep in task.depends_on if dep in remaining]
+            if blocking:
+                continue
+            ordered.append(task)
+            del remaining[task_id]
+            progressed = True
+        if not progressed:
+            cycle = ", ".join(sorted(remaining))
+            raise RuntimeError(
+                "Detected a dependency cycle inside the selected tasks involving: "
+                + cycle
+            )
+    return ordered
+
+
 def log(message: str) -> None:
     print(message, file=sys.stderr)
 
@@ -133,14 +163,30 @@ def describe_task(task: Task, registry: TaskRegistry) -> str:
     )
 
 
-def ensure_dependencies_satisfied(task: Task, registry: TaskRegistry) -> bool:
+def ensure_dependencies_satisfied(
+    task: Task,
+    registry: TaskRegistry,
+    *,
+    auto_mode: bool,
+    completed_in_session: Optional[Set[str]] = None,
+) -> bool:
     missing: List[str] = []
+    completed_in_session = completed_in_session or set()
     for dep in task.depends_on:
         other = registry.get(dep)
         if not other:
             continue  # dependency outside tracker scope
-        if other.status not in COMPLETED_STATUSES:
+        if auto_mode:
+            if other.id in completed_in_session:
+                continue
+            if not other.commands:
+                continue
+            if other.status in COMPLETED_STATUSES:
+                continue
             missing.append(f"{dep} ({other.status or 'unknown'})")
+        else:
+            if other.status not in COMPLETED_STATUSES:
+                missing.append(f"{dep} ({other.status or 'unknown'})")
     if missing:
         log(f"⚠️  Skipping {task.id} because dependencies are not complete: {', '.join(missing)}")
         return False
@@ -164,12 +210,23 @@ def run_command(command: str, execute: bool, ignore_errors: bool) -> bool:
 
 def plan_batch(args: argparse.Namespace) -> int:
     registry = TaskRegistry(args.tasks_file)
-    if args.batch not in registry.batches():
-        log(f"Unknown batch '{args.batch}'. Available: {', '.join(registry.batches())}")
-        return 1
+    if args.batch == "all":
+        batches = registry.batches()
+        ordered_tasks = topological_sort_all(registry.all_tasks())
+        print(
+            "Combined batches (" + ", ".join(batches) + ") include "
+            f"{len(ordered_tasks)} task(s):\n"
+        )
+    else:
+        if args.batch not in registry.batches():
+            log(
+                f"Unknown batch '{args.batch}'. Available: all, "
+                + ", ".join(registry.batches())
+            )
+            return 1
+        ordered_tasks = topological_sort(registry.tasks_for_batch(args.batch))
+        print(f"Batch '{args.batch}' includes {len(ordered_tasks)} task(s):\n")
 
-    ordered_tasks = topological_sort(registry.tasks_for_batch(args.batch))
-    print(f"Batch '{args.batch}' includes {len(ordered_tasks)} task(s):\n")
     for task in ordered_tasks:
         print(describe_task(task, registry))
         print()
@@ -178,38 +235,63 @@ def plan_batch(args: argparse.Namespace) -> int:
 
 def run_batch(args: argparse.Namespace) -> int:
     registry = TaskRegistry(args.tasks_file)
-    if args.batch not in registry.batches():
-        log(f"Unknown batch '{args.batch}'. Available: {', '.join(registry.batches())}")
-        return 1
+    if args.batch == "all":
+        tasks = topological_sort_all(registry.all_tasks())
+    else:
+        if args.batch not in registry.batches():
+            log(
+                f"Unknown batch '{args.batch}'. Available: all, "
+                + ", ".join(registry.batches())
+            )
+            return 1
+        tasks = topological_sort(registry.tasks_for_batch(args.batch))
 
-    tasks = topological_sort(registry.tasks_for_batch(args.batch))
     if not tasks:
-        log(f"No tasks found for batch '{args.batch}'.")
+        log(
+            f"No tasks found for batch '{args.batch}'."
+            if args.batch != "all"
+            else "No tasks found in the tracker."
+        )
         return 0
 
     skipped_for_status: List[str] = []
     manual_commands: List[str] = []
     executed_commands = 0
     failed_commands = 0
+    completed_in_session: Set[str] = set()
 
     for task in tasks:
-        if task.status and task.status not in RUNNABLE_STATUSES:
+        if (not args.auto) and task.status and task.status not in RUNNABLE_STATUSES:
             skipped_for_status.append(f"{task.id} ({task.status})")
             continue
-        if not ensure_dependencies_satisfied(task, registry):
+        if not ensure_dependencies_satisfied(
+            task,
+            registry,
+            auto_mode=args.auto,
+            completed_in_session=completed_in_session,
+        ):
             continue
         if not task.commands:
             log(f"ℹ️  Task {task.id} has no commands recorded; skipping.")
+            if args.auto:
+                completed_in_session.add(task.id)
             continue
+        task_successful = True
+        task_had_manual = False
         for command in task.commands:
             if PLACEHOLDER_PATTERN.search(command or ""):
                 manual_commands.append(f"{task.id}: {command}")
+                task_successful = False
+                task_had_manual = True
                 continue
             ok = run_command(command, execute=args.execute, ignore_errors=args.ignore_errors)
             if ok:
                 executed_commands += 1
             else:
                 failed_commands += 1
+                task_successful = False
+        if args.auto and task_successful and not task_had_manual:
+            completed_in_session.add(task.id)
     if skipped_for_status:
         log("\nSkipped tasks due to status: " + ", ".join(skipped_for_status))
     if manual_commands:
@@ -245,11 +327,19 @@ def build_parser() -> argparse.ArgumentParser:
     batches_parser.set_defaults(func=list_batches)
 
     plan_parser = subparsers.add_parser("plan", help="Show tasks for a batch")
-    plan_parser.add_argument("--batch", required=True, help="Batch identifier to inspect")
+    plan_parser.add_argument(
+        "--batch",
+        required=True,
+        help="Batch identifier to inspect (use 'all' to aggregate every batch)",
+    )
     plan_parser.set_defaults(func=plan_batch)
 
     run_parser = subparsers.add_parser("run", help="Execute commands for a batch")
-    run_parser.add_argument("--batch", required=True, help="Batch identifier to execute")
+    run_parser.add_argument(
+        "--batch",
+        required=True,
+        help="Batch identifier to execute (use 'all' to run every batch)",
+    )
     run_parser.add_argument(
         "--execute",
         action="store_true",
@@ -259,6 +349,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--ignore-errors",
         action="store_true",
         help="Continue even if a command exits with a non-zero status.",
+    )
+    run_parser.add_argument(
+        "--auto",
+        action="store_true",
+        help=(
+            "Force automation by ignoring task status gates and considering "
+            "dependencies satisfied when they were executed in this session."
+        ),
     )
     run_parser.set_defaults(func=run_batch)
 
