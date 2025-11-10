@@ -5,17 +5,16 @@ tags:
   - evo-tactics
   - archivio
 archived: true
-updated: 2025-11-10
+updated: 2025-11-12
 ---
 
-# Integrazione Evo-Tactics
+# Integrazione Evo-Tactics (storico)
 
-Questa directory ospiterà la documentazione Markdown convertita dal pacchetto
-Evo-Tactics presente in `incoming/lavoro_da_classificare/`. Le guide originali
-sono fornite in formato DOCX/PDF e verranno progressivamente normalizzate in
-Markdown seguendo il piano di integrazione.
+Questa directory conserva il testo introduttivo utilizzato prima della creazione
+dell'hub documentale. Rimane disponibile per contesto storico sul processo di
+integrazione dei pacchetti provenienti da `incoming/lavoro_da_classificare/`.
 
-## Struttura prevista
+## Struttura prevista (storica)
 
 - `guides/` — conversione delle guide principali (`Game_EvoTactics_Guida_Pacchetto`,
   guide trait, policy operative).
@@ -23,7 +22,7 @@ Markdown seguendo il piano di integrazione.
 - `security/` — documenti di sicurezza collegati al pacchetto.
 - `changelog/` — note di avanzamento per l'integrazione.
 
-Le sottocartelle verranno create durante i batch `documentation` e `ops_ci`.
+Le sottocartelle sarebbero state create durante i batch `documentation` e `ops_ci`.
 
 ## Checklist di atterraggio
 
