@@ -1,14 +1,17 @@
 ---
-title: Evo-Tactics · Integration Log
-description: Registro degli interventi effettuati durante la normalizzazione dei documenti Evo-Tactics.
+title: Evo-Tactics · Integration Log (archivio)
+description: Registro archiviato degli interventi effettuati durante la normalizzazione dei documenti Evo-Tactics.
 tags:
   - evo-tactics
   - integrazione
   - log
-updated: 2025-11-13
+archived: true
+updated: 2025-11-14
 ---
 
 # Registro integrazione Evo-Tactics
+
+> **Nota archivio:** questo registro è stato spostato in `docs/archive/evo-tactics/` per evitare duplicazione con l'hub attivo. Utilizzare questa pagina come fonte canonica delle attività DOC-01/DOC-02/DOC-03.
 
 | Data | Riferimento | Dettaglio |
 | --- | --- | --- |

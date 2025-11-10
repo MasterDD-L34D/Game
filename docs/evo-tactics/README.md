@@ -5,7 +5,7 @@ tags:
   - evo-tactics
   - documentazione
   - integrazione
-updated: 2025-11-13
+updated: 2025-11-14
 ---
 
 # Evo-Tactics — Hub Documentale
@@ -23,7 +23,6 @@ design, telemetria e produzione.
 | [`guides/visione-struttura.md`](guides/visione-struttura.md) | Sintesi della visione di prodotto, dei pilastri tattici e della struttura ad anello che governa missioni, specie e loop di gioco. |
 | [`guides/template-ptpf.md`](guides/template-ptpf.md) | Template operativo PTPF con sezioni compilabili, esempi pratici e checklist di qualità per i deliverable Evo-Tactics. |
 | [`guides/security-ops.md`](guides/security-ops.md) | Playbook Security & Ops con workflow CI, audit locali e rotazione credenziali. |
-| [`reports/integration-log.md`](reports/integration-log.md) | Registro puntuale delle attività di integrazione, incluse le normalizzazioni DOC-01/02/03 e i follow-up previsti. |
 
 ## Processi operativi
 
@@ -42,21 +41,9 @@ design, telemetria e produzione.
 
 - Indice generale della documentazione: [`docs/INDEX.md`](../INDEX.md).
 - Archivio dei materiali preliminari: [`docs/archive/evo-tactics/`](../archive/evo-tactics/).
+- Registro integrazione (archivio): [`docs/archive/evo-tactics/integration-log.md`](../archive/evo-tactics/integration-log.md).
 - Piano di integrazione meccaniche: [`incoming/README_INTEGRAZIONE_MECCANICHE.md`](../../incoming/README_INTEGRAZIONE_MECCANICHE.md).
 
 ## Registro interventi
 
-| Data | Azione | Note |
-| --- | --- | --- |
-| 2025-11-13 | DOC-01 | Aggiornati `guides/template-ptpf.md` e `guides/visione-struttura.md` con esempi reali e sezione Security Alignment. |
-| 2025-11-13 | DOC-01 | Aggiunta la guida `guides/security-ops.md` sostituendo il precedente placeholder generale. |
-| 2025-11-13 | DOC-03 | Spostato `docs/security/README.md` in `docs/archive/evo-tactics/security-readme.md` e aggiornato l'indice archivio. |
-| 2025-11-13 | DOC-02 | Esteso `docs/INDEX.md` con il playbook Security & Ops e i riferimenti aggiornati. |
-| 2025-11-12 | Ristrutturazione contenuti `guides/` | Sostituiti i placeholder con sezioni descrittive, esempi compilabili e riferimenti al pack Evo-Tactics. |
-| 2025-11-12 | Aggiornamento hub documentale | Navigazione rivista, riferimenti incrociati aggiornati e collegamento al nuovo archivio dedicato. |
-| 2025-11-12 | Riordino archivio storico | Spostato il placeholder originale in `../archive/evo-tactics/README.md` mantenendo le note contestuali. |
-| 2025-11-10 | Normalizzazione contenuti `guides/` | Conversione markdown dei template PTPF e della visione strutturale. |
-| 2025-11-10 | Aggiornamento hub documentale | Sostituzione del placeholder iniziale con struttura navigabile e metadata. |
-| 2025-11-10 | Archiviazione placeholder storico | Spostato il testo originale in `../archive/evo-tactics/README.md`. |
-
-Annota qui ogni modifica futura, includendo numero attività e follow-up necessario.
+Il registro dettagliato delle attività è stato consolidato nell'archivio storico: consulta [`docs/archive/evo-tactics/integration-log.md`](../archive/evo-tactics/integration-log.md) per lo storico completo DOC-01/DOC-02/DOC-03. L'ultima voce registrata (2025-11-13 · DOC-02) documenta l'estensione di `docs/INDEX.md` con il playbook Security & Ops.

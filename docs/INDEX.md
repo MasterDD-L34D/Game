@@ -4,7 +4,7 @@ description: Mappa di navigazione aggiornata della documentazione principale con
 tags:
   - documentazione
   - indice
-updated: 2025-11-13
+updated: 2025-11-14
 ---
 
 # Indice Documentazione
@@ -15,11 +15,11 @@ updated: 2025-11-13
 - [archive/](archive/) — materiale storico e placeholder archiviati, incluso l'ex hub Evo-Tactics.
 
 ## Evo-Tactics
-- [Hub documentale](evo-tactics/README.md) — panoramica aggiornata, strumenti correlati e registro interventi.
+- [Hub documentale](evo-tactics/README.md) — panoramica aggiornata, strumenti correlati e accesso rapido all'archivio log.
 - [Visione & Struttura](evo-tactics/guides/visione-struttura.md) — visione di prodotto, pilastri tattici e workflow di integrazione.
 - [Template PTPF](evo-tactics/guides/template-ptpf.md) — struttura compilabile con checklist per missioni, specie e loop telemetrici.
 - [Security & Ops Playbook](evo-tactics/guides/security-ops.md) — audit CI/locali, rotazioni credenziali e incident response.
-- [Integration Log](evo-tactics/reports/integration-log.md) — cronologia delle attività DOC-01/02/03.
+- [Integration Log (archivio)](archive/evo-tactics/integration-log.md) — cronologia DOC-01/DOC-02/DOC-03 conservata per riferimento storico.
 - [Archivio storico](archive/evo-tactics/README.md) — testo introduttivo pre-normalizzazione conservato per contesto.
 
 ## Strumenti incoming

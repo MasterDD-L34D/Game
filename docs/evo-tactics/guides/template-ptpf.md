@@ -99,7 +99,7 @@ esempi concreti, note di completamento e riferimenti diretti agli asset del pack
 ## 7. Linking & Traceability
 
 - **Anchor Map**: elenca le relazioni principali (`@VISION_CORE ↔ @TACTICS_CORE`) citando gli ID missione da `catalog_data.json`.
-- **Receipts**: link a commit, issue tracker o report QA e registra il riferimento in `reports/integration-log.md` con tag `DOC-XX`.
+- **Receipts**: link a commit, issue tracker o report QA e registra il riferimento in `docs/archive/evo-tactics/integration-log.md` con tag `DOC-XX`.
 - **Altre note**: strumenti usati, esperimenti non adottati, follow-up (es. link a `incoming/lavoro_da_classificare/security.yml`).
 
 ## 8. Drift Guards

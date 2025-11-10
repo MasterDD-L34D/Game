@@ -60,7 +60,7 @@ PTPF.
 ## 5. Playtest & Metriche
 
 - **Playtest Loop**
-  - Identificatore: `PT-EVO-<numero>` con link a `docs/playtest/`.
+  - Identificatore: `PT-EVO-021` con link a [`docs/playtest/SESSION-2025-11-12.md`](../../playtest/SESSION-2025-11-12.md).
   - Parametri da tracciare: `stress_level`, `mutation_stability`, `encounter_delta`.
   - Checklist: replicare almeno due missioni per livello di difficoltà, verificare
     la presenza di tutorial inline per nuove specie.
