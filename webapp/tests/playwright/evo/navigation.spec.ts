@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test';
 
+import { pathFor } from './utils';
+
 test.describe('Evo-Tactics navigation', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto(pathFor('/'));
   });
 
   test('off-canvas menu toggles and highlights the active route', async ({ page }) => {
@@ -12,11 +14,13 @@ test.describe('Evo-Tactics navigation', () => {
 
     await expect(navigation).not.toHaveClass(/navigation--open/);
     await expect(overlay).not.toHaveClass(/app-shell__overlay--visible/);
+    await expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
 
     await menuToggle.click();
 
     await expect(navigation).toHaveClass(/navigation--open/);
     await expect(overlay).toHaveClass(/app-shell__overlay--visible/);
+    await expect(menuToggle).toHaveAttribute('aria-expanded', 'true');
 
     const missionConsoleLink = navigation.getByRole('menuitem', { name: 'Mission Console' });
     await expect(missionConsoleLink).toBeVisible();
@@ -25,6 +29,7 @@ test.describe('Evo-Tactics navigation', () => {
 
     await expect(page).toHaveURL(/\/mission-console$/);
     await expect(navigation).not.toHaveClass(/navigation--open/);
+    await expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
 
     const activeTopbar = navigation.locator('.navigation__topbar-item--active .navigation__topbar-text');
     await expect(activeTopbar).toHaveText('Mission Console');
@@ -47,5 +52,19 @@ test.describe('Evo-Tactics navigation', () => {
     for (const label of expectedLabels) {
       await expect(page.getByRole('button', { name: label }).first()).toBeVisible();
     }
+  });
+
+  test('top navigation updates the active section across pages', async ({ page }) => {
+    await page.getByRole('button', { name: 'Apri il menù Evo-Tactics Console' }).click();
+    await page.getByRole('button', { name: 'Mission Control' }).click();
+
+    await expect(page).toHaveURL(/\/mission-control$/);
+    await page.getByRole('button', { name: 'Apri il menù Evo-Tactics Console' }).click();
+    await expect(page.locator('.navigation__topbar-item--active .navigation__topbar-text')).toHaveText('Mission Control');
+
+    await page.getByRole('button', { name: 'Generatore' }).click();
+    await expect(page).toHaveURL(/\/generator$/);
+    await page.getByRole('button', { name: 'Apri il menù Evo-Tactics Console' }).click();
+    await expect(page.locator('.navigation__topbar-item--active .navigation__topbar-text')).toHaveText('Generatore');
   });
 });

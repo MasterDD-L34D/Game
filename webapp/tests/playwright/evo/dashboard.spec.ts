@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test';
 
+import { pathFor } from './utils';
+
 test.describe('Mission dashboard', () => {
   test('renders mission summary, metrics, and event log entries', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(pathFor('/'));
 
     await expect(page.getByRole('heading', { name: 'Mission Console' })).toBeVisible();
 

@@ -1,8 +1,10 @@
 import { expect, test } from '@playwright/test';
 
+import { pathFor } from './utils';
+
 test.describe('Mission generator', () => {
   test('exposes quick toolkit entries for Evo operators', async ({ page }) => {
-    await page.goto('/generator');
+    await page.goto(pathFor('/generator'));
 
     await expect(page.getByRole('heading', { name: 'Generatore Operativo' })).toBeVisible();
 
