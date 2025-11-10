@@ -176,6 +176,27 @@
       "tags": []
     },
     {
+      "title": "Species.Schema",
+      "path": "/api/schemas/species.schema.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Enums",
+      "path": "/api/schemas/enums.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
+      "title": "Trait.Schema",
+      "path": "/api/schemas/trait.schema.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
+    },
+    {
       "title": "Suggestions-Apply-Request.Schema",
       "path": "/api/schemas/suggestions-apply-request.schema.json",
       "type": "api",
