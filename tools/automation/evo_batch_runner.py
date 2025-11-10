@@ -16,7 +16,6 @@ from __future__ import annotations
 
 import argparse
 import dataclasses
-import logging
 import re
 import subprocess
 import sys
@@ -25,19 +24,10 @@ from typing import Dict, Iterable, List, Optional, Sequence, Set
 
 import yaml
 
+from tools.automation import configure_logging, get_logger
 
-LOGGER = logging.getLogger("tools.automation.evo_batch_runner")
 
-
-def configure_logging(verbose: bool = False) -> None:
-    """Configure a simple, uniform logging style for automation scripts."""
-
-    level = logging.DEBUG if verbose else logging.INFO
-    root_logger = logging.getLogger()
-    if root_logger.handlers:
-        root_logger.setLevel(level)
-        return
-    logging.basicConfig(level=level, format="%(message)s")
+LOGGER = get_logger("tools.automation.evo_batch_runner")
 
 # Status names considered to be completed and therefore eligible to unblock
 # dependent tasks. The tracker currently uses lowercase strings.

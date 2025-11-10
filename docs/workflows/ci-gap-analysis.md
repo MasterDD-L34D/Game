@@ -13,32 +13,27 @@ scoperte rispetto agli obiettivi Ops.
 - Pipeline ausiliarie gestiscono CLI (`cli-checks`), validazioni Python
   (`python-tests`) e dataset (`dataset-checks`), garantendo la coerenza delle
   fonti dati.
+- Il job `site-audit` installa le dipendenze di `ops/site-audit/` ed esegue
+  `make audit`, caricando gli artifact prodotti per la consultazione Ops.
+- Il job `lighthouse-ci` riusa la configurazione condivisa (`lighthouserc.json`)
+  e lancia LHCI su push/PR quando sono coinvolte modifiche front-end.
 - Altri workflow schedulati coprono aspetti specifici: `lighthouse.yml` esegue
   audit periodici delle metriche web con LHCI, mentre `schema-validate.yml`
   verifica gli schemi JSON in maniera autonoma.
 
 ## Gap individuati
 
-1. **Site audit non integrato in CI** – gli script in `ops/site-audit/` sono
-   richiamati manualmente via `make audit` e non c'è un job dedicato in
-   `ci.yml`.
-2. **Lighthouse confinato alla schedule** – le metriche Lighthouse girano solo
-   sul workflow pianificato; non esiste un controllo automatico su PR o
-   modifiche front-end critiche.
-3. **Strumenti di automazione Evo isolati** – gli script in
-   `tools/automation/` (es. batch runner, lint schemi) non sono coperti da job
-   CI o target Make condivisi, creando disallineamenti operativi.
-4. **Segnalazione centralizzata dei risultati** – non vengono raccolti artefatti
-   standardizzati per audit/Lighthouse che possano alimentare reportistica o QA
-   (download manuale richiesto dagli artifact quando disponibili).
+1. **Strumenti di automazione Evo isolati** – gli script in
+   `tools/automation/` (es. batch runner, lint schemi) sono ora coperti da
+   target Make uniformi (`evo-list`, `evo-plan`, `evo-run`, `evo-lint`), ma non
+   è ancora presente un job CI dedicato alla loro esecuzione programmata.
+2. **Segnalazione centralizzata dei risultati** – gli artifact di site audit e
+   Lighthouse vengono pubblicati automaticamente; resta da valutare
+   l'integrazione di un bucket o dashboard unico per la consultazione storica.
 
 ## Raccomandazioni
 
-1. Aggiungere un job `site-audit` in `ci.yml` che installi le dipendenze
-   richieste e lanci `make audit`, caricando in artifact l'output generato.
-2. Collegare Lighthouse al workflow principale (con guard condizionale su
-   `SITE_BASE_URL`) riutilizzando la configurazione `lighthouserc.json`.
-3. Normalizzare gli script Evo (naming + logging) e pubblicare target Make
-   unificati per pianificazione/esecuzione/lint degli asset.
-4. Consolidare la pubblicazione di artifact per i controlli web (site audit e
-   Lighthouse) così da alimentare automaticamente i report Ops.
+1. Definire un job dedicato che riutilizzi i target `evo-*` per validare i
+   workflow Evo direttamente in CI o su base schedulata.
+2. Valutare una piattaforma di archiviazione/reportistica condivisa che raccolga
+   automaticamente gli artifact generati da site audit e Lighthouse.

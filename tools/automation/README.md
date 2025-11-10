@@ -3,7 +3,8 @@
 Questo spazio è riservato agli script che verranno spostati dal pacchetto
 `incoming/lavoro_da_classificare/scripts/`. Gli script dovranno rispettare le
 linee guida esistenti nel repository (licenza SPDX, permessi `+x` quando
-necessario, lint con `ruff`/`eslint`).
+necessario, lint con `ruff`/`eslint`) e condividono la stessa infrastruttura di
+logging esposta da `tools.automation.configure_logging`.
 
 ## Runner dei batch
 
@@ -11,7 +12,7 @@ Il comando `tools/automation/evo_batch_runner.py` permette di pianificare o
 eseguire automaticamente i comandi registrati in
 `incoming/lavoro_da_classificare/tasks.yml`. Lo script usa un logging uniforme
 (`--verbose` per maggiori dettagli) condiviso con gli altri strumenti di
-automazione.
+automazione grazie all'helper `tools.automation.configure_logging`.
 
 ```bash
 # Elencare i batch disponibili

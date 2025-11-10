@@ -19,7 +19,8 @@ Evo-Tactics nel repository.
 
 L'output operativo viene inviato su stderr tramite il logger condiviso
 `tools.automation.evo_batch_runner`, mentre gli elenchi e i piani restano su
-stdout per facilitare piping/reportistica.
+stdout per facilitare piping/reportistica. Il logging condiviso è gestito da
+`tools.automation.configure_logging` che uniforma il formato CLI.
 
 ## Lint degli schemi JSON
 
@@ -34,17 +35,21 @@ stdout per facilitare piping/reportistica.
   - Riporta i risultati con gli indicatori ✅/❌ sul logger
     `tools.automation.evo_schema_lint` (usare `--verbose` per il debug).
 
-Il comando è disponibile anche tramite `make evo-lint` (supporta la variabile
-`path=<percorso>` per restringere il controllo a un sottoinsieme di file).
+Il comando è disponibile anche tramite `make evo-lint` (variabile opzionale
+`EVO_LINT_PATH=<percorso>` per restringere il controllo a un sottoinsieme di
+file).
 
 ## Make target di supporto
 
 I flussi di lavoro descritti sono esposti nel `Makefile` tramite:
 
+- `make evo-list`: elenca i batch disponibili (variabile `EVO_TASKS_FILE`
+  opzionale per puntare a un file alternativo).
 - `make evo-plan batch=<nome>`: mostra il piano del batch specificato.
 - `make evo-run batch=<nome> flags="--execute --auto"`: esegue i comandi con le
   opzioni desiderate.
-- `make evo-lint [path=...]`: lancia il lint sugli schemi.
+- `make evo-lint [EVO_LINT_PATH=...]`: lancia il lint sugli schemi
+  (percorso personalizzabile).
 
 I target legacy `evo-batch-plan` ed `evo-batch-run` restano disponibili come
 alias per compatibilità (internamente delegano alle nuove ricette).
