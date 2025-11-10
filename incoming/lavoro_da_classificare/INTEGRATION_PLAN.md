@@ -66,6 +66,8 @@ in contributi pronti per il branch principale del repository.
 4. Eliminare o archiviare `home/oai/share/...` quando la migrazione è conclusa.
 5. Aggiornare la roadmap nel project board usando `setup_backlog.py` e il
    template `backlog_tasks_example.yaml`.
+6. Aggiornare la matrice operativa (`TASKS_BREAKDOWN.md`, `tasks.yml`) per
+   tracciare avanzamento, assegnatari e dipendenze.
 
 ## Uscite attese per l'import finale
 
