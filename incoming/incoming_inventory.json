@@ -3,774 +3,1043 @@
     "percorso": "Ancestors_Neurons_Attack_Dodge_SelfControl_Ambulation_Partial_v0_6.csv",
     "tipo": "file",
     "dettagli": "6.6 KiB; .csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/ancestors/neurons/",
+    "azioni": "Convertire in YAML normalizzato e aggiungere validazione contro schemas/ancestors_neurons.schema.json",
+    "note": "Richiede matching con dump v0.6 prima di integrazione."
   },
   {
     "percorso": "Ennagramma",
     "tipo": "directory",
     "dettagli": "0 cartelle; 7 file; 19.8 KiB",
-    "stato": "OK"
+    "stato": "OK",
+    "destinazione": "-> data/external/psychometrics/enneagramma/",
+    "azioni": "Creare cartella dedicata e suddividere dati vs documentazione; definire ownership con team Atlas"
   },
   {
     "percorso": "Ennagramma/README_ENNEAGRAMMA.md",
     "tipo": "file",
     "dettagli": "3.3 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/catalog/personality/",
+    "azioni": "Riformattare in Markdown secondo linee guida docs e collegare a dataset MBTI/Enneagramma esistenti"
   },
   {
     "percorso": "Ennagramma/enneagramma_dataset.json",
     "tipo": "file",
     "dettagli": "11.5 KiB; .json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> data/external/psychometrics/enneagramma/",
+    "azioni": "Uniformare chiavi, aggiungere schema JSON e pipeline di import verso data/core/personality/"
   },
   {
     "percorso": "Ennagramma/enneagramma_master.csv",
     "tipo": "file",
     "dettagli": "2.2 KiB; .csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/psychometrics/enneagramma/",
+    "azioni": "Normalizzare header, convertire in YAML strutturato e aggiungere test di regressione"
   },
   {
     "percorso": "Ennagramma/enneagramma_stackings.csv",
     "tipo": "file",
     "dettagli": "0.3 KiB; .csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/psychometrics/enneagramma/",
+    "azioni": "Unificare formato stackings con dataset principale e generare lookup JSON"
   },
   {
     "percorso": "Ennagramma/enneagramma_triadi_complete.csv",
     "tipo": "file",
     "dettagli": "0.7 KiB; .csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/psychometrics/enneagramma/",
+    "azioni": "Verificare duplicati, convertire in YAML e integrare nella CLI di generazione profili"
   },
   {
     "percorso": "Ennagramma/enneagramma_varianti_istintive.csv",
     "tipo": "file",
     "dettagli": "0.4 KiB; .csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/psychometrics/enneagramma/",
+    "azioni": "Rinominare colonne secondo convenzione `instinct_*` e allineare con schema personality_module"
   },
   {
     "percorso": "Ennagramma/enneagramma_wings.csv",
     "tipo": "file",
     "dettagli": "1.4 KiB; .csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/psychometrics/enneagramma/",
+    "azioni": "Creare mapping wings -> trait e integrare nel generatore combination builder"
   },
   {
     "percorso": "EvoTactics_DevKit.zip",
     "tipo": "file",
     "dettagli": "5.3 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/legacy/devkit/",
+    "azioni": "Estrarre, versionare README e migrare script utili in tools/py o tools/ts"
   },
   {
     "percorso": "EvoTactics_FullRepo_v1.0.zip",
     "tipo": "file",
     "dettagli": "1372.3 KiB; .0.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/releases/",
+    "azioni": "Archiviare come snapshot storico; confrontare con repo attuale per individuare differenze critiche",
+    "note": "Valutare se estrarre documentazione non presente nella mainline."
   },
   {
     "percorso": "FEATURE_MAP_EVO_TACTICS.md",
     "tipo": "file",
     "dettagli": "6.3 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/reference/feature-map.md",
+    "azioni": "Integrare nel sommario docs e sincronizzare con README sezione Panoramica"
   },
   {
     "percorso": "GAME_COMPAT_README.md",
     "tipo": "file",
     "dettagli": "1.7 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/integration/compatibility.md",
+    "azioni": "Aggiornare riferimenti API e collegare con servizi compat_map"
   },
   {
     "percorso": "IDEA-001_ecosistema_template.yaml",
     "tipo": "file",
     "dettagli": "0.7 KiB; .yaml",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> data/templates/idea-engine/",
+    "azioni": "Validare contro schemas/idea_ecosystem.template.json e documentare campo opzionali"
   },
   {
     "percorso": "Img",
     "tipo": "directory",
     "dettagli": "1 cartelle; 11 file; 524.1 KiB",
-    "stato": "OK"
+    "stato": "OK",
+    "destinazione": "-> assets/psychometrics/",
+    "azioni": "Ristrutturare asset in sottocartelle MBTI/Enneagramma e aggiungere ottimizzazione SVG pipeline"
   },
   {
     "percorso": "Img/ENFJ Eroe.svg",
     "tipo": "file",
     "dettagli": "26.0 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG con svgo e creare manifest per webapp/public/data/icons.json"
   },
   {
     "percorso": "Img/ENFP Crociato.svg",
     "tipo": "file",
     "dettagli": "38.2 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e aggiungere metadati alt text in manifest"
   },
   {
     "percorso": "Img/ENTJ Comandante.svg",
     "tipo": "file",
     "dettagli": "12.4 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e associare a trait leader nel CMS"
   },
   {
     "percorso": "Img/ENTP Visionario.svg",
     "tipo": "file",
     "dettagli": "23.3 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e aggiungere palette nel token cromatico"
   },
   {
     "percorso": "Img/ESFJ Ambasciatore.svg",
     "tipo": "file",
     "dettagli": "60.6 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e validare resa in dark mode"
   },
   {
     "percorso": "Img/ESFP Intrattenitore.svg",
     "tipo": "file",
     "dettagli": "27.4 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e generare fallback PNG per kit stampa"
   },
   {
     "percorso": "Img/ESTJ Esecutivo.svg",
     "tipo": "file",
     "dettagli": "48.5 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e verificare naming coerente con dataset personality"
   },
   {
     "percorso": "Img/ESTP Ribelle.svg",
     "tipo": "file",
     "dettagli": "23.4 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e aggiungere attributo license nei metadati"
   },
   {
     "percorso": "Img/Enneagrammi",
     "tipo": "directory",
     "dettagli": "0 cartelle; 9 file; 182.1 KiB",
-    "stato": "OK"
+    "stato": "OK",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Allineare naming file e creare indice JSON per docs/catalog/personality"
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 1 Perfezionista.svg",
     "tipo": "file",
     "dettagli": "15.7 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Ottimizzare SVG e associare ID tipo 1 nel manifest"
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 2 Aiutante.svg",
     "tipo": "file",
     "dettagli": "18.7 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Ottimizzare SVG e aggiungere tag accessibilità"
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 3 Vincete.svg",
     "tipo": "file",
     "dettagli": "15.1 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Correggere refuso nome file (Vincente) e aggiornare manifest",
+    "note": "Richiede approvazione per rinomina file esistente."
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 4 Individualista.svg",
     "tipo": "file",
     "dettagli": "27.0 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Ottimizzare SVG e associare palette dedicata"
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 5 Investigatore.svg",
     "tipo": "file",
     "dettagli": "21.7 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Ottimizzare SVG e integrare con dataset pattern"
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 6 Lealista.svg",
     "tipo": "file",
     "dettagli": "18.2 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Ottimizzare SVG e definire alias con tipo 6 baseline"
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 6 Visionario.svg",
     "tipo": "file",
     "dettagli": "21.3 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Verificare se duplicato del tipo 6 Lealista; decidere mantenimento come variante",
+    "note": "Richiede decisione design su varianti tipo 6."
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 7 Entusista.svg",
     "tipo": "file",
     "dettagli": "19.4 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Correggere refuso \"Entusiasta\" e aggiornare manifest",
+    "note": "Richiede approvazione per rinomina file."
   },
   {
     "percorso": "Img/Enneagrammi/Tipo 9 Mediatore.svg",
     "tipo": "file",
     "dettagli": "24.9 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/enneagramma/",
+    "azioni": "Ottimizzare SVG e aggiungere id type9 nel manifest"
   },
   {
     "percorso": "Img/INFJ Guardiano.svg",
     "tipo": "file",
     "dettagli": "30.2 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e verificare se esiste duplicato MBTI INFJ"
   },
   {
     "percorso": "Img/INFP Mediatore.svg",
     "tipo": "file",
     "dettagli": "23.4 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e aggiungere alias per localizzazione"
   },
   {
     "percorso": "Img/INTJ Stratega.svg",
     "tipo": "file",
     "dettagli": "28.6 KiB; .svg",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> assets/psychometrics/mbti/",
+    "azioni": "Ottimizzare SVG e sincronizzare con tokens cromatici"
   },
   {
     "percorso": "Inserisci questi parametri nella tabella e dammi i....docx",
     "tipo": "file",
     "dettagli": "13.1 KiB; ....docx",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/incoming/raw/",
+    "azioni": "Convertire in Markdown strutturato e importare valori nella tabella dedicata",
+    "note": "Richiede revisione legale/licenza prima della pubblicazione."
   },
   {
     "percorso": "MODELLI_RIF_EVO_TACTICS.md",
     "tipo": "file",
     "dettagli": "4.7 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/reference/models/",
+    "azioni": "Riorganizzare sezioni e collegare a docs/vision & data/core references"
   },
   {
     "percorso": "README.md",
     "tipo": "file",
     "dettagli": "1.4 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/process/incoming.md",
+    "azioni": "Migrare nella documentazione ufficiale e linkare da CONTRIBUTING"
   },
   {
     "percorso": "README_INTEGRAZIONE_MECCANICHE.md",
     "tipo": "file",
     "dettagli": "0.7 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/integration/mechanics.md",
+    "azioni": "Uniformare formattazione e aggiungere esempi aggiornati di pipeline"
   },
   {
     "percorso": "README_SCAN_STAT_EVENTI.md",
     "tipo": "file",
     "dettagli": "0.9 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/process/telemetry/event-scanner.md",
+    "azioni": "Aggiornare riferimenti agli script attuali in services/generation/telemetry"
   },
   {
     "percorso": "ancestors_branches_totals_v0.3.csv",
     "tipo": "file",
     "dettagli": "1.3 KiB; .3.csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/ancestors/branches/",
+    "azioni": "Convertire in YAML e verificare coerenza con data/core/ancestors_branches.yaml"
   },
   {
     "percorso": "ancestors_evo_pack_v1_3.zip",
     "tipo": "file",
     "dettagli": "7.5 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/ancestors/",
+    "azioni": "Archiviare, estrarre changelog e confrontare con v1.2 in repo"
   },
   {
     "percorso": "ancestors_integration_pack_v0_1.zip",
     "tipo": "file",
     "dettagli": "7.9 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/ancestors/",
+    "azioni": "Estrarre script di integrazione e verificare compatibilità con tooling attuale"
   },
   {
     "percorso": "ancestors_integration_pack_v0_2.zip",
     "tipo": "file",
     "dettagli": "3.5 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/ancestors/",
+    "azioni": "Archiviare e annotare differenze vs v0_1 nel registro release"
   },
   {
     "percorso": "ancestors_integration_pack_v0_3.zip",
     "tipo": "file",
     "dettagli": "3.8 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/ancestors/",
+    "azioni": "Archiviare e validare dataset estratti con CLI validate-datasets"
   },
   {
     "percorso": "ancestors_integration_pack_v0_4.zip",
     "tipo": "file",
     "dettagli": "3.1 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/ancestors/",
+    "azioni": "Archiviare, verificare script Python aggiornati e migrare se utili"
   },
   {
     "percorso": "ancestors_integration_pack_v0_5.zip",
     "tipo": "file",
     "dettagli": "4.2 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/ancestors/",
+    "azioni": "Archiviare e aggiungere nota changelog in docs/releases/ancestors.md"
   },
   {
     "percorso": "ancestors_neuronal_v0_3.zip",
     "tipo": "file",
     "dettagli": "4.3 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> data/external/ancestors/neurons/archives/",
+    "azioni": "Estrarre dataset e unificarli con release v0.6; aggiornare mapping"
   },
   {
     "percorso": "ancestors_neurons_dump_v0.3__DEXTERITY.csv",
     "tipo": "file",
     "dettagli": "7.4 KiB; .3__DEXTERITY.csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/ancestors/neurons/",
+    "azioni": "Normalizzare colonne e integrare nel registry neurons dexterity"
   },
   {
     "percorso": "ancestors_neurons_dump_v0_6.zip",
     "tipo": "file",
     "dettagli": "7.3 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> data/external/ancestors/neurons/archives/",
+    "azioni": "Estrarre CSV, confrontare con partial v0_6 e aggiornare pipeline ETL"
   },
   {
     "percorso": "ancestors_neurons_pack_v1_2.zip",
     "tipo": "file",
     "dettagli": "8.1 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> data/external/ancestors/neurons/archives/",
+    "azioni": "Archiviare, verificare note release e migrare hook aggiornati"
   },
   {
     "percorso": "archive",
     "tipo": "directory",
     "dettagli": "0 cartelle; 1 file; 0.9 KiB",
-    "stato": "OK"
+    "stato": "OK",
+    "destinazione": "-> incoming/archive/",
+    "azioni": "Rendere struttura year/month e collegare indice in docs/process"
   },
   {
     "percorso": "archive/INDEX.md",
     "tipo": "file",
     "dettagli": "0.9 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/process/archive-log.md",
+    "azioni": "Integrare indice nel manuale operativo e mantenere tabella decisioni in formato Markdown standard"
   },
   {
     "percorso": "compat_map (1).json",
     "tipo": "file",
     "dettagli": "3.9 KiB; .json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> incoming/review/",
+    "azioni": "Confrontare con compat_map.json e decidere se mantenere duplicato",
+    "note": "Duplicato da deduplicare con versione principale."
   },
   {
     "percorso": "compat_map.json",
     "tipo": "file",
     "dettagli": "3.6 KiB; .json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> data/external/mappings/compatibility.json",
+    "azioni": "Validare schema e integrare nel servizio compatibility checker"
   },
   {
     "percorso": "decompressed",
     "tipo": "directory",
     "dettagli": "0 cartelle; 2 file; 0.4 KiB",
-    "stato": "OK"
+    "stato": "OK",
+    "destinazione": "-> incoming/.cache/",
+    "azioni": "Trasferire sotto-cartella temporanea ignorata da git",
+    "note": "Richiede aggiornamento .gitignore per escludere cache."
   },
   {
     "percorso": "decompressed/.gitkeep",
     "tipo": "file",
     "dettagli": "0.0 KiB; ",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> incoming/.cache/",
+    "azioni": "Rimuovere file se cartella diventa esclusa da git"
   },
   {
     "percorso": "decompressed/README.md",
     "tipo": "file",
     "dettagli": "0.4 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/process/incoming-temp.md",
+    "azioni": "Sintetizzare istruzioni nella sezione pipeline incoming"
   },
   {
     "percorso": "docs",
     "tipo": "directory",
     "dettagli": "0 cartelle; 11 file; 13.8 KiB",
-    "stato": "OK"
+    "stato": "OK",
+    "destinazione": "-> docs/archive/incoming-drop/",
+    "azioni": "Riorganizzare contenuti per tipologia prima della migrazione finale"
   },
   {
     "percorso": "docs/Evo Tactics Game Template.md",
     "tipo": "file",
     "dettagli": "2.9 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/templates/game/",
+    "azioni": "Convertire in template ufficiale e pubblicare in docs/templates README"
   },
   {
     "percorso": "docs/VISION_AND_STRUCTURE.md",
     "tipo": "file",
     "dettagli": "1.9 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/vision/",
+    "azioni": "Confrontare con docs/VISION.md e fondere duplicati"
   },
   {
     "percorso": "docs/ascii_matrix_methods.py",
     "tipo": "file",
     "dettagli": "0.8 KiB; .py",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> tools/py/experimental/analytics/",
+    "azioni": "Isolare funzioni riutilizzabili e aggiungere test unitari"
   },
   {
     "percorso": "docs/auto_eval_from_yaml.py",
     "tipo": "file",
     "dettagli": "1.6 KiB; .py",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> tools/py/experimental/validators/",
+    "azioni": "Refactor per aderire a CLI unificata e documentare utilizzo"
   },
   {
     "percorso": "docs/bioma_encounters.yaml",
     "tipo": "file",
     "dettagli": "0.6 KiB; .yaml",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> data/external/ecosystems/prototypes/",
+    "azioni": "Allineare schema con data/core/ecosystems e aggiungere validazione"
   },
   {
     "percorso": "docs/drift_check.js",
     "tipo": "file",
     "dettagli": "1.2 KiB; .js",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> tools/ts/experimental/analytics/",
+    "azioni": "Aggiornare dipendenze npm e integrare nel pacchetto lint data drift"
   },
   {
     "percorso": "docs/installer.sh",
     "tipo": "file",
     "dettagli": "1.1 KiB; .sh",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> scripts/legacy/installers/",
+    "azioni": "Verificare supporto OS e valutare se sostituire con Makefile target"
   },
   {
     "percorso": "docs/obsidian_template.md",
     "tipo": "file",
     "dettagli": "0.7 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/templates/knowledge-base/",
+    "azioni": "Rendere variabili in formato Liquid/Handlebars per generatore automatico"
   },
   {
     "percorso": "docs/readme.md",
     "tipo": "file",
     "dettagli": "1.2 KiB; .md",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/archive/incoming-drop/",
+    "azioni": "Sintetizzare e incorporare contenuti rilevanti in docs principali"
   },
   {
     "percorso": "docs/readme_devkit.txt",
     "tipo": "file",
     "dettagli": "1.0 KiB; .txt",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> docs/archive/devkit/",
+    "azioni": "Convertire in Markdown e confrontare con README ufficiale del devkit"
   },
   {
     "percorso": "docs/yaml_validator.py",
     "tipo": "file",
     "dettagli": "1.0 KiB; .py",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> tools/py/validators/",
+    "azioni": "Integrare con CLI `validate-datasets` e aggiungere logging strutturato"
   },
   {
     "percorso": "engine_events.schema.json",
     "tipo": "file",
     "dettagli": "0.4 KiB; .schema.json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> schemas/events/engine_events.schema.json",
+    "azioni": "Verificare compatibilità con services/generation/events e aggiornare versioning"
   },
   {
     "percorso": "enneagramma_mechanics_registry.template.json",
     "tipo": "file",
     "dettagli": "6.3 KiB; .template.json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> schemas/templates/enneagramma_mechanics.json",
+    "azioni": "Documentare campi opzionali e creare script di generazione manifest"
   },
   {
     "percorso": "et_alignment_scanner.zip",
     "tipo": "file",
     "dettagli": "3.4 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> tools/ts/experimental/alignment/",
+    "azioni": "Estrarre modulo e verificare compatibilità con webapp alignment checker"
   },
   {
     "percorso": "evo-tactics-badlands-addon-v1.7.zip",
     "tipo": "file",
     "dettagli": "43.2 KiB; .7.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/badlands/",
+    "azioni": "Archiviare e aggiornare changelog docs/releases/badlands.md"
   },
   {
     "percorso": "evo-tactics-badlands-ecosystem-it-v1.zip",
     "tipo": "file",
     "dettagli": "9.4 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/badlands/",
+    "azioni": "Estrarre dataset e confrontare con data/ecosystems/badlands"
   },
   {
     "percorso": "evo-tactics-final (1).zip",
     "tipo": "file",
     "dettagli": "75.7 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> incoming/review/",
+    "azioni": "Confrontare con evo-tactics-final.zip e decidere se scartare duplicato",
+    "note": "Duplicato probabile; richiede decisione manuale."
   },
   {
     "percorso": "evo-tactics-final.zip",
     "tipo": "file",
     "dettagli": "75.7 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/releases/",
+    "azioni": "Archiviare come milestone ufficiale e aggiornare docs/releases/overview.md"
   },
   {
     "percorso": "evo-tactics-interconnect-addon-v1.7.1.zip",
     "tipo": "file",
     "dettagli": "48.7 KiB; .7.1.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/interconnect/",
+    "azioni": "Archiviare e validare hook aggiuntivi con CLI"
   },
   {
     "percorso": "evo-tactics-merged.zip",
     "tipo": "file",
     "dettagli": "70.4 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/releases/",
+    "azioni": "Verificare contenuto contro unified pack e documentare differenze"
   },
   {
     "percorso": "evo-tactics-normalized.zip",
     "tipo": "file",
     "dettagli": "72.1 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/releases/",
+    "azioni": "Archiviare, estrarre dataset normalizzati e comparare con data/core"
   },
   {
     "percorso": "evo-tactics-starter.zip",
     "tipo": "file",
     "dettagli": "11.0 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/releases/",
+    "azioni": "Utilizzare per ricostruire onboarding pack e aggiornare README starter"
   },
   {
     "percorso": "evo-tactics-unified-pack-v1.9.zip",
     "tipo": "file",
     "dettagli": "68.4 KiB; .9.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/unified/",
+    "azioni": "Archiviare, validare con CLI e aggiornare indice versioni"
   },
   {
     "percorso": "evo-tactics-unified-plus-validators-v1.9.6.zip",
     "tipo": "file",
     "dettagli": "85.5 KiB; .9.6.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/unified/",
+    "azioni": "Estrarre validator aggiornati e confrontare con tools/validators correnti"
   },
   {
     "percorso": "evo-tactics-unified-v1.9.7-ecosistema.zip",
     "tipo": "file",
     "dettagli": "90.6 KiB; .9.7-ecosistema.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/unified/",
+    "azioni": "Archiviare e annotare variazioni ecosistema nel changelog"
   },
   {
     "percorso": "evo-tactics-unified-v1.9.8-ecosistema-catalog.zip",
     "tipo": "file",
     "dettagli": "94.6 KiB; .9.8-ecosistema-catalog.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/unified/",
+    "azioni": "Estrarre catalogo HTML e migrare in docs/catalog se aggiornato"
   },
   {
     "percorso": "evo-tactics-unified-v2.0.0-site-tools.zip",
     "tipo": "file",
     "dettagli": "338.4 KiB; .0.0-site-tools.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/unified/",
+    "azioni": "Archiviare tool front-end e integrare script rilevanti in webapp/tools"
   },
   {
     "percorso": "evo-tactics-unified-v2.0.1-site-tools.zip",
     "tipo": "file",
     "dettagli": "346.0 KiB; .0.1-site-tools.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/unified/",
+    "azioni": "Archiviare e verificare differenze minori rispetto a v2.0.0"
   },
   {
     "percorso": "evo-tactics-validator-pack-v1.5.zip",
     "tipo": "file",
     "dettagli": "15.4 KiB; .5.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/validators/",
+    "azioni": "Estrarre validator legacy e confrontare con tools/validators attuali"
   },
   {
     "percorso": "evo-tactics.zip",
     "tipo": "file",
     "dettagli": "22.6 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/releases/",
+    "azioni": "Identificare versione esatta e aggiornare tabella cronologia"
   },
   {
     "percorso": "evo_enneagram_addon_v1.zip",
     "tipo": "file",
     "dettagli": "15.4 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/addons/",
+    "azioni": "Archiviare e importare dataset enneagramma add-on nelle pipeline"
   },
   {
     "percorso": "evo_pacchetto_minimo.zip",
     "tipo": "file",
     "dettagli": "10.6 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/minimal/",
+    "azioni": "Archiviare e verificare baseline rispetto a v8"
   },
   {
     "percorso": "evo_pacchetto_minimo_v2.zip",
     "tipo": "file",
     "dettagli": "17.8 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/minimal/",
+    "azioni": "Archiviare e documentare differenze vs v1 nella tabella release"
   },
   {
     "percorso": "evo_pacchetto_minimo_v3.zip",
     "tipo": "file",
     "dettagli": "23.9 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/minimal/",
+    "azioni": "Archiviare e validare contenuto con CLI"
   },
   {
     "percorso": "evo_pacchetto_minimo_v4.zip",
     "tipo": "file",
     "dettagli": "31.5 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/minimal/",
+    "azioni": "Archiviare e aggiornare note release"
   },
   {
     "percorso": "evo_pacchetto_minimo_v5.zip",
     "tipo": "file",
     "dettagli": "41.6 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/minimal/",
+    "azioni": "Archiviare e verificare se integra nuovi hook"
   },
   {
     "percorso": "evo_pacchetto_minimo_v6.zip",
     "tipo": "file",
     "dettagli": "45.5 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/minimal/",
+    "azioni": "Archiviare, aggiungere diff vs v5 e validare dataset"
   },
   {
     "percorso": "evo_pacchetto_minimo_v7.zip",
     "tipo": "file",
     "dettagli": "65.2 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/minimal/",
+    "azioni": "Archiviare e annotare eventuali fix"
   },
   {
     "percorso": "evo_pacchetto_minimo_v8.zip",
     "tipo": "file",
     "dettagli": "71.6 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/minimal/",
+    "azioni": "Archiviare, considerare come baseline di riferimento e aggiornare documentazione"
   },
   {
     "percorso": "evo_sentience_branch_layout_v0_1.zip",
     "tipo": "file",
     "dettagli": "3.6 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> data/external/sentience/layouts/",
+    "azioni": "Estrarre layout e confrontare con sentience_traits_v1.0.yaml"
   },
   {
     "percorso": "evo_sentience_rfc_pack_v0_1.zip",
     "tipo": "file",
     "dettagli": "5.0 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> data/external/sentience/rfc/",
+    "azioni": "Archiviare e integrare con docs/rfc/sentience.md"
   },
   {
     "percorso": "evo_tactics_ancestors_repo_pack_v1.0 (1).zip",
     "tipo": "file",
     "dettagli": "12.1 KiB; .0 (1).zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> incoming/review/",
+    "azioni": "Verificare duplicato rispetto alla versione senza suffisso e decidere se eliminare",
+    "note": "Duplicato possibile; servono conferme."
   },
   {
     "percorso": "evo_tactics_ancestors_repo_pack_v1.0.zip",
     "tipo": "file",
     "dettagli": "11.4 KiB; .0.zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/ancestors/",
+    "azioni": "Archiviare release primaria e aggiornare docs/releases/ancestors.md"
   },
   {
     "percorso": "evo_tactics_badlands_IT.zip",
     "tipo": "file",
     "dettagli": "11.1 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/badlands/",
+    "azioni": "Archiviare, estrarre localizzazione italiana e aggiornare docs/localization.md"
   },
   {
     "percorso": "evo_tactics_badlands_PTPF_IT.zip",
     "tipo": "file",
     "dettagli": "14.7 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/badlands/",
+    "azioni": "Archiviare e integrare con percorso Pathfinder/PTPF"
   },
   {
     "percorso": "evo_tactics_deduped_v8_1.zip",
     "tipo": "file",
     "dettagli": "166.3 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/unified/",
+    "azioni": "Archiviare e confrontare dataset deduplicato con pack v8.3"
   },
   {
     "percorso": "evo_tactics_ecosystem_badlands.zip",
     "tipo": "file",
     "dettagli": "7.5 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/badlands/",
+    "azioni": "Archiviare e verificare se contiene assets unici vs addon"
   },
   {
     "percorso": "evo_tactics_ecosystems_pack.zip",
     "tipo": "file",
     "dettagli": "3.8 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/ecosystems/",
+    "azioni": "Archiviare e integrare dataset in data/core/ecosystems"
   },
   {
     "percorso": "evo_tactics_merged_final.zip",
     "tipo": "file",
     "dettagli": "155.0 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/releases/",
+    "azioni": "Archiviare e confrontare con unified packs recenti"
   },
   {
     "percorso": "evo_tactics_param_synergy_v8_3.zip",
     "tipo": "file",
     "dettagli": "166.3 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> packs/archive/unified/",
+    "azioni": "Estrarre parametri sinergie e confrontare con data/derived/synergy"
   },
   {
     "percorso": "evo_tactics_tables_v8_3.xlsx",
     "tipo": "file",
     "dettagli": "21.3 KiB; .xlsx",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> data/external/spreadsheets/",
+    "azioni": "Convertire in CSV/YAML e aggiungere script di import automatico"
   },
   {
     "percorso": "game_repo_map.json",
     "tipo": "file",
     "dettagli": "0.8 KiB; .json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> config/mappings/game_repo_map.json",
+    "azioni": "Allineare percorsi con repository attuale e integrare nel CLI sync"
   },
   {
     "percorso": "generator.html",
     "tipo": "file",
     "dettagli": "5.0 KiB; .html",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/showcase/generator/",
+    "azioni": "Verificare dipendenze JS e pubblicare come demo statica aggiornata"
   },
   {
     "percorso": "hook_bindings.ts",
     "tipo": "file",
     "dettagli": "1.4 KiB; .ts",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> services/generation/hooks/",
+    "azioni": "Valutare merge con hook esistenti e aggiornare index.ts"
   },
   {
     "percorso": "idea_catalog.csv",
     "tipo": "file",
     "dettagli": "1.2 KiB; .csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/idea-engine/",
+    "azioni": "Normalizzare colonne e importare nel database backend idea engine"
   },
   {
     "percorso": "idea_intake_site_package.zip",
     "tipo": "file",
     "dettagli": "7.0 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> webapp/archive/intake-site/",
+    "azioni": "Estrarre asset e verificare compatibilità con webapp attuale"
   },
   {
     "percorso": "index (1).html",
     "tipo": "file",
     "dettagli": "15.4 KiB; .html",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> incoming/review/",
+    "azioni": "Confrontare con index.html e scegliere versione di riferimento",
+    "note": "Duplicato del report HTML; richiede decisione."
   },
   {
     "percorso": "index.html",
     "tipo": "file",
     "dettagli": "15.1 KiB; .html",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> reports/incoming/latest/index.html",
+    "azioni": "Spostare in reports dedicati e collegare dal README incoming"
   },
   {
     "percorso": "last_report.html",
     "tipo": "file",
     "dettagli": "4.6 KiB; .html",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> reports/incoming/latest/last_report.html",
+    "azioni": "Confermare formato e pubblicare nel pacchetto report"
   },
   {
     "percorso": "last_report.json",
     "tipo": "file",
     "dettagli": "7.0 KiB; .json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> reports/incoming/latest/last_report.json",
+    "azioni": "Caricare nel registro incoming e referenziare nei test di regressione"
   },
   {
     "percorso": "logs_48354746845.zip",
     "tipo": "file",
     "dettagli": "9.2 KiB; .zip",
-    "stato": "ZIP integro"
+    "stato": "ZIP integro",
+    "destinazione": "-> reports/incoming/logs/",
+    "azioni": "Estrarre log, anonimizzare se necessario e allegare a issue QA"
   },
   {
     "percorso": "pack_biome_jobs_v8_alt.json",
     "tipo": "file",
     "dettagli": "20.5 KiB; .json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> data/external/packs/biomes/",
+    "azioni": "Confrontare con pack ufficiale e integrare varianti alt se utili"
   },
   {
     "percorso": "pathfinder",
     "tipo": "directory",
     "dettagli": "0 cartelle; 1 file; 141.4 KiB",
-    "stato": "OK"
+    "stato": "OK",
+    "destinazione": "-> data/external/pathfinder/",
+    "azioni": "Creare struttura dedicata per fonti Pathfinder e aggiungere README contestuale"
   },
   {
     "percorso": "pathfinder/bestiary1e_index.csv",
     "tipo": "file",
     "dettagli": "141.4 KiB; .csv",
-    "stato": "CSV (non validato)"
+    "stato": "CSV (non validato)",
+    "destinazione": "-> data/external/pathfinder/",
+    "azioni": "Convertire in JSON normalizzato e collegare al generatore encounter pathfinder"
   },
   {
     "percorso": "personality_module.v1.json",
     "tipo": "file",
     "dettagli": "24.2 KiB; .v1.json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> data/core/personality/personality_module.v1.json",
+    "azioni": "Validare con schema personality_module e aggiornare references in server/"
   },
   {
     "percorso": "recon_meccaniche.json",
     "tipo": "file",
     "dettagli": "1.8 KiB; .json",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/analysis/mechanics/",
+    "azioni": "Trasformare in report Markdown e collegare a docs/reference/models"
   },
   {
     "percorso": "scan_engine_idents.py",
     "tipo": "file",
     "dettagli": "3.0 KiB; .py",
-    "stato": "File generico"
+    "stato": "File generico",
+    "destinazione": "-> tools/py/cli/",
+    "azioni": "Integrare con CLI principale e aggiungere entrypoint nella documentazione"
   },
   {
     "percorso": "sentience_traits_v1.0.yaml",
     "tipo": "file",
     "dettagli": "3.3 KiB; .yaml",
-    "stato": "Manifest finale tier & interoception"
+    "stato": "Manifest finale tier & interoception",
+    "destinazione": "-> data/core/traits/sentience/",
+    "azioni": "Verificare coerenza con manifest attuale e aggiungere test di validazione"
   },
   {
     "percorso": "species_index.html",
     "tipo": "file",
     "dettagli": "3.5 KiB; .html",
-    "stato": "Documento testo"
+    "stato": "Documento testo",
+    "destinazione": "-> docs/catalog/species/",
+    "azioni": "Migrare in Vite static site e collegare ai dataset species"
   }
 ]
