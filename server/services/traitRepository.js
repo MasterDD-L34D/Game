@@ -493,19 +493,24 @@ class TraitRepository {
   }
 
   #prepareTraitForStorage(trait, traitId) {
-    const prepared = this.#prepareForSchemaValidation(trait);
-    prepared.id = traitId;
+    const payload = this.#unwrapTraitPayload(trait);
+    const prepared = this.#prepareForSchemaValidation(payload);
+    if (traitId !== undefined && traitId !== null) {
+      prepared.id = traitId;
+    }
     return prepared;
   }
 
   prepareForValidation(trait, traitId) {
+    const payload = this.#unwrapTraitPayload(trait);
     const effectiveId =
-      traitId || (trait && typeof trait.id === 'string' ? trait.id : undefined) || undefined;
-    return this.#prepareTraitForStorage(trait, effectiveId);
+      traitId || (payload && typeof payload.id === 'string' ? payload.id : undefined) || undefined;
+    return this.#prepareTraitForStorage(payload, effectiveId);
   }
 
   async #validateTraitPayload(trait, { traitId } = {}) {
-    const candidate = this.#prepareTraitForStorage(trait, traitId || trait.id);
+    const payload = this.#unwrapTraitPayload(trait);
+    const candidate = this.#prepareTraitForStorage(payload, traitId || payload?.id);
     const validate = await this.getValidator();
     const valid = Boolean(validate(candidate));
     if (!valid) {
@@ -598,11 +603,24 @@ class TraitRepository {
     throw TraitRepository.createHttpError(400, 'Impossibile determinare ID trait');
   }
 
+  #unwrapTraitPayload(rawPayload) {
+    if (
+      rawPayload &&
+      typeof rawPayload === 'object' &&
+      rawPayload.trait &&
+      typeof rawPayload.trait === 'object'
+    ) {
+      return rawPayload.trait;
+    }
+    return rawPayload;
+  }
+
   #stripMetaFields(payload) {
-    if (!payload || typeof payload !== 'object') {
+    const traitPayload = this.#unwrapTraitPayload(payload);
+    if (!traitPayload || typeof traitPayload !== 'object') {
       return {};
     }
-    const allowed = { ...payload };
+    const allowed = JSON.parse(JSON.stringify(traitPayload));
     delete allowed.category;
     delete allowed.traitId;
     delete allowed.slug;
@@ -611,6 +629,9 @@ class TraitRepository {
     delete allowed.createdAt;
     delete allowed.updatedAt;
     delete allowed.isDraft;
+    delete allowed.expectedVersion;
+    delete allowed.expectedEtag;
+    delete allowed.author;
     return allowed;
   }
 
@@ -724,17 +745,26 @@ class TraitRepository {
 
   async cloneTrait(sourceId, options = {}) {
     const { trait: sourceTrait, meta } = await this.getTrait(sourceId);
-    const overrides =
+    const rawOverrides =
       options.overrides && typeof options.overrides === 'object' ? options.overrides : {};
-    const categoryOverride = options.category || overrides.category || null;
+    const rawTraitOverride =
+      rawOverrides &&
+      typeof rawOverrides.trait === 'object' &&
+      rawOverrides.trait !== null
+        ? rawOverrides.trait
+        : rawOverrides;
+    const traitOverrides = this.#stripMetaFields(rawOverrides);
+    const categoryOverride = options.category || rawOverrides.category || null;
     const draft =
       options.draft != null
         ? TraitRepository.parseBoolean(options.draft)
-        : meta.isDraft === undefined
-          ? false
-          : Boolean(meta.isDraft);
+        : rawOverrides.draft != null
+          ? TraitRepository.parseBoolean(rawOverrides.draft)
+          : meta.isDraft === undefined
+            ? false
+            : Boolean(meta.isDraft);
     const base = JSON.parse(JSON.stringify(sourceTrait));
-    for (const [key, value] of Object.entries(overrides)) {
+    for (const [key, value] of Object.entries(traitOverrides)) {
       if (key === 'category' || key === 'traitId' || key === 'slug') {
         continue;
       }
@@ -743,7 +773,13 @@ class TraitRepository {
       }
       base[key] = value;
     }
-    const traitIdOverride = options.traitId || overrides.traitId || overrides.slug || overrides.id;
+    const traitIdOverride =
+      options.traitId ||
+      rawOverrides.traitId ||
+      rawOverrides.slug ||
+      rawTraitOverride.slug ||
+      rawTraitOverride.id ||
+      traitOverrides.id;
     const created = await this.createTrait(base, {
       category: categoryOverride || meta.category,
       draft,
