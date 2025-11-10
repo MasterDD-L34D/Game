@@ -7,10 +7,10 @@ interattivi portati online nella riscrittura AngularJS.
 
 ## Asset visivo
 
-> Nota: lo screenshot "mission-console-overview" è conservato nell'archivio
-> design condiviso e non viene versionato nel repository per evitare file binari.
-> Per visualizzarlo, usare il collegamento Figma nella dashboard di progetto o
-> consultare la cartella condivisa "Evo Console / Mockups" sul drive del team.
+Lo screenshot di riferimento rimane archiviato nella cartella condivisa di
+design (`incoming/lavoro_da_classificare/mockup_evo_tactics.png`). Per le
+revisioni incrociate allegare sempre il file dalla sorgente originale o
+incorporare un link a Figma, evitando di duplicare il binario nella repository.
 
 ## Elementi chiave UX
 
@@ -34,10 +34,11 @@ interattivi portati online nella riscrittura AngularJS.
 
 ## Note di implementazione
 
-- I test Playwright in `tests/playwright/evo/` coprono interazione del drawer
+- I test Playwright in `webapp/tests/playwright/evo/` coprono interazione del drawer
   e la presenza dei contenuti principali (metriche, missioni, quick toolkit).
-- La sitemap `public/sitemap.xml` elenca tutte le rotte Evo (`/console/*`) per
-  allineare la pubblicazione statica con gli asset documentati.
+- La sitemap `public/sitemap.xml` elenca tutte le rotte Evo (`/console/*`),
+  incluse le nuove sezioni Mission Control ed Ecosystem Pack, per allineare la
+  pubblicazione statica con gli asset documentati.
 - Quando vengono aggiunti nuovi moduli console (es. "Command Briefings"),
   aggiornare sia questa pagina sia la suite end-to-end per mantenere la
   coerenza tra mockup e comportamento runtime.
