@@ -233,8 +233,16 @@ function createTraitRouter(options = {}) {
 
   router.get('/index', ...readAccess, async (req, res) => {
     try {
-      const index = await repository.getIndex();
-      res.json({ index });
+      const document = await repository.getIndex({ includeLegacy: true });
+      const response = {
+        traits: document.traits,
+        meta: document.meta,
+      };
+      if (document.legacy) {
+        response.legacy = document.legacy;
+        response.index = document.legacy;
+      }
+      res.json(response);
     } catch (error) {
       handleError(res, error, 'Errore caricamento indice trait');
     }
@@ -248,7 +256,11 @@ function createTraitRouter(options = {}) {
         : Object.keys(body).length > 0
           ? { ...body }
           : {};
-    if (!traitPayload || typeof traitPayload !== 'object' || Object.keys(traitPayload).length === 0) {
+    if (
+      !traitPayload ||
+      typeof traitPayload !== 'object' ||
+      Object.keys(traitPayload).length === 0
+    ) {
       res.status(400).json({ error: 'Payload trait richiesto' });
       return;
     }
@@ -317,10 +329,7 @@ function createTraitRouter(options = {}) {
 
   router.get('/:traitId/versions/:versionId', ...readAccess, async (req, res) => {
     try {
-      const version = await repository.getTraitVersion(
-        req.params.traitId,
-        req.params.versionId,
-      );
+      const version = await repository.getTraitVersion(req.params.traitId, req.params.versionId);
       if (version?.meta?.etag) {
         res.set('ETag', version.meta.etag);
       }

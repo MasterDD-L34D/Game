@@ -2,14 +2,9 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const Ajv = require('ajv/dist/2020');
 
-const DEFAULT_SCHEMA_PATH = path.resolve(
-  __dirname,
-  '..',
-  '..',
-  'config',
-  'schemas',
-  'trait.schema.json',
-);
+const REPO_ROOT = path.resolve(__dirname, '..', '..');
+
+const DEFAULT_SCHEMA_PATH = path.resolve(REPO_ROOT, 'config', 'schemas', 'trait.schema.json');
 
 const DEFAULT_VERSION_RETENTION = {
   maxEntries: 50,
@@ -251,9 +246,7 @@ class TraitRepository {
       const maxAgeMs = Number(retention.maxAgeDays) * 24 * 60 * 60 * 1000;
       const { keep, drop } = filtered.reduce(
         (acc, entry) => {
-          const createdAtValue = TraitRepository.#parseDateLike(
-            entry.createdAt || entry.id || '',
-          );
+          const createdAtValue = TraitRepository.#parseDateLike(entry.createdAt || entry.id || '');
           if (Number.isNaN(createdAtValue) || now - createdAtValue <= maxAgeMs) {
             acc.keep.push(entry);
           } else {
@@ -266,7 +259,11 @@ class TraitRepository {
       filtered = keep;
       removed = removed.concat(drop);
     }
-    if (retention.maxEntries && retention.maxEntries > 0 && filtered.length > retention.maxEntries) {
+    if (
+      retention.maxEntries &&
+      retention.maxEntries > 0 &&
+      filtered.length > retention.maxEntries
+    ) {
       const sorted = filtered.slice().sort((a, b) => {
         const dateA = TraitRepository.#parseDateLike(a.createdAt || a.id || '');
         const dateB = TraitRepository.#parseDateLike(b.createdAt || b.id || '');
@@ -563,12 +560,11 @@ class TraitRepository {
 
   async #updateIndexEntry(trait, { remove = false } = {}) {
     const indexPath = path.join(this.traitsRoot, 'index.json');
-    const indexData =
-      (await this.#readJsonFile(indexPath, null)) || {
-        schema_version: '2.0',
-        trait_glossary: 'data/core/traits/glossary.json',
-        traits: {},
-      };
+    const indexData = (await this.#readJsonFile(indexPath, null)) || {
+      schema_version: '2.0',
+      trait_glossary: 'data/core/traits/glossary.json',
+      traits: {},
+    };
     if (!indexData.traits || typeof indexData.traits !== 'object') {
       indexData.traits = {};
     }
@@ -728,7 +724,8 @@ class TraitRepository {
 
   async cloneTrait(sourceId, options = {}) {
     const { trait: sourceTrait, meta } = await this.getTrait(sourceId);
-    const overrides = options.overrides && typeof options.overrides === 'object' ? options.overrides : {};
+    const overrides =
+      options.overrides && typeof options.overrides === 'object' ? options.overrides : {};
     const categoryOverride = options.category || overrides.category || null;
     const draft =
       options.draft != null
@@ -760,22 +757,20 @@ class TraitRepository {
   async listTraitVersions(traitId) {
     const normalisedId = TraitRepository.normaliseTraitId(traitId);
     const manifest = await this.#loadVersionManifest(normalisedId);
-    const entries = manifest.entries
-      .slice()
-      .sort((a, b) => {
-        const dateA = TraitRepository.#parseDateLike(a.createdAt || a.id || '');
-        const dateB = TraitRepository.#parseDateLike(b.createdAt || b.id || '');
-        if (Number.isNaN(dateA) && Number.isNaN(dateB)) {
-          return 0;
-        }
-        if (Number.isNaN(dateA)) {
-          return 1;
-        }
-        if (Number.isNaN(dateB)) {
-          return -1;
-        }
-        return dateB - dateA;
-      });
+    const entries = manifest.entries.slice().sort((a, b) => {
+      const dateA = TraitRepository.#parseDateLike(a.createdAt || a.id || '');
+      const dateB = TraitRepository.#parseDateLike(b.createdAt || b.id || '');
+      if (Number.isNaN(dateA) && Number.isNaN(dateB)) {
+        return 0;
+      }
+      if (Number.isNaN(dateA)) {
+        return 1;
+      }
+      if (Number.isNaN(dateB)) {
+        return -1;
+      }
+      return dateB - dateA;
+    });
     return entries.map((entry) => ({
       id: entry.id,
       traitId: normalisedId,
@@ -783,10 +778,9 @@ class TraitRepository {
       author: entry.author || null,
       version: entry.version || null,
       etag: entry.etag || null,
-      path: entry.path || path.relative(
-        this.dataRoot,
-        path.join(this.versionRoot, normalisedId, `${entry.id}.json`),
-      ),
+      path:
+        entry.path ||
+        path.relative(this.dataRoot, path.join(this.versionRoot, normalisedId, `${entry.id}.json`)),
       category: entry.category || null,
       sourcePath: entry.sourcePath || null,
     }));
@@ -799,10 +793,9 @@ class TraitRepository {
     if (!entry) {
       throw TraitRepository.createHttpError(404, 'Versione trait non trovata');
     }
-    const relativePath = entry.path || path.relative(
-      this.dataRoot,
-      path.join(this.versionRoot, traitId, `${entry.id}.json`),
-    );
+    const relativePath =
+      entry.path ||
+      path.relative(this.dataRoot, path.join(this.versionRoot, traitId, `${entry.id}.json`));
     const absolutePath = path.join(this.dataRoot, relativePath);
     const trait = await this.#readJsonFile(absolutePath, null);
     if (!trait) {
@@ -847,7 +840,8 @@ class TraitRepository {
     const currentState = await this.#getFileState(resolved.filePath);
     const expectedVersion =
       TraitRepository.#normaliseString(options.expectedVersion) || currentState.version;
-    const expectedEtag = TraitRepository.#normaliseString(options.expectedEtag) || currentState.etag;
+    const expectedEtag =
+      TraitRepository.#normaliseString(options.expectedEtag) || currentState.etag;
     const author =
       TraitRepository.#normaliseString(options.author) ||
       TraitRepository.#normaliseString(entry.author) ||
@@ -904,13 +898,109 @@ class TraitRepository {
     };
   }
 
-  async getIndex() {
+  async buildIndexDocument(options = {}) {
     const indexPath = path.join(this.traitsRoot, 'index.json');
-    const data = await this.#readJsonFile(indexPath, null);
-    if (!data) {
+    const legacyIndex = await this.#readJsonFile(indexPath, null);
+    if (!legacyIndex) {
       throw TraitRepository.createHttpError(404, 'Indice trait non disponibile');
     }
-    return data;
+
+    const schemaVersion =
+      typeof legacyIndex.schema_version === 'string' && legacyIndex.schema_version.trim()
+        ? legacyIndex.schema_version
+        : null;
+    const glossaryPath =
+      typeof legacyIndex.trait_glossary === 'string' && legacyIndex.trait_glossary.trim()
+        ? legacyIndex.trait_glossary
+        : null;
+    const traits =
+      legacyIndex.traits &&
+      typeof legacyIndex.traits === 'object' &&
+      !Array.isArray(legacyIndex.traits)
+        ? legacyIndex.traits
+        : {};
+
+    const directories = await this.listTraitDirectories(true);
+    const traitMeta = {};
+    for (const directory of directories) {
+      const directoryPath = path.join(this.traitsRoot, directory);
+      let entries;
+      try {
+        entries = await fs.readdir(directoryPath, { withFileTypes: true });
+      } catch (error) {
+        if (error && error.code === 'ENOENT') {
+          continue;
+        }
+        throw error;
+      }
+      for (const entry of entries) {
+        if (!entry.isFile()) {
+          continue;
+        }
+        if (!entry.name.endsWith('.json')) {
+          continue;
+        }
+        if (
+          entry.name === 'index.json' ||
+          entry.name === 'index.csv' ||
+          entry.name === 'species_affinity.json'
+        ) {
+          continue;
+        }
+        const traitId = entry.name.replace(/\.json$/i, '');
+        const filePath = path.join(directoryPath, entry.name);
+        let fileState;
+        try {
+          fileState = await this.#getFileState(filePath);
+        } catch (error) {
+          if (error && error.code === 'ENOENT') {
+            continue;
+          }
+          throw error;
+        }
+        traitMeta[traitId] = {
+          id: traitId,
+          path: path.relative(this.dataRoot, filePath),
+          category: directory === '_drafts' ? null : directory,
+          isDraft: directory === '_drafts',
+          updatedAt: fileState.savedAt,
+          version: fileState.version,
+          etag: fileState.etag,
+        };
+      }
+    }
+
+    const schemaRelative = path.relative(REPO_ROOT, this.schemaPath);
+    const schemaPath = schemaRelative.startsWith('..') ? this.schemaPath : schemaRelative;
+
+    const meta = {
+      schema: {
+        version: schemaVersion,
+        path: schemaPath,
+      },
+      glossary: {
+        path: glossaryPath,
+      },
+      traits: traitMeta,
+    };
+
+    const includeLegacy = options.includeLegacy !== false;
+    const document = {
+      traits,
+      meta,
+    };
+    if (includeLegacy) {
+      document.legacy = {
+        schema_version: schemaVersion,
+        trait_glossary: glossaryPath,
+        traits,
+      };
+    }
+    return document;
+  }
+
+  async getIndex(options = {}) {
+    return this.buildIndexDocument(options);
   }
 }
 
