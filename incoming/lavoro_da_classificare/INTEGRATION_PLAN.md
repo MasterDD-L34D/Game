@@ -68,6 +68,10 @@ in contributi pronti per il branch principale del repository.
    template `backlog_tasks_example.yaml`.
 6. Aggiornare la matrice operativa (`TASKS_BREAKDOWN.md`, `tasks.yml`) per
    tracciare avanzamento, assegnatari e dipendenze.
+7. Utilizzare le directory preparate nel repository (`docs/evo-tactics/`,
+   `docs/security/`, `data/external/evo/`, `reports/evo/`,
+   `incoming/archive/documents/`, `tools/automation/`, `docs/wireframes/evo/`)
+   per depositare gli output dei batch evitando conflitti di path.
 
 ## Uscite attese per l'import finale
 

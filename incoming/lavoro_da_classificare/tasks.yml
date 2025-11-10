@@ -3,7 +3,7 @@
 meta:
   version: 1
   last_update: 2024-05-24
-  notes: "Aggiornare status e assegnatari quando i task vengono presi in carico."
+  notes: "Aggiornare status e assegnatari quando i task vengono presi in carico. Directory di destinazione già disponibili: docs/evo-tactics, docs/security, data/external/evo, reports/evo, incoming/archive/documents, tools/automation, docs/wireframes/evo."
 
 tasks:
   - id: DOC-01
