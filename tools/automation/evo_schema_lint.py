@@ -6,7 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Sequence
 
 from jsonschema import RefResolver
 from jsonschema.exceptions import RefResolutionError, SchemaError
@@ -56,7 +56,7 @@ def lint(paths: List[Path]) -> int:
     return failures
 
 
-def parse_args(argv: List[str] | None = None) -> argparse.Namespace:
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "path",
@@ -73,11 +73,12 @@ def parse_args(argv: List[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: List[str] | None = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(argv)
     configure_logging(verbose=args.verbose, logger=LOGGER)
 
     schema_paths = list(discover_schema_files(args.path))
+    LOGGER.debug("Discovered %s schema files", len(schema_paths))
     if not schema_paths:
         LOGGER.error("No schema files found under %s.", args.path)
         return 1
