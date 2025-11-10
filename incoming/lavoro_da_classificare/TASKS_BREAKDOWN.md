@@ -5,7 +5,14 @@ assegnabili. Ogni sezione indica obiettivi, deliverable e comandi chiave per
 chiudere il batch corrispondente.
 
 > Stato corrente aggiornabile tramite checkmark; sincronizzare anche con
-> `tasks.yml` per l'automazione di report o creazione issue.
+> `tasks.yml` per l'automazione di report o creazione issue. Il runner
+> `python tools/automation/evo_batch_runner.py` consente di lanciare in locale i
+> comandi registrati per ogni batch (o di eseguire una dry-run).
+
+> Directory operative già presenti nel repository: `docs/evo-tactics/`,
+> `docs/security/`, `data/external/evo/`, `reports/evo/`,
+> `incoming/archive/documents/`, `tools/automation/`, `docs/wireframes/evo/`.
+> Utilizzarle per atterrare i deliverable mano a mano che i batch avanzano.
 
 > Directory operative già presenti nel repository: `docs/evo-tactics/`,
 > `docs/security/`, `data/external/evo/`, `reports/evo/`,

@@ -53,6 +53,10 @@ in contributi pronti per il branch principale del repository.
 * Workflow in `workflows/` — replicano pipeline (schema-validate, e2e,
   lighthouse, security). Confrontarli con `.github/workflows/` e migrare le
   sezioni mancanti.
+* `tools/automation/evo_batch_runner.py` — orchestration script che permette di
+  lanciare in dry-run o in esecuzione reale i comandi definiti nei batch di
+  `tasks.yml`. È disponibile anche un workflow GitHub manuale (`Run Evo Batch`)
+  per avviare gli stessi step via UI, mantenendo traccia dell'esecuzione.
 
 ## Checklist operativa
 
