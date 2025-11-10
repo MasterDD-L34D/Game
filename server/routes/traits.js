@@ -265,7 +265,7 @@ function createTraitRouter(options = {}) {
       return;
     }
     try {
-      const author = resolveAuthor(req, traitPayload);
+      const author = resolveAuthor(req, body);
       const created = await repository.createTrait(traitPayload, {
         category: body.category || body.targetCategory || null,
         draft: parseBoolean(body.draft) || parseBoolean(body.isDraft),
@@ -294,13 +294,28 @@ function createTraitRouter(options = {}) {
       return;
     }
     const overrides = body.overrides && typeof body.overrides === 'object' ? body.overrides : {};
+    const traitOverrides =
+      body.trait && typeof body.trait === 'object'
+        ? body.trait
+        : overrides.trait && typeof overrides.trait === 'object'
+          ? overrides.trait
+          : overrides;
     try {
       const author = resolveAuthor(req, body);
       const cloned = await repository.cloneTrait(sourceId, {
-        overrides,
+        overrides: traitOverrides,
         category: body.category || body.targetCategory || overrides.category || null,
-        draft: parseBoolean(body.draft),
-        traitId: body.traitId || body.slug || overrides.traitId || overrides.slug || null,
+        draft:
+          parseBoolean(body.draft) ||
+          parseBoolean(body.isDraft) ||
+          parseBoolean(overrides.draft),
+        traitId:
+          body.traitId ||
+          body.slug ||
+          overrides.traitId ||
+          overrides.slug ||
+          (traitOverrides && typeof traitOverrides.id === 'string' ? traitOverrides.id : null) ||
+          null,
         author,
       });
       if (cloned?.meta?.etag) {
@@ -380,16 +395,26 @@ function createTraitRouter(options = {}) {
   });
 
   router.put('/:traitId', ...editAccess, async (req, res) => {
-    const payload = req.body || {};
-    if (!payload || typeof payload !== 'object') {
-      res.status(400).json({ error: 'Payload JSON richiesto' });
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
+    const traitPayload =
+      body.trait && typeof body.trait === 'object'
+        ? body.trait
+        : Object.keys(body).length > 0
+          ? { ...body }
+          : {};
+    if (
+      !traitPayload ||
+      typeof traitPayload !== 'object' ||
+      Object.keys(traitPayload).length === 0
+    ) {
+      res.status(400).json({ error: 'Payload trait richiesto' });
       return;
     }
     try {
-      const author = resolveAuthor(req, payload);
-      const expectedVersion = resolveExpectedVersion(req, payload);
-      const expectedEtag = resolveExpectedEtag(req, payload);
-      const updated = await repository.updateTrait(req.params.traitId, payload, {
+      const author = resolveAuthor(req, body);
+      const expectedVersion = resolveExpectedVersion(req, body);
+      const expectedEtag = resolveExpectedEtag(req, body);
+      const updated = await repository.updateTrait(req.params.traitId, traitPayload, {
         author,
         expectedVersion,
         expectedEtag,
