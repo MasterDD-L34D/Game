@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/trait.schema.json",
+  "title": "Evo Tactics Trait",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "trait_code",
+    "label",
+    "tier",
+    "metrics"
+  ],
+  "properties": {
+    "trait_code": {
+      "type": "string",
+      "pattern": "^TR-\\d{4}$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 3
+    },
+    "famiglia_tipologia": {
+      "type": "string"
+    },
+    "fattore_mantenimento_energetico": {
+      "$ref": "enums.json#/$defs/energy_upkeep_level"
+    },
+    "tier": {
+      "$ref": "enums.json#/$defs/sentience_tier"
+    },
+    "slot": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]$"
+      },
+      "uniqueItems": true
+    },
+    "sinergie": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^TR-\\d{4}$"
+      },
+      "uniqueItems": true
+    },
+    "conflitti": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^TR-\\d{4}$"
+      },
+      "uniqueItems": true
+    },
+    "requisiti_ambientali": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "capacita_richieste": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "condizioni": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "biome_class": {
+                "type": "string"
+              }
+            }
+          },
+          "fonte": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "expansion": {
+                "type": "string"
+              },
+              "tier": {
+                "$ref": "enums.json#/$defs/sentience_tier"
+              },
+              "notes": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "mutazione_indotta": {
+      "type": "string"
+    },
+    "uso_funzione": {
+      "type": "string"
+    },
+    "spinta_selettiva": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "$ref": "enums.json#/$defs/metric_unit"
+          }
+        }
+      }
+    },
+    "cost_profile": {
+      "type": "object"
+    },
+    "testability": {
+      "type": "object"
+    },
+    "applicability": {
+      "type": "object"
+    },
+    "version": {
+      "type": "string"
+    },
+    "versioning": {
+      "type": "object"
+    }
+  }
+}

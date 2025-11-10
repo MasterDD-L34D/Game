@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/evo/species.schema.json",
+  "title": "Evo Tactics Species",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "species"
+  ],
+  "properties": {
+    "species": {
+      "type": "object",
+      "title": "Species payload",
+      "additionalProperties": false,
+      "required": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "trait_refs",
+        "sentience_index"
+      ],
+      "properties": {
+        "scientific_name": {
+          "type": "string",
+          "minLength": 3
+        },
+        "common_names": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "classification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "macro_class",
+            "habitat"
+          ],
+          "properties": {
+            "macro_class": {
+              "$ref": "enums.json#/$defs/macro_class"
+            },
+            "habitat": {
+              "$ref": "enums.json#/$defs/habitat_profile"
+            }
+          }
+        },
+        "functional_signature": {
+          "type": "string",
+          "minLength": 8
+        },
+        "visual_description": {
+          "type": "string"
+        },
+        "risk_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "danger_level": {
+              "$ref": "enums.json#/$defs/danger_level"
+            },
+            "vectors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "interactions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "predates_on": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "predated_by": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "symbiosis": {
+              "type": "string"
+            }
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 4
+          }
+        },
+        "sentience_index": {
+          "$ref": "enums.json#/$defs/sentience_tier"
+        },
+        "ecotypes": {
+          "type": "array",
+          "items": {
+            "$ref": "enums.json#/$defs/ecotype_cluster"
+          },
+          "uniqueItems": true
+        },
+        "trait_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^TR-\\d{4}$"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}
