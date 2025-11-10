@@ -4,8 +4,9 @@
 
 - **Fonte primaria**: `incoming/lavoro_da_classificare/traits/traits_aggregate.json`
   (50 trait con codici `TR-11xx` → `TR-20xx`).
-- **Audit duplicati**: `python traits/scripts/audit_duplicates.py` → nessun
-  duplicato rilevato, report vuoto in `reports/traits/duplicates.csv`.
+- **Audit duplicati**: `python traits/scripts/audit_duplicates.py`
+  (esecuzione 2025-11-10T19:30:29Z UTC) → nessun duplicato rilevato, report
+  vuoto in `reports/traits/duplicates.csv`.
 - **Documentazione di supporto**: inventario normalizzato in
   [`traits/glossary.md`](../../traits/glossary.md).
 
