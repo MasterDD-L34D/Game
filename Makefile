@@ -1,10 +1,11 @@
 .PHONY: sitemap links report search redirects structured audit \
         evo-tactics-pack dev-stack test-stack ci-stack \
-        evo-batch-plan evo-batch-run evo-plan evo-run evo-lint
+        evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint
 
 batch ?= all
 flags ?=
 EVO_TASKS_FILE ?= incoming/lavoro_da_classificare/tasks.yml
+EVO_LINT_PATH ?=
 
 sitemap:
 	python ops/site-audit/build_sitemap.py
@@ -38,18 +39,21 @@ test-stack:
 ci-stack:
 	npm run ci:stack
 
+evo-list:
+        python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" list
+
 evo-plan:
-	python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" plan --batch "${batch}"
+        python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" plan --batch "${batch}"
 
 evo-run:
-	python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" run --batch "${batch}" ${flags}
+        python tools/automation/evo_batch_runner.py --tasks-file "${EVO_TASKS_FILE}" run --batch "${batch}" ${flags}
 
 evo-lint:
-	@if [ -n "${path}" ]; then \
-		python tools/automation/evo_schema_lint.py "${path}"; \
-	else \
-		python tools/automation/evo_schema_lint.py; \
-	fi
+        @if [ -n "${EVO_LINT_PATH}" ]; then \
+                python tools/automation/evo_schema_lint.py "${EVO_LINT_PATH}"; \
+        else \
+                python tools/automation/evo_schema_lint.py; \
+        fi
 
 evo-batch-plan:
 	$(MAKE) --no-print-directory evo-plan batch="${batch}" EVO_TASKS_FILE="${EVO_TASKS_FILE}"

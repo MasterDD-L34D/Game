@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import logging
 from pathlib import Path
 from typing import Dict, Iterable, List
 
@@ -13,17 +12,10 @@ from jsonschema import RefResolver
 from jsonschema.exceptions import RefResolutionError, SchemaError
 from jsonschema.validators import validator_for
 
+from tools.automation import configure_logging, get_logger
 
-LOGGER = logging.getLogger("tools.automation.evo_schema_lint")
 
-
-def configure_logging(verbose: bool = False) -> None:
-    level = logging.DEBUG if verbose else logging.INFO
-    root_logger = logging.getLogger()
-    if root_logger.handlers:
-        root_logger.setLevel(level)
-        return
-    logging.basicConfig(level=level, format="%(message)s")
+LOGGER = get_logger("tools.automation.evo_schema_lint")
 
 
 def discover_schema_files(root: Path) -> Iterable[Path]:

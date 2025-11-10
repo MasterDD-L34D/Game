@@ -11,8 +11,16 @@
       "numberOfRuns": 3,
       "settings": {
         "preset": "desktop",
+        "formFactor": "desktop",
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1365,
+          "height": 935,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
         "disableStorageReset": true,
-        "chromeFlags": "--no-sandbox --headless=new"
+        "chromeFlags": "--no-sandbox --headless=new --ignore-certificate-errors"
       }
     },
     "assert": {
@@ -39,6 +47,18 @@
           "warn",
           {
             "minScore": 0.9
+          }
+        ],
+        "categories:pwa": [
+          "warn",
+          {
+            "minScore": 0.7
+          }
+        ],
+        "uses-responsive-images": [
+          "warn",
+          {
+            "maxLength": 0
           }
         ]
       }
