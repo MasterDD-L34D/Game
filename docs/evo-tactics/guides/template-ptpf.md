@@ -5,113 +5,116 @@ tags:
   - evo-tactics
   - template
   - ptpf
-updated: 2025-11-10
+updated: 2025-11-12
 ---
 
 # Template — Game Design Structure (PTPF)
 
-**Project:** Evo-Tactics  \
-**Version:** v1.0 · DriftLocked
+Questo template fornisce i campi minimi da compilare quando si introdurrà un nuovo
+modulo Evo-Tactics (missione, specie, rituale di telemetria). Ogni sezione include
+esempi, note di completamento e riferimenti diretti agli asset del pack.
 
-⸻
+> **Come usarlo**: duplica il file, sostituisci le parti in corsivo e conserva le
+> checklist per assicurare la qualità del deliverable.
 
-## 1. 🎯 Vision & Tone
-**Tag:** `@VISION_CORE`
-- Setting: Techno-biological, ecosystem instability.
-- Factions: Hybrid teams (half-scientist, half-explorer).
-- Keywords: Adaptation, Evolution, Intelligence, Mutation.
-- User Feeling Target: Smart, fast, systemic.
-- Drift Policy: Reject fantasy tropes; stay bio-logical.
+## 1. Vision & Tone
 
-⸻
+| Campo | Descrizione | Esempio |
+| --- | --- | --- |
+| **Tag** | Identificatore univoco (`@VISION_CORE`, `@MISSION_ARC_X`). | `@VISION_CORE` |
+| **Setting** | Contesto narrativo/ambientale. | "Recupero di biosfere sintetiche orbitanti" |
+| **Esperienza target** | Sensazioni ricercate dal team. | "Pressione costante, collaborazione tattica" |
+| **Tone guardrail** | Elementi da evitare. | "No elementi fantasy, no comic relief" |
 
-## 2. 🧠 Strategic Core — Tactical System
-**Tag:** `@TACTICS_CORE`
-- Dashboard anchors: `PI Slots`, `Hook Patterns`, `Bias Vectors`.
-- Tactical Outcomes: A/B/C packages, VC interaction nodes.
-- Constraints:
-  - PI slots = form constraints.
-  - Rarity modifiers visibili in ogni momento.
-- Rehydration: Telemetry-linked loadouts per tattiche emergenti.
+**Checklist**
+- [ ] Allineare il tono con `docs/02-PILASTRI.md`.
+- [ ] Collegare la missione a un arco esistente nel catalogo (`catalog_data.json`).
 
-⸻
+## 2. Tactical System
 
-## 3. 🧬 Form Management & Caps
-**Tag:** `@FORM_ENGINE`
-- Packet types: Mutation packs A/B/C.
-- Shape Biasing: form-balance mappato per bioma.
-- Visibility:
-  - Caps per round.
-  - VC sync table (telemetry compliance).
-- DriftLock: prevenire mismatch di forma fra i round.
+| Campo | Descrizione |
+| --- | --- |
+| **Dashboard anchors** | Widget o viste UI da aggiornare (es. `Loadout Slots`, `Encounter Timeline`). |
+| **Outcome attesi** | Risultati misurabili (es. "ridurre drift > 0.20"). |
+| **Vincoli** | Limiti hard (slot PI, rarità, timer). |
+| **Rehydration** | Processo per reiniettare i dati in telemetria o sessioni successive. |
 
-⸻
+**Checklist**
+- [ ] Aggiornare `docs/evo-tactics-pack/ui/` se servono nuovi componenti.
+- [ ] Documentare i vincoli in `mission-console/strategic.md`.
 
-## 4. 🛰️ Telemetry System
-**Tag:** `@VC_TRACK`
-- Input: Player behavior (choice logs, roll trends).
-- Output: Dynamic encounter shifts, VC compat tiers.
-- Triggers:
-  - Form inefficiency.
-  - Underused bioma-synergy.
-- Review mode: YAML dataset inspector.
+## 3. Form & Mutation Management
 
-⸻
+| Campo | Descrizione |
+| --- | --- |
+| **Packet Types** | Gruppi di mutazioni coinvolte (`Mutation Pack A/B/C`). |
+| **Shape Biasing** | Regole per distribuzione delle forme per bioma. |
+| **Visibility** | Come i giocatori percepiscono i limiti (UI, log, tooltip). |
+| **DriftLock** | Condizioni che invalidano la missione se superate. |
 
-## 5. 🌱 Bioma & Encounter Engine
-**Tag:** `@BIOMA_ENGINE`
-- Generator: Bioma roll (fast table).
-- Spotlight: Mutations vs environment + synergy matrix.
-- MBTI Compatibility Table:
-  - Mission archetypes ↔ Player profiles.
-- Load: Encounter seeds auto-linked to PI caps.
+**Checklist**
+- [ ] Inserire i nuovi trait in `packs/evo_tactics_pack/traits/*.json`.
+- [ ] Aggiornare la tabella di compatibilità in `docs/evo-tactics-pack/env-traits.json`.
 
-⸻
+## 4. Telemetry & VC Tracking
 
-## 6. 🔁 Playtest Loop
-**Tag:** `@PLAYTEST_CORE`
-- Iteration Tracker:
-  - Loop ID.
-  - Stress Level.
-  - Mutation Stability.
-- Routines:
-  - YAML snapshot check.
-  - Random encounter delta.
-  - Synergy pulse.
+| Campo | Descrizione |
+| --- | --- |
+| **Input** | Fonti dati (log scelte, trend lanci dadi, ecc.). |
+| **Output** | Report o trigger generati. |
+| **Alert Thresholds** | Valori soglia e azioni conseguenti. |
+| **Review Mode** | Strumenti di analisi (`analytics/`, dashboard esterne). |
 
-⸻
+**Checklist**
+- [ ] Validare i dataset con `incoming/docs/yaml_validator.py`.
+- [ ] Aggiornare le pipeline VC in `services/telemetry-vc/` se presenti impatti server.
 
-## 7. 🔗 Linking & Traceability
-**Anchor Map:**
-- `@VISION_CORE` ↔ `@TACTICS_CORE`, `@FORM_ENGINE`.
-- `@VC_TRACK` ↔ `@BIOMA_ENGINE`.
-- `@PLAYTEST_CORE` collega tutti i moduli per gli stress test.
+## 5. Encounter & Biome Engine
 
-**Receipts:** tutti i moduli portano hash locali per la linea playtest.
+| Campo | Descrizione |
+| --- | --- |
+| **Generator** | Algoritmo o script usato (`bioma roll`, `mission seeds`). |
+| **Spotlight** | Focus meccanico (mutazioni vs ambiente, puzzle, ecc.). |
+| **Compatibilità MBTI** | Mappatura missione ↔ profili giocatore. |
+| **Load** | Come vengono caricati gli encounter (runtime vs precompilati). |
 
-⸻
+**Checklist**
+- [ ] Sincronizzare `incoming/docs/bioma_encounters.yaml` con gli aggiornamenti.
+- [ ] Verificare la difficoltà attraverso almeno due run QA.
 
-## 8. ⚠️ Drift Guards
-- **Tone Lock:** niente fantasy, steampunk o registro comico.
-- **Structure Lock:** moduli sempre packetizzati, no freeform.
-- **Telemetry Lock:** ogni variazione deve essere YAML-valid e receipt-tagged.
+## 6. Playtest Loop
 
-⸻
+| Campo | Descrizione |
+| --- | --- |
+| **Iteration Tracker** | Parametri registrati (Loop ID, Stress Level, Mutation Stability). |
+| **Routine** | Sequenza di test automatici/manuali. |
+| **Entry Criteria** | Requisiti per iniziare il playtest. |
+| **Exit Criteria** | Condizioni per chiudere il ciclo. |
 
-## 9. 📦 Repo Tools & Extensions (Recommended)
-**Tag:** `@REPO_TOOLS`
-- `/tools/obsidian-template.md` → per vault locale.
-- `/scripts/yaml_validator.py` → validatore di dataset.
-- `/hooks/drift_check.js` → pre-commit check per Δdrift o receipt mancanti.
-- `/docs/README_structure.yaml` → definisce dipendenze e relazioni dei tag.
-- `/telemetry/bioma_encounters.yaml` → traccia outcomes per form+biome+MBTI.
+**Checklist**
+- [ ] Registrare gli esiti in `docs/playtest/` seguendo la guida dedicata.
+- [ ] Allegare i log telemetrici pertinenti.
 
-**Suggeriti per GitHub:**
-- Obsidian Vault Sync.
-- GitBook Docs rendering.
-- DriftDelta Tracker badge (Echo-style summary).
+## 7. Linking & Traceability
 
-⸻
+- **Anchor Map**: elenca le relazioni principali (`@VISION_CORE ↔ @TACTICS_CORE`).
+- **Receipts**: link a commit, issue tracker o report QA.
+- **Altre note**: strumenti usati, esperimenti non adottati, follow-up.
 
-**[END TEMPLATE — Evo-Tactics PTPF Seed · v1.0]**
+## 8. Drift Guards
 
+| Guardrail | Descrizione | Azione correttiva |
+| --- | --- | --- |
+| Tone Lock | Evitare deviazioni da techno-biologico. | Rieseguire sessione di review con narrativa. |
+| Structure Lock | Garantire moduli packetizzati (no freeform). | Applicare `scripts/drift_check.js`. |
+| Telemetry Lock | Ogni variazione deve essere YAML-valid e receipt-tagged. | Bloccare merge finché la validazione non passa. |
+
+## 9. Repo Tools & Extensions
+
+- `/tools/obsidian-template.md` — per vault locale condiviso.
+- `/scripts/yaml_validator.py` — validatore di dataset.
+- `/hooks/drift_check.js` — pre-commit check per delta drift.
+- `/docs/structure_overview.md` — mappa generale per cross-repo linking.
+- `/docs/evo-tactics-pack/README.md` — riepilogo degli asset sincronizzati.
+
+**[END TEMPLATE — Evo-Tactics PTPF Seed · v1.1]**
