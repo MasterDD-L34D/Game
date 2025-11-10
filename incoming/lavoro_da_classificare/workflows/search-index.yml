@@ -1,0 +1,43 @@
+name: Build Search Index
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'ops/site-audit/**'
+      - 'species/**'
+      - 'biomes/**'
+      - 'traits/**'
+      - 'morph/**'
+      - 'jobs/**'
+      - 'surge/**'
+      - 'gear/**'
+      - 'rules/**'
+      - 'modules/**'
+      - 'schemas/**'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: pip install -r ops/site-audit/requirements.txt
+      - name: Build search index
+        run: python ops/site-audit/generate_search_index.py --repo-root .
+      - name: Commit search index
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(search): update search_index.json"
+          file_pattern: |
+            ops/site-audit/_out/search_index.json
+            public/search_index.json

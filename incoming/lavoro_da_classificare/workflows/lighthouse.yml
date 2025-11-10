@@ -1,0 +1,36 @@
+name: Lighthouse CI
+
+on:
+  schedule:
+    - cron: '43 3 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  lhci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Lighthouse CI
+        run: npm i -g @lhci/cli@0.13.x
+      - name: Resolve SITE_BASE_URL
+        run: |
+          if [ -n "${{ vars.SITE_BASE_URL }}" ]; then
+            echo "SITE_BASE_URL=${{ vars.SITE_BASE_URL }}" >> $GITHUB_ENV
+          elif [ -n "${{ secrets.SITE_BASE_URL }}" ]; then
+            echo "SITE_BASE_URL=${{ secrets.SITE_BASE_URL }}" >> $GITHUB_ENV
+          else
+            echo "SITE_BASE_URL=" >> $GITHUB_ENV
+          fi
+      - name: Run LHCI (remote)
+        if: env.SITE_BASE_URL != ''
+        run: lhci autorun --config=./lighthouserc.json
+      - name: Upload LHCI results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: ./.lighthouseci
+          if-no-files-found: warn
