@@ -5,7 +5,7 @@ tags:
   - evo-tactics
   - archivio
 archived: true
-updated: 2025-11-12
+updated: 2025-11-13
 ---
 
 # Integrazione Evo-Tactics (storico)

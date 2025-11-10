@@ -5,7 +5,7 @@ tags:
   - evo-tactics
   - visione
   - struttura
-updated: 2025-11-12
+updated: 2025-11-13
 ---
 
 # Evo-Tactics · Visione & Struttura Concettuale
@@ -43,7 +43,7 @@ PTPF.
 
 | Loop | Input | Output | Note |
 | --- | --- | --- | --- |
-| **Strategic Loop** | Briefing missione + stato ecosistema | Obiettivi dinamici e vincoli PI | Aggiorna la tabella `mission-console/strategic.md`. |
+| **Strategic Loop** | Briefing missione + stato ecosistema | Obiettivi dinamici e vincoli PI | Aggiorna `docs/mission-console/data/flow/validators/biome.json`. |
 | **Mutation Loop** | Trait equipaggiati + log telemetria | Nuove forme/limitazioni | Sincronizzato con `packs/evo_tactics_pack/traits/`. |
 | **Encounter Loop** | Seed bioma + modulatore difficoltà | Sequenza incontri adattiva | Basato su `incoming/docs/bioma_encounters.yaml`. |
 | **Review Loop** | Dati post-missione | Report delta drift + suggerimenti bilanciamento | Alimenta il canale QA e `reports/` del pack. |
@@ -85,5 +85,17 @@ PTPF.
 - `docs/evo-tactics-pack/README.md` — panoramica degli asset distribuiti con il pack.
 - `docs/playtest-log-guidelines.md` — formato unico per i log di playtest.
 - `tools/drift-check/` — utilità per calcolare rapidamente il drift index su file JSON.
+
+## 8. Security & Ops Alignment
+
+| Ambito | Artefatto | Note operative |
+| --- | --- | --- |
+| **Automazione sicurezza** | `incoming/lavoro_da_classificare/security.yml` | Definisce job Bandit, npm audit e gitleaks per le branch `main`/`develop`. |
+| **Script locali** | `incoming/lavoro_da_classificare/init_security_checks.sh` | Esegue bandit, semgrep, npm audit e gitleaks generando report in `reports/security/`. |
+| **Rotazione credenziali** | `config/cli/support.yaml` & `docs/support/token-rotation.md` | Coordina finestra settimanale (lunedì) con notifiche `#support-ops`. |
+| **Alert telemetrici** | `scripts/api/telemetry_alerts.py` | Normalizza i payload `telemetry.alert_context` per il controllo drift/adozione trait. |
+
+- Annotare gli esiti delle rotazioni in `reports/qa-changelog.md` per garantire tracciabilità.
+- In caso di incident response, collegare i ticket Ops al registro `reports/daily_tracker_summary.json` con tag `SEC-EVO`.
 
 **[END: Visione & Struttura · Evo-Tactics]**
