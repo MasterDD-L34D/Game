@@ -5,7 +5,7 @@ tags:
   - evo-tactics
   - documentazione
   - integrazione
-updated: 2025-11-12
+updated: 2025-11-13
 ---
 
 # Evo-Tactics — Hub Documentale
@@ -22,6 +22,7 @@ design, telemetria e produzione.
 | --- | --- |
 | [`guides/visione-struttura.md`](guides/visione-struttura.md) | Sintesi della visione di prodotto, dei pilastri tattici e della struttura ad anello che governa missioni, specie e loop di gioco. |
 | [`guides/template-ptpf.md`](guides/template-ptpf.md) | Template operativo PTPF con sezioni compilabili, esempi pratici e checklist di qualità per i deliverable Evo-Tactics. |
+| [`guides/security-ops.md`](guides/security-ops.md) | Playbook Security & Ops con workflow CI, audit locali e rotazione credenziali. |
 | [`reports/integration-log.md`](reports/integration-log.md) | Registro puntuale delle attività di integrazione, incluse le normalizzazioni DOC-01/02/03 e i follow-up previsti. |
 
 ## Processi operativi
@@ -33,6 +34,9 @@ design, telemetria e produzione.
 - **Telemetria**: la base YAML per gli encounter è in
   [`incoming/docs/bioma_encounters.yaml`](../../incoming/docs/bioma_encounters.yaml) ed è coerente con gli output del
   pack Evo-Tactics (`docs/evo-tactics-pack/catalog_data.json`).
+- **Security & Ops**: per audit, rotazioni e incident response fai riferimento a
+  [`guides/security-ops.md`](guides/security-ops.md) e ai report generati in
+  `reports/security/`.
 
 ## Collegamenti rapidi
 
@@ -44,6 +48,10 @@ design, telemetria e produzione.
 
 | Data | Azione | Note |
 | --- | --- | --- |
+| 2025-11-13 | DOC-01 | Aggiornati `guides/template-ptpf.md` e `guides/visione-struttura.md` con esempi reali e sezione Security Alignment. |
+| 2025-11-13 | DOC-01 | Aggiunta la guida `guides/security-ops.md` sostituendo il precedente placeholder generale. |
+| 2025-11-13 | DOC-03 | Spostato `docs/security/README.md` in `docs/archive/evo-tactics/security-readme.md` e aggiornato l'indice archivio. |
+| 2025-11-13 | DOC-02 | Esteso `docs/INDEX.md` con il playbook Security & Ops e i riferimenti aggiornati. |
 | 2025-11-12 | Ristrutturazione contenuti `guides/` | Sostituiti i placeholder con sezioni descrittive, esempi compilabili e riferimenti al pack Evo-Tactics. |
 | 2025-11-12 | Aggiornamento hub documentale | Navigazione rivista, riferimenti incrociati aggiornati e collegamento al nuovo archivio dedicato. |
 | 2025-11-12 | Riordino archivio storico | Spostato il placeholder originale in `../archive/evo-tactics/README.md` mantenendo le note contestuali. |

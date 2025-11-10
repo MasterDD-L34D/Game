@@ -1,4 +1,14 @@
-# Sicurezza Evo-Tactics
+---
+title: Placeholder sicurezza Evo-Tactics
+description: Testo storico archiviato dopo l'introduzione del playbook Security & Ops.
+tags:
+  - evo-tactics
+  - archivio
+archived: true
+updated: 2025-11-13
+---
+
+# Sicurezza Evo-Tactics (storico)
 
 Questa cartella conterrà gli aggiornamenti di sicurezza e le procedure di
 incident response collegate all'import Evo-Tactics. I documenti originali sono
@@ -14,3 +24,7 @@ reperibili in `incoming/lavoro_da_classificare/incident_response.md` e
 
 Fino al completamento della migrazione, utilizzare questa directory come punto
 unico di raccolta delle decisioni di sicurezza.
+
+> **Nota archivio 2025-11-13:** il contenuto operativo è stato sostituito da
+> [`docs/evo-tactics/guides/security-ops.md`](../../evo-tactics/guides/security-ops.md)
+> nell'ambito di DOC-03.
