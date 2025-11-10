@@ -131,3 +131,54 @@
 | `scan_engine_idents.py` | file | 3.0 KiB; .py | File generico |
 | `sentience_traits_v1.0.yaml` | file | 3.3 KiB; .yaml | Manifest finale tier & interoception |
 | `species_index.html` | file | 3.5 KiB; .html | Documento testo |
+
+## Raggruppamento in batch operativi
+
+### Batch A — Documentazione e guide
+**Ambito:** README e documentazione testuale in `Ennagramma/`, radice incoming, `docs/`, file `.md`, `.txt`, `.html`.
+**Checklist:**
+- [ ] Spostamento previsto: migrare i markdown e i testi approvati in `docs/legacy-intake/2025-10-30/` mantenendo la struttura delle sottocartelle.
+- [ ] Modifiche da applicare: uniformare intestazioni, convertire eventuali riferimenti relativi e aggiungere frontmatter standard (titolo, data, autore).
+- [ ] Test/Documentazione da aggiornare: rigenerare l'indice `reports/data_inventory.md` e aggiornare changelog documentazione.
+- [ ] Approvazione: Responsabile Documentazione (Giulia B.).
+
+### Batch B — Script e tool di supporto
+**Ambito:** file `.py`, `.js`, `.ts`, `.sh` in `docs/` e radice (`docs/ascii_matrix_methods.py`, `docs/auto_eval_from_yaml.py`, `docs/drift_check.js`, `docs/installer.sh`, `docs/yaml_validator.py`, `hook_bindings.ts`, `scan_engine_idents.py`).
+**Checklist:**
+- [ ] Spostamento previsto: trasferire gli script nel repository degli strumenti (`tools/incoming-2025-10-30/`) con sottocartella per lingua.
+- [ ] Modifiche da applicare: verificare compatibilità con Python 3.11/Node 20, aggiornare header di licenza e predisporre configurazioni linting.
+- [ ] Test/Documentazione da aggiornare: eseguire suite lint locale (`ruff`, `eslint`) e aggiornare manuale strumenti nel wiki interno.
+- [ ] Approvazione: Tech Tools Maintainer (Luca R.).
+
+### Batch C — Dataset strutturati e configurazioni
+**Ambito:** file `.csv`, `.json`, `.yaml`, `.template.json`, `.schema.json`, `.v1.json`, `.xlsx` inclusi in `Ancestors_*`, `Ennagramma/`, `compat_map*.json`, `pathfinder/`, `idea_catalog.csv`, `last_report.*`, `pack_biome_jobs_v8_alt.json`, `personality_module.v1.json`, `recon_meccaniche.json`, `sentience_traits_v1.0.yaml`, `evo_tactics_tables_v8_3.xlsx`.
+**Checklist:**
+- [ ] Spostamento previsto: caricare i dataset validati in `data/incoming/2025-10-30/` separando CSV, JSON/YAML e fogli di calcolo.
+- [ ] Modifiche da applicare: validazione schema (YAML/JSON), normalizzazione delimitatori CSV, conversione `.xlsx` in `.parquet` per analisi.
+- [ ] Test/Documentazione da aggiornare: aggiornare catalogo `docs/catalog/traits_inventory.json` e rieseguire validatori automatizzati.
+- [ ] Approvazione: Data Steward (Chiara M.).
+
+### Batch D — Archivi e pacchetti distribuzione
+**Ambito:** tutti i file `.zip` (serie `EvoTactics_*`, `ancestors_*`, `evo_tactics_*`, `idea_intake_site_package.zip`, `logs_48354746845.zip`, ecc.).
+**Checklist:**
+- [ ] Spostamento previsto: archiviare gli zip su storage freddo `archives/2025-10-30/` con checksum registrato.
+- [ ] Modifiche da applicare: verificare integrità con `sha256sum`, rimuovere duplicati e predisporre manifesti `manifest.json`.
+- [ ] Test/Documentazione da aggiornare: aggiornare inventario archivi nel registro ops e pianificare test di estrazione spot.
+- [ ] Approvazione: Release Manager (Davide S.).
+
+### Batch E — Asset grafici
+**Ambito:** file `.svg` in `Img/` e sottocartelle.
+**Checklist:**
+- [ ] Spostamento previsto: pubblicare gli SVG nel DAM (`assets/enneagrammi/2025-10-30/`) mantenendo metadati.
+- [ ] Modifiche da applicare: ottimizzare SVG (svgo), uniformare nomenclatura (spazi → trattini) e aggiungere attributi `aria-label`.
+- [ ] Test/Documentazione da aggiornare: rigenerare anteprime nel catalogo asset e aggiornare guida stile.
+- [ ] Approvazione: Art Director (Elena V.).
+
+## Ordine di lavorazione proposto
+1. Batch C — Dataset strutturati e configurazioni (sblocca validazioni successive).
+2. Batch B — Script e tool di supporto (dipende dai dataset validati per test).
+3. Batch A — Documentazione e guide (integra i risultati precedenti).
+4. Batch E — Asset grafici (richiede riferimenti aggiornati dalle doc).
+5. Batch D — Archivi e pacchetti distribuzione (chiusura attività con materiale legacy).
+
+Eventuali discrepanze tra inventario e contenuto reale vanno segnalate nel registro QA; l'approvatore del batch interessato coordina la risoluzione e firma l'accettazione finale.
