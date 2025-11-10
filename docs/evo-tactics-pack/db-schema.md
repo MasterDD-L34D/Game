@@ -1,6 +1,6 @@
 # Evo Tactics Pack – MongoDB Schema
 
-Questo documento descrive la struttura dati pensata per servire l'ecosistema **Evo Tactics Pack** quando viene proiettato dentro un datastore MongoDB. Le sorgenti primarie dei dati sono i cataloghi JSON generati nello repository (`packs/evo_tactics_pack/docs/catalog`). Il modello è organizzato in cinque collezioni principali: `biomes`, `species`, `traits`, `sessions` e `activity_logs`.
+Questo documento descrive la struttura dati pensata per servire l'ecosistema **Evo Tactics Pack** quando viene proiettato dentro un datastore MongoDB. Le sorgenti primarie dei dati sono i cataloghi JSON generati nello repository (`packs/evo_tactics_pack/docs/catalog`). Il modello è organizzato in sei collezioni principali: `biomes`, `species`, `traits`, `biome_pools`, `sessions` e `activity_logs`.
 
 ## Panoramica delle collezioni
 
@@ -9,6 +9,7 @@ Questo documento descrive la struttura dati pensata per servire l'ecosistema **E
 | `biomes`        | Manifest e metadata dei biomi disponibili nel pacchetto.                               | `catalog_data.json` (`ecosistema.biomi`, `biomi`, `ecosistema.connessioni`) |
 | `species`       | Anagrafiche delle specie, eventi climatici e unità giocabili.                          | `docs/catalog/species/*.json`                                               |
 | `traits`        | Glossario dei tratti genetici/ambientali unificato con i riferimenti di bilanciamento. | `trait_glossary.json`, `trait_reference.json`, `env_traits.json`            |
+| `biome_pools`   | Pool di tratti, template ruoli e clima per la sintesi rapida dei biomi giocabili.      | `data/core/traits/biome_pools.json` (seed runtime)                          |
 | `sessions`      | Sessioni di gioco o simulazioni alimentate dal generatore Evo.                         | Eventi applicativi (telemetria runtime, non presenti nei cataloghi statici) |
 | `activity_logs` | Log granulari generati durante le sessioni (azioni giocatore/sistema).                 | Eventi applicativi (telemetria runtime, non presenti nei cataloghi statici) |
 
@@ -194,6 +195,76 @@ Durante il seed i dati del glossario e del riferimento vengono fusi in un unico 
 - `species.derived_from_environment.*traits` → `traits._id`.
 - `sessions.loadout.traits` → `traits._id`.
 
+## `biome_pools`
+
+Collezione di configurazioni preconfezionate che descrivono pool di tratti, condizioni climatiche e ruoli consigliati per il generatore di biomi.
+
+### Documento tipo
+
+```jsonc
+{
+  "_id": "cryosteppe_convergence",
+  "label": "Convergenza Cryosteppe",
+  "summary": "Distese glaciali fratturate dove cristalli piezoelettrici amplificano bufere notturne.",
+  "climate_tags": ["frozen", "wind", "night"],
+  "size": { "min": 3, "max": 6 },
+  "hazard": {
+    "severity": "high",
+    "description": "Bombe di ghiaccio sovraccariche e whiteout magnetici che colpiscono i punti di raccolta.",
+    "stress_modifiers": {
+      "whiteout": 0.07,
+      "cryogenic_shock": 0.06
+    }
+  },
+  "ecology": {
+    "biome_type": "cryosteppe",
+    "primary_resources": ["ghiaccio_piezoelettrico", "gas_ionizzati"],
+    "notes": "Colonie nomadi sfruttano ponti di luce per attraversare canyon congelati."
+  },
+  "traits": {
+    "core": [
+      "ghiaccio_piezoelettrico",
+      "criostasi_adattiva",
+      "capillari_criogenici",
+      "gusci_criovetro"
+    ],
+    "support": [
+      "ghiandole_nebbia_ionica",
+      "antenne_wideband",
+      "foliage_fotocatodico"
+    ]
+  },
+  "role_templates": [
+    {
+      "role": "apex",
+      "label": "Predatore Risonante",
+      "summary": "Predatori che sfruttano i bianchi magnetici per colpi rapidi.",
+      "functional_tags": ["skirmisher", "siege"],
+      "preferred_traits": ["criostasi_adattiva", "ghiaccio_piezoelettrico"],
+      "tier": "T2"
+    }
+  ],
+  "metadata": {
+    "schema_version": "1.0",
+    "updated_at": ISODate("2025-02-18T00:00:00Z")
+  }
+}
+```
+
+### Indici
+
+- `_id` (implicitamente indicizzato).
+- `hazard.severity` per filtrare rapidamente i pool per severità delle minacce ambientali.
+- `climate_tags` (multikey) per ricerche per tag climatici.
+- `role_templates.role` (multikey) per filtrare template per ruolo.
+- `traits.core` (multikey) per recuperare i pool che includono un tratto chiave.
+
+### Relazioni
+
+- `ecology.biome_type` → `biomes._id` (associazione tematica con i biomi disponibili).
+- `traits.core`/`traits.support`/`role_templates.preferred_traits` → `traits._id`.
+- Utilizzato dal servizio `catalog` (`server/services/catalog.js`) e dal sintetizzatore biomi (`services/generation/biomeSynthesizer.js`) per assemblare configurazioni di gioco.
+
 ## `sessions`
 
 Collezione runtime usata per tracciare le generazioni/partite avviate con il generatore Evo.
@@ -228,7 +299,7 @@ Collezione runtime usata per tracciare le generazioni/partite avviate con il gen
 
 - `status` + `started_at` (composito) per estrarre timeline attive o completate.
 - `player_id` per cronologia utente.
-- `pack_id` + `biome_id` per analisi aggregate per pacchetto/bioma.
+- `pack_id` + `status` (composito) per isolare velocemente le sessioni per pacchetto e stato.
 
 ### Relazioni
 
