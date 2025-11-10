@@ -52,7 +52,7 @@ placeholder generale.
   `reports/qa-changelog.md`.
 - Collegare i log prodotti dagli script (`reports/security/*.json`) agli spazi
   condivisi, indicando riferimenti commit.
-- Aggiornare il registro [`reports/integration-log.md`](../reports/integration-log.md)
+- Aggiornare il registro [`docs/archive/evo-tactics/integration-log.md`](../../archive/evo-tactics/integration-log.md)
   con il numero attività (DOC-XX) e le follow-up note.
 
 ## 5. Checklist di rilascio

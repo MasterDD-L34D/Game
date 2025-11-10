@@ -5,7 +5,7 @@ tags:
   - evo-tactics
   - archivio
 archived: true
-updated: 2025-11-13
+updated: 2025-11-14
 ---
 
 # Integrazione Evo-Tactics (storico)
@@ -21,6 +21,7 @@ integrazione dei pacchetti provenienti da `incoming/lavoro_da_classificare/`.
 - `reports/` — riepiloghi sintetici e log di revisione.
 - `security/` — documenti di sicurezza collegati al pacchetto.
 - `changelog/` — note di avanzamento per l'integrazione.
+- `integration-log.md` — registro DOC-01/02/03 consolidato nell'archivio.
 
 Le sottocartelle sarebbero state create durante i batch `documentation` e `ops_ci`.
 
