@@ -5,10 +5,14 @@ from __future__ import annotations
 import logging
 from typing import Optional
 
-__all__ = ["configure_logging", "get_logger"]
+LOGGER_NAMESPACE = "tools.automation"
+
+__all__ = ["configure_logging", "get_logger", "LOGGER_NAMESPACE"]
 
 
-def configure_logging(*, verbose: bool = False, logger: Optional[logging.Logger] = None) -> logging.Logger:
+def configure_logging(
+    *, verbose: bool = False, logger: Optional[logging.Logger] = None
+) -> logging.Logger:
     """Configure and return a logger suitable for CLI automation tools.
 
     The function initialises the root logger with a plain message formatter when no
@@ -33,6 +37,12 @@ def configure_logging(*, verbose: bool = False, logger: Optional[logging.Logger]
 
 
 def get_logger(name: str) -> logging.Logger:
-    """Return a child logger using the shared namespace for automation tools."""
+    """Return a logger anchored to the :mod:`tools.automation` namespace."""
 
-    return logging.getLogger(name)
+    if not name:
+        qualified = LOGGER_NAMESPACE
+    elif name.startswith(LOGGER_NAMESPACE):
+        qualified = name
+    else:
+        qualified = f"{LOGGER_NAMESPACE}.{name}"
+    return logging.getLogger(qualified)

@@ -12,6 +12,9 @@
       "settings": {
         "preset": "desktop",
         "formFactor": "desktop",
+        "locale": "it",
+        "throttlingMethod": "provided",
+        "disableDeviceEmulation": true,
         "screenEmulation": {
           "mobile": false,
           "width": 1365,
@@ -53,6 +56,12 @@
           "warn",
           {
             "minScore": 0.7
+          }
+        ],
+        "cumulative-layout-shift": [
+          "warn",
+          {
+            "maxNumericValue": 0.15
           }
         ],
         "uses-responsive-images": [

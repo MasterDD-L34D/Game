@@ -27,7 +27,7 @@ import yaml
 from tools.automation import configure_logging, get_logger
 
 
-LOGGER = get_logger("tools.automation.evo_batch_runner")
+LOGGER = get_logger(__name__)
 
 # Status names considered to be completed and therefore eligible to unblock
 # dependent tasks. The tracker currently uses lowercase strings.
@@ -379,7 +379,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
-    configure_logging(verbose=args.verbose)
+    configure_logging(verbose=args.verbose, logger=LOGGER)
     return args.func(args)
 
 

@@ -348,7 +348,7 @@ jobs:
         if: env.SITE_BASE_URL != ''
         env:
           SITE_BASE_URL: ${{ env.SITE_BASE_URL }}
-        run: lhci autorun --config=./lighthouserc.json
+        run: npm run lint:lighthouse
 
       - name: Skip Lighthouse CI (missing SITE_BASE_URL)
         if: env.SITE_BASE_URL == ''
