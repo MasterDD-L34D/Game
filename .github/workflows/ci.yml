@@ -249,6 +249,18 @@ jobs:
       - name: Run frontend unit tests
         run: npm run test --workspace webapp
 
+      - name: Install Trait Editor dependencies
+        working-directory: Trait Editor
+        run: npm ci --no-audit --no-fund
+
+      - name: Run Trait Editor unit tests
+        working-directory: Trait Editor
+        run: npm run test
+
+      - name: Build Trait Editor
+        working-directory: Trait Editor
+        run: npm run build
+
       - name: Build frontend for production
         env:
           VITE_BASE_PATH: ./
