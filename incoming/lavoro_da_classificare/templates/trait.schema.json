@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Trait v2",
+  "type": "object",
+  "required": [
+    "trait_code",
+    "label",
+    "tier",
+    "metrics"
+  ],
+  "properties": {
+    "trait_code": {
+      "type": "string",
+      "pattern": "^TR-\\d{4}$"
+    },
+    "label": {
+      "type": "string"
+    },
+    "famiglia_tipologia": {
+      "type": "string"
+    },
+    "fattore_mantenimento_energetico": {
+      "type": "string",
+      "enum": [
+        "Basso",
+        "Medio",
+        "Alto"
+      ]
+    },
+    "tier": {
+      "type": "string",
+      "pattern": "^T[1-5]$"
+    },
+    "slot": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sinergie": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "conflitti": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requisiti_ambientali": {
+      "type": "array"
+    },
+    "mutazione_indotta": {
+      "type": "string"
+    },
+    "uso_funzione": {
+      "type": "string"
+    },
+    "spinta_selettiva": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "value",
+          "unit"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cost_profile": {
+      "type": "object"
+    },
+    "testability": {
+      "type": "object"
+    },
+    "applicability": {
+      "type": "object"
+    },
+    "version": {
+      "type": "string"
+    },
+    "versioning": {
+      "type": "object"
+    }
+  }
+}

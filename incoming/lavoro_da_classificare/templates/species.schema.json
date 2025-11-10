@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Species v2",
+  "type": "object",
+  "properties": {
+    "species": {
+      "type": "object",
+      "required": [
+        "scientific_name",
+        "classification",
+        "functional_signature",
+        "trait_refs"
+      ],
+      "properties": {
+        "scientific_name": {
+          "type": "string"
+        },
+        "common_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "classification": {
+          "type": "object",
+          "required": [
+            "macro_class",
+            "habitat"
+          ],
+          "properties": {
+            "macro_class": {
+              "type": "string"
+            },
+            "habitat": {
+              "type": "string"
+            }
+          }
+        },
+        "functional_signature": {
+          "type": "string"
+        },
+        "visual_description": {
+          "type": "string"
+        },
+        "risk_profile": {
+          "type": "object"
+        },
+        "interactions": {
+          "type": "object"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sentience_index": {
+          "type": "string",
+          "enum": [
+            "T0",
+            "T1",
+            "T2",
+            "T3",
+            "T4",
+            "T5"
+          ]
+        },
+        "ecotypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "trait_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
