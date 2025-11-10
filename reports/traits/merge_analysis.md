@@ -5,8 +5,9 @@
 - **Fonte primaria**: `incoming/lavoro_da_classificare/traits/traits_aggregate.json`
   (50 trait con codici `TR-11xx` → `TR-20xx`).
 - **Audit duplicati**: `python traits/scripts/audit_duplicates.py`
-  (esecuzione 2025-11-10T20:48:25Z UTC) → nessun duplicato rilevato, report
-  vuoto in `reports/traits/duplicates.csv` (output CLI: "Nessun duplicato individuato.").
+  (esecuzione 2025-11-10T21:02:42Z UTC) → nessun duplicato rilevato, report
+  vuoto in `reports/traits/duplicates.csv` e log `reports/traits/audit_duplicates_TRT-01.md`
+  (output CLI: "Nessun duplicato individuato.").
 - **Documentazione di supporto**: inventario normalizzato in
   [`traits/glossary.md`](../../traits/glossary.md).
 
