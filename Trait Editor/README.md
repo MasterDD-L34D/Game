@@ -11,7 +11,6 @@ Sandbox indipendente per la libreria dei tratti, pensata per revisioni rapide e 
 
 - Node.js 18+
 - npm 9+
-- Accesso alla CDN Google per AngularJS 1.8.x **oppure** mirror locale configurato (vedi [nota dedicata](#nota-sul-caricamento-di-angularjs)).
 
 Puoi verificare rapidamente la versione disponibile con:
 
@@ -92,58 +91,50 @@ Se qualcuno di questi artefatti non è aggiornato, torna sui passi corrispondent
 
 ## Pubblicazione
 
-1. Esegui `npm run build` per produrre la cartella `dist/`.
-2. Distribuisci il contenuto di `dist/` su un hosting statico (GitHub Pages, S3, Netlify, ecc.).
-3. Imposta `VITE_BASE_PATH` o `BASE_PATH` prima della build se il sito verrà servito da una sottocartella.
-
-## Nota sul caricamento di AngularJS
-
-L'app si affida alla CDN Google per caricare AngularJS 1.8.x. I file esterni attualmente inclusi sono:
-
-| Script | Origine |
-| --- | --- |
-| `angular.min.js` | `https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js` |
-| `angular-route.min.js` | `https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js` |
-| `angular-animate.min.js` | `https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-animate.min.js` |
-| `angular-sanitize.min.js` | `https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-sanitize.min.js` |
-
-Verifica le policy di Content Security Policy del target di pubblicazione e aggiungi eventuali eccezioni se richiesto.
-
-### Strategie per CDN e mirror locali
-
-Di seguito sono riportate due configurazioni alternative. Scegli quella più adatta all'ambiente di distribuzione (es. dev offline, produzione con CSP restrittiva, ecc.).
-
-#### 1. CDN Google (configurazione di default)
-
-- Nessuna azione aggiuntiva: i tag `<script>` in `public/index.html` puntano direttamente alla CDN.
-- Assicurati che l'hosting finale consenta connessioni in uscita verso `ajax.googleapis.com` e, se necessario, registra il dominio tra le eccezioni CSP.
-
-#### 2. Bundle locale/mirror degli asset AngularJS
-
-1. Scarica i pacchetti AngularJS in locale. Puoi usare `npm` per mantenere i file versionati assieme al progetto:
+1. Installa (o aggiorna) le dipendenze Node del pacchetto:
 
    ```bash
-   npm install --save angular@1.8.3 angular-route@1.8.3 angular-animate@1.8.3 angular-sanitize@1.8.3
+   npm install
    ```
 
-   In alternativa, utilizza `curl`/`wget` per scaricare gli asset direttamente nella cartella `public/vendor/angular/`.
-
-2. Copia (o linka) i file minimizzati nel percorso statico servito da Vite:
+2. Esporta le variabili richieste dall'ambiente di destinazione. Ad esempio:
 
    ```bash
-   mkdir -p public/vendor/angular
-   cp node_modules/angular/angular.min.js public/vendor/angular/
-   cp node_modules/angular-route/angular-route.min.js public/vendor/angular/
-   cp node_modules/angular-animate/angular-animate.min.js public/vendor/angular/
-   cp node_modules/angular-sanitize/angular-sanitize.min.js public/vendor/angular/
+   export VITE_TRAIT_DATA_SOURCE=remote
+   export VITE_TRAIT_DATA_URL=../data/traits/index.json
+   export VITE_BASE_PATH=/trait-editor/
    ```
 
-   Durante `vite build` tutti i file sotto `public/` vengono copiati in `dist/`, così da essere serviti dal tuo hosting.
+   `VITE_BASE_PATH` (o `BASE_PATH`) è opzionale, ma va impostato quando l'app è ospitata in sottocartella.
 
-3. Aggiorna i tag `<script>` in `public/index.html` sostituendo gli URL CDN con i riferimenti locali (es. `/vendor/angular/angular.min.js`). Mantieni un commento o un diff pronto per facilitare lo switch.
+3. Genera la build ottimizzata:
 
-4. Commita i file copiati solo se desideri versionarli nel repository. In alternativa, automatizza la copia con uno script (es. `npm run prepare` o `postinstall`) per ridurre il rischio di divergenze.
+   ```bash
+   npm run build
+   ```
 
-5. (Opzionale) Conserva un file di checksum o una nota sulle versioni per verificare rapidamente la corrispondenza con l'upstream.
+   L'output è disponibile in `dist/` e include sia l'`index.html` sia gli asset JavaScript/CSS bundlati.
 
-Per passare da una modalità all'altra è sufficiente modificare i riferimenti in `public/index.html`. Mantieni la documentazione allineata quando aggiorni le librerie.
+4. Carica il contenuto di `dist/` sul servizio statico scelto (GitHub Pages, S3, Netlify, ecc.) o sull'artefatto della CI.
+
+5. (Opzionale) Esegui `npm run preview` per verificare localmente la build prima di distribuirla.
+
+### Guida rapida CI / produzione
+
+1. Prepara le variabili di ambiente (`VITE_TRAIT_DATA_SOURCE`, `VITE_TRAIT_DATA_URL`, `VITE_BASE_PATH`/`BASE_PATH`) nel job di build.
+2. Esegui `npm ci` oppure `npm install --frozen-lockfile` per installare le dipendenze definite in `package-lock.json`.
+3. Lancia `npm run build` all'interno della cartella `Trait Editor/`.
+4. Archivia il contenuto di `Trait Editor/dist/` come artefatto (`dist/index.html`, `dist/assets/**`).
+5. Pubblica l'artefatto sul target di produzione o collegalo allo step di deploy successivo.
+
+## Nota sulle dipendenze AngularJS
+
+Le librerie AngularJS (`angular`, `angular-route`, `angular-animate`, `angular-sanitize`) vengono installate tramite `npm` e incluse automaticamente nel bundle generato da Vite a partire da `index.html` e `src/main.ts`.
+
+- Non è più necessario l'accesso a una CDN esterna: gli script risultanti sono serviti da `dist/assets/*.js`.
+- L'`index.html` nella radice del pacchetto gestisce internamente l'inizializzazione dell'app e l'inferenza del `basePath` prima di caricare il modulo principale.
+- In caso di aggiornamento delle librerie, aggiorna `package.json`/`package-lock.json` e rigenera la build per propagare i cambiamenti.
+
+### Configurazioni legacy
+
+Se devi supportare ambienti che richiedono ancora script hostati esternamente (es. mirror preesistenti), puoi esportare gli asset prodotti da `node_modules/` verso una CDN proprietaria. Mantieni queste note in un documento separato e assicurati che eventuali eccezioni CSP siano registrate dal team di sicurezza.
