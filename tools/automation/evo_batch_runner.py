@@ -18,7 +18,6 @@ import argparse
 import dataclasses
 import re
 import subprocess
-import sys
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Set
 
@@ -376,12 +375,18 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
+    """Return the parsed CLI arguments."""
+
     parser = build_parser()
-    args = parser.parse_args(argv)
+    return parser.parse_args(argv)
+
+
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    args = parse_args(argv)
     configure_logging(verbose=args.verbose, logger=LOGGER)
     return args.func(args)
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

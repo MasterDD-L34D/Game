@@ -270,98 +270,6 @@ jobs:
           VITE_BASE_PATH: ./
         run: npm run build --workspace webapp
 
-  site-audit:
-    runs-on: ubuntu-latest
-    needs: paths-filter
-    if: needs.paths-filter.outputs.site_audit == 'true'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install site audit dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --requirement ops/site-audit/requirements.txt
-
-      - name: Resolve SITE_BASE_URL
-        run: |
-          if [ -n "${{ vars.SITE_BASE_URL }}" ]; then
-            echo "SITE_BASE_URL=${{ vars.SITE_BASE_URL }}" >> $GITHUB_ENV
-          elif [ -n "${{ secrets.SITE_BASE_URL }}" ]; then
-            echo "SITE_BASE_URL=${{ secrets.SITE_BASE_URL }}" >> $GITHUB_ENV
-          else
-            echo "SITE_BASE_URL=" >> $GITHUB_ENV
-          fi
-
-      - name: Run site audit suite
-        if: env.SITE_BASE_URL != ''
-        env:
-          SITE_BASE_URL: ${{ env.SITE_BASE_URL }}
-        run: make audit
-
-      - name: Skip site audit (missing SITE_BASE_URL)
-        if: env.SITE_BASE_URL == ''
-        run: echo "SITE_BASE_URL not configured; skipping site audit checks."
-
-      - name: Upload site audit artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-audit
-          path: ops/site-audit/_out
-          if-no-files-found: warn
-
-  lighthouse-ci:
-    runs-on: ubuntu-latest
-    needs: paths-filter
-    if: needs.paths-filter.outputs.stack == 'true'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Lighthouse CI
-        run: npm i -g @lhci/cli@0.13.x
-
-      - name: Resolve SITE_BASE_URL
-        run: |
-          if [ -n "${{ vars.SITE_BASE_URL }}" ]; then
-            echo "SITE_BASE_URL=${{ vars.SITE_BASE_URL }}" >> $GITHUB_ENV
-          elif [ -n "${{ secrets.SITE_BASE_URL }}" ]; then
-            echo "SITE_BASE_URL=${{ secrets.SITE_BASE_URL }}" >> $GITHUB_ENV
-          else
-            echo "SITE_BASE_URL=" >> $GITHUB_ENV
-          fi
-
-      - name: Run Lighthouse CI
-        if: env.SITE_BASE_URL != ''
-        env:
-          SITE_BASE_URL: ${{ env.SITE_BASE_URL }}
-        run: npm run lint:lighthouse
-
-      - name: Skip Lighthouse CI (missing SITE_BASE_URL)
-        if: env.SITE_BASE_URL == ''
-        run: echo "SITE_BASE_URL not configured; skipping Lighthouse CI run."
-
-      - name: Upload Lighthouse results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse-results
-          path: ./.lighthouseci
-          if-no-files-found: warn
-
   cli-checks:
     runs-on: ubuntu-latest
     needs:
@@ -570,15 +478,33 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Resolve SITE_BASE_URL
+      - name: Resolve site audit options
         run: |
           if [ -n "${{ vars.SITE_BASE_URL }}" ]; then
-            echo "SITE_BASE_URL=${{ vars.SITE_BASE_URL }}" >> $GITHUB_ENV
+            echo "SITE_BASE_URL=${{ vars.SITE_BASE_URL }}" >> "$GITHUB_ENV"
           elif [ -n "${{ secrets.SITE_BASE_URL }}" ]; then
-            echo "SITE_BASE_URL=${{ secrets.SITE_BASE_URL }}" >> $GITHUB_ENV
+            echo "SITE_BASE_URL=${{ secrets.SITE_BASE_URL }}" >> "$GITHUB_ENV"
           else
-            echo "SITE_BASE_URL=" >> $GITHUB_ENV
+            echo "SITE_BASE_URL=" >> "$GITHUB_ENV"
           fi
+
+          max_pages="${{ vars.SITE_AUDIT_MAX_PAGES }}"
+          if [ -z "$max_pages" ]; then
+            max_pages=2000
+          fi
+          echo "SITE_AUDIT_MAX_PAGES=$max_pages" >> "$GITHUB_ENV"
+
+          timeout="${{ vars.SITE_AUDIT_TIMEOUT }}"
+          if [ -z "$timeout" ]; then
+            timeout=10
+          fi
+          echo "SITE_AUDIT_TIMEOUT=$timeout" >> "$GITHUB_ENV"
+
+          concurrency="${{ vars.SITE_AUDIT_CONCURRENCY }}"
+          if [ -z "$concurrency" ]; then
+            concurrency=10
+          fi
+          echo "SITE_AUDIT_CONCURRENCY=$concurrency" >> "$GITHUB_ENV"
 
       - name: Install site audit dependencies
         run: |
@@ -587,12 +513,12 @@ jobs:
 
       - name: Run site audit checks
         run: |
-          if [ -z "$SITE_BASE_URL" ]; then
-            echo "SITE_BASE_URL not configured; skipping site audit." >&2
-            exit 0
-          fi
-          mkdir -p ops/site-audit/_out
-          make audit SITE_BASE_URL="$SITE_BASE_URL"
+          python ops/site-audit/run_suite.py \
+            --repo-root "${GITHUB_WORKSPACE}" \
+            --base-url "$SITE_BASE_URL" \
+            --max-pages "$SITE_AUDIT_MAX_PAGES" \
+            --timeout "$SITE_AUDIT_TIMEOUT" \
+            --concurrency "$SITE_AUDIT_CONCURRENCY"
 
       - name: Upload site audit artifacts
         if: always()

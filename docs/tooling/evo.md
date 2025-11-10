@@ -12,11 +12,14 @@ root logger con un formatter minimale e imposta il livello del logger passato.
 Per ottenere un'istanza coerente è sufficiente dichiarare `LOGGER =
 get_logger(__name__)`, che garantisce un nome uniforme anche quando lo script è
 eseguito stand-alone. Tutte le utility riportate di seguito seguono questo
-pattern e scrivono messaggi di stato/errore su stderr.
+pattern e scrivono messaggi di stato/errore su stderr. Entrambi i tool espongono
+un'opzione `--verbose` coerente, utile per esaminare i dettagli delle operazioni
+(lo stesso flag può essere forzato nei target `make` tramite
+`EVO_VERBOSE=true`).
 
 ## Runner dei batch
 
-- Script: `python tools/automation/evo_batch_runner.py`
+- Script: `python -m tools.automation.evo_batch_runner`
 - Obiettivo: pianificare o eseguire i comandi registrati in
   `incoming/lavoro_da_classificare/tasks.yml`.
 - Opzioni principali:
@@ -34,7 +37,7 @@ piping/reportistica.
 
 ## Lint degli schemi JSON
 
-- Script: `python tools/automation/evo_schema_lint.py [percorso]`
+- Script: `python -m tools.automation.evo_schema_lint [percorso]`
 - Obiettivo: validare la struttura degli schemi JSON Evo utilizzando le stesse
   regole del batch runner.
 - Comportamento:
@@ -52,11 +55,14 @@ Il comando è disponibile anche tramite `make evo-lint` (variabili opzionali
 
 I flussi di lavoro descritti sono esposti nel `Makefile` tramite:
 
+- `make evo-help`: riepilogo rapido dei target disponibili e delle variabili
+  supportate.
 - `make evo-list`: elenca i batch disponibili (variabile `EVO_TASKS_FILE`
   opzionale per puntare a un file alternativo).
 - `make evo-plan EVO_BATCH=<nome>`: mostra il piano del batch specificato.
 - `make evo-run EVO_BATCH=<nome> EVO_FLAGS="--execute --auto"`: esegue i
-  comandi con le opzioni desiderate.
+  comandi con le opzioni desiderate; usare `EVO_VERBOSE=true` per abilitare il
+  logging esteso.
 - `make evo-lint [EVO_LINT_PATH=...]`: lancia il lint sugli schemi
   (percorso personalizzabile).
 
@@ -71,7 +77,9 @@ integra gli script ereditati tramite l'orchestratore
 `python ops/site-audit/run_suite.py`. Il target `make audit` utilizza la suite
 passando automaticamente `SITE_BASE_URL` (se definita) e replica la sequenza di
 controlli usata in CI: sitemap, search index, redirect, link checker, report e
-structured data. Gli artefatti sono raccolti in `ops/site-audit/_out/`.
+structured data. Sono disponibili variabili di tuning (`SITE_AUDIT_MAX_PAGES`,
+`SITE_AUDIT_TIMEOUT`, `SITE_AUDIT_CONCURRENCY`) per adattare il crawling alle
+esigenze locali o CI. Gli artefatti sono raccolti in `ops/site-audit/_out/`.
 
 Quando `SITE_BASE_URL` non è impostata, gli step che richiedono lo scraping del
 sito vengono saltati ma gli output generati localmente restano disponibili.
