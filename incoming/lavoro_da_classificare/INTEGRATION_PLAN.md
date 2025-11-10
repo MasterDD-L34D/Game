@@ -53,6 +53,10 @@ in contributi pronti per il branch principale del repository.
 * Workflow in `workflows/` — replicano pipeline (schema-validate, e2e,
   lighthouse, security). Confrontarli con `.github/workflows/` e migrare le
   sezioni mancanti.
+* `tools/automation/evo_batch_runner.py` — orchestration script che permette di
+  lanciare in dry-run o in esecuzione reale i comandi definiti nei batch di
+  `tasks.yml`. È disponibile anche un workflow GitHub manuale (`Run Evo Batch`)
+  per avviare gli stessi step via UI, mantenendo traccia dell'esecuzione.
 
 ## Checklist operativa
 
@@ -68,6 +72,10 @@ in contributi pronti per il branch principale del repository.
    template `backlog_tasks_example.yaml`.
 6. Aggiornare la matrice operativa (`TASKS_BREAKDOWN.md`, `tasks.yml`) per
    tracciare avanzamento, assegnatari e dipendenze.
+7. Utilizzare le directory preparate nel repository (`docs/evo-tactics/`,
+   `docs/security/`, `data/external/evo/`, `reports/evo/`,
+   `incoming/archive/documents/`, `tools/automation/`, `docs/wireframes/evo/`)
+   per depositare gli output dei batch evitando conflitti di path.
 
 ## Uscite attese per l'import finale
 

@@ -1,5 +1,5 @@
 
-.PHONY: sitemap links report search redirects structured audit evo-tactics-pack dev-stack test-stack ci-stack
+.PHONY: sitemap links report search redirects structured audit evo-tactics-pack dev-stack test-stack ci-stack evo-batch-plan evo-batch-run
 
 sitemap:
 \tpython ops/site-audit/build_sitemap.py
@@ -32,3 +32,9 @@ npm run test:stack
 
 ci-stack:
 npm run ci:stack
+
+evo-batch-plan:
+	python tools/automation/evo_batch_runner.py plan --batch "$(batch)"
+
+evo-batch-run:
+	python tools/automation/evo_batch_runner.py run --batch "$(batch)" $(flags)
