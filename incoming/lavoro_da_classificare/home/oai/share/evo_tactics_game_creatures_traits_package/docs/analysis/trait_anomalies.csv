@@ -1,0 +1,10 @@
+trait_id,label_it,label_en,issue_type,notes
+nucleo_ovomotore_rotante,"Uovo rotaia, uovo grande e uova piccole dentro...",Rotating Ovomotor Core,anomalous name,"Italian label is a colloquial phrase; not a proper name"
+ventriglio_gastroliti,"Denti sonci (ciottoli/sassi), ti nutri di tutto",Gastrolith Grinding Gizzard,colloquial name,"Italian label uses colloquial language and possible typo 'sonci'"
+sonno_emisferico_alternato,"Dormire con solo metà cervello alla volta",Unihemispheric Sleep,descriptive label,"Label_it is a full sentence rather than a succinct title"
+sangue_piroforico,"Sangue che prende fuoco a contatto con l'ossigeno",Pyrophoric Blood,descriptive label,"Italian name describes the effect instead of naming the trait"
+random,Trait Random,Trait Random,placeholder,"Appears to be a placeholder for a random trait slot"
+pathfinder,Pathfinder,Pathfinder,placeholder,"Appears to be a placeholder for exploration ability"
+criostasi_adattiva,Criostasi,Adaptive Cryostasis,translation mismatch,"Italian label missing adjective 'adattiva' present in English"
+artigli_sghiaccio_glaciale,Artigli Sghiaccio Glaciale,Artigli Sghiaccio Glaciale,possible typo,"'sghiaccio' may be a misspelling of 'ghiaccio'"
+ali_fulminee,Ali Fulminee,Ali Fulminee,missing translation,"English label duplicates Italian; proper translation should be 'Lightning Wings'"

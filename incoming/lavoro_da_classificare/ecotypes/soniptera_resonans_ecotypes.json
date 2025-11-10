@@ -1,0 +1,39 @@
+{
+  "species": "Soniptera resonans",
+  "ecotypes": [
+    {
+      "id": "SPR-ECO1",
+      "label": "Oasi Termica",
+      "biome_class": "terrestre_savanna",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000301"
+      ],
+      "trait_adjustments": [
+        {
+          "trait_code": "TR-1703",
+          "metric": "SPL_riduzione",
+          "delta": 2,
+          "unit": "dB",
+          "notes": "Colonne d’aria calda migliorano interferenza"
+        }
+      ]
+    },
+    {
+      "id": "SPR-ECO2",
+      "label": "Prateria Arbustiva",
+      "biome_class": "terrestre_savanna",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_01000178"
+      ],
+      "trait_adjustments": [
+        {
+          "trait_code": "TR-1702",
+          "metric": "dose_acustica",
+          "delta": -10,
+          "unit": "dB·s",
+          "notes": "Vegetazione disperde il fronte d’onda"
+        }
+      ]
+    }
+  ]
+}

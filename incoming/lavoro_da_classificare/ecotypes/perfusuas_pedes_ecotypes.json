@@ -1,0 +1,46 @@
+{
+  "species": "Perfusuas pedes",
+  "ecotypes": [
+    {
+      "id": "PFP-ECO1",
+      "label": "Cavernicolo",
+      "biome_class": "sotterraneo",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000067"
+      ],
+      "trait_adjustments": [
+        {
+          "trait_code": "TR-1305",
+          "metric": "banda_uditiva_max",
+          "delta": 10000,
+          "unit": "Hz",
+          "notes": "Echi corti in gallerie strette"
+        },
+        {
+          "trait_code": "TR-1302",
+          "metric": "velocita_max",
+          "delta": -0.3,
+          "unit": "m/s",
+          "notes": "Terreno scivoloso"
+        }
+      ]
+    },
+    {
+      "id": "PFP-ECO2",
+      "label": "Radura Notturna",
+      "biome_class": "terrestre_forestale",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00005783"
+      ],
+      "trait_adjustments": [
+        {
+          "trait_code": "TR-1304",
+          "metric": "energia_impattiva",
+          "delta": 100,
+          "unit": "J",
+          "notes": "Aria secca favorisce velocità del colpo"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "species": "Umbra alaris",
+  "ecotypes": [
+    {
+      "id": "UMA-ECO1",
+      "label": "Canopy Ombrosa",
+      "biome_class": "terrestre_forestale",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00005783"
+      ],
+      "trait_adjustments": [
+        {
+          "trait_code": "TR-1901",
+          "metric": "trasmittanza_ottica",
+          "delta": -0.0002,
+          "unit": "1",
+          "notes": "Piume più scure in chioma fitta"
+        }
+      ]
+    },
+    {
+      "id": "UMA-ECO2",
+      "label": "Canyon Notturno",
+      "biome_class": "terrestre_roccioso",
+      "envo_terms": [
+        "http://purl.obolibrary.org/obo/ENVO_00000207"
+      ],
+      "trait_adjustments": [
+        {
+          "trait_code": "TR-1904",
+          "metric": "temperatura_effetto",
+          "delta": -5,
+          "unit": "Cel",
+          "notes": "Aria secca aumenta shock termico"
+        }
+      ]
+    }
+  ]
+}
