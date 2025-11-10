@@ -3,8 +3,9 @@
 
 The script reads the generated JSON catalog under
 `packs/evo_tactics_pack/docs/catalog` and upserts the information inside the
-`biomes`, `species` and `traits` collections. It also hydrates metadata that is
-useful for the runtime services (e.g. environment-specific trait suggestions).
+`biomes`, `species`, `traits` and `biome_pools` collections. It also hydrates
+metadata that is useful for the runtime services (e.g. environment-specific
+trait suggestions).
 
 Usage examples::
 
@@ -34,6 +35,7 @@ from config_loader import load_mongo_config
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CATALOG_ROOT = REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog"
+BIOME_POOLS_PATH = REPO_ROOT / "data" / "core" / "traits" / "biome_pools.json"
 
 
 def parse_datetime(value: str | None) -> datetime | None:
@@ -169,6 +171,34 @@ def load_traits() -> List[Dict[str, Any]]:
     return docs
 
 
+def load_biome_pools() -> List[Dict[str, Any]]:
+    payload = load_json(BIOME_POOLS_PATH)
+    schema_version = payload.get("schema_version")
+    updated_at = parse_datetime(payload.get("updated_at"))
+    pools = payload.get("pools") or []
+
+    docs: List[Dict[str, Any]] = []
+    for entry in pools:
+        if not isinstance(entry, Mapping):
+            continue
+        doc = dict(entry)
+        pool_id = doc.get("id")
+        if not pool_id:
+            continue
+        doc["_id"] = pool_id
+        metadata = doc.get("metadata", {})
+        if isinstance(metadata, Mapping):
+            metadata = dict(metadata)
+        else:
+            metadata = {}
+        metadata.setdefault("schema_version", schema_version)
+        metadata.setdefault("updated_at", updated_at)
+        doc["metadata"] = metadata
+        docs.append(doc)
+
+    return docs
+
+
 def bulk_upsert(collection: Collection, documents: Iterable[Mapping[str, Any]]) -> None:
     requests = []
     for document in documents:
@@ -190,8 +220,15 @@ def seed_database(client: MongoClient, database_name: str, dry_run: bool = False
     biomes = load_biomes()
     species = load_species()
     traits = load_traits()
+    biome_pools = load_biome_pools()
 
-    print(f"Found {len(biomes)} biomes, {len(species)} species, {len(traits)} traits")
+    print(
+        "Found"
+        f" {len(biomes)} biomes,"
+        f" {len(species)} species,"
+        f" {len(traits)} traits,"
+        f" {len(biome_pools)} biome pools"
+    )
 
     if dry_run:
         print("Dry run enabled: data was not written to MongoDB")
@@ -200,6 +237,7 @@ def seed_database(client: MongoClient, database_name: str, dry_run: bool = False
     bulk_upsert(db["biomes"], biomes)
     bulk_upsert(db["species"], species)
     bulk_upsert(db["traits"], traits)
+    bulk_upsert(db["biome_pools"], biome_pools)
 
 
 def resolve_connection_settings(args: argparse.Namespace) -> Tuple[str, str, Dict[str, Any], Dict[str, Any]]:
