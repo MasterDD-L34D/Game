@@ -7,6 +7,7 @@ const request = require('supertest');
 
 const { createApp } = require('../../server/app');
 const { closeMongo } = require('../../server/db/mongo');
+const { createCatalogService } = require('../../server/services/catalog');
 
 function createTraitDocument(id, label, extras = {}) {
   return {
@@ -120,6 +121,13 @@ test('POST /api/v1/generation/biomes utilizza i dati MongoDB quando disponibili'
   await client.connect();
   const db = client.db(databaseName);
   await seedMongo(db);
+
+  const catalogService = createCatalogService({
+    useMongo: true,
+    mongo: { uri: mongoUri, dbName: databaseName },
+  });
+  const readiness = await catalogService.ensureReady();
+  assert.ok(readiness.poolCount > 0, 'il seed Mongo deve popolare almeno un biome pool');
 
   const previousMongoUrl = process.env.MONGO_URL;
   const previousMongoDb = process.env.MONGO_DB_NAME;
