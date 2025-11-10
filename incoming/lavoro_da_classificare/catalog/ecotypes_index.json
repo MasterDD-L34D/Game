@@ -1,0 +1,55 @@
+{
+  "generated_at": "2025-11-04",
+  "ecotypes": [
+    {
+      "species": "Elastovaranus hydrus",
+      "file": "ecotypes/elastovaranus_hydrus_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Gulogluteus scutiger",
+      "file": "ecotypes/gulogluteus_scutiger_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Perfusuas pedes",
+      "file": "ecotypes/perfusuas_pedes_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Terracetus ambulator",
+      "file": "ecotypes/terracetus_ambulator_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Chemnotela toxica",
+      "file": "ecotypes/chemnotela_toxica_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Proteus plasma",
+      "file": "ecotypes/proteus_plasma_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Soniptera resonans",
+      "file": "ecotypes/soniptera_resonans_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Anguis magnetica",
+      "file": "ecotypes/anguis_magnetica_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Umbra alaris",
+      "file": "ecotypes/umbra_alaris_ecotypes.json",
+      "count": 2
+    },
+    {
+      "species": "Rupicapra sensoria",
+      "file": "ecotypes/rupicapra_sensoria_ecotypes.json",
+      "count": 2
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+# Aggiornamento del tracker_registry.yaml
+# Esempio di sezione da aggiungere al file di configurazione per tracciare nuovi documenti.
+Design:
+  GDD:
+    path: docs/GDD.md
+    description: Game Design Document
+Security:
+  Policy:
+    path: docs/security/policy.md
+    description: Politica di sicurezza e privacy
+  ThreatModel:
+    path: docs/security/threat_model.md
+    description: Modello delle minacce
+  RiskRegister:
+    path: docs/security/risk_register.md
+    description: Registro dei rischi
+  IncidentResponse:
+    path: docs/security/incident_response.md
+    description: Piano di risposta agli incidenti
+Analysis:
+  TraitReviewSummary:
+    path: docs/analysis/trait_analysis_summary.md
+    description: Sintesi della revisione manuale dei tratti
+  TraitReviewReport:
+    path: docs/analysis/trait_review_report.md
+    description: Guida e risultati della revisione automatica

@@ -1,0 +1,3975 @@
+{
+  "catalog_version": "2.0.0",
+  "generated_at": "2025-11-04",
+  "units": "UCUM",
+  "schemas": {
+    "species": "templates/species.schema.json",
+    "trait": "templates/trait.schema.json"
+  },
+  "stats": {
+    "species_count": 10,
+    "traits_count": 50,
+    "by_macro_class": {
+      "Reptilia": 1,
+      "Mammalia": 3,
+      "Mammalo-artropode": 1,
+      "Artropode": 1,
+      "Protista complesso": 1,
+      "Insecta": 1,
+      "Reptilia/Pisces": 1,
+      "Aves": 1
+    },
+    "traits_by_tier": {
+      "T4": 10,
+      "T3": 26,
+      "T2": 14
+    }
+  },
+  "species": [
+    {
+      "scientific_name": "Elastovaranus hydrus",
+      "common_names": [
+        "Viverna-Elastico"
+      ],
+      "classification": {
+        "macro_class": "Reptilia",
+        "habitat": "savana calda con gole rocciose"
+      },
+      "functional_signature": "Attacchi a proiettile con inoculazione multipla tramite rostro estensibile, guidati da sensibilità sismica.",
+      "visual_description": "Rettile allungato con cranio affusolato e rostro tubulare; fasci muscolari evidenti; squame opache con lamelle sensoriali. Postura semiflessa pronta allo scatto, coda come stabilizzatore. Colorazioni sabbia-oliva con pattern spezzato.",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": [
+          "tossine litiche",
+          "emorragia"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "antilopi piccole",
+          "varani",
+          "uccelli terricoli"
+        ],
+        "predated_by": [
+          "felidi grandi",
+          "rapaci diurni"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Richiede pressione idraulica pre-caricata (cooldown dopo 3 colpi)",
+        "Prestazioni ridotte in freddo prolungato"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "dorsali rocciose",
+        "letto fluviale stagionale"
+      ],
+      "trait_refs": [
+        "TR-1101",
+        "TR-1102",
+        "TR-1103",
+        "TR-1104",
+        "TR-1105"
+      ],
+      "slug": "elastovaranus_hydrus",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1101",
+          "label": "Rostro Emostatico-Litico",
+          "uso_funzione": "Inoculare tossine ed enzimi e aspirare fluidi.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "velocita_proiettile",
+              "value": 120,
+              "unit": "m/s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1102",
+          "label": "Scheletro Idraulico a Pistoni",
+          "uso_funzione": "Estendere rapidamente il cranio per colpire.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "energia_impattiva",
+              "value": 1500,
+              "unit": "J"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1103",
+          "label": "Ipertrofia Muscolare Massiva",
+          "uso_funzione": "Aumentare potenza e scatto.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "metabolic_rate",
+              "value": 60,
+              "unit": "W/kg"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1104",
+          "label": "Ectotermia Dinamica",
+          "uso_funzione": "Alzare temperatura per performance.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "tolleranza_termica",
+              "value": 20,
+              "unit": "K"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1105",
+          "label": "Organi Sismici Cutanei",
+          "uso_funzione": "Percepire vibrazioni del suolo.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "soglia_udito",
+              "value": 20,
+              "unit": "dB"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Gulogluteus scutiger",
+      "common_names": [
+        "Ghiotton-Scudo"
+      ],
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "foreste umide con corsi d'acqua"
+      },
+      "functional_signature": "Manipolazione a lungo raggio tramite lingua prensile quanto il corpo e stabilizzazione caudale; difesa passiva dorsale a placca cheratinizzata.",
+      "visual_description": "Mammifero robusto e basso, pelliccia scura lucida idrofoba; coda spessa prensile; regione glutea corazzata in rilievo; zampe corte ma molto mobili; lingua che si estende come una proboscide muscolare.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "schiacciamento",
+          "graffi"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "insetti lignicoli",
+          "frutti duri",
+          "uova"
+        ],
+        "predated_by": [
+          "grossi felidi",
+          "umani"
+        ],
+        "symbiosis": "dispersione di semi tramite pelliccia oleosa"
+      },
+      "constraints": [
+        "Alto costo elettrolitico per secrezioni oleose in siccità",
+        "La corazza riduce la velocità in sprint prolungati"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "paludi di foresta",
+        "forre umide"
+      ],
+      "trait_refs": [
+        "TR-1201",
+        "TR-1202",
+        "TR-1203",
+        "TR-1204",
+        "TR-1205"
+      ],
+      "slug": "gulogluteus_scutiger",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1201",
+          "label": "Pelage Idrorepellente Avanzato",
+          "uso_funzione": "Isolare e galleggiare",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "res_termica",
+              "value": 0.08,
+              "unit": "K/W"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1202",
+          "label": "Scudo Gluteale Cheratinizzato",
+          "uso_funzione": "Assorbire impatti posteriori",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "spessore_corazza",
+              "value": 35,
+              "unit": "mm"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1203",
+          "label": "Articolazioni Multiassiali",
+          "uso_funzione": "Ruotare arti per manovre strette",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "accelerazione_0_10",
+              "value": 4.2,
+              "unit": "m/s2"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1204",
+          "label": "Coda Prensile Muscolare",
+          "uso_funzione": "Appendere e contro-bilanciare",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "salto_verticale",
+              "value": 1.8,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1205",
+          "label": "Rostro Linguale Prensile",
+          "uso_funzione": "Afferrrare/manipolare a lungo raggio",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "lunghezza_estensione",
+              "value": 2.0,
+              "unit": "m"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Perfusuas pedes",
+      "common_names": [
+        "Zannapiedi"
+      ],
+      "classification": {
+        "macro_class": "Mammalo-artropode",
+        "habitat": "foreste e sistemi carsici"
+      },
+      "functional_signature": "Predatore cieco che usa sonar e chimio-navigazione; attacco a urto e digestione extracorporea.",
+      "visual_description": "Corpo allungato corazzato da placche flessibili, centinaia di arti corti e rapidi. Regione cefalica protetta, un’appendice anteriore ipertrofica per l’urto. Addome con sacche ripiegabili.",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": [
+          "acidi proteolitici",
+          "onda d’urto"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "ungulati piccoli",
+          "rettili cavernicoli"
+        ],
+        "predated_by": [
+          "nessun predatore noto in età adulta"
+        ],
+        "symbiosis": "Ospita ostaggio-simbionte per supporto percettivo (dipendenza bio-cognitiva)"
+      },
+      "constraints": [
+        "Dipendenza sensoriale dall’ostaggio per compiti complessi",
+        "Alto costo energetico per secrezioni acide"
+      ],
+      "sentience_index": "T3",
+      "ecotypes": [
+        "grotte umide",
+        "radure notturne"
+      ],
+      "trait_refs": [
+        "TR-1301",
+        "TR-1302",
+        "TR-1303",
+        "TR-1304",
+        "TR-1305"
+      ],
+      "slug": "perfusuas_pedes",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1301",
+          "label": "Ermafroditismo Cronologico",
+          "uso_funzione": "Cambiare sesso dopo 1–2 incubazioni.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "tasso_propaguli",
+              "value": 50,
+              "unit": "1/season"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1302",
+          "label": "Locomozione Miriapode Ibrida",
+          "uso_funzione": "Aderire e arrampicare su qualsiasi superficie.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "velocita_max",
+              "value": 2.5,
+              "unit": "m/s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1303",
+          "label": "Estroflessione Gastrica Acida",
+          "uso_funzione": "Liquefare tessuti su contatto e aspirare.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "pressione_getto",
+              "value": 50000,
+              "unit": "Pa"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1304",
+          "label": "Artiglio Cinetico a Urto",
+          "uso_funzione": "Infliggere onda d’urto e frattura.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "energia_impattiva",
+              "value": 800,
+              "unit": "J"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1305",
+          "label": "Sistemi Chimio-Sonici",
+          "uso_funzione": "Mappare spazio e correnti d’aria senza vista.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "banda_uditiva_max",
+              "value": 120000,
+              "unit": "Hz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Terracetus ambulator",
+      "common_names": [
+        "Megattera Terrestre"
+      ],
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "steppe e savane aperte"
+      },
+      "functional_signature": "Locomozione a tappeto ventrale e leggerezza scheletrica per lunghi spostamenti terrestri; infrasonica difensiva.",
+      "visual_description": "Colosso tondeggiante, ventre ampio con bande ciliari, arti vestigiali d’appoggio. Pelle spessa e rugosa, color blu-grigio, occhi piccoli; bocca ampia filtrante.",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": [
+          "infrasonico disorientante"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "micro-organismi aerodispersi"
+        ],
+        "predated_by": [
+          "nessuno in età adulta"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Scarsa capacità di arrampicata",
+        "Vulnerabile a pendii ripidi"
+      ],
+      "sentience_index": "T0",
+      "ecotypes": [
+        "pianure ventose"
+      ],
+      "trait_refs": [
+        "TR-1401",
+        "TR-1402",
+        "TR-1403",
+        "TR-1404",
+        "TR-1405"
+      ],
+      "slug": "terracetus_ambulator",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1401",
+          "label": "Scheletro Pneumatico a Maglie",
+          "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "metabolic_rate",
+              "value": 20,
+              "unit": "W/kg"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1402",
+          "label": "Cinghia Iper-Ciliare",
+          "uso_funzione": "Traslare il corpo su terreni piani/ruvidi.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "velocita_max",
+              "value": 1.2,
+              "unit": "m/s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1403",
+          "label": "Rete Filtro-Polmonare",
+          "uso_funzione": "Assorbire nutrienti aerodispersi.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "consumo_O2",
+              "value": 800,
+              "unit": "L/min"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1404",
+          "label": "Canto Infrasonico Tattico",
+          "uso_funzione": "Disorientare predatori e comunicare a distanza.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "dose_acustica",
+              "value": 120,
+              "unit": "dB·s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1405",
+          "label": "Siero Anti-Gelo Naturale",
+          "uso_funzione": "Impedire cristallizzazione a basse temperature.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "tolleranza_termica",
+              "value": 60,
+              "unit": "K"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Chemnotela toxica",
+      "common_names": [
+        "Aracnide Alchemico"
+      ],
+      "classification": {
+        "macro_class": "Artropode",
+        "habitat": "foreste tropicali"
+      },
+      "functional_signature": "Acido industriale biologico e seta elettroconduttiva per trappole stordenti e corrosive.",
+      "visual_description": "Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio. Cuticola lucida con bande metalliche.",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": [
+          "acidi forti",
+          "scariche elettriche"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "rettili arboricoli",
+          "uccelli piccoli"
+        ],
+        "predated_by": [
+          "ofidi grandi"
+        ],
+        "symbiosis": "alghe epifite su tela in radure umide"
+      },
+      "constraints": [
+        "Acido inefficace su basalto o ceramiche vetrose",
+        "Tela sensibile a piogge torrenziali"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "chiome interne",
+        "radure umide"
+      ],
+      "trait_refs": [
+        "TR-1501",
+        "TR-1502",
+        "TR-1503",
+        "TR-1504",
+        "TR-1505"
+      ],
+      "slug": "chemnotela_toxica",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1501",
+          "label": "Zanne Idracida",
+          "uso_funzione": "Corrodere tessuti e metalli.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "pressione_getto",
+              "value": 1000000,
+              "unit": "Pa"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1502",
+          "label": "Seta Conduttiva Elettrica",
+          "uso_funzione": "Stordire con scariche nella tela.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "tensione_picco",
+              "value": 1200,
+              "unit": "V"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1503",
+          "label": "Articolazioni a Leva Idraulica",
+          "uso_funzione": "Amplificare salto e spinta delle zampe.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "salto_verticale",
+              "value": 3.5,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1504",
+          "label": "Filtrazione Osmotica",
+          "uso_funzione": "Neutralizzare tossine autogenerate.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "metabolic_rate",
+              "value": 15,
+              "unit": "W/kg"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1505",
+          "label": "Occhi Analizzatori di Tensione",
+          "uso_funzione": "Leggere tensioni nella seta e pattern di stress.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "acuita_visiva",
+              "value": 0.92,
+              "unit": "1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Proteus plasma",
+      "common_names": [
+        "Mutaforma Cellulare"
+      ],
+      "classification": {
+        "macro_class": "Protista complesso",
+        "habitat": "zone umide, acque dolci"
+      },
+      "functional_signature": "Plasticità estrema di forma e funzione; ingestione per fagocitosi e stasi minerale.",
+      "visual_description": "Massa semi-trasparente, iridescenze deboli; estroflessioni pseudopodiali costanti. Variazione volumetrica rapida.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "anossia locale",
+          "asfissia prede piccole"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "detrito organico",
+          "invertebrati lenti"
+        ],
+        "predated_by": [
+          "pesci"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Sensibile alla disidratazione",
+        "Limitata coesione in acqua turbolenta"
+      ],
+      "sentience_index": "T0",
+      "ecotypes": [
+        "stagni",
+        "paludi"
+      ],
+      "trait_refs": [
+        "TR-1601",
+        "TR-1602",
+        "TR-1603",
+        "TR-1604",
+        "TR-1605"
+      ],
+      "slug": "proteus_plasma",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1601",
+          "label": "Membrana Plastica Continua",
+          "uso_funzione": "Assumere forme e densità diverse.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "rilevabilita_visiva",
+              "value": 0.2,
+              "unit": "1"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1602",
+          "label": "Flusso Ameboide Controllato",
+          "uso_funzione": "Scivolare/risalire superfici lisce.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "raggio_di_volta",
+              "value": 0.1,
+              "unit": "m"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1603",
+          "label": "Fagocitosi Assorbente",
+          "uso_funzione": "Inglobare e digerire biomassa intera.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "volume_ingestione",
+              "value": 5,
+              "unit": "L"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1604",
+          "label": "Moltiplicazione per Fusione",
+          "uso_funzione": "Aumentare massa/intelligenza unendo unità.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "tasso_propaguli",
+              "value": 3,
+              "unit": "1/season"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1605",
+          "label": "Cisti di Ibernazione Minerale",
+          "uso_funzione": "Entra in stasi in condizioni avverse.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "tolleranza_termica",
+              "value": 120,
+              "unit": "K"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Soniptera resonans",
+      "common_names": [
+        "Libellula Sonica"
+      ],
+      "classification": {
+        "macro_class": "Insecta",
+        "habitat": "savanes e bacini termici"
+      },
+      "functional_signature": "Manipolazione sonora: dal mascheramento al raggio sonico; volo fine a latenza ridotta.",
+      "visual_description": "Insetto alato di grandi dimensioni; ali traslucide con venature ispessite; occhi composti lucidi; addome segmentato aerodinamico.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "onda sonora direzionale"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "sciami di insetti",
+          "uccelli molto piccoli"
+        ],
+        "predated_by": [
+          "uccelli rapaci",
+          "pipistrelli"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Rendimento ridotto in pioggia intensa",
+        "Consumo energetico elevato in hovering prolungato"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "oasi calde",
+        "praterie arbustive"
+      ],
+      "trait_refs": [
+        "TR-1701",
+        "TR-1702",
+        "TR-1703",
+        "TR-1704",
+        "TR-1705"
+      ],
+      "slug": "soniptera_resonans",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1701",
+          "label": "Ali Fono-Risonanti",
+          "uso_funzione": "Generare ampia banda sonora in volo.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "dose_acustica",
+              "value": 100,
+              "unit": "dB·s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1702",
+          "label": "Cannone Sonico a Raggio",
+          "uso_funzione": "Stordire/ferire con raggio sonoro.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "dose_acustica",
+              "value": 140,
+              "unit": "dB·s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1703",
+          "label": "Campo di Interferenza Acustica",
+          "uso_funzione": "Mascherare posizione/velocità.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "SPL_riduzione",
+              "value": 18,
+              "unit": "dB"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1704",
+          "label": "Cervello a Bassa Latenza",
+          "uso_funzione": "Eseguire manovre ad alta frequenza.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "tempo_apprendimento",
+              "value": 30,
+              "unit": "s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1705",
+          "label": "Occhi Cinetici",
+          "uso_funzione": "Vedere il suono come pattern d’aria.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "acuita_visiva",
+              "value": 0.8,
+              "unit": "1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Anguis magnetica",
+      "common_names": [
+        "Anguilla Geomagnetica"
+      ],
+      "classification": {
+        "macro_class": "Reptilia/Pisces",
+        "habitat": "corsi d’acqua e coste sabbiose"
+      },
+      "functional_signature": "Navigazione magnetica fine e scariche nervose a impulso; scivolamento silente riduci-attrito.",
+      "visual_description": "Serpiforme lucido, pelle scura con riflessi metallici; linea laterale evidente; movimenti fluidi senza rumore.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "scariche elettriche"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "pesci d’acqua dolce",
+          "anfibi"
+        ],
+        "predated_by": [
+          "coccodrilli",
+          "grossi pesci predatori"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Scariche inefficaci in acque altamente conduttive/salmastre",
+        "Dipendenza da micro-metalli nella dieta"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "estuario",
+        "lagune"
+      ],
+      "trait_refs": [
+        "TR-1801",
+        "TR-1802",
+        "TR-1803",
+        "TR-1804",
+        "TR-1805"
+      ],
+      "slug": "anguis_magnetica",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1801",
+          "label": "Integumento Bipolare",
+          "uso_funzione": "Orientarsi su linee di campo.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "sens_magnetica",
+              "value": 1e-06,
+              "unit": "T"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1802",
+          "label": "Elettromagnete Biologico",
+          "uso_funzione": "Interferire con sistema nervoso preda.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "corrente_picco",
+              "value": 15,
+              "unit": "A"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1803",
+          "label": "Scivolamento Magnetico",
+          "uso_funzione": "Ridurre attrito e scivolare.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "velocita_max",
+              "value": 4.0,
+              "unit": "m/s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1804",
+          "label": "Filtro Metallofago",
+          "uso_funzione": "Sostenere organi elettrogeni.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "metabolic_rate",
+              "value": 12,
+              "unit": "W/kg"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1805",
+          "label": "Bozzolo Magnetico",
+          "uso_funzione": "Schermarsi da EM esterni.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "campo_magnetico",
+              "value": 0.2,
+              "unit": "T"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Umbra alaris",
+      "common_names": [
+        "Uccello Ombra"
+      ],
+      "classification": {
+        "macro_class": "Aves",
+        "habitat": "foreste pluviali e canyon notturni"
+      },
+      "functional_signature": "Invisibilità ottica quasi totale e visione potenziata nel buio; attacchi ipotermici silenziosi.",
+      "visual_description": "Volatile nero opaco, sagoma che assorbe la luce; occhi grandi lucenti; artigli lunghi; volo felpato e manovrato.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "ipotermia localizzata"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "roditori",
+          "piccoli marsupiali"
+        ],
+        "predated_by": [
+          "rapaci più grandi"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Efficacia ridotta in nebbia densa (diffusione)",
+        "Bioluminescenza può tradire la posizione a distanza ravvicinata"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "bassa volta arborea",
+        "gole d’ombra"
+      ],
+      "trait_refs": [
+        "TR-1901",
+        "TR-1902",
+        "TR-1903",
+        "TR-1904",
+        "TR-1905"
+      ],
+      "slug": "umbra_alaris",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-1901",
+          "label": "Vello di Assorbimento Totale",
+          "uso_funzione": "Assorbire quasi tutta la luce incidente.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "trasmittanza_ottica",
+              "value": 0.001,
+              "unit": "1"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1902",
+          "label": "Visione Multi-Spettrale Amplificata",
+          "uso_funzione": "Vedere in luminanza estremamente bassa.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "acuita_visiva",
+              "value": 0.95,
+              "unit": "1"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1903",
+          "label": "Motore Biologico Silenzioso",
+          "uso_funzione": "Volo prolungato a bassissimo SPL.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "metabolic_rate",
+              "value": 8,
+              "unit": "W/kg"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1904",
+          "label": "Artigli Ipo-Termici",
+          "uso_funzione": "Indurre shock da freddo localizzato.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "temperatura_fiato",
+              "value": -20,
+              "unit": "Cel"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-1905",
+          "label": "Comunicazione Fotonica Coda-Coda",
+          "uso_funzione": "Scambiare impulsi luminosi tattili.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "cohesion_index",
+              "value": 0.85,
+              "unit": "1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scientific_name": "Rupicapra sensoria",
+      "common_names": [
+        "Camoscio Psionico"
+      ],
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "falesie e praterie montane"
+      },
+      "functional_signature": "Rete psionica di branco con difese mentali; capacità di arrampicata estrema.",
+      "visual_description": "Erbivoro agile, corna scolpite con circuiti naturali, zoccoli con micro-lamelle adesive; mantello bruno.",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": [
+          "confusione psichica"
+        ]
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [
+          "lupi",
+          "aquile"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Rete psionica degrada oltre 500 m di distanza",
+        "Affaticamento mentale dopo stress prolungato"
+      ],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "cenge alte",
+        "prati alpini"
+      ],
+      "trait_refs": [
+        "TR-2001",
+        "TR-2002",
+        "TR-2003",
+        "TR-2004",
+        "TR-2005"
+      ],
+      "slug": "rupicapra_sensoria",
+      "traits_embedded": [
+        {
+          "trait_code": "TR-2001",
+          "label": "Corna Psico-Conduttive",
+          "uso_funzione": "Trasmettere/ricevere segnali neurali lenti.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "cohesion_index",
+              "value": 0.9,
+              "unit": "1"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-2002",
+          "label": "Coscienza d’Alveare Diffusa",
+          "uso_funzione": "Fondere decisioni e memoria a breve termine.",
+          "tier": "T4",
+          "metrics": [
+            {
+              "name": "tempo_apprendimento",
+              "value": 10,
+              "unit": "s"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-2003",
+          "label": "Aura di Dispersione Mentale",
+          "uso_funzione": "Indurre ansia/vertigini nei predatori.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "intimidazione_index",
+              "value": 0.8,
+              "unit": "1"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-2004",
+          "label": "Metabolismo di Condivisione Energetica",
+          "uso_funzione": "Sostenere feriti/giovani con riserva collettiva.",
+          "tier": "T3",
+          "metrics": [
+            {
+              "name": "consumo_O2",
+              "value": 50,
+              "unit": "L/min"
+            }
+          ]
+        },
+        {
+          "trait_code": "TR-2005",
+          "label": "Unghie a Micro-Adesione",
+          "uso_funzione": "Aderire a superfici ripide.",
+          "tier": "T2",
+          "metrics": [
+            {
+              "name": "tasso_di_salita",
+              "value": 1.2,
+              "unit": "m/s"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "traits": [
+    {
+      "trait_code": "TR-1101",
+      "label": "Rostro Emostatico-Litico",
+      "famiglia_tipologia": "Offensivo/Perforante",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1102"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Mascellare tubulare rigidizzato.",
+      "uso_funzione": "Inoculare tossine ed enzimi e aspirare fluidi.",
+      "spinta_selettiva": "Predazione d'impatto a distanza ravvicinata.",
+      "metrics": [
+        {
+          "name": "velocita_proiettile",
+          "value": 120,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Puntura e retrazione in < 0.1 s",
+        "scene_prompt": "Filma in slow-motion tre attacchi su gel fluorescente"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178",
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1102",
+      "label": "Scheletro Idraulico a Pistoni",
+      "famiglia_tipologia": "Locomotivo/Balistico",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1101",
+        "TR-1103"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Ossa cave pressurizzate con fluido.",
+      "uso_funzione": "Estendere rapidamente il cranio per colpire.",
+      "spinta_selettiva": "Vincere fughe brevi con colpi-proiettile.",
+      "metrics": [
+        {
+          "name": "energia_impattiva",
+          "value": 1500,
+          "unit": "J"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Colpo tipo frusta su bersaglio a 2 m",
+        "scene_prompt": "Misura penetrazione in blocchi gel balistico"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1103",
+      "label": "Ipertrofia Muscolare Massiva",
+      "famiglia_tipologia": "Fisiologico/Metabolico",
+      "fattore_mantenimento_energetico": "Alto",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1102"
+      ],
+      "conflitti": [
+        "TR-1105"
+      ],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Fibre a sezione aumentata e mitocondri densi.",
+      "uso_funzione": "Aumentare potenza e scatto.",
+      "spinta_selettiva": "Selezione per cattura prede muscolose.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 60,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Sprint 0–10 m < 2 s",
+        "scene_prompt": "Cronometra tre sprint; rileva FC post-sforzo"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1104",
+      "label": "Ectotermia Dinamica",
+      "famiglia_tipologia": "Fisiologico/Termico",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1103"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Microscosse isometriche per termogenesi rapida.",
+      "uso_funzione": "Alzare temperatura per performance.",
+      "spinta_selettiva": "Caccia all’alba/crepuscolo in climi freschi.",
+      "metrics": [
+        {
+          "name": "tolleranza_termica",
+          "value": 20,
+          "unit": "K"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Mantiene output a 10 Cel ambientali",
+        "scene_prompt": "Prova in camera fredda"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1105",
+      "label": "Organi Sismici Cutanei",
+      "famiglia_tipologia": "Sensoriale/Tatto-Vibro",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1101"
+      ],
+      "conflitti": [
+        "TR-1103"
+      ],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Squame con lamelle meccano-recettive.",
+      "uso_funzione": "Percepire vibrazioni del suolo.",
+      "spinta_selettiva": "Predazione in copertura e notturna.",
+      "metrics": [
+        {
+          "name": "soglia_udito",
+          "value": 20,
+          "unit": "dB"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Individua passi entro 15 m",
+        "scene_prompt": "Sabbiera vibrata: segnala direzione corretta"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1201",
+      "label": "Pelage Idrorepellente Avanzato",
+      "famiglia_tipologia": "Difensivo/Termoregolazione",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1202",
+        "TR-1204"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Ghiandole olocrine con olio ad alta densità.",
+      "uso_funzione": "Isolare e galleggiare",
+      "spinta_selettiva": "Foraggiamento anfibio e notturno in climi umidi.",
+      "metrics": [
+        {
+          "name": "res_termica",
+          "value": 0.08,
+          "unit": "K/W"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Mantello asciutto dopo immersione 2 min",
+        "scene_prompt": "Pesare prima/dopo immersione in acqua dolce"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873",
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1202",
+      "label": "Scudo Gluteale Cheratinizzato",
+      "famiglia_tipologia": "Difensivo/Corazza",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1201"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Placca subdermica cheratino-ossea su eminenze glutee.",
+      "uso_funzione": "Assorbire impatti posteriori",
+      "spinta_selettiva": "Predatori d’agguato; lotte in tana stretta",
+      "metrics": [
+        {
+          "name": "spessore_corazza",
+          "value": 35,
+          "unit": "mm"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Resiste a morso medio senza lesioni",
+        "scene_prompt": "Pressare su dinamometro dorsale"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1203",
+      "label": "Articolazioni Multiassiali",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1204"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Glenoidi/acetaboli ampliati, cartilagini elastiche.",
+      "uso_funzione": "Ruotare arti per manovre strette",
+      "spinta_selettiva": "Arrampicata su tronchi umidi/scogliere",
+      "metrics": [
+        {
+          "name": "accelerazione_0_10",
+          "value": 4.2,
+          "unit": "m/s2"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Pivot a 180° in corridoio 1 m",
+        "scene_prompt": "Traccia cono di sterzata su terreno bagnato"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1204",
+      "label": "Coda Prensile Muscolare",
+      "famiglia_tipologia": "Locomotivo/Arboricolo",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1203",
+        "TR-1205"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Fasci caudali spiralizzati, vertebre con verticilli.",
+      "uso_funzione": "Appendere e contro-bilanciare",
+      "spinta_selettiva": "Foraggiamento in chioma; attraversamento gole",
+      "metrics": [
+        {
+          "name": "salto_verticale",
+          "value": 1.8,
+          "unit": "m"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Sospensione 30 s su ramo standard",
+        "scene_prompt": "Cronometrare appensione su trave 6 cm"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1205",
+      "label": "Rostro Linguale Prensile",
+      "famiglia_tipologia": "Manipolativo/Alimentare",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1204"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Lingua muscolare adesiva con ioide esteso.",
+      "uso_funzione": "Afferrrare/manipolare a lungo raggio",
+      "spinta_selettiva": "Accesso a risorse in cavità/altezza senza muovere il corpo",
+      "metrics": [
+        {
+          "name": "lunghezza_estensione",
+          "value": 2.0,
+          "unit": "m"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Estrae oggetto a 2 m in 3 s",
+        "scene_prompt": "Recupero uovo da cavità senza frattura"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1301",
+      "label": "Ermafroditismo Cronologico",
+      "famiglia_tipologia": "Riproduttivo/Cicli",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1302"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Rimodellamento gonadico sequenziale.",
+      "uso_funzione": "Cambiare sesso dopo 1–2 incubazioni.",
+      "spinta_selettiva": "Ottimizzare successo riproduttivo in densità variabile.",
+      "metrics": [
+        {
+          "name": "tasso_propaguli",
+          "value": 50,
+          "unit": "1/season"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Ciclo documentato su due stagioni",
+        "scene_prompt": "Registro di incubazione con campionamenti ormonali"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1302",
+      "label": "Locomozione Miriapode Ibrida",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1304"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "50–100 paia di arti segmentati.",
+      "uso_funzione": "Aderire e arrampicare su qualsiasi superficie.",
+      "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
+      "metrics": [
+        {
+          "name": "velocita_max",
+          "value": 2.5,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Scala parete 3 m in < 10 s",
+        "scene_prompt": "Cronometra arrampicata su pannello 80°"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1303",
+      "label": "Estroflessione Gastrica Acida",
+      "famiglia_tipologia": "Offensivo/Chimico",
+      "fattore_mantenimento_energetico": "Alto",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1304"
+      ],
+      "conflitti": [
+        "TR-1305"
+      ],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Sacca digestiva everted con enzimi proteolitici.",
+      "uso_funzione": "Liquefare tessuti su contatto e aspirare.",
+      "spinta_selettiva": "Cattura prede più grandi con rischio minimo.",
+      "metrics": [
+        {
+          "name": "pressione_getto",
+          "value": 50000,
+          "unit": "Pa"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Disgrega 1 kg gel proteico in < 60 s",
+        "scene_prompt": "Versa su supporto standard e misura tempo liquefazione"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1304",
+      "label": "Artiglio Cinetico a Urto",
+      "famiglia_tipologia": "Offensivo/Contusivo",
+      "fattore_mantenimento_energetico": "Alto",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1302"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Appendice scattante tipo mantide pavone.",
+      "uso_funzione": "Infliggere onda d’urto e frattura.",
+      "spinta_selettiva": "Neutralizzare rapidamente prede corazzate.",
+      "metrics": [
+        {
+          "name": "energia_impattiva",
+          "value": 800,
+          "unit": "J"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Frattura tibia su osso bovino in prova",
+        "scene_prompt": "Misura impulso con accelerometro"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1305",
+      "label": "Sistemi Chimio-Sonici",
+      "famiglia_tipologia": "Sensoriale/Uditivo-Olfattivo",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1302"
+      ],
+      "conflitti": [
+        "TR-1303"
+      ],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Echolocazione + spruzzi feromonali orientativi.",
+      "uso_funzione": "Mappare spazio e correnti d’aria senza vista.",
+      "spinta_selettiva": "Caccia in buio totale e gallerie fumose.",
+      "metrics": [
+        {
+          "name": "banda_uditiva_max",
+          "value": 120000,
+          "unit": "Hz"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Evita ostacoli a 10 m in fumo denso",
+        "scene_prompt": "Tunnel con curve cieche + generatore di fumo"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1401",
+      "label": "Scheletro Pneumatico a Maglie",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1402"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Ossa porose con alveoli d’aria.",
+      "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti.",
+      "spinta_selettiva": "Transito terrestre di megafauna fuori dall’acqua.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 20,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Spostamento 5 km senza affaticamento eccessivo",
+        "scene_prompt": "Test su piastra di forza per massa apparente"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1402",
+      "label": "Cinghia Iper-Ciliare",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1401"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Ciglia muscolari ventrali a tappeto mobile.",
+      "uso_funzione": "Traslare il corpo su terreni piani/ruvidi.",
+      "spinta_selettiva": "Ridurre necessità di arti portanti tradizionali.",
+      "metrics": [
+        {
+          "name": "velocita_max",
+          "value": 1.2,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Percorre 100 m su ghiaia in < 90 s",
+        "scene_prompt": "Rileva tracce ciliate su impronte"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1403",
+      "label": "Rete Filtro-Polmonare",
+      "famiglia_tipologia": "Fisiologico/Respiratorio",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1401"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Ghiandole parenchimali filtranti in sacche polmonari.",
+      "uso_funzione": "Assorbire nutrienti aerodispersi.",
+      "spinta_selettiva": "Sussistenza in ambienti poveri di vegetazione.",
+      "metrics": [
+        {
+          "name": "consumo_O2",
+          "value": 800,
+          "unit": "L/min"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Incremento massa senza ingesta solida",
+        "scene_prompt": "Camera aerosol con micro-fitoplancton"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1404",
+      "label": "Canto Infrasonico Tattico",
+      "famiglia_tipologia": "Offensivo/Controllo",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1401"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Corde vocali modificate a bassa frequenza.",
+      "uso_funzione": "Disorientare predatori e comunicare a distanza.",
+      "spinta_selettiva": "Coordinamento di branco e deterrenza.",
+      "metrics": [
+        {
+          "name": "dose_acustica",
+          "value": 120,
+          "unit": "dB·s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Predatore desiste entro 30 s",
+        "scene_prompt": "Fonometro e risposta comportamentale"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1405",
+      "label": "Siero Anti-Gelo Naturale",
+      "famiglia_tipologia": "Fisiologico/Termico",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1401"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Proteine antigelo circolanti.",
+      "uso_funzione": "Impedire cristallizzazione a basse temperature.",
+      "spinta_selettiva": "Migrazione notturna in steppe fredde.",
+      "metrics": [
+        {
+          "name": "tolleranza_termica",
+          "value": 60,
+          "unit": "K"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Mantiene mobilità a −20 Cel",
+        "scene_prompt": "Camera climatica con prova motoria"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1501",
+      "label": "Zanne Idracida",
+      "famiglia_tipologia": "Offensivo/Chimico",
+      "fattore_mantenimento_energetico": "Alto",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1502",
+        "TR-1503"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Ghiandole acido-termiche nei cheliceri.",
+      "uso_funzione": "Corrodere tessuti e metalli.",
+      "spinta_selettiva": "Predazione su prede in corazza minerale.",
+      "metrics": [
+        {
+          "name": "pressione_getto",
+          "value": 1000000,
+          "unit": "Pa"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Perfora lamina d’alluminio 1 mm",
+        "scene_prompt": "Spruzzo controllato su pannello metallico"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1502",
+      "label": "Seta Conduttiva Elettrica",
+      "famiglia_tipologia": "Offensivo/Elettrico",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1501"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Seta con nano-metalli piezoresponsivi.",
+      "uso_funzione": "Stordire con scariche nella tela.",
+      "spinta_selettiva": "Cattura prede veloci con trappola attiva.",
+      "metrics": [
+        {
+          "name": "tensione_picco",
+          "value": 1200,
+          "unit": "V"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Scarica a impulso su sonda",
+        "scene_prompt": "Misura tensione su rete 1×1 m"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1503",
+      "label": "Articolazioni a Leva Idraulica",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1501"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Camere pressurizzate nelle giunture.",
+      "uso_funzione": "Amplificare salto e spinta delle zampe.",
+      "spinta_selettiva": "Aggancio rapido su prede/rami.",
+      "metrics": [
+        {
+          "name": "salto_verticale",
+          "value": 3.5,
+          "unit": "m"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Supera ostacolo 3 m",
+        "scene_prompt": "Video-analisi del salto"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1504",
+      "label": "Filtrazione Osmotica",
+      "famiglia_tipologia": "Fisiologico/Idrico",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1501"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Reni a multi-stadio con escrezione selettiva.",
+      "uso_funzione": "Neutralizzare tossine autogenerate.",
+      "spinta_selettiva": "Sopravvivere all’autointossicazione.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 15,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Emivita tossine ridotta del 50%",
+        "scene_prompt": "Analisi ematica dopo somministrazione standard"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1505",
+      "label": "Occhi Analizzatori di Tensione",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1502"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Retina sensibile alla polarizzazione.",
+      "uso_funzione": "Leggere tensioni nella seta e pattern di stress.",
+      "spinta_selettiva": "Ottimizzare riparazioni e trappole.",
+      "metrics": [
+        {
+          "name": "acuita_visiva",
+          "value": 0.92,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Rileva filo scarico vs carico",
+        "scene_prompt": "Test scelta su trame con diversa polarizzazione"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1601",
+      "label": "Membrana Plastica Continua",
+      "famiglia_tipologia": "Difensivo/Camuffamento",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1602"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Struttura citoscheletrica rimodulabile.",
+      "uso_funzione": "Assumere forme e densità diverse.",
+      "spinta_selettiva": "Elusione predatori e passaggio micro-fessure.",
+      "metrics": [
+        {
+          "name": "rilevabilita_visiva",
+          "value": 0.2,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Forma blob semitrasparente in 3 s",
+        "scene_prompt": "Documenta transito in fessura 5 mm"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1602",
+      "label": "Flusso Ameboide Controllato",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1601"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Pseudopodi coordinati a pressione interna.",
+      "uso_funzione": "Scivolare/risalire superfici lisce.",
+      "spinta_selettiva": "Ricerca cibo in interstizi umidi.",
+      "metrics": [
+        {
+          "name": "raggio_di_volta",
+          "value": 0.1,
+          "unit": "m"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Curva stretta in tubo 20 cm",
+        "scene_prompt": "Traccia percorso in labirinto cilindrico"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1603",
+      "label": "Fagocitosi Assorbente",
+      "famiglia_tipologia": "Alimentazione/Digestione",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1601"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Invaginazione membranaria a vacuolo digestivo.",
+      "uso_funzione": "Inglobare e digerire biomassa intera.",
+      "spinta_selettiva": "Dieta onnivora opportunista.",
+      "metrics": [
+        {
+          "name": "volume_ingestione",
+          "value": 5,
+          "unit": "L"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Assorbe 1 L di gel in < 30 s",
+        "scene_prompt": "Misura variazione massa dopo contatto prolungato"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1604",
+      "label": "Moltiplicazione per Fusione",
+      "famiglia_tipologia": "Riproduttivo/Cicli",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1601"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Scissione binaria e fusione selettiva.",
+      "uso_funzione": "Aumentare massa/intelligenza unendo unità.",
+      "spinta_selettiva": "Resilienza in condizioni variabili.",
+      "metrics": [
+        {
+          "name": "tasso_propaguli",
+          "value": 3,
+          "unit": "1/season"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Raddoppio massa in 24 h",
+        "scene_prompt": "Time-lapse di scissione e fusione"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1605",
+      "label": "Cisti di Ibernazione Minerale",
+      "famiglia_tipologia": "Difensivo/Resistenze",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1604"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Parete silicea a prova di calore/pressione.",
+      "uso_funzione": "Entra in stasi in condizioni avverse.",
+      "spinta_selettiva": "Sopravvivenza a lungo termine.",
+      "metrics": [
+        {
+          "name": "tolleranza_termica",
+          "value": 120,
+          "unit": "K"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Sopravvive a 80 Cel per 10 min",
+        "scene_prompt": "Test termico/pressione con risveglio successivo"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1701",
+      "label": "Ali Fono-Risonanti",
+      "famiglia_tipologia": "Locomotivo/Aereo",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1702",
+        "TR-1703"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Venature come corde vibranti controllate.",
+      "uso_funzione": "Generare ampia banda sonora in volo.",
+      "spinta_selettiva": "Mappatura ambiente e segnalazione.",
+      "metrics": [
+        {
+          "name": "dose_acustica",
+          "value": 100,
+          "unit": "dB·s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Varia frequenza 1–40 kHz",
+        "scene_prompt": "Spettrogramma durante manovre"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1702",
+      "label": "Cannone Sonico a Raggio",
+      "famiglia_tipologia": "Offensivo/Controllo",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1701"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Risonanza focale su membrana alare.",
+      "uso_funzione": "Stordire/ferire con raggio sonoro.",
+      "spinta_selettiva": "Caccia rapida su sciami/uccelli piccoli.",
+      "metrics": [
+        {
+          "name": "dose_acustica",
+          "value": 140,
+          "unit": "dB·s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Stordisce pollo in 2 s a 3 m",
+        "scene_prompt": "Misura SPL puntuale + risposta preda"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1703",
+      "label": "Campo di Interferenza Acustica",
+      "famiglia_tipologia": "Difensivo/Camuffamento",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1701"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
+      "uso_funzione": "Mascherare posizione/velocità.",
+      "spinta_selettiva": "Evasione da pipistrelli/rapaci.",
+      "metrics": [
+        {
+          "name": "SPL_riduzione",
+          "value": 18,
+          "unit": "dB"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Interferisce con ecolocalizzazione",
+        "scene_prompt": "Test radar acustico in galleria del vento"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1704",
+      "label": "Cervello a Bassa Latenza",
+      "famiglia_tipologia": "Cognitivo/Apprendimento",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1701"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Circuiti neurali a tempi di integrazione ridotti.",
+      "uso_funzione": "Eseguire manovre ad alta frequenza.",
+      "spinta_selettiva": "Predazione aerea in stormi.",
+      "metrics": [
+        {
+          "name": "tempo_apprendimento",
+          "value": 30,
+          "unit": "s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Apprende traiettorie in < 1 min",
+        "scene_prompt": "Task di tracking in volo"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1705",
+      "label": "Occhi Cinetici",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1702"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
+      "uso_funzione": "Vedere il suono come pattern d’aria.",
+      "spinta_selettiva": "Allineamento col cannone sonico.",
+      "metrics": [
+        {
+          "name": "acuita_visiva",
+          "value": 0.8,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Riconosce vortici davanti al raggio",
+        "scene_prompt": "Strobo fumo + valutazione traiettoria"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1801",
+      "label": "Integumento Bipolare",
+      "famiglia_tipologia": "Sensoriale/Magneto-ricettivo",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1803"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Cristalli di magnetite dermici con neuriti afferenti.",
+      "uso_funzione": "Orientarsi su linee di campo.",
+      "spinta_selettiva": "Migrazioni precise e caccia notturna.",
+      "metrics": [
+        {
+          "name": "sens_magnetica",
+          "value": 1e-06,
+          "unit": "T"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Mantiene rotta con EM artificiale",
+        "scene_prompt": "Labirinto con bobine Helmholtz"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000304",
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1802",
+      "label": "Elettromagnete Biologico",
+      "famiglia_tipologia": "Offensivo/Elettrico",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-1801"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Organo elettrico a pacchetti sincro.",
+      "uso_funzione": "Interferire con sistema nervoso preda.",
+      "spinta_selettiva": "Immobilizzare pesci e piccoli rettili.",
+      "metrics": [
+        {
+          "name": "corrente_picco",
+          "value": 15,
+          "unit": "A"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Stordisce tilapia a 1 m",
+        "scene_prompt": "Misura corrente in impulso su sonda"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1803",
+      "label": "Scivolamento Magnetico",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1801"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Rivestimento paramagnetico + micro-vibrazioni.",
+      "uso_funzione": "Ridurre attrito e scivolare.",
+      "spinta_selettiva": "Traslazione silente su superfici variabili.",
+      "metrics": [
+        {
+          "name": "velocita_max",
+          "value": 4.0,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Percorre 50 m su sabbia in 20 s",
+        "scene_prompt": "Cronometra su tre substrati diversi"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000304"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1804",
+      "label": "Filtro Metallofago",
+      "famiglia_tipologia": "Alimentazione/Digestione",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1802"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Assorbimento selettivo di micro-metalli.",
+      "uso_funzione": "Sostenere organi elettrogeni.",
+      "spinta_selettiva": "Metabolismo efficiente in acque povere.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 12,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Livelli Fe plasmatico stabili",
+        "scene_prompt": "Profilo ematico su dieta priva di Fe"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1805",
+      "label": "Bozzolo Magnetico",
+      "famiglia_tipologia": "Difensivo/Resistenze",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1801"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Campo isolante stazionario a bassa frequenza.",
+      "uso_funzione": "Schermarsi da EM esterni.",
+      "spinta_selettiva": "Riposo profondo e protezione da predatori elettrorecettivi.",
+      "metrics": [
+        {
+          "name": "campo_magnetico",
+          "value": 0.2,
+          "unit": "T"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Schermatura 10 dB EM a 0.5 m",
+        "scene_prompt": "Misura attenuazione con gaussmetro"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_00000873"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1901",
+      "label": "Vello di Assorbimento Totale",
+      "famiglia_tipologia": "Difensivo/Camuffamento",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1902"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Nano-strutture piumari tipo vantablack biologico.",
+      "uso_funzione": "Assorbire quasi tutta la luce incidente.",
+      "spinta_selettiva": "Caccia e fuga in oscurità totale.",
+      "metrics": [
+        {
+          "name": "trasmittanza_ottica",
+          "value": 0.001,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Indistinguibile a 5 m al buio",
+        "scene_prompt": "Fotometro: luce riflessa vs piuma standard"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1902",
+      "label": "Visione Multi-Spettrale Amplificata",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1901"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Bastoncelli potenziati + recettori IR/UV.",
+      "uso_funzione": "Vedere in luminanza estremamente bassa.",
+      "spinta_selettiva": "Predazione su prede a sangue caldo.",
+      "metrics": [
+        {
+          "name": "acuita_visiva",
+          "value": 0.95,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Rileva topo a 30 m al chiaro di luna",
+        "scene_prompt": "Prova campo notturna con target termico"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1903",
+      "label": "Motore Biologico Silenzioso",
+      "famiglia_tipologia": "Fisiologico/Metabolico",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1901"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Tendini frangi-rumore + piume a bordo seghettato.",
+      "uso_funzione": "Volo prolungato a bassissimo SPL.",
+      "spinta_selettiva": "Caccia persistente con sorpresa tattica.",
+      "metrics": [
+        {
+          "name": "metabolic_rate",
+          "value": 8,
+          "unit": "W/kg"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "SPL < 20 dB a 5 m in volo",
+        "scene_prompt": "Misura sonoro in tunnel"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1904",
+      "label": "Artigli Ipo-Termici",
+      "famiglia_tipologia": "Offensivo/Termico",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-1902"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Reazioni endo-termiche locali in guaine artigli.",
+      "uso_funzione": "Indurre shock da freddo localizzato.",
+      "spinta_selettiva": "Immobilizzazione rapida senza sangue.",
+      "metrics": [
+        {
+          "name": "temperatura_fiato",
+          "value": -20,
+          "unit": "Cel"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Riduce T cutanea di 10 Cel in 2 s",
+        "scene_prompt": "Termocamera su preda simulata"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-1905",
+      "label": "Comunicazione Fotonica Coda-Coda",
+      "famiglia_tipologia": "Cognitivo/Sociale",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-1901"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Piume codali con bioluminescenza debole.",
+      "uso_funzione": "Scambiare impulsi luminosi tattili.",
+      "spinta_selettiva": "Coordinamento silente in stormo.",
+      "metrics": [
+        {
+          "name": "cohesion_index",
+          "value": 0.85,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Esegue virate sincronizzate",
+        "scene_prompt": "Riprese IR e analisi di coesione"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2001",
+      "label": "Corna Psico-Conduttive",
+      "famiglia_tipologia": "Cognitivo/Sociale",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-2002"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Tessuti piezo-neurotonici nelle corna.",
+      "uso_funzione": "Trasmettere/ricevere segnali neurali lenti.",
+      "spinta_selettiva": "Allerta precoce e tattiche di branco.",
+      "metrics": [
+        {
+          "name": "cohesion_index",
+          "value": 0.9,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Allerta sincrona in < 1 s",
+        "scene_prompt": "EEG di gruppo durante stimolo"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2002",
+      "label": "Coscienza d’Alveare Diffusa",
+      "famiglia_tipologia": "Cognitivo/Sociale",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T4",
+      "slot": [],
+      "sinergie": [
+        "TR-2001"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T4",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Rete sinaptica inter-individuo temporanea.",
+      "uso_funzione": "Fondere decisioni e memoria a breve termine.",
+      "spinta_selettiva": "Evasione collettiva e pianificazione rapida.",
+      "metrics": [
+        {
+          "name": "tempo_apprendimento",
+          "value": 10,
+          "unit": "s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Risoluzione labirinto condivisa",
+        "scene_prompt": "Task cooperativo con marker cranici"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2003",
+      "label": "Aura di Dispersione Mentale",
+      "famiglia_tipologia": "Offensivo/Controllo",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-2001"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Emissioni EM deboli e odori avversivi coordinati.",
+      "uso_funzione": "Indurre ansia/vertigini nei predatori.",
+      "spinta_selettiva": "Deterrenza senza scontro fisico.",
+      "metrics": [
+        {
+          "name": "intimidazione_index",
+          "value": 0.8,
+          "unit": "1"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Predatore abbandona inseguimento",
+        "scene_prompt": "Osserva risposta etologica di canidi"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2004",
+      "label": "Metabolismo di Condivisione Energetica",
+      "famiglia_tipologia": "Fisiologico/Metabolico",
+      "fattore_mantenimento_energetico": "Medio",
+      "tier": "T3",
+      "slot": [],
+      "sinergie": [
+        "TR-2001"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Trasferimento di substrati via contatto/derma.",
+      "uso_funzione": "Sostenere feriti/giovani con riserva collettiva.",
+      "spinta_selettiva": "Massimizzare sopravvivenza del branco.",
+      "metrics": [
+        {
+          "name": "consumo_O2",
+          "value": 50,
+          "unit": "L/min"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Ripristino FC di infortunato accelerato",
+        "scene_prompt": "Misura lattato prima/dopo contatto"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    },
+    {
+      "trait_code": "TR-2005",
+      "label": "Unghie a Micro-Adesione",
+      "famiglia_tipologia": "Locomotivo/Arboricolo",
+      "fattore_mantenimento_energetico": "Basso",
+      "tier": "T2",
+      "slot": [],
+      "sinergie": [
+        "TR-2001"
+      ],
+      "conflitti": [],
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
+      "mutazione_indotta": "Lamelle a micro-setole tipo geco su zoccoli.",
+      "uso_funzione": "Aderire a superfici ripide.",
+      "spinta_selettiva": "Fuga verticale e pascolo in cenge.",
+      "metrics": [
+        {
+          "name": "tasso_di_salita",
+          "value": 1.2,
+          "unit": "m/s"
+        }
+      ],
+      "cost_profile": {
+        "rest": "Basso",
+        "burst": "Medio",
+        "sustained": "Basso"
+      },
+      "testability": {
+        "observable": "Scala parete 10 m inclinata 75°",
+        "scene_prompt": "Cronometra salita su lastra liscia"
+      },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      },
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-04",
+        "updated": "2025-11-04",
+        "author": "Master DD / GPT-5 Pro"
+      }
+    }
+  ]
+}
