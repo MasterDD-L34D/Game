@@ -1,47 +1,9 @@
 import datetime
+import importlib.util
 import sys
 import types
 from pathlib import Path
 from typing import Dict, List, Tuple
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-SCRIPTS_DIR = PROJECT_ROOT / "scripts"
-if str(SCRIPTS_DIR) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS_DIR))
-
-DB_SCRIPTS_DIR = SCRIPTS_DIR / "db"
-if str(DB_SCRIPTS_DIR) not in sys.path:
-    sys.path.insert(0, str(DB_SCRIPTS_DIR))
-
-if "pymongo" not in sys.modules:
-    pymongo_stub = types.ModuleType("pymongo")
-
-    class _StubMongoClient:
-        def __init__(self, *args, **kwargs):
-            pass
-
-    class _StubReplaceOne:
-        def __init__(self, *args, **kwargs):
-            self.args = args
-            self.kwargs = kwargs
-
-    pymongo_stub.MongoClient = _StubMongoClient
-    pymongo_stub.ReplaceOne = _StubReplaceOne
-    sys.modules["pymongo"] = pymongo_stub
-
-if "pymongo.collection" not in sys.modules:
-    collection_module = types.ModuleType("pymongo.collection")
-
-    class _StubCollection:  # pragma: no cover - type placeholder
-        pass
-
-    collection_module.Collection = _StubCollection
-    sys.modules["pymongo.collection"] = collection_module
-
-from scripts.db import seed_evo_generator
 
 
 class FakeCollection:
@@ -70,6 +32,54 @@ class FakeMongoClient:
 
 
 def test_seed_database_populates_biome_pools(monkeypatch):
+    # Inseriamo stubs minimi per pymongo per evitare di installare la dipendenza
+    # opzionale durante il test. In questo modo il modulo oggetto del test può
+    # essere importato senza effettuare connessioni reali.
+    pymongo_stub = types.ModuleType("pymongo")
+
+    class _StubMongoClient:
+        def __init__(self, *args, **kwargs):
+            pass
+
+    class _StubReplaceOne:
+        def __init__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
+
+    pymongo_stub.MongoClient = _StubMongoClient
+    pymongo_stub.ReplaceOne = _StubReplaceOne
+    monkeypatch.setitem(sys.modules, "pymongo", pymongo_stub)
+
+    collection_module = types.ModuleType("pymongo.collection")
+
+    class _StubCollection:  # pragma: no cover - type placeholder
+        pass
+
+    collection_module.Collection = _StubCollection
+    monkeypatch.setitem(sys.modules, "pymongo.collection", collection_module)
+
+    scripts_root = Path(__file__).resolve().parents[2] / "scripts"
+    scripts_spec = importlib.util.spec_from_file_location(
+        "scripts", scripts_root / "__init__.py", submodule_search_locations=[str(scripts_root)]
+    )
+    scripts_module = importlib.util.module_from_spec(scripts_spec)
+    monkeypatch.setitem(sys.modules, "scripts", scripts_module)
+    assert scripts_spec.loader is not None
+    scripts_spec.loader.exec_module(scripts_module)
+
+    db_root = scripts_root / "db"
+    db_spec = importlib.util.spec_from_file_location(
+        "scripts.db", db_root / "__init__.py", submodule_search_locations=[str(db_root)]
+    )
+    db_module = importlib.util.module_from_spec(db_spec)
+    monkeypatch.setitem(sys.modules, "scripts.db", db_module)
+    assert db_spec.loader is not None
+    db_spec.loader.exec_module(db_module)
+
+    sys.modules.pop("scripts.db.seed_evo_generator", None)
+
+    import scripts.db.seed_evo_generator as seed_evo_generator
+
     calls: List[Tuple[str, List[dict]]] = []
 
     def fake_bulk_upsert(collection, documents):
