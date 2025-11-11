@@ -73,6 +73,40 @@ async function loadJson(filePath) {
   return JSON.parse(buffer);
 }
 
+function injectPoolMetadata(payload) {
+  if (!payload || typeof payload !== 'object') {
+    return { pools: [] };
+  }
+
+  const hasSchemaVersion = Object.prototype.hasOwnProperty.call(payload, 'schema_version');
+  const hasUpdatedAt = Object.prototype.hasOwnProperty.call(payload, 'updated_at');
+  const schemaVersion = hasSchemaVersion ? payload.schema_version : null;
+  const updatedAt = hasUpdatedAt ? payload.updated_at : null;
+
+  const pools = Array.isArray(payload.pools) ? payload.pools : [];
+  const poolsWithMetadata = pools.map((pool) => {
+    if (!pool || typeof pool !== 'object') {
+      return pool;
+    }
+    const metadata = { ...(pool.metadata || {}) };
+    if (hasSchemaVersion) {
+      metadata.schema_version = schemaVersion;
+    }
+    if (hasUpdatedAt) {
+      metadata.updated_at = updatedAt;
+    }
+    return {
+      ...pool,
+      metadata,
+    };
+  });
+
+  return {
+    ...payload,
+    pools: poolsWithMetadata,
+  };
+}
+
 function normaliseTraitGlossary(glossary) {
   const map = new Map();
   if (!glossary || typeof glossary !== 'object' || !glossary.traits) {
@@ -657,7 +691,8 @@ function createBiomeSynthesizer(options = {}) {
       ])
         .then(([glossary, pools, catalog]) => {
           const traitGlossary = normaliseTraitGlossary(glossary);
-          const poolList = Array.isArray(pools?.pools) ? pools.pools : [];
+          const poolsWithMetadata = injectPoolMetadata(pools);
+          const poolList = Array.isArray(poolsWithMetadata?.pools) ? poolsWithMetadata.pools : [];
           loaded = { traitGlossary, poolList, traitCatalog: catalog };
           return loaded;
         })
@@ -673,7 +708,8 @@ function createBiomeSynthesizer(options = {}) {
     ])
       .then(([glossary, pools, catalog]) => {
         const traitGlossary = normaliseTraitGlossary(glossary);
-        const poolList = Array.isArray(pools?.pools) ? pools.pools : [];
+        const poolsWithMetadata = injectPoolMetadata(pools);
+        const poolList = Array.isArray(poolsWithMetadata?.pools) ? poolsWithMetadata.pools : [];
         loaded = { traitGlossary, poolList, traitCatalog: catalog };
         return loaded;
       })
