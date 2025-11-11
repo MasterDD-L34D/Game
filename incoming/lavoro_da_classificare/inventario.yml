@@ -42,8 +42,13 @@ inventario:
 - percorso: scripts
   tipo: directory
   dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
+  note: Directory script stabilizzata; contenuti principali spostati in `incoming/scripts/`
+  stato: aggiornato
+- percorso: scripts/README.md
+  tipo: file
+  dimensione_byte: 212
+  note: Promemoria sull'avvenuto spostamento degli script stabilizzati
+  stato: aggiornato
 - percorso: species
   tipo: directory
   dimensione_byte: 4096
@@ -192,8 +197,38 @@ inventario:
 - percorso: Makefile
   tipo: file
   dimensione_byte: 622
-  note: File senza estensione
-  stato: da revisionare
+  note: File senza estensione, aggiornato con target evo-validate/evo-backlog/traits-review
+  stato: aggiornato
+- percorso: incoming/scripts/init_security_checks.sh
+  tipo: file
+  dimensione_byte: 1620
+  note: Script sicurezza consolidato (Bandit/Semgrep/npm audit/Gitleaks) con path repo root
+  stato: stabilizzato
+- percorso: incoming/scripts/setup_backlog.py
+  tipo: file
+  dimensione_byte: 4236
+  note: Script GitHub project/backlog con permessi eseguibili e typing aggiornato
+  stato: stabilizzato
+- percorso: incoming/scripts/species_summary_script.py
+  tipo: file
+  dimensione_byte: 3521
+  note: Script CSV sommario specie spostato da lavoro_da_classificare
+  stato: stabilizzato
+- percorso: incoming/scripts/trait_review.py
+  tipo: file
+  dimensione_byte: 10519
+  note: Script revisione trait con modalità confronto incoming
+  stato: stabilizzato
+- percorso: incoming/scripts/update_tracker_registry.py
+  tipo: file
+  dimensione_byte: 2830
+  note: Script aggiornamento tracker_registry con permessi eseguibili
+  stato: stabilizzato
+- percorso: incoming/scripts/validate.sh
+  tipo: file
+  dimensione_byte: 1429
+  note: Validatore AJV con override directory per CI/Makefile
+  stato: stabilizzato
 - percorso: Progetto unico e fonti (1).pdf
   tipo: file
   dimensione_byte: 24417

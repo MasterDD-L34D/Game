@@ -51,6 +51,52 @@ piping/reportistica.
 Il comando è disponibile anche tramite `make evo-lint` (variabili opzionali
 `EVO_LINT_PATH=<percorso>` e `EVO_TASKS_FILE=<file>` per adattare l'ambiente).
 
+## Validazione dei pacchetti incoming
+
+- Script: `incoming/scripts/validate.sh`
+- Obiettivo: eseguire la validazione AJV dei trait e delle specie provenienti
+  dai drop `incoming/`.
+- Variabili supportate:
+  - `AJV` o `EVO_VALIDATE_AJV`: comando AJV da utilizzare (default `ajv`).
+  - `EVO_TEMPLATES_DIR`: directory degli schemi (default
+    `incoming/templates`).
+  - `EVO_TRAITS_DIR`: directory dei trait JSON (default `incoming/traits`).
+  - `EVO_SPECIES_DIR`: directory delle specie JSON (default `incoming/species`).
+- Output: messaggi di stato su stdout/stderr; interruzione immediata in caso di
+  errori di validazione. File mancanti producono un warning non bloccante.
+- Target Makefile: `make evo-validate` propaga automaticamente le variabili di
+  default, consentendo override (ad esempio
+  `make evo-validate EVO_TRAITS_DIR=data/external/evo/traits`).
+
+## Automazione backlog GitHub
+
+- Script: `incoming/scripts/setup_backlog.py`
+- Obiettivo: creare un project board e popolare le colonne/issue leggendo un
+  file YAML.
+- Variabili richieste:
+  - `GITHUB_TOKEN`: token con permessi `repo` e `project`.
+  - `EVO_BACKLOG_REPO`/`REPO`: repository di destinazione (`org/repo`).
+  - `EVO_BACKLOG_FILE`/`BACKLOG_FILE`: percorso del backlog YAML.
+- File YAML atteso: chiavi `project_name`, `columns` e `issues` (con titolo,
+  body, label opzionali e colonna di destinazione).
+- Target Makefile: `make evo-backlog EVO_BACKLOG_REPO=org/repo \
+  EVO_BACKLOG_FILE=backlog.yaml` che reindirizza le variabili richieste allo
+  script.
+
+## Revisione dei trait
+
+- Script: `incoming/scripts/trait_review.py`
+- Obiettivo: produrre report CSV del glossario (modalità legacy) oppure
+  generare un confronto con un set di trait in ingresso.
+- Opzioni principali:
+  - `--glossary` e `--outdir` per la modalità legacy.
+  - `--input`, `--baseline` e `--out` per confrontare cartelle incoming con il
+    glossario di riferimento.
+- Target Makefile: `make traits-review` esegue la modalità legacy
+  (`TRAITS_REVIEW_GLOSSARY`, `TRAITS_REVIEW_OUTDIR` sovrascrivibili). Passando
+  `TRAITS_REVIEW_INPUT=/path TRAITS_REVIEW_OUT=report.csv` il target commuta
+  automaticamente in modalità confronto.
+
 ## Make target di supporto
 
 I flussi di lavoro descritti sono esposti nel `Makefile` tramite:
@@ -65,6 +111,12 @@ I flussi di lavoro descritti sono esposti nel `Makefile` tramite:
   logging esteso.
 - `make evo-lint [EVO_LINT_PATH=...]`: lancia il lint sugli schemi
   (percorso personalizzabile).
+- `make evo-validate [EVO_TRAITS_DIR=... EVO_SPECIES_DIR=...]`: valida i JSON
+  incoming con AJV.
+- `make evo-backlog EVO_BACKLOG_REPO=<org/repo> EVO_BACKLOG_FILE=<file.yaml>`:
+  crea board e issue GitHub a partire dal backlog YAML.
+- `make traits-review [TRAITS_REVIEW_INPUT=... TRAITS_REVIEW_OUT=...]`:
+  genera report legacy o CSV di confronto dei trait.
 
 Le variabili condivise `EVO_BATCH`, `EVO_FLAGS` ed `EVO_TASKS_FILE` sono
 propagate anche nei target alias `evo-batch-plan` ed `evo-batch-run` per

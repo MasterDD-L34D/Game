@@ -169,34 +169,37 @@ tasks:
     batch: tooling
     title: Uniformare script
     description: "Allineare header, permessi e licenze degli script importati."
-    status: in_progress
+    status: done
     owner: devops
     depends_on: []
     deliverables:
       - incoming/scripts/*.py
-      - incoming/scripts/validate_evo_pack.sh
+      - incoming/scripts/*.sh
+    notes: "Script stabilizzati in incoming/scripts con path corretti e permessi eseguibili; directory lavoro ripulita."
 
   - id: TOL-02
     batch: tooling
     title: Target Makefile per Evo
     description: "Aggiungere target make per validazione e backlog."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - TOL-01
     deliverables:
       - Makefile
+    notes: "Aggiunti target evo-validate, evo-backlog e traits-review con propagazione variabili."
 
   - id: TOL-03
     batch: tooling
     title: Documentare tooling Evo
     description: "Scrivere guida all'uso degli script Evo."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - TOL-01
     deliverables:
       - docs/tooling/evo.md
+    notes: "Guida aggiornata con sezioni su validate.sh, setup_backlog.py e trait_review.py, inclusi esempi make."
 
   - id: OPS-01
     batch: ops_ci

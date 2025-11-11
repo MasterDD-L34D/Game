@@ -93,15 +93,16 @@ chiudere il batch corrispondente.
 
 ## Batch `tooling`
 
-- [ ] **TOL-01 – Uniformità script**  
-  _Output_: shebang, licenze e permessi coerenti in `incoming/scripts/`.  
-  _Passi_: `chmod +x`, aggiungere header SPDX, verificare import Python.
-- [ ] **TOL-02 – Target Makefile**  
-  _Output_: nuovi target `make evo-validate` e `make evo-backlog`.  
-  _Passi_: integrare chiamate a script, documentare in `incoming/README.md`.
-- [ ] **TOL-03 – Documentazione tooling**  
-  _Output_: sezione nel wiki o `docs/tooling/evo.md`.  
-  _Passi_: descrivere variabili ambiente, esempi output.
+- [x] **TOL-01 – Uniformità script**
+  _Output_: shebang, permessi e path coerenti in `incoming/scripts/`.
+  _Passi_: ripuliti header Bash/Python, corretti i percorsi relativi, resi eseguibili gli script e spostate le versioni stabili
+  da `lavoro_da_classificare/scripts/`.
+- [x] **TOL-02 – Target Makefile**
+  _Output_: nuovi target `make evo-validate`, `make evo-backlog` e `make traits-review`.
+  _Passi_: integrate le chiamate agli script stabilizzati con controlli sulle variabili richieste.
+- [x] **TOL-03 – Documentazione tooling**
+  _Output_: sezione aggiornata in `docs/tooling/evo.md` con variabili ed esempi.
+  _Passi_: documentati `validate.sh`, `setup_backlog.py` e `trait_review.py` evidenziando il collegamento con i nuovi target make.
 
 ## Batch `ops_ci`
 

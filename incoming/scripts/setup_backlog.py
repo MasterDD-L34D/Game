@@ -51,8 +51,7 @@ Nota: Questo script non gestisce la deduplicazione di issue esistenti.  Utilizza
 
 import os
 import sys
-import json
-from typing import List, Dict, Any
+from typing import Any, Dict, List, Tuple
 import requests
 import yaml
 
@@ -86,7 +85,7 @@ def create_column(project_id: int, name: str) -> int:
     return column["id"]
 
 
-def create_issue(repo_full_name: str, title: str, body: str, labels: List[str]) -> int:
+def create_issue(repo_full_name: str, title: str, body: str, labels: List[str]) -> Tuple[int, int]:
     url = f"https://api.github.com/repos/{repo_full_name}/issues"
     data = {
         "title": title,
