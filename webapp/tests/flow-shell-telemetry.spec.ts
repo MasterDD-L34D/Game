@@ -12,7 +12,7 @@ const generateSpeciesMock = vi.hoisted(() =>
   })),
 );
 
-vi.mock('../../webapp/src/services/generationOrchestratorService.js', () => ({
+vi.mock('../src/services/generationOrchestratorService.js', () => ({
   generateSpecies: generateSpeciesMock,
   generateSpeciesBatch: vi.fn(async () => ({ results: [], errors: [] })),
   summariseValidation: vi.fn(() => ({
@@ -28,7 +28,7 @@ vi.mock('../../webapp/src/services/generationOrchestratorService.js', () => ({
   },
 }));
 
-vi.mock('../../webapp/src/state/useTraitDiagnostics.js', () => ({
+vi.mock('../src/state/useTraitDiagnostics.js', () => ({
   useTraitDiagnostics: () => {
     const diagnostics = ref<Record<string, unknown>>({});
     const meta = ref<Record<string, unknown>>({});
@@ -58,7 +58,7 @@ vi.mock('../../webapp/src/state/useTraitDiagnostics.js', () => ({
   },
 }));
 
-import * as clientLoggerModule from '../../webapp/src/services/clientLogger.ts';
+import * as clientLoggerModule from '../src/services/clientLogger.ts';
 
 class FakeEventSource {
   static instances: FakeEventSource[] = [];
@@ -151,13 +151,13 @@ describe('FlowShellView - telemetry panel', () => {
     }));
     global.fetch = fetchStub as unknown as typeof fetch;
 
-    const { default: FlowShellView } = await import('../../webapp/src/views/FlowShellView.vue');
+    const { default: FlowShellView } = await import('../src/views/FlowShellView.vue');
 
     const wrapper = mount(FlowShellView, {
       global: {
         stubs: {
           FlowBreadcrumb: { template: '<nav class="breadcrumb-stub"></nav>' },
-          ProgressTracker: (await import('../../webapp/src/components/layout/ProgressTracker.vue'))
+          ProgressTracker: (await import('../src/components/layout/ProgressTracker.vue'))
             .default,
           OverviewView: {
             props: ['overview', 'timeline', 'qualityRelease'],

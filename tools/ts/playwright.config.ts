@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = resolveRepoRoot(__dirname, process.cwd());
+const consoleTestsDir = path.resolve(repoRoot, 'webapp', 'tests', 'playwright', 'console');
 const defaultPort = Number(process.env.PLAYWRIGHT_WEB_PORT || 4173);
 const baseURL = process.env.PLAYWRIGHT_BASE_URL || `http://127.0.0.1:${defaultPort}`;
 const chromiumExecutable = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
@@ -38,7 +39,7 @@ function resolveRepoRoot(...seeds: string[]): string {
 }
 
 export default defineConfig({
-  testDir: path.join(__dirname, "tests", "web"),
+  testDir: consoleTestsDir,
   timeout: 30_000,
   expect: {
     timeout: 5_000,
