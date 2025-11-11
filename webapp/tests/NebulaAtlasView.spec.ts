@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
-import NebulaAtlasView from '../../webapp/src/views/NebulaAtlasView.vue';
+import NebulaAtlasView from '../src/views/NebulaAtlasView.vue';
 
 function createFetchStub() {
   return vi.fn(async () => ({

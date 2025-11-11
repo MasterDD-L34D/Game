@@ -10,7 +10,7 @@ const generateSpeciesMock = vi.hoisted(() =>
   }))
 );
 
-vi.mock('../../webapp/src/services/generationOrchestratorService.js', () => ({
+vi.mock('../src/services/generationOrchestratorService.js', () => ({
   generateSpecies: generateSpeciesMock,
   generateSpeciesBatch: vi.fn(async () => ({ results: [], errors: [] })),
   summariseValidation: vi.fn(() => ({ total: 0, warnings: 0, errors: 0, discarded: 0, corrected: 0 })),
@@ -20,7 +20,7 @@ vi.mock('../../webapp/src/services/generationOrchestratorService.js', () => ({
   },
 }));
 
-vi.mock('../../webapp/src/state/useTraitDiagnostics.js', () => ({
+vi.mock('../src/state/useTraitDiagnostics.js', () => ({
   useTraitDiagnostics: () => {
     const diagnostics = ref<Record<string, unknown>>({});
     const meta = ref<Record<string, unknown>>({});
@@ -50,7 +50,7 @@ vi.mock('../../webapp/src/state/useTraitDiagnostics.js', () => ({
   },
 }));
 
-import FlowShellView from '../../webapp/src/views/FlowShellView.vue';
+import FlowShellView from '../src/views/FlowShellView.vue';
 
 async function flushAsync() {
   await nextTick();
@@ -95,7 +95,7 @@ describe('FlowShellView - snapshot refresh', () => {
         global: {
           stubs: {
             FlowBreadcrumb: { template: '<nav class="breadcrumb-stub"></nav>' },
-            ProgressTracker: (await import('../../webapp/src/components/layout/ProgressTracker.vue')).default,
+            ProgressTracker: (await import('../src/components/layout/ProgressTracker.vue')).default,
             OverviewView: {
               props: ['overview', 'timeline', 'qualityRelease'],
               template: '<section class="overview-stub"></section>',

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 
-import SpeciesView from '../../webapp/src/views/SpeciesView.vue';
-import { createI18nForTests } from '../../webapp/tests/utils/i18n';
+import SpeciesView from '../src/views/SpeciesView.vue';
+import { createI18nForTests } from './utils/i18n';
 
 const createWrapper = () => {
   const status = {

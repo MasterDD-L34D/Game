@@ -2,12 +2,12 @@ import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { computed, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 
-import AtlasTelemetryView from '../../webapp/src/views/atlas/AtlasTelemetryView.vue';
+import AtlasTelemetryView from '../src/views/atlas/AtlasTelemetryView.vue';
 
 const refreshMock = vi.fn();
 const activateDemoMock = vi.fn();
 
-vi.mock('../../webapp/src/modules/useNebulaProgressModule', () => ({
+vi.mock('../src/modules/useNebulaProgressModule', () => ({
   useNebulaProgressModule: () => ({
     datasetStatus: computed(() => ({
       source: 'remote',

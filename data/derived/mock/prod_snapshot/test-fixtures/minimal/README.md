@@ -26,5 +26,5 @@ l'interfaccia `docs/test-interface` senza dipendere dai dati completi di produzi
 ## Criteri di accettazione
 
 - Tutti i file YAML si caricano correttamente tramite `loadAllData` senza generare eccezioni.
-- I test end-to-end (`tools/ts/tests/web/interface.spec.ts`) utilizzano questo dataset e devono passare in CI.
+- I test end-to-end (`webapp/tests/playwright/console/interface.spec.ts`) utilizzano questo dataset e devono passare in CI.
 - Eventuali modifiche al dataset devono aggiornare questa documentazione indicando l'impatto sui casi d'uso. 
