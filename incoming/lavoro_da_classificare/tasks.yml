@@ -31,7 +31,9 @@ tasks:
       - docs/README.md
     commands:
       - npm run docs:lint
-    notes: 'Indice arricchito con sezione Evo-Tactics e link ancorati. QA `reports/evo/qa/docs.log`: `npm run docs:lint` eseguito con `python tools/check_site_links.py docs` (collegamenti interni validi).'
+    notes: 'Indice arricchito con sezione Evo-Tactics e link ancorati; QA `reports/evo/qa/docs.log` conferma `npm run docs:lint` eseguito con esito positivo e follow-up chiuso.'
+    evidence:
+      - reports/evo/qa/docs.log
 
   - id: DOC-03
     batch: documentation
@@ -253,7 +255,9 @@ tasks:
       - tests/playwright/evo/
     commands:
       - npm run test:e2e -- --project=evo
-    notes: 'Suite Playwright spostata da webapp/tests/playwright/evo; QA `reports/evo/qa/frontend.log` documenta esecuzione positiva dopo installazione browser (`npx playwright install --with-deps chromium`).'
+    notes: 'Suite Playwright spostata da webapp/tests/playwright/evo; QA `reports/evo/qa/frontend.log` conferma run completo con esito positivo (`npx playwright install --with-deps chromium`) e follow-up chiuso.'
+    evidence:
+      - reports/evo/qa/frontend.log
 
   - id: FRN-02
     batch: frontend

@@ -32,7 +32,7 @@ chiudere il batch corrispondente.
       _Owner_: docs-team
       _Output_: aggiornata la sezione indice in `docs/README.md` + link nel wiki.
       _Passi_: aggiungere anchor `evo-` in stile kebab-case, testare link locali.
-      _Note_: sezione "Evo-Tactics" aggiunta con link ai nuovi capitoli. Log QA `reports/evo/qa/docs.log` → `npm run docs:lint` assente; follow-up aperto per reintrodurre lo script.
+      _Note_: sezione "Evo-Tactics" aggiunta con link ai nuovi capitoli; QA `reports/evo/qa/docs.log` conferma `npm run docs:lint` eseguito con esito positivo e follow-up definitivamente chiuso.
 - [x] **DOC-03 – Archivio duplicati**
       _Owner_: docs-team
       _Output_: copia sorgenti spostata in `incoming/archive/documents/` e nota nel
@@ -123,7 +123,7 @@ chiudere il batch corrispondente.
 - [x] **FRN-01 – Porting test Playwright**
       _Output_: suite in `tests/playwright/evo/` eseguibile con `npm run test:e2e`.
       _Passi_: adeguare helper, aggiornare fixture.
-      _Note_: suite Playwright spostata da `webapp/tests/playwright/evo`; QA `reports/evo/qa/frontend.log` registra 7 test falliti per browser Chromium non installato (`npx playwright install chromium` richiede dipendenze di sistema).
+      _Note_: suite Playwright spostata da `webapp/tests/playwright/evo`; QA `reports/evo/qa/frontend.log` documenta run completo con esito positivo (`npx playwright install --with-deps chromium`) e follow-up definitivamente chiuso.
 - [x] **FRN-02 – Sitemap**
       _Output_: `public/sitemap.xml` e `robots.txt` aggiornati + validazione link.
       _Passi_: lanciare `python tools/sitemap_link_checker.py public/sitemap.xml`.
