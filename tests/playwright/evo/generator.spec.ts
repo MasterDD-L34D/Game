@@ -14,6 +14,8 @@ test.describe('Mission generator', () => {
       await expect(page.getByText(tool)).toBeVisible();
     }
 
-    await expect(page.getByText('Configura missioni con parametri dinamici', { exact: false })).toBeVisible();
+    await expect(
+      page.getByText('Configura missioni con parametri dinamici', { exact: false }),
+    ).toBeVisible();
   });
 });

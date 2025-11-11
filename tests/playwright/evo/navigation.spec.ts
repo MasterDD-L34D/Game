@@ -31,7 +31,9 @@ test.describe('Evo-Tactics navigation', () => {
     await expect(navigation).not.toHaveClass(/navigation--open/);
     await expect(menuToggle).toHaveAttribute('aria-expanded', 'false');
 
-    const activeTopbar = navigation.locator('.navigation__topbar-item--active .navigation__topbar-text');
+    const activeTopbar = navigation.locator(
+      '.navigation__topbar-item--active .navigation__topbar-text',
+    );
     await expect(activeTopbar).toHaveText('Mission Console');
   });
 
@@ -60,11 +62,15 @@ test.describe('Evo-Tactics navigation', () => {
 
     await expect(page).toHaveURL(/\/mission-control$/);
     await page.getByRole('button', { name: 'Apri il menù Evo-Tactics Console' }).click();
-    await expect(page.locator('.navigation__topbar-item--active .navigation__topbar-text')).toHaveText('Mission Control');
+    await expect(
+      page.locator('.navigation__topbar-item--active .navigation__topbar-text'),
+    ).toHaveText('Mission Control');
 
     await page.getByRole('button', { name: 'Generatore' }).click();
     await expect(page).toHaveURL(/\/generator$/);
     await page.getByRole('button', { name: 'Apri il menù Evo-Tactics Console' }).click();
-    await expect(page.locator('.navigation__topbar-item--active .navigation__topbar-text')).toHaveText('Generatore');
+    await expect(
+      page.locator('.navigation__topbar-item--active .navigation__topbar-text'),
+    ).toHaveText('Generatore');
   });
 });

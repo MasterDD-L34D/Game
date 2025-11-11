@@ -2,14 +2,14 @@
 
 meta:
   version: 1
-  last_update: 2025-11-10
-  notes: "Aggiornare status e assegnatari quando i task vengono presi in carico. Directory di destinazione già disponibili: docs/evo-tactics, docs/security, data/external/evo, reports/evo, incoming/archive/documents, tools/automation, docs/wireframes/evo. Utilizzare tools/automation/evo_batch_runner.py per automatizzare i comandi batch (dry-run di default)."
+  last_update: 2025-11-16
+  notes: 'Aggiornare status e assegnatari quando i task vengono presi in carico. Directory di destinazione già disponibili: docs/evo-tactics, docs/security, data/external/evo, reports/evo, incoming/archive/documents, tools/automation, docs/wireframes/evo. Utilizzare tools/automation/evo_batch_runner.py per automatizzare i comandi batch (dry-run di default).'
 
 tasks:
   - id: DOC-01
     batch: documentation
     title: Conversione sorgenti Evo-Tactics
-    description: "Convertire file DOCX/PDF in Markdown con frontmatter conforme."
+    description: 'Convertire file DOCX/PDF in Markdown con frontmatter conforme.'
     status: done
     owner: docs-team
     depends_on: []
@@ -17,12 +17,12 @@ tasks:
       - docs/evo-tactics/*.md
     commands:
       - pandoc <input.docx> -o docs/evo-tactics/<slug>.md --metadata title="<Titolo>"
-    notes: "Cinque sorgenti convertite con anchor evo-* e metadata aggiornati."
+    notes: 'Cinque sorgenti convertite con anchor evo-* e metadata aggiornati.'
 
   - id: DOC-02
     batch: documentation
     title: Aggiornare indice documentazione
-    description: "Integrare le nuove guide nel README principale e nel wiki."
+    description: 'Integrare le nuove guide nel README principale e nel wiki.'
     status: done
     owner: docs-team
     depends_on:
@@ -31,12 +31,12 @@ tasks:
       - docs/README.md
     commands:
       - npm run docs:lint
-    notes: "Indice arricchito con sezione Evo-Tactics e link ancorati."
+    notes: 'Indice arricchito con sezione Evo-Tactics e link ancorati.'
 
   - id: DOC-03
     batch: documentation
     title: Archiviazione duplicati documentazione
-    description: "Spostare copie sorgenti in incoming/archive e aggiornare inventario."
+    description: 'Spostare copie sorgenti in incoming/archive e aggiornare inventario.'
     status: done
     owner: docs-team
     depends_on:
@@ -44,12 +44,12 @@ tasks:
     deliverables:
       - incoming/archive/documents/
       - incoming/lavoro_da_classificare/inventario.yml
-    notes: "Originali DOCX spostati in archive con inventario aggiornato."
+    notes: 'Originali DOCX spostati in archive con inventario aggiornato.'
 
   - id: DAT-01
     batch: data-models
     title: Lint schemi Evo
-    description: "Eseguire lint sugli schema JSON e introdurre namespace evo."
+    description: 'Eseguire lint sugli schema JSON e introdurre namespace evo.'
     status: done
     owner: null
     depends_on: []
@@ -57,12 +57,12 @@ tasks:
       - schemas/evo/*.schema.json
     commands:
       - npm run schema:lint
-    notes: "Stub jsonschema aggiornato e lint eseguito con PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json."
+    notes: 'Stub jsonschema aggiornato e lint eseguito con PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json.'
 
   - id: DAT-02
     batch: data-models
     title: Revisione enum con gameplay
-    description: "Validare nuovi enum con il team gameplay e registrare feedback."
+    description: 'Validare nuovi enum con il team gameplay e registrare feedback.'
     status: done
     owner: gameplay-team
     depends_on:
@@ -70,12 +70,12 @@ tasks:
     deliverables:
       - docs/meeting-notes/evo-enum-review.md
     blockers: []
-    notes: "Diff generato con tools/schema_enum_diff.py e verbalizzato in docs/meeting-notes/evo-enum-review.md."
+    notes: 'Diff generato con tools/schema_enum_diff.py e verbalizzato in docs/meeting-notes/evo-enum-review.md.'
 
   - id: DAT-03
     batch: data-models
     title: Merge alias specie
-    description: "Inserire alias confermati in data/core/species/aliases.json."
+    description: 'Inserire alias confermati in data/core/species/aliases.json.'
     status: done
     owner: null
     depends_on:
@@ -84,13 +84,13 @@ tasks:
       - data/core/species/aliases.json
     commands:
       - jq '. + input' data/species_aliases.json \
-          incoming/lavoro_da_classificare/data/aliases/species_aliases.json
-    notes: "Alias consolidati con jq e validati tramite pytest tests/test_species_aliases.py."
+        incoming/lavoro_da_classificare/data/aliases/species_aliases.json
+    notes: 'Alias consolidati con jq e validati tramite pytest tests/test_species_aliases.py.'
 
   - id: SPEC-01
     batch: species_ecotypes
     title: Validazione JSON specie/ecotipi
-    description: "Validare file specie ed ecotipi con lo script aggiornato."
+    description: 'Validare file specie ed ecotipi con lo script aggiornato.'
     status: done
     owner: null
     depends_on:
@@ -99,12 +99,12 @@ tasks:
       - reports/incoming/species_validation.log
     commands:
       - ./scripts/validate.sh --dataset evo-species --schema schemas/evo/species.schema.json
-    notes: "Log SPEC-01 aggiornato; ecotipi esclusi dalla validazione schema."
+    notes: 'Log SPEC-01 aggiornato; ecotipi esclusi dalla validazione schema.'
 
   - id: SPEC-02
     batch: species_ecotypes
     title: Generazione report sommario specie
-    description: "Creare report riepilogativo con species_summary_script.py."
+    description: 'Creare report riepilogativo con species_summary_script.py.'
     status: done
     owner: null
     depends_on:
@@ -113,24 +113,24 @@ tasks:
       - reports/evo/species_summary.md
     commands:
       - python incoming/lavoro_da_classificare/species_summary_script.py --input data/external/evo/species/ --output reports/evo/species_summary.md
-    notes: "Report Markdown con conteggi specie/ecotipi e dettaglio biome."
+    notes: 'Report Markdown con conteggi specie/ecotipi e dettaglio biome.'
 
   - id: SPEC-03
     batch: species_ecotypes
     title: Mappatura ecotipi
-    description: "Collegare gli ecotipi Evo agli ecosistemi esistenti."
+    description: 'Collegare gli ecotipi Evo agli ecosistemi esistenti.'
     status: done
     owner: null
     depends_on:
       - SPEC-01
     deliverables:
       - data/external/evo/species_ecotype_map.json
-    notes: "Mapping SPEC-03 con note mismatch in inventario (classi aquatiche/sotterranee senza ecosistemi)."
+    notes: 'Mapping SPEC-03 con note mismatch in inventario (classi aquatiche/sotterranee senza ecosistemi).'
 
   - id: TRT-01
     batch: traits
     title: Audit duplicati trait
-    description: "Eseguire trait_review.py e classificare le anomalie."
+    description: 'Eseguire trait_review.py e classificare le anomalie.'
     status: done
     owner: null
     depends_on:
@@ -139,55 +139,55 @@ tasks:
       - reports/evo/traits_anomalies.csv
     commands:
       - python incoming/lavoro_da_classificare/scripts/trait_review.py
-    notes: "Script esteso con modalità `--input/--baseline/--out`; CSV rigenerato e righe segnate come `action=add`."
+    notes: 'Script esteso con modalità `--input/--baseline/--out`; CSV rigenerato e righe segnate come `action=add`.'
 
   - id: TRT-02
     batch: traits
     title: Merge glossario trait
-    description: "Integrare nuovi trait nel glossario mantenendo gli ID univoci."
+    description: 'Integrare nuovi trait nel glossario mantenendo gli ID univoci.'
     status: done
     owner: null
     depends_on:
       - TRT-01
     deliverables:
       - data/core/traits/glossary.json
-    notes: "Inseriti 50 slug snake_case con label/descrizioni EN/IT e aggiornato timestamp `updated_at`."
+    notes: 'Inseriti 50 slug snake_case con label/descrizioni EN/IT e aggiornato timestamp `updated_at`.'
 
   - id: TRT-03
     batch: traits
     title: Aggiornare analisi merge trait
-    description: "Riassumere esiti revisione nel documento di analisi."
+    description: 'Riassumere esiti revisione nel documento di analisi.'
     status: done
     owner: null
     depends_on:
       - TRT-02
     deliverables:
       - docs/analysis/trait_merge_proposals.md
-    notes: "Redatto report sintetico con elenco slug e assenza duplicati."
+    notes: 'Redatto report sintetico con elenco slug e assenza duplicati.'
 
   - id: TOL-01
     batch: tooling
     title: Uniformare script
-    description: "Allineare header, permessi e licenze degli script importati."
+    description: 'Allineare header, permessi e licenze degli script importati.'
     status: done
     owner: devops
     depends_on: []
     deliverables:
       - incoming/scripts/*.py
       - incoming/scripts/*.sh
-    notes: "Script stabilizzati in incoming/scripts con path corretti e permessi eseguibili; directory lavoro ripulita."
+    notes: 'Script stabilizzati in incoming/scripts con path corretti e permessi eseguibili; directory lavoro ripulita.'
 
   - id: TOL-02
     batch: tooling
     title: Target Makefile per Evo
-    description: "Aggiungere target make per validazione e backlog."
+    description: 'Aggiungere target make per validazione e backlog.'
     status: done
     owner: null
     depends_on:
       - TOL-01
     deliverables:
       - Makefile
-    notes: "Aggiunti target evo-validate, evo-backlog e traits-review con propagazione variabili."
+    notes: 'Aggiunti target evo-validate, evo-backlog e traits-review con propagazione variabili.'
 
   - id: TOL-03
     batch: tooling
@@ -199,24 +199,24 @@ tasks:
       - TOL-01
     deliverables:
       - docs/tooling/evo.md
-    notes: "Guida aggiornata con sezioni su validate.sh, setup_backlog.py e trait_review.py, inclusi esempi make."
+    notes: 'Guida aggiornata con sezioni su validate.sh, setup_backlog.py e trait_review.py, inclusi esempi make.'
 
   - id: OPS-01
     batch: ops_ci
     title: Gap analysis workflow CI
-    description: "Confrontare workflow importati con pipeline esistenti."
+    description: 'Confrontare workflow importati con pipeline esistenti.'
     status: done
     owner: qa
     depends_on:
       - TOL-01
     deliverables:
       - ops/workflow_diff.md
-    notes: "Tabella aggiornata con differenze gh-pages/Lighthouse e segnalazione workflow security mancante."
+    notes: 'Tabella aggiornata con differenze gh-pages/Lighthouse e segnalazione workflow security mancante.'
 
   - id: OPS-02
     batch: ops_ci
     title: Site audit integration
-    description: "Integrare script site-audit e aggiornare README."
+    description: 'Integrare script site-audit e aggiornare README.'
     status: done
     owner: qa
     depends_on:
@@ -225,12 +225,12 @@ tasks:
       - ops/site-audit/
     commands:
       - bash ops/site-audit/run.sh --verbose
-    notes: "Aggiunto bootstrap run.sh con virtualenv, dipendenza requests e README aggiornato; suite verificata localmente."
+    notes: 'Aggiunto bootstrap run.sh con virtualenv, dipendenza requests e README aggiornato; suite verificata localmente.'
 
   - id: OPS-03
     batch: ops_ci
     title: Configurazione Lighthouse Evo
-    description: "Aggiornare configurazione lighthouse e test correlati."
+    description: 'Aggiornare configurazione lighthouse e test correlati.'
     status: done
     owner: qa
     depends_on:
@@ -239,39 +239,46 @@ tasks:
       - config/lighthouse/evo.lighthouserc.json
     commands:
       - npm run lint:lighthouse
-    notes: "Configurazione migrata in config/lighthouse/evo.lighthouserc.json e script npm aggiornato."
+    notes: 'Configurazione migrata in config/lighthouse/evo.lighthouserc.json e script npm aggiornato.'
 
   - id: FRN-01
     batch: frontend
     title: Porting test Playwright
-    description: "Adattare gli test E2E al setup vitest/playwright del repo."
-    status: planned
+    description: 'Adattare gli test E2E al setup vitest/playwright del repo.'
+    status: done
     owner: frontend
     depends_on:
       - OPS-01
     deliverables:
       - tests/playwright/evo/
+    commands:
+      - npm run test:e2e -- --project=evo
+    notes: 'Suite Playwright spostata da webapp/tests/playwright/evo e configurazione aggiornata per usare tests/playwright/evo.'
 
   - id: FRN-02
     batch: frontend
     title: Aggiornare sitemap
-    description: "Integrare sitemap e robots aggiornati e verificarli."
-    status: planned
+    description: 'Integrare sitemap e robots aggiornati e verificarli.'
+    status: done
     owner: frontend
     depends_on:
       - FRN-01
     deliverables:
       - public/sitemap.xml
       - public/robots.txt
+      - reports/evo/sitemap_validation.csv
+    commands:
+      - python tools/sitemap_link_checker.py public/sitemap.xml > reports/evo/sitemap_validation.csv
+    notes: 'Sitemap consolidata da proposed_sitemap.xml, robots copiato in public/ e output validazione registrato in reports/evo/sitemap_validation.csv.'
 
   - id: FRN-03
     batch: frontend
     title: Documentare mockup Evo
-    description: "Pubblicare mockup nella documentazione wireframe."
-    status: planned
+    description: 'Pubblicare mockup nella documentazione wireframe.'
+    status: done
     owner: frontend
     depends_on:
       - FRN-01
     deliverables:
       - docs/wireframes/evo/
-
+    notes: 'Mockup spostato in docs/wireframes/evo/mockup_evo_tactics.png con pagina dedicata mockup_evo_tactics.md.'

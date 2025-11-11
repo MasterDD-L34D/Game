@@ -13,8 +13,8 @@ interattivi portati online nella riscrittura AngularJS.
   duplicati binari: quando serve un asset locale copiarlo temporaneamente dalla
   cartella `incoming/` o richiedere l'ultima versione al team UX. Il frame
   include:
-  - barra di navigazione aggiornata con i nuovi anchor *Mission Console*,
-    *Mission Control* ed *Ecosystem Pack*;
+  - barra di navigazione aggiornata con i nuovi anchor _Mission Console_,
+    _Mission Control_ ed _Ecosystem Pack_;
   - pannello Mission Console completo di metric grid e quick actions;
   - stato del drawer laterale in modalità espansa per verificare layout e
     comportamento responsive.
@@ -32,7 +32,7 @@ sincronizzate nella cartella `incoming/`.
   retrostante. Il bordo attivo del topbar deve seguire la pagina corrente
   (Mission Control, Generatore, ecc.) come mostrato nel mockup nav.
 - **Mission dashboard**: la hero area mostra la sintesi delle missioni con i
-  contatori *In corso*, *Pianificate*, *Rischio* e *Completate*. I valori vengono
+  contatori _In corso_, _Pianificate_, _Rischio_ e _Completate_. I valori vengono
   calcolati dal data store e devono mantenere il formato numerico compatto. Il
   pannello di riepilogo è affiancato dalle quick actions della console per
   garantire tempi di intervento contenuti.
@@ -54,8 +54,8 @@ sincronizzate nella cartella `incoming/`.
 
 - **Ecosystem Pack**: lista i bundle modulari con titoli sintetici e descrizione
   one-liner. Il mockup indica tre card statiche per il rilascio iniziale (Strategico,
-  Biomi, Supporto AI) con icone dedicate opzionali e call-to-action *Scarica
-  briefing* per l'export dei pacchetti.
+  Biomi, Supporto AI) con icone dedicate opzionali e call-to-action _Scarica
+  briefing_ per l'export dei pacchetti.
 
 - **Toolkit Generatore**: tre entry primarie (Builder sequenziale, Profiler missione,
   Calcolo risorse) con descrizione condivisa; il mockup dettaglia il posizionamento
@@ -63,7 +63,7 @@ sincronizzate nella cartella `incoming/`.
 
 ## Note di implementazione
 
-- I test Playwright in `webapp/tests/playwright/evo/` coprono interazione del drawer,
+- I test Playwright in `tests/playwright/evo/` coprono interazione del drawer,
   la propagazione dello stato attivo tra le destinazioni topbar e la presenza dei
   contenuti principali (metriche, missioni, quick toolkit, azioni Mission Control,
   pacchetti Ecosystem). Gli scenari e2e aggiornati verificano inoltre le nuove
