@@ -60,16 +60,21 @@ chiudere il batch corrispondente.
 ## Batch `species_ecotypes`
 
 - [x] **SPEC-01 – Validazione JSON**
-  _Output_: report `species_validation.log` in `reports/incoming/`.  
+  _Output_: report `species_validation.log` in `reports/incoming/`.
   _Passi_: eseguire `scripts/validate.sh` con percorsi aggiornati.
+  _Note_: validazione completata con `./scripts/validate.sh --dataset evo-species --schema schemas/evo/species.schema.json`.
 - [x] **SPEC-02 – Report sommario**
   _Output_: `reports/evo/species_summary.md` generato da
-  `species_summary_script.py`.  
+  `species_summary_script.py`.
   _Passi_: schedare metriche chiave (count, ecosistemi coperti).
+  _Note_: report Markdown con panoramica specie/ecotipi e copertura biome.
 - [x] **SPEC-03 – Collegamento ecotipi**
-  _Output_: mapping in `data/external/evo/species_ecotype_map.json`.  
+  _Output_: mapping in `data/external/evo/species_ecotype_map.json`.
   _Passi_: confrontare con `data/ecosystems/` esistente, annotare mismatch nel
   file inventario.
+  _Note_: mappate classi forestali/montane; restanti `acquatico_costiero`,
+  `acquatico_dolce`, `sotterraneo` senza ecosistemi corrispondenti (registrati
+  in `inventario.yml`).
 
 ## Batch `traits`
 

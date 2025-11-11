@@ -104,6 +104,26 @@ inventario:
   dimensione_byte: 677
   note: Test di validazione alias specie DAT-03
   stato: completato
+- percorso: data/external/evo/species
+  tipo: directory
+  dimensione_byte: 4096
+  note: Dataset specie+ecotipi Evo spostato da incoming, validato con SPEC-01
+  stato: validato
+- percorso: data/external/evo/species/species_ecotype_map.json
+  tipo: file
+  dimensione_byte: 7748
+  note: Mapping SPEC-03; nessun ecosistema per biome_class acquatico_costiero, acquatico_dolce, sotterraneo
+  stato: in revisione
+- percorso: reports/incoming/species_validation.log
+  tipo: file
+  dimensione_byte: 690
+  note: Log esecuzione SPEC-01 (`./scripts/validate.sh --dataset evo-species --schema ...`)
+  stato: completato
+- percorso: reports/evo/species_summary.md
+  tipo: file
+  dimensione_byte: 3524
+  note: Report Markdown SPEC-02 generato da species_summary_script.py
+  stato: aggiornato
 - percorso: GDD.md
   tipo: file
   dimensione_byte: 6487

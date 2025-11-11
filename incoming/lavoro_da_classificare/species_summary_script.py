@@ -1,185 +1,150 @@
-"""
-species_summary_script.py
--------------------------
-
-This utility script traverses the Evo‑Tactics repository to build a high‑level
-summary of every species defined in the `species.yaml` index.  It extracts
-core metadata from each species definition file – such as the species
-identifier, display name, trophic role, morphotype, key flags (apex,
-keystone, bridge, threat, event), whether the unit is playable, and the
-lists of suggested and optional traits derived from the environment.
-
-The script requires the `PyYAML` package to parse YAML files.  It does not
-attempt to resolve localisation keys in the `description` fields; instead it
-focuses on structural information that is useful for catalogue management
-and quality audits.  Running the script produces a CSV file where each
-species occupies a row and each extracted attribute is stored in its own
-column.  Additional columns can be added as needed by extending the
-``_extract_species_info`` helper.
-
-Usage:
-
-```
-python species_summary_script.py \
-  --root <path-to-repository-root> \
-  --index packs/evo_tactics_pack/data/species.yaml \
-  --output reports/species_summary.csv
-```
-
-The default values assume the script is executed from the root of the
-repository.  If run from elsewhere, specify ``--root`` accordingly.
-
-"""
+#!/usr/bin/env python3
+"""Generate a Markdown summary for the Evo species dataset."""
+from __future__ import annotations
 
 import argparse
-import csv
-import os
-from typing import Any, Dict, List, Optional
+import json
+from pathlib import Path
+from typing import Dict, List, Tuple
 
-import yaml
-
-
-def _extract_species_info(spec: Dict[str, Any], species_file_path: str) -> Dict[str, Any]:
-    """Extract a subset of fields from a parsed species definition.
-
-    Parameters
-    ----------
-    spec : Dict[str, Any]
-        Parsed YAML content for the species.
-    species_file_path : str
-        Relative path to the species file.  Included for traceability.
-
-    Returns
-    -------
-    Dict[str, Any]
-        A dictionary of extracted values keyed by column names.
-    """
-    # Basic identifiers
-    species_id = spec.get("id", "")
-    display_name = spec.get("display_name", "")
-    # Biomes are stored as a list; join with `|` for CSV readability
-    biomes = "|".join(spec.get("biomes", []) or [])
-    role = spec.get("role_trofico", "")
-    morphotype = spec.get("morphotype", "")
-
-    # Flags: ensure values default to False if missing
-    flags: Dict[str, Any] = spec.get("flags", {})
-    apex = bool(flags.get("apex", False))
-    keystone = bool(flags.get("keystone", False))
-    bridge = bool(flags.get("bridge", False))
-    threat = bool(flags.get("threat", False))
-    event = bool(flags.get("event", False))
-
-    playable = bool(spec.get("playable_unit", False))
-
-    # Traits suggestions
-    derived = spec.get("derived_from_environment", {})
-    suggested_traits = "|".join(derived.get("suggested_traits", []) or [])
-    optional_traits = "|".join(derived.get("optional_traits", []) or [])
-
-    return {
-        "id": species_id,
-        "display_name": display_name,
-        "biomes": biomes,
-        "role": role,
-        "morphotype": morphotype,
-        "apex": apex,
-        "keystone": keystone,
-        "bridge": bridge,
-        "threat": threat,
-        "event": event,
-        "playable_unit": playable,
-        "suggested_traits": suggested_traits,
-        "optional_traits": optional_traits,
-        "file": species_file_path,
-    }
+ECOTYPE_SUFFIX = "_ecotypes.json"
+CATALOG_FILENAME = "species_catalog.json"
 
 
-def build_species_summary(root: str, index_path: str) -> List[Dict[str, Any]]:
-    """Parse the species index and each species file to assemble a summary.
+def _load_species_payload(path: Path) -> Dict:
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+    if not isinstance(data, dict) or "species" not in data:
+        raise ValueError(f"File {path} does not contain a 'species' object")
+    return data["species"]
 
-    Parameters
-    ----------
-    root : str
-        Root directory of the Evo‑Tactics repository.
-    index_path : str
-        Path to the YAML index listing species entries (relative to root).
 
-    Returns
-    -------
-    List[Dict[str, Any]]
-        List of dictionaries, one per species, containing the extracted fields.
-    """
-    index_full = os.path.join(root, index_path)
-    with open(index_full, "r", encoding="utf-8") as f:
-        index_data = yaml.safe_load(f)
+def _load_ecotype_payload(path: Path) -> Dict:
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+    if not isinstance(data, dict) or "ecotypes" not in data:
+        raise ValueError(f"File {path} does not contain an 'ecotypes' list")
+    return data
 
-    species_entries = index_data.get("species", []) or []
-    summaries: List[Dict[str, Any]] = []
 
-    for entry in species_entries:
-        species_id = entry.get("id")
-        rel_file = entry.get("file")
-        if not rel_file:
+def _collect_dataset(root: Path) -> Tuple[List[Dict], Dict[str, Dict]]:
+    species_payloads: List[Dict] = []
+    ecotype_payloads: Dict[str, Dict] = {}
+
+    for file_path in sorted(root.glob("*.json")):
+        name = file_path.name
+        if name == CATALOG_FILENAME:
             continue
-        species_file_full = os.path.join(root, "packs/evo_tactics_pack/data", rel_file)
-        if not os.path.exists(species_file_full):
-            print(f"[WARN] Species file missing: {species_file_full}")
+        if name.endswith(ECOTYPE_SUFFIX):
+            payload = _load_ecotype_payload(file_path)
+            key = payload.get("species") or name.replace(ECOTYPE_SUFFIX, "")
+            ecotype_payloads[key] = payload
             continue
-        with open(species_file_full, "r", encoding="utf-8") as sf:
-            spec_data = yaml.safe_load(sf)
-        summary = _extract_species_info(spec_data, rel_file)
-        summaries.append(summary)
+        species_payloads.append(_load_species_payload(file_path))
 
-    return summaries
+    return species_payloads, ecotype_payloads
 
 
-def write_csv(data: List[Dict[str, Any]], output_path: str) -> None:
-    """Write a list of dictionaries to a CSV file.
+def _format_list(values: List[str]) -> str:
+    if not values:
+        return "—"
+    return ", ".join(values)
 
-    Parameters
-    ----------
-    data : List[Dict[str, Any]]
-        Summarised species data.
-    output_path : str
-        Path to the output CSV file.
-    """
-    if not data:
-        print("No data to write.")
-        return
-    fieldnames = list(data[0].keys())
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    with open(output_path, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        for row in data:
-            writer.writerow(row)
+
+def build_summary(input_dir: Path) -> str:
+    species_entries, ecotype_entries = _collect_dataset(input_dir)
+    total_species = len(species_entries)
+    species_with_ecotypes = 0
+    total_ecotypes = 0
+    biome_classes = set()
+    missing_ecotype_defs: List[str] = []
+
+    lines: List[str] = []
+    lines.append("# Evo Species Summary")
+    lines.append("")
+    lines.append(f"*Dataset directory*: `{input_dir}`")
+    lines.append("")
+
+    for payload in species_entries:
+        sci_name = payload.get("scientific_name", "")
+        ecotype_payload = ecotype_entries.get(sci_name) or ecotype_entries.get(sci_name.strip())
+        if ecotype_payload:
+            species_with_ecotypes += 1
+            ecotypes = ecotype_payload.get("ecotypes", []) or []
+            total_ecotypes += len(ecotypes)
+            for entry in ecotypes:
+                biome = entry.get("biome_class")
+                if biome:
+                    biome_classes.add(biome)
+        else:
+            missing_ecotype_defs.append(sci_name or "<unknown>")
+
+    lines.append(f"- **Total species**: {total_species}")
+    lines.append(f"- **Species with ecotype definitions**: {species_with_ecotypes}")
+    lines.append(f"- **Total ecotypes**: {total_ecotypes}")
+    if biome_classes:
+        lines.append(f"- **Biome classes covered**: {', '.join(sorted(biome_classes))}")
+    lines.append("")
+
+    if missing_ecotype_defs:
+        lines.append("> ⚠️ Ecotype definitions missing for: " + ", ".join(sorted(missing_ecotype_defs)))
+        lines.append("")
+
+    lines.append("## Species Overview")
+    lines.append("")
+    header = "| Scientific name | Common names | Macro class | Habitat | Ecotypes | Traits |"
+    separator = "| --- | --- | --- | --- | --- | --- |"
+    lines.append(header)
+    lines.append(separator)
+
+    for payload in species_entries:
+        sci_name = payload.get("scientific_name", "—")
+        common = _format_list(payload.get("common_names", []))
+        macro_class = payload.get("classification", {}).get("macro_class", "—")
+        habitat = payload.get("classification", {}).get("habitat", "—")
+        traits = payload.get("trait_refs", []) or []
+        ecotype_labels = payload.get("ecotypes", []) or []
+        lines.append(
+            f"| {sci_name} | {common} | {macro_class} | {habitat} | {len(ecotype_labels)} ({_format_list(ecotype_labels)}) | {len(traits)} |"
+        )
+
+    lines.append("")
+
+    if ecotype_entries:
+        lines.append("## Ecotype Details")
+        lines.append("")
+        for sci_name, payload in sorted(ecotype_entries.items()):
+            lines.append(f"### {sci_name}")
+            ecotypes = payload.get("ecotypes", []) or []
+            if not ecotypes:
+                lines.append("- No ecotypes defined")
+                lines.append("")
+                continue
+            for entry in ecotypes:
+                label = entry.get("label", "Unnamed ecotype")
+                biome = entry.get("biome_class", "—")
+                traits = entry.get("trait_adjustments", []) or []
+                lines.append(f"- **{label}** — biome: `{biome}`, trait adjustments: {len(traits)}")
+            lines.append("")
+
+    return "\n".join(lines).strip() + "\n"
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate a CSV summary of Evo‑Tactics species.")
-    parser.add_argument(
-        "--root",
-        type=str,
-        default=".",
-        help="Root directory of the repository (defaults to current working directory).",
-    )
-    parser.add_argument(
-        "--index",
-        type=str,
-        default="packs/evo_tactics_pack/data/species.yaml",
-        help="Relative path to the species index YAML file.",
-    )
-    parser.add_argument(
-        "--output",
-        type=str,
-        default="reports/species_summary.csv",
-        help="Path to the output CSV file.",
-    )
+    parser = argparse.ArgumentParser(description="Generate a Markdown summary for Evo species JSON datasets.")
+    parser.add_argument("--input", type=str, required=True, help="Directory containing the species JSON payloads.")
+    parser.add_argument("--output", type=str, required=True, help="Path where the Markdown summary will be written.")
     args = parser.parse_args()
-    summary_data = build_species_summary(args.root, args.index)
-    write_csv(summary_data, args.output)
-    print(f"Wrote summary for {len(summary_data)} species to {args.output}")
+
+    input_dir = Path(args.input).resolve()
+    if not input_dir.exists() or not input_dir.is_dir():
+        raise SystemExit(f"Input directory not found: {input_dir}")
+
+    summary = build_summary(input_dir)
+    output_path = Path(args.output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(summary, encoding="utf-8")
+    print(f"Wrote species summary for {input_dir} to {output_path}")
 
 
 if __name__ == "__main__":

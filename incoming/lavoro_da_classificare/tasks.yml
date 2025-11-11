@@ -98,7 +98,8 @@ tasks:
     deliverables:
       - reports/incoming/species_validation.log
     commands:
-      - ./scripts/validate.sh --dataset evo-species
+      - ./scripts/validate.sh --dataset evo-species --schema schemas/evo/species.schema.json
+    notes: "Log SPEC-01 aggiornato; ecotipi esclusi dalla validazione schema."
 
   - id: SPEC-02
     batch: species_ecotypes
@@ -110,6 +111,9 @@ tasks:
       - SPEC-01
     deliverables:
       - reports/evo/species_summary.md
+    commands:
+      - python incoming/lavoro_da_classificare/species_summary_script.py --input data/external/evo/species/ --output reports/evo/species_summary.md
+    notes: "Report Markdown con conteggi specie/ecotipi e dettaglio biome."
 
   - id: SPEC-03
     batch: species_ecotypes
@@ -121,6 +125,7 @@ tasks:
       - SPEC-01
     deliverables:
       - data/external/evo/species_ecotype_map.json
+    notes: "Mapping SPEC-03 con note mismatch in inventario (classi aquatiche/sotterranee senza ecosistemi)."
 
   - id: TRT-01
     batch: traits

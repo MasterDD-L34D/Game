@@ -1,6 +1,96 @@
 {
   "catalog": [
     {
+      "scientific_name": "Anguis magnetica",
+      "common_names": [
+        "Anguilla Geomagnetica"
+      ],
+      "classification": {
+        "macro_class": "Reptilia/Pisces",
+        "habitat": "corsi d’acqua e coste sabbiose"
+      },
+      "functional_signature": "Navigazione magnetica fine e scariche nervose a impulso; scivolamento silente riduci-attrito.",
+      "visual_description": "Serpiforme lucido, pelle scura con riflessi metallici; linea laterale evidente; movimenti fluidi senza rumore.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": [
+          "scariche elettriche"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "pesci d’acqua dolce",
+          "anfibi"
+        ],
+        "predated_by": [
+          "coccodrilli",
+          "grossi pesci predatori"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Scariche inefficaci in acque altamente conduttive/salmastre",
+        "Dipendenza da micro-metalli nella dieta"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "Estuario Torbido",
+        "Laguna Quieta"
+      ],
+      "trait_refs": [
+        "TR-1801",
+        "TR-1802",
+        "TR-1803",
+        "TR-1804",
+        "TR-1805"
+      ]
+    },
+    {
+      "scientific_name": "Chemnotela toxica",
+      "common_names": [
+        "Aracnide Alchemico"
+      ],
+      "classification": {
+        "macro_class": "Artropode",
+        "habitat": "foreste tropicali"
+      },
+      "functional_signature": "Acido industriale biologico e seta elettroconduttiva per trappole stordenti e corrosive.",
+      "visual_description": "Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio. Cuticola lucida con bande metalliche.",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": [
+          "acidi forti",
+          "scariche elettriche"
+        ]
+      },
+      "interactions": {
+        "predates_on": [
+          "rettili arboricoli",
+          "uccelli piccoli"
+        ],
+        "predated_by": [
+          "ofidi grandi"
+        ],
+        "symbiosis": "alghe epifite su tela in radure umide"
+      },
+      "constraints": [
+        "Acido inefficace su basalto o ceramiche vetrose",
+        "Tela sensibile a piogge torrenziali"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": [
+        "Radura Acida",
+        "Chioma Elettrofilo"
+      ],
+      "trait_refs": [
+        "TR-1501",
+        "TR-1502",
+        "TR-1503",
+        "TR-1504",
+        "TR-1505"
+      ]
+    },
+    {
       "scientific_name": "Elastovaranus hydrus",
       "common_names": [
         "Viverna-Elastico"
@@ -36,8 +126,8 @@
       ],
       "sentience_index": "T1",
       "ecotypes": [
-        "dorsali rocciose",
-        "letto fluviale stagionale"
+        "Gole Ventose",
+        "Letti Fluviali"
       ],
       "trait_refs": [
         "TR-1101",
@@ -83,8 +173,8 @@
       ],
       "sentience_index": "T1",
       "ecotypes": [
-        "paludi di foresta",
-        "forre umide"
+        "Chioma Umida",
+        "Forre Umide"
       ],
       "trait_refs": [
         "TR-1201",
@@ -128,8 +218,8 @@
       ],
       "sentience_index": "T3",
       "ecotypes": [
-        "grotte umide",
-        "radure notturne"
+        "Cavernicolo",
+        "Radura Notturna"
       ],
       "trait_refs": [
         "TR-1301",
@@ -137,93 +227,6 @@
         "TR-1303",
         "TR-1304",
         "TR-1305"
-      ]
-    },
-    {
-      "scientific_name": "Terracetus ambulator",
-      "common_names": [
-        "Megattera Terrestre"
-      ],
-      "classification": {
-        "macro_class": "Mammalia",
-        "habitat": "steppe e savane aperte"
-      },
-      "functional_signature": "Locomozione a tappeto ventrale e leggerezza scheletrica per lunghi spostamenti terrestri; infrasonica difensiva.",
-      "visual_description": "Colosso tondeggiante, ventre ampio con bande ciliari, arti vestigiali d’appoggio. Pelle spessa e rugosa, color blu-grigio, occhi piccoli; bocca ampia filtrante.",
-      "risk_profile": {
-        "danger_level": 1,
-        "vectors": [
-          "infrasonico disorientante"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "micro-organismi aerodispersi"
-        ],
-        "predated_by": [
-          "nessuno in età adulta"
-        ],
-        "symbiosis": "nessuna"
-      },
-      "constraints": [
-        "Scarsa capacità di arrampicata",
-        "Vulnerabile a pendii ripidi"
-      ],
-      "sentience_index": "T0",
-      "ecotypes": [
-        "pianure ventose"
-      ],
-      "trait_refs": [
-        "TR-1401",
-        "TR-1402",
-        "TR-1403",
-        "TR-1404",
-        "TR-1405"
-      ]
-    },
-    {
-      "scientific_name": "Chemnotela toxica",
-      "common_names": [
-        "Aracnide Alchemico"
-      ],
-      "classification": {
-        "macro_class": "Artropode",
-        "habitat": "foreste tropicali"
-      },
-      "functional_signature": "Acido industriale biologico e seta elettroconduttiva per trappole stordenti e corrosive.",
-      "visual_description": "Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio. Cuticola lucida con bande metalliche.",
-      "risk_profile": {
-        "danger_level": 3,
-        "vectors": [
-          "acidi forti",
-          "scariche elettriche"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "rettili arboricoli",
-          "uccelli piccoli"
-        ],
-        "predated_by": [
-          "ofidi grandi"
-        ],
-        "symbiosis": "alghe epifite su tela in radure umide"
-      },
-      "constraints": [
-        "Acido inefficace su basalto o ceramiche vetrose",
-        "Tela sensibile a piogge torrenziali"
-      ],
-      "sentience_index": "T1",
-      "ecotypes": [
-        "chiome interne",
-        "radure umide"
-      ],
-      "trait_refs": [
-        "TR-1501",
-        "TR-1502",
-        "TR-1503",
-        "TR-1504",
-        "TR-1505"
       ]
     },
     {
@@ -260,8 +263,8 @@
       ],
       "sentience_index": "T0",
       "ecotypes": [
-        "stagni",
-        "paludi"
+        "Stagno Quieto",
+        "Torrente Lento"
       ],
       "trait_refs": [
         "TR-1601",
@@ -269,6 +272,48 @@
         "TR-1603",
         "TR-1604",
         "TR-1605"
+      ]
+    },
+    {
+      "scientific_name": "Rupicapra sensoria",
+      "common_names": [
+        "Camoscio Psionico"
+      ],
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "falesie e praterie montane"
+      },
+      "functional_signature": "Rete psionica di branco con difese mentali; capacità di arrampicata estrema.",
+      "visual_description": "Erbivoro agile, corna scolpite con circuiti naturali, zoccoli con micro-lamelle adesive; mantello bruno.",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": [
+          "confusione psichica"
+        ]
+      },
+      "interactions": {
+        "predates_on": [],
+        "predated_by": [
+          "lupi",
+          "aquile"
+        ],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Rete psionica degrada oltre 500 m di distanza",
+        "Affaticamento mentale dopo stress prolungato"
+      ],
+      "sentience_index": "T2",
+      "ecotypes": [
+        "Cenge Calcarenitiche",
+        "Dorsali Ventose"
+      ],
+      "trait_refs": [
+        "TR-2001",
+        "TR-2002",
+        "TR-2003",
+        "TR-2004",
+        "TR-2005"
       ]
     },
     {
@@ -305,8 +350,8 @@
       ],
       "sentience_index": "T1",
       "ecotypes": [
-        "oasi calde",
-        "praterie arbustive"
+        "Oasi Termica",
+        "Prateria Arbustiva"
       ],
       "trait_refs": [
         "TR-1701",
@@ -317,48 +362,46 @@
       ]
     },
     {
-      "scientific_name": "Anguis magnetica",
+      "scientific_name": "Terracetus ambulator",
       "common_names": [
-        "Anguilla Geomagnetica"
+        "Megattera Terrestre"
       ],
       "classification": {
-        "macro_class": "Reptilia/Pisces",
-        "habitat": "corsi d’acqua e coste sabbiose"
+        "macro_class": "Mammalia",
+        "habitat": "steppe e savane aperte"
       },
-      "functional_signature": "Navigazione magnetica fine e scariche nervose a impulso; scivolamento silente riduci-attrito.",
-      "visual_description": "Serpiforme lucido, pelle scura con riflessi metallici; linea laterale evidente; movimenti fluidi senza rumore.",
+      "functional_signature": "Locomozione a tappeto ventrale e leggerezza scheletrica per lunghi spostamenti terrestri; infrasonica difensiva.",
+      "visual_description": "Colosso tondeggiante, ventre ampio con bande ciliari, arti vestigiali d’appoggio. Pelle spessa e rugosa, color blu-grigio, occhi piccoli; bocca ampia filtrante.",
       "risk_profile": {
-        "danger_level": 2,
+        "danger_level": 1,
         "vectors": [
-          "scariche elettriche"
+          "infrasonico disorientante"
         ]
       },
       "interactions": {
         "predates_on": [
-          "pesci d’acqua dolce",
-          "anfibi"
+          "micro-organismi aerodispersi"
         ],
         "predated_by": [
-          "coccodrilli",
-          "grossi pesci predatori"
+          "nessuno in età adulta"
         ],
         "symbiosis": "nessuna"
       },
       "constraints": [
-        "Scariche inefficaci in acque altamente conduttive/salmastre",
-        "Dipendenza da micro-metalli nella dieta"
+        "Scarsa capacità di arrampicata",
+        "Vulnerabile a pendii ripidi"
       ],
-      "sentience_index": "T1",
+      "sentience_index": "T0",
       "ecotypes": [
-        "estuario",
-        "lagune"
+        "Pianure Ventose",
+        "Savanicola Notturno"
       ],
       "trait_refs": [
-        "TR-1801",
-        "TR-1802",
-        "TR-1803",
-        "TR-1804",
-        "TR-1805"
+        "TR-1401",
+        "TR-1402",
+        "TR-1403",
+        "TR-1404",
+        "TR-1405"
       ]
     },
     {
@@ -394,8 +437,8 @@
       ],
       "sentience_index": "T1",
       "ecotypes": [
-        "bassa volta arborea",
-        "gole d’ombra"
+        "Canopy Ombrosa",
+        "Canyon Notturno"
       ],
       "trait_refs": [
         "TR-1901",
@@ -403,48 +446,6 @@
         "TR-1903",
         "TR-1904",
         "TR-1905"
-      ]
-    },
-    {
-      "scientific_name": "Rupicapra sensoria",
-      "common_names": [
-        "Camoscio Psionico"
-      ],
-      "classification": {
-        "macro_class": "Mammalia",
-        "habitat": "falesie e praterie montane"
-      },
-      "functional_signature": "Rete psionica di branco con difese mentali; capacità di arrampicata estrema.",
-      "visual_description": "Erbivoro agile, corna scolpite con circuiti naturali, zoccoli con micro-lamelle adesive; mantello bruno.",
-      "risk_profile": {
-        "danger_level": 1,
-        "vectors": [
-          "confusione psichica"
-        ]
-      },
-      "interactions": {
-        "predates_on": [],
-        "predated_by": [
-          "lupi",
-          "aquile"
-        ],
-        "symbiosis": "nessuna"
-      },
-      "constraints": [
-        "Rete psionica degrada oltre 500 m di distanza",
-        "Affaticamento mentale dopo stress prolungato"
-      ],
-      "sentience_index": "T2",
-      "ecotypes": [
-        "cenge alte",
-        "prati alpini"
-      ],
-      "trait_refs": [
-        "TR-2001",
-        "TR-2002",
-        "TR-2003",
-        "TR-2004",
-        "TR-2005"
       ]
     }
   ]
