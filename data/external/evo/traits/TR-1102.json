@@ -1,0 +1,57 @@
+{
+  "trait_code": "TR-1102",
+  "label": "Scheletro Idraulico a Pistoni",
+  "famiglia_tipologia": "Locomotivo/Balistico",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "TR-1101",
+    "TR-1103"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Ossa cave pressurizzate con fluido.",
+  "uso_funzione": "Estendere rapidamente il cranio per colpire.",
+  "spinta_selettiva": "Vincere fughe brevi con colpi-proiettile.",
+  "metrics": [
+    {
+      "name": "energia_impattiva",
+      "value": 1500,
+      "unit": "J"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Colpo tipo frusta su bersaglio a 2 m",
+    "scene_prompt": "Misura penetrazione in blocchi gel balistico"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

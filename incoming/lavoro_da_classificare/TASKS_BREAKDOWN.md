@@ -78,15 +78,18 @@ chiudere il batch corrispondente.
 
 ## Batch `traits`
 
-- [ ] **TRT-01 – Audit duplicati**  
+- [x] **TRT-01 – Audit duplicati**
   _Output_: CSV di `trait_review.py` archiviato in
-  `reports/evo/traits_anomalies.csv`.  
+  `reports/evo/traits_anomalies.csv`.
   _Passi_: eseguire script, commentare righe problematiche.
-- [ ] **TRT-02 – Merge glossario**  
-  _Output_: `data/core/traits/glossary.json` aggiornato con nuovi ID.  
+  _Note_: script esteso con flag `--input/--baseline/--out`; CSV rigenerato e marcato `action=add` per tutti i 50 trait.
+- [x] **TRT-02 – Merge glossario**
+  _Output_: `data/core/traits/glossary.json` aggiornato con nuovi ID.
   _Passi_: assicurare ordine alfabetico, rigenerare documentazione.
-- [ ] **TRT-03 – Aggiornamento analisi**  
+  _Note_: aggiunti 50 slug snake_case con traduzioni sintetiche EN e timestamp `updated_at` aggiornato.
+- [x] **TRT-03 – Aggiornamento analisi**
   _Output_: `docs/analysis/trait_merge_proposals.md` completato con esiti.
+  _Note_: documento riassuntivo con elenco slug, duplicati assenti e prossimi passi.
 
 ## Batch `tooling`
 

@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-2002",
+  "label": "Coscienza d’Alveare Diffusa",
+  "famiglia_tipologia": "Cognitivo/Sociale",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "TR-2001"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Rete sinaptica inter-individuo temporanea.",
+  "uso_funzione": "Fondere decisioni e memoria a breve termine.",
+  "spinta_selettiva": "Evasione collettiva e pianificazione rapida.",
+  "metrics": [
+    {
+      "name": "tempo_apprendimento",
+      "value": 10,
+      "unit": "s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Risoluzione labirinto condivisa",
+    "scene_prompt": "Task cooperativo con marker cranici"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

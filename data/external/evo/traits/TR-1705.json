@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1705",
+  "label": "Occhi Cinetici",
+  "famiglia_tipologia": "Sensoriale/Visivo",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "TR-1702"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
+  "uso_funzione": "Vedere il suono come pattern d’aria.",
+  "spinta_selettiva": "Allineamento col cannone sonico.",
+  "metrics": [
+    {
+      "name": "acuita_visiva",
+      "value": 0.8,
+      "unit": "1"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Riconosce vortici davanti al raggio",
+    "scene_prompt": "Strobo fumo + valutazione traiettoria"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

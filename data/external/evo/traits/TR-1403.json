@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1403",
+  "label": "Rete Filtro-Polmonare",
+  "famiglia_tipologia": "Fisiologico/Respiratorio",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1401"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Ghiandole parenchimali filtranti in sacche polmonari.",
+  "uso_funzione": "Assorbire nutrienti aerodispersi.",
+  "spinta_selettiva": "Sussistenza in ambienti poveri di vegetazione.",
+  "metrics": [
+    {
+      "name": "consumo_O2",
+      "value": 800,
+      "unit": "L/min"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Incremento massa senza ingesta solida",
+    "scene_prompt": "Camera aerosol con micro-fitoplancton"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

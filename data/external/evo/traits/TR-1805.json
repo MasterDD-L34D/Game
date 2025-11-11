@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1805",
+  "label": "Bozzolo Magnetico",
+  "famiglia_tipologia": "Difensivo/Resistenze",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "TR-1801"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Campo isolante stazionario a bassa frequenza.",
+  "uso_funzione": "Schermarsi da EM esterni.",
+  "spinta_selettiva": "Riposo profondo e protezione da predatori elettrorecettivi.",
+  "metrics": [
+    {
+      "name": "campo_magnetico",
+      "value": 0.2,
+      "unit": "T"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Schermatura 10 dB EM a 0.5 m",
+    "scene_prompt": "Misura attenuazione con gaussmetro"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

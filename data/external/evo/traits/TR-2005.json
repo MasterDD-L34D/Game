@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-2005",
+  "label": "Unghie a Micro-Adesione",
+  "famiglia_tipologia": "Locomotivo/Arboricolo",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "TR-2001"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Lamelle a micro-setole tipo geco su zoccoli.",
+  "uso_funzione": "Aderire a superfici ripide.",
+  "spinta_selettiva": "Fuga verticale e pascolo in cenge.",
+  "metrics": [
+    {
+      "name": "tasso_di_salita",
+      "value": 1.2,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Scala parete 10 m inclinata 75°",
+    "scene_prompt": "Cronometra salita su lastra liscia"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

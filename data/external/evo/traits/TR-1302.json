@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1302",
+  "label": "Locomozione Miriapode Ibrida",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1304"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "50–100 paia di arti segmentati.",
+  "uso_funzione": "Aderire e arrampicare su qualsiasi superficie.",
+  "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
+  "metrics": [
+    {
+      "name": "velocita_max",
+      "value": 2.5,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Scala parete 3 m in < 10 s",
+    "scene_prompt": "Cronometra arrampicata su pannello 80°"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

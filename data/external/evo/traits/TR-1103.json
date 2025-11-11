@@ -1,0 +1,58 @@
+{
+  "trait_code": "TR-1103",
+  "label": "Ipertrofia Muscolare Massiva",
+  "famiglia_tipologia": "Fisiologico/Metabolico",
+  "fattore_mantenimento_energetico": "Alto",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1102"
+  ],
+  "conflitti": [
+    "TR-1105"
+  ],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Fibre a sezione aumentata e mitocondri densi.",
+  "uso_funzione": "Aumentare potenza e scatto.",
+  "spinta_selettiva": "Selezione per cattura prede muscolose.",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 60,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Sprint 0–10 m < 2 s",
+    "scene_prompt": "Cronometra tre sprint; rileva FC post-sforzo"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

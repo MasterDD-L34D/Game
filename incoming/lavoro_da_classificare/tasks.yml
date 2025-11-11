@@ -131,7 +131,7 @@ tasks:
     batch: traits
     title: Audit duplicati trait
     description: "Eseguire trait_review.py e classificare le anomalie."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - DAT-01
@@ -139,28 +139,31 @@ tasks:
       - reports/evo/traits_anomalies.csv
     commands:
       - python incoming/lavoro_da_classificare/scripts/trait_review.py
+    notes: "Script esteso con modalità `--input/--baseline/--out`; CSV rigenerato e righe segnate come `action=add`."
 
   - id: TRT-02
     batch: traits
     title: Merge glossario trait
     description: "Integrare nuovi trait nel glossario mantenendo gli ID univoci."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - TRT-01
     deliverables:
       - data/core/traits/glossary.json
+    notes: "Inseriti 50 slug snake_case con label/descrizioni EN/IT e aggiornato timestamp `updated_at`."
 
   - id: TRT-03
     batch: traits
     title: Aggiornare analisi merge trait
     description: "Riassumere esiti revisione nel documento di analisi."
-    status: todo
+    status: done
     owner: null
     depends_on:
       - TRT-02
     deliverables:
       - docs/analysis/trait_merge_proposals.md
+    notes: "Redatto report sintetico con elenco slug e assenza duplicati."
 
   - id: TOL-01
     batch: tooling

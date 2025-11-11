@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1704",
+  "label": "Cervello a Bassa Latenza",
+  "famiglia_tipologia": "Cognitivo/Apprendimento",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1701"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Circuiti neurali a tempi di integrazione ridotti.",
+  "uso_funzione": "Eseguire manovre ad alta frequenza.",
+  "spinta_selettiva": "Predazione aerea in stormi.",
+  "metrics": [
+    {
+      "name": "tempo_apprendimento",
+      "value": 30,
+      "unit": "s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Apprende traiettorie in < 1 min",
+    "scene_prompt": "Task di tracking in volo"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

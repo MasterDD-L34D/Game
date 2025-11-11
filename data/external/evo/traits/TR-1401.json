@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1401",
+  "label": "Scheletro Pneumatico a Maglie",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1402"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Ossa porose con alveoli d’aria.",
+  "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti.",
+  "spinta_selettiva": "Transito terrestre di megafauna fuori dall’acqua.",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 20,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Spostamento 5 km senza affaticamento eccessivo",
+    "scene_prompt": "Test su piastra di forza per massa apparente"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}
