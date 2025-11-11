@@ -27,6 +27,13 @@
   il riepilogo conferma `traits_with_species = 27/29`, `rules_missing_species_total = 0` e soglie foodweb rispettate per i ruoli
   monitorati.
 
+## 2025-11-11T02:11:59Z · game_cli.py validation sweep
+
+- Eseguiti `python3 tools/py/game_cli.py validate-datasets` e `python3 tools/py/game_cli.py validate-ecosystem-pack` per aggiornare i log incoming.
+- `validate-datasets`: pack `evo_tactics_pack` con 14 controlli completati e 3 avvisi, nessun errore bloccante registrato nei log incoming. 【F:reports/incoming/validation/evo_tactics_ecosystems_pack-20251030-133350/validate-datasets.log†L1-L2】
+- `validate-ecosystem-pack`: il validator cross foodweb segnala bridge species mancanti per gli archi `ROVINE_PLANARI→FORESTA_TEMPERATA`, `ROVINE_PLANARI→DESERTO_CALDO` e `DESERTO_CALDO→ROVINE_PLANARI`; gli altri moduli passano senza errori. 【F:reports/incoming/validation/evo_tactics_ecosystems_pack-20251030-133350/validate-ecosystem-pack.log†L1-L64】
+- Follow-up: notificare il team ecosistemi per integrare specie ponte sui percorsi indicati o confermare l'eccezione prevista.
+
 ## 2025-10-29 — Trait ↔ Specie rollout prioritario
 
 - Rigenerata la matrice di copertura (`python tools/py/report_trait_coverage.py --species-root packs/evo_tactics_pack/data/species --out-csv data/derived/analysis/trait_coverage_matrix.csv`), con esito `traits_with_species = 27/29` e `rules_missing_species_total = 0`.
