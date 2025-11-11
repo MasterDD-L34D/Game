@@ -43,6 +43,12 @@ class UpdateResult:
     trace_hashes: List[str]
 
 
+@dataclass
+class CanonicalTraceHashes:
+    by_path: dict[Path, str]
+    by_id: dict[str, str]
+
+
 def _remove_trace_hashes(payload):
     """Remove trace_hash keys recursively from a manifest payload."""
 
@@ -70,7 +76,29 @@ def _stable_digest(manifest_payload) -> str:
     return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
-def _update_json_file(path: Path, *, apply: bool) -> UpdateResult | None:
+def _resolve_canonical_digest(
+    *,
+    current_file: Path,
+    manifest: MutableMapping[str, object],
+    canonical: CanonicalTraceHashes,
+) -> str | None:
+    path_value = manifest.get("path")
+    if isinstance(path_value, str):
+        resolved = (current_file.parent / path_value).resolve()
+        digest = canonical.by_path.get(resolved)
+        if digest:
+            return digest
+
+    manifest_id = manifest.get("id")
+    if isinstance(manifest_id, str):
+        return canonical.by_id.get(manifest_id)
+
+    return None
+
+
+def _update_json_file(
+    path: Path, *, apply: bool, canonical: CanonicalTraceHashes
+) -> UpdateResult | None:
     with path.open(encoding="utf-8") as handle:
         payload = json.load(handle, object_pairs_hook=OrderedDict)
 
@@ -80,7 +108,11 @@ def _update_json_file(path: Path, *, apply: bool) -> UpdateResult | None:
         if isinstance(node, MutableMapping):
             receipt = node.get("receipt")
             if isinstance(receipt, MutableMapping) and "trace_hash" in receipt:
-                digest = _stable_digest(node)
+                digest = _resolve_canonical_digest(
+                    current_file=path, manifest=node, canonical=canonical
+                )
+                if digest is None:
+                    digest = _stable_digest(node)
                 if receipt.get("trace_hash") != digest:
                     pending_updates.append((receipt, digest))
             for value in node.values():
@@ -104,14 +136,17 @@ def _update_json_file(path: Path, *, apply: bool) -> UpdateResult | None:
     return UpdateResult(path=path, trace_hashes=[digest for _, digest in pending_updates])
 
 
-def _update_yaml_file(path: Path, *, apply: bool) -> UpdateResult | None:
+def _update_yaml_file(
+    path: Path, *, apply: bool
+) -> tuple[UpdateResult | None, str | None, str | None]:
     text = path.read_text(encoding="utf-8")
     payload = yaml.safe_load(text)
 
     if not isinstance(payload, MutableMapping):
-        return None
+        return None, None, None
 
     digest = _stable_digest(payload)
+    manifest_id = payload.get("id") if isinstance(payload.get("id"), str) else None
 
     updated_text_lines: List[str] = []
     changed = False
@@ -151,37 +186,53 @@ def _update_yaml_file(path: Path, *, apply: bool) -> UpdateResult | None:
         updated_text_lines.append(new_line)
 
     if not changed:
-        return None
+        return None, digest, manifest_id
 
     if apply:
         path.write_text("\n".join(updated_text_lines) + "\n", encoding="utf-8")
 
-    return UpdateResult(path=path, trace_hashes=[digest])
+    return UpdateResult(path=path, trace_hashes=[digest]), digest, manifest_id
+
+
+def _collect_canonical_trace_hashes(*, apply: bool) -> tuple[CanonicalTraceHashes, List[UpdateResult]]:
+    updates: List[UpdateResult] = []
+    by_path: dict[Path, str] = {}
+    by_id: dict[str, str] = {}
+
+    if not YAML_ROOT.exists():
+        return CanonicalTraceHashes(by_path=by_path, by_id=by_id), updates
+
+    yaml_paths = sorted(YAML_ROOT.rglob("*.yaml")) + sorted(YAML_ROOT.rglob("*.yml"))
+
+    for path in yaml_paths:
+        result, digest, manifest_id = _update_yaml_file(path, apply=apply)
+        if digest:
+            resolved = path.resolve()
+            by_path[resolved] = digest
+            if manifest_id:
+                by_id.setdefault(manifest_id, digest)
+        if result:
+            updates.append(result)
+
+    return CanonicalTraceHashes(by_path=by_path, by_id=by_id), updates
 
 def update_trace_hashes(*, apply: bool) -> List[UpdateResult]:
     updates: List[UpdateResult] = []
+
+    canonical, yaml_updates = _collect_canonical_trace_hashes(apply=apply)
+    updates.extend(yaml_updates)
 
     for directory in JSON_DIRECTORIES:
         if not directory.exists():
             continue
         for path in sorted(directory.glob("*.json")):
-            result = _update_json_file(path, apply=apply)
+            result = _update_json_file(path, apply=apply, canonical=canonical)
             if result:
                 updates.append(result)
 
     for path in JSON_AGGREGATES:
         if path.exists():
-            result = _update_json_file(path, apply=apply)
-            if result:
-                updates.append(result)
-
-    if YAML_ROOT.exists():
-        for path in sorted(YAML_ROOT.rglob("*.yaml")):
-            result = _update_yaml_file(path, apply=apply)
-            if result:
-                updates.append(result)
-        for path in sorted(YAML_ROOT.rglob("*.yml")):
-            result = _update_yaml_file(path, apply=apply)
+            result = _update_json_file(path, apply=apply, canonical=canonical)
             if result:
                 updates.append(result)
 
