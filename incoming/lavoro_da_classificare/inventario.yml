@@ -435,14 +435,16 @@ inventario:
   - percorso: secrets/SITE_BASE_URL
     tipo: secret
     dimensione_byte: null
-    note: Secret/variabile organizzativa usata da Lighthouse, e2e e site-audit per determinare
-      l'URL pubblico
-    stato: richiesto
+    note: |
+      Secret/variabile organizzativa usata da Lighthouse, e2e e site-audit per determinare l'URL pubblico.
+      Provisioning completato il 2025-11-11 da ops-ci (owner), ticket OPS-02-followup.
+      QA: reports/evo/qa/update-tracker.log con esito `make update-tracker TRACKER_CHECK=1` post aggiornamento inventario.
+    stato: configurato
   - percorso: vars/SITE_BASE_URL
     tipo: variabile
     dimensione_byte: null
-    note: Variabile di organizzazione consigliata per evitare dipendenza diretta dal
-      secret nei workflow
+    note: |
+      Variabile di organizzazione consigliata per evitare dipendenza diretta dal secret nei workflow; valore allineato al secret `SITE_BASE_URL` (provisioning 2025-11-11, owner ops-ci, ticket OPS-02-followup).
     stato: configurato
   - percorso: mockup_evo_tactics.png
     tipo: file

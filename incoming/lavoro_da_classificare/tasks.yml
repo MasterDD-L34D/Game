@@ -227,7 +227,7 @@ tasks:
       - ops/site-audit/
     commands:
       - bash ops/site-audit/run.sh --verbose
-    notes: "Aggiunto bootstrap run.sh con virtualenv, dipendenza requests e README aggiornato; suite verificata localmente. Secret `SITE_BASE_URL` richiesto per l'ambiente CI e tracciato in inventario."
+    notes: 'Aggiunto bootstrap run.sh con virtualenv, dipendenza requests e README aggiornato; suite verificata localmente. Secret `SITE_BASE_URL` ora configurato (provisioning 2025-11-11, QA reports/evo/qa/update-tracker.log).'
 
   - id: OPS-03
     batch: ops_ci
@@ -241,7 +241,7 @@ tasks:
       - config/lighthouse/evo.lighthouserc.json
     commands:
       - npm run lint:lighthouse
-    notes: "Configurazione migrata in config/lighthouse/evo.lighthouserc.json e script npm aggiornato. Secret `SITE_BASE_URL` previsto dal piano Ops registrato come richiesta per l'ambiente CI."
+    notes: 'Configurazione migrata in config/lighthouse/evo.lighthouserc.json e script npm aggiornato. Secret `SITE_BASE_URL` validato in CI (provisioning 2025-11-11, QA reports/evo/qa/update-tracker.log).'
 
   - id: FRN-01
     batch: frontend
