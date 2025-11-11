@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 3d352f4bbf48d994d32c71081ed5d45340b3a8dc720da4b13a349a3745ba93d8
 id: dune-cristalline-trait-keeper
 display_name: Dune Cristalline Trait Keeper
 biomes:

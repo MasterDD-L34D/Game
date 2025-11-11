@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 2ea614f526332d38893f5e1fa0f8dcd8f31b4bdf1ab0d404a7fb58bbc12c8311
 id: altipiani-solari-trait-keeper
 display_name: Altipiani Solari Trait Keeper
 biomes:

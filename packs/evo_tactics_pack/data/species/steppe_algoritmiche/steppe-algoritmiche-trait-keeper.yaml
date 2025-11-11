@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: e946cffe4fc81f913c130f2a64aca76cfdbaf8713ab380221ddb243a88ecae89
 id: steppe-algoritmiche-trait-keeper
 display_name: Algorithmic Steppe Trait Keeper
 biomes:

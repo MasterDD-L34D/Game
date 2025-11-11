@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 6782572fd6a2403667fd1d817d8464380f4f516ae838984df6b6899844d357fb
 id: tundra-risonante-trait-keeper
 display_name: Tundra Risonante Trait Keeper
 biomes:

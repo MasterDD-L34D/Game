@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 3fd2c271e53fc2f1d709884390b4ad18bbc9b4111351abb7312c054d6e3760ce
 id: sentinella-radice
 display_name: Sentinella Radice
 biomes:

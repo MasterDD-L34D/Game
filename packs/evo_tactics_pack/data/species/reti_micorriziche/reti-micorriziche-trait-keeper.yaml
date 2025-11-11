@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 9268ca33d921f60028b4ac1069e2d4e7bd769a8b5bc80a6bea9eaf65ba06b9a0
 id: reti-micorriziche-trait-keeper
 display_name: Reti Micorriziche Trait Keeper
 biomes:

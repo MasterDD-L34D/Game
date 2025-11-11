@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 1b60da12e4d894b757b0ff51e430d0b5dba967196240e374f260c1a19c92175a
 id: marilith-vault
 display_name: Marilith delle Volte
 biomes:

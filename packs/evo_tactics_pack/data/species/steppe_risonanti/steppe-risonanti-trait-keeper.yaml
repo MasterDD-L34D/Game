@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 449f5c5a09e04895500c38848e53da0ec9ae03f8d44406caead184b4123708e4
 id: steppe-risonanti-trait-keeper
 display_name: Steppe Risonanti Trait Keeper
 biomes:

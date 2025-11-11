@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 47d9b5a4e2c6317063ad470e7a0a204b5bf6832da71159e919c057c40ce4cc7d
 ecosistema:
   metadati:
     nome: deserto_caldo (scaffold)

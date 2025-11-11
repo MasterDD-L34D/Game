@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 7d81926c1c7614fda50ec8f5caa4d4b35a8d89f2f95e925b155b33475fb0a08c
 id: orbita-psionica-inversa-trait-keeper
 display_name: Orbita Psionica Inversa Trait Keeper
 biomes:

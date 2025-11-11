@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: d4aa9795a9a1ae1bac64cb5fe969c9632c7f25ae0e7c39856bcec3176145bf7e
 ecosistema:
   metadati:
     nome: rovine_planari (Pathfinder bridge)

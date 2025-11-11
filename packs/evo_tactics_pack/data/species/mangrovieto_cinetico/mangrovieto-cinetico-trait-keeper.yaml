@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 84c1033f60b09cfe3b2dd5ffa704673c9d1bf6d202dc176e96e2c46b06b6a0f1
 id: mangrovieto-cinetico-trait-keeper
 display_name: Kinetic Mangrove Trait Keeper
 biomes:

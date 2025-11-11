@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 0d2591764c64f64c29dde47616ccc376a26691dcb6ced59fd7b70644a573041b
 id: cicloni-psionici-trait-keeper
 display_name: Cicloni Psionici Trait Keeper
 biomes:

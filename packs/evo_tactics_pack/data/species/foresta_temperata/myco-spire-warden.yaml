@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-11-05'
-  trace_hash: to-fill
+  trace_hash: 6ce48467eadd300158fcbe4e05584163f440682d05ce33d7ad491c210bab0667
 id: myco-spire-warden
 display_name: Myco Spire warden
 biomes:

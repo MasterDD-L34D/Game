@@ -42,7 +42,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 804c9a52ace9c67910468236a3f99aea24ba4c40bc380c6efdfd5b0dfd2671b7
 environment_affinity:
   biome_class: abisso_vulcanico
   koppen:

@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-11-10'
-  trace_hash: to-fill
+  trace_hash: 6c33be1f658c8b93de8bd323a46138ee71d44176b09bdfd5cba9223a4c5efab6
 id: psionic-canopy-scout
 display_name: Psionic Canopy Scout
 biomes:

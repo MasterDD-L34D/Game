@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 24ecbc3c9713746dd6bb66f200b8e2e54e4e5c936868adbadc6c529539ac084c
 id: calotte-glaciali-trait-keeper
 display_name: Calotte Glaciali Trait Keeper
 biomes:

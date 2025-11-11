@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 17a890364dca564ae19b7df7df8dd284c10ff1b19eb73c4aec5c5b4c2274f599
 id: permafrost-psionico-trait-keeper
 display_name: Permafrost Psionico Trait Keeper
 biomes:

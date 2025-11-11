@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 3f6a0fdf8626daf54020a2ecbab231b559b0cce7d3e5c918e53be4ac2e85a5d0
 id: picchi-cristallini-trait-keeper
 display_name: Picchi Cristallini Trait Keeper
 biomes:

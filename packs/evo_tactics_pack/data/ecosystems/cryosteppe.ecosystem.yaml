@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 39b77ef0cc8a514b372dee5cb30a5d92bf45b5120dbb9865845288be9838c1ad
 ecosistema:
   id: CRYOSTEPPE
   label: Cryosteppe Magnetica

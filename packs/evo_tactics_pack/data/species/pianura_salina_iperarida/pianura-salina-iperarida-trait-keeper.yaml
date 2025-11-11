@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 61f10e5cb3b300b783696bfce3a3824048e25242c738e497290a61012b72680d
 id: pianura-salina-iperarida-trait-keeper
 display_name: Hyperarid Salt Flat Trait Keeper
 biomes:

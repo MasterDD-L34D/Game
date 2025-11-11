@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 48d1078afa049ab15791f64f3c774a2f914a51415eb61998abbb5c519c557ee9
 id: foresta-acida-trait-keeper
 display_name: Acidic Rainforest Trait Keeper
 biomes:

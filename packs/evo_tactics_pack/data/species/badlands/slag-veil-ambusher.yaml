@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-11-05'
-  trace_hash: to-fill
+  trace_hash: b188e147f050c1c9133c87e51c57460e023be047245ed479c7039a8d7d9b33fc
 id: slag-veil-ambusher
 display_name: Slag Veil Ambusher
 biomes:

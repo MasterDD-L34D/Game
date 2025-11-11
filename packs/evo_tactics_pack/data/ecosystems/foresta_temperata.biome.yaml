@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: e614d740c3c50af4eb742ab6e44a99f6848ea6f43ccc02151f58fc841051d193
 ecosistema:
   metadati:
     nome: Foresta Temperata Demo

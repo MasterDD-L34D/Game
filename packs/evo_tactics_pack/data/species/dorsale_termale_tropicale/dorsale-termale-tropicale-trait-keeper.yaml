@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 573311dfa28219f1bbddb62b454737b038db209de0232c97ed00c5f35800a6f3
 id: dorsale-termale-tropicale-trait-keeper
 display_name: Tropical Thermal Ridge Trait Keeper
 biomes:

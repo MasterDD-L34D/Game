@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 859c19dfaa337b4b568d9f1f808e3f45d3ee7507e63cecd90f702451e49c0a70
 id: mangrovie-risonanti-trait-keeper
 display_name: Mangrovie Risonanti Trait Keeper
 biomes:

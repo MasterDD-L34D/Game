@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 04573cf0da854192d12f2cd4f015e3c569684169af5dd08f662693c42da30f24
 id: couatl-aurora
 display_name: Couatl Aurora Custode
 biomes:

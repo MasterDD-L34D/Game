@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: ae369857403a0c7f8b202d1a6d5322919a1d04f96b517871e1aa50dd955ace0e
 id: canopie-sospese-trait-keeper
 display_name: Canopie Sospese Trait Keeper
 biomes:

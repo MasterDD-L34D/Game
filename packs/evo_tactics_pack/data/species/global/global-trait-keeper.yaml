@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 37297d8e2161957f244ebff574c91c1a32a54f5866e81fd01b8a99780297548f
 id: global-trait-keeper
 display_name: Global Trait Keeper
 biomes: []

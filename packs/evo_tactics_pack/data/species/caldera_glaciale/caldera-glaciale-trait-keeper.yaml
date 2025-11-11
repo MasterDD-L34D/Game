@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: f11a839c3b4f6851d7896f32f927e57f4e47f298ffec2a1b2f23056c21c9dd33
 id: caldera-glaciale-trait-keeper
 display_name: Glacial Caldera Trait Keeper
 biomes:

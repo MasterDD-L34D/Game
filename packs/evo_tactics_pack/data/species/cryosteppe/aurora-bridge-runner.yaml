@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-11-05'
-  trace_hash: to-fill
+  trace_hash: d48a26c32ca7fd629c7bf9cd3f42c5b986e98ca4efde54b89cc8571581c84045
 id: aurora-bridge-runner
 display_name: Aurora Bridge Runner
 biomes:
