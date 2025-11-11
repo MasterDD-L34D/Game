@@ -162,8 +162,8 @@ inventario:
     stato: aggiornato
   - percorso: reports/evo/qa/dataset.log
     tipo: file
-    dimensione_byte: 2729
-    note: 'QA dataset: `make evo-validate` fallito (ricette senza TAB), rieseguito con wrapper AJV/npx su 5 trait e 11 specie.'
+    dimensione_byte: 1003
+    note: 'QA dataset: `make evo-validate` eseguito con `AJV=tools/ajv-wrapper.sh`; validati 5 trait, nessuna specie presente nella directory incoming/species.'
     stato: validato
   - percorso: reports/evo/qa/schema.log
     tipo: file

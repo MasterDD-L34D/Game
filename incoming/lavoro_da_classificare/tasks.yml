@@ -99,7 +99,7 @@ tasks:
       - reports/incoming/species_validation.log
     commands:
       - ./scripts/validate.sh --dataset evo-species --schema schemas/evo/species.schema.json
-    notes: 'Log SPEC-01 aggiornato; QA `reports/evo/qa/dataset.log` mostra fallimento `make evo-validate` (ricette senza TAB) e riesecuzione con `AJV=/tmp/ajv-wrapper.sh bash incoming/scripts/validate.sh` (npx ajv-cli) su 5 trait e 11 specie.'
+    notes: 'Log SPEC-01 aggiornato; QA `reports/evo/qa/dataset.log` rigenerato con `make evo-validate` (AJV=tools/ajv-wrapper.sh) su 5 trait; directory species attualmente vuota.'
 
   - id: SPEC-02
     batch: species_ecotypes
