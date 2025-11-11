@@ -11,6 +11,10 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 
 ## Evo-Tactics
 
+### Stato import Evo-Tactics
+
+- [Inventario bonifica incoming](../reports/evo/inventory_audit.md) — riepilogo dei duplicati archiviati e dei link di verifica.
+
 - [Guida ai Tratti · Sommario e Piano Operativo](evo-tactics/guida-ai-tratti-1.md#evo-guida-ai-tratti-1) — standard specie/tratti v2, convenzioni di stile e strumenti QA.
 - [Guida ai Tratti · Approfondimenti Operativi](evo-tactics/guida-ai-tratti-2.md#evo-guida-ai-tratti-2) — governance delle revisioni, roadmap di migrazione v2.1 e gate di qualità.
 - [Guida ai Tratti · Scenario e Missioni](evo-tactics/guida-ai-tratti-3-evo-tactics.md#evo-guida-ai-tratti-3-evo-tactics) — applicazione in missione, sinergie tattiche e gestione delle varianti sul campo.
