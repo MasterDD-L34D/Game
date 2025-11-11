@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 3e7ac828bdf9e6a97629ad5238c96162ea4486398ca6b6054e09af90bf3c3e56
 ecosistema:
   id: BADLANDS
   label: Brulle Terre Ferrose
