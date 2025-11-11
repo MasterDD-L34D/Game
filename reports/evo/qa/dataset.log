@@ -1,0 +1,36 @@
+Makefile:105: *** missing separator (did you mean TAB instead of 8 spaces?).  Stop.
+🔍 Validazione trait.schema.json su 5 file…
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/traits/TR-1101.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/traits/TR-1102.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/traits/TR-1103.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/traits/TR-1104.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/traits/TR-1105.json valid
+🔍 Validazione species.schema.json su 11 file…
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/anguis_magnetica.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/chemnotela_toxica.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/elastovaranus_hydrus.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/gulogluteus_scutiger.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/perfusuas_pedes.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/proteus_plasma.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/rupicapra_sensoria.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/soniptera_resonans.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/species_catalog.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/terracetus_ambulator.json valid
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+/workspace/Game/incoming/species/umbra_alaris.json valid
+✅ Validazione completata
