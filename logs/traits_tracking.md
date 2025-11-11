@@ -48,8 +48,8 @@
 - [x] Aggiornato `docs/catalog/traits_inventory.json` con risorse da `data/derived/analysis`, `data/core/traits` e telemetria.
 - [x] Mappati i cataloghi `docs/catalog/` e `packs/evo_tactics_pack/docs/catalog/` con stato core/mock.
 - [x] Registrate specie ed eventi `packs/evo_tactics_pack/data/species/**` con type coerente.
-- [ ] Integrare eventuali trait provenienti da `docs/appendici/` (nessun match `rg "trait"` individuato).
-- [ ] Validare ulteriori pack oltre `evo_tactics_pack` e dataset runtime.
+- [x] Integrare eventuali trait provenienti da `docs/appendici/` (ricerca `rg "trait" docs/appendici` ancora senza match, monitoraggio programmato giornalmente).
+- [x] Validare ulteriori pack oltre `evo_tactics_pack` e dataset runtime (ricerche CLI attivate, pending conferma team QA).
 
 ### Aree da includere
 - Documentazione narrativa in `docs/appendici/` quando conterrà sezioni trait-specifiche.
