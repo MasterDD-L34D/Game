@@ -12,6 +12,7 @@ verso le destinazioni definitive (`docs/`, `data/external/evo/`, `reports/evo/`)
 | `incoming/species/` | `data/external/evo/species/` | Spostato in archivio | `incoming/archive/2025-11-15_evo_cleanup/species/` | `incoming/lavoro_da_classificare/inventario.yml` |
 | `incoming/lavoro_da_classificare/docs/wireframes/*.md` | `docs/wireframes/*.md` | Spostato in archivio | `incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/` | `incoming/lavoro_da_classificare/inventario.yml` |
 | `incoming/lavoro_da_classificare/home/oai/share/**` | Artefatti già revisionati in `docs/` e `reports/evo/` | Spostato in archivio | `incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/` | `incoming/lavoro_da_classificare/inventario.yml` |
+| `incoming/lavoro_da_classificare/{backlog,catalog,config,data,docs,ops,templates,tests,workflows}` | Copie legacy di documentazione, dataset e automazioni già versionate (`docs/`, `.github/workflows/`, `incoming/scripts/`, `data/core/`) | Spostato in archivio / consolidato | `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/` | `incoming/lavoro_da_classificare/inventario.yml` |
 
 ## Dettaglio controlli
 
@@ -45,3 +46,17 @@ e puntano alla cartella di archivio creata per questa bonifica.
   `npm run docs:lint` e la suite Playwright documentata nel log stesso.
 - Confermata la coerenza del mapping `data/external/evo/species/species_ecotype_map.json`, documentando nel riepilogo le classi
   senza corrispondenza.
+
+## Bonifica 2025-12-19
+
+- Creato l'archivio `incoming/archive/2025-12-19_inventory_cleanup/` per raccogliere i duplicati residui di backlog, cataloghi,
+  configurazioni e workflow presenti in `incoming/lavoro_da_classificare/`.
+- Spostati in archivio i file di documentazione legacy (GDD, guide PDF/MD, report specie e trait, checklist) e i dataset di esempio
+  ormai sostituiti dalle versioni consolidate sotto `docs/` e `data/core`.
+- Allineati gli script duplicati (`init_security_checks.sh`, `setup_backlog.py`, `species_summary_script.py`, `trait_review.py`,
+  `update_tracker_registry.py`) indicando come riferimento univoco `incoming/scripts/` e mantenendo le copie storiche solo in
+  archivio.
+- Validati i JSON ecotipi confermando che la fonte ufficiale è `data/external/evo/species/*.json`; le voci dell'inventario sono
+  state annotate come consolidate.
+- Aggiornato `incoming/lavoro_da_classificare/inventario.yml` marcando tutte le voci precedentemente `da revisionare` con lo
+  stato finale (`archiviato` o `validato`) e riferimenti al nuovo archivio.
