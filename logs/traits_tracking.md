@@ -16,6 +16,13 @@
 - Validazione QA: `python tools/py/game_cli.py validate-ecosystem-pack` (nessun errore) e
   `python tools/py/traits_validator.py --inventory docs/catalog/traits_inventory.json`.
 
+## 2025-11-14 — Incoming synergy & dedupe snapshot
+
+- `reports/incoming/sessione-2025-11-14/report.html` evidenzia i pacchetti `v8.3-synergy-tuning-table` e `v8.1-deduped` con export markdown privi di heading (`docs/appendici/migrated/mating*.md`).
+- Confermata la presenza di asset Idea Intake (`README_IDEAS.md`, `assets/style.css`, `docs/ideas/index.html`) nel batch corrente: verificare l'allineamento delle tassonomie trait ↔ idea submission.
+- Nota: il report JSON associato elenca soltanto i path, quindi mantenere la sorgente HTML come riferimento finché non viene rigenerato lo snapshot strutturato.
+- Follow-up: aggiungere heading/frontmatter ai markdown migrati prima di reimportare i trait bridging nel pack e allegare il diff nel prossimo `trait_coverage_report.json`.
+
 ## 2025-11-16 — Badlands trait sync & QA
 
 - Allineati i file specie Badlands (`packs/evo_tactics_pack/data/species/badlands/*.yaml`) con blocchi `genetic_traits` coerenti
