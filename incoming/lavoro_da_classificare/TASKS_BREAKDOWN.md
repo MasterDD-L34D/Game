@@ -21,17 +21,23 @@ chiudere il batch corrispondente.
 
 ## Batch `documentation`
 
-- [ ] **DOC-01 – Conversione sorgenti**  
-  _Output_: Markdown pulito sotto `docs/evo-tactics/` con frontmatter.  
+- [x] **DOC-01 – Conversione sorgenti**
+  _Owner_: docs-team
+  _Output_: Markdown pulito sotto `docs/evo-tactics/` con frontmatter.
   _Passi_: eseguire `pandoc` sui `.docx`/`.pdf`, uniformare heading, collegare
-  riferimenti interni.  
+  riferimenti interni.
   _Bloccanti_: conferma versioni ufficiali guide trait.
-- [ ] **DOC-02 – Allineamento indice**  
-  _Output_: aggiornata la sezione indice in `docs/README.md` + link nel wiki.  
+  _Note_: cinque guide convertite con anchor `evo-*` e metadata aggiornati.
+- [x] **DOC-02 – Allineamento indice**
+  _Owner_: docs-team
+  _Output_: aggiornata la sezione indice in `docs/README.md` + link nel wiki.
   _Passi_: aggiungere anchor `evo-` in stile kebab-case, testare link locali.
-- [ ] **DOC-03 – Archivio duplicati**  
+  _Note_: sezione "Evo-Tactics" aggiunta con link ai nuovi capitoli.
+- [x] **DOC-03 – Archivio duplicati**
+  _Owner_: docs-team
   _Output_: copia sorgenti spostata in `incoming/archive/documents/` e nota nel
   file inventario.
+  _Note_: inventario aggiornato con stato `archiviato` e percorso archive.
 
 ## Batch `data-models`
 

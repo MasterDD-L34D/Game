@@ -84,36 +84,36 @@ inventario:
   dimensione_byte: 1744
   note: File .pdf
   stato: da revisionare
-- percorso: Guida Ai tratti 1.docx
-  tipo: file
-  dimensione_byte: 32692
-  note: File .docx
-  stato: da revisionare
-- percorso: Guida Ai tratti 2.docx
-  tipo: file
-  dimensione_byte: 35987
-  note: File .docx
-  stato: da revisionare
-- percorso: Guida Ai tratti 3 Evo tact.docx
-  tipo: file
-  dimensione_byte: 35987
-  note: File .docx
-  stato: da revisionare
-- percorso: Guida Ai tratti 3 database.docx
-  tipo: file
-  dimensione_byte: 18624
-  note: File .docx
-  stato: da revisionare
 - percorso: INTEGRAZIONE_GUIDE.md
   tipo: file
   dimensione_byte: 5720
   note: File .md
   stato: da revisionare
-- percorso: Integrazioni V2.docx
+- percorso: ../archive/documents/Guida Ai tratti 1.docx
+  tipo: file
+  dimensione_byte: 32692
+  note: "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-1.md"
+  stato: archiviato
+- percorso: ../archive/documents/Guida Ai tratti 2.docx
+  tipo: file
+  dimensione_byte: 35987
+  note: "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-2.md"
+  stato: archiviato
+- percorso: ../archive/documents/Guida Ai tratti 3 Evo tact.docx
+  tipo: file
+  dimensione_byte: 35987
+  note: "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md"
+  stato: archiviato
+- percorso: ../archive/documents/Guida Ai tratti 3 database.docx
+  tipo: file
+  dimensione_byte: 18624
+  note: "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-3-database.md"
+  stato: archiviato
+- percorso: ../archive/documents/Integrazioni V2.docx
   tipo: file
   dimensione_byte: 32693
-  note: File .docx
-  stato: da revisionare
+  note: "File .docx archiviato; convertito in docs/evo-tactics/integrazioni-v2.md"
+  stato: archiviato
 - percorso: Makefile
   tipo: file
   dimensione_byte: 622

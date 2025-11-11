@@ -9,6 +9,14 @@ Questi file sono scheletri collegati ai **Canvas** già creati in ChatGPT. Copia
 - `Mating-Reclutamento-Nido.md` — Attrazione, Affinità/Fiducia, standard di nido, eredità (Canvas D).
 - `traits-manuale/` — guida operativa completa su schema, tassonomia e workflow trait (`docs/traits-manuale/README.md`).
 
+## Evo-Tactics
+
+- [Guida ai Tratti · Sommario e Piano Operativo](evo-tactics/guida-ai-tratti-1.md#evo-guida-ai-tratti-1) — standard specie/tratti v2, convenzioni di stile e strumenti QA.
+- [Guida ai Tratti · Approfondimenti Operativi](evo-tactics/guida-ai-tratti-2.md#evo-guida-ai-tratti-2) — governance delle revisioni, roadmap di migrazione v2.1 e gate di qualità.
+- [Guida ai Tratti · Scenario e Missioni](evo-tactics/guida-ai-tratti-3-evo-tactics.md#evo-guida-ai-tratti-3-evo-tactics) — applicazione in missione, sinergie tattiche e gestione delle varianti sul campo.
+- [Guida Evo-Tactics per Game-Database](evo-tactics/guida-ai-tratti-3-database.md#evo-guida-ai-tratti-3-database) — import nel Game Database, mapping tassonomico e scripting di integrazione.
+- [Piano di Integrazione V2](evo-tactics/integrazioni-v2.md#evo-integrazioni-v2) — coordinamento cross-team e tempistiche di roll-out del pacchetto Evo-Tactics.
+
 ## Aggiornamenti rapidi
 
 - **Changelog** — la sintesi delle ultime release è integrata nel [README principale](../README.md#storico-aggiornamenti--archivio) e centralizzata in [`changelog.md`](changelog.md).
