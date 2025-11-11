@@ -34,3 +34,14 @@ verso le destinazioni definitive (`docs/`, `data/external/evo/`, `reports/evo/`)
 
 Tutti gli spostamenti sono tracciati nell'inventario (`incoming/lavoro_da_classificare/inventario.yml`) con stato `archiviato`
 e puntano alla cartella di archivio creata per questa bonifica.
+
+## Verifica duplicati 2025-11-18
+
+- Rimossi i duplicati residui in `incoming/lavoro_da_classificare/` per i report di analisi trait e la documentazione di
+  sicurezza, mantenendo come fonte unica i percorsi sotto `docs/`.
+- Aggiornato l'inventario segnando le copie legacy come `archiviato` con destinazione verso i file consolidati.
+- Validati i file finali (`docs/analysis/*.md`, `docs/analysis/*.csv`, `docs/security/*.md`, `docs/prontuario_metriche_ucum.md`,
+  `docs/traits_reference.md`) e i log QA (`reports/evo/qa/docs.log`, `reports/evo/qa/frontend.log`) dopo aver eseguito gli script
+  `npm run docs:lint` e la suite Playwright documentata nel log stesso.
+- Confermata la coerenza del mapping `data/external/evo/species/species_ecotype_map.json`, documentando nel riepilogo le classi
+  senza corrispondenza.
