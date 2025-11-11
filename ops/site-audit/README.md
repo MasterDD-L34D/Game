@@ -7,6 +7,17 @@ per l'uso locale e in CI.
 
 ## Esecuzione della suite
 
+Per lanciare rapidamente tutti gli step con le dipendenze Python corrette è
+disponibile lo script helper:
+
+```bash
+bash ops/site-audit/run.sh --base-url "https://evo.example.com" --verbose
+```
+
+Lo script crea un virtualenv locale in `ops/site-audit/.venv`, installa
+automaticamente i requisiti (`requests`) e inoltra qualsiasi argomento extra a
+`run_suite.py`.
+
 ```bash
 python ops/site-audit/run_suite.py --base-url "https://evo.example.com" --verbose
 ```
@@ -38,4 +49,7 @@ make audit SITE_BASE_URL="https://evo.example.com"
 - `build_redirects.py`: traduce `redirects_map.json` nei formati supportati.
 
 La suite assicura l'esecuzione in sequenza, fermandosi in caso di errori e
-segnalando gli step saltati a causa di configurazioni mancanti.
+segnalando gli step saltati a causa di configurazioni mancanti. Impostando la
+variabile `SITE_BASE_URL` (o l'opzione `--base-url`) si abilitano i controlli
+remoti, inclusa l'esecuzione del crawler `check_links.py` aggiornato per usare
+`requests` con gestione automatica dei redirect e degli header.

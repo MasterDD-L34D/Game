@@ -2,9 +2,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import argparse, threading, queue, csv
+from pathlib import Path
 from urllib.parse import urlparse, urljoin, urldefrag
-from urllib.request import Request, urlopen
 from html.parser import HTMLParser
+
+import requests
+from requests import Response
+from requests.exceptions import RequestException
 
 class LinkExtractor(HTMLParser):
     def __init__(self):
@@ -20,18 +24,17 @@ def same_origin(u1, u2):
     p1, p2 = urlparse(u1), urlparse(u2)
     return (p1.scheme, p1.netloc) == (p2.scheme, p2.netloc)
 
-def fetch(url, timeout=10.0):
+def fetch(session: requests.Session, url: str, timeout: float = 10.0) -> tuple[int | str, str, str]:
     try:
-        req = Request(url, headers={"User-Agent":"EvoTacticsLinkChecker/0.2"})
-        with urlopen(req, timeout=timeout) as r:
-            status = getattr(r, "status", 200)
-            ctype = r.headers.get("Content-Type","")
-            body = r.read().decode("utf-8", errors="ignore")
-            return status, ctype, body
-    except Exception as e:
-        return f"ERROR: {e}", "" , ""
+        response: Response = session.get(url, timeout=timeout, allow_redirects=True)
+        ctype = response.headers.get("Content-Type", "")
+        return response.status_code, ctype, response.text
+    except RequestException as exc:
+        return f"ERROR: {exc}", "", ""
 
 def worker(start_url, timeout, results, seen, q, lock, max_pages):
+    session = requests.Session()
+    session.headers.update({"User-Agent": "EvoTacticsLinkChecker/0.3"})
     while True:
         try:
             url = q.get(timeout=1)
@@ -41,7 +44,7 @@ def worker(start_url, timeout, results, seen, q, lock, max_pages):
             q.task_done()
             continue
         seen.add(url)
-        status, ctype, body = fetch(url, timeout=timeout)
+        status, ctype, body = fetch(session, url, timeout=timeout)
         with lock:
             results.append((url, status, ctype))
         if status == 200 and "text/html" in ctype:
@@ -76,5 +79,4 @@ def main():
     print(f"[site-audit] wrote {out} (rows={len(results)})")
 
 if __name__ == "__main__":
-    from pathlib import Path
     main()

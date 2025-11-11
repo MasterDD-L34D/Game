@@ -15,7 +15,7 @@ scoperte rispetto agli obiettivi Ops.
   fonti dati.
 - Il job `site-audit` installa le dipendenze di `ops/site-audit/` ed esegue
   `make audit`, caricando gli artifact prodotti per la consultazione Ops.
-- Il job `lighthouse-ci` riusa la configurazione condivisa (`lighthouserc.json`)
+- Il job `lighthouse-ci` riusa la configurazione condivisa (`config/lighthouse/evo.lighthouserc.json`)
   e lancia LHCI su push/PR quando sono coinvolte modifiche front-end.
 - Altri workflow schedulati coprono aspetti specifici: `lighthouse.yml` esegue
   audit periodici delle metriche web con LHCI, mentre `schema-validate.yml`
