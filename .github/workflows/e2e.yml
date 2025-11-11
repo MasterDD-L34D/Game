@@ -16,6 +16,9 @@ jobs:
       - name: Install deps
         working-directory: tests/playwright
         run: npm ci || npm i
+      - name: Install Playwright browsers
+        working-directory: tests/playwright
+        run: npx playwright install --with-deps chromium
       - name: Resolve BASE_URL
         run: |
           if [ -n "${{ vars.SITE_BASE_URL }}" ]; then

@@ -1,112 +1,23 @@
-npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
-
 > test:e2e
 > ./node_modules/.bin/playwright test --config=webapp/tests/playwright/playwright.config.mjs --project=evo
 
-[2m[WebServer] [22m127.0.0.1 - - [11/Nov/2025 14:15:45] "GET /docs/mission-console/index.html HTTP/1.1" 200 -
+[WebServer] [mission-console] server listening on http://127.0.0.1:4173/index.html
 
 Running 7 tests using 1 worker
 
-  ✘  1 [evo] › tests/playwright/evo/dashboard.spec.ts:6:7 › Mission dashboard › renders mission summary, metrics, and event log entries (17ms)
-  ✘  2 [evo] › tests/playwright/evo/ecosystem-pack.spec.ts:6:7 › Ecosystem Pack console › lists modular packages with summaries (16ms)
-  ✘  3 [evo] › tests/playwright/evo/generator.spec.ts:6:7 › Mission generator › exposes quick toolkit entries for Evo operators (30ms)
-  ✘  4 [evo] › tests/playwright/evo/mission-control.spec.ts:6:7 › Mission Control console › surfaces priority actions for operations (25ms)
-  ✘  5 [evo] › tests/playwright/evo/navigation.spec.ts:10:7 › Evo-Tactics navigation › off-canvas menu toggles and highlights the active route (16ms)
-  ✘  6 [evo] › tests/playwright/evo/navigation.spec.ts:40:7 › Evo-Tactics navigation › primary navigation exposes Evo console destinations (21ms)
-  ✘  7 [evo] › tests/playwright/evo/navigation.spec.ts:59:7 › Evo-Tactics navigation › top navigation updates the active section across pages (23ms)
+[WebServer] [idea-engine] API online su http://127.0.0.1:3333
+[WebServer] [idea-engine] Database: /workspace/Game/data/idea_engine.db
+  ✓  1 [evo] › tests/playwright/evo/dashboard.spec.ts:6:7 › Mission dashboard › renders mission summary, metrics, and event log entries (696ms)
+  ✓  2 [evo] › tests/playwright/evo/ecosystem-pack.spec.ts:6:7 › Ecosystem Pack console › lists modular packages with summaries (461ms)
+  ✓  3 [evo] › tests/playwright/evo/generator.spec.ts:6:7 › Mission generator › exposes quick toolkit entries for Evo operators (487ms)
+  ✓  4 [evo] › tests/playwright/evo/mission-control.spec.ts:6:7 › Mission Control console › surfaces priority actions for operations (442ms)
+  ✓  5 [evo] › tests/playwright/evo/navigation.spec.ts:10:7 › Evo-Tactics navigation › off-canvas menu toggles and highlights the active route (537ms)
+  ✓  6 [evo] › tests/playwright/evo/navigation.spec.ts:40:7 › Evo-Tactics navigation › primary navigation exposes Evo console destinations (508ms)
+  ✓  7 [evo] › tests/playwright/evo/navigation.spec.ts:59:7 › Evo-Tactics navigation › top navigation updates the active section across pages (644ms)
 
+  7 passed (6.3s)
 
-  1) [evo] › tests/playwright/evo/dashboard.spec.ts:6:7 › Mission dashboard › renders mission summary, metrics, and event log entries 
+To open last HTML report run:
 
-    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
-    ╔═════════════════════════════════════════════════════════════════════════╗
-    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
-    ║ Please run the following command to download new browsers:              ║
-    ║                                                                         ║
-    ║     npx playwright install                                              ║
-    ║                                                                         ║
-    ║ <3 Playwright Team                                                      ║
-    ╚═════════════════════════════════════════════════════════════════════════╝
+  npx playwright show-report webapp/tests/playwright/playwright-report
 
-  2) [evo] › tests/playwright/evo/ecosystem-pack.spec.ts:6:7 › Ecosystem Pack console › lists modular packages with summaries 
-
-    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
-    ╔═════════════════════════════════════════════════════════════════════════╗
-    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
-    ║ Please run the following command to download new browsers:              ║
-    ║                                                                         ║
-    ║     npx playwright install                                              ║
-    ║                                                                         ║
-    ║ <3 Playwright Team                                                      ║
-    ╚═════════════════════════════════════════════════════════════════════════╝
-
-  3) [evo] › tests/playwright/evo/generator.spec.ts:6:7 › Mission generator › exposes quick toolkit entries for Evo operators 
-
-    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
-    ╔═════════════════════════════════════════════════════════════════════════╗
-    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
-    ║ Please run the following command to download new browsers:              ║
-    ║                                                                         ║
-    ║     npx playwright install                                              ║
-    ║                                                                         ║
-    ║ <3 Playwright Team                                                      ║
-    ╚═════════════════════════════════════════════════════════════════════════╝
-
-  4) [evo] › tests/playwright/evo/mission-control.spec.ts:6:7 › Mission Control console › surfaces priority actions for operations 
-
-    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
-    ╔═════════════════════════════════════════════════════════════════════════╗
-    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
-    ║ Please run the following command to download new browsers:              ║
-    ║                                                                         ║
-    ║     npx playwright install                                              ║
-    ║                                                                         ║
-    ║ <3 Playwright Team                                                      ║
-    ╚═════════════════════════════════════════════════════════════════════════╝
-
-  5) [evo] › tests/playwright/evo/navigation.spec.ts:10:7 › Evo-Tactics navigation › off-canvas menu toggles and highlights the active route 
-
-    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
-    ╔═════════════════════════════════════════════════════════════════════════╗
-    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
-    ║ Please run the following command to download new browsers:              ║
-    ║                                                                         ║
-    ║     npx playwright install                                              ║
-    ║                                                                         ║
-    ║ <3 Playwright Team                                                      ║
-    ╚═════════════════════════════════════════════════════════════════════════╝
-
-  6) [evo] › tests/playwright/evo/navigation.spec.ts:40:7 › Evo-Tactics navigation › primary navigation exposes Evo console destinations 
-
-    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
-    ╔═════════════════════════════════════════════════════════════════════════╗
-    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
-    ║ Please run the following command to download new browsers:              ║
-    ║                                                                         ║
-    ║     npx playwright install                                              ║
-    ║                                                                         ║
-    ║ <3 Playwright Team                                                      ║
-    ╚═════════════════════════════════════════════════════════════════════════╝
-
-  7) [evo] › tests/playwright/evo/navigation.spec.ts:59:7 › Evo-Tactics navigation › top navigation updates the active section across pages 
-
-    Error: browserType.launch: Executable doesn't exist at /root/.cache/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell
-    ╔═════════════════════════════════════════════════════════════════════════╗
-    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
-    ║ Please run the following command to download new browsers:              ║
-    ║                                                                         ║
-    ║     npx playwright install                                              ║
-    ║                                                                         ║
-    ║ <3 Playwright Team                                                      ║
-    ╚═════════════════════════════════════════════════════════════════════════╝
-
-  7 failed
-    [evo] › tests/playwright/evo/dashboard.spec.ts:6:7 › Mission dashboard › renders mission summary, metrics, and event log entries 
-    [evo] › tests/playwright/evo/ecosystem-pack.spec.ts:6:7 › Ecosystem Pack console › lists modular packages with summaries 
-    [evo] › tests/playwright/evo/generator.spec.ts:6:7 › Mission generator › exposes quick toolkit entries for Evo operators 
-    [evo] › tests/playwright/evo/mission-control.spec.ts:6:7 › Mission Control console › surfaces priority actions for operations 
-    [evo] › tests/playwright/evo/navigation.spec.ts:10:7 › Evo-Tactics navigation › off-canvas menu toggles and highlights the active route 
-    [evo] › tests/playwright/evo/navigation.spec.ts:40:7 › Evo-Tactics navigation › primary navigation exposes Evo console destinations 
-    [evo] › tests/playwright/evo/navigation.spec.ts:59:7 › Evo-Tactics navigation › top navigation updates the active section across pages 
-
-[36m  Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.[39m
