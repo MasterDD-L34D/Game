@@ -24,7 +24,18 @@
 ## Punto aperto
 - Provisionare il secret `SITE_BASE_URL` seguendo la procedura in `docs/tooling/evo.md` e aggiornare l'inventario portando la voce a `configurato`.
 
-## Prossimi passi consigliati
-1. Creare (o aggiornare) il secret `SITE_BASE_URL` in GitHub Actions con l'URL ufficiale dell'ambiente Evo.
-2. Aggiornare `incoming/lavoro_da_classificare/inventario.yml` con lo stato `configurato`, includendo data e referente.
-3. Eseguire `make update-tracker TRACKER_CHECK=1` e archiviare l'output QA in `reports/evo/qa/` per mantenere la tracciabilità.
+## Piano operativo per il provisioning dei secret
+
+### 1. Configurare `SITE_BASE_URL` in GitHub Actions
+- Consultare `docs/tooling/evo.md` (§ "Configurazione secrets CI") e raccogliere l'URL ufficiale dell'ambiente Evo.
+- In GitHub → **Settings → Secrets and variables → Actions**, creare o aggiornare il secret `SITE_BASE_URL` con il valore raccolto.
+- Replicare lo stesso valore nella sezione **Variables**, sempre con il nome `SITE_BASE_URL`, così che i workflow possano leggerlo anche come variabile di ambiente.
+
+### 2. Aggiornare l'inventario e i tracker
+- Aprire `incoming/lavoro_da_classificare/inventario.yml` e impostare lo stato della voce `secrets/SITE_BASE_URL` su `configurato`, riportando data, referente e link alla richiesta di provisioning.
+- Eseguire `make update-tracker TRACKER_CHECK=1` per propagare l'aggiornamento verso `tasks.yml` e `TASKS_BREAKDOWN.md` in modalità di verifica.
+- Salvare l'output del comando sotto `reports/evo/qa/update-tracker.log`, così da conservare traccia dell'operazione.
+
+### 3. Verificare l'utilizzo del secret nei workflow
+- Riesaminare i file in `.github/workflows/` e confermare che i job che dipendono da `SITE_BASE_URL` (Lighthouse, site-audit, Playwright) non riportino più warning legati all'assenza del secret.
+- Annotare la verifica in `reports/evo/inventory_audit.md` aggiungendo un paragrafo "Provisioning secrets" con riferimento al log QA salvato.
