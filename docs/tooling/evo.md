@@ -6,7 +6,7 @@ Evo-Tactics nel repository.
 ## Logging condiviso
 
 Gli script in `tools/automation/` utilizzano un namespace comune per il logging
-(`tools.automation`).  Il modulo di supporto espone l'helper
+(`tools.automation`). Il modulo di supporto espone l'helper
 `tools.automation.configure_logging(verbose=..., logger=...)` che inizializza il
 root logger con un formatter minimale e imposta il livello del logger passato.
 Per ottenere un'istanza coerente è sufficiente dichiarare `LOGGER =
@@ -106,7 +106,7 @@ Il comando è disponibile anche tramite `make evo-lint` (variabili opzionali
 - File YAML atteso: chiavi `project_name`, `columns` e `issues` (con titolo,
   body, label opzionali e colonna di destinazione).
 - Target Makefile: `make evo-backlog EVO_BACKLOG_REPO=org/repo \
-  EVO_BACKLOG_FILE=backlog.yaml` che reindirizza le variabili richieste allo
+EVO_BACKLOG_FILE=backlog.yaml` che reindirizza le variabili richieste allo
   script.
 
 ## Revisione dei trait
@@ -147,6 +147,24 @@ I flussi di lavoro descritti sono esposti nel `Makefile` tramite:
 Le variabili condivise `EVO_BATCH`, `EVO_FLAGS` ed `EVO_TASKS_FILE` sono
 propagate anche nei target alias `evo-batch-plan` ed `evo-batch-run` per
 compatibilità.
+
+## Configurazione secrets CI
+
+I workflow Evo richiedono l'URL pubblico del sito per eseguire audit e test.
+Configura `SITE_BASE_URL` seguendo questi passaggi:
+
+1. Vai su **Settings → Secrets and variables → Actions** del repository.
+2. Nella tab **Secrets** crea (o aggiorna) il secret `SITE_BASE_URL` assegnato
+   all'ambiente CI (repository-level) con il dominio ufficiale, ad esempio
+   `https://evo-tactics.example`.
+3. Replica lo stesso valore nella sezione **Variables** come `SITE_BASE_URL`:
+   i workflow Evo lo risolveranno prima da `vars/` e, in fallback, dal secret
+   protetto.
+
+Il secret è utilizzato da `.github/workflows/ci.yml`, `e2e.yml` e
+`lighthouse.yml` per passare l'URL a Playwright, Lighthouse e alla suite
+`ops/site-audit`. L'inventario `incoming/lavoro_da_classificare/inventario.yml`
+riporta il dettaglio dell'ambiente target per il tracciamento Ops.【F:.github/workflows/ci.yml†L483-L564】【F:.github/workflows/e2e.yml†L1-L35】【F:.github/workflows/lighthouse.yml†L1-L32】【F:incoming/lavoro_da_classificare/inventario.yml†L430-L449】
 
 ## Site audit
 
