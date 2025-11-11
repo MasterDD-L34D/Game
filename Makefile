@@ -1,10 +1,11 @@
 .PHONY: sitemap links report search redirects structured audit \
         evo-tactics-pack dev-stack test-stack ci-stack \
         evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint \
-        evo-help evo-validate evo-backlog traits-review
+        evo-help evo-validate evo-backlog traits-review update-tracker
 
 PYTHON ?= python3
 EVO_AUTOMATION := $(PYTHON) -m tools.automation.evo_batch_runner
+EVO_TRACKER_UPDATE := $(PYTHON) -m tools.automation.update_tracker_registry
 EVO_SCHEMA_LINT := $(PYTHON) -m tools.automation.evo_schema_lint
 SITE_AUDIT_CMD := $(PYTHON) ops/site-audit/run_suite.py
 EVO_VALIDATE_SCRIPT := incoming/scripts/validate.sh
@@ -32,6 +33,8 @@ SITE_AUDIT_TIMEOUT ?= 10
 SITE_AUDIT_CONCURRENCY ?= 10
 EVO_VERBOSE ?=
 EVO_VERBOSE_FLAG := $(strip $(if $(filter 1 true yes on,$(EVO_VERBOSE)),--verbose,))
+TRACKER_CHECK ?=
+TRACKER_CHECK_FLAG := $(strip $(if $(filter 1 true yes on,$(TRACKER_CHECK)),--check,))
 
 sitemap:
 	python ops/site-audit/build_sitemap.py
@@ -80,7 +83,8 @@ evo-help:
         echo "  make evo-validate        # valida trait/species incoming con AJV" && \
         echo "  make evo-backlog         # popola il project board GitHub dal backlog YAML" && \
         echo "  make traits-review       # genera report glossario o CSV di revisione" && \
-        echo "Variabili supportate: EVO_BATCH, EVO_FLAGS, EVO_TASKS_FILE, EVO_LINT_PATH, EVO_VERBOSE"
+        echo "  make update-tracker      # sincronizza lo stato del tracker con integration_batches.yml" && \
+        echo "Variabili supportate: EVO_BATCH, EVO_FLAGS, EVO_TASKS_FILE, EVO_LINT_PATH, EVO_VERBOSE, TRACKER_CHECK"
 
 evo-list:
 	$(EVO_AUTOMATION) --tasks-file "${EVO_TASKS_FILE}" ${EVO_VERBOSE_FLAG} list
@@ -133,3 +137,6 @@ traits-review:
         else \
                 $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --glossary "${TRAITS_REVIEW_GLOSSARY}" --outdir "${TRAITS_REVIEW_OUTDIR}"; \
         fi
+
+update-tracker:
+        $(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)

@@ -104,6 +104,11 @@ inventario:
     dimensione_byte: 4199
     note: Script confronto enum per DAT-02
     stato: completato
+  - percorso: tools/automation/update_tracker_registry.py
+    tipo: file
+    dimensione_byte: 10208
+    note: 'Automazione per allineare tasks.yml e TASKS_BREAKDOWN.md ai batch (`make update-tracker`).'
+    stato: disponibile
   - percorso: tests/test_species_aliases.py
     tipo: file
     dimensione_byte: 677

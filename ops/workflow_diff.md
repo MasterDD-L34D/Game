@@ -7,6 +7,7 @@
 | `lighthouse.yml` | Configurazione da migrare | Entrambe le versioni risolvono `SITE_BASE_URL`, ma quella importata richiama direttamente `lhci autorun` sul file radice mentre la pipeline ufficiale usa lo script npm condiviso; la configurazione sarà spostata in `config/lighthouse/evo.lighthouserc.json` per uniformare i riferimenti.【F:.github/workflows/lighthouse.yml†L1-L35】【F:incoming/lavoro_da_classificare/workflows/lighthouse.yml†L1-L33】 |
 | `schema-validate.yml` | Allineato | Triggers, permessi e job coincidono: nessuna azione ulteriore.【F:.github/workflows/schema-validate.yml†L1-L30】【F:incoming/lavoro_da_classificare/workflows/schema-validate.yml†L1-L30】 |
 | `search-index.yml` | Allineato | Entrambe le varianti installano Python 3.11, rigenerano l'indice e committano l'output; differenze non rilevate.【F:.github/workflows/search-index.yml†L1-L41】【F:incoming/lavoro_da_classificare/workflows/search-index.yml†L1-L41】 |
+| `update-evo-tracker.yml` | Nuovo | Workflow riutilizzabile che installa le dipendenze Python e verifica che il tracker Evo sia sincronizzato via `make update-tracker TRACKER_CHECK=1` (supporta input opzionale `batch`).【F:.github/workflows/update-evo-tracker.yml†L1-L33】 |
 | `security.yml` | Mancante | La cartella `incoming/` contiene un workflow SAST/secret-scanning non ancora presente in `.github/workflows/`; richiede valutazione per eventuale integrazione futura.【F:incoming/lavoro_da_classificare/workflows/security.yml†L1-L52】 |
 
 **Osservazioni**

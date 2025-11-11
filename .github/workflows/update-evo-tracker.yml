@@ -1,0 +1,31 @@
+name: Update Evo tracker (check)
+
+on:
+  workflow_call:
+    inputs:
+      batch:
+        description: "Limita il controllo al batch indicato"
+        required: false
+        type: string
+
+jobs:
+  verify-tracker:
+    name: Verify tracker state
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run tracker check
+        run: |
+          make update-tracker TRACKER_CHECK=1
+        env:
+          BATCH: ${{ inputs.batch }}

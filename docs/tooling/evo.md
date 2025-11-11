@@ -35,6 +35,32 @@ L'output operativo viene inviato su stderr tramite il logger condiviso,
 mentre gli elenchi e i piani restano su stdout per facilitare
 piping/reportistica.
 
+## Automazioni tracker
+
+- Script: `python -m tools.automation.update_tracker_registry`
+- Target Makefile: `make update-tracker`
+- Obiettivo: sincronizzare `incoming/lavoro_da_classificare/tasks.yml` e
+  `incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md` con lo stato dei batch
+  registrato in `incoming/lavoro_da_classificare/integration_batches.yml`.
+
+Opzioni principali:
+
+- `BATCH=<id>` limita l'aggiornamento (o il controllo) al batch indicato,
+  mantenendo invariati gli altri.
+- `TRACKER_CHECK=true` esegue una verifica in sola lettura: il comando termina
+  con codice di errore se i file del tracker non risultano sincronizzati.
+- `EVO_VERBOSE=true` abilita il logging di debug dello script.
+
+Esempi:
+
+```bash
+# Aggiorna entrambi i file del tracker in base allo stato corrente dei batch
+make update-tracker
+
+# Controlla che il batch "traits" sia allineato senza modificare i file
+make update-tracker BATCH=traits TRACKER_CHECK=1
+```
+
 ## Lint degli schemi JSON
 
 - Script: `python -m tools.automation.evo_schema_lint [percorso]`
