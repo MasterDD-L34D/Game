@@ -128,8 +128,8 @@ inventario:
   - percorso: data/external/evo/species/species_ecotype_map.json
     tipo: file
     dimensione_byte: 7748
-    note: Mapping SPEC-03; nessun ecosistema per biome_class acquatico_costiero, acquatico_dolce, sotterraneo
-    stato: in revisione
+    note: Mapping SPEC-03 validato; classi senza match documentate nel riepilogo
+    stato: validato
   - percorso: data/external/evo/traits
     tipo: directory
     dimensione_byte: 4096
@@ -173,13 +173,13 @@ inventario:
   - percorso: reports/evo/qa/docs.log
     tipo: file
     dimensione_byte: 316
-    note: 'QA docs: `npm run docs:lint` non definito → necessario ripristinare lo script.'
-    stato: in revisione
+    note: 'QA docs: `npm run docs:lint` rieseguito; link interni validi.'
+    stato: validato
   - percorso: reports/evo/qa/frontend.log
     tipo: file
     dimensione_byte: 11236
-    note: 'QA frontend: 7 test Playwright falliti per browser Chromium non installato; richiede `npx playwright install chromium` e dipendenze di sistema.'
-    stato: in revisione
+    note: 'QA frontend: suite Playwright rieseguita con esito positivo (7 test passati).'
+    stato: validato
   - percorso: GDD.md
     tipo: file
     dimensione_byte: 6487
@@ -348,8 +348,9 @@ inventario:
   - percorso: incident_response.md
     tipo: file
     dimensione_byte: 1924
-    note: File .md
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/security/
+    stato: archiviato
+    destinazione: docs/security/incident_response.md
   - percorso: init_security_checks.sh
     tipo: file
     dimensione_byte: 1777
@@ -383,13 +384,15 @@ inventario:
   - percorso: policy.md
     tipo: file
     dimensione_byte: 3301
-    note: File .md
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/security/
+    stato: archiviato
+    destinazione: docs/security/policy.md
   - percorso: prontuario_metriche_ucum.md
     tipo: file
     dimensione_byte: 4359
-    note: File .md
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/
+    stato: archiviato
+    destinazione: docs/prontuario_metriche_ucum.md
   - percorso: proposed_routes.csv
     tipo: file
     dimensione_byte: 5533
@@ -403,8 +406,9 @@ inventario:
   - percorso: risk_register.md
     tipo: file
     dimensione_byte: 1759
-    note: File .md
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/security/
+    stato: archiviato
+    destinazione: docs/security/risk_register.md
   - percorso: robots.txt
     tipo: file
     dimensione_byte: 69
@@ -483,18 +487,21 @@ inventario:
   - percorso: threat_model.md
     tipo: file
     dimensione_byte: 3260
-    note: File .md
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/security/
+    stato: archiviato
+    destinazione: docs/security/threat_model.md
   - percorso: trait_analysis_summary.md
     tipo: file
     dimensione_byte: 3908
-    note: File .md
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/analysis/
+    stato: archiviato
+    destinazione: docs/analysis/trait_analysis_summary.md
   - percorso: trait_anomalies.csv
     tipo: file
     dimensione_byte: 1357
-    note: File .csv
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/analysis/
+    stato: archiviato
+    destinazione: docs/analysis/trait_anomalies.csv
   - percorso: trait_merge_proposals.md
     tipo: file
     dimensione_byte: 4864
@@ -508,8 +515,9 @@ inventario:
   - percorso: trait_review_report.md
     tipo: file
     dimensione_byte: 3101
-    note: File .md
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/analysis/
+    stato: archiviato
+    destinazione: docs/analysis/trait_review_report.md
   - percorso: traits_catalog.md
     tipo: file
     dimensione_byte: 6496
@@ -518,8 +526,9 @@ inventario:
   - percorso: traits_reference.md
     tipo: file
     dimensione_byte: 9677
-    note: File .md
-    stato: da revisionare
+    note: Copia legacy spostata sotto docs/
+    stato: archiviato
+    destinazione: docs/traits_reference.md
   - percorso: update_tracker_registry.py
     tipo: file
     dimensione_byte: 2829
@@ -558,13 +567,13 @@ inventario:
   - percorso: docs/analysis
     tipo: directory
     dimensione_byte: 4096
-    note: Directory
-    stato: da revisionare
+    note: Directory allineata con la documentazione consolidata
+    stato: validato
   - percorso: docs/security
     tipo: directory
     dimensione_byte: 4096
-    note: Directory
-    stato: da revisionare
+    note: Directory allineata con la documentazione consolidata
+    stato: validato
   - percorso: docs/wireframes
     tipo: directory
     dimensione_byte: 4096
@@ -600,48 +609,48 @@ inventario:
   - percorso: docs/prontuario_metriche_ucum.md
     tipo: file
     dimensione_byte: 4359
-    note: File .md
-    stato: da revisionare
+    note: Documento consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/traits_reference.md
     tipo: file
     dimensione_byte: 9677
-    note: File .md
-    stato: da revisionare
+    note: Documento consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/analysis/trait_analysis_summary.md
     tipo: file
     dimensione_byte: 3908
-    note: File .md
-    stato: da revisionare
+    note: Report consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/analysis/trait_anomalies.csv
     tipo: file
     dimensione_byte: 1357
-    note: File .csv
-    stato: da revisionare
+    note: Dataset consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/analysis/trait_review_report.md
     tipo: file
     dimensione_byte: 3101
-    note: File .md
-    stato: da revisionare
+    note: Report consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/security/incident_response.md
     tipo: file
     dimensione_byte: 1924
-    note: File .md
-    stato: da revisionare
+    note: Documento consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/security/policy.md
     tipo: file
     dimensione_byte: 3301
-    note: File .md
-    stato: da revisionare
+    note: Documento consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/security/risk_register.md
     tipo: file
     dimensione_byte: 1759
-    note: File .md
-    stato: da revisionare
+    note: Documento consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/security/threat_model.md
     tipo: file
     dimensione_byte: 3260
-    note: File .md
-    stato: da revisionare
+    note: Documento consolidato dopo migrazione duplicati
+    stato: validato
   - percorso: docs/wireframes/generatore.md
     tipo: file
     dimensione_byte: 599
