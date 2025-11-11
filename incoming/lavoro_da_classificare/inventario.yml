@@ -324,11 +324,21 @@ inventario:
   dimensione_byte: 1777
   note: File .sh
   stato: da revisionare
-- percorso: lighthouserc.json
+- percorso: config/lighthouse/evo.lighthouserc.json
   tipo: file
   dimensione_byte: 834
-  note: File .json
-  stato: da revisionare
+  note: Configurazione LHCI migrata sotto `config/lighthouse/` e riutilizzata dallo script `npm run lint:lighthouse`
+  stato: aggiornato
+- percorso: secrets/SITE_BASE_URL
+  tipo: secret
+  dimensione_byte: null
+  note: Secret/variabile organizzativa usata da Lighthouse, e2e e site-audit per determinare l'URL pubblico
+  stato: richiesto
+- percorso: vars/SITE_BASE_URL
+  tipo: variabile
+  dimensione_byte: null
+  note: Variabile di organizzazione consigliata per evitare dipendenza diretta dal secret nei workflow
+  stato: configurato
 - percorso: mockup_evo_tactics.png
   tipo: file
   dimensione_byte: 99927

@@ -106,14 +106,17 @@ chiudere il batch corrispondente.
 
 ## Batch `ops_ci`
 
-- [ ] **OPS-01 – Confronto workflow**  
-  _Output_: tabella comparativa `ops/workflow_diff.md`.  
+- [x] **OPS-01 – Confronto workflow**
+  _Output_: tabella comparativa `ops/workflow_diff.md`.
   _Passi_: diff con `.github/workflows/`, evidenziare step mancanti.
-- [ ] **OPS-02 – Site audit**  
-  _Output_: script armonizzati in `ops/site-audit/` con README aggiornato.  
+  _Note_: tabella aggiornata con differenze su `gh-pages`, centralizzazione config Lighthouse e workflow sicurezza mancante.
+- [x] **OPS-02 – Site audit**
+  _Output_: script armonizzati in `ops/site-audit/` con README aggiornato.
   _Passi_: integrare dipendenze, verificare esecuzione locale.
-- [ ] **OPS-03 – Config Lighthouse**  
+  _Note_: aggiunto `run.sh` con virtualenv, dipendenza `requests` e README aggiornato; suite eseguita via `bash ops/site-audit/run.sh`.
+- [x] **OPS-03 – Config Lighthouse**
   _Output_: `config/lighthouse/evo.lighthouserc.json` e test `npm run lint:lighthouse`.
+  _Note_: configurazione spostata sotto `config/lighthouse/` e script npm puntato al nuovo percorso.
 
 ## Batch `frontend`
 
