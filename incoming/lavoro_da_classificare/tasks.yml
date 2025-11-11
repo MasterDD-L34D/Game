@@ -10,38 +10,41 @@ tasks:
     batch: documentation
     title: Conversione sorgenti Evo-Tactics
     description: "Convertire file DOCX/PDF in Markdown con frontmatter conforme."
-    status: todo
-    owner: null
+    status: done
+    owner: docs-team
     depends_on: []
     deliverables:
       - docs/evo-tactics/*.md
     commands:
       - pandoc <input.docx> -o docs/evo-tactics/<slug>.md --metadata title="<Titolo>"
+    notes: "Cinque sorgenti convertite con anchor evo-* e metadata aggiornati."
 
   - id: DOC-02
     batch: documentation
     title: Aggiornare indice documentazione
     description: "Integrare le nuove guide nel README principale e nel wiki."
-    status: todo
-    owner: null
+    status: done
+    owner: docs-team
     depends_on:
       - DOC-01
     deliverables:
       - docs/README.md
     commands:
       - npm run docs:lint
+    notes: "Indice arricchito con sezione Evo-Tactics e link ancorati."
 
   - id: DOC-03
     batch: documentation
     title: Archiviazione duplicati documentazione
     description: "Spostare copie sorgenti in incoming/archive e aggiornare inventario."
-    status: todo
-    owner: null
+    status: done
+    owner: docs-team
     depends_on:
       - DOC-01
     deliverables:
       - incoming/archive/documents/
       - incoming/lavoro_da_classificare/inventario.yml
+    notes: "Originali DOCX spostati in archive con inventario aggiornato."
 
   - id: DAT-01
     batch: data-models
