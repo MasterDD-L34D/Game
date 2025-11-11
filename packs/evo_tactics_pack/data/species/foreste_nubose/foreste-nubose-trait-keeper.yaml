@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 776293500da07cf5afeefb8313e802b8f2650bc29f8d0a3082686d75b5c14934
 id: foreste-nubose-trait-keeper
 display_name: Foreste Nubose Trait Keeper
 biomes:

@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: f47f771787d8d19cc44ceb22efef67e01b481d088b7e74815416c4462deca4cd
 id: golem-runico
 display_name: Golem Runico Custodiale
 biomes:

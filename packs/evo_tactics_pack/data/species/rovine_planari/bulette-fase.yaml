@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 82f0fd302ed964e9cc1e8b9725d11129e09b8b1c711b39b2c6dbb8aa3eeb7ce7
 id: bulette-fase
 display_name: Bulette di Fase
 biomes:

@@ -117,7 +117,7 @@ I file JSON in `docs/catalog/species/*.json` vengono importati quasi 1:1.
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "to-fill"
+    "trace_hash": "7d527fc1cfc2c304e5a29fca9c9dbfc49ff818222b1a89c3c3884f81ab1a4a2f"
   },
   "last_synced_at": ISODate("2025-11-05T18:52:43.280Z")
 }
@@ -136,6 +136,25 @@ I file JSON in `docs/catalog/species/*.json` vengono importati quasi 1:1.
 - `derived_from_environment.suggested_traits`/`optional_traits` → `traits._id`.
 - `sessions.primary_species_id` (campo previsto) → `species._id`.
 - `activity_logs.subject_id` può puntare sia a specie (`subject_type: "species"`) sia a eventi (`flags.event = true`).
+
+### Ricevute e `trace_hash`
+
+Ogni manifest (JSON o YAML) espone un campo `receipt.trace_hash` che consente di
+verificare la coerenza tra le copie pubblicate (cataloghi locali e repliche in
+`public/docs`). L'hash viene calcolato tramite lo script
+[`tools/py/update_trace_hashes.py`](../../tools/py/update_trace_hashes.py):
+
+1. Il payload del manifest viene caricato e normalizzato rimuovendo i campi
+   `trace_hash`, ordinando ricorsivamente le chiavi e serializzando il
+   risultato in JSON compatto.
+2. Sul contenuto normalizzato viene calcolato un digest SHA-256 in formato
+   esadecimale.
+3. Il valore ottenuto viene scritto nel campo `receipt.trace_hash` del manifest
+   sorgente, delle copie documentali (`docs/evo-tactics-pack/species`) e delle
+   repliche aggregate (`catalog_data.json`).
+
+Lo stesso script è utilizzato nella pipeline di audit (`tests/scripts`)
+per garantire che nessun `trace_hash` resti valorizzato a `to-fill`.
 
 ## `traits`
 

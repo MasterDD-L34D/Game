@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 71a56b1b50e317511cff76bbd497bb2aabf153e55e38b0acd3c622f3f12f62e1
 id: treant-portale
 display_name: Treant dei Portali Antichi
 biomes:

@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-11-10'
-  trace_hash: to-fill
+  trace_hash: ba3def48e822fc494169d24f6c0c2c8900758493ded9aad74c2199da3303018b
 id: orbital-ascendant
 display_name: Orbital Ascendant
 biomes:

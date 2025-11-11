@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 926fc655d96506910a0bdb64560cecfbe64a6a27025a1212e6657b8fb0fadd8f
 id: paludi-gas-luminescenti-trait-keeper
 display_name: Paludi Gas Luminescenti Trait Keeper
 biomes:

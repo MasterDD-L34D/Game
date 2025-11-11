@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: f3253a3525d42e0521b89bf176ef80e18210c60c56097718402461033e07b6cb
 id: dune-stalker
 display_name: Dune Stalker
 biomes:

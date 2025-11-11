@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 6378bb4d48ab1daee32ac3ae18c156cfcfe562ad7529baa67d050b0046846a6e
 id: evento-seme-uragano
 display_name: 'Evento: Seme d''Uragano'
 biomes:

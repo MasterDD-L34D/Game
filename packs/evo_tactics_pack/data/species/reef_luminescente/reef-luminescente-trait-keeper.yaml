@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: e95fb50354356ac81c55d06a9292534eb85941a43f34a398fc1c1bf24479d15f
 id: reef-luminescente-trait-keeper
 display_name: Luminescent Reef Trait Keeper
 biomes:

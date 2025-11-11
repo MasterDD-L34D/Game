@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 4a41995603db5d83278fa8d5e8b6a0637aab07f551100961e57ec226db2a4d26
 id: laguna-bioreattiva-trait-keeper
 display_name: Bioreactive Lagoon Trait Keeper
 biomes:

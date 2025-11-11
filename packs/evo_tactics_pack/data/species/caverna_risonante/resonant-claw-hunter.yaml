@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 06517600f74c426c7549495203af68412f2cd3a881ee85949aaa52de4919b690
 id: resonant-claw-hunter
 display_name: Resonant Claw Hunter
 biomes:

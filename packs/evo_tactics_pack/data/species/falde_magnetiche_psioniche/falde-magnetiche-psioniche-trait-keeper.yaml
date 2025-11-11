@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: c56e325ff8f7bb215fa1451491b7f6a521b160e3b64e36c1781b9a6ef8ddd83b
 id: falde-magnetiche-psioniche-trait-keeper
 display_name: Falde Magnetiche Psioniche Trait Keeper
 biomes:

@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 24d857d1a1ff25ab704156f02b4b61f5df2b2ecdd9d1f760a143421739ff784c
 id: archon-solare
 display_name: Archon Solare Custode
 biomes:

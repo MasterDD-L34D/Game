@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 936482cdbee7f7bff06c8230d70140e05a26f9c36883d27a5864ead7ba8317c5
 id: rakshasa-corte
 display_name: Rakshasa della Corte Spezzata
 biomes:

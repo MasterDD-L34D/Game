@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: ad1ca1a5777c3438f1e819d3446f9640d8bd42666a9f60b9df19adbb95e44654
 id: rust-scavenger
 display_name: Rust Scavenger
 biomes:

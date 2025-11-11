@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 748b10c3e764dbd85f75fccc91284d83b7c6788d2609806719f62f431416b4e4
 id: otyugh-sentinella
 display_name: Otyugh Sentinella delle Fogne Astrali
 biomes:

@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 3a509651a7e2b3a1ed685680eb92b2d8f2599b361c43e7018a8efed04d8c94c0
 id: stratosfera-portante-trait-keeper
 display_name: Stratosfera Portante Trait Keeper
 biomes:

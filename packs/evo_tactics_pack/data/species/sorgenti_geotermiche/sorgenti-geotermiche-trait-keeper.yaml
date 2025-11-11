@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: ca6efe1d616e246d360f2d169d25853fc7b272793169a97d5e5530611bbbd847
 id: sorgenti-geotermiche-trait-keeper
 display_name: Sorgenti Geotermiche Trait Keeper
 biomes:

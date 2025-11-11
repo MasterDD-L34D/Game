@@ -43,7 +43,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 18f213e4c7b49b4795fd786490dcb62cebefadc67f42dd91b287cedc3a8e427f
 environment_affinity:
   biome_class: mezzanotte_orbitale
   koppen:

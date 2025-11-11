@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 9392d87b466e9688afb6bf70eda1b230fc01997c17a6ff4c1a2c2c896233eb8f
 id: pianure-magnetiche-trait-keeper
 display_name: Pianure Magnetiche Trait Keeper
 biomes:

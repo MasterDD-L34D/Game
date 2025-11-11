@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-11-10'
-  trace_hash: to-fill
+  trace_hash: 45e2186f638d1e7fe85db8259b4a4bbf5f85335fe56b7b1570038fc109848a36
 id: magnet-fathom-surveyor
 display_name: Magnet Fathom Surveyor
 biomes:

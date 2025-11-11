@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 6e07bbd8680e292def732ca859aa8712aef4807bea820bfa7c4773dfa644cfc1
 id: evento-tempesta-ferrosa
 display_name: 'Evento: Tempesta Ferrosa'
 biomes:

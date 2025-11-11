@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 1cebf5c3c8a932aa2cc8338d9d7776c1bd31b269e493ffef8d1f2283e0215497
 id: ferrocolonia-magnetotattica
 display_name: Ferrocolonia Magnetotattica
 biomes:

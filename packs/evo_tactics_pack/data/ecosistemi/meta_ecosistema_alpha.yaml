@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-10-25'
-  trace_hash: to-fill
+  trace_hash: 5c41be656dc4e7d12af87aa1e3f0da837c7aca39057b225696204a632f22544c
 links:
   biomi:
     - packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml

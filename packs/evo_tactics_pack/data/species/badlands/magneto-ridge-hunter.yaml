@@ -3,7 +3,7 @@ receipt:
   source: PTPF.v1.0
   author: designer
   date: '2025-11-05'
-  trace_hash: to-fill
+  trace_hash: 8e0d545852b9f56103c61d7d670fe14b394b76631f6499f4ceaafbc0611e65c2
 id: magneto-ridge-hunter
 display_name: Magneto Ridge Hunter
 biomes:

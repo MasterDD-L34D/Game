@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 73d67aa58b5beab8bbed84ed9b2db02b0d612cfc903d2fb850af04e53b232205
 id: gole-ventose-trait-keeper
 display_name: Gole Ventose Trait Keeper
 biomes:

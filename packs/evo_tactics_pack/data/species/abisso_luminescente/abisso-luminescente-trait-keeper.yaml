@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 001c13b7a2414458b5bce08913ccf6d19da40aa628187d0756152d93dc30ec54
 id: abisso-luminescente-trait-keeper
 display_name: Abisso Luminescente Trait Keeper
 biomes:

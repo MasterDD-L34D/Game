@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 6d352ccedadfe13f152c9800e72d28f6f182c06a3ea66896071ea49ee71e7792
 id: caverna-risonante-trait-keeper
 display_name: Resonant Cavern Trait Keeper
 biomes:

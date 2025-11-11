@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: eb1bf2322592614a01d3563ba07f51ccb60aab21a9edc4781c269db0cc9ae9a3
 id: laghi-alcalini-trait-keeper
 display_name: Laghi Alcalini Trait Keeper
 biomes:

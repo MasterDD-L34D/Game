@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 0a5df6b1f7fb8e50dd3bf49326c5133174a7eee0026a6ab1bf024825913d2ffc
 ecosistema:
   id: ROVINE_PLANARI
   label: Rovine Planari Fratturate

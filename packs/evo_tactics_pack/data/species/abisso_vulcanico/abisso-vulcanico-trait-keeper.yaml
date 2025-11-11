@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 75d708fd26385bf56c40cf8677da83ec7a5315953ba32b32037b4f26f477bb77
 id: abisso-vulcanico-trait-keeper
 display_name: Volcanic Abyss Trait Keeper
 biomes:

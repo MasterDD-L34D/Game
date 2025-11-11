@@ -3,7 +3,7 @@ receipt:
   source: coverage_autogen
   author: automation
   date: '2025-10-29'
-  trace_hash: to-fill
+  trace_hash: 00239dc53a01f60083f931eabfaeadfcfcf532e786bf7aff46f81feaa9a5d289
 id: stratosfera-tempestosa-trait-keeper
 display_name: Tempestuous Stratosphere Trait Keeper
 biomes:

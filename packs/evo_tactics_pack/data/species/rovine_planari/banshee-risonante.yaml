@@ -3,7 +3,7 @@ receipt:
   source: PF1E.Bestiary.v1
   author: designer
   date: '2025-10-30'
-  trace_hash: to-fill
+  trace_hash: 6ad1db6176039b9b95b058d71cd389ea8cf008b5b5f1bea28ed9d1be10d2e0ef
 id: banshee-risonante
 display_name: Banshee Risonante
 biomes:
