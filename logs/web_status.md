@@ -24,6 +24,14 @@ successiva e registrare eventuali task di follow-up in roadmap.
 ## Registro stato
 
 <!-- web_log:start -->
+## 2025-11-14T10:45:00Z · incoming intake audit
+- **Fonte report**: `reports/incoming/sessione-2025-11-14/report.html`
+  - `README_IDEAS.md` esportato senza heading/frontmatter → aggiornare layout Idea Intake e aggiungere hero summary entro la review del 18/11.
+  - `docs/appendici/migrated/mating.md` e `mating_biome_links.md` marcati senza heading: integrare header standard + ancore per linkare le sezioni roadmap/web.
+- **Azioni**:
+  - Coordinare con team contenuti per allineare copy/CTA Idea Intake al nuovo menu webapp (commit AngularJS 2025-11-05).
+  - Pianificare smoke test `npm --prefix tools/ts run lighthouse:test-interface` dopo l'aggiornamento per verificare accessibilità heading.
+
 ## 2025-11-05T09:20:00Z · foodweb coverage QA
 - **Esito tool**: ✅ `python tools/py/report_trait_coverage.py`
   - Sezione `foodweb_coverage` aggiornata con soglia `species_per_role_biome = 2`.
