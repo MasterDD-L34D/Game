@@ -69,6 +69,41 @@ inventario:
   dimensione_byte: 4096
   note: Directory
   stato: da revisionare
+- percorso: schemas/core/enums.json
+  tipo: file
+  dimensione_byte: 1280
+  note: Base enum core per diff DAT-02
+  stato: completato
+- percorso: schemas/evo/species.schema.json
+  tipo: file
+  dimensione_byte: 3110
+  note: Schema specie Evo aggiornato da template V2
+  stato: completato
+- percorso: schemas/evo/trait.schema.json
+  tipo: file
+  dimensione_byte: 2118
+  note: Schema trait Evo aggiornato da template V2
+  stato: completato
+- percorso: data/core/species/aliases.json
+  tipo: file
+  dimensione_byte: 271
+  note: Alias specie core consolidati via jq (DAT-03)
+  stato: completato
+- percorso: docs/meeting-notes/evo-enum-review.md
+  tipo: file
+  dimensione_byte: 1485
+  note: Verbale diff enum DAT-02
+  stato: completato
+- percorso: tools/schema_enum_diff.py
+  tipo: file
+  dimensione_byte: 4199
+  note: Script confronto enum per DAT-02
+  stato: completato
+- percorso: tests/test_species_aliases.py
+  tipo: file
+  dimensione_byte: 677
+  note: Test di validazione alias specie DAT-03
+  stato: completato
 - percorso: GDD.md
   tipo: file
   dimensione_byte: 6487

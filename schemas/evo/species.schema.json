@@ -16,13 +16,12 @@
         "scientific_name",
         "classification",
         "functional_signature",
-        "trait_refs",
-        "sentience_index"
+        "trait_refs"
       ],
       "properties": {
         "scientific_name": {
           "type": "string",
-          "minLength": 3
+          "minLength": 1
         },
         "common_names": {
           "type": "array",
@@ -50,7 +49,7 @@
         },
         "functional_signature": {
           "type": "string",
-          "minLength": 8
+          "minLength": 1
         },
         "visual_description": {
           "type": "string"
@@ -99,7 +98,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "minLength": 4
+            "minLength": 1
           }
         },
         "sentience_index": {

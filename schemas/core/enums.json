@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://game.example.com/schemas/core/enums.json",
+  "title": "Core Enumerations",
+  "type": "object",
+  "$defs": {
+    "macro_class": {
+      "type": "string",
+      "enum": [
+        "Mammalia",
+        "Aves",
+        "Reptilia",
+        "Amphibia",
+        "Insecta"
+      ]
+    },
+    "habitat_profile": {
+      "type": "string",
+      "enum": [
+        "foreste temperate",
+        "zone umide",
+        "steppe",
+        "savana",
+        "ambienti costieri"
+      ]
+    },
+    "sentience_tier": {
+      "type": "string",
+      "enum": [
+        "T0",
+        "T1",
+        "T2",
+        "T3",
+        "T4"
+      ]
+    },
+    "energy_upkeep_level": {
+      "type": "string",
+      "enum": [
+        "Basso",
+        "Medio",
+        "Alto"
+      ]
+    },
+    "danger_level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "metric_unit": {
+      "type": "string",
+      "enum": [
+        "1",
+        "m",
+        "kg",
+        "s",
+        "A"
+      ]
+    },
+    "ecotype_cluster": {
+      "type": "string",
+      "enum": [
+        "Canopy",
+        "Estuario",
+        "Prateria",
+        "Laguna",
+        "Canyon"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

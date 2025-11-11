@@ -25,9 +25,14 @@ class ValidationError(Exception):
         self.absolute_path = list(absolute_path or [])
 
 
+class RefResolutionError(Exception):
+    """Raised when a reference cannot be resolved in the stub validator."""
+
+
 class _ExceptionsModule:
     SchemaError = SchemaError
     ValidationError = ValidationError
+    RefResolutionError = RefResolutionError
 
 
 exceptions = _ExceptionsModule()
@@ -63,10 +68,20 @@ class Draft202012Validator:
         return []
 
 
+def validator_for(schema: Dict[str, Any]) -> type[Draft202012Validator]:
+    """Return the default no-op validator class for any schema."""
+
+    if not isinstance(schema, dict):
+        raise SchemaError("Schema must be a dictionary")
+    return Draft202012Validator
+
+
 __all__ = [
     "Draft202012Validator",
     "RefResolver",
     "SchemaError",
     "ValidationError",
+    "RefResolutionError",
     "exceptions",
+    "validator_for",
 ]
