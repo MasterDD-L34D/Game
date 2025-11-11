@@ -216,6 +216,13 @@
       "type": "api",
       "summary": "",
       "tags": []
+    },
+    {
+      "title": "Enums",
+      "path": "/api/schemas/enums.json",
+      "type": "api",
+      "summary": "",
+      "tags": []
     }
   ]
 }
