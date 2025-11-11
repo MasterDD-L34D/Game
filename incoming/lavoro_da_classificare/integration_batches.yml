@@ -20,6 +20,9 @@ batches:
       - Aggiornare `docs/README.md` con indice alle nuove sezioni.
     blockers:
       - Conferma stakeholder su versioni ufficiali delle guide trait.
+    notes: 'QA `reports/evo/qa/docs.log` conferma `npm run docs:lint` eseguito con esito positivo; follow-up chiuso.'
+    evidence:
+      - reports/evo/qa/docs.log
   - id: data-models
     title: Schemi e alias
     scope:
@@ -135,3 +138,6 @@ batches:
       - Allegare i mockup nella documentazione UI (`docs/wireframes/`).
     blockers:
       - Coordinamento con il team webapp per URL definitivi.
+    notes: 'QA `reports/evo/qa/frontend.log` documenta run completo con esito positivo (`npx playwright install --with-deps chromium`); follow-up chiuso.'
+    evidence:
+      - reports/evo/qa/frontend.log
