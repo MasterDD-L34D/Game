@@ -31,7 +31,7 @@ tasks:
       - docs/README.md
     commands:
       - npm run docs:lint
-    notes: 'Indice arricchito con sezione Evo-Tactics e link ancorati. QA `reports/evo/qa/docs.log`: `npm run docs:lint` mancante, necessario ripristinare lo script.'
+    notes: 'Indice arricchito con sezione Evo-Tactics e link ancorati. QA `reports/evo/qa/docs.log`: `npm run docs:lint` eseguito con `python tools/check_site_links.py docs` (collegamenti interni validi).'
 
   - id: DOC-03
     batch: documentation

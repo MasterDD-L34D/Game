@@ -22,8 +22,8 @@ inventario:
   - percorso: docs
     tipo: directory
     dimensione_byte: 4096
-    note: 'Directory; QA `reports/evo/qa/docs.log` evidenzia assenza script `npm run docs:lint` (follow-up richiesto).'
-    stato: in revisione
+    note: 'Directory; QA `reports/evo/qa/docs.log` aggiornato con `npm run docs:lint` → collegamenti interni validi.'
+    stato: validato
   - percorso: ecotypes
     tipo: directory
     dimensione_byte: 4096
