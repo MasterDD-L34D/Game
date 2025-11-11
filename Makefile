@@ -1,7 +1,7 @@
 .PHONY: sitemap links report search redirects structured audit \
-        evo-tactics-pack dev-stack test-stack ci-stack \
-        evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint \
-        evo-help evo-validate evo-backlog traits-review update-tracker
+	evo-tactics-pack dev-stack test-stack ci-stack \
+	evo-batch-plan evo-batch-run evo-plan evo-run evo-list evo-lint \
+	evo-help evo-validate evo-backlog traits-review update-tracker
 
 PYTHON ?= python3
 EVO_AUTOMATION := $(PYTHON) -m tools.automation.evo_batch_runner
@@ -75,16 +75,16 @@ ci-stack:
 	npm run ci:stack
 
 evo-help:
-        @echo "Evo automation targets available:" && \
-        echo "  make evo-list            # elenca i batch registrati" && \
-        echo "  make evo-plan            # pianifica il batch indicato" && \
-        echo "  make evo-run             # esegue il batch indicato" && \
-        echo "  make evo-lint            # valida gli schemi JSON" && \
-        echo "  make evo-validate        # valida trait/species incoming con AJV" && \
-        echo "  make evo-backlog         # popola il project board GitHub dal backlog YAML" && \
-        echo "  make traits-review       # genera report glossario o CSV di revisione" && \
-        echo "  make update-tracker      # sincronizza lo stato del tracker con integration_batches.yml" && \
-        echo "Variabili supportate: EVO_BATCH, EVO_FLAGS, EVO_TASKS_FILE, EVO_LINT_PATH, EVO_VERBOSE, TRACKER_CHECK"
+	@echo "Evo automation targets available:" && \
+	echo "  make evo-list            # elenca i batch registrati" && \
+	echo "  make evo-plan            # pianifica il batch indicato" && \
+	echo "  make evo-run             # esegue il batch indicato" && \
+	echo "  make evo-lint            # valida gli schemi JSON" && \
+	echo "  make evo-validate        # valida trait/species incoming con AJV" && \
+	echo "  make evo-backlog         # popola il project board GitHub dal backlog YAML" && \
+	echo "  make traits-review       # genera report glossario o CSV di revisione" && \
+	echo "  make update-tracker      # sincronizza lo stato del tracker con integration_batches.yml" && \
+	echo "Variabili supportate: EVO_BATCH, EVO_FLAGS, EVO_TASKS_FILE, EVO_LINT_PATH, EVO_VERBOSE, TRACKER_CHECK"
 
 evo-list:
 	$(EVO_AUTOMATION) --tasks-file "${EVO_TASKS_FILE}" ${EVO_VERBOSE_FLAG} list
@@ -106,37 +106,37 @@ evo-batch-plan:
 	$(MAKE) --no-print-directory evo-plan EVO_BATCH="${EVO_BATCH}" EVO_TASKS_FILE="${EVO_TASKS_FILE}"
 
 evo-batch-run:
-        $(MAKE) --no-print-directory evo-run \
-                EVO_BATCH="${EVO_BATCH}" \
-                EVO_FLAGS="${EVO_FLAGS}" \
-                EVO_TASKS_FILE="${EVO_TASKS_FILE}"
+	$(MAKE) --no-print-directory evo-run \
+		EVO_BATCH="${EVO_BATCH}" \
+		EVO_FLAGS="${EVO_FLAGS}" \
+		EVO_TASKS_FILE="${EVO_TASKS_FILE}"
 
 evo-validate:
-        AJV="${EVO_VALIDATE_AJV}" \
-        EVO_TEMPLATES_DIR="${EVO_VALIDATE_TEMPLATES}" \
-        EVO_TRAITS_DIR="${EVO_VALIDATE_TRAITS}" \
-        EVO_SPECIES_DIR="${EVO_VALIDATE_SPECIES}" \
-        bash ${EVO_VALIDATE_SCRIPT}
+	AJV="${EVO_VALIDATE_AJV}" \
+	EVO_TEMPLATES_DIR="${EVO_VALIDATE_TEMPLATES}" \
+	EVO_TRAITS_DIR="${EVO_VALIDATE_TRAITS}" \
+	EVO_SPECIES_DIR="${EVO_VALIDATE_SPECIES}" \
+	bash ${EVO_VALIDATE_SCRIPT}
 
 evo-backlog:
-        @if [ -z "${EVO_BACKLOG_FILE}" ]; then \
-                echo "Errore: impostare EVO_BACKLOG_FILE=<percorso backlog YAML>."; \
-                exit 1; \
-        fi
-        @if [ -z "${EVO_BACKLOG_REPO}" ]; then \
-                echo "Errore: impostare EVO_BACKLOG_REPO=<owner/repo>."; \
-                exit 1; \
-        fi
-        BACKLOG_FILE="${EVO_BACKLOG_FILE}" \
-        REPO="${EVO_BACKLOG_REPO}" \
-        $(PYTHON) ${EVO_BACKLOG_SCRIPT}
+	@if [ -z "${EVO_BACKLOG_FILE}" ]; then \
+		echo "Errore: impostare EVO_BACKLOG_FILE=<percorso backlog YAML>."; \
+		exit 1; \
+	fi
+	@if [ -z "${EVO_BACKLOG_REPO}" ]; then \
+		echo "Errore: impostare EVO_BACKLOG_REPO=<owner/repo>."; \
+		exit 1; \
+	fi
+	BACKLOG_FILE="${EVO_BACKLOG_FILE}" \
+	REPO="${EVO_BACKLOG_REPO}" \
+	$(PYTHON) ${EVO_BACKLOG_SCRIPT}
 
 traits-review:
-        @if [ -n "${TRAITS_REVIEW_INPUT}" ]; then \
-                $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --input "${TRAITS_REVIEW_INPUT}" --baseline "${TRAITS_REVIEW_BASELINE}" --out "${TRAITS_REVIEW_OUT}"; \
-        else \
-                $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --glossary "${TRAITS_REVIEW_GLOSSARY}" --outdir "${TRAITS_REVIEW_OUTDIR}"; \
-        fi
+	@if [ -n "${TRAITS_REVIEW_INPUT}" ]; then \
+	        $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --input "${TRAITS_REVIEW_INPUT}" --baseline "${TRAITS_REVIEW_BASELINE}" --out "${TRAITS_REVIEW_OUT}"; \
+	else \
+	        $(PYTHON) ${TRAITS_REVIEW_SCRIPT} --glossary "${TRAITS_REVIEW_GLOSSARY}" --outdir "${TRAITS_REVIEW_OUTDIR}"; \
+	fi
 
 update-tracker:
-        $(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)
+	$(EVO_TRACKER_UPDATE) ${EVO_VERBOSE_FLAG} $(TRACKER_CHECK_FLAG) $(if $(BATCH),--batch "${BATCH}",)
