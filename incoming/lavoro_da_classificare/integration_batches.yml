@@ -141,3 +141,4 @@ batches:
     notes: 'QA `reports/evo/qa/frontend.log` documenta run completo con esito positivo (`npx playwright install --with-deps chromium`); follow-up chiuso.'
     evidence:
       - reports/evo/qa/frontend.log
+post_cleanup: completed

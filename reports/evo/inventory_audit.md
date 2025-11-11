@@ -60,3 +60,13 @@ e puntano alla cartella di archivio creata per questa bonifica.
   state annotate come consolidate.
 - Aggiornato `incoming/lavoro_da_classificare/inventario.yml` marcando tutte le voci precedentemente `da revisionare` con lo
   stato finale (`archiviato` o `validato`) e riferimenti al nuovo archivio.
+
+## Chiusura staging 2025-12-20
+
+- Verificato che `incoming/lavoro_da_classificare/` contenga esclusivamente documentazione di riferimento e script di automazione
+  attivi (`Makefile`, configurazioni QA, roadmap e README degli script).
+- Spostati gli artefatti storici residui nel percorso `incoming/archive/` o rimosse le copie già versionate, lasciando in staging
+  solo i file operativi di supporto.
+- Aggiornato `incoming/lavoro_da_classificare/integration_batches.yml` con il campo `post_cleanup: completed` per attestare la
+  chiusura del piano di integrazione.
+- Eseguito `make update-tracker` per sincronizzare i registri interni dopo la bonifica finale.
