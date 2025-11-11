@@ -8,9 +8,18 @@ import json
 from pathlib import Path
 from typing import Dict, Iterable, List, Sequence
 
-from jsonschema import RefResolver
-from jsonschema.exceptions import RefResolutionError, SchemaError
-from jsonschema.validators import validator_for
+from jsonschema import (
+    RefResolver,
+    SchemaError,
+    exceptions as jsonschema_exceptions,
+    validator_for,
+)
+
+try:
+    RefResolutionError = jsonschema_exceptions.RefResolutionError
+except AttributeError:  # pragma: no cover - legacy compatibility
+    class RefResolutionError(Exception):
+        """Fallback error when jsonschema does not expose RefResolutionError."""
 
 from tools.automation import configure_logging, get_logger
 
@@ -70,6 +79,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Enable debug logging output.",
     )
+    parser.add_argument(
+        "--pattern",
+        nargs="*",
+        help="Optional explicit list of schema files to lint.",
+    )
     return parser.parse_args(argv)
 
 
@@ -77,7 +91,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parse_args(argv)
     configure_logging(verbose=args.verbose, logger=LOGGER)
 
-    schema_paths = list(discover_schema_files(args.path))
+    if args.pattern:
+        schema_paths = [Path(pattern) for pattern in args.pattern]
+    else:
+        schema_paths = list(discover_schema_files(args.path))
     LOGGER.debug("Discovered %s schema files", len(schema_paths))
     if not schema_paths:
         LOGGER.error("No schema files found under %s.", args.path)

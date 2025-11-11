@@ -42,17 +42,20 @@ chiudere il batch corrispondente.
 ## Batch `data-models`
 
 - [x] **DAT-01 – Lint schemi**
-  _Output_: esito `npm run schema:lint` senza errori.  
-  _Passi_: aggiornare percorsi, introdurre namespace `evo`.  
+  _Output_: esito `npm run schema:lint` senza errori.
+  _Passi_: aggiornare percorsi, introdurre namespace `evo`.
   _Dipendenze_: nessuna.
+  _Note_: stub `jsonschema` esteso e lint rieseguito con `PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json`.
 - [x] **DAT-02 – Revisione enum gameplay**
-  _Output_: commenti dal team gameplay su nuovi valori.  
+  _Output_: commenti dal team gameplay su nuovi valori.
   _Passi_: estrarre enum tramite script `tools/schema_enum_diff.py`, allegare
   diff al ticket.
+  _Note_: diff registrato in `docs/meeting-notes/evo-enum-review.md` con follow-up sui `metric_unit`.
 - [x] **DAT-03 – Merge alias**
-  _Output_: `data/core/species/aliases.json` aggiornato + changelog.  
+  _Output_: `data/core/species/aliases.json` aggiornato + changelog.
   _Passi_: usare `jq` per merge controllato, aggiungere test snapshot se
   presenti.
+  _Note_: merge effettuato via `jq` e validato con `pytest tests/test_species_aliases.py`.
 
 ## Batch `species_ecotypes`
 

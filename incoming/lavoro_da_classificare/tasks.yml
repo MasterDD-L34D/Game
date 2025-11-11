@@ -57,6 +57,7 @@ tasks:
       - schemas/evo/*.schema.json
     commands:
       - npm run schema:lint
+    notes: "Stub jsonschema aggiornato e lint eseguito con PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json."
 
   - id: DAT-02
     batch: data-models
@@ -69,6 +70,7 @@ tasks:
     deliverables:
       - docs/meeting-notes/evo-enum-review.md
     blockers: []
+    notes: "Diff generato con tools/schema_enum_diff.py e verbalizzato in docs/meeting-notes/evo-enum-review.md."
 
   - id: DAT-03
     batch: data-models
@@ -81,8 +83,9 @@ tasks:
     deliverables:
       - data/core/species/aliases.json
     commands:
-      - jq '. + input' data/core/species/aliases.json \
-          incoming/lavoro_da_classificare/data/aliases/new_aliases.json
+      - jq '. + input' data/species_aliases.json \
+          incoming/lavoro_da_classificare/data/aliases/species_aliases.json
+    notes: "Alias consolidati con jq e validati tramite pytest tests/test_species_aliases.py."
 
   - id: SPEC-01
     batch: species_ecotypes
