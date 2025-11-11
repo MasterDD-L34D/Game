@@ -1,1321 +1,1346 @@
 inventario:
-- percorso: backlog
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: catalog
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: config
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: data
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: docs
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: ecotypes
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: ops
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: scripts
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory script stabilizzata; contenuti principali spostati in `incoming/scripts/`
-  stato: aggiornato
-- percorso: scripts/README.md
-  tipo: file
-  dimensione_byte: 212
-  note: Promemoria sull'avvenuto spostamento degli script stabilizzati
-  stato: aggiornato
-- percorso: species
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: templates
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: tests
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: traits
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: workflows
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: schemas/core/enums.json
-  tipo: file
-  dimensione_byte: 1280
-  note: Base enum core per diff DAT-02
-  stato: completato
-- percorso: schemas/evo/species.schema.json
-  tipo: file
-  dimensione_byte: 3110
-  note: Schema specie Evo aggiornato da template V2
-  stato: completato
-- percorso: schemas/evo/trait.schema.json
-  tipo: file
-  dimensione_byte: 2118
-  note: Schema trait Evo aggiornato da template V2
-  stato: completato
-- percorso: data/core/species/aliases.json
-  tipo: file
-  dimensione_byte: 271
-  note: Alias specie core consolidati via jq (DAT-03)
-  stato: completato
-- percorso: docs/meeting-notes/evo-enum-review.md
-  tipo: file
-  dimensione_byte: 1485
-  note: Verbale diff enum DAT-02
-  stato: completato
-- percorso: tools/schema_enum_diff.py
-  tipo: file
-  dimensione_byte: 4199
-  note: Script confronto enum per DAT-02
-  stato: completato
-- percorso: tests/test_species_aliases.py
-  tipo: file
-  dimensione_byte: 677
-  note: Test di validazione alias specie DAT-03
-  stato: completato
-- percorso: data/external/evo/species
-  tipo: directory
-  dimensione_byte: 4096
-  note: Dataset specie+ecotipi Evo spostato da incoming, validato con SPEC-01
-  stato: validato
-- percorso: data/external/evo/species/species_ecotype_map.json
-  tipo: file
-  dimensione_byte: 7748
-  note: Mapping SPEC-03; nessun ecosistema per biome_class acquatico_costiero, acquatico_dolce, sotterraneo
-  stato: in revisione
-- percorso: data/external/evo/traits
-  tipo: directory
-  dimensione_byte: 4096
-  note: JSON trait importati da incoming/traits (TRT-01/02)
-  stato: aggiornato
-- percorso: data/core/traits/glossary.json
-  tipo: file
-  dimensione_byte: 82237
-  note: Glossario aggiornato con 50 nuovi slug
-  stato: aggiornato
-- percorso: reports/evo/traits_anomalies.csv
-  tipo: file
-  dimensione_byte: 3598
-  note: CSV revisione trait generato da trait_review.py
-  stato: aggiornato
-- percorso: docs/analysis/trait_merge_proposals.md
-  tipo: file
-  dimensione_byte: 4633
-  note: Report esito merge trait (TRT-03)
-  stato: aggiornato
-- percorso: reports/incoming/species_validation.log
-  tipo: file
-  dimensione_byte: 690
-  note: Log esecuzione SPEC-01 (`./scripts/validate.sh --dataset evo-species --schema ...`)
-  stato: completato
-- percorso: reports/evo/species_summary.md
-  tipo: file
-  dimensione_byte: 3524
-  note: Report Markdown SPEC-02 generato da species_summary_script.py
-  stato: aggiornato
-- percorso: GDD.md
-  tipo: file
-  dimensione_byte: 6487
-  note: File .md
-  stato: da revisionare
-- percorso: Game_EvoTactics_Guida_Pacchetto_v2.md
-  tipo: file
-  dimensione_byte: 15967
-  note: File .md
-  stato: da revisionare
-- percorso: Game_EvoTactics_Guida_Pacchetto_v2.pdf
-  tipo: file
-  dimensione_byte: 1744
-  note: File .pdf
-  stato: da revisionare
-- percorso: INTEGRAZIONE_GUIDE.md
-  tipo: file
-  dimensione_byte: 5720
-  note: File .md
-  stato: da revisionare
-- percorso: ../archive/documents/Guida Ai tratti 1.docx
-  tipo: file
-  dimensione_byte: 32692
-  note: "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-1.md"
-  stato: archiviato
-- percorso: ../archive/documents/Guida Ai tratti 2.docx
-  tipo: file
-  dimensione_byte: 35987
-  note: "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-2.md"
-  stato: archiviato
-- percorso: ../archive/documents/Guida Ai tratti 3 Evo tact.docx
-  tipo: file
-  dimensione_byte: 35987
-  note: "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md"
-  stato: archiviato
-- percorso: ../archive/documents/Guida Ai tratti 3 database.docx
-  tipo: file
-  dimensione_byte: 18624
-  note: "File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-3-database.md"
-  stato: archiviato
-- percorso: ../archive/documents/Integrazioni V2.docx
-  tipo: file
-  dimensione_byte: 32693
-  note: "File .docx archiviato; convertito in docs/evo-tactics/integrazioni-v2.md"
-  stato: archiviato
-- percorso: Makefile
-  tipo: file
-  dimensione_byte: 622
-  note: File senza estensione, aggiornato con target evo-validate/evo-backlog/traits-review
-  stato: aggiornato
-- percorso: incoming/scripts/init_security_checks.sh
-  tipo: file
-  dimensione_byte: 1620
-  note: Script sicurezza consolidato (Bandit/Semgrep/npm audit/Gitleaks) con path repo root
-  stato: stabilizzato
-- percorso: incoming/scripts/setup_backlog.py
-  tipo: file
-  dimensione_byte: 4236
-  note: Script GitHub project/backlog con permessi eseguibili e typing aggiornato
-  stato: stabilizzato
-- percorso: incoming/scripts/species_summary_script.py
-  tipo: file
-  dimensione_byte: 3521
-  note: Script CSV sommario specie spostato da lavoro_da_classificare
-  stato: stabilizzato
-- percorso: incoming/scripts/trait_review.py
-  tipo: file
-  dimensione_byte: 10519
-  note: Script revisione trait con modalità confronto incoming
-  stato: stabilizzato
-- percorso: incoming/scripts/update_tracker_registry.py
-  tipo: file
-  dimensione_byte: 2830
-  note: Script aggiornamento tracker_registry con permessi eseguibili
-  stato: stabilizzato
-- percorso: incoming/scripts/validate.sh
-  tipo: file
-  dimensione_byte: 1429
-  note: Validatore AJV con override directory per CI/Makefile
-  stato: stabilizzato
-- percorso: Progetto unico e fonti (1).pdf
-  tipo: file
-  dimensione_byte: 24417
-  note: File .pdf
-  stato: da revisionare
-- percorso: Progetto unico e fonti (2).pdf
-  tipo: file
-  dimensione_byte: 43758
-  note: File .pdf
-  stato: da revisionare
-- percorso: Progetto unico e fonti (3).pdf
-  tipo: file
-  dimensione_byte: 47720
-  note: File .pdf
-  stato: da revisionare
-- percorso: Progetto unico e fonti (4).pdf
-  tipo: file
-  dimensione_byte: 45867
-  note: File .pdf
-  stato: da revisionare
-- percorso: Progetto unico e fonti (5).pdf
-  tipo: file
-  dimensione_byte: 28236
-  note: File .pdf
-  stato: da revisionare
-- percorso: Progetto unico e fonti (6).pdf
-  tipo: file
-  dimensione_byte: 34470
-  note: File .pdf
-  stato: da revisionare
-- percorso: Progetto unico e fonti (7).pdf
-  tipo: file
-  dimensione_byte: 29697
-  note: File .pdf
-  stato: da revisionare
-- percorso: README.md
-  tipo: file
-  dimensione_byte: 385
-  note: File .md
-  stato: da revisionare
-- percorso: README_CI.md
-  tipo: file
-  dimensione_byte: 561
-  note: File .md
-  stato: da revisionare
-- percorso: README_HOWTO_AUTHOR_TRAIT.md
-  tipo: file
-  dimensione_byte: 5382
-  note: File .md
-  stato: da revisionare
-- percorso: README_NO_PROXY.md
-  tipo: file
-  dimensione_byte: 621
-  note: File .md
-  stato: da revisionare
-- percorso: Revisiona automati tratti.pdf
-  tipo: file
-  dimensione_byte: 22333
-  note: File .pdf
-  stato: da revisionare
-- percorso: backlog_tasks_example.yaml
-  tipo: file
-  dimensione_byte: 1791
-  note: File .yaml
-  stato: da revisionare
-- percorso: evo_tactics_game_database_guide.md
-  tipo: file
-  dimensione_byte: 14452
-  note: File .md
-  stato: da revisionare
-- percorso: evo_tactics_game_guide.md
-  tipo: file
-  dimensione_byte: 7474
-  note: File .md
-  stato: da revisionare
-- percorso: evo_tactics_guide.md
-  tipo: file
-  dimensione_byte: 53169
-  note: File .md
-  stato: da revisionare
-- percorso: games_overview.md
-  tipo: file
-  dimensione_byte: 5418
-  note: File .md
-  stato: da revisionare
-- percorso: incident_response.md
-  tipo: file
-  dimensione_byte: 1924
-  note: File .md
-  stato: da revisionare
-- percorso: init_security_checks.sh
-  tipo: file
-  dimensione_byte: 1777
-  note: File .sh
-  stato: da revisionare
-- percorso: config/lighthouse/evo.lighthouserc.json
-  tipo: file
-  dimensione_byte: 834
-  note: Configurazione LHCI migrata sotto `config/lighthouse/` e riutilizzata dallo script `npm run lint:lighthouse`
-  stato: aggiornato
-- percorso: secrets/SITE_BASE_URL
-  tipo: secret
-  dimensione_byte: null
-  note: Secret/variabile organizzativa usata da Lighthouse, e2e e site-audit per determinare l'URL pubblico
-  stato: richiesto
-- percorso: vars/SITE_BASE_URL
-  tipo: variabile
-  dimensione_byte: null
-  note: Variabile di organizzazione consigliata per evitare dipendenza diretta dal secret nei workflow
-  stato: configurato
-- percorso: mockup_evo_tactics.png
-  tipo: file
-  dimensione_byte: 99927
-  note: File .png
-  stato: da revisionare
-- percorso: new_traits_proposals.yaml
-  tipo: file
-  dimensione_byte: 7648
-  note: File .yaml
-  stato: da revisionare
-- percorso: policy.md
-  tipo: file
-  dimensione_byte: 3301
-  note: File .md
-  stato: da revisionare
-- percorso: prontuario_metriche_ucum.md
-  tipo: file
-  dimensione_byte: 4359
-  note: File .md
-  stato: da revisionare
-- percorso: proposed_routes.csv
-  tipo: file
-  dimensione_byte: 5533
-  note: File .csv
-  stato: da revisionare
-- percorso: proposed_sitemap.xml
-  tipo: file
-  dimensione_byte: 11191
-  note: File .xml
-  stato: da revisionare
-- percorso: risk_register.md
-  tipo: file
-  dimensione_byte: 1759
-  note: File .md
-  stato: da revisionare
-- percorso: robots.txt
-  tipo: file
-  dimensione_byte: 69
-  note: File .txt
-  stato: da revisionare
-- percorso: security.yml
-  tipo: file
-  dimensione_byte: 1660
-  note: File .yml
-  stato: da revisionare
-- percorso: setup_backlog.py
-  tipo: file
-  dimensione_byte: 4228
-  note: File .py
-  stato: da revisionare
-- percorso: sitemap_link_checker.py
-  tipo: file
-  dimensione_byte: 2054
-  note: File .py
-  stato: da revisionare
-- percorso: species_analysis_report.md
-  tipo: file
-  dimensione_byte: 12314
-  note: File .md
-  stato: da revisionare
-- percorso: species_catalog.md
-  tipo: file
-  dimensione_byte: 7432
-  note: File .md
-  stato: da revisionare
-- percorso: species_summary_example.csv
-  tipo: file
-  dimensione_byte: 1528
-  note: File .csv
-  stato: da revisionare
-- percorso: species_summary_script.py
-  tipo: file
-  dimensione_byte: 6181
-  note: File .py
-  stato: da revisionare
-- percorso: step1_summary.md
-  tipo: file
-  dimensione_byte: 2202
-  note: File .md
-  stato: da revisionare
-- percorso: step2_summary.md
-  tipo: file
-  dimensione_byte: 7159
-  note: File .md
-  stato: da revisionare
-- percorso: step3_summary.md
-  tipo: file
-  dimensione_byte: 7583
-  note: File .md
-  stato: da revisionare
-- percorso: step4_summary.md
-  tipo: file
-  dimensione_byte: 7721
-  note: File .md
-  stato: da revisionare
-- percorso: step5_summary.md
-  tipo: file
-  dimensione_byte: 6736
-  note: File .md
-  stato: da revisionare
-- percorso: step6_summary.md
-  tipo: file
-  dimensione_byte: 5734
-  note: File .md
-  stato: da revisionare
-- percorso: step7_summary.md
-  tipo: file
-  dimensione_byte: 6145
-  note: File .md
-  stato: da revisionare
-- percorso: threat_model.md
-  tipo: file
-  dimensione_byte: 3260
-  note: File .md
-  stato: da revisionare
-- percorso: trait_analysis_summary.md
-  tipo: file
-  dimensione_byte: 3908
-  note: File .md
-  stato: da revisionare
-- percorso: trait_anomalies.csv
-  tipo: file
-  dimensione_byte: 1357
-  note: File .csv
-  stato: da revisionare
-- percorso: trait_merge_proposals.md
-  tipo: file
-  dimensione_byte: 4864
-  note: File .md
-  stato: da revisionare
-- percorso: trait_review.py
-  tipo: file
-  dimensione_byte: 6124
-  note: File .py
-  stato: da revisionare
-- percorso: trait_review_report.md
-  tipo: file
-  dimensione_byte: 3101
-  note: File .md
-  stato: da revisionare
-- percorso: traits_catalog.md
-  tipo: file
-  dimensione_byte: 6496
-  note: File .md
-  stato: da revisionare
-- percorso: traits_reference.md
-  tipo: file
-  dimensione_byte: 9677
-  note: File .md
-  stato: da revisionare
-- percorso: update_tracker_registry.py
-  tipo: file
-  dimensione_byte: 2829
-  note: File .py
-  stato: da revisionare
-- percorso: backlog/backlog_tasks_example.yaml
-  tipo: file
-  dimensione_byte: 1791
-  note: File .yaml
-  stato: da revisionare
-- percorso: catalog/ecotypes_index.json
-  tipo: file
-  dimensione_byte: 1314
-  note: File .json
-  stato: da revisionare
-- percorso: catalog/master.json
-  tipo: file
-  dimensione_byte: 107689
-  note: File .json
-  stato: da revisionare
-- percorso: config/tracker_registry_update_example.yaml
-  tipo: file
-  dimensione_byte: 887
-  note: File .yaml
-  stato: da revisionare
-- percorso: data/aliases
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: data/aliases/species_aliases.json
-  tipo: file
-  dimensione_byte: 191
-  note: File .json
-  stato: da revisionare
-- percorso: docs/analysis
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: docs/security
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: docs/wireframes
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: docs/GDD.md
-  tipo: file
-  dimensione_byte: 6487
-  note: File .md
-  stato: da revisionare
-- percorso: docs/INTEGRAZIONE_GUIDE.md
-  tipo: file
-  dimensione_byte: 5720
-  note: File .md
-  stato: da revisionare
-- percorso: docs/QA_TRAITS_V2.md
-  tipo: file
-  dimensione_byte: 500
-  note: File .md
-  stato: da revisionare
-- percorso: docs/README_HOWTO_AUTHOR_TRAIT.md
-  tipo: file
-  dimensione_byte: 5382
-  note: File .md
-  stato: da revisionare
-- percorso: docs/STYLE_GUIDE_NAMING.md
-  tipo: file
-  dimensione_byte: 1170
-  note: File .md
-  stato: da revisionare
-- percorso: docs/prontuario_metriche_ucum.md
-  tipo: file
-  dimensione_byte: 4359
-  note: File .md
-  stato: da revisionare
-- percorso: docs/traits_reference.md
-  tipo: file
-  dimensione_byte: 9677
-  note: File .md
-  stato: da revisionare
-- percorso: docs/analysis/trait_analysis_summary.md
-  tipo: file
-  dimensione_byte: 3908
-  note: File .md
-  stato: da revisionare
-- percorso: docs/analysis/trait_anomalies.csv
-  tipo: file
-  dimensione_byte: 1357
-  note: File .csv
-  stato: da revisionare
-- percorso: docs/analysis/trait_review_report.md
-  tipo: file
-  dimensione_byte: 3101
-  note: File .md
-  stato: da revisionare
-- percorso: docs/security/incident_response.md
-  tipo: file
-  dimensione_byte: 1924
-  note: File .md
-  stato: da revisionare
-- percorso: docs/security/policy.md
-  tipo: file
-  dimensione_byte: 3301
-  note: File .md
-  stato: da revisionare
-- percorso: docs/security/risk_register.md
-  tipo: file
-  dimensione_byte: 1759
-  note: File .md
-  stato: da revisionare
-- percorso: docs/security/threat_model.md
-  tipo: file
-  dimensione_byte: 3260
-  note: File .md
-  stato: da revisionare
-- percorso: docs/wireframes/generatore.md
-  tipo: file
-  dimensione_byte: 599
-  note: File .md
-  stato: da revisionare
-- percorso: docs/wireframes/homepage.md
-  tipo: file
-  dimensione_byte: 694
-  note: File .md
-  stato: da revisionare
-- percorso: ecotypes/anguis_magnetica_ecotypes.json
-  tipo: file
-  dimensione_byte: 923
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/chemnotela_toxica_ecotypes.json
-  tipo: file
-  dimensione_byte: 925
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/elastovaranus_hydrus_ecotypes.json
-  tipo: file
-  dimensione_byte: 1320
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/gulogluteus_scutiger_ecotypes.json
-  tipo: file
-  dimensione_byte: 1325
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/perfusuas_pedes_ecotypes.json
-  tipo: file
-  dimensione_byte: 1102
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/proteus_plasma_ecotypes.json
-  tipo: file
-  dimensione_byte: 781
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/rupicapra_sensoria_ecotypes.json
-  tipo: file
-  dimensione_byte: 1165
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/soniptera_resonans_ecotypes.json
-  tipo: file
-  dimensione_byte: 939
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/terracetus_ambulator_ecotypes.json
-  tipo: file
-  dimensione_byte: 911
-  note: File .json
-  stato: da revisionare
-- percorso: ecotypes/umbra_alaris_ecotypes.json
-  tipo: file
-  dimensione_byte: 928
-  note: File .json
-  stato: da revisionare
-- percorso: home/oai
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home/oai/share
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/backlog
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/config
-  tipo: file
-  dimensione_byte: 887
-  note: File senza estensione
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/backlog/backlog_tasks_example.yaml
-  tipo: file
-  dimensione_byte: 1791
-  note: File .yaml
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md
-  tipo: file
-  dimensione_byte: 6487
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md
-  tipo: file
-  dimensione_byte: 5418
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md
-  tipo: file
-  dimensione_byte: 7432
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md
-  tipo: file
-  dimensione_byte: 6496
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/new_traits_proposals.yaml
-  tipo: file
-  dimensione_byte: 7648
-  note: File .yaml
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md
-  tipo: file
-  dimensione_byte: 12314
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_summary_example.csv
-  tipo: file
-  dimensione_byte: 1528
-  note: File .csv
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md
-  tipo: file
-  dimensione_byte: 2202
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md
-  tipo: file
-  dimensione_byte: 7159
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md
-  tipo: file
-  dimensione_byte: 7583
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md
-  tipo: file
-  dimensione_byte: 7721
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md
-  tipo: file
-  dimensione_byte: 6736
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md
-  tipo: file
-  dimensione_byte: 5734
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md
-  tipo: file
-  dimensione_byte: 6145
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md
-  tipo: file
-  dimensione_byte: 3908
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_anomalies.csv
-  tipo: file
-  dimensione_byte: 1357
-  note: File .csv
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md
-  tipo: file
-  dimensione_byte: 4864
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md
-  tipo: file
-  dimensione_byte: 3101
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md
-  tipo: file
-  dimensione_byte: 1924
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md
-  tipo: file
-  dimensione_byte: 3301
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md
-  tipo: file
-  dimensione_byte: 1759
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md
-  tipo: file
-  dimensione_byte: 3260
-  note: File .md
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/init_security_checks.sh
-  tipo: file
-  dimensione_byte: 1777
-  note: File .sh
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/setup_backlog.py
-  tipo: file
-  dimensione_byte: 4228
-  note: File .py
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/species_summary_script.py
-  tipo: file
-  dimensione_byte: 6181
-  note: File .py
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/trait_review.py
-  tipo: file
-  dimensione_byte: 6124
-  note: File .py
-  stato: da revisionare
-- percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/update_tracker_registry.py
-  tipo: file
-  dimensione_byte: 2829
-  note: File .py
-  stato: da revisionare
-- percorso: ops/site-audit
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: ops/site-audit/build_redirects.py
-  tipo: file
-  dimensione_byte: 1455
-  note: File .py
-  stato: da revisionare
-- percorso: ops/site-audit/build_sitemap.py
-  tipo: file
-  dimensione_byte: 3795
-  note: File .py
-  stato: da revisionare
-- percorso: ops/site-audit/check_links.py
-  tipo: file
-  dimensione_byte: 2976
-  note: File .py
-  stato: da revisionare
-- percorso: ops/site-audit/common.py
-  tipo: file
-  dimensione_byte: 946
-  note: File .py
-  stato: da revisionare
-- percorso: ops/site-audit/generate_search_index.py
-  tipo: file
-  dimensione_byte: 3915
-  note: File .py
-  stato: da revisionare
-- percorso: ops/site-audit/generate_structured_data.py
-  tipo: file
-  dimensione_byte: 1281
-  note: File .py
-  stato: da revisionare
-- percorso: ops/site-audit/redirects_map.json
-  tipo: file
-  dimensione_byte: 334
-  note: File .json
-  stato: da revisionare
-- percorso: ops/site-audit/redirects_map.yaml
-  tipo: file
-  dimensione_byte: 365
-  note: File .yaml
-  stato: da revisionare
-- percorso: ops/site-audit/report_links.py
-  tipo: file
-  dimensione_byte: 1912
-  note: File .py
-  stato: da revisionare
-- percorso: ops/site-audit/requirements.txt
-  tipo: file
-  dimensione_byte: 26
-  note: File .txt
-  stato: da revisionare
-- percorso: ops/site-audit/route_mapping.json
-  tipo: file
-  dimensione_byte: 2346
-  note: File .json
-  stato: da revisionare
-- percorso: scripts/init_security_checks.sh
-  tipo: file
-  dimensione_byte: 1777
-  note: File .sh
-  stato: da revisionare
-- percorso: scripts/setup_backlog.py
-  tipo: file
-  dimensione_byte: 4228
-  note: File .py
-  stato: da revisionare
-- percorso: scripts/species_summary_script.py
-  tipo: file
-  dimensione_byte: 3521
-  note: File .py
-  stato: da revisionare
-- percorso: scripts/trait_review.py
-  tipo: file
-  dimensione_byte: 6124
-  note: File .py
-  stato: da revisionare
-- percorso: scripts/update_tracker_registry.py
-  tipo: file
-  dimensione_byte: 2829
-  note: File .py
-  stato: da revisionare
-- percorso: scripts/validate.sh
-  tipo: file
-  dimensione_byte: 236
-  note: File .sh
-  stato: da revisionare
-- percorso: species/anguis_magnetica.json
-  tipo: file
-  dimensione_byte: 1208
-  note: File .json
-  stato: da revisionare
-- percorso: species/chemnotela_toxica.json
-  tipo: file
-  dimensione_byte: 1197
-  note: File .json
-  stato: da revisionare
-- percorso: species/elastovaranus_hydrus.json
-  tipo: file
-  dimensione_byte: 1375
-  note: File .json
-  stato: da revisionare
-- percorso: species/gulogluteus_scutiger.json
-  tipo: file
-  dimensione_byte: 1394
-  note: File .json
-  stato: da revisionare
-- percorso: species/perfusuas_pedes.json
-  tipo: file
-  dimensione_byte: 1365
-  note: File .json
-  stato: da revisionare
-- percorso: species/proteus_plasma.json
-  tipo: file
-  dimensione_byte: 1154
-  note: File .json
-  stato: da revisionare
-- percorso: species/rupicapra_sensoria.json
-  tipo: file
-  dimensione_byte: 1088
-  note: File .json
-  stato: da revisionare
-- percorso: species/soniptera_resonans.json
-  tipo: file
-  dimensione_byte: 1197
-  note: File .json
-  stato: da revisionare
-- percorso: species/species_catalog.json
-  tipo: file
-  dimensione_byte: 13089
-  note: File .json
-  stato: da revisionare
-- percorso: species/terracetus_ambulator.json
-  tipo: file
-  dimensione_byte: 1201
-  note: File .json
-  stato: da revisionare
-- percorso: species/umbra_alaris.json
-  tipo: file
-  dimensione_byte: 1178
-  note: File .json
-  stato: da revisionare
-- percorso: templates/species.schema.json
-  tipo: file
-  dimensione_byte: 1719
-  note: File .json
-  stato: da revisionare
-- percorso: templates/trait.schema.json
-  tipo: file
-  dimensione_byte: 1782
-  note: File .json
-  stato: da revisionare
-- percorso: tests/playwright
-  tipo: directory
-  dimensione_byte: 4096
-  note: Directory
-  stato: da revisionare
-- percorso: tests/playwright/generator.spec.ts
-  tipo: file
-  dimensione_byte: 460
-  note: File .ts
-  stato: da revisionare
-- percorso: tests/playwright/nav.spec.ts
-  tipo: file
-  dimensione_byte: 350
-  note: File .ts
-  stato: da revisionare
-- percorso: tests/playwright/package.json
-  tipo: file
-  dimensione_byte: 182
-  note: File .json
-  stato: da revisionare
-- percorso: tests/playwright/playwright.config.ts
-  tipo: file
-  dimensione_byte: 392
-  note: File .ts
-  stato: da revisionare
-- percorso: traits/TR-1101.json
-  tipo: file
-  dimensione_byte: 1356
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1102.json
-  tipo: file
-  dimensione_byte: 1313
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1103.json
-  tipo: file
-  dimensione_byte: 1288
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1104.json
-  tipo: file
-  dimensione_byte: 1271
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1105.json
-  tipo: file
-  dimensione_byte: 1277
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1201.json
-  tipo: file
-  dimensione_byte: 1366
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1202.json
-  tipo: file
-  dimensione_byte: 1284
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1203.json
-  tipo: file
-  dimensione_byte: 1292
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1204.json
-  tipo: file
-  dimensione_byte: 1301
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1205.json
-  tipo: file
-  dimensione_byte: 1301
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1301.json
-  tipo: file
-  dimensione_byte: 1309
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1302.json
-  tipo: file
-  dimensione_byte: 1276
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1303.json
-  tipo: file
-  dimensione_byte: 1335
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1304.json
-  tipo: file
-  dimensione_byte: 1278
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1305.json
-  tipo: file
-  dimensione_byte: 1331
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1401.json
-  tipo: file
-  dimensione_byte: 1326
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1402.json
-  tipo: file
-  dimensione_byte: 1286
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1403.json
-  tipo: file
-  dimensione_byte: 1296
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1404.json
-  tipo: file
-  dimensione_byte: 1282
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1405.json
-  tipo: file
-  dimensione_byte: 1268
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1501.json
-  tipo: file
-  dimensione_byte: 1277
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1502.json
-  tipo: file
-  dimensione_byte: 1258
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1503.json
-  tipo: file
-  dimensione_byte: 1243
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1504.json
-  tipo: file
-  dimensione_byte: 1280
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1505.json
-  tipo: file
-  dimensione_byte: 1288
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1601.json
-  tipo: file
-  dimensione_byte: 1283
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1602.json
-  tipo: file
-  dimensione_byte: 1270
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1603.json
-  tipo: file
-  dimensione_byte: 1278
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1604.json
-  tipo: file
-  dimensione_byte: 1268
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1605.json
-  tipo: file
-  dimensione_byte: 1285
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1701.json
-  tipo: file
-  dimensione_byte: 1263
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1702.json
-  tipo: file
-  dimensione_byte: 1263
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1703.json
-  tipo: file
-  dimensione_byte: 1272
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1704.json
-  tipo: file
-  dimensione_byte: 1262
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1705.json
-  tipo: file
-  dimensione_byte: 1262
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1801.json
-  tipo: file
-  dimensione_byte: 1331
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1802.json
-  tipo: file
-  dimensione_byte: 1257
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1803.json
-  tipo: file
-  dimensione_byte: 1270
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1804.json
-  tipo: file
-  dimensione_byte: 1262
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1805.json
-  tipo: file
-  dimensione_byte: 1274
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1901.json
-  tipo: file
-  dimensione_byte: 1296
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1902.json
-  tipo: file
-  dimensione_byte: 1287
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1903.json
-  tipo: file
-  dimensione_byte: 1265
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1904.json
-  tipo: file
-  dimensione_byte: 1269
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-1905.json
-  tipo: file
-  dimensione_byte: 1261
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-2001.json
-  tipo: file
-  dimensione_byte: 1256
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-2002.json
-  tipo: file
-  dimensione_byte: 1291
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-2003.json
-  tipo: file
-  dimensione_byte: 1283
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-2004.json
-  tipo: file
-  dimensione_byte: 1309
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/TR-2005.json
-  tipo: file
-  dimensione_byte: 1263
-  note: File .json importato in data/external/evo/traits/
-  stato: validato
-- percorso: traits/traits_aggregate.json
-  tipo: file
-  dimensione_byte: 75646
-  note: File .json aggregato (fonte slug)
-  stato: validato
-- percorso: workflows/e2e.yml
-  tipo: file
-  dimensione_byte: 1117
-  note: File .yml
-  stato: da revisionare
-- percorso: workflows/gh-pages.yml
-  tipo: file
-  dimensione_byte: 888
-  note: File .yml
-  stato: da revisionare
-- percorso: workflows/lighthouse.yml
-  tipo: file
-  dimensione_byte: 1053
-  note: File .yml
-  stato: da revisionare
-- percorso: workflows/schema-validate.yml
-  tipo: file
-  dimensione_byte: 920
-  note: File .yml
-  stato: da revisionare
-- percorso: workflows/search-index.yml
-  tipo: file
-  dimensione_byte: 1060
-  note: File .yml
-  stato: da revisionare
-- percorso: workflows/security.yml
-  tipo: file
-  dimensione_byte: 1660
-  note: File .yml
-  stato: da revisionare
+  - percorso: backlog
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: catalog
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: config
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: data
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: docs
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: ecotypes
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: ops
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: scripts
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory script stabilizzata; contenuti principali spostati in `incoming/scripts/`
+    stato: aggiornato
+  - percorso: scripts/README.md
+    tipo: file
+    dimensione_byte: 212
+    note: Promemoria sull'avvenuto spostamento degli script stabilizzati
+    stato: aggiornato
+  - percorso: species
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: templates
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: tests
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: traits
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: workflows
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: schemas/core/enums.json
+    tipo: file
+    dimensione_byte: 1280
+    note: Base enum core per diff DAT-02
+    stato: completato
+  - percorso: schemas/evo/species.schema.json
+    tipo: file
+    dimensione_byte: 3110
+    note: Schema specie Evo aggiornato da template V2
+    stato: completato
+  - percorso: schemas/evo/trait.schema.json
+    tipo: file
+    dimensione_byte: 2118
+    note: Schema trait Evo aggiornato da template V2
+    stato: completato
+  - percorso: data/core/species/aliases.json
+    tipo: file
+    dimensione_byte: 271
+    note: Alias specie core consolidati via jq (DAT-03)
+    stato: completato
+  - percorso: docs/meeting-notes/evo-enum-review.md
+    tipo: file
+    dimensione_byte: 1485
+    note: Verbale diff enum DAT-02
+    stato: completato
+  - percorso: tools/schema_enum_diff.py
+    tipo: file
+    dimensione_byte: 4199
+    note: Script confronto enum per DAT-02
+    stato: completato
+  - percorso: tests/test_species_aliases.py
+    tipo: file
+    dimensione_byte: 677
+    note: Test di validazione alias specie DAT-03
+    stato: completato
+  - percorso: data/external/evo/species
+    tipo: directory
+    dimensione_byte: 4096
+    note: Dataset specie+ecotipi Evo spostato da incoming, validato con SPEC-01
+    stato: validato
+  - percorso: data/external/evo/species/species_ecotype_map.json
+    tipo: file
+    dimensione_byte: 7748
+    note: Mapping SPEC-03; nessun ecosistema per biome_class acquatico_costiero, acquatico_dolce, sotterraneo
+    stato: in revisione
+  - percorso: data/external/evo/traits
+    tipo: directory
+    dimensione_byte: 4096
+    note: JSON trait importati da incoming/traits (TRT-01/02)
+    stato: aggiornato
+  - percorso: data/core/traits/glossary.json
+    tipo: file
+    dimensione_byte: 82237
+    note: Glossario aggiornato con 50 nuovi slug
+    stato: aggiornato
+  - percorso: reports/evo/traits_anomalies.csv
+    tipo: file
+    dimensione_byte: 3598
+    note: CSV revisione trait generato da trait_review.py
+    stato: aggiornato
+  - percorso: docs/analysis/trait_merge_proposals.md
+    tipo: file
+    dimensione_byte: 4633
+    note: Report esito merge trait (TRT-03)
+    stato: aggiornato
+  - percorso: reports/incoming/species_validation.log
+    tipo: file
+    dimensione_byte: 690
+    note: Log esecuzione SPEC-01 (`./scripts/validate.sh --dataset evo-species --schema ...`)
+    stato: completato
+  - percorso: reports/evo/species_summary.md
+    tipo: file
+    dimensione_byte: 3524
+    note: Report Markdown SPEC-02 generato da species_summary_script.py
+    stato: aggiornato
+  - percorso: GDD.md
+    tipo: file
+    dimensione_byte: 6487
+    note: File .md
+    stato: da revisionare
+  - percorso: Game_EvoTactics_Guida_Pacchetto_v2.md
+    tipo: file
+    dimensione_byte: 15967
+    note: File .md
+    stato: da revisionare
+  - percorso: Game_EvoTactics_Guida_Pacchetto_v2.pdf
+    tipo: file
+    dimensione_byte: 1744
+    note: File .pdf
+    stato: da revisionare
+  - percorso: INTEGRAZIONE_GUIDE.md
+    tipo: file
+    dimensione_byte: 5720
+    note: File .md
+    stato: da revisionare
+  - percorso: ../archive/documents/Guida Ai tratti 1.docx
+    tipo: file
+    dimensione_byte: 32692
+    note: 'File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-1.md'
+    stato: archiviato
+  - percorso: ../archive/documents/Guida Ai tratti 2.docx
+    tipo: file
+    dimensione_byte: 35987
+    note: 'File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-2.md'
+    stato: archiviato
+  - percorso: ../archive/documents/Guida Ai tratti 3 Evo tact.docx
+    tipo: file
+    dimensione_byte: 35987
+    note: 'File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md'
+    stato: archiviato
+  - percorso: ../archive/documents/Guida Ai tratti 3 database.docx
+    tipo: file
+    dimensione_byte: 18624
+    note: 'File .docx archiviato; convertito in docs/evo-tactics/guida-ai-tratti-3-database.md'
+    stato: archiviato
+  - percorso: ../archive/documents/Integrazioni V2.docx
+    tipo: file
+    dimensione_byte: 32693
+    note: 'File .docx archiviato; convertito in docs/evo-tactics/integrazioni-v2.md'
+    stato: archiviato
+  - percorso: Makefile
+    tipo: file
+    dimensione_byte: 622
+    note: File senza estensione, aggiornato con target evo-validate/evo-backlog/traits-review
+    stato: aggiornato
+  - percorso: incoming/scripts/init_security_checks.sh
+    tipo: file
+    dimensione_byte: 1620
+    note: Script sicurezza consolidato (Bandit/Semgrep/npm audit/Gitleaks) con path repo root
+    stato: stabilizzato
+  - percorso: incoming/scripts/setup_backlog.py
+    tipo: file
+    dimensione_byte: 4236
+    note: Script GitHub project/backlog con permessi eseguibili e typing aggiornato
+    stato: stabilizzato
+  - percorso: incoming/scripts/species_summary_script.py
+    tipo: file
+    dimensione_byte: 3521
+    note: Script CSV sommario specie spostato da lavoro_da_classificare
+    stato: stabilizzato
+  - percorso: incoming/scripts/trait_review.py
+    tipo: file
+    dimensione_byte: 10519
+    note: Script revisione trait con modalità confronto incoming
+    stato: stabilizzato
+  - percorso: incoming/scripts/update_tracker_registry.py
+    tipo: file
+    dimensione_byte: 2830
+    note: Script aggiornamento tracker_registry con permessi eseguibili
+    stato: stabilizzato
+  - percorso: incoming/scripts/validate.sh
+    tipo: file
+    dimensione_byte: 1429
+    note: Validatore AJV con override directory per CI/Makefile
+    stato: stabilizzato
+  - percorso: Progetto unico e fonti (1).pdf
+    tipo: file
+    dimensione_byte: 24417
+    note: File .pdf
+    stato: da revisionare
+  - percorso: Progetto unico e fonti (2).pdf
+    tipo: file
+    dimensione_byte: 43758
+    note: File .pdf
+    stato: da revisionare
+  - percorso: Progetto unico e fonti (3).pdf
+    tipo: file
+    dimensione_byte: 47720
+    note: File .pdf
+    stato: da revisionare
+  - percorso: Progetto unico e fonti (4).pdf
+    tipo: file
+    dimensione_byte: 45867
+    note: File .pdf
+    stato: da revisionare
+  - percorso: Progetto unico e fonti (5).pdf
+    tipo: file
+    dimensione_byte: 28236
+    note: File .pdf
+    stato: da revisionare
+  - percorso: Progetto unico e fonti (6).pdf
+    tipo: file
+    dimensione_byte: 34470
+    note: File .pdf
+    stato: da revisionare
+  - percorso: Progetto unico e fonti (7).pdf
+    tipo: file
+    dimensione_byte: 29697
+    note: File .pdf
+    stato: da revisionare
+  - percorso: README.md
+    tipo: file
+    dimensione_byte: 385
+    note: File .md
+    stato: da revisionare
+  - percorso: README_CI.md
+    tipo: file
+    dimensione_byte: 561
+    note: File .md
+    stato: da revisionare
+  - percorso: README_HOWTO_AUTHOR_TRAIT.md
+    tipo: file
+    dimensione_byte: 5382
+    note: File .md
+    stato: da revisionare
+  - percorso: README_NO_PROXY.md
+    tipo: file
+    dimensione_byte: 621
+    note: File .md
+    stato: da revisionare
+  - percorso: Revisiona automati tratti.pdf
+    tipo: file
+    dimensione_byte: 22333
+    note: File .pdf
+    stato: da revisionare
+  - percorso: backlog_tasks_example.yaml
+    tipo: file
+    dimensione_byte: 1791
+    note: File .yaml
+    stato: da revisionare
+  - percorso: evo_tactics_game_database_guide.md
+    tipo: file
+    dimensione_byte: 14452
+    note: File .md
+    stato: da revisionare
+  - percorso: evo_tactics_game_guide.md
+    tipo: file
+    dimensione_byte: 7474
+    note: File .md
+    stato: da revisionare
+  - percorso: evo_tactics_guide.md
+    tipo: file
+    dimensione_byte: 53169
+    note: File .md
+    stato: da revisionare
+  - percorso: games_overview.md
+    tipo: file
+    dimensione_byte: 5418
+    note: File .md
+    stato: da revisionare
+  - percorso: incident_response.md
+    tipo: file
+    dimensione_byte: 1924
+    note: File .md
+    stato: da revisionare
+  - percorso: init_security_checks.sh
+    tipo: file
+    dimensione_byte: 1777
+    note: File .sh
+    stato: da revisionare
+  - percorso: config/lighthouse/evo.lighthouserc.json
+    tipo: file
+    dimensione_byte: 834
+    note: Configurazione LHCI migrata sotto `config/lighthouse/` e riutilizzata dallo script `npm run lint:lighthouse`
+    stato: aggiornato
+  - percorso: secrets/SITE_BASE_URL
+    tipo: secret
+    dimensione_byte: null
+    note: Secret/variabile organizzativa usata da Lighthouse, e2e e site-audit per determinare l'URL pubblico
+    stato: richiesto
+  - percorso: vars/SITE_BASE_URL
+    tipo: variabile
+    dimensione_byte: null
+    note: Variabile di organizzazione consigliata per evitare dipendenza diretta dal secret nei workflow
+    stato: configurato
+  - percorso: mockup_evo_tactics.png
+    tipo: file
+    dimensione_byte: 99927
+    note: 'Immagine spostata in docs/wireframes/evo/mockup_evo_tactics.png con documentazione dedicata'
+    stato: aggiornato
+  - percorso: new_traits_proposals.yaml
+    tipo: file
+    dimensione_byte: 7648
+    note: File .yaml
+    stato: da revisionare
+  - percorso: policy.md
+    tipo: file
+    dimensione_byte: 3301
+    note: File .md
+    stato: da revisionare
+  - percorso: prontuario_metriche_ucum.md
+    tipo: file
+    dimensione_byte: 4359
+    note: File .md
+    stato: da revisionare
+  - percorso: proposed_routes.csv
+    tipo: file
+    dimensione_byte: 5533
+    note: File .csv
+    stato: da revisionare
+  - percorso: proposed_sitemap.xml
+    tipo: file
+    dimensione_byte: 11191
+    note: 'Fonte per public/sitemap.xml; contenuto importato e validato con tools/sitemap_link_checker.py'
+    stato: aggiornato
+  - percorso: risk_register.md
+    tipo: file
+    dimensione_byte: 1759
+    note: File .md
+    stato: da revisionare
+  - percorso: robots.txt
+    tipo: file
+    dimensione_byte: 69
+    note: 'Copiato in public/robots.txt'
+    stato: aggiornato
+  - percorso: security.yml
+    tipo: file
+    dimensione_byte: 1660
+    note: File .yml
+    stato: da revisionare
+  - percorso: setup_backlog.py
+    tipo: file
+    dimensione_byte: 4228
+    note: File .py
+    stato: da revisionare
+  - percorso: sitemap_link_checker.py
+    tipo: file
+    dimensione_byte: 2776
+    note: 'Script spostato in tools/sitemap_link_checker.py e aggiornato per leggere sitemap locali'
+    stato: aggiornato
+  - percorso: species_analysis_report.md
+    tipo: file
+    dimensione_byte: 12314
+    note: File .md
+    stato: da revisionare
+  - percorso: species_catalog.md
+    tipo: file
+    dimensione_byte: 7432
+    note: File .md
+    stato: da revisionare
+  - percorso: species_summary_example.csv
+    tipo: file
+    dimensione_byte: 1528
+    note: File .csv
+    stato: da revisionare
+  - percorso: species_summary_script.py
+    tipo: file
+    dimensione_byte: 6181
+    note: File .py
+    stato: da revisionare
+  - percorso: step1_summary.md
+    tipo: file
+    dimensione_byte: 2202
+    note: File .md
+    stato: da revisionare
+  - percorso: step2_summary.md
+    tipo: file
+    dimensione_byte: 7159
+    note: File .md
+    stato: da revisionare
+  - percorso: step3_summary.md
+    tipo: file
+    dimensione_byte: 7583
+    note: File .md
+    stato: da revisionare
+  - percorso: step4_summary.md
+    tipo: file
+    dimensione_byte: 7721
+    note: File .md
+    stato: da revisionare
+  - percorso: step5_summary.md
+    tipo: file
+    dimensione_byte: 6736
+    note: File .md
+    stato: da revisionare
+  - percorso: step6_summary.md
+    tipo: file
+    dimensione_byte: 5734
+    note: File .md
+    stato: da revisionare
+  - percorso: step7_summary.md
+    tipo: file
+    dimensione_byte: 6145
+    note: File .md
+    stato: da revisionare
+  - percorso: threat_model.md
+    tipo: file
+    dimensione_byte: 3260
+    note: File .md
+    stato: da revisionare
+  - percorso: trait_analysis_summary.md
+    tipo: file
+    dimensione_byte: 3908
+    note: File .md
+    stato: da revisionare
+  - percorso: trait_anomalies.csv
+    tipo: file
+    dimensione_byte: 1357
+    note: File .csv
+    stato: da revisionare
+  - percorso: trait_merge_proposals.md
+    tipo: file
+    dimensione_byte: 4864
+    note: File .md
+    stato: da revisionare
+  - percorso: trait_review.py
+    tipo: file
+    dimensione_byte: 6124
+    note: File .py
+    stato: da revisionare
+  - percorso: trait_review_report.md
+    tipo: file
+    dimensione_byte: 3101
+    note: File .md
+    stato: da revisionare
+  - percorso: traits_catalog.md
+    tipo: file
+    dimensione_byte: 6496
+    note: File .md
+    stato: da revisionare
+  - percorso: traits_reference.md
+    tipo: file
+    dimensione_byte: 9677
+    note: File .md
+    stato: da revisionare
+  - percorso: update_tracker_registry.py
+    tipo: file
+    dimensione_byte: 2829
+    note: File .py
+    stato: da revisionare
+  - percorso: backlog/backlog_tasks_example.yaml
+    tipo: file
+    dimensione_byte: 1791
+    note: File .yaml
+    stato: da revisionare
+  - percorso: catalog/ecotypes_index.json
+    tipo: file
+    dimensione_byte: 1314
+    note: File .json
+    stato: da revisionare
+  - percorso: catalog/master.json
+    tipo: file
+    dimensione_byte: 107689
+    note: File .json
+    stato: da revisionare
+  - percorso: config/tracker_registry_update_example.yaml
+    tipo: file
+    dimensione_byte: 887
+    note: File .yaml
+    stato: da revisionare
+  - percorso: data/aliases
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: data/aliases/species_aliases.json
+    tipo: file
+    dimensione_byte: 191
+    note: File .json
+    stato: da revisionare
+  - percorso: docs/analysis
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: docs/security
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: docs/wireframes
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: docs/GDD.md
+    tipo: file
+    dimensione_byte: 6487
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/INTEGRAZIONE_GUIDE.md
+    tipo: file
+    dimensione_byte: 5720
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/QA_TRAITS_V2.md
+    tipo: file
+    dimensione_byte: 500
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/README_HOWTO_AUTHOR_TRAIT.md
+    tipo: file
+    dimensione_byte: 5382
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/STYLE_GUIDE_NAMING.md
+    tipo: file
+    dimensione_byte: 1170
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/prontuario_metriche_ucum.md
+    tipo: file
+    dimensione_byte: 4359
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/traits_reference.md
+    tipo: file
+    dimensione_byte: 9677
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/analysis/trait_analysis_summary.md
+    tipo: file
+    dimensione_byte: 3908
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/analysis/trait_anomalies.csv
+    tipo: file
+    dimensione_byte: 1357
+    note: File .csv
+    stato: da revisionare
+  - percorso: docs/analysis/trait_review_report.md
+    tipo: file
+    dimensione_byte: 3101
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/security/incident_response.md
+    tipo: file
+    dimensione_byte: 1924
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/security/policy.md
+    tipo: file
+    dimensione_byte: 3301
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/security/risk_register.md
+    tipo: file
+    dimensione_byte: 1759
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/security/threat_model.md
+    tipo: file
+    dimensione_byte: 3260
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/wireframes/generatore.md
+    tipo: file
+    dimensione_byte: 599
+    note: File .md
+    stato: da revisionare
+  - percorso: docs/wireframes/homepage.md
+    tipo: file
+    dimensione_byte: 694
+    note: File .md
+    stato: da revisionare
+  - percorso: ecotypes/anguis_magnetica_ecotypes.json
+    tipo: file
+    dimensione_byte: 923
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/chemnotela_toxica_ecotypes.json
+    tipo: file
+    dimensione_byte: 925
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/elastovaranus_hydrus_ecotypes.json
+    tipo: file
+    dimensione_byte: 1320
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/gulogluteus_scutiger_ecotypes.json
+    tipo: file
+    dimensione_byte: 1325
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/perfusuas_pedes_ecotypes.json
+    tipo: file
+    dimensione_byte: 1102
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/proteus_plasma_ecotypes.json
+    tipo: file
+    dimensione_byte: 781
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/rupicapra_sensoria_ecotypes.json
+    tipo: file
+    dimensione_byte: 1165
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/soniptera_resonans_ecotypes.json
+    tipo: file
+    dimensione_byte: 939
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/terracetus_ambulator_ecotypes.json
+    tipo: file
+    dimensione_byte: 911
+    note: File .json
+    stato: da revisionare
+  - percorso: ecotypes/umbra_alaris_ecotypes.json
+    tipo: file
+    dimensione_byte: 928
+    note: File .json
+    stato: da revisionare
+  - percorso: home/oai
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home/oai/share
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/backlog
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/config
+    tipo: file
+    dimensione_byte: 887
+    note: File senza estensione
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/backlog/backlog_tasks_example.yaml
+    tipo: file
+    dimensione_byte: 1791
+    note: File .yaml
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md
+    tipo: file
+    dimensione_byte: 6487
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md
+    tipo: file
+    dimensione_byte: 5418
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md
+    tipo: file
+    dimensione_byte: 7432
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md
+    tipo: file
+    dimensione_byte: 6496
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/new_traits_proposals.yaml
+    tipo: file
+    dimensione_byte: 7648
+    note: File .yaml
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md
+    tipo: file
+    dimensione_byte: 12314
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_summary_example.csv
+    tipo: file
+    dimensione_byte: 1528
+    note: File .csv
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md
+    tipo: file
+    dimensione_byte: 2202
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md
+    tipo: file
+    dimensione_byte: 7159
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md
+    tipo: file
+    dimensione_byte: 7583
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md
+    tipo: file
+    dimensione_byte: 7721
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md
+    tipo: file
+    dimensione_byte: 6736
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md
+    tipo: file
+    dimensione_byte: 5734
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md
+    tipo: file
+    dimensione_byte: 6145
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md
+    tipo: file
+    dimensione_byte: 3908
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_anomalies.csv
+    tipo: file
+    dimensione_byte: 1357
+    note: File .csv
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md
+    tipo: file
+    dimensione_byte: 4864
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md
+    tipo: file
+    dimensione_byte: 3101
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md
+    tipo: file
+    dimensione_byte: 1924
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md
+    tipo: file
+    dimensione_byte: 3301
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md
+    tipo: file
+    dimensione_byte: 1759
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md
+    tipo: file
+    dimensione_byte: 3260
+    note: File .md
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/init_security_checks.sh
+    tipo: file
+    dimensione_byte: 1777
+    note: File .sh
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/setup_backlog.py
+    tipo: file
+    dimensione_byte: 4228
+    note: File .py
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/species_summary_script.py
+    tipo: file
+    dimensione_byte: 6181
+    note: File .py
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/trait_review.py
+    tipo: file
+    dimensione_byte: 6124
+    note: File .py
+    stato: da revisionare
+  - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/update_tracker_registry.py
+    tipo: file
+    dimensione_byte: 2829
+    note: File .py
+    stato: da revisionare
+  - percorso: ops/site-audit
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: ops/site-audit/build_redirects.py
+    tipo: file
+    dimensione_byte: 1455
+    note: File .py
+    stato: da revisionare
+  - percorso: ops/site-audit/build_sitemap.py
+    tipo: file
+    dimensione_byte: 3795
+    note: File .py
+    stato: da revisionare
+  - percorso: ops/site-audit/check_links.py
+    tipo: file
+    dimensione_byte: 2976
+    note: File .py
+    stato: da revisionare
+  - percorso: ops/site-audit/common.py
+    tipo: file
+    dimensione_byte: 946
+    note: File .py
+    stato: da revisionare
+  - percorso: ops/site-audit/generate_search_index.py
+    tipo: file
+    dimensione_byte: 3915
+    note: File .py
+    stato: da revisionare
+  - percorso: ops/site-audit/generate_structured_data.py
+    tipo: file
+    dimensione_byte: 1281
+    note: File .py
+    stato: da revisionare
+  - percorso: ops/site-audit/redirects_map.json
+    tipo: file
+    dimensione_byte: 334
+    note: File .json
+    stato: da revisionare
+  - percorso: ops/site-audit/redirects_map.yaml
+    tipo: file
+    dimensione_byte: 365
+    note: File .yaml
+    stato: da revisionare
+  - percorso: ops/site-audit/report_links.py
+    tipo: file
+    dimensione_byte: 1912
+    note: File .py
+    stato: da revisionare
+  - percorso: ops/site-audit/requirements.txt
+    tipo: file
+    dimensione_byte: 26
+    note: File .txt
+    stato: da revisionare
+  - percorso: ops/site-audit/route_mapping.json
+    tipo: file
+    dimensione_byte: 2346
+    note: File .json
+    stato: da revisionare
+  - percorso: scripts/init_security_checks.sh
+    tipo: file
+    dimensione_byte: 1777
+    note: File .sh
+    stato: da revisionare
+  - percorso: scripts/setup_backlog.py
+    tipo: file
+    dimensione_byte: 4228
+    note: File .py
+    stato: da revisionare
+  - percorso: scripts/species_summary_script.py
+    tipo: file
+    dimensione_byte: 3521
+    note: File .py
+    stato: da revisionare
+  - percorso: scripts/trait_review.py
+    tipo: file
+    dimensione_byte: 6124
+    note: File .py
+    stato: da revisionare
+  - percorso: scripts/update_tracker_registry.py
+    tipo: file
+    dimensione_byte: 2829
+    note: File .py
+    stato: da revisionare
+  - percorso: scripts/validate.sh
+    tipo: file
+    dimensione_byte: 236
+    note: File .sh
+    stato: da revisionare
+  - percorso: species/anguis_magnetica.json
+    tipo: file
+    dimensione_byte: 1208
+    note: File .json
+    stato: da revisionare
+  - percorso: species/chemnotela_toxica.json
+    tipo: file
+    dimensione_byte: 1197
+    note: File .json
+    stato: da revisionare
+  - percorso: species/elastovaranus_hydrus.json
+    tipo: file
+    dimensione_byte: 1375
+    note: File .json
+    stato: da revisionare
+  - percorso: species/gulogluteus_scutiger.json
+    tipo: file
+    dimensione_byte: 1394
+    note: File .json
+    stato: da revisionare
+  - percorso: species/perfusuas_pedes.json
+    tipo: file
+    dimensione_byte: 1365
+    note: File .json
+    stato: da revisionare
+  - percorso: species/proteus_plasma.json
+    tipo: file
+    dimensione_byte: 1154
+    note: File .json
+    stato: da revisionare
+  - percorso: species/rupicapra_sensoria.json
+    tipo: file
+    dimensione_byte: 1088
+    note: File .json
+    stato: da revisionare
+  - percorso: species/soniptera_resonans.json
+    tipo: file
+    dimensione_byte: 1197
+    note: File .json
+    stato: da revisionare
+  - percorso: species/species_catalog.json
+    tipo: file
+    dimensione_byte: 13089
+    note: File .json
+    stato: da revisionare
+  - percorso: species/terracetus_ambulator.json
+    tipo: file
+    dimensione_byte: 1201
+    note: File .json
+    stato: da revisionare
+  - percorso: species/umbra_alaris.json
+    tipo: file
+    dimensione_byte: 1178
+    note: File .json
+    stato: da revisionare
+  - percorso: templates/species.schema.json
+    tipo: file
+    dimensione_byte: 1719
+    note: File .json
+    stato: da revisionare
+  - percorso: templates/trait.schema.json
+    tipo: file
+    dimensione_byte: 1782
+    note: File .json
+    stato: da revisionare
+  - percorso: tests/playwright
+    tipo: directory
+    dimensione_byte: 4096
+    note: Directory
+    stato: da revisionare
+  - percorso: tests/playwright/generator.spec.ts
+    tipo: file
+    dimensione_byte: 460
+    note: File .ts
+    stato: da revisionare
+  - percorso: tests/playwright/nav.spec.ts
+    tipo: file
+    dimensione_byte: 350
+    note: File .ts
+    stato: da revisionare
+  - percorso: tests/playwright/package.json
+    tipo: file
+    dimensione_byte: 182
+    note: File .json
+    stato: da revisionare
+  - percorso: tests/playwright/playwright.config.ts
+    tipo: file
+    dimensione_byte: 392
+    note: File .ts
+    stato: da revisionare
+  - percorso: traits/TR-1101.json
+    tipo: file
+    dimensione_byte: 1356
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1102.json
+    tipo: file
+    dimensione_byte: 1313
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1103.json
+    tipo: file
+    dimensione_byte: 1288
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1104.json
+    tipo: file
+    dimensione_byte: 1271
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1105.json
+    tipo: file
+    dimensione_byte: 1277
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1201.json
+    tipo: file
+    dimensione_byte: 1366
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1202.json
+    tipo: file
+    dimensione_byte: 1284
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1203.json
+    tipo: file
+    dimensione_byte: 1292
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1204.json
+    tipo: file
+    dimensione_byte: 1301
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1205.json
+    tipo: file
+    dimensione_byte: 1301
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1301.json
+    tipo: file
+    dimensione_byte: 1309
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1302.json
+    tipo: file
+    dimensione_byte: 1276
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1303.json
+    tipo: file
+    dimensione_byte: 1335
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1304.json
+    tipo: file
+    dimensione_byte: 1278
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1305.json
+    tipo: file
+    dimensione_byte: 1331
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1401.json
+    tipo: file
+    dimensione_byte: 1326
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1402.json
+    tipo: file
+    dimensione_byte: 1286
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1403.json
+    tipo: file
+    dimensione_byte: 1296
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1404.json
+    tipo: file
+    dimensione_byte: 1282
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1405.json
+    tipo: file
+    dimensione_byte: 1268
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1501.json
+    tipo: file
+    dimensione_byte: 1277
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1502.json
+    tipo: file
+    dimensione_byte: 1258
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1503.json
+    tipo: file
+    dimensione_byte: 1243
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1504.json
+    tipo: file
+    dimensione_byte: 1280
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1505.json
+    tipo: file
+    dimensione_byte: 1288
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1601.json
+    tipo: file
+    dimensione_byte: 1283
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1602.json
+    tipo: file
+    dimensione_byte: 1270
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1603.json
+    tipo: file
+    dimensione_byte: 1278
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1604.json
+    tipo: file
+    dimensione_byte: 1268
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1605.json
+    tipo: file
+    dimensione_byte: 1285
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1701.json
+    tipo: file
+    dimensione_byte: 1263
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1702.json
+    tipo: file
+    dimensione_byte: 1263
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1703.json
+    tipo: file
+    dimensione_byte: 1272
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1704.json
+    tipo: file
+    dimensione_byte: 1262
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1705.json
+    tipo: file
+    dimensione_byte: 1262
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1801.json
+    tipo: file
+    dimensione_byte: 1331
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1802.json
+    tipo: file
+    dimensione_byte: 1257
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1803.json
+    tipo: file
+    dimensione_byte: 1270
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1804.json
+    tipo: file
+    dimensione_byte: 1262
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1805.json
+    tipo: file
+    dimensione_byte: 1274
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1901.json
+    tipo: file
+    dimensione_byte: 1296
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1902.json
+    tipo: file
+    dimensione_byte: 1287
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1903.json
+    tipo: file
+    dimensione_byte: 1265
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1904.json
+    tipo: file
+    dimensione_byte: 1269
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-1905.json
+    tipo: file
+    dimensione_byte: 1261
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-2001.json
+    tipo: file
+    dimensione_byte: 1256
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-2002.json
+    tipo: file
+    dimensione_byte: 1291
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-2003.json
+    tipo: file
+    dimensione_byte: 1283
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-2004.json
+    tipo: file
+    dimensione_byte: 1309
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/TR-2005.json
+    tipo: file
+    dimensione_byte: 1263
+    note: File .json importato in data/external/evo/traits/
+    stato: validato
+  - percorso: traits/traits_aggregate.json
+    tipo: file
+    dimensione_byte: 75646
+    note: File .json aggregato (fonte slug)
+    stato: validato
+  - percorso: workflows/e2e.yml
+    tipo: file
+    dimensione_byte: 1117
+    note: File .yml
+    stato: da revisionare
+  - percorso: workflows/gh-pages.yml
+    tipo: file
+    dimensione_byte: 888
+    note: File .yml
+    stato: da revisionare
+  - percorso: workflows/lighthouse.yml
+    tipo: file
+    dimensione_byte: 1053
+    note: File .yml
+    stato: da revisionare
+  - percorso: workflows/schema-validate.yml
+    tipo: file
+    dimensione_byte: 920
+    note: File .yml
+    stato: da revisionare
+  - percorso: workflows/search-index.yml
+    tipo: file
+    dimensione_byte: 1060
+    note: File .yml
+    stato: da revisionare
+  - percorso: workflows/security.yml
+    tipo: file
+    dimensione_byte: 1660
+    note: File .yml
+    stato: da revisionare
+  - percorso: tests/playwright/evo
+    tipo: directory
+    dimensione_byte: 6454
+    note: 'Suite E2E Playwright portata dal pacchetto webapp; eseguibile con npm run test:e2e -- --project=evo'
+    stato: aggiornato
+  - percorso: public/sitemap.xml
+    tipo: file
+    dimensione_byte: 12778
+    note: 'Sitemap consolidata da proposed_sitemap.xml e validata con python tools/sitemap_link_checker.py public/sitemap.xml'
+    stato: aggiornato
+  - percorso: public/robots.txt
+    tipo: file
+    dimensione_byte: 69
+    note: 'Copia ufficiale del robots per il sito Evo Tactics'
+    stato: aggiornato
+  - percorso: docs/wireframes/evo/mockup_evo_tactics.md
+    tipo: file
+    dimensione_byte: 1033
+    note: 'Pagina descrittiva del mockup Evo con punti chiave della console'
+    stato: aggiornato
+  - percorso: reports/evo/sitemap_validation.csv
+    tipo: file
+    dimensione_byte: 23211
+    note: 'Output di python tools/sitemap_link_checker.py public/sitemap.xml (connessione non disponibile nel sandbox)'
+    stato: aggiornato

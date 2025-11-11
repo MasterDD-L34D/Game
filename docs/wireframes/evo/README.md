@@ -18,4 +18,4 @@ Ecosystem Pack.
 - Aggiungere o aggiornare la pagina descrittiva in `docs/frontend/mockups_evo.md`
   a ogni nuovo export.
 - Quando il batch `frontend` viene aggiornato, ricordarsi di allineare
-  `public/sitemap.xml` e la suite Playwright (`webapp/tests/playwright/evo`).
+  `public/sitemap.xml` e la suite Playwright (`tests/playwright/evo`).

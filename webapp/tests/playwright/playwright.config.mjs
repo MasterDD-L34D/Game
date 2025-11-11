@@ -13,7 +13,7 @@ export default defineConfig({
   timeout: 60000,
   expect: { timeout: 5000 },
   projects: [
-    { name: 'evo', testDir: './evo' },
+    { name: 'evo', testDir: path.resolve(repoRoot, 'tests/playwright/evo') },
     { name: 'console', testDir: './console' },
   ],
   use: {

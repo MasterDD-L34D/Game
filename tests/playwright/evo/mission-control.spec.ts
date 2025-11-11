@@ -9,11 +9,7 @@ test.describe('Mission Control console', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Mission Control' })).toBeVisible();
     await expect(page.getByRole('heading', { level: 2, name: 'Azioni prioritarie' })).toBeVisible();
 
-    const actions = [
-      'Allineamento squadre',
-      'Allocazione vettori',
-      'Protocollo emergenze',
-    ];
+    const actions = ['Allineamento squadre', 'Allocazione vettori', 'Protocollo emergenze'];
 
     for (const label of actions) {
       await expect(page.getByRole('listitem').filter({ hasText: label })).toBeVisible();

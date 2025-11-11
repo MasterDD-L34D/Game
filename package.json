@@ -15,7 +15,7 @@
     "test:docs-generator": "npx vitest run --config vitest.config.docs-generator.ts",
     "preview": "npm run preview --workspace webapp",
     "test:web": "npm run test:web --workspace tools/ts",
-    "test:e2e": "npm run test --prefix webapp/tests/playwright",
+    "test:e2e": "./node_modules/.bin/playwright test --config=webapp/tests/playwright/playwright.config.mjs",
     "test:stack": "npm run test:api && npm run test --workspace webapp",
     "lint:stack": "node scripts/lint-stack.mjs",
     "lint:lighthouse": "lhci autorun --config=./config/lighthouse/evo.lighthouserc.json",
@@ -56,6 +56,7 @@
     "prom-client": "^15.1.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.48.2",
     "husky": "^9.1.6",
     "mongodb-memory-server": "^10.1.4",
     "prettier": "^3.3.3",
