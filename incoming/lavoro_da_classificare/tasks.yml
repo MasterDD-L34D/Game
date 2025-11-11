@@ -253,7 +253,7 @@ tasks:
       - tests/playwright/evo/
     commands:
       - npm run test:e2e -- --project=evo
-    notes: 'Suite Playwright spostata da webapp/tests/playwright/evo; QA `reports/evo/qa/frontend.log` documenta 7 failure per browser Chromium non installato (`npx playwright install chromium` richiede dipendenze di sistema).'
+    notes: 'Suite Playwright spostata da webapp/tests/playwright/evo; QA `reports/evo/qa/frontend.log` documenta esecuzione positiva dopo installazione browser (`npx playwright install --with-deps chromium`).'
 
   - id: FRN-02
     batch: frontend

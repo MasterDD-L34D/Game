@@ -1557,8 +1557,8 @@ inventario:
   - percorso: tests/playwright/evo
     tipo: directory
     dimensione_byte: 6454
-    note: 'Suite E2E Playwright portata dal pacchetto webapp; eseguibile con npm run test:e2e -- --project=evo'
-    stato: aggiornato
+    note: 'Suite E2E Playwright portata dal pacchetto webapp; validata con `npx playwright install --with-deps chromium && npm run test:e2e -- --project=evo`'
+    stato: validato
   - percorso: public/sitemap.xml
     tipo: file
     dimensione_byte: 12778
