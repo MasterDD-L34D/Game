@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1605",
+  "label": "Cisti di Ibernazione Minerale",
+  "famiglia_tipologia": "Difensivo/Resistenze",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "TR-1604"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Parete silicea a prova di calore/pressione.",
+  "uso_funzione": "Entra in stasi in condizioni avverse.",
+  "spinta_selettiva": "Sopravvivenza a lungo termine.",
+  "metrics": [
+    {
+      "name": "tolleranza_termica",
+      "value": 120,
+      "unit": "K"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Sopravvive a 80 Cel per 10 min",
+    "scene_prompt": "Test termico/pressione con risveglio successivo"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

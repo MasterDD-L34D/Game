@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1504",
+  "label": "Filtrazione Osmotica",
+  "famiglia_tipologia": "Fisiologico/Idrico",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "TR-1501"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Reni a multi-stadio con escrezione selettiva.",
+  "uso_funzione": "Neutralizzare tossine autogenerate.",
+  "spinta_selettiva": "Sopravvivere all’autointossicazione.",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 15,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Emivita tossine ridotta del 50%",
+    "scene_prompt": "Analisi ematica dopo somministrazione standard"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

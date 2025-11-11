@@ -1,0 +1,57 @@
+{
+  "trait_code": "TR-1101",
+  "label": "Rostro Emostatico-Litico",
+  "famiglia_tipologia": "Offensivo/Perforante",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "TR-1102"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Mascellare tubulare rigidizzato.",
+  "uso_funzione": "Inoculare tossine ed enzimi e aspirare fluidi.",
+  "spinta_selettiva": "Predazione d'impatto a distanza ravvicinata.",
+  "metrics": [
+    {
+      "name": "velocita_proiettile",
+      "value": 120,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Puntura e retrazione in < 0.1 s",
+    "scene_prompt": "Filma in slow-motion tre attacchi su gel fluorescente"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178",
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

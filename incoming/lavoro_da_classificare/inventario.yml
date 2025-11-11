@@ -114,6 +114,26 @@ inventario:
   dimensione_byte: 7748
   note: Mapping SPEC-03; nessun ecosistema per biome_class acquatico_costiero, acquatico_dolce, sotterraneo
   stato: in revisione
+- percorso: data/external/evo/traits
+  tipo: directory
+  dimensione_byte: 4096
+  note: JSON trait importati da incoming/traits (TRT-01/02)
+  stato: aggiornato
+- percorso: data/core/traits/glossary.json
+  tipo: file
+  dimensione_byte: 82237
+  note: Glossario aggiornato con 50 nuovi slug
+  stato: aggiornato
+- percorso: reports/evo/traits_anomalies.csv
+  tipo: file
+  dimensione_byte: 3598
+  note: CSV revisione trait generato da trait_review.py
+  stato: aggiornato
+- percorso: docs/analysis/trait_merge_proposals.md
+  tipo: file
+  dimensione_byte: 4633
+  note: Report esito merge trait (TRT-03)
+  stato: aggiornato
 - percorso: reports/incoming/species_validation.log
   tipo: file
   dimensione_byte: 690
@@ -972,258 +992,258 @@ inventario:
 - percorso: traits/TR-1101.json
   tipo: file
   dimensione_byte: 1356
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1102.json
   tipo: file
   dimensione_byte: 1313
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1103.json
   tipo: file
   dimensione_byte: 1288
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1104.json
   tipo: file
   dimensione_byte: 1271
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1105.json
   tipo: file
   dimensione_byte: 1277
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1201.json
   tipo: file
   dimensione_byte: 1366
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1202.json
   tipo: file
   dimensione_byte: 1284
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1203.json
   tipo: file
   dimensione_byte: 1292
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1204.json
   tipo: file
   dimensione_byte: 1301
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1205.json
   tipo: file
   dimensione_byte: 1301
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1301.json
   tipo: file
   dimensione_byte: 1309
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1302.json
   tipo: file
   dimensione_byte: 1276
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1303.json
   tipo: file
   dimensione_byte: 1335
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1304.json
   tipo: file
   dimensione_byte: 1278
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1305.json
   tipo: file
   dimensione_byte: 1331
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1401.json
   tipo: file
   dimensione_byte: 1326
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1402.json
   tipo: file
   dimensione_byte: 1286
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1403.json
   tipo: file
   dimensione_byte: 1296
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1404.json
   tipo: file
   dimensione_byte: 1282
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1405.json
   tipo: file
   dimensione_byte: 1268
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1501.json
   tipo: file
   dimensione_byte: 1277
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1502.json
   tipo: file
   dimensione_byte: 1258
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1503.json
   tipo: file
   dimensione_byte: 1243
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1504.json
   tipo: file
   dimensione_byte: 1280
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1505.json
   tipo: file
   dimensione_byte: 1288
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1601.json
   tipo: file
   dimensione_byte: 1283
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1602.json
   tipo: file
   dimensione_byte: 1270
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1603.json
   tipo: file
   dimensione_byte: 1278
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1604.json
   tipo: file
   dimensione_byte: 1268
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1605.json
   tipo: file
   dimensione_byte: 1285
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1701.json
   tipo: file
   dimensione_byte: 1263
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1702.json
   tipo: file
   dimensione_byte: 1263
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1703.json
   tipo: file
   dimensione_byte: 1272
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1704.json
   tipo: file
   dimensione_byte: 1262
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1705.json
   tipo: file
   dimensione_byte: 1262
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1801.json
   tipo: file
   dimensione_byte: 1331
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1802.json
   tipo: file
   dimensione_byte: 1257
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1803.json
   tipo: file
   dimensione_byte: 1270
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1804.json
   tipo: file
   dimensione_byte: 1262
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1805.json
   tipo: file
   dimensione_byte: 1274
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1901.json
   tipo: file
   dimensione_byte: 1296
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1902.json
   tipo: file
   dimensione_byte: 1287
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1903.json
   tipo: file
   dimensione_byte: 1265
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1904.json
   tipo: file
   dimensione_byte: 1269
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-1905.json
   tipo: file
   dimensione_byte: 1261
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-2001.json
   tipo: file
   dimensione_byte: 1256
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-2002.json
   tipo: file
   dimensione_byte: 1291
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-2003.json
   tipo: file
   dimensione_byte: 1283
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-2004.json
   tipo: file
   dimensione_byte: 1309
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/TR-2005.json
   tipo: file
   dimensione_byte: 1263
-  note: File .json
-  stato: da revisionare
+  note: File .json importato in data/external/evo/traits/
+  stato: validato
 - percorso: traits/traits_aggregate.json
   tipo: file
   dimensione_byte: 75646
-  note: File .json
-  stato: da revisionare
+  note: File .json aggregato (fonte slug)
+  stato: validato
 - percorso: workflows/e2e.yml
   tipo: file
   dimensione_byte: 1117

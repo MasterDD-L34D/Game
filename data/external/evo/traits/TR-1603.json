@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1603",
+  "label": "Fagocitosi Assorbente",
+  "famiglia_tipologia": "Alimentazione/Digestione",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1601"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Invaginazione membranaria a vacuolo digestivo.",
+  "uso_funzione": "Inglobare e digerire biomassa intera.",
+  "spinta_selettiva": "Dieta onnivora opportunista.",
+  "metrics": [
+    {
+      "name": "volume_ingestione",
+      "value": 5,
+      "unit": "L"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Assorbe 1 L di gel in < 30 s",
+    "scene_prompt": "Misura variazione massa dopo contatto prolungato"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

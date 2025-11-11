@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1202",
+  "label": "Scudo Gluteale Cheratinizzato",
+  "famiglia_tipologia": "Difensivo/Corazza",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1201"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Placca subdermica cheratino-ossea su eminenze glutee.",
+  "uso_funzione": "Assorbire impatti posteriori",
+  "spinta_selettiva": "Predatori d’agguato; lotte in tana stretta",
+  "metrics": [
+    {
+      "name": "spessore_corazza",
+      "value": 35,
+      "unit": "mm"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Resiste a morso medio senza lesioni",
+    "scene_prompt": "Pressare su dinamometro dorsale"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

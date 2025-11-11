@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1904",
+  "label": "Artigli Ipo-Termici",
+  "famiglia_tipologia": "Offensivo/Termico",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1902"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Reazioni endo-termiche locali in guaine artigli.",
+  "uso_funzione": "Indurre shock da freddo localizzato.",
+  "spinta_selettiva": "Immobilizzazione rapida senza sangue.",
+  "metrics": [
+    {
+      "name": "temperatura_fiato",
+      "value": -20,
+      "unit": "Cel"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Riduce T cutanea di 10 Cel in 2 s",
+    "scene_prompt": "Termocamera su preda simulata"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

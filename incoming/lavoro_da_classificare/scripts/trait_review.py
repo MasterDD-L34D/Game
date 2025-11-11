@@ -19,11 +19,13 @@ Se non vengono forniti parametri, il programma cerca `data/core/traits/glossary.
 rispetto alla directory di esecuzione e salva i file di output nella directory corrente.
 """
 import argparse
+import csv
 import json
 import os
 import re
-import csv
-from collections import defaultdict, Counter
+import unicodedata
+from collections import Counter, defaultdict
+from glob import glob
 
 
 def load_glossary(path: str) -> dict:
@@ -92,14 +94,107 @@ def find_duplicates(traits: dict) -> dict:
     return duplicates
 
 
-def main():
-    parser = argparse.ArgumentParser(description='Review Evo‑Tactics trait glossary')
-    parser.add_argument('--glossary', type=str, default='data/core/traits/glossary.json',
-                        help='Path to glossary JSON')
-    parser.add_argument('--outdir', type=str, default='.',
-                        help='Output directory for CSV reports')
-    args = parser.parse_args()
+def slugify(label: str) -> str:
+    """Create a snake_case slug from a label."""
+    if not label:
+        return ''
+    normalized = unicodedata.normalize('NFKD', label)
+    ascii_label = normalized.encode('ascii', 'ignore').decode('ascii')
+    cleaned = re.sub(r"[^a-zA-Z0-9]+", "_", ascii_label)
+    slug = re.sub(r"_+", "_", cleaned).strip('_')
+    return slug.lower()
 
+
+def load_incoming_traits(input_dir: str) -> dict:
+    """Load traits from a directory of JSON files."""
+    traits = {}
+    for path in sorted(glob(os.path.join(input_dir, '*.json'))):
+        with open(path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        if isinstance(data, dict) and isinstance(data.get('traits'), list):
+            for entry in data['traits']:
+                trait_code = entry.get('trait_code')
+                if trait_code:
+                    traits.setdefault(trait_code, entry)
+        else:
+            trait_code = data.get('trait_code')
+            if trait_code:
+                traits.setdefault(trait_code, data)
+    return traits
+
+
+def build_review_rows(incoming: dict, baseline: dict) -> list:
+    """Prepare review rows comparing incoming traits with the baseline glossary."""
+    baseline_label_map = defaultdict(list)
+    for tid, trait in baseline.items():
+        for label in (trait.get('label_it', ''), trait.get('label_en', '')):
+            if label:
+                baseline_label_map[label.casefold()].append(tid)
+
+    incoming_label_map = defaultdict(list)
+    for code, trait in incoming.items():
+        label = trait.get('label') or trait.get('label_it') or ''
+        if label:
+            incoming_label_map[label.casefold()].append(code)
+
+    rows = []
+    for trait_code, trait in sorted(incoming.items()):
+        label_it = trait.get('label') or trait.get('label_it') or ''
+        label_en = trait.get('label_en') or ''
+        slug = slugify(label_it or label_en or trait_code)
+        baseline_slug_match = slug if slug in baseline else ''
+
+        duplicates_baseline = []
+        for label in filter(None, [label_it, label_en]):
+            duplicates_baseline.extend(baseline_label_map.get(label.casefold(), []))
+        duplicates_incoming = incoming_label_map.get((label_it or label_en).casefold(), [])
+        duplicates_incoming = [code for code in duplicates_incoming if code != trait_code]
+
+        rows.append({
+            'trait_code': trait_code,
+            'label_it': label_it,
+            'label_en': label_en,
+            'slug_candidate': slug,
+            'existing_slug': baseline_slug_match,
+            'baseline_label_matches': ';'.join(sorted(set(duplicates_baseline))) or '',
+            'incoming_label_duplicates': ';'.join(sorted(duplicates_incoming)) or '',
+            'action': 'review',
+            'notes': '',
+        })
+    return rows
+
+
+def write_review_csv(rows: list, out_path: str) -> None:
+    out_dir = os.path.dirname(out_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    fieldnames = [
+        'trait_code',
+        'label_it',
+        'label_en',
+        'slug_candidate',
+        'existing_slug',
+        'baseline_label_matches',
+        'incoming_label_duplicates',
+        'action',
+        'notes',
+    ]
+    with open(out_path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(row)
+
+
+def run_review_mode(args):
+    incoming = load_incoming_traits(args.input)
+    baseline = load_glossary(args.baseline)
+    rows = build_review_rows(incoming, baseline)
+    write_review_csv(rows, args.out)
+    print(f'Review CSV generated at {args.out}')
+
+
+def run_legacy_mode(args):
     traits = load_glossary(args.glossary)
 
     # Calcola categorie
@@ -144,6 +239,28 @@ def main():
                 writer.writerow([label, ';'.join(ids)])
 
     print(f'Report generati in {args.outdir}')
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Review Evo‑Tactics trait glossary')
+    parser.add_argument('--glossary', type=str, default='data/core/traits/glossary.json',
+                        help='Path to glossary JSON')
+    parser.add_argument('--outdir', type=str, default='.',
+                        help='Output directory for CSV reports (legacy mode)')
+    parser.add_argument('--input', type=str,
+                        help='Directory containing incoming trait JSON files')
+    parser.add_argument('--baseline', type=str, default='data/core/traits/glossary.json',
+                        help='Baseline glossary to compare against when using --input')
+    parser.add_argument('--out', type=str,
+                        help='Output CSV path for review mode when using --input')
+    args = parser.parse_args()
+
+    if args.input:
+        if not args.out:
+            raise SystemExit('--out is required when using --input')
+        run_review_mode(args)
+    else:
+        run_legacy_mode(args)
 
 if __name__ == '__main__':
     main()

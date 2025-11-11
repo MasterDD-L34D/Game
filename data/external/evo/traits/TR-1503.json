@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1503",
+  "label": "Articolazioni a Leva Idraulica",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1501"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Camere pressurizzate nelle giunture.",
+  "uso_funzione": "Amplificare salto e spinta delle zampe.",
+  "spinta_selettiva": "Aggancio rapido su prede/rami.",
+  "metrics": [
+    {
+      "name": "salto_verticale",
+      "value": 3.5,
+      "unit": "m"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Supera ostacolo 3 m",
+    "scene_prompt": "Video-analisi del salto"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

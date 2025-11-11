@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1304",
+  "label": "Artiglio Cinetico a Urto",
+  "famiglia_tipologia": "Offensivo/Contusivo",
+  "fattore_mantenimento_energetico": "Alto",
+  "tier": "T4",
+  "slot": [],
+  "sinergie": [
+    "TR-1302"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T4",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Appendice scattante tipo mantide pavone.",
+  "uso_funzione": "Infliggere onda d’urto e frattura.",
+  "spinta_selettiva": "Neutralizzare rapidamente prede corazzate.",
+  "metrics": [
+    {
+      "name": "energia_impattiva",
+      "value": 800,
+      "unit": "J"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Frattura tibia su osso bovino in prova",
+    "scene_prompt": "Misura impulso con accelerometro"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

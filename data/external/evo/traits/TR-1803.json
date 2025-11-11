@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1803",
+  "label": "Scivolamento Magnetico",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1801"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Rivestimento paramagnetico + micro-vibrazioni.",
+  "uso_funzione": "Ridurre attrito e scivolare.",
+  "spinta_selettiva": "Traslazione silente su superfici variabili.",
+  "metrics": [
+    {
+      "name": "velocita_max",
+      "value": 4.0,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Percorre 50 m su sabbia in 20 s",
+    "scene_prompt": "Cronometra su tre substrati diversi"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000304"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

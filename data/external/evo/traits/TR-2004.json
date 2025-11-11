@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-2004",
+  "label": "Metabolismo di Condivisione Energetica",
+  "famiglia_tipologia": "Fisiologico/Metabolico",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-2001"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Trasferimento di substrati via contatto/derma.",
+  "uso_funzione": "Sostenere feriti/giovani con riserva collettiva.",
+  "spinta_selettiva": "Massimizzare sopravvivenza del branco.",
+  "metrics": [
+    {
+      "name": "consumo_O2",
+      "value": 50,
+      "unit": "L/min"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Ripristino FC di infortunato accelerato",
+    "scene_prompt": "Misura lattato prima/dopo contatto"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "trait_code": "TR-1301",
+  "label": "Ermafroditismo Cronologico",
+  "famiglia_tipologia": "Riproduttivo/Cicli",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "TR-1302"
+  ],
+  "conflitti": [],
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "mutazione_indotta": "Rimodellamento gonadico sequenziale.",
+  "uso_funzione": "Cambiare sesso dopo 1–2 incubazioni.",
+  "spinta_selettiva": "Ottimizzare successo riproduttivo in densità variabile.",
+  "metrics": [
+    {
+      "name": "tasso_propaguli",
+      "value": 50,
+      "unit": "1/season"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Ciclo documentato su due stagioni",
+    "scene_prompt": "Registro di incubazione con campionamenti ormonali"
+  },
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
+  }
+}
