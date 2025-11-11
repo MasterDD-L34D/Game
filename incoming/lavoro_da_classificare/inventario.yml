@@ -1819,3 +1819,18 @@ inventario:
     note: Output di python tools/sitemap_link_checker.py public/sitemap.xml (connessione
       non disponibile nel sandbox)
     stato: aggiornato
+
+secrets:
+  - id: SITE_BASE_URL
+    percorso: secrets/SITE_BASE_URL
+    environment: 'GitHub Actions – ambiente CI'
+    stato: richiesto
+    workflows:
+      - .github/workflows/ci.yml
+      - .github/workflows/e2e.yml
+      - .github/workflows/lighthouse.yml
+    note: >-
+      Richiesta di provisioning inoltrata per l'ambiente CI; la variabile sarà
+      esposta come secret di repository e, dove possibile, come Actions
+      variable (`vars/SITE_BASE_URL`) per evitare l'accesso diretto al secret nei
+      workflow.

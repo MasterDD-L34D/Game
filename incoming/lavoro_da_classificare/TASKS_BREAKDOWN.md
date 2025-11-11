@@ -113,10 +113,10 @@ chiudere il batch corrispondente.
 - [x] **OPS-02 – Site audit**
       _Output_: script armonizzati in `ops/site-audit/` con README aggiornato.
       _Passi_: integrare dipendenze, verificare esecuzione locale.
-      _Note_: aggiunto `run.sh` con virtualenv, dipendenza `requests` e README aggiornato; suite eseguita via `bash ops/site-audit/run.sh`.
+      _Note_: aggiunto `run.sh` con virtualenv, dipendenza `requests` e README aggiornato; suite eseguita via `bash ops/site-audit/run.sh`. Secret `SITE_BASE_URL` richiesto per l'ambiente CI e censito in inventario.
 - [x] **OPS-03 – Config Lighthouse**
       _Output_: `config/lighthouse/evo.lighthouserc.json` e test `npm run lint:lighthouse`.
-      _Note_: configurazione spostata sotto `config/lighthouse/` e script npm puntato al nuovo percorso.
+      _Note_: configurazione spostata sotto `config/lighthouse/` e script npm puntato al nuovo percorso. Secret `SITE_BASE_URL` annotato nel registro Ops per l'ambiente CI.
 
 ## Batch `frontend`
 
