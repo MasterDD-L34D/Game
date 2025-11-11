@@ -47,6 +47,12 @@ e puntano alla cartella di archivio creata per questa bonifica.
 - Confermata la coerenza del mapping `data/external/evo/species/species_ecotype_map.json`, documentando nel riepilogo le classi
   senza corrispondenza.
 
+## Provisioning secrets
+
+- Secret e variabile `SITE_BASE_URL` configurati su GitHub Actions seguendo `docs/tooling/evo.md` (sezione "Configurazione secrets CI").
+- Change su GitHub (branch `work`) che aggiorna `incoming/lavoro_da_classificare/inventario.yml` e i tracker Ops per tracciare lo stato `configurato`.
+- QA log `reports/evo/qa/update-tracker.log` archivia l'esecuzione di `make update-tracker TRACKER_CHECK=1` post provisioning e conferma l'allineamento dei registri.
+
 ## Bonifica 2025-12-19
 
 - Creato l'archivio `incoming/archive/2025-12-19_inventory_cleanup/` per raccogliere i duplicati residui di backlog, cataloghi,

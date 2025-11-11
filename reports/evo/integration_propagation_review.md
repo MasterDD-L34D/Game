@@ -19,10 +19,7 @@
 
 ## Inventario e chiusura staging
 - `reports/evo/inventory_audit.md` documenta l'archiviazione dei duplicati legacy e il cleanup dell'area `incoming/lavoro_da_classificare/`.
-- L'inventario (`incoming/lavoro_da_classificare/inventario.yml`) segnala ogni voce legacy come `archiviato` o `validato`, a eccezione del secret `SITE_BASE_URL` ancora marcato "richiesto".
-
-## Punto aperto
-- Provisionare il secret `SITE_BASE_URL` seguendo la procedura in `docs/tooling/evo.md` e aggiornare l'inventario portando la voce a `configurato`.
+- L'inventario (`incoming/lavoro_da_classificare/inventario.yml`) conferma tutte le voci legacy come `archiviato` o `validato`; il secret `SITE_BASE_URL` è ora configurato (provisioning 2025-11-11, log QA `reports/evo/qa/update-tracker.log`).
 
 ## Piano operativo per il provisioning dei secret
 
