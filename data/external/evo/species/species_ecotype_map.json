@@ -1,0 +1,292 @@
+{
+  "summary": {
+    "total_ecotypes": 20,
+    "matched_ecotypes": 15,
+    "unmatched_ecotypes": 5,
+    "biome_classes_with_matches": [
+      "terrestre_forestale",
+      "terrestre_montano",
+      "terrestre_pianeggiante",
+      "terrestre_roccioso",
+      "terrestre_savanna",
+      "terrestre_umido"
+    ],
+    "biome_classes_without_matches": [
+      "acquatico_costiero",
+      "acquatico_dolce",
+      "sotterraneo"
+    ]
+  },
+  "entries": [
+    {
+      "species": "Anguis magnetica",
+      "ecotype_id": "AGM-ECO1",
+      "label": "Estuario Torbido",
+      "biome_class": "acquatico_costiero",
+      "matched_ecosystems": [],
+      "unresolved_ecosystems": [],
+      "notes": "No direct ecosystem mapping for biome class"
+    },
+    {
+      "species": "Anguis magnetica",
+      "ecotype_id": "AGM-ECO2",
+      "label": "Laguna Quieta",
+      "biome_class": "acquatico_costiero",
+      "matched_ecosystems": [],
+      "unresolved_ecosystems": [],
+      "notes": "No direct ecosystem mapping for biome class"
+    },
+    {
+      "species": "Chemnotela toxica",
+      "ecotype_id": "CHT-ECO1",
+      "label": "Radura Acida",
+      "biome_class": "terrestre_forestale",
+      "matched_ecosystems": [
+        {
+          "id": "FORESTA_TEMPERATA",
+          "label": "Foresta Temperata Demo",
+          "biome_id": "foresta_temperata"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Chemnotela toxica",
+      "ecotype_id": "CHT-ECO2",
+      "label": "Chioma Elettrofilo",
+      "biome_class": "terrestre_forestale",
+      "matched_ecosystems": [
+        {
+          "id": "FORESTA_TEMPERATA",
+          "label": "Foresta Temperata Demo",
+          "biome_id": "foresta_temperata"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Elastovaranus hydrus",
+      "ecotype_id": "EHY-ECO1",
+      "label": "Gole Ventose",
+      "biome_class": "terrestre_roccioso",
+      "matched_ecosystems": [
+        {
+          "id": "BADLANDS",
+          "label": "Brulle Terre Ferrose",
+          "biome_id": "badlands"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Elastovaranus hydrus",
+      "ecotype_id": "EHY-ECO2",
+      "label": "Letti Fluviali",
+      "biome_class": "terrestre_umido",
+      "matched_ecosystems": [
+        {
+          "id": "FORESTA_TEMPERATA",
+          "label": "Foresta Temperata Demo",
+          "biome_id": "foresta_temperata"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Gulogluteus scutiger",
+      "ecotype_id": "GGS-ECO1",
+      "label": "Chioma Umida",
+      "biome_class": "terrestre_forestale",
+      "matched_ecosystems": [
+        {
+          "id": "FORESTA_TEMPERATA",
+          "label": "Foresta Temperata Demo",
+          "biome_id": "foresta_temperata"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Gulogluteus scutiger",
+      "ecotype_id": "GGS-ECO2",
+      "label": "Forre Umide",
+      "biome_class": "terrestre_forestale",
+      "matched_ecosystems": [
+        {
+          "id": "FORESTA_TEMPERATA",
+          "label": "Foresta Temperata Demo",
+          "biome_id": "foresta_temperata"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Perfusuas pedes",
+      "ecotype_id": "PFP-ECO1",
+      "label": "Cavernicolo",
+      "biome_class": "sotterraneo",
+      "matched_ecosystems": [],
+      "unresolved_ecosystems": [],
+      "notes": "No direct ecosystem mapping for biome class"
+    },
+    {
+      "species": "Perfusuas pedes",
+      "ecotype_id": "PFP-ECO2",
+      "label": "Radura Notturna",
+      "biome_class": "terrestre_forestale",
+      "matched_ecosystems": [
+        {
+          "id": "FORESTA_TEMPERATA",
+          "label": "Foresta Temperata Demo",
+          "biome_id": "foresta_temperata"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Proteus plasma",
+      "ecotype_id": "PRP-ECO1",
+      "label": "Stagno Quieto",
+      "biome_class": "acquatico_dolce",
+      "matched_ecosystems": [],
+      "unresolved_ecosystems": [],
+      "notes": "No direct ecosystem mapping for biome class"
+    },
+    {
+      "species": "Proteus plasma",
+      "ecotype_id": "PRP-ECO2",
+      "label": "Torrente Lento",
+      "biome_class": "acquatico_dolce",
+      "matched_ecosystems": [],
+      "unresolved_ecosystems": [],
+      "notes": "No direct ecosystem mapping for biome class"
+    },
+    {
+      "species": "Rupicapra sensoria",
+      "ecotype_id": "RUS-ECO1",
+      "label": "Cenge Calcarenitiche",
+      "biome_class": "terrestre_montano",
+      "matched_ecosystems": [
+        {
+          "id": "CRYOSTEPPE",
+          "label": "Cryosteppe Magnetica",
+          "biome_id": "cryosteppe"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Rupicapra sensoria",
+      "ecotype_id": "RUS-ECO2",
+      "label": "Dorsali Ventose",
+      "biome_class": "terrestre_montano",
+      "matched_ecosystems": [
+        {
+          "id": "CRYOSTEPPE",
+          "label": "Cryosteppe Magnetica",
+          "biome_id": "cryosteppe"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Soniptera resonans",
+      "ecotype_id": "SPR-ECO1",
+      "label": "Oasi Termica",
+      "biome_class": "terrestre_savanna",
+      "matched_ecosystems": [
+        {
+          "id": "DESERTO_CALDO",
+          "label": "Deserto Caldo Vetrificato",
+          "biome_id": "deserto_caldo"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Soniptera resonans",
+      "ecotype_id": "SPR-ECO2",
+      "label": "Prateria Arbustiva",
+      "biome_class": "terrestre_savanna",
+      "matched_ecosystems": [
+        {
+          "id": "DESERTO_CALDO",
+          "label": "Deserto Caldo Vetrificato",
+          "biome_id": "deserto_caldo"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Terracetus ambulator",
+      "ecotype_id": "TAM-ECO1",
+      "label": "Pianure Ventose",
+      "biome_class": "terrestre_pianeggiante",
+      "matched_ecosystems": [
+        {
+          "id": "DESERTO_CALDO",
+          "label": "Deserto Caldo Vetrificato",
+          "biome_id": "deserto_caldo"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Terracetus ambulator",
+      "ecotype_id": "TAM-ECO2",
+      "label": "Savanicola Notturno",
+      "biome_class": "terrestre_savanna",
+      "matched_ecosystems": [
+        {
+          "id": "DESERTO_CALDO",
+          "label": "Deserto Caldo Vetrificato",
+          "biome_id": "deserto_caldo"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Umbra alaris",
+      "ecotype_id": "UMA-ECO1",
+      "label": "Canopy Ombrosa",
+      "biome_class": "terrestre_forestale",
+      "matched_ecosystems": [
+        {
+          "id": "FORESTA_TEMPERATA",
+          "label": "Foresta Temperata Demo",
+          "biome_id": "foresta_temperata"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    },
+    {
+      "species": "Umbra alaris",
+      "ecotype_id": "UMA-ECO2",
+      "label": "Canyon Notturno",
+      "biome_class": "terrestre_roccioso",
+      "matched_ecosystems": [
+        {
+          "id": "BADLANDS",
+          "label": "Brulle Terre Ferrose",
+          "biome_id": "badlands"
+        }
+      ],
+      "unresolved_ecosystems": [],
+      "notes": null
+    }
+  ]
+}
