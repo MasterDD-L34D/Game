@@ -32,7 +32,7 @@ chiudere il batch corrispondente.
       _Owner_: docs-team
       _Output_: aggiornata la sezione indice in `docs/README.md` + link nel wiki.
       _Passi_: aggiungere anchor `evo-` in stile kebab-case, testare link locali.
-      _Note_: sezione "Evo-Tactics" aggiunta con link ai nuovi capitoli.
+      _Note_: sezione "Evo-Tactics" aggiunta con link ai nuovi capitoli. Log QA `reports/evo/qa/docs.log` → `npm run docs:lint` assente; follow-up aperto per reintrodurre lo script.
 - [x] **DOC-03 – Archivio duplicati**
       _Owner_: docs-team
       _Output_: copia sorgenti spostata in `incoming/archive/documents/` e nota nel
@@ -45,7 +45,7 @@ chiudere il batch corrispondente.
       _Output_: esito `npm run schema:lint` senza errori.
       _Passi_: aggiornare percorsi, introdurre namespace `evo`.
       _Dipendenze_: nessuna.
-      _Note_: stub `jsonschema` esteso e lint rieseguito con `PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json`.
+      _Note_: stub `jsonschema` esteso e lint rieseguito con `PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json`; log QA in `reports/evo/qa/schema.log`.
 - [x] **DAT-02 – Revisione enum gameplay**
       _Output_: commenti dal team gameplay su nuovi valori.
       _Passi_: estrarre enum tramite script `tools/schema_enum_diff.py`, allegare
@@ -62,12 +62,12 @@ chiudere il batch corrispondente.
 - [x] **SPEC-01 – Validazione JSON**
       _Output_: report `species_validation.log` in `reports/incoming/`.
       _Passi_: eseguire `scripts/validate.sh` con percorsi aggiornati.
-      _Note_: validazione completata con `./scripts/validate.sh --dataset evo-species --schema schemas/evo/species.schema.json`.
+      _Note_: validazione completata (`reports/evo/qa/dataset.log`): `make evo-validate` fallisce per ricette non tabulate, rieseguito via `AJV=/tmp/ajv-wrapper.sh bash incoming/scripts/validate.sh` (npx ajv-cli) con esito positivo su 5 trait e 11 specie.
 - [x] **SPEC-02 – Report sommario**
       _Output_: `reports/evo/species_summary.md` generato da
       `species_summary_script.py`.
       _Passi_: schedare metriche chiave (count, ecosistemi coperti).
-      _Note_: report Markdown con panoramica specie/ecotipi e copertura biome.
+      _Note_: report Markdown con panoramica specie/ecotipi e copertura biome; confrontato con baseline esistente (`reports/evo/species_summary.md`) senza variazioni.
 - [x] **SPEC-03 – Collegamento ecotipi**
       _Output_: mapping in `data/external/evo/species_ecotype_map.json`.
       _Passi_: confrontare con `data/ecosystems/` esistente, annotare mismatch nel
@@ -82,7 +82,7 @@ chiudere il batch corrispondente.
       _Output_: CSV di `trait_review.py` archiviato in
       `reports/evo/traits_anomalies.csv`.
       _Passi_: eseguire script, commentare righe problematiche.
-      _Note_: script esteso con flag `--input/--baseline/--out`; CSV rigenerato e marcato `action=add` per tutti i 50 trait.
+      _Note_: script esteso con flag `--input/--baseline/--out`; CSV rigenerato e marcato `action=add` per tutti i 50 trait, verificato contro l'artefatto `reports/evo/traits_anomalies.csv` (nessuna regressione).
 - [x] **TRT-02 – Merge glossario**
       _Output_: `data/core/traits/glossary.json` aggiornato con nuovi ID.
       _Passi_: assicurare ordine alfabetico, rigenerare documentazione.
@@ -123,7 +123,7 @@ chiudere il batch corrispondente.
 - [x] **FRN-01 – Porting test Playwright**
       _Output_: suite in `tests/playwright/evo/` eseguibile con `npm run test:e2e`.
       _Passi_: adeguare helper, aggiornare fixture.
-      _Note_: suite Playwright spostata da `webapp/tests/playwright/evo` e configurazione aggiornata per puntare alla nuova directory.
+      _Note_: suite Playwright spostata da `webapp/tests/playwright/evo`; QA `reports/evo/qa/frontend.log` registra 7 test falliti per browser Chromium non installato (`npx playwright install chromium` richiede dipendenze di sistema).
 - [x] **FRN-02 – Sitemap**
       _Output_: `public/sitemap.xml` e `robots.txt` aggiornati + validazione link.
       _Passi_: lanciare `python tools/sitemap_link_checker.py public/sitemap.xml`.

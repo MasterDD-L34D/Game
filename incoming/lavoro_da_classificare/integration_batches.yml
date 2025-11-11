@@ -5,13 +5,15 @@ batches:
     scope:
       - docs/**/*
       - README*.md
-      - "Guida Ai tratti *.docx"
-      - "Progetto unico e fonti (*.pdf)"
+      - 'Guida Ai tratti *.docx'
+      - 'Progetto unico e fonti (*.pdf)'
     destination:
       primary: docs/evo-tactics/
       security: docs/security/
       archives: incoming/archive/documents/
-    status: pronti_per_revisione
+    status: completato
+    completed_at: 2025-11-11T14:18:34Z
+    commit: b57fae2e562b04f8af1eda0546a0d9220538e44d
     actions:
       - Convertire i file DOCX/PDF in Markdown usando pandoc e aggiungere metadata frontmatter.
       - Uniformare titoli e slug alla convenzione `docs/` (kebab-case, prefisso `evo-`).
@@ -26,7 +28,9 @@ batches:
     destination:
       schemas: schemas/evo/
       data: data/core/species/aliases.json
-    status: in_analisi
+    status: completato
+    completed_at: 2025-11-11T14:18:34Z
+    commit: b57fae2e562b04f8af1eda0546a0d9220538e44d
     actions:
       - Validare gli schema con `npm run schema:lint` e verificare compatibilità con pipeline AJV esistente.
       - Allineare i campi `sentience_index` e `ecotypes` alle enum globali (`data/core/traits/glossary.json`).
@@ -42,7 +46,9 @@ batches:
     destination:
       data: data/external/evo/species/
       catalog: data/external/evo/species_catalog.json
-    status: pronti_per_validazione
+    status: completato
+    completed_at: 2025-11-11T14:18:34Z
+    commit: b57fae2e562b04f8af1eda0546a0d9220538e44d
     actions:
       - Validare i JSON con `scripts/validate.sh` (aggiornare i path).
       - Generare il report aggregato con `species_summary_script.py` e allegarlo in `reports/`.
@@ -58,7 +64,9 @@ batches:
     destination:
       data: data/external/evo/traits/
       glossary: data/core/traits/glossary.json
-    status: pronti_per_validazione
+    status: completato
+    completed_at: 2025-11-11T14:18:34Z
+    commit: b57fae2e562b04f8af1eda0546a0d9220538e44d
     actions:
       - Lanciare `trait_review.py` per generare CSV con anomalie e duplicati.
       - Integrare i nuovi trait nel glossario assicurando unicità degli ID `TR-####`.
@@ -76,7 +84,9 @@ batches:
     destination:
       incoming_scripts: incoming/scripts/
       tools: tools/automation/
-    status: in_corso
+    status: completato
+    completed_at: 2025-11-11T14:18:34Z
+    commit: b57fae2e562b04f8af1eda0546a0d9220538e44d
     actions:
       - Uniformare intestazioni shebang e licenze.
       - Aggiungere target dedicati nel `Makefile` (`make evo-validate`, `make evo-backlog`).
@@ -95,7 +105,9 @@ batches:
       workflows: .github/workflows/
       ops: ops/site-audit/
       config: config/lighthouse/
-    status: da_revisionare
+    status: completato
+    completed_at: 2025-11-11T14:18:34Z
+    commit: b57fae2e562b04f8af1eda0546a0d9220538e44d
     actions:
       - Confrontare ogni workflow con l'equivalente in `.github/workflows/` e fondere solo gli step mancanti.
       - Integrare gli script site-audit nel tooling esistente (`tools/site-audit`).
@@ -114,7 +126,9 @@ batches:
       tests: tests/playwright/evo/
       sitemap: public/
       docs: docs/wireframes/
-    status: pianificato
+    status: completato
+    completed_at: 2025-11-11T14:18:34Z
+    commit: b57fae2e562b04f8af1eda0546a0d9220538e44d
     actions:
       - Trasporre gli spec Playwright nel formato usato da `tests/e2e` (vitest + playwright).
       - Verificare la sitemap con `sitemap_link_checker.py` e aggiornare `public/sitemap.xml`.

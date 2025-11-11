@@ -22,8 +22,8 @@ inventario:
   - percorso: docs
     tipo: directory
     dimensione_byte: 4096
-    note: Directory
-    stato: da revisionare
+    note: 'Directory; QA `reports/evo/qa/docs.log` evidenzia assenza script `npm run docs:lint` (follow-up richiesto).'
+    stato: in revisione
   - percorso: ecotypes
     tipo: directory
     dimensione_byte: 4096
@@ -52,8 +52,8 @@ inventario:
   - percorso: species
     tipo: directory
     dimensione_byte: 4096
-    note: Directory
-    stato: da revisionare
+    note: 'Directory; validazione specie/ecotipi registrata in `reports/evo/qa/dataset.log`.'
+    stato: validato
   - percorso: templates
     tipo: directory
     dimensione_byte: 4096
@@ -149,6 +149,26 @@ inventario:
     dimensione_byte: 3524
     note: Report Markdown SPEC-02 generato da species_summary_script.py
     stato: aggiornato
+  - percorso: reports/evo/qa/dataset.log
+    tipo: file
+    dimensione_byte: 2729
+    note: 'QA dataset: `make evo-validate` fallito (ricette senza TAB), rieseguito con wrapper AJV/npx su 5 trait e 11 specie.'
+    stato: validato
+  - percorso: reports/evo/qa/schema.log
+    tipo: file
+    dimensione_byte: 356
+    note: 'QA schema: `PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json` completato.'
+    stato: validato
+  - percorso: reports/evo/qa/docs.log
+    tipo: file
+    dimensione_byte: 316
+    note: 'QA docs: `npm run docs:lint` non definito → necessario ripristinare lo script.'
+    stato: in revisione
+  - percorso: reports/evo/qa/frontend.log
+    tipo: file
+    dimensione_byte: 11236
+    note: 'QA frontend: 7 test Playwright falliti per browser Chromium non installato; richiede `npx playwright install chromium` e dipendenze di sistema.'
+    stato: in revisione
   - percorso: GDD.md
     tipo: file
     dimensione_byte: 6487

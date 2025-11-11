@@ -2,7 +2,7 @@
 
 meta:
   version: 1
-  last_update: 2025-11-16
+  last_update: 2025-11-11
   notes: 'Aggiornare status e assegnatari quando i task vengono presi in carico. Directory di destinazione già disponibili: docs/evo-tactics, docs/security, data/external/evo, reports/evo, incoming/archive/documents, tools/automation, docs/wireframes/evo. Utilizzare tools/automation/evo_batch_runner.py per automatizzare i comandi batch (dry-run di default).'
 
 tasks:
@@ -31,7 +31,7 @@ tasks:
       - docs/README.md
     commands:
       - npm run docs:lint
-    notes: 'Indice arricchito con sezione Evo-Tactics e link ancorati.'
+    notes: 'Indice arricchito con sezione Evo-Tactics e link ancorati. QA `reports/evo/qa/docs.log`: `npm run docs:lint` mancante, necessario ripristinare lo script.'
 
   - id: DOC-03
     batch: documentation
@@ -57,7 +57,7 @@ tasks:
       - schemas/evo/*.schema.json
     commands:
       - npm run schema:lint
-    notes: 'Stub jsonschema aggiornato e lint eseguito con PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json.'
+    notes: 'Stub jsonschema aggiornato e lint eseguito con PYTHONPATH=. npm run schema:lint -- --pattern schemas/evo/*.schema.json (log in reports/evo/qa/schema.log).'
 
   - id: DAT-02
     batch: data-models
@@ -99,7 +99,7 @@ tasks:
       - reports/incoming/species_validation.log
     commands:
       - ./scripts/validate.sh --dataset evo-species --schema schemas/evo/species.schema.json
-    notes: 'Log SPEC-01 aggiornato; ecotipi esclusi dalla validazione schema.'
+    notes: 'Log SPEC-01 aggiornato; QA `reports/evo/qa/dataset.log` mostra fallimento `make evo-validate` (ricette senza TAB) e riesecuzione con `AJV=/tmp/ajv-wrapper.sh bash incoming/scripts/validate.sh` (npx ajv-cli) su 5 trait e 11 specie.'
 
   - id: SPEC-02
     batch: species_ecotypes
@@ -113,7 +113,7 @@ tasks:
       - reports/evo/species_summary.md
     commands:
       - python incoming/lavoro_da_classificare/species_summary_script.py --input data/external/evo/species/ --output reports/evo/species_summary.md
-    notes: 'Report Markdown con conteggi specie/ecotipi e dettaglio biome.'
+    notes: 'Report Markdown con conteggi specie/ecotipi e dettaglio biome; confronto con baseline `reports/evo/species_summary.md` senza differenze.'
 
   - id: SPEC-03
     batch: species_ecotypes
@@ -139,7 +139,7 @@ tasks:
       - reports/evo/traits_anomalies.csv
     commands:
       - python incoming/lavoro_da_classificare/scripts/trait_review.py
-    notes: 'Script esteso con modalità `--input/--baseline/--out`; CSV rigenerato e righe segnate come `action=add`.'
+    notes: 'Script esteso con modalità `--input/--baseline/--out`; CSV rigenerato e righe segnate come `action=add`, invariato rispetto a `reports/evo/traits_anomalies.csv`.'
 
   - id: TRT-02
     batch: traits
@@ -253,7 +253,7 @@ tasks:
       - tests/playwright/evo/
     commands:
       - npm run test:e2e -- --project=evo
-    notes: 'Suite Playwright spostata da webapp/tests/playwright/evo e configurazione aggiornata per usare tests/playwright/evo.'
+    notes: 'Suite Playwright spostata da webapp/tests/playwright/evo; QA `reports/evo/qa/frontend.log` documenta 7 failure per browser Chromium non installato (`npx playwright install chromium` richiede dipendenze di sistema).'
 
   - id: FRN-02
     batch: frontend
