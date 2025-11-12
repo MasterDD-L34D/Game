@@ -3,4 +3,5 @@ numpy
 pymongo
 jsonschema>=4.22.0
 
+boto3
 matplotlib
