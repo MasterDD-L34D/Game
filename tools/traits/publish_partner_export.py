@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
-"""Esegue la sincronizzazione dei trait Evo e (facoltativamente) pubblica l'export su S3.
+"""Esegue la sincronizzazione dei trait Evo, la valutazione interna e (facoltativamente)
+pubblica l'export su S3.
 
 Questo script consolida i passaggi effettuati dal workflow GitHub `traits-sync` in
 modo da poterli rieseguire manualmente quando GitHub Actions non è disponibile o
-non risponde. Produce sempre l'export CSV locale e può caricarlo su S3 se sono
-presenti le credenziali partner.
+non risponde. Produce sempre l'export CSV locale, genera i report di valutazione
+interna e può caricarli su S3 se sono presenti le credenziali partner.
 """
 from __future__ import annotations
 
 import argparse
+import datetime
+import shlex
 import os
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Dict, List, Mapping, Optional, Sequence, Tuple
 
 import importlib.util
 
@@ -21,6 +24,7 @@ from botocore.exceptions import BotoCoreError, ClientError
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SYNC_MODULE_PATH = REPO_ROOT / "tools/traits/sync_missing_index.py"
+EVALUATION_MODULE_PATH = REPO_ROOT / "tools/traits/evaluate_internal.py"
 
 spec = importlib.util.spec_from_file_location("sync_missing_index", SYNC_MODULE_PATH)
 if spec is None or spec.loader is None:
@@ -30,8 +34,19 @@ sys.modules.setdefault("sync_missing_index", sync_missing_index)
 sys.modules.setdefault("tools.traits.sync_missing_index", sync_missing_index)
 spec.loader.exec_module(sync_missing_index)
 
+evaluation_spec = importlib.util.spec_from_file_location("evaluate_internal", EVALUATION_MODULE_PATH)
+if evaluation_spec is None or evaluation_spec.loader is None:
+    raise RuntimeError(
+        f"Impossibile caricare il modulo evaluate_internal da {EVALUATION_MODULE_PATH}"
+    )
+evaluate_internal = importlib.util.module_from_spec(evaluation_spec)
+sys.modules.setdefault("evaluate_internal", evaluate_internal)
+sys.modules.setdefault("tools.traits.evaluate_internal", evaluate_internal)
+evaluation_spec.loader.exec_module(evaluate_internal)
+
 
 DEFAULT_EXPORT_PATH = REPO_ROOT / "reports/evo/rollout/traits_external_sync.csv"
+DEFAULT_INTERNAL_EVAL_ROOT = REPO_ROOT / "reports/evo/internal/traits_evaluation"
 
 
 def parse_args() -> argparse.Namespace:
@@ -78,6 +93,29 @@ def parse_args() -> argparse.Namespace:
         help="Non scrive su disco ma produce l'export CSV",
     )
     parser.set_defaults(update_glossary=True)
+
+    parser.add_argument(
+        "--incoming-matrix",
+        dest="incoming_matrices",
+        action="append",
+        type=Path,
+        default=[],
+        help="Percorsi CSV aggiuntivi con segnali di moderazione per la valutazione interna",
+    )
+    parser.add_argument(
+        "--evaluation-output",
+        type=Path,
+        default=None,
+        help=(
+            "Percorso base per i report di valutazione interna. "
+            "Default: reports/evo/internal/traits_evaluation/<timestamp>"
+        ),
+    )
+    parser.add_argument(
+        "--skip-evaluation",
+        action="store_true",
+        help="Non genera i report di valutazione interna",
+    )
 
     default_upload = bool(os.getenv("PARTNERS_S3_BUCKET"))
     parser.add_argument(
@@ -133,7 +171,7 @@ def run_sync(
     export_path: Path,
     update_glossary: bool,
     dry_run: bool,
-) -> None:
+) -> Tuple[Sequence[sync_missing_index.TraitRecord], Mapping[str, object]]:
     records = sync_missing_index.read_gap_report(source)
     glossary = sync_missing_index.update_glossary(
         dest,
@@ -142,6 +180,81 @@ def run_sync(
         dry_run=dry_run or not update_glossary,
     )
     sync_missing_index.build_partner_export(export_path, records, glossary)
+    return records, glossary
+
+
+def run_internal_evaluation(
+    records: Sequence[sync_missing_index.TraitRecord],
+    glossary: Mapping[str, object],
+    incoming_matrices: Sequence[Path],
+    output_base: Path,
+) -> Dict[str, Path]:
+    incoming_signals = evaluate_internal.collect_incoming_signals(incoming_matrices)
+    evaluations = evaluate_internal.evaluate_traits(records, glossary, incoming_signals)
+    return evaluate_internal.write_reports(evaluations, output_base)
+
+
+def format_command(parts: List[str]) -> str:
+    return " ".join(shlex.quote(str(part)) for part in parts)
+
+
+def build_manual_commands(
+    args: argparse.Namespace,
+    evaluation_output: Optional[Path],
+) -> List[str]:
+    commands: List[str] = []
+    sync_parts: List[str] = [
+        "python",
+        "tools/traits/sync_missing_index.py",
+        "--source",
+        args.source,
+        "--dest",
+        args.dest,
+        "--trait-dir",
+        args.trait_dir,
+        "--export",
+        args.export,
+    ]
+    sync_parts.append("--update-glossary" if args.update_glossary else "--no-update-glossary")
+    if args.dry_run:
+        sync_parts.append("--dry-run")
+    commands.append(format_command(sync_parts))
+
+    if evaluation_output is not None and not args.skip_evaluation:
+        eval_parts: List[str] = [
+            "python",
+            "tools/traits/evaluate_internal.py",
+            "--gap-report",
+            args.source,
+            "--glossary",
+            args.dest,
+            "--output",
+            evaluation_output,
+        ]
+        for matrix in args.incoming_matrices:
+            eval_parts.extend(["--incoming-matrix", matrix])
+        commands.append(format_command(eval_parts))
+
+    if args.upload and args.s3_bucket:
+        prefix = (args.s3_prefix or "").strip("/")
+        if prefix:
+            destination = f"s3://{args.s3_bucket}/{prefix}/traits_external_sync.csv"
+        else:
+            destination = f"s3://{args.s3_bucket}/traits_external_sync.csv"
+        upload_parts: List[str] = [
+            "aws",
+            "s3",
+            "cp",
+            args.export,
+            destination,
+            "--acl",
+            "bucket-owner-full-control",
+            "--cache-control",
+            "no-cache",
+        ]
+        commands.append(format_command(upload_parts))
+
+    return commands
 
 
 def upload_to_s3(
@@ -187,7 +300,7 @@ def upload_to_s3(
 def main() -> None:
     args = parse_args()
 
-    run_sync(
+    records, glossary = run_sync(
         source=args.source,
         dest=args.dest,
         trait_dir=args.trait_dir,
@@ -195,6 +308,31 @@ def main() -> None:
         update_glossary=args.update_glossary,
         dry_run=args.dry_run,
     )
+
+    evaluation_output: Optional[Path]
+    if args.skip_evaluation:
+        evaluation_output = None
+        evaluation_paths: Optional[Dict[str, Path]] = None
+    else:
+        if args.evaluation_output is not None:
+            evaluation_output = args.evaluation_output
+        else:
+            timestamp = datetime.datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+            evaluation_output = DEFAULT_INTERNAL_EVAL_ROOT / f"manual_{timestamp}"
+        evaluation_paths = run_internal_evaluation(
+            records=records,
+            glossary=glossary,
+            incoming_matrices=args.incoming_matrices,
+            output_base=evaluation_output,
+        )
+        print(f"Report valutazione JSON: {evaluation_paths['json']}")
+        print(f"Report valutazione CSV: {evaluation_paths['csv']}")
+
+    manual_commands = build_manual_commands(args, evaluation_output)
+    if manual_commands:
+        print("Comandi equivalenti eseguiti:")
+        for command in manual_commands:
+            print(f"  {command}")
 
     if not args.upload:
         print("Upload su S3 disabilitato o non richiesto. File pronto localmente.")
