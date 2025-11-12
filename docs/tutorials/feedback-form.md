@@ -3,13 +3,15 @@
 Questa guida illustra come accedere, compilare e monitorare il nuovo form di feedback introdotto con la pipeline descritta in `docs/process/feedback_collection_pipeline.md`.
 
 ## 1. Accesso al form
+
 - **Dashboard documentazione**: link rapido nel menu "Supporto" → "Invia feedback".
 - **Webapp di playtest**: pulsante `Invia feedback` in basso a destra, sincronizzato con questa configurazione.
-- **CLI**: eseguire `python tools/py/game_cli.py feedback --open-form` per aprire l'URL precompilato.
+- **Automazione da terminale**: il sottocomando `feedback` non è più disponibile. Recupera l'URL dal portale o dai metadati in `tools/feedback/form_config.yaml` e, se serve un launcher dedicato, apri un task Tools per reintrodurlo.
 
-> Il form è ospitato nell'app Notion condivisa del team. Copia sempre l'URL generato dal comando CLI per includere l'ID build.
+> Il form è ospitato nell'app Notion condivisa del team. Conserva l'URL generato dal portale per includere l'ID build.
 
 ## 2. Compilazione step-by-step
+
 1. **Contesto build**
    - `build_version`: seleziona dal menu la build in test (es. `v0.8.3-nightly`).
    - `platform`: indica il device principale (`pc`, `steamdeck`, `cloud`).
@@ -31,21 +33,37 @@ Questa guida illustra come accedere, compilare e monitorare il nuovo form di fee
    - `contact`: email o handle Discord/Slack.
 
 ## 3. Linee guida qualitative
+
 - Preferisci **descrizioni osservabili** alle interpretazioni (es. "la mutazione non attiva il bonus" invece di "non funziona").
 - Se il problema è critico (`severity >= 3`), fornisci sempre **passi di riproduzione** e, se possibile, un log estratto.
 - Seleziona `sandbox` solo per sessioni esplorative; per regressioni indica sempre la build di riferimento.
 
 ## 4. Dopo l'invio
+
 - Riceverai una conferma via email con l'ID feedback (es. `FDB-2024-051`).
 - Quando il feedback entra nel backlog, l'owner aggiorna lo stato in `tools/feedback/collection_pipeline.yaml`.
 - Puoi monitorare i progressi nel report settimanale pubblicato in `docs/playtest/INSIGHTS-2025-11.md`.
 
 ## 5. Risoluzione dei problemi
+
 - **Il form non carica?** Verifica la VPN aziendale; il dominio Notion è accessibile solo da IP autorizzati.
 - **Non trovi la build in elenco?** Apri un ticket in `#feedback-enhancements` con l'ID commit e l'ambiente.
 - **Serve supporto audio/video?** Allegare file superiori a 50MB direttamente su Drive e incollare il link con permessi `comment`.
 
 ## 6. Link utili
+
 - Configurazione del form: [`tools/feedback/form_config.yaml`](../../tools/feedback/form_config.yaml)
 - Pipeline di raccolta: [`docs/process/feedback_collection_pipeline.md`](../process/feedback_collection_pipeline.md)
 - Changelog delle revisioni: [`docs/changelog.md`](../changelog.md)
+
+### Appendice · Comandi CLI disponibili
+
+Per operazioni correlate alla convalida dati e alle indagini dei pacchetti usa `python tools/py/game_cli.py <comando>`, che espone i sottocomandi aggiornati:
+
+- `roll-pack [FORM MBTI] [ARCHETIPO] [--seed <valore>]`
+- `generate-encounter [biome] [data_path] [--party-power <int>] [--seed <valore>]`
+- `validate-datasets`
+- `validate-ecosystem-pack [--json-out <path>] [--html-out <path>]`
+- `investigate <file|dir> [...] [--recursive] [--json] [--html] [--destination NAME]`
+
+> Se occorre un nuovo sottocomando `feedback`, aprire una richiesta dedicata nel backlog Tools indicando gli automatismi necessari.
