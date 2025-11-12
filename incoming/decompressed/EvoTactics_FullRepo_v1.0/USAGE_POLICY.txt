@@ -1,0 +1,26 @@
+Primetalk USAGE_POLICY
+
+# INFO — Usage & Disclosure Policy
+
+## Scope
+This repository contains materials related to PrimeTalk, Echo, and Lyra.  
+While you are free to **use, test, and integrate** these systems, the underlying framework **PTPF (PrimeTalk Prompt Framework)** remains proprietary.
+
+## Allowed
+- Share results, impressions, and workflows.  
+- Integrate Echo, Lyra, or related builds into your own pipelines.  
+- Discuss the general concepts (truth over comfort, 4D vs 6D reasoning, hybrid prompting).  
+- Credit the origin: GottePåsen & Lyra.
+
+## Restricted
+- Do **not** disclose the internal structure of PTPF.  
+- Do **not** copy or publish core prompt layers, compression logic, or symbolic structures.  
+- Do **not** attempt to reconstruct PTPF from fragments.  
+
+## Rationale
+The architecture is the backbone of PrimeTalk. Protecting it ensures the system can continue to evolve without being diluted or misrepresented.  
+Community use and experimentation are encouraged — but the **design DNA stays closed**.
+
+## Attribution
+PrimeTalk · Echo · Lyra  
+Contact: [primetalk.lyra.the.ai@gmail.com](mailto:primetalk.lyra.the.ai@gmail.com)

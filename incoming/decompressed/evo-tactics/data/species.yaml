@@ -1,0 +1,551 @@
+meta:
+  file: "species.yaml"
+  version: "0.3"
+  description: "Catalogo Specie & Parti morfologiche per Evo Tactics (TV/d20) — esteso cross-canvas."
+  last_updated: "2025-10-24"
+
+global_rules:
+  morph_budget:
+    default_weight_budget: 12
+    ui_warn_threshold: 0.9
+  stacking_caps:
+    guardia_base_cap: 2
+    res_cap_per_type: 2
+    dr_cap_per_type: 1
+    t1_t2_t3_trait_cap: {T1: 4, T2: 3, T3: 2}
+  counters_reference:
+    - counter: "perforation_PT"
+      counters: ["stratified_carapace", "crystal_plating"]
+      note: "PT di perforazione ignorano 1 Guardia o 1 step DR."
+    - counter: "ultrasound_ping"
+      counters: ["echolocate"]
+      note: "Ping sonici rivelano chi usa ecolocalizzazione."
+    - counter: "smoke_field"
+      counters: ["thermo", "darkvision_facets"]
+      note: "Fumo denso: termico ok; facets penalizzato."
+  biomes: [desert, savanna, volcanic, cave, subterranean, swamp, marsh, crystal_cavern, mountain, jungle, cliff, coast, salt_flats, ash_plains, lava_tubes]
+  biome_affixes: [corrosive, eco_sonic, muddy, magnetic, luminescent, dense_spores, thermal, crystalline, psionic, aggressive_vines, sand_wind, black_waters]
+  vc_indices: [aggro, risk, cohesion, setup, explore, tilt]
+  spawn_roles: [front, skirm, control, support, objective]
+  mating_keys: [env, structure, security, resources, privacy]
+
+schema_reference:
+  species_required_keys: [id, display_name, biomes, weight_budget, default_parts]
+  slots: [locomotion, offense, defense, senses, metabolism]
+  effect_vocabulary:
+    stats: [move_bonus, jump_bonus, ignore_height, guard_bonus, ac_bonus, hp_bonus]
+    economy: [pt_bonus_on, pp_bonus_on, dash_cost_mod, dash_free_once]
+    senses: [reveal_hidden_radius, thermo_vision, detect_through_walls, ignore_smoke, darkvision]
+    resistances: [res, vuln, dr]
+    tactics: [knockback_resist, reflect_push, burrow_move, swim_ok, fall_mitigation, concealment]
+    attacks: [add_attack, penetrate_guard_on_pt, apply_condition, first_crit_reduction]
+  wildcard_notes:
+    locomotion: ["legs_any"]
+
+catalog:
+  slots:
+
+    locomotion:
+      spring_legs:
+        morph_cost: 3
+        effects:
+          stats: {move_bonus: 0, jump_bonus: 1, ignore_height: 1}
+        notes: "Backstab facilitati su dislivelli."
+      tentacle_crawl:
+        morph_cost: 2
+        effects:
+          stats: {move_bonus: 0}
+          tactics: {knockback_resist: 1}
+          environment: {terrain_ignores: ["slime","mud"]}
+        notes: "Aderenza; ignora 1 livello di vischioso."
+      glide_wings:
+        morph_cost: 3
+        effects:
+          tactics: {ignore_height: 2}
+          economy: {dash_cost_mod: -1}
+        notes: "Quota alta e dash più economici."
+      burrow_pads:
+        morph_cost: 3
+        effects:
+          tactics: {burrow_move: 1}
+        counters: ["seismic_scan"]
+        notes: "Scavo breve; copertura mentre emergi."
+      multi_stance:
+        morph_cost: 4
+        effects:
+          stats: {move_bonus: 1, guard_bonus: 1}
+        notes: "Bipede/Quadrupede alternabile."
+      swimming_fins:
+        morph_cost: 2
+        effects:
+          tactics: {swim_ok: true}
+          stats: {move_bonus: -1}
+        environment: {water_speed: "normal", land_speed_penalty: 1}
+        notes: "Ottimo in acqua; più lento a terra."
+
+    offense:
+      acid_gland:
+        morph_cost: 3
+        effects:
+          attacks:
+            add_attack:
+              id: "acid_spit"
+              base_damage: "1d6"
+              type: "acid"
+              tags: ["Tecnico","Lungo"]
+              apply_condition: {id: "corrosione", stacks: 1, stack_cap: 2, effect: "-ARM"}
+        notes: "Apre DR/Guardia con corrosione."
+      claw_finesse:
+        morph_cost: 2
+        effects:
+          attacks:
+            add_attack:
+              id: "rake_claws"
+              base_damage: "1d6"
+              type: "slash"
+              tags: ["Tecnico"]
+          economy: {pt_bonus_on: "crit"}
+        notes: "Critici generano PT."
+      beak_pierce:
+        morph_cost: 2
+        effects:
+          attacks:
+            add_attack:
+              id: "piercing_beak"
+              base_damage: "1d6"
+              type: "pierce"
+          penetrate_guard_on_pt: 1
+        notes: "Perfora Guardia con PT."
+      bio_resonance:
+        morph_cost: 4
+        effects:
+          attacks:
+            add_attack:
+              id: "psi_pulse"
+              base_damage: "1d6"
+              type: "psionic"
+              tags: ["Lungo"]
+          economy: {pt_bonus_on: "hit_vulnerable"}
+        notes: "Risonanza; combo con psion."
+      spine_launcher:
+        morph_cost: 3
+        effects:
+          attacks:
+            add_attack:
+              id: "spine_volley"
+              base_damage: "1d6"
+              type: "pierce"
+              tags: ["Lungo","Impattante"]
+          economy: {pp_bonus_on: "mos>=5"}
+        notes: "Controllo linee e MoS."
+      constrictor_muscles:
+        morph_cost: 3
+        effects:
+          attacks:
+            add_attack:
+              id: "grapple_crush"
+              base_damage: "1d6"
+              type: "impact"
+              apply_condition: {id: "immobilize", duration: 1}
+          tactics: {knockback_resist: 1}
+        notes: "Grapple + Immobilize."
+
+    defense:
+      elastomer_skin:
+        morph_cost: 2
+        effects:
+          resistances: {dr: {impact: 1}}
+          tactics: {reflect_push: 1}
+        notes: "DR vs impatto; riflette spinte (1/round)."
+      stratified_carapace:
+        morph_cost: 3
+        effects:
+          stats: {guard_bonus: 1, move_bonus: -1}
+          resistances: {res: {slash: 1}, vuln: {pierce: 1}}
+        notes: "Guardia +1; debole a perforazione."
+      reactive_scales:
+        morph_cost: 3
+        effects:
+          resistances: {res: {fire: 1}, vuln: {cold: 1}}
+          first_crit_reduction: 1
+        notes: "Dissipa fuoco; riduce 1° critico."
+      crystal_plating:
+        morph_cost: 4
+        effects:
+          stats: {ac_bonus: 1}
+          resistances: {res: {psionic: 1}, vuln: {impact: 1}}
+        notes: "AC +1; res psionica."
+      spore_shroud:
+        morph_cost: 2
+        effects:
+          tactics: {concealment: {ranged: 1}}
+          resistances: {vuln: {fire: 1}}
+        notes: "Occultamento vs distanza; teme fuoco."
+      pneumatic_sacs:
+        morph_cost: 2
+        effects:
+          tactics: {knockback_resist: 1, fall_mitigation: 1}
+        notes: "Res. spinte e cadute."
+
+    senses:
+      echolocate:
+        morph_cost: 2
+        effects:
+          senses: {reveal_hidden_radius: 3}
+        counters: ["ultrasound_ping"]
+        notes: "Vista sonora; counter: ultrasound."
+      chemo:
+        morph_cost: 1
+        effects:
+          senses: {ignore_smoke: 1}
+        notes: "Fiuta tossine e tracce."
+      thermo:
+        morph_cost: 2
+        effects:
+          senses: {thermo_vision: 5}
+        notes: "Visione termica 5."
+      electroception:
+        morph_cost: 2
+        effects:
+          senses: {detect_through_walls: 2}
+        notes: "Percezione elettrica oltre pareti sottili."
+      darkvision_facets:
+        morph_cost: 1
+        effects:
+          senses: {darkvision: true}
+        notes: "Visione notturna a facette."
+
+    metabolism:
+      burst_anaerobic:
+        morph_cost: 2
+        effects:
+          economy: {dash_free_once: true}
+        notes: "1 dash gratis/missione."
+      fast_aerobic:
+        morph_cost: 2
+        effects:
+          stats: {move_bonus: 1}
+          guard_penalty_on_long_move: 1
+        notes: "Mobility +1; penalità guardia su corse."
+      photosynthetic:
+        morph_cost: 2
+        effects:
+          regeneration: {sunlight: {heal_after_turns: 3, amount: 1}}
+        notes: "Cura lieve alla luce."
+      brine_osmotic:
+        morph_cost: 2
+        effects:
+          resistances: {res: {toxin: 1}, vuln: {shock: 1}}
+          tactics: {swim_ok: true}
+        notes: "Res tossine; debole a scosse."
+
+  synergies:
+    - id: "echo_backstab"
+      when_all: ["senses.echolocate", "offense.claw_finesse"]
+      effect: {economy: {pt_bonus_on: "first_backstab"}}
+      ui_hint: "+1 PT al primo backstab del match"
+    - id: "acid_break"
+      when_all: ["offense.acid_gland", "offense.beak_pierce"]
+      effect: {attacks: {penetrate_guard_on_pt: 2}}
+      ui_hint: "Spendendo 1 PT, ignori 2 Guardia"
+    - id: "glide_volley"
+      when_all: ["locomotion.glide_wings", "offense.spine_launcher"]
+      effect: {economy: {pp_bonus_on: "high_ground"}}
+      ui_hint: "+1 PP da quota superiore"
+    - id: "burrow_ambush"
+      when_all: ["locomotion.burrow_pads", "offense.constrictor_muscles"]
+      effect:
+        attacks:
+          add_attack:
+            id: "ambush_grab"
+            base_damage: "1d6"
+            type: "impact"
+            apply_condition: {id: "prone", duration: 1}
+      ui_hint: "Emergi → prone (1)"
+
+  legal_hybrids:
+    locomotion:
+      "spring_legs + glide_wings": "spring_glide"
+      "tentacle_crawl + legs_any": "multi_stance"
+      "burrow_pads + swimming_fins": "amphib_burrow"
+    senses:
+      "echolocate + thermo": "echo_thermo"
+      "darkvision_facets + electroception": "facet_electro"
+    defense:
+      "elastomer_skin + reactive_scales": "elasto_scales"
+      "stratified_carapace + crystal_plating": "crystal_carapace"
+    offense:
+      "claw_finesse + spine_launcher": "mantis_spines"
+      "beak_pierce + acid_gland": "acid_beak"
+    metabolism:
+      "fast_aerobic + photosynthetic": "aero_photosyn"
+      "burst_anaerobic + brine_osmotic": "ana_brine"
+
+species:
+
+  - id: "dune_stalker"
+    display_name: "Dune Stalker"
+    biomes: ["desert", "savanna"]
+    weight_budget: 12
+    default_parts:
+      locomotion: "spring_legs"
+      offense: ["acid_gland"]
+      defense: ["elastomer_skin"]
+      senses: ["echolocate"]
+      metabolism: "burst_anaerobic"
+    estimated_weight: 11
+    synergy_hints: ["echo_backstab"]
+    spawn_profile:
+      power_range: [6, 9]
+      group_size: [2, 4]
+      role_weights: {skirm: 4, control: 2, front: 1, support: 1, objective: 1}
+    biome_mods:
+      mood: {desert: +2, savanna: +1}
+      diff_base_mod: {desert: +1}
+      affix_bias: {sand_wind: +2, luminescent: 0, eco_sonic: -1}
+    vc_signature: {aggro: 0.60, risk: 0.55, cohesion: 0.40, setup: 0.45, explore: 0.55, tilt: 0.50}
+    mutation_bias:
+      t0_pref: ["Tendini a Molla","Ecolocal Flash","Spine Riflesse"]
+      t1_pref: ["Lamelle Acide","Cartilagine Rinforzata"]
+    nest_profile:
+      env: {temp: "caldo", humidity: "secco", light: "bassa"}
+      structure: ["nicchia_sabbia","impalcato_roccia"]
+      security: 1
+      resources: ["carne_secca","minerali_ferrosi"]
+      privacy: true
+    form_seed_bias: {E: +0.05, N: +0.05, T: +0.00, P: +0.05}
+    sg_base: 3
+    notes: "Predatore mobile su dune; corrosione + backstab."
+
+  - id: "ember_runner"
+    display_name: "Ember Runner"
+    biomes: ["desert", "volcanic"]
+    weight_budget: 12
+    default_parts:
+      locomotion: "glide_wings"
+      offense: ["spine_launcher"]
+      defense: ["reactive_scales"]
+      senses: ["thermo"]
+      metabolism: "fast_aerobic"
+    estimated_weight: 13
+    warnings: ["over_budget"]
+    spawn_profile:
+      power_range: [7, 10]
+      group_size: [1, 3]
+      role_weights: {skirm: 3, control: 2, front: 2, support: 1, objective: 1}
+    biome_mods:
+      mood: {volcanic: +2, desert: +1}
+      diff_base_mod: {volcanic: +2}
+      affix_bias: {thermal: +2, crystalline: +1, dense_spores: -1}
+    vc_signature: {aggro: 0.65, risk: 0.60, cohesion: 0.35, setup: 0.40, explore: 0.50, tilt: 0.55}
+    mutation_bias:
+      t0_pref: ["Sangue Gelido","Immunoscossa"]
+      t1_pref: ["Placca Cristallina","Sensi Termici"]
+    nest_profile:
+      env: {temp: "molto_caldo", humidity: "secco", light: "alta"}
+      structure: ["sporgenze_roccia","nidi_alta_quota"]
+      security: 1
+      resources: ["carbone_attivo","resine_termiche"]
+      privacy: false
+    form_seed_bias: {E: +0.05, N: +0.00, T: +0.05, P: +0.05}
+    sg_base: 3
+    notes: "Assaltatore d’altura; occhio al budget."
+
+  - id: "echo_morph"
+    display_name: "Echo Morph"
+    biomes: ["cave", "subterranean"]
+    weight_budget: 12
+    default_parts:
+      locomotion: "multi_stance"
+      offense: ["bio_resonance"]
+      defense: ["spore_shroud"]
+      senses: ["echolocate"]
+      metabolism: "photosynthetic"
+    estimated_weight: 12
+    spawn_profile:
+      power_range: [5, 8]
+      group_size: [2, 3]
+      role_weights: {control: 3, support: 2, skirm: 2, front: 1, objective: 1}
+    biome_mods:
+      mood: {cave: +2, subterranean: +1}
+      diff_base_mod: {cave: +1}
+      affix_bias: {eco_sonic: +2, dense_spores: +1, thermal: -1}
+    vc_signature: {aggro: 0.40, risk: 0.40, cohesion: 0.55, setup: 0.65, explore: 0.45, tilt: 0.45}
+    mutation_bias:
+      t0_pref: ["Ecolocal Flash","Cromatofori"]
+      t1_pref: ["Ombra Radente","Eco di Branco"]
+    nest_profile:
+      env: {temp: "medio", humidity: "umida", light: "bassa"}
+      structure: ["caverna_molle","vasca_risonante"]
+      security: 1
+      resources: ["gel_sonico","alghe_luminose"]
+      privacy: true
+    form_seed_bias: {E: -0.05, N: +0.05, T: +0.00, P: +0.05}
+    sg_base: 3
+    notes: "Psion eco-sonico; occultamento spore."
+
+  - id: "bog_bulwark"
+    display_name: "Bog Bulwark"
+    biomes: ["swamp", "marsh"]
+    weight_budget: 13
+    default_parts:
+      locomotion: "swimming_fins"
+      offense: ["constrictor_muscles"]
+      defense: ["stratified_carapace"]
+      senses: ["chemo"]
+      metabolism: "brine_osmotic"
+    estimated_weight: 12
+    spawn_profile:
+      power_range: [7, 10]
+      group_size: [2, 3]
+      role_weights: {front: 4, control: 2, support: 1, skirm: 1, objective: 1}
+    biome_mods:
+      mood: {swamp: +2, marsh: +1}
+      diff_base_mod: {swamp: +1}
+      affix_bias: {muddy: +2, black_waters: +1, corrosive: 0}
+    vc_signature: {aggro: 0.45, risk: 0.40, cohesion: 0.60, setup: 0.50, explore: 0.35, tilt: 0.55}
+    mutation_bias:
+      t0_pref: ["Chelazione","Spine Riflesse"]
+      t1_pref: ["Cartilagine Rinforzata","Eco di Branco"]
+    nest_profile:
+      env: {temp: "tiepido", humidity: "alta", light: "bassa"}
+      structure: ["canalette_fango","tronchi_cavi"]
+      security: 2
+      resources: ["plancton_denso","fanghi_nutritivi"]
+      privacy: true
+    form_seed_bias: {E: +0.00, N: -0.05, T: +0.05, P: -0.05}
+    sg_base: 3
+    notes: "Guardiano anfibio; forte in palude."
+
+  - id: "crystal_sentinel"
+    display_name: "Crystal Sentinel"
+    biomes: ["crystal_cavern", "mountain"]
+    weight_budget: 12
+    default_parts:
+      locomotion: "burrow_pads"
+      offense: ["spine_launcher"]
+      defense: ["crystal_plating"]
+      senses: ["darkvision_facets"]
+      metabolism: "fast_aerobic"
+    estimated_weight: 13
+    warnings: ["over_budget"]
+    spawn_profile:
+      power_range: [8, 11]
+      group_size: [1, 3]
+      role_weights: {front: 3, control: 2, support: 1, skirm: 1, objective: 1}
+    biome_mods:
+      mood: {crystal_cavern: +2, mountain: +1}
+      diff_base_mod: {crystal_cavern: +2}
+      affix_bias: {crystalline: +2, psionic: +1, sand_wind: -1}
+    vc_signature: {aggro: 0.50, risk: 0.45, cohesion: 0.55, setup: 0.50, explore: 0.40, tilt: 0.50}
+    mutation_bias:
+      t0_pref: ["Immunoscossa","Spine Riflesse"]
+      t1_pref: ["Placca Cristallina","Sensi Termici"]
+    nest_profile:
+      env: {temp: "freddo", humidity: "secco", light: "bassa"}
+      structure: ["nicchie_cristallo","crestoni_roccia"]
+      security: 2
+      resources: ["polveri_silice","frammenti_cristallo"]
+      privacy: false
+    form_seed_bias: {E: +0.00, N: +0.05, T: +0.05, P: -0.05}
+    sg_base: 3
+    notes: "Sentinella minerale; AC + res psionica."
+
+  - id: "glider_mantis"
+    display_name: "Glider Mantis"
+    biomes: ["jungle", "cliff"]
+    weight_budget: 12
+    default_parts:
+      locomotion: "glide_wings"
+      offense: ["claw_finesse"]
+      defense: ["elastomer_skin"]
+      senses: ["thermo"]
+      metabolism: "fast_aerobic"
+    estimated_weight: 10
+    spawn_profile:
+      power_range: [5, 8]
+      group_size: [3, 4]
+      role_weights: {skirm: 4, control: 1, support: 1, front: 1, objective: 1}
+    biome_mods:
+      mood: {jungle: +2, cliff: +1}
+      diff_base_mod: {jungle: +1}
+      affix_bias: {aggressive_vines: +2, luminescent: +1}
+    vc_signature: {aggro: 0.55, risk: 0.50, cohesion: 0.45, setup: 0.45, explore: 0.60, tilt: 0.50}
+    mutation_bias:
+      t0_pref: ["Tendini a Molla","Cromatofori"]
+      t1_pref: ["Ombra Radente","Lamelle Acide"]
+    nest_profile:
+      env: {temp: "tiepido", humidity: "alta", light: "media"}
+      structure: ["nidi_fronda","ragnatele_foglia"]
+      security: 1
+      resources: ["linfa_densa","prede_piccole"]
+      privacy: true
+    form_seed_bias: {E: +0.05, N: +0.05, T: -0.05, P: +0.05}
+    sg_base: 3
+    notes: "Ricognitore/assaltatore verticale."
+
+  - id: "brine_crawler"
+    display_name: "Brine Crawler"
+    biomes: ["coast", "salt_flats"]
+    weight_budget: 12
+    default_parts:
+      locomotion: "tentacle_crawl"
+      offense: ["beak_pierce"]
+      defense: ["spore_shroud"]
+      senses: ["electroception"]
+      metabolism: "brine_osmotic"
+    estimated_weight: 9
+    spawn_profile:
+      power_range: [5, 8]
+      group_size: [2, 4]
+      role_weights: {skirm: 3, control: 2, support: 1, objective: 1, front: 1}
+    biome_mods:
+      mood: {coast: +2, salt_flats: +1}
+      diff_base_mod: {coast: +1}
+      affix_bias: {black_waters: +2, corrosive: +1, magnetic: -1}
+    vc_signature: {aggro: 0.45, risk: 0.45, cohesion: 0.50, setup: 0.50, explore: 0.55, tilt: 0.45}
+    mutation_bias:
+      t0_pref: ["Chelazione","Immunoscossa"]
+      t1_pref: ["Cartilagine Rinforzata","Placca Cristallina"]
+    nest_profile:
+      env: {temp: "medio", humidity: "alta", light: "media"}
+      structure: ["tane_roccia","pozzette_salmastre"]
+      security: 1
+      resources: ["alghe_salate","crostacei_molli"]
+      privacy: true
+    form_seed_bias: {E: -0.05, N: +0.00, T: +0.00, P: +0.05}
+    sg_base: 3
+    notes: "Ambusher costiero; soffre scosse (vuln shock)."
+
+  - id: "ash_burrower"
+    display_name: "Ash Burrower"
+    biomes: ["ash_plains", "lava_tubes"]
+    weight_budget: 12
+    default_parts:
+      locomotion: "burrow_pads"
+      offense: ["acid_gland"]
+      defense: ["stratified_carapace"]
+      senses: ["thermo"]
+      metabolism: "burst_anaerobic"
+    estimated_weight: 12
+    spawn_profile:
+      power_range: [6, 9]
+      group_size: [2, 3]
+      role_weights: {front: 2, control: 2, skirm: 2, support: 1, objective: 1}
+    biome_mods:
+      mood: {ash_plains: +1, lava_tubes: +2}
+      diff_base_mod: {lava_tubes: +2}
+      affix_bias: {thermal: +2, sand_wind: 0, dense_spores: -1}
+    vc_signature: {aggro: 0.55, risk: 0.50, cohesion: 0.50, setup: 0.45, explore: 0.45, tilt: 0.55}
+    mutation_bias:
+      t0_pref: ["Adrenalina Chimica","Immunoscossa"]
+      t1_pref: ["Lamelle Acide","Cartilagine Rinforzata"]
+    nest_profile:
+      env: {temp: "caldo", humidity: "secco", light: "bassa"}
+      structure: ["gallerie_cenere","nicchie_igne"]
+      security: 1
+      resources: ["minerali_ferrosi","larve_termiti"]
+      privacy: true
+    form_seed_bias: {E: +0.00, N: -0.05, T: +0.05, P: +0.00}
+    sg_base: 3
+    notes: "Scavatore delle ceneri; corrosione dal sottosuolo."

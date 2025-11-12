@@ -1,0 +1,23 @@
+
+personality:
+  enneagram:
+    type_id: <1-9>
+    wing_primary: "<TwL>"        # es. "2w3"
+    wings: ["<TwL>", "<TwR>"]    # opzionale: fino a 2
+    core_emotion: "<Rabbia|Vergogna|Paura>"   # derivabile da type_id
+    social_style: "<Obbediente|Ritirato|Assertivo>"   # Hornevian
+    conflict_style: "<Ottimisti|Competenti|Reattivi>" # Harmonic
+    object_relation: "<Attaccamento|Frustrazione|Rifiuto>" # Object Relations
+    instinct_variant: "<SP|SO|SX>"
+    stacking: "<sp/so|sp/sx|so/sp|so/sx|sx/sp|sx/so>"
+    notes: ""
+    # Campi derivati (riempiti automaticamente dal dataset)
+    type_name_it: null
+    basic_fear: null
+    basic_desire: null
+    passion: null
+    fixation: null
+    virtue: null
+    stress_to: null
+    growth_to: null
+    wings_names_ei: []

@@ -1,0 +1,12 @@
+{
+  "name": "evo-tactics-tools",
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "scripts": {
+    "validate:species": "node validate_species.ts ../../data/species.yaml",
+    "validate:forms": "node validate_forms.ts ../../data/forms.yaml"
+  }
+}
