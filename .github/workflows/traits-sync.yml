@@ -40,8 +40,20 @@ jobs:
           path: ${{ env.EXPORT_PATH }}
           retention-days: 14
 
+      - name: Check partner AWS secrets
+        id: partners-secrets
+        env:
+          ACCESS_KEY: ${{ secrets.PARTNERS_AWS_ACCESS_KEY_ID }}
+          SECRET_KEY: ${{ secrets.PARTNERS_AWS_SECRET_ACCESS_KEY }}
+        run: |
+          if [ -n "$ACCESS_KEY" ] && [ -n "$SECRET_KEY" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Configure AWS credentials
-        if: ${{ secrets.PARTNERS_AWS_ACCESS_KEY_ID != '' && secrets.PARTNERS_AWS_SECRET_ACCESS_KEY != '' }}
+        if: ${{ steps.partners-secrets.outputs.configured == 'true' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.PARTNERS_AWS_ACCESS_KEY_ID }}
@@ -49,7 +61,7 @@ jobs:
           aws-region: ${{ vars.PARTNERS_AWS_REGION || 'eu-west-1' }}
 
       - name: Publish export to shared storage
-        if: ${{ secrets.PARTNERS_AWS_ACCESS_KEY_ID != '' && secrets.PARTNERS_AWS_SECRET_ACCESS_KEY != '' }}
+        if: ${{ steps.partners-secrets.outputs.configured == 'true' }}
         env:
           EXPORT_FILE: ${{ env.EXPORT_PATH }}
           S3_BUCKET: ${{ vars.PARTNERS_S3_BUCKET }}
