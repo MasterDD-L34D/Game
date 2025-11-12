@@ -14,6 +14,7 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 - [Stato database Evo Tactics](#stato-database-evo-tactics)
 - [Storico aggiornamenti & archivio](#storico-aggiornamenti--archivio)
 - [Stato operativo & tracker](#stato-operativo--tracker)
+- [Report discrepanze & guida operativa](#report-discrepanze--guida-operativa)
 - [Documentazione & tracker](#documentazione--tracker)
 - [Automazione & workflow](#automazione--workflow)
 - [QA & test](#qa--test)
@@ -293,7 +294,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
    pytest tests/scripts/test_trace_hashes.py
    ```
    Verifica che nessun manifesto mantenga `trace_hash = "to-fill"` o percorsi mancanti.
-4. *(Da introdurre)* Test automatico per assicurare che i mirror `docs/` e `public/` non contengano più riferimenti `../../data/` una volta aggiornato `scripts/sync_evo_pack_assets.js`.
+4. _(Da introdurre)_ Test automatico per assicurare che i mirror `docs/` e `public/` non contengano più riferimenti `../../data/` una volta aggiornato `scripts/sync_evo_pack_assets.js`.
 
 ### Tracker progressi database
 
@@ -328,6 +329,14 @@ node dist/roll_pack.js ENTP invoker --seed demo
 ### Barra di completamento
 
 <progress value="0.7" max="1"></progress> **70 %** completato — aggiornare dopo il prossimo ciclo di validazione.
+
+## Report discrepanze & guida operativa
+
+- **CLI Python vs. documentazione storica**: alcuni tutorial precedenti citano ancora il comando `validate-ecosystem`; l'entrypoint supportato è `python tools/py/game_cli.py validate-ecosystem-pack` (gli alias legacy vengono normalizzati dal parser). Riferimenti aggiornati e lista completa dei sottocomandi sono disponibili nella [FAQ Support/QA](docs/faq.md#comandi-disponibili-della-cli-python) e nel [tutorial rapido CLI](docs/tutorials/cli-quickstart.md).【F:docs/faq.md†L21-L43】【F:docs/tutorials/cli-quickstart.md†L1-L73】
+- **Percorsi log degli smoke test**: per evitare discrepanze tra ticket e asset, i log vanno salvati in `logs/cli/<profilo>/` (`scripts/cli_smoke.sh` usa `logs/cli` come directory radice) e caricati sul bucket Drive indicato nelle procedure Support/QA. Le FAQ indicano il caricamento quotidiano (`logs/cli/support-pack.json`, `logs/cli/qa/<data>/`), mentre l'ADR di rollout standardizza il formato `<data>.log` per i run giornalieri; allega sempre questi percorsi nei template bug.【F:scripts/cli_smoke.sh†L1-L42】【F:docs/faq.md†L9-L36】【F:docs/adr/ADR-2025-11-18-cli-rollout.md†L9-L21】【F:docs/support/bug-template.md†L6-L12】
+- **Mirror documentazione & fallback biomi**: i mirror statici in `docs/evo-tactics-pack/` e `public/docs/evo-tactics-pack/` espongono ancora percorsi relativi non risolvibili (`../../data/...`) finché non viene eseguito `scripts/sync_evo_pack_assets.js`; i pool bioma caricati offline non includono i metadati `metadata.schema_version`/`updated_at`. Fino alla correzione, usa i dataset canonici (`packs/evo_tactics_pack/data/…`) per i report e annota le eccezioni nei log operativi. Dettagli nel [tracker database](#tracker-progressi-database) e nell'[ADR refactor CLI](docs/adr/ADR-2025-11-refactor-cli.md).【F:README.md†L277-L285】【F:docs/adr/ADR-2025-11-refactor-cli.md†L9-L25】
+
+> Quando riscontri nuove discrepanze, apri un ticket nel canale operativo indicato e collega questa sezione insieme agli approfondimenti (FAQ, tutorial o ADR) pertinenti.
 
 ## Documentazione & tracker
 
