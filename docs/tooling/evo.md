@@ -166,6 +166,17 @@ Il secret è utilizzato da `.github/workflows/ci.yml`, `e2e.yml` e
 `ops/site-audit`. L'inventario `incoming/lavoro_da_classificare/inventario.yml`
 riporta il dettaglio dell'ambiente target per il tracciamento Ops.【F:.github/workflows/ci.yml†L483-L564】【F:.github/workflows/e2e.yml†L1-L35】【F:.github/workflows/lighthouse.yml†L1-L32】【F:incoming/lavoro_da_classificare/inventario.yml†L430-L449】
 
+Per pubblicare automaticamente `reports/evo/rollout/traits_external_sync.csv`
+su storage condiviso configurare inoltre:
+
+- `PARTNERS_AWS_ACCESS_KEY_ID` e `PARTNERS_AWS_SECRET_ACCESS_KEY` (Secrets)
+  con credenziali IAM dedicate alla bucket partner.
+- `PARTNERS_AWS_REGION`, `PARTNERS_S3_BUCKET` e opzionalmente
+  `PARTNERS_S3_PREFIX` (Repository variables) per indirizzare la destinazione
+  S3. L'export viene caricato su
+  `s3://$PARTNERS_S3_BUCKET/$PARTNERS_S3_PREFIX/traits_external_sync.csv` con
+  ACL `bucket-owner-full-control`.
+
 ## Site audit
 
 Per verificare la pubblicazione è disponibile la suite `ops/site-audit`, che
@@ -193,10 +204,15 @@ sito vengono saltati ma gli output generati localmente restano disponibili.
     genera la tabella `document,anchor,href` utilizzata da DevRel per
     aggiornare wiki e collegamenti profondi.
 - **Sincronizzazione trait mancanti**
-  - Script: `python tools/traits/sync_missing_index.py --source reports/evo/rollout/traits_gap.csv --dest data/core/traits/glossary.json --external-output reports/evo/rollout/traits_external_sync.csv`
+  - Script: `python tools/traits/sync_missing_index.py --source reports/evo/rollout/traits_gap.csv --dest data/core/traits/glossary.json --update-glossary --export reports/evo/rollout/traits_external_sync.csv`
     aggiunge al glossario legacy i trait Evo marcati come `missing_in_index` e
     produce l'export `traits_external_sync.csv` per i partner esterni. Il flag
-    `--dry-run` stampa il riepilogo senza modificare i file.
+    `--dry-run` (o `--no-update-glossary`) stampa il riepilogo senza modificare
+    i file, mentre `--export` è l'alias semplificato di `--external-output`.
+  - Workflow GitHub: `.github/workflows/traits-sync.yml` schedula la
+    sincronizzazione ogni lunedì alle 06:00 UTC e pubblica l'export su S3
+    (`vars.PARTNERS_S3_BUCKET` + `vars.PARTNERS_S3_PREFIX`). Gli artefatti
+    vengono conservati anche come upload Actions per 14 giorni.
 - **Telemetria specie con fallback**
   - Il servizio Nebula (`server/services/nebulaTelemetryAggregator.js`) accetta
     il parametro opzionale `speciesMatrixPath` per applicare automaticamente i

@@ -1,0 +1,68 @@
+name: Sync Evo traits glossary
+
+on:
+  schedule:
+    - cron: '0 6 * * MON'
+  workflow_dispatch:
+
+jobs:
+  sync-traits:
+    name: Update glossary and export partner feed
+    runs-on: ubuntu-latest
+    env:
+      EXPORT_PATH: reports/evo/rollout/traits_external_sync.csv
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Sync missing Evo traits into glossary
+        run: |
+          python tools/traits/sync_missing_index.py \
+            --source reports/evo/rollout/traits_gap.csv \
+            --dest data/core/traits/glossary.json \
+            --update-glossary \
+            --export "${EXPORT_PATH}"
+
+      - name: Upload export artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: traits-external-sync-${{ github.run_id }}
+          path: ${{ env.EXPORT_PATH }}
+          retention-days: 14
+
+      - name: Configure AWS credentials
+        if: secrets.PARTNERS_AWS_ACCESS_KEY_ID != '' && secrets.PARTNERS_AWS_SECRET_ACCESS_KEY != ''
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.PARTNERS_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PARTNERS_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.PARTNERS_AWS_REGION || 'eu-west-1' }}
+
+      - name: Publish export to shared storage
+        if: secrets.PARTNERS_AWS_ACCESS_KEY_ID != '' && secrets.PARTNERS_AWS_SECRET_ACCESS_KEY != ''
+        env:
+          EXPORT_FILE: ${{ env.EXPORT_PATH }}
+          S3_BUCKET: ${{ vars.PARTNERS_S3_BUCKET }}
+          S3_PREFIX: ${{ vars.PARTNERS_S3_PREFIX }}
+        run: |
+          if [ -z "$S3_BUCKET" ]; then
+            echo "vars.PARTNERS_S3_BUCKET non configurato" >&2
+            exit 1
+          fi
+          DEST="s3://$S3_BUCKET"
+          if [ -n "$S3_PREFIX" ]; then
+            DEST="$DEST/$S3_PREFIX"
+          fi
+          aws s3 cp "$EXPORT_FILE" "$DEST/traits_external_sync.csv" \
+            --acl bucket-owner-full-control \
+            --cache-control "no-cache"
