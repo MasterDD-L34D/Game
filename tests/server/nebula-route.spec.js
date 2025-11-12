@@ -15,6 +15,17 @@ function createTempDir(prefix) {
   return mkdtemp(path.join(tmpdir(), prefix));
 }
 
+const testRolloutFlag = {
+  description: 'Flag di test Nebula Atlas',
+  default: false,
+  rollout: {
+    phase: 'canary',
+    stageGate: 'nebula-pilot-go',
+    start: '2024-01-01',
+    cohorts: ['nebula-alpha', 'nebula-beta', 'qa-delta'],
+  },
+};
+
 test('nebula router aggrega dataset, telemetria e orchestrator con filtri e caching', async (t) => {
   const tempDir = await createTempDir('nebula-route-');
   const logsDir = path.join(tempDir, 'logs');
@@ -120,14 +131,21 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
         telemetry: { defaultLimit: 5, timelineDays: 7 },
         orchestrator: { maxEvents: 5 },
       },
+      rollout: { flag: testRolloutFlag },
     }),
   );
 
+  const rolloutQuery = { cohort: 'nebula-alpha', stageGate: 'nebula-pilot-go' };
+
   const response = await request(app)
     .get('/nebula/atlas')
-    .query({ since: '2024-05-17T00:00:00Z', limit: 2 })
+    .query({ since: '2024-05-17T00:00:00Z', limit: 2, ...rolloutQuery })
     .expect(200);
 
+  assert.equal(response.headers['x-nebula-rollout-state'], 'enabled');
+  assert.equal(response.headers['x-nebula-rollout-reason'], 'cohort_enabled');
+  assert.equal(response.headers['x-nebula-rollout-stage-gate'], 'nebula-pilot-go');
+  assert.equal(response.headers['x-nebula-rollout-cohort'], 'nebula-alpha');
   assert.equal(response.body.dataset.id, 'nebula-test');
   assert.equal(response.body.telemetry.summary.totalEvents, 2);
   assert.equal(response.body.telemetry.sample.length, 2);
@@ -147,9 +165,11 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
 
   const telemetryResponse = await request(app)
     .get('/nebula/atlas/telemetry')
-    .query({ since: '2024-05-17T00:00:00Z', limit: 1 })
+    .query({ since: '2024-05-17T00:00:00Z', limit: 1, ...rolloutQuery })
     .expect(200);
 
+  assert.equal(telemetryResponse.headers['x-nebula-rollout-state'], 'enabled');
+  assert.equal(telemetryResponse.headers['x-nebula-rollout-reason'], 'cohort_enabled');
   assert.equal(telemetryResponse.body.summary.totalEvents, 2);
   assert.equal(telemetryResponse.body.sample.length, 1);
   assert.equal(telemetryResponse.body.state, 'live');
@@ -157,10 +177,68 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
 
   const orchestratorResponse = await request(app)
     .get('/nebula/atlas/orchestrator')
-    .query({ limit: 1 })
+    .query({ limit: 1, ...rolloutQuery })
     .expect(200);
 
+  assert.equal(orchestratorResponse.headers['x-nebula-rollout-state'], 'enabled');
+  assert.equal(orchestratorResponse.headers['x-nebula-rollout-reason'], 'cohort_enabled');
   assert.equal(orchestratorResponse.body.events.length, 1);
   assert.equal(orchestratorResponse.body.summary.errorCount, 1);
   assert.ok(orchestratorResponse.body.summary.lastEventAt);
+});
+
+test('nebula router usa fallback statico quando il rollout non supera lo stage gate', async (t) => {
+  const tempDir = await createTempDir('nebula-route-fallback-');
+  t.after(async () => {
+    await rm(tempDir, { recursive: true, force: true });
+  });
+
+  const aggregator = createNebulaTelemetryAggregator({
+    telemetryPath: path.join(tempDir, 'telemetry.json'),
+    generatorTelemetryPath: path.join(tempDir, 'generator.json'),
+    orchestrator: { logDir: path.join(tempDir, 'orchestrator') },
+  });
+
+  const app = express();
+  app.use(
+    '/nebula',
+    createNebulaRouter({
+      aggregator,
+      config: {
+        cache: { ttlMs: 5_000 },
+        telemetry: { defaultLimit: 5, timelineDays: 7 },
+        orchestrator: { maxEvents: 5 },
+      },
+      rollout: { flag: testRolloutFlag },
+    }),
+  );
+
+  const datasetResponse = await request(app)
+    .get('/nebula/atlas')
+    .query({ cohort: 'nebula-alpha' })
+    .expect(200);
+
+  assert.equal(datasetResponse.headers['x-nebula-rollout-state'], 'disabled');
+  assert.equal(datasetResponse.headers['x-nebula-rollout-reason'], 'stage_gate_required');
+  assert.equal(datasetResponse.headers['x-nebula-rollout-stage-gate'], 'nebula-pilot-go');
+
+  const telemetryResponse = await request(app)
+    .get('/nebula/atlas/telemetry')
+    .query({ cohort: 'nebula-alpha' })
+    .expect(200);
+
+  assert.equal(telemetryResponse.headers['x-nebula-rollout-state'], 'disabled');
+  assert.equal(telemetryResponse.headers['x-nebula-rollout-reason'], 'stage_gate_required');
+
+  const orchestratorResponse = await request(app)
+    .get('/nebula/atlas/orchestrator')
+    .query({ cohort: 'nebula-alpha' })
+    .expect(404);
+
+  assert.equal(orchestratorResponse.headers['x-nebula-rollout-state'], 'disabled');
+  assert.equal(orchestratorResponse.headers['x-nebula-rollout-reason'], 'stage_gate_required');
+  assert.equal(
+    orchestratorResponse.body.error,
+    'Telemetria orchestrator non disponibile per rollout Nebula',
+  );
 });

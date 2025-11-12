@@ -7,6 +7,45 @@ const DEFAULT_CACHE_TTL = 30_000;
 const DEFAULT_TELEMETRY_LIMIT = 200;
 const DEFAULT_TIMELINE_DAYS = 7;
 const DEFAULT_ORCHESTRATOR_MAX_EVENTS = 250;
+const LOGGER_PREFIX = '[nebula-aggregator]';
+const LOGGER_MARK = Symbol('nebulaLogger');
+
+function normaliseLogger(logger) {
+  if (logger && logger[LOGGER_MARK]) {
+    return logger;
+  }
+  const fallback = console;
+  const target = logger && typeof logger === 'object' ? logger : fallback;
+  const bind = (method) => {
+    if (typeof target[method] === 'function') {
+      return target[method].bind(target);
+    }
+    if (typeof fallback[method] === 'function') {
+      return fallback[method].bind(fallback);
+    }
+    return () => {};
+  };
+  const logInfo = bind('info');
+  const logWarn = bind('warn');
+  const logError = bind('error');
+  const logDebug = bind('debug');
+  const wrapper = {
+    info(message, ...args) {
+      logInfo(`${LOGGER_PREFIX} ${message}`, ...args);
+    },
+    warn(message, ...args) {
+      logWarn(`${LOGGER_PREFIX} ${message}`, ...args);
+    },
+    error(message, ...args) {
+      logError(`${LOGGER_PREFIX} ${message}`, ...args);
+    },
+    debug(message, ...args) {
+      logDebug(`${LOGGER_PREFIX} ${message}`, ...args);
+    },
+  };
+  Object.defineProperty(wrapper, LOGGER_MARK, { value: true });
+  return wrapper;
+}
 
 function slugify(value) {
   if (!value) {
@@ -61,8 +100,9 @@ function parseCsv(content) {
   });
 }
 
-async function loadSpeciesRolloutMatrix(filePath) {
+async function loadSpeciesRolloutMatrix(filePath, logger = normaliseLogger()) {
   if (!filePath) {
+    logger.info('matrice rollout specie non configurata: uso dataset statico');
     return new Map();
   }
   try {
@@ -104,8 +144,10 @@ async function loadSpeciesRolloutMatrix(filePath) {
     return map;
   } catch (error) {
     if (error && error.code === 'ENOENT') {
+      logger.warn(`matrice rollout specie assente (${filePath}), uso valori di fallback`);
       return new Map();
     }
+    logger.error(`errore caricando matrice rollout specie da ${filePath}`, error);
     throw error;
   }
 }
@@ -465,8 +507,14 @@ function createFileMatcher(pattern) {
   return (value) => regex.test(value);
 }
 
-async function readJsonFile(filePath, fallback = null) {
+async function readJsonFile(
+  filePath,
+  fallback = null,
+  logger = normaliseLogger(),
+  contextLabel = 'origine JSON',
+) {
   if (!filePath) {
+    logger.info(`${contextLabel} non configurata: uso valori di fallback`);
     return fallback;
   }
   try {
@@ -474,22 +522,24 @@ async function readJsonFile(filePath, fallback = null) {
     return JSON.parse(content);
   } catch (error) {
     if (error && error.code === 'ENOENT') {
+      logger.warn(`${contextLabel} assente (${filePath}): uso valori di fallback`);
       return fallback;
     }
+    logger.error(`errore caricando ${contextLabel} da ${filePath}`, error);
     throw error;
   }
 }
 
-async function loadTelemetryRecords(filePath) {
-  const parsed = await readJsonFile(filePath, []);
+async function loadTelemetryRecords(filePath, logger = normaliseLogger()) {
+  const parsed = await readJsonFile(filePath, [], logger, 'telemetria Nebula');
   if (!Array.isArray(parsed)) {
     return [];
   }
   return parsed;
 }
 
-async function loadGeneratorTelemetry(filePath) {
-  const parsed = await readJsonFile(filePath, null);
+async function loadGeneratorTelemetry(filePath, logger = normaliseLogger()) {
+  const parsed = await readJsonFile(filePath, null, logger, 'telemetria generatore Nebula');
   if (!parsed || typeof parsed !== 'object') {
     return null;
   }
@@ -531,9 +581,10 @@ function normaliseLogEntry(entry) {
   };
 }
 
-async function loadOrchestratorLogEntries(options = {}) {
+async function loadOrchestratorLogEntries(options = {}, logger = normaliseLogger()) {
   const directory = options.logDir;
   if (!directory) {
+    logger.info('telemetria orchestrator non configurata: nessun evento disponibile');
     return [];
   }
   const matcher = createFileMatcher(options.filePattern || '*.jsonl');
@@ -563,9 +614,12 @@ async function loadOrchestratorLogEntries(options = {}) {
       }
     }
   } catch (error) {
-    if (!error || error.code !== 'ENOENT') {
-      throw error;
+    if (error && error.code === 'ENOENT') {
+      logger.warn(`telemetria orchestrator assente (${directory}): uso eventi vuoti`);
+      return [];
     }
+    logger.error(`errore caricando telemetria orchestrator da ${directory}`, error);
+    throw error;
   }
   entries.sort((a, b) => {
     const timeA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
@@ -662,6 +716,7 @@ function resolveOptions(options = {}) {
     ? cloneValue(options.staticDataset)
     : cloneValue(atlasDataset);
   const speciesMatrixPath = options.speciesMatrixPath || options.speciesRolloutMatrixPath;
+  const logger = normaliseLogger(options.logger);
   return {
     telemetry: telemetryOptions,
     generator: generatorOptions,
@@ -669,6 +724,7 @@ function resolveOptions(options = {}) {
     cacheTTL,
     dataset,
     speciesMatrixPath,
+    logger,
   };
 }
 
@@ -678,24 +734,34 @@ function createNebulaTelemetryAggregator(options = {}) {
   let cache = null;
   let cacheExpiresAt = 0;
   let speciesRolloutCache = null;
+  let speciesRolloutLoggedMissing = false;
 
   async function loadSpeciesRollout() {
     if (!resolved.speciesMatrixPath) {
+      if (!speciesRolloutLoggedMissing) {
+        resolved.logger.info(
+          'percorso matrice rollout specie non definito: continuo con valori statici',
+        );
+        speciesRolloutLoggedMissing = true;
+      }
       return new Map();
     }
     if (speciesRolloutCache) {
       return speciesRolloutCache;
     }
-    speciesRolloutCache = await loadSpeciesRolloutMatrix(resolved.speciesMatrixPath);
+    speciesRolloutCache = await loadSpeciesRolloutMatrix(
+      resolved.speciesMatrixPath,
+      resolved.logger,
+    );
     return speciesRolloutCache;
   }
 
   async function loadAllSources() {
     const [telemetryRecords, generatorProfile, orchestratorEntries, speciesRollout] =
       await Promise.all([
-        loadTelemetryRecords(resolved.telemetry.path),
-        loadGeneratorTelemetry(resolved.generator.path),
-        loadOrchestratorLogEntries(resolved.orchestrator),
+        loadTelemetryRecords(resolved.telemetry.path, resolved.logger),
+        loadGeneratorTelemetry(resolved.generator.path, resolved.logger),
+        loadOrchestratorLogEntries(resolved.orchestrator, resolved.logger),
         loadSpeciesRollout(),
       ]);
     const dataset = cloneValue(resolved.dataset);
@@ -770,6 +836,7 @@ function createNebulaTelemetryAggregator(options = {}) {
       cache = null;
       cacheExpiresAt = 0;
       speciesRolloutCache = null;
+      speciesRolloutLoggedMissing = false;
     },
     __internals__: {
       buildTelemetryPayload,

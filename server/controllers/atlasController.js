@@ -3,6 +3,10 @@ const path = require('node:path');
 
 const { atlasDataset } = require('../../data/nebula/atlasDataset.js');
 const { SchemaValidationError } = require('../middleware/schemaValidator');
+const featureFlagsConfig = require('../../config/featureFlags.json');
+
+const NEBULA_ROLLOUT_FLAG_PATH = ['featureFlags', 'rollout', 'nebulaAtlasAggregator'];
+const ROLLOUT_LOG_PREFIX = '[atlas-controller]';
 
 const DEFAULT_TELEMETRY_EXPORT = path.resolve(
   __dirname,
@@ -348,6 +352,128 @@ function parseLimit(value) {
   return Number.isFinite(numeric) && numeric >= 0 ? numeric : undefined;
 }
 
+function normaliseRolloutLogger(logger) {
+  const fallback = console;
+  const target = logger && typeof logger === 'object' ? logger : fallback;
+  const bind = (method) => {
+    if (typeof target[method] === 'function') {
+      return target[method].bind(target);
+    }
+    if (typeof fallback[method] === 'function') {
+      return fallback[method].bind(fallback);
+    }
+    return () => {};
+  };
+  return {
+    info: bind('info'),
+    warn: bind('warn'),
+    error: bind('error'),
+  };
+}
+
+function getNebulaRolloutFlag(config) {
+  let current = config;
+  for (const key of NEBULA_ROLLOUT_FLAG_PATH) {
+    if (!current || typeof current !== 'object') {
+      return null;
+    }
+    current = current[key];
+  }
+  return current && typeof current === 'object' ? current : null;
+}
+
+function parseRolloutDate(value) {
+  if (!value) {
+    return null;
+  }
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function evaluateNebulaRollout(flag, context = {}) {
+  const base = {
+    enabled: false,
+    reason: 'flag_missing',
+    cohort: context?.cohort ?? null,
+    stageGate: context?.stageGate ?? null,
+  };
+  if (!flag || typeof flag !== 'object') {
+    return base;
+  }
+
+  const rollout = typeof flag.rollout === 'object' && flag.rollout !== null ? flag.rollout : {};
+  const stageGate = typeof rollout.stageGate === 'string' ? rollout.stageGate.trim() : '';
+  const normalisedStageGate = stageGate ? stageGate.toLowerCase() : null;
+  const requestStageGate = context?.stageGate
+    ? String(context.stageGate).trim().toLowerCase()
+    : null;
+
+  if (stageGate) {
+    base.stageGate = stageGate;
+    if (!requestStageGate) {
+      return { ...base, reason: 'stage_gate_required' };
+    }
+    if (requestStageGate !== normalisedStageGate) {
+      return { ...base, reason: 'stage_gate_mismatch' };
+    }
+  }
+
+  const now = new Date();
+  const start = parseRolloutDate(rollout.start);
+  if (start && now < start) {
+    return { ...base, reason: 'before_start' };
+  }
+
+  if (flag.default === true) {
+    return {
+      enabled: true,
+      reason: 'default_enabled',
+      cohort: context?.cohort ?? null,
+      stageGate: stageGate || context?.stageGate || null,
+    };
+  }
+
+  const cohorts = Array.isArray(rollout.cohorts)
+    ? rollout.cohorts.map((value) => String(value).trim().toLowerCase()).filter(Boolean)
+    : [];
+
+  if (cohorts.length) {
+    if (!context?.cohort) {
+      return { ...base, reason: 'cohort_missing' };
+    }
+    const requestCohort = String(context.cohort).trim().toLowerCase();
+    if (!cohorts.includes(requestCohort)) {
+      return { ...base, reason: 'cohort_not_authorized', cohort: context.cohort };
+    }
+    return {
+      enabled: true,
+      reason: 'cohort_enabled',
+      cohort: context.cohort,
+      stageGate: stageGate || context.stageGate || null,
+    };
+  }
+
+  return { ...base, reason: 'flag_disabled' };
+}
+
+function extractRolloutContext(req) {
+  const query = req?.query || {};
+  const headers = req?.headers || {};
+  const cohortToken =
+    query.cohort ?? query.cohort_id ?? query.cohortId ?? headers['x-nebula-cohort'] ?? null;
+  const stageGateToken =
+    query.stageGate ??
+    query.stage_gate ??
+    headers['x-nebula-stage-gate'] ??
+    headers['x-stage-gate'] ??
+    null;
+  return {
+    cohort: cohortToken !== undefined && cohortToken !== null ? String(cohortToken) : null,
+    stageGate:
+      stageGateToken !== undefined && stageGateToken !== null ? String(stageGateToken) : null,
+  };
+}
+
 function buildAggregatorParams(req) {
   const params = {};
   const query = req?.query || {};
@@ -364,6 +490,13 @@ function buildAggregatorParams(req) {
   if (query.offline !== undefined) {
     params.offline = parseBoolean(query.offline);
   }
+  const rollout = extractRolloutContext(req);
+  if (rollout.cohort) {
+    params.cohort = rollout.cohort;
+  }
+  if (rollout.stageGate) {
+    params.stageGate = rollout.stageGate;
+  }
   return params;
 }
 
@@ -373,11 +506,20 @@ function createAtlasController(options = {}) {
   const schemaValidator = options.schemaValidator;
   const telemetrySchemaId = options.telemetrySchemaId;
   const speciesSchemaId = options.speciesSchemaId;
-  const useAggregator =
+  const aggregatorAvailable =
     aggregator &&
     typeof aggregator.getAtlas === 'function' &&
     typeof aggregator.getTelemetry === 'function' &&
     typeof aggregator.getGenerator === 'function';
+  const orchestratorAvailable =
+    aggregatorAvailable && typeof aggregator.getOrchestrator === 'function';
+
+  const rolloutOptions = options.rollout || {};
+  const rolloutLogger = normaliseRolloutLogger(rolloutOptions.logger);
+  const featureFlagsSource = rolloutOptions.featureFlags || featureFlagsConfig;
+  const nebulaRolloutFlag = rolloutOptions.flag || getNebulaRolloutFlag(featureFlagsSource);
+  const forceRollout = rolloutOptions.forceEnabled === true;
+  let rolloutFallbackLogged = false;
 
   function validateTelemetryPayload(payload) {
     if (!schemaValidator || !telemetrySchemaId || !payload) {
@@ -415,11 +557,71 @@ function createAtlasController(options = {}) {
     }
   }
 
+  function evaluateRolloutForRequest(req, aggregatorParams) {
+    const contextFromParams = aggregatorParams || {};
+    const fallbackContext = extractRolloutContext(req);
+    const context = {
+      cohort: contextFromParams.cohort ?? fallbackContext.cohort ?? null,
+      stageGate: contextFromParams.stageGate ?? fallbackContext.stageGate ?? null,
+    };
+    if (!aggregatorAvailable) {
+      return {
+        enabled: false,
+        reason: 'aggregator_unavailable',
+        cohort: context.cohort,
+        stageGate: context.stageGate,
+      };
+    }
+    if (forceRollout) {
+      return {
+        enabled: true,
+        reason: 'forced',
+        cohort: context.cohort,
+        stageGate: context.stageGate,
+      };
+    }
+    const evaluation = evaluateNebulaRollout(nebulaRolloutFlag, context);
+    if (!evaluation.cohort && context.cohort) {
+      evaluation.cohort = context.cohort;
+    }
+    if (!evaluation.stageGate && context.stageGate) {
+      evaluation.stageGate = context.stageGate;
+    }
+    if (!evaluation.enabled && !rolloutFallbackLogged) {
+      rolloutLogger.info(
+        `${ROLLOUT_LOG_PREFIX} rollout Nebula disabilitato (reason=${
+          evaluation.reason || 'unknown'
+        }, cohort=${evaluation.cohort || 'n/a'}, stageGate=${evaluation.stageGate || 'n/a'})`,
+      );
+      rolloutFallbackLogged = true;
+    }
+    return evaluation;
+  }
+
+  function applyRolloutHeaders(res, evaluation) {
+    if (!res || typeof res.set !== 'function' || !evaluation) {
+      return;
+    }
+    res.set('x-nebula-rollout-state', evaluation.enabled ? 'enabled' : 'disabled');
+    if (evaluation.reason) {
+      res.set('x-nebula-rollout-reason', evaluation.reason);
+    }
+    if (evaluation.stageGate) {
+      res.set('x-nebula-rollout-stage-gate', evaluation.stageGate);
+    }
+    if (evaluation.cohort) {
+      res.set('x-nebula-rollout-cohort', evaluation.cohort);
+    }
+  }
+
   return {
     async dataset(req, res) {
       try {
-        if (useAggregator) {
-          const atlas = await aggregator.getAtlas(buildAggregatorParams(req));
+        const params = buildAggregatorParams(req);
+        const rollout = evaluateRolloutForRequest(req, params);
+        applyRolloutHeaders(res, rollout);
+        if (rollout.enabled) {
+          const atlas = await aggregator.getAtlas(params);
           if (atlas?.dataset) {
             validateSpeciesCollection(atlas.dataset.species);
           }
@@ -440,8 +642,11 @@ function createAtlasController(options = {}) {
 
     async telemetry(req, res) {
       try {
-        if (useAggregator) {
-          const telemetry = await aggregator.getTelemetry(buildAggregatorParams(req));
+        const params = buildAggregatorParams(req);
+        const rollout = evaluateRolloutForRequest(req, params);
+        applyRolloutHeaders(res, rollout);
+        if (rollout.enabled) {
+          const telemetry = await aggregator.getTelemetry(params);
           if (telemetry) {
             validateTelemetryPayload(telemetry);
           }
@@ -459,8 +664,11 @@ function createAtlasController(options = {}) {
 
     async generator(req, res) {
       try {
-        if (useAggregator) {
-          const generator = await aggregator.getGenerator(buildAggregatorParams(req));
+        const params = buildAggregatorParams(req);
+        const rollout = evaluateRolloutForRequest(req, params);
+        applyRolloutHeaders(res, rollout);
+        if (rollout.enabled) {
+          const generator = await aggregator.getGenerator(params);
           res.json(generator);
           return;
         }
@@ -476,8 +684,11 @@ function createAtlasController(options = {}) {
 
     async bundle(req, res) {
       try {
-        if (useAggregator) {
-          const payload = await aggregator.getAtlas(buildAggregatorParams(req));
+        const params = buildAggregatorParams(req);
+        const rollout = evaluateRolloutForRequest(req, params);
+        applyRolloutHeaders(res, rollout);
+        if (rollout.enabled) {
+          const payload = await aggregator.getAtlas(params);
           if (payload?.dataset) {
             validateSpeciesCollection(payload.dataset.species);
           }
@@ -502,12 +713,17 @@ function createAtlasController(options = {}) {
     },
 
     async orchestrator(req, res) {
-      if (!useAggregator || typeof aggregator.getOrchestrator !== 'function') {
-        res.status(404).json({ error: 'Telemetria orchestrator non disponibile' });
+      const params = buildAggregatorParams(req);
+      const rollout = evaluateRolloutForRequest(req, params);
+      applyRolloutHeaders(res, rollout);
+      if (!rollout.enabled || !orchestratorAvailable) {
+        res
+          .status(404)
+          .json({ error: 'Telemetria orchestrator non disponibile per rollout Nebula' });
         return;
       }
       try {
-        const orchestrator = await aggregator.getOrchestrator(buildAggregatorParams(req));
+        const orchestrator = await aggregator.getOrchestrator(params);
         res.json(orchestrator);
       } catch (error) {
         console.error('[atlas-controller] errore caricamento telemetria orchestrator', error);
@@ -538,5 +754,8 @@ module.exports = {
     parseBoolean,
     parseLimit,
     buildAggregatorParams,
+    evaluateNebulaRollout,
+    extractRolloutContext,
+    getNebulaRolloutFlag,
   },
 };
