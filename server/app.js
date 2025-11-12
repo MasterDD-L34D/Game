@@ -405,6 +405,10 @@ function createApp(options = {}) {
     nebulaOptions.mockAtlasPath || path.join(mockDataRoot, 'nebula', 'atlas.json');
   const mockTelemetryPath =
     nebulaOptions.mockTelemetryPath || path.join(mockDataRoot, 'nebula', 'telemetry.json');
+  const defaultSpeciesMatrixPath =
+    nebulaOptions.speciesMatrixPath ||
+    nebulaOptions.speciesRolloutMatrixPath ||
+    path.resolve(__dirname, '..', 'reports', 'evo', 'rollout', 'species_ecosystem_matrix.csv');
 
   async function loadMockAtlasBundle() {
     return readJsonFile(mockAtlasBundlePath, null);
@@ -509,6 +513,7 @@ function createApp(options = {}) {
       telemetry: nebulaOptions.telemetry,
       orchestrator: nebulaOptions.orchestrator,
       staticDataset: nebulaOptions.staticDataset,
+      speciesMatrixPath: defaultSpeciesMatrixPath,
     });
 
   const nebulaRouter = createNebulaRouter({
