@@ -1,0 +1,128 @@
+name: Evo documentation archive sync
+
+on:
+  schedule:
+    - cron: '30 4 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  evo-doc-backfill:
+    name: Sync Evo docs metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Generate documentation diff
+        run: |
+          python scripts/evo_tactics_metadata_diff.py \
+            --output reports/evo/rollout/documentation_diff.json \
+            --consolidated-root docs/evo-tactics \
+            --archive-root incoming/archive/2025-12-19_inventory_cleanup
+
+      - name: Backfill archive frontmatter
+        run: |
+          python scripts/evo_tactics_metadata_diff.py \
+            --mode backfill \
+            --consolidated-root docs/evo-tactics \
+            --archive-root incoming/archive/2025-12-19_inventory_cleanup \
+            --target incoming/archive/2025-12-19_inventory_cleanup
+
+      - name: Generate anchors map
+        run: |
+          python scripts/evo_tactics_metadata_diff.py \
+            --mode anchors \
+            --consolidated-root docs/evo-tactics \
+            --archive-root incoming/archive/2025-12-19_inventory_cleanup \
+            --output docs/evo-tactics/anchors-map.csv
+
+      - name: Evaluate diff and notify
+        id: notifier
+        run: |
+          python ops/notifier.py \
+            --diff-json reports/evo/rollout/documentation_diff.json \
+            --issue-output ops/notifier_issue.json
+          python - <<'PY'
+          import json
+          import os
+
+          with open('ops/notifier_issue.json', 'r', encoding='utf-8') as handle:
+              payload = json.load(handle)
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write(f"has_blocking={'true' if payload['has_blocking'] else 'false'}\n")
+              output.write('issue_title<<EOF\n')
+              output.write(payload['issue_title'] + '\n')
+              output.write('EOF\n')
+              output.write('issue_body<<EOF\n')
+              output.write(payload['issue_body'] + '\n')
+              output.write('EOF\n')
+              output.write('summary<<EOF\n')
+              output.write(payload['summary'] + '\n')
+              output.write('EOF\n')
+          PY
+        env:
+          EVO_NOTIFIER_SLACK_WEBHOOK: ${{ secrets.EVO_DEVREL_SLACK_WEBHOOK }}
+          EVO_NOTIFIER_TEAMS_WEBHOOK: ${{ secrets.EVO_DEVREL_TEAMS_WEBHOOK }}
+
+      - name: Create issue for blocking diffs
+        if: steps.notifier.outputs.has_blocking == 'true'
+        uses: actions/github-script@v7
+        env:
+          ISSUE_TITLE: ${{ steps.notifier.outputs.issue_title }}
+          ISSUE_BODY: ${{ steps.notifier.outputs.issue_body }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { ISSUE_TITLE, ISSUE_BODY } = process.env;
+            const { owner, repo } = context.repo;
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              per_page: 100,
+            });
+
+            const existing = issues.find(issue => issue.title === ISSUE_TITLE);
+            if (existing) {
+              core.info(`Issue already exists: #${existing.number}`);
+            } else {
+              await github.rest.issues.create({
+                owner,
+                repo,
+                title: ISSUE_TITLE,
+                body: ISSUE_BODY,
+              });
+              core.info('Blocking diff issue created');
+            }
+
+      - name: Upload anchors map artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: evo-anchors-map
+          path: docs/evo-tactics/anchors-map.csv
+
+      - name: Upload documentation gap report
+        uses: actions/upload-artifact@v4
+        with:
+          name: evo-documentation-gap
+          path: reports/evo/rollout/documentation_gap.md
+
+      - name: Upload diff payload
+        uses: actions/upload-artifact@v4
+        with:
+          name: evo-documentation-diff
+          path: reports/evo/rollout/documentation_diff.json
