@@ -1107,13 +1107,13 @@
       "frontmatter_missing_in_archive": [],
       "frontmatter_missing_in_consolidated": [],
       "frontmatter_mismatched": {
-        "title": {
-          "consolidated": "Evo-Tactics · Guida ai Tratti (Parte 1)",
-          "archive": "Evo-Tactics · Guida ai Tratti (Parte 2)"
-        },
         "description": {
           "consolidated": "Sommario operativo del pacchetto Evo-Tactics Pack v2 con standard specie e tratti, workflow di migrazione e QA.",
           "archive": "Approfondimento su governance dei tratti, migrazione v2.1 e controllo qualità del pacchetto Evo-Tactics."
+        },
+        "title": {
+          "consolidated": "Evo-Tactics · Guida ai Tratti (Parte 1)",
+          "archive": "Evo-Tactics · Guida ai Tratti (Parte 2)"
         }
       },
       "anchors_added": [
