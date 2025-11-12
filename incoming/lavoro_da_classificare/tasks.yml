@@ -286,3 +286,89 @@ tasks:
     deliverables:
       - docs/wireframes/evo/
     notes: 'Mockup spostato in docs/wireframes/evo/mockup_evo_tactics.png con pagina dedicata mockup_evo_tactics.md.'
+
+  - id: ROL-01
+    batch: rollout
+    title: Retrofit frontmatter archivio Evo
+    description: 'Allineare i documenti legacy con i metadati introdotti nelle copie consolidate.'
+    status: todo
+    owner: documentation
+    depends_on:
+      - DOC-01
+    deliverables:
+      - incoming/archive/2025-12-19_inventory_cleanup/**/*.md
+      - reports/evo/rollout/documentation_gap.md
+    commands:
+      - python scripts/evo_tactics_metadata_diff.py --mode=backfill --target incoming/archive/2025-12-19_inventory_cleanup/
+    notes: 'Replica i frontmatter YAML (title, description, tags, updated) sui documenti legacy per ripristinare indicizzazione e deep-link.'
+
+  - id: ROL-02
+    batch: rollout
+    title: Reindirizzamenti ancore Evo
+    description: 'Pubblicare mapping anchor→URL per i wiki legacy e aggiornare i consumer interni.'
+    status: todo
+    owner: devrel
+    depends_on:
+      - ROL-01
+    deliverables:
+      - docs/evo-tactics/anchors-map.csv
+      - reports/evo/rollout/documentation_diff.json
+    commands:
+      - python scripts/evo_tactics_metadata_diff.py --mode=anchors --output docs/evo-tactics/anchors-map.csv
+    notes: 'Genera dump ancore consolidate e notifica team Notion/Confluence per aggiornare i link profondi.'
+
+  - id: ROL-03
+    batch: rollout
+    title: Snapshot playbook Evo mancanti
+    description: 'Produrre versioni archivio per i playbook senza controparte legacy.'
+    status: todo
+    owner: security-pmo
+    depends_on:
+      - ROL-01
+    deliverables:
+      - incoming/archive/2025-12-19_inventory_cleanup/playbook_security_ops.md
+      - incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md
+      - incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md
+    notes: 'Estrarre le copie consolidate dei playbook security/PMO e versionarle nell’archivio storico con changelog.'
+
+  - id: ROL-04
+    batch: rollout
+    title: Allineamento indice trait Evo
+    description: 'Mappare i trait `missing_in_index` con gli ID legacy e aggiornare il glossario.'
+    status: todo
+    owner: gameplay-data
+    depends_on:
+      - TRT-02
+    deliverables:
+      - data/core/traits/glossary.json
+      - reports/evo/rollout/traits_gap.csv
+    commands:
+      - python tools/traits/sync_missing_index.py --source reports/evo/rollout/traits_gap.csv --dest data/core/traits/glossary.json
+    notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`.'
+
+  - id: ROL-05
+    batch: rollout
+    title: Esportazione dataset trait consumer esterni
+    description: 'Preparare il pacchetto CSV/JSON per i consumer esterni che non ricevono i nuovi trait.'
+    status: todo
+    owner: partner-success
+    depends_on:
+      - ROL-04
+    deliverables:
+      - reports/evo/rollout/traits_external_sync.csv
+      - reports/evo/rollout/traits_gap.csv
+    notes: 'Deriva dall’analisi `missing_in_external` e fornisce export normalizzato per partner tooling.'
+
+  - id: ROL-06
+    batch: rollout
+    title: Piano rollout specie/ecotipi
+    description: 'Sequenziare le milestone di attivazione specie e aggiornare i consumer telemetria.'
+    status: todo
+    owner: gameplay-ops
+    depends_on:
+      - SPEC-03
+    deliverables:
+      - reports/evo/rollout/species_ecosystem_gap.md
+      - server/services/nebulaTelemetryAggregator.js
+      - server/controllers/atlasController.js
+    notes: 'Integra fallback slot legacy, arricchisce payload timeline con sentience_index e allinea mock telemetry.'
