@@ -1,0 +1,1 @@
+This repository replaces the original `EchoWake_Modules_Expanded_v2 2.pdf` binary document with the Markdown transcription stored as `EchoWake_Modules_Expanded_v2_2.md` in the same directory. Extract `incoming/EvoTactics_FullRepo_v1.0.zip` if you need the binary layout.

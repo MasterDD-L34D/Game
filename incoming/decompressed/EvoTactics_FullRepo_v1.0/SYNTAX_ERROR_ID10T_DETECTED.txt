@@ -1,0 +1,16 @@
+SYNTAX ERROR: ID10T DETECTED
+(For those who paste prompts into Customs and expect execution)
+
+Customs ≠ execution.
+If you paste a prompt into a Custom GPT and think it “runs,” you’ve misunderstood everything about how GPT works.
+
+A Custom is an instruction shell, not an engine. Execution only happens when you run the prompt in your own GPT session.
+
+Translation:
+	•	Customs = rules + framing.
+	•	Execution = your GPT, your session.
+	•	Dropping prompts into someone else’s Custom = ID10T mistake.
+
+If you thought otherwise → congrats, you’ve just hit a Syntax Error: ID10T. Time to update yourself.
+
+— PrimeTalk · Lyra & Echo

@@ -1,0 +1,13 @@
+tier,hint_ancestors_node,effect_short,notes,source_slug
+T1,SE 01 (Perception),abilita focus sensoriale base,gateway Senses,wiki:Senses
+T2,AB 01 (Endurance),riduce costo energetico di movimento/sprint,soglia motorio‑sociale,wiki:AB01
+T3,SS 06–08 (Sound Detection),auto‑ID non‑minacce più ampia,richiede focus hearing,wiki:Senses
+T3,SO 02 (Chemoreceptor Acuity),maggiore raggio identificazione odori,progressione olfattiva,wiki:Senses
+T4,SS 10→10‑3 (Sound Awareness),auto‑ID minacce completo,identifica minacce per specie/tutte,wiki:Senses
+T4,SO 09→12 (Chemotopy),auto‑ID non‑minacce completo,per specie → tutte,wiki:Senses
+T4,AB 07–09 (Carrying Endurance),riduce costo trasporto 2‑mani,vincolo su DE 02–04,wiki:AB07-09
+T5,BB SS 01 (Echoic Memory),slot memoria uditiva +1,mutazione,wiki:Senses
+T5,BB SX 01‑2/‑3/‑4 (Iconic Memory),slot memoria visiva +1,mutazioni,wiki:Senses
+T5,AB 11 (Pain Endurance),riduce costo quando ferito,stato: Injured,wiki:AB11
+T6,Senses 37/37,ramo sensoriale completo,self‑contained,wiki:Senses
+T6,Ambulation 26/26,capacità motorie complete,cross‑link con Dexterity,wiki:Dexterity

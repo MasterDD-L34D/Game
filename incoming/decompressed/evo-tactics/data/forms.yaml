@@ -1,0 +1,248 @@
+meta:
+  file: "forms.yaml"
+  version: "0.1"
+  description: "Forme Base (16) con innata e pacchetti PI preconfezionati per Evo Tactics (TV/d20)."
+  last_updated: "2025-10-24"
+
+global:
+  starting_pi_points: 7
+  caps:
+    guardia_base_cap: 2
+    ac_bonus_cap: 2
+    move_bonus_cap: 2
+    pp_gain_cap: 2
+    pt_gain_cap: 2
+  references:
+    known_tags: [Tecnico, Impattante, Lungo, Difensivo]
+    known_synergies: [echo_backstab, acid_break, glide_volley, burrow_ambush]
+
+packages_catalog:
+  - id: pkg_guardia_1
+    cost: 2
+    tags: [Difensivo]
+    effect: "Guardia +1 (rispetta cap globale)"
+  - id: pkg_trappole_minus1_ap
+    cost: 2
+    tags: [Setup]
+    effect: "Trappole costano −1 AP per piazzamento"
+  - id: pkg_backstab_pt
+    cost: 2
+    tags: [Aggro]
+    effect: "+1 PT al primo backstab del match"
+  - id: pkg_overwatch_plus1
+    cost: 2
+    tags: [Setup]
+    effect: "Mantieni 2 overwatch (costo maggiore sulla 2ª)"
+  - id: pkg_dash_free_new_biome
+    cost: 2
+    tags: [Mobilità]
+    effect: "1 dash gratis quando entri in una cella di bioma non esplorata (1×/round)"
+  - id: pkg_crit_pt_plus1
+    cost: 1
+    tags: [Aggro]
+    effect: "+1 PT quando ottieni un 20 naturale (oltre ai bonus base)"
+  - id: pkg_cleanse_breve
+    cost: 1
+    tags: [Supporto]
+    effect: "Cleanse breve (1 condizione lieve) 1×/missione"
+  - id: pkg_heal_shield_small
+    cost: 2
+    tags: [Supporto]
+    effect: "Quando curi/buffi, dai 1 scudo temporaneo (1)"
+  - id: pkg_los_plus1
+    cost: 1
+    tags: [Info]
+    effect: "+1 alle verifiche di linea di vista per scoprire bersagli"
+  - id: pkg_reveal_first
+    cost: 1
+    tags: [Info]
+    effect: "Il primo “reveal” del match ti dà +1 PP"
+  - id: pkg_aura_arm_adj
+    cost: 3
+    tags: [Supporto, Difensivo]
+    effect: "Aura ARM +1 ad alleati adiacenti (si spegne se ti allontani)"
+  - id: pkg_penetrate_guard_pt
+    cost: 2
+    tags: [Aggro, Tecnico]
+    effect: "Spendendo 1 PT, ignori +1 Guardia (stacka entro cap)"
+  - id: pkg_push_resist
+    cost: 1
+    tags: [Difensivo]
+    effect: "Resistenza a spinta/knockback +1"
+  - id: pkg_move_plus1
+    cost: 2
+    tags: [Mobilità]
+    effect: "Movimento +1 (rispetta cap globale)"
+  - id: pkg_ac_plus1
+    cost: 3
+    tags: [Difensivo]
+    effect: "AC +1 (rispetta cap globale)"
+  - id: pkg_pp_gain_mos5
+    cost: 1
+    tags: [Economia]
+    effect: "+1 PP quando raggiungi MoS ≥5 (1×/turno)"
+  - id: pkg_pt_gain_mos5
+    cost: 1
+    tags: [Economia]
+    effect: "+1 PT quando raggiungi MoS ≥5 (1×/turno)"
+  - id: pkg_all_in
+    cost: 3
+    tags: [Aggro, Rischio]
+    effect: "Danno ↑ se HP<50%, ma DR ↓ di 1 (finché <50%)"
+  - id: pkg_bait_bonus
+    cost: 1
+    tags: [Setup]
+    effect: "Quando un nemico entra nella tua minaccia, +1 al tiro di reazione"
+  - id: pkg_scout_tiles
+    cost: 2
+    tags: [Esplorazione]
+    effect: "+1 AP 1×/round se attraversi una cella mai esplorata dal gruppo"
+  - id: pkg_sync_combo
+    cost: 2
+    tags: [Supporto, Sinergia]
+    effect: "Dopo un buff a un alleato, la sua prossima abilità costa −1 PT"
+  - id: pkg_focus_frazionato_light
+    cost: 2
+    tags: [Setup]
+    effect: "Mantieni 2 overwatch ‘light’ (−1 acc su entrambi)"
+  - id: pkg_guard_swap
+    cost: 2
+    tags: [Supporto, Tattico]
+    effect: "Scambia Guardia con un alleato adiacente (reazione 1×/round)"
+  - id: pkg_obj_pressure
+    cost: 2
+    tags: [Obiettivi]
+    effect: "+1 tick quando stazioni su obiettivi di controllo per 2 turni consecutivi"
+  - id: pkg_chorus
+    cost: 2
+    tags: [Supporto]
+    effect: "Se 2+ alleati attivano skill nel tuo turno/turno successivo, ottieni +1 PT"
+  - id: pkg_baratto_tech
+    cost: 2
+    tags: [Economia]
+    effect: "1/turno converti 1 PT ↔ 1 PP (tasso 1:1)"
+  - id: pkg_risonanza_branco
+    cost: 2
+    tags: [Supporto]
+    effect: "Se rimani adiacente a 2+ alleati per tutto il turno, ottieni +1 ARM fino al prossimo turno"
+  - id: pkg_order_formations
+    cost: 2
+    tags: [Tattico, Supporto]
+    effect: "Formazioni a riga/cono danno +1 ARM (finché mantenute)"
+  - id: pkg_momentum_objective
+    cost: 2
+    tags: [Obiettivi, Mobilità]
+    effect: "Dopo una kill entro 2 celle da un obiettivo attivo, dash −1 PT (1×/turno)"
+
+forms:
+  - code: ISTJ
+    display_name: "Custode"
+    innate: "Ancoraggio: resistenza a fear/confuse"
+    axes_bias: {E:-0.02, N:-0.03, T:+0.02, J:+0.05}
+    starting_pi: [pkg_guardia_1, pkg_order_formations, pkg_bait_bonus]
+    starting_pi_extra: [pkg_push_resist, pkg_pt_gain_mos5]
+
+  - code: ISFJ
+    display_name: "Curatore"
+    innate: "Legame: piccolo scudo quando curi/buffi"
+    axes_bias: {E:-0.02, N:-0.02, T:-0.02, J:+0.04}
+    starting_pi: [pkg_heal_shield_small, pkg_cleanse_breve, pkg_sync_combo, pkg_pt_gain_mos5]
+    starting_pi_extra: [pkg_bait_bonus]
+
+  - code: INFJ
+    display_name: "Oracolo"
+    innate: "Intuizione: +1 PP sul primo reveal"
+    axes_bias: {E:-0.03, N:+0.06, T:-0.01, J:+0.02}
+    starting_pi: [pkg_reveal_first, pkg_los_plus1, pkg_overwatch_plus1, pkg_pp_gain_mos5]
+    starting_pi_extra: [pkg_guard_swap]
+
+  - code: INTJ
+    display_name: "Architetto"
+    innate: "Rete di Controllo: trappole −1 AP"
+    axes_bias: {E:-0.03, N:+0.05, T:+0.04, J:+0.04}
+    starting_pi: [pkg_trappole_minus1_ap, pkg_overwatch_plus1, pkg_bait_bonus]
+    starting_pi_extra: [pkg_obj_pressure]
+
+  - code: ISTP
+    display_name: "Sabotatore"
+    innate: "Apertura Silente: primo colpo infligge Silenzio breve"
+    axes_bias: {E:-0.01, N:+0.01, T:+0.04, J:-0.03}
+    starting_pi: [pkg_backstab_pt, pkg_penetrate_guard_pt, pkg_crit_pt_plus1]
+    starting_pi_extra: [pkg_pt_gain_mos5, pkg_bait_bonus]
+
+  - code: ISFP
+    display_name: "Errante"
+    innate: "Trailblazer: dash free su cella bioma nuova"
+    axes_bias: {E:-0.01, N:+0.02, T:-0.02, J:-0.05}
+    starting_pi: [pkg_dash_free_new_biome, pkg_move_plus1, pkg_pp_gain_mos5]
+    starting_pi_extra: [pkg_push_resist, pkg_bait_bonus]
+
+  - code: INFP
+    display_name: "Sognatore"
+    innate: "Empatia: +PP su buff ad alleato isolato"
+    axes_bias: {E:-0.02, N:+0.04, T:-0.02, J:-0.03}
+    starting_pi: [pkg_sync_combo, pkg_heal_shield_small, pkg_pt_gain_mos5]
+    starting_pi_extra: [pkg_reveal_first, pkg_los_plus1]
+
+  - code: INTP
+    display_name: "Tatticologo"
+    innate: "Pianificatore: +1 PT se hai un setup attivo"
+    axes_bias: {E:-0.02, N:+0.05, T:+0.05, J:-0.02}
+    starting_pi: [pkg_overwatch_plus1, pkg_trappole_minus1_ap, pkg_pt_gain_mos5]
+    starting_pi_extra: [pkg_guard_swap]
+
+  - code: ESTP
+    display_name: "Assaltatore"
+    innate: "All-in: dmg↑/DR↓<50% HP"
+    axes_bias: {E:+0.05, N:+0.00, T:+0.02, J:-0.02}
+    starting_pi: [pkg_all_in, pkg_crit_pt_plus1]
+    starting_pi_extra: [pkg_penetrate_guard_pt, pkg_pt_gain_mos5]
+
+  - code: ESFP
+    display_name: "Frammento Vivo"
+    innate: "Risonanza di Branco: ARM+ se adiacente a 2 alleati"
+    axes_bias: {E:+0.05, N:-0.01, T:-0.02, J:-0.02}
+    starting_pi: [pkg_risonanza_branco, pkg_heal_shield_small, pkg_pp_gain_mos5]
+    starting_pi_extra: [pkg_chorus]
+
+  - code: ENFP
+    display_name: "Esploratore"
+    innate: "Primo Passo: +1 AP 1×/round in bioma nuovo"
+    axes_bias: {E:+0.03, N:+0.06, T:-0.01, J:-0.04}
+    starting_pi: [pkg_scout_tiles, pkg_dash_free_new_biome, pkg_reveal_first]
+    starting_pi_extra: [pkg_los_plus1, pkg_pp_gain_mos5]
+
+  - code: ENTP
+    display_name: "Innovatore"
+    innate: "Baratto Tecnico: 1/turno 1 PT ↔ 1 PP"
+    axes_bias: {E:+0.05, N:+0.05, T:+0.02, J:-0.05}
+    starting_pi: [pkg_baratto_tech, pkg_backstab_pt, pkg_pt_gain_mos5]
+    starting_pi_extra: [pkg_bait_bonus, pkg_reveal_first]
+
+  - code: ESTJ
+    display_name: "Comandante"
+    innate: "Ordine: Formazioni danno ARM scaling"
+    axes_bias: {E:+0.04, N:-0.02, T:+0.03, J:+0.06}
+    starting_pi: [pkg_order_formations, pkg_guardia_1, pkg_bait_bonus]
+    starting_pi_extra: [pkg_obj_pressure]
+
+  - code: ESFJ
+    display_name: "Coordinatore"
+    innate: "Chorus: bonus set-up quando 2+ alleati attivano"
+    axes_bias: {E:+0.05, N:-0.02, T:-0.02, J:+0.03}
+    starting_pi: [pkg_chorus, pkg_sync_combo, pkg_heal_shield_small]
+    starting_pi_extra: [pkg_pp_gain_mos5]
+
+  - code: ENFJ
+    display_name: "Mentore"
+    innate: "Volano: +PT ai compagni dopo tua ult"
+    axes_bias: {E:+0.05, N:+0.02, T:-0.02, J:+0.02}
+    starting_pi: [pkg_sync_combo, pkg_aura_arm_adj]
+    starting_pi_extra: [pkg_heal_shield_small]
+
+  - code: ENTJ
+    display_name: "Stratega"
+    innate: "Momentum: dash −1 PT dopo kill su obiettivo"
+    axes_bias: {E:+0.05, N:+0.04, T:+0.04, J:+0.04}
+    starting_pi: [pkg_momentum_objective, pkg_order_formations, pkg_pt_gain_mos5]
+    starting_pi_extra: [pkg_penetrate_guard_pt]
