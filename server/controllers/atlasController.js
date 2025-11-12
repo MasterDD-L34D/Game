@@ -64,7 +64,11 @@ function readinessTone(readiness) {
   if (value.includes('approvazione') || value.includes('attesa')) {
     return 'warning';
   }
-  if (value.includes('freeze') || value.includes('validazione completata') || value.includes('pronto')) {
+  if (
+    value.includes('freeze') ||
+    value.includes('validazione completata') ||
+    value.includes('pronto')
+  ) {
     return 'success';
   }
   return 'neutral';
@@ -106,6 +110,21 @@ function buildReadinessDistribution(species) {
   return distribution;
 }
 
+function buildSentienceDistribution(species) {
+  const distribution = {};
+  if (!Array.isArray(species)) {
+    return distribution;
+  }
+  for (const entry of species) {
+    const value = entry?.sentienceIndex || entry?.sentience_index || 'Unknown';
+    const key = String(value || 'Unknown');
+    distribution[key] = (distribution[key] || 0) + 1;
+  }
+  return Object.fromEntries(
+    Object.entries(distribution).sort(([a], [b]) => (a > b ? 1 : a < b ? -1 : 0)),
+  );
+}
+
 function buildTelemetrySummary(records) {
   const summary = {
     totalEvents: 0,
@@ -127,7 +146,10 @@ function buildTelemetrySummary(records) {
     const status = String(record?.status || '').toLowerCase();
     const isClosed = status.includes('closed') || status.includes('risolto');
     const isAcknowledged =
-      status.includes('ack') || status.includes('resolved') || status.includes('triaged') || status.includes('chiuso');
+      status.includes('ack') ||
+      status.includes('resolved') ||
+      status.includes('triaged') ||
+      status.includes('chiuso');
     if (!isClosed) {
       summary.openEvents += 1;
     }
@@ -192,6 +214,7 @@ function buildTelemetryPayload(dataset, records) {
   const distribution = buildReadinessDistribution(species);
   const summary = buildTelemetrySummary(records);
   const incidentTimeline = buildIncidentTimeline(records);
+  const sentienceDistribution = buildSentienceDistribution(species);
   return {
     summary,
     coverage: {
@@ -201,6 +224,7 @@ function buildTelemetryPayload(dataset, records) {
     },
     incidents: {
       timeline: incidentTimeline,
+      sentienceIndexDistribution: sentienceDistribution,
     },
     updatedAt: new Date().toISOString(),
     sample: Array.isArray(records) ? records.slice(0, 20) : [],
@@ -238,7 +262,10 @@ function buildGeneratorPayload(dataset, generatorProfile) {
   const status = String(generatorProfile?.status || 'unknown').toLowerCase();
   const generationTimeMs = normaliseNumber(metrics.generation_time_ms, null);
   const speciesTotal = normaliseNumber(metrics.species_total, species.length);
-  const enrichedSpecies = normaliseNumber(metrics.enriched_species, Math.round(species.length * 0.6));
+  const enrichedSpecies = normaliseNumber(
+    metrics.enriched_species,
+    Math.round(species.length * 0.6),
+  );
   const eventTotal = normaliseNumber(metrics.event_total, 0);
   const coreTraits = normaliseNumber(metrics.core_traits_total, 0);
   const optionalTraits = normaliseNumber(metrics.optional_traits_total, 0);
@@ -249,7 +276,10 @@ function buildGeneratorPayload(dataset, generatorProfile) {
   const streams = {
     generationTime: buildTrendSeries(generationTimeMs || 0, trendOptions),
     species: buildTrendSeries(speciesTotal, { ...trendOptions, baseline: species.length }),
-    enriched: buildTrendSeries(enrichedSpecies, { ...trendOptions, baseline: Math.round(species.length * 0.5) || 1 }),
+    enriched: buildTrendSeries(enrichedSpecies, {
+      ...trendOptions,
+      baseline: Math.round(species.length * 0.5) || 1,
+    }),
   };
 
   const label =
@@ -438,7 +468,9 @@ function createAtlasController(options = {}) {
         res.json(generator);
       } catch (error) {
         console.error('[atlas-controller] errore caricamento telemetria generatore', error);
-        res.status(500).json({ error: error?.message || 'Errore caricamento telemetria generatore Nebula' });
+        res
+          .status(500)
+          .json({ error: error?.message || 'Errore caricamento telemetria generatore Nebula' });
       }
     },
 

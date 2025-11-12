@@ -1,8 +1,19 @@
+---
+title: Evo-Tactics · Guida Database Tratti
+description: Integrazione del pacchetto Evo-Tactics nel Game Database con focus su
+  import, migrazioni e tassonomia.
+tags:
+  - evo-tactics
+  - traits
+  - database
+updated: 2025-11-11
+---
+
 # Guida Evo Tactics per Game‑Database
 
 ## Introduzione
 
-Questa guida fornisce una panoramica completa di **Evo Tactics Pack v2** e spiega come integrare la tassonomia criptozoologica nel repository **Game‑Database**.  Il pacchetto Evo Tactics non verrà distribuito come archivio, quindi questa guida funge da *single source of truth*: contiene tutte le informazioni necessarie per definire specie, tratti, ecotipi ed importare i cataloghi direttamente nel database.  È pensata per essere posizionata nella cartella `docs/` del progetto (ad es. `docs/evo‑tactics‑guide.md`) e per essere letta da sviluppatori che lavorano sia sul backend (Prisma/PostgreSQL) sia sulla dashboard.
+Questa guida fornisce una panoramica completa di **Evo Tactics Pack v2** e spiega come integrare la tassonomia criptozoologica nel repository **Game‑Database**. Il pacchetto Evo Tactics non verrà distribuito come archivio, quindi questa guida funge da _single source of truth_: contiene tutte le informazioni necessarie per definire specie, tratti, ecotipi ed importare i cataloghi direttamente nel database. È pensata per essere posizionata nella cartella `docs/` del progetto (ad es. `docs/evo‑tactics‑guide.md`) e per essere letta da sviluppatori che lavorano sia sul backend (Prisma/PostgreSQL) sia sulla dashboard.
 
 ### Cosa troverai in questa guida
 
@@ -10,7 +21,7 @@ Questa guida fornisce una panoramica completa di **Evo Tactics Pack v2** e spi
 2. **Regole di nomenclatura e stile**: come formare i nomi binomiali, le denominazioni dei tratti, le funzioni primarie e le descrizioni.
 3. **Procedura di migrazione v1→v2**: come aggiornare eventuali dati legacy ai nuovi schemi, con conversione di unità secondo UCUM e normalizzazione dei campi.
 4. **Struttura del pacchetto**: organizzazione delle cartelle (`species/`, `traits/`, `ecotypes/`, `docs/`, `templates/`) e strumenti di validazione.
-5. **Ecotipi e varianti**: come definire varianti locali delle specie (es. “Gole Ventose” per *Elastovaranus hydrus*) e come codificarne i delta rispetto ai tratti base.
+5. **Ecotipi e varianti**: come definire varianti locali delle specie (es. “Gole Ventose” per _Elastovaranus hydrus_) e come codificarne i delta rispetto ai tratti base.
 6. **Integrare il catalogo nel database**: indicazioni per utilizzare gli script di import (`npm run evo:import`) e aggiornare la tassonomia senza pacchetti esterni.
 7. **Roadmap operativa**: consigli pratici per inserire i nuovi documenti nel repository, aggiornare la documentazione esistente (`docs/evo-import.md`, `README.md`) e sfruttare i nuovi strumenti di validazione.
 
@@ -18,16 +29,16 @@ Se hai lavorato con la versione originale dell’Evo Tactics Pack, questa guida
 
 ## Standard v2 per specie e tratti
 
-Il pacchetto v2 definisce due schemi JSON (Draft 2020‑12) per rappresentare **Specie** e **Tratti** in maniera strutturata e riusabile.  Di seguito vengono riassunti i campi più importanti; per un riferimento completo vedi gli schemi in `templates/species.schema.json` e `templates/trait.schema.json`.
+Il pacchetto v2 definisce due schemi JSON (Draft 2020‑12) per rappresentare **Specie** e **Tratti** in maniera strutturata e riusabile. Di seguito vengono riassunti i campi più importanti; per un riferimento completo vedi gli schemi in `templates/species.schema.json` e `templates/trait.schema.json`.
 
 ### Schema specie (`species/<genus_species>.json`)
 
 Ogni file di specie deve includere almeno:
 
-- `scientific_name`: nome binomiale in corsivo (*Genus species*), con radici greco‑latine coerenti con la “firma funzionale”.  L’abbreviazione a tre lettere (`EHY` per *Elastovaranus hydrus*) viene usata per i codici dei tratti.
+- `scientific_name`: nome binomiale in corsivo (_Genus species_), con radici greco‑latine coerenti con la “firma funzionale”. L’abbreviazione a tre lettere (`EHY` per _Elastovaranus hydrus_) viene usata per i codici dei tratti.
 - `common_names`: uno o due nomi volgari evocativi (es. “Viverna‑Elastico”, “Ghiotton‑Scudo”).
 - `classification`: macroclasse (`Mammalia`, `Reptilia`, `Artropode`…) e habitat/ecotopo principale.
-- `functional_signature`: 1–2 frasi operative che descrivono ciò che la specie fa meglio (ad es. “attacco a proiettile con inoculazione multipla” per *Elastovaranus hydrus*).
+- `functional_signature`: 1–2 frasi operative che descrivono ciò che la specie fa meglio (ad es. “attacco a proiettile con inoculazione multipla” per _Elastovaranus hydrus_).
 - `visual_description`: breve descrizione dell’aspetto (5–8 righe) con forma, posture, proporzioni, colori, texture e gesti tipici.
 - `risk_profile`: pericolosità (0–3) e vettori (tossine, patogeni, onde d’urto, ecc.).
 - `interactions`: prede, predatori, eventuali simbiosi/parassitismi; i patti biologici devono essere descritti.
@@ -66,7 +77,7 @@ Tutti i campi opzionali (slot, output_effects, notes, etc.) possono essere utili
 
 ## Migrazione dai dati v1
 
-Se esistono già schede v1 in repository interni, è necessario normalizzarle secondo lo schema v2 prima di importarle in Game‑Database.  I passaggi consigliati sono:
+Se esistono già schede v1 in repository interni, è necessario normalizzarle secondo lo schema v2 prima di importarle in Game‑Database. I passaggi consigliati sono:
 
 1. **Mappare i campi**: convertire i vecchi campi (“categoria”, “costo_energetico”… ) nei nuovi campi (`famiglia_tipologia`, `fattore_mantenimento_energetico`, etc.).
 2. **Aggiornare le unità**: sostituire unità non UCUM (°C → `Cel`, bpm → `/min`, km/h → `m/s`), convertendo i valori quando necessario.
@@ -91,7 +102,7 @@ Il pacchetto v2 è organizzato come segue:
 
 ## Ecotipi e varianti
 
-Le varianti ecologiche (“ecotipi”) permettono di adattare una specie alle caratteristiche di un ambiente specifico.  Ogni ecotipo ha un proprio identificatore (`SPEC- ECO1`, `SPEC-ECO2`) e contiene un array di `trait_adjustments`, ognuno dei quali definisce quale metrica di un tratto viene modificata, di quanto (`delta`) e in quale unità.  Ad esempio:
+Le varianti ecologiche (“ecotipi”) permettono di adattare una specie alle caratteristiche di un ambiente specifico. Ogni ecotipo ha un proprio identificatore (`SPEC- ECO1`, `SPEC-ECO2`) e contiene un array di `trait_adjustments`, ognuno dei quali definisce quale metrica di un tratto viene modificata, di quanto (`delta`) e in quale unità. Ad esempio:
 
 ```json
 {
@@ -117,14 +128,14 @@ Le varianti ecologiche (“ecotipi”) permettono di adattare una specie alle ca
 }
 ```
 
-Tali file permettono al database di generare on‑the‑fly varianti delle specie senza duplicare l’intera scheda.  Nella tua applicazione puoi caricare `ecotypes/<genus_species>_ecotypes.json`, applicare i delta su `species/<genus_species>.json` e ottenere la versione localizzata della creatura.
+Tali file permettono al database di generare on‑the‑fly varianti delle specie senza duplicare l’intera scheda. Nella tua applicazione puoi caricare `ecotypes/<genus_species>_ecotypes.json`, applicare i delta su `species/<genus_species>.json` e ottenere la versione localizzata della creatura.
 
 ## Importazione e validazione nel Game‑Database
 
-Il repository Game‑Database fornisce script per importare i cataloghi della tassonomia nel database via Prisma/PostgreSQL.  L’uso tipico è descritto in `docs/evo-import.md`.  Con il pacchetto v2 integrato come libreria di documenti, puoi procedere come segue:
+Il repository Game‑Database fornisce script per importare i cataloghi della tassonomia nel database via Prisma/PostgreSQL. L’uso tipico è descritto in `docs/evo-import.md`. Con il pacchetto v2 integrato come libreria di documenti, puoi procedere come segue:
 
 1. **Clona o copia** la cartella `species/`, `traits/`, `ecotypes/` e `catalog/` in una directory del tuo progetto Game‑Database (es. `static/evo_tactics/`).
-2. **Configura** `server/scripts/ingest/evo-import.config.json` per puntare ai nuovi percorsi (species, traits, biomes, ecosystems).  Se stai usando il Single Source of Truth, basta definire la cartella principale del pacchetto.
+2. **Configura** `server/scripts/ingest/evo-import.config.json` per puntare ai nuovi percorsi (species, traits, biomes, ecosystems). Se stai usando il Single Source of Truth, basta definire la cartella principale del pacchetto.
 3. **Esegui l’importazione**:
 
    ```bash
@@ -134,20 +145,20 @@ Il repository Game‑Database fornisce script per importare i cataloghi della ta
    npm run evo:import -- --repo ../static/evo_tactics
    ```
 
-   Lo script `import-taxonomy.js` leggerà i file JSON/YAML/CSV dalla directory specificata, normalizzerà le entità e eseguirà gli upsert in Prisma.  Il dry‑run è utile per verificare i conteggi prima di scrivere sul database.
+   Lo script `import-taxonomy.js` leggerà i file JSON/YAML/CSV dalla directory specificata, normalizzerà le entità e eseguirà gli upsert in Prisma. Il dry‑run è utile per verificare i conteggi prima di scrivere sul database.
 
-4. **Verifica la dashboard**: dopo l’import, avvia la dashboard (`npm run dev` nelle rispettive cartelle) e controlla le tabelle *Trait*, *Biome*, *Species* ed *Ecosystem*.  Le nuove entità dovrebbero comparire con slug coerenti, descrizioni e relazioni.
+4. **Verifica la dashboard**: dopo l’import, avvia la dashboard (`npm run dev` nelle rispettive cartelle) e controlla le tabelle _Trait_, _Biome_, _Species_ ed _Ecosystem_. Le nuove entità dovrebbero comparire con slug coerenti, descrizioni e relazioni.
 
-5. **Esecuzione periodica**: se aggiorni i cataloghi (es. aggiungi un nuovo tratto), ripeti l’import con `npm run evo:import` (senza `--dry-run`).  Grazie agli upsert, lo script è idempotente e aggiornerà solo le entità modificate.
+5. **Esecuzione periodica**: se aggiorni i cataloghi (es. aggiungi un nuovo tratto), ripeti l’import con `npm run evo:import` (senza `--dry-run`). Grazie agli upsert, lo script è idempotente e aggiornerà solo le entità modificate.
 
 ## Roadmap per l’integrazione dei documenti
 
-1. **Aggiungi questa guida** al repository: crea un nuovo file `docs/evo-tactics-guide.md` e incolla l’intero contenuto di questo documento.  Aggiorna `README.md` includendo un link alla guida e spiegando che il pacchetto non viene più distribuito come archivio, ma è consultabile direttamente dal repository.
+1. **Aggiungi questa guida** al repository: crea un nuovo file `docs/evo-tactics-guide.md` e incolla l’intero contenuto di questo documento. Aggiorna `README.md` includendo un link alla guida e spiegando che il pacchetto non viene più distribuito come archivio, ma è consultabile direttamente dal repository.
 2. **Aggiorna `docs/evo-import.md`** (se presente) per rimuovere riferimenti a pacchetti esterni e indicare che la tassonomia viene caricata da file statici (species, traits, ecotypes) nel progetto.
-3. **Aggiungi gli schemi e gli script di validazione**: copia la cartella `templates/` e lo script `scripts/validate.sh` nel repository.  Aggiorna la pipeline CI per eseguire `bash scripts/validate.sh` e assicurarti che tutte le definizioni siano valide prima dei merge.
-4. **Sposta i dati**: crea una directory (es. `static/evo_tactics/`) che contenga `species/`, `traits/`, `ecotypes/`, `catalog/`, `data/aliases/` e i documenti di supporto (prontuario UCUM, manuali traits, reference).  Non servono pacchetti compressi; tutto resta accessibile via git.
-5. **Pulisci pacchetti legacy**: se nel repository erano presenti zip, mjs o script di deploy per l’Evo Tactics Pack, valuta se rimuoverli o archiviarli in `deprecated/`.  La nuova libreria di documenti li sostituisce completamente.
+3. **Aggiungi gli schemi e gli script di validazione**: copia la cartella `templates/` e lo script `scripts/validate.sh` nel repository. Aggiorna la pipeline CI per eseguire `bash scripts/validate.sh` e assicurarti che tutte le definizioni siano valide prima dei merge.
+4. **Sposta i dati**: crea una directory (es. `static/evo_tactics/`) che contenga `species/`, `traits/`, `ecotypes/`, `catalog/`, `data/aliases/` e i documenti di supporto (prontuario UCUM, manuali traits, reference). Non servono pacchetti compressi; tutto resta accessibile via git.
+5. **Pulisci pacchetti legacy**: se nel repository erano presenti zip, mjs o script di deploy per l’Evo Tactics Pack, valuta se rimuoverli o archiviarli in `deprecated/`. La nuova libreria di documenti li sostituisce completamente.
 
 ## Conclusione
 
-Integrando questa guida e i documenti collegati, il repository **Game‑Database** può gestire la tassonomia Evo Tactics senza bisogno di pacchetti esterni.  Le specifiche v2 garantiscono coerenza, estensibilità e facilità di validazione, mentre gli ecotipi offrono flessibilità nell’adattare le specie a diversi ambienti.  Seguendo la roadmap operativa, potrai aggiornare la documentazione, importare i nuovi dati e assicurarti che la dashboard e le API riflettano correttamente la ricca biodiversità del tuo universo di gioco.
+Integrando questa guida e i documenti collegati, il repository **Game‑Database** può gestire la tassonomia Evo Tactics senza bisogno di pacchetti esterni. Le specifiche v2 garantiscono coerenza, estensibilità e facilità di validazione, mentre gli ecotipi offrono flessibilità nell’adattare le specie a diversi ambienti. Seguendo la roadmap operativa, potrai aggiornare la documentazione, importare i nuovi dati e assicurarti che la dashboard e le API riflettano correttamente la ricca biodiversità del tuo universo di gioco.

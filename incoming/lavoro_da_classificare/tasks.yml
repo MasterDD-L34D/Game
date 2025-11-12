@@ -291,7 +291,7 @@ tasks:
     batch: rollout
     title: Retrofit frontmatter archivio Evo
     description: 'Allineare i documenti legacy con i metadati introdotti nelle copie consolidate.'
-    status: todo
+    status: done
     owner: documentation
     depends_on:
       - DOC-01
@@ -306,7 +306,7 @@ tasks:
     batch: rollout
     title: Reindirizzamenti ancore Evo
     description: 'Pubblicare mapping anchor→URL per i wiki legacy e aggiornare i consumer interni.'
-    status: todo
+    status: done
     owner: devrel
     depends_on:
       - ROL-01
@@ -335,7 +335,7 @@ tasks:
     batch: rollout
     title: Allineamento indice trait Evo
     description: 'Mappare i trait `missing_in_index` con gli ID legacy e aggiornare il glossario.'
-    status: todo
+    status: in-progress
     owner: gameplay-data
     depends_on:
       - TRT-02
@@ -350,7 +350,7 @@ tasks:
     batch: rollout
     title: Esportazione dataset trait consumer esterni
     description: 'Preparare il pacchetto CSV/JSON per i consumer esterni che non ricevono i nuovi trait.'
-    status: todo
+    status: in-progress
     owner: partner-success
     depends_on:
       - ROL-04
@@ -363,7 +363,7 @@ tasks:
     batch: rollout
     title: Piano rollout specie/ecotipi
     description: 'Sequenziare le milestone di attivazione specie e aggiornare i consumer telemetria.'
-    status: todo
+    status: in-progress
     owner: gameplay-ops
     depends_on:
       - SPEC-03

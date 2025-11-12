@@ -51,6 +51,17 @@ class DiffResult:
 def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--mode",
+        choices={"diff", "backfill", "anchors"},
+        default="diff",
+        help=(
+            "Modalità operativa: "
+            "`diff` genera il report JSON (default); "
+            "`backfill` sincronizza i frontmatter nell'archivio; "
+            "`anchors` produce la mappa delle ancore."
+        ),
+    )
+    parser.add_argument(
         "--inventory",
         type=Path,
         default=Path("incoming/lavoro_da_classificare/inventario.yml"),
@@ -67,6 +78,14 @@ def parse_arguments() -> argparse.Namespace:
         type=Path,
         default=Path("incoming/archive/2025-12-19_inventory_cleanup"),
         help="Radice dell'archivio da confrontare.",
+    )
+    parser.add_argument(
+        "--target",
+        type=Path,
+        help=(
+            "Directory di destinazione per la modalità `backfill`."
+            " Se omessa viene utilizzato `--archive-root`."
+        ),
     )
     parser.add_argument(
         "--output",
@@ -126,6 +145,24 @@ def read_frontmatter(path: Path) -> Dict[str, str]:
         else:
             normalized[key] = str(value)
     return normalized
+
+
+def extract_frontmatter(path: Path) -> Tuple[Dict[str, object], str]:
+    text = path.read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        return {}, text
+
+    end = text.find("\n---", 4)
+    if end == -1:
+        return {}, text
+
+    frontmatter_text = text[4:end]
+    body = text[end + 4 :]
+    try:
+        data = yaml.safe_load(frontmatter_text) or {}
+    except yaml.YAMLError:
+        data = {}
+    return data, body
 
 
 def extract_anchors(path: Path) -> List[str]:
@@ -240,6 +277,77 @@ def build_payload(entries: List[InventoryEntry], diffs: List[DiffResult]) -> Dic
     return payload
 
 
+def write_frontmatter(path: Path, frontmatter: Dict[str, object], body: str) -> None:
+    cleaned_body = body.lstrip("\n")
+    yaml_block = yaml.safe_dump(frontmatter, sort_keys=False, allow_unicode=True).strip()
+    rendered = "---\n"
+    if yaml_block:
+        rendered += f"{yaml_block}\n"
+    rendered += "---\n"
+    if cleaned_body:
+        rendered += "\n" + cleaned_body
+    if not rendered.endswith("\n"):
+        rendered += "\n"
+    path.write_text(rendered, encoding="utf-8")
+
+
+def run_backfill(diffs: List[DiffResult], archive_root: Path, target_root: Path) -> None:
+    updated = 0
+    skipped = 0
+    for diff in diffs:
+        if diff.archive is None:
+            skipped += 1
+            continue
+
+        consolidated_data, _ = extract_frontmatter(diff.consolidated)
+        if not consolidated_data:
+            skipped += 1
+            continue
+
+        try:
+            archive_rel = diff.archive.relative_to(archive_root)
+        except ValueError:
+            archive_rel = diff.archive.name
+        archive_path = target_root / archive_rel
+
+        if not archive_path.exists():
+            skipped += 1
+            continue
+
+        archive_path.parent.mkdir(parents=True, exist_ok=True)
+        _, body = extract_frontmatter(archive_path)
+        write_frontmatter(archive_path, consolidated_data, body)
+        updated += 1
+
+    print(f"Frontmatter sincronizzati: {updated}; file saltati: {skipped}")
+
+
+def generate_anchor_map(files: List[Path], base: Path) -> List[Tuple[str, str, str]]:
+    rows: List[Tuple[str, str, str]] = []
+    for file_path in files:
+        anchors = extract_anchors(file_path)
+        if not anchors:
+            continue
+        rel_path = file_path.relative_to(base)
+        document_path = (base / rel_path).resolve().relative_to(Path.cwd())
+        href_root = "/" + str(document_path.with_suffix(""))
+        href_root = href_root.replace("\\", "/")
+        for anchor in anchors:
+            rows.append((str(document_path), anchor, f"{href_root}#{anchor}"))
+    rows.sort()
+    return rows
+
+
+def run_anchors(files: List[Path], base: Path, output_path: Path) -> None:
+    rows = generate_anchor_map(files, base)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", encoding="utf-8", newline="") as handle:
+        handle.write("document,anchor,href\n")
+        for document, anchor, href in rows:
+            handle.write(f"{document},{anchor},{href}\n")
+    print(f"Mappa ancore generata: {output_path}")
+
+
 def main() -> None:
     args = parse_arguments()
 
@@ -247,6 +355,17 @@ def main() -> None:
 
     consolidated_files = list(args.consolidated_root.rglob("*.md"))
     diffs = diff_documents(consolidated_files, args.archive_root)
+
+    if args.mode == "backfill":
+        target = args.target or args.archive_root
+        run_backfill(diffs, args.archive_root, target)
+        return
+
+    if args.mode == "anchors":
+        if not args.output:
+            raise SystemExit("La modalità 'anchors' richiede l'argomento --output")
+        run_anchors(consolidated_files, args.consolidated_root, args.output)
+        return
 
     payload = build_payload(entries, diffs)
 
