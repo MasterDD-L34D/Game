@@ -34,7 +34,10 @@ JSON_AGGREGATES: Sequence[Path] = (
     REPO_ROOT / "public" / "docs" / "evo-tactics-pack" / "catalog_data.json",
 )
 
-YAML_ROOT = REPO_ROOT / "packs" / "evo_tactics_pack" / "data"
+YAML_ROOTS: Sequence[Path] = (
+    REPO_ROOT / "packs" / "evo_tactics_pack" / "data",
+    REPO_ROOT / "data" / "ecosystems",
+)
 
 
 @dataclass
@@ -175,12 +178,14 @@ def update_trace_hashes(*, apply: bool) -> List[UpdateResult]:
             if result:
                 updates.append(result)
 
-    if YAML_ROOT.exists():
-        for path in sorted(YAML_ROOT.rglob("*.yaml")):
+    for yaml_root in YAML_ROOTS:
+        if not yaml_root.exists():
+            continue
+        for path in sorted(yaml_root.rglob("*.yaml")):
             result = _update_yaml_file(path, apply=apply)
             if result:
                 updates.append(result)
-        for path in sorted(YAML_ROOT.rglob("*.yml")):
+        for path in sorted(yaml_root.rglob("*.yml")):
             result = _update_yaml_file(path, apply=apply)
             if result:
                 updates.append(result)

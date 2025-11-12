@@ -18,7 +18,13 @@ _SPEC.loader.exec_module(_MODULE)
 
 JSON_DIRECTORIES = _MODULE.JSON_DIRECTORIES
 JSON_AGGREGATES = _MODULE.JSON_AGGREGATES
-YAML_ROOT = _MODULE.YAML_ROOT
+_fallback_yaml_root = getattr(_MODULE, "YAML_ROOT", None)
+if _fallback_yaml_root is not None:
+    _default_yaml_roots = (_fallback_yaml_root,)
+else:
+    _default_yaml_roots = ()
+
+YAML_ROOTS = tuple(getattr(_MODULE, "YAML_ROOTS", _default_yaml_roots))
 
 
 def _iter_manifest_files() -> Iterator[Path]:
@@ -28,9 +34,10 @@ def _iter_manifest_files() -> Iterator[Path]:
     for aggregate in JSON_AGGREGATES:
         if aggregate.exists():
             yield aggregate
-    if YAML_ROOT.exists():
-        yield from sorted(YAML_ROOT.rglob("*.yaml"))
-        yield from sorted(YAML_ROOT.rglob("*.yml"))
+    for root in YAML_ROOTS:
+        if root.exists():
+            yield from sorted(root.rglob("*.yaml"))
+            yield from sorted(root.rglob("*.yml"))
 
 
 def _iter_trace_hashes(payload) -> Iterable[Tuple[Tuple[str, ...], str]]:

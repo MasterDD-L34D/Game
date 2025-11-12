@@ -151,7 +151,9 @@ verificare la coerenza tra le copie pubblicate (cataloghi locali e repliche in
    esadecimale.
 3. Il valore ottenuto viene scritto nel campo `receipt.trace_hash` del manifest
    sorgente, delle copie documentali (`docs/evo-tactics-pack/species`) e delle
-   repliche aggregate (`catalog_data.json`).
+   repliche aggregate (`catalog_data.json`). Lo stesso processo viene applicato
+   alle YAML degli ecosistemi (`data/ecosystems/*.ecosystem.yaml`) per
+   garantire la tracciabilità completa del pacchetto.
 
 Lo stesso script è utilizzato nella pipeline di audit (`tests/scripts`)
 per garantire che nessun `trace_hash` resti valorizzato a `to-fill`.

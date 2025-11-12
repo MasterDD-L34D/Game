@@ -11,6 +11,7 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 - [Backend Idea Engine](#backend-idea-engine)
 - [Dashboard web & showcase](#dashboard-web--showcase)
 - [Dataset & Ecosystem Pack](#dataset--ecosystem-pack)
+- [Stato database Evo Tactics](#stato-database-evo-tactics)
 - [Storico aggiornamenti & archivio](#storico-aggiornamenti--archivio)
 - [Stato operativo & tracker](#stato-operativo--tracker)
 - [Documentazione & tracker](#documentazione--tracker)
@@ -267,6 +268,42 @@ node dist/roll_pack.js ENTP invoker --seed demo
   3. Controlla i log in `reports/incoming/` e `logs/traits_tracking.md`.
 - **Copertura trait/specie**: report aggiornati e quicklook disponibili in `docs/catalog/species_trait_matrix.json` e `docs/catalog/species_trait_quicklook.csv`.
 - **Trait Editor standalone** (`Trait Editor/`): consulta [docs/trait-editor.md](docs/trait-editor.md) per setup, variabili `VITE_*`, script disponibili (`npm run dev`, `npm run build`, `npm run preview`) e workflow di deploy statico con dataset remoti.
+
+## Stato database Evo Tactics
+
+### Situazione attuale
+
+- ✅ **Trace hash**: tutte le specie ed ecosistemi in `packs/evo_tactics_pack/` e `data/ecosystems/` hanno `receipt.trace_hash` calcolati tramite [`tools/py/update_trace_hashes.py`](tools/py/update_trace_hashes.py) e verificati dalla suite `tests/scripts/test_trace_hashes.py`.
+- ⚠️ **Mirror documentazione**: gli asset JSON replicati in `docs/evo-tactics-pack/` e `public/docs/evo-tactics-pack/` espongono ancora percorsi `../../data/...` non risolvibili fuori dal pack; è necessario riallinearli a `../../packs/evo_tactics_pack/data/...` tramite `scripts/sync_evo_pack_assets.js`.
+- ⚠️ **Fallback locale biomi**: in modalità senza MongoDB il loader `services/generation/biomeSynthesizer.js` non propaga i metadati `metadata.schema_version`/`updated_at` ai pool caricati da `data/core/traits/biome_pools.json`, causando discrepanze rispetto ai seed ufficiali.
+
+### Test da eseguire prima del rilascio database
+
+1. ```bash
+   python3 tools/py/game_cli.py validate-datasets
+   ```
+   Convalida specie, trait e ecosistemi YAML con gli schema condivisi.
+2. ```bash
+   python3 tools/py/game_cli.py validate-ecosystem-pack \
+     --json-out packs/evo_tactics_pack/out/validation/last_report.json \
+     --html-out packs/evo_tactics_pack/out/validation/last_report.html
+   ```
+   Rigenera i report di consistenza per il pack distribuito.
+3. ```bash
+   pytest tests/scripts/test_trace_hashes.py
+   ```
+   Verifica che nessun manifesto mantenga `trace_hash = "to-fill"` o percorsi mancanti.
+4. *(Da introdurre)* Test automatico per assicurare che i mirror `docs/` e `public/` non contengano più riferimenti `../../data/` una volta aggiornato `scripts/sync_evo_pack_assets.js`.
+
+### Tracker progressi database
+
+- [x] Calcolo e allineamento dei `trace_hash` tra sorgenti canoniche e mirror.
+- [ ] Normalizzazione dei percorsi nei mirror documentali (`scripts/sync_evo_pack_assets.js`).
+- [ ] Iniezione metadati `metadata.schema_version`/`updated_at` nel fallback locale dei biome pool.
+- [ ] Aggiunta test regressione sui percorsi mirror e sui metadati dei pool bioma.
+- [ ] Aggiornamento finale della documentazione database post-validazione.
+
+> Aggiorna questa sezione al termine di ogni sprint database: annota data, commit di riferimento e risultati dei test in `logs/traits_tracking.md` e collega eventuali ticket Jira/Linear nel tracker interno.
 
 ## Storico aggiornamenti & archivio
 
