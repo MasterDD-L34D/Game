@@ -41,7 +41,7 @@ jobs:
           retention-days: 14
 
       - name: Configure AWS credentials
-        if: secrets.PARTNERS_AWS_ACCESS_KEY_ID != '' && secrets.PARTNERS_AWS_SECRET_ACCESS_KEY != ''
+        if: ${{ secrets.PARTNERS_AWS_ACCESS_KEY_ID != '' && secrets.PARTNERS_AWS_SECRET_ACCESS_KEY != '' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.PARTNERS_AWS_ACCESS_KEY_ID }}
@@ -49,7 +49,7 @@ jobs:
           aws-region: ${{ vars.PARTNERS_AWS_REGION || 'eu-west-1' }}
 
       - name: Publish export to shared storage
-        if: secrets.PARTNERS_AWS_ACCESS_KEY_ID != '' && secrets.PARTNERS_AWS_SECRET_ACCESS_KEY != ''
+        if: ${{ secrets.PARTNERS_AWS_ACCESS_KEY_ID != '' && secrets.PARTNERS_AWS_SECRET_ACCESS_KEY != '' }}
         env:
           EXPORT_FILE: ${{ env.EXPORT_PATH }}
           S3_BUCKET: ${{ vars.PARTNERS_S3_BUCKET }}
