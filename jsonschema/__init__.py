@@ -67,6 +67,14 @@ class Draft202012Validator:
         """Return an empty list to indicate no validation errors."""
         return []
 
+    def validate(self, instance: Any) -> None:
+        """Raise the first validation error if any are produced."""
+
+        errors = list(self.iter_errors(instance))
+        if errors:
+            raise errors[0]
+        return None
+
 
 def validator_for(schema: Dict[str, Any]) -> type[Draft202012Validator]:
     """Return the default no-op validator class for any schema."""
