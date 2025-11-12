@@ -4,15 +4,15 @@
 
 ## Calendario
 
-| Voce | Dettagli |
-| --- | --- |
-| Frequenza | Settimanale (ogni lunedì) |
-| Finestra operativa | 08:00–20:00 CET |
-| Canale notifiche | `#support-ops` |
-| Owner primario | Support Lead (G. Parodi) |
-| Owner backup | QA Core Lead (S. Leone) |
+| Voce                        | Dettagli                      |
+| --------------------------- | ----------------------------- |
+| Frequenza                   | Settimanale (ogni lunedì)     |
+| Finestra operativa          | 08:00–20:00 CET               |
+| Canale notifiche            | `#support-ops`                |
+| Owner primario              | Support Lead (G. Parodi)      |
+| Owner backup                | QA Core Lead (S. Leone)       |
 | Ultima rotazione completata | 2025-11-10 (ticket `SUP-431`) |
-| Prossima finestra | 2025-11-17 |
+| Prossima finestra           | 2025-11-17                    |
 
 ## Procedura
 
@@ -23,8 +23,9 @@
 4. Aggiornare `config/cli/support.yaml` con `last_completed` e `next_window`.
 5. Pubblicare l'esito nel canale `#support-ops` includendo hash troncato (primi 6
    caratteri) e timestamp.
-6. Allegare il log CLI (`logs/cli/support-pack.json` e `logs/cli/latest.log`) al
-   ticket di tracking settimanale.
+6. Allegare il log CLI (`logs/cli/support-pack.json`, `logs/cli/latest-smoke.log` e
+   lo snapshot specifico `logs/cli/smoke-YYYYMMDDTHHMMSSZ.log`) al ticket di tracking
+   settimanale.
 
 ## Checklist QA
 
