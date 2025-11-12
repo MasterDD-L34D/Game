@@ -2,7 +2,7 @@
 
 meta:
   version: 1
-  last_update: 2025-11-11
+  last_update: 2025-10-29
   notes: 'Aggiornare status e assegnatari quando i task vengono presi in carico. Directory di destinazione già disponibili: docs/evo-tactics, docs/security, data/external/evo, reports/evo, incoming/archive/documents, tools/automation, docs/wireframes/evo. Utilizzare tools/automation/evo_batch_runner.py per automatizzare i comandi batch (dry-run di default).'
 
 tasks:
@@ -321,7 +321,7 @@ tasks:
     batch: rollout
     title: Snapshot playbook Evo mancanti
     description: 'Produrre versioni archivio per i playbook senza controparte legacy.'
-    status: todo
+    status: in-progress
     owner: security-pmo
     depends_on:
       - ROL-01
@@ -330,6 +330,18 @@ tasks:
       - incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md
       - incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md
     notes: 'Estrarre le copie consolidate dei playbook security/PMO e versionarle nell’archivio storico con changelog.'
+
+    telemetry:
+      last_sync: 2025-10-29T14:20:44+00:00
+      progress: 99
+      metric:
+        label: Playbook da archiviare
+        open_items: 3
+        total_items: 218
+      samples:
+        - docs/evo-tactics/guides/security-ops.md
+        - docs/evo-tactics/guides/template-ptpf.md
+        - docs/evo-tactics/guides/visione-struttura.md
 
   - id: ROL-04
     batch: rollout
@@ -346,11 +358,25 @@ tasks:
       - python tools/traits/sync_missing_index.py --source reports/evo/rollout/traits_gap.csv --dest data/core/traits/glossary.json
     notes: 'Garantisce corrispondenza tra slug Evo e catalogo legacy per trait in stato `missing_in_index`.'
 
+    telemetry:
+      last_sync: 2025-10-29T14:20:44+00:00
+      progress: 77
+      metric:
+        label: Trait missing_in_index
+        open_items: 51
+        total_items: 225
+      samples:
+        - ali_fono_risonanti
+        - articolazioni_a_leva_idraulica
+        - articolazioni_multiassiali
+        - artigli_ipo_termici
+        - artiglio_cinetico_a_urto
+
   - id: ROL-05
     batch: rollout
     title: Esportazione dataset trait consumer esterni
     description: 'Preparare il pacchetto CSV/JSON per i consumer esterni che non ricevono i nuovi trait.'
-    status: in-progress
+    status: at-risk
     owner: partner-success
     depends_on:
       - ROL-04
@@ -359,11 +385,25 @@ tasks:
       - reports/evo/rollout/traits_gap.csv
     notes: 'Deriva dall’analisi `missing_in_external` e fornisce export normalizzato per partner tooling.'
 
+    telemetry:
+      last_sync: 2025-10-29T14:20:44+00:00
+      progress: 23
+      metric:
+        label: Trait missing_in_external
+        open_items: 174
+        total_items: 225
+      samples:
+        - ali_fulminee
+        - ali_ioniche
+        - ali_membrana_sonica
+        - antenne_dustsense
+        - antenne_eco_turbina
+
   - id: ROL-06
     batch: rollout
     title: Piano rollout specie/ecotipi
     description: 'Sequenziare le milestone di attivazione specie e aggiornare i consumer telemetria.'
-    status: in-progress
+    status: at-risk
     owner: gameplay-ops
     depends_on:
       - SPEC-03
@@ -372,3 +412,17 @@ tasks:
       - server/services/nebulaTelemetryAggregator.js
       - server/controllers/atlasController.js
     notes: 'Integra fallback slot legacy, arricchisce payload timeline con sentience_index e allinea mock telemetry.'
+
+    telemetry:
+      last_sync: 2025-10-29T14:20:44+00:00
+      progress: 0
+      metric:
+        label: Ecotipi con mismatch
+        open_items: 20
+        total_items: 20
+      samples:
+        - Anguis magnetica
+        - Chemnotela toxica
+        - Elastovaranus hydrus
+        - Gulogluteus scutiger
+        - Perfusuas pedes

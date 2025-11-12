@@ -1,0 +1,38 @@
+name: Evo rollout status sync
+
+on:
+  schedule:
+    - cron: '0 6 * * MON'
+  workflow_dispatch:
+
+jobs:
+  rollout-status:
+    name: Generate rollout status snapshot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Run Evo rollout status updater
+        run: |
+          python tools/roadmap/update_status.py --weekly-date $(date -u +%Y%m%d)
+
+      - name: Show resulting diff
+        run: git diff
+
+      - name: Upload Kanban export
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evo-rollout-status
+          path: |
+            reports/evo/rollout/status_export.json
+            docs/roadmap/status/evo-weekly-*.md

@@ -1,50 +1,44 @@
 ---
 title: Evo-Tactics rollout status
-updated: 2025-12-21
+updated: 2025-10-29
+generated_by: tools/roadmap/update_status.py
 ---
 
 # Evo-Tactics rollout status
 
+<!-- Generated automatically; edit via tools/roadmap/update_status.py -->
+
 ## Snapshot settimanale
 
-- **Data riferimento:** 2025-12-21
+- **Data riferimento:** 2025-10-29
 - **Owner aggiornamento:** Gameplay Ops · Evo rollout crew
-- **Status generale:** on-track
-- **Ultimo report:** `reports/evo/rollout/species_ecosystem_gap.md`
+- **Status generale:** at-risk
+- **Ultimo report trait gap:** `data/derived/analysis/trait_gap_report.json`
+- **Copertura trait ETL:** 29/170 (17.1%)
+- **Gap trait principali:** 51 missing_in_index, 174 missing_in_external
+- **Playbook da archiviare:** 3
+- **Ecotipi con mismatch legacy:** 20 su 20
 
 ## Avanzamento epiche ROL-\*
 
-| Epic   | Stato    | Progress (%) | Note/Blocker                                                                                                                                                             |
-| ------ | -------- | -----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| ROL-01 | on-track |          100 | Frontmatter archivio aggiornato con `scripts/evo_tactics_metadata_diff.py --mode=backfill` (output verificato su `incoming/archive/2025-12-19_inventory_cleanup/`).      |
-| ROL-02 | on-track |          100 | Mappa ancore generata in `docs/evo-tactics/anchors-map.csv` e notifiche inviate a DevRel per l'aggiornamento wiki.                                                       |
-| ROL-03 | at-risk  |           30 | Snapshot playbook ancora da redigere; dipende dalla riconciliazione cambi doc legacy.                                                                                    |
-| ROL-04 | on-track |           60 | Script `tools/traits/sync_missing_index.py` integrato nel workflow `.github/workflows/traits-sync.yml`; restano verifiche QA su descrizioni multilingua.                 |
-| ROL-05 | on-track |           45 | Export partner `reports/evo/rollout/traits_external_sync.csv` pubblicato automaticamente su S3 (bucket partners) in attesa di approvazione Partner Success.              |
-| ROL-06 | on-track |           55 | Telemetria arricchita con `sentience_index` e fallback slot applicato in `server/services/nebulaTelemetryAggregator.js`; restano fixture Atlas/telemetria da aggiornare. |
+| Epic   | Stato       | Progress (%) | Gap aperti                     | Campione                                                                                                                        |
+| ------ | ----------- | ------------ | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| ROL-03 | in-progress | 99           | Playbook da archiviare: 3      | docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md |
+| ROL-04 | in-progress | 77           | Trait missing_in_index: 51     | ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto   |
+| ROL-05 | at-risk     | 23           | Trait missing_in_external: 174 | ali_fulminee, ali_ioniche, ali_membrana_sonica, antenne_dustsense, antenne_eco_turbina                                          |
+| ROL-06 | at-risk     | 0            | Ecotipi con mismatch: 20       | Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes                                |
 
-## Deliverable imminenti
+## Focus operativi
 
-- [ ] 2026-01-05 – Snapshot playbook security/PMO – Owner Security PMO – Artefatti `incoming/archive/2025-12-19_inventory_cleanup/playbook_*.md`
-- [ ] 2026-01-12 – QA generatori trait Evo – Owner Gameplay Data – Artefatto `reports/evo/qa/trait-generators.log`
-- [ ] 2026-01-19 – Demo telemetria specie (ROL-06) – Owner Gameplay Ops – Artefatti `reports/evo/rollout/species_ecosystem_gap.md`, log QA Atlas
+- **Documentazione legacy da snapshot (ROL-03):** docs/evo-tactics/guides/security-ops.md, docs/evo-tactics/guides/template-ptpf.md, docs/evo-tactics/guides/visione-struttura.md
+- **Trait da indicizzare (ROL-04):** ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto
+- **Trait da fornire ai consumer esterni (ROL-05):** ali_fulminee, ali_ioniche, ali_membrana_sonica, antenne_dustsense, antenne_eco_turbina
+- **Specie/ecotipi con mismatch (ROL-06):** Anguis magnetica, Chemnotela toxica, Elastovaranus hydrus, Gulogluteus scutiger, Perfusuas pedes
 
-## Rischi e mitigazioni
+## Fonti principali
 
-1. **Rischio:** Descrizioni inglesi mancanti per i trait sincronizzati automaticamente.
-   - **Impatto:** Medio (export partner potrebbe richiedere revisione manuale).
-   - **Mitigazione:** DevRel compilerà le traduzioni entro il QA del 12 gennaio; issue aperta in board ROL-04.
-2. **Rischio:** Mock telemetria Atlas non ancora aggiornati ai nuovi campi `sentience_index` e fallback slot.
-   - **Impatto:** Medio (possibili failure nei test end-to-end).
-   - **Mitigazione:** task `ROL-06` prevede aggiornamento fixture e rerun `npm run test:telemetry` entro la prossima sprint.
-
-## Decisioni e azioni
-
-- **Decisione:** Automatizzare la sincronizzazione trait con il workflow `traits-sync` e pubblicare gli export su S3 condiviso.
-  - **Data:** 2025-12-28
-  - **Partecipanti:** Gameplay Ops, DevRel, Partner Success
-  - **Riferimenti:** `.github/workflows/traits-sync.yml`, `docs/tooling/evo.md`, `reports/evo/rollout/documentation_gap.md`
-- **Azione:** Aggiornare le fixture Atlas con payload `sentience_index` e fallback slot.
-  - **Owner:** Gameplay Ops
-  - **Scadenza:** 2026-01-10
-  - **Link task:** ROL-06
+- `reports/evo/rollout/documentation_gap.md`
+- `reports/evo/rollout/documentation_diff.json`
+- `reports/evo/rollout/traits_gap.csv`
+- `reports/evo/rollout/species_ecosystem_gap.md`
+- `data/derived/analysis/trait_gap_report.json`
