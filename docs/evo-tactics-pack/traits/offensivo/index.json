@@ -23,10 +23,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -64,10 +61,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -105,10 +99,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -146,10 +137,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -187,10 +175,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -228,10 +213,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -269,10 +251,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -310,10 +289,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -351,10 +327,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -392,10 +365,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -412,9 +382,7 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
     },
     "frusta_fiammeggiante": {
-      "conflitti": [
-        "armatura_pietra_planare"
-      ],
+      "conflitti": ["armatura_pietra_planare"],
       "debolezza": "Consumante: richiede costante dissipazione termica per non bruciare la matrice portante.",
       "famiglia_tipologia": "Offensivo/Controllo",
       "fattore_mantenimento_energetico": "Medio (Filamenti di plasma vincolato)",
@@ -423,9 +391,7 @@
       "mutazione_indotta": "Genera appendici tentacolari avvolte da plasma infernale controllato.",
       "requisiti_ambientali": [
         {
-          "capacita_richieste": [
-            "void_stride"
-          ],
+          "capacita_richieste": ["void_stride"],
           "condizioni": {
             "biome_class": "rovine_planari"
           },
@@ -437,10 +403,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "mantello_meteoritico"
-      ],
+      "sinergie": ["focus_frazionato", "mantello_meteoritico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -467,19 +430,12 @@
       "requisiti_ambientali": [],
       "sinergie": [],
       "sinergie_pi": {
-        "co_occorrenze": [
-          "PE",
-          "guardia_situazionale"
-        ],
+        "co_occorrenze": ["PE", "guardia_situazionale"],
         "combo_totale": 1,
-        "forme": [
-          "ISTP"
-        ],
+        "forme": ["ISTP"],
         "tabelle_random": []
       },
-      "slot": [
-        "A"
-      ],
+      "slot": ["A"],
       "slot_profile": {
         "complementare": "assalto",
         "core": "offensivo"
@@ -510,10 +466,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -551,10 +504,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -592,10 +542,7 @@
           }
         }
       ],
-      "sinergie": [
-        "coda_frusta_cinetica",
-        "sangue_piroforico"
-      ],
+      "sinergie": ["coda_frusta_cinetica", "sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -612,10 +559,7 @@
       "uso_funzione": "Aumenta penetrazione e burst durante finestre di vulnerabilità."
     },
     "sangue_piroforico": {
-      "conflitti": [
-        "criostasi_adattiva",
-        "scheletro_idro_regolante"
-      ],
+      "conflitti": ["criostasi_adattiva", "scheletro_idro_regolante"],
       "debolezza": "Rischio di auto-combustione in caso di ferita profonda in atmosfera ricca di ossigeno.",
       "famiglia_tipologia": "Offensivo/Cinetico",
       "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",

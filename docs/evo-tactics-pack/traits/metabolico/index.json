@@ -23,10 +23,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -64,10 +61,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -105,10 +99,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -146,10 +137,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -187,10 +175,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -207,9 +192,7 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
     },
     "circolazione_bifasica_palude": {
-      "conflitti": [
-        "sangue_piroforico"
-      ],
+      "conflitti": ["sangue_piroforico"],
       "debolezza": "Zone asciutte e calde causano stagnazione del circuito linfatico portando a tossicosi.",
       "famiglia_tipologia": "Metabolico/Resilienza",
       "fattore_mantenimento_energetico": "Medio (Doppio circuito emolinfa/linfa)",
@@ -229,9 +212,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -269,10 +250,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -310,10 +288,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -330,10 +305,7 @@
       "uso_funzione": "Coordina digestione, filtraggio e rilascio di energia nelle marce prolungate."
     },
     "criostasi_adattiva": {
-      "conflitti": [
-        "sangue_piroforico",
-        "sacche_galleggianti_ascensoriali"
-      ],
+      "conflitti": ["sangue_piroforico", "sacche_galleggianti_ascensoriali"],
       "debolezza": "Vulnerabilità estrema agli attacchi chimici (veleni) in fase Criostasi.",
       "famiglia_tipologia": "Metabolico/Difensivo",
       "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
@@ -366,9 +338,7 @@
           }
         }
       ],
-      "sinergie": [
-        "cavita_risonanti_tundra"
-      ],
+      "sinergie": ["cavita_risonanti_tundra"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -393,10 +363,7 @@
       "label": "Cuticole Cerose",
       "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
       "requisiti_ambientali": [],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -421,10 +388,7 @@
       "label": "Enzimi Chelanti",
       "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
       "requisiti_ambientali": [],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -462,10 +426,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -503,10 +464,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -531,10 +489,7 @@
       "label": "Grassi Termici",
       "mutazione_indotta": "introduce camere metaboliche con enzimi adattivi a cicli rapidi.",
       "requisiti_ambientali": [],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -572,10 +527,7 @@
           }
         }
       ],
-      "sinergie": [
-        "filamenti_digestivi_compattanti",
-        "ventriglio_gastroliti"
-      ],
+      "sinergie": ["filamenti_digestivi_compattanti", "ventriglio_gastroliti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,

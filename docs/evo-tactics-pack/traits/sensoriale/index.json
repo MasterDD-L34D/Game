@@ -23,10 +23,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -76,13 +73,8 @@
           "bioma:cicloni_psionici"
         ],
         "combo_totale": 3,
-        "forme": [
-          "Forma:Tempestarii",
-          "HUD:Fulcro_Tempesta"
-        ],
-        "tabelle_random": [
-          "tabella:fulmini_empatici"
-        ]
+        "forme": ["Forma:Tempestarii", "HUD:Fulcro_Tempesta"],
+        "tabelle_random": ["tabella:fulmini_empatici"]
       },
       "slot": [],
       "slot_profile": {
@@ -115,10 +107,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -156,10 +145,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -197,10 +183,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -238,10 +221,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -291,13 +271,8 @@
           "hud:TundraPulse"
         ],
         "combo_totale": 3,
-        "forme": [
-          "Forma:Cantore_Tundra",
-          "HUD:EchoGrid"
-        ],
-        "tabelle_random": [
-          "tabella:canti_ipersonici"
-        ]
+        "forme": ["Forma:Cantore_Tundra", "HUD:EchoGrid"],
+        "tabelle_random": ["tabella:canti_ipersonici"]
       },
       "slot": [],
       "slot_profile": {
@@ -330,10 +305,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -371,10 +343,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -412,10 +381,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -453,10 +419,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -548,10 +511,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -589,10 +549,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -630,10 +587,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -671,10 +625,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -711,9 +662,7 @@
           }
         }
       ],
-      "sinergie": [
-        "olfatto_risonanza_magnetica"
-      ],
+      "sinergie": ["olfatto_risonanza_magnetica"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -751,10 +700,7 @@
           }
         }
       ],
-      "sinergie": [
-        "focus_frazionato",
-        "sinapsi_coraline_polifoniche"
-      ],
+      "sinergie": ["focus_frazionato", "sinapsi_coraline_polifoniche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -791,9 +737,7 @@
           }
         }
       ],
-      "sinergie": [
-        "sonno_emisferico_alternato"
-      ],
+      "sinergie": ["sonno_emisferico_alternato"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -843,10 +787,7 @@
           }
         }
       ],
-      "sinergie": [
-        "eco_interno_riflesso",
-        "lingua_tattile_trama"
-      ],
+      "sinergie": ["eco_interno_riflesso", "lingua_tattile_trama"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -883,10 +824,7 @@
           }
         }
       ],
-      "sinergie": [
-        "carapace_fase_variabile",
-        "eco_interno_riflesso"
-      ],
+      "sinergie": ["carapace_fase_variabile", "eco_interno_riflesso"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,

@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-11-05T18:52:43.280Z",
+  "generated_at": "2025-11-11T23:48:24.660Z",
   "ecosistema": {
     "label": "Evo-Tactics Meta‑Ecosystem Alpha",
     "biomi": [
       {
         "id": "badlands",
-        "path": "../../data/ecosystems/badlands.biome.yaml",
+        "path": "../../packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml",
         "label": "Brulle Terre Ferrose (Badlands)",
         "network_id": "BADLANDS",
         "biome_profile": "canyons_risonanti",
@@ -13,7 +13,7 @@
       },
       {
         "id": "foresta_temperata",
-        "path": "../../data/ecosystems/foresta_temperata.biome.yaml",
+        "path": "../../packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml",
         "label": "Foresta Temperata Demo",
         "network_id": "FORESTA_TEMPERATA",
         "biome_profile": "foresta_miceliale",
@@ -21,7 +21,7 @@
       },
       {
         "id": "deserto_caldo",
-        "path": "../../data/ecosystems/deserto_caldo.biome.yaml",
+        "path": "../../packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml",
         "label": "deserto_caldo (scaffold)",
         "network_id": "DESERTO_CALDO",
         "biome_profile": "savana",
@@ -29,7 +29,7 @@
       },
       {
         "id": "cryosteppe",
-        "path": "../../data/ecosystems/cryosteppe.biome.yaml",
+        "path": "../../packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml",
         "label": "cryosteppe (scaffold)",
         "network_id": "CRYOSTEPPE",
         "biome_profile": "mezzanotte_orbitale",
@@ -82,7 +82,7 @@
   "biomi": [
     {
       "id": "badlands",
-      "path": "../../data/ecosystems/badlands.biome.yaml",
+      "path": "../../packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml",
       "manifest": {
         "species_counts": {
           "apex": 1,
@@ -104,12 +104,12 @@
           "specie_chiave"
         ],
         "foodweb_links": {
-          "path": "../../data/foodwebs/badlands_foodweb.yaml",
+          "path": "../../packs/evo_tactics_pack/data/foodwebs/badlands_foodweb.yaml",
           "sink_detrito": true
         }
       },
       "foodweb": {
-        "path": "../../data/foodwebs/badlands_foodweb.yaml",
+        "path": "../../packs/evo_tactics_pack/data/foodwebs/badlands_foodweb.yaml",
         "nodes": [
           "arbusti_xerofili",
           "crostoni_criptofite",
@@ -195,7 +195,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/dune-stalker.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T3",
@@ -299,9 +299,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "64b8dbb2f6eb938004dbe5e0df3e5876d97328cf3efeb8b8b7b4ae57ac2e5a47"
+            "trace_hash": "f3253a3525d42e0521b89bf176ef80e18210c60c56097718402461033e07b6cb"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "echo-wing",
@@ -325,7 +325,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/echo-wing.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
           "balance": {
             "rarity": "R2",
             "threat_tier": "T1",
@@ -426,9 +426,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "8a9d00488b255a945dca4d9190d62463f9d67320b7b58e38d53e0ec227589687"
+            "trace_hash": "bfa87faea1e2446a9785596011608bff528cdfc088ca421166df88d0ae99fdb8"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "evento-tempesta-ferrosa",
@@ -448,7 +448,7 @@
             "threat": false,
             "event": true
           },
-          "path": "../../data/species/badlands/evento-tempesta-ferrosa.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
           "balance": {
             "rarity": "R5",
             "threat_tier": "T4",
@@ -536,9 +536,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "566b53a7564477c3f86b197a095af87f0c5a70a1a1e541fa996d2cb0a49365a6"
+            "trace_hash": "6e07bbd8680e292def732ca859aa8712aef4807bea820bfa7c4773dfa644cfc1"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "ferrocolonia-magnetotattica",
@@ -560,7 +560,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/ferrocolonia-magnetotattica.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T2",
@@ -663,9 +663,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "19e4eb8e1657b8d18d05b16c7208a7e0b44926d1c45eee883797217e507b1c70"
+            "trace_hash": "1cebf5c3c8a932aa2cc8338d9d7776c1bd31b269e493ffef8d1f2283e0215497"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "nano-rust-bloom",
@@ -685,7 +685,7 @@
             "threat": true,
             "event": false
           },
-          "path": "../../data/species/badlands/nano-rust-bloom.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T3",
@@ -778,9 +778,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "d75c052df6e0b49251fff8dbad92e2a351385066ecfd7990ff20fd739f8f094e"
+            "trace_hash": "6207fcce34051682f68ae62aba1b1bd6ddc7dfe5b6855fb923868376bcedd1ec"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "rust-scavenger",
@@ -801,7 +801,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/rust-scavenger.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
           "balance": {
             "rarity": "R2",
             "threat_tier": "T1",
@@ -890,9 +890,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "8f43383027bdce3e6e92a380eb2184e229e46186ace905774edbf59019cf1c90"
+            "trace_hash": "ad1ca1a5777c3438f1e819d3446f9640d8bd42666a9f60b9df19adbb95e44654"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "sand-burrower",
@@ -913,7 +913,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/badlands/sand-burrower.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
           "balance": {
             "rarity": "R1",
             "threat_tier": "T1",
@@ -1006,9 +1006,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "2af231da1b73ee7efecd62799d60aa1b03690a87a1f3ecd87c4b7fabf4a9f9d3"
+            "trace_hash": "e6dd1545f31674af6dcd47220be84e05e4c7eb26bfdc37b7d02f2e33c39ee356"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         }
       ],
       "label": "Brulle Terre Ferrose (Badlands)",
@@ -1030,7 +1030,7 @@
     },
     {
       "id": "foresta_temperata",
-      "path": "../../data/ecosystems/foresta_temperata.biome.yaml",
+      "path": "../../packs/evo_tactics_pack/data/ecosystems/foresta_temperata.biome.yaml",
       "manifest": {
         "species_counts": {
           "apex": 1,
@@ -1045,13 +1045,13 @@
           "specie_chiave"
         ],
         "foodweb_links": {
-          "path": "../../data/foodwebs/foresta_temperata_foodweb.yaml",
+          "path": "../../packs/evo_tactics_pack/data/foodwebs/foresta_temperata_foodweb.yaml",
           "sink_detrito": true
         },
-        "path": "../../data/ecosystems/foresta_temperata.manifest.yaml"
+        "path": "../../packs/evo_tactics_pack/data/ecosystems/foresta_temperata.manifest.yaml"
       },
       "foodweb": {
-        "path": "../../data/foodwebs/foresta_temperata_foodweb.yaml",
+        "path": "../../packs/evo_tactics_pack/data/foodwebs/foresta_temperata_foodweb.yaml",
         "nodes": [
           "produttori_base",
           "HERB_CERVO",
@@ -1097,7 +1097,7 @@
             "threat": true,
             "event": false
           },
-          "path": "../../data/species/foresta_temperata/blight-micotico.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T3",
@@ -1159,9 +1159,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "62327422fd83c959841ffb677ade2b743479cb508282a6bd9c6377a02bbfeef6"
+            "trace_hash": "1ceb65cf419ec898f6cd2868ad123128cf252296253c16f87382e1cbe8fb866b"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "evento-seme-uragano",
@@ -1181,7 +1181,7 @@
             "threat": false,
             "event": true
           },
-          "path": "../../data/species/foresta_temperata/evento-seme-uragano.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
           "balance": {
             "rarity": "R5",
             "threat_tier": "T4",
@@ -1237,9 +1237,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "8bbcb9d51158f40612acd6a6fb8299a3c66b67ebea3b9bfc94490cbfb59311be"
+            "trace_hash": "6378bb4d48ab1daee32ac3ae18c156cfcfe562ad7529baa67d050b0046846a6e"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "lupus-temperatus",
@@ -1259,7 +1259,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/foresta_temperata/lupus-temperatus.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
           "balance": {
             "rarity": "R2",
             "threat_tier": "T2",
@@ -1322,9 +1322,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "7e93aff34970f504d266ff51b38aba2c2baf271bb5cf279cb218170d77fa34cf"
+            "trace_hash": "fb98c402302a4e6ca41af7cb0034d4efd40bcd55eb312f2fa333442878b790b2"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "sentinella-radice",
@@ -1345,7 +1345,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/foresta_temperata/sentinella-radice.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T1",
@@ -1410,9 +1410,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "4ce0a383a8ef4ec8323f74b8ae9d878fdcb1f6d862a946e743014268a860d044"
+            "trace_hash": "3fd2c271e53fc2f1d709884390b4ad18bbc9b4111351abb7312c054d6e3760ce"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         }
       ],
       "label": "Foresta Temperata Demo",
@@ -1431,7 +1431,7 @@
     },
     {
       "id": "deserto_caldo",
-      "path": "../../data/ecosystems/deserto_caldo.biome.yaml",
+      "path": "../../packs/evo_tactics_pack/data/ecosystems/deserto_caldo.biome.yaml",
       "manifest": {
         "species_counts": {
           "apex": 1,
@@ -1451,12 +1451,12 @@
           "specie_chiave"
         ],
         "foodweb_links": {
-          "path": "../../data/foodwebs/deserto_caldo_foodweb.yaml",
+          "path": "../../packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml",
           "sink_detrito": true
         }
       },
       "foodweb": {
-        "path": "../../data/foodwebs/deserto_caldo_foodweb.yaml",
+        "path": "../../packs/evo_tactics_pack/data/foodwebs/deserto_caldo_foodweb.yaml",
         "nodes": [
           "succulente_xerofile",
           "cianobatteri_dune",
@@ -1541,7 +1541,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/deserto_caldo/cactus-weaver.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
           "balance": {
             "rarity": "R2",
             "threat_tier": "T1",
@@ -1614,9 +1614,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "292922284a3d239d348896ceb846f71f8f6cf694e7c31a08991acc55682ff05f"
+            "trace_hash": "1dd6bbfb1052ac0238f0f2508335a3a22e4ba4c2c99ddc84041355320f09091b"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "evento-ondata-termica",
@@ -1636,7 +1636,7 @@
             "threat": false,
             "event": true
           },
-          "path": "../../data/species/deserto_caldo/evento-ondata-termica.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
           "balance": {
             "rarity": "R5",
             "threat_tier": "T4",
@@ -1702,9 +1702,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "f26de2ba83e5ea0bc7e2076412fb0491e14e7600d06d76d46157f4802d7f3913"
+            "trace_hash": "804c9a52ace9c67910468236a3f99aea24ba4c40bc380c6efdfd5b0dfd2671b7"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "noctule-termico",
@@ -1725,7 +1725,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/deserto_caldo/noctule-termico.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
           "balance": {
             "rarity": "R2",
             "threat_tier": "T1",
@@ -1791,9 +1791,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "48d60d5c49d62ce46685c587b8827bf8542828c7c929cb7f5bc99b55be70e398"
+            "trace_hash": "2b98448ee2537bfedd47824861fb2a6c8577ec6a1f63d720d704aa23a00ef0d5"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "silica-bloom",
@@ -1813,7 +1813,7 @@
             "threat": true,
             "event": false
           },
-          "path": "../../data/species/deserto_caldo/silica-bloom.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T3",
@@ -1880,9 +1880,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "89f1eeede87d4609e66d9d3339bf18fcfe8e497c20f48bd1325f269b3cd25af1"
+            "trace_hash": "a03646e3372cf21213177616f691ed47a8e1cdb5b29f484e84582fda4b2bf3cc"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "thermo-raptor",
@@ -1903,7 +1903,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/deserto_caldo/thermo-raptor.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T3",
@@ -1970,9 +1970,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "c583cb65f9015a2b78b298da22d0eb7a0284b13be4ca088d874a8046d8779c18"
+            "trace_hash": "06b34eedd8c3605b422c436bed32cf441196aabe1843562f300ce504bd5f3257"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         }
       ],
       "label": "deserto_caldo (scaffold)",
@@ -1985,7 +1985,7 @@
     },
     {
       "id": "cryosteppe",
-      "path": "../../data/ecosystems/cryosteppe.biome.yaml",
+      "path": "../../packs/evo_tactics_pack/data/ecosystems/cryosteppe.biome.yaml",
       "manifest": {
         "species_counts": {
           "apex": 1,
@@ -2005,12 +2005,12 @@
           "specie_chiave"
         ],
         "foodweb_links": {
-          "path": "../../data/foodwebs/cryosteppe_foodweb.yaml",
+          "path": "../../packs/evo_tactics_pack/data/foodwebs/cryosteppe_foodweb.yaml",
           "sink_detrito": true
         }
       },
       "foodweb": {
-        "path": "../../data/foodwebs/cryosteppe_foodweb.yaml",
+        "path": "../../packs/evo_tactics_pack/data/foodwebs/cryosteppe_foodweb.yaml",
         "nodes": [
           "tappeti_muschio",
           "arbusti_alpini",
@@ -2088,7 +2088,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/cryosteppe/aurora-gull.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
           "balance": {
             "rarity": "R2",
             "threat_tier": "T1",
@@ -2155,9 +2155,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "7d527fc1cfc2c304e5a29fca9c9dbfc49ff818222b1a89c3c3884f81ab1a4a2f"
+            "trace_hash": "7266df45d2fc0f71cbe30c8a0d99ac516dc3c058b213cf9ec4f3db6013b1edde"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "cryo-lynx",
@@ -2178,7 +2178,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/cryosteppe/cryo-lynx.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T3",
@@ -2247,9 +2247,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "dc74dcf3832844d2629724580aa06ab6b1bf49627b9dbcb1162c4c89e368446f"
+            "trace_hash": "75e8602243ab87487aac6306c51e95bb2764dd76dec2c56c9158e55817a133dc"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "evento-brinastorm",
@@ -2269,7 +2269,7 @@
             "threat": false,
             "event": true
           },
-          "path": "../../data/species/cryosteppe/evento-brinastorm.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
           "balance": {
             "rarity": "R5",
             "threat_tier": "T4",
@@ -2336,9 +2336,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "52af93ee70b530c95143acf8219da38232ec9131a7e2506a53520aa74a7218e7"
+            "trace_hash": "1d813e5cea26a284eb2155ea1720eadb9d5bc5ba65b497dd3410ada35a1713bb"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "steppe-bison-mini",
@@ -2360,7 +2360,7 @@
             "threat": false,
             "event": false
           },
-          "path": "../../data/species/cryosteppe/steppe-bison-mini.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
           "balance": {
             "rarity": "R2",
             "threat_tier": "T1",
@@ -2431,9 +2431,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "d98a20765971c71ed73a8c4ce73c45d6dac31ab437f3397867cde1a9e3dab252"
+            "trace_hash": "a961ea3d37fb106680a3326d34925a73a3b0bd498d9563a464a54be39641705e"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         },
         {
           "id": "thaw-rot",
@@ -2453,7 +2453,7 @@
             "threat": true,
             "event": false
           },
-          "path": "../../data/species/cryosteppe/thaw-rot.yaml",
+          "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
           "balance": {
             "rarity": "R3",
             "threat_tier": "T3",
@@ -2521,9 +2521,9 @@
             "source": "PTPF.v1.0",
             "author": "designer",
             "date": "2025-10-25",
-            "trace_hash": "9026bad1f961d6db5a451a41526404be5318b66a243e29953727e4447817e09b"
+            "trace_hash": "18f213e4c7b49b4795fd786490dcb62cebefadc67f42dd91b287cedc3a8e427f"
           },
-          "last_synced_at": "2025-11-05T18:52:43.280Z"
+          "last_synced_at": "2025-11-11T23:48:24.660Z"
         }
       ],
       "label": "cryosteppe (scaffold)",
@@ -2555,7 +2555,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/dune-stalker.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T3",
@@ -2659,9 +2659,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "64b8dbb2f6eb938004dbe5e0df3e5876d97328cf3efeb8b8b7b4ae57ac2e5a47"
+        "trace_hash": "f3253a3525d42e0521b89bf176ef80e18210c60c56097718402461033e07b6cb"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "echo-wing",
@@ -2685,7 +2685,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/echo-wing.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml",
       "balance": {
         "rarity": "R2",
         "threat_tier": "T1",
@@ -2786,9 +2786,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "8a9d00488b255a945dca4d9190d62463f9d67320b7b58e38d53e0ec227589687"
+        "trace_hash": "bfa87faea1e2446a9785596011608bff528cdfc088ca421166df88d0ae99fdb8"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "evento-tempesta-ferrosa",
@@ -2808,7 +2808,7 @@
         "threat": false,
         "event": true
       },
-      "path": "../../data/species/badlands/evento-tempesta-ferrosa.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml",
       "balance": {
         "rarity": "R5",
         "threat_tier": "T4",
@@ -2896,9 +2896,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "566b53a7564477c3f86b197a095af87f0c5a70a1a1e541fa996d2cb0a49365a6"
+        "trace_hash": "6e07bbd8680e292def732ca859aa8712aef4807bea820bfa7c4773dfa644cfc1"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "ferrocolonia-magnetotattica",
@@ -2920,7 +2920,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/ferrocolonia-magnetotattica.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T2",
@@ -3023,9 +3023,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "19e4eb8e1657b8d18d05b16c7208a7e0b44926d1c45eee883797217e507b1c70"
+        "trace_hash": "1cebf5c3c8a932aa2cc8338d9d7776c1bd31b269e493ffef8d1f2283e0215497"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "nano-rust-bloom",
@@ -3045,7 +3045,7 @@
         "threat": true,
         "event": false
       },
-      "path": "../../data/species/badlands/nano-rust-bloom.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T3",
@@ -3138,9 +3138,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "d75c052df6e0b49251fff8dbad92e2a351385066ecfd7990ff20fd739f8f094e"
+        "trace_hash": "6207fcce34051682f68ae62aba1b1bd6ddc7dfe5b6855fb923868376bcedd1ec"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "rust-scavenger",
@@ -3161,7 +3161,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/rust-scavenger.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
       "balance": {
         "rarity": "R2",
         "threat_tier": "T1",
@@ -3250,9 +3250,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "8f43383027bdce3e6e92a380eb2184e229e46186ace905774edbf59019cf1c90"
+        "trace_hash": "ad1ca1a5777c3438f1e819d3446f9640d8bd42666a9f60b9df19adbb95e44654"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "sand-burrower",
@@ -3273,7 +3273,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/badlands/sand-burrower.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml",
       "balance": {
         "rarity": "R1",
         "threat_tier": "T1",
@@ -3366,9 +3366,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "2af231da1b73ee7efecd62799d60aa1b03690a87a1f3ecd87c4b7fabf4a9f9d3"
+        "trace_hash": "e6dd1545f31674af6dcd47220be84e05e4c7eb26bfdc37b7d02f2e33c39ee356"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "blight-micotico",
@@ -3388,7 +3388,7 @@
         "threat": true,
         "event": false
       },
-      "path": "../../data/species/foresta_temperata/blight-micotico.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T3",
@@ -3450,9 +3450,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "62327422fd83c959841ffb677ade2b743479cb508282a6bd9c6377a02bbfeef6"
+        "trace_hash": "1ceb65cf419ec898f6cd2868ad123128cf252296253c16f87382e1cbe8fb866b"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "evento-seme-uragano",
@@ -3472,7 +3472,7 @@
         "threat": false,
         "event": true
       },
-      "path": "../../data/species/foresta_temperata/evento-seme-uragano.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml",
       "balance": {
         "rarity": "R5",
         "threat_tier": "T4",
@@ -3528,9 +3528,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "8bbcb9d51158f40612acd6a6fb8299a3c66b67ebea3b9bfc94490cbfb59311be"
+        "trace_hash": "6378bb4d48ab1daee32ac3ae18c156cfcfe562ad7529baa67d050b0046846a6e"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "lupus-temperatus",
@@ -3550,7 +3550,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/foresta_temperata/lupus-temperatus.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
       "balance": {
         "rarity": "R2",
         "threat_tier": "T2",
@@ -3613,9 +3613,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "7e93aff34970f504d266ff51b38aba2c2baf271bb5cf279cb218170d77fa34cf"
+        "trace_hash": "fb98c402302a4e6ca41af7cb0034d4efd40bcd55eb312f2fa333442878b790b2"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "sentinella-radice",
@@ -3636,7 +3636,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/foresta_temperata/sentinella-radice.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T1",
@@ -3701,9 +3701,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "4ce0a383a8ef4ec8323f74b8ae9d878fdcb1f6d862a946e743014268a860d044"
+        "trace_hash": "3fd2c271e53fc2f1d709884390b4ad18bbc9b4111351abb7312c054d6e3760ce"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "cactus-weaver",
@@ -3725,7 +3725,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/deserto_caldo/cactus-weaver.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml",
       "balance": {
         "rarity": "R2",
         "threat_tier": "T1",
@@ -3798,9 +3798,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "292922284a3d239d348896ceb846f71f8f6cf694e7c31a08991acc55682ff05f"
+        "trace_hash": "1dd6bbfb1052ac0238f0f2508335a3a22e4ba4c2c99ddc84041355320f09091b"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "evento-ondata-termica",
@@ -3820,7 +3820,7 @@
         "threat": false,
         "event": true
       },
-      "path": "../../data/species/deserto_caldo/evento-ondata-termica.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml",
       "balance": {
         "rarity": "R5",
         "threat_tier": "T4",
@@ -3886,9 +3886,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "f26de2ba83e5ea0bc7e2076412fb0491e14e7600d06d76d46157f4802d7f3913"
+        "trace_hash": "804c9a52ace9c67910468236a3f99aea24ba4c40bc380c6efdfd5b0dfd2671b7"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "noctule-termico",
@@ -3909,7 +3909,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/deserto_caldo/noctule-termico.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml",
       "balance": {
         "rarity": "R2",
         "threat_tier": "T1",
@@ -3975,9 +3975,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "48d60d5c49d62ce46685c587b8827bf8542828c7c929cb7f5bc99b55be70e398"
+        "trace_hash": "2b98448ee2537bfedd47824861fb2a6c8577ec6a1f63d720d704aa23a00ef0d5"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "silica-bloom",
@@ -3997,7 +3997,7 @@
         "threat": true,
         "event": false
       },
-      "path": "../../data/species/deserto_caldo/silica-bloom.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T3",
@@ -4064,9 +4064,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "89f1eeede87d4609e66d9d3339bf18fcfe8e497c20f48bd1325f269b3cd25af1"
+        "trace_hash": "a03646e3372cf21213177616f691ed47a8e1cdb5b29f484e84582fda4b2bf3cc"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "thermo-raptor",
@@ -4087,7 +4087,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/deserto_caldo/thermo-raptor.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T3",
@@ -4154,9 +4154,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "c583cb65f9015a2b78b298da22d0eb7a0284b13be4ca088d874a8046d8779c18"
+        "trace_hash": "06b34eedd8c3605b422c436bed32cf441196aabe1843562f300ce504bd5f3257"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "aurora-gull",
@@ -4177,7 +4177,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/cryosteppe/aurora-gull.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
       "balance": {
         "rarity": "R2",
         "threat_tier": "T1",
@@ -4244,9 +4244,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "7d527fc1cfc2c304e5a29fca9c9dbfc49ff818222b1a89c3c3884f81ab1a4a2f"
+        "trace_hash": "7266df45d2fc0f71cbe30c8a0d99ac516dc3c058b213cf9ec4f3db6013b1edde"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "cryo-lynx",
@@ -4267,7 +4267,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/cryosteppe/cryo-lynx.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T3",
@@ -4336,9 +4336,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "dc74dcf3832844d2629724580aa06ab6b1bf49627b9dbcb1162c4c89e368446f"
+        "trace_hash": "75e8602243ab87487aac6306c51e95bb2764dd76dec2c56c9158e55817a133dc"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "evento-brinastorm",
@@ -4358,7 +4358,7 @@
         "threat": false,
         "event": true
       },
-      "path": "../../data/species/cryosteppe/evento-brinastorm.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml",
       "balance": {
         "rarity": "R5",
         "threat_tier": "T4",
@@ -4425,9 +4425,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "52af93ee70b530c95143acf8219da38232ec9131a7e2506a53520aa74a7218e7"
+        "trace_hash": "1d813e5cea26a284eb2155ea1720eadb9d5bc5ba65b497dd3410ada35a1713bb"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "steppe-bison-mini",
@@ -4449,7 +4449,7 @@
         "threat": false,
         "event": false
       },
-      "path": "../../data/species/cryosteppe/steppe-bison-mini.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml",
       "balance": {
         "rarity": "R2",
         "threat_tier": "T1",
@@ -4520,9 +4520,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "d98a20765971c71ed73a8c4ce73c45d6dac31ab437f3397867cde1a9e3dab252"
+        "trace_hash": "a961ea3d37fb106680a3326d34925a73a3b0bd498d9563a464a54be39641705e"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     },
     {
       "id": "thaw-rot",
@@ -4542,7 +4542,7 @@
         "threat": true,
         "event": false
       },
-      "path": "../../data/species/cryosteppe/thaw-rot.yaml",
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml",
       "balance": {
         "rarity": "R3",
         "threat_tier": "T3",
@@ -4610,9 +4610,9 @@
         "source": "PTPF.v1.0",
         "author": "designer",
         "date": "2025-10-25",
-        "trace_hash": "9026bad1f961d6db5a451a41526404be5318b66a243e29953727e4447817e09b"
+        "trace_hash": "18f213e4c7b49b4795fd786490dcb62cebefadc67f42dd91b287cedc3a8e427f"
       },
-      "last_synced_at": "2025-11-05T18:52:43.280Z"
+      "last_synced_at": "2025-11-11T23:48:24.660Z"
     }
   ]
 }

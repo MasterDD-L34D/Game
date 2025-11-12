@@ -22,10 +22,7 @@
           }
         }
       ],
-      "sinergie": [
-        "artigli_sghiaccio_glaciale",
-        "occhi_infrarosso_composti"
-      ],
+      "sinergie": ["artigli_sghiaccio_glaciale", "occhi_infrarosso_composti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,

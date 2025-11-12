@@ -26,6 +26,12 @@ except ModuleNotFoundError as exc:  # pragma: no cover - dependency guard
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
+VALID_MIRROR_PREFIX = "../../packs/evo_tactics_pack/"
+MIRROR_ROOTS = (
+    REPO_ROOT / "docs" / "evo-tactics-pack",
+    REPO_ROOT / "public" / "docs" / "evo-tactics-pack",
+)
+
 
 @dataclass(frozen=True)
 class DatasetRule:
@@ -360,6 +366,41 @@ def find_duplicates(folders: Iterable[Path]) -> dict[str, list[Path]]:
     return {key: paths for key, paths in collisions.items() if len(paths) > 1}
 
 
+def iter_json_path_fields(payload, trail):
+    if isinstance(payload, dict):
+        for key, value in payload.items():
+            next_trail = (*trail, key)
+            if key == "path" and isinstance(value, str):
+                yield next_trail, value
+            else:
+                yield from iter_json_path_fields(value, next_trail)
+    elif isinstance(payload, list):
+        for index, value in enumerate(payload):
+            next_trail = (*trail, str(index))
+            yield from iter_json_path_fields(value, next_trail)
+
+
+def validate_mirror_paths(root: Path) -> list[str]:
+    issues: list[str] = []
+    if not root.exists():
+        return issues
+    for json_file in sorted(root.rglob("*.json")):
+        try:
+            data = json.loads(json_file.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            issues.append(
+                f"{json_file.relative_to(REPO_ROOT)}: unable to parse JSON ({exc})"
+            )
+            continue
+        for trail, value in iter_json_path_fields(data, ()):  # type: ignore[arg-type]
+            if not value.startswith(VALID_MIRROR_PREFIX):
+                breadcrumb = ".".join(trail)
+                issues.append(
+                    f"{json_file.relative_to(REPO_ROOT)}: invalid mirror path at {breadcrumb!s} → {value!r}"
+                )
+    return issues
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -378,6 +419,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         issues, summary = audit_dataset(rule)
         problems.extend(issues)
         dataset_summaries.append(summary)
+
+    for mirror_root in MIRROR_ROOTS:
+        problems.extend(validate_mirror_paths(mirror_root))
 
     duplicate_entries: list[dict] = []
     if args.incoming:

@@ -16,7 +16,7 @@
     "threat": false,
     "event": false
   },
-  "path": "../../data/species/foresta_temperata/lupus-temperatus.yaml",
+  "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml",
   "balance": {
     "rarity": "R2",
     "threat_tier": "T2",
@@ -79,7 +79,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "7e93aff34970f504d266ff51b38aba2c2baf271bb5cf279cb218170d77fa34cf"
+    "trace_hash": "fb98c402302a4e6ca41af7cb0034d4efd40bcd55eb312f2fa333442878b790b2"
   },
-  "last_synced_at": "2025-11-05T18:52:43.280Z"
+  "last_synced_at": "2025-11-11T23:48:24.660Z"
 }
