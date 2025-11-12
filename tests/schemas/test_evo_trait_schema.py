@@ -4,8 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
-from jsonschema import Draft202012Validator
-from referencing import Registry, Resource
+from jsonschema import Draft202012Validator, RefResolver
 
 SCHEMA_PATH = Path(__file__).resolve().parents[2] / "schemas" / "evo" / "trait.schema.json"
 TRAIT_DIR = Path(__file__).resolve().parents[2] / "data" / "external" / "evo" / "traits"
@@ -17,12 +16,15 @@ enums_path = SCHEMA_PATH.parent / "enums.json"
 with enums_path.open("r", encoding="utf-8") as handle:
     enums_schema = json.load(handle)
 
-registry = Registry().with_resource(
-    "https://game.example.com/schemas/evo/enums.json",
-    Resource.from_contents(enums_schema),
+resolver = RefResolver.from_schema(
+    TRAIT_SCHEMA,
+    store={
+        "https://game.example.com/schemas/evo/enums.json": enums_schema,
+        "enums.json": enums_schema,
+    },
 )
 
-VALIDATOR = Draft202012Validator(TRAIT_SCHEMA, registry=registry)
+VALIDATOR = Draft202012Validator(TRAIT_SCHEMA, resolver=resolver)
 
 TRAIT_FILES = sorted(path for path in TRAIT_DIR.glob("TR-*.json"))
 

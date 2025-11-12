@@ -2,7 +2,6 @@ pyyaml
 numpy
 pymongo
 jsonschema>=4.22.0
-referencing
 
 boto3
 matplotlib
