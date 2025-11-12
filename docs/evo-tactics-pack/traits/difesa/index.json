@@ -2,9 +2,7 @@
   "schema_version": "2.0",
   "traits": {
     "armatura_pietra_planare": {
-      "conflitti": [
-        "frusta_fiammeggiante"
-      ],
+      "conflitti": ["frusta_fiammeggiante"],
       "debolezza": "Pesante: riduce mobilità in ambienti non supportati o a bassa gravità.",
       "famiglia_tipologia": "Difesa/Strutturale",
       "fattore_mantenimento_energetico": "Basso (Risonanza geodetica stabile)",
@@ -13,9 +11,7 @@
       "mutazione_indotta": "Cristallizza il dermascheletro con nodi rune che deviano energia.",
       "requisiti_ambientali": [
         {
-          "capacita_richieste": [
-            "deploy_barrier"
-          ],
+          "capacita_richieste": ["deploy_barrier"],
           "condizioni": {
             "biome_class": "rovine_planari"
           },
@@ -27,9 +23,7 @@
           }
         }
       ],
-      "sinergie": [
-        "carapace_fase_variabile"
-      ],
+      "sinergie": ["carapace_fase_variabile"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -46,9 +40,7 @@
       "uso_funzione": "Offre schermatura massiva e ancoraggio durante le aperture dimensionali."
     },
     "mantello_meteoritico": {
-      "conflitti": [
-        "aura_scudo_radianza"
-      ],
+      "conflitti": ["aura_scudo_radianza"],
       "debolezza": "Vulnerabile a scariche di freddo gravitazionale che irrigidiscono il mantello.",
       "famiglia_tipologia": "Difesa/Termoregolazione",
       "fattore_mantenimento_energetico": "Alto (Rivestimento ablativo rigenerante)",
@@ -57,9 +49,7 @@
       "mutazione_indotta": "Deposita strati sovrapposti di materiale meteorico che vaporizzano l'impatto e rilasciano radianza.",
       "requisiti_ambientali": [
         {
-          "capacita_richieste": [
-            "fire_resist"
-          ],
+          "capacita_richieste": ["fire_resist"],
           "condizioni": {
             "biome_class": "rovine_planari"
           },
@@ -71,10 +61,7 @@
           }
         }
       ],
-      "sinergie": [
-        "frusta_fiammeggiante",
-        "carapace_fase_variabile"
-      ],
+      "sinergie": ["frusta_fiammeggiante", "carapace_fase_variabile"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,

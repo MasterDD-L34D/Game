@@ -16,7 +16,7 @@
     "threat": true,
     "event": false
   },
-  "path": "../../data/species/badlands/nano-rust-bloom.yaml",
+  "path": "../../packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml",
   "balance": {
     "rarity": "R3",
     "threat_tier": "T3",
@@ -109,7 +109,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "d75c052df6e0b49251fff8dbad92e2a351385066ecfd7990ff20fd739f8f094e"
+    "trace_hash": "6207fcce34051682f68ae62aba1b1bd6ddc7dfe5b6855fb923868376bcedd1ec"
   },
-  "last_synced_at": "2025-11-05T18:52:43.280Z"
+  "last_synced_at": "2025-11-11T23:48:24.660Z"
 }

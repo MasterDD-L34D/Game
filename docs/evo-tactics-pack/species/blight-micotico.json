@@ -12,7 +12,7 @@
     "threat": true,
     "event": false
   },
-  "path": "../../data/species/foresta_temperata/blight-micotico.yaml",
+  "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml",
   "balance": {
     "rarity": "R3",
     "threat_tier": "T3",
@@ -59,7 +59,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "62327422fd83c959841ffb677ade2b743479cb508282a6bd9c6377a02bbfeef6"
+    "trace_hash": "1ceb65cf419ec898f6cd2868ad123128cf252296253c16f87382e1cbe8fb866b"
   },
-  "last_synced_at": "2025-11-05T18:52:43.280Z"
+  "last_synced_at": "2025-11-11T23:48:24.660Z"
 }

@@ -2,9 +2,7 @@
   "schema_version": "2.0",
   "traits": {
     "branchie_osmotiche_salmastra": {
-      "conflitti": [
-        "polmoni_cristallini_alta_quota"
-      ],
+      "conflitti": ["polmoni_cristallini_alta_quota"],
       "debolezza": "Richiede accesso costante ad acqua salmastra; ambienti d'acqua dolce provocano stress ionico.",
       "famiglia_tipologia": "Respiratorio/Osmoregolazione",
       "fattore_mantenimento_energetico": "Medio (Pompe ioniche attive)",
@@ -24,10 +22,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "scheletro_idro_regolante"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "scheletro_idro_regolante"],
       "sinergie_pi": {
         "co_occorrenze": [
           "boardgame:Evolution/Symbiosis",
@@ -35,12 +30,8 @@
           "hud:EstuarioPsi"
         ],
         "combo_totale": 3,
-        "forme": [
-          "Forma:Amfibio_Oracolare"
-        ],
-        "tabelle_random": [
-          "tabella:osmosi_psionica"
-        ]
+        "forme": ["Forma:Amfibio_Oracolare"],
+        "tabelle_random": ["tabella:osmosi_psionica"]
       },
       "slot": [],
       "slot_profile": {
@@ -52,9 +43,7 @@
       "uso_funzione": "Bilancia sali e tossine sfruttando microvalvole controllate psionicamente."
     },
     "lamelle_termoforetiche": {
-      "conflitti": [
-        "criostasi_adattiva"
-      ],
+      "conflitti": ["criostasi_adattiva"],
       "debolezza": "Rende instabile la fisiologia in ambienti a gelo improvviso, con rischio di microfratture vascolari.",
       "famiglia_tipologia": "Respiratorio/Termoregolazione",
       "fattore_mantenimento_energetico": "Medio (Flusso continuo di fluidi caldi)",
@@ -74,9 +63,7 @@
           }
         }
       ],
-      "sinergie": [
-        "sangue_piroforico"
-      ],
+      "sinergie": ["sangue_piroforico"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -113,10 +100,7 @@
           }
         }
       ],
-      "sinergie": [
-        "piume_solari_fotovoltaiche",
-        "polmoni_cristallini_alta_quota"
-      ],
+      "sinergie": ["piume_solari_fotovoltaiche", "polmoni_cristallini_alta_quota"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -133,9 +117,7 @@
       "uso_funzione": "Filtra l'aria e i flussi luminosi rendendoli sicuri per tessuti delicati."
     },
     "polmoni_cristallini_alta_quota": {
-      "conflitti": [
-        "branchie_osmotiche_salmastra"
-      ],
+      "conflitti": ["branchie_osmotiche_salmastra"],
       "debolezza": "Particolato pesante o sabbia vulcanica graffia i cristalli riducendo l'efficienza respiratoria.",
       "famiglia_tipologia": "Respiratorio/Aerobico",
       "fattore_mantenimento_energetico": "Medio (Pulizia periodica dei cristalli)",
@@ -155,9 +137,7 @@
           }
         }
       ],
-      "sinergie": [
-        "membrane_eliofiltranti"
-      ],
+      "sinergie": ["membrane_eliofiltranti"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -194,10 +174,7 @@
           }
         }
       ],
-      "sinergie": [
-        "sacche_galleggianti_ascensoriali",
-        "squame_rifrangenti_deserto"
-      ],
+      "sinergie": ["sacche_galleggianti_ascensoriali", "squame_rifrangenti_deserto"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,

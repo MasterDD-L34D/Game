@@ -23,10 +23,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -64,10 +61,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -105,10 +99,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -157,13 +148,8 @@
           "hud:RootMesh_Psi"
         ],
         "combo_totale": 3,
-        "forme": [
-          "Forma:Archivio_Subglaciale",
-          "HUD:Radice_Proxy"
-        ],
-        "tabelle_random": [
-          "tabella:riserva_empatica"
-        ]
+        "forme": ["Forma:Archivio_Subglaciale", "HUD:Radice_Proxy"],
+        "tabelle_random": ["tabella:riserva_empatica"]
       },
       "slot": [],
       "slot_profile": {
@@ -196,10 +182,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -237,10 +220,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -277,10 +257,7 @@
           }
         }
       ],
-      "sinergie": [
-        "bulbi_radici_permafrost",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["bulbi_radici_permafrost", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -318,10 +295,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -359,10 +333,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -400,10 +371,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -441,10 +409,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -482,10 +447,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -523,10 +485,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -564,10 +523,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -605,10 +561,7 @@
           }
         }
       ],
-      "sinergie": [
-        "mucillagine_simbionte_mangrovie",
-        "nodi_micorrizici_oracolari"
-      ],
+      "sinergie": ["mucillagine_simbionte_mangrovie", "nodi_micorrizici_oracolari"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -625,9 +578,7 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
     },
     "mucillagine_simbionte_mangrovie": {
-      "conflitti": [
-        "ghiandola_caustica"
-      ],
+      "conflitti": ["ghiandola_caustica"],
       "debolezza": "Acque eccessivamente pure diluiscono la mucillagine riducendo la protezione.",
       "famiglia_tipologia": "Simbiotico/Difensivo",
       "fattore_mantenimento_energetico": "Medio (Coltura simbiotica costante)",
@@ -681,9 +632,7 @@
       "uso_funzione": "Forma una barriera viva che neutralizza veleni e sigilla ferite."
     },
     "nodi_micorrizici_oracolari": {
-      "conflitti": [
-        "spore_psichiche_silenziate"
-      ],
+      "conflitti": ["spore_psichiche_silenziate"],
       "debolezza": "Se la rete micorrizica viene recisa, l'organismo soffre crisi percettive e perdita di orientamento.",
       "famiglia_tipologia": "Simbiotico/Nervoso",
       "fattore_mantenimento_energetico": "Medio (Scambio continuo di segnali con simbionti)",
@@ -737,9 +686,7 @@
       "uso_funzione": "Riceve presagi e segnali tattici dalla rete fungina per coordinare manovre di squadra."
     },
     "sacche_spore_stratosferiche": {
-      "conflitti": [
-        "respiro_a_scoppio"
-      ],
+      "conflitti": ["respiro_a_scoppio"],
       "debolezza": "Correnti ionizzate possono incendiare le sacche rendendo l'organismo instabile.",
       "famiglia_tipologia": "Simbiotico/Supporto",
       "fattore_mantenimento_energetico": "Alto (Coltura continua di spore portanti)",
@@ -759,9 +706,7 @@
           }
         }
       ],
-      "sinergie": [
-        "piume_solari_fotovoltaiche"
-      ],
+      "sinergie": ["piume_solari_fotovoltaiche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -778,9 +723,7 @@
       "uso_funzione": "Distribuisce simbionti di supporto e crea corridoi di movimento per la squadra."
     },
     "sinapsi_coraline_polifoniche": {
-      "conflitti": [
-        "spore_psichiche_silenziate"
-      ],
+      "conflitti": ["spore_psichiche_silenziate"],
       "debolezza": "Vibrazioni sintonizzate male possono generare feedback dolorosi e perdita di coscienza.",
       "famiglia_tipologia": "Simbiotico/Comunicazione",
       "fattore_mantenimento_energetico": "Medio (Scambio continuo di impulsi corallini)",

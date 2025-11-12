@@ -17,7 +17,7 @@
     "threat": false,
     "event": false
   },
-  "path": "../../data/species/badlands/dune-stalker.yaml",
+  "path": "../../packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml",
   "balance": {
     "rarity": "R3",
     "threat_tier": "T3",
@@ -121,7 +121,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "64b8dbb2f6eb938004dbe5e0df3e5876d97328cf3efeb8b8b7b4ae57ac2e5a47"
+    "trace_hash": "f3253a3525d42e0521b89bf176ef80e18210c60c56097718402461033e07b6cb"
   },
-  "last_synced_at": "2025-11-05T18:52:43.280Z"
+  "last_synced_at": "2025-11-11T23:48:24.660Z"
 }

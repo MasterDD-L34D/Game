@@ -17,7 +17,7 @@
     "threat": false,
     "event": false
   },
-  "path": "../../data/species/badlands/rust-scavenger.yaml",
+  "path": "../../packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml",
   "balance": {
     "rarity": "R2",
     "threat_tier": "T1",
@@ -106,7 +106,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "8f43383027bdce3e6e92a380eb2184e229e46186ace905774edbf59019cf1c90"
+    "trace_hash": "ad1ca1a5777c3438f1e819d3446f9640d8bd42666a9f60b9df19adbb95e44654"
   },
-  "last_synced_at": "2025-11-05T18:52:43.280Z"
+  "last_synced_at": "2025-11-11T23:48:24.660Z"
 }

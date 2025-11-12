@@ -12,7 +12,7 @@
     "threat": false,
     "event": false
   },
-  "path": "../../data/species/cryosteppe/aurora-gull.yaml",
+  "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml",
   "balance": {
     "rarity": "R2",
     "threat_tier": "T1",
@@ -61,7 +61,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "7d527fc1cfc2c304e5a29fca9c9dbfc49ff818222b1a89c3c3884f81ab1a4a2f"
+    "trace_hash": "7266df45d2fc0f71cbe30c8a0d99ac516dc3c058b213cf9ec4f3db6013b1edde"
   },
-  "last_synced_at": "2025-11-05T18:52:43.280Z"
+  "last_synced_at": "2025-11-11T23:48:24.660Z"
 }

@@ -23,10 +23,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -64,10 +61,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -105,10 +99,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -146,10 +137,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -166,9 +154,7 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
     },
     "carapace_fase_variabile": {
-      "conflitti": [
-        "struttura_elastica_amorfa"
-      ],
+      "conflitti": ["struttura_elastica_amorfa"],
       "debolezza": "Debolezza strutturale durante la transizione tra le fasi di durezza.",
       "famiglia_tipologia": "Strutturale/Difensivo",
       "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
@@ -228,13 +214,8 @@
           "hud:PhaseShift_Plate"
         ],
         "combo_totale": 3,
-        "forme": [
-          "Forma:Guardiano_Cangiante",
-          "HUD:Placca_Sintonica"
-        ],
-        "tabelle_random": [
-          "tabella:assetto_fase"
-        ]
+        "forme": ["Forma:Guardiano_Cangiante", "HUD:Placca_Sintonica"],
+        "tabelle_random": ["tabella:assetto_fase"]
       },
       "slot": [],
       "slot_profile": {
@@ -246,9 +227,7 @@
       "uso_funzione": "Durezza/densità del guscio modificabile rapidamente."
     },
     "carapace_luminiscente_abissale": {
-      "conflitti": [
-        "carapace_fase_variabile"
-      ],
+      "conflitti": ["carapace_fase_variabile"],
       "debolezza": "Luce intensa di superficie sovraccarica i biofotoni rendendo la corazza fragile.",
       "famiglia_tipologia": "Strutturale/Sensoriale",
       "fattore_mantenimento_energetico": "Alto (Bioluminescenza controllata)",
@@ -280,13 +259,8 @@
           "hud:AbyssLight_Array"
         ],
         "combo_totale": 3,
-        "forme": [
-          "Forma:Lanterna_Abissale",
-          "HUD:LuminaNet"
-        ],
-        "tabelle_random": [
-          "tabella:segnali_bioluminosi"
-        ]
+        "forme": ["Forma:Lanterna_Abissale", "HUD:LuminaNet"],
+        "tabelle_random": ["tabella:segnali_bioluminosi"]
       },
       "slot": [],
       "slot_profile": {
@@ -319,10 +293,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -360,10 +331,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -401,10 +369,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -442,10 +407,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -483,10 +445,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -524,10 +483,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -565,10 +521,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -606,10 +559,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -647,10 +597,7 @@
           }
         }
       ],
-      "sinergie": [
-        "scheletro_idro_regolante",
-        "struttura_elastica_amorfa"
-      ],
+      "sinergie": ["scheletro_idro_regolante", "struttura_elastica_amorfa"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 2,
@@ -667,9 +614,7 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
     },
     "scheletro_idro_regolante": {
-      "conflitti": [
-        "sangue_piroforico"
-      ],
+      "conflitti": ["sangue_piroforico"],
       "debolezza": "Vulnerabilità a veleni o malattie che attaccano direttamente il sistema circolatorio.",
       "famiglia_tipologia": "Strutturale/Omeostatico",
       "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",

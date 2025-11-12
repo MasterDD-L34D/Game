@@ -12,7 +12,7 @@
     "threat": true,
     "event": false
   },
-  "path": "../../data/species/deserto_caldo/silica-bloom.yaml",
+  "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml",
   "balance": {
     "rarity": "R3",
     "threat_tier": "T3",
@@ -63,7 +63,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "89f1eeede87d4609e66d9d3339bf18fcfe8e497c20f48bd1325f269b3cd25af1"
+    "trace_hash": "a03646e3372cf21213177616f691ed47a8e1cdb5b29f484e84582fda4b2bf3cc"
   },
-  "last_synced_at": "2025-11-05T18:52:43.280Z"
+  "last_synced_at": "2025-11-11T23:48:24.660Z"
 }

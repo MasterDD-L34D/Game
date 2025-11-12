@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-11-05T18:52:43.280Z",
+  "generated_at": "2025-11-11T23:48:24.660Z",
   "total_species": 21,
   "species": [
     {
@@ -26,7 +26,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": true,
-      "path": "../../data/species/cryosteppe/aurora-gull.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/aurora-gull.yaml"
     },
     {
       "id": "blight-micotico",
@@ -51,7 +51,7 @@
       "jobs_bias": [],
       "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
       "playable_unit": false,
-      "path": "../../data/species/foresta_temperata/blight-micotico.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/blight-micotico.yaml"
     },
     {
       "id": "cactus-weaver",
@@ -76,7 +76,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": true,
-      "path": "../../data/species/deserto_caldo/cactus-weaver.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/cactus-weaver.yaml"
     },
     {
       "id": "cryo-lynx",
@@ -101,7 +101,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
-      "path": "../../data/species/cryosteppe/cryo-lynx.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml"
     },
     {
       "id": "dune-stalker",
@@ -132,7 +132,7 @@
         "tempeste_sabbia"
       ],
       "playable_unit": false,
-      "path": "../../data/species/badlands/dune-stalker.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/dune-stalker.yaml"
     },
     {
       "id": "echo-wing",
@@ -163,7 +163,7 @@
         "tempeste_sabbia"
       ],
       "playable_unit": true,
-      "path": "../../data/species/badlands/echo-wing.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/echo-wing.yaml"
     },
     {
       "id": "evento-brinastorm",
@@ -188,7 +188,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
-      "path": "../../data/species/cryosteppe/evento-brinastorm.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/evento-brinastorm.yaml"
     },
     {
       "id": "evento-ondata-termica",
@@ -213,7 +213,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
-      "path": "../../data/species/deserto_caldo/evento-ondata-termica.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/evento-ondata-termica.yaml"
     },
     {
       "id": "evento-seme-uragano",
@@ -238,7 +238,7 @@
       "jobs_bias": [],
       "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
       "playable_unit": false,
-      "path": "../../data/species/foresta_temperata/evento-seme-uragano.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/evento-seme-uragano.yaml"
     },
     {
       "id": "evento-tempesta-ferrosa",
@@ -269,7 +269,7 @@
         "tempeste_sabbia"
       ],
       "playable_unit": false,
-      "path": "../../data/species/badlands/evento-tempesta-ferrosa.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/evento-tempesta-ferrosa.yaml"
     },
     {
       "id": "ferrocolonia-magnetotattica",
@@ -301,7 +301,7 @@
         "tempeste_sabbia"
       ],
       "playable_unit": true,
-      "path": "../../data/species/badlands/ferrocolonia-magnetotattica.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/ferrocolonia-magnetotattica.yaml"
     },
     {
       "id": "lupus-temperatus",
@@ -326,7 +326,7 @@
       "jobs_bias": [],
       "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
       "playable_unit": false,
-      "path": "../../data/species/foresta_temperata/lupus-temperatus.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/lupus-temperatus.yaml"
     },
     {
       "id": "nano-rust-bloom",
@@ -357,7 +357,7 @@
         "tempeste_sabbia"
       ],
       "playable_unit": false,
-      "path": "../../data/species/badlands/nano-rust-bloom.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/nano-rust-bloom.yaml"
     },
     {
       "id": "noctule-termico",
@@ -382,7 +382,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": true,
-      "path": "../../data/species/deserto_caldo/noctule-termico.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/noctule-termico.yaml"
     },
     {
       "id": "rust-scavenger",
@@ -413,7 +413,7 @@
         "tempeste_sabbia"
       ],
       "playable_unit": true,
-      "path": "../../data/species/badlands/rust-scavenger.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/rust-scavenger.yaml"
     },
     {
       "id": "sand-burrower",
@@ -444,7 +444,7 @@
         "tempeste_sabbia"
       ],
       "playable_unit": false,
-      "path": "../../data/species/badlands/sand-burrower.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/badlands/sand-burrower.yaml"
     },
     {
       "id": "sentinella-radice",
@@ -470,7 +470,7 @@
       "jobs_bias": [],
       "hazards_expected": ["alluvioni lampo", "incendi sporadici"],
       "playable_unit": true,
-      "path": "../../data/species/foresta_temperata/sentinella-radice.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/foresta_temperata/sentinella-radice.yaml"
     },
     {
       "id": "silica-bloom",
@@ -495,7 +495,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
-      "path": "../../data/species/deserto_caldo/silica-bloom.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/silica-bloom.yaml"
     },
     {
       "id": "steppe-bison-mini",
@@ -520,7 +520,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": true,
-      "path": "../../data/species/cryosteppe/steppe-bison-mini.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/steppe-bison-mini.yaml"
     },
     {
       "id": "thaw-rot",
@@ -545,7 +545,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
-      "path": "../../data/species/cryosteppe/thaw-rot.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/thaw-rot.yaml"
     },
     {
       "id": "thermo-raptor",
@@ -570,7 +570,7 @@
       "jobs_bias": ["skirmisher", "vanguard", "warden"],
       "hazards_expected": [],
       "playable_unit": false,
-      "path": "../../data/species/deserto_caldo/thermo-raptor.yaml"
+      "path": "../../packs/evo_tactics_pack/data/species/deserto_caldo/thermo-raptor.yaml"
     }
   ]
 }

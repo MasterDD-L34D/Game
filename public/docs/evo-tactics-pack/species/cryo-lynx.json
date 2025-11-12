@@ -17,7 +17,7 @@
     "threat": false,
     "event": false
   },
-  "path": "../../data/species/cryosteppe/cryo-lynx.yaml",
+  "path": "../../packs/evo_tactics_pack/data/species/cryosteppe/cryo-lynx.yaml",
   "balance": {
     "rarity": "R3",
     "threat_tier": "T3",
@@ -86,7 +86,7 @@
     "source": "PTPF.v1.0",
     "author": "designer",
     "date": "2025-10-25",
-    "trace_hash": "dc74dcf3832844d2629724580aa06ab6b1bf49627b9dbcb1162c4c89e368446f"
+    "trace_hash": "75e8602243ab87487aac6306c51e95bb2764dd76dec2c56c9158e55817a133dc"
   },
-  "last_synced_at": "2025-11-05T18:52:43.280Z"
+  "last_synced_at": "2025-11-11T23:48:24.660Z"
 }

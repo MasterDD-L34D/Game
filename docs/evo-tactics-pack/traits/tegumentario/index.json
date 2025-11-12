@@ -69,9 +69,7 @@
       "uso_funzione": "Assorbire e replicare il colore dell'ambiente circostante dopo contatto."
     },
     "piume_solari_fotovoltaiche": {
-      "conflitti": [
-        "criostasi_adattiva"
-      ],
+      "conflitti": ["criostasi_adattiva"],
       "debolezza": "Ombre prolungate o polveri dense riducono drasticamente la produzione energetica.",
       "famiglia_tipologia": "Tegumentario/Energetico",
       "fattore_mantenimento_energetico": "Alto (Richiede manutenzione delle lamine fotoreattive)",
@@ -91,10 +89,7 @@
           }
         }
       ],
-      "sinergie": [
-        "membrane_eliofiltranti",
-        "sacche_spore_stratosferiche"
-      ],
+      "sinergie": ["membrane_eliofiltranti", "sacche_spore_stratosferiche"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -111,10 +106,7 @@
       "uso_funzione": "Convertire la radiazione solare in riserve energetiche per abilità a lungo raggio."
     },
     "secrezione_rallentante_palmi": {
-      "conflitti": [
-        "carapace_fase_variabile",
-        "nucleo_ovomotore_rotante"
-      ],
+      "conflitti": ["carapace_fase_variabile", "nucleo_ovomotore_rotante"],
       "debolezza": "Esaurimento rapido delle riserve di liquido con tempo di ricarica prolungato.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
       "fattore_mantenimento_energetico": "Medio (Produzione del liquido)",
@@ -151,9 +143,7 @@
       "uso_funzione": "Neutralizzare o immobilizzare prede/nemici."
     },
     "squame_rifrangenti_deserto": {
-      "conflitti": [
-        "mimetismo_cromatico_passivo"
-      ],
+      "conflitti": ["mimetismo_cromatico_passivo"],
       "debolezza": "Soffre danni da feedback termico se colpito da raggi concentrati o laser.",
       "famiglia_tipologia": "Tegumentario/Difensivo",
       "fattore_mantenimento_energetico": "Medio (Richiede riallineamento delle placche)",
@@ -173,9 +163,7 @@
           }
         }
       ],
-      "sinergie": [
-        "respiro_a_scoppio"
-      ],
+      "sinergie": ["respiro_a_scoppio"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
@@ -212,9 +200,7 @@
           }
         }
       ],
-      "sinergie": [
-        "bulbi_radici_permafrost"
-      ],
+      "sinergie": ["bulbi_radici_permafrost"],
       "sinergie_pi": {
         "co_occorrenze": [],
         "combo_totale": 0,
