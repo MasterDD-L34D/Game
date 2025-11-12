@@ -252,6 +252,18 @@ fi
 mkdir -p "${LOG_DIR}"
 mkdir -p "${INCOMING_LOG_DIR}"
 
+timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
+run_log="${LOG_DIR}/smoke-${timestamp}.log"
+latest_log="${LOG_DIR}/latest-smoke.log"
+
+: >"${run_log}"
+: >"${latest_log}"
+
+exec > >(tee -a "${run_log}" | tee "${latest_log}")
+exec 2>&1
+
+echo "Output CLI smoke registrato in ${run_log} (snapshot corrente: ${latest_log})"
+
 run_cli_command() {
   local profile_name="$1"
   local summary_file="$2"
