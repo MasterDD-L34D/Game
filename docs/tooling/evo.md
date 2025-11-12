@@ -179,3 +179,26 @@ esigenze locali o CI. Gli artefatti sono raccolti in `ops/site-audit/_out/`.
 
 Quando `SITE_BASE_URL` non è impostata, gli step che richiedono lo scraping del
 sito vengono saltati ma gli output generati localmente restano disponibili.
+
+## Automazioni rollout Evo
+
+- **Backfill frontmatter e mappa ancore**
+  - Script: `python scripts/evo_tactics_metadata_diff.py --mode=backfill`
+    sincronizza il frontmatter dei documenti legacy in
+    `incoming/archive/2025-12-19_inventory_cleanup/` rispetto alle copie
+    consolidate. Utilizzare l'opzione `--target` per scrivere su una directory
+    alternativa (dry-run non disponibile: si consiglia di versionare le
+    modifiche).
+  - Script: `python scripts/evo_tactics_metadata_diff.py --mode=anchors --output docs/evo-tactics/anchors-map.csv`
+    genera la tabella `document,anchor,href` utilizzata da DevRel per
+    aggiornare wiki e collegamenti profondi.
+- **Sincronizzazione trait mancanti**
+  - Script: `python tools/traits/sync_missing_index.py --source reports/evo/rollout/traits_gap.csv --dest data/core/traits/glossary.json --external-output reports/evo/rollout/traits_external_sync.csv`
+    aggiunge al glossario legacy i trait Evo marcati come `missing_in_index` e
+    produce l'export `traits_external_sync.csv` per i partner esterni. Il flag
+    `--dry-run` stampa il riepilogo senza modificare i file.
+- **Telemetria specie con fallback**
+  - Il servizio Nebula (`server/services/nebulaTelemetryAggregator.js`) accetta
+    il parametro opzionale `speciesMatrixPath` per applicare automaticamente i
+    fallback slot e propagare `sentience_index` nei payload telemetrici. Il
+    comportamento è validato in `tests/server/nebula-route.spec.js`.

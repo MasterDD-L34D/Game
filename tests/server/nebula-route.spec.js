@@ -7,7 +7,9 @@ const test = require('node:test');
 const request = require('supertest');
 
 const { createNebulaRouter } = require('../../server/routes/nebula');
-const { createNebulaTelemetryAggregator } = require('../../server/services/nebulaTelemetryAggregator');
+const {
+  createNebulaTelemetryAggregator,
+} = require('../../server/services/nebulaTelemetryAggregator');
 
 function createTempDir(prefix) {
   return mkdtemp(path.join(tmpdir(), prefix));
@@ -24,6 +26,7 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
   const telemetryPath = path.join(tempDir, 'qa-telemetry.json');
   const generatorPath = path.join(tempDir, 'generator.json');
   const orchestratorLog = path.join(logsDir, 'orchestrator.jsonl');
+  const speciesMatrixPath = path.join(tempDir, 'species_matrix.csv');
 
   const telemetryRecords = [
     {
@@ -59,6 +62,13 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
   };
   await writeFile(generatorPath, `${JSON.stringify(generatorProfile)}\n`, 'utf8');
 
+  const matrixRows = [
+    'species_slug,legacy_default_slot_count,terraforming_max_slots,sentience_index,terraforming_band_slots',
+    'wolf-01,0,3,T1,0;1;2',
+    'wolf-02,0,2,T0,0;1',
+  ];
+  await writeFile(speciesMatrixPath, `${matrixRows.join('\n')}\n`, 'utf8');
+
   const orchestratorLines = [
     { timestamp: '2024-05-18T09:05:00Z', level: 'info', message: 'bootstrap orchestrator' },
     { timestamp: '2024-05-18T09:15:00Z', level: 'error', message: 'workflow failure' },
@@ -74,7 +84,12 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
     summary: 'Dataset di test per il router Nebula.',
     species: [
       { id: 'wolf-01', name: 'Lupo Alfa', readiness: 'Pronto', telemetry: { coverage: 0.82 } },
-      { id: 'wolf-02', name: 'Lupo Beta', readiness: 'Richiede validazione', telemetry: { coverage: 0.67 } },
+      {
+        id: 'wolf-02',
+        name: 'Lupo Beta',
+        readiness: 'Richiede validazione',
+        telemetry: { coverage: 0.67 },
+      },
     ],
   };
 
@@ -92,6 +107,7 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
     },
     cacheTTL: 5_000,
     staticDataset,
+    speciesMatrixPath,
   });
 
   const app = express();
@@ -116,12 +132,18 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
   assert.equal(response.body.telemetry.summary.totalEvents, 2);
   assert.equal(response.body.telemetry.sample.length, 2);
   assert.equal(response.body.telemetry.state, 'live');
+  assert.deepEqual(response.body.telemetry.incidents.sentienceIndexDistribution, { T0: 1, T1: 1 });
   assert.equal(response.body.generator.status, 'success');
   assert.ok(Array.isArray(response.body.orchestrator.events));
   assert.equal(response.body.orchestrator.events.length, 2);
   assert.equal(response.body.orchestrator.summary.errorCount, 1);
   assert.equal(response.body.orchestrator.summary.totalEntries, 2);
   assert.equal(response.body.orchestrator.summary.lastEventAt, '2024-05-18T09:15:00.000Z');
+  assert.equal(response.body.dataset.species[0].legacy.defaultSlotCount, 3);
+  assert.equal(response.body.dataset.species[0].legacy.fallbackSlotCount, 3);
+  assert.equal(response.body.dataset.species[0].sentienceIndex, 'T1');
+  assert.equal(response.body.dataset.species[1].legacy.defaultSlotCount, 2);
+  assert.equal(response.body.dataset.species[1].sentienceIndex, 'T0');
 
   const telemetryResponse = await request(app)
     .get('/nebula/atlas/telemetry')
@@ -131,6 +153,7 @@ test('nebula router aggrega dataset, telemetria e orchestrator con filtri e cach
   assert.equal(telemetryResponse.body.summary.totalEvents, 2);
   assert.equal(telemetryResponse.body.sample.length, 1);
   assert.equal(telemetryResponse.body.state, 'live');
+  assert.deepEqual(telemetryResponse.body.incidents.sentienceIndexDistribution, { T0: 1, T1: 1 });
 
   const orchestratorResponse = await request(app)
     .get('/nebula/atlas/orchestrator')

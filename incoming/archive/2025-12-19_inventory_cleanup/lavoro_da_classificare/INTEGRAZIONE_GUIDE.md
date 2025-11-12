@@ -1,4 +1,16 @@
+---
+title: Evo-Tactics · Integrazioni V2
+description: Roadmap per integrare il pacchetto Evo-Tactics con i deliverable esistenti
+  e coordinare l'adozione cross-team.
+tags:
+  - evo-tactics
+  - integration
+  - documentation
+updated: 2025-11-11
+---
+
 # INTEGRAZIONE GUIDE — EVO TACTICS (PUNTO D’INCONTRO & ROADMAP)
+
 **Data:** 2025-11-10
 
 Questo documento unifica le **guide appena caricate** con gli output di questa conversazione:
@@ -8,6 +20,7 @@ e il piano di import dei “neuroni” (Ancestors). È pensato come **single-sou
 ---
 
 ## 1) Obiettivo
+
 - Definire un punto di incontro tra la Guida Operativa v2 e i materiali prodotti qui.
 - Stabilire regole di convergenza (UCUM/ENVO/Schema JSON/Versioning) e una roadmap attuabile.
 - Fornire checklist e branch layout per l’integrazione nel repo **Game**.
@@ -15,6 +28,7 @@ e il piano di import dei “neuroni” (Ancestors). È pensato come **single-sou
 ---
 
 ## 2) Stato Target (SSoT) — struttura file
+
 ```
 /docs/
   INTEGRAZIONE_GUIDE.md
@@ -37,20 +51,21 @@ e il piano di import dei “neuroni” (Ancestors). È pensato come **single-sou
 ---
 
 ## 3) Mappatura campi — “Crypto Template” → Schema canonico
-| Crypto Template | Schema canonico | Note |
-|---|---|---|
-| `trait_code` | `trait_code` | Normalizza: `TR-0001…` (mantieni alias in `notes`) |
-| `species_*` | **(rimosso)** | Trait species-agnostico; il binding specie→trait resta nel catalogo master |
-| `level` | `tier (T1–T6)` + `famiglia_tipologia` | Tier = progressione; famiglia = cluster |
-| `morph_structure` / `primary_function` | stessi | — |
-| `functional_description` | stesso | — |
-| `metrics[]` | `metrics[]` (UCUM) | Converti unità in UCUM (`m/s`, `Cel`, `ms`, `1`) |
-| `compatibility{…}` | `sinergie`, `conflitti` | `compatibility` accettato come alias in input |
-| `metabolic_cost`, `cost_profile` | stessi | — |
-| `trigger`, `limits[]` | stessi | — |
-| `ecological_impact`, `output_effects[]` | stessi | — |
-| `testability{…}` | stesso | — |
-| `versioning{…}` | `version`(SemVer) + `versioning` | Aggiungi `version` SemVer |
+
+| Crypto Template                         | Schema canonico                       | Note                                                                       |
+| --------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------- |
+| `trait_code`                            | `trait_code`                          | Normalizza: `TR-0001…` (mantieni alias in `notes`)                         |
+| `species_*`                             | **(rimosso)**                         | Trait species-agnostico; il binding specie→trait resta nel catalogo master |
+| `level`                                 | `tier (T1–T6)` + `famiglia_tipologia` | Tier = progressione; famiglia = cluster                                    |
+| `morph_structure` / `primary_function`  | stessi                                | —                                                                          |
+| `functional_description`                | stesso                                | —                                                                          |
+| `metrics[]`                             | `metrics[]` (UCUM)                    | Converti unità in UCUM (`m/s`, `Cel`, `ms`, `1`)                           |
+| `compatibility{…}`                      | `sinergie`, `conflitti`               | `compatibility` accettato come alias in input                              |
+| `metabolic_cost`, `cost_profile`        | stessi                                | —                                                                          |
+| `trigger`, `limits[]`                   | stessi                                | —                                                                          |
+| `ecological_impact`, `output_effects[]` | stessi                                | —                                                                          |
+| `testability{…}`                        | stesso                                | —                                                                          |
+| `versioning{…}`                         | `version`(SemVer) + `versioning`      | Aggiungi `version` SemVer                                                  |
 
 **Ambienti:** usare ENVO in `requisiti_ambientali[].condizioni.biome_class` **oppure** `applicability.envo_terms[]`.  
 **Senzienza:** usare `sentience_applicability: ["STx"]` o i gate in `sentience_track.json`.
@@ -58,63 +73,75 @@ e il piano di import dei “neuroni” (Ancestors). È pensato come **single-sou
 ---
 
 ## 4) Regole di convergenza
-1) Trait **species-agnostici** (niente specie nello schema trait).  
-2) **UCUM** per tutte le metriche.  
-3) **ENVO** per biomi/habitat/materiali.  
-4) **Tier** unificato `T1–T6`; social/language gated da Sentience Track (T≥4).  
-5) **Versioning**: `version` (SemVer) + `versioning` (autore/date ISO).  
-6) **Compat legacy**: `compatibility{…}` → trasformato in `sinergie`/`conflitti`.
+
+1. Trait **species-agnostici** (niente specie nello schema trait).
+2. **UCUM** per tutte le metriche.
+3. **ENVO** per biomi/habitat/materiali.
+4. **Tier** unificato `T1–T6`; social/language gated da Sentience Track (T≥4).
+5. **Versioning**: `version` (SemVer) + `versioning` (autore/date ISO).
+6. **Compat legacy**: `compatibility{…}` → trasformato in `sinergie`/`conflitti`.
 
 ---
 
 ## 5) Passi operativi (repo Game)
+
 **A. Branching**
+
 - `traits/core` — schemi + tool
 - `traits/sentience` — Sentience Track + seed
 - `data/ancestors` — dump neuroni + mapping
 - `ci` — workflow
 
 **B. Schemi**
+
 - Aggiorna/copia `trait_entry.schema.json`, `trait_catalog.schema.json`, `sentience_track.schema.json`.
 - Test locale: `python tools/py/trait_template_validator.py --summary`
 
 **C. Catalogo master**
+
 - Normalizza `trait_reference.json` : `trait_code` (TR-0001), UCUM, tier T1–T6, ENVO, testability/limits.
 
 **D. Sentience Track**
-- Verifica `gating_traits` presenti in catalogo; controlla conflitti e T*.
+
+- Verifica `gating_traits` presenti in catalogo; controlla conflitti e T\*.
 
 **E. CI**
+
 - Abilita `.github/workflows/validate_traits.yml` con jsonschema 2020-12.
 
 ---
 
 ## 6) Roadmap (2 sprint)
+
 **Sprint 1 — Fondazioni**
-- [ ] Schemi + tool + CI su branch.  
-- [ ] 20–30 trait core (sensory/motor/social) normalizzati UCUM/ENVO.  
-- [ ] Pubblica `sentience_track.json`.  
+
+- [ ] Schemi + tool + CI su branch.
+- [ ] 20–30 trait core (sensory/motor/social) normalizzati UCUM/ENVO.
+- [ ] Pubblica `sentience_track.json`.
 - [ ] Documenti: manuale + integrazione.
 
 **Sprint 2 — Contenuti**
-- [ ] Import “neuroni” (dump community) con `unlock_trigger` + `effect_short`.  
-- [ ] Mapping neurone→trait (1:N) documentato.  
-- [ ] Copertura rami principali (Senses/Communication/Dexterity/Self-Control/Dodge).  
+
+- [ ] Import “neuroni” (dump community) con `unlock_trigger` + `effect_short`.
+- [ ] Mapping neurone→trait (1:N) documentato.
+- [ ] Copertura rami principali (Senses/Communication/Dexterity/Self-Control/Dodge).
 - [ ] QA: deduplicate, range metriche, coerenza tier/sentience.
 
 ---
 
 ## 7) Gate di qualità (PR)
-- JSON **validi** (schema entry/catalog/track).  
-- **UCUM** valido in *tutte* le metriche.  
-- **ENVO** presente quando ci sono vincoli ambientali.  
-- `effect_short`/`effect_mechanics` compilati nei trait giocabili.  
-- **Sentience gating** coerente (T≥4 per sociale/linguaggio).  
+
+- JSON **validi** (schema entry/catalog/track).
+- **UCUM** valido in _tutte_ le metriche.
+- **ENVO** presente quando ci sono vincoli ambientali.
+- `effect_short`/`effect_mechanics` compilati nei trait giocabili.
+- **Sentience gating** coerente (T≥4 per sociale/linguaggio).
 - `version` SemVer e `versioning` aggiornati.
 
 ---
 
 ## 8) Import “Ancestors” (neuroni ~297) — piano sintetico
+
 **Output**: `data/ancestors/neurons_dump.json`  
 Campi: `neuron_code`, `branch`, `label`, `unlock_trigger`, `effect_short`, `mapped_traits[]`, `notes`.
 
@@ -125,16 +152,18 @@ Campi: `neuron_code`, `branch`, `label`, `unlock_trigger`, `effect_short`, `mapp
 ---
 
 ## 9) Decision log (da confermare)
-- `trait_code` finale → `TR-0001` (ok?)  
-- Range `tier` → `T1–T6` (ok?)  
-- Alias `compatibility` ammesso per 1 release (ok?)  
+
+- `trait_code` finale → `TR-0001` (ok?)
+- Range `tier` → `T1–T6` (ok?)
+- Alias `compatibility` ammesso per 1 release (ok?)
 - Branch release → `traits/sentience@v2` (ok?)
 
 ---
 
 ## 10) Next actions
-- [ ] Aprire branch `traits/core` e `traits/sentience`.  
-- [ ] Pushare schemi + CI.  
-- [ ] Normalizzare 10 trait sensoriali (UCUM/ENVO).  
-- [ ] Pubblicare Sentience Track.  
+
+- [ ] Aprire branch `traits/core` e `traits/sentience`.
+- [ ] Pushare schemi + CI.
+- [ ] Normalizzare 10 trait sensoriali (UCUM/ENVO).
+- [ ] Pubblicare Sentience Track.
 - [ ] Avviare import neuroni (dump + mapping preliminare).
