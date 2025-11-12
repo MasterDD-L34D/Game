@@ -26,7 +26,7 @@ except ModuleNotFoundError as exc:  # pragma: no cover - dependency guard
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
-VALID_MIRROR_PREFIX = "../../packs/evo_tactics_pack/"
+VALID_MIRROR_PREFIX = "../../packs/evo_tactics_pack/data/"
 MIRROR_ROOTS = (
     REPO_ROOT / "docs" / "evo-tactics-pack",
     REPO_ROOT / "public" / "docs" / "evo-tactics-pack",
