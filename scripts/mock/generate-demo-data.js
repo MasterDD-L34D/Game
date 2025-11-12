@@ -11,7 +11,9 @@ const {
   speciesSchema,
 } = require('../../packages/contracts');
 const { atlasDataset } = require('../../data/nebula/atlasDataset.js');
-const { createNebulaTelemetryAggregator } = require('../../server/services/nebulaTelemetryAggregator');
+const {
+  createNebulaTelemetryAggregator,
+} = require('../../server/services/nebulaTelemetryAggregator');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const SNAPSHOT_SOURCE = path.resolve(ROOT, 'data', 'flow-shell', 'atlas-snapshot.json');
@@ -26,6 +28,13 @@ const SNAPSHOT_TARGET = path.resolve(
 );
 const ATLAS_TARGET = path.resolve(ROOT, 'webapp', 'public', 'data', 'nebula', 'atlas.json');
 const TELEMETRY_TARGET = path.resolve(ROOT, 'webapp', 'public', 'data', 'nebula', 'telemetry.json');
+const DEFAULT_SPECIES_MATRIX_PATH = path.resolve(
+  ROOT,
+  'reports',
+  'evo',
+  'rollout',
+  'species_ecosystem_matrix.csv',
+);
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 ajv.addFormat('date-time', true);
@@ -73,37 +82,75 @@ async function validateSpeciesList(list) {
   }
 }
 
-async function generateAtlasBundle() {
+function parseArgs(argv) {
+  const options = {
+    telemetryOnly: false,
+    snapshotOnly: false,
+    speciesMatrixPath: DEFAULT_SPECIES_MATRIX_PATH,
+  };
+  for (let index = 0; index < argv.length; index += 1) {
+    const token = argv[index];
+    if (token === '--telemetry-only') {
+      options.telemetryOnly = true;
+      continue;
+    }
+    if (token === '--snapshot-only') {
+      options.snapshotOnly = true;
+      continue;
+    }
+    if ((token === '--species-matrix' || token === '--species-matrix-path') && argv[index + 1]) {
+      options.speciesMatrixPath = path.resolve(ROOT, argv[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (token.startsWith('--species-matrix=')) {
+      options.speciesMatrixPath = path.resolve(ROOT, token.slice('--species-matrix='.length));
+      continue;
+    }
+  }
+  return options;
+}
+
+async function generateAtlasBundle(options = {}) {
   const aggregator = createNebulaTelemetryAggregator({
     staticDataset: atlasDataset,
-    telemetryPath: path.resolve(ROOT, 'data', 'derived', 'exports', 'qa-telemetry-export.json'),
-    generatorTelemetryPath: path.resolve(ROOT, 'logs', 'tooling', 'generator_run_profile.json'),
+    telemetryPath:
+      options.telemetryPath ||
+      path.resolve(ROOT, 'data', 'derived', 'exports', 'qa-telemetry-export.json'),
+    generatorTelemetryPath:
+      options.generatorTelemetryPath ||
+      path.resolve(ROOT, 'logs', 'tooling', 'generator_run_profile.json'),
+    speciesMatrixPath: options.speciesMatrixPath || DEFAULT_SPECIES_MATRIX_PATH,
   });
   const atlas = await aggregator.getAtlas({});
   if (atlas?.dataset?.species) {
     await validateSpeciesList(atlas.dataset.species);
   }
   if (atlas?.telemetry && !validateTelemetry(atlas.telemetry)) {
-    throw new Error(`Telemetria Nebula non conforme allo schema: ${formatErrors(validateTelemetry)}`);
+    throw new Error(
+      `Telemetria Nebula non conforme allo schema: ${formatErrors(validateTelemetry)}`,
+    );
   }
-  await writeJson(ATLAS_TARGET, atlas);
-  if (atlas?.telemetry) {
-    await writeJson(TELEMETRY_TARGET, atlas.telemetry);
+  if (options.writeTargets !== false) {
+    await writeJson(options.atlasTarget || ATLAS_TARGET, atlas);
+    if (atlas?.telemetry) {
+      await writeJson(options.telemetryTarget || TELEMETRY_TARGET, atlas.telemetry);
+    }
   }
   return atlas;
 }
 
 async function main() {
-  const args = new Set(process.argv.slice(2));
-  const skipSnapshot = args.has('--telemetry-only');
-  const skipAtlas = args.has('--snapshot-only');
+  const cliOptions = parseArgs(process.argv.slice(2));
+  const skipSnapshot = cliOptions.telemetryOnly;
+  const skipAtlas = cliOptions.snapshotOnly;
 
   const results = {};
   if (!skipSnapshot) {
     results.snapshot = await generateSnapshot();
   }
   if (!skipAtlas) {
-    results.atlas = await generateAtlasBundle();
+    results.atlas = await generateAtlasBundle({ speciesMatrixPath: cliOptions.speciesMatrixPath });
   }
 
   console.log('[mock] Snapshot demo aggiornato:', skipSnapshot ? 'skip' : SNAPSHOT_TARGET);
@@ -114,7 +161,17 @@ async function main() {
   return results;
 }
 
-main().catch((error) => {
-  console.error('[mock] Errore generazione demo', error);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  main().catch((error) => {
+    console.error('[mock] Errore generazione demo', error);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  parseArgs,
+  generateSnapshot,
+  generateAtlasBundle,
+  validateSpeciesList,
+  formatErrors,
+};

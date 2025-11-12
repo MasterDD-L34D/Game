@@ -27,6 +27,13 @@ const DEFAULT_GENERATOR_TELEMETRY_PATH = path.join(
 );
 const DEFAULT_TRAIT_BASELINE_PATH = path.join(ROOT_DIR, 'reports', 'trait_baseline.json');
 const DEFAULT_ORCHESTRATOR_LOG_DIR = path.join(ROOT_DIR, 'logs', 'orchestrator');
+const DEFAULT_SPECIES_MATRIX_PATH = path.join(
+  ROOT_DIR,
+  'reports',
+  'evo',
+  'rollout',
+  'species_ecosystem_matrix.csv',
+);
 
 function parseArgs(argv) {
   const options = {
@@ -36,6 +43,7 @@ function parseArgs(argv) {
     generatorTelemetry: DEFAULT_GENERATOR_TELEMETRY_PATH,
     traitBaseline: DEFAULT_TRAIT_BASELINE_PATH,
     orchestratorLogDir: DEFAULT_ORCHESTRATOR_LOG_DIR,
+    speciesMatrix: DEFAULT_SPECIES_MATRIX_PATH,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -98,6 +106,15 @@ function parseArgs(argv) {
         ROOT_DIR,
         token.slice('--orchestrator-log-dir='.length),
       );
+      continue;
+    }
+    if ((token === '--species-matrix' || token === '--species-matrix-path') && argv[index + 1]) {
+      options.speciesMatrix = path.resolve(ROOT_DIR, argv[index + 1]);
+      index += 1;
+      continue;
+    }
+    if (token.startsWith('--species-matrix=')) {
+      options.speciesMatrix = path.resolve(ROOT_DIR, token.slice('--species-matrix='.length));
       continue;
     }
   }
@@ -179,9 +196,7 @@ function createStaticTraitDiagnostics(options = {}) {
   };
 }
 
-async function main() {
-  const options = parseArgs(process.argv.slice(2));
-
+async function runWithOptions(options) {
   const snapshotStore = createGenerationSnapshotStore({ datasetPath: options.snapshot });
   const traitDiagnostics = createStaticTraitDiagnostics({ baselinePath: options.traitBaseline });
   const nebulaAggregator = createNebulaTelemetryAggregator({
@@ -190,6 +205,7 @@ async function main() {
     orchestrator: {
       logDir: options.orchestratorLogDir,
     },
+    speciesMatrixPath: options.speciesMatrix,
   });
 
   const reporter = createReleaseReporter({
@@ -207,9 +223,32 @@ async function main() {
 
   await writeJson(options.status, enriched);
   console.log(`[status] report aggiornato in ${options.status}`);
+  return enriched;
 }
 
-main().catch((error) => {
-  console.error('[status] errore generazione status report:', error);
-  process.exitCode = 1;
-});
+async function main(argv = process.argv.slice(2)) {
+  const options = parseArgs(argv);
+  await runWithOptions(options);
+}
+
+if (require.main === module) {
+  main().catch((error) => {
+    console.error('[status] errore generazione status report:', error);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {
+  parseArgs,
+  createStaticTraitDiagnostics,
+  runWithOptions,
+  DEFAULTS: {
+    status: DEFAULT_STATUS_PATH,
+    snapshot: DEFAULT_SNAPSHOT_PATH,
+    telemetry: DEFAULT_TELEMETRY_PATH,
+    generatorTelemetry: DEFAULT_GENERATOR_TELEMETRY_PATH,
+    traitBaseline: DEFAULT_TRAIT_BASELINE_PATH,
+    orchestratorLogDir: DEFAULT_ORCHESTRATOR_LOG_DIR,
+    speciesMatrix: DEFAULT_SPECIES_MATRIX_PATH,
+  },
+};
