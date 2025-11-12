@@ -8,6 +8,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+const { readJsonFile, writeJsonFile } = require('./utils/jsonio');
+
 const REPO_ROOT = path.resolve(__dirname, '..');
 const PACK_DOCS_DIR = path.join(REPO_ROOT, 'packs', 'evo_tactics_pack', 'docs', 'catalog');
 const DOCS_TARGET = path.join(REPO_ROOT, 'docs', 'evo-tactics-pack');
@@ -58,25 +60,29 @@ function updatePathFields(value) {
   Object.keys(value).forEach((key) => {
     if (key === 'path' && typeof value[key] === 'string') {
       value[key] = rewritePathPrefix(value[key]);
-    } else {
-      updatePathFields(value[key]);
+      return;
     }
+    if (key === 'manifest' && value[key] && typeof value[key] === 'object') {
+      if (typeof value[key].path === 'string') {
+        value[key].path = rewritePathPrefix(value[key].path);
+      }
+      updatePathFields(value[key]);
+      return;
+    }
+    updatePathFields(value[key]);
   });
   return value;
 }
 
-function rewriteJsonPreservingOrder(sourcePath, targetPath, mutator) {
-  const raw = fs.readFileSync(sourcePath, 'utf8');
-  const data = JSON.parse(raw);
-  mutator(data);
-  const serialised = `${JSON.stringify(data, null, 2)}\n`;
-  ensureDir(targetPath);
-  fs.writeFileSync(targetPath, serialised, 'utf8');
+function rewriteJsonWithMutator(sourcePath, targetPath, mutator) {
+  const data = readJsonFile(sourcePath);
+  const mutated = mutator(data) ?? data;
+  writeJsonFile(targetPath, mutated);
 }
 
 function syncMirrorFile(sourcePath, targetPath, rewritePaths) {
   if (rewritePaths && path.extname(sourcePath) === '.json') {
-    rewriteJsonPreservingOrder(sourcePath, targetPath, updatePathFields);
+    rewriteJsonWithMutator(sourcePath, targetPath, updatePathFields);
     return;
   }
   copyFile(sourcePath, targetPath);
