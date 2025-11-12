@@ -19,8 +19,8 @@ updated: 2025-12-21
 | ROL-01 | on-track |          100 | Frontmatter archivio aggiornato con `scripts/evo_tactics_metadata_diff.py --mode=backfill` (output verificato su `incoming/archive/2025-12-19_inventory_cleanup/`).      |
 | ROL-02 | on-track |          100 | Mappa ancore generata in `docs/evo-tactics/anchors-map.csv` e notifiche inviate a DevRel per l'aggiornamento wiki.                                                       |
 | ROL-03 | at-risk  |           30 | Snapshot playbook ancora da redigere; dipende dalla riconciliazione cambi doc legacy.                                                                                    |
-| ROL-04 | on-track |           60 | Script `tools/traits/sync_missing_index.py` creato e run iniziale completato; restano verifiche QA su descrizioni multilingua.                                           |
-| ROL-05 | on-track |           40 | Export partner `reports/evo/rollout/traits_external_sync.csv` generato, in attesa di approvazione Partner Success.                                                       |
+| ROL-04 | on-track |           60 | Script `tools/traits/sync_missing_index.py` integrato nel workflow `.github/workflows/traits-sync.yml`; restano verifiche QA su descrizioni multilingua.                 |
+| ROL-05 | on-track |           45 | Export partner `reports/evo/rollout/traits_external_sync.csv` pubblicato automaticamente su S3 (bucket partners) in attesa di approvazione Partner Success.              |
 | ROL-06 | on-track |           55 | Telemetria arricchita con `sentience_index` e fallback slot applicato in `server/services/nebulaTelemetryAggregator.js`; restano fixture Atlas/telemetria da aggiornare. |
 
 ## Deliverable imminenti
@@ -40,10 +40,10 @@ updated: 2025-12-21
 
 ## Decisioni e azioni
 
-- **Decisione:** Eseguire gli script di rollout come parte della checklist settimanale anziché on-demand.
-  - **Data:** 2025-12-21
+- **Decisione:** Automatizzare la sincronizzazione trait con il workflow `traits-sync` e pubblicare gli export su S3 condiviso.
+  - **Data:** 2025-12-28
   - **Partecipanti:** Gameplay Ops, DevRel, Partner Success
-  - **Riferimenti:** `docs/tooling/evo.md`, `reports/evo/rollout/documentation_gap.md`
+  - **Riferimenti:** `.github/workflows/traits-sync.yml`, `docs/tooling/evo.md`, `reports/evo/rollout/documentation_gap.md`
 - **Azione:** Aggiornare le fixture Atlas con payload `sentience_index` e fallback slot.
   - **Owner:** Gameplay Ops
   - **Scadenza:** 2026-01-10

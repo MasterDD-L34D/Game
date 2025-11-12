@@ -59,14 +59,29 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--external-output",
+        "--export",
+        dest="external_output",
         type=Path,
         help="Percorso opzionale per generare l'export partner",
+    )
+    parser.add_argument(
+        "--update-glossary",
+        dest="update_glossary",
+        action="store_true",
+        help="Scrive le modifiche sul glossario legacy",
+    )
+    parser.add_argument(
+        "--no-update-glossary",
+        dest="update_glossary",
+        action="store_false",
+        help="Esegue un dry-run senza aggiornare il glossario",
     )
     parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Mostra le modifiche senza scriverle su disco",
     )
+    parser.set_defaults(update_glossary=True)
     return parser.parse_args()
 
 
@@ -216,7 +231,8 @@ def build_partner_export(
 def main() -> None:
     args = parse_args()
     records = read_gap_report(args.source)
-    glossary = update_glossary(args.dest, args.trait_dir, records, dry_run=args.dry_run)
+    dry_run = args.dry_run or not args.update_glossary
+    glossary = update_glossary(args.dest, args.trait_dir, records, dry_run=dry_run)
     if args.external_output:
         build_partner_export(args.external_output, records, glossary)
 
