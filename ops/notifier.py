@@ -49,6 +49,14 @@ def parse_args() -> argparse.Namespace:
         help="Microsoft Teams webhook URL. Falls back to EVO_NOTIFIER_TEAMS_WEBHOOK env variable.",
     )
     parser.add_argument(
+        "--slack-channel",
+        default=os.getenv("EVO_NOTIFIER_SLACK_CHANNEL"),
+        help=(
+            "Override Slack destination channel (defaults to EVO_NOTIFIER_SLACK_CHANNEL env variable "
+            "or the webhook default)."
+        ),
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="If set, do not send network requests and simply print the summary to stdout.",
@@ -143,7 +151,7 @@ def send_webhook(url: Optional[str], payload: Dict[str, object], dry_run: bool =
         print(f"Impossibile inviare la notifica ({url}): {exc}", file=sys.stderr)
 
 
-def build_slack_payload(summary: str, blocking: List[BlockingDiff]) -> Dict[str, object]:
+def build_slack_payload(summary: str, blocking: List[BlockingDiff], channel: Optional[str] = None) -> Dict[str, object]:
     blocks: List[Dict[str, object]] = [
         {
             "type": "section",
@@ -153,7 +161,15 @@ def build_slack_payload(summary: str, blocking: List[BlockingDiff]) -> Dict[str,
     if blocking:
         details = "\n".join(diff.to_markdown() for diff in blocking)
         blocks.append({"type": "section", "text": {"type": "mrkdwn", "text": details}})
-    return {"text": summary, "blocks": blocks}
+    payload: Dict[str, object] = {"text": summary, "blocks": blocks}
+    if channel:
+        payload["channel"] = channel
+        if not summary.lower().startswith("devrel/docs"):
+            payload["text"] = f"DevRel/Docs · {summary}"
+            payload["blocks"][0]["text"]["text"] = (
+                "*:rotating_light: Evo docs alert (DevRel/Docs)*\n" + summary
+            )
+    return payload
 
 
 def build_teams_payload(summary: str, blocking: List[BlockingDiff]) -> Dict[str, object]:
@@ -209,7 +225,7 @@ def main() -> None:
             )
             handle.write("\n")
 
-    slack_payload = build_slack_payload(issue_payload["summary"], blocking)
+    slack_payload = build_slack_payload(issue_payload["summary"], blocking, channel=args.slack_channel)
     teams_payload = build_teams_payload(issue_payload["summary"], blocking)
 
     send_webhook(args.slack_webhook, slack_payload, dry_run=args.dry_run)

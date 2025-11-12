@@ -53,6 +53,7 @@ jobs:
         run: |
           python ops/notifier.py \
             --diff-json reports/evo/rollout/documentation_diff.json \
+            --slack-channel "#devrel-docs" \
             --issue-output ops/notifier_issue.json
           python - <<'PY'
           import json
