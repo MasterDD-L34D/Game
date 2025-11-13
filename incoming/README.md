@@ -23,6 +23,15 @@ python tools/py/game_cli.py validate-ecosystem-pack
 (il secondo solo quando il pack ecosistema è disponibile) e salva i log corrispondenti in `reports/incoming/validation/` assieme a un file `summary.txt` con gli esiti. Al termine, l'area temporanea viene ripulita automaticamente.
 
 Per evitare la creazione di file e ottenere solo l'output JSON su `stdout`, puoi lanciare:
+
 ```bash
 ./scripts/report_incoming.sh --destination -
 ```
+
+Puoi anche eseguire direttamente il comando principale per le indagini:
+
+```bash
+python tools/py/game_cli.py investigate incoming --recursive --json --html --destination latest --max-preview 400
+```
+
+Il flag `--destination` accetta anche `-` per disabilitare la generazione di file sul disco, mentre `--max-preview` controlla la lunghezza delle anteprime testuali nel report.

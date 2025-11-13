@@ -14,15 +14,15 @@ Aggiornato al ciclo VC-2025-11. Nuove domande vengono raccolte dopo ogni retro s
 
 ### Comandi disponibili della CLI Python
 
-L'entrypoint documentato in `tools/py/game_cli.py` espone i seguenti sottocomandi (`python tools/py/game_cli.py <comando>`):
+L'entrypoint documentato in `tools/py/game_cli.py` accetta un flag globale `--profile <nome>` e espone i seguenti sottocomandi (`python tools/py/game_cli.py [--profile <nome>] <comando>`):
 
-- `roll-pack [FORM MBTI] [ARCHETIPO] [--seed <valore>]`
+- `roll-pack [FORM MBTI] [ARCHETIPO] [data_path] [--seed <valore>]`
 - `generate-encounter [biome] [data_path] [--party-power <int>] [--seed <valore>]`
 - `validate-datasets`
-- `validate-ecosystem-pack [--json-out <path>] [--html-out <path>]`
-- `investigate <file|dir> [...] [--recursive] [--json] [--html] [--destination NAME]`
+- `validate-ecosystem-pack [--json-out <percorso>] [--html-out <percorso>]`
+- `investigate <file|dir> [...] [--recursive] [--json] [--html] [--destination NAME|-] [--max-preview <int>]`
 
-L'alias storico `validate-ecosystem` viene normalizzato in `validate-ecosystem-pack` dal wrapper stesso.
+L'alias storico `validate-ecosystem` viene normalizzato in `validate-ecosystem-pack` dal wrapper stesso. Impostare `--destination -` con `investigate` evita la creazione dei report su disco e restituisce l'output JSON sullo standard output.
 
 ## QA
 

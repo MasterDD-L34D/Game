@@ -58,12 +58,12 @@ Questa guida illustra come accedere, compilare e monitorare il nuovo form di fee
 
 ### Appendice · Comandi CLI disponibili
 
-Per operazioni correlate alla convalida dati e alle indagini dei pacchetti usa `python tools/py/game_cli.py <comando>`, che espone i sottocomandi aggiornati:
+Per operazioni correlate alla convalida dati e alle indagini dei pacchetti usa `python tools/py/game_cli.py [--profile <nome>] <comando>`, che espone i sottocomandi aggiornati:
 
-- `roll-pack [FORM MBTI] [ARCHETIPO] [--seed <valore>]`
+- `roll-pack [FORM MBTI] [ARCHETIPO] [data_path] [--seed <valore>]`
 - `generate-encounter [biome] [data_path] [--party-power <int>] [--seed <valore>]`
 - `validate-datasets`
-- `validate-ecosystem-pack [--json-out <path>] [--html-out <path>]`
-- `investigate <file|dir> [...] [--recursive] [--json] [--html] [--destination NAME]`
+- `validate-ecosystem-pack [--json-out <percorso>] [--html-out <percorso>]`
+- `investigate <file|dir> [...] [--recursive] [--json] [--html] [--destination NAME|-] [--max-preview <int>]`
 
-> Se occorre un nuovo sottocomando `feedback`, aprire una richiesta dedicata nel backlog Tools indicando gli automatismi necessari.
+> Se occorre un nuovo sottocomando `feedback`, aprire una richiesta dedicata nel backlog Tools indicando gli automatismi necessari. Per evitare la creazione di report su disco durante l'indagine, passa `--destination -` assieme a `--json`.
