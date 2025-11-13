@@ -24,8 +24,8 @@
 5. Pubblicare l'esito nel canale `#support-ops` includendo hash troncato (primi 6
    caratteri) e timestamp.
 6. Allegare il log CLI (`logs/cli/support-pack.json`, `logs/cli/latest-smoke.log` e
-   lo snapshot specifico `logs/cli/smoke-YYYYMMDDTHHMMSSZ.log`) al ticket di tracking
-   settimanale.
+   lo snapshot specifico `logs/cli/support-<data>-YYYYMMDDTHHMMSSZ.log` generato con
+   `scripts/cli_smoke.sh --label support-<data>`) al ticket di tracking settimanale.
 
 ## Checklist QA
 

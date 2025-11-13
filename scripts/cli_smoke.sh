@@ -18,6 +18,35 @@ INCOMING_LOG_DIR="${ROOT_DIR}/logs/incoming_smoke"
 INCOMING_PROFILE_NAME="staging_incoming"
 DEFAULT_PROFILES=()
 
+RUN_LOG_PATH=""
+LABEL_SNAPSHOT_PATH=""
+LABEL_LATEST_PATH=""
+
+cleanup_label_logs() {
+  local status=$?
+  if [[ -n "${LABEL_SNAPSHOT_PATH}" ]]; then
+    cp -f "${RUN_LOG_PATH}" "${LABEL_SNAPSHOT_PATH}" 2>/dev/null || true
+    cp -f "${RUN_LOG_PATH}" "${LABEL_LATEST_PATH}" 2>/dev/null || true
+  fi
+  return "${status}"
+}
+
+slugify_label() {
+  python3 - "$1" <<'PY'
+import re
+import sys
+import unicodedata
+
+value = sys.argv[1]
+value = unicodedata.normalize("NFKD", value)
+value = value.encode("ascii", "ignore").decode("ascii")
+value = re.sub(r"[^A-Za-z0-9_-]+", "-", value)
+value = re.sub(r"-+", "-", value)
+value = value.strip("-").lower()
+print(value)
+PY
+}
+
 verify_biome_fields() {
   python3 - <<'PY'
 import json
@@ -200,21 +229,26 @@ fi
 
 usage() {
   cat <<'USAGE'
-Usage: scripts/cli_smoke.sh [--profile "playtest support"]
+Usage: scripts/cli_smoke.sh [--profile "playtest support"] [--label NAME] [--log-subdir PATH]
 
 Esegue i comandi smoke della CLI per i profili configurati.
 
 Opzioni:
   --profile, --profiles  Lista di profili separati da spazio da eseguire.
+  --label                Etichetta per i log (slug automatico + timestamp).
+  --log-subdir           Percorso relativo (sotto logs/cli) in cui salvare i log.
   -h, --help             Mostra questo messaggio.
 
-In alternativa è possibile usare la variabile d'ambiente CLI_PROFILES.
+In alternativa è possibile usare le variabili d'ambiente CLI_PROFILES,
+CLI_LOG_LABEL e CLI_LOG_SUBDIR.
 Il profilo "${INCOMING_PROFILE_NAME}" è opt-in: specificarlo esplicitamente
 con --profile/CLI_PROFILES oppure esportare CLI_INCLUDE_INCOMING_PROFILE=1.
 USAGE
 }
 
 profiles_arg="${CLI_PROFILES:-}"
+log_label="${CLI_LOG_LABEL:-}"
+log_subdir="${CLI_LOG_SUBDIR:-}"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -225,6 +259,24 @@ while [[ $# -gt 0 ]]; do
         exit 1
       fi
       profiles_arg="$2"
+      shift 2
+      ;;
+    --label)
+      if [[ $# -lt 2 ]]; then
+        echo "Errore: manca il valore per --label" >&2
+        usage >&2
+        exit 1
+      fi
+      log_label="$2"
+      shift 2
+      ;;
+    --log-subdir)
+      if [[ $# -lt 2 ]]; then
+        echo "Errore: manca il percorso per --log-subdir" >&2
+        usage >&2
+        exit 1
+      fi
+      log_subdir="$2"
       shift 2
       ;;
     -h|--help)
@@ -249,20 +301,76 @@ else
   read -r -a PROFILES_TO_RUN <<< "${profiles_arg}"
 fi
 
-mkdir -p "${LOG_DIR}"
+if [[ -n "${log_subdir}" ]]; then
+  if ! effective_log_dir="$(LOG_DIR="${LOG_DIR}" python3 - "$log_subdir" <<'PY'
+import os
+import pathlib
+import sys
+
+base = pathlib.Path(os.environ["LOG_DIR"]).resolve()
+raw = pathlib.Path(sys.argv[1])
+if raw.is_absolute():
+    sys.stderr.write("--log-subdir deve essere un percorso relativo sotto logs/cli.\n")
+    sys.exit(1)
+
+sanitized = pathlib.Path()
+for part in raw.parts:
+    if part in ("", "."):
+        continue
+    if part == "..":
+        sys.stderr.write("--log-subdir non può risalire la gerarchia.\n")
+        sys.exit(1)
+    sanitized = sanitized / part
+
+target = base / sanitized
+print(str(target))
+PY
+)"; then
+    exit 1
+  fi
+  if [[ -z "${effective_log_dir}" ]]; then
+    effective_log_dir="${LOG_DIR}"
+  fi
+else
+  effective_log_dir="${LOG_DIR}"
+fi
+
+mkdir -p "${effective_log_dir}"
 mkdir -p "${INCOMING_LOG_DIR}"
 
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
-run_log="${LOG_DIR}/smoke-${timestamp}.log"
-latest_log="${LOG_DIR}/latest-smoke.log"
+log_base="smoke-${timestamp}"
 
-: >"${run_log}"
+if [[ -n "${log_label}" ]]; then
+  slugified_label="$(slugify_label "${log_label}")"
+  if [[ -z "${slugified_label}" ]]; then
+    echo "Impossibile derivare uno slug valido da --label='${log_label}'." >&2
+    exit 1
+  fi
+  log_base="${slugified_label}-${timestamp}"
+  LABEL_SNAPSHOT_PATH="${effective_log_dir}/${slugified_label}.log"
+  LABEL_LATEST_PATH="${effective_log_dir}/latest-${slugified_label}.log"
+fi
+
+RUN_LOG_PATH="${effective_log_dir}/${log_base}.log"
+latest_log="${effective_log_dir}/latest-smoke.log"
+
+: >"${RUN_LOG_PATH}"
 : >"${latest_log}"
 
-exec > >(tee -a "${run_log}" | tee "${latest_log}")
+if [[ -n "${LABEL_SNAPSHOT_PATH}" ]]; then
+  : >"${LABEL_SNAPSHOT_PATH}"
+  : >"${LABEL_LATEST_PATH}"
+  trap cleanup_label_logs EXIT
+fi
+
+exec > >(tee -a "${RUN_LOG_PATH}" | tee "${latest_log}")
 exec 2>&1
 
-echo "Output CLI smoke registrato in ${run_log} (snapshot corrente: ${latest_log})"
+echo "Output CLI smoke registrato in ${RUN_LOG_PATH} (snapshot corrente: ${latest_log})"
+if [[ -n "${LABEL_SNAPSHOT_PATH}" ]]; then
+  echo "Etichetta '${slugified_label}' esportata in ${LABEL_SNAPSHOT_PATH} (con copia latest: ${LABEL_LATEST_PATH})"
+fi
 
 run_cli_command() {
   local profile_name="$1"
@@ -287,7 +395,7 @@ for profile in "${PROFILES_TO_RUN[@]}"; do
   fi
 
   seed="smoke-${profile}"
-  profile_log_dir="${LOG_DIR}"
+  profile_log_dir="${effective_log_dir}"
   summary_file=""
 
   if [[ "${profile}" == "${INCOMING_PROFILE_NAME}" ]]; then

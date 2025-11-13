@@ -52,7 +52,7 @@ Dal ciclo VC-2025-10 in avanti utilizziamo un flusso documentale condiviso con S
 - **ADR-XXX — Refactor CLI, determinismo e pipeline HUD**: `docs/adr/ADR-XXX-refactor-cli.md` raccoglie le motivazioni fornite dal team lead e formalizza le opzioni valutate, gli impatti sugli strumenti (`roll_pack`, `hud_alerts.ts`) e i follow-up richiesti.
 
 1. **Sync settimanale (martedì, 15:00 CET)** — raccogli log telemetrici e note playtest in `docs/chatgpt_changes/` (`sync-<AAAAMMGG>.md`) e annota la versione CLI attiva (`game-cli version --json`).
-2. **Aggiornamento checklist** — segna in `docs/checklist/` lo stato milestone, collega la sessione Git (`logs/playtests/<data>-vc`) e aggiungi il link al log CLI giornaliero (`logs/cli/<data>.log`).
+2. **Aggiornamento checklist** — segna in `docs/checklist/` lo stato milestone, collega la sessione Git (`logs/playtests/<data>-vc`) e aggiungi il link al log CLI giornaliero (es. `logs/cli/smoke-YYYYMMDDTHHMMSSZ.log` o `logs/cli/<slug>-YYYYMMDDTHHMMSSZ.log` generato con `--label`).
 3. **Validazione profili CLI** — verifica che gli script profilati siano allineati alle configurazioni in `config/cli/` (commit hash, token rotazioni, flags `--telemetry-upload`) e registra eventuali differenze in `docs/chatgpt_sync_status.md`.
 4. **Allineamento roadmap** — aggiorna `docs/piani/roadmap.md` dopo ogni sync, includendo gli highlight del refactor CLI e pingando il canale `#vc-docs` con il diff principale.
 5. **Pubblicazione estratti** — inserisci highlight nel Canvas principale e allega screenshot HUD nel drive (`docs/presentations/`), citando la build CLI usata per la demo.

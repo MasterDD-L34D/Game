@@ -38,7 +38,7 @@ L'entrypoint `python tools/py/game_cli.py [--profile <nome>] <comando>` espone i
 ## Conseguenze
 
 - Gli script Python vengono trattati come implementazione di riferimento secondaria ma con parità garantita tramite test comparativi.
-- La documentazione operativa deve descrivere come usare i seed condivisi e dove reperire i log (`logs/cli/<data>.log`).
+- La documentazione operativa deve descrivere come usare i seed condivisi e dove reperire i log generati da `scripts/cli_smoke.sh` (es. `logs/cli/smoke-YYYYMMDDTHHMMSSZ.log` o gli snapshot con `--label`/`--log-subdir`).
 - HUD/UX può anticipare regressioni monitorando i tag missione e gli alert generati dal nuovo flusso CLI.
 
 ## Azioni di follow-up
