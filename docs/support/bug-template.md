@@ -5,8 +5,8 @@
 - **Build CLI**: output di `git rev-parse HEAD` (eventualmente `git describe --tags --always`)
 - **Profilo**: `playtest` | `telemetry` | `support`
 - **Comando eseguito**: es. `python tools/py/game_cli.py validate-ecosystem-pack --profile support`
-- **Log allegati**: `logs/cli/<data>.log`, estratto `docs/chatgpt_changes/sync-<data>.md`
-- **Esito smoke test**: link a `logs/cli/qa/<data>/`
+- **Log allegati**: `logs/cli/smoke-YYYYMMDDTHHMMSSZ.log` (o variante con `--label`/`--log-subdir`), estratto `docs/chatgpt_changes/sync-<data>.md`
+- **Esito smoke test**: link a `logs/cli/qa/<data>/` generato con `scripts/cli_smoke.sh --log-subdir qa/<data> --label qa-<data>`
 - **Impatto**: `blocking` | `degraded` | `info`
 - **Severità**: `critical` | `high` | `medium` | `low` (vedi scala backlog in `docs/process/incident_reporting_table.md`)
 - **Frequenza**: `sempre` | `intermittente` | `raro` | `non_riprodotto` (coerente con backlog `Frequenza`)

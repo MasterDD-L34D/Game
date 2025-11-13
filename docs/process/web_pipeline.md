@@ -55,7 +55,7 @@ Se uno dei passaggi fallisce (es. Playwright non riesce a scaricare Chromium, co
 
 - [ ] CI `CI` (workflow `ci.yml`) verde sull'ultimo commit candidato.
 - [ ] CI `Deploy site` (workflow `deploy-test-interface.yml`) verde nell'ultima esecuzione manuale/programmata.
-- [ ] Output CLI smoke privo di errori (solo avvisi noti ammessi, da documentare in `logs/cli/`).
+- [ ] Output CLI smoke privo di errori (solo avvisi noti ammessi, da documentare in `logs/cli/smoke-*.log` o nella sotto-cartella impostata con `--log-subdir`).
 - [ ] `python3 scripts/trait_audit.py --check` restituisce "nessuna regressione".
 - [ ] `python3 tools/py/traits_validator.py --inventory docs/catalog/traits_inventory.json` senza errori e con log aggiornato in `logs/traits_tracking.md`.
 - [ ] `python3 tools/py/validate_registry_naming.py --trait-glossary data/core/traits/glossary.json` conferma la coerenza dei registri generator e del glossario.

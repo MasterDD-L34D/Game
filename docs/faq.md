@@ -26,13 +26,13 @@ L'alias storico `validate-ecosystem` viene normalizzato in `validate-ecosystem-p
 
 ## QA
 
-| Domanda                                                 | Risposta rapida                                                                                                                | Owner          | Stato                                      |
-| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------- | ------------------------------------------ |
-| Come eseguiamo gli smoke test CLI?                      | Run `scripts/cli_smoke.sh` (default) o filtra con `--profile support`; archivia output in `logs/cli/qa/`.                      | QA Lead        | Attivo (copre playtest/telemetry/support). |
-| Dove registriamo gli esiti dei playtest VC?             | Nel tracker `docs/checklist/playtest-status.md` + allegato `logs/playtests/<data>-vc/summary.yaml`.                            | QA Analyst     | Continuo.                                  |
-| Chi conferma la copertura telemetria dopo ogni build?   | QA Lead coordina con Telemetria usando il report `docs/chatgpt_changes/sync-<data>.md`.                                        | Telemetria POC | In corso.                                  |
-| Come prepariamo il test bed per l'onboarding del 18/11? | Clonare branch demo `feature/onboarding-cli-demo`, lanciare `scripts/cli_smoke.sh --profile playtest` e validare export Drive. | QA Support     | Pianificato (setup 2025-11-15).            |
-| Quando aggiornare i template di bug legati alla CLI?    | Dopo ogni retro Support/QA del martedì, sincronizzare i campi in `docs/support/bug-template.md`.                               | QA Lead        | Nuovo (post-onboarding).                   |
+| Domanda                                                 | Risposta rapida                                                                                                                                                               | Owner          | Stato                                      |
+| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------ |
+| Come eseguiamo gli smoke test CLI?                      | Esegui `scripts/cli_smoke.sh` (filtra con `--profile support` se serve) e usa `--log-subdir qa/<data>` + `--label qa-<data>` per salvare gli output in `logs/cli/qa/<data>/`. | QA Lead        | Attivo (copre playtest/telemetry/support). |
+| Dove registriamo gli esiti dei playtest VC?             | Nel tracker `docs/checklist/playtest-status.md` + allegato `logs/playtests/<data>-vc/summary.yaml`.                                                                           | QA Analyst     | Continuo.                                  |
+| Chi conferma la copertura telemetria dopo ogni build?   | QA Lead coordina con Telemetria usando il report `docs/chatgpt_changes/sync-<data>.md`.                                                                                       | Telemetria POC | In corso.                                  |
+| Come prepariamo il test bed per l'onboarding del 18/11? | Clonare branch demo `feature/onboarding-cli-demo`, lanciare `scripts/cli_smoke.sh --profile playtest` e validare export Drive.                                                | QA Support     | Pianificato (setup 2025-11-15).            |
+| Quando aggiornare i template di bug legati alla CLI?    | Dopo ogni retro Support/QA del martedì, sincronizzare i campi in `docs/support/bug-template.md`.                                                                              | QA Lead        | Nuovo (post-onboarding).                   |
 
 ## Post-onboarding 2025 Q4
 
@@ -55,5 +55,5 @@ L'alias storico `validate-ecosystem` viene normalizzato in `validate-ecosystem-p
 ## Troubleshooting CLI (Nov 2025)
 
 - `python tools/py/game_cli.py validate-ecosystem-pack` restituisce `Validator del pack non trovato`: assicurarsi che gli asset siano sincronizzati (vedi `scripts/run_deploy_checks.sh`) e che `tools/py/roll_pack.py` sia aggiornato.
-- Log mancanti dopo smoke test QA: controllare che sia stato eseguito `scripts/cli_smoke.sh --profile <profilo>` e che la cartella `logs/cli/qa/<data>/` sia sincronizzata con Drive.
+- Log mancanti dopo smoke test QA: controllare che sia stato eseguito `scripts/cli_smoke.sh --profile <profilo> --log-subdir qa/<data> --label qa-<data>` e che la cartella `logs/cli/qa/<data>/` sia sincronizzata con Drive.
 - Differenze tra commit registrato e ambiente locale: eseguire `git pull --rebase`, rilanciare `scripts/cli_smoke.sh` e aggiornare `docs/chatgpt_sync_status.md` con il nuovo hash.
