@@ -15,6 +15,6 @@
 - **Owner escalation**: Support Lead / QA Lead / Tools Dev
 - **Link log**: URL/Drive al log principale (obbligatorio)
 - **Link screenshot/video**: evidenza visiva (PNG/MP4) oppure `N/A` se non applicabile
-- **Riferimento comandi CLI**: `python tools/py/game_cli.py <comando>` con sottocomandi `roll-pack`, `generate-encounter`, `validate-datasets`, `validate-ecosystem-pack`, `investigate`
+- **Riferimento comandi CLI**: `python tools/py/game_cli.py [--profile <nome>] <comando>` con sottocomandi `roll-pack [FORM MBTI] [ARCHETIPO] [data_path] [--seed <valore>]`, `generate-encounter [biome] [data_path] [--party-power <int>] [--seed <valore>]`, `validate-datasets`, `validate-ecosystem-pack [--json-out <percorso>] [--html-out <percorso>]`, `investigate <file|dir> [...] [--recursive] [--json] [--html] [--destination NAME|-] [--max-preview <int>]`
 
 _Compila il template in Drive e collega il ticket `#vc-ops` relativo._

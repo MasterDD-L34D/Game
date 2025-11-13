@@ -27,7 +27,7 @@ Adottare l'opzione **C**. Il refactor CLI rimane modulare, ma tutti i comandi de
 
 ### Sottocomandi disponibili (2025-11)
 
-L'entrypoint `python tools/py/game_cli.py` espone i comandi `roll-pack`, `generate-encounter`, `validate-datasets`, `validate-ecosystem-pack` (alias legacy `validate-ecosystem`) e `investigate`. Ogni nuovo flusso deve essere aggiunto qui e coperto dai test di parità.
+L'entrypoint `python tools/py/game_cli.py [--profile <nome>] <comando>` espone i comandi `roll-pack [FORM MBTI] [ARCHETIPO] [data_path] [--seed <valore>]`, `generate-encounter [biome] [data_path] [--party-power <int>] [--seed <valore>]`, `validate-datasets`, `validate-ecosystem-pack [--json-out <percorso>] [--html-out <percorso>]` (alias legacy `validate-ecosystem`) e `investigate <file|dir> [...] [--recursive] [--json] [--html] [--destination NAME|-] [--max-preview <int>]`. Ogni nuovo flusso deve essere aggiunto qui e coperto dai test di parità.
 
 ## Impatti sugli strumenti
 

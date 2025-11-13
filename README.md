@@ -118,8 +118,10 @@ evo-tactics/
   python3 game_cli.py validate-ecosystem-pack \
     --json-out ../../packs/evo_tactics_pack/out/validation/last_report.json \
     --html-out ../../packs/evo_tactics_pack/out/validation/last_report.html
+  python3 game_cli.py investigate ../../incoming --recursive --json --html --destination latest
   ```
 - Wrapper legacy ancora disponibili (`roll_pack.py`, `generate_encounter.py`) reindirizzano al parser condiviso.
+- Tutti i comandi accettano l'opzione globale `--profile <nome>` per caricare le variabili definite in `config/cli/<nome>.yaml`.
 
 #### Quick start — Python
 
@@ -132,6 +134,7 @@ python3 game_cli.py validate-datasets
 python3 game_cli.py validate-ecosystem-pack \
   --json-out ../../packs/evo_tactics_pack/out/validation/last_report.json \
   --html-out ../../packs/evo_tactics_pack/out/validation/last_report.html
+python3 game_cli.py investigate ../../incoming --recursive --json --html --destination latest
 
 # Wrapper legacy (reindirizzati al parser condiviso)
 python3 roll_pack.py ENTP invoker
