@@ -11,7 +11,13 @@ DESCRIPTION = "Initialize core collections and indexes for Evo Tactics Pack"
 def _ensure_collection(db: Database, name: str) -> None:
     if name in db.list_collection_names():
         return
-    db.create_collection(name)
+    try:
+        db.create_collection(name)
+    except Exception:
+        # Alcuni backend mock (es. Mongita) non implementano create_collection ma
+        # creano la collection on-demand accedendo al relativo handler.
+        db[name].insert_one({"__bootstrap__": True})
+        db[name].delete_many({"__bootstrap__": True})
 
 
 def upgrade(db: Database) -> None:

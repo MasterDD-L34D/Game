@@ -1,0 +1,9 @@
+{
+  "$schema": "./schemas/mongodb-config.schema.json",
+  "description": "Configurazione MongoDB fittizia basata su Mongomock con persistenza su file.",
+  "mongoUrl": "mongomock://.local/mongomock/mock_dump.json",
+  "database": "evo_tactics_mock",
+  "options": {
+    "tz_aware": true
+  }
+}
