@@ -18,3 +18,4 @@ reports/trait_balance/*.png
 reports/trait_style/
 logs/monthly_trait_maintenance/trait_style_*.json
 logs/monthly_trait_maintenance/trait_style_*.md
+.local/

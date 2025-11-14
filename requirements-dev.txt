@@ -1,6 +1,8 @@
 pyyaml
 numpy
 pymongo
+mongomock
+mongita
 jsonschema>=4.22.0
 
 boto3

@@ -19,6 +19,7 @@ Connection settings can be configured via CLI arguments or through the
 from __future__ import annotations
 
 import argparse
+import atexit
 import importlib.util
 import os
 from dataclasses import dataclass
@@ -26,10 +27,22 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Tuple
 
-from pymongo import MongoClient
+from bson import json_util
+from pymongo import MongoClient as PyMongoClient
 from pymongo.database import Database
 
 from config_loader import load_mongo_config
+
+try:
+    import mongomock  # type: ignore
+except ImportError:  # pragma: no cover - optional dependency
+    mongomock = None
+
+try:
+    from mongita import MongitaClientDisk, MongitaClientMemory  # type: ignore
+except ImportError:  # pragma: no cover - optional dependency
+    MongitaClientDisk = None
+    MongitaClientMemory = None
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MIGRATIONS_DIR = REPO_ROOT / "migrations" / "evo_tactics_pack"
@@ -80,7 +93,11 @@ def discover_migrations(directory: Path) -> List[Migration]:
 
 def get_applied_migrations(db: Database) -> List[str]:
     collection = db[CHANGELOG_COLLECTION]
-    cursor = collection.find({}, projection={"_id": True}).sort("_id", 1)
+    try:
+        cursor = collection.find({}, projection={"_id": True}).sort("_id", 1)
+    except Exception:
+        # Alcuni backend di test (es. Mongita) non supportano l'argomento `projection`.
+        cursor = collection.find({}).sort("_id", 1)
     return [entry["_id"] for entry in cursor]
 
 
@@ -171,6 +188,85 @@ def resolve_connection_settings(args: argparse.Namespace) -> Tuple[str, str, Dic
     return mongo_url, database, options
 
 
+def _load_mongomock_dump(client: "mongomock.MongoClient", dump_path: Path) -> None:  # type: ignore[name-defined]
+    if not dump_path.is_file():
+        return
+    try:
+        payload = json_util.loads(dump_path.read_text(encoding="utf-8"))
+    except Exception as exc:  # pragma: no cover - corrupted dump
+        print(f"Impossibile leggere il dump mongomock {dump_path}: {exc}")
+        return
+
+    for db_name, collections in payload.items():
+        database = client[db_name]
+        for collection_name, documents in collections.items():
+            if not documents:
+                continue
+            database[collection_name].insert_many(documents)
+
+
+def _dump_mongomock(client: "mongomock.MongoClient", dump_path: Path) -> None:  # type: ignore[name-defined]
+    dump: Dict[str, Dict[str, List[Dict[str, Any]]]] = {}
+    for db_name in client.list_database_names():
+        if db_name in {"admin", "local"}:
+            continue
+        database = client[db_name]
+        collections_dump: Dict[str, List[Dict[str, Any]]] = {}
+        for collection_name in database.list_collection_names():
+            documents = list(database[collection_name].find({}))
+            collections_dump[collection_name] = documents
+        dump[db_name] = collections_dump
+
+    dump_path.parent.mkdir(parents=True, exist_ok=True)
+    dump_path.write_text(json_util.dumps(dump, indent=2), encoding="utf-8")
+
+
+def _create_client(mongo_url: str, mongo_options: Dict[str, Any]):
+    """Create a Mongo client honoring special URLs for test environments."""
+
+    if mongo_url.startswith("mongita://"):
+        if MongitaClientDisk is None or MongitaClientMemory is None:
+            raise RuntimeError(
+                "L'URL mongita:// richiede la dipendenza opzionale 'mongita'. "
+                "Installarla oppure utilizzare un'istanza MongoDB reale."
+            )
+        location = mongo_url[len("mongita://") :].strip()
+        if location.lower() in {"memory", ""}:
+            return MongitaClientMemory()
+        storage_path = Path(location)
+        if not storage_path.is_absolute():
+            storage_path = (REPO_ROOT / storage_path).resolve()
+        storage_path.parent.mkdir(parents=True, exist_ok=True)
+        storage_path.mkdir(parents=True, exist_ok=True)
+        return MongitaClientDisk(str(storage_path))
+
+    if mongo_url.startswith("mongomock://"):
+        if mongomock is None:
+            raise RuntimeError(
+                "L'URL mongomock:// richiede la dipendenza opzionale 'mongomock'. "
+                "Installarla oppure utilizzare un'istanza MongoDB reale."
+            )
+        # mongomock non supporta le stesse opzioni di PyMongo, quindi scartiamo quelle
+        # non riconosciute per evitare errori di tipo.
+        supported_keys = {"tz_aware", "uuidRepresentation"}
+        filtered_options = {key: value for key, value in mongo_options.items() if key in supported_keys}
+        storage_target = mongo_url[len("mongomock://") :].strip()
+        dump_path: Path | None = None
+        if storage_target and storage_target.lower() != "memory":
+            dump_path = Path(storage_target)
+            if dump_path.is_dir():
+                dump_path = dump_path / "mongomock_dump.json"
+            if not dump_path.is_absolute():
+                dump_path = (REPO_ROOT / dump_path).resolve()
+        client = mongomock.MongoClient(**filtered_options)
+        if dump_path is not None:
+            _load_mongomock_dump(client, dump_path)
+            atexit.register(_dump_mongomock, client, dump_path)
+        return client
+
+    return PyMongoClient(mongo_url, **mongo_options)
+
+
 def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
@@ -181,7 +277,7 @@ def main() -> None:
         return
 
     mongo_url, database, mongo_options = resolve_connection_settings(args)
-    client = MongoClient(mongo_url, **mongo_options)
+    client = _create_client(mongo_url, mongo_options)
     db = client[database]
 
     if args.command == "up":
