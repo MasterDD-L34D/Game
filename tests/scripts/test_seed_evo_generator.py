@@ -47,10 +47,7 @@ class FakeMongoClient:
         return self._databases[name]
 
 
-def test_seed_database_populates_biome_pools(monkeypatch):
-    # Inseriamo stubs minimi per pymongo per evitare di installare la dipendenza
-    # opzionale durante il test. In questo modo il modulo oggetto del test può
-    # essere importato senza effettuare connessioni reali.
+def import_seed_module(monkeypatch):
     pymongo_stub = types.ModuleType("pymongo")
 
     class _StubMongoClient:
@@ -96,6 +93,12 @@ def test_seed_database_populates_biome_pools(monkeypatch):
     sys.modules.pop("scripts.db.seed_evo_generator", None)
 
     import scripts.db.seed_evo_generator as seed_evo_generator
+
+    return seed_evo_generator
+
+
+def test_seed_database_populates_biome_pools(monkeypatch):
+    seed_evo_generator = import_seed_module(monkeypatch)
 
     client = FakeMongoClient()
     seed_evo_generator.seed_database(client, "test-database", dry_run=False)
@@ -119,54 +122,59 @@ def test_seed_database_populates_biome_pools(monkeypatch):
 
 
 def test_seed_database_dry_run_skips_writes(monkeypatch):
-    pymongo_stub = types.ModuleType("pymongo")
-
-    class _StubMongoClient:
-        def __init__(self, *args, **kwargs):
-            pass
-
-    class _StubReplaceOne:
-        def __init__(self, filter_doc, replacement, **kwargs):
-            self.filter = filter_doc
-            self.replacement = replacement
-            self.options = kwargs
-
-    pymongo_stub.MongoClient = _StubMongoClient
-    pymongo_stub.ReplaceOne = _StubReplaceOne
-    monkeypatch.setitem(sys.modules, "pymongo", pymongo_stub)
-
-    collection_module = types.ModuleType("pymongo.collection")
-
-    class _StubCollection:  # pragma: no cover - type placeholder
-        pass
-
-    collection_module.Collection = _StubCollection
-    monkeypatch.setitem(sys.modules, "pymongo.collection", collection_module)
-
-    scripts_root = Path(__file__).resolve().parents[2] / "scripts"
-    scripts_spec = importlib.util.spec_from_file_location(
-        "scripts", scripts_root / "__init__.py", submodule_search_locations=[str(scripts_root)]
-    )
-    scripts_module = importlib.util.module_from_spec(scripts_spec)
-    monkeypatch.setitem(sys.modules, "scripts", scripts_module)
-    assert scripts_spec.loader is not None
-    scripts_spec.loader.exec_module(scripts_module)
-
-    db_root = scripts_root / "db"
-    db_spec = importlib.util.spec_from_file_location(
-        "scripts.db", db_root / "__init__.py", submodule_search_locations=[str(db_root)]
-    )
-    db_module = importlib.util.module_from_spec(db_spec)
-    monkeypatch.setitem(sys.modules, "scripts.db", db_module)
-    assert db_spec.loader is not None
-    db_spec.loader.exec_module(db_module)
-
-    sys.modules.pop("scripts.db.seed_evo_generator", None)
-
-    import scripts.db.seed_evo_generator as seed_evo_generator
+    seed_evo_generator = import_seed_module(monkeypatch)
 
     client = FakeMongoClient()
     seed_evo_generator.seed_database(client, "test-database", dry_run=True)
 
     biome_collection = client["test-database"]["biome_pools"]
     assert biome_collection.bulk_write_calls == [], "dry_run deve saltare le scritture su MongoDB"
+
+
+def test_load_traits_includes_reference_only_entries(monkeypatch):
+    seed_evo_generator = import_seed_module(monkeypatch)
+
+    traits = seed_evo_generator.load_traits()
+    trait_ids = {doc["_id"] for doc in traits}
+
+    assert "armatura_pietra_planare" in trait_ids
+
+
+def test_load_traits_matches_catalog_sources(monkeypatch):
+    seed_evo_generator = import_seed_module(monkeypatch)
+
+    traits = seed_evo_generator.load_traits()
+    trait_ids = {doc["_id"] for doc in traits}
+
+    glossary = seed_evo_generator.load_json(seed_evo_generator.CATALOG_ROOT / "trait_glossary.json")
+    reference = seed_evo_generator.load_json(seed_evo_generator.CATALOG_ROOT / "trait_reference.json")
+
+    expected_ids = set(glossary.get("traits", {})) | set(reference.get("traits", {}))
+    assert trait_ids == expected_ids
+
+
+def test_load_biomes_includes_network_biomes(monkeypatch):
+    seed_evo_generator = import_seed_module(monkeypatch)
+
+    biomes = seed_evo_generator.load_biomes()
+    biome_ids = {doc["_id"] for doc in biomes}
+
+    assert "rovine_planari" in biome_ids
+
+
+def test_load_biomes_normalizes_source_paths(monkeypatch):
+    seed_evo_generator = import_seed_module(monkeypatch)
+
+    biomes = seed_evo_generator.load_biomes()
+    biome_map = {doc["_id"]: doc for doc in biomes}
+
+    badlands = biome_map["badlands"]
+    assert badlands["source_path"] == "packs/evo_tactics_pack/data/ecosystems/badlands.biome.yaml"
+    manifest_links = badlands["profile"].get("manifest", {}).get("foodweb_links", {})
+    assert manifest_links.get("path") == "packs/evo_tactics_pack/data/foodwebs/badlands_foodweb.yaml"
+    assert badlands["profile"].get("foodweb", {}).get("path") == "packs/evo_tactics_pack/data/foodwebs/badlands_foodweb.yaml"
+
+    rovine = biome_map["rovine_planari"]
+    assert rovine["source_path"] == "packs/evo_tactics_pack/data/ecosystems/rovine_planari.biome.yaml"
+    assert rovine["profile"].get("foodweb", {}).get("path") == "packs/evo_tactics_pack/data/foodwebs/rovine_planari_foodweb.yaml"
+    assert rovine["connections"], "le connessioni del meta-network devono essere importate"

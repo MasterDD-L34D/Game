@@ -24,9 +24,12 @@ import argparse
 import json
 import os
 from collections import defaultdict
+from collections.abc import Mapping, MutableMapping
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, MutableMapping, Tuple
+from typing import Any, Dict, Iterable, List, Tuple
+
+import yaml
 
 from pymongo import MongoClient, ReplaceOne
 from pymongo.collection import Collection
@@ -36,6 +39,27 @@ from config_loader import load_mongo_config
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CATALOG_ROOT = REPO_ROOT / "packs" / "evo_tactics_pack" / "docs" / "catalog"
 BIOME_POOLS_PATH = REPO_ROOT / "data" / "core" / "traits" / "biome_pools.json"
+ECOSYSTEM_NETWORK_ROOT = REPO_ROOT / "packs" / "evo_tactics_pack" / "data" / "ecosystems" / "network"
+
+
+def as_repo_relative(path: Path) -> str:
+    resolved = path.resolve(strict=False)
+    try:
+        return resolved.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
+def normalize_repo_path(value: str | None, *, base: Path | None = None) -> str | None:
+    if not value or not isinstance(value, str):
+        return None
+    candidate = Path(value)
+    if not candidate.is_absolute():
+        anchor = base if base is not None else REPO_ROOT
+        candidate = (anchor / candidate).resolve(strict=False)
+    else:
+        candidate = candidate.resolve(strict=False)
+    return as_repo_relative(candidate)
 
 
 def parse_datetime(value: str | None) -> datetime | None:
@@ -51,6 +75,11 @@ def parse_datetime(value: str | None) -> datetime | None:
 def load_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def load_yaml(path: Path) -> Any:
+    with path.open("r", encoding="utf-8") as handle:
+        return yaml.safe_load(handle)
 
 
 def load_biomes() -> List[Dict[str, Any]]:
@@ -71,10 +100,33 @@ def load_biomes() -> List[Dict[str, Any]]:
             continue
         connections_by_network[network_id].append(connection)
 
-    docs: List[Dict[str, Any]] = []
+    def normalize_manifest(manifest: Mapping[str, Any] | None) -> Mapping[str, Any] | None:
+        if not isinstance(manifest, Mapping):
+            return manifest
+        normalized = dict(manifest)
+        foodweb_links = normalized.get("foodweb_links")
+        if isinstance(foodweb_links, Mapping):
+            normalized_links = dict(foodweb_links)
+            normalized_path = normalize_repo_path(normalized_links.get("path"), base=CATALOG_ROOT)
+            if normalized_path:
+                normalized_links["path"] = normalized_path
+            normalized["foodweb_links"] = normalized_links
+        return normalized
+
+    def normalize_foodweb(foodweb: Mapping[str, Any] | None, *, base: Path) -> Mapping[str, Any] | None:
+        if not isinstance(foodweb, Mapping):
+            return foodweb
+        normalized = dict(foodweb)
+        normalized_path = normalize_repo_path(normalized.get("path"), base=base)
+        if normalized_path:
+            normalized["path"] = normalized_path
+        return normalized
+
+    docs_by_id: Dict[str, Dict[str, Any]] = {}
     for biome in top_level_biomes:
         biome_id = biome.get("id")
         detail = detailed_biomes.get(biome_id, {})
+        source_path = normalize_repo_path(biome.get("path"), base=CATALOG_ROOT)
         doc = {
             "_id": biome_id,
             "label": biome.get("label"),
@@ -82,15 +134,143 @@ def load_biomes() -> List[Dict[str, Any]]:
             "profile": {
                 "biome_profile": biome.get("biome_profile"),
                 "weight": biome.get("weight"),
-                "manifest": detail.get("manifest"),
-                "foodweb": detail.get("foodweb"),
+                "manifest": normalize_manifest(detail.get("manifest")),
+                "foodweb": normalize_foodweb(detail.get("foodweb"), base=CATALOG_ROOT),
             },
-            "source_path": biome.get("path"),
+            "source_path": source_path,
             "generated_at": generated_at,
             "connections": connections_by_network.get(biome.get("network_id"), []),
         }
-        docs.append(doc)
+        if biome_id:
+            docs_by_id[biome_id] = doc
 
+    if ECOSYSTEM_NETWORK_ROOT.exists():
+        for network_path in sorted(ECOSYSTEM_NETWORK_ROOT.glob("*.yaml")):
+            network_payload = load_yaml(network_path)
+            network = network_payload.get("network", {}) if isinstance(network_payload, Mapping) else {}
+            nodes = network.get("nodes", []) if isinstance(network, Mapping) else []
+            edges = network.get("edges", []) if isinstance(network, Mapping) else []
+
+            edges_by_origin: MutableMapping[str, List[Mapping[str, Any]]] = defaultdict(list)
+            for edge in edges:
+                if not isinstance(edge, Mapping):
+                    continue
+                origin = edge.get("from")
+                if not origin:
+                    continue
+                edges_by_origin[origin].append(edge)
+
+            for node in nodes:
+                if not isinstance(node, Mapping):
+                    continue
+
+                network_id = node.get("id")
+                biome_profile_value = node.get("biome_id")
+                node_weight = node.get("weight")
+                ecosystem_path = node.get("path")
+
+                doc_id: str | None = None
+                label: str | None = None
+                foodweb_path: str | None = None
+                source_path: str | None = None
+
+                ecosystem_fs_path: Path | None = None
+                if ecosystem_path:
+                    ecosystem_fs_path = (REPO_ROOT / ecosystem_path).resolve()
+                    if ecosystem_fs_path.exists():
+                        ecosystem_payload = load_yaml(ecosystem_fs_path)
+                        if isinstance(ecosystem_payload, Mapping):
+                            ecosystem = ecosystem_payload.get("ecosistema", {})
+                            if isinstance(ecosystem, Mapping):
+                                doc_id = ecosystem.get("biome_id") or ecosystem.get("id")
+                                if not network_id:
+                                    network_id = ecosystem.get("id")
+                                label = ecosystem.get("label")
+                            links = ecosystem_payload.get("links", {})
+                            if isinstance(links, Mapping):
+                                foodweb_path = links.get("foodweb")
+
+                        biome_path: Path | None = None
+                        if ecosystem_fs_path.name.endswith(".ecosystem.yaml"):
+                            candidate = ecosystem_fs_path.with_name(
+                                ecosystem_fs_path.name.replace(".ecosystem.", ".biome.")
+                            )
+                            if candidate.exists():
+                                biome_path = candidate
+                        if biome_path:
+                            source_path = as_repo_relative(biome_path)
+                        else:
+                            source_path = as_repo_relative(ecosystem_fs_path)
+
+                if not doc_id and network_id:
+                    doc_id = str(network_id).lower()
+                if not doc_id and biome_profile_value:
+                    doc_id = str(biome_profile_value)
+                if not doc_id or not network_id:
+                    continue
+
+                doc = docs_by_id.get(doc_id)
+                if not doc:
+                    profile = {
+                        "biome_profile": biome_profile_value,
+                        "weight": node_weight,
+                        "manifest": None,
+                        "foodweb": {"path": normalize_repo_path(foodweb_path)} if foodweb_path else None,
+                    }
+                    doc = {
+                        "_id": doc_id,
+                        "label": label,
+                        "network_id": network_id,
+                        "profile": profile,
+                        "source_path": source_path,
+                        "generated_at": generated_at,
+                        "connections": [],
+                    }
+                    docs_by_id[doc_id] = doc
+                else:
+                    doc.setdefault("profile", {})
+                    profile = doc["profile"]
+                    if biome_profile_value and profile.get("biome_profile") is None:
+                        profile["biome_profile"] = biome_profile_value
+                    if profile.get("weight") is None and node_weight is not None:
+                        profile["weight"] = node_weight
+                    if foodweb_path and not profile.get("foodweb"):
+                        profile["foodweb"] = {"path": foodweb_path}
+                    doc["profile"] = profile
+                    if doc.get("network_id") is None:
+                        doc["network_id"] = network_id
+                    if label and not doc.get("label"):
+                        doc["label"] = label
+                    if source_path and not doc.get("source_path"):
+                        doc["source_path"] = source_path
+
+                doc.setdefault("generated_at", generated_at)
+                if source_path:
+                    doc["source_path"] = source_path
+
+                if doc.get("profile") and isinstance(doc["profile"], Mapping):
+                    profile = dict(doc["profile"])
+                    if profile.get("foodweb") and isinstance(profile["foodweb"], Mapping):
+                        normalized_path = normalize_repo_path(profile["foodweb"].get("path"))
+                        if normalized_path:
+                            profile["foodweb"] = dict(profile["foodweb"])
+                            profile["foodweb"]["path"] = normalized_path
+                    doc["profile"] = profile
+
+                connections = doc.get("connections") or []
+                existing_edges = {
+                    (edge.get("from"), edge.get("to"), edge.get("type"))
+                    for edge in connections
+                    if isinstance(edge, Mapping)
+                }
+                for edge in edges_by_origin.get(network_id, []):
+                    key = (edge.get("from"), edge.get("to"), edge.get("type"))
+                    if key not in existing_edges:
+                        connections.append(edge)
+                        existing_edges.add(key)
+                doc["connections"] = connections
+
+    docs = sorted(docs_by_id.values(), key=lambda item: item.get("_id") or "")
     return docs
 
 
@@ -145,9 +325,11 @@ def load_traits() -> List[Dict[str, Any]]:
     glossary_updated_at = parse_datetime(glossary.get("updated_at"))
 
     docs: List[Dict[str, Any]] = []
-    for trait_id, glossary_data in glossary_traits.items():
+    trait_ids = sorted(set(glossary_traits) | set(reference_traits))
+    for trait_id in trait_ids:
+        glossary_data = glossary_traits.get(trait_id, {})
         labels = {
-            "it": glossary_data.get("label_it"),
+            "it": glossary_data.get("label_it") or reference_traits.get(trait_id, {}).get("label"),
             "en": glossary_data.get("label_en"),
         }
         descriptions = {
