@@ -10,6 +10,7 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | packs/evo_tactics_pack/docs/catalog/trait_glossary.json | JSON | schema 1.0 | Glossario distribuito nel pack, sincronizzato dal workflow tratti.【F:docs/DesignDoc-Overview.md†L39-L44】 |
 | data/traits/index.json | JSON | schema 2.0 | Reference genetico consumato da baseline e validatori.【F:docs/DesignDoc-Overview.md†L40-L44】 |
 | packs/evo_tactics_pack/docs/catalog/env_traits.json | JSON | schema 1.0 | Regole env→trait per generator e ETL coverage.【F:docs/DesignDoc-Overview.md†L40-L44】 |
+| packs/evo_tactics_pack/data/ecosystems/network/meta_network_alpha.yaml | YAML | meta-network 1.0 | Connessioni inter-bioma importate dallo script di seed per estendere profili e collegamenti del catalogo.【F:scripts/db/seed_evo_generator.py†L92-L193】 |
 | packs/evo_tactics_pack/data/core/species.yaml | YAML | v0.41 | Catalogo specie consumato da generator e coverage.【F:docs/public/idea-taxonomy.json†L10-L15】 |
 | data/core/traits/biome_pools.json | JSON | schema 1.0 | Pool tratti per synth biome (biomeSynthesizer).【F:services/generation/biomeSynthesizer.js†L492-L516】 |
 | data/packs.yaml | YAML | N/D | Tabelle pack usate dal CLI roll_pack TS/Python.【F:tools/ts/roll_pack.ts†L106-L158】 |

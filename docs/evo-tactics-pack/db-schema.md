@@ -4,14 +4,14 @@ Questo documento descrive la struttura dati pensata per servire l'ecosistema **E
 
 ## Panoramica delle collezioni
 
-| Collezione      | Descrizione                                                                            | Origine dati                                                                |
-| --------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `biomes`        | Manifest e metadata dei biomi disponibili nel pacchetto.                               | `catalog_data.json` (`ecosistema.biomi`, `biomi`, `ecosistema.connessioni`) |
-| `species`       | Anagrafiche delle specie, eventi climatici e unità giocabili.                          | `docs/catalog/species/*.json`                                               |
-| `traits`        | Glossario dei tratti genetici/ambientali unificato con i riferimenti di bilanciamento. | `trait_glossary.json`, `trait_reference.json`, `env_traits.json`            |
-| `biome_pools`   | Pool di tratti, template ruoli e clima per la sintesi rapida dei biomi giocabili.      | `data/core/traits/biome_pools.json` (seed runtime)                          |
-| `sessions`      | Sessioni di gioco o simulazioni alimentate dal generatore Evo.                         | Eventi applicativi (telemetria runtime, non presenti nei cataloghi statici) |
-| `activity_logs` | Log granulari generati durante le sessioni (azioni giocatore/sistema).                 | Eventi applicativi (telemetria runtime, non presenti nei cataloghi statici) |
+| Collezione      | Descrizione                                                                            | Origine dati                                                                                                                                      |
+| --------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `biomes`        | Manifest e metadata dei biomi disponibili nel pacchetto.                               | `catalog_data.json` (`ecosistema.biomi`, `biomi`, `ecosistema.connessioni`), `data/ecosystems/network/*.yaml`, `data/ecosystems/*.ecosystem.yaml` |
+| `species`       | Anagrafiche delle specie, eventi climatici e unità giocabili.                          | `docs/catalog/species/*.json`                                                                                                                     |
+| `traits`        | Glossario dei tratti genetici/ambientali unificato con i riferimenti di bilanciamento. | `trait_glossary.json`, `trait_reference.json`, `env_traits.json`                                                                                  |
+| `biome_pools`   | Pool di tratti, template ruoli e clima per la sintesi rapida dei biomi giocabili.      | `data/core/traits/biome_pools.json` (seed runtime)                                                                                                |
+| `sessions`      | Sessioni di gioco o simulazioni alimentate dal generatore Evo.                         | Eventi applicativi (telemetria runtime, non presenti nei cataloghi statici)                                                                       |
+| `activity_logs` | Log granulari generati durante le sessioni (azioni giocatore/sistema).                 | Eventi applicativi (telemetria runtime, non presenti nei cataloghi statici)                                                                       |
 
 ## `biomes`
 
@@ -53,6 +53,7 @@ Questo documento descrive la struttura dati pensata per servire l'ecosistema **E
 
 - `species.biomes` referenzia `_id` della collezione `biomes`.
 - `sessions.biome_id` (campo previsto) punta al bioma usato in una sessione.
+- Lo script di seed fonde `catalog_data.json` con i nodi/archi del meta-network (`data/ecosystems/network/*.yaml`) e i manifest YAML (`data/ecosystems/*.ecosystem.yaml`), normalizzando `source_path` e i link `foodweb.*.path` su percorsi relativi al repository.
 
 ## `species`
 
