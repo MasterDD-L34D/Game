@@ -7,7 +7,7 @@ const test = require('node:test');
 const express = require('express');
 const request = require('supertest');
 
-const { createTraitRouter } = require('../../server/routes/traits');
+const { createTraitRouter } = require('../../apps/backend/routes/traits');
 
 function createBaseTrait(id) {
   return {
@@ -154,9 +154,7 @@ test('POST /traits/:id/versions/:versionId/restore accepts nested and legacy met
       })
       .expect(200);
 
-    const versionsResponse = await request(app)
-      .get(`/traits/${base.id}/versions`)
-      .expect(200);
+    const versionsResponse = await request(app).get(`/traits/${base.id}/versions`).expect(200);
     assert.ok(Array.isArray(versionsResponse.body.versions));
     assert.ok(versionsResponse.body.versions.length >= 1);
     const versionId = versionsResponse.body.versions[0].id;
@@ -169,7 +167,13 @@ test('POST /traits/:id/versions/:versionId/restore accepts nested and legacy met
     const currentState = await request(app).get(`/traits/${base.id}`).expect(200);
     const nestedRestore = await request(app)
       .post(`/traits/${base.id}/versions/${versionId}/restore`)
-      .send({ meta: { version: currentState.body.meta.version, etag: currentState.body.meta.etag, author: 'Restorer A' } })
+      .send({
+        meta: {
+          version: currentState.body.meta.version,
+          etag: currentState.body.meta.etag,
+          author: 'Restorer A',
+        },
+      })
       .expect(200);
     assert.equal(nestedRestore.body.trait.label, targetLabel);
     assert.equal(nestedRestore.body.meta.restoredFrom, versionId);

@@ -32,10 +32,10 @@ Starter repository per il progetto tattico co-op con sistema d20 e progressione 
 ## Settori e dipendenze
 
 - **Flow (generazione & validazione)** – vive principalmente in `services/generation/`, `tools/py`, `tools/ts` e nei dataset `data/core/`.
-  Orchestratore Python, CLI e validator TypeScript condividono gli stessi schema YAML; le pipeline front/back usano il registry condiviso in `webapp/src/config/dataSources.ts`.
-- **Atlas (telemetria & dashboard)** – la webapp (`webapp/`) e le dashboard statiche in `docs/test-interface/` leggono gli snapshot `data/derived/` e i mock `webapp/public/data/`.
+  Orchestratore Python, CLI e validator TypeScript condividono gli stessi schema YAML; le pipeline front/back usano il registry condiviso in `apps/dashboard/src/config/dataSources.ts`.
+- **Atlas (telemetria & dashboard)** – la webapp (`apps/dashboard/`) e le dashboard statiche in `docs/test-interface/` leggono gli snapshot `data/derived/` e i mock `apps/dashboard/public/data/`.
   Le variabili `VITE_*` armonizzano API live e fallback, mentre la configurazione `base` di Vite governa deploy statici e percorsi condivisi con Flow.
-- **Backend Idea Engine** – `server/` e `services/` espongono endpoint Express utilizzati sia dalla webapp (Flow/Atlas) sia dagli script CLI.
+- **Backend Idea Engine** – `apps/backend/` e `services/` espongono endpoint Express utilizzati sia dalla webapp (Flow/Atlas) sia dagli script CLI.
   Dipende dai dataset `data/core/` e produce report in `reports/` e `packs/evo_tactics_pack/out/`.
 - **Dataset & pack** – `data/`, `packs/` e `reports/` raccolgono la fonte unica per specie, trait, biomi e analisi.
   Ogni aggiornamento dei dataset è propagato verso Flow (validator/orchestratore), Atlas (snapshot), backend (API) e documentazione (`docs/catalog/`).
@@ -50,10 +50,10 @@ evo-tactics/
 ├─ packs/evo_tactics_pack/    # Ecosystem pack v1.7 con validator, report e catalogo HTML
 ├─ tools/py/                  # CLI Python unificata e helper condivisi
 ├─ tools/ts/                  # CLI TypeScript + test Node/Playwright
-├─ server/                    # API Express + orchestratore Idea Engine
+├─ apps/backend/              # API Express + orchestratore Idea Engine
 ├─ services/generation/       # Builder specie, runtime validator, bridge orchestrazione
 ├─ packages/contracts/        # Contratti JSON schema + tipi condivisi per Flow/Atlas
-├─ webapp/                    # Dashboard Vue 3 + Vite con test Vitest
+├─ apps/dashboard/            # Dashboard Vue 3 + Vite con test Vitest
 ├─ docs/                      # Canvas progettuali, checklist, changelog, presentazioni
 ├─ scripts/                   # Utility (report incoming, sync Drive, builder taxonomy)
 ├─ tests/                     # Suite Node, pytest e E2E dedicate ai dataset e al backend
@@ -63,11 +63,11 @@ evo-tactics/
 ## Setup rapido
 
 1. **Clona il repository** e posizionati nella root.
-2. **Dipendenze Node (root + tools/ts + webapp)**:
+2. **Dipendenze Node (root + tools/ts + dashboard)**:
    ```bash
    npm install
    npm --prefix tools/ts install
-   npm --prefix webapp install
+   npm --prefix apps/dashboard install
    ```
 3. **Dipendenze Python**:
    ```bash
@@ -83,27 +83,27 @@ evo-tactics/
 
 ## Stack locale: sviluppo, test e verifica
 
-- **Avvio simultaneo backend + webapp**:
+- **Avvio simultaneo backend + dashboard**:
   ```bash
   npm run dev:stack
   # oppure
   make dev-stack
   ```
-  Lo script avvia `npm run start:api` e `npm run dev --workspace webapp`, interrompendo entrambi i processi se uno dei due termina o in caso di `CTRL+C`.
+  Lo script avvia `npm run start:api` e `npm run dev --workspace apps/dashboard`, interrompendo entrambi i processi se uno dei due termina o in caso di `CTRL+C`.
 - **Test coordinati backend/frontend**:
   ```bash
   npm run test:stack
   # oppure
   make test-stack
   ```
-  Esegue `npm run test:api` seguito dai test unitari della webapp (`npm run test --workspace webapp`).
+  Esegue `npm run test:api` seguito dai test unitari della dashboard (`npm run test --workspace apps/dashboard`).
 - **Verifica pre-deploy**:
   ```bash
   npm run ci:stack
   # oppure
   make ci-stack
   ```
-  Comprende lint (`npm run lint:stack` → Prettier sui file modificati dello stack), suite API e test webapp, più una build produzione con `VITE_BASE_PATH=./`.
+  Comprende lint (`npm run lint:stack` → Prettier sui file modificati dello stack), suite API e test dashboard, più una build produzione con `VITE_BASE_PATH=./`.
 
 ## CLI & strumenti
 
@@ -191,7 +191,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - `GET /api/v1/atlas/dataset`, `/api/v1/atlas/telemetry`, `/api/v1/atlas/generator` – bundle dataset e telemetria Nebula (alias legacy aggregato `/api/nebula/atlas`).
   - `GET /api/mock/generation/snapshot`, `/api/mock/v1/generation/snapshot`, `/api/mock/atlas/dataset`, `/api/mock/atlas/telemetry` – versioni mock validate contro i contratti condivisi (fallback per webapp e QA).
   - `GET /api/v1/qa/status` (`/api/qa/status` legacy) – report QA corrente.
-  - `GET /api/ideas/:id/report` – produce report Codex in HTML/JSON usando `server/report.js`.
+  - `GET /api/ideas/:id/report` – produce report Codex in HTML/JSON usando `apps/backend/report.js`.
 - **Orchestrazione**: la pipeline combina normalizzazione slug, fallback automatici per trait non validi e log strutturati (vedi `services/generation/*`).
 - **Bridge orchestrator**: il file di configurazione `config/orchestrator.json` controlla il pool Python usato dal bridge Node.
   - `poolSize` definisce quanti worker paralleli avviare (default 2) e può essere aumentato quando si simulano carichi più elevati.
@@ -199,9 +199,9 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ### Flusso snapshot/telemetria demo (CLI → backend → webapp)
 
-1. **Generazione CLI** – esegui `npm run mock:generate` per ricreare lo snapshot Flow e il bundle Nebula demo. Lo script legge i dataset sorgente (`data/flow-shell/atlas-snapshot.json` + telemetria QA), valida payload e specie contro `packages/contracts` tramite AJV e scrive i JSON rigenerati in `webapp/public/data/flow/snapshots/` e `webapp/public/data/nebula/`.
+1. **Generazione CLI** – esegui `npm run mock:generate` per ricreare lo snapshot Flow e il bundle Nebula demo. Lo script legge i dataset sorgente (`data/flow-shell/atlas-snapshot.json` + telemetria QA), valida payload e specie contro `packages/contracts` tramite AJV e scrive i JSON rigenerati in `apps/dashboard/public/data/flow/snapshots/` e `apps/dashboard/public/data/nebula/`.
 2. **Backend** – all'avvio Express registra gli stessi schemi (`generationSnapshot`, `species`, `telemetry`) e verifica ogni risposta sia live sia mock. Gli endpoint `/api/mock/*` servono direttamente i file generati dalla CLI garantendo coerenza con gli schemi condivisi.
-3. **Webapp** – la configurazione `webapp/src/config/dataSources.ts` punta alle nuove sorgenti fallback (`data/flow/...` e `data/nebula/...`). Dopo aver rigenerato i mock basta rilanciare la webapp per visualizzare gli aggiornamenti senza ulteriori passaggi manuali.
+3. **Webapp** – la configurazione `apps/dashboard/src/config/dataSources.ts` punta alle nuove sorgenti fallback (`data/flow/...` e `data/nebula/...`). Dopo aver rigenerato i mock basta rilanciare la webapp per visualizzare gli aggiornamenti senza ulteriori passaggi manuali.
 
 > **Rigenera i mock** ogni volta che modifichi i dataset Flow/Nebula o i contratti: `npm run mock:generate` aggiorna snapshot e telemetria demo e fallisce immediatamente se lo schema non è rispettato.
 
@@ -367,15 +367,15 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Python**: esegui dalla root con `PYTHONPATH=tools/py pytest` (copre RNG deterministici, builder, validator).
 - **TypeScript**: `npm --prefix tools/ts test` (include unit test Node e Playwright UI export modal).
 - **API Node**: `npm run test:api` lancia `node --test tests/api/*.test.js`.
-- **Webapp**: `npm --prefix webapp test` esegue la suite Vitest/JSDOM.
-- **Webapp build & preview**: `npm --prefix webapp run build && npm --prefix webapp run preview`
+- **Webapp**: `npm --prefix apps/dashboard test` esegue la suite Vitest/JSDOM.
+- **Webapp build & preview**: `npm --prefix apps/dashboard run build && npm --prefix apps/dashboard run preview`
   serve la build hashata su `http://localhost:4173`; in alternativa usa lo shortcut monorepo
   `npm run webapp:deploy` che esegue build + server di anteprima locale in un solo comando.
 - **Pubblicazione produzione**:
   1. Imposta `VITE_BASE_PATH` e le variabili API (`VITE_API_BASE`, `VITE_*_URL`) in base all'hosting di destinazione.
-  2. Esegui `npm run build --workspace webapp` per generare `webapp/dist`.
-  3. Verifica l'output con `npm run webapp:deploy` oppure `npm --prefix webapp run preview`.
-  4. Carica il contenuto di `webapp/dist` sul bucket/CDN di riferimento (es. GitHub Pages, S3, Firebase Hosting) oppure usa la pipeline `npm run stage:publishing` per lo staging automatizzato.
+  2. Esegui `npm run build --workspace apps/dashboard` per generare `apps/dashboard/dist`.
+  3. Verifica l'output con `npm run webapp:deploy` oppure `npm --prefix apps/dashboard run preview`.
+  4. Carica il contenuto di `apps/dashboard/dist` sul bucket/CDN di riferimento (es. GitHub Pages, S3, Firebase Hosting) oppure usa la pipeline `npm run stage:publishing` per lo staging automatizzato.
 - **HUD & dashboard**: test Playwright dedicati (`tools/ts/tests`, `tests/hud_alerts.spec.ts`) e `tests/validate_dashboard.py` per smoke test.
 
 ## Integrazioni esterne
@@ -396,15 +396,15 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - **Variabili API**: imposta `VITE_API_BASE` per definire una base comune agli endpoint remoti oppure
   valorizza i singoli `VITE_*_URL` con percorsi assoluti. Se una variabile viene lasciata vuota o a
   `null`, il registry passa automaticamente al fallback successivo (JSON locale in `public/data`).
-- **Verifica locale**: esegui `npm --prefix webapp run build && npm --prefix webapp run preview` (o lo
+- **Verifica locale**: esegui `npm --prefix apps/dashboard run build && npm --prefix apps/dashboard run preview` (o lo
   shortcut `npm run webapp:deploy`, che combina build + preview locale) per controllare la build
   ottimizzata e le rewrite gestite da `import.meta.env.BASE_URL` prima di caricare gli asset su hosting
   statico.
 
 ### Deploy produzione
 
-1. Esegui `npm run build --workspace webapp` per generare l'output statico in `webapp/dist`.
-2. Se necessario, popola `webapp/dist/.well-known/` o altre cartelle di servizio richieste dall'hosting.
+1. Esegui `npm run build --workspace apps/dashboard` per generare l'output statico in `apps/dashboard/dist`.
+2. Se necessario, popola `apps/dashboard/dist/.well-known/` o altre cartelle di servizio richieste dall'hosting.
 3. Carica i file su Pages/S3/Cloud Storage, mantenendo invariata la struttura di directory generata da Vite.
 4. (Opzionale) Usa `npm run stage:publishing` per validare l'upload verso ambienti di staging gestiti dallo script.
 

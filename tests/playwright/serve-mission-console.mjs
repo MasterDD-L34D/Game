@@ -37,7 +37,7 @@ const mimeTypes = new Map([
   ['.woff2', 'font/woff2'],
 ]);
 
-const apiProcess = spawn('node', ['server/index.js'], {
+const apiProcess = spawn('node', ['apps/backend/index.js'], {
   cwd: repoRoot,
   env: {
     ...process.env,

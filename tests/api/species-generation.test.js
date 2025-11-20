@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const request = require('supertest');
 
-const { createApp } = require('../../server/app');
+const { createApp } = require('../../apps/backend/app');
 
 test('POST /api/v1/generation/species restituisce blueprint validato', async () => {
   const { app } = createApp();
@@ -20,7 +20,10 @@ test('POST /api/v1/generation/species restituisce blueprint validato', async () 
   const { blueprint, validation, meta } = response.body;
   assert.ok(blueprint, 'la risposta deve contenere blueprint');
   assert.ok(blueprint.display_name.includes('Predatore'), 'il nome deve riflettere la base name');
-  assert.ok(Array.isArray(validation?.messages), 'devono essere presenti i messaggi di validazione');
+  assert.ok(
+    Array.isArray(validation?.messages),
+    'devono essere presenti i messaggi di validazione',
+  );
   assert.equal(validation.discarded.length, 0, 'nessuna specie deve essere scartata');
   assert.equal(meta.fallback_used, false, 'non deve essere necessario il fallback');
 });

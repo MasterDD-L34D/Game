@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const request = require('supertest');
 
-const { createApp } = require('../../server/app');
+const { createApp } = require('../../apps/backend/app');
 
 const speciesEntry = {
   id: 'spec-runtime-node',
@@ -36,7 +36,10 @@ test('POST /api/v1/quality/suggestions/apply esegue fix specie via runtime valid
   const { result, logs } = response.body;
   assert.ok(Array.isArray(result?.corrected), 'il risultato deve includere le correzioni');
   assert.ok(Array.isArray(logs), 'i log devono essere un array');
-  assert.ok(logs.every((log) => log.scope === 'species'), 'i log devono essere marcati come specie');
+  assert.ok(
+    logs.every((log) => log.scope === 'species'),
+    'i log devono essere marcati come specie',
+  );
 });
 
 test('POST /api/v1/quality/suggestions/apply rigenera batch tramite orchestrator', async () => {
@@ -67,5 +70,8 @@ test('POST /api/v1/quality/suggestions/apply rigenera batch tramite orchestrator
   assert.ok(Array.isArray(result?.results), 'la rigenerazione deve restituire risultati');
   assert.ok(result.results.length >= 1, 'almeno una specie deve essere rigenerata');
   assert.ok(Array.isArray(logs), 'i log devono essere un array');
-  assert.ok(logs.some((log) => log.level === 'success'), 'deve esserci un log di successo');
+  assert.ok(
+    logs.some((log) => log.level === 'success'),
+    'deve esserci un log di successo',
+  );
 });

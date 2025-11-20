@@ -4,7 +4,9 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const process = require('node:process');
 
-const { createGenerationOrchestratorBridge } = require('../server/services/orchestratorBridge');
+const {
+  createGenerationOrchestratorBridge,
+} = require('../apps/backend/services/orchestratorBridge');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(REPO_ROOT, 'reports');
@@ -35,7 +37,8 @@ function normaliseTraitEntry(entry) {
     optional: toNumber(entry?.coverage?.optional),
     synergy: toNumber(entry?.coverage?.synergy),
   };
-  coverage.total = toNumber(entry?.total_coverage) || coverage.core + coverage.optional + coverage.synergy;
+  coverage.total =
+    toNumber(entry?.total_coverage) || coverage.core + coverage.optional + coverage.synergy;
   return {
     id: entry?.id || '',
     label: entry?.label || entry?.id || '',
@@ -52,7 +55,8 @@ function normaliseTraitEntry(entry) {
 }
 
 function buildTraitBaselineReport(diagnostics) {
-  const generatedAt = diagnostics?.generated_at || diagnostics?.generatedAt || new Date().toISOString();
+  const generatedAt =
+    diagnostics?.generated_at || diagnostics?.generatedAt || new Date().toISOString();
   const traits = Array.isArray(diagnostics?.traits)
     ? diagnostics.traits.map(normaliseTraitEntry)
     : [];
@@ -70,7 +74,9 @@ function buildTraitBaselineReport(diagnostics) {
     summary: {
       total_traits: toNumber(summary.total_traits) || traits.length,
       glossary_ok: toNumber(summary.glossary_ok),
-      glossary_missing: toNumber(summary.glossary_missing) || Math.max(traits.length - toNumber(summary.glossary_ok), 0),
+      glossary_missing:
+        toNumber(summary.glossary_missing) ||
+        Math.max(traits.length - toNumber(summary.glossary_ok), 0),
       matrix_ok: toNumber(summary.matrix_ok),
       matrix_mismatch: toNumber(summary.matrix_mismatch),
       with_conflicts: toNumber(summary.with_conflicts),
@@ -91,7 +97,10 @@ function buildQaBadgesReport(baseline) {
   const traits = Array.isArray(baseline?.traits) ? baseline.traits : [];
   const summary = baseline?.summary || {};
   const topConflicts = traits
-    .map((trait) => ({ id: trait.id, conflicts: Array.isArray(trait.conflicts) ? trait.conflicts.length : 0 }))
+    .map((trait) => ({
+      id: trait.id,
+      conflicts: Array.isArray(trait.conflicts) ? trait.conflicts.length : 0,
+    }))
     .filter((entry) => entry.conflicts > 0)
     .sort((a, b) => b.conflicts - a.conflicts)
     .slice(0, 20);
@@ -167,7 +176,10 @@ function normaliseValidationCheck(entry, index) {
 function buildGeneratorValidationReport(diagnostics) {
   const payload = diagnostics?.generator_validation || diagnostics?.generatorValidation || {};
   const generatedAt =
-    payload?.generated_at || payload?.generatedAt || diagnostics?.generated_at || new Date().toISOString();
+    payload?.generated_at ||
+    payload?.generatedAt ||
+    diagnostics?.generated_at ||
+    new Date().toISOString();
   const summarySource = payload?.summary || {};
   const rawChecks = Array.isArray(payload?.checks)
     ? payload.checks
@@ -278,19 +290,35 @@ function buildQaChangelog({
 
   lines.push('', '## Metriche baseline');
   lines.push(
-    formatDelta('Tratti totali', previousSummary.total_traits || 0, currentSummary.total_traits || 0),
+    formatDelta(
+      'Tratti totali',
+      previousSummary.total_traits || 0,
+      currentSummary.total_traits || 0,
+    ),
   );
   lines.push(
     formatDelta('Glossario OK', previousSummary.glossary_ok || 0, currentSummary.glossary_ok || 0),
   );
   lines.push(
-    formatDelta('Glossario mancanti', previousSummary.glossary_missing || 0, currentSummary.glossary_missing || 0),
+    formatDelta(
+      'Glossario mancanti',
+      previousSummary.glossary_missing || 0,
+      currentSummary.glossary_missing || 0,
+    ),
   );
   lines.push(
-    formatDelta('Mismatch matrice', previousSummary.matrix_mismatch || 0, currentSummary.matrix_mismatch || 0),
+    formatDelta(
+      'Mismatch matrice',
+      previousSummary.matrix_mismatch || 0,
+      currentSummary.matrix_mismatch || 0,
+    ),
   );
   lines.push(
-    formatDelta('Tratti con conflitti', previousSummary.with_conflicts || 0, currentSummary.with_conflicts || 0),
+    formatDelta(
+      'Tratti con conflitti',
+      previousSummary.with_conflicts || 0,
+      currentSummary.with_conflicts || 0,
+    ),
   );
 
   const missingDiff = diffTraitSets(
@@ -351,7 +379,10 @@ function buildQaChangelog({
     }
     const topConflicts = limitList(highlights.top_conflicts, 10);
     if (topConflicts.length) {
-      lines.push('- Top conflitti:', ...topConflicts.map((entry) => `  - ${entry.id}: ${entry.conflicts}`));
+      lines.push(
+        '- Top conflitti:',
+        ...topConflicts.map((entry) => `  - ${entry.id}: ${entry.conflicts}`),
+      );
     }
   }
 
@@ -366,13 +397,23 @@ function buildQaChangelog({
       formatDelta('Check falliti', prevSummary.checks_failed || 0, genSummary.checks_failed || 0),
     );
     lines.push(
-      formatDelta('Tratti validati', prevSummary.validated_traits || 0, genSummary.validated_traits || 0),
+      formatDelta(
+        'Tratti validati',
+        prevSummary.validated_traits || 0,
+        genSummary.validated_traits || 0,
+      ),
     );
-    const failingChecks = (Array.isArray(generatorValidation.checks) ? generatorValidation.checks : [])
+    const failingChecks = (
+      Array.isArray(generatorValidation.checks) ? generatorValidation.checks : []
+    )
       .filter((entry) => !entry.passed)
       .map((entry) => `${entry.label} (${entry.status})`);
     if (failingChecks.length) {
-      lines.push('', '### Check da monitorare', ...limitList(failingChecks, 10).map((item) => `- ${item}`));
+      lines.push(
+        '',
+        '### Check da monitorare',
+        ...limitList(failingChecks, 10).map((item) => `- ${item}`),
+      );
     }
   }
 
@@ -380,9 +421,7 @@ function buildQaChangelog({
     const currentChecks = qaBadges?.checks?.traits || {};
     const previousChecks = previousQaBadges?.checks?.traits || {};
     lines.push('', '## Badge QA');
-    lines.push(
-      formatDelta('Tratti passed', previousChecks.passed || 0, currentChecks.passed || 0),
-    );
+    lines.push(formatDelta('Tratti passed', previousChecks.passed || 0, currentChecks.passed || 0));
     lines.push(
       formatDelta('Conflitti badge', previousChecks.conflicts || 0, currentChecks.conflicts || 0),
     );

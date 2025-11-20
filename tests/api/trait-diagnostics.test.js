@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const request = require('supertest');
-const { createApp } = require('../../server/app');
+const { createApp } = require('../../apps/backend/app');
 
 function createStubTraitDiagnostics(data) {
   const diagnostics = data;
@@ -51,9 +51,7 @@ test('GET /api/traits/diagnostics espone coverage e conflitti', async () => {
     traitDiagnosticsSync: stubDiagnostics,
   });
 
-  const response = await request(app)
-    .get('/api/traits/diagnostics')
-    .expect(200);
+  const response = await request(app).get('/api/traits/diagnostics').expect(200);
 
   assert.deepEqual(response.body.diagnostics.summary, payload.summary);
   assert.equal(response.body.diagnostics.traits.length, 1);

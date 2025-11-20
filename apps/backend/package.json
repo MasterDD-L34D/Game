@@ -1,0 +1,23 @@
+{
+  "name": "@game/backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@game/contracts": "file:../../packages/contracts",
+    "@prisma/client": "^6.2.1",
+    "ajv": "^8.17.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "js-yaml": "^4.1.0",
+    "mongodb": "^6.9.0",
+    "nedb-promises": "^6.2.3",
+    "prisma": "^6.2.1",
+    "prom-client": "^15.1.3"
+  }
+}

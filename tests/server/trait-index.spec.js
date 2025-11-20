@@ -5,8 +5,8 @@ const test = require('node:test');
 const express = require('express');
 const request = require('supertest');
 
-const { createTraitRouter } = require('../../server/routes/traits');
-const { TraitRepository } = require('../../server/services/traitRepository');
+const { createTraitRouter } = require('../../apps/backend/routes/traits');
+const { TraitRepository } = require('../../apps/backend/services/traitRepository');
 
 const DATA_ROOT = path.resolve(__dirname, '..', '..', 'data');
 

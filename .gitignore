@@ -1,6 +1,6 @@
 .venv/
 dist/
-webapp/dist/
+apps/dashboard/dist/
 dist.*
 docs/presentations/showcase/dist/
 logs/qa/

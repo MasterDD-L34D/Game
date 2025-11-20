@@ -3,7 +3,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const request = require('supertest');
-const { createApp } = require('../server/app');
+const { createApp } = require('../apps/backend/app');
 
 async function main() {
   const rootDir = path.resolve(__dirname, '..');

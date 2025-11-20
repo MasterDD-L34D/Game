@@ -2,7 +2,9 @@
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { createGenerationOrchestratorBridge } = require('../server/services/orchestratorBridge');
+const {
+  createGenerationOrchestratorBridge,
+} = require('../apps/backend/services/orchestratorBridge');
 
 const DEFAULT_TRAITS = ['artigli_sette_vie', 'coda_frusta_cinetica', 'scheletro_idro_regolante'];
 

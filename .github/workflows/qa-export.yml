@@ -76,7 +76,7 @@ jobs:
             let highlightSummary = null;
             try {
               const formatterModule = await import(
-                pathToFileURL(path.join(process.env.GITHUB_WORKSPACE, 'webapp/src/services/qaHighlightFormatter.js'))
+                pathToFileURL(path.join(process.env.GITHUB_WORKSPACE, 'apps/dashboard/src/services/qaHighlightFormatter.js'))
               );
               if (formatterModule?.buildQaHighlightsSummary) {
                 highlightSummary = formatterModule.buildQaHighlightsSummary(badgePayload, { limit: 6 });

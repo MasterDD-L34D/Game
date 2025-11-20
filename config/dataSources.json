@@ -2,7 +2,7 @@
   "flowSnapshot": {
     "local": "flow-shell/atlas-snapshot.json",
     "shared": "s3://game-shared-flow-shell/snapshots/atlas-snapshot.json",
-    "fallback": "webapp/public/data/flow/snapshots/flow-shell-snapshot.json",
+    "fallback": "apps/dashboard/public/data/flow/snapshots/flow-shell-snapshot.json",
     "description": "Snapshot atlas iniziale per il servizio generation."
   }
 }
