@@ -4,7 +4,9 @@ const path = require('node:path');
 const { tmpdir } = require('node:os');
 const test = require('node:test');
 
-const { createGenerationSnapshotStore } = require('../../server/services/generationSnapshotStore');
+const {
+  createGenerationSnapshotStore,
+} = require('../../apps/backend/services/generationSnapshotStore');
 const { createMockFs } = require('../helpers/mockFs');
 
 function createTempDir(prefix) {

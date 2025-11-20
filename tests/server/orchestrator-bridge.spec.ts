@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { before, after, describe, it } from 'node:test';
 
-import { createGenerationOrchestratorBridge } from '../../server/services/orchestratorBridge';
+import { createGenerationOrchestratorBridge } from '../../apps/backend/services/orchestratorBridge';
 
 describe('generation orchestrator bridge worker pool', () => {
   const traitIds = ['artigli_sette_vie', 'coda_frusta_cinetica', 'scheletro_idro_regolante'];

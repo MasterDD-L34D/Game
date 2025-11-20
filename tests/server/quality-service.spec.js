@@ -1,7 +1,10 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const { applyQualitySuggestion, QualityServiceError } = require('../../server/services/quality');
+const {
+  applyQualitySuggestion,
+  QualityServiceError,
+} = require('../../apps/backend/services/quality');
 
 test('applyQualitySuggestion esegue fix specie e produce log di validazione', async () => {
   const calls = [];
@@ -10,10 +13,7 @@ test('applyQualitySuggestion esegue fix specie e produce log di validazione', as
       calls.push({ method: 'species', entries, context });
       return {
         corrected: entries,
-        messages: [
-          'Specie corretta',
-          { level: 'warning', message: 'Valore anomalo' },
-        ],
+        messages: ['Specie corretta', { level: 'warning', message: 'Valore anomalo' }],
         discarded: [{}],
       };
     },
@@ -56,12 +56,8 @@ test('applyQualitySuggestion rigenera specie con orchestrator', async () => {
   const generationOrchestrator = {
     async generateSpeciesBatch({ batch }) {
       return {
-        results: [
-          { meta: { request_id: 'req-1' }, validation: { messages: ['ok'] } },
-        ],
-        errors: [
-          { request_id: 'req-2', error: 'fallimento' },
-        ],
+        results: [{ meta: { request_id: 'req-1' }, validation: { messages: ['ok'] } }],
+        errors: [{ request_id: 'req-2', error: 'fallimento' }],
       };
     },
   };

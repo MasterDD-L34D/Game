@@ -13,21 +13,38 @@ const {
 const { atlasDataset } = require('../../data/nebula/atlasDataset.js');
 const {
   createNebulaTelemetryAggregator,
-} = require('../../server/services/nebulaTelemetryAggregator');
+} = require('../../apps/backend/services/nebulaTelemetryAggregator');
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const SNAPSHOT_SOURCE = path.resolve(ROOT, 'data', 'flow-shell', 'atlas-snapshot.json');
 const SNAPSHOT_TARGET = path.resolve(
   ROOT,
-  'webapp',
+  'apps',
+  'dashboard',
   'public',
   'data',
   'flow',
   'snapshots',
   'flow-shell-snapshot.json',
 );
-const ATLAS_TARGET = path.resolve(ROOT, 'webapp', 'public', 'data', 'nebula', 'atlas.json');
-const TELEMETRY_TARGET = path.resolve(ROOT, 'webapp', 'public', 'data', 'nebula', 'telemetry.json');
+const ATLAS_TARGET = path.resolve(
+  ROOT,
+  'apps',
+  'dashboard',
+  'public',
+  'data',
+  'nebula',
+  'atlas.json',
+);
+const TELEMETRY_TARGET = path.resolve(
+  ROOT,
+  'apps',
+  'dashboard',
+  'public',
+  'data',
+  'nebula',
+  'telemetry.json',
+);
 const DEFAULT_TELEMETRY_SOURCE = path.resolve(
   ROOT,
   'data',

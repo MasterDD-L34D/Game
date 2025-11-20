@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const { validateRuntime, ValidatorServiceError } = require('../../server/services/validator');
+const { validateRuntime, ValidatorServiceError } = require('../../apps/backend/services/validator');
 
 test('validateRuntime delega a validateSpeciesBatch', async () => {
   const calls = [];

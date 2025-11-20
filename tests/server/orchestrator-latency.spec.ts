@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { before, after, describe, it } from 'node:test';
 
-import { createGenerationOrchestratorBridge } from '../../server/services/orchestratorBridge';
+import { createGenerationOrchestratorBridge } from '../../apps/backend/services/orchestratorBridge';
 
 function median(values: number[]): number {
   if (!values.length) {

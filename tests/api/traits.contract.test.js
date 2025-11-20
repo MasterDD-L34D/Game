@@ -3,9 +3,14 @@ const assert = require('node:assert/strict');
 const request = require('supertest');
 const express = require('express');
 
-const { createTraitRouter } = require('../../server/routes/traits');
-const { signJwt } = require('../../server/utils/jwt');
-const { TRAIT_ID, buildTraitPayload, buildIndexDocument, buildTraitResponse } = require('./fixtures/traitContractSamples');
+const { createTraitRouter } = require('../../apps/backend/routes/traits');
+const { signJwt } = require('../../apps/backend/utils/jwt');
+const {
+  TRAIT_ID,
+  buildTraitPayload,
+  buildIndexDocument,
+  buildTraitResponse,
+} = require('./fixtures/traitContractSamples');
 
 const AUTH_SECRET = 'test-secret';
 
@@ -55,10 +60,7 @@ test('GET /api/traits/index rejects viewer role', async () => {
   const app = createTraitApp(repository);
   const token = createToken(['viewer']);
 
-  await request(app)
-    .get('/api/traits/index')
-    .set('Authorization', `Bearer ${token}`)
-    .expect(403);
+  await request(app).get('/api/traits/index').set('Authorization', `Bearer ${token}`).expect(403);
 });
 
 test('GET /api/traits/:id returns normalized payload and exposes ETag header', async () => {

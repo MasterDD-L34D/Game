@@ -1,7 +1,10 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const { createSchemaValidator, SchemaValidationError } = require('../../server/middleware/schemaValidator');
+const {
+  createSchemaValidator,
+  SchemaValidationError,
+} = require('../../apps/backend/middleware/schemaValidator');
 const qualitySuggestionSchema = require('../../schemas/quality/suggestion.schema.json');
 const qualityApplySchema = require('../../schemas/quality/suggestions-apply-request.schema.json');
 
@@ -22,7 +25,9 @@ test('schema validator accetta payload valido per quality suggestion apply', () 
     },
   };
 
-  assert.doesNotThrow(() => schemaValidator.validate('quality://suggestions/apply/request', payload));
+  assert.doesNotThrow(() =>
+    schemaValidator.validate('quality://suggestions/apply/request', payload),
+  );
 });
 
 test('schema validator rifiuta payload senza id suggerimento', () => {

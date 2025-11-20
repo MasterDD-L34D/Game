@@ -3,14 +3,15 @@ import { execSync, spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 
 const STACK_PATTERNS = [
-  /^server\/(.+\.(?:c|m)?js)$/,
+  /^apps\/backend\/(.+\.(?:c|m)?js)$/,
   /^services\/(.+\.(?:c|m)?js)$/,
   /^tests\/(.+\.(?:c|m)?js)$/,
-  /^webapp\/(.+\.(?:c|m)?js|.+\.(?:ts|tsx|vue))$/,
-  /^Trait Editor\/(.+\.(?:c|m)?js|.+\.(?:ts|tsx|vue))$/
+  /^apps\/dashboard\/(.+\.(?:c|m)?js|.+\.(?:ts|tsx|vue))$/,
+  /^Trait Editor\/(.+\.(?:c|m)?js|.+\.(?:ts|tsx|vue))$/,
 ];
 
-const run = (command, options = {}) => execSync(command, { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'pipe'], ...options });
+const run = (command, options = {}) =>
+  execSync(command, { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'pipe'], ...options });
 
 const hasRef = (ref) => {
   try {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildMissionShader, createDynamicShader } from '../../webapp/src/vfx/index.js';
+import { buildMissionShader, createDynamicShader } from '../../apps/dashboard/src/vfx/index.js';
 
 const missionVfxMock = {
   shader_id: 'eclipse_dynamics',

@@ -4,7 +4,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const { evaluateTraitStyle, SEVERITY_ORDER } = require('../server/services/traitStyleGuide');
+const { evaluateTraitStyle, SEVERITY_ORDER } = require('../apps/backend/services/traitStyleGuide');
 
 const DEFAULT_DATA_ROOT = path.resolve(__dirname, '..', 'data', 'traits');
 
@@ -57,7 +57,10 @@ async function main(argv) {
   }
 
   const failThreshold = SEVERITY_ORDER[options.failOn] ?? SEVERITY_ORDER.error;
-  const maxSeverity = issues.reduce((acc, issue) => Math.max(acc, SEVERITY_ORDER[issue.severity] ?? 0), 0);
+  const maxSeverity = issues.reduce(
+    (acc, issue) => Math.max(acc, SEVERITY_ORDER[issue.severity] ?? 0),
+    0,
+  );
   if (maxSeverity >= failThreshold && issues.length > 0) {
     return 1;
   }
@@ -110,10 +113,14 @@ function printUsage() {
   process.stdout.write(`Trait style guide check\n\n`);
   process.stdout.write(`Usage: node scripts/trait_style_check.js [options]\n\n`);
   process.stdout.write(`Options:\n`);
-  process.stdout.write(`  --traits-root <path>       Directory radice dei file trait (default data/traits)\n`);
+  process.stdout.write(
+    `  --traits-root <path>       Directory radice dei file trait (default data/traits)\n`,
+  );
   process.stdout.write(`  --output-json <path>       Percorso di output per il report JSON\n`);
   process.stdout.write(`  --output-markdown <path>   Percorso di output per il report Markdown\n`);
-  process.stdout.write(`  --fail-on <severity>       Soglia di errore (info|warning|error), default error\n`);
+  process.stdout.write(
+    `  --fail-on <severity>       Soglia di errore (info|warning|error), default error\n`,
+  );
   process.stdout.write(`  --quiet                    Non stampare il riepilogo a console\n`);
   process.stdout.write(`  -h, --help                 Mostra questo messaggio\n`);
 }

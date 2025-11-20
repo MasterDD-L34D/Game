@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 const request = require('supertest');
-const { createApp } = require('../../server/app');
+const { createApp } = require('../../apps/backend/app');
 
 const REQUIRED_ROLES = ['apex', 'keystone', 'threat'];
 
@@ -36,18 +36,37 @@ test('POST /api/v1/generation/biomes produce biomi sintetici coerenti con i vinc
 
   biomes.forEach((biome, index) => {
     assert.equal(biome.synthetic, true, `biome ${index} deve essere marcato come sintetico`);
-    assert.ok(Array.isArray(biome.traits?.ids), 'il bioma deve includere l\'elenco dei tratti selezionati');
-    assert.ok((biome.traits.ids ?? []).length >= 3, 'il bioma deve avere almeno tre tratti ambientali');
+    assert.ok(
+      Array.isArray(biome.traits?.ids),
+      "il bioma deve includere l'elenco dei tratti selezionati",
+    );
+    assert.ok(
+      (biome.traits.ids ?? []).length >= 3,
+      'il bioma deve avere almeno tre tratti ambientali',
+    );
     assert.ok(Array.isArray(biome.species), 'il bioma deve includere specie di supporto');
-    assert.ok(biome.species.length >= REQUIRED_ROLES.length, 'devono essere presenti abbastanza specie per coprire i ruoli');
-    assert.ok(biome.hazard?.severity, 'il bioma deve riportare la severità dell\'hazard');
+    assert.ok(
+      biome.species.length >= REQUIRED_ROLES.length,
+      'devono essere presenti abbastanza specie per coprire i ruoli',
+    );
+    assert.ok(biome.hazard?.severity, "il bioma deve riportare la severità dell'hazard");
     assert.equal(biome.hazard.severity, 'high');
-    assert.ok(Number.isFinite(biome.metrics?.zoneCount), 'il bioma deve riportare la dimensione stimata');
-    assert.ok(biome.metrics.zoneCount >= 4, 'la dimensione minima deve rispettare il vincolo richiesto');
+    assert.ok(
+      Number.isFinite(biome.metrics?.zoneCount),
+      'il bioma deve riportare la dimensione stimata',
+    );
+    assert.ok(
+      biome.metrics.zoneCount >= 4,
+      'la dimensione minima deve rispettare il vincolo richiesto',
+    );
 
     const roleCoverage = new Set();
     biome.species.forEach((species) => {
-      assert.equal(species.synthetic, true, 'le specie generate devono essere marcate come sintetiche');
+      assert.equal(
+        species.synthetic,
+        true,
+        'le specie generate devono essere marcate come sintetiche',
+      );
       assert.ok(species.display_name, 'ogni specie deve avere un nome visuale');
       REQUIRED_ROLES.forEach((role) => {
         if (hasRole(species, role)) {

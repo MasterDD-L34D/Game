@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import request from 'supertest';
 
-import appModule from '../../server/app.js';
+import appModule from '../../apps/backend/app.js';
 
 const { createApp } = appModule;
 const __filename = fileURLToPath(import.meta.url);

@@ -6,10 +6,10 @@ const express = require('express');
 const test = require('node:test');
 const request = require('supertest');
 
-const { createNebulaRouter } = require('../../server/routes/nebula');
+const { createNebulaRouter } = require('../../apps/backend/routes/nebula');
 const {
   createNebulaTelemetryAggregator,
-} = require('../../server/services/nebulaTelemetryAggregator');
+} = require('../../apps/backend/services/nebulaTelemetryAggregator');
 
 function createTempDir(prefix) {
   return mkdtemp(path.join(tmpdir(), prefix));

@@ -4,8 +4,8 @@ const path = require('node:path');
 const fs = require('node:fs/promises');
 const request = require('supertest');
 
-const { createApp } = require('../../server/app');
-const { signJwt } = require('../../server/utils/jwt');
+const { createApp } = require('../../apps/backend/app');
+const { signJwt } = require('../../apps/backend/utils/jwt');
 
 const SAMPLE_TRAIT = path.resolve(
   __dirname,

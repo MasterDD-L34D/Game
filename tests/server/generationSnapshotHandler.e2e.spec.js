@@ -3,8 +3,10 @@ const express = require('express');
 const test = require('node:test');
 const request = require('supertest');
 
-const { createGenerationSnapshotHandler } = require('../../server/routes/generationSnapshot');
-const { createGenerationSnapshotStore } = require('../../server/services/generationSnapshotStore');
+const { createGenerationSnapshotHandler } = require('../../apps/backend/routes/generationSnapshot');
+const {
+  createGenerationSnapshotStore,
+} = require('../../apps/backend/services/generationSnapshotStore');
 const { createMockFs } = require('../helpers/mockFs');
 
 test('generationSnapshotHandler gestisce richieste concorrenti con patch coerenti', async () => {
@@ -45,7 +47,8 @@ test('generationSnapshotHandler gestisce richieste concorrenti con patch coerent
       const callIndex = orchestratorCalls;
       orchestratorCalls += 1;
       const delay = responseDelays[callIndex] ?? 0;
-      const payload = orchestratorResponses[callIndex] || orchestratorResponses[orchestratorResponses.length - 1];
+      const payload =
+        orchestratorResponses[callIndex] || orchestratorResponses[orchestratorResponses.length - 1];
       await new Promise((resolve) => setTimeout(resolve, delay));
       return payload;
     },
@@ -74,11 +77,7 @@ test('generationSnapshotHandler gestisce richieste concorrenti con patch coerent
   app.get('/api/v1/generation/snapshot', handler);
 
   const curatedValues = [3, 5, 7];
-  const shortlistValues = [
-    ['alpha', 'beta'],
-    ['gamma', 'delta'],
-    ['epsilon'],
-  ];
+  const shortlistValues = [['alpha', 'beta'], ['gamma', 'delta'], ['epsilon']];
 
   const concurrentRequests = curatedValues.map((curated, index) =>
     request(app)
@@ -106,7 +105,10 @@ test('generationSnapshotHandler gestisce richieste concorrenti con patch coerent
   assert.deepEqual(finalSnapshot.species.shortlist, shortlistValues[shortlistValues.length - 1]);
   assert.equal(finalSnapshot.runtime.lastBlueprintId, orchestratorResponses[2].blueprint.id);
   assert.equal(finalSnapshot.runtime.lastRequestId, orchestratorResponses[2].meta.request_id);
-  assert.equal(finalSnapshot.runtime.validationMessages, orchestratorResponses[2].validation.messages.length);
+  assert.equal(
+    finalSnapshot.runtime.validationMessages,
+    orchestratorResponses[2].validation.messages.length,
+  );
 
   assert.ok(fsMock.__files.has(datasetPath));
   assert.ok(!fsMock.__files.has(`${datasetPath}.lock`));

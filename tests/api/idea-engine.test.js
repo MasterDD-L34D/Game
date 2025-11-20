@@ -4,7 +4,7 @@ const os = require('node:os');
 const path = require('node:path');
 const fs = require('node:fs');
 const request = require('supertest');
-const { createApp } = require('../../server/app');
+const { createApp } = require('../../apps/backend/app');
 
 function createTempDbPath() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'idea-engine-'));
@@ -36,12 +36,9 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
     note: 'Richiede confronto con bilanciamento VTT',
   };
 
-  const response = await request(app)
-    .post('/api/ideas')
-    .send(payload)
-    .expect(201);
+  const response = await request(app).post('/api/ideas').send(payload).expect(201);
 
-  assert.ok(response.body.idea.id, 'l\'idea deve avere un id');
+  assert.ok(response.body.idea.id, "l'idea deve avere un id");
   assert.equal(response.body.idea.category, 'Biomi');
   assert.deepEqual(response.body.idea.biomes, ['dorsale_termale_tropicale']);
   assert.deepEqual(response.body.idea.ecosystems, ['meta_ecosistema_alpha']);
@@ -52,7 +49,7 @@ test('POST /api/ideas salva nel database e genera il report Codex', async (t) =>
   assert.equal(response.body.idea.feedback.length, 0);
 
   const stored = await repo.getById(response.body.idea.id);
-  assert.ok(stored, 'l\'idea deve essere salvata nel database');
+  assert.ok(stored, "l'idea deve essere salvata nel database");
   assert.equal(stored.summary, payload.summary);
   assert.equal(stored.priority, 'P1');
   assert.deepEqual(stored.biomes, payload.biomes);
@@ -75,7 +72,7 @@ test('POST /api/ideas/:id/feedback registra il commento e aggiorna il report', a
     .send({
       title: 'Supporto widget feedback',
       summary: 'Test modulo feedback',
-      category: 'Biomi'
+      category: 'Biomi',
     })
     .expect(201);
 
@@ -84,7 +81,7 @@ test('POST /api/ideas/:id/feedback registra il commento e aggiorna il report', a
 
   const feedbackPayload = {
     message: 'Interfaccia chiara, aggiungere autocomplete categorie',
-    contact: '@tester'
+    contact: '@tester',
   };
 
   const feedbackRes = await request(app)
@@ -100,9 +97,7 @@ test('POST /api/ideas/:id/feedback registra il commento e aggiorna il report', a
   const stored = await repo.getById(ideaId);
   assert.equal(stored.feedback.length, 1);
 
-  const reportRes = await request(app)
-    .get(`/api/ideas/${ideaId}/report`)
-    .expect(200);
+  const reportRes = await request(app).get(`/api/ideas/${ideaId}/report`).expect(200);
 
   assert.ok(reportRes.body.report.includes('## Intake Feedback'));
   assert.ok(reportRes.body.report.includes('Interfaccia chiara'));
@@ -125,9 +120,7 @@ test('GET /api/ideas/:id/report restituisce il report salvato', async (t) => {
     actions_next: '- [ ] Scrivere dialoghi\n- [ ] Bilanciare fase 2',
   });
 
-  const response = await request(app)
-    .get(`/api/ideas/${idea.id}/report`)
-    .expect(200);
+  const response = await request(app).get(`/api/ideas/${idea.id}/report`).expect(200);
 
   assert.equal(response.body.idea.id, idea.id);
   assert.ok(response.body.report.includes('Boss per capitolo finale'));
@@ -142,10 +135,7 @@ test('POST /api/ideas valida i campi obbligatori', async (t) => {
     // no-op
   });
 
-  const res = await request(app)
-    .post('/api/ideas')
-    .send({ category: 'Repo' })
-    .expect(400);
+  const res = await request(app).post('/api/ideas').send({ category: 'Repo' }).expect(400);
 
   assert.equal(res.body.error, 'Titolo richiesto');
 });
@@ -163,7 +153,7 @@ test('POST /api/ideas rifiuta categorie non in tassonomia', async (t) => {
     .send({
       title: 'Idea senza categoria valida',
       summary: 'Test categoria',
-      category: 'Non Esiste'
+      category: 'Non Esiste',
     })
     .expect(400);
 
@@ -185,7 +175,7 @@ test('POST /api/ideas rifiuta slug non catalogati senza override', async (t) => 
       summary: 'Test controllo slug',
       category: 'Biomi',
       biomes: ['bioma_sconosciuto'],
-      traits: ['mutazione_custom']
+      traits: ['mutazione_custom'],
     })
     .expect(400);
 
@@ -206,13 +196,10 @@ test('POST /api/ideas accetta slug non catalogati con override', async (t) => {
     summary: 'Verifica flag override',
     category: 'Biomi',
     biomes: ['nuovo_bioma'],
-    allowSlugOverride: true
+    allowSlugOverride: true,
   };
 
-  const res = await request(app)
-    .post('/api/ideas')
-    .send(payload)
-    .expect(201);
+  const res = await request(app).post('/api/ideas').send(payload).expect(201);
 
   assert.deepEqual(res.body.idea.biomes, ['nuovo_bioma']);
 });

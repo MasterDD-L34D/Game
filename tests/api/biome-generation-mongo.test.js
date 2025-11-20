@@ -6,9 +6,9 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const { MongoClient } = require('mongodb');
 const request = require('supertest');
 
-const { createApp } = require('../../server/app');
-const { closeMongo } = require('../../server/db/mongo');
-const { createCatalogService } = require('../../server/services/catalog');
+const { createApp } = require('../../apps/backend/app');
+const { closeMongo } = require('../../apps/backend/db/mongo');
+const { createCatalogService } = require('../../apps/backend/services/catalog');
 
 function createTraitDocument(id, label, extras = {}) {
   return {

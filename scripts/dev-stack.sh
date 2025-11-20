@@ -34,7 +34,7 @@ trap on_signal INT TERM
 npm run start:api &
 API_PID=$!
 
-npm run dev --workspace webapp &
+npm run dev --workspace apps/dashboard &
 WEB_PID=$!
 
 wait -n "$API_PID" "$WEB_PID"
