@@ -78,10 +78,16 @@ function injectPoolMetadata(payload) {
     return { pools: [] };
   }
 
-  const hasSchemaVersion = Object.prototype.hasOwnProperty.call(payload, 'schema_version');
-  const hasUpdatedAt = Object.prototype.hasOwnProperty.call(payload, 'updated_at');
-  const schemaVersion = hasSchemaVersion ? payload.schema_version : null;
-  const updatedAt = hasUpdatedAt ? payload.updated_at : null;
+  const manifestMetadata =
+    payload.metadata && typeof payload.metadata === 'object' ? payload.metadata : {};
+  const schemaVersion =
+    manifestMetadata.schema_version ??
+    (Object.prototype.hasOwnProperty.call(payload, 'schema_version')
+      ? payload.schema_version
+      : null);
+  const updatedAt =
+    manifestMetadata.updated_at ??
+    (Object.prototype.hasOwnProperty.call(payload, 'updated_at') ? payload.updated_at : null);
 
   const pools = Array.isArray(payload.pools) ? payload.pools : [];
   const poolsWithMetadata = pools.map((pool) => {
@@ -89,10 +95,10 @@ function injectPoolMetadata(payload) {
       return pool;
     }
     const metadata = { ...(pool.metadata || {}) };
-    if (hasSchemaVersion) {
+    if (schemaVersion && !metadata.schema_version) {
       metadata.schema_version = schemaVersion;
     }
-    if (hasUpdatedAt) {
+    if (updatedAt && !metadata.updated_at) {
       metadata.updated_at = updatedAt;
     }
     return {
