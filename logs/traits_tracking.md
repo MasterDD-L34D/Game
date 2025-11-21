@@ -6,8 +6,8 @@
   privi di percorsi `../../data/...`; i link risolvono a `packs/evo_tactics_pack/data/...` come da sorgente canonica.
 - Aggiornato il fallback locale dei pool bioma includendo `metadata.schema_version` e `updated_at` in modo coerente con le
   tabelle canoniche (`packs/evo_tactics_pack/data/biome_pools/*.yaml`) per gli scenari offline.
-- Aggiunti test di regressione su percorsi mirror e metadati pool bioma in `tests/scripts/test_sync_mirrors.py` e
-  `tests/biomes/test_biome_pool_metadata.py`; entrambi eseguibili via `pytest` nella suite standard.
+- Aggiunti test di regressione su percorsi mirror e metadati pool bioma in `tests/scripts/sync_evo_pack_assets.test.js` e
+  `tests/services/biomeSynthesizerMetadata.test.js`; entrambi eseguibili via `node --test` nella suite standard.
 - Esito QA: nessun warning residuo nei mirror; i pool fallback passano le validazioni CLI (`validate-ecosystem-pack`) con
   metadati obbligatori presenti.
 

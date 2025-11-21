@@ -301,8 +301,8 @@ node dist/roll_pack.js ENTP invoker --seed demo
 ### Situazione attuale
 
 - ✅ **Trace hash**: tutte le specie ed ecosistemi in `packs/evo_tactics_pack/` e `data/ecosystems/` hanno `receipt.trace_hash` calcolati tramite [`tools/py/update_trace_hashes.py`](tools/py/update_trace_hashes.py) e verificati dalla suite `tests/scripts/test_trace_hashes.py`.
-- ⚠️ **Mirror documentazione**: gli asset JSON replicati in `docs/evo-tactics-pack/` e `public/docs/evo-tactics-pack/` espongono ancora percorsi `../../data/...` non risolvibili fuori dal pack; è necessario riallinearli a `../../packs/evo_tactics_pack/data/...` tramite `scripts/sync_evo_pack_assets.js`.
-- ⚠️ **Fallback locale biomi**: in modalità senza MongoDB il loader `services/generation/biomeSynthesizer.js` non propaga i metadati `metadata.schema_version`/`updated_at` ai pool caricati da `data/core/traits/biome_pools.json`, causando discrepanze rispetto ai seed ufficiali.
+- ✅ **Mirror documentazione**: gli asset JSON replicati in `docs/evo-tactics-pack/` e `public/docs/evo-tactics-pack/` riscrivono ora i percorsi verso `../../packs/evo_tactics_pack/data/...` tramite `scripts/sync_evo_pack_assets.js`.
+- ✅ **Fallback locale biomi**: il loader `services/generation/biomeSynthesizer.js` propaga i metadati `metadata.schema_version`/`updated_at` ai pool caricati da `data/core/traits/biome_pools.json`, allineandoli ai seed ufficiali.
 
 ### Test da eseguire prima del rilascio database
 
@@ -320,7 +320,10 @@ node dist/roll_pack.js ENTP invoker --seed demo
    pytest tests/scripts/test_trace_hashes.py
    ```
    Verifica che nessun manifesto mantenga `trace_hash = "to-fill"` o percorsi mancanti.
-4. _(Da introdurre)_ Test automatico per assicurare che i mirror `docs/` e `public/` non contengano più riferimenti `../../data/` una volta aggiornato `scripts/sync_evo_pack_assets.js`.
+4. ```bash
+   node --test tests/scripts/sync_evo_pack_assets.test.js tests/services/biomeSynthesizerMetadata.test.js
+   ```
+   Verifica i mirror `docs/`/`public/` e l'iniezione di metadati nei pool bioma in modalità fallback.
 
 ### Tracker progressi database
 
@@ -328,7 +331,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 - [x] Normalizzazione dei percorsi nei mirror documentali (`scripts/sync_evo_pack_assets.js`).
 - [x] Iniezione metadati `metadata.schema_version`/`updated_at` nel fallback locale dei biome pool.
 - [x] Aggiunta test regressione sui percorsi mirror e sui metadati dei pool bioma.
-- [ ] Aggiornamento finale della documentazione database post-validazione.
+- [x] Aggiornamento finale della documentazione database post-validazione.
 
 > Aggiorna questa sezione al termine di ogni sprint database: annota data, commit di riferimento e risultati dei test in `logs/traits_tracking.md` e collega eventuali ticket Jira/Linear nel tracker interno.
 
@@ -354,13 +357,13 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ### Barra di completamento
 
-<progress value="0.8" max="1"></progress> **80 %** completato — aggiornare dopo il prossimo ciclo di validazione.
+<progress value="1" max="1"></progress> **100 %** completato — validato con i test di regressione su mirror e pool bioma.
 
 ## Report discrepanze & guida operativa
 
 - **CLI Python vs. documentazione storica**: alcuni tutorial precedenti citano ancora il comando `validate-ecosystem`; l'entrypoint supportato è `python tools/py/game_cli.py validate-ecosystem-pack` (gli alias legacy vengono normalizzati dal parser). Riferimenti aggiornati e lista completa dei sottocomandi sono disponibili nella [FAQ Support/QA](docs/faq.md#comandi-disponibili-della-cli-python) e nel [tutorial rapido CLI](docs/tutorials/cli-quickstart.md).【F:docs/faq.md†L21-L43】【F:docs/tutorials/cli-quickstart.md†L1-L73】
 - **Percorsi log degli smoke test**: per evitare discrepanze tra ticket e asset, usa i file generati automaticamente da `scripts/cli_smoke.sh` (`logs/cli/smoke-YYYYMMDDTHHMMSSZ.log` e `logs/cli/latest-smoke.log`). Con `--label <nome>` ottieni lo slug `logs/cli/<slug>-YYYYMMDDTHHMMSSZ.log` più gli snapshot `logs/cli/<slug>.log` e `logs/cli/latest-<slug>.log`; `--log-subdir qa/2025-11-18` salva tutto in `logs/cli/qa/2025-11-18/`. Mantieni questi percorsi nei template bug e nei bucket Drive di Support/QA.【F:scripts/cli_smoke.sh†L300-L421】【F:docs/faq.md†L9-L36】【F:docs/adr/ADR-2025-11-18-cli-rollout.md†L9-L21】【F:docs/support/bug-template.md†L6-L12】
-- **Mirror documentazione & fallback biomi**: i mirror statici in `docs/evo-tactics-pack/` e `public/docs/evo-tactics-pack/` espongono ancora percorsi relativi non risolvibili (`../../data/...`) finché non viene eseguito `scripts/sync_evo_pack_assets.js`; i pool bioma caricati offline non includono i metadati `metadata.schema_version`/`updated_at`. Fino alla correzione, usa i dataset canonici (`packs/evo_tactics_pack/data/…`) per i report e annota le eccezioni nei log operativi. Dettagli nel [tracker database](#tracker-progressi-database) e nell'[ADR refactor CLI](docs/adr/ADR-2025-11-refactor-cli.md).【F:README.md†L277-L285】【F:docs/adr/ADR-2025-11-refactor-cli.md†L9-L25】
+- **Mirror documentazione & fallback biomi**: i mirror statici in `docs/evo-tactics-pack/` e `public/docs/evo-tactics-pack/` sono riallineati ai percorsi `../../packs/evo_tactics_pack/data/...` e i pool bioma offline propagano `metadata.schema_version`/`updated_at`; i test di regressione coprono entrambi i casi. Dettagli nel [tracker database](#tracker-progressi-database) e nell'[ADR refactor CLI](docs/adr/ADR-2025-11-refactor-cli.md).【F:README.md†L277-L285】【F:docs/adr/ADR-2025-11-refactor-cli.md†L9-L25】
 
 > Quando riscontri nuove discrepanze, apri un ticket nel canale operativo indicato e collega questa sezione insieme agli approfondimenti (FAQ, tutorial o ADR) pertinenti.
 
