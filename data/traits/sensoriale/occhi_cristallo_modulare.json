@@ -1,0 +1,14 @@
+{
+  "id": "occhi_cristallo_modulare",
+  "label": "Occhi di Cristallo Modulare",
+  "famiglia_tipologia": "Sensoriale/Visivo",
+  "fattore_mantenimento_energetico": "Moderato (Attivo)",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [],
+  "conflitti": [],
+  "data_origin": "pathfinder_dataset",
+  "mutazione_indotta": "L'organo visivo si fraziona in lenti di cristallo sostituibili che modulano spettro e messa a fuoco in tempo reale.",
+  "uso_funzione": "Amplifica la raccolta dati a lunga distanza e consente di passare rapidamente da zoom tattici a panoramiche ambientali senza perdita di dettaglio.",
+  "spinta_selettiva": "Garantire riconoscimento rapido di minacce e risorse in scenari multibioma mantenendo resilienza a bagliori o accecamenti mirati."
+}

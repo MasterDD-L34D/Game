@@ -9901,6 +9901,27 @@
       ],
       "uso_funzione": "Vista specializzata che percepisce il calore corporeo."
     },
+    "occhi_cristallo_modulare": {
+      "completion_flags": {
+        "has_biome": false,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "conflitti": [],
+      "data_origin": "pathfinder_dataset",
+      "famiglia_tipologia": "Sensoriale/Visivo",
+      "fattore_mantenimento_energetico": "Moderato (Attivo)",
+      "id": "occhi_cristallo_modulare",
+      "label": "Occhi di Cristallo Modulare",
+      "mutazione_indotta": "L'organo visivo si fraziona in lenti di cristallo sostituibili che modulano spettro e messa a fuoco in tempo reale.",
+      "sinergie": [],
+      "slot": [],
+      "spinta_selettiva": "Garantire riconoscimento rapido di minacce e risorse in scenari multibioma mantenendo resilienza a bagliori o accecamenti mirati.",
+      "tier": "T2",
+      "usage_tags": [],
+      "uso_funzione": "Amplifica la raccolta dati a lunga distanza e consente di passare rapidamente da zoom tattici a panoramiche ambientali senza perdita di dettaglio."
+    },
     "olfatto_risonanza_magnetica": {
       "completion_flags": {
         "has_biome": true,

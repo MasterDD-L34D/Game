@@ -117,6 +117,7 @@ lamine_scudo_silice,i18n:traits.lamine_scudo_silice.label,Sensoriale/Analitico,A
 lingua_tattile_trama,i18n:traits.lingua_tattile_trama.label,Sensoriale/Alimentare,Alimentare,data/traits/sensoriale/lingua_tattile_trama.json,,controllo_psionico,caverna_risonante,scout;sustain,true,false
 midollo_antivibrazione,i18n:traits.midollo_antivibrazione.label,Sensoriale/Analitico,Analitico,data/traits/sensoriale/midollo_antivibrazione.json,,coverage_q4_2025,caverna_risonante,scout;support,true,false
 occhi_infrarosso_composti,i18n:traits.occhi_infrarosso_composti.label,Sensoriale/Visivo,Visivo,data/traits/sensoriale/occhi_infrarosso_composti.json,,controllo_psionico,caverna_risonante,scout,true,false
+occhi_cristallo_modulare,Occhi di Cristallo Modulare,Sensoriale/Visivo,Visivo,data/traits/sensoriale/occhi_cristallo_modulare.json,,pathfinder_dataset,,,false,false
 olfatto_risonanza_magnetica,i18n:traits.olfatto_risonanza_magnetica.label,Sensoriale/Nervoso,Nervoso,data/traits/sensoriale/olfatto_risonanza_magnetica.json,,controllo_psionico,falde_magnetiche_psioniche;orbita_psionica_inversa,controller;scout,true,false
 sensori_geomagnetici,i18n:traits.sensori_geomagnetici.label,Sensoriale/Navigazione,Navigazione,data/traits/sensoriale/sensori_geomagnetici.json,,controllo_psionico,pianure_magnetiche,scout,true,false
 antenne_reagenti,i18n:traits.antenne_reagenti.label,Simbiotico/Cooperativo,Cooperativo,data/traits/simbiotico/antenne_reagenti.json,,coverage_q4_2025,foresta_acida,support,true,false
