@@ -8,7 +8,7 @@
 
 ## Identità e versioning
 
-- `id` — snake*case, uguale al nome file, deciso in design e immutabile. # fonte: vincolo schema `^[a-z0-9*]+$`
+- `id` — `snake_case`, uguale al nome file, deciso in design e immutabile. # fonte: vincolo schema `^[a-z0-9_]+$`
 - `label` — riferimento glossario `i18n:traits.<id>.label`, dopo registrazione IT/EN in `data/core/traits/glossary.json`. # fonte: glossario centralizzato
 - `data_origin` — slug editoriale da `docs/editorial/trait_sources.json`. # fonte: tabella sorgenti ufficiali
 - `version` / `versioning.*` — opzionale, SemVer + autore/aggiornamenti per tracciabilità. # fonte: convenzione interna
