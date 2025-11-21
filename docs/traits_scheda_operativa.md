@@ -1,5 +1,11 @@
 # Scheda operativa trait (con reference e checklist)
 
+## Accesso rapido
+
+- [Guida autori](../README_HOWTO_AUTHOR_TRAIT.md)
+- [Template dati](traits_template.md)
+- [Reference catalogo](catalog/trait_reference.md)
+
 ## Identità e versioning
 
 - `id` — snake*case, uguale al nome file, deciso in design e immutabile. # fonte: vincolo schema `^[a-z0-9*]+$`

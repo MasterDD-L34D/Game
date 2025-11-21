@@ -6,6 +6,7 @@ Questo documento descrive la struttura canonica dei trait archiviati in
 all'indice aggregato `data/traits/index.json`.
 
 Guida operativa completa: [docs/traits_scheda_operativa.md](traits_scheda_operativa.md).
+Ritorno rapido alla guida autori: [README_HOWTO_AUTHOR_TRAIT.md](../README_HOWTO_AUTHOR_TRAIT.md).
 
 Gli obiettivi principali del template sono:
 
