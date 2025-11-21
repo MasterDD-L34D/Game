@@ -37,6 +37,12 @@
 
 - [Pipeline `CI` principale](ci-pipeline.md)
 - [Workflow CI & QA mirati](ci.md)
+- Mirror documentazione: eseguire `node scripts/sync_evo_pack_assets.js` dopo ogni modifica ai dataset canonici per garantire
+  percorsi risolti (`packs/evo_tactics_pack/data/...`) in `docs/public/evo-tactics-pack/` e `docs/evo-tactics-pack/`; i test
+  `tests/scripts/test_sync_mirrors.py` coprono i regressioni sugli URL relativi.
+- Fallback biomi offline: i pool in cache devono includere `metadata.schema_version` e `updated_at` in linea con i file
+  canonici; verificare con `pytest tests/biomes/test_biome_pool_metadata.py` e con la validazione completa
+  `python tools/py/game_cli.py validate-ecosystem-pack`.
 
 ## Tracker operativi e log
 
@@ -70,26 +76,26 @@
 
 ### Log & metriche
 
-| File                                                                            | Titolo                                     | Scopo                                                                 | Owner attuale       | Ultimo aggiornamento | Percorso                                       |
-| ------------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------- | ------------------- | -------------------- | ---------------------------------------------- |
-| [chatgpt_sync.log](logs/chatgpt_sync.log)                                       | Log sincronizzazione ChatGPT               | Cronologia esecuzioni scripts/chatgpt_sync.py e diff generati.        | N/D                 | 2025-10-24           | `logs/chatgpt_sync.log`                        |
-| [chatgpt_sync_last.json](logs/chatgpt_sync_last.json)                           | Snapshot ultima sincronizzazione ChatGPT   | Esito strutturato dell'ultima run con percorsi export/diff.           | N/D                 | 2025-10-24           | `logs/chatgpt_sync_last.json`                  |
-| [2025-11-XX-dryrun.json](logs/drive/2025-11-XX-dryrun.json)                     | Drive sync dry-run                         | Stato dry-run convertYamlToSheetsDryRun() e azioni suggerite.         | N/D                 | 2025-10-28           | `logs/drive/2025-11-XX-dryrun.json`            |
-| [2025-11-08-filter-selections.md](logs/exports/2025-11-08-filter-selections.md) | Telemetry Export — Log interazioni filtri  | Audit settimanale applicazione filtri export (Analytics/Support).     | Analytics · Support | 2025-10-28           | `logs/exports/2025-11-08-filter-selections.md` |
+| File                                                                            | Titolo                                     | Scopo                                                                                 | Owner attuale       | Ultimo aggiornamento | Percorso                                       |
+| ------------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------- | ------------------- | -------------------- | ---------------------------------------------- |
+| [chatgpt_sync.log](logs/chatgpt_sync.log)                                       | Log sincronizzazione ChatGPT               | Cronologia esecuzioni scripts/chatgpt_sync.py e diff generati.                        | N/D                 | 2025-10-24           | `logs/chatgpt_sync.log`                        |
+| [chatgpt_sync_last.json](logs/chatgpt_sync_last.json)                           | Snapshot ultima sincronizzazione ChatGPT   | Esito strutturato dell'ultima run con percorsi export/diff.                           | N/D                 | 2025-10-24           | `logs/chatgpt_sync_last.json`                  |
+| [2025-11-XX-dryrun.json](logs/drive/2025-11-XX-dryrun.json)                     | Drive sync dry-run                         | Stato dry-run convertYamlToSheetsDryRun() e azioni suggerite.                         | N/D                 | 2025-10-28           | `logs/drive/2025-11-XX-dryrun.json`            |
+| [2025-11-08-filter-selections.md](logs/exports/2025-11-08-filter-selections.md) | Telemetry Export — Log interazioni filtri  | Audit settimanale applicazione filtri export (Analytics/Support).                     | Analytics · Support | 2025-10-28           | `logs/exports/2025-11-08-filter-selections.md` |
 | [traits_tracking.md](logs/traits_tracking.md)                                   | Monitoraggio inventario trait              | Aggiornamenti periodici copertura trait/specie, validator e note dai report incoming. | N/D                 | 2025-11-18           | `logs/traits_tracking.md`                      |
-| [trait_audit.md](logs/trait_audit.md)                                           | Trait Data Audit                           | Stato errori/warning dataset trait.                                   | N/D                 | 2025-10-29           | `logs/trait_audit.md`                          |
+| [trait_audit.md](logs/trait_audit.md)                                           | Trait Data Audit                           | Stato errori/warning dataset trait.                                                   | N/D                 | 2025-10-29           | `logs/trait_audit.md`                          |
 | [web_status.md](logs/web_status.md)                                             | Programmazione riesami sito web            | Agenda e checklist riesami settimanali sito con azioni QA e riscontri intake.         | N/D                 | 2025-11-14           | `logs/web_status.md`                           |
-| [report.html](reports/incoming/latest/report.html)                           | Incoming intake — sessione corrente       | Esito HTML report incoming con preview asset e note di triage.       | Ops/ChatGPT        | 2025-11-14           | `reports/incoming/latest/report.html`       |
-| [latest-dashboard-metrics.json](logs/qa/latest-dashboard-metrics.json)          | Dashboard & generator metrics snapshot     | Metriche più recenti per dashboard/generator con audit accessibilità. | N/D                 | 2025-10-27           | `logs/qa/latest-dashboard-metrics.json`        |
-| [dashboard_metrics.jsonl](logs/qa/dashboard_metrics.jsonl)                      | Storico metriche dashboard                 | Append log JSONL con run successive e confronti visual regression.    | N/D                 | 2025-10-27           | `logs/qa/dashboard_metrics.jsonl`              |
-| [2025-10-24-tooling.md](logs/tooling/2025-10-24-tooling.md)                     | 2025-10-24 — Verifica ambiente & toolchain | Verifica versioni e operazioni tooling (npm, pip, CLI).               | N/D                 | 2025-10-24           | `logs/tooling/2025-10-24-tooling.md`           |
+| [report.html](reports/incoming/latest/report.html)                              | Incoming intake — sessione corrente        | Esito HTML report incoming con preview asset e note di triage.                        | Ops/ChatGPT         | 2025-11-14           | `reports/incoming/latest/report.html`          |
+| [latest-dashboard-metrics.json](logs/qa/latest-dashboard-metrics.json)          | Dashboard & generator metrics snapshot     | Metriche più recenti per dashboard/generator con audit accessibilità.                 | N/D                 | 2025-10-27           | `logs/qa/latest-dashboard-metrics.json`        |
+| [dashboard_metrics.jsonl](logs/qa/dashboard_metrics.jsonl)                      | Storico metriche dashboard                 | Append log JSONL con run successive e confronti visual regression.                    | N/D                 | 2025-10-27           | `logs/qa/dashboard_metrics.jsonl`              |
+| [2025-10-24-tooling.md](logs/tooling/2025-10-24-tooling.md)                     | 2025-10-24 — Verifica ambiente & toolchain | Verifica versioni e operazioni tooling (npm, pip, CLI).                               | N/D                 | 2025-10-24           | `logs/tooling/2025-10-24-tooling.md`           |
 
 ### Pianificazione
 
-| File                                | Titolo            | Scopo                                                              | Owner attuale | Ultimo aggiornamento | Percorso                |
-| ----------------------------------- | ----------------- | ------------------------------------------------------------------ | ------------- | -------------------- | ----------------------- |
-| [roadmap.md](docs/piani/roadmap.md) | Roadmap Operativa | Procedura settimanale post-ottobre 2025 con milestone e follow-up. | N/D           | 2025-11-10           | `docs/piani/roadmap.md` |
-| [maintenance.md](docs/roadmap/maintenance.md) | Manutenzione roadmap live | Checklist aggiornamento snapshot deploy/go-no-go. | N/D           | 2025-11-05           | `docs/roadmap/maintenance.md` |
+| File                                          | Titolo                    | Scopo                                                              | Owner attuale | Ultimo aggiornamento | Percorso                      |
+| --------------------------------------------- | ------------------------- | ------------------------------------------------------------------ | ------------- | -------------------- | ----------------------------- |
+| [roadmap.md](docs/piani/roadmap.md)           | Roadmap Operativa         | Procedura settimanale post-ottobre 2025 con milestone e follow-up. | N/D           | 2025-11-10           | `docs/piani/roadmap.md`       |
+| [maintenance.md](docs/roadmap/maintenance.md) | Manutenzione roadmap live | Checklist aggiornamento snapshot deploy/go-no-go.                  | N/D           | 2025-11-05           | `docs/roadmap/maintenance.md` |
 
 ### Appendici di stato
 

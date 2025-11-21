@@ -22,6 +22,11 @@ Il refactor della CLI di gestione pacchetti (script `tools/cli.py`) introdotto n
 - Le squadre Support/QA devono migrare agli script profilati prima dell'onboarding del 2025-11-18.
 - Possibile aumento temporaneo dei tempi di build CI finché i container caching non sono aggiornati.
 - Abilitato monitoraggio più granulare sulle chiamate CLI, facilitando debug di encounter generati.
+- I mirror documentali (`docs/public/evo-tactics-pack/`, `docs/evo-tactics-pack/`) devono essere normalizzati con
+  `scripts/sync_evo_pack_assets.js` e coperti da test di regressione (`tests/scripts/test_sync_mirrors.py`) per evitare
+  percorsi relativi non risolvibili.
+- I fallback bioma usati offline richiedono `metadata.schema_version` e `updated_at` allineati ai file canonici; monitorare con
+  `tests/biomes/test_biome_pool_metadata.py` e con la validazione CLI `validate-ecosystem-pack`.
 
 ## Azioni di follow-up
 
