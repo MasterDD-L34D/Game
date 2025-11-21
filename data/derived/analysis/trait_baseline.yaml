@@ -4,7 +4,7 @@ source:
   trait_reference: data/traits/index.json
   trait_glossary: data/core/traits/glossary.json
 summary:
-  total_traits: 306
+  total_traits: 307
   missing_metadata: 132
 traits:
   ali_fulminee:
@@ -284,8 +284,7 @@ traits:
     fattore_mantenimento_energetico: Basso (Risonanza geodetica stabile)
     sinergie:
     - carapace_fase_variabile
-    conflitti:
-    - frusta_fiammeggiante
+    conflitti: []
     biomi: {}
     missing_metadata: false
   artigli_acidofagi:
@@ -436,8 +435,7 @@ traits:
     sinergie:
     - empatia_coordinativa
     - risonanza_di_branco
-    conflitti:
-    - mantello_meteoritico
+    conflitti: []
     biomi: {}
     missing_metadata: false
   baffi_mareomotori:
@@ -682,8 +680,7 @@ traits:
     sinergie:
     - mucillagine_simbionte_mangrovie
     - scheletro_idro_regolante
-    conflitti:
-    - polmoni_cristallini_alta_quota
+    conflitti: []
     biomi: {}
     missing_metadata: false
   branchie_solfatiche:
@@ -904,8 +901,7 @@ traits:
     - mantello_meteoritico
     - mucose_barofile
     - sensori_geomagnetici
-    conflitti:
-    - struttura_elastica_amorfa
+    conflitti: []
     biomi:
       mezzanotte_orbitale: 1
     missing_metadata: false
@@ -923,8 +919,7 @@ traits:
     - antenne_plasmatiche_tempesta
     - risonanza_di_branco
     - sinapsi_coraline_polifoniche
-    conflitti:
-    - carapace_fase_variabile
+    conflitti: []
     biomi: {}
     missing_metadata: false
   carapace_segmenti_logici:
@@ -980,8 +975,7 @@ traits:
     - carapace_fase_variabile
     - sacche_galleggianti_ascensoriali
     - zoccoli_risonanti_steppe
-    conflitti:
-    - scheletro_idro_regolante
+    conflitti: []
     biomi: {}
     missing_metadata: false
   cartilagini_biofibre:
@@ -1167,8 +1161,7 @@ traits:
     fattore_mantenimento_energetico: Medio (Doppio circuito emolinfa/linfa)
     sinergie:
     - mucillagine_simbionte_mangrovie
-    conflitti:
-    - sangue_piroforico
+    conflitti: []
     biomi: {}
     missing_metadata: false
   circolazione_cooling_loop:
@@ -1495,9 +1488,7 @@ traits:
       Criostasi).
     sinergie:
     - cavita_risonanti_tundra
-    conflitti:
-    - sacche_galleggianti_ascensoriali
-    - sangue_piroforico
+    conflitti: []
     biomi:
       mezzanotte_orbitale: 1
     missing_metadata: false
@@ -2107,8 +2098,7 @@ traits:
     sinergie:
     - focus_frazionato
     - mantello_meteoritico
-    conflitti:
-    - armatura_pietra_planare
+    conflitti: []
     biomi: {}
     missing_metadata: false
   ghiaccio_piezoelettrico:
@@ -2518,8 +2508,7 @@ traits:
     fattore_mantenimento_energetico: Medio (Flusso continuo di fluidi caldi)
     sinergie:
     - sangue_piroforico
-    conflitti:
-    - criostasi_adattiva
+    conflitti: []
     biomi: {}
     missing_metadata: false
   lamine_filtranti_aeree:
@@ -2687,8 +2676,7 @@ traits:
     sinergie:
     - carapace_fase_variabile
     - frusta_fiammeggiante
-    conflitti:
-    - aura_scudo_radianza
+    conflitti: []
     biomi: {}
     missing_metadata: false
   membrane_captura_rugiada:
@@ -2843,8 +2831,7 @@ traits:
     - lamelle_sincroniche
     - membrane_planata_vectored
     - nodi_micorrizici_oracolari
-    conflitti:
-    - ghiandola_caustica
+    conflitti: []
     biomi: {}
     missing_metadata: false
   mucose_aderenza_sonica:
@@ -3002,8 +2989,7 @@ traits:
     - lamelle_sincroniche
     - membrane_planata_vectored
     - mucillagine_simbionte_mangrovie
-    conflitti:
-    - spore_psichiche_silenziate
+    conflitti: []
     biomi: {}
     missing_metadata: false
   nodi_miovibranti:
@@ -3062,8 +3048,7 @@ traits:
     famiglia_tipologia: Riproduttivo/Locomotorio
     fattore_mantenimento_energetico: Alto (Rotolamento)
     sinergie: []
-    conflitti:
-    - secrezione_rallentante_palmi
+    conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
       falde_magnetiche_psioniche: 1
@@ -3084,6 +3069,20 @@ traits:
     biomi:
       steppe_algoritmiche: 1
     missing_metadata: true
+  occhi_cristallo_modulare:
+    label: Occhi di Cristallo Modulare
+    label_en: null
+    description_it: null
+    description_en: null
+    tier: T2
+    archetype: sensoriale
+    occurrences: 0
+    famiglia_tipologia: Sensoriale/Visivo
+    fattore_mantenimento_energetico: Moderato (Attivo)
+    sinergie: []
+    conflitti: []
+    biomi: {}
+    missing_metadata: false
   occhi_ecoscuro:
     label: null
     label_en: null
@@ -3938,8 +3937,7 @@ traits:
     sinergie:
     - membrane_eliofiltranti
     - sacche_spore_stratosferiche
-    conflitti:
-    - criostasi_adattiva
+    conflitti: []
     biomi: {}
     missing_metadata: false
   placche_basiche:
@@ -4014,8 +4012,7 @@ traits:
     fattore_mantenimento_energetico: Medio (Pulizia periodica dei cristalli)
     sinergie:
     - membrane_eliofiltranti
-    conflitti:
-    - branchie_osmotiche_salmastra
+    conflitti: []
     biomi: {}
     missing_metadata: false
   polmoni_ramificati:
@@ -4444,8 +4441,7 @@ traits:
     fattore_mantenimento_energetico: Alto (Coltura continua di spore portanti)
     sinergie:
     - piume_solari_fotovoltaiche
-    conflitti:
-    - respiro_a_scoppio
+    conflitti: []
     biomi: {}
     missing_metadata: false
   sangue_piroforico:
@@ -4473,9 +4469,7 @@ traits:
     - gusci_magnesio
     - lamelle_termoforetiche
     - mantelli_geotermici
-    conflitti:
-    - criostasi_adattiva
-    - scheletro_idro_regolante
+    conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
       mezzanotte_orbitale: 1
@@ -4537,8 +4531,7 @@ traits:
     - membrane_pneumatofori
     - sacche_galleggianti_ascensoriali
     - struttura_elastica_amorfa
-    conflitti:
-    - sangue_piroforico
+    conflitti: []
     biomi:
       dorsale_termale_tropicale: 2
       mezzanotte_orbitale: 1
@@ -4554,9 +4547,7 @@ traits:
     famiglia_tipologia: Tegumentario/Difensivo
     fattore_mantenimento_energetico: Medio (Produzione del liquido)
     sinergie: []
-    conflitti:
-    - carapace_fase_variabile
-    - nucleo_ovomotore_rotante
+    conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
     missing_metadata: false
@@ -4843,8 +4834,7 @@ traits:
     - ghiandole_resina_conduttiva
     - lamine_scudo_silice
     - midollo_antivibrazione
-    conflitti:
-    - spore_psichiche_silenziate
+    conflitti: []
     biomi: {}
     missing_metadata: false
   sinapsi_risonanza_storm:
@@ -4966,8 +4956,7 @@ traits:
     famiglia_tipologia: Escretorio/Psichico
     fattore_mantenimento_energetico: Alto (Produzione e rilascio)
     sinergie: []
-    conflitti:
-    - respiro_a_scoppio
+    conflitti: []
     biomi:
       dorsale_termale_tropicale: 1
       foresta_miceliale: 1
@@ -4985,8 +4974,7 @@ traits:
     fattore_mantenimento_energetico: Medio (Richiede riallineamento delle placche)
     sinergie:
     - respiro_a_scoppio
-    conflitti:
-    - mimetismo_cromatico_passivo
+    conflitti: []
     biomi: {}
     missing_metadata: false
   struttura_elastica_amorfa:
@@ -5439,8 +5427,7 @@ traits:
     fattore_mantenimento_energetico: Basso (Vibrazione passiva del suolo)
     sinergie:
     - cartilagine_flessotermica_venti
-    conflitti:
-    - zampe_a_molla
+    conflitti: []
     biomi: {}
     missing_metadata: false
   zoccoli_stabilita_dinamica:
@@ -5691,7 +5678,7 @@ archetypes:
     - mantelli_geotermici
     - sangue_piroforico
   sensoriale:
-    total: 22
+    total: 23
     traits:
     - ali_fulminee
     - antenne_plasmatiche_tempesta
@@ -5711,6 +5698,7 @@ archetypes:
     - lamine_scudo_silice
     - lingua_tattile_trama
     - midollo_antivibrazione
+    - occhi_cristallo_modulare
     - occhi_infrarosso_composti
     - olfatto_risonanza_magnetica
     - sensori_geomagnetici
