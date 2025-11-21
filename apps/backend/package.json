@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
+    "dev:setup": "if [ -f prisma/schema.prisma ]; then npx prisma generate --schema prisma/schema.prisma; else echo 'Prisma schema mancante, skip setup'; fi",
     "start": "node index.js"
   },
   "dependencies": {
