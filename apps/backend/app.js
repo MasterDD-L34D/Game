@@ -242,8 +242,7 @@ function shouldRefreshStatusFlag(value) {
 
 function createApp(options = {}) {
   const dataRoot = options.dataRoot || path.resolve(ROOT_DIR, 'data');
-  const databasePath = options.databasePath || path.resolve(dataRoot, 'idea_engine.db');
-  const repo = options.repo || new IdeaRepository(databasePath);
+  const repo = options.repo || new IdeaRepository(options.repoOptions || {});
   const runtimeValidator =
     options.runtimeValidator || createRuntimeValidator(options.runtimeValidatorOptions || {});
   const catalogService =

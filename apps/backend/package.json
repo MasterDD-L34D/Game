@@ -4,9 +4,12 @@
   "private": true,
   "type": "commonjs",
   "main": "index.js",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "dev": "node index.js",
-    "dev:setup": "if [ -f prisma/schema.prisma ]; then npx prisma generate --schema prisma/schema.prisma; else echo 'Prisma schema mancante, skip setup'; fi",
+    "dev:setup": "if [ -f prisma/schema.prisma ]; then npx prisma generate --schema prisma/schema.prisma && npx prisma migrate deploy --schema prisma/schema.prisma && npx prisma db seed --schema prisma/schema.prisma; else echo 'Prisma schema mancante, skip setup'; fi",
     "start": "node index.js"
   },
   "dependencies": {
@@ -17,7 +20,6 @@
     "express": "^4.19.2",
     "js-yaml": "^4.1.0",
     "mongodb": "^6.9.0",
-    "nedb-promises": "^6.2.3",
     "prisma": "^6.2.1",
     "prom-client": "^15.1.3"
   }

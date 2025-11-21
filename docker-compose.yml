@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-game}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-game}
+      POSTGRES_DB: ${POSTGRES_DB:-game}
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    image: node:20
+    depends_on:
+      - db
+    working_dir: /workspace/app
+    command: >
+      bash -lc "cd /workspace/app && \
+      if [ ! -f ${PRISMA_BOOTSTRAP_FILE:-.docker-prisma-bootstrapped} ]; then \
+        npm install --ignore-scripts && \
+        npm run dev:setup --workspace apps/backend && \
+        touch ${PRISMA_BOOTSTRAP_FILE:-.docker-prisma-bootstrapped}; \
+      else \
+        echo 'Prisma schema già applicato'; \
+      fi && \
+      npm run dev --workspace apps/backend"
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://game:game@db:5432/game?schema=public}
+      PRISMA_BOOTSTRAP_FILE: ${PRISMA_BOOTSTRAP_FILE:-.docker-prisma-bootstrapped}
+      HOST: 0.0.0.0
+      PORT: 3333
+    ports:
+      - '3333:3333'
+    volumes:
+      - .:/workspace/app
+
+volumes:
+  pgdata:
