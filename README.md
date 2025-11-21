@@ -325,9 +325,9 @@ node dist/roll_pack.js ENTP invoker --seed demo
 ### Tracker progressi database
 
 - [x] Calcolo e allineamento dei `trace_hash` tra sorgenti canoniche e mirror.
-- [ ] Normalizzazione dei percorsi nei mirror documentali (`scripts/sync_evo_pack_assets.js`).
-- [ ] Iniezione metadati `metadata.schema_version`/`updated_at` nel fallback locale dei biome pool.
-- [ ] Aggiunta test regressione sui percorsi mirror e sui metadati dei pool bioma.
+- [x] Normalizzazione dei percorsi nei mirror documentali (`scripts/sync_evo_pack_assets.js`).
+- [x] Iniezione metadati `metadata.schema_version`/`updated_at` nel fallback locale dei biome pool.
+- [x] Aggiunta test regressione sui percorsi mirror e sui metadati dei pool bioma.
 - [ ] Aggiornamento finale della documentazione database post-validazione.
 
 > Aggiorna questa sezione al termine di ogni sprint database: annota data, commit di riferimento e risultati dei test in `logs/traits_tracking.md` e collega eventuali ticket Jira/Linear nel tracker interno.
@@ -354,7 +354,7 @@ node dist/roll_pack.js ENTP invoker --seed demo
 
 ### Barra di completamento
 
-<progress value="0.7" max="1"></progress> **70 %** completato — aggiornare dopo il prossimo ciclo di validazione.
+<progress value="0.8" max="1"></progress> **80 %** completato — aggiornare dopo il prossimo ciclo di validazione.
 
 ## Report discrepanze & guida operativa
 

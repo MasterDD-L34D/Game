@@ -1,5 +1,16 @@
 # Monitoraggio inventario trait
 
+## 2025-12-07 — Mirror doc normalizzati & fallback biomi allineato
+
+- Eseguito `node scripts/sync_evo_pack_assets.js` con i mirror `docs/evo-tactics-pack/` e `public/docs/evo-tactics-pack/` ora
+  privi di percorsi `../../data/...`; i link risolvono a `packs/evo_tactics_pack/data/...` come da sorgente canonica.
+- Aggiornato il fallback locale dei pool bioma includendo `metadata.schema_version` e `updated_at` in modo coerente con le
+  tabelle canoniche (`packs/evo_tactics_pack/data/biome_pools/*.yaml`) per gli scenari offline.
+- Aggiunti test di regressione su percorsi mirror e metadati pool bioma in `tests/scripts/test_sync_mirrors.py` e
+  `tests/biomes/test_biome_pool_metadata.py`; entrambi eseguibili via `pytest` nella suite standard.
+- Esito QA: nessun warning residuo nei mirror; i pool fallback passano le validazioni CLI (`validate-ecosystem-pack`) con
+  metadati obbligatori presenti.
+
 ## 2025-11-18 — Canvas A sync & copertura core
 
 - Allineato il `dune-stalker` con le note del Canvas A aggiungendo `sacche_galleggianti_ascensoriali`,
