@@ -31,7 +31,8 @@ on_signal() {
 trap on_exit EXIT
 trap on_signal INT TERM
 
-npm run start:api &
+npm run dev:setup --workspace apps/backend
+npm run dev --workspace apps/backend &
 API_PID=$!
 
 npm run dev --workspace apps/dashboard &
