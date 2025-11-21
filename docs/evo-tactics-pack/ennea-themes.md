@@ -7,6 +7,7 @@ condivisi nel repository e alimentano sia i generatori Ennea sia i report
 telemetrici TV.
 
 ## Stats & Eventi engine (v0.3)
+
 - **Statistiche supportate**: `ac`, `aura_radius`, `bond_aura`, `burst_damage`,
   `charisma_checks`, `counter_chance`, `damage_taken`, `duel_bonus`,
   `evasion`, `hp_max`, `initiative`, `initiative_adv`, `melee_damage`, `pe`,
@@ -28,6 +29,7 @@ telemetrici TV.
   `add_flat_initiative` 4.
 
 ## Biome Coherence (Tipo 1)
+
 - **Dataset & Hooks**: `themes.yaml` → `reformer_1`, `personality_module.v1.json` → `mechanics_registry.hooks["theme.reformer_1"].links`, `dataset.themes[reformer_1]`.
 - **Scopo**: mantenere coerenza tra biomi, affissi e mutazioni per ridurre
   l'entropia ambientale degli encounter. I riferimenti principali sono
@@ -41,6 +43,7 @@ telemetrici TV.
   coerenza dati-bioma.
 
 ## Coordinatore (Tipo 2)
+
 - **Dataset & Hooks**: `themes.yaml` → `helper_2`, registry hook `theme.helper_2` con sinergie `triad.core_emotion.vergogna`, `hornevian.obbediente`, `harmonic.ottimisti`.
 - **Scopo**: esaltare il supporto continuo e la gestione scudi nelle squadre ad
   alta coesione (telemetria `cohesion>0.70`).【F:data/core/telemetry.yaml†L14-L29】
@@ -52,6 +55,7 @@ telemetrici TV.
   adattamenti `cohesion_high` che aggiungono controllo al campo.【F:data/core/biomes.yaml†L6-L10】
 
 ## Conquistatore (Tipo 3)
+
 - **Dataset & Hooks**: `themes.yaml` → `achiever_3`, hook `theme.achiever_3` e links su `dataset.themes[achiever_3]`.
 - **Scopo**: premiare squadre aggressive che mantengono pressione elevata.
 - **Trigger**: telemetria `aggro>0.65` con `risk>0.55`, coerente con il tema
@@ -62,6 +66,7 @@ telemetrici TV.
   di tilt durante i playtest.
 
 ## Sintonizzatore (Tipo 4)
+
 - **Dataset & Hooks**: `themes.yaml` → `individual_4`, `theme.individual_4` + sinergie Hornevian/Harmonic nel blocco `links`.
 - **Scopo**: orchestrare pattern estetici e tattici, alternando rigore e
   improvvisazione regolata.
@@ -73,6 +78,7 @@ telemetrici TV.
   varianti visive dei biomi sintetici.
 
 ## Architetto (Tipo 5)
+
 - **Dataset & Hooks**: `themes.yaml` → `investigator_5`, `mechanics_registry.hooks["theme.investigator_5"]` e `triad.core_emotion.paura`.
 - **Scopo**: valorizzare pianificazione pre-battaglia e controllo di trappole.
 - **Trigger**: `setup>0.70` e uso intenso di overwatch/trappole.
@@ -82,6 +88,7 @@ telemetrici TV.
   difensivi.
 
 ## Telemetry Sync (Tipo 6)
+
 - **Dataset & Hooks**: `themes.yaml` → `loyalist_6`, hook `theme.loyalist_6` collegato alle metriche EMA tramite `links.telemetry_metrics`.
 - **Scopo**: garantire la sincronizzazione dell'infrastruttura di telemetria,
   verificando parametri `ema_alpha`, `debounce_ms` e `idle_threshold_s` descritti
@@ -94,6 +101,7 @@ telemetrici TV.
   log `logs/playtests/*/session-metrics.yaml`.
 
 ## Esploratore (Tipo 7)
+
 - **Dataset & Hooks**: `themes.yaml` → `enthusiast_7`, hook `theme.enthusiast_7` e sinergia `triad.core_emotion.paura`.
 - **Scopo**: incentivare rotte opzionali e scoperta di nuovi tile.
 - **Trigger**: `explore>0.70` e azioni `optional_discovery`/`new_biome_entry`
@@ -103,6 +111,7 @@ telemetrici TV.
 - **Note operative**: raccoglie log per bilanciare affissi esplorativi nei biomi.
 
 ## Baluardo (Tipo 8)
+
 - **Dataset & Hooks**: `themes.yaml` → `challenger_8`, `theme.challenger_8` + `harmonic.reattivi` nel blocco `links`.
 - **Scopo**: trasformare il rischio controllato in dominanza difensiva.
 - **Trigger**: valori `risk` elevati con `damage_taken_window` sotto soglia e
@@ -113,6 +122,7 @@ telemetrici TV.
   guardia per evitare instabilità.
 
 ## Stoico (Tipo 9)
+
 - **Dataset & Hooks**: `themes.yaml` → `peacemaker_9`, `theme.peacemaker_9` e sinergie `triad.core_emotion.rabbia`/`harmonic.ottimisti`.
 - **Scopo**: mitigare tilt e mantenere equilibrio mentale della squadra.
 - **Trigger**: `tilt>0.65` come definito in telemetria e gestione delle finestre
@@ -123,6 +133,7 @@ telemetrici TV.
   durante sessioni lunghe.
 
 ## Modulo e dataset Enneagramma
+
 - **Modulo**: `packs/evo_tactics_pack/tools/py/modules/personality/enneagram/personality_module.v1.json` collega gli hook `theme.reformer_1`→`theme.peacemaker_9` ai temi definiti nel file `themes.yaml` e alle soglie telemetriche aggiornate.
 - **Dataset personaggi**: `packs/evo_tactics_pack/tools/py/modules/personality/enneagram/enneagramma_dataset.json` fornisce nove profili operativi (ruoli, motivazioni, azioni firma) allineati alle metriche VC e ai requisiti di mating.
 - **Compatibilità**: `packs/evo_tactics_pack/tools/py/modules/personality/enneagram/compat_map.json` documenta sinergie/antagonismi tra temi e statistiche (`ac`, `pp`, `sg` ecc.) per gli script di generazione e bilanciamento.

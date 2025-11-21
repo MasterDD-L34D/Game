@@ -1,13 +1,9 @@
-import {
-  loadPackCatalog,
-  manualLoadCatalog,
-  getPackRootCandidates,
-} from "./pack-data.js";
+import { loadPackCatalog, manualLoadCatalog, getPackRootCandidates } from './pack-data.js';
 
 const elements = {
-  summary: document.getElementById("ecosystem-summary"),
-  connections: document.getElementById("ecosystem-connections"),
-  biomeCards: document.getElementById("biome-cards"),
+  summary: document.getElementById('ecosystem-summary'),
+  connections: document.getElementById('ecosystem-connections'),
+  biomeCards: document.getElementById('biome-cards'),
 };
 
 let packContext = null;
@@ -36,63 +32,71 @@ function resolvePackHref(relativePath) {
     try {
       return packContext.resolveDocHref(relativePath);
     } catch (error) {
-      console.warn("Impossibile risolvere il percorso tramite resolveDocHref", relativePath, error);
+      console.warn('Impossibile risolvere il percorso tramite resolveDocHref', relativePath, error);
     }
   }
   if (packDocsBase) {
     try {
       return new URL(relativePath, packDocsBase).toString();
     } catch (error) {
-      console.warn("Impossibile risolvere il percorso tramite packDocsBase", relativePath, error);
+      console.warn('Impossibile risolvere il percorso tramite packDocsBase', relativePath, error);
     }
   }
   if (packContext?.resolvePackHref) {
     try {
       return packContext.resolvePackHref(relativePath);
     } catch (error) {
-      console.warn("Impossibile risolvere il percorso tramite resolvePackHref", relativePath, error);
+      console.warn(
+        'Impossibile risolvere il percorso tramite resolvePackHref',
+        relativePath,
+        error,
+      );
     }
   }
   if (resolvedPackRoot) {
     try {
       return new URL(relativePath, resolvedPackRoot).toString();
     } catch (error) {
-      console.warn("Impossibile risolvere il percorso tramite resolvedPackRoot", relativePath, error);
+      console.warn(
+        'Impossibile risolvere il percorso tramite resolvedPackRoot',
+        relativePath,
+        error,
+      );
     }
   }
   return relativePath;
 }
 
 function formatConnectionType(type) {
-  return type.replace(/_/g, " ");
+  return type.replace(/_/g, ' ');
 }
 
 function renderConnections(data) {
   if (!elements.connections) return;
-  elements.connections.innerHTML = "";
+  elements.connections.innerHTML = '';
 
   if (!data.connessioni?.length) {
-    const placeholder = document.createElement("p");
-    placeholder.className = "placeholder";
-    placeholder.textContent = "Nessuna connessione registrata.";
+    const placeholder = document.createElement('p');
+    placeholder.className = 'placeholder';
+    placeholder.textContent = 'Nessuna connessione registrata.';
     elements.connections.appendChild(placeholder);
     return;
   }
 
   data.connessioni.forEach((conn) => {
-    const card = document.createElement("article");
-    card.className = "card";
+    const card = document.createElement('article');
+    card.className = 'card';
 
-    const title = document.createElement("h3");
+    const title = document.createElement('h3');
     title.textContent = `${conn.from} → ${conn.to}`;
 
-    const meta = document.createElement("p");
+    const meta = document.createElement('p');
     meta.innerHTML = `<strong>${formatConnectionType(conn.type)}</strong> · resistenza ${
-      conn.resistance ?? "—"
-    } · ${conn.seasonality || "stagionalità n/d"}`;
+      conn.resistance ?? '—'
+    } · ${conn.seasonality || 'stagionalità n/d'}`;
 
-    const notes = document.createElement("p");
-    notes.textContent = conn.notes || "";
+    const notes = document.createElement('p');
+    notes.textContent = conn.notes || '';
 
     card.append(title, meta, notes);
 
@@ -101,27 +105,27 @@ function renderConnections(data) {
 }
 
 function createBadge(label, value) {
-  const badge = document.createElement("span");
-  badge.className = "chip";
+  const badge = document.createElement('span');
+  badge.className = 'chip';
   badge.textContent = `${label}: ${value}`;
   return badge;
 }
 
 function renderManifest(manifest) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "manifest-block";
+  const wrapper = document.createElement('div');
+  wrapper.className = 'manifest-block';
 
-  const badgeRow = document.createElement("div");
-  badgeRow.className = "chip-list chip-list--compact";
+  const badgeRow = document.createElement('div');
+  badgeRow.className = 'chip-list chip-list--compact';
   Object.entries(manifest?.species_counts ?? {}).forEach(([key, value]) => {
     badgeRow.appendChild(createBadge(key, value));
   });
   wrapper.appendChild(badgeRow);
 
   if (manifest?.functional_groups_present?.length) {
-    const groups = document.createElement("p");
-    groups.className = "form__hint";
-    groups.textContent = `Functional groups: ${manifest.functional_groups_present.join(", ")}`;
+    const groups = document.createElement('p');
+    groups.className = 'form__hint';
+    groups.textContent = `Functional groups: ${manifest.functional_groups_present.join(', ')}`;
     wrapper.appendChild(groups);
   }
 
@@ -132,13 +136,13 @@ function formatFlags(flags) {
   return Object.entries(flags || {})
     .filter(([, value]) => Boolean(value))
     .map(([key]) => key)
-    .join(", ");
+    .join(', ');
 }
 
 function renderSpeciesTable(speciesList) {
-  const table = document.createElement("table");
-  table.className = "table";
-  const header = document.createElement("thead");
+  const table = document.createElement('table');
+  table.className = 'table';
+  const header = document.createElement('thead');
   header.innerHTML = `
     <tr>
       <th>Nome</th>
@@ -150,15 +154,15 @@ function renderSpeciesTable(speciesList) {
     </tr>`;
   table.appendChild(header);
 
-  const body = document.createElement("tbody");
+  const body = document.createElement('tbody');
   speciesList.forEach((sp) => {
-    const row = document.createElement("tr");
+    const row = document.createElement('tr');
     const yamlHref = resolvePackHref(sp.path);
     row.innerHTML = `
       <td>${sp.display_name}</td>
       <td>${sp.id}</td>
-      <td>${sp.role_trofico || "—"}</td>
-      <td>${(sp.functional_tags || []).join(", ")}</td>
+      <td>${sp.role_trofico || '—'}</td>
+      <td>${(sp.functional_tags || []).join(', ')}</td>
       <td>${formatFlags(sp.flags)}</td>
       <td><a href="${yamlHref}" target="_blank" rel="noreferrer">Apri</a></td>`;
     body.appendChild(row);
@@ -168,15 +172,15 @@ function renderSpeciesTable(speciesList) {
 }
 
 function renderBiomeCard(biome) {
-  const card = document.createElement("article");
-  card.className = "card";
+  const card = document.createElement('article');
+  card.className = 'card';
   card.id = `bioma-${biome.id}`;
 
-  const title = document.createElement("h3");
+  const title = document.createElement('h3');
   title.textContent = `Bioma — ${biome.id}`;
 
-  const linkRow = document.createElement("p");
-  linkRow.className = "form__hint";
+  const linkRow = document.createElement('p');
+  linkRow.className = 'form__hint';
   const biomeYaml = resolvePackHref(biome.path);
   const manifestYaml = biome.manifest?.path ? resolvePackHref(biome.manifest.path) : null;
   const foodwebYaml = biome.foodweb?.path ? resolvePackHref(biome.foodweb.path) : null;
@@ -192,10 +196,8 @@ function renderBiomeCard(biome) {
     links.push(`<a href="${foodwebPng}" target="_blank" rel="noreferrer">Foodweb PNG</a>`);
   }
   links.push(`<a href="${webReport}">Report web</a>`);
-  links.push(
-    `<a href="${legacyReport}" target="_blank" rel="noreferrer">Report originale</a>`
-  );
-  linkRow.innerHTML = links.join(" · ");
+  links.push(`<a href="${legacyReport}" target="_blank" rel="noreferrer">Report originale</a>`);
+  linkRow.innerHTML = links.join(' · ');
 
   const manifestBlock = renderManifest(biome.manifest);
   const speciesTable = renderSpeciesTable(biome.species || []);
@@ -205,7 +207,7 @@ function renderBiomeCard(biome) {
 }
 
 async function loadCatalog() {
-  setSummary("Caricamento del catalogo in corso…");
+  setSummary('Caricamento del catalogo in corso…');
   try {
     const { data, context } = await loadPackCatalog();
     applyCatalogContext(context);
@@ -213,19 +215,19 @@ async function loadCatalog() {
     const biomeCount = data.biomi?.length ?? 0;
     const connectionsCount = data.ecosistema?.connessioni?.length ?? 0;
     setSummary(
-      `${data.ecosistema?.label ?? "Meta-ecosistema"} con ${biomeCount} biomi collegati e ${connectionsCount} connessioni.`
+      `${data.ecosistema?.label ?? 'Meta-ecosistema'} con ${biomeCount} biomi collegati e ${connectionsCount} connessioni.`,
     );
     renderConnections(data.ecosistema ?? {});
 
     if (elements.biomeCards) {
-      elements.biomeCards.innerHTML = "";
+      elements.biomeCards.innerHTML = '';
       data.biomi.forEach((biome) => {
         elements.biomeCards.appendChild(renderBiomeCard(biome));
       });
     }
     return;
   } catch (error) {
-    console.warn("Caricamento catalogo tramite loader condiviso fallito", error);
+    console.warn('Caricamento catalogo tramite loader condiviso fallito', error);
   }
 
   try {
@@ -235,25 +237,25 @@ async function loadCatalog() {
     const biomeCount = data.biomi?.length ?? 0;
     const connectionsCount = data.ecosistema?.connessioni?.length ?? 0;
     setSummary(
-      `${data.ecosistema?.label ?? "Meta-ecosistema"} con ${biomeCount} biomi collegati e ${connectionsCount} connessioni (fallback).`
+      `${data.ecosistema?.label ?? 'Meta-ecosistema'} con ${biomeCount} biomi collegati e ${connectionsCount} connessioni (fallback).`,
     );
     renderConnections(data.ecosistema ?? {});
 
     if (elements.biomeCards) {
-      elements.biomeCards.innerHTML = "";
+      elements.biomeCards.innerHTML = '';
       data.biomi.forEach((biome) => {
         elements.biomeCards.appendChild(renderBiomeCard(biome));
       });
     }
   } catch (error) {
-    console.error("Impossibile caricare il catalogo del pack", error);
-    setSummary("Errore durante il caricamento del catalogo. Controlla la console per i dettagli.");
+    console.error('Impossibile caricare il catalogo del pack', error);
+    setSummary('Errore durante il caricamento del catalogo. Controlla la console per i dettagli.');
   }
 }
 
 loadCatalog();
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
   window.EvoPack = window.EvoPack || {};
   window.EvoPack.packRootCandidates = PACK_ROOT_CANDIDATES;
   window.EvoPack.catalog = {
