@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2025-11-03T19:52:37+00:00",
+  "generated_at": "2025-11-21T18:33:15+00:00",
   "sources": {
     "env_traits": "packs/evo_tactics_pack/docs/catalog/env_traits.json",
     "trait_reference": "data/traits/index.json",
@@ -9,7 +9,7 @@
     "species_affinity": null
   },
   "summary": {
-    "traits_total": 174,
+    "traits_total": 175,
     "traits_with_rules": 147,
     "traits_with_species": 172,
     "traits_with_affinity": 0,
@@ -6908,6 +6908,26 @@
             "morphotype": "cursoriale_quadrupede"
           }
         ],
+        "missing_in_affinity": [],
+        "missing_in_matrix": []
+      }
+    },
+    "occhi_cristallo_modulare": {
+      "label_it": null,
+      "label_en": null,
+      "description_it": null,
+      "description_en": null,
+      "rules": {
+        "total": 0,
+        "coverage": []
+      },
+      "species": {
+        "total": 0,
+        "coverage": []
+      },
+      "diff": {
+        "missing_in_species": [],
+        "missing_in_rules": [],
         "missing_in_affinity": [],
         "missing_in_matrix": []
       }

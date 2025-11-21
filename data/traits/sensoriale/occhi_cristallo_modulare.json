@@ -10,5 +10,10 @@
   "data_origin": "pathfinder_dataset",
   "mutazione_indotta": "i18n:traits.occhi_cristallo_modulare.mutazione_indotta",
   "uso_funzione": "i18n:traits.occhi_cristallo_modulare.uso_funzione",
-  "spinta_selettiva": "i18n:traits.occhi_cristallo_modulare.spinta_selettiva"
+  "spinta_selettiva": "i18n:traits.occhi_cristallo_modulare.spinta_selettiva",
+  "completion_flags": {
+    "has_biome": false,
+    "has_species_link": false,
+    "has_data_origin": true
+  }
 }
