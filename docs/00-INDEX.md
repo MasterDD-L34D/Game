@@ -39,9 +39,9 @@
 - [Workflow CI & QA mirati](ci.md)
 - Mirror documentazione: eseguire `node scripts/sync_evo_pack_assets.js` dopo ogni modifica ai dataset canonici per garantire
   percorsi risolti (`packs/evo_tactics_pack/data/...`) in `docs/public/evo-tactics-pack/` e `docs/evo-tactics-pack/`; i test
-  `tests/scripts/test_sync_mirrors.py` coprono i regressioni sugli URL relativi.
+  `tests/scripts/sync_evo_pack_assets.test.js` si eseguono con `node --test` e coprono le regressioni sugli URL relativi.
 - Fallback biomi offline: i pool in cache devono includere `metadata.schema_version` e `updated_at` in linea con i file
-  canonici; verificare con `pytest tests/biomes/test_biome_pool_metadata.py` e con la validazione completa
+  canonici; verificare con `node --test tests/services/biomeSynthesizerMetadata.test.js` e con la validazione completa
   `python tools/py/game_cli.py validate-ecosystem-pack`.
 
 ## Tracker operativi e log
