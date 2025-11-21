@@ -8,13 +8,13 @@ sincronizzazione per popolare i bundle di localizzazione.
 
 ## Mappatura rapida
 
-| ID trait | Label IT | Label EN | Descrizione IT | Description EN |
-| --- | --- | --- | --- | --- |
-| `antenne_plasmatiche_tempesta` | Antenne Plasmatiche di Tempesta | Storm Plasma Antennae | Convoglia fulmini atmosferici in attacchi mirati o scudi ionici. | Channels storm lightning into psionic strikes or shields. |
-| `filamenti_digestivi_compattanti` | Filamenti Digestivi Compattanti | Digestive Compaction Filaments | Filamenti digestivi che compattano scarti e liberano spazio vitale. | Digestive filaments compact waste to free vital space. |
-| `circolazione_bifasica_palude` | Circolazione Bifasica di Palude | Swamp Biphase Circulation | Doppio circuito sanguigno che separa ossigeno e agenti tossici in ambienti stagnanti. | Dual blood circuits separating oxygen flow from toxins in stagnant wetlands. |
-| `ali_ioniche` | Ali Ioniche | Ionic Wings | Membrane propulsive che rilasciano micro-scariche per scatti controllati. | Propulsive membranes that pulse micro-discharges for controlled bursts. |
-| `ali_membrana_sonica` | Ali a Membrana Sonica | Sonic Membrane Wings | Piastre vibranti che dissipano energia e attenuano impatti corrosivi. | Vibrating plates that dissipate energy and blunt corrosive impacts. |
+| ID trait                          | Label IT                        | Label EN                       | Descrizione IT                                                                        | Description EN                                                               |
+| --------------------------------- | ------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `antenne_plasmatiche_tempesta`    | Antenne Plasmatiche di Tempesta | Storm Plasma Antennae          | Convoglia fulmini atmosferici in attacchi mirati o scudi ionici.                      | Channels storm lightning into psionic strikes or shields.                    |
+| `filamenti_digestivi_compattanti` | Filamenti Digestivi Compattanti | Digestive Compaction Filaments | Filamenti digestivi che compattano scarti e liberano spazio vitale.                   | Digestive filaments compact waste to free vital space.                       |
+| `circolazione_bifasica_palude`    | Circolazione Bifasica di Palude | Swamp Biphase Circulation      | Doppio circuito sanguigno che separa ossigeno e agenti tossici in ambienti stagnanti. | Dual blood circuits separating oxygen flow from toxins in stagnant wetlands. |
+| `ali_ioniche`                     | Ali Ioniche                     | Ionic Wings                    | Membrane propulsive che rilasciano micro-scariche per scatti controllati.             | Propulsive membranes that pulse micro-discharges for controlled bursts.      |
+| `ali_membrana_sonica`             | Ali a Membrana Sonica           | Sonic Membrane Wings           | Piastre vibranti che dissipano energia e attenuano impatti corrosivi.                 | Vibrating plates that dissipate energy and blunt corrosive impacts.          |
 
 Le etichette e le descrizioni qui esposte costituiscono le stringhe approvate
 da utilizzare nei bundle di localizzazione. Qualsiasi modifica deve essere
@@ -37,6 +37,8 @@ registrata nel glossario prima di eseguire gli script di sincronizzazione.
 
 - [Template dati trait](../traits_template.md) descrive i campi obbligatori e
   opzionali presenti nei file del catalogo.
+- [Scheda operativa dei trait](../traits_scheda_operativa.md) collega le label
+  approvate del glossario al flusso operativo di editing e sincronizzazione.
 - [Processo di localizzazione](../process/localization.md) dettaglia gli step
   operativi per estrarre, revisionare e consegnare i testi a traduttori e
   revisori.
