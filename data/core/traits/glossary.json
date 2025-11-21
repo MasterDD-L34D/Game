@@ -29,6 +29,12 @@
       "description_it": "Piastre vibranti che dissipano energia e attenuano impatti corrosivi.",
       "description_en": "Vibrating plates that dissipate energy and blunt corrosive impacts."
     },
+    "ali_solari_fotoni": {
+      "label_it": "Ali Solari Fotoniche",
+      "label_en": "Photonic Solar Wings",
+      "description_it": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza.",
+      "description_en": "Photovoltaic plumage converting light into thrust and radiant shielding."
+    },
     "antenne_dustsense": {
       "label_it": "Antenne Dustsense",
       "label_en": "Dustsense Antennae",
