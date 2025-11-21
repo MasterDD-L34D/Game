@@ -50,26 +50,20 @@ function rewritePathPrefix(value) {
 }
 
 function updatePathFields(value) {
+  if (typeof value === 'string') {
+    return rewritePathPrefix(value);
+  }
   if (Array.isArray(value)) {
-    value.forEach((entry) => updatePathFields(entry));
+    value.forEach((entry, index) => {
+      value[index] = updatePathFields(entry);
+    });
     return value;
   }
   if (!value || typeof value !== 'object') {
     return value;
   }
   Object.keys(value).forEach((key) => {
-    if (key === 'path' && typeof value[key] === 'string') {
-      value[key] = rewritePathPrefix(value[key]);
-      return;
-    }
-    if (key === 'manifest' && value[key] && typeof value[key] === 'object') {
-      if (typeof value[key].path === 'string') {
-        value[key].path = rewritePathPrefix(value[key].path);
-      }
-      updatePathFields(value[key]);
-      return;
-    }
-    updatePathFields(value[key]);
+    value[key] = updatePathFields(value[key]);
   });
   return value;
 }
