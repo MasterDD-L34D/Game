@@ -5,6 +5,8 @@ Questo documento descrive la struttura canonica dei trait archiviati in
 `config/schemas/trait.schema.json` ed è applicato sia ai file singoli sia
 all'indice aggregato `data/traits/index.json`.
 
+Per la scheda operativa completa vedere `docs/traits_scheda_operativa.md`.
+
 Gli obiettivi principali del template sono:
 
 - garantire un set minimo di campi obbligatori e coerenti fra tutte le
