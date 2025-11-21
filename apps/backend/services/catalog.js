@@ -1,7 +1,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { getMongoDatabase, checkMongoHealth } = require('../db/mongo');
-const { buildCatalogMap } = require('../../services/generation/speciesBuilder');
+const { buildCatalogMap } = require('../../../services/generation/speciesBuilder');
 
 function normaliseList(value) {
   if (!value) return [];
@@ -72,6 +72,43 @@ function mapCatalogFromTraits(docs) {
   return buildCatalogMap({ traits });
 }
 
+function injectPoolMetadata(payload) {
+  if (!payload || typeof payload !== 'object') {
+    return { pools: [] };
+  }
+
+  const manifestMetadata =
+    payload.metadata && typeof payload.metadata === 'object' ? payload.metadata : {};
+  const schemaVersion =
+    manifestMetadata.schema_version ??
+    (Object.prototype.hasOwnProperty.call(payload, 'schema_version')
+      ? payload.schema_version
+      : null);
+  const updatedAt =
+    manifestMetadata.updated_at ??
+    (Object.prototype.hasOwnProperty.call(payload, 'updated_at') ? payload.updated_at : null);
+
+  const pools = Array.isArray(payload.pools) ? payload.pools : [];
+  const poolsWithMetadata = pools.map((pool) => {
+    if (!pool || typeof pool !== 'object') {
+      return pool;
+    }
+    const metadata = { ...(pool.metadata || {}) };
+    if (schemaVersion && !metadata.schema_version) {
+      metadata.schema_version = schemaVersion;
+    }
+    if (updatedAt && !metadata.updated_at) {
+      metadata.updated_at = updatedAt;
+    }
+    return {
+      ...pool,
+      metadata,
+    };
+  });
+
+  return { ...payload, pools: poolsWithMetadata };
+}
+
 function mapBiomePool(doc) {
   if (!doc) return null;
   const traits = doc.traits || {};
@@ -104,7 +141,7 @@ async function loadBiomePoolsFromMongo(db) {
   const cursor = db.collection('biome_pools').find({});
   const docs = await cursor.toArray();
   const pools = docs.map(mapBiomePool).filter(Boolean);
-  return { pools };
+  return injectPoolMetadata({ pools });
 }
 
 async function loadTraitGlossaryFromMongo(db) {
@@ -162,8 +199,9 @@ function createCatalogService(options = {}) {
       readJsonFile(biomePoolsPath, { pools: [] }),
       readJsonFile(traitCatalogPath, { traits: {} }),
     ]);
+    const biomePools = injectPoolMetadata(pools);
     const traitCatalog = buildCatalogMap(catalogPayload);
-    return { traitGlossary: glossary, biomePools: pools, traitCatalog, source: 'local' };
+    return { traitGlossary: glossary, biomePools, traitCatalog, source: 'local' };
   }
 
   async function ensureData() {
