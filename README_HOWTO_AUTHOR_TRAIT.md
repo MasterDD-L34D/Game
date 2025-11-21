@@ -6,13 +6,14 @@ per autori e reviewer e integra la documentazione tecnica presente in `docs/`.
 
 ## 1. Prima di iniziare
 
+- Consulta la [scheda operativa completa](docs/traits_scheda_operativa.md) per
+  campi, vincoli e checklist.
+
 1. Identifica il ruolo narrativo e tattico del trait (slot, tier, macro-tipologia).
 2. Recupera i riferimenti dal [template dati](docs/traits_template.md) e dai
    report correnti (`reports/trait_fields_by_type.json`, `reports/trait_texts.json`).
 3. Allinea label e descrizioni con il team di design/localization prima di
    procedere agli update dei file.
-4. Consulta la [scheda operativa completa](docs/traits_scheda_operativa.md) per
-   check rapidi su vincoli, tassonomia e comandi di validazione.
 
 ## 2. Aggiornare il glossario
 
