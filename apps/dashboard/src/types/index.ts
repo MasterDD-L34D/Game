@@ -1,3 +1,5 @@
+export type { TaxonomySpecies, TaxonomyBiome, SpeciesBiomeLink } from '@game/contracts';
+
 export type MissionStatus = 'planned' | 'in-progress' | 'completed' | 'at-risk';
 
 export interface Mission {

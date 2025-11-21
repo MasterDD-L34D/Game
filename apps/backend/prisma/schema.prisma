@@ -1,4 +1,4 @@
-// Prisma schema for idea engine
+// Prisma schema for idea engine and taxonomy relationships
 
 generator client {
   provider = "prisma-client-js"
@@ -43,4 +43,43 @@ model Feedback {
 
   @@index([ideaId])
   @@map("idea_feedback")
+}
+
+model Species {
+  id             String          @id
+  name           String
+  classification String?
+  tags           String[]        @default([])
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  biomes         SpeciesBiome[]
+
+  @@map("species")
+}
+
+model Biome {
+  id        String          @id
+  name      String
+  climate   String?
+  region    String?
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+  species   SpeciesBiome[]
+
+  @@map("biomes")
+}
+
+model SpeciesBiome {
+  id        Int      @id @default(autoincrement())
+  speciesId String   @map("species_id")
+  biomeId   String   @map("biome_id")
+  strength  String?
+  note      String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  species   Species  @relation(fields: [speciesId], references: [id], onDelete: Cascade)
+  biome     Biome    @relation(fields: [biomeId], references: [id], onDelete: Cascade)
+
+  @@unique([speciesId, biomeId])
+  @@map("species_biomes")
 }
