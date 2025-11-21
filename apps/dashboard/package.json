@@ -12,6 +12,7 @@
     "qa": "node ./scripts/print-qa-checklist.mjs"
   },
   "dependencies": {
+    "@game/contracts": "file:../../packages/contracts",
     "@game/ui": "file:../../packages/ui",
     "angular": "file:../../packages/angular",
     "angular-animate": "file:../../packages/angular-animate",

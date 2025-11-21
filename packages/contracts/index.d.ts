@@ -202,6 +202,47 @@ export interface AtlasTelemetry {
   [key: string]: unknown;
 }
 
+export interface TaxonomyBiome {
+  id: string;
+  name: string;
+  climate?: string | null;
+  region?: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  [key: string]: unknown;
+}
+
+export interface TaxonomySpecies {
+  id: string;
+  name: string;
+  classification?: string | null;
+  tags?: string[];
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  biomes?: SpeciesBiomeLink[];
+  [key: string]: unknown;
+}
+
+export interface SpeciesBiomeLink {
+  id: number;
+  speciesId: string;
+  biomeId: string;
+  strength?: string | null;
+  note?: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  species?: TaxonomySpecies | null;
+  biome?: TaxonomyBiome | null;
+  [key: string]: unknown;
+}
+
+export interface SpeciesBiomeLinkList {
+  links: SpeciesBiomeLink[];
+  requestedBy?: string | null;
+  [key: string]: unknown;
+}
+
 export declare const generationSnapshotSchema: Record<string, unknown>;
 export declare const speciesSchema: Record<string, unknown>;
 export declare const telemetrySchema: Record<string, unknown>;
+export declare const speciesBiomesSchema: Record<string, unknown>;

@@ -13,6 +13,7 @@ const { createGenerationSnapshotStore } = require('./services/generationSnapshot
 const { createNebulaRouter, createAtlasV1Router } = require('./routes/nebula');
 const { createMonitoringRouter } = require('./routes/monitoring');
 const { createGenerationRouter, createGenerationRoutes } = require('./routes/generation');
+const { createSpeciesBiomesRouter } = require('./routes/speciesBiomes');
 const { createTraitRouter } = require('./routes/traits');
 const { createQualityRouter } = require('./routes/quality');
 const { createValidatorsRouter } = require('./routes/validators');
@@ -750,6 +751,13 @@ function createApp(options = {}) {
       }
     }
   });
+
+  app.use(
+    '/api',
+    createSpeciesBiomesRouter({
+      prisma: repo.prisma,
+    }),
+  );
 
   const validatorsRouter = createValidatorsRouter({ runtimeValidator });
   app.use('/api/v1/validators', validatorsRouter);

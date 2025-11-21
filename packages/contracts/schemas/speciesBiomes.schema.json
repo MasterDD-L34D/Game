@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.game.local/species-biomes.schema.json",
+  "title": "SpeciesBiomeLinks",
+  "type": "object",
+  "required": ["links"],
+  "properties": {
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "speciesId", "biomeId"],
+        "properties": {
+          "id": { "type": "integer" },
+          "speciesId": { "type": "string" },
+          "biomeId": { "type": "string" },
+          "strength": { "type": ["string", "null"] },
+          "note": { "type": ["string", "null"] },
+          "createdAt": { "type": ["string", "null"], "format": "date-time" },
+          "updatedAt": { "type": ["string", "null"], "format": "date-time" },
+          "species": { "$ref": "./species.schema.json" },
+          "biome": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "climate": { "type": ["string", "null"] },
+              "region": { "type": ["string", "null"] },
+              "createdAt": { "type": ["string", "null"], "format": "date-time" },
+              "updatedAt": { "type": ["string", "null"], "format": "date-time" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "requestedBy": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

@@ -31,6 +31,10 @@ on_signal() {
 trap on_exit EXIT
 trap on_signal INT TERM
 
+export VITE_API_BASE_URL="${VITE_API_BASE_URL:-http://localhost:3333}"
+export VITE_API_USER="${VITE_API_USER:-devstack}"
+export VITE_API_MODE="${VITE_API_MODE:-live}"
+
 npm run dev:setup --workspace apps/backend
 npm run dev --workspace apps/backend &
 API_PID=$!

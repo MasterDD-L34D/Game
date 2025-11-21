@@ -4,6 +4,9 @@ import type {
   EventLog,
   Mission,
   NebulaMilestone,
+  SpeciesBiomeLink,
+  TaxonomyBiome,
+  TaxonomySpecies,
   Trait,
 } from '../types';
 
@@ -318,5 +321,67 @@ export const dashboardMetrics: DashboardMetric[] = [
     value: '14m',
     trend: 'up',
     change: 'Improved by 2m with new orbital relays',
+  },
+];
+
+export const taxonomyBiomes: TaxonomyBiome[] = [
+  { id: 'badlands', name: 'Badlands Expanse', climate: 'arid', region: 'Frontier' },
+  { id: 'tidal-reef', name: 'Tidal Reef', climate: 'humid', region: 'Pelagic Corridor' },
+  { id: 'volcanic-rim', name: 'Volcanic Rim', climate: 'hot', region: 'Anomaly Belt' },
+];
+
+export const taxonomySpecies: TaxonomySpecies[] = [
+  {
+    id: 'gryphon-strider',
+    name: 'Gryphon Strider',
+    classification: 'Aerial Vanguard',
+    tags: ['skirmisher', 'recon'],
+  },
+  {
+    id: 'tidal-warden',
+    name: 'Tidal Warden',
+    classification: 'Littoral Guardian',
+    tags: ['support', 'amphibious'],
+  },
+  {
+    id: 'emberclaw',
+    name: 'Emberclaw',
+    classification: 'Volcanic Stalker',
+    tags: ['assault'],
+  },
+];
+
+export const speciesBiomeLinks: SpeciesBiomeLink[] = [
+  {
+    id: 1,
+    speciesId: 'gryphon-strider',
+    biomeId: 'badlands',
+    strength: 'primary',
+    species: taxonomySpecies[0],
+    biome: taxonomyBiomes[0],
+  },
+  {
+    id: 2,
+    speciesId: 'tidal-warden',
+    biomeId: 'tidal-reef',
+    strength: 'primary',
+    species: taxonomySpecies[1],
+    biome: taxonomyBiomes[1],
+  },
+  {
+    id: 3,
+    speciesId: 'emberclaw',
+    biomeId: 'volcanic-rim',
+    strength: 'primary',
+    species: taxonomySpecies[2],
+    biome: taxonomyBiomes[2],
+  },
+  {
+    id: 4,
+    speciesId: 'tidal-warden',
+    biomeId: 'badlands',
+    strength: 'secondary',
+    species: taxonomySpecies[1],
+    biome: taxonomyBiomes[0],
   },
 ];
