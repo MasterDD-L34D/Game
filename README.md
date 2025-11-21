@@ -197,6 +197,29 @@ node dist/roll_pack.js ENTP invoker --seed demo
   - `poolSize` definisce quanti worker paralleli avviare (default 2) e può essere aumentato quando si simulano carichi più elevati.
   - `requestTimeoutMs` imposta la finestra massima (in millisecondi) per completare una generazione prima di forzare il retry/crash del worker.
 
+### Docker + Postgres + Prisma
+
+- **Stack rapido**: `docker compose up` alza Postgres (`postgres://game:game@db:5432/game` di default) e il backend Node già configurato con `DATABASE_URL` e `PORT=3333`. Il bootstrap Prisma viene eseguito una sola volta grazie al marker `.docker-prisma-bootstrapped` (variabile `PRISMA_BOOTSTRAP_FILE`).
+- **Bootstrap iniziale**: lo step `npm run dev:setup --workspace apps/backend` è incluso nel comando Docker (`docker-compose.yml`) e applica, nell'ordine, `prisma generate`, `prisma migrate deploy` e `prisma db seed` usando `apps/backend/prisma/schema.prisma`.
+- **Ripetere migrazioni/seed**: puoi rilanciare il ciclo completo in locale con `npm run dev:setup --workspace apps/backend` (riapplica migrate+seed sul `DATABASE_URL` corrente) oppure invocare direttamente `npx prisma migrate deploy --schema apps/backend/prisma/schema.prisma && npx prisma db seed --schema apps/backend/prisma/schema.prisma` dopo avere aggiornato lo schema.
+- **Reset del DB**: `docker compose down -v` elimina il volume `pgdata` e forza una nuova migrazione/seed al successivo `docker compose up`. Se vuoi solo rieseguire il bootstrap mantenendo i dati Docker, cancella il marker `rm .docker-prisma-bootstrapped` (o il file indicato da `PRISMA_BOOTSTRAP_FILE`) prima di riavviare i container.
+- **Seed manuale**: lo script `apps/backend/prisma/seed.js` popola idee, taxonomy e relazioni; può essere rilanciato anche isolatamente con `npx prisma db seed --schema apps/backend/prisma/schema.prisma` per verificare la coerenza dei dati senza toccare le migrazioni.
+
+### Configurazione env (backend + dashboard)
+
+- **Backend**:
+  - `DATABASE_URL` – stringa Postgres usata da Prisma (valore Docker: `postgresql://game:game@db:5432/game?schema=public`).
+  - `PORT`/`HOST` – binding HTTP del server Express.
+  - `PRISMA_BOOTSTRAP_FILE` – path del marker che evita bootstrap ripetuti nei container.
+  - `PRISMA_LOG_QUERIES` – abilita log verbose delle query Prisma in sviluppo.
+  - `AUTH_SECRET`, `AUTH_AUDIENCE`, `AUTH_ISSUER`, `AUTH_CLOCK_TOLERANCE`, `AUTH_TOKEN_MAX_AGE`/`AUTH_MAX_AGE`, `AUTH_ROLES_CLAIM`, `AUTH_USERID_CLAIM`, `AUTH_DEFAULT_ROLES` – controllano la validazione JWT e l'estrazione di ruoli/user id; se non configurati, gli endpoint risultano aperti.
+  - `TRAIT_EDITOR_TOKEN`/`TRAITS_API_TOKEN` – token legacy Bearer/Header per proteggere le rotte trait quando non si usa JWT; i ruoli applicati sono `reviewer`/`editor`/`admin` (con `admin` sempre ammesso).
+  - `AUDIT_LOG_PATH` – log file opzionale per la traccia audit; `PYTHON` e `ORCHESTRATOR_AUTOCLOSE_MS` influenzano il bridge Python del generatore.
+- **Dashboard (Vite)**:
+  - `VITE_API_BASE_URL`/`VITE_API_BASE` – base URL del backend; se vuoto o `VITE_API_MODE=mock`, la dashboard usa i dataset locali.
+  - `VITE_API_USER` – valore propagato come header `X-User` in tutte le chiamate backend per allineare audit/log tra ambienti.
+  - `VITE_BASE_PATH`/`BASE_PATH` – base path di build; mantenere coerente tra ambienti per evitare asset mancanti.
+
 ### Flusso snapshot/telemetria demo (CLI → backend → webapp)
 
 1. **Generazione CLI** – esegui `npm run mock:generate` per ricreare lo snapshot Flow e il bundle Nebula demo. Lo script legge i dataset sorgente (`data/flow-shell/atlas-snapshot.json` + telemetria QA), valida payload e specie contro `packages/contracts` tramite AJV e scrive i JSON rigenerati in `apps/dashboard/public/data/flow/snapshots/` e `apps/dashboard/public/data/nebula/`.
