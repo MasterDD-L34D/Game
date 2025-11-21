@@ -1,502 +1,12 @@
 {
-  "antenne_plasmatiche_tempesta": {
+  "ali_fono_risonanti": {
     "en": {
-      "label": "Storm Plasma Antennae",
-      "description": "Channels storm lightning into psionic strikes or shields."
+      "label": "Phono-Resonant Wings",
+      "description": "Generate a wide sonic band while flying."
     },
     "it": {
-      "label": "Antenne Plasmatiche di Tempesta",
-      "description": "Convoglia fulmini atmosferici in attacchi mirati o scudi ionici."
-    }
-  },
-  "artigli_sette_vie": {
-    "en": {
-      "label": "Seven-Way Talons",
-      "description": "Multi-hook talons locking a steady grip on irregular surfaces."
-    },
-    "it": {
-      "label": "Artigli a Sette Vie",
-      "description": "Artigli multipli che assicurano presa stabile su superfici irregolari."
-    }
-  },
-  "artigli_sghiaccio_glaciale": {
-    "en": {
-      "label": "Artigli Sghiaccio Glaciale",
-      "description": "Cryogenic claws that freeze and pin targets on contact."
-    },
-    "it": {
-      "label": "Artigli Sghiaccio Glaciale",
-      "description": "Falangi criogeniche che congelano e fissano il bersaglio al contatto."
-    }
-  },
-  "branchie_osmotiche_salmastra": {
-    "en": {
-      "label": "Branchie Osmotiche Salmastre",
-      "description": "Psionic gills filtering salts and toxins in shifting waters."
-    },
-    "it": {
-      "label": "Branchie Osmotiche Salmastre",
-      "description": "Branchie psioniche che filtrano sali e tossine in acque variabili."
-    }
-  },
-  "bulbi_radici_permafrost": {
-    "en": {
-      "label": "Bulbi Radici del Permafrost",
-      "description": "Root bulbs releasing heat and stores to linked allies."
-    },
-    "it": {
-      "label": "Bulbi Radici del Permafrost",
-      "description": "Bulbi radice che rilasciano calore e nutrimento alle unità connesse."
-    }
-  },
-  "carapace_fase_variabile": {
-    "en": {
-      "label": "Phase-Shifting Carapace",
-      "description": "Shell shifts density to balance defense and mobility."
-    },
-    "it": {
-      "label": "Carapace a Variazione di Fase",
-      "description": "Corazza che varia densità per bilanciare difesa e mobilità."
-    }
-  },
-  "carapace_luminiscente_abissale": {
-    "en": {
-      "label": "Carapace Luminiscente Abissale",
-      "description": "Bioluminescent shell confusing predators in abyssal dark."
-    },
-    "it": {
-      "label": "Carapace Luminiscente Abissale",
-      "description": "Guscio bioluminescente che confonde i predatori nelle profondità."
-    }
-  },
-  "cartilagine_flessotermica_venti": {
-    "en": {
-      "label": "Cartilagine Flessotermica dei Venti",
-      "description": "Thermo-reactive cartilage optimizing aerial turns."
-    },
-    "it": {
-      "label": "Cartilagine Flessotermica dei Venti",
-      "description": "Cartilagine termoreattiva che ottimizza virate e planate aeree."
-    }
-  },
-  "cavita_risonanti_tundra": {
-    "en": {
-      "label": "Cavità Risonanti della Tundra",
-      "description": "Chest chambers projecting long-range calls through tundra frost."
-    },
-    "it": {
-      "label": "Cavità Risonanti della Tundra",
-      "description": "Camere toraciche che proiettano richiami a lunga distanza nel gelo."
-    }
-  },
-  "chioma_parassita_canopica": {
-    "en": {
-      "label": "Chioma Parassita Canopica",
-      "description": "Parasitic tendrils weaving energy lanes through canopy."
-    },
-    "it": {
-      "label": "Chioma Parassita Canopica",
-      "description": "Filamenti parassiti che creano corsie energetiche nella canopia."
-    }
-  },
-  "circolazione_bifasica_palude": {
-    "en": {
-      "label": "Swamp Biphase Circulation",
-      "description": "Dual blood circuits separating oxygen flow from toxins in stagnant wetlands."
-    },
-    "it": {
-      "label": "Circolazione Bifasica di Palude",
-      "description": "Doppio circuito sanguigno che separa ossigeno e agenti tossici in ambienti stagnanti."
-    }
-  },
-  "coda_frusta_cinetica": {
-    "en": {
-      "label": "Kinetic Lash Tail",
-      "description": "Elastic tail storing momentum for a devastating lash."
-    },
-    "it": {
-      "label": "Coda a Frusta Cinetica",
-      "description": "Coda elastica che accumula slancio per un colpo cinetico devastante."
-    }
-  },
-  "criostasi_adattiva": {
-    "en": {
-      "label": "Adaptive Cryostasis",
-      "description": "Suspended metabolism surviving protracted extreme seasons."
-    },
-    "it": {
-      "label": "Criostasi",
-      "description": "Metabolismo sospeso che sopravvive a stagioni estreme prolungate."
-    }
-  },
-  "eco_interno_riflesso": {
-    "en": {
-      "label": "Internal Echo Reflex",
-      "description": "Internal sonar mapping surroundings via body reverbs."
-    },
-    "it": {
-      "label": "Riflesso dell'Eco Interno",
-      "description": "Sonar interno che mappa l'ambiente attraverso vibrazioni corporee."
-    }
-  },
-  "empatia_coordinativa": {
-    "en": {
-      "label": "Coordinated Empathy",
-      "description": "Empathic mesh synchronizing team-wide heals and defenses."
-    },
-    "it": {
-      "label": "Empatia Coordinativa",
-      "description": "Rete empatica che sincronizza cure e difese dell'intera squadra."
-    }
-  },
-  "filamenti_digestivi_compattanti": {
-    "en": {
-      "label": "Digestive Compaction Filaments",
-      "description": "Digestive filaments compact waste to free vital space."
-    },
-    "it": {
-      "label": "Filamenti Digestivi Compattanti",
-      "description": "Filamenti digestivi che compattano scarti e liberano spazio vitale."
-    }
-  },
-  "focus_frazionato": {
-    "en": {
-      "label": "Fractional Focus",
-      "description": "Split cortex keeps two threats under active surveillance."
-    },
-    "it": {
-      "label": "Focus Frazionato",
-      "description": "Cortex biforcato che mantiene due minacce in sorveglianza attiva."
-    }
-  },
-  "ghiandola_caustica": {
-    "en": {
-      "label": "Caustic Gland",
-      "description": "Offensive gland spraying quick acid against light armor."
-    },
-    "it": {
-      "label": "Ghiandola Caustica",
-      "description": "Ghiandola offensiva che spruzza acidi rapidi contro corazze leggere."
-    }
-  },
-  "lamelle_termoforetiche": {
-    "en": {
-      "label": "Thermophoretic Lamellae",
-      "description": "Respiratory lamellae deflect extreme gases via heat gradients."
-    },
-    "it": {
-      "label": "Lamelle Termoforetiche",
-      "description": "Lamelle respiratorie che deviano gas estremi con gradienti termici."
-    }
-  },
-  "lingua_tattile_trama": {
-    "en": {
-      "label": "Texture-Sensing Tongue",
-      "description": "Sensory tongue reading hidden vibrations and fractures."
-    },
-    "it": {
-      "label": "Lingua Tattile Trama-Sensibile",
-      "description": "Lingua sensoriale che legge vibrazioni e fratture nascoste."
-    }
-  },
-  "membrane_eliofiltranti": {
-    "en": {
-      "label": "Membrane Eliofiltranti",
-      "description": "Translucent membranes screening radiation and airborne pathogens."
-    },
-    "it": {
-      "label": "Membrane Eliofiltranti",
-      "description": "Membrane traslucide che schermano radiazioni e patogeni sospesi."
-    }
-  },
-  "mimetismo_cromatico_passivo": {
-    "en": {
-      "label": "Passive Chromatic Mimicry",
-      "description": "Passive chromatophores slowly mirroring surrounding hues."
-    },
-    "it": {
-      "label": "Ghiandole di Mimetismo Cromatico Passivo",
-      "description": "Cromatofori passivi che replicano lentamente i colori circostanti."
-    }
-  },
-  "mucillagine_simbionte_mangrovie": {
-    "en": {
-      "label": "Mucillagine Simbionte delle Mangrovie",
-      "description": "Symbiotic mucus absorbing poisons and sealing swamp wounds."
-    },
-    "it": {
-      "label": "Mucillagine Simbionte delle Mangrovie",
-      "description": "Mucosa simbionte che assorbe veleni e sigilla ferite palustri."
-    }
-  },
-  "nodi_micorrizici_oracolari": {
-    "en": {
-      "label": "Nodi Micorrizici Oracolari",
-      "description": "Mycorrhizal nodes foreseeing threats via fungal signals."
-    },
-    "it": {
-      "label": "Nodi Micorrizici Oracolari",
-      "description": "Nodi micorrizici che anticipano minacce tramite segnali fungini."
-    }
-  },
-  "nucleo_ovomotore_rotante": {
-    "en": {
-      "label": "Rotating Ovomotor Core",
-      "description": "Rotating core turning the body into a driving wheel."
-    },
-    "it": {
-      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
-      "description": "Nucleo rotante che trasforma il corpo in una ruota motrice."
-    }
-  },
-  "occhi_infrarosso_composti": {
-    "en": {
-      "label": "Infrared Compound Eyes",
-      "description": "Infrared ommatidia tracking thermal trails in darkness."
-    },
-    "it": {
-      "label": "Occhi Composti ad Infrarosso",
-      "description": "Ommatidi infrarossi che seguono scie termiche nell'oscurità."
-    }
-  },
-  "olfatto_risonanza_magnetica": {
-    "en": {
-      "label": "Magnetic Resonance Scent",
-      "description": "Olfactory nodes tracing magnetic fields and metal veins."
-    },
-    "it": {
-      "label": "Olfatto di Risonanza Magnetica",
-      "description": "Bulbi olfattivi che tracciano campi magnetici e vene metalliche."
-    }
-  },
-  "pathfinder": {
-    "en": {
-      "label": "Pathfinder",
-      "description": "Exploration suite highlighting safe routes across shifting biomes."
-    },
-    "it": {
-      "label": "Pathfinder",
-      "description": "Suite esplorativa che evidenzia rotte sicure tra biomi imprevedibili."
-    }
-  },
-  "pianificatore": {
-    "en": {
-      "label": "Strategic Planner",
-      "description": "Strategic module keeping priorities and attack windows aligned."
-    },
-    "it": {
-      "label": "Pianificatore",
-      "description": "Modulo strategico che mantiene priorità e finestre d'attacco allineate."
-    }
-  },
-  "piume_solari_fotovoltaiche": {
-    "en": {
-      "label": "Piume Solari Fotovoltaiche",
-      "description": "Photovoltaic plumage storing sunlight for long sorties."
-    },
-    "it": {
-      "label": "Piume Solari Fotovoltaiche",
-      "description": "Piumaggio fotovoltaico che immagazzina luce per lunghe missioni."
-    }
-  },
-  "polmoni_cristallini_alta_quota": {
-    "en": {
-      "label": "Polmoni Cristallini d'Alta Quota",
-      "description": "Crystalline lungs concentrating thin high-altitude oxygen."
-    },
-    "it": {
-      "label": "Polmoni Cristallini d'Alta Quota",
-      "description": "Polmoni cristallini che concentrano ossigeno rarefatto in quota."
-    }
-  },
-  "random": {
-    "en": {
-      "label": "Trait Random",
-      "description": "Experimental slot drawing random traits from a curated pool."
-    },
-    "it": {
-      "label": "Trait Random",
-      "description": "Slot sperimentale che estrae tratti casuali dal pool controllato."
-    }
-  },
-  "respiro_a_scoppio": {
-    "en": {
-      "label": "Burst Breath Propulsion",
-      "description": "Thoracic valves unleashing instantaneous propulsion bursts."
-    },
-    "it": {
-      "label": "Respiro a scoppio",
-      "description": "Valvole toraciche che rilasciano getti propulsivi istantanei."
-    }
-  },
-  "risonanza_di_branco": {
-    "en": {
-      "label": "Pack Resonance",
-      "description": "Resonant lattice amplifying the pack's shared buffs."
-    },
-    "it": {
-      "label": "Risonanza di Branco",
-      "description": "Rete risonante che amplifica buff condivisi del branco."
-    }
-  },
-  "sacche_galleggianti_ascensoriali": {
-    "en": {
-      "label": "Elevating Buoyancy Sacs",
-      "description": "Adjustable gas sacs controlling buoyancy and depth."
-    },
-    "it": {
-      "label": "Sacche galleggianti ascensoriali",
-      "description": "Sacche gassose regolabili per controllare assetto e profondità."
-    }
-  },
-  "sacche_spore_stratosferiche": {
-    "en": {
-      "label": "Sacche di Spore Stratosferiche",
-      "description": "Stratospheric vesicles dispersing long-range support spores."
-    },
-    "it": {
-      "label": "Sacche di Spore Stratosferiche",
-      "description": "Vescicole stratosferiche che disperdono spore di supporto a lungo."
-    }
-  },
-  "sangue_piroforico": {
-    "en": {
-      "label": "Pyrophoric Blood",
-      "description": "Blood ignites on air contact, burning would-be piercers."
-    },
-    "it": {
-      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
-      "description": "Fluido ematico che incendia l'aria colpendo chi perfora la corazza."
-    }
-  },
-  "scheletro_idro_regolante": {
-    "en": {
-      "label": "Hydro-Regulating Skeleton",
-      "description": "Porous bones modulate water content to shift body mass."
-    },
-    "it": {
-      "label": "Scheletro Idro-Regolante",
-      "description": "Ossa porose che modulano il contenuto idrico per mutare massa."
-    }
-  },
-  "secrezione_rallentante_palmi": {
-    "en": {
-      "label": "Retarding Palm Secretions",
-      "description": "Palms exude slowing gel to snare fast targets."
-    },
-    "it": {
-      "label": "Mani secernano liquido rallentante",
-      "description": "Palmi che rilasciano gel rallentante per bloccare bersagli rapidi."
-    }
-  },
-  "sensori_geomagnetici": {
-    "en": {
-      "label": "Geomagnetic Resonance Sensors",
-      "description": "Cranial crystals mapping invisible geomagnetic corridors."
-    },
-    "it": {
-      "label": "Sensori a Risonanza Geomagnetica",
-      "description": "Cristalli cranici che mappano corridoi geomagnetici invisibili."
-    }
-  },
-  "sinapsi_coraline_polifoniche": {
-    "en": {
-      "label": "Sinapsi Coraline Polifoniche",
-      "description": "Coralline synapses relaying orders through marine harmonics."
-    },
-    "it": {
-      "label": "Sinapsi Coraline Polifoniche",
-      "description": "Sinapsi coralline che trasmettono ordini tramite armoniche marine."
-    }
-  },
-  "sonno_emisferico_alternato": {
-    "en": {
-      "label": "Unihemispheric Sleep",
-      "description": "Alternating hemispheres keep watch while the other sleeps."
-    },
-    "it": {
-      "label": "Dormire con solo metà cervello alla volta",
-      "description": "Cervello alternato che veglia con un emisfero mentre l'altro riposa."
-    }
-  },
-  "spore_psichiche_silenziate": {
-    "en": {
-      "label": "Silent Psychic Spores",
-      "description": "Psionic spores that lull and confuse nearby targets."
-    },
-    "it": {
-      "label": "Spora Psichica Silenziosa",
-      "description": "Spore psioniche che sedano e confondono i bersagli vicini."
-    }
-  },
-  "squame_rifrangenti_deserto": {
-    "en": {
-      "label": "Squame Rifrangenti del Deserto",
-      "description": "Crystal scales diffusing heat and casting mirages."
-    },
-    "it": {
-      "label": "Squame Rifrangenti del Deserto",
-      "description": "Scaglie cristalline che diffondono calore e creano miraggi."
-    }
-  },
-  "struttura_elastica_amorfa": {
-    "en": {
-      "label": "Elastic Amorphous Frame",
-      "description": "Amorphous frame stretching or compressing to escape binds."
-    },
-    "it": {
-      "label": "Struttura elastica, allungabile, amorfa, retrattile",
-      "description": "Corpo amorfo che si estende e si compatta per evadere vincoli."
-    }
-  },
-  "tattiche_di_branco": {
-    "en": {
-      "label": "Pack Tactics",
-      "description": "Tactical protocol coordinating shared focus and grapples."
-    },
-    "it": {
-      "label": "Tattiche di Branco",
-      "description": "Protocollo tattico che coordina focus e prese condivise."
-    }
-  },
-  "vello_condensatore_nebbie": {
-    "en": {
-      "label": "Vello Condensatore di Nebbie",
-      "description": "Capillary fleece condensing fog into mobile water reserves."
-    },
-    "it": {
-      "label": "Vello Condensatore di Nebbie",
-      "description": "Vello capillare che condensa nebbia in riserve idriche mobili."
-    }
-  },
-  "ventriglio_gastroliti": {
-    "en": {
-      "label": "Gastrolith Grinding Gizzard",
-      "description": "Muscular gizzard grinding hard food with gastroliths."
-    },
-    "it": {
-      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
-      "description": "Ventriglio muscoloso che macina cibi duri con gastroliti."
-    }
-  },
-  "zampe_a_molla": {
-    "en": {
-      "label": "Spring-Loaded Limbs",
-      "description": "Spring-loaded limbs storing energy for repositioning leaps."
-    },
-    "it": {
-      "label": "Zampe a Molla",
-      "description": "Arti a molla che accumulano energia per balzi di riposizionamento."
-    }
-  },
-  "zoccoli_risonanti_steppe": {
-    "en": {
-      "label": "Zoccoli Risonanti delle Steppe",
-      "description": "Hollow hooves sending rhythmic waves across the steppe pack."
-    },
-    "it": {
-      "label": "Zoccoli Risonanti delle Steppe",
-      "description": "Zoccoli cavi che inviano onde ritmiche al branco sulle steppe."
+      "label": "Ali Fono-Risonanti",
+      "description": "Generare ampia banda sonora in volo."
     }
   },
   "ali_fulminee": {
@@ -527,6 +37,16 @@
     "it": {
       "label": "Ali a Membrana Sonica",
       "description": "Piastre vibranti che dissipano energia e attenuano impatti corrosivi."
+    }
+  },
+  "ali_solari_fotoni": {
+    "en": {
+      "label": "Photonic Solar Wings",
+      "description": "Photovoltaic plumage converting light into thrust and radiant shielding."
+    },
+    "it": {
+      "label": "Ali Solari Fotoniche",
+      "description": "Piume fotovoltaiche che trasformano luce in spinta e schermature di radianza."
     }
   },
   "antenne_dustsense": {
@@ -567,6 +87,16 @@
     "it": {
       "label": "Antenne Microonde Cavernose",
       "description": "Antenne Microonde Cavernose permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caverna risonante."
+    }
+  },
+  "antenne_plasmatiche_tempesta": {
+    "en": {
+      "label": "Storm Plasma Antennae",
+      "description": "Channels storm lightning into psionic strikes or shields."
+    },
+    "it": {
+      "label": "Antenne Plasmatiche di Tempesta",
+      "description": "Convoglia fulmini atmosferici in attacchi mirati o scudi ionici."
     }
   },
   "antenne_reagenti": {
@@ -629,6 +159,36 @@
       "description": "Appendici Thermotattiche permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di abisso vulcanico."
     }
   },
+  "armatura_pietra_planare": {
+    "en": {
+      "label": "Planar Stone Plating",
+      "description": "Resonant plating carved from extradimensional stone that dampens shockwaves."
+    },
+    "it": {
+      "label": "Armatura di Pietra Planare",
+      "description": "Corazza risonante scolpita da roccia extradimensionale che smorza onde d'urto."
+    }
+  },
+  "articolazioni_a_leva_idraulica": {
+    "en": {
+      "label": "Hydraulic Lever Joints",
+      "description": "Amplify leaps and leg thrusts."
+    },
+    "it": {
+      "label": "Articolazioni a Leva Idraulica",
+      "description": "Amplificare salto e spinta delle zampe."
+    }
+  },
+  "articolazioni_multiassiali": {
+    "en": {
+      "label": "Multi-Axial Joints",
+      "description": "Rotate limbs for tight maneuvers."
+    },
+    "it": {
+      "label": "Articolazioni Multiassiali",
+      "description": "Ruotare arti per manovre strette."
+    }
+  },
   "artigli_acidofagi": {
     "en": {
       "label": "Artigli Acidofagi",
@@ -647,6 +207,16 @@
     "it": {
       "label": "Artigli Induzione",
       "description": "Artigli Induzione permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di canopia ionica."
+    }
+  },
+  "artigli_ipo_termici": {
+    "en": {
+      "label": "Hypothermal Claws",
+      "description": "Induce localized cold shock."
+    },
+    "it": {
+      "label": "Artigli Ipo-Termici",
+      "description": "Indurre shock da freddo localizzato."
     }
   },
   "artigli_radice": {
@@ -669,6 +239,26 @@
       "description": "Artigli Scivolo Silente permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di caverna risonante."
     }
   },
+  "artigli_sette_vie": {
+    "en": {
+      "label": "Seven-Way Talons",
+      "description": "Multi-hook talons locking a steady grip on irregular surfaces."
+    },
+    "it": {
+      "label": "Artigli a Sette Vie",
+      "description": "Artigli multipli che assicurano presa stabile su superfici irregolari."
+    }
+  },
+  "artigli_sghiaccio_glaciale": {
+    "en": {
+      "label": "Artigli Sghiaccio Glaciale",
+      "description": "Cryogenic claws that freeze and pin targets on contact."
+    },
+    "it": {
+      "label": "Artigli Sghiaccio Glaciale",
+      "description": "Falangi criogeniche che congelano e fissano il bersaglio al contatto."
+    }
+  },
   "artigli_vetrificati": {
     "en": {
       "label": "Artigli Vetrificati",
@@ -677,6 +267,36 @@
     "it": {
       "label": "Artigli Vetrificati",
       "description": "Artigli Vetrificati permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di caldera glaciale."
+    }
+  },
+  "artiglio_cinetico_a_urto": {
+    "en": {
+      "label": "Kinetic Impact Claw",
+      "description": "Deliver shockwaves that fracture targets."
+    },
+    "it": {
+      "label": "Artiglio Cinetico a Urto",
+      "description": "Infliggere onda d’urto e frattura."
+    }
+  },
+  "aura_di_dispersione_mentale": {
+    "en": {
+      "label": "Mental Dispersion Aura",
+      "description": "Impart anxiety and vertigo to predators."
+    },
+    "it": {
+      "label": "Aura di Dispersione Mentale",
+      "description": "Indurre ansia e vertigini nei predatori."
+    }
+  },
+  "aura_scudo_radianza": {
+    "en": {
+      "label": "Radiant Shield Aura",
+      "description": "Photoplasmic field that deflects planar damage while syncing squad vitals."
+    },
+    "it": {
+      "label": "Aura Scudo di Radianza",
+      "description": "Campo fotoplasmatico che devia danni planari e sincronizza i battiti della squadra."
     }
   },
   "baffi_mareomotori": {
@@ -759,6 +379,16 @@
       "description": "Biofilm Iperarido permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di pianura salina iperarida."
     }
   },
+  "bozzolo_magnetico": {
+    "en": {
+      "label": "Magnetic Cocoon",
+      "description": "Shield against external electromagnetic fields."
+    },
+    "it": {
+      "label": "Bozzolo Magnetico",
+      "description": "Schermarsi da campi elettromagnetici esterni."
+    }
+  },
   "branchie_dual_mode": {
     "en": {
       "label": "Branchie Dual Mode",
@@ -799,6 +429,16 @@
       "description": "Branchie Microfiltri permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di reef luminescente."
     }
   },
+  "branchie_osmotiche_salmastra": {
+    "en": {
+      "label": "Branchie Osmotiche Salmastre",
+      "description": "Psionic gills filtering salts and toxins in shifting waters."
+    },
+    "it": {
+      "label": "Branchie Osmotiche Salmastre",
+      "description": "Branchie psioniche che filtrano sali e tossine in acque variabili."
+    }
+  },
   "branchie_solfatiche": {
     "en": {
       "label": "Branchie Solfatiche",
@@ -817,6 +457,16 @@
     "it": {
       "label": "Branchie Turbina",
       "description": "Branchie Turbina permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di dorsale termale tropicale."
+    }
+  },
+  "bulbi_radici_permafrost": {
+    "en": {
+      "label": "Bulbi Radici del Permafrost",
+      "description": "Root bulbs releasing heat and stores to linked allies."
+    },
+    "it": {
+      "label": "Bulbi Radici del Permafrost",
+      "description": "Bulbi radice che rilasciano calore e nutrimento alle unità connesse."
     }
   },
   "camere_anticorrosione": {
@@ -847,6 +497,36 @@
     "it": {
       "label": "Camere Nutrienti Vent",
       "description": "Camere Nutrienti Vent permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di dorsale termale tropicale."
+    }
+  },
+  "campo_di_interferenza_acustica": {
+    "en": {
+      "label": "Acoustic Interference Field",
+      "description": "Mask position and velocity."
+    },
+    "it": {
+      "label": "Campo di Interferenza Acustica",
+      "description": "Mascherare posizione e velocità."
+    }
+  },
+  "cannone_sonico_a_raggio": {
+    "en": {
+      "label": "Ray Sonic Cannon",
+      "description": "Stun or injure targets with a sonic beam."
+    },
+    "it": {
+      "label": "Cannone Sonico a Raggio",
+      "description": "Stordire o ferire con un raggio sonoro."
+    }
+  },
+  "canto_infrasonico_tattico": {
+    "en": {
+      "label": "Tactical Infrasonic Song",
+      "description": "Disorient predators and communicate at range."
+    },
+    "it": {
+      "label": "Canto Infrasonico Tattico",
+      "description": "Disorientare predatori e comunicare a distanza."
     }
   },
   "capillari_criogenici": {
@@ -889,6 +569,26 @@
       "description": "Capsule Paracadute permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di stratosfera tempestosa."
     }
   },
+  "carapace_fase_variabile": {
+    "en": {
+      "label": "Phase-Shifting Carapace",
+      "description": "Shell shifts density to balance defense and mobility."
+    },
+    "it": {
+      "label": "Carapace a Variazione di Fase",
+      "description": "Corazza che varia densità per bilanciare difesa e mobilità."
+    }
+  },
+  "carapace_luminiscente_abissale": {
+    "en": {
+      "label": "Carapace Luminiscente Abissale",
+      "description": "Bioluminescent shell confusing predators in abyssal dark."
+    },
+    "it": {
+      "label": "Carapace Luminiscente Abissale",
+      "description": "Guscio bioluminescente che confonde i predatori nelle profondità."
+    }
+  },
   "carapace_segmenti_logici": {
     "en": {
       "label": "Carapace Segmenti Logici",
@@ -907,6 +607,16 @@
     "it": {
       "label": "Carapaci Ferruginosi",
       "description": "Carapaci Ferruginosi permette alle squadre di coordinare scambi di risorse e parametri di stabilizzazione di squadra all'interno di abisso vulcanico."
+    }
+  },
+  "cartilagine_flessotermica_venti": {
+    "en": {
+      "label": "Cartilagine Flessotermica dei Venti",
+      "description": "Thermo-reactive cartilage optimizing aerial turns."
+    },
+    "it": {
+      "label": "Cartilagine Flessotermica dei Venti",
+      "description": "Cartilagine termoreattiva che ottimizza virate e planate aeree."
     }
   },
   "cartilagini_biofibre": {
@@ -949,6 +659,16 @@
       "description": "Cartilagini Pseudometalliche permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di abisso vulcanico."
     }
   },
+  "cavita_risonanti_tundra": {
+    "en": {
+      "label": "Cavità Risonanti della Tundra",
+      "description": "Chest chambers projecting long-range calls through tundra frost."
+    },
+    "it": {
+      "label": "Cavità Risonanti della Tundra",
+      "description": "Camere toraciche che proiettano richiami a lunga distanza nel gelo."
+    }
+  },
   "cervelletto_equilibrio_statico": {
     "en": {
       "label": "Cervelletto Equilibrio Statico",
@@ -957,6 +677,16 @@
     "it": {
       "label": "Cervelletto Equilibrio Statico",
       "description": "Cervelletto Equilibrio Statico permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di canopia ionica."
+    }
+  },
+  "cervello_a_bassa_latenza": {
+    "en": {
+      "label": "Low-Latency Brain",
+      "description": "Execute high-frequency maneuvers."
+    },
+    "it": {
+      "label": "Cervello a Bassa Latenza",
+      "description": "Eseguire manovre ad alta frequenza."
     }
   },
   "chemiorecettori_bromuro": {
@@ -969,6 +699,26 @@
       "description": "Chemiorecettori Bromuro permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di pianura salina iperarida."
     }
   },
+  "chioma_parassita_canopica": {
+    "en": {
+      "label": "Chioma Parassita Canopica",
+      "description": "Parasitic tendrils weaving energy lanes through canopy."
+    },
+    "it": {
+      "label": "Chioma Parassita Canopica",
+      "description": "Filamenti parassiti che creano corsie energetiche nella canopia."
+    }
+  },
+  "cinghia_iper_ciliare": {
+    "en": {
+      "label": "Hyper-Ciliary Belt",
+      "description": "Translate the body across smooth or rough ground."
+    },
+    "it": {
+      "label": "Cinghia Iper-Ciliare",
+      "description": "Traslare il corpo su terreni piani o ruvidi."
+    }
+  },
   "circolazione_bifasica": {
     "en": {
       "label": "Circolazione Bifasica",
@@ -977,6 +727,16 @@
     "it": {
       "label": "Circolazione Bifasica",
       "description": "Circolazione Bifasica permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di caldera glaciale."
+    }
+  },
+  "circolazione_bifasica_palude": {
+    "en": {
+      "label": "Swamp Biphase Circulation",
+      "description": "Dual blood circuits separating oxygen flow from toxins in stagnant wetlands."
+    },
+    "it": {
+      "label": "Circolazione Bifasica di Palude",
+      "description": "Doppio circuito sanguigno che separa ossigeno e agenti tossici in ambienti stagnanti."
     }
   },
   "circolazione_cooling_loop": {
@@ -1029,6 +789,16 @@
       "description": "Ciste Salmastre permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di pianura salina iperarida."
     }
   },
+  "cisti_di_ibernazione_minerale": {
+    "en": {
+      "label": "Mineral Hibernation Cyst",
+      "description": "Enter stasis under harsh conditions."
+    },
+    "it": {
+      "label": "Cisti di Ibernazione Minerale",
+      "description": "Entrare in stasi in condizioni avverse."
+    }
+  },
   "cisti_iperbariche": {
     "en": {
       "label": "Cisti Iperbariche",
@@ -1067,6 +837,26 @@
     "it": {
       "label": "Coda Coppia Retroattiva",
       "description": "Coda Coppia Retroattiva permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di steppe algoritmiche."
+    }
+  },
+  "coda_frusta_cinetica": {
+    "en": {
+      "label": "Kinetic Lash Tail",
+      "description": "Elastic tail storing momentum for a devastating lash."
+    },
+    "it": {
+      "label": "Coda a Frusta Cinetica",
+      "description": "Coda elastica che accumula slancio per un colpo cinetico devastante."
+    }
+  },
+  "coda_prensile_muscolare": {
+    "en": {
+      "label": "Muscular Prehensile Tail",
+      "description": "Hang and counterbalance weight."
+    },
+    "it": {
+      "label": "Coda Prensile Muscolare",
+      "description": "Appendere e controbilanciarsi."
     }
   },
   "coda_stabilizzatrice_filo": {
@@ -1109,6 +899,16 @@
       "description": "Colonne Vibromagnetiche permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caverna risonante."
     }
   },
+  "comunicazione_fotonica_coda_coda": {
+    "en": {
+      "label": "Tail-to-Tail Photonic Communication",
+      "description": "Exchange tactile light pulses."
+    },
+    "it": {
+      "label": "Comunicazione Fotonica Coda-Coda",
+      "description": "Scambiare impulsi luminosi tattili."
+    }
+  },
   "coralli_partner": {
     "en": {
       "label": "Coralli Partner",
@@ -1117,6 +917,36 @@
     "it": {
       "label": "Coralli Partner",
       "description": "Coralli Partner permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di reef luminescente."
+    }
+  },
+  "corna_psico_conduttive": {
+    "en": {
+      "label": "Psycho-Conductive Horns",
+      "description": "Transmit and receive slow neural signals."
+    },
+    "it": {
+      "label": "Corna Psico-Conduttive",
+      "description": "Trasmettere e ricevere segnali neurali lenti."
+    }
+  },
+  "coscienza_dalveare_diffusa": {
+    "en": {
+      "label": "Diffuse Hive Consciousness",
+      "description": "Merge decisions and short-term memory."
+    },
+    "it": {
+      "label": "Coscienza d’Alveare Diffusa",
+      "description": "Fondere decisioni e memoria a breve termine."
+    }
+  },
+  "criostasi_adattiva": {
+    "en": {
+      "label": "Adaptive Cryostasis",
+      "description": "Suspended metabolism surviving protracted extreme seasons."
+    },
+    "it": {
+      "label": "Criostasi",
+      "description": "Metabolismo sospeso che sopravvive a stagioni estreme prolungate."
     }
   },
   "cromofori_alert_acido": {
@@ -1229,6 +1059,46 @@
       "description": "Echi Risonanti permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante."
     }
   },
+  "eco_interno_riflesso": {
+    "en": {
+      "label": "Internal Echo Reflex",
+      "description": "Internal sonar mapping surroundings via body reverbs."
+    },
+    "it": {
+      "label": "Riflesso dell'Eco Interno",
+      "description": "Sonar interno che mappa l'ambiente attraverso vibrazioni corporee."
+    }
+  },
+  "ectotermia_dinamica": {
+    "en": {
+      "label": "Dynamic Ectothermy",
+      "description": "Raise body temperature for peak performance."
+    },
+    "it": {
+      "label": "Ectotermia Dinamica",
+      "description": "Alzare temperatura per performance."
+    }
+  },
+  "elettromagnete_biologico": {
+    "en": {
+      "label": "Biological Electromagnet",
+      "description": "Disrupt prey nervous systems."
+    },
+    "it": {
+      "label": "Elettromagnete Biologico",
+      "description": "Interferire con il sistema nervoso della preda."
+    }
+  },
+  "empatia_coordinativa": {
+    "en": {
+      "label": "Coordinated Empathy",
+      "description": "Empathic mesh synchronizing team-wide heals and defenses."
+    },
+    "it": {
+      "label": "Empatia Coordinativa",
+      "description": "Rete empatica che sincronizza cure e difese dell'intera squadra."
+    }
+  },
   "enzimi_antifase_termica": {
     "en": {
       "label": "Enzimi Antifase Termica",
@@ -1299,6 +1169,46 @@
       "description": "Epitelio Fosforescente permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di reef luminescente."
     }
   },
+  "ermafroditismo_cronologico": {
+    "en": {
+      "label": "Chronological Hermaphroditism",
+      "description": "Change sex after one or two incubations."
+    },
+    "it": {
+      "label": "Ermafroditismo Cronologico",
+      "description": "Cambiare sesso dopo 1–2 incubazioni."
+    }
+  },
+  "estroflessione_gastrica_acida": {
+    "en": {
+      "label": "Acidic Gastric Extrusion",
+      "description": "Liquefy tissues on contact and siphon them."
+    },
+    "it": {
+      "label": "Estroflessione Gastrica Acida",
+      "description": "Liquefare tessuti al contatto e aspirarli."
+    }
+  },
+  "fagocitosi_assorbente": {
+    "en": {
+      "label": "Absorptive Phagocytosis",
+      "description": "Engulf and digest entire biomass."
+    },
+    "it": {
+      "label": "Fagocitosi Assorbente",
+      "description": "Inglobare e digerire biomassa intera."
+    }
+  },
+  "filamenti_digestivi_compattanti": {
+    "en": {
+      "label": "Digestive Compaction Filaments",
+      "description": "Digestive filaments compact waste to free vital space."
+    },
+    "it": {
+      "label": "Filamenti Digestivi Compattanti",
+      "description": "Filamenti digestivi che compattano scarti e liberano spazio vitale."
+    }
+  },
   "filamenti_magnetotrofi": {
     "en": {
       "label": "Filamenti Magnetotrofi",
@@ -1329,6 +1239,16 @@
       "description": "Filamenti Termoconduzione permette alle squadre di ottenere presa e accelerazioni controllate su terreni estremi all'interno di dorsale termale tropicale."
     }
   },
+  "filtrazione_osmotica": {
+    "en": {
+      "label": "Osmotic Filtration",
+      "description": "Neutralize self-generated toxins."
+    },
+    "it": {
+      "label": "Filtrazione Osmotica",
+      "description": "Neutralizzare tossine autogenerate."
+    }
+  },
   "filtri_planctonici": {
     "en": {
       "label": "Filtri Planctonici",
@@ -1339,6 +1259,16 @@
       "description": "Filtri Planctonici permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di laguna bioreattiva."
     }
   },
+  "filtro_metallofago": {
+    "en": {
+      "label": "Metallophagous Filter",
+      "description": "Sustain electrogenic organs."
+    },
+    "it": {
+      "label": "Filtro Metallofago",
+      "description": "Sostenere organi elettrogeni."
+    }
+  },
   "flagelli_ancoranti": {
     "en": {
       "label": "Flagelli Ancoranti",
@@ -1347,6 +1277,26 @@
     "it": {
       "label": "Flagelli Ancoranti",
       "description": "Flagelli Ancoranti permette alle squadre di stabilizzare assorbimento e conversione energetica multi-fonte all'interno di laguna bioreattiva."
+    }
+  },
+  "flusso_ameboide_controllato": {
+    "en": {
+      "label": "Controlled Amoeboid Flow",
+      "description": "Slide or climb along smooth surfaces."
+    },
+    "it": {
+      "label": "Flusso Ameboide Controllato",
+      "description": "Scivolare o risalire superfici lisce."
+    }
+  },
+  "focus_frazionato": {
+    "en": {
+      "label": "Fractional Focus",
+      "description": "Split cortex keeps two threats under active surveillance."
+    },
+    "it": {
+      "label": "Focus Frazionato",
+      "description": "Cortex biforcato che mantiene due minacce in sorveglianza attiva."
     }
   },
   "foliage_fotocatodico": {
@@ -1369,6 +1319,16 @@
       "description": "Foliaggio Spugna permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di mangrovieto cinetico."
     }
   },
+  "frusta_fiammeggiante": {
+    "en": {
+      "label": "Flame Lash",
+      "description": "Bound plasma appendage that can hook and ignite targets."
+    },
+    "it": {
+      "label": "Frusta Fiammeggiante",
+      "description": "Appendice di plasma vincolato capace di arpionare e incendiare bersagli."
+    }
+  },
   "ghiaccio_piezoelettrico": {
     "en": {
       "label": "Ghiaccio Piezoelettrico",
@@ -1377,6 +1337,16 @@
     "it": {
       "label": "Ghiaccio Piezoelettrico",
       "description": "Ghiaccio Piezoelettrico permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di caldera glaciale."
+    }
+  },
+  "ghiandola_caustica": {
+    "en": {
+      "label": "Caustic Gland",
+      "description": "Offensive gland spraying quick acid against light armor."
+    },
+    "it": {
+      "label": "Ghiandola Caustica",
+      "description": "Ghiandola offensiva che spruzza acidi rapidi contro corazze leggere."
     }
   },
   "ghiandole_cambio_salino": {
@@ -1549,6 +1519,26 @@
       "description": "Gusci Magnesio permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di dorsale termale tropicale."
     }
   },
+  "integumento_bipolare": {
+    "en": {
+      "label": "Bipolar Integument",
+      "description": "Orient along magnetic field lines."
+    },
+    "it": {
+      "label": "Integumento Bipolare",
+      "description": "Orientarsi lungo le linee di campo."
+    }
+  },
+  "ipertrofia_muscolare_massiva": {
+    "en": {
+      "label": "Massive Muscular Hypertrophy",
+      "description": "Boost power and burst acceleration."
+    },
+    "it": {
+      "label": "Ipertrofia Muscolare Massiva",
+      "description": "Aumentare potenza e scatto."
+    }
+  },
   "lamelle_shear": {
     "en": {
       "label": "Lamelle Shear",
@@ -1567,6 +1557,16 @@
     "it": {
       "label": "Lamelle Sincroniche",
       "description": "Lamelle Sincroniche permette alle squadre di sincronizzare organismi alleati e flussi mutualistici all'interno di steppe algoritmiche."
+    }
+  },
+  "lamelle_termoforetiche": {
+    "en": {
+      "label": "Thermophoretic Lamellae",
+      "description": "Respiratory lamellae deflect extreme gases via heat gradients."
+    },
+    "it": {
+      "label": "Lamelle Termoforetiche",
+      "description": "Lamelle respiratorie che deviano gas estremi con gradienti termici."
     }
   },
   "lamine_filtranti_aeree": {
@@ -1609,6 +1609,26 @@
       "description": "Lingua Cristallina permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di pianura salina iperarida."
     }
   },
+  "lingua_tattile_trama": {
+    "en": {
+      "label": "Texture-Sensing Tongue",
+      "description": "Sensory tongue reading hidden vibrations and fractures."
+    },
+    "it": {
+      "label": "Lingua Tattile Trama-Sensibile",
+      "description": "Lingua sensoriale che legge vibrazioni e fratture nascoste."
+    }
+  },
+  "locomozione_miriapode_ibrida": {
+    "en": {
+      "label": "Hybrid Myriapod Locomotion",
+      "description": "Grip and climb on nearly any surface."
+    },
+    "it": {
+      "label": "Locomozione Miriapode Ibrida",
+      "description": "Aderire e arrampicare su qualsiasi superficie."
+    }
+  },
   "luminescenza_aurorale": {
     "en": {
       "label": "Luminescenza Aurorale",
@@ -1639,6 +1659,26 @@
       "description": "Mantelli Geotermici permette alle squadre di canalizzare energia cinetica o elementale in colpi mirati all'interno di caldera glaciale."
     }
   },
+  "mantello_meteoritico": {
+    "en": {
+      "label": "Meteoric Mantle",
+      "description": "Regenerating ablative layers that vaporize impacts into thermal pulses."
+    },
+    "it": {
+      "label": "Mantello Meteoritico",
+      "description": "Strati ablativi rigeneranti che vaporizzano l'impatto convertendolo in impulso termico."
+    }
+  },
+  "membrana_plastica_continua": {
+    "en": {
+      "label": "Continuous Plastic Membrane",
+      "description": "Adopt different shapes and densities."
+    },
+    "it": {
+      "label": "Membrana Plastica Continua",
+      "description": "Assumere forme e densità diverse."
+    }
+  },
   "membrane_captura_rugiada": {
     "en": {
       "label": "Membrane Captura Rugiada",
@@ -1647,6 +1687,16 @@
     "it": {
       "label": "Membrane Captura Rugiada",
       "description": "Membrane Captura Rugiada permette alle squadre di prevedere traiettorie e orchestrare setup multilivello all'interno di pianura salina iperarida."
+    }
+  },
+  "membrane_eliofiltranti": {
+    "en": {
+      "label": "Membrane Eliofiltranti",
+      "description": "Translucent membranes screening radiation and airborne pathogens."
+    },
+    "it": {
+      "label": "Membrane Eliofiltranti",
+      "description": "Membrane traslucide che schermano radiazioni e patogeni sospesi."
     }
   },
   "membrane_planata_vectored": {
@@ -1669,6 +1719,16 @@
       "description": "Membrane Pneumatofori permette alle squadre di ridistribuire carichi e modulare rigidità strutturale all'interno di mangrovieto cinetico."
     }
   },
+  "metabolismo_di_condivisione_energetica": {
+    "en": {
+      "label": "Shared Energy Metabolism",
+      "description": "Support wounded or young with collective reserves."
+    },
+    "it": {
+      "label": "Metabolismo di Condivisione Energetica",
+      "description": "Sostenere feriti o giovani con riserva collettiva."
+    }
+  },
   "midollo_antivibrazione": {
     "en": {
       "label": "Midollo Antivibrazione",
@@ -1677,6 +1737,46 @@
     "it": {
       "label": "Midollo Antivibrazione",
       "description": "Midollo Antivibrazione permette alle squadre di interpretare segnali minuti e pattern psionici instabili all'interno di caverna risonante."
+    }
+  },
+  "mimetismo_cromatico_passivo": {
+    "en": {
+      "label": "Passive Chromatic Mimicry",
+      "description": "Passive chromatophores slowly mirroring surrounding hues."
+    },
+    "it": {
+      "label": "Ghiandole di Mimetismo Cromatico Passivo",
+      "description": "Cromatofori passivi che replicano lentamente i colori circostanti."
+    }
+  },
+  "moltiplicazione_per_fusione": {
+    "en": {
+      "label": "Fusion Multiplication",
+      "description": "Grow mass and intellect by merging units."
+    },
+    "it": {
+      "label": "Moltiplicazione per Fusione",
+      "description": "Aumentare massa e intelligenza unendo unità."
+    }
+  },
+  "motore_biologico_silenzioso": {
+    "en": {
+      "label": "Silent Biological Engine",
+      "description": "Maintain extended flight at ultra-low sound pressure."
+    },
+    "it": {
+      "label": "Motore Biologico Silenzioso",
+      "description": "Garantire volo prolungato a bassissimo SPL."
+    }
+  },
+  "mucillagine_simbionte_mangrovie": {
+    "en": {
+      "label": "Mucillagine Simbionte delle Mangrovie",
+      "description": "Symbiotic mucus absorbing poisons and sealing swamp wounds."
+    },
+    "it": {
+      "label": "Mucillagine Simbionte delle Mangrovie",
+      "description": "Mucosa simbionte che assorbe veleni e sigilla ferite palustri."
     }
   },
   "mucose_aderenza_sonica": {
@@ -1699,44 +1799,454 @@
       "description": "Mucose Barofile permette alle squadre di disperdere energia e attenuare impatti corrosivi o termici all'interno di abisso vulcanico."
     }
   },
-  "aura_scudo_radianza": {
+  "nodi_micorrizici_oracolari": {
     "en": {
-      "label": "Radiant Shield Aura",
-      "description": "Photoplasmic field that deflects planar damage while syncing squad vitals."
+      "label": "Nodi Micorrizici Oracolari",
+      "description": "Mycorrhizal nodes foreseeing threats via fungal signals."
     },
     "it": {
-      "label": "Aura Scudo di Radianza",
-      "description": "Campo fotoplasmatico che devia danni planari e sincronizza i battiti della squadra."
+      "label": "Nodi Micorrizici Oracolari",
+      "description": "Nodi micorrizici che anticipano minacce tramite segnali fungini."
     }
   },
-  "frusta_fiammeggiante": {
+  "nucleo_ovomotore_rotante": {
     "en": {
-      "label": "Flame Lash",
-      "description": "Bound plasma appendage that can hook and ignite targets."
+      "label": "Rotating Ovomotor Core",
+      "description": "Rotating core turning the body into a driving wheel."
     },
     "it": {
-      "label": "Frusta Fiammeggiante",
-      "description": "Appendice di plasma vincolato capace di arpionare e incendiare bersagli."
+      "label": "Uovo rotaia, uovo grande e uova piccole dentro...",
+      "description": "Nucleo rotante che trasforma il corpo in una ruota motrice."
     }
   },
-  "mantello_meteoritico": {
+  "occhi_analizzatori_di_tensione": {
     "en": {
-      "label": "Meteoric Mantle",
-      "description": "Regenerating ablative layers that vaporize impacts into thermal pulses."
+      "label": "Tension-Analyzing Eyes",
+      "description": "Read strand tension and stress patterns."
     },
     "it": {
-      "label": "Mantello Meteoritico",
-      "description": "Strati ablativi rigeneranti che vaporizzano l'impatto convertendolo in impulso termico."
+      "label": "Occhi Analizzatori di Tensione",
+      "description": "Leggere tensioni nella seta e pattern di stress."
     }
   },
-  "armatura_pietra_planare": {
+  "occhi_cinetici": {
     "en": {
-      "label": "Planar Stone Plating",
-      "description": "Resonant plating carved from extradimensional stone that dampens shockwaves."
+      "label": "Kinetic Eyes",
+      "description": "See sound as patterns in the air."
     },
     "it": {
-      "label": "Armatura di Pietra Planare",
-      "description": "Corazza risonante scolpita da roccia extradimensionale che smorza onde d'urto."
+      "label": "Occhi Cinetici",
+      "description": "Vedere il suono come pattern d’aria."
+    }
+  },
+  "occhi_infrarosso_composti": {
+    "en": {
+      "label": "Infrared Compound Eyes",
+      "description": "Infrared ommatidia tracking thermal trails in darkness."
+    },
+    "it": {
+      "label": "Occhi Composti ad Infrarosso",
+      "description": "Ommatidi infrarossi che seguono scie termiche nell'oscurità."
+    }
+  },
+  "olfatto_risonanza_magnetica": {
+    "en": {
+      "label": "Magnetic Resonance Scent",
+      "description": "Olfactory nodes tracing magnetic fields and metal veins."
+    },
+    "it": {
+      "label": "Olfatto di Risonanza Magnetica",
+      "description": "Bulbi olfattivi che tracciano campi magnetici e vene metalliche."
+    }
+  },
+  "organi_sismici_cutanei": {
+    "en": {
+      "label": "Cutaneous Seismic Organs",
+      "description": "Sense ground vibrations."
+    },
+    "it": {
+      "label": "Organi Sismici Cutanei",
+      "description": "Percepire vibrazioni del suolo."
+    }
+  },
+  "pathfinder": {
+    "en": {
+      "label": "Pathfinder",
+      "description": "Exploration suite highlighting safe routes across shifting biomes."
+    },
+    "it": {
+      "label": "Pathfinder",
+      "description": "Suite esplorativa che evidenzia rotte sicure tra biomi imprevedibili."
+    }
+  },
+  "pelage_idrorepellente_avanzato": {
+    "en": {
+      "label": "Advanced Hydrophobic Pelage",
+      "description": "Insulate the body and stay afloat."
+    },
+    "it": {
+      "label": "Pelage Idrorepellente Avanzato",
+      "description": "Isolare e galleggiare."
+    }
+  },
+  "pianificatore": {
+    "en": {
+      "label": "Strategic Planner",
+      "description": "Strategic module keeping priorities and attack windows aligned."
+    },
+    "it": {
+      "label": "Pianificatore",
+      "description": "Modulo strategico che mantiene priorità e finestre d'attacco allineate."
+    }
+  },
+  "piume_solari_fotovoltaiche": {
+    "en": {
+      "label": "Piume Solari Fotovoltaiche",
+      "description": "Photovoltaic plumage storing sunlight for long sorties."
+    },
+    "it": {
+      "label": "Piume Solari Fotovoltaiche",
+      "description": "Piumaggio fotovoltaico che immagazzina luce per lunghe missioni."
+    }
+  },
+  "polmoni_cristallini_alta_quota": {
+    "en": {
+      "label": "Polmoni Cristallini d'Alta Quota",
+      "description": "Crystalline lungs concentrating thin high-altitude oxygen."
+    },
+    "it": {
+      "label": "Polmoni Cristallini d'Alta Quota",
+      "description": "Polmoni cristallini che concentrano ossigeno rarefatto in quota."
+    }
+  },
+  "random": {
+    "en": {
+      "label": "Trait Random",
+      "description": "Experimental slot drawing random traits from a curated pool."
+    },
+    "it": {
+      "label": "Trait Random",
+      "description": "Slot sperimentale che estrae tratti casuali dal pool controllato."
+    }
+  },
+  "respiro_a_scoppio": {
+    "en": {
+      "label": "Burst Breath Propulsion",
+      "description": "Thoracic valves unleashing instantaneous propulsion bursts."
+    },
+    "it": {
+      "label": "Respiro a scoppio",
+      "description": "Valvole toraciche che rilasciano getti propulsivi istantanei."
+    }
+  },
+  "rete_filtro_polmonare": {
+    "en": {
+      "label": "Pulmonary Filter Net",
+      "description": "Absorb nutrients suspended in the air."
+    },
+    "it": {
+      "label": "Rete Filtro-Polmonare",
+      "description": "Assorbire nutrienti aerodispersi."
+    }
+  },
+  "risonanza_di_branco": {
+    "en": {
+      "label": "Pack Resonance",
+      "description": "Resonant lattice amplifying the pack's shared buffs."
+    },
+    "it": {
+      "label": "Risonanza di Branco",
+      "description": "Rete risonante che amplifica buff condivisi del branco."
+    }
+  },
+  "rostro_emostatico_litico": {
+    "en": {
+      "label": "Hemolytic-Lytic Rostrum",
+      "description": "Inject toxins and enzymes and siphon fluids."
+    },
+    "it": {
+      "label": "Rostro Emostatico-Litico",
+      "description": "Inoculare tossine ed enzimi e aspirare fluidi."
+    }
+  },
+  "rostro_linguale_prensile": {
+    "en": {
+      "label": "Prehensile Lingual Rostrum",
+      "description": "Grab and manipulate at long reach."
+    },
+    "it": {
+      "label": "Rostro Linguale Prensile",
+      "description": "Afferrare e manipolare a lungo raggio."
+    }
+  },
+  "sacche_galleggianti_ascensoriali": {
+    "en": {
+      "label": "Elevating Buoyancy Sacs",
+      "description": "Adjustable gas sacs controlling buoyancy and depth."
+    },
+    "it": {
+      "label": "Sacche galleggianti ascensoriali",
+      "description": "Sacche gassose regolabili per controllare assetto e profondità."
+    }
+  },
+  "sacche_spore_stratosferiche": {
+    "en": {
+      "label": "Sacche di Spore Stratosferiche",
+      "description": "Stratospheric vesicles dispersing long-range support spores."
+    },
+    "it": {
+      "label": "Sacche di Spore Stratosferiche",
+      "description": "Vescicole stratosferiche che disperdono spore di supporto a lungo."
+    }
+  },
+  "sangue_piroforico": {
+    "en": {
+      "label": "Pyrophoric Blood",
+      "description": "Blood ignites on air contact, burning would-be piercers."
+    },
+    "it": {
+      "label": "Sangue che prende fuoco a contatto con l'ossigeno",
+      "description": "Fluido ematico che incendia l'aria colpendo chi perfora la corazza."
+    }
+  },
+  "scheletro_idraulico_a_pistoni": {
+    "en": {
+      "label": "Hydraulic Piston Skeleton",
+      "description": "Extend the skull rapidly to strike."
+    },
+    "it": {
+      "label": "Scheletro Idraulico a Pistoni",
+      "description": "Estendere rapidamente il cranio per colpire."
+    }
+  },
+  "scheletro_idro_regolante": {
+    "en": {
+      "label": "Hydro-Regulating Skeleton",
+      "description": "Porous bones modulate water content to shift body mass."
+    },
+    "it": {
+      "label": "Scheletro Idro-Regolante",
+      "description": "Ossa porose che modulano il contenuto idrico per mutare massa."
+    }
+  },
+  "scheletro_pneumatico_a_maglie": {
+    "en": {
+      "label": "Latticed Pneumatic Skeleton",
+      "description": "Lighten the load for slow, steady travel."
+    },
+    "it": {
+      "label": "Scheletro Pneumatico a Maglie",
+      "description": "Alleggerire il carico per spostamenti lenti ma costanti."
+    }
+  },
+  "scivolamento_magnetico": {
+    "en": {
+      "label": "Magnetic Gliding",
+      "description": "Reduce friction to glide."
+    },
+    "it": {
+      "label": "Scivolamento Magnetico",
+      "description": "Ridurre attrito e scivolare."
+    }
+  },
+  "scudo_gluteale_cheratinizzato": {
+    "en": {
+      "label": "Keratinized Gluteal Shield",
+      "description": "Absorb impacts from the rear."
+    },
+    "it": {
+      "label": "Scudo Gluteale Cheratinizzato",
+      "description": "Assorbire impatti posteriori."
+    }
+  },
+  "secrezione_rallentante_palmi": {
+    "en": {
+      "label": "Retarding Palm Secretions",
+      "description": "Palms exude slowing gel to snare fast targets."
+    },
+    "it": {
+      "label": "Mani secernano liquido rallentante",
+      "description": "Palmi che rilasciano gel rallentante per bloccare bersagli rapidi."
+    }
+  },
+  "sensori_geomagnetici": {
+    "en": {
+      "label": "Geomagnetic Resonance Sensors",
+      "description": "Cranial crystals mapping invisible geomagnetic corridors."
+    },
+    "it": {
+      "label": "Sensori a Risonanza Geomagnetica",
+      "description": "Cristalli cranici che mappano corridoi geomagnetici invisibili."
+    }
+  },
+  "seta_conduttiva_elettrica": {
+    "en": {
+      "label": "Conductive Electric Silk",
+      "description": "Stun prey with charges woven into the web."
+    },
+    "it": {
+      "label": "Seta Conduttiva Elettrica",
+      "description": "Stordire con scariche nella tela."
+    }
+  },
+  "siero_anti_gelo_naturale": {
+    "en": {
+      "label": "Natural Anti-Freeze Serum",
+      "description": "Prevent crystallization at low temperatures."
+    },
+    "it": {
+      "label": "Siero Anti-Gelo Naturale",
+      "description": "Impedire la cristallizzazione a basse temperature."
+    }
+  },
+  "sinapsi_coraline_polifoniche": {
+    "en": {
+      "label": "Sinapsi Coraline Polifoniche",
+      "description": "Coralline synapses relaying orders through marine harmonics."
+    },
+    "it": {
+      "label": "Sinapsi Coraline Polifoniche",
+      "description": "Sinapsi coralline che trasmettono ordini tramite armoniche marine."
+    }
+  },
+  "sistemi_chimio_sonici": {
+    "en": {
+      "label": "Chemo-Sonic Systems",
+      "description": "Map space and airflow without sight."
+    },
+    "it": {
+      "label": "Sistemi Chimio-Sonici",
+      "description": "Mappare spazio e correnti d’aria senza vista."
+    }
+  },
+  "sonno_emisferico_alternato": {
+    "en": {
+      "label": "Unihemispheric Sleep",
+      "description": "Alternating hemispheres keep watch while the other sleeps."
+    },
+    "it": {
+      "label": "Dormire con solo metà cervello alla volta",
+      "description": "Cervello alternato che veglia con un emisfero mentre l'altro riposa."
+    }
+  },
+  "spore_psichiche_silenziate": {
+    "en": {
+      "label": "Silent Psychic Spores",
+      "description": "Psionic spores that lull and confuse nearby targets."
+    },
+    "it": {
+      "label": "Spora Psichica Silenziosa",
+      "description": "Spore psioniche che sedano e confondono i bersagli vicini."
+    }
+  },
+  "squame_rifrangenti_deserto": {
+    "en": {
+      "label": "Squame Rifrangenti del Deserto",
+      "description": "Crystal scales diffusing heat and casting mirages."
+    },
+    "it": {
+      "label": "Squame Rifrangenti del Deserto",
+      "description": "Scaglie cristalline che diffondono calore e creano miraggi."
+    }
+  },
+  "struttura_elastica_amorfa": {
+    "en": {
+      "label": "Elastic Amorphous Frame",
+      "description": "Amorphous frame stretching or compressing to escape binds."
+    },
+    "it": {
+      "label": "Struttura elastica, allungabile, amorfa, retrattile",
+      "description": "Corpo amorfo che si estende e si compatta per evadere vincoli."
+    }
+  },
+  "tattiche_di_branco": {
+    "en": {
+      "label": "Pack Tactics",
+      "description": "Tactical protocol coordinating shared focus and grapples."
+    },
+    "it": {
+      "label": "Tattiche di Branco",
+      "description": "Protocollo tattico che coordina focus e prese condivise."
+    }
+  },
+  "unghie_a_micro_adesione": {
+    "en": {
+      "label": "Micro-Adhesion Claws",
+      "description": "Adhere to steep surfaces."
+    },
+    "it": {
+      "label": "Unghie a Micro-Adesione",
+      "description": "Aderire a superfici ripide."
+    }
+  },
+  "vello_condensatore_nebbie": {
+    "en": {
+      "label": "Vello Condensatore di Nebbie",
+      "description": "Capillary fleece condensing fog into mobile water reserves."
+    },
+    "it": {
+      "label": "Vello Condensatore di Nebbie",
+      "description": "Vello capillare che condensa nebbia in riserve idriche mobili."
+    }
+  },
+  "vello_di_assorbimento_totale": {
+    "en": {
+      "label": "Total Absorption Fleece",
+      "description": "Absorb nearly all incoming light."
+    },
+    "it": {
+      "label": "Vello di Assorbimento Totale",
+      "description": "Assorbire quasi tutta la luce incidente."
+    }
+  },
+  "ventriglio_gastroliti": {
+    "en": {
+      "label": "Gastrolith Grinding Gizzard",
+      "description": "Muscular gizzard grinding hard food with gastroliths."
+    },
+    "it": {
+      "label": "Denti sonci (ciottoli/sassi), ti nutri di tutto",
+      "description": "Ventriglio muscoloso che macina cibi duri con gastroliti."
+    }
+  },
+  "visione_multi_spettrale_amplificata": {
+    "en": {
+      "label": "Amplified Multi-Spectral Vision",
+      "description": "See under extremely low luminance."
+    },
+    "it": {
+      "label": "Visione Multi-Spettrale Amplificata",
+      "description": "Vedere in luminanza estremamente bassa."
+    }
+  },
+  "zampe_a_molla": {
+    "en": {
+      "label": "Spring-Loaded Limbs",
+      "description": "Spring-loaded limbs storing energy for repositioning leaps."
+    },
+    "it": {
+      "label": "Zampe a Molla",
+      "description": "Arti a molla che accumulano energia per balzi di riposizionamento."
+    }
+  },
+  "zanne_idracida": {
+    "en": {
+      "label": "Hydra-Acid Tusks",
+      "description": "Corrode tissues and even metals."
+    },
+    "it": {
+      "label": "Zanne Idracida",
+      "description": "Corrodere tessuti e metalli."
+    }
+  },
+  "zoccoli_risonanti_steppe": {
+    "en": {
+      "label": "Zoccoli Risonanti delle Steppe",
+      "description": "Hollow hooves sending rhythmic waves across the steppe pack."
+    },
+    "it": {
+      "label": "Zoccoli Risonanti delle Steppe",
+      "description": "Zoccoli cavi che inviano onde ritmiche al branco sulle steppe."
     }
   }
 }
