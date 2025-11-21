@@ -7,14 +7,14 @@ const port = Number.parseInt(process.env.PORT || '3333', 10);
 const host = process.env.HOST || '0.0.0.0';
 const ROOT_DIR = path.resolve(__dirname, '..', '..');
 const dataRoot = path.resolve(ROOT_DIR, 'data');
-const databasePath = process.env.IDEA_ENGINE_DB || path.join(dataRoot, 'idea_engine.db');
+const databaseUrl = process.env.DATABASE_URL || '';
 
-const { app } = createApp({ databasePath, dataRoot });
+const { app } = createApp({ dataRoot });
 
 const server = http.createServer(app);
 server.listen(port, host, () => {
   console.log(`[idea-engine] API online su http://${host}:${port}`);
-  console.log(`[idea-engine] Database: ${databasePath}`);
+  console.log(`[idea-engine] Database URL: ${databaseUrl ? '[set]' : '[missing]'}`);
 });
 
 process.on('SIGTERM', () => {

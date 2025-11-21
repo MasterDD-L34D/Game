@@ -1,0 +1,46 @@
+// Prisma schema for idea engine
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Idea {
+  id                Int        @id @default(autoincrement())
+  title             String
+  summary           String     @default("")
+  category          String
+  tags              String[]   @default([])
+  biomes            String[]   @default([])
+  ecosystems        String[]   @default([])
+  species           String[]   @default([])
+  traits            String[]   @default([])
+  gameFunctions     String[]   @default([]) @map("game_functions")
+  priority          String     @default("P2")
+  actionsNext       String     @default("") @map("actions_next")
+  linkDrive         String     @default("") @map("link_drive")
+  github            String     @default("")
+  note              String     @default("")
+  allowSlugOverride Boolean    @default(false) @map("allow_slug_override")
+  createdAt         DateTime   @default(now()) @map("created_at")
+  updatedAt         DateTime   @updatedAt @map("updated_at")
+  feedback          Feedback[]
+
+  @@map("ideas")
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  message   String
+  contact   String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+  ideaId    Int      @map("idea_id")
+  idea      Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+
+  @@index([ideaId])
+  @@map("idea_feedback")
+}
