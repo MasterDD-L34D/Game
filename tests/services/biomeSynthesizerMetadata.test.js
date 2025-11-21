@@ -2,8 +2,10 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const os = require('node:os');
 
 const { createBiomeSynthesizer } = require('../../services/generation/biomeSynthesizer');
+const { createCatalogService } = require('../../apps/backend/services/catalog');
 
 const DATA_ROOT = path.resolve(__dirname, '..', '..', 'data');
 const BIOME_POOLS_PATH = path.resolve(DATA_ROOT, 'core', 'traits', 'biome_pools.json');
@@ -30,4 +32,43 @@ test('biome pools receive root metadata when loaded from filesystem', async () =
       'updated_at should match root metadata',
     );
   }
+});
+
+test('fallback catalog loader injects metadata into biome pools', async (t) => {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'catalog-fallback-'));
+  t.after(() => fs.rmSync(tempRoot, { recursive: true, force: true }));
+
+  const traitsDir = path.join(tempRoot, 'core', 'traits');
+  fs.mkdirSync(traitsDir, { recursive: true });
+
+  const poolsPayload = {
+    schema_version: '2.5.0',
+    updated_at: '2035-12-31T23:59:59Z',
+    pools: [
+      { _id: 'alpha', traits: { core: [] }, metadata: {} },
+      { _id: 'beta', traits: { core: [] } },
+    ],
+  };
+
+  fs.writeFileSync(
+    path.join(traitsDir, 'biome_pools.json'),
+    `${JSON.stringify(poolsPayload, null, 2)}\n`,
+  );
+  fs.writeFileSync(path.join(traitsDir, 'glossary.json'), '{"traits":{}}\n');
+
+  const service = createCatalogService({
+    dataRoot: tempRoot,
+    useMongo: false,
+    traitCatalogPath: path.join(tempRoot, 'catalog_data.json'),
+  });
+
+  const biomePools = await service.loadBiomePools();
+  const pools = biomePools.pools || [];
+
+  assert.equal(pools.length, 2, 'fallback loader should return all pools');
+  pools.forEach((pool) => {
+    assert.ok(pool.metadata, 'metadata should be attached to each pool');
+    assert.equal(pool.metadata.schema_version, poolsPayload.schema_version);
+    assert.equal(pool.metadata.updated_at, poolsPayload.updated_at);
+  });
 });
