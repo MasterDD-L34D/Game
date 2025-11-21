@@ -841,7 +841,7 @@
     ]
   },
   "Sensoriale/Visivo": {
-    "trait_count": 1,
+    "trait_count": 2,
     "fields": [
       "biome_tags",
       "completion_flags",

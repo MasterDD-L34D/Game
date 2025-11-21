@@ -12,8 +12,8 @@
   "sinergie": [],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.interoception_seed.mutazione_indotta",
-  "uso_funzione": "Tier Proto‑Sentiente (T1). Milestone: Senses (core).",
-  "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+  "uso_funzione": "i18n:traits.interoception_seed.uso_funzione",
+  "spinta_selettiva": "i18n:traits.interoception_seed.spinta_selettiva",
   "completion_flags": {
     "external_source": true
   },

@@ -12,8 +12,8 @@
   "sinergie": [],
   "conflitti": [],
   "mutazione_indotta": "i18n:traits.balance_reflex.mutazione_indotta",
-  "uso_funzione": "Tier Pre‑Sociale (T2). Milestone: Senses mid; AB 01 Endurance.",
-  "spinta_selettiva": "Origine esterna: EvoTactics.Sentience. Validare allineamento con catalogo principale.",
+  "uso_funzione": "i18n:traits.balance_reflex.uso_funzione",
+  "spinta_selettiva": "i18n:traits.balance_reflex.spinta_selettiva",
   "completion_flags": {
     "external_source": true
   },
