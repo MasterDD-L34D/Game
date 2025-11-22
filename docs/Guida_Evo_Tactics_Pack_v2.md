@@ -80,7 +80,8 @@ Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 - **fattore_mantenimento_energetico**: _Basso, Medio_ o _Alto_, indicativo del costo per mantenere il tratto attivo.
 - **tier**: T1–T5 (con costo/complessità/impatti crescenti). Tier elevati indicano poteri eccezionali con costi metabolici o vincoli severi.
 - **slot**: elenco opzionale per definire ruoli speciali o raggruppamenti (può restare vuoto).
-- **sinergie** e **conflitti**: liste di codici trait. I tratti in sinergia potenziano le funzioni reciproche; quelli in conflitto non possono coesistere.
+- **sinergie** e **conflitti**: liste di codici trait. I tratti in sinergia potenziano le funzioni reciproche; quelli in conflitto non possono coesistere. Nel pack puoi indicare `trait_code` con alias `id`, ma nei JSON del repository vanno usati solo gli `id` snake_case (vedi tabella di mapping in [docs/traits_evo_pack_alignment.md](./traits_evo_pack_alignment.md)).
+  - **Esempio sinergie/conflitti (pack → repo)**: `sinergie: ["TR-0421" (alias: condotto_laminare)]`, `conflitti: ["TR-0502" (alias: ipertermia_cronica)]` nel pack diventano `sinergie: ["condotto_laminare"]`, `conflitti: ["ipertermia_cronica"]` nei file del repository.
 - **requisiti_ambientali**: condizioni o biome in cui il tratto è efficace (campo libero accompagnato da eventuali termini ENVO).
 - **mutazione_indotta**: breve frase sull’origine anatomica (es. “Ghiandole olocrine ad alta densità”).
 - **uso_funzione**: verbo + oggetto che definisce la funzione principale (es. “Isolare e galleggiare”).
@@ -90,6 +91,12 @@ Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 - **testability**: indica cosa si può osservare per verificare il tratto (`observable`) e fornisce uno `scene_prompt` per test narrativi ripetibili.
 - **applicability**: facoltativo; può elencare cladi biologici e termini ENVO.
 - **version** e **versioning**: numerazione SemVer (`version`) e dettagli (date di creazione/aggiornamento, autore) in `versioning`.
+
+> **Promemoria alias `trait_code` vs `id` (repo Game)**
+>
+> - Nei file del pacchetto puoi includere `trait_code` come alias (es. `TR-0420`), ma nei JSON del repository ufficiale devi usare `id` snake_case e `label` puntato a `i18n:traits.<id>.label`.
+> - Il campo `trait_code` resta utile per il pack e per i riferimenti cross-doc (inclusi gli alias mostrati negli esempi qui sotto), mentre i validator del repo si aspettano sempre `id`/`label` i18n.
+> - Suggerimento operativo: tieni entrambi i valori nel pack (`trait_code` + alias `id`) ma, quando porti i dati nel repository Game, compila le chiavi con `id` e `label` i18n (non con `trait_code`).
 
 La definizione dei tratti deve evitare ridondanze: ogni tratto deve essere atomico, cioè con una funzione principale chiara e testabile. Per ogni super-abilità occorre indicare almeno un limite o contromisura (raffreddamento, saturazione, schermature, rumore di fondo…).
 
