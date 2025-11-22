@@ -1,326 +1,8 @@
 {
   "catalog": [
     {
-      "scientific_name": "Elastovaranus hydrus",
-      "common_names": [
-        "Viverna-Elastico"
-      ],
-      "classification": {
-        "macro_class": "Reptilia",
-        "habitat": "savana calda con gole rocciose"
-      },
-      "functional_signature": "Attacchi a proiettile con inoculazione multipla tramite rostro estensibile, guidati da sensibilità sismica.",
-      "visual_description": "Rettile allungato con cranio affusolato e rostro tubulare; fasci muscolari evidenti; squame opache con lamelle sensoriali. Postura semiflessa pronta allo scatto, coda come stabilizzatore. Colorazioni sabbia-oliva con pattern spezzato.",
-      "risk_profile": {
-        "danger_level": 3,
-        "vectors": [
-          "tossine litiche",
-          "emorragia"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "antilopi piccole",
-          "varani",
-          "uccelli terricoli"
-        ],
-        "predated_by": [
-          "felidi grandi",
-          "rapaci diurni"
-        ],
-        "symbiosis": "nessuna"
-      },
-      "constraints": [
-        "Richiede pressione idraulica pre-caricata (cooldown dopo 3 colpi)",
-        "Prestazioni ridotte in freddo prolungato"
-      ],
-      "sentience_index": "T1",
-      "ecotypes": [
-        "dorsali rocciose",
-        "letto fluviale stagionale"
-      ],
-      "trait_refs": [
-        "TR-1101",
-        "TR-1102",
-        "TR-1103",
-        "TR-1104",
-        "TR-1105"
-      ]
-    },
-    {
-      "scientific_name": "Gulogluteus scutiger",
-      "common_names": [
-        "Ghiotton-Scudo"
-      ],
-      "classification": {
-        "macro_class": "Mammalia",
-        "habitat": "foreste umide con corsi d'acqua"
-      },
-      "functional_signature": "Manipolazione a lungo raggio tramite lingua prensile quanto il corpo e stabilizzazione caudale; difesa passiva dorsale a placca cheratinizzata.",
-      "visual_description": "Mammifero robusto e basso, pelliccia scura lucida idrofoba; coda spessa prensile; regione glutea corazzata in rilievo; zampe corte ma molto mobili; lingua che si estende come una proboscide muscolare.",
-      "risk_profile": {
-        "danger_level": 2,
-        "vectors": [
-          "schiacciamento",
-          "graffi"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "insetti lignicoli",
-          "frutti duri",
-          "uova"
-        ],
-        "predated_by": [
-          "grossi felidi",
-          "umani"
-        ],
-        "symbiosis": "dispersione di semi tramite pelliccia oleosa"
-      },
-      "constraints": [
-        "Alto costo elettrolitico per secrezioni oleose in siccità",
-        "La corazza riduce la velocità in sprint prolungati"
-      ],
-      "sentience_index": "T1",
-      "ecotypes": [
-        "paludi di foresta",
-        "forre umide"
-      ],
-      "trait_refs": [
-        "TR-1201",
-        "TR-1202",
-        "TR-1203",
-        "TR-1204",
-        "TR-1205"
-      ]
-    },
-    {
-      "scientific_name": "Perfusuas pedes",
-      "common_names": [
-        "Zannapiedi"
-      ],
-      "classification": {
-        "macro_class": "Mammalo-artropode",
-        "habitat": "foreste e sistemi carsici"
-      },
-      "functional_signature": "Predatore cieco che usa sonar e chimio-navigazione; attacco a urto e digestione extracorporea.",
-      "visual_description": "Corpo allungato corazzato da placche flessibili, centinaia di arti corti e rapidi. Regione cefalica protetta, un’appendice anteriore ipertrofica per l’urto. Addome con sacche ripiegabili.",
-      "risk_profile": {
-        "danger_level": 3,
-        "vectors": [
-          "acidi proteolitici",
-          "onda d’urto"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "ungulati piccoli",
-          "rettili cavernicoli"
-        ],
-        "predated_by": [
-          "nessun predatore noto in età adulta"
-        ],
-        "symbiosis": "Ospita ostaggio-simbionte per supporto percettivo (dipendenza bio-cognitiva)"
-      },
-      "constraints": [
-        "Dipendenza sensoriale dall’ostaggio per compiti complessi",
-        "Alto costo energetico per secrezioni acide"
-      ],
-      "sentience_index": "T3",
-      "ecotypes": [
-        "grotte umide",
-        "radure notturne"
-      ],
-      "trait_refs": [
-        "TR-1301",
-        "TR-1302",
-        "TR-1303",
-        "TR-1304",
-        "TR-1305"
-      ]
-    },
-    {
-      "scientific_name": "Terracetus ambulator",
-      "common_names": [
-        "Megattera Terrestre"
-      ],
-      "classification": {
-        "macro_class": "Mammalia",
-        "habitat": "steppe e savane aperte"
-      },
-      "functional_signature": "Locomozione a tappeto ventrale e leggerezza scheletrica per lunghi spostamenti terrestri; infrasonica difensiva.",
-      "visual_description": "Colosso tondeggiante, ventre ampio con bande ciliari, arti vestigiali d’appoggio. Pelle spessa e rugosa, color blu-grigio, occhi piccoli; bocca ampia filtrante.",
-      "risk_profile": {
-        "danger_level": 1,
-        "vectors": [
-          "infrasonico disorientante"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "micro-organismi aerodispersi"
-        ],
-        "predated_by": [
-          "nessuno in età adulta"
-        ],
-        "symbiosis": "nessuna"
-      },
-      "constraints": [
-        "Scarsa capacità di arrampicata",
-        "Vulnerabile a pendii ripidi"
-      ],
-      "sentience_index": "T0",
-      "ecotypes": [
-        "pianure ventose"
-      ],
-      "trait_refs": [
-        "TR-1401",
-        "TR-1402",
-        "TR-1403",
-        "TR-1404",
-        "TR-1405"
-      ]
-    },
-    {
-      "scientific_name": "Chemnotela toxica",
-      "common_names": [
-        "Aracnide Alchemico"
-      ],
-      "classification": {
-        "macro_class": "Artropode",
-        "habitat": "foreste tropicali"
-      },
-      "functional_signature": "Acido industriale biologico e seta elettroconduttiva per trappole stordenti e corrosive.",
-      "visual_description": "Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio. Cuticola lucida con bande metalliche.",
-      "risk_profile": {
-        "danger_level": 3,
-        "vectors": [
-          "acidi forti",
-          "scariche elettriche"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "rettili arboricoli",
-          "uccelli piccoli"
-        ],
-        "predated_by": [
-          "ofidi grandi"
-        ],
-        "symbiosis": "alghe epifite su tela in radure umide"
-      },
-      "constraints": [
-        "Acido inefficace su basalto o ceramiche vetrose",
-        "Tela sensibile a piogge torrenziali"
-      ],
-      "sentience_index": "T1",
-      "ecotypes": [
-        "chiome interne",
-        "radure umide"
-      ],
-      "trait_refs": [
-        "TR-1501",
-        "TR-1502",
-        "TR-1503",
-        "TR-1504",
-        "TR-1505"
-      ]
-    },
-    {
-      "scientific_name": "Proteus plasma",
-      "common_names": [
-        "Mutaforma Cellulare"
-      ],
-      "classification": {
-        "macro_class": "Protista complesso",
-        "habitat": "zone umide, acque dolci"
-      },
-      "functional_signature": "Plasticità estrema di forma e funzione; ingestione per fagocitosi e stasi minerale.",
-      "visual_description": "Massa semi-trasparente, iridescenze deboli; estroflessioni pseudopodiali costanti. Variazione volumetrica rapida.",
-      "risk_profile": {
-        "danger_level": 2,
-        "vectors": [
-          "anossia locale",
-          "asfissia prede piccole"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "detrito organico",
-          "invertebrati lenti"
-        ],
-        "predated_by": [
-          "pesci"
-        ],
-        "symbiosis": "nessuna"
-      },
-      "constraints": [
-        "Sensibile alla disidratazione",
-        "Limitata coesione in acqua turbolenta"
-      ],
-      "sentience_index": "T0",
-      "ecotypes": [
-        "stagni",
-        "paludi"
-      ],
-      "trait_refs": [
-        "TR-1601",
-        "TR-1602",
-        "TR-1603",
-        "TR-1604",
-        "TR-1605"
-      ]
-    },
-    {
-      "scientific_name": "Soniptera resonans",
-      "common_names": [
-        "Libellula Sonica"
-      ],
-      "classification": {
-        "macro_class": "Insecta",
-        "habitat": "savanes e bacini termici"
-      },
-      "functional_signature": "Manipolazione sonora: dal mascheramento al raggio sonico; volo fine a latenza ridotta.",
-      "visual_description": "Insetto alato di grandi dimensioni; ali traslucide con venature ispessite; occhi composti lucidi; addome segmentato aerodinamico.",
-      "risk_profile": {
-        "danger_level": 2,
-        "vectors": [
-          "onda sonora direzionale"
-        ]
-      },
-      "interactions": {
-        "predates_on": [
-          "sciami di insetti",
-          "uccelli molto piccoli"
-        ],
-        "predated_by": [
-          "uccelli rapaci",
-          "pipistrelli"
-        ],
-        "symbiosis": "nessuna"
-      },
-      "constraints": [
-        "Rendimento ridotto in pioggia intensa",
-        "Consumo energetico elevato in hovering prolungato"
-      ],
-      "sentience_index": "T1",
-      "ecotypes": [
-        "oasi calde",
-        "praterie arbustive"
-      ],
-      "trait_refs": [
-        "TR-1701",
-        "TR-1702",
-        "TR-1703",
-        "TR-1704",
-        "TR-1705"
-      ]
-    },
-    {
       "scientific_name": "Anguis magnetica",
-      "common_names": [
-        "Anguilla Geomagnetica"
-      ],
+      "common_names": ["Anguilla Geomagnetica"],
       "classification": {
         "macro_class": "Reptilia/Pisces",
         "habitat": "corsi d’acqua e coste sabbiose"
@@ -329,19 +11,11 @@
       "visual_description": "Serpiforme lucido, pelle scura con riflessi metallici; linea laterale evidente; movimenti fluidi senza rumore.",
       "risk_profile": {
         "danger_level": 2,
-        "vectors": [
-          "scariche elettriche"
-        ]
+        "vectors": ["scariche elettriche"]
       },
       "interactions": {
-        "predates_on": [
-          "pesci d’acqua dolce",
-          "anfibi"
-        ],
-        "predated_by": [
-          "coccodrilli",
-          "grossi pesci predatori"
-        ],
+        "predates_on": ["pesci d’acqua dolce", "anfibi"],
+        "predated_by": ["coccodrilli", "grossi pesci predatori"],
         "symbiosis": "nessuna"
       },
       "constraints": [
@@ -349,67 +23,139 @@
         "Dipendenza da micro-metalli nella dieta"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "estuario",
-        "lagune"
-      ],
-      "trait_refs": [
-        "TR-1801",
-        "TR-1802",
-        "TR-1803",
-        "TR-1804",
-        "TR-1805"
-      ]
+      "ecotypes": ["Estuario Torbido", "Laguna Quieta"],
+      "trait_refs": ["TR-1801", "TR-1802", "TR-1803", "TR-1804", "TR-1805"]
     },
     {
-      "scientific_name": "Umbra alaris",
-      "common_names": [
-        "Uccello Ombra"
-      ],
+      "scientific_name": "Chemnotela toxica",
+      "common_names": ["Aracnide Alchemico"],
       "classification": {
-        "macro_class": "Aves",
-        "habitat": "foreste pluviali e canyon notturni"
+        "macro_class": "Artropode",
+        "habitat": "foreste tropicali"
       },
-      "functional_signature": "Invisibilità ottica quasi totale e visione potenziata nel buio; attacchi ipotermici silenziosi.",
-      "visual_description": "Volatile nero opaco, sagoma che assorbe la luce; occhi grandi lucenti; artigli lunghi; volo felpato e manovrato.",
+      "functional_signature": "Acido industriale biologico e seta elettroconduttiva per trappole stordenti e corrosive.",
+      "visual_description": "Ragno massiccio con cheliceri prominenti, filiere ispessite e addome rigonfio. Cuticola lucida con bande metalliche.",
       "risk_profile": {
-        "danger_level": 2,
-        "vectors": [
-          "ipotermia localizzata"
-        ]
+        "danger_level": 3,
+        "vectors": ["acidi forti", "scariche elettriche"]
       },
       "interactions": {
-        "predates_on": [
-          "roditori",
-          "piccoli marsupiali"
-        ],
-        "predated_by": [
-          "rapaci più grandi"
-        ],
+        "predates_on": ["rettili arboricoli", "uccelli piccoli"],
+        "predated_by": ["ofidi grandi"],
+        "symbiosis": "alghe epifite su tela in radure umide"
+      },
+      "constraints": [
+        "Acido inefficace su basalto o ceramiche vetrose",
+        "Tela sensibile a piogge torrenziali"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": ["Radura Acida", "Chioma Elettrofilo"],
+      "trait_refs": ["TR-1501", "TR-1502", "TR-1503", "TR-1504", "TR-1505"]
+    },
+    {
+      "scientific_name": "Elastovaranus hydrus",
+      "common_names": ["Viverna-Elastico"],
+      "classification": {
+        "macro_class": "Reptilia",
+        "habitat": "savana calda con gole rocciose"
+      },
+      "functional_signature": "Attacchi a proiettile con inoculazione multipla tramite rostro estensibile, guidati da sensibilità sismica.",
+      "visual_description": "Rettile allungato con cranio affusolato e rostro tubulare; fasci muscolari evidenti; squame opache con lamelle sensoriali. Postura semiflessa pronta allo scatto, coda come stabilizzatore. Colorazioni sabbia-oliva con pattern spezzato.",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": ["tossine litiche", "emorragia"]
+      },
+      "interactions": {
+        "predates_on": ["antilopi piccole", "varani", "uccelli terricoli"],
+        "predated_by": ["felidi grandi", "rapaci diurni"],
         "symbiosis": "nessuna"
       },
       "constraints": [
-        "Efficacia ridotta in nebbia densa (diffusione)",
-        "Bioluminescenza può tradire la posizione a distanza ravvicinata"
+        "Richiede pressione idraulica pre-caricata (cooldown dopo 3 colpi)",
+        "Prestazioni ridotte in freddo prolungato"
       ],
       "sentience_index": "T1",
-      "ecotypes": [
-        "bassa volta arborea",
-        "gole d’ombra"
+      "ecotypes": ["Gole Ventose", "Letti Fluviali"],
+      "trait_refs": ["TR-1101", "TR-1102", "TR-1103", "TR-1104", "TR-1105"]
+    },
+    {
+      "scientific_name": "Gulogluteus scutiger",
+      "common_names": ["Ghiotton-Scudo"],
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "foreste umide con corsi d'acqua"
+      },
+      "functional_signature": "Manipolazione a lungo raggio tramite lingua prensile quanto il corpo e stabilizzazione caudale; difesa passiva dorsale a placca cheratinizzata.",
+      "visual_description": "Mammifero robusto e basso, pelliccia scura lucida idrofoba; coda spessa prensile; regione glutea corazzata in rilievo; zampe corte ma molto mobili; lingua che si estende come una proboscide muscolare.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": ["schiacciamento", "graffi"]
+      },
+      "interactions": {
+        "predates_on": ["insetti lignicoli", "frutti duri", "uova"],
+        "predated_by": ["grossi felidi", "umani"],
+        "symbiosis": "dispersione di semi tramite pelliccia oleosa"
+      },
+      "constraints": [
+        "Alto costo elettrolitico per secrezioni oleose in siccità",
+        "La corazza riduce la velocità in sprint prolungati"
       ],
-      "trait_refs": [
-        "TR-1901",
-        "TR-1902",
-        "TR-1903",
-        "TR-1904",
-        "TR-1905"
-      ]
+      "sentience_index": "T1",
+      "ecotypes": ["Chioma Umida", "Forre Umide"],
+      "trait_refs": ["TR-1201", "TR-1202", "TR-1203", "TR-1204", "TR-1205"]
+    },
+    {
+      "scientific_name": "Perfusuas pedes",
+      "common_names": ["Zannapiedi"],
+      "classification": {
+        "macro_class": "Mammalo-artropode",
+        "habitat": "foreste e sistemi carsici"
+      },
+      "functional_signature": "Predatore cieco che usa sonar e chimio-navigazione; attacco a urto e digestione extracorporea.",
+      "visual_description": "Corpo allungato corazzato da placche flessibili, centinaia di arti corti e rapidi. Regione cefalica protetta, un’appendice anteriore ipertrofica per l’urto. Addome con sacche ripiegabili.",
+      "risk_profile": {
+        "danger_level": 3,
+        "vectors": ["acidi proteolitici", "onda d’urto"]
+      },
+      "interactions": {
+        "predates_on": ["ungulati piccoli", "rettili cavernicoli"],
+        "predated_by": ["nessun predatore noto in età adulta"],
+        "symbiosis": "Ospita ostaggio-simbionte per supporto percettivo (dipendenza bio-cognitiva)"
+      },
+      "constraints": [
+        "Dipendenza sensoriale dall’ostaggio per compiti complessi",
+        "Alto costo energetico per secrezioni acide"
+      ],
+      "sentience_index": "T3",
+      "ecotypes": ["Cavernicolo", "Radura Notturna"],
+      "trait_refs": ["TR-1301", "TR-1302", "TR-1303", "TR-1304", "TR-1305"]
+    },
+    {
+      "scientific_name": "Proteus plasma",
+      "common_names": ["Mutaforma Cellulare"],
+      "classification": {
+        "macro_class": "Protista complesso",
+        "habitat": "zone umide, acque dolci"
+      },
+      "functional_signature": "Plasticità estrema di forma e funzione; ingestione per fagocitosi e stasi minerale.",
+      "visual_description": "Massa semi-trasparente, iridescenze deboli; estroflessioni pseudopodiali costanti. Variazione volumetrica rapida.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": ["anossia locale", "asfissia prede piccole"]
+      },
+      "interactions": {
+        "predates_on": ["detrito organico", "invertebrati lenti"],
+        "predated_by": ["pesci"],
+        "symbiosis": "nessuna"
+      },
+      "constraints": ["Sensibile alla disidratazione", "Limitata coesione in acqua turbolenta"],
+      "sentience_index": "T0",
+      "ecotypes": ["Stagno Quieto", "Torrente Lento"],
+      "trait_refs": ["TR-1601", "TR-1602", "TR-1603", "TR-1604", "TR-1605"]
     },
     {
       "scientific_name": "Rupicapra sensoria",
-      "common_names": [
-        "Camoscio Psionico"
-      ],
+      "common_names": ["Camoscio Psionico"],
       "classification": {
         "macro_class": "Mammalia",
         "habitat": "falesie e praterie montane"
@@ -418,16 +164,11 @@
       "visual_description": "Erbivoro agile, corna scolpite con circuiti naturali, zoccoli con micro-lamelle adesive; mantello bruno.",
       "risk_profile": {
         "danger_level": 1,
-        "vectors": [
-          "confusione psichica"
-        ]
+        "vectors": ["confusione psichica"]
       },
       "interactions": {
         "predates_on": [],
-        "predated_by": [
-          "lupi",
-          "aquile"
-        ],
+        "predated_by": ["lupi", "aquile"],
         "symbiosis": "nessuna"
       },
       "constraints": [
@@ -435,17 +176,83 @@
         "Affaticamento mentale dopo stress prolungato"
       ],
       "sentience_index": "T2",
-      "ecotypes": [
-        "cenge alte",
-        "prati alpini"
+      "ecotypes": ["Cenge Calcarenitiche", "Dorsali Ventose"],
+      "trait_refs": ["TR-2001", "TR-2002", "TR-2003", "TR-2004", "TR-2005"]
+    },
+    {
+      "scientific_name": "Soniptera resonans",
+      "common_names": ["Libellula Sonica"],
+      "classification": {
+        "macro_class": "Insecta",
+        "habitat": "savanes e bacini termici"
+      },
+      "functional_signature": "Manipolazione sonora: dal mascheramento al raggio sonico; volo fine a latenza ridotta.",
+      "visual_description": "Insetto alato di grandi dimensioni; ali traslucide con venature ispessite; occhi composti lucidi; addome segmentato aerodinamico.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": ["onda sonora direzionale"]
+      },
+      "interactions": {
+        "predates_on": ["sciami di insetti", "uccelli molto piccoli"],
+        "predated_by": ["uccelli rapaci", "pipistrelli"],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Rendimento ridotto in pioggia intensa",
+        "Consumo energetico elevato in hovering prolungato"
       ],
-      "trait_refs": [
-        "TR-2001",
-        "TR-2002",
-        "TR-2003",
-        "TR-2004",
-        "TR-2005"
-      ]
+      "sentience_index": "T1",
+      "ecotypes": ["Oasi Termica", "Prateria Arbustiva"],
+      "trait_refs": ["TR-1701", "TR-1702", "TR-1703", "TR-1704", "TR-1705"]
+    },
+    {
+      "scientific_name": "Terracetus ambulator",
+      "common_names": ["Megattera Terrestre"],
+      "classification": {
+        "macro_class": "Mammalia",
+        "habitat": "steppe e savane aperte"
+      },
+      "functional_signature": "Locomozione a tappeto ventrale e leggerezza scheletrica per lunghi spostamenti terrestri; infrasonica difensiva.",
+      "visual_description": "Colosso tondeggiante, ventre ampio con bande ciliari, arti vestigiali d’appoggio. Pelle spessa e rugosa, color blu-grigio, occhi piccoli; bocca ampia filtrante.",
+      "risk_profile": {
+        "danger_level": 1,
+        "vectors": ["infrasonico disorientante"]
+      },
+      "interactions": {
+        "predates_on": ["micro-organismi aerodispersi"],
+        "predated_by": ["nessuno in età adulta"],
+        "symbiosis": "nessuna"
+      },
+      "constraints": ["Scarsa capacità di arrampicata", "Vulnerabile a pendii ripidi"],
+      "sentience_index": "T0",
+      "ecotypes": ["Pianure Ventose", "Savanicola Notturno"],
+      "trait_refs": ["TR-1401", "TR-1402", "TR-1403", "TR-1404", "TR-1405"]
+    },
+    {
+      "scientific_name": "Umbra alaris",
+      "common_names": ["Uccello Ombra"],
+      "classification": {
+        "macro_class": "Aves",
+        "habitat": "foreste pluviali e canyon notturni"
+      },
+      "functional_signature": "Invisibilità ottica quasi totale e visione potenziata nel buio; attacchi ipotermici silenziosi.",
+      "visual_description": "Volatile nero opaco, sagoma che assorbe la luce; occhi grandi lucenti; artigli lunghi; volo felpato e manovrato.",
+      "risk_profile": {
+        "danger_level": 2,
+        "vectors": ["ipotermia localizzata"]
+      },
+      "interactions": {
+        "predates_on": ["roditori", "piccoli marsupiali"],
+        "predated_by": ["rapaci più grandi"],
+        "symbiosis": "nessuna"
+      },
+      "constraints": [
+        "Efficacia ridotta in nebbia densa (diffusione)",
+        "Bioluminescenza può tradire la posizione a distanza ravvicinata"
+      ],
+      "sentience_index": "T1",
+      "ecotypes": ["Canopy Ombrosa", "Canyon Notturno"],
+      "trait_refs": ["TR-1901", "TR-1902", "TR-1903", "TR-1904", "TR-1905"]
     }
   ]
 }
