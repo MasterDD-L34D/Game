@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.polmoni_cristallini_alta_quota.debolezza",
   "famiglia_tipologia": "Respiratorio/Aerobico",
-  "fattore_mantenimento_energetico": "i18n:traits.polmoni_cristallini_alta_quota.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Pulizia periodica dei cristalli)",
   "id": "polmoni_cristallini_alta_quota",
   "label": "i18n:traits.polmoni_cristallini_alta_quota.label",
   "mutazione_indotta": "i18n:traits.polmoni_cristallini_alta_quota.mutazione_indotta",

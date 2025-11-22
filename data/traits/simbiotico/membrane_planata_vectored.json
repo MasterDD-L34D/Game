@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.membrane_planata_vectored.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.membrane_planata_vectored.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "membrane_planata_vectored",
   "label": "i18n:traits.membrane_planata_vectored.label",
   "mutazione_indotta": "i18n:traits.membrane_planata_vectored.mutazione_indotta",

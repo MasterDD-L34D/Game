@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.carapace_fase_variabile.debolezza",
   "famiglia_tipologia": "Strutturale/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.carapace_fase_variabile.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Richiede energia per il cambio di fase)",
   "id": "carapace_fase_variabile",
   "label": "i18n:traits.carapace_fase_variabile.label",
   "mutazione_indotta": "i18n:traits.carapace_fase_variabile.mutazione_indotta",

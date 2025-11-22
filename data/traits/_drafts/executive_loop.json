@@ -2,7 +2,7 @@
   "id": "executive_loop",
   "label": "i18n:traits.executive_loop.label",
   "famiglia_tipologia": "TODO/import_esterno",
-  "fattore_mantenimento_energetico": "i18n:traits.executive_loop.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Da definire (import esterno)",
   "tier": "T6",
   "slot": [],
   "slot_profile": {

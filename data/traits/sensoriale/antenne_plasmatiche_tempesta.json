@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.antenne_plasmatiche_tempesta.debolezza",
   "famiglia_tipologia": "Sensoriale/Offensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.antenne_plasmatiche_tempesta.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Canalizzazione costante di plasma atmosferico)",
   "id": "antenne_plasmatiche_tempesta",
   "label": "i18n:traits.antenne_plasmatiche_tempesta.label",
   "mutazione_indotta": "i18n:traits.antenne_plasmatiche_tempesta.mutazione_indotta",

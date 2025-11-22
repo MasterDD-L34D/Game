@@ -2,7 +2,7 @@
   "id": "teach_action",
   "label": "i18n:traits.teach_action.label",
   "famiglia_tipologia": "TODO/import_esterno",
-  "fattore_mantenimento_energetico": "i18n:traits.teach_action.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Da definire (import esterno)",
   "tier": "T4",
   "slot": [],
   "slot_profile": {

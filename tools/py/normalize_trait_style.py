@@ -26,7 +26,6 @@ TEXT_FIELDS = (
     "uso_funzione",
     "spinta_selettiva",
     "debolezza",
-    "fattore_mantenimento_energetico",
 )
 
 

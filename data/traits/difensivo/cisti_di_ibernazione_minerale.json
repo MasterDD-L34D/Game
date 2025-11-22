@@ -3,7 +3,7 @@
   "label": "i18n:traits.cisti_di_ibernazione_minerale.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Difensivo/Resistenze",
-  "fattore_mantenimento_energetico": "Basso",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
   "tier": "T2",
   "slot": [],
   "sinergie": [

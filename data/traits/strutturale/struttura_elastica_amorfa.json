@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.struttura_elastica_amorfa.debolezza",
   "famiglia_tipologia": "Strutturale/Locomotorio",
-  "fattore_mantenimento_energetico": "i18n:traits.struttura_elastica_amorfa.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "struttura_elastica_amorfa",
   "label": "i18n:traits.struttura_elastica_amorfa.label",
   "mutazione_indotta": "i18n:traits.struttura_elastica_amorfa.mutazione_indotta",

@@ -3,7 +3,7 @@
   "label": "i18n:traits.moltiplicazione_per_fusione.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Riproduttivo/Cicli",
-  "fattore_mantenimento_energetico": "Basso",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
   "tier": "T2",
   "slot": [],
   "sinergie": [

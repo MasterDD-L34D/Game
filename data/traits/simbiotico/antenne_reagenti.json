@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.antenne_reagenti.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.antenne_reagenti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "antenne_reagenti",
   "label": "i18n:traits.antenne_reagenti.label",
   "mutazione_indotta": "i18n:traits.antenne_reagenti.mutazione_indotta",

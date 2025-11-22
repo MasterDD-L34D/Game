@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.cuticole_cerose.debolezza",
   "famiglia_tipologia": "Digestivo/Metabolico",
-  "fattore_mantenimento_energetico": "i18n:traits.cuticole_cerose.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "cuticole_cerose",
   "label": "i18n:traits.cuticole_cerose.label",
   "mutazione_indotta": "i18n:traits.cuticole_cerose.mutazione_indotta",

@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.membrane_eliofiltranti.debolezza",
   "famiglia_tipologia": "Respiratorio/Protezione",
-  "fattore_mantenimento_energetico": "i18n:traits.membrane_eliofiltranti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Auto-riparazione lenta)",
   "id": "membrane_eliofiltranti",
   "label": "i18n:traits.membrane_eliofiltranti.label",
   "mutazione_indotta": "i18n:traits.membrane_eliofiltranti.mutazione_indotta",

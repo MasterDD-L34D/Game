@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.antenne_waveguide.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.antenne_waveguide.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "antenne_waveguide",
   "label": "i18n:traits.antenne_waveguide.label",
   "mutazione_indotta": "i18n:traits.antenne_waveguide.mutazione_indotta",

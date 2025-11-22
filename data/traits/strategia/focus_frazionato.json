@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.focus_frazionato.debolezza",
   "famiglia_tipologia": "Strategico/Psionico",
-  "fattore_mantenimento_energetico": "i18n:traits.focus_frazionato.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Dividere l'attenzione su più canali)",
   "id": "focus_frazionato",
   "label": "i18n:traits.focus_frazionato.label",
   "mutazione_indotta": "i18n:traits.focus_frazionato.mutazione_indotta",

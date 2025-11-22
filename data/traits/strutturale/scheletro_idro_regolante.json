@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.scheletro_idro_regolante.debolezza",
   "famiglia_tipologia": "Strutturale/Omeostatico",
-  "fattore_mantenimento_energetico": "i18n:traits.scheletro_idro_regolante.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Scambio rapido di fluidi)",
   "id": "scheletro_idro_regolante",
   "label": "i18n:traits.scheletro_idro_regolante.label",
   "mutazione_indotta": "i18n:traits.scheletro_idro_regolante.mutazione_indotta",

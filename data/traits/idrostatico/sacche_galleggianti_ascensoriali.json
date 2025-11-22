@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.sacche_galleggianti_ascensoriali.debolezza",
   "famiglia_tipologia": "Idrostatico/Locomotorio",
-  "fattore_mantenimento_energetico": "i18n:traits.sacche_galleggianti_ascensoriali.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Per il controllo della pressione)",
   "id": "sacche_galleggianti_ascensoriali",
   "label": "i18n:traits.sacche_galleggianti_ascensoriali.label",
   "mutazione_indotta": "i18n:traits.sacche_galleggianti_ascensoriali.mutazione_indotta",

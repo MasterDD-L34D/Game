@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.cavita_risonanti_tundra.debolezza",
   "famiglia_tipologia": "Sensoriale/Supporto",
-  "fattore_mantenimento_energetico": "i18n:traits.cavita_risonanti_tundra.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Camere di risonanza statiche)",
   "id": "cavita_risonanti_tundra",
   "label": "i18n:traits.cavita_risonanti_tundra.label",
   "mutazione_indotta": "i18n:traits.cavita_risonanti_tundra.mutazione_indotta",

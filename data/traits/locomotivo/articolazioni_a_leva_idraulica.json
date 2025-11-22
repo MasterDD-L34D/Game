@@ -3,7 +3,7 @@
   "label": "i18n:traits.articolazioni_a_leva_idraulica.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Locomotivo/Terrestre",
-  "fattore_mantenimento_energetico": "Medio",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
   "tier": "T3",
   "slot": [],
   "sinergie": [

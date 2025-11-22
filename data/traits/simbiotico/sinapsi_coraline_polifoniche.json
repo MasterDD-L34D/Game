@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.sinapsi_coraline_polifoniche.debolezza",
   "famiglia_tipologia": "Simbiotico/Comunicazione",
-  "fattore_mantenimento_energetico": "i18n:traits.sinapsi_coraline_polifoniche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Scambio continuo di impulsi corallini)",
   "id": "sinapsi_coraline_polifoniche",
   "label": "i18n:traits.sinapsi_coraline_polifoniche.label",
   "mutazione_indotta": "i18n:traits.sinapsi_coraline_polifoniche.mutazione_indotta",

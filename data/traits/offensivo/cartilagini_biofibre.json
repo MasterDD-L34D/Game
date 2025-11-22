@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.cartilagini_biofibre.debolezza",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.cartilagini_biofibre.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "cartilagini_biofibre",
   "label": "i18n:traits.cartilagini_biofibre.label",
   "mutazione_indotta": "i18n:traits.cartilagini_biofibre.mutazione_indotta",

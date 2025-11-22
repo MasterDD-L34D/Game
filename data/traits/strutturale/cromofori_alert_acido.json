@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.cromofori_alert_acido.debolezza",
   "famiglia_tipologia": "Strutturale/Adattivo",
-  "fattore_mantenimento_energetico": "i18n:traits.cromofori_alert_acido.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "cromofori_alert_acido",
   "label": "i18n:traits.cromofori_alert_acido.label",
   "mutazione_indotta": "i18n:traits.cromofori_alert_acido.mutazione_indotta",

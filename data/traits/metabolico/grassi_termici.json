@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.grassi_termici.debolezza",
   "famiglia_tipologia": "Digestivo/Metabolico",
-  "fattore_mantenimento_energetico": "i18n:traits.grassi_termici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "grassi_termici",
   "label": "i18n:traits.grassi_termici.label",
   "mutazione_indotta": "i18n:traits.grassi_termici.mutazione_indotta",

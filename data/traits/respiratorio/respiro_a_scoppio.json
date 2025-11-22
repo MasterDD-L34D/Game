@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.respiro_a_scoppio.debolezza",
   "famiglia_tipologia": "Respiratorio/Propulsivo",
-  "fattore_mantenimento_energetico": "i18n:traits.respiro_a_scoppio.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Richiede ricarica polmonare)",
   "id": "respiro_a_scoppio",
   "label": "i18n:traits.respiro_a_scoppio.label",
   "mutazione_indotta": "i18n:traits.respiro_a_scoppio.mutazione_indotta",

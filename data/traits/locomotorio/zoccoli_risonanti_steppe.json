@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.zoccoli_risonanti_steppe.debolezza",
   "famiglia_tipologia": "Locomotorio/Supporto",
-  "fattore_mantenimento_energetico": "i18n:traits.zoccoli_risonanti_steppe.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Vibrazione passiva del suolo)",
   "id": "zoccoli_risonanti_steppe",
   "label": "i18n:traits.zoccoli_risonanti_steppe.label",
   "mutazione_indotta": "i18n:traits.zoccoli_risonanti_steppe.mutazione_indotta",

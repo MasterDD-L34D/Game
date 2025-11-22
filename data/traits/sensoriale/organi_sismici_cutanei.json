@@ -1,9 +1,9 @@
 {
   "id": "organi_sismici_cutanei",
   "label": "i18n:traits.organi_sismici_cutanei.label",
-  "data_origin": "coverage_q4_2025",
+  "data_origin": "incoming_tr1100_pack",
   "famiglia_tipologia": "Sensoriale/Tatto-Vibro",
-  "fattore_mantenimento_energetico": "Basso",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
   "tier": "T2",
   "slot": [],
   "sinergie": [
@@ -49,5 +49,11 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000178"
     ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
   }
 }

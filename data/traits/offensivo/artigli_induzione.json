@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.artigli_induzione.debolezza",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.artigli_induzione.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "artigli_induzione",
   "label": "i18n:traits.artigli_induzione.label",
   "mutazione_indotta": "i18n:traits.artigli_induzione.mutazione_indotta",

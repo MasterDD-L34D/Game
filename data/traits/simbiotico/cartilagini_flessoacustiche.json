@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.cartilagini_flessoacustiche.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.cartilagini_flessoacustiche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "cartilagini_flessoacustiche",
   "label": "i18n:traits.cartilagini_flessoacustiche.label",
   "mutazione_indotta": "i18n:traits.cartilagini_flessoacustiche.mutazione_indotta",

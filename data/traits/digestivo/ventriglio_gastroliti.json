@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.ventriglio_gastroliti.debolezza",
   "famiglia_tipologia": "Digestivo/Alimentare",
-  "fattore_mantenimento_energetico": "i18n:traits.ventriglio_gastroliti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Contrazione muscolare costante)",
   "id": "ventriglio_gastroliti",
   "label": "i18n:traits.ventriglio_gastroliti.label",
   "mutazione_indotta": "i18n:traits.ventriglio_gastroliti.mutazione_indotta",

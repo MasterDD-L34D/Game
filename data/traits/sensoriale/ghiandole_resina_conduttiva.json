@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.ghiandole_resina_conduttiva.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.ghiandole_resina_conduttiva.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ghiandole_resina_conduttiva",
   "label": "i18n:traits.ghiandole_resina_conduttiva.label",
   "mutazione_indotta": "i18n:traits.ghiandole_resina_conduttiva.mutazione_indotta",

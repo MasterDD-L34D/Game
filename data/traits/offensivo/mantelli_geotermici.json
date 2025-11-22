@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.mantelli_geotermici.debolezza",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.mantelli_geotermici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "mantelli_geotermici",
   "label": "i18n:traits.mantelli_geotermici.label",
   "mutazione_indotta": "i18n:traits.mantelli_geotermici.mutazione_indotta",

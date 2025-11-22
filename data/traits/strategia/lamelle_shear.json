@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.lamelle_shear.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.lamelle_shear.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "lamelle_shear",
   "label": "i18n:traits.lamelle_shear.label",
   "mutazione_indotta": "i18n:traits.lamelle_shear.mutazione_indotta",

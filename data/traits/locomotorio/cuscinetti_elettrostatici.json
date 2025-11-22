@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.cuscinetti_elettrostatici.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "i18n:traits.cuscinetti_elettrostatici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "cuscinetti_elettrostatici",
   "label": "i18n:traits.cuscinetti_elettrostatici.label",
   "mutazione_indotta": "i18n:traits.cuscinetti_elettrostatici.mutazione_indotta",

@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.ghiaccio_piezoelettrico.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.ghiaccio_piezoelettrico.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ghiaccio_piezoelettrico",
   "label": "i18n:traits.ghiaccio_piezoelettrico.label",
   "mutazione_indotta": "i18n:traits.ghiaccio_piezoelettrico.mutazione_indotta",

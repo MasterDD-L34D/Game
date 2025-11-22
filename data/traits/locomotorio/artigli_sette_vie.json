@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.artigli_sette_vie.debolezza",
   "famiglia_tipologia": "Locomotorio/Prensile",
-  "fattore_mantenimento_energetico": "i18n:traits.artigli_sette_vie.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "artigli_sette_vie",
   "label": "i18n:traits.artigli_sette_vie.label",
   "mutazione_indotta": "i18n:traits.artigli_sette_vie.mutazione_indotta",

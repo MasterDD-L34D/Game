@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.olfatto_risonanza_magnetica.debolezza",
   "famiglia_tipologia": "Sensoriale/Nervoso",
-  "fattore_mantenimento_energetico": "i18n:traits.olfatto_risonanza_magnetica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Elaborazione sensoriale costante)",
   "id": "olfatto_risonanza_magnetica",
   "label": "i18n:traits.olfatto_risonanza_magnetica.label",
   "mutazione_indotta": "i18n:traits.olfatto_risonanza_magnetica.mutazione_indotta",

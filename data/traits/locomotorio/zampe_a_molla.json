@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.zampe_a_molla.debolezza",
   "famiglia_tipologia": "Mobilità/Cinetico",
-  "fattore_mantenimento_energetico": "i18n:traits.zampe_a_molla.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Carica elastica a turni alterni)",
   "id": "zampe_a_molla",
   "label": "i18n:traits.zampe_a_molla.label",
   "mutazione_indotta": "i18n:traits.zampe_a_molla.mutazione_indotta",

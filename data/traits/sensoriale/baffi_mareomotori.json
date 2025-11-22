@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.baffi_mareomotori.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.baffi_mareomotori.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "baffi_mareomotori",
   "label": "i18n:traits.baffi_mareomotori.label",
   "mutazione_indotta": "i18n:traits.baffi_mareomotori.mutazione_indotta",

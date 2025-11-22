@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.coda_stabilizzatrice_vortex.debolezza",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.coda_stabilizzatrice_vortex.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "coda_stabilizzatrice_vortex",
   "label": "i18n:traits.coda_stabilizzatrice_vortex.label",
   "mutazione_indotta": "i18n:traits.coda_stabilizzatrice_vortex.mutazione_indotta",

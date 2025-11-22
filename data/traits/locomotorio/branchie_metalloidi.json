@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.branchie_metalloidi.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "i18n:traits.branchie_metalloidi.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "branchie_metalloidi",
   "label": "i18n:traits.branchie_metalloidi.label",
   "mutazione_indotta": "i18n:traits.branchie_metalloidi.mutazione_indotta",

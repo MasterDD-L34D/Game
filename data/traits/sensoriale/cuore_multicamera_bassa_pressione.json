@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.cuore_multicamera_bassa_pressione.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.cuore_multicamera_bassa_pressione.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "cuore_multicamera_bassa_pressione",
   "label": "i18n:traits.cuore_multicamera_bassa_pressione.label",
   "mutazione_indotta": "i18n:traits.cuore_multicamera_bassa_pressione.mutazione_indotta",

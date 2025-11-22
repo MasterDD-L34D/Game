@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.ciste_salmastre.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.ciste_salmastre.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ciste_salmastre",
   "label": "i18n:traits.ciste_salmastre.label",
   "mutazione_indotta": "i18n:traits.ciste_salmastre.mutazione_indotta",

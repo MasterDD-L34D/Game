@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.nodi_micorrizici_oracolari.debolezza",
   "famiglia_tipologia": "Simbiotico/Nervoso",
-  "fattore_mantenimento_energetico": "i18n:traits.nodi_micorrizici_oracolari.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Scambio continuo di segnali con simbionti)",
   "id": "nodi_micorrizici_oracolari",
   "label": "i18n:traits.nodi_micorrizici_oracolari.label",
   "mutazione_indotta": "i18n:traits.nodi_micorrizici_oracolari.mutazione_indotta",

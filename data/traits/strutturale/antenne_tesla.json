@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.antenne_tesla.debolezza",
   "famiglia_tipologia": "Strutturale/Adattivo",
-  "fattore_mantenimento_energetico": "i18n:traits.antenne_tesla.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "antenne_tesla",
   "label": "i18n:traits.antenne_tesla.label",
   "mutazione_indotta": "i18n:traits.antenne_tesla.mutazione_indotta",

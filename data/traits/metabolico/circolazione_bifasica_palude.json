@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.circolazione_bifasica_palude.debolezza",
   "famiglia_tipologia": "Metabolico/Resilienza",
-  "fattore_mantenimento_energetico": "i18n:traits.circolazione_bifasica_palude.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Doppio circuito emolinfa/linfa)",
   "id": "circolazione_bifasica_palude",
   "label": "i18n:traits.circolazione_bifasica_palude.label",
   "mutazione_indotta": "i18n:traits.circolazione_bifasica_palude.mutazione_indotta",

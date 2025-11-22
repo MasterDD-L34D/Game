@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.frusta_fiammeggiante.debolezza",
   "famiglia_tipologia": "Offensivo/Controllo",
-  "fattore_mantenimento_energetico": "i18n:traits.frusta_fiammeggiante.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Filamenti di plasma vincolato)",
   "id": "frusta_fiammeggiante",
   "label": "i18n:traits.frusta_fiammeggiante.label",
   "mutazione_indotta": "i18n:traits.frusta_fiammeggiante.mutazione_indotta",

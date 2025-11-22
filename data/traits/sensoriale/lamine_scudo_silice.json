@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.lamine_scudo_silice.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.lamine_scudo_silice.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "lamine_scudo_silice",
   "label": "i18n:traits.lamine_scudo_silice.label",
   "mutazione_indotta": "i18n:traits.lamine_scudo_silice.mutazione_indotta",

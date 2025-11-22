@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.filamenti_digestivi_compattanti.debolezza",
   "famiglia_tipologia": "Digestivo/Escretorio",
-  "fattore_mantenimento_energetico": "i18n:traits.filamenti_digestivi_compattanti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "filamenti_digestivi_compattanti",
   "label": "i18n:traits.filamenti_digestivi_compattanti.label",
   "mutazione_indotta": "i18n:traits.filamenti_digestivi_compattanti.mutazione_indotta",

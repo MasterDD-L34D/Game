@@ -5,7 +5,7 @@
   ],
   "debolezza": "i18n:traits.criostasi_adattiva.debolezza",
   "famiglia_tipologia": "Metabolico/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.criostasi_adattiva.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Fase di risveglio/inizio) / Basso (Fase Criostasi).",
   "id": "criostasi_adattiva",
   "label": "i18n:traits.criostasi_adattiva.label",
   "mutazione_indotta": "i18n:traits.criostasi_adattiva.mutazione_indotta",

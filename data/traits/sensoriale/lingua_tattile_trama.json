@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.lingua_tattile_trama.debolezza",
   "famiglia_tipologia": "Sensoriale/Alimentare",
-  "fattore_mantenimento_energetico": "i18n:traits.lingua_tattile_trama.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "lingua_tattile_trama",
   "label": "i18n:traits.lingua_tattile_trama.label",
   "mutazione_indotta": "i18n:traits.lingua_tattile_trama.mutazione_indotta",

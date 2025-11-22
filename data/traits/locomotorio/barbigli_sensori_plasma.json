@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.barbigli_sensori_plasma.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "i18n:traits.barbigli_sensori_plasma.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "barbigli_sensori_plasma",
   "label": "i18n:traits.barbigli_sensori_plasma.label",
   "mutazione_indotta": "i18n:traits.barbigli_sensori_plasma.mutazione_indotta",

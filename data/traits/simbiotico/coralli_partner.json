@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.coralli_partner.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.coralli_partner.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "coralli_partner",
   "label": "i18n:traits.coralli_partner.label",
   "mutazione_indotta": "i18n:traits.coralli_partner.mutazione_indotta",

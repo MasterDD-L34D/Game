@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.pathfinder.debolezza",
   "famiglia_tipologia": "Esplorazione/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.pathfinder.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Sincronizzazione con HUD di esplorazione)",
   "id": "pathfinder",
   "label": "i18n:traits.pathfinder.label",
   "mutazione_indotta": "i18n:traits.pathfinder.mutazione_indotta",

@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.branchie_eoliche.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.branchie_eoliche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "branchie_eoliche",
   "label": "i18n:traits.branchie_eoliche.label",
   "mutazione_indotta": "i18n:traits.branchie_eoliche.mutazione_indotta",

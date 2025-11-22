@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.artigli_radice.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.artigli_radice.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "artigli_radice",
   "label": "i18n:traits.artigli_radice.label",
   "mutazione_indotta": "i18n:traits.artigli_radice.mutazione_indotta",

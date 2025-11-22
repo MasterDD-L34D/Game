@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.bulbi_radici_permafrost.debolezza",
   "famiglia_tipologia": "Simbiotico/Nutrizione",
-  "fattore_mantenimento_energetico": "i18n:traits.bulbi_radici_permafrost.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Accumulo e rilascio lento di nutrienti)",
   "id": "bulbi_radici_permafrost",
   "label": "i18n:traits.bulbi_radici_permafrost.label",
   "mutazione_indotta": "i18n:traits.bulbi_radici_permafrost.mutazione_indotta",
