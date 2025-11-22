@@ -38,7 +38,7 @@ pipeline:
     - from: triaged
       to: in_progress
       required_actions:
-        - "Crea task su incoming/FEATURE_MAP_EVO_TACTICS.md"
+        - "Crea task su docs/incoming/FEATURE_MAP_EVO_TACTICS.md"
         - "Notifica owner su Slack"
     - from: triaged
       to: awaiting_feedback

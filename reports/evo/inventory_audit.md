@@ -8,11 +8,11 @@ verso le destinazioni definitive (`docs/`, `data/external/evo/`, `reports/evo/`)
 
 | Ambito legacy | Duplicato del percorso finale | Azione | Archivio | Verifica |
 | --- | --- | --- | --- | --- |
-| `incoming/lavoro_da_classificare/traits/` | `data/external/evo/traits/` | Spostato in archivio | `incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/` | `incoming/lavoro_da_classificare/inventario.yml` |
-| `incoming/species/` | `data/external/evo/species/` | Spostato in archivio | `incoming/archive/2025-11-15_evo_cleanup/species/` | `incoming/lavoro_da_classificare/inventario.yml` |
-| `incoming/lavoro_da_classificare/docs/wireframes/*.md` | `docs/wireframes/*.md` | Spostato in archivio | `incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/` | `incoming/lavoro_da_classificare/inventario.yml` |
-| `incoming/lavoro_da_classificare/home/oai/share/**` | Artefatti già revisionati in `docs/` e `reports/evo/` | Spostato in archivio | `incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/` | `incoming/lavoro_da_classificare/inventario.yml` |
-| `incoming/lavoro_da_classificare/{backlog,catalog,config,data,docs,ops,templates,tests,workflows}` | Copie legacy di documentazione, dataset e automazioni già versionate (`docs/`, `.github/workflows/`, `incoming/scripts/`, `data/core/`) | Spostato in archivio / consolidato | `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/` | `incoming/lavoro_da_classificare/inventario.yml` |
+| `incoming/lavoro_da_classificare/traits/` | `data/external/evo/traits/` | Spostato in archivio | `docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/` | `incoming/lavoro_da_classificare/inventario.yml` |
+| `incoming/species/` | `data/external/evo/species/` | Spostato in archivio | `docs/incoming/archive/2025-11-15_evo_cleanup/species/` | `incoming/lavoro_da_classificare/inventario.yml` |
+| `docs/incoming/lavoro_da_classificare/docs/wireframes/*.md` | `docs/wireframes/*.md` | Spostato in archivio | `docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/` | `incoming/lavoro_da_classificare/inventario.yml` |
+| `incoming/lavoro_da_classificare/home/oai/share/**` | Artefatti già revisionati in `docs/` e `reports/evo/` | Spostato in archivio | `docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/` | `incoming/lavoro_da_classificare/inventario.yml` |
+| `incoming/lavoro_da_classificare/{backlog,catalog,config,data,docs,ops,templates,tests,workflows}` | Copie legacy di documentazione, dataset e automazioni già versionate (`docs/`, `.github/workflows/`, `incoming/scripts/`, `data/core/`) | Spostato in archivio / consolidato | `docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/` | `incoming/lavoro_da_classificare/inventario.yml` |
 
 ## Dettaglio controlli
 
@@ -55,7 +55,7 @@ e puntano alla cartella di archivio creata per questa bonifica.
 
 ## Bonifica 2025-12-19
 
-- Creato l'archivio `incoming/archive/2025-12-19_inventory_cleanup/` per raccogliere i duplicati residui di backlog, cataloghi,
+- Creato l'archivio `docs/incoming/archive/2025-12-19_inventory_cleanup/` per raccogliere i duplicati residui di backlog, cataloghi,
   configurazioni e workflow presenti in `incoming/lavoro_da_classificare/`.
 - Spostati in archivio i file di documentazione legacy (GDD, guide PDF/MD, report specie e trait, checklist) e i dataset di esempio
   ormai sostituiti dalle versioni consolidate sotto `docs/` e `data/core`.
@@ -71,7 +71,7 @@ e puntano alla cartella di archivio creata per questa bonifica.
 
 - Verificato che `incoming/lavoro_da_classificare/` contenga esclusivamente documentazione di riferimento e script di automazione
   attivi (`Makefile`, configurazioni QA, roadmap e README degli script).
-- Spostati gli artefatti storici residui nel percorso `incoming/archive/` o rimosse le copie già versionate, lasciando in staging
+- Spostati gli artefatti storici residui nel percorso `docs/incoming/archive/` o rimosse le copie già versionate, lasciando in staging
   solo i file operativi di supporto.
 - Aggiornato `incoming/lavoro_da_classificare/integration_batches.yml` con il campo `post_cleanup: completed` per attestare la
   chiusura del piano di integrazione.

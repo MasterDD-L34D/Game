@@ -29,4 +29,4 @@
 ## Allegati
 - Log validazione: `reports/incoming/validation/<asset>/<timestamp>/summary.txt`
 - Board Kanban: URL
-- Archivio: `incoming/archive/INDEX.md`
+- Archivio: `../incoming/archive/INDEX.md`

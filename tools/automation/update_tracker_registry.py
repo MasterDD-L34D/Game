@@ -26,7 +26,7 @@ LOGGER = get_logger(__name__)
 
 DEFAULT_BATCHES_FILE = Path("incoming/lavoro_da_classificare/integration_batches.yml")
 DEFAULT_TASKS_FILE = Path("incoming/lavoro_da_classificare/tasks.yml")
-DEFAULT_BREAKDOWN_FILE = Path("incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md")
+DEFAULT_BREAKDOWN_FILE = Path("docs/incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md")
 
 _STATUS_MAP = {
     "completato": "done",

@@ -40,7 +40,7 @@ piping/reportistica.
 - Script: `python -m tools.automation.update_tracker_registry`
 - Target Makefile: `make update-tracker`
 - Obiettivo: sincronizzare `incoming/lavoro_da_classificare/tasks.yml` e
-  `incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md` con lo stato dei batch
+  `../incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md` con lo stato dei batch
   registrato in `incoming/lavoro_da_classificare/integration_batches.yml`.
 
 Opzioni principali:
@@ -196,7 +196,7 @@ sito vengono saltati ma gli output generati localmente restano disponibili.
 - **Backfill frontmatter e mappa ancore**
   - Script: `python scripts/evo_tactics_metadata_diff.py --mode=backfill`
     sincronizza il frontmatter dei documenti legacy in
-    `incoming/archive/2025-12-19_inventory_cleanup/` rispetto alle copie
+    `../incoming/archive/2025-12-19_inventory_cleanup/` rispetto alle copie
     consolidate. Utilizzare l'opzione `--target` per scrivere su una directory
     alternativa (dry-run non disponibile: si consiglia di versionare le
     modifiche).

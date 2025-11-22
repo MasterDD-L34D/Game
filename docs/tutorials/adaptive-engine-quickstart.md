@@ -25,7 +25,7 @@ Questa guida collega l'ETL canary di SquadSync con il motore adaptive, i test au
 - Condividi in `#feedback-enhancements` il riepilogo dei test, allegando il mock `assets/analytics/squadsync_mock.svg` e linkando la dashboard canary (`tools/feedback/hud_canary_dashboard.yaml`).【F:assets/analytics/squadsync_mock.svg†L1-L58】【F:tools/feedback/hud_canary_dashboard.yaml†L1-L53】
 
 ## 4. Collegare feedback e backlog
-1. Dopo ogni analisi, apri `incoming/FEATURE_MAP_EVO_TACTICS.md` e aggiungi i ticket suggeriti da `tools/feedback/sync_tasks.py` (severità ≥3).【F:tools/feedback/sync_tasks.py†L1-L120】
+1. Dopo ogni analisi, apri `../incoming/FEATURE_MAP_EVO_TACTICS.md` e aggiungi i ticket suggeriti da `tools/feedback/sync_tasks.py` (severità ≥3).【F:tools/feedback/sync_tasks.py†L1-L120】
 2. Conferma che `tools/feedback/collection_pipeline.yaml` abbia registrato il passaggio a `in_progress` e che la cadence `canary_sync` sia rispettata.【F:tools/feedback/collection_pipeline.yaml†L1-L110】
 3. Se emergono nuovi template o soglie, aggiorna `tools/feedback/hud_canary_dashboard.yaml` prima del prossimo digest.
 

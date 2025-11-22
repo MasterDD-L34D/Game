@@ -10,7 +10,7 @@ batches:
     destination:
       primary: docs/evo-tactics/
       security: docs/security/
-      archives: incoming/archive/documents/
+      archives: docs/incoming/archive/documents/
     status: completato
     completed_at: 2025-11-11T14:18:34Z
     commit: b57fae2e562b04f8af1eda0546a0d9220538e44d
@@ -93,7 +93,7 @@ batches:
     actions:
       - Uniformare intestazioni shebang e licenze.
       - Aggiungere target dedicati nel `Makefile` (`make evo-validate`, `make evo-backlog`).
-      - Documentare l'uso in `incoming/README.md` e nel wiki interno.
+      - Documentare l'uso in `docs/incoming/README.md` e nel wiki interno.
     blockers:
       - Definizione credenziali/secret per GitHub API (setup backlog).
   - id: ops_ci

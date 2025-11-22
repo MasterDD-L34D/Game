@@ -14,8 +14,8 @@ updated: 2025-12-19
 
 | Sorgente inventario | Destinazione consolidata | Note |
 | --- | --- | --- |
-| `Game_EvoTactics_Guida_Pacchetto_v2.md` | `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.md` | Duplicato archiviato post bonifica 19/12/2025 |
-| `INTEGRAZIONE_GUIDE.md` | `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/INTEGRAZIONE_GUIDE.md` | Duplicato archiviato post bonifica 19/12/2025 |
+| `Game_EvoTactics_Guida_Pacchetto_v2.md` | `docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.md` | Duplicato archiviato post bonifica 19/12/2025 |
+| `INTEGRAZIONE_GUIDE.md` | `docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/INTEGRAZIONE_GUIDE.md` | Duplicato archiviato post bonifica 19/12/2025 |
 | `../archive/documents/Guida Ai tratti 1.docx` | `docs/evo-tactics/guida-ai-tratti-1.md` | Conversione DOCX → Markdown normalizzato |
 | `../archive/documents/Guida Ai tratti 2.docx` | `docs/evo-tactics/guida-ai-tratti-2.md` | Conversione DOCX → Markdown normalizzato |
 | `../archive/documents/Guida Ai tratti 3 Evo tact.docx` | `docs/evo-tactics/guida-ai-tratti-3-evo-tactics.md` | Conversione DOCX → Markdown normalizzato |
@@ -28,7 +28,7 @@ L’elenco completo degli asset inventariati con le rispettive destinazioni è s
 
 L’automazione `scripts/evo_tactics_metadata_diff.py` confronta le copie consolidate con le controparti archiviate e produce una matrice di differenze (`reports/evo/rollout/documentation_diff.json`). I principali scostamenti emersi sono:
 
-- Le versioni archiviate in `incoming/archive/2025-12-19_inventory_cleanup/` non contengono frontmatter YAML (`title`, `description`, `tags`, `updated`), mentre le copie consolidate sì.【F:reports/evo/rollout/documentation_diff.json†L1096-L1118】
+- Le versioni archiviate in `docs/incoming/archive/2025-12-19_inventory_cleanup/` non contengono frontmatter YAML (`title`, `description`, `tags`, `updated`), mentre le copie consolidate sì.【F:reports/evo/rollout/documentation_diff.json†L1096-L1118】
 - Le guide consolidate hanno introdotto ancore semantiche esplicite (`{#...}`) per tutte le sezioni e sottosezioni, assenti nelle controparti archiviate. Il diff registra oltre 20 nuove ancore per ciascuna guida principale, facilitando i deep-link nelle wiki interne.【F:reports/evo/rollout/documentation_diff.json†L1119-L1149】
 - Tre documenti operativi (`guides/security-ops.md`, `guides/template-ptpf.md`, `guides/visione-struttura.md`) non hanno ancora un match nell’archivio storicizzato: il dato emerge nella sezione `unmatched` del report JSON, indicando che non esiste una copia legacy con cui confrontare metadati e ancore.【F:reports/evo/rollout/documentation_diff.json†L1366-L1369】
 

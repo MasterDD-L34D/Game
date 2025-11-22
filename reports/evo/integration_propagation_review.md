@@ -2,7 +2,7 @@
 
 ## Sintesi del piano
 - Il file `incoming/lavoro_da_classificare/integration_batches.yml` indica che tutti i batch (documentation → frontend) sono completati, con timestamp e riferimento al cleanup finale.
-- I tracker `incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md` e `incoming/lavoro_da_classificare/tasks.yml` confermano gli stessi stati "done" e rimandano ai log QA per ogni attività.
+- I tracker `docs/incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md` e `incoming/lavoro_da_classificare/tasks.yml` confermano gli stessi stati "done" e rimandano ai log QA per ogni attività.
 
 ## Propagazione nei sistemi
 ### Documentazione

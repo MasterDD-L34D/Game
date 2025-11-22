@@ -3,7 +3,7 @@
 meta:
   version: 1
   last_update: 2025-10-29
-  notes: 'Aggiornare status e assegnatari quando i task vengono presi in carico. Directory di destinazione già disponibili: docs/evo-tactics, docs/security, data/external/evo, reports/evo, incoming/archive/documents, tools/automation, docs/wireframes/evo. Utilizzare tools/automation/evo_batch_runner.py per automatizzare i comandi batch (dry-run di default).'
+  notes: 'Aggiornare status e assegnatari quando i task vengono presi in carico. Directory di destinazione già disponibili: docs/evo-tactics, docs/security, data/external/evo, reports/evo, docs/incoming/archive/documents, tools/automation, docs/wireframes/evo. Utilizzare tools/automation/evo_batch_runner.py per automatizzare i comandi batch (dry-run di default).'
 
 tasks:
   - id: DOC-01
@@ -44,7 +44,7 @@ tasks:
     depends_on:
       - DOC-01
     deliverables:
-      - incoming/archive/documents/
+      - docs/incoming/archive/documents/
       - incoming/lavoro_da_classificare/inventario.yml
     notes: 'Originali DOCX spostati in archive con inventario aggiornato.'
 
@@ -296,10 +296,10 @@ tasks:
     depends_on:
       - DOC-01
     deliverables:
-      - incoming/archive/2025-12-19_inventory_cleanup/**/*.md
+      - docs/incoming/archive/2025-12-19_inventory_cleanup/**/*.md
       - reports/evo/rollout/documentation_gap.md
     commands:
-      - python scripts/evo_tactics_metadata_diff.py --mode=backfill --target incoming/archive/2025-12-19_inventory_cleanup/
+      - python scripts/evo_tactics_metadata_diff.py --mode=backfill --target docs/incoming/archive/2025-12-19_inventory_cleanup/
     notes: 'Replica i frontmatter YAML (title, description, tags, updated) sui documenti legacy per ripristinare indicizzazione e deep-link.'
 
   - id: ROL-02
@@ -326,9 +326,9 @@ tasks:
     depends_on:
       - ROL-01
     deliverables:
-      - incoming/archive/2025-12-19_inventory_cleanup/playbook_security_ops.md
-      - incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md
-      - incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md
+      - docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_security_ops.md
+      - docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_template_ptpf.md
+      - docs/incoming/archive/2025-12-19_inventory_cleanup/playbook_visione_struttura.md
     notes: 'Estrarre le copie consolidate dei playbook security/PMO e versionarle nell’archivio storico con changelog.'
 
     telemetry:
