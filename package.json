@@ -23,7 +23,7 @@
     "lint:lighthouse": "lhci autorun --config=./config/lighthouse/evo.lighthouserc.json",
     "schema:lint": "python tools/automation/evo_schema_lint.py schemas/evo",
     "ci:stack": "npm run lint:stack && npm run test:backend && npm run test --workspace apps/dashboard && VITE_BASE_PATH=./ npm run build --workspace apps/dashboard",
-    "test:api": "ORCHESTRATOR_AUTOCLOSE_MS=2000 node --test tests/api/*.test.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/generation/flow-shell.spec.ts && node --test tests/server/generationSnapshot.spec.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-latency.spec.ts && ./node_modules/.bin/tsx tests/scripts/tune_items.test.ts && ./node_modules/.bin/tsx tests/events/dynamicEvents.e2e.ts && node --test tests/tools/deploy-checks.spec.js",
+    "test:api": "ORCHESTRATOR_AUTOCLOSE_MS=2000 node --test tests/api/*.test.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/generation/flow-shell.spec.ts && node --test tests/server/generationSnapshot.spec.js && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-bridge.spec.ts && ORCHESTRATOR_AUTOCLOSE_MS=2000 ./node_modules/.bin/tsx tests/server/orchestrator-latency.spec.ts && ./node_modules/.bin/tsx tests/scripts/tune_items.test.ts && ./node_modules/.bin/tsx tests/events/dynamicEvents.e2e.ts && node --test tests/tools/deploy-checks.spec.js && ./node_modules/.bin/tsx tests/api/serviceActorSessions.spec.ts",
     "start:api": "node apps/backend/index.js",
     "docs:lint": "python tools/check_site_links.py docs",
     "docs:smoke": "node scripts/docs-smoke.js",
