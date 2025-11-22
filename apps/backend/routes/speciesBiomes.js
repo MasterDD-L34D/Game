@@ -40,11 +40,25 @@ function mapRelation(entry) {
 }
 
 function createSpeciesBiomesRouter({ prisma }) {
-  if (!prisma) {
-    throw new Error('prisma client richiesto per il router specie-biomi');
-  }
-
   const router = express.Router();
+
+  if (!prisma) {
+    const notConfigured = { error: 'Archivio specie/biomi non configurato' };
+
+    router.get('/species', (req, res) => {
+      res.status(501).json(notConfigured);
+    });
+
+    router.get('/biomes', (req, res) => {
+      res.status(501).json(notConfigured);
+    });
+
+    router.get('/species-biomes', (req, res) => {
+      res.status(501).json(notConfigured);
+    });
+
+    return router;
+  }
 
   router.get('/species', async (req, res) => {
     try {
