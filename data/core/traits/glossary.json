@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2025-11-22T13:10:03.882660+00:00",
+  "updated_at": "2025-11-22T15:10:41+00:00",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -650,8 +650,8 @@
     "ectotermia_dinamica": {
       "label_it": "Ectotermia Dinamica",
       "label_en": "Dynamic Ectothermy",
-      "description_it": "Microscosse isometriche che innalzano rapidamente la temperatura corporea per picchi prestazionali.",
-      "description_en": "Isometric micro-shivers that rapidly raise body temperature for performance spikes."
+      "description_it": "Microscosse isometriche che innalzano in fretta la temperatura corporea per picchi prestazionali in climi freschi.",
+      "description_en": "Isometric micro-shivers that quickly elevate body temperature for performance peaks in cool climates."
     },
     "elettromagnete_biologico": {
       "label_it": "Elettromagnete Biologico",
@@ -926,8 +926,8 @@
     "ipertrofia_muscolare_massiva": {
       "label_it": "Ipertrofia Muscolare Massiva",
       "label_en": "Massive Muscular Hypertrophy",
-      "description_it": "Fibre ispessite e mitocondri densi che aumentano potenza, scatto e tolleranza allo sforzo breve.",
-      "description_en": "Thickened fibres with dense mitochondria boosting power, burst acceleration, and short-term strain tolerance."
+      "description_it": "Fibre a sezione aumentata e mitocondri densi che sprigionano potenza e scatto sostenendo sforzi brevi.",
+      "description_en": "Broadened fibres with dense mitochondria that unleash power and acceleration while enduring short bursts."
     },
     "lamelle_shear": {
       "label_it": "Lamelle Shear",
@@ -1184,8 +1184,8 @@
     "rostro_emostatico_litico": {
       "label_it": "Rostro Emostatico-Litico",
       "label_en": "Hemo-Lytic Rostrum",
-      "description_it": "Rostro tubulare rigido che inietta enzimi coagulanti e litici aspirando fluidi dopo l’impatto.",
-      "description_en": "Rigid tubular rostrum that injects lytic and coagulant enzymes while drawing fluids after impact."
+      "description_it": "Rostro tubulare rigidizzato che inocula tossine ed enzimi e aspira fluidi dopo l’impatto.",
+      "description_en": "Reinforced tubular rostrum that injects toxins and enzymes, then draws fluids after impact."
     },
     "rostro_linguale_prensile": {
       "label_it": "Rostro Linguale Prensile",

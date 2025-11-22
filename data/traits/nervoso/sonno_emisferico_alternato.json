@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.sonno_emisferico_alternato.debolezza",
   "famiglia_tipologia": "Nervoso/Omeostatico",
-  "fattore_mantenimento_energetico": "i18n:traits.sonno_emisferico_alternato.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Mantenimento attivo di metà cervello)",
   "id": "sonno_emisferico_alternato",
   "label": "i18n:traits.sonno_emisferico_alternato.label",
   "mutazione_indotta": "i18n:traits.sonno_emisferico_alternato.mutazione_indotta",

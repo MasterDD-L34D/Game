@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.filamenti_superconduttivi.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.filamenti_superconduttivi.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "filamenti_superconduttivi",
   "label": "i18n:traits.filamenti_superconduttivi.label",
   "mutazione_indotta": "i18n:traits.filamenti_superconduttivi.mutazione_indotta",

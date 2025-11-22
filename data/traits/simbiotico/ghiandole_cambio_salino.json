@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.ghiandole_cambio_salino.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.ghiandole_cambio_salino.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ghiandole_cambio_salino",
   "label": "i18n:traits.ghiandole_cambio_salino.label",
   "mutazione_indotta": "i18n:traits.ghiandole_cambio_salino.mutazione_indotta",

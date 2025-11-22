@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.denti_chelatanti.debolezza",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.denti_chelatanti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "denti_chelatanti",
   "label": "i18n:traits.denti_chelatanti.label",
   "mutazione_indotta": "i18n:traits.denti_chelatanti.mutazione_indotta",

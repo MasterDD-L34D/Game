@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.eco_interno_riflesso.debolezza",
   "famiglia_tipologia": "Sensoriale/Nervoso",
-  "fattore_mantenimento_energetico": "i18n:traits.eco_interno_riflesso.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Emissioni e ricezione continua)",
   "id": "eco_interno_riflesso",
   "label": "i18n:traits.eco_interno_riflesso.label",
   "mutazione_indotta": "i18n:traits.eco_interno_riflesso.mutazione_indotta",

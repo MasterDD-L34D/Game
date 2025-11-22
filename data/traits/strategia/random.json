@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.random.debolezza",
   "famiglia_tipologia": "Flessibile/Generico",
-  "fattore_mantenimento_energetico": "i18n:traits.random.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Variabile (Dipende dal tratto estratto)",
   "id": "random",
   "label": "i18n:traits.random.label",
   "mutazione_indotta": "i18n:traits.random.mutazione_indotta",

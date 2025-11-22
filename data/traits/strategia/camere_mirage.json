@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.camere_mirage.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.camere_mirage.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "camere_mirage",
   "label": "i18n:traits.camere_mirage.label",
   "mutazione_indotta": "i18n:traits.camere_mirage.mutazione_indotta",

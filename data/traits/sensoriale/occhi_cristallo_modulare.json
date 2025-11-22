@@ -2,7 +2,7 @@
   "id": "occhi_cristallo_modulare",
   "label": "i18n:traits.occhi_cristallo_modulare.label",
   "famiglia_tipologia": "Sensoriale/Visivo",
-  "fattore_mantenimento_energetico": "i18n:traits.occhi_cristallo_modulare.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Moderato (Attivo)",
   "tier": "T2",
   "slot": [],
   "sinergie": [],

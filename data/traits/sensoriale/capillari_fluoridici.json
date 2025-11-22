@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.capillari_fluoridici.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.capillari_fluoridici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "capillari_fluoridici",
   "label": "i18n:traits.capillari_fluoridici.label",
   "mutazione_indotta": "i18n:traits.capillari_fluoridici.mutazione_indotta",

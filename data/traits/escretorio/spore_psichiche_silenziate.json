@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.spore_psichiche_silenziate.debolezza",
   "famiglia_tipologia": "Escretorio/Psichico",
-  "fattore_mantenimento_energetico": "i18n:traits.spore_psichiche_silenziate.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Produzione e rilascio)",
   "id": "spore_psichiche_silenziate",
   "label": "i18n:traits.spore_psichiche_silenziate.label",
   "mutazione_indotta": "i18n:traits.spore_psichiche_silenziate.mutazione_indotta",

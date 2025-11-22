@@ -1,9 +1,9 @@
 {
   "id": "rostro_emostatico_litico",
   "label": "i18n:traits.rostro_emostatico_litico.label",
-  "data_origin": "coverage_q4_2025",
+  "data_origin": "incoming_tr1100_pack",
   "famiglia_tipologia": "Offensivo/Perforante",
-  "fattore_mantenimento_energetico": "Medio",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
   "tier": "T4",
   "slot": [],
   "sinergie": [
@@ -48,5 +48,11 @@
       "http://purl.obolibrary.org/obo/ENVO_01000178",
       "http://purl.obolibrary.org/obo/ENVO_01000228"
     ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
   }
 }

@@ -25,8 +25,14 @@ TEXT_FIELDS = (
     "spinta_selettiva",
     "uso_funzione",
     "debolezza",
-    "fattore_mantenimento_energetico",
 )
+# Campi che devono rimanere testuali inline e non essere convertiti in i18n.
+NON_LOCALISED_FIELDS = {"fattore_mantenimento_energetico"}
+ENERGY_FACTOR_DEFAULTS = {
+    "basso": "mantenimento passivo o trascurabile",
+    "medio": "manutenzione periodica o situazionale",
+    "alto": "apporto costante o consumo continuo",
+}
 EXCLUDED_FILES = {"index.json", "species_affinity.json"}
 
 
@@ -142,6 +148,62 @@ def load_glossary_for_language(
     return glossary_map
 
 
+def normalise_non_localised_value(field: str, value: str) -> str:
+    """Uniforma i campi non localizzati e arricchisce il fattore energetico."""
+
+    if not isinstance(value, str):
+        return value
+
+    text = value.strip()
+    if field != "fattore_mantenimento_energetico":
+        return text
+
+    # Estrarre il livello (Basso/Medio/Alto) e, se assente, aggiungere una nota standard.
+    import re
+
+    match = re.match(r"^(?P<level>basso|medio|alto)(?P<detail>\s*\((?P<body>.*)\))?\s*$", text, re.IGNORECASE)
+    if not match:
+        return text
+
+    level = match.group("level").capitalize()
+    detail = match.group("body")
+    if detail and detail.strip():
+        return f"{level} ({detail.strip()})"
+
+    default_detail = ENERGY_FACTOR_DEFAULTS.get(level.lower())
+    if default_detail:
+        return f"{level} ({default_detail})"
+    return level
+
+
+def restore_non_localised_fields(
+    data: Dict, entry: Dict[str, str], trait_updated: bool
+) -> bool:
+    """Ripristina i campi non localizzati e pulisce l'entry locale."""
+
+    changed = trait_updated
+    for field in NON_LOCALISED_FIELDS:
+        value = data.get(field)
+        if not isinstance(value, str):
+            entry.pop(field, None)
+            continue
+
+        replacement: str | None = None
+        if value.startswith("i18n:traits."):
+            replacement = entry.get(field)
+        else:
+            replacement = value
+
+        if replacement:
+            normalised = normalise_non_localised_value(field, replacement)
+            if data.get(field) != normalised:
+                data[field] = normalised
+                changed = True
+        entry.pop(field, None)
+
+    return changed
+
+
 def sync_trait(
     path: Path,
     bundle_entries: Dict[str, Dict[str, str]],
@@ -169,6 +231,8 @@ def sync_trait(
             continue
         else:
             entry.pop(field, None)
+
+    trait_updated = restore_non_localised_fields(data, entry, trait_updated)
 
     # Applica label/description approvate dal glossario per la lingua target.
     glossary_texts = glossary_entries.get(trait_id, {})

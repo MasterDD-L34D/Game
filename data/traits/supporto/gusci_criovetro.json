@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.gusci_criovetro.debolezza",
   "famiglia_tipologia": "Supporto/Logistico",
-  "fattore_mantenimento_energetico": "i18n:traits.gusci_criovetro.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "gusci_criovetro",
   "label": "i18n:traits.gusci_criovetro.label",
   "mutazione_indotta": "i18n:traits.gusci_criovetro.mutazione_indotta",

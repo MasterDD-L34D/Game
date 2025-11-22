@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.epitelio_fosforescente.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.epitelio_fosforescente.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "epitelio_fosforescente",
   "label": "i18n:traits.epitelio_fosforescente.label",
   "mutazione_indotta": "i18n:traits.epitelio_fosforescente.mutazione_indotta",

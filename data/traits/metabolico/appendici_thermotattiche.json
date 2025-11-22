@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.appendici_thermotattiche.debolezza",
   "famiglia_tipologia": "Digestivo/Metabolico",
-  "fattore_mantenimento_energetico": "i18n:traits.appendici_thermotattiche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "appendici_thermotattiche",
   "label": "i18n:traits.appendici_thermotattiche.label",
   "mutazione_indotta": "i18n:traits.appendici_thermotattiche.mutazione_indotta",

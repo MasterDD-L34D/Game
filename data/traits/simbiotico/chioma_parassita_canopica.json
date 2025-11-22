@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.chioma_parassita_canopica.debolezza",
   "famiglia_tipologia": "Simbiotico/Utility",
-  "fattore_mantenimento_energetico": "i18n:traits.chioma_parassita_canopica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Nutrimento condiviso con l'ospite arboreo)",
   "id": "chioma_parassita_canopica",
   "label": "i18n:traits.chioma_parassita_canopica.label",
   "mutazione_indotta": "i18n:traits.chioma_parassita_canopica.mutazione_indotta",

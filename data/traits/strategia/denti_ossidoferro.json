@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.denti_ossidoferro.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.denti_ossidoferro.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "denti_ossidoferro",
   "label": "i18n:traits.denti_ossidoferro.label",
   "mutazione_indotta": "i18n:traits.denti_ossidoferro.mutazione_indotta",

@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.antenne_wideband.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "i18n:traits.antenne_wideband.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "antenne_wideband",
   "label": "i18n:traits.antenne_wideband.label",
   "mutazione_indotta": "i18n:traits.antenne_wideband.mutazione_indotta",

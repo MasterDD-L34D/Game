@@ -5,7 +5,7 @@
   ],
   "debolezza": "i18n:traits.secrezione_rallentante_palmi.debolezza",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.secrezione_rallentante_palmi.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Produzione del liquido)",
   "id": "secrezione_rallentante_palmi",
   "label": "i18n:traits.secrezione_rallentante_palmi.label",
   "mutazione_indotta": "i18n:traits.secrezione_rallentante_palmi.mutazione_indotta",

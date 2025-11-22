@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.mantello_meteoritico.debolezza",
   "famiglia_tipologia": "Difesa/Termoregolazione",
-  "fattore_mantenimento_energetico": "i18n:traits.mantello_meteoritico.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Rivestimento ablativo rigenerante)",
   "id": "mantello_meteoritico",
   "label": "i18n:traits.mantello_meteoritico.label",
   "mutazione_indotta": "i18n:traits.mantello_meteoritico.mutazione_indotta",

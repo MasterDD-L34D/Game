@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.ali_fulminee.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.ali_fulminee.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ali_fulminee",
   "label": "i18n:traits.ali_fulminee.label",
   "mutazione_indotta": "i18n:traits.ali_fulminee.mutazione_indotta",

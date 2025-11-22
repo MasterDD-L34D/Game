@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.cartilagine_flessotermica_venti.debolezza",
   "famiglia_tipologia": "Locomotorio/Adattivo",
-  "fattore_mantenimento_energetico": "i18n:traits.cartilagine_flessotermica_venti.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Richiede frequenti riallineamenti fibrosi)",
   "id": "cartilagine_flessotermica_venti",
   "label": "i18n:traits.cartilagine_flessotermica_venti.label",
   "mutazione_indotta": "i18n:traits.cartilagine_flessotermica_venti.mutazione_indotta",

@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.lamelle_termoforetiche.debolezza",
   "famiglia_tipologia": "Respiratorio/Termoregolazione",
-  "fattore_mantenimento_energetico": "i18n:traits.lamelle_termoforetiche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Flusso continuo di fluidi caldi)",
   "id": "lamelle_termoforetiche",
   "label": "i18n:traits.lamelle_termoforetiche.label",
   "mutazione_indotta": "i18n:traits.lamelle_termoforetiche.mutazione_indotta",

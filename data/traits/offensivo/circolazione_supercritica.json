@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.circolazione_supercritica.debolezza",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.circolazione_supercritica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "circolazione_supercritica",
   "label": "i18n:traits.circolazione_supercritica.label",
   "mutazione_indotta": "i18n:traits.circolazione_supercritica.mutazione_indotta",

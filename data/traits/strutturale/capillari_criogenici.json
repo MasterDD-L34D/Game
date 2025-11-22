@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.capillari_criogenici.debolezza",
   "famiglia_tipologia": "Strutturale/Adattivo",
-  "fattore_mantenimento_energetico": "i18n:traits.capillari_criogenici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "capillari_criogenici",
   "label": "i18n:traits.capillari_criogenici.label",
   "mutazione_indotta": "i18n:traits.capillari_criogenici.mutazione_indotta",

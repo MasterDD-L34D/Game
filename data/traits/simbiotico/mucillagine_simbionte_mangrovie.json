@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.mucillagine_simbionte_mangrovie.debolezza",
   "famiglia_tipologia": "Simbiotico/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.mucillagine_simbionte_mangrovie.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Coltura simbiotica costante)",
   "id": "mucillagine_simbionte_mangrovie",
   "label": "i18n:traits.mucillagine_simbionte_mangrovie.label",
   "mutazione_indotta": "i18n:traits.mucillagine_simbionte_mangrovie.mutazione_indotta",

@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.nucleo_ovomotore_rotante.debolezza",
   "famiglia_tipologia": "Riproduttivo/Locomotorio",
-  "fattore_mantenimento_energetico": "i18n:traits.nucleo_ovomotore_rotante.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Rotolamento)",
   "id": "nucleo_ovomotore_rotante",
   "label": "i18n:traits.nucleo_ovomotore_rotante.label",
   "mutazione_indotta": "i18n:traits.nucleo_ovomotore_rotante.mutazione_indotta",

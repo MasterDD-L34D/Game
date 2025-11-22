@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.coda_frusta_cinetica.debolezza",
   "famiglia_tipologia": "Locomotorio/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.coda_frusta_cinetica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Mantenimento dell'energia accumulata)",
   "id": "coda_frusta_cinetica",
   "label": "i18n:traits.coda_frusta_cinetica.label",
   "mutazione_indotta": "i18n:traits.coda_frusta_cinetica.mutazione_indotta",

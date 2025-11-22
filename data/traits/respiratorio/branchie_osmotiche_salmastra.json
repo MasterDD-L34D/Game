@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.branchie_osmotiche_salmastra.debolezza",
   "famiglia_tipologia": "Respiratorio/Osmoregolazione",
-  "fattore_mantenimento_energetico": "i18n:traits.branchie_osmotiche_salmastra.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Pompe ioniche attive)",
   "id": "branchie_osmotiche_salmastra",
   "label": "i18n:traits.branchie_osmotiche_salmastra.label",
   "mutazione_indotta": "i18n:traits.branchie_osmotiche_salmastra.mutazione_indotta",

@@ -5,7 +5,7 @@
   ],
   "debolezza": "i18n:traits.sangue_piroforico.debolezza",
   "famiglia_tipologia": "Offensivo/Cinetico",
-  "fattore_mantenimento_energetico": "i18n:traits.sangue_piroforico.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Sintesi dei composti)",
   "id": "sangue_piroforico",
   "label": "i18n:traits.sangue_piroforico.label",
   "mutazione_indotta": "i18n:traits.sangue_piroforico.mutazione_indotta",

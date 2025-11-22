@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.coda_contrappeso.debolezza",
   "famiglia_tipologia": "Locomotorio/Mobilità",
-  "fattore_mantenimento_energetico": "i18n:traits.coda_contrappeso.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "coda_contrappeso",
   "label": "i18n:traits.coda_contrappeso.label",
   "mutazione_indotta": "i18n:traits.coda_contrappeso.mutazione_indotta",

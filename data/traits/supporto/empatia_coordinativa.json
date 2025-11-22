@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.empatia_coordinativa.debolezza",
   "famiglia_tipologia": "Supporto/Empatico",
-  "fattore_mantenimento_energetico": "i18n:traits.empatia_coordinativa.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Feedback costante dai compagni)",
   "id": "empatia_coordinativa",
   "label": "i18n:traits.empatia_coordinativa.label",
   "mutazione_indotta": "i18n:traits.empatia_coordinativa.mutazione_indotta",

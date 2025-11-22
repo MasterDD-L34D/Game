@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.membrane_captura_rugiada.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.membrane_captura_rugiada.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "membrane_captura_rugiada",
   "label": "i18n:traits.membrane_captura_rugiada.label",
   "mutazione_indotta": "i18n:traits.membrane_captura_rugiada.mutazione_indotta",

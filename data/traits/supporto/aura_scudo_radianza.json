@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.aura_scudo_radianza.debolezza",
   "famiglia_tipologia": "Supporto/Difesa",
-  "fattore_mantenimento_energetico": "i18n:traits.aura_scudo_radianza.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Canalizzazione fotonica continua)",
   "id": "aura_scudo_radianza",
   "label": "i18n:traits.aura_scudo_radianza.label",
   "mutazione_indotta": "i18n:traits.aura_scudo_radianza.mutazione_indotta",

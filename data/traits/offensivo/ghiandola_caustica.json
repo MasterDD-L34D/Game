@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.ghiandola_caustica.debolezza",
   "famiglia_tipologia": "Offensivo/Chimico",
-  "fattore_mantenimento_energetico": "i18n:traits.ghiandola_caustica.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Produzione reagenti)",
   "id": "ghiandola_caustica",
   "label": "i18n:traits.ghiandola_caustica.label",
   "mutazione_indotta": "i18n:traits.ghiandola_caustica.mutazione_indotta",

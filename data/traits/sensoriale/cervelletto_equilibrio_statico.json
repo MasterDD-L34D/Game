@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.cervelletto_equilibrio_statico.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.cervelletto_equilibrio_statico.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "cervelletto_equilibrio_statico",
   "label": "i18n:traits.cervelletto_equilibrio_statico.label",
   "mutazione_indotta": "i18n:traits.cervelletto_equilibrio_statico.mutazione_indotta",

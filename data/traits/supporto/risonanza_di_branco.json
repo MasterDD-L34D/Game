@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.risonanza_di_branco.debolezza",
   "famiglia_tipologia": "Supporto/Coordinativo",
-  "fattore_mantenimento_energetico": "i18n:traits.risonanza_di_branco.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Richiede mantenimento empatico)",
   "id": "risonanza_di_branco",
   "label": "i18n:traits.risonanza_di_branco.label",
   "mutazione_indotta": "i18n:traits.risonanza_di_branco.mutazione_indotta",

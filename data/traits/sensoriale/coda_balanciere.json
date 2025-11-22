@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.coda_balanciere.debolezza",
   "famiglia_tipologia": "Sensoriale/Analitico",
-  "fattore_mantenimento_energetico": "i18n:traits.coda_balanciere.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "coda_balanciere",
   "label": "i18n:traits.coda_balanciere.label",
   "mutazione_indotta": "i18n:traits.coda_balanciere.mutazione_indotta",

@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.carapace_luminiscente_abissale.debolezza",
   "famiglia_tipologia": "Strutturale/Sensoriale",
-  "fattore_mantenimento_energetico": "i18n:traits.carapace_luminiscente_abissale.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Bioluminescenza controllata)",
   "id": "carapace_luminiscente_abissale",
   "label": "i18n:traits.carapace_luminiscente_abissale.label",
   "mutazione_indotta": "i18n:traits.carapace_luminiscente_abissale.mutazione_indotta",

@@ -3,7 +3,7 @@
   "label": "i18n:traits.zanne_idracida.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Offensivo/Chimico",
-  "fattore_mantenimento_energetico": "Alto",
+  "fattore_mantenimento_energetico": "Alto (apporto costante o consumo continuo)",
   "tier": "T4",
   "slot": [],
   "sinergie": [

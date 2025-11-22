@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.armatura_pietra_planare.debolezza",
   "famiglia_tipologia": "Difesa/Strutturale",
-  "fattore_mantenimento_energetico": "i18n:traits.armatura_pietra_planare.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Risonanza geodetica stabile)",
   "id": "armatura_pietra_planare",
   "label": "i18n:traits.armatura_pietra_planare.label",
   "mutazione_indotta": "i18n:traits.armatura_pietra_planare.mutazione_indotta",

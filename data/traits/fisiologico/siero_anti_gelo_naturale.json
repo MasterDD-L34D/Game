@@ -3,7 +3,7 @@
   "label": "i18n:traits.siero_anti_gelo_naturale.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Fisiologico/Termico",
-  "fattore_mantenimento_energetico": "Basso",
+  "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
   "tier": "T2",
   "slot": [],
   "sinergie": [

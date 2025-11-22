@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.giunti_antitorsione.debolezza",
   "famiglia_tipologia": "Tegumentario/Difensivo",
-  "fattore_mantenimento_energetico": "i18n:traits.giunti_antitorsione.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "giunti_antitorsione",
   "label": "i18n:traits.giunti_antitorsione.label",
   "mutazione_indotta": "i18n:traits.giunti_antitorsione.mutazione_indotta",

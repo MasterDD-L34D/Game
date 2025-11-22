@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.denti_silice_termici.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.denti_silice_termici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "denti_silice_termici",
   "label": "i18n:traits.denti_silice_termici.label",
   "mutazione_indotta": "i18n:traits.denti_silice_termici.mutazione_indotta",

@@ -4,7 +4,7 @@
   ],
   "debolezza": "i18n:traits.piume_solari_fotovoltaiche.debolezza",
   "famiglia_tipologia": "Tegumentario/Energetico",
-  "fattore_mantenimento_energetico": "i18n:traits.piume_solari_fotovoltaiche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Alto (Richiede manutenzione delle lamine fotoreattive)",
   "id": "piume_solari_fotovoltaiche",
   "label": "i18n:traits.piume_solari_fotovoltaiche.label",
   "mutazione_indotta": "i18n:traits.piume_solari_fotovoltaiche.mutazione_indotta",

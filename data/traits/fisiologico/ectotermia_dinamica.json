@@ -1,9 +1,9 @@
 {
   "id": "ectotermia_dinamica",
   "label": "i18n:traits.ectotermia_dinamica.label",
-  "data_origin": "coverage_q4_2025",
+  "data_origin": "incoming_tr1100_pack",
   "famiglia_tipologia": "Fisiologico/Termico",
-  "fattore_mantenimento_energetico": "Medio",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
   "tier": "T3",
   "slot": [],
   "sinergie": [
@@ -47,5 +47,11 @@
     "envo_terms": [
       "http://purl.obolibrary.org/obo/ENVO_01000178"
     ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-04",
+    "updated": "2025-11-04",
+    "author": "Master DD / GPT-5 Pro"
   }
 }

@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.antenne_microonde_cavernose.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.antenne_microonde_cavernose.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "antenne_microonde_cavernose",
   "label": "i18n:traits.antenne_microonde_cavernose.label",
   "mutazione_indotta": "i18n:traits.antenne_microonde_cavernose.mutazione_indotta",

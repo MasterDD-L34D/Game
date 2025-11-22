@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.sensori_geomagnetici.debolezza",
   "famiglia_tipologia": "Sensoriale/Navigazione",
-  "fattore_mantenimento_energetico": "i18n:traits.sensori_geomagnetici.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Ricettori passivi)",
   "id": "sensori_geomagnetici",
   "label": "i18n:traits.sensori_geomagnetici.label",
   "mutazione_indotta": "i18n:traits.sensori_geomagnetici.mutazione_indotta",

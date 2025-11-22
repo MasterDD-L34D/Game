@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.artigli_sghiaccio_glaciale.debolezza",
   "famiglia_tipologia": "Locomotorio/Predatorio",
-  "fattore_mantenimento_energetico": "i18n:traits.artigli_sghiaccio_glaciale.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Medio (Raffreddamento endogeno controllato)",
   "id": "artigli_sghiaccio_glaciale",
   "label": "i18n:traits.artigli_sghiaccio_glaciale.label",
   "mutazione_indotta": "i18n:traits.artigli_sghiaccio_glaciale.mutazione_indotta",

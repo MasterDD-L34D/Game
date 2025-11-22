@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.biofilm_glow.debolezza",
   "famiglia_tipologia": "Strategico/Tattico",
-  "fattore_mantenimento_energetico": "i18n:traits.biofilm_glow.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "biofilm_glow",
   "label": "i18n:traits.biofilm_glow.label",
   "mutazione_indotta": "i18n:traits.biofilm_glow.mutazione_indotta",

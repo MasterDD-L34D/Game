@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.biofilm_iperarido.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.biofilm_iperarido.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "biofilm_iperarido",
   "label": "i18n:traits.biofilm_iperarido.label",
   "mutazione_indotta": "i18n:traits.biofilm_iperarido.mutazione_indotta",

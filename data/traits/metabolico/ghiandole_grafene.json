@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.ghiandole_grafene.debolezza",
   "famiglia_tipologia": "Digestivo/Metabolico",
-  "fattore_mantenimento_energetico": "i18n:traits.ghiandole_grafene.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "ghiandole_grafene",
   "label": "i18n:traits.ghiandole_grafene.label",
   "mutazione_indotta": "i18n:traits.ghiandole_grafene.mutazione_indotta",

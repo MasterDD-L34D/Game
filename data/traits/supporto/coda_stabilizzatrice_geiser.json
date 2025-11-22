@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.coda_stabilizzatrice_geiser.debolezza",
   "famiglia_tipologia": "Supporto/Logistico",
-  "fattore_mantenimento_energetico": "i18n:traits.coda_stabilizzatrice_geiser.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "coda_stabilizzatrice_geiser",
   "label": "i18n:traits.coda_stabilizzatrice_geiser.label",
   "mutazione_indotta": "i18n:traits.coda_stabilizzatrice_geiser.mutazione_indotta",

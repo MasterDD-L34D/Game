@@ -3,7 +3,7 @@
   "label": "i18n:traits.seta_conduttiva_elettrica.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Offensivo/Elettrico",
-  "fattore_mantenimento_energetico": "Medio",
+  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
   "tier": "T4",
   "slot": [],
   "sinergie": [

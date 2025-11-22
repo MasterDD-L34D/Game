@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.camere_anticorrosione.debolezza",
   "famiglia_tipologia": "Offensivo/Assalto",
-  "fattore_mantenimento_energetico": "i18n:traits.camere_anticorrosione.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "camere_anticorrosione",
   "label": "i18n:traits.camere_anticorrosione.label",
   "mutazione_indotta": "i18n:traits.camere_anticorrosione.mutazione_indotta",

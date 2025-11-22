@@ -2,7 +2,7 @@
   "conflitti": [],
   "debolezza": "i18n:traits.lamelle_sincroniche.debolezza",
   "famiglia_tipologia": "Simbiotico/Cooperativo",
-  "fattore_mantenimento_energetico": "i18n:traits.lamelle_sincroniche.fattore_mantenimento_energetico",
+  "fattore_mantenimento_energetico": "Basso (Passivo)",
   "id": "lamelle_sincroniche",
   "label": "i18n:traits.lamelle_sincroniche.label",
   "mutazione_indotta": "i18n:traits.lamelle_sincroniche.mutazione_indotta",
