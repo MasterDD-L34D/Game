@@ -513,7 +513,7 @@ import { createReportCard } from './ui/report-card.js';
       statusBanner.setContent([
         pre,
         el("div", { class:"actions" }, [dl]),
-        el("div", { class:"note small" }, "Metti il file in  /ideas  e fai commit. Il workflow aggiornerà IDEAS_INDEX.md.")
+        el("div", { class:"note small" }, "Metti il file in  /ideas  e fai commit. Il workflow aggiornerà docs/ideas/IDEAS_INDEX.md.")
       ]);
     });
   }

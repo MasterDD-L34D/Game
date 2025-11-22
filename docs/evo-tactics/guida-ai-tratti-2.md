@@ -267,7 +267,7 @@ regolarmente il controllo di qualità:
 - **UCUM**: verificare che le unità delle metriche siano conformi al
   prontuario UCUM (`Cel` per gradi Celsius, `m/s` per velocità lineare,
   `J` per energia, `dB·s` per dose sonora…).
-- **QA Checklist**: seguire la lista di controllo `docs/QA_TRAITS_V2.md`
+- **QA Checklist**: seguire la lista di controllo `../qa/QA_TRAITS_V2.md`
   che ricorda di compilare testabilità, sinergie/conflitti, versioning,
   ecotipi e alias.
 
@@ -916,7 +916,7 @@ procedi in questo modo:
     rispettino gli schemi JSON. Il validatore segnala errori strutturali
     (campi mancanti, unità non conformi, versioning assente).
 3.  **Crea nuovi tratti** seguendo la checklist del
-    `README_HOWTO_AUTHOR_TRAIT.md`. Scegli codici univoci, definisci le
+    `../README_HOWTO_AUTHOR_TRAIT.md`. Scegli codici univoci, definisci le
     metriche e indica sinergie/conflitti. Ricorda di descrivere sempre
     trigger, limiti, costi e testabilità.
 4.  **Definisci nuove specie** partendo dalla firma funzionale. Scegli

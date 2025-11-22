@@ -2,7 +2,7 @@
 
 ## Accesso rapido
 
-- [Guida autori](../README_HOWTO_AUTHOR_TRAIT.md)
+- [Guida autori](README_HOWTO_AUTHOR_TRAIT.md)
 - [Template dati](traits_template.md)
 - [Reference catalogo](catalog/trait_reference.md)
 - [Checklist di validazione automatica](#checklist-di-validazione-automatica-comandi-rapidi)

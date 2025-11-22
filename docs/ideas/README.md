@@ -8,7 +8,7 @@ Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee e 
 
 - **Richiamo feedback immediato** — Il report Codex pubblicato dal backend include una call to action verso il modulo espresso
   così da raccogliere rapidamente le note post-rilascio.
-- **Registro cambi dedicato** — I rilasci di widget/backend confluiscono in [`docs/ideas/changelog.md`](docs/ideas/changelog.md)
+- **Registro cambi dedicato** — I rilasci di widget/backend confluiscono in [`changelog.md`](changelog.md)
   per avere uno storico unico da citare in release note e retrospettive.
 
 ## Procedura feedback Idea Engine
@@ -16,21 +16,21 @@ Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee e 
 1. **Compila il modulo espresso** — Segnala regressioni o highlight dal playtest tramite il [modulo feedback immediato](https://forms.gle/evoTacticsIdeaFeedback).
 2. **Aggiungi note contestuali** — Usa il campo feedback mostrato dal widget dopo l'invio per collegare i commenti alla singola
    idea; l'informazione verrà riportata nel report Codex.
-3. **Apri follow-up strutturati** — Duplica [`docs/ideas/feedback.md`](docs/ideas/feedback.md) o apri un ticket con label
+3. **Apri follow-up strutturati** — Duplica [`feedback.md`](feedback.md) o apri un ticket con label
    `idea-engine-feedback` per raccolte più ampie.
 
 ## Link rapidi
 
-- [Tutorial Idea Engine end-to-end](docs/tutorials/idea-engine.md)
+- [Tutorial Idea Engine end-to-end](../tutorials/idea-engine.md)
 - [Modulo feedback immediato](https://forms.gle/evoTacticsIdeaFeedback)
-- [Changelog widget/backend](docs/ideas/changelog.md)
+- [Changelog widget/backend](changelog.md)
 - [Indice idee generato dalla CI](IDEAS_INDEX.md)
-- [Support Hub Idea Engine](docs/ideas/index.html)
+- [Support Hub Idea Engine](index.html)
 
 ## Setup
 
 1. Copia tutto nella **radice del repo** (mantieni i percorsi).
-2. Apri `docs/ideas/index.html` e imposta:
+2. Apri `index.html` e imposta:
    ```html
    <script>
      window.IDEA_WIDGET_CONFIG = {
@@ -56,12 +56,12 @@ Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee e 
 
 ## Uso
 
-- Apri la pagina **Idea Engine** dal Support Hub (`docs/ideas/index.html`) per utilizzare il form con lo stesso stile del
+- Apri la pagina **Idea Engine** dal Support Hub (`index.html`) per utilizzare il form con lo stesso stile del
   sito pubblico.
 - Con `apiBase` configurato verso il servizio Node, il tasto **Invia al backend** registra l'idea nel database e mostra il
   report "Codex GPT Integration Brief" completo di pulsanti per copia e download.
-- Se non hai backend, clicca **Anteprima / Export .md**: scarica un file già formattato da mettere in `docs/ideas/submissions/`.
-- Il workflow `.github/workflows/idea-intake-index.yml` aggiorna `IDEAS_INDEX.md` ad ogni commit in `docs/ideas/submissions/`.
+- Se non hai backend, clicca **Anteprima / Export .md**: scarica un file già formattato da mettere in `submissions/`.
+- Il workflow `.github/workflows/idea-intake-index.yml` aggiorna `IDEAS_INDEX.md` ad ogni commit in `submissions/`.
 
 ## Campi del Reminder
 

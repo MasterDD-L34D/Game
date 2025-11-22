@@ -6,15 +6,15 @@ per autori e reviewer e integra la documentazione tecnica presente in `docs/`.
 
 ## 1. Prima di iniziare
 
-- Consulta la [scheda operativa completa](docs/traits_scheda_operativa.md) per
+- Consulta la [scheda operativa completa](traits_scheda_operativa.md) per
   campi, vincoli e checklist.
 
 ### Compatibilità Evo Pack v2
 
-Per importare o riallineare tratti provenienti da pacchetti Evo, fai riferimento a `docs/traits_evo_pack_alignment.md`, che mappa i campi Evo (`trait_code`, `testability`, `cost_profile`, metriche UCUM) sui campi obbligatori del repo (`id` snake_case, `label` i18n, `data_origin`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, ecc.) e descrive il flusso glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
+Per importare o riallineare tratti provenienti da pacchetti Evo, fai riferimento a `traits_evo_pack_alignment.md`, che mappa i campi Evo (`trait_code`, `testability`, `cost_profile`, metriche UCUM) sui campi obbligatori del repo (`id` snake_case, `label` i18n, `data_origin`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, ecc.) e descrive il flusso glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
 
 1. Identifica il ruolo narrativo e tattico del trait (slot, tier, macro-tipologia).
-2. Recupera i riferimenti dal [template dati](docs/traits_template.md) e dai
+2. Recupera i riferimenti dal [template dati](traits_template.md) e dai
    report correnti (`reports/trait_fields_by_type.json`, `reports/trait_texts.json`).
 3. Allinea label e descrizioni con il team di design/localization prima di
    procedere agli update dei file.

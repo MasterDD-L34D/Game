@@ -117,7 +117,7 @@
       res.innerHTML = "";
       res.appendChild(pre);
       res.appendChild(el("div", { class:"actions" }, [dl]));
-      res.appendChild(el("div", { class:"note small" }, "Metti il file in  /ideas  e fai commit. Il workflow aggiornerà IDEAS_INDEX.md."));
+      res.appendChild(el("div", { class:"note small" }, "Metti il file in  /ideas  e fai commit. Il workflow aggiornerà docs/ideas/IDEAS_INDEX.md."));
     });
   }
 

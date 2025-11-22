@@ -172,8 +172,8 @@ I passaggi consigliati sono:
 
 Il pacchetto v2 è organizzato come segue:
 
-- **docs/** – manuali di supporto (`prontuario_metriche_ucum.md`,
-  `README_HOWTO_AUTHOR_TRAIT.md`, `traits_reference.md`) e questa guida.
+- **docs/** – manuali di supporto (`../appendici/prontuario_metriche_ucum.md`,
+  `../README_HOWTO_AUTHOR_TRAIT.md`, `traits_reference.md`) e questa guida.
   Servono come riferimento perpetuo quando il pacchetto fisico non è
   disponibile.
 - **templates/** – contiene gli schemi JSON (`species.schema.json` e
