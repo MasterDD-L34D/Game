@@ -76,6 +76,13 @@ Per importare tratti da pacchetti Evo, usa la mappa di conversione in `traits_ev
 - Sezioni opzionali: `slot_profile`, `requisiti_ambientali`, `usage_tags`, `sinergie_pi`, `completion_flags`, `debolezza`.
 - Promemoria `data_origin`: usare solo slug ufficiali.
 
+## Approfondimenti Evo v2
+
+- **Mapping rapido `trait_code` → `id`/`label`**: il box in [Guida Evo Tactics Pack v2](Guida_Evo_Tactics_Pack_v2.md#compatibilita-evo-pack-v2) riepiloga conversione da codici TR-xxxx a `id` snake_case e `label` i18n, con esempio pratico. Per tabelle di allineamento più estese usa [traits_evo_pack_alignment.md](traits_evo_pack_alignment.md).
+- **Checklist migrazione v1 → v2**: la procedura in [evo-tactics/integrazioni-v2.md](evo-tactics/integrazioni-v2.md#evo-integrazioni-v2-pipeline-di-migrazione-v1-v2) copre mappatura campi (es. `categoria` → `famiglia_tipologia`), aggiornamento UCUM, normalizzazione nomi, compilazione `testability`/`cost_profile`, versioning e validazione finale.
+- **Stile/naming UCUM e nomenclature**: per il tono dei testi e la normalizzazione delle unità consulta la sezione “Specifiche standard v2” della [Guida Evo](Guida_Evo_Tactics_Pack_v2.md#specifiche-standard-v2) e il prontuario UCUM (sezione dedicata nel documento).
+- **Validazione nel repository Game**: usa sempre la toolchain Python (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`) come indicato in [Guida Evo Tactics Pack v2](Guida_Evo_Tactics_Pack_v2.md#validazione-nel-repository-game). Riserva `scripts/validate.sh`/`ajv` ai pacchetti esterni.
+
 ## Blocco “Label/Description approvate”
 
 - Link a `data/core/traits/glossary.json` e a `docs/catalog/trait_reference.md` per verificare naming e tono prima di scrivere/aggiornare testi approvati.
