@@ -1129,7 +1129,7 @@ I **gate di qualità** da rispettare in ogni PR includono:
 
 ## Come applicarlo nel repo Game
 
-Per integrare nuovi tratti o pacchetti in questo repository, segui il [flusso operativo end-to-end](docs/traits_scheda_operativa.md#box-flusso-operativo-end-to-end): prepara tassonomia e glossario, compila il file usando il [template dati](docs/traits_template.md), valida schema e contenuti con i comandi della [checklist automatica](docs/traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi), sincronizza le localizzazioni e chiudi la PR riportando gli esiti QA.
+Per integrare nuovi tratti o pacchetti in questo repository, segui il [flusso operativo end-to-end](traits_scheda_operativa.md#box-flusso-operativo-end-to-end): prepara tassonomia e glossario, compila il file usando il [template dati](traits_template.md), valida schema e contenuti con i comandi della [checklist automatica](traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi), sincronizza le localizzazioni e chiudi la PR riportando gli esiti QA.
 
 ## Conclusioni e prospettive
 
