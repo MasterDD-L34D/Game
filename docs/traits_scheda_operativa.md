@@ -73,6 +73,8 @@ Per importare tratti da pacchetti Evo, usa la mappa di conversione in `traits_ev
 
 ## Checklist di validazione automatica (comandi rapidi)
 
+Riferimento incrociato: la sezione “Strumenti di validazione e QA” della [Guida Evo Tactics Pack v2](Guida_Evo_Tactics_Pack_v2.md#strumenti-di-validazione-e-qa) richiama gli stessi passaggi e indica quando usare i tool Python o `scripts/validate.sh`.
+
 - Validazione schema: `python tools/py/trait_template_validator.py data/traits/<tipologia>/<id>.json`
 - Rigenera report campi/testi: `python tools/py/collect_trait_fields.py --output reports/trait_fields_by_type.json --glossary data/core/traits/glossary.json --glossary-output reports/trait_texts.json`
 - Sync localizzazioni: `python scripts/sync_trait_locales.py --traits-dir data/traits --locales-dir locales --language it --glossary data/core/traits/glossary.json`
