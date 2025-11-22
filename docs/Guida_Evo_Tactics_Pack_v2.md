@@ -1,5 +1,11 @@
 # Guida Evo Tactics Pack v2: sommario e piano operativo
 
+## Accesso rapido
+
+- [Scheda operativa dei trait](docs/traits_scheda_operativa.md)
+- [Guida autore tratti](README_HOWTO_AUTHOR_TRAIT.md)
+- [Template dati dei tratti](docs/traits_template.md)
+
 ## Introduzione
 
 Questa guida raccoglie tutto il materiale creato durante la conversazione e lo organizza in un unico documento operativo per il Evo Tactics Pack v2. Il pacchetto nasce per facilitare la definizione, la catalogazione e l'uso di creature e tratti criptozoologici in un ambiente di gioco o simulazione. Questa guida spiega in modo organico:
@@ -25,16 +31,16 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 
 Le schede creatura sono strutturate secondo due schemi JSON (schema specie e schema tratto). Ogni Specie (file in `species/`) deve contenere i seguenti campi principali:
 
-- **scientific_name**: nome binomiale (*Genus species*) con radici greco-latine coerenti con la firma funzionale.
+- **scientific_name**: nome binomiale (_Genus species_) con radici greco-latine coerenti con la firma funzionale.
 - **common_names**: uno o due nomi volgari evocativi (es. “Viverna-Elastico”).
-- **classification**: classe macro (es. *Mammalia, Reptilia, Arthropoda*) e descrizione sintetica dell’habitat/ecotopo primario.
+- **classification**: classe macro (es. _Mammalia, Reptilia, Arthropoda_) e descrizione sintetica dell’habitat/ecotopo primario.
 - **functional_signature**: 1–2 frasi che descrivono ciò che la specie fa “meglio di tutte”, cioè la sua firma operativa (attacco, difesa, mobilità, sensi, riproduzione…).
 - **visual_description**: 5–8 righe sulla morfologia esterna (forma, postura, proporzioni, colori, texture, gesti tipici). Evita termini poetici: privilegia l’osservazione e l’azione.
 - **risk_profile**: pericolosità su scala 0–3 e vettori (tossine, patogeni, onde d’urto…).
 - **interactions**: elenco di prede tipiche, predatori, eventuali simbiosi/parassitismi (descrivere il patto biologico quando esiste).
 - **constraints**: almeno due limitazioni o trade-off (costi metabolici elevati, necessità di ambienti specifici, contromisure note).
 - **sentience_index**: indice di senzienza (T0–T5) secondo la scala definita nei documenti di riferimento.
-- **ecotypes**: etichette delle varianti ecologiche (vedi sezione *Ecotipi*). I dettagli delle varianti sono in file separati sotto `ecotypes/`.
+- **ecotypes**: etichette delle varianti ecologiche (vedi sezione _Ecotipi_). I dettagli delle varianti sono in file separati sotto `ecotypes/`.
 - **trait_refs**: array di codici che puntano ai tratti (file in `traits/`). Ogni specie deve avere 5–9 tratti totali, coprendo tutti gli assi possibili:
   - locomozione/manipolazione
   - alimentazione/digestione
@@ -46,9 +52,9 @@ Le schede creatura sono strutturate secondo due schemi JSON (schema specie e sch
 Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 
 - **trait_code**: codice univoco `TR-0000` (per il catalogo globale) o `SPEC_ABBR-TRxx` (per associare il tratto a una specie). Nel catalogo gli stessi tratti possono essere riutilizzati da più specie.
-- **label**: denominazione criptozoologica, formata da sostantivo + qualificatore (2–3 parole). La scrittura segue il *Title Case* (iniziali maiuscole per le parole significative, minuscole per preposizioni come “a”, “di”).
+- **label**: denominazione criptozoologica, formata da sostantivo + qualificatore (2–3 parole). La scrittura segue il _Title Case_ (iniziali maiuscole per le parole significative, minuscole per preposizioni come “a”, “di”).
 - **famiglia_tipologia**: categoria generale (es. Difensivo/Termoregolazione, Locomotivo/Balistico, Sensoriale/Tatto-Vibro…).
-- **fattore_mantenimento_energetico**: *Basso, Medio* o *Alto*, indicativo del costo per mantenere il tratto attivo.
+- **fattore_mantenimento_energetico**: _Basso, Medio_ o _Alto_, indicativo del costo per mantenere il tratto attivo.
 - **tier**: T1–T5 (con costo/complessità/impatti crescenti). Tier elevati indicano poteri eccezionali con costi metabolici o vincoli severi.
 - **slot**: elenco opzionale per definire ruoli speciali o raggruppamenti (può restare vuoto).
 - **sinergie** e **conflitti**: liste di codici trait. I tratti in sinergia potenziano le funzioni reciproche; quelli in conflitto non possono coesistere.
@@ -72,9 +78,9 @@ Per rendere il database coerente, si seguono regole precise per nomi e descrizio
 
 ### Specie
 
-- Il nome scientifico deve essere in corsivo (quando pubblicato), con *Genus* maiuscolo e specie minuscola.
+- Il nome scientifico deve essere in corsivo (quando pubblicato), con _Genus_ maiuscolo e specie minuscola.
 - Dev’essere univoco e coerente con la firma funzionale.
-- L’abbreviazione `species` (per codici trait) è composta dalle tre lettere del *Genus* più due lettere della specie (es. *Elastovaranus hydrus* → `EHY`).
+- L’abbreviazione `species` (per codici trait) è composta dalle tre lettere del _Genus_ più due lettere della specie (es. _Elastovaranus hydrus_ → `EHY`).
 - I nomi volgari devono essere brevi, evocativi e legati alla firma funzionale (es. “Ghiotton-Scudo”).
 
 ### Tratti
@@ -140,7 +146,7 @@ Il pacchetto completo è organizzato in cartelle:
 - `templates/` include gli schemi JSON:
   - `species.schema.json`
   - `trait.schema.json`  
-  che definiscono la struttura dei file.
+    che definiscono la struttura dei file.
 
 - `species/` contiene i file individuali per ogni specie (es. `elastovaranus_hydrus.json`), più un `species_catalog.json` che indicizza tutte le specie.  
   In questa cartella è stato introdotto anche `gulogluteus_scutiger.json` come nuova versione della creatura precedentemente nota come “Culocinghiale”; i nomi precedenti sono mantenuti tramite alias.
@@ -176,7 +182,7 @@ Gli ecotipi permettono di declinare una stessa specie in varianti locali adattat
   - l’unità,
   - le note.
 
-Esempio: l’ecotipo “Gole Ventose” per *Elastovaranus hydrus* riduce la velocità del proiettile di 10 m/s in aria satura e migliora la tolleranza termica di 5 K.
+Esempio: l’ecotipo “Gole Ventose” per _Elastovaranus hydrus_ riduce la velocità del proiettile di 10 m/s in aria satura e migliora la tolleranza termica di 5 K.
 
 Nel file della specie (`species/<genus_species>.json`), il campo `ecotypes` deve contenere solo le etichette (“Gole Ventose”, “Letti Fluviali”); i dettagli dell’ecotipo sono nel file corrispondente in `ecotypes/`. Per aggiungere un nuovo ecotipo occorre:
 
@@ -190,29 +196,29 @@ Nel file della specie (`species/<genus_species>.json`), il campo `ecotypes` deve
 
 Per garantire la coerenza del database si consiglia di eseguire regolarmente il controllo di qualità:
 
-  - **Validazione nel repo Game**
-    Per i pacchetti integrati direttamente in questo repository utilizzare i tre comandi principali (da lanciare nella root del repo) che coprono schema, campi e localizzazioni:
-    - `python tools/py/trait_template_validator.py ...`
-    - `python tools/py/collect_trait_fields.py ...`
-    - `python scripts/sync_trait_locales.py ...`
+- **Validazione nel repo Game**
+  Per i pacchetti integrati direttamente in questo repository utilizzare i tre comandi principali (da lanciare nella root del repo) che coprono schema, campi e localizzazioni:
+  - `python tools/py/trait_template_validator.py ...`
+  - `python tools/py/collect_trait_fields.py ...`
+  - `python scripts/sync_trait_locales.py ...`
 
-    Seguono i wrapper dettagliati nella [Checklist di validazione automatica in `docs/traits_scheda_operativa.md`](traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi).
+  Seguono i wrapper dettagliati nella [Checklist di validazione automatica in `docs/traits_scheda_operativa.md`](traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi).
 
-  - **Validazione per pacchetti esterni**
-    Per pacchetti distribuiti fuori dal repo Game (ad esempio contributi terzi o bundle separati) si può usare facoltativamente `scripts/validate.sh` che invoca `ajv-cli`. Preferirlo quando:
-    - il pacchetto deve essere validato in un ambiente dove gli strumenti Python non sono disponibili,
-    - serve una verifica rapida e self-contained contro gli schemi JSON senza dipendere dalla struttura del repo.
+- **Validazione per pacchetti esterni**
+  Per pacchetti distribuiti fuori dal repo Game (ad esempio contributi terzi o bundle separati) si può usare facoltativamente `scripts/validate.sh` che invoca `ajv-cli`. Preferirlo quando:
+  - il pacchetto deve essere validato in un ambiente dove gli strumenti Python non sono disponibili,
+  - serve una verifica rapida e self-contained contro gli schemi JSON senza dipendere dalla struttura del repo.
 
-  - **UCUM**
-    Verificare che le unità delle metriche siano conformi al prontuario UCUM (`Cel` per gradi Celsius, `m/s` per velocità lineare, `J` per energia, `dB·s` per dose sonora…).
+- **UCUM**
+  Verificare che le unità delle metriche siano conformi al prontuario UCUM (`Cel` per gradi Celsius, `m/s` per velocità lineare, `J` per energia, `dB·s` per dose sonora…).
 
-  - **QA Checklist**
-    Seguire la lista di controllo `docs/QA_TRAITS_V2.md` che ricorda di compilare:
-    - testabilità,
-    - sinergie/conflitti,
-    - versioning,
-    - ecotipi,
-    - alias.
+- **QA Checklist**
+  Seguire la lista di controllo `docs/QA_TRAITS_V2.md` che ricorda di compilare:
+  - testabilità,
+  - sinergie/conflitti,
+  - versioning,
+  - ecotipi,
+  - alias.
 
 ---
 
@@ -288,7 +294,7 @@ La guida rapida per l’autore di tratti fornisce una checklist operativa per sc
     - lo schema JSON,
     - l’uso corretto di UCUM ed ENVO,
     - il rispetto del versioning.  
-  Prima di aprire una PR è consigliato eseguire il validator.
+      Prima di aprire una PR è consigliato eseguire il validator.
 
 ### Guida completa ai trait (estratto)
 
@@ -319,7 +325,7 @@ Questo documento definisce che cos’è un trait (unità atomica riusabile di fu
     - Cognitivo/Sociale
     - Riproduttivo/Spawn
     - Ecologico  
-    con sottocategorie per descrivere in modo preciso la natura di un tratto.
+      con sottocategorie per descrivere in modo preciso la natura di un tratto.
 
 - **Metriche & UCUM**
   - vengono elencate le unità raccomandate per:
@@ -328,7 +334,7 @@ Questo documento definisce che cos’è un trait (unità atomica riusabile di fu
     - energia (`J`),
     - temperatura (`Cel`),
     - pressione (`Pa`),
-    - dose acustica (`dB·s`), ecc.  
+    - dose acustica (`dB·s`), ecc.
   - si ricorda di usare `1` per grandezze adimensionali
   - convertire sempre in unità SI quando si archiviano i dati.
 
@@ -399,7 +405,7 @@ Il prontuario include anche:
 - una mini-tabella con i codici UCUM più usati,
 - note pratiche su:
   - come trattare unità non SI (`°C` → `Cel`, litri → `L`),
-  - quando usare valori *dimensionless*.
+  - quando usare valori _dimensionless_.
 
 ---
 
@@ -415,7 +421,7 @@ Per ogni specie vengono indicati:
 - la firma funzionale,
 - un elenco dei tratti con struttura morfologica e funzione primaria.
 
-### 1. *Elastovaranus hydrus* — Viverna-Elastico
+### 1. _Elastovaranus hydrus_ — Viverna-Elastico
 
 - **Classificazione**: Reptilia; predatore delle savane calde con gole rocciose e letti fluviali stagionali.
 - **Firma funzionale**: rettile predatore estremo che combina un attacco a lunga gittata con un sistema muscolare e scheletrico idraulico e una pre-digestione tossico-enzimatica.
@@ -425,39 +431,39 @@ Per ogni specie vengono indicati:
 
 - **Scheletro Idraulico a Pistoni**  
   Ossa cave pressurizzate con fluido che amplificano l’allungamento del corpo per trasformare testa e collo in una frusta proiettile.  
-  *Funzione primaria*: estendere il cranio per colpire a distanza.
+  _Funzione primaria_: estendere il cranio per colpire a distanza.
 
 - **Rostro Emostatico-Litico**  
   Appendice mascellare tubulare che, come un ago, inocula simultaneamente neurotossina, anticoagulanti e enzimi digestivi, aspirando poi i tessuti liquefatti.  
-  *Funzione primaria*: inoculare tossine ed enzimi e aspirare i fluidi.
+  _Funzione primaria_: inoculare tossine ed enzimi e aspirare i fluidi.
 
 - **Ipertrofia Muscolare Massiva**  
   Sviluppo muscolare estremo, simile al manzo Belgian Blue, che fornisce la potenza necessaria per l’attacco proiettile e la retrazione immediata.  
-  *Funzione primaria*: generare potenza esplosiva per scatti e contrazioni.
+  _Funzione primaria_: generare potenza esplosiva per scatti e contrazioni.
 
 - **Ectotermia Dinamica (Sangue Caldo Temporaneo)**  
   Vibrazioni muscolari controllate che generano calore interno per cacciare in ambienti freddi e potenziare l’efficacia delle tossine.  
-  *Funzione primaria*: aumentare la temperatura corporea e accelerare il metabolismo a richiesta.
+  _Funzione primaria_: aumentare la temperatura corporea e accelerare il metabolismo a richiesta.
 
 - **Organi Sismici Cutanei**  
   Squame modificate e organi interni che rilevano le vibrazioni del terreno, permettendo all’animale di localizzare le prede senza visibilità.  
-  *Funzione primaria*: rilevare vibrazioni e guidare l’attacco.
+  _Funzione primaria_: rilevare vibrazioni e guidare l’attacco.
 
 - **Autotomia Cauterizzante Accelerata**  
   Capacità di rigenerare rapidamente arti e coda persi, minimizzando la perdita di sangue.  
-  *Funzione primaria*: rigenerare tessuti e sopravvivere a ferite gravi.
+  _Funzione primaria_: rigenerare tessuti e sopravvivere a ferite gravi.
 
 - **Setticemia Secolo**  
   La saliva trasporta ceppi batterici virulenti che, se la preda sopravvive all’attacco, la uccidono nelle ore o giorni successivi.  
-  *Funzione primaria*: garantire la morte differita della vittima.
+  _Funzione primaria_: garantire la morte differita della vittima.
 
 - **Resistenza Toxinologica Endemica**  
   L’animale è immunizzato ai propri veleni e mostra elevata resistenza alla maggior parte delle tossine naturali.  
-  *Funzione primaria*: proteggersi da auto-intossicazione e tossine altrui.
+  _Funzione primaria_: proteggersi da auto-intossicazione e tossine altrui.
 
 ---
 
-### 2. *Gulogluteus scutiger* — Ghiotton-Scudo
+### 2. _Gulogluteus scutiger_ — Ghiotton-Scudo
 
 - **Classificazione**: Mammalia; onnivoro tassiforme che vive in ambienti umidi, foreste paludose e argini fluviali.
 - **Firma funzionale**: grande onnivoro anfibio dotato di pelliccia oleosa idrorepellente, coda e lingua prensili che fungono da ulteriori arti, scudo posteriore cheratinizzato per la difesa e digestione omnicomprensiva.
@@ -467,43 +473,43 @@ Per ogni specie vengono indicati:
 
 - **Pelage Idrorepellente a Cellule Olocrine**  
   Manto fitto e oleoso secretato da ghiandole specializzate che garantisce isolamento totale dall’acqua e galleggiamento.  
-  *Funzione primaria*: isolare e galleggiare.
+  _Funzione primaria_: isolare e galleggiare.
 
 - **Scudo Gluteale Cheratinizzato**  
   Muscoli glutei estremamente densi rivestiti da placche cheratinose/ossee che fungono da scudo passivo contro gli attacchi posteriori.  
-  *Funzione primaria*: assorbire impatti posteriori.
+  _Funzione primaria_: assorbire impatti posteriori.
 
 - **Coda Prensile Muscolare con Verticilli Ossei**  
   Coda lunga e robusta dotata di vertebre modificate che agisce come quinto arto per arrampicarsi e bilanciarsi.  
-  *Funzione primaria*: appendere e contro-bilanciare.
+  _Funzione primaria_: appendere e contro-bilanciare.
 
 - **Rostro Linguale Prensile (Lingua-Gru)**  
   Lingua muscolare e adesiva che può estendersi fino alla lunghezza del corpo per afferrare cibo e manipolare oggetti.  
-  *Funzione primaria*: afferrare e manipolare a lungo raggio.
+  _Funzione primaria_: afferrare e manipolare a lungo raggio.
 
 - **Digestione Omicomprensiva con Acidi Iodizzati**  
   Sistema digestivo capace di assimilare quasi ogni materia organica, dai vegetali alla chitina, grazie ad acidi arricchiti di iodio.  
-  *Funzione primaria*: digerire qualsiasi biomassa.
+  _Funzione primaria_: digerire qualsiasi biomassa.
 
 - **Flessione Muscolare Ipotalamica**  
   Muscoli a reazione rapida che permettono salti verticali e scatti improvvisi ruotando il tronco con forza.  
-  *Funzione primaria*: effettuare scatti rapidi e salti non lineari.
+  _Funzione primaria_: effettuare scatti rapidi e salti non lineari.
 
 - **Sacche Respiratorie Ossidanti**  
   Organi accessori vascolarizzati che rilasciano ossigeno rapidamente, sostenendo sforzi intensi e prolungando l’apnea.  
-  *Funzione primaria*: rilasciare O₂ rapido per sforzi e immersioni.
+  _Funzione primaria_: rilasciare O₂ rapido per sforzi e immersioni.
 
 - **Articolazioni Multiassiali**  
   Giunti a sfera nelle spalle e nelle anche che consentono ai quattro arti di ruotare ampiamente, facilitando arrampicata e rotazione.  
-  *Funzione primaria*: ruotare arti per manovre strette.
+  _Funzione primaria_: ruotare arti per manovre strette.
 
 - **Sensibilità Sismica Profonda**  
   Struttura ossea robusta dotata di recettori capaci di rilevare vibrazioni del terreno e individuare prede sotterranee.  
-  *Funzione primaria*: percepire vibrazioni e minacce.
+  _Funzione primaria_: percepire vibrazioni e minacce.
 
 ---
 
-### 3. *Perfusuas pedes* — Zannapiedi
+### 3. _Perfusuas pedes_ — Zannapiedi
 
 - **Classificazione**: ibrido artropode-mammifero; predatore parassita che vive in caverne umide e radure forestali notturne.
 - **Firma funzionale**: creatura sensibile che cambia sesso nel ciclo vitale, custodisce le proprie uova in sacchi esterni, utilizza centinaia di zampe per muoversi ovunque, digerisce estroiettando lo stomaco e si affida a un ospite senziente per la percezione del mondo.
@@ -513,43 +519,43 @@ Per ogni specie vengono indicati:
 
 - **Gonadismo Sequenziale Ermafrodita**  
   Il ciclo riproduttivo prevede un cambio di sesso da femmina (incubatrice) a maschio dopo uno o due cicli di incubazione.  
-  *Funzione primaria*: cambiare sesso per massimizzare la fitness riproduttiva.
+  _Funzione primaria_: cambiare sesso per massimizzare la fitness riproduttiva.
 
 - **Incubazione Esterna Cistica**  
   Le uova sono custodite in un sacco protettivo esterno che si indurisce come una ciste.  
-  *Funzione primaria*: incubare la prole fuori dal corpo.
+  _Funzione primaria_: incubare la prole fuori dal corpo.
 
 - **Locomozione Miriapode Ibrida**  
   Fino a cento paia di arti che forniscono trazione estrema e consentono l’arrampicata su qualsiasi superficie.  
-  *Funzione primaria*: muoversi e arrampicarsi con presa totale.
+  _Funzione primaria_: muoversi e arrampicarsi con presa totale.
 
 - **Digestione Extracorporea Acida**  
   Lo stomaco viene estroflesso e rilascia enzimi corrosivi per liquefare i tessuti della preda prima di aspirarli.  
-  *Funzione primaria*: liquefare la preda esternamente.
+  _Funzione primaria_: liquefare la preda esternamente.
 
 - **Sacche Ipopache Tissutali**  
   Pieghe cutanee lungo i fianchi in cui il cacciatore conserva tessuti parzialmente digeriti per il consumo futuro.  
-  *Funzione primaria*: conservare il cibo digerito.
+  _Funzione primaria_: conservare il cibo digerito.
 
 - **Immunità Virale Ultrastabile**  
   Il sistema immunitario è simile a quello dei pipistrelli e consente di coesistere con virus letali senza sintomi.  
-  *Funzione primaria*: resistere a numerosi patogeni.
+  _Funzione primaria_: resistere a numerosi patogeni.
 
 - **Sistemi Sensoriali Chimio-Sonici**  
   La creatura è cieca, ma utilizza sonar ad alta frequenza e spruzzi di profumo controllati per mappare l’ambiente.  
-  *Funzione primaria*: percepire l’ambiente con sonar e feromoni.
+  _Funzione primaria_: percepire l’ambiente con sonar e feromoni.
 
 - **Appendice da Contatto Super-Cinetica**  
   Zampa anteriore modificata che si muove a velocità esplosiva producendo un’onda d’urto simile alla canocchia pavone.  
-  *Funzione primaria*: colpire con un pugno a cavitazione.
+  _Funzione primaria_: colpire con un pugno a cavitazione.
 
 - **Simbiosi da Ostaggio & Dipendenza Bio-Cognitiva**  
   L’animale mantiene un ospite senziente immobilizzato e nutrito che funge da occhi e interprete cognitivo.  
-  *Funzione primaria*: ottenere percezioni e guida mentale dall’ospite.
+  _Funzione primaria_: ottenere percezioni e guida mentale dall’ospite.
 
 ---
 
-### 4. *Terracetus ambulator* — Megattera Terrestre
+### 4. _Terracetus ambulator_ — Megattera Terrestre
 
 - **Classificazione**: Mammalia; erbivoro gigante che vive in pianure aperte e savane ventilate.
 - **Firma funzionale**: enorme mammifero terrestre derivato dalle balene che ha alleggerito lo scheletro per muoversi via terra, usa ciglia addominali per strisciare, filtra l’aria per nutrirsi e comunica/disorienta con canti infrasonici.
@@ -559,27 +565,27 @@ Per ogni specie vengono indicati:
 
 - **Scheletro Pneumatico a Maglie**  
   Ossa estremamente porose riempite di aria che riducono il peso corporeo permettendo la locomozione terrestre.  
-  *Funzione primaria*: alleggerire la massa.
+  _Funzione primaria_: alleggerire la massa.
 
 - **Cinghia Iper-Ciliare**  
   Strisce di pelle sotto la pancia ricoperte da milioni di ciglia muscolari che, muovendosi in modo coordinato, permettono all’animale di strisciare.  
-  *Funzione primaria*: generare movimento terrestre.
+  _Funzione primaria_: generare movimento terrestre.
 
 - **Rete Ghiandolare Filtro-Polmonare**  
   Sacche polmonari che filtrano micro-organismi e polline dall’aria, fornendo nutrienti all’animale.  
-  *Funzione primaria*: nutrirsi filtrando l’aria.
+  _Funzione primaria_: nutrirsi filtrando l’aria.
 
 - **Canto Infrasonico Tattico**  
   Sistema vocale che emette suoni a bassissima frequenza per disorientare predatori e comunicare a grande distanza.  
-  *Funzione primaria*: confondere i predatori e comunicare.
+  _Funzione primaria_: confondere i predatori e comunicare.
 
 - **Siero Anti-Gelo Naturale**  
   Sostanze crioproteiche che impediscono la formazione di cristalli di ghiaccio nei tessuti, consentendo la sopravvivenza in climi estremi.  
-  *Funzione primaria*: resistere al gelo.
+  _Funzione primaria_: resistere al gelo.
 
 ---
 
-### 5. *Chemnotela toxica* — Aracnide Alchemico
+### 5. _Chemnotela toxica_ — Aracnide Alchemico
 
 - **Classificazione**: Arthropoda; predatore esperto di chimica, vive in radure acide e chiome bagnate.
 - **Firma funzionale**: artropode gigante dotato di zanne che secernono acidi capaci di corrodere metalli, tessuti e pietre; produce seta conduttiva elettrica e salti potenziati da leve idrauliche.
@@ -589,27 +595,27 @@ Per ogni specie vengono indicati:
 
 - **Zanne Idracida**  
   Cheliceri dotati di ghiandole che secernono un acido capace di sciogliere metalli e tessuti organici.  
-  *Funzione primaria*: attaccare e digerire chimicamente.
+  _Funzione primaria_: attaccare e digerire chimicamente.
 
 - **Seta Conduttiva Elettrica**  
   Filamenti contenenti nanoparticelle metalliche che conducono e immagazzinano cariche elettriche, creando trappole che stordiscono le prede.  
-  *Funzione primaria*: intrappolare e stordire con elettricità.
+  _Funzione primaria_: intrappolare e stordire con elettricità.
 
 - **Articolazioni a Leva Idraulica**  
   Giunture delle zampe con camere di fluido pressurizzato che amplificano la forza del salto e del colpo.  
-  *Funzione primaria*: aumentare forza e salto.
+  _Funzione primaria_: aumentare forza e salto.
 
 - **Filtrazione Osmotica**  
   Sistema renale a multi-stadio che filtra e neutralizza i composti acidi prodotti dall’animale.  
-  *Funzione primaria*: eliminare tossine.
+  _Funzione primaria_: eliminare tossine.
 
 - **Visione Polarizzata**  
   Occhi specializzati che vedono i pattern di polarizzazione della luce, distinguendo la propria seta e rilevando fessure.  
-  *Funzione primaria*: rilevare tensioni e navigare nelle tele.
+  _Funzione primaria_: rilevare tensioni e navigare nelle tele.
 
 ---
 
-### 6. *Proteus plasma* — Mutaforma Cellulare
+### 6. _Proteus plasma_ — Mutaforma Cellulare
 
 - **Classificazione**: organismo primitivo; può essere unicellulare o un piccolo collettivo di cellule pluripotenti; vive in stagni quieti e torrenti lenti.
 - **Firma funzionale**: creatura altamente plastica capace di cambiare forma, densità e consistenza, muovendosi attraverso fessure microscopiche, fagocitando qualsiasi materiale organico e riproducendosi per scissione o fusione.
@@ -619,27 +625,27 @@ Per ogni specie vengono indicati:
 
 - **Membrana Plastica Continua**  
   Struttura cellulare che permette al corpo di cambiare forma, densità e consistenza, passando da liquido a solido malleabile.  
-  *Funzione primaria*: metamorfosi e adattamento di forma.
+  _Funzione primaria_: metamorfosi e adattamento di forma.
 
 - **Flusso Ameboide Controllato**  
   Locomozione basata sull’estensione di pseudopodi e flussi di citoplasma che consentono di penetrare in fessure microscopiche.  
-  *Funzione primaria*: penetrare ambienti complessi.
+  _Funzione primaria_: penetrare ambienti complessi.
 
 - **Fagocitosi Assorbente**  
   Capacità di avvolgere totalmente la preda e assorbirne i tessuti direttamente attraverso la membrana.  
-  *Funzione primaria*: nutrizione onnivora attraverso inglobamento.
+  _Funzione primaria_: nutrizione onnivora attraverso inglobamento.
 
 - **Moltiplicazione per Fusione/Scissione**  
   Riproduzione tramite scissione cellulare o fusione con altre unità, aumentando la massa e la complessità.  
-  *Funzione primaria*: riprodursi e ripararsi.
+  _Funzione primaria_: riprodursi e ripararsi.
 
 - **Cisti di Ibernazione Minerale**  
   In condizioni avverse si racchiude in una cisti protettiva con pareti rigidamente mineralizzate che resistono a calore e pressione.  
-  *Funzione primaria*: entrare in stasi e proteggersi.
+  _Funzione primaria_: entrare in stasi e proteggersi.
 
 ---
 
-### 7. *Soniptera resonans* — Libellula Sonica
+### 7. _Soniptera resonans_ — Libellula Sonica
 
 - **Classificazione**: Insecta; insetto volante di grandi dimensioni che abita oasi termiche e praterie arbustive.
 - **Firma funzionale**: utilizza il suono sia come arma sia come difesa, generando onde ad alta intensità e producendo campi sonori caotici che confondono i predatori; manovra con eccezionale agilità grazie a reazioni neurali rapidissime.
@@ -649,27 +655,27 @@ Per ogni specie vengono indicati:
 
 - **Ali Fono-Risonanti**  
   Ali con venature strutturate come corde che vibrano generando onde sonore da ultrasuono a frequenze udibili.  
-  *Funzione primaria*: generare suoni e onde d’urto.
+  _Funzione primaria_: generare suoni e onde d’urto.
 
 - **Onda di Pressione Focalizzata (Cannone Sonico)**  
   Capacità di focalizzare le onde sonore in un raggio stretto ad alta intensità per stordire o ferire.  
-  *Funzione primaria*: colpire con onde di pressione.
+  _Funzione primaria_: colpire con onde di pressione.
 
 - **Campo di Interferenza Acustica**  
   Emissione di rumori bianchi complessi che mascherano la posizione dell’animale e neutralizzano l’ecolocalizzazione dei predatori.  
-  *Funzione primaria*: confondere e disorientare.
+  _Funzione primaria_: confondere e disorientare.
 
 - **Cervello a Bassa Latenza**  
   Sistema nervoso con sinapsi super-veloci che permette manovre fulminee e precisione millimetrica nell’attacco sonico.  
-  *Funzione primaria*: reazioni rapide e pilotaggio agile.
+  _Funzione primaria_: reazioni rapide e pilotaggio agile.
 
 - **Occhi Cinetici**  
   Organi visivi ottimizzati per rilevare le distorsioni dell’aria generate dalle onde sonore e dalle vibrazioni.  
-  *Funzione primaria*: vedere il suono.
+  _Funzione primaria_: vedere il suono.
 
 ---
 
-### 8. *Anguis magnetica* — Anguilla Geomagnetica
+### 8. _Anguis magnetica_ — Anguilla Geomagnetica
 
 - **Classificazione**: rettile/pesce serpiforme; vive in estuari torbidi e lagune tranquille; sfrutta il magnetismo terrestre.
 - **Firma funzionale**: creatura serpiforme che manipola i campi magnetici per navigare, generare impulsi che stordiscono le prede e scivolare a bassa frizione su terra e acqua, nutrendosi di metalli disciolti e proteggendosi con bozzoli elettromagnetici.
@@ -679,27 +685,27 @@ Per ogni specie vengono indicati:
 
 - **Integumento Bipolare**  
   Pelle ricoperta di sensori biologici contenenti magnetite che permettono di rilevare le linee di campo magnetico per la navigazione.  
-  *Funzione primaria*: orientarsi e comunicare.
+  _Funzione primaria_: orientarsi e comunicare.
 
 - **Organo Elettrico a Risonanza Magnetica (Elettromagnete Biologico)**  
   Organo che modifica correnti elettriche interne per creare campi magnetici pulsati che interferiscono con i sistemi nervosi delle prede.  
-  *Funzione primaria*: attaccare a distanza con campi magnetici.
+  _Funzione primaria_: attaccare a distanza con campi magnetici.
 
 - **Scivolamento Magnetico**  
   Produzione di una bolla magnetica attorno al corpo che riduce l’attrito con l’ambiente, permettendo movimenti silenziosi su acqua o terra.  
-  *Funzione primaria*: muoversi in maniera furtiva.
+  _Funzione primaria_: muoversi in maniera furtiva.
 
 - **Filtro Metallofago**  
   Organo digerente specializzato nell’assorbire metalli traccia (ferro, rame) dall’acqua e dal terreno, necessari per mantenere la bioelettrogenesi.  
-  *Funzione primaria*: nutrirsi di metalli essenziali.
+  _Funzione primaria_: nutrirsi di metalli essenziali.
 
 - **Bozzolo Magnetico**  
   Capacità di creare un campo magnetico isolante che forma un bozzolo protettivo, bloccando tutte le interferenze elettromagnetiche esterne.  
-  *Funzione primaria*: ibernarsi e schermarsi dalle minacce.
+  _Funzione primaria_: ibernarsi e schermarsi dalle minacce.
 
 ---
 
-### 9. *Umbra alaris* — Uccello Ombra
+### 9. _Umbra alaris_ — Uccello Ombra
 
 - **Classificazione**: Aves; predatore notturno che vive in foreste dense, canyons ombrosi e ambienti rocciosi.
 - **Firma funzionale**: volatile furtivo che assorbe quasi tutta la luce incidente grazie a piume nano-strutturate, caccia nel buio più completo utilizzando occhi multi-spettrali e artigli ipo-termici, e comunica in modo quasi invisibile con segnali luminosi di coda.
@@ -709,27 +715,27 @@ Per ogni specie vengono indicati:
 
 - **Vello di Assorbimento Totale**  
   Piumaggio con nano-strutture che assorbono il 99,9% della luce incidente, rendendo l’animale praticamente invisibile di notte.  
-  *Funzione primaria*: mimetismo assoluto.
+  _Funzione primaria_: mimetismo assoluto.
 
 - **Visione Multi-Spettrale Amplificata**  
   Occhi capaci di raccogliere luce UV, IR e calore corporeo, consentendo di cacciare in assenza di luce.  
-  *Funzione primaria*: rilevare prede al buio.
+  _Funzione primaria_: rilevare prede al buio.
 
 - **Motore Biologico Silenzioso**  
   Metabolismo a bassissimo consumo energetico che consente lunghi periodi di volo senza fatica e un volo quasi totalmente silenzioso.  
-  *Funzione primaria*: volare a lungo senza farsi sentire.
+  _Funzione primaria_: volare a lungo senza farsi sentire.
 
 - **Artigli Ipo-Termici**  
   Artigli che, al contatto, rilasciano rapidamente agenti chimici che provocano un raffreddamento locale e shock termico nella preda.  
-  *Funzione primaria*: immobilizzare tramite shock da freddo.
+  _Funzione primaria_: immobilizzare tramite shock da freddo.
 
 - **Comunicazione Coda-Coda Fotonica**  
   Scambio di impulsi luminosi tramite le penne della coda senza emettere suono, permettendo comunicazione stealth con altri individui.  
-  *Funzione primaria*: comunicare senza fare rumore.
+  _Funzione primaria_: comunicare senza fare rumore.
 
 ---
 
-### 10. *Rupicapra sensoria* — Camoscio Psionico
+### 10. _Rupicapra sensoria_ — Camoscio Psionico
 
 - **Classificazione**: Mammalia; erbivoro montano che vive su cenge calcaree e dorsali ventose.
 - **Firma funzionale**: ungulato che ha trasformato le corna in antenne psioniche e sviluppato una coscienza collettiva; utilizza il campo mentale per proteggere il branco e condivide energia e sostanze nutritive con i consimili.
@@ -739,81 +745,81 @@ Per ogni specie vengono indicati:
 
 - **Corna Psico-Conduttive**  
   Corna modificate che agiscono come antenne per ricevere e trasmettere segnali psionici a bassa frequenza tra i membri del branco.  
-  *Funzione primaria*: stabilire una rete telepatica.
+  _Funzione primaria_: stabilire una rete telepatica.
 
 - **Coscienza d’Alveare Diffusa**  
   Le menti degli individui si fondono in una coscienza collettiva quando sono vicini, aumentando l’elaborazione di informazioni e la pianificazione di gruppo.  
-  *Funzione primaria*: formare una mente alveare.
+  _Funzione primaria_: formare una mente alveare.
 
 - **Aura di Dispersione Mentale**  
   La mente collettiva può generare un segnale psionico che provoca confusione o vertigini nei predatori vicini.  
-  *Funzione primaria*: respingere e confondere i predatori.
+  _Funzione primaria_: respingere e confondere i predatori.
 
 - **Metabolismo di Condivisione Energetica**  
   I membri sani possono trasferire riserve energetiche o composti curativi ai membri feriti tramite contatto fisico.  
-  *Funzione primaria*: curare e sostenere il gruppo.
+  _Funzione primaria_: curare e sostenere il gruppo.
 
 - **Unghie a Micro-Adesione**  
   Zoccoli con superfici microscopiche simili a quelle del geco che permettono aderire a pareti lisce e rocce verticali.  
-  *Funzione primaria*: arrampicarsi con trazione superiore.
+  _Funzione primaria_: arrampicarsi con trazione superiore.
 
 ---
 
 ## Ecotipi e varianti ecologiche
 
-Le creature del Evo Tactics Pack v2 non sono statiche: ogni specie può sviluppare varianti locali denominate **ecotipi** quando si adatta a un bioma o a condizioni ambientali specifiche. Gli ecotipi modificano alcune metriche dei tratti (ad esempio aumentano la tolleranza al freddo o riducono la velocità d’attacco) senza cambiare la struttura di base della specie.  
+Le creature del Evo Tactics Pack v2 non sono statiche: ogni specie può sviluppare varianti locali denominate **ecotipi** quando si adatta a un bioma o a condizioni ambientali specifiche. Gli ecotipi modificano alcune metriche dei tratti (ad esempio aumentano la tolleranza al freddo o riducono la velocità d’attacco) senza cambiare la struttura di base della specie.
 
 Nel pacchetto questi dettagli sono archiviati in file dedicati all’interno della cartella `ecotypes/`. Qui sotto trovi una panoramica sintetica delle varianti generate in questa conversazione.
 
-- *Elastovaranus hydrus* dispone di due ecotipi:
+- _Elastovaranus hydrus_ dispone di due ecotipi:
   - **Gole Ventose** (bioma roccioso): lamelle sismiche più sensibili migliorano la rilevazione delle vibrazioni, mentre l’ectotermia dinamica è ottimizzata per correnti d’aria fredde.
   - **Letti Fluviali** (bioma umido): l’impatto del colpo proiettile è smorzato dalla sabbia bagnata e la velocità del rostro è leggermente ridotta, ma la creatura resiste meglio all’umidità.
 
-- *Gulogluteus scutiger* presenta varianti come:
+- _Gulogluteus scutiger_ presenta varianti come:
   - **Chioma Umida**
   - **Forre Umide**  
-  che affinano la presa della coda e l’aderenza della pelliccia in ambienti ricchi di muschio. In compenso, la corazza e il pelo più densi riducono la velocità di corsa su lunga distanza.
+    che affinano la presa della coda e l’aderenza della pelliccia in ambienti ricchi di muschio. In compenso, la corazza e il pelo più densi riducono la velocità di corsa su lunga distanza.
 
-- *Perfusuas pedes* evolve ecotipi come:
+- _Perfusuas pedes_ evolve ecotipi come:
   - **Cavernicolo** (sacche esterne più spesse e apparato miriapode più aderente alle pareti)
   - **Radura Notturna** (sonar più potente ma sistema immunitario meno stabile).  
-  Questi aggiustamenti bilanciano la vulnerabilità in ambienti aperti e la capacità di arrampicata.
+    Questi aggiustamenti bilanciano la vulnerabilità in ambienti aperti e la capacità di arrampicata.
 
-- *Terracetus ambulator* sviluppa:
+- _Terracetus ambulator_ sviluppa:
   - **Pianure Ventose** (scheletro più leggero per resistere alle raffiche ma ciglia più corte),
   - **Savanicola Notturno** (maggiore resistenza al freddo grazie a un siero criogeno potenziato, ma velocità di movimento ridotta su superfici sabbiose).
 
-- *Chemnotela toxica* presenta ecotipi come:
+- _Chemnotela toxica_ presenta ecotipi come:
   - **Radura Acida** (acido più potente ma reni più lenti),
   - **Chioma Elettrofilo** (seta altamente conduttiva con un carico elettrico maggiore ma minore quantità prodotta),  
-  adattandosi a zone con diversa acidità del suolo.
+    adattandosi a zone con diversa acidità del suolo.
 
-- *Proteus plasma* ha varianti:
+- _Proteus plasma_ ha varianti:
   - **Stagno Quieto** (cisti di ibernazione più rapide e membrane più spesse),
   - **Torrente Lento** (flusso ameboide accelerato ma minor resistenza alla pressione),  
-  bilanciando la necessità di protezione e movimento.
+    bilanciando la necessità di protezione e movimento.
 
-- *Soniptera resonans* produce ecotipi come:
+- _Soniptera resonans_ produce ecotipi come:
   - **Oasi Termica** (ali più larghe e onda di pressione meno intensa ma più estesa),
   - **Prateria Arbustiva** (emissione sonora più direzionale ma minor campo di interferenza),  
-  ottimizzando attacco e difesa in ambienti differenti.
+    ottimizzando attacco e difesa in ambienti differenti.
 
-- *Anguis magnetica* esibisce varianti:
+- _Anguis magnetica_ esibisce varianti:
   - **Estuario Torbido** (campo magnetico pulsato più forte ma scivolamento magnetico meno efficiente),
   - **Laguna Quieta** (bozzolo elettromagnetico più duraturo ma organo elettrico meno potente),  
-  adattandosi a diverse salinità dell’acqua.
+    adattandosi a diverse salinità dell’acqua.
 
-- *Umbra alaris* è rappresentata da ecotipi:
+- _Umbra alaris_ è rappresentata da ecotipi:
   - **Canopy Ombrosa** (piumaggio ancora più assorbente e occhi maggiormente sensibili agli infrarossi),
   - **Canyon Notturno** (artigli ipo-termici più efficaci ma consumo energetico maggiore),  
-  bilanciando invisibilità e shock termico.
+    bilanciando invisibilità e shock termico.
 
-- *Rupicapra sensoria* sviluppa ecotipi come:
+- _Rupicapra sensoria_ sviluppa ecotipi come:
   - **Cenge Calcarenitiche** (corna più lunghe e potente campo mentale, ma zoccoli meno aderenti),
   - **Dorsali Ventose** (sistema energetico condiviso più efficiente ma aura di dispersione ridotta),  
-  per far fronte alla geologia e al clima delle montagne.
+    per far fronte alla geologia e al clima delle montagne.
 
-Gli ecotipi arricchiscono la narrazione e la meccanica di gioco, consentendo di personalizzare le creature e adattarle a nuovi contesti.  
+Gli ecotipi arricchiscono la narrazione e la meccanica di gioco, consentendo di personalizzare le creature e adattarle a nuovi contesti.
 
 Per ogni specie:
 
@@ -824,7 +830,7 @@ Per ogni specie:
 
 ## Catalogo master e indici
 
-Nel pacchetto v2 è incluso un **catalogo master** (`catalog/master.json`) che aggrega tutte le specie e tutti i tratti in un unico documento.  
+Nel pacchetto v2 è incluso un **catalogo master** (`catalog/master.json`) che aggrega tutte le specie e tutti i tratti in un unico documento.
 
 Questo file contiene:
 
@@ -876,7 +882,7 @@ Per integrare o espandere il Evo Tactics Pack v2 nel tuo progetto, procedi in qu
    - lo stile di nomenclatura,
    - le specifiche v2,
    - le best practice.  
-   Assicurati di avere familiarità con:
+     Assicurati di avere familiarità con:
    - le unità UCUM,
    - i campi obbligatori.
 
@@ -884,7 +890,7 @@ Per integrare o espandere il Evo Tactics Pack v2 nel tuo progetto, procedi in qu
    Prima di committare nuove specie o tratti:
    - esegui lo script `scripts/validate.sh`,
    - verifica che i file rispettino gli schemi JSON.  
-   Il validatore segnala:
+     Il validatore segnala:
    - errori strutturali (campi mancanti, unità non conformi, versioning assente).
 
 3. **Crea nuovi tratti**  
@@ -899,7 +905,7 @@ Per integrare o espandere il Evo Tactics Pack v2 nel tuo progetto, procedi in qu
    - scegli un binomiale coerente e un nome volgare evocativo,
    - compila i campi descrittivi,
    - assicurati che i tratti coprano tutti gli assi funzionali.  
-   Se necessario introduci ecotipi per ambienti diversi.
+     Se necessario introduci ecotipi per ambienti diversi.
 
 5. **Aggiorna i cataloghi**  
    Dopo aver creato o modificato file:
@@ -910,7 +916,7 @@ Per integrare o espandere il Evo Tactics Pack v2 nel tuo progetto, procedi in qu
 
 6. **Documenta e condividi**  
    Per ogni aggiunta:
-   - scrivi un changelog o una nota in `versioning` con la data e la motivazione,  
+   - scrivi un changelog o una nota in `versioning` con la data e la motivazione,
    - questo aiuta altri autori a comprendere l’evoluzione del pacchetto.
 
 Seguendo questi passi e facendo riferimento costante alla guida, potrai espandere il bestiario in modo coerente, mantenendo la compatibilità con l’ecosistema Evo Tactics e offrendo ai giocatori/universo un ambiente criptozoologico ricco, strutturato e bilanciato.
@@ -921,14 +927,14 @@ Seguendo questi passi e facendo riferimento costante alla guida, potrai espander
 
 Negli ultimi aggiornamenti del progetto Evo Tactics, oltre allo schema v2 per specie e tratti descritto in questa guida, è stato introdotto:
 
-- uno **schema canonico unificato** che rende i tratti completamente *species-agnostici*,
+- uno **schema canonico unificato** che rende i tratti completamente _species-agnostici_,
 - una **Sentience Track** che regola l’accesso ai poteri sociali e cognitivi.
 
 Questa sezione riassume i punti chiave dell’integrazione.
 
 ### Stato target e struttura file (SSoT)
 
-Il *single-source-of-truth* (SSoT) per Evo Tactics prevede una struttura di repository suddivisa in:
+Il _single-source-of-truth_ (SSoT) per Evo Tactics prevede una struttura di repository suddivisa in:
 
 - **documentazione**,
 - **pacchetti**,
@@ -941,8 +947,8 @@ In particolare:
   - dizionario campi,
   - tassonomia,
   - esempi estesi.  
-  È un’estensione della presente guida.
-- `docs/README_SENTIENCE.md` introdurrà la Sentience Track T1–T6, un sistema di *gating* che stabilisce a quale livello di coscienza (da T1 a T6) una creatura deve accedere per sbloccare tratti sociali e cognitivi avanzati.
+    È un’estensione della presente guida.
+- `docs/README_SENTIENCE.md` introdurrà la Sentience Track T1–T6, un sistema di _gating_ che stabilisce a quale livello di coscienza (da T1 a T6) una creatura deve accedere per sbloccare tratti sociali e cognitivi avanzati.
 
 Nella cartella `packs/evo_tactics_pack/docs/catalog/` saranno conservati:
 
@@ -986,8 +992,8 @@ Le regole di convergenza tra il Crypto Template usato finora e lo schema canonic
   Ogni tratto richiede:
   - `version` in formato SemVer,
   - sezione `versioning{created, updated, author}`.  
-  I cambiamenti MAJOR devono essere accompagnati da un changelog;  
-  i cambiamenti MINOR e PATCH rispettano la retro-compatibilità.
+    I cambiamenti MAJOR devono essere accompagnati da un changelog;  
+    i cambiamenti MINOR e PATCH rispettano la retro-compatibilità.
 
 - **Compat legacy**  
   Per una release di transizione è ammesso l’uso del campo `compatibility` come alias di `sinergie/conflitti`; questo verrà deprecato nella release successiva.
@@ -999,13 +1005,13 @@ La Sentience Track è un sistema parallelo che definisce il livello di coscienza
 - **T1**: reattivo/primordiale
 - a **T6**: pienamente sociale, linguistico e tecnologico.
 
-Ogni tratto può specificare una `sentience_applicability` che indica a partire da quale livello di senzienza è disponibile.  
+Ogni tratto può specificare una `sentience_applicability` che indica a partire da quale livello di senzienza è disponibile.
 
-Alcune capacità (es. tratti sociali, tratti di comunicazione complessa) sono *gateate* e possono essere acquisite solo se l’indice di senzienza della specie soddisfa il requisito.  
+Alcune capacità (es. tratti sociali, tratti di comunicazione complessa) sono _gateate_ e possono essere acquisite solo se l’indice di senzienza della specie soddisfa il requisito.
 
 La versione canonicamente descritta nel file `sentience_track.json` fornisce linee guida su:
 
-- quali categorie funzionali richiedono gating (ad esempio, *social/language* → T≥4).
+- quali categorie funzionali richiedono gating (ad esempio, _social/language_ → T≥4).
 
 ### Passi operativi per la migrazione
 
@@ -1035,7 +1041,7 @@ Per integrare i dati esistenti nel nuovo schema canonico:
 
 4. **Branching e CI**
    - creare branch dedicati (`traits/core`, `traits/sentience`) per separare gli schemi e i seed,
-   - configurare la pipeline CI (`validate_traits.yml`) affinché esegua il validator sugli *entry* e sul catalogo.
+   - configurare la pipeline CI (`validate_traits.yml`) affinché esegua il validator sugli _entry_ e sul catalogo.
 
 5. **Importare gli “Ancestors”**
    - se previsto, importare circa 297 neuroni (antiche capacità) da file esterni,
@@ -1052,7 +1058,7 @@ Il progetto prevede due sprint:
 
 - **Sprint 1 — Fondazioni**
   - definire e caricare gli schemi, gli strumenti e la CI,
-  - normalizzare i primi 20–30 tratti *core* con UCUM/ENVO,
+  - normalizzare i primi 20–30 tratti _core_ con UCUM/ENVO,
   - creare la Sentience Track,
   - aggiornare la documentazione.
 
@@ -1075,6 +1081,10 @@ I **gate di qualità** da rispettare in ogni PR includono:
 
 ---
 
+## Come applicarlo nel repo Game
+
+Per integrare nuovi tratti o pacchetti in questo repository, segui il [flusso operativo end-to-end](docs/traits_scheda_operativa.md#box-flusso-operativo-end-to-end): prepara tassonomia e glossario, compila il file usando il [template dati](docs/traits_template.md), valida schema e contenuti con i comandi della [checklist automatica](docs/traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi), sincronizza le localizzazioni e chiudi la PR riportando gli esiti QA.
+
 ## Conclusioni e prospettive
 
 Questa integrazione amplia l’universo Evo Tactics in direzione di un sistema:
@@ -1083,7 +1093,7 @@ Questa integrazione amplia l’universo Evo Tactics in direzione di un sistema:
 - riusabile,
 - governato da standard aperti.
 
-La separazione dei tratti dalla specie, l’introduzione della pista di senzienza e la convergenza verso un *single-source-of-truth*:
+La separazione dei tratti dalla specie, l’introduzione della pista di senzienza e la convergenza verso un _single-source-of-truth_:
 
 - facilitano la collaborazione tra autori,
 - migliorano la coerenza narrativa,
