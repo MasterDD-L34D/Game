@@ -6,6 +6,10 @@
 - [Template dati](traits_template.md)
 - [Reference catalogo](catalog/trait_reference.md)
 
+## Compatibilità Evo Pack v2
+
+Per importare tratti da pacchetti Evo, usa la mappa di conversione in `traits_evo_pack_alignment.md`: troverai le regole di naming (Title Case → `snake_case`), gli esempi TR-xxxx → `id`, l’inserimento delle metriche UCUM e il flusso combinato glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
+
 ## Identità e versioning
 
 - `id` — `snake_case`, uguale al nome file, deciso in design e immutabile. # fonte: vincolo schema `^[a-z0-9_]+$`
