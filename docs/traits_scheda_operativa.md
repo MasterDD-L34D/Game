@@ -11,6 +11,14 @@
 
 Per importare tratti da pacchetti Evo, usa la mappa di conversione in `traits_evo_pack_alignment.md`: troverai le regole di naming (Title Case → `snake_case`), gli esempi TR-xxxx → `id`, l’inserimento delle metriche UCUM e il flusso combinato glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
 
+## Campi opzionali consigliati (Evo v2)
+
+> I pacchetti Evo v2 suggeriscono di includere questi campi come _plus_ (vedi sezione “Specifiche standard v2” della [Guida Evo Tactics Pack v2](Guida_Evo_Tactics_Pack_v2.md#specifiche-standard-v2)), ma nel repository restano facoltativi e non fanno parte dello schema minimo.
+>
+> - `metrics[]` — array di misure UCUM per quantificare prestazioni/condizioni.
+> - `cost_profile.*` — costi energetici numerici (`rest`, `burst`, `sustained`) se disponibili.
+> - `testability.*` — osservabili e scenari di prova per rendere il tratto verificabile.
+
 ## Identità e versioning
 
 - `id` — `snake_case`, uguale al nome file, deciso in design e immutabile. # fonte: vincolo schema `^[a-z0-9_]+$`
