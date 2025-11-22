@@ -110,7 +110,7 @@ Per garantire la coerenza del database si consiglia di eseguire regolarmente il 
 
 - **Validazione JSON**: eseguire `bash scripts/validate.sh` per assicurarsi che tutti i file `species/*.json` e `traits/*.json` rispettino gli schemi. È necessario avere `ajv-cli` installato (installabile con `npm install -g ajv-cli`).
 - **UCUM**: verificare che le unità delle metriche siano conformi al prontuario UCUM (`Cel` per gradi Celsius, `m/s` per velocità lineare, `J` per energia, `dB·s` per dose sonora…).
-- **QA Checklist**: seguire la lista di controllo `docs/QA_TRAITS_V2.md` che ricorda di compilare testabilità, sinergie/conflitti, versioning, ecotipi e alias.
+- **QA Checklist**: seguire la lista di controllo `../qa/QA_TRAITS_V2.md` che ricorda di compilare testabilità, sinergie/conflitti, versioning, ecotipi e alias.
 
 ## Prossimi passi e raccomandazioni
 
@@ -374,7 +374,7 @@ Per integrare o espandere il **Evo Tactics Pack v2** nel tuo progetto, procedi
 
 1. **Leggi la guida**: consulta questa guida e i documenti integrativi per comprendere lo stile di nomenclatura, le specifiche v2 e le best practice. Assicurati di avere familiarità con le unità UCUM e con i campi obbligatori.
 2. **Convalida i dati**: prima di committare nuove specie o tratti, esegui lo script `scripts/validate.sh` per assicurarti che i file rispettino gli schemi JSON. Il validatore segnala errori strutturali (campi mancanti, unità non conformi, versioning assente).
-3. **Crea nuovi tratti** seguendo la checklist del `README_HOWTO_AUTHOR_TRAIT.md`. Scegli codici univoci, definisci le metriche e indica sinergie/conflitti. Ricorda di descrivere sempre trigger, limiti, costi e testabilità.
+3. **Crea nuovi tratti** seguendo la checklist del `../README_HOWTO_AUTHOR_TRAIT.md`. Scegli codici univoci, definisci le metriche e indica sinergie/conflitti. Ricorda di descrivere sempre trigger, limiti, costi e testabilità.
 4. **Definisci nuove specie** partendo dalla firma funzionale. Scegli un binomiale coerente e un nome volgare evocativo. Compila i campi descrittivi e assicurati che i tratti coprano tutti gli assi funzionali. Se necessario, introduci ecotipi per ambienti diversi.
 5. **Aggiorna i cataloghi**: dopo aver creato o modificato file, aggiorna `species_catalog.json`, `traits_aggregate.json` e il `catalog/master.json` (puoi generarlo via script). Aggiorna anche l’indice degli ecotipi se ne aggiungi di nuovi.
 6. **Documenta e condividi**: per ogni aggiunta, scrivi un changelog o una nota in `versioning` con la data e la motivazione. Questo aiuta altri autori a comprendere l’evoluzione del pacchetto.

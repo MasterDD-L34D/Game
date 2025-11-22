@@ -259,7 +259,7 @@ Per garantire la coerenza del database si consiglia di eseguire regolarmente il 
   Verificare che le unità delle metriche siano conformi al prontuario UCUM (`Cel` per gradi Celsius, `m/s` per velocità lineare, `J` per energia, `dB·s` per dose sonora…).
 
 - **QA Checklist**
-  Seguire la lista di controllo `docs/QA_TRAITS_V2.md` che ricorda di compilare:
+  Seguire la lista di controllo `qa/QA_TRAITS_V2.md` che ricorda di compilare:
   - testabilità,
   - sinergie/conflitti,
   - versioning,

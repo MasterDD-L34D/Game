@@ -32,6 +32,9 @@
   - [A — Canvas originale (testuale)](appendici/A-CANVAS_ORIGINALE.txt)
   - [C — NPG & Biomi (testuale)](appendici/C-CANVAS_NPG_BIOMI.txt)
   - [D — Accoppiamento/Mating (testuale)](appendici/D-CANVAS_ACCOPPIAMENTO.txt)
+  - [Prontuario metriche UCUM](appendici/prontuario_metriche_ucum.md)
+  - [Style guide naming (Specie & Tratti)](appendici/STYLE_GUIDE_NAMING.md)
+  - [Metodo A.L.I.E.N.A. — documento integrato](appendici/ALIENA_documento_integrato.md)
 
 ## Automazioni & CI
 

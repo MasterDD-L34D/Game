@@ -9,6 +9,7 @@ adimensionali; preferisci unità SI (m, s, kg, Pa, J, W, V, A, Hz, dB, K) e deri
 ---
 
 ## 1) Locomotivo
+
 - `velocita_max`: **m/s** — velocità massima sostenibile/sprint.
 - `accelerazione_0_10`: **m/s2** — accelerazione lineare breve.
 - `raggio_di_volta`: **m** — manovrabilità (aria/acqua).
@@ -17,6 +18,7 @@ adimensionali; preferisci unità SI (m, s, kg, Pa, J, W, V, A, Hz, dB, K) e deri
 - `range_di_volo`: **km** — autonomia (nota: converti in **m** per coerenza SI se serve).
 
 ## 2) Sensoriale
+
 - `acuita_visiva`: **1** — indice adimensionale (0–1 o scala proprietaria).
 - `soglia_udito`: **dB** — soglia o discomfort.
 - `banda_uditiva_max`: **Hz** — frequenza massima percepita.
@@ -25,6 +27,7 @@ adimensionali; preferisci unità SI (m, s, kg, Pa, J, W, V, A, Hz, dB, K) e deri
 - `sens_elettrica`: **V/m** — sensibilità campo elettrico.
 
 ## 3) Fisiologico
+
 - `temperatura_fiato`: **Cel** — grado Celsius del getto/fiato.
 - `tolleranza_termica`: **K** — delta termico tollerato.
 - `metabolic_rate`: **W/kg** — spesa energetica specifica.
@@ -33,6 +36,7 @@ adimensionali; preferisci unità SI (m, s, kg, Pa, J, W, V, A, Hz, dB, K) e deri
 - `disidratazione_onset`: **1** — frazione perdita massa (es. 0.03 = 3%).
 
 ## 4) Offensivo
+
 - `energia_impattiva`: **J** — work/danno cinetico.
 - `velocita_proiettile`: **m/s** — balistica.
 - `tensione_picco`: **V** — scarica elettrica.
@@ -41,6 +45,7 @@ adimensionali; preferisci unità SI (m, s, kg, Pa, J, W, V, A, Hz, dB, K) e deri
 - `area_cono`: **m2** — area effettiva attacco a cono.
 
 ## 5) Difensivo
+
 - `spessore_corazza`: **mm** — (nota: use **m** internamente, esporta mm se UI).
 - `SPL_riduzione`: **dB** — attenuazione sonora passiva.
 - `trasmittanza_ottica`: **1** — frazione passante (0–1).
@@ -48,12 +53,14 @@ adimensionali; preferisci unità SI (m, s, kg, Pa, J, W, V, A, Hz, dB, K) e deri
 - `res_termica`: **K/W** — isolamento termico.
 
 ## 6) Cognitivo/Sociale
+
 - `cohesion_index`: **1** — indice coesione (0–1).
 - `intimidazione_index`: **1** — deterrenza (0–1).
 - `tempo_apprendimento`: **s** — per skill task standard.
 - `errore_navigazione`: **1** — drift relativo su rotta (es. 0.01 = 1%).
 
 ## 7) Riproduttivo/Ecologico
+
 - `tasso_propaguli`: **1/season** — propaguli per stagione (se modelli stagioni).
 - `germinazione_t50`: **h** — tempo al 50% germinazione.
 - `disseminazione_raggio`: **m** — dispersione media semi/propaguli.
@@ -62,6 +69,7 @@ adimensionali; preferisci unità SI (m, s, kg, Pa, J, W, V, A, Hz, dB, K) e deri
 ---
 
 ## Note pratiche
+
 - **Adimensionale (`1`)**: usa per indici, percentuali (0–1), probabilità, moltiplicatori.
 - **`Cel`** (°C): UCUM ufficiale; evitare simboli non UCUM in JSON.
 - **`L`** (litro): ammesso; per standard SI puro usa `m3` o `mL` quando serve precisione.
@@ -71,31 +79,31 @@ adimensionali; preferisci unità SI (m, s, kg, Pa, J, W, V, A, Hz, dB, K) e deri
 ---
 
 ## Mini‑tabella UCUM (estratto utile)
-| Quantità | Codice UCUM | Nota |
-|---|---|---|
-| temperatura | `Cel` | grado Celsius |
-| lunghezza | `m` | metro |
-| massa | `kg` | chilogrammo |
-| tempo | `s` | secondo |
-| velocità | `m/s` | — |
-| accelerazione | `m/s2` | — |
-| forza | `N` | Newton |
-| pressione | `Pa` | Pascal |
-| energia | `J` | Joule |
-| potenza | `W` | Watt |
-| tensione | `V` | Volt |
-| corrente | `A` | Ampere |
-| frequenza | `Hz` | Hertz |
-| suono (livello) | `dB` | decibel |
-| volume | `L` | litro |
-| area | `m2` | — |
-| adimensionale | `1` | frazioni, indici |
+
+| Quantità        | Codice UCUM | Nota             |
+| --------------- | ----------- | ---------------- |
+| temperatura     | `Cel`       | grado Celsius    |
+| lunghezza       | `m`         | metro            |
+| massa           | `kg`        | chilogrammo      |
+| tempo           | `s`         | secondo          |
+| velocità        | `m/s`       | —                |
+| accelerazione   | `m/s2`      | —                |
+| forza           | `N`         | Newton           |
+| pressione       | `Pa`        | Pascal           |
+| energia         | `J`         | Joule            |
+| potenza         | `W`         | Watt             |
+| tensione        | `V`         | Volt             |
+| corrente        | `A`         | Ampere           |
+| frequenza       | `Hz`        | Hertz            |
+| suono (livello) | `dB`        | decibel          |
+| volume          | `L`         | litro            |
+| area            | `m2`        | —                |
+| adimensionale   | `1`         | frazioni, indici |
 
 ---
 
 ## Esempi di metriche per trait (rapidi)
 
-- **Idro‑Cannoni Pressurizzati** → `pressione_getto: "altissima" (1)` *oppure* misurato: `pressione_getto: 5e6 (Pa)`  
-- **Peli‑Ago Elettrostatici** → `tensione_picco: 10000 (V)`; `velocita_proiettile: 60 (m/s)`  
+- **Idro‑Cannoni Pressurizzati** → `pressione_getto: "altissima" (1)` _oppure_ misurato: `pressione_getto: 5e6 (Pa)`
+- **Peli‑Ago Elettrostatici** → `tensione_picco: 10000 (V)`; `velocita_proiettile: 60 (m/s)`
 - **Mimesi Idromolecolare** → `rilevabilita_visiva: 0.3 (1)`; condizione `acqua|limpida`
-

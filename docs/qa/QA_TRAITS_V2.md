@@ -1,4 +1,5 @@
 # QA Checklist — Traits/Species v2
+
 - UCUM ok: tutte le `metrics[].unit` usano simboli UCUM.
 - Schema ok: ajv passa su traits/species.
 - Sinergie/Conflitti coerenti: nessun conflitto presente tra i `trait_refs` della stessa specie.

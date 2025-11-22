@@ -118,7 +118,7 @@ function repoTouchpoints(idea) {
     );
   }
   paths.push('- Suggested idea file: docs/ideas/submissions/new-idea.md');
-  paths.push('- Sync index: README_IDEAS.md and IDEAS_INDEX.md');
+  paths.push('- Sync index: README_IDEAS.md and docs/ideas/IDEAS_INDEX.md');
   return paths.join('\n');
 }
 
