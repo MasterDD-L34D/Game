@@ -73,7 +73,8 @@ if [[ "$DATASET" == "evo-species" ]]; then
   # Exclude ecotype payloads and catalog aggregators from schema validation.
   mapfile -t FILES < <(find "$DATA_DIR" -maxdepth 1 -type f -name '*.json' \
     ! -name '*_ecotypes.json' \
-    ! -name 'species_catalog.json')
+    ! -name 'species_catalog.json' \
+    ! -name 'species_ecotype_map.json')
 fi
 
 if [[ ${#FILES[@]} -eq 0 ]]; then
