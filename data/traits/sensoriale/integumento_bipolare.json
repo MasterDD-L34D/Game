@@ -1,0 +1,52 @@
+{
+  "id": "integumento_bipolare",
+  "label": "i18n:traits.integumento_bipolare.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Sensoriale/Magneto-ricettivo",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "scivolamento_magnetico"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "Cristalli di magnetite dermici con neuriti afferenti.",
+  "uso_funzione": "Orientarsi su linee di campo.",
+  "spinta_selettiva": "Migrazioni precise e caccia notturna.",
+  "metrics": [
+    {
+      "name": "sens_magnetica",
+      "value": 1e-06,
+      "unit": "T"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Mantiene rotta con EM artificiale",
+    "scene_prompt": "Labirinto con bobine Helmholtz"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000304",
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  }
+}
