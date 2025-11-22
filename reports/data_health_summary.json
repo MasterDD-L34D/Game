@@ -297,9 +297,9 @@
     {
       "key": "readme.md",
       "paths": [
-        "incoming/README.md",
-        "incoming/decompressed/README.md",
-        "incoming/docs/readme.md"
+        "docs/incoming/README.md",
+        "docs/incoming/decompressed/README.md",
+        "docs/incoming/docs/readme.md"
       ]
     }
   ]

@@ -34,5 +34,5 @@ Le sottocartelle sarebbero state create durante i batch `documentation` e `ops_c
    annotando `inventario.yml`.
 4. Verificare i link interni con `npm run docs:lint` prima del merge.
 
-Tutti i progressi devono essere tracciati in `incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md`
+Tutti i progressi devono essere tracciati in `../../incoming/lavoro_da_classificare/TASKS_BREAKDOWN.md`
 e nel relativo `tasks.yml`.

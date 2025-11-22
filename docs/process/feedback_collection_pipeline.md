@@ -11,7 +11,7 @@ Questa guida descrive in dettaglio il flusso operativo per raccogliere, filtrare
 1. **Invio**: i tester compilano il form centralizzato (webapp, dashboard docs o CLI) includendo build ID, scenario giocato e livello di severità.
 2. **Ingest**: un job programmato (`feedback_intake`) salva le submission nel datastore `data/feedback/` e pubblica il riepilogo nel canale Slack `#feedback-intake`.
 3. **Triage giornaliero**: gli owner (vedi tabella ruoli) smistano ogni ticket assegnando label `gameplay`, `tecnica`, `narrativa` o `ux` e definiscono priorità.
-4. **Routing**: i feedback prioritari generano task in `incoming/FEATURE_MAP_EVO_TACTICS.md` tramite lo script `tools/feedback/sync_tasks.py`.
+4. **Routing**: i feedback prioritari generano task in `../incoming/FEATURE_MAP_EVO_TACTICS.md` tramite lo script `tools/feedback/sync_tasks.py`.
 5. **Follow-up**: stato e note vengono sincronizzati verso il form (per email) e verso la dashboard `docs/playtest-log-guidelines.md`.
 
 ## 3. Ruoli e responsabilità

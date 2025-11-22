@@ -34,7 +34,7 @@ updated: 2025-11-22
 
 ## Strumenti incoming
 
-- [incoming/docs/obsidian_template.md](../incoming/docs/obsidian_template.md) — vault suggerito per note locali.
+- [incoming/docs/obsidian_template.md](incoming/docs/obsidian_template.md) — vault suggerito per note locali.
 - [incoming/docs/yaml_validator.py](../incoming/docs/yaml_validator.py) — validazione dataset telemetrici.
 - [incoming/docs/bioma_encounters.yaml](../incoming/docs/bioma_encounters.yaml) — base encounter per sincronizzazione VC.
 - [incoming/lavoro_da_classificare/security.yml](../incoming/lavoro_da_classificare/security.yml) — workflow CI per audit Bandit/npm audit/gitleaks.

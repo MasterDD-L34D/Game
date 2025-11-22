@@ -2,7 +2,7 @@
 
 Lo script legge un file JSONL contenente le submission raccolte dal form
 (`intake.jsonl`), filtra quelle con severità pari o superiore alla soglia
-configurata e aggiorna `incoming/FEATURE_MAP_EVO_TACTICS.md` aggiungendo
+configurata e aggiorna `docs/incoming/FEATURE_MAP_EVO_TACTICS.md` aggiungendo
 entry strutturate.
 
 Esecuzione tipica:
@@ -25,7 +25,7 @@ SEVERITY_PRIORITY = {
 }
 
 DEFAULT_INTAKE_PATH = Path("data/feedback/intake.jsonl")
-DEFAULT_BACKLOG_PATH = Path("incoming/FEATURE_MAP_EVO_TACTICS.md")
+DEFAULT_BACKLOG_PATH = Path("docs/incoming/FEATURE_MAP_EVO_TACTICS.md")
 
 
 @dataclass

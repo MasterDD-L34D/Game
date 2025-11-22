@@ -29,7 +29,7 @@ npm --prefix webapp run dev -- --host 0.0.0.0 --port 4173
 ## 5. Checklist finale
 - [ ] Ack rate ≥ 0.82 e nessun spike adaptive senza owner.
 - [ ] Screenshot overlay condiviso in `#feedback-enhancements` con riferimento al mock aggiornato.
-- [ ] Ticket aperti in `incoming/FEATURE_MAP_EVO_TACTICS.md` per tutti i feedback con severità ≥3.
+- [ ] Ticket aperti in `../incoming/FEATURE_MAP_EVO_TACTICS.md` per tutti i feedback con severità ≥3.
 - [ ] Canvas aggiornato nella sezione [Sync HUD · dicembre 2025](../Canvas/feature-updates.md#sync-hud--dicembre-2025).
 
 > Suggerimento: aggiungi il comando `npm run webapp:deploy` nel tuo workflow locale per verificare che l'overlay resti coerente anche nella build ottimizzata.

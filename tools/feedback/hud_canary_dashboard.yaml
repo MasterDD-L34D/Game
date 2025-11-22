@@ -55,7 +55,7 @@ dashboard:
     documentation: "docs/Canvas/feature-updates.md#sync-hud--dicembre-2025"
     escalation:
       severity_gte: 3
-      target: "incoming/FEATURE_MAP_EVO_TACTICS.md"
+      target: "docs/incoming/FEATURE_MAP_EVO_TACTICS.md"
   exports:
     markdown: reports/feedback/hud_canary_snapshot.md
     csv: reports/feedback/hud_canary_snapshot.csv

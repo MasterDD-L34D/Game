@@ -4,28 +4,28 @@ inventario:
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: catalog
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: config
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/config
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/config
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: data
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs
     tipo: directory
@@ -33,7 +33,7 @@ inventario:
     note: Directory; QA `reports/evo/qa/docs.log` aggiornato con `npm run docs:lint`
       → collegamenti interni validi. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ecotypes
     tipo: directory
@@ -46,14 +46,14 @@ inventario:
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: ops
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: scripts
     tipo: directory
@@ -61,7 +61,7 @@ inventario:
     note: Directory script stabilizzata; contenuti principali spostati in `incoming/scripts/`.
       Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: scripts/README.md
     tipo: file
@@ -73,35 +73,35 @@ inventario:
     dimensione_byte: 4096
     note: Directory; validazione specie/ecotipi registrata in `reports/evo/qa/dataset.log`.
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: templates
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: tests
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: traits
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: workflows
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: schemas/core/enums.json
     tipo: file
@@ -211,28 +211,28 @@ inventario:
     dimensione_byte: 6487
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/GDD.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/GDD.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Game_EvoTactics_Guida_Pacchetto_v2.md
     tipo: file
     dimensione_byte: 15967
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Game_EvoTactics_Guida_Pacchetto_v2.pdf
     tipo: file
     dimensione_byte: 1744
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Game_EvoTactics_Guida_Pacchetto_v2.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: INTEGRAZIONE_GUIDE.md
     tipo: file
     dimensione_byte: 5720
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/INTEGRAZIONE_GUIDE.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/INTEGRAZIONE_GUIDE.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ../archive/documents/Guida Ai tratti 1.docx
     tipo: file
@@ -300,119 +300,119 @@ inventario:
     dimensione_byte: 24417
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_1.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_1.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Progetto unico e fonti (2).pdf
     tipo: file
     dimensione_byte: 43758
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_2.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_2.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Progetto unico e fonti (3).pdf
     tipo: file
     dimensione_byte: 47720
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_3.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_3.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Progetto unico e fonti (4).pdf
     tipo: file
     dimensione_byte: 45867
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_4.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_4.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Progetto unico e fonti (5).pdf
     tipo: file
     dimensione_byte: 28236
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_5.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_5.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Progetto unico e fonti (6).pdf
     tipo: file
     dimensione_byte: 34470
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_6.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_6.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Progetto unico e fonti (7).pdf
     tipo: file
     dimensione_byte: 29697
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_7.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Progetto_unico_e_fonti_7.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: README.md
     tipo: file
     dimensione_byte: 385
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: README_CI.md
     tipo: file
     dimensione_byte: 561
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_CI.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_CI.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: README_HOWTO_AUTHOR_TRAIT.md
     tipo: file
     dimensione_byte: 5382
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_HOWTO_AUTHOR_TRAIT.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_HOWTO_AUTHOR_TRAIT.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: README_NO_PROXY.md
     tipo: file
     dimensione_byte: 621
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_NO_PROXY.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/README_NO_PROXY.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: Revisiona automati tratti.pdf
     tipo: file
     dimensione_byte: 22333
     note: File .pdf. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Revisiona_automati_tratti.pdf
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/Revisiona_automati_tratti.pdf
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: backlog_tasks_example.yaml
     tipo: file
     dimensione_byte: 1791
     note: File .yaml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog_tasks_example.yaml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog_tasks_example.yaml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: evo_tactics_game_database_guide.md
     tipo: file
     dimensione_byte: 14452
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_database_guide.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_database_guide.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: evo_tactics_game_guide.md
     tipo: file
     dimensione_byte: 7474
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_guide.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_game_guide.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: evo_tactics_guide.md
     tipo: file
     dimensione_byte: 53169
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_guide.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/evo_tactics_guide.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: games_overview.md
     tipo: file
     dimensione_byte: 5418
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/games_overview.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/games_overview.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: incident_response.md
     tipo: file
@@ -424,7 +424,7 @@ inventario:
     tipo: file
     dimensione_byte: 1777
     note: Duplicato consolidato; utilizzare `incoming/scripts/init_security_checks.sh`.
-      Copia legacy archiviata in `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/init_security_checks.sh`.
+      Copia legacy archiviata in `docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/init_security_checks.sh`.
     stato: validato
   - percorso: config/lighthouse/evo.lighthouserc.json
     tipo: file
@@ -457,7 +457,7 @@ inventario:
     dimensione_byte: 7648
     note: File .yaml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/new_traits_proposals.yaml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/new_traits_proposals.yaml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: policy.md
     tipo: file
@@ -476,7 +476,7 @@ inventario:
     dimensione_byte: 5533
     note: File .csv. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/proposed_routes.csv
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/proposed_routes.csv
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: proposed_sitemap.xml
     tipo: file
@@ -499,13 +499,13 @@ inventario:
     dimensione_byte: 1660
     note: File .yml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/security.yml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/security.yml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: setup_backlog.py
     tipo: file
     dimensione_byte: 4228
     note: Duplicato consolidato; utilizzare `incoming/scripts/setup_backlog.py`. Copia
-      legacy archiviata in `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/setup_backlog.py`.
+      legacy archiviata in `docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/setup_backlog.py`.
     stato: validato
   - percorso: sitemap_link_checker.py
     tipo: file
@@ -518,76 +518,76 @@ inventario:
     dimensione_byte: 12314
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_analysis_report.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_analysis_report.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: species_catalog.md
     tipo: file
     dimensione_byte: 7432
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_catalog.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_catalog.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: species_summary_example.csv
     tipo: file
     dimensione_byte: 1528
     note: File .csv. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_summary_example.csv
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/species_summary_example.csv
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: species_summary_script.py
     tipo: file
     dimensione_byte: 6181
     note: Duplicato consolidato; utilizzare `incoming/scripts/species_summary_script.py`.
-      Copia legacy archiviata in `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/species_summary_script.py`.
+      Copia legacy archiviata in `docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/species_summary_script.py`.
     stato: validato
   - percorso: step1_summary.md
     tipo: file
     dimensione_byte: 2202
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step1_summary.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step1_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: step2_summary.md
     tipo: file
     dimensione_byte: 7159
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step2_summary.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step2_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: step3_summary.md
     tipo: file
     dimensione_byte: 7583
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step3_summary.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step3_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: step4_summary.md
     tipo: file
     dimensione_byte: 7721
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step4_summary.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step4_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: step5_summary.md
     tipo: file
     dimensione_byte: 6736
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step5_summary.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step5_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: step6_summary.md
     tipo: file
     dimensione_byte: 5734
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step6_summary.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step6_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: step7_summary.md
     tipo: file
     dimensione_byte: 6145
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step7_summary.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/step7_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: threat_model.md
     tipo: file
@@ -612,13 +612,13 @@ inventario:
     dimensione_byte: 4864
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/trait_merge_proposals.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/trait_merge_proposals.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: trait_review.py
     tipo: file
     dimensione_byte: 6124
     note: Duplicato consolidato; utilizzare `incoming/scripts/trait_review.py`. Copia
-      legacy archiviata in `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/trait_review.py`.
+      legacy archiviata in `docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/trait_review.py`.
     stato: validato
   - percorso: trait_review_report.md
     tipo: file
@@ -631,7 +631,7 @@ inventario:
     dimensione_byte: 6496
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/traits_catalog.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/traits_catalog.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: traits_reference.md
     tipo: file
@@ -643,49 +643,49 @@ inventario:
     tipo: file
     dimensione_byte: 2829
     note: Duplicato consolidato; utilizzare `incoming/scripts/update_tracker_registry.py`.
-      Copia legacy archiviata in `incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/update_tracker_registry.py`.
+      Copia legacy archiviata in `docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/update_tracker_registry.py`.
     stato: validato
   - percorso: backlog/backlog_tasks_example.yaml
     tipo: file
     dimensione_byte: 1791
     note: File .yaml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog/backlog_tasks_example.yaml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/backlog/backlog_tasks_example.yaml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: catalog/ecotypes_index.json
     tipo: file
     dimensione_byte: 1314
     note: File .json. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/ecotypes_index.json
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/ecotypes_index.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: catalog/master.json
     tipo: file
     dimensione_byte: 107689
     note: File .json. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/master.json
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/catalog/master.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: config/tracker_registry_update_example.yaml
     tipo: file
     dimensione_byte: 887
     note: File .yaml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/config/tracker_registry_update_example.yaml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/config/tracker_registry_update_example.yaml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: data/aliases
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data/aliases
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data/aliases
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: data/aliases/species_aliases.json
     tipo: file
     dimensione_byte: 191
     note: File .json. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data/aliases/species_aliases.json
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/data/aliases/species_aliases.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/analysis
     tipo: directory
@@ -693,7 +693,7 @@ inventario:
     note: Directory allineata con la documentazione consolidata. Duplicato archiviato
       nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/security
     tipo: directory
@@ -701,49 +701,49 @@ inventario:
     note: Directory allineata con la documentazione consolidata. Duplicato archiviato
       nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/wireframes
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: docs/GDD.md
     tipo: file
     dimensione_byte: 6487
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/GDD.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/GDD.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/INTEGRAZIONE_GUIDE.md
     tipo: file
     dimensione_byte: 5720
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/INTEGRAZIONE_GUIDE.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/INTEGRAZIONE_GUIDE.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/QA_TRAITS_V2.md
     tipo: file
     dimensione_byte: 500
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/QA_TRAITS_V2.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/QA_TRAITS_V2.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/README_HOWTO_AUTHOR_TRAIT.md
     tipo: file
     dimensione_byte: 5382
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/README_HOWTO_AUTHOR_TRAIT.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/README_HOWTO_AUTHOR_TRAIT.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/STYLE_GUIDE_NAMING.md
     tipo: file
     dimensione_byte: 1170
     note: File .md. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/STYLE_GUIDE_NAMING.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/STYLE_GUIDE_NAMING.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/prontuario_metriche_ucum.md
     tipo: file
@@ -751,7 +751,7 @@ inventario:
     note: Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella
       bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/prontuario_metriche_ucum.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/prontuario_metriche_ucum.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/traits_reference.md
     tipo: file
@@ -759,7 +759,7 @@ inventario:
     note: Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella
       bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/traits_reference.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/traits_reference.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/analysis/trait_analysis_summary.md
     tipo: file
@@ -767,7 +767,7 @@ inventario:
     note: Report consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica
       del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_analysis_summary.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_analysis_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/analysis/trait_anomalies.csv
     tipo: file
@@ -775,7 +775,7 @@ inventario:
     note: Dataset consolidato dopo migrazione duplicati. Duplicato archiviato nella
       bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_anomalies.csv
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_anomalies.csv
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/analysis/trait_review_report.md
     tipo: file
@@ -783,7 +783,7 @@ inventario:
     note: Report consolidato dopo migrazione duplicati. Duplicato archiviato nella bonifica
       del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_review_report.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/analysis/trait_review_report.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/security/incident_response.md
     tipo: file
@@ -791,7 +791,7 @@ inventario:
     note: Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella
       bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/incident_response.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/incident_response.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/security/policy.md
     tipo: file
@@ -799,7 +799,7 @@ inventario:
     note: Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella
       bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/policy.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/policy.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/security/risk_register.md
     tipo: file
@@ -807,7 +807,7 @@ inventario:
     note: Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella
       bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/risk_register.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/risk_register.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/security/threat_model.md
     tipo: file
@@ -815,21 +815,21 @@ inventario:
     note: Documento consolidato dopo migrazione duplicati. Duplicato archiviato nella
       bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/threat_model.md
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/threat_model.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: docs/wireframes/generatore.md
     tipo: file
     dimensione_byte: 599
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/generatore.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/generatore.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: docs/wireframes/homepage.md
     tipo: file
     dimensione_byte: 694
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/homepage.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/homepage.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: ecotypes/anguis_magnetica_ecotypes.json
     tipo: file
@@ -886,378 +886,378 @@ inventario:
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/backlog
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/backlog
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/backlog
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/config
     tipo: file
     dimensione_byte: 887
     note: File senza estensione
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/config
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/config
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/backlog/backlog_tasks_example.yaml
     tipo: file
     dimensione_byte: 1791
     note: File .yaml
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/backlog/backlog_tasks_example.yaml
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/backlog/backlog_tasks_example.yaml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security
     tipo: directory
     dimensione_byte: 4096
     note: Directory
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md
     tipo: file
     dimensione_byte: 6487
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/GDD.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md
     tipo: file
     dimensione_byte: 5418
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/games_overview.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md
     tipo: file
     dimensione_byte: 7432
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/species_catalog.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md
     tipo: file
     dimensione_byte: 6496
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/traits_catalog.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/new_traits_proposals.yaml
     tipo: file
     dimensione_byte: 7648
     note: File .yaml
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/new_traits_proposals.yaml
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/new_traits_proposals.yaml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md
     tipo: file
     dimensione_byte: 12314
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_analysis_report.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_summary_example.csv
     tipo: file
     dimensione_byte: 1528
     note: File .csv
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_summary_example.csv
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/species_summary_example.csv
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md
     tipo: file
     dimensione_byte: 2202
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step1_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md
     tipo: file
     dimensione_byte: 7159
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step2_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md
     tipo: file
     dimensione_byte: 7583
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step3_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md
     tipo: file
     dimensione_byte: 7721
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step4_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md
     tipo: file
     dimensione_byte: 6736
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step5_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md
     tipo: file
     dimensione_byte: 5734
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step6_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md
     tipo: file
     dimensione_byte: 6145
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/step7_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md
     tipo: file
     dimensione_byte: 3908
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_analysis_summary.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_anomalies.csv
     tipo: file
     dimensione_byte: 1357
     note: File .csv
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_anomalies.csv
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_anomalies.csv
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md
     tipo: file
     dimensione_byte: 4864
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_merge_proposals.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md
     tipo: file
     dimensione_byte: 3101
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/analysis/trait_review_report.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md
     tipo: file
     dimensione_byte: 1924
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/incident_response.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md
     tipo: file
     dimensione_byte: 3301
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/policy.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md
     tipo: file
     dimensione_byte: 1759
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/risk_register.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md
     tipo: file
     dimensione_byte: 3260
     note: File .md
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/docs/security/threat_model.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/init_security_checks.sh
     tipo: file
     dimensione_byte: 1777
     note: File .sh
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/init_security_checks.sh
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/init_security_checks.sh
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/setup_backlog.py
     tipo: file
     dimensione_byte: 4228
     note: File .py
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/setup_backlog.py
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/setup_backlog.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/species_summary_script.py
     tipo: file
     dimensione_byte: 6181
     note: File .py
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/species_summary_script.py
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/species_summary_script.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/trait_review.py
     tipo: file
     dimensione_byte: 6124
     note: File .py
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/trait_review.py
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/trait_review.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: home/oai/share/evo_tactics_game_creatures_traits_package/scripts/update_tracker_registry.py
     tipo: file
     dimensione_byte: 2829
     note: File .py
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/update_tracker_registry.py
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/home/oai/share/evo_tactics_game_creatures_traits_package/scripts/update_tracker_registry.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: ops/site-audit
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/build_redirects.py
     tipo: file
     dimensione_byte: 1455
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_redirects.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_redirects.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/build_sitemap.py
     tipo: file
     dimensione_byte: 3795
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_sitemap.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/build_sitemap.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/check_links.py
     tipo: file
     dimensione_byte: 2976
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/check_links.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/check_links.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/common.py
     tipo: file
     dimensione_byte: 946
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/common.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/common.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/generate_search_index.py
     tipo: file
     dimensione_byte: 3915
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_search_index.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_search_index.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/generate_structured_data.py
     tipo: file
     dimensione_byte: 1281
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_structured_data.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/generate_structured_data.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/redirects_map.json
     tipo: file
     dimensione_byte: 334
     note: File .json. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.json
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/redirects_map.yaml
     tipo: file
     dimensione_byte: 365
     note: File .yaml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.yaml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/redirects_map.yaml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/report_links.py
     tipo: file
     dimensione_byte: 1912
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/report_links.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/report_links.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/requirements.txt
     tipo: file
     dimensione_byte: 26
     note: File .txt. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/requirements.txt
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/requirements.txt
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: ops/site-audit/route_mapping.json
     tipo: file
     dimensione_byte: 2346
     note: File .json. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/route_mapping.json
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/ops/site-audit/route_mapping.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: scripts/init_security_checks.sh
     tipo: file
     dimensione_byte: 1777
     note: File .sh. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/init_security_checks.sh
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/init_security_checks.sh
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: scripts/setup_backlog.py
     tipo: file
     dimensione_byte: 4228
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/setup_backlog.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/setup_backlog.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: scripts/species_summary_script.py
     tipo: file
     dimensione_byte: 3521
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/species_summary_script.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/species_summary_script.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: scripts/trait_review.py
     tipo: file
     dimensione_byte: 6124
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/trait_review.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/trait_review.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: scripts/update_tracker_registry.py
     tipo: file
     dimensione_byte: 2829
     note: File .py. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/update_tracker_registry.py
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/scripts/update_tracker_registry.py
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: scripts/validate.sh
     tipo: file
@@ -1270,525 +1270,525 @@ inventario:
     dimensione_byte: 1208
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/anguis_magnetica.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/anguis_magnetica.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/chemnotela_toxica.json
     tipo: file
     dimensione_byte: 1197
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/chemnotela_toxica.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/chemnotela_toxica.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/elastovaranus_hydrus.json
     tipo: file
     dimensione_byte: 1375
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/elastovaranus_hydrus.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/elastovaranus_hydrus.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/gulogluteus_scutiger.json
     tipo: file
     dimensione_byte: 1394
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/gulogluteus_scutiger.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/gulogluteus_scutiger.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/perfusuas_pedes.json
     tipo: file
     dimensione_byte: 1365
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/perfusuas_pedes.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/perfusuas_pedes.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/proteus_plasma.json
     tipo: file
     dimensione_byte: 1154
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/proteus_plasma.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/proteus_plasma.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/rupicapra_sensoria.json
     tipo: file
     dimensione_byte: 1088
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/rupicapra_sensoria.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/rupicapra_sensoria.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/soniptera_resonans.json
     tipo: file
     dimensione_byte: 1197
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/soniptera_resonans.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/soniptera_resonans.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/species_catalog.json
     tipo: file
     dimensione_byte: 13089
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/species_catalog.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/species_catalog.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/terracetus_ambulator.json
     tipo: file
     dimensione_byte: 1201
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/terracetus_ambulator.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/terracetus_ambulator.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: species/umbra_alaris.json
     tipo: file
     dimensione_byte: 1178
     note: File .json
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/species/umbra_alaris.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/species/umbra_alaris.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: templates/species.schema.json
     tipo: file
     dimensione_byte: 1719
     note: File .json. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/species.schema.json
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/species.schema.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: templates/trait.schema.json
     tipo: file
     dimensione_byte: 1782
     note: File .json. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/trait.schema.json
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/templates/trait.schema.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: tests/playwright
     tipo: directory
     dimensione_byte: 4096
     note: Directory. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: tests/playwright/generator.spec.ts
     tipo: file
     dimensione_byte: 460
     note: File .ts. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/generator.spec.ts
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/generator.spec.ts
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: tests/playwright/nav.spec.ts
     tipo: file
     dimensione_byte: 350
     note: File .ts. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/nav.spec.ts
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/nav.spec.ts
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: tests/playwright/package.json
     tipo: file
     dimensione_byte: 182
     note: File .json. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/package.json
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/package.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: tests/playwright/playwright.config.ts
     tipo: file
     dimensione_byte: 392
     note: File .ts. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/playwright.config.ts
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/tests/playwright/playwright.config.ts
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: traits/TR-1101.json
     tipo: file
     dimensione_byte: 1356
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1101.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1101.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1102.json
     tipo: file
     dimensione_byte: 1313
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1102.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1102.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1103.json
     tipo: file
     dimensione_byte: 1288
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1103.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1103.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1104.json
     tipo: file
     dimensione_byte: 1271
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1104.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1104.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1105.json
     tipo: file
     dimensione_byte: 1277
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1105.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1105.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1201.json
     tipo: file
     dimensione_byte: 1366
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1201.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1201.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1202.json
     tipo: file
     dimensione_byte: 1284
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1202.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1202.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1203.json
     tipo: file
     dimensione_byte: 1292
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1203.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1203.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1204.json
     tipo: file
     dimensione_byte: 1301
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1204.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1204.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1205.json
     tipo: file
     dimensione_byte: 1301
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1205.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1205.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1301.json
     tipo: file
     dimensione_byte: 1309
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1301.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1301.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1302.json
     tipo: file
     dimensione_byte: 1276
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1302.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1302.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1303.json
     tipo: file
     dimensione_byte: 1335
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1303.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1303.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1304.json
     tipo: file
     dimensione_byte: 1278
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1304.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1304.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1305.json
     tipo: file
     dimensione_byte: 1331
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1305.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1305.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1401.json
     tipo: file
     dimensione_byte: 1326
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1401.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1401.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1402.json
     tipo: file
     dimensione_byte: 1286
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1402.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1402.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1403.json
     tipo: file
     dimensione_byte: 1296
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1403.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1403.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1404.json
     tipo: file
     dimensione_byte: 1282
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1404.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1404.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1405.json
     tipo: file
     dimensione_byte: 1268
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1405.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1405.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1501.json
     tipo: file
     dimensione_byte: 1277
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1501.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1501.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1502.json
     tipo: file
     dimensione_byte: 1258
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1502.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1502.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1503.json
     tipo: file
     dimensione_byte: 1243
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1503.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1503.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1504.json
     tipo: file
     dimensione_byte: 1280
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1504.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1504.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1505.json
     tipo: file
     dimensione_byte: 1288
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1505.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1505.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1601.json
     tipo: file
     dimensione_byte: 1283
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1601.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1601.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1602.json
     tipo: file
     dimensione_byte: 1270
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1602.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1602.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1603.json
     tipo: file
     dimensione_byte: 1278
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1603.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1603.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1604.json
     tipo: file
     dimensione_byte: 1268
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1604.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1604.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1605.json
     tipo: file
     dimensione_byte: 1285
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1605.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1605.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1701.json
     tipo: file
     dimensione_byte: 1263
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1701.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1701.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1702.json
     tipo: file
     dimensione_byte: 1263
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1702.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1702.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1703.json
     tipo: file
     dimensione_byte: 1272
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1703.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1703.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1704.json
     tipo: file
     dimensione_byte: 1262
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1704.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1704.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1705.json
     tipo: file
     dimensione_byte: 1262
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1705.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1705.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1801.json
     tipo: file
     dimensione_byte: 1331
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1801.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1801.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1802.json
     tipo: file
     dimensione_byte: 1257
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1802.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1802.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1803.json
     tipo: file
     dimensione_byte: 1270
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1803.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1803.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1804.json
     tipo: file
     dimensione_byte: 1262
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1804.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1804.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1805.json
     tipo: file
     dimensione_byte: 1274
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1805.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1805.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1901.json
     tipo: file
     dimensione_byte: 1296
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1901.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1901.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1902.json
     tipo: file
     dimensione_byte: 1287
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1902.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1902.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1903.json
     tipo: file
     dimensione_byte: 1265
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1903.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1903.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1904.json
     tipo: file
     dimensione_byte: 1269
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1904.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1904.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-1905.json
     tipo: file
     dimensione_byte: 1261
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1905.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-1905.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-2001.json
     tipo: file
     dimensione_byte: 1256
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2001.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2001.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-2002.json
     tipo: file
     dimensione_byte: 1291
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2002.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2002.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-2003.json
     tipo: file
     dimensione_byte: 1283
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2003.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2003.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-2004.json
     tipo: file
     dimensione_byte: 1309
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2004.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2004.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/TR-2005.json
     tipo: file
     dimensione_byte: 1263
     note: File .json importato in data/external/evo/traits/
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2005.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/TR-2005.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: traits/traits_aggregate.json
     tipo: file
     dimensione_byte: 75646
     note: File .json aggregato (fonte slug)
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/traits_aggregate.json
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/traits/traits_aggregate.json
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: workflows/e2e.yml
     tipo: file
     dimensione_byte: 1117
     note: File .yml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/e2e.yml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/e2e.yml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: workflows/gh-pages.yml
     tipo: file
     dimensione_byte: 888
     note: File .yml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/gh-pages.yml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/gh-pages.yml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: workflows/lighthouse.yml
     tipo: file
     dimensione_byte: 1053
     note: File .yml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/lighthouse.yml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/lighthouse.yml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: workflows/schema-validate.yml
     tipo: file
     dimensione_byte: 920
     note: File .yml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/schema-validate.yml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/schema-validate.yml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: workflows/search-index.yml
     tipo: file
     dimensione_byte: 1060
     note: File .yml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/search-index.yml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/search-index.yml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: workflows/security.yml
     tipo: file
     dimensione_byte: 1660
     note: File .yml. Duplicato archiviato nella bonifica del 2025-12-19.
     stato: archiviato
-    destinazione: incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/security.yml
+    destinazione: docs/incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/workflows/security.yml
     verifica: reports/evo/inventory_audit.md#bonifica-2025-12-19
   - percorso: tests/playwright/evo
     tipo: directory
@@ -1813,7 +1813,7 @@ inventario:
     dimensione_byte: 1033
     note: Pagina descrittiva del mockup Evo con punti chiave della console
     stato: archiviato
-    destinazione: incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/evo/mockup_evo_tactics.md
+    destinazione: docs/incoming/archive/2025-11-15_evo_cleanup/lavoro_da_classificare/docs/wireframes/evo/mockup_evo_tactics.md
     verifica: reports/evo/inventory_audit.md#bonifica-2025-11-15
   - percorso: reports/evo/sitemap_validation.csv
     tipo: file

@@ -21,7 +21,7 @@
 - **Checklist operativa**: `docs/checklist/incoming_triage.md` (sincronizzata con il widget del Support Hub).
 - **Backlog agentico**: `docs/process/incoming_agent_backlog.md` con task e reminder automatizzati.
 - **Registro review**: `docs/process/incoming_review_log.md` (letto dal Support Hub per mostrare l'ultimo report pubblicato).
-- **Indice archivio**: `incoming/archive/INDEX.md` con motivazioni e follow-up sugli asset storicizzati.
+- **Indice archivio**: `../incoming/archive/INDEX.md` con motivazioni e follow-up sugli asset storicizzati.
 
 ## 1. Ciclo settimanale "Incoming Review"
 1. **Pianificazione automatizzata**
@@ -64,13 +64,13 @@
 - `AG-Orchestrator` propone eventuale sprint tematico (§7).
 
 ### 3.2 Archivio storico
-- `AG-Orchestrator` sposta gli asset in `incoming/archive/YYYY/MM/` (creando cartelle se assenti).
-- `AG-Orchestrator` aggiorna `incoming/archive/INDEX.md` con motivazioni e follow-up.
+- `AG-Orchestrator` sposta gli asset in `../incoming/archive/YYYY/MM/` (creando cartelle se assenti).
+- `AG-Orchestrator` aggiorna `../incoming/archive/INDEX.md` con motivazioni e follow-up.
 - `AG-Orchestrator` applica tag `archivio` alla card Kanban.
 
 ### 3.3 Scarto controllato
 - `AG-Validation` e l'agente di dominio valutano se estrarre porzioni utili.
-- `AG-Orchestrator` salva gli estratti in `incoming/archive/` e documenta il razionale.
+- `AG-Orchestrator` salva gli estratti in `../incoming/archive/` e documenta il razionale.
 - Eliminazioni definitive avvengono solo dopo conferma di `AG-Orchestrator` sull'esistenza di copie versionate.
 
 ## 4. Ruoli "Caretaker" agentici
@@ -85,17 +85,17 @@
 - Gli agenti di back-up assumono temporaneamente il ruolo quando il primario è impegnato in altra pipeline.
 
 ## 5. Documentazione di compatibilità
-- `AG-Personality` applica le istruzioni di `incoming/GAME_COMPAT_README.md` per l'addon Enneagramma:
+- `AG-Personality` applica le istruzioni di `../incoming/GAME_COMPAT_README.md` per l'addon Enneagramma:
   - Aggiorna `compat_map.json` e `personality_module.v1.json` quando l'asset passa in `In integrazione`.
   - Registra i test rapidi (108 profili) in `reports/incoming/tests/`.
-- `AG-Core` e `AG-Biome` replicano lo stesso approccio per gli altri README guida (`README_INTEGRAZIONE_MECCANICHE.md`, ecc.).
+- `AG-Core` e `AG-Biome` replicano lo stesso approccio per gli altri README guida (`../incoming/README_INTEGRAZIONE_MECCANICHE.md`, ecc.).
 - `AG-Orchestrator` allega tutti i link rilevanti nelle card Kanban.
 
 ## 6. Knowledge base condivisa
 - `AG-Orchestrator` aggiorna la pagina Notion/Confluence agentica con sezioni:
   - **Integrati**: elenco + link PR/report.
   - **Backlog**: asset rimasti in `Da analizzare` o `In validazione`.
-  - **Archivio**: highlight spunti creativi con riferimento a `incoming/archive/INDEX.md`.
+- **Archivio**: highlight spunti creativi con riferimento a `../incoming/archive/INDEX.md`.
   - **Decisioni**: motivazioni e follow-up.
 - In assenza di strumento esterno, `AG-Orchestrator` utilizza `docs/process/incoming_review_log.md` (vedi §8) come knowledge base locale.
 
@@ -164,5 +164,5 @@
 ## Allegati
 - [Checklist triage](../checklist/incoming_triage.md)
 - [Template meeting](../templates/incoming_triage_meeting.md)
-- [Indice archivio incoming](../../incoming/archive/INDEX.md)
+- [Indice archivio incoming](../incoming/archive/INDEX.md)
 - [Piano di lavoro agentico](incoming_agent_backlog.md)

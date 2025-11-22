@@ -2,7 +2,7 @@
 
 La cartella `data/external/evo/` è il punto di raccolta per specie, ecotipi e
 trait importati dal pacchetto Evo-Tactics. I file verranno aggiunti batch per
-batch secondo quanto descritto in `incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`.
+batch secondo quanto descritto in `../../docs/incoming/lavoro_da_classificare/INTEGRATION_PLAN.md`.
 
 ## Convenzioni
 

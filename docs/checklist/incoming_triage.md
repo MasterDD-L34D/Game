@@ -18,7 +18,7 @@
 ## Post-sync (entro 24h)
 - [ ] `AG-Orchestrator` sposta i file nelle cartelle definite (§3 del playbook).
 - [ ] L'agente owner apre issue/PR per asset `Da integrare` con link al report.
-- [ ] `AG-Orchestrator` aggiorna `incoming/archive/INDEX.md` per ogni elemento archiviato.
+- [ ] `AG-Orchestrator` aggiorna `../incoming/archive/INDEX.md` per ogni elemento archiviato.
 - [ ] `AG-Orchestrator` aggiorna board Kanban (colonna, owner, due date).
 - [ ] `AG-Orchestrator` aggiorna knowledge base con summary e follow-up.
 - [ ] `AG-Orchestrator` aggiorna il widget del Support Hub compilando `docs/process/incoming_review_log.md` con data e report corretti.

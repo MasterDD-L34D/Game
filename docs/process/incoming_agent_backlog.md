@@ -79,16 +79,16 @@ Prima di ogni blocco `AG-Orchestrator` verifica i prerequisiti indicati per evit
 - **Agente owner**: `AG-Personality`
 - **Supporto**: `AG-Core`
 - **Attività**:
-  1. Sincronizzare `compat_map.json` e `personality_module.v1.json` con le istruzioni di `incoming/GAME_COMPAT_README.md` appena una card passa a `In integrazione`.
+  1. Sincronizzare `compat_map.json` e `personality_module.v1.json` con le istruzioni di `../incoming/GAME_COMPAT_README.md` appena una card passa a `In integrazione`.
   2. Registrare test rapidi (108 profili) in `reports/incoming/tests/` e allegarli alla card.
-  3. Replicare la pipeline per altri README guida (es. `README_INTEGRAZIONE_MECCANICHE.md`).
+  3. Replicare la pipeline per altri README guida (es. `../incoming/README_INTEGRAZIONE_MECCANICHE.md`).
 - **Deliverable**: checklist compatibilità completata per ogni asset personality.
 
 ## 5. Proteggere idee "perse" e scarti interessanti
 - **Agente owner**: `AG-Orchestrator`
 - **Supporto**: agenti di dominio
 - **Attività**:
-  1. Spostare materiali non integrati in `incoming/archive/YYYY/MM/` e documentare su `incoming/archive/INDEX.md`.
+  1. Spostare materiali non integrati in `../incoming/archive/YYYY/MM/` e documentare su `../incoming/archive/INDEX.md`.
   2. Estrarre highlight e salvarli come snippet o README locale.
   3. Pianificare revisione trimestrale con promemoria automatico.
 - **Deliverable**: archivio completo di motivazioni e spunti riusabili.

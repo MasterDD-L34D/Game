@@ -60,14 +60,14 @@ I ruoli di responsabilità fanno riferimento alla pipeline agentica documentata 
 | incoming/Ancestors_Neurons_Attack_Dodge_SelfControl_Ambulation_Partial_v0_6.csv | 6.59 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/EvoTactics_DevKit.zip | 5.34 KB | 2025-10-29T18:47:07 | AG-Toolsmith | N/D (grezzo) |
 | incoming/EvoTactics_FullRepo_v1.0.zip | 1.34 MB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
-| incoming/FEATURE_MAP_EVO_TACTICS.md | 6.33 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
-| incoming/GAME_COMPAT_README.md | 1.69 KB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
+| docs/incoming/FEATURE_MAP_EVO_TACTICS.md | 6.33 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
+| docs/incoming/GAME_COMPAT_README.md | 1.69 KB | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
 | incoming/IDEA-001_ecosistema_template.yaml | 729.00 B | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
 | incoming/Inserisci questi parametri nella tabella e dammi i....docx | 13.09 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
-| incoming/MODELLI_RIF_EVO_TACTICS.md | 4.73 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
-| incoming/README.md | 1.40 KB | 2025-10-29T18:47:07 | AG-Orchestrator | Flag duplicato in incoming |
-| incoming/README_INTEGRAZIONE_MECCANICHE.md | 691.00 B | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
-| incoming/README_SCAN_STAT_EVENTI.md | 938.00 B | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
+| docs/incoming/MODELLI_RIF_EVO_TACTICS.md | 4.73 KB | 2025-10-29T18:47:07 | AG-Core | N/D (grezzo) |
+| docs/incoming/README.md | 1.40 KB | 2025-10-29T18:47:07 | AG-Orchestrator | Flag duplicato in incoming |
+| docs/incoming/README_INTEGRAZIONE_MECCANICHE.md | 691.00 B | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
+| docs/incoming/README_SCAN_STAT_EVENTI.md | 938.00 B | 2025-10-29T18:47:07 | AG-Orchestrator | N/D (grezzo) |
 | incoming/ancestors_branches_totals_v0.3.csv | 1.33 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_evo_pack_v1_3.zip | 7.53 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |
 | incoming/ancestors_integration_pack_v0_1.zip | 7.93 KB | 2025-10-29T18:47:07 | AG-Biome | N/D (grezzo) |

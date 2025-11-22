@@ -29,7 +29,7 @@ design, telemetria e produzione.
 - **Validator e script**: consulta [`incoming/docs/yaml_validator.py`](../../incoming/docs/yaml_validator.py)
   e [`incoming/docs/auto_eval_from_yaml.py`](../../incoming/docs/auto_eval_from_yaml.py) per controllare i dataset.
 - **Template Obsidian**: il vault suggerito è disponibile in
-  [`incoming/docs/obsidian_template.md`](../../incoming/docs/obsidian_template.md).
+  [`incoming/docs/obsidian_template.md`](../incoming/docs/obsidian_template.md).
 - **Telemetria**: la base YAML per gli encounter è in
   [`incoming/docs/bioma_encounters.yaml`](../../incoming/docs/bioma_encounters.yaml) ed è coerente con gli output del
   pack Evo-Tactics (`docs/evo-tactics-pack/catalog_data.json`).
@@ -42,7 +42,7 @@ design, telemetria e produzione.
 - Indice generale della documentazione: [`docs/INDEX.md`](../INDEX.md).
 - Archivio dei materiali preliminari: [`docs/archive/evo-tactics/`](../archive/evo-tactics/).
 - Registro integrazione (archivio): [`docs/archive/evo-tactics/integration-log.md`](../archive/evo-tactics/integration-log.md).
-- Piano di integrazione meccaniche: [`incoming/README_INTEGRAZIONE_MECCANICHE.md`](../../incoming/README_INTEGRAZIONE_MECCANICHE.md).
+- Piano di integrazione meccaniche: [`incoming/README_INTEGRAZIONE_MECCANICHE.md`](../incoming/README_INTEGRAZIONE_MECCANICHE.md).
 
 ## Registro interventi
 

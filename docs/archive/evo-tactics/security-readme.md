@@ -12,8 +12,8 @@ updated: 2025-11-13
 
 Questa cartella conterrà gli aggiornamenti di sicurezza e le procedure di
 incident response collegate all'import Evo-Tactics. I documenti originali sono
-reperibili in `incoming/lavoro_da_classificare/incident_response.md` e
-`incoming/lavoro_da_classificare/security.yml`.
+reperibili in `../../incoming/archive/2025-12-19_inventory_cleanup/lavoro_da_classificare/docs/security/incident_response.md` e
+`../../incoming/lavoro_da_classificare/security.yml`.
 
 ## Passi successivi
 
