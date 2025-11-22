@@ -1,7 +1,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const { atlasDataset } = require('../../data/nebula/atlasDataset.js');
+const { atlasDataset } = require('../../../data/nebula/atlasDataset.js');
 
 const DEFAULT_CACHE_TTL = 30_000;
 const DEFAULT_TELEMETRY_LIMIT = 200;
