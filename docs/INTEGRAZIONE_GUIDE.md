@@ -41,7 +41,12 @@ e il piano di import dei “neuroni” (Ancestors). È pensato come **single-sou
 
 - **Manuale dei tratti**: il contenuto è già presente in capitoli modulari sotto `docs/traits-manuale/`. Per compatibilità il nuovo file `docs/trait_reference_manual.md` funge da indice SSoT senza spostare i capitoli.
 - **Sentience Track**: in `packs/evo_tactics_pack/docs/catalog/` mancano ancora `sentience_track.schema.json` e `sentience_track.json`; la guida rapida è disponibile in `docs/README_SENTIENCE.md`.
-- **Tooling Python**: `tools/py/trait_template_validator.py` è presente, ma non esistono ancora gli script `export_csv.py` e `seed_merge.py` indicati nella struttura target.
+- **Tooling Python**: `tools/py/trait_template_validator.py` è presente.
+  - `export_csv.py` **non esiste**: per l'export CSV usare i comandi già disponibili:
+    - `python tools/py/export_trait_taxonomy.py` (genera `reports/trait_index_export.csv`).
+    - `python tools/py/report_trait_coverage.py --env-traits <env_traits.json> --trait-reference <trait_reference.json> --species-root <dir_specie> --out-json <report.json> --out-csv <matrice.csv>` per esportare una matrice coverage.
+  - `seed_merge.py` **non esiste**: backlog da implementare.
+    - To-do: [ ] **Owner** Data/Tools — implementare uno script di merge che prenda i draft generati da `python tools/py/import_external_traits.py --appendix-dir docs/appendici --incoming incoming/sentience_traits_v1.0.yaml --output-dir data/traits/_drafts` e li integri in `data/traits/index.json` con deduplicazione e log delle modifiche (passo successivo: definire regole di precedenza tra draft e catalogo corrente).
 
 ---
 
@@ -110,14 +115,14 @@ e il piano di import dei “neuroni” (Ancestors). È pensato come **single-sou
 
 **Sprint 1 — Fondazioni**
 
-- [ ] Schemi + tool + CI su branch.
+- [ ] Schemi + tool + CI su branch (test locale con `python tools/py/trait_template_validator.py --summary`; export CSV già coperti da `export_trait_taxonomy.py` / `report_trait_coverage.py`).
 - [ ] 20–30 trait core (sensory/motor/social) normalizzati UCUM/ENVO.
 - [ ] Pubblica `sentience_track.json`.
 - [ ] Documenti: manuale + integrazione.
 
 **Sprint 2 — Contenuti**
 
-- [ ] Import “neuroni” (dump community) con `unlock_trigger` + `effect_short`.
+- [ ] Import “neuroni” (dump community) con `unlock_trigger` + `effect_short` (draft via `python tools/py/import_external_traits.py ...` in attesa di `seed_merge.py`).
 - [ ] Mapping neurone→trait (1:N) documentato.
 - [ ] Copertura rami principali (Senses/Communication/Dexterity/Self-Control/Dodge).
 - [ ] QA: deduplicate, range metriche, coerenza tier/sentience.
