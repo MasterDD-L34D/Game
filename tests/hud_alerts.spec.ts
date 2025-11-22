@@ -70,9 +70,21 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
     assert.ok(telemetryBus.listener, 'il listener deve essere registrato');
     telemetryBus.listener?.({ ...basePayload, indices: undefined });
 
-    assert.strictEqual(trends.length, 1, 'il trend deve essere aggiornato a null per coerenza di stream');
-    assert.strictEqual(trends[0]?.payload, null, 'il trend deve essere azzerato quando i filtri falliscono');
-    assert.strictEqual(telemetryBus.emitted.length, 0, 'non devono essere emessi eventi telemetrici');
+    assert.strictEqual(
+      trends.length,
+      1,
+      'il trend deve essere aggiornato a null per coerenza di stream',
+    );
+    assert.strictEqual(
+      trends[0]?.payload,
+      null,
+      'il trend deve essere azzerato quando i filtri falliscono',
+    );
+    assert.strictEqual(
+      telemetryBus.emitted.length,
+      0,
+      'non devono essere emessi eventi telemetrici',
+    );
   });
 
   it('propaga il missionTag e registra i log quando i filtri passano', () => {
@@ -121,7 +133,9 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
     const balanceEvent = commandPayloads.find((entry) => entry.event === 'pi.balance.alerts');
     assert.ok(balanceEvent, 'deve essere emesso evento balance');
     assert.strictEqual((balanceEvent?.payload as { missionTag?: string }).missionTag, 'deep-watch');
-    const overlayDisplayed = commandPayloads.find((entry) => entry.event === 'hud.overlay.displayed');
+    const overlayDisplayed = commandPayloads.find(
+      (entry) => entry.event === 'hud.overlay.displayed',
+    );
     assert.ok(overlayDisplayed, 'deve essere emesso evento overlay.displayed');
     assert.strictEqual(
       (overlayDisplayed?.payload as { supportActions?: number }).supportActions,
@@ -131,7 +145,7 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
     assert.strictEqual(
       raisedAlerts[0].metadata?.cohesionDelta,
       0.18,
-      'la metadata dell\'alert deve includere cohesion.delta',
+      "la metadata dell'alert deve includere cohesion.delta",
     );
     assert.strictEqual(
       (telemetryBus.emitted[0].payload as { cohesionDelta?: number }).cohesionDelta,
@@ -173,14 +187,52 @@ describe('registerRiskHudAlertSystem — filters e mission tag', () => {
       },
     });
 
-    assert.ok(clearedAlerts.includes(raisedAlerts[0].id), 'l\'alert deve essere cancellato');
-    assert.strictEqual(recorded.some((log) => log.status === 'cleared' && log.missionTag === 'deep-watch'), true);
-    const overlayDismissed = commandPayloads.find((entry) => entry.event === 'hud.overlay.dismissed');
+    assert.ok(clearedAlerts.includes(raisedAlerts[0].id), "l'alert deve essere cancellato");
+    assert.strictEqual(
+      recorded.some((log) => log.status === 'cleared' && log.missionTag === 'deep-watch'),
+      true,
+    );
+    const overlayDismissed = commandPayloads.find(
+      (entry) => entry.event === 'hud.overlay.dismissed',
+    );
     assert.ok(overlayDismissed, 'deve essere emesso evento overlay.dismissed');
     assert.strictEqual(
       recorded.some((log) => log.status === 'overlay.dismissed'),
       true,
       'deve essere registrato un log overlay.dismissed',
     );
+  });
+
+  it('ignora le eccezioni del missionTagger e continua a processare', () => {
+    const telemetryBus = createTelemetryBus();
+    const recorded: RiskHudAlertLog[] = [];
+    const raisedAlerts: HudAlert[] = [];
+
+    registerRiskHudAlertSystem({
+      telemetryBus,
+      hudLayer: {
+        updateTrend() {
+          /* noop */
+        },
+        raiseAlert(alert) {
+          raisedAlerts.push(alert);
+        },
+      },
+      commandBus: {},
+      telemetryRecorder: {
+        record(entry) {
+          recorded.push(entry);
+        },
+      },
+      options: {
+        missionTagger() {
+          throw new Error('mission tag failure');
+        },
+      },
+    });
+
+    assert.doesNotThrow(() => telemetryBus.listener?.(basePayload));
+    assert.strictEqual(raisedAlerts[0]?.metadata?.missionTag, undefined);
+    assert.strictEqual(recorded[0]?.missionTag, undefined);
   });
 });
