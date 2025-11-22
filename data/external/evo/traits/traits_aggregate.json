@@ -994,7 +994,7 @@
       "spinta_selettiva": "Sussistenza in ambienti poveri di vegetazione.",
       "metrics": [
         {
-          "name": "consumo_O2",
+          "name": "consumo_o2",
           "value": 800,
           "unit": "L/min"
         }
@@ -1014,11 +1014,11 @@
           "http://purl.obolibrary.org/obo/ENVO_01000178"
         ]
       },
-      "version": "2.0.0",
+      "version": "2.0.1",
       "versioning": {
         "created": "2025-11-04",
-        "updated": "2025-11-04",
-        "author": "Master DD / GPT-5 Pro"
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
       }
     },
     {
@@ -1836,7 +1836,7 @@
       "spinta_selettiva": "Evasione da pipistrelli/rapaci.",
       "metrics": [
         {
-          "name": "SPL_riduzione",
+          "name": "spl_riduzione",
           "value": 18,
           "unit": "dB"
         }
@@ -1856,11 +1856,11 @@
           "http://purl.obolibrary.org/obo/ENVO_01000178"
         ]
       },
-      "version": "2.0.0",
+      "version": "2.0.1",
       "versioning": {
         "created": "2025-11-04",
-        "updated": "2025-11-04",
-        "author": "Master DD / GPT-5 Pro"
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
       }
     },
     {
@@ -2733,7 +2733,7 @@
       "spinta_selettiva": "Massimizzare sopravvivenza del branco.",
       "metrics": [
         {
-          "name": "consumo_O2",
+          "name": "consumo_o2",
           "value": 50,
           "unit": "L/min"
         }
@@ -2753,11 +2753,11 @@
           "http://purl.obolibrary.org/obo/ENVO_01000178"
         ]
       },
-      "version": "2.0.0",
+      "version": "2.0.1",
       "versioning": {
         "created": "2025-11-04",
-        "updated": "2025-11-04",
-        "author": "Master DD / GPT-5 Pro"
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
       }
     },
     {

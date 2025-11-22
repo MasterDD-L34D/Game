@@ -11,7 +11,7 @@
       "trait_adjustments": [
         {
           "trait_code": "TR-1703",
-          "metric": "SPL_riduzione",
+          "metric": "spl_riduzione",
           "delta": 2,
           "unit": "dB",
           "notes": "Colonne d’aria calda migliorano interferenza"
@@ -36,7 +36,7 @@
       ]
     }
   ],
-  "version": "2.0.0",
+  "version": "2.0.1",
   "versioning": {
     "created": "2025-11-22",
     "updated": "2025-11-22",

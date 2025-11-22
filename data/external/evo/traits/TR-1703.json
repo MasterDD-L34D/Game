@@ -27,7 +27,7 @@
   "spinta_selettiva": "Evasione da pipistrelli/rapaci.",
   "metrics": [
     {
-      "name": "SPL_riduzione",
+      "name": "spl_riduzione",
       "value": 18,
       "unit": "dB"
     }
@@ -47,10 +47,10 @@
       "http://purl.obolibrary.org/obo/ENVO_01000178"
     ]
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "versioning": {
     "created": "2025-11-04",
-    "updated": "2025-11-04",
-    "author": "Master DD / GPT-5 Pro"
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
   }
 }
