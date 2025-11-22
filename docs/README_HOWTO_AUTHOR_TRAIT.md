@@ -6,9 +6,11 @@ per autori e reviewer e integra la documentazione tecnica presente in `docs/`.
 
 ## 1. Prima di iniziare
 
-- Consulta la [scheda operativa completa](traits_scheda_operativa.md) per
-  campi, vincoli e checklist.
-- Tieni a portata il [piano operativo prossimo ciclo](next_steps_trait_migration.md) per seguire le priorità correnti su conversione tratti, riordino documentazione e QA.
+- Consulta la [scheda operativa completa](./traits_scheda_operativa.md) per
+  campi, vincoli e checklist; se ti serve il contesto completo su mapping
+  Evo v2 ↔ repository, passa per la [Guida Evo Tactics Pack v2](./Guida_Evo_Tactics_Pack_v2.md)
+  e il [template dati](./traits_template.md) invece di duplicare regole.
+- Tieni a portata il [piano operativo prossimo ciclo](./next_steps_trait_migration.md) per seguire le priorità correnti su conversione tratti, riordino documentazione e QA.
 
 ### Compatibilità Evo Pack v2
 

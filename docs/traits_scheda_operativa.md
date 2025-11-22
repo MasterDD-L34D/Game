@@ -2,10 +2,11 @@
 
 ## Accesso rapido
 
-- [Guida autori](README_HOWTO_AUTHOR_TRAIT.md)
-- [Template dati](traits_template.md)
-- [Reference catalogo](catalog/trait_reference.md)
-- [Piano operativo prossimo ciclo](next_steps_trait_migration.md)
+- [Guida Evo Tactics Pack v2](./Guida_Evo_Tactics_Pack_v2.md)
+- [Guida autori](./README_HOWTO_AUTHOR_TRAIT.md)
+- [Template dati](./traits_template.md)
+- [Reference catalogo](./catalog/trait_reference.md)
+- [Piano operativo prossimo ciclo](./next_steps_trait_migration.md)
 - [Checklist di validazione automatica](#checklist-di-validazione-automatica-comandi-rapidi)
 
 ## Compatibilità Evo Pack v2
