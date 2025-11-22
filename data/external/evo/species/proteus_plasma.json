@@ -43,5 +43,11 @@
       "TR-1604",
       "TR-1605"
     ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
   }
 }

@@ -43,7 +43,13 @@
         "TR-1803",
         "TR-1804",
         "TR-1805"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Chemnotela toxica",
@@ -88,7 +94,13 @@
         "TR-1503",
         "TR-1504",
         "TR-1505"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Elastovaranus hydrus",
@@ -135,7 +147,13 @@
         "TR-1103",
         "TR-1104",
         "TR-1105"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Gulogluteus scutiger",
@@ -182,7 +200,13 @@
         "TR-1203",
         "TR-1204",
         "TR-1205"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Perfusuas pedes",
@@ -227,7 +251,13 @@
         "TR-1303",
         "TR-1304",
         "TR-1305"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Proteus plasma",
@@ -272,7 +302,13 @@
         "TR-1603",
         "TR-1604",
         "TR-1605"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Rupicapra sensoria",
@@ -314,7 +350,13 @@
         "TR-2003",
         "TR-2004",
         "TR-2005"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Soniptera resonans",
@@ -359,7 +401,13 @@
         "TR-1703",
         "TR-1704",
         "TR-1705"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Terracetus ambulator",
@@ -402,7 +450,13 @@
         "TR-1403",
         "TR-1404",
         "TR-1405"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     },
     {
       "scientific_name": "Umbra alaris",
@@ -446,7 +500,13 @@
         "TR-1903",
         "TR-1904",
         "TR-1905"
-      ]
+      ],
+      "version": "2.0.0",
+      "versioning": {
+        "created": "2025-11-22",
+        "updated": "2025-11-22",
+        "author": "GPT-5.1-Codex-Max"
+      }
     }
   ]
 }

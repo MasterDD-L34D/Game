@@ -40,5 +40,11 @@
       "TR-2004",
       "TR-2005"
     ]
+  },
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-22",
+    "updated": "2025-11-22",
+    "author": "GPT-5.1-Codex-Max"
   }
 }
