@@ -15,6 +15,12 @@ La guida è pensata per essere salvata nella cartella `docs/` del progetto e off
 
 ---
 
+## Compatibilità Evo Pack v2
+
+Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale, consulta la mappa di allineamento campi e le regole di naming in `docs/traits_evo_pack_alignment.md`. Il documento spiega come convertire i codici `TR-xxxx` in `id` snake_case, come impostare `label` i18n e come usare il flusso combinato glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
+
+---
+
 ## Specifiche standard v2
 
 Le schede creatura sono strutturate secondo due schemi JSON (schema specie e schema tratto). Ogni Specie (file in `species/`) deve contenere i seguenti campi principali:
