@@ -44,8 +44,14 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 > - **data_origin**: usare solo gli slug ufficiali (vedi tabella in `docs/traits_evo_pack_alignment.md`).
 > - **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
 > - **sinergie**/**conflitti**: liste di `id` (non `trait_code`) per la compatibilità interna.
-> - Altri campi obbligatori: `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `metrics` (UCUM), `cost_profile`, `testability`.
-> - Schema e definizioni canoniche: seguire `docs/traits_evo_pack_alignment.md` e la [scheda operativa dei trait](./traits_scheda_operativa.md).
+> - Altri campi obbligatori: `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`/`conflitti`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`.
+> - Schema e definizioni canoniche: seguire `docs/traits_evo_pack_alignment.md` e la [scheda operativa dei trait](./traits_scheda_operativa.md), che rimane la fonte canonica dei requisiti minimi.
+>
+> **Box campi opzionali/consigliati (Evo Pack v2)**
+>
+> - **metrics** (UCUM): consigliate per descrivere prestazioni e range; non sono obbligatorie per l'import in `data/traits/*.json`.
+> - **cost_profile**: suggerito per indicare i costi energetici (`rest`/`burst`/`sustained`).
+> - **testability**: raccomandato per fornire `observable` e `scene_prompt`, utile nei pacchetti ma non richiesto dai validator del repository.
 >
 > **Esempio mappatura `trait_code` → `id`/`label`**
 >
@@ -137,8 +143,8 @@ Per rendere il database coerente, si seguono regole precise per nomi e descrizio
 
 Per aggiornare schede esistenti alla versione v2 si consiglia di seguire questa procedura:
 
-1. **Mappare i campi**  
-   Convertire i vecchi campi nei nuovi (es. `categoria` → `famiglia_tipologia`; `costo_energetico` → `fattore_mantenimento_energetico`), aggiungendo i campi mancanti (`testability`, `cost_profile`, `sinergie`, `conflitti`, ecc.).
+1. **Mappare i campi**
+   Convertire i vecchi campi nei nuovi (es. `categoria` → `famiglia_tipologia`; `costo_energetico` → `fattore_mantenimento_energetico`), aggiungendo i campi mancanti (`sinergie`, `conflitti`, ecc.). Nei pacchetti Evo è consigliato integrare anche `metrics`, `cost_profile` e `testability`, ma non sono necessari per l'import nei JSON finali in `data/traits/*.json` (requisiti minimi sempre nella [scheda operativa](./traits_scheda_operativa.md)).
 
 2. **Aggiornare unità**  
    Assicurarsi che tutte le metriche usino simboli UCUM (`°C` → `Cel`, `bpm` → `/min`, `km/h` → `m/s`). Quando necessario convertire i valori.
