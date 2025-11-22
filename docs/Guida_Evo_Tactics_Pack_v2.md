@@ -2,9 +2,9 @@
 
 ## Accesso rapido
 
-- [Scheda operativa dei trait](docs/traits_scheda_operativa.md)
+- [Scheda operativa dei trait](./traits_scheda_operativa.md)
 - [Guida autore tratti](README_HOWTO_AUTHOR_TRAIT.md)
-- [Template dati dei tratti](docs/traits_template.md)
+- [Template dati dei tratti](./traits_template.md)
 - [Scala di senzienza (T0–T5)](README_SENTIENCE.md)
 
 ## Introduzione
