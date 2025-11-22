@@ -190,20 +190,29 @@ Nel file della specie (`species/<genus_species>.json`), il campo `ecotypes` deve
 
 Per garantire la coerenza del database si consiglia di eseguire regolarmente il controllo di qualità:
 
-- **Validazione JSON**  
-  Eseguire `bash scripts/validate.sh` per assicurarsi che tutti i file `species/*.json` e `traits/*.json` rispettino gli schemi.  
-  È necessario avere `ajv-cli` installato (`npm install -g ajv-cli`).
+  - **Validazione nel repo Game**
+    Per i pacchetti integrati direttamente in questo repository utilizzare i tre comandi principali (da lanciare nella root del repo) che coprono schema, campi e localizzazioni:
+    - `python tools/py/trait_template_validator.py ...`
+    - `python tools/py/collect_trait_fields.py ...`
+    - `python scripts/sync_trait_locales.py ...`
 
-- **UCUM**  
-  Verificare che le unità delle metriche siano conformi al prontuario UCUM (`Cel` per gradi Celsius, `m/s` per velocità lineare, `J` per energia, `dB·s` per dose sonora…).
+    Seguono i wrapper dettagliati nella [Checklist di validazione automatica in `docs/traits_scheda_operativa.md`](traits_scheda_operativa.md#checklist-di-validazione-automatica-comandi-rapidi).
 
-- **QA Checklist**  
-  Seguire la lista di controllo `docs/QA_TRAITS_V2.md` che ricorda di compilare:
-  - testabilità,
-  - sinergie/conflitti,
-  - versioning,
-  - ecotipi,
-  - alias.
+  - **Validazione per pacchetti esterni**
+    Per pacchetti distribuiti fuori dal repo Game (ad esempio contributi terzi o bundle separati) si può usare facoltativamente `scripts/validate.sh` che invoca `ajv-cli`. Preferirlo quando:
+    - il pacchetto deve essere validato in un ambiente dove gli strumenti Python non sono disponibili,
+    - serve una verifica rapida e self-contained contro gli schemi JSON senza dipendere dalla struttura del repo.
+
+  - **UCUM**
+    Verificare che le unità delle metriche siano conformi al prontuario UCUM (`Cel` per gradi Celsius, `m/s` per velocità lineare, `J` per energia, `dB·s` per dose sonora…).
+
+  - **QA Checklist**
+    Seguire la lista di controllo `docs/QA_TRAITS_V2.md` che ricorda di compilare:
+    - testabilità,
+    - sinergie/conflitti,
+    - versioning,
+    - ecotipi,
+    - alias.
 
 ---
 
