@@ -133,9 +133,10 @@ function resolveAlertId(payload: EmaUpdatePayload, streamKey: string): string {
 }
 
 function getWeightedIndex(payload: EmaUpdatePayload): number | null {
-  const weighted = payload?.indices && typeof payload.indices === 'object'
-    ? (payload.indices as RiskPayload)?.risk?.weighted_index
-    : undefined;
+  const weighted =
+    payload?.indices && typeof payload.indices === 'object'
+      ? (payload.indices as RiskPayload)?.risk?.weighted_index
+      : undefined;
   if (typeof weighted !== 'number') {
     return null;
   }
@@ -143,9 +144,10 @@ function getWeightedIndex(payload: EmaUpdatePayload): number | null {
 }
 
 function getTimeLowHpTurns(payload: EmaUpdatePayload): number | null {
-  const value = payload?.indices && typeof payload.indices === 'object'
-    ? (payload.indices as RiskPayload)?.risk?.time_low_hp_turns
-    : undefined;
+  const value =
+    payload?.indices && typeof payload.indices === 'object'
+      ? (payload.indices as RiskPayload)?.risk?.time_low_hp_turns
+      : undefined;
   if (typeof value !== 'number') {
     return null;
   }
@@ -153,9 +155,10 @@ function getTimeLowHpTurns(payload: EmaUpdatePayload): number | null {
 }
 
 function getCohesionDelta(payload: EmaUpdatePayload): number | null {
-  const source = payload?.indices && typeof payload.indices === 'object'
-    ? (payload.indices as Record<string, unknown>)?.cohesion
-    : undefined;
+  const source =
+    payload?.indices && typeof payload.indices === 'object'
+      ? (payload.indices as Record<string, unknown>)?.cohesion
+      : undefined;
   if (!source || typeof source !== 'object') {
     return null;
   }
@@ -168,9 +171,10 @@ function getCohesionDelta(payload: EmaUpdatePayload): number | null {
 }
 
 function getSupportActions(payload: EmaUpdatePayload): number | null {
-  const source = payload?.indices && typeof payload.indices === 'object'
-    ? (payload.indices as Record<string, unknown>)?.support
-    : undefined;
+  const source =
+    payload?.indices && typeof payload.indices === 'object'
+      ? (payload.indices as Record<string, unknown>)?.support
+      : undefined;
   if (!source || typeof source !== 'object') {
     return null;
   }
@@ -193,9 +197,13 @@ function resolveMissionTag(
   }
 
   if (missionTagger) {
-    const resolved = missionTagger(payload);
-    if (resolved) {
-      return resolved;
+    try {
+      const resolved = missionTagger(payload);
+      if (resolved) {
+        return resolved;
+      }
+    } catch {
+      return undefined;
     }
   }
 
@@ -247,7 +255,9 @@ export function registerRiskHudAlertSystem({
   const consecutiveBelow = Math.max(1, Math.floor(options?.consecutiveBelowThreshold ?? 2));
   const telemetryEventName = options?.telemetryEventName ?? 'hud.alert.risk-high';
   const filters = Array.isArray(options?.filters)
-    ? options.filters.filter((candidate): candidate is RiskHudAlertFilter => typeof candidate === 'function')
+    ? options.filters.filter(
+        (candidate): candidate is RiskHudAlertFilter => typeof candidate === 'function',
+      )
     : [];
 
   const states = new Map<string, RiskHudAlertState>();
@@ -294,7 +304,9 @@ export function registerRiskHudAlertSystem({
     current.roster = payload.roster ?? current.roster;
     current.weightedIndex = payload.weightedIndex ?? current.weightedIndex;
     current.timeLowHpTurns =
-      typeof payload.timeLowHpTurns === 'number' ? payload.timeLowHpTurns : current.timeLowHpTurns ?? null;
+      typeof payload.timeLowHpTurns === 'number'
+        ? payload.timeLowHpTurns
+        : (current.timeLowHpTurns ?? null);
 
     const timestamp = payload.timestamp ?? toIsoTimestamp();
     current.lastTimestamp = timestamp;
