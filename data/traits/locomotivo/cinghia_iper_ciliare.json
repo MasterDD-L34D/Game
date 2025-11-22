@@ -10,9 +10,9 @@
     "scheletro_pneumatico_a_maglie"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Ciglia muscolari ventrali a tappeto mobile.",
-  "uso_funzione": "Traslare il corpo su terreni piani/ruvidi.",
-  "spinta_selettiva": "Ridurre necessità di arti portanti tradizionali.",
+  "mutazione_indotta": "i18n:traits.cinghia_iper_ciliare.mutazione_indotta",
+  "uso_funzione": "i18n:traits.cinghia_iper_ciliare.uso_funzione",
+  "spinta_selettiva": "i18n:traits.cinghia_iper_ciliare.spinta_selettiva",
   "metrics": [
     {
       "name": "velocita_max",

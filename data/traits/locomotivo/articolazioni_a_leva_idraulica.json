@@ -10,9 +10,9 @@
     "zanne_idracida"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Camere pressurizzate nelle giunture.",
-  "uso_funzione": "Amplificare salto e spinta delle zampe.",
-  "spinta_selettiva": "Aggancio rapido su prede/rami.",
+  "mutazione_indotta": "i18n:traits.articolazioni_a_leva_idraulica.mutazione_indotta",
+  "uso_funzione": "i18n:traits.articolazioni_a_leva_idraulica.uso_funzione",
+  "spinta_selettiva": "i18n:traits.articolazioni_a_leva_idraulica.spinta_selettiva",
   "metrics": [
     {
       "name": "salto_verticale",

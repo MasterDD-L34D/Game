@@ -11,9 +11,9 @@
     "articolazioni_a_leva_idraulica"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Ghiandole acido-termiche nei cheliceri.",
-  "uso_funzione": "Corrodere tessuti e metalli.",
-  "spinta_selettiva": "Predazione su prede in corazza minerale.",
+  "mutazione_indotta": "i18n:traits.zanne_idracida.mutazione_indotta",
+  "uso_funzione": "i18n:traits.zanne_idracida.uso_funzione",
+  "spinta_selettiva": "i18n:traits.zanne_idracida.spinta_selettiva",
   "metrics": [
     {
       "name": "pressione_getto",

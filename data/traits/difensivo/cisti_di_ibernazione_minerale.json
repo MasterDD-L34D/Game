@@ -10,9 +10,9 @@
     "moltiplicazione_per_fusione"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Parete silicea a prova di calore/pressione.",
-  "uso_funzione": "Entra in stasi in condizioni avverse.",
-  "spinta_selettiva": "Sopravvivenza a lungo termine.",
+  "mutazione_indotta": "i18n:traits.cisti_di_ibernazione_minerale.mutazione_indotta",
+  "uso_funzione": "i18n:traits.cisti_di_ibernazione_minerale.uso_funzione",
+  "spinta_selettiva": "i18n:traits.cisti_di_ibernazione_minerale.spinta_selettiva",
   "metrics": [
     {
       "name": "tolleranza_termica",

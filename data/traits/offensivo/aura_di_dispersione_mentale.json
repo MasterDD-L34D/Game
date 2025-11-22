@@ -10,9 +10,9 @@
     "corna_psico_conduttive"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Emissioni EM deboli e odori avversivi coordinati.",
-  "uso_funzione": "Indurre ansia/vertigini nei predatori.",
-  "spinta_selettiva": "Deterrenza senza scontro fisico.",
+  "mutazione_indotta": "i18n:traits.aura_di_dispersione_mentale.mutazione_indotta",
+  "uso_funzione": "i18n:traits.aura_di_dispersione_mentale.uso_funzione",
+  "spinta_selettiva": "i18n:traits.aura_di_dispersione_mentale.spinta_selettiva",
   "metrics": [
     {
       "name": "intimidazione_index",

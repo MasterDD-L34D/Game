@@ -10,9 +10,9 @@
     "scheletro_pneumatico_a_maglie"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Ghiandole parenchimali filtranti in sacche polmonari.",
-  "uso_funzione": "Assorbire nutrienti aerodispersi.",
-  "spinta_selettiva": "Sussistenza in ambienti poveri di vegetazione.",
+  "mutazione_indotta": "i18n:traits.rete_filtro_polmonare.mutazione_indotta",
+  "uso_funzione": "i18n:traits.rete_filtro_polmonare.uso_funzione",
+  "spinta_selettiva": "i18n:traits.rete_filtro_polmonare.spinta_selettiva",
   "metrics": [
     {
       "name": "consumo_O2",

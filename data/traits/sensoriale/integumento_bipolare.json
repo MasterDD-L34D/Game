@@ -10,9 +10,9 @@
     "scivolamento_magnetico"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Cristalli di magnetite dermici con neuriti afferenti.",
-  "uso_funzione": "Orientarsi su linee di campo.",
-  "spinta_selettiva": "Migrazioni precise e caccia notturna.",
+  "mutazione_indotta": "i18n:traits.integumento_bipolare.mutazione_indotta",
+  "uso_funzione": "i18n:traits.integumento_bipolare.uso_funzione",
+  "spinta_selettiva": "i18n:traits.integumento_bipolare.spinta_selettiva",
   "metrics": [
     {
       "name": "sens_magnetica",

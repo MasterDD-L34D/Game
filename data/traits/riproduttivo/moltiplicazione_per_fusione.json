@@ -10,9 +10,9 @@
     "membrana_plastica_continua"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Scissione binaria e fusione selettiva.",
-  "uso_funzione": "Aumentare massa/intelligenza unendo unità.",
-  "spinta_selettiva": "Resilienza in condizioni variabili.",
+  "mutazione_indotta": "i18n:traits.moltiplicazione_per_fusione.mutazione_indotta",
+  "uso_funzione": "i18n:traits.moltiplicazione_per_fusione.uso_funzione",
+  "spinta_selettiva": "i18n:traits.moltiplicazione_per_fusione.spinta_selettiva",
   "metrics": [
     {
       "name": "tasso_propaguli",

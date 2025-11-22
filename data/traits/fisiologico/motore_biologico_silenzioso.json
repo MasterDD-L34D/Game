@@ -10,9 +10,9 @@
     "vello_di_assorbimento_totale"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Tendini frangi-rumore + piume a bordo seghettato.",
-  "uso_funzione": "Volo prolungato a bassissimo SPL.",
-  "spinta_selettiva": "Caccia persistente con sorpresa tattica.",
+  "mutazione_indotta": "i18n:traits.motore_biologico_silenzioso.mutazione_indotta",
+  "uso_funzione": "i18n:traits.motore_biologico_silenzioso.uso_funzione",
+  "spinta_selettiva": "i18n:traits.motore_biologico_silenzioso.spinta_selettiva",
   "metrics": [
     {
       "name": "metabolic_rate",

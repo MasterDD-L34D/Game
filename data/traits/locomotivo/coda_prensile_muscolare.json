@@ -11,9 +11,9 @@
     "rostro_linguale_prensile"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Fasci caudali spiralizzati, vertebre con verticilli.",
-  "uso_funzione": "Appendere e contro-bilanciare",
-  "spinta_selettiva": "Foraggiamento in chioma; attraversamento gole",
+  "mutazione_indotta": "i18n:traits.coda_prensile_muscolare.mutazione_indotta",
+  "uso_funzione": "i18n:traits.coda_prensile_muscolare.uso_funzione",
+  "spinta_selettiva": "i18n:traits.coda_prensile_muscolare.spinta_selettiva",
   "metrics": [
     {
       "name": "salto_verticale",

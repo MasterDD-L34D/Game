@@ -10,9 +10,9 @@
     "scheletro_pneumatico_a_maglie"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Proteine antigelo circolanti.",
-  "uso_funzione": "Impedire cristallizzazione a basse temperature.",
-  "spinta_selettiva": "Migrazione notturna in steppe fredde.",
+  "mutazione_indotta": "i18n:traits.siero_anti_gelo_naturale.mutazione_indotta",
+  "uso_funzione": "i18n:traits.siero_anti_gelo_naturale.uso_funzione",
+  "spinta_selettiva": "i18n:traits.siero_anti_gelo_naturale.spinta_selettiva",
   "metrics": [
     {
       "name": "tolleranza_termica",

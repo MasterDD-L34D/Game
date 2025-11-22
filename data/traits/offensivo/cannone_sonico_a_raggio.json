@@ -10,9 +10,9 @@
     "ali_fono_risonanti"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Risonanza focale su membrana alare.",
-  "uso_funzione": "Stordire/ferire con raggio sonoro.",
-  "spinta_selettiva": "Caccia rapida su sciami/uccelli piccoli.",
+  "mutazione_indotta": "i18n:traits.cannone_sonico_a_raggio.mutazione_indotta",
+  "uso_funzione": "i18n:traits.cannone_sonico_a_raggio.uso_funzione",
+  "spinta_selettiva": "i18n:traits.cannone_sonico_a_raggio.spinta_selettiva",
   "metrics": [
     {
       "name": "dose_acustica",

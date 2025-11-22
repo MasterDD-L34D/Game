@@ -12,9 +12,9 @@
   "conflitti": [
     "ipertrofia_muscolare_massiva"
   ],
-  "mutazione_indotta": "Squame con lamelle meccano-recettive.",
-  "uso_funzione": "Percepire vibrazioni del suolo.",
-  "spinta_selettiva": "Predazione in copertura e notturna.",
+  "mutazione_indotta": "i18n:traits.organi_sismici_cutanei.mutazione_indotta",
+  "uso_funzione": "i18n:traits.organi_sismici_cutanei.uso_funzione",
+  "spinta_selettiva": "i18n:traits.organi_sismici_cutanei.spinta_selettiva",
   "metrics": [
     {
       "name": "soglia_udito",

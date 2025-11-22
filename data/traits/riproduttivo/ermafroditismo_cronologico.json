@@ -10,9 +10,9 @@
     "locomozione_miriapode_ibrida"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Rimodellamento gonadico sequenziale.",
-  "uso_funzione": "Cambiare sesso dopo 1–2 incubazioni.",
-  "spinta_selettiva": "Ottimizzare successo riproduttivo in densità variabile.",
+  "mutazione_indotta": "i18n:traits.ermafroditismo_cronologico.mutazione_indotta",
+  "uso_funzione": "i18n:traits.ermafroditismo_cronologico.uso_funzione",
+  "spinta_selettiva": "i18n:traits.ermafroditismo_cronologico.spinta_selettiva",
   "metrics": [
     {
       "name": "tasso_propaguli",

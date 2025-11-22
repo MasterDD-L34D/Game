@@ -10,9 +10,9 @@
     "seta_conduttiva_elettrica"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Retina sensibile alla polarizzazione.",
-  "uso_funzione": "Leggere tensioni nella seta e pattern di stress.",
-  "spinta_selettiva": "Ottimizzare riparazioni e trappole.",
+  "mutazione_indotta": "i18n:traits.occhi_analizzatori_di_tensione.mutazione_indotta",
+  "uso_funzione": "i18n:traits.occhi_analizzatori_di_tensione.uso_funzione",
+  "spinta_selettiva": "i18n:traits.occhi_analizzatori_di_tensione.spinta_selettiva",
   "metrics": [
     {
       "name": "acuita_visiva",

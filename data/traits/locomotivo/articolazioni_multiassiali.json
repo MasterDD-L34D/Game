@@ -10,9 +10,9 @@
     "coda_prensile_muscolare"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Glenoidi/acetaboli ampliati, cartilagini elastiche.",
-  "uso_funzione": "Ruotare arti per manovre strette",
-  "spinta_selettiva": "Arrampicata su tronchi umidi/scogliere",
+  "mutazione_indotta": "i18n:traits.articolazioni_multiassiali.mutazione_indotta",
+  "uso_funzione": "i18n:traits.articolazioni_multiassiali.uso_funzione",
+  "spinta_selettiva": "i18n:traits.articolazioni_multiassiali.spinta_selettiva",
   "metrics": [
     {
       "name": "accelerazione_0_10",

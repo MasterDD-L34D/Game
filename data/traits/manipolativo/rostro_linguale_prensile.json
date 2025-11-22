@@ -10,9 +10,9 @@
     "coda_prensile_muscolare"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Lingua muscolare adesiva con ioide esteso.",
-  "uso_funzione": "Afferrrare/manipolare a lungo raggio",
-  "spinta_selettiva": "Accesso a risorse in cavità/altezza senza muovere il corpo",
+  "mutazione_indotta": "i18n:traits.rostro_linguale_prensile.mutazione_indotta",
+  "uso_funzione": "i18n:traits.rostro_linguale_prensile.uso_funzione",
+  "spinta_selettiva": "i18n:traits.rostro_linguale_prensile.spinta_selettiva",
   "metrics": [
     {
       "name": "lunghezza_estensione",

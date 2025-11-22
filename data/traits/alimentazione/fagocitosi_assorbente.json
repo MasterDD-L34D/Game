@@ -10,9 +10,9 @@
     "membrana_plastica_continua"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Invaginazione membranaria a vacuolo digestivo.",
-  "uso_funzione": "Inglobare e digerire biomassa intera.",
-  "spinta_selettiva": "Dieta onnivora opportunista.",
+  "mutazione_indotta": "i18n:traits.fagocitosi_assorbente.mutazione_indotta",
+  "uso_funzione": "i18n:traits.fagocitosi_assorbente.uso_funzione",
+  "spinta_selettiva": "i18n:traits.fagocitosi_assorbente.spinta_selettiva",
   "metrics": [
     {
       "name": "volume_ingestione",

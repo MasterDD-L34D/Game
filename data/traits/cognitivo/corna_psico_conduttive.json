@@ -10,9 +10,9 @@
     "coscienza_dalveare_diffusa"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Tessuti piezo-neurotonici nelle corna.",
-  "uso_funzione": "Trasmettere/ricevere segnali neurali lenti.",
-  "spinta_selettiva": "Allerta precoce e tattiche di branco.",
+  "mutazione_indotta": "i18n:traits.corna_psico_conduttive.mutazione_indotta",
+  "uso_funzione": "i18n:traits.corna_psico_conduttive.uso_funzione",
+  "spinta_selettiva": "i18n:traits.corna_psico_conduttive.spinta_selettiva",
   "metrics": [
     {
       "name": "cohesion_index",

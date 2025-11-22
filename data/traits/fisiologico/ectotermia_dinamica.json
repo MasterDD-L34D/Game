@@ -10,9 +10,9 @@
     "ipertrofia_muscolare_massiva"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Microscosse isometriche per termogenesi rapida.",
-  "uso_funzione": "Alzare temperatura per performance.",
-  "spinta_selettiva": "Caccia all’alba/crepuscolo in climi freschi.",
+  "mutazione_indotta": "i18n:traits.ectotermia_dinamica.mutazione_indotta",
+  "uso_funzione": "i18n:traits.ectotermia_dinamica.uso_funzione",
+  "spinta_selettiva": "i18n:traits.ectotermia_dinamica.spinta_selettiva",
   "metrics": [
     {
       "name": "tolleranza_termica",

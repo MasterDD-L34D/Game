@@ -10,9 +10,9 @@
     "zanne_idracida"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Seta con nano-metalli piezoresponsivi.",
-  "uso_funzione": "Stordire con scariche nella tela.",
-  "spinta_selettiva": "Cattura prede veloci con trappola attiva.",
+  "mutazione_indotta": "i18n:traits.seta_conduttiva_elettrica.mutazione_indotta",
+  "uso_funzione": "i18n:traits.seta_conduttiva_elettrica.uso_funzione",
+  "spinta_selettiva": "i18n:traits.seta_conduttiva_elettrica.spinta_selettiva",
   "metrics": [
     {
       "name": "tensione_picco",

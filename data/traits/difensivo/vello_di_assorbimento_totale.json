@@ -10,9 +10,9 @@
     "visione_multi_spettrale_amplificata"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Nano-strutture piumari tipo vantablack biologico.",
-  "uso_funzione": "Assorbire quasi tutta la luce incidente.",
-  "spinta_selettiva": "Caccia e fuga in oscurità totale.",
+  "mutazione_indotta": "i18n:traits.vello_di_assorbimento_totale.mutazione_indotta",
+  "uso_funzione": "i18n:traits.vello_di_assorbimento_totale.uso_funzione",
+  "spinta_selettiva": "i18n:traits.vello_di_assorbimento_totale.spinta_selettiva",
   "metrics": [
     {
       "name": "trasmittanza_ottica",

@@ -10,9 +10,9 @@
     "zanne_idracida"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Reni a multi-stadio con escrezione selettiva.",
-  "uso_funzione": "Neutralizzare tossine autogenerate.",
-  "spinta_selettiva": "Sopravvivere all’autointossicazione.",
+  "mutazione_indotta": "i18n:traits.filtrazione_osmotica.mutazione_indotta",
+  "uso_funzione": "i18n:traits.filtrazione_osmotica.uso_funzione",
+  "spinta_selettiva": "i18n:traits.filtrazione_osmotica.spinta_selettiva",
   "metrics": [
     {
       "name": "metabolic_rate",

@@ -12,9 +12,9 @@
   "conflitti": [
     "organi_sismici_cutanei"
   ],
-  "mutazione_indotta": "Fibre a sezione aumentata e mitocondri densi.",
-  "uso_funzione": "Aumentare potenza e scatto.",
-  "spinta_selettiva": "Selezione per cattura prede muscolose.",
+  "mutazione_indotta": "i18n:traits.ipertrofia_muscolare_massiva.mutazione_indotta",
+  "uso_funzione": "i18n:traits.ipertrofia_muscolare_massiva.uso_funzione",
+  "spinta_selettiva": "i18n:traits.ipertrofia_muscolare_massiva.spinta_selettiva",
   "metrics": [
     {
       "name": "metabolic_rate",
