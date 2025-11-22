@@ -28,6 +28,10 @@
 
 - [INTEGRAZIONE GUIDE — SSoT](INTEGRAZIONE_GUIDE.md)
 - [Trait Reference Manual (SSoT)](trait_reference_manual.md)
+- [Scheda operativa trait](traits_scheda_operativa.md)
+- [Template dati trait](traits_template.md)
+- [Guida autori trait](README_HOWTO_AUTHOR_TRAIT.md)
+- [Trait Reference & Glossario](catalog/trait_reference.md)
 - [Sentience Track — guida rapida](README_SENTIENCE.md)
 - Schemi e cataloghi canònici: `packs/evo_tactics_pack/docs/catalog/`
   - `trait_entry.schema.json`, `trait_catalog.schema.json`, `trait_reference.json`
