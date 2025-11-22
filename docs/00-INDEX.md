@@ -26,6 +26,16 @@
 
 ## Dati & Appendici
 
+- [INTEGRAZIONE GUIDE — SSoT](INTEGRAZIONE_GUIDE.md)
+- [Trait Reference Manual (SSoT)](trait_reference_manual.md)
+- [Sentience Track — guida rapida](README_SENTIENCE.md)
+- Schemi e cataloghi canònici: `packs/evo_tactics_pack/docs/catalog/`
+  - `trait_entry.schema.json`, `trait_catalog.schema.json`, `trait_reference.json`
+  - **Mancanti**: `sentience_track.schema.json`, `sentience_track.json` (vedi INTEGRAZIONE_GUIDE)
+- Strumenti Python: `tools/py/`
+  - `trait_template_validator.py`
+  - **Mancanti**: `export_csv.py`, `seed_merge.py` (vedi INTEGRAZIONE_GUIDE)
+
 - `data/core/species.yaml` (catalogo Specie & Parti)
 - `tools/*` (validator Python/TS)
 - Appendici: Canvas integrali
