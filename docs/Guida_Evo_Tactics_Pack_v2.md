@@ -8,6 +8,7 @@
 - [Scala di senzienza (T0–T5)](README_SENTIENCE.md)
 - [Aggregato tratti Evo](../data/external/evo/traits/traits_aggregate.json)
 - [Catalogo specie Evo](../data/external/evo/species/species_catalog.json)
+- [Piano operativo prossimo ciclo](next_steps_trait_migration.md)
 
 ## Introduzione
 

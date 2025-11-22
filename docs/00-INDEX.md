@@ -29,6 +29,7 @@
 - [INTEGRAZIONE GUIDE — SSoT](INTEGRAZIONE_GUIDE.md)
 - [Trait Reference Manual (SSoT)](trait_reference_manual.md)
 - [Scheda operativa trait](traits_scheda_operativa.md)
+- [Piano operativo prossimo ciclo (trait/documentazione)](next_steps_trait_migration.md)
 - [Template dati trait](traits_template.md)
 - [Guida autori trait](README_HOWTO_AUTHOR_TRAIT.md)
 - [Trait Reference & Glossario](catalog/trait_reference.md)

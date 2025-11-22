@@ -8,6 +8,7 @@ per autori e reviewer e integra la documentazione tecnica presente in `docs/`.
 
 - Consulta la [scheda operativa completa](traits_scheda_operativa.md) per
   campi, vincoli e checklist.
+- Tieni a portata il [piano operativo prossimo ciclo](next_steps_trait_migration.md) per seguire le priorità correnti su conversione tratti, riordino documentazione e QA.
 
 ### Compatibilità Evo Pack v2
 
