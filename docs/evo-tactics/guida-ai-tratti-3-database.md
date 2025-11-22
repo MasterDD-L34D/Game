@@ -15,7 +15,7 @@ updated: 2025-11-11
 Questa guida fornisce una panoramica completa di **Evo Tactics Pack v2**
 e spiega come integrare la tassonomia criptozoologica nel repository
 **Game‑Database**. Il pacchetto Evo Tactics non verrà distribuito come
-archivio, quindi questa guida funge da *single source of truth*:
+archivio, quindi questa guida funge da _single source of truth_:
 contiene tutte le informazioni necessarie per definire specie, tratti,
 ecotipi ed importare i cataloghi direttamente nel database. È pensata
 per essere posizionata nella cartella `docs/` del progetto (ad es.
@@ -35,7 +35,7 @@ lavorano sia sul backend (Prisma/PostgreSQL) sia sulla dashboard.
     (`species/`, `traits/`, `ecotypes/`, `docs/`, `templates/`) e
     strumenti di validazione.
 5.  **Ecotipi e varianti**: come definire varianti locali delle specie
-    (es. “Gole Ventose” per *Elastovaranus hydrus*) e come codificarne i
+    (es. “Gole Ventose” per _Elastovaranus hydrus_) e come codificarne i
     delta rispetto ai tratti base.
 6.  **Integrare il catalogo nel database**: indicazioni per utilizzare
     gli script di import (`npm run evo:import`) e aggiornare la
@@ -61,9 +61,9 @@ e `templates/trait.schema.json`.
 
 Ogni file di specie deve includere almeno:
 
-- `scientific_name`: nome binomiale in corsivo (*Genus species*), con
+- `scientific_name`: nome binomiale in corsivo (_Genus species_), con
   radici greco‑latine coerenti con la “firma funzionale”.
-  L’abbreviazione a tre lettere (`EHY` per *Elastovaranus hydrus*) viene
+  L’abbreviazione a tre lettere (`EHY` per _Elastovaranus hydrus_) viene
   usata per i codici dei tratti.
 - `common_names`: uno o due nomi volgari evocativi (es.
   “Viverna‑Elastico”, “Ghiotton‑Scudo”).
@@ -71,7 +71,7 @@ Ogni file di specie deve includere almeno:
   habitat/ecotopo principale.
 - `functional_signature`: 1–2 frasi operative che descrivono ciò che la
   specie fa meglio (ad es. “attacco a proiettile con inoculazione
-  multipla” per *Elastovaranus hydrus*).
+  multipla” per _Elastovaranus hydrus_).
 - `visual_description`: breve descrizione dell’aspetto (5–8 righe) con
   forma, posture, proporzioni, colori, texture e gesti tipici.
 - `risk_profile`: pericolosità (0–3) e vettori (tossine, patogeni, onde
@@ -82,7 +82,7 @@ Ogni file di specie deve includere almeno:
   elevati, necessità di ambienti specifici, vulnerabilità a
   contromisure).
 - `sentience_index`: livello di senzienza da T0 a T5 (o T6 nelle
-  espansioni future).
+  espansioni future) secondo la [scala di riferimento](../README_SENTIENCE.md).
 - `ecotypes`: array di etichette delle varianti ecologiche; i dettagli
   sono separati in `ecotypes/<genus_species>_ecotypes.json`.
 - `trait_refs`: array di codici tratto (5–9 tratti) che coprono gli
@@ -270,7 +270,7 @@ sul database.
 
 1.  **Verifica la dashboard**: dopo l’import, avvia la dashboard
     (`npm run dev` nelle rispettive cartelle) e controlla le tabelle
-    *Trait*, *Biome*, *Species* ed *Ecosystem*. Le nuove entità
+    _Trait_, _Biome_, _Species_ ed _Ecosystem_. Le nuove entità
     dovrebbero comparire con slug coerenti, descrizioni e relazioni.
 
 2.  **Esecuzione periodica**: se aggiorni i cataloghi (es. aggiungi un
