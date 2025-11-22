@@ -10,9 +10,9 @@
     "cannone_sonico_a_raggio"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
-  "uso_funzione": "Vedere il suono come pattern d’aria.",
-  "spinta_selettiva": "Allineamento col cannone sonico.",
+  "mutazione_indotta": "i18n:traits.occhi_cinetici.mutazione_indotta",
+  "uso_funzione": "i18n:traits.occhi_cinetici.uso_funzione",
+  "spinta_selettiva": "i18n:traits.occhi_cinetici.spinta_selettiva",
   "metrics": [
     {
       "name": "acuita_visiva",

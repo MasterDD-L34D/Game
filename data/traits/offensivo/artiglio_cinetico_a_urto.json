@@ -10,9 +10,9 @@
     "locomozione_miriapode_ibrida"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Appendice scattante tipo mantide pavone.",
-  "uso_funzione": "Infliggere onda d’urto e frattura.",
-  "spinta_selettiva": "Neutralizzare rapidamente prede corazzate.",
+  "mutazione_indotta": "i18n:traits.artiglio_cinetico_a_urto.mutazione_indotta",
+  "uso_funzione": "i18n:traits.artiglio_cinetico_a_urto.uso_funzione",
+  "spinta_selettiva": "i18n:traits.artiglio_cinetico_a_urto.spinta_selettiva",
   "metrics": [
     {
       "name": "energia_impattiva",

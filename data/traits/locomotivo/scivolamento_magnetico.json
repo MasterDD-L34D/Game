@@ -10,9 +10,9 @@
     "integumento_bipolare"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Rivestimento paramagnetico + micro-vibrazioni.",
-  "uso_funzione": "Ridurre attrito e scivolare.",
-  "spinta_selettiva": "Traslazione silente su superfici variabili.",
+  "mutazione_indotta": "i18n:traits.scivolamento_magnetico.mutazione_indotta",
+  "uso_funzione": "i18n:traits.scivolamento_magnetico.uso_funzione",
+  "spinta_selettiva": "i18n:traits.scivolamento_magnetico.spinta_selettiva",
   "metrics": [
     {
       "name": "velocita_max",

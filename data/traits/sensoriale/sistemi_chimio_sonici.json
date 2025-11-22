@@ -12,9 +12,9 @@
   "conflitti": [
     "estroflessione_gastrica_acida"
   ],
-  "mutazione_indotta": "Echolocazione + spruzzi feromonali orientativi.",
-  "uso_funzione": "Mappare spazio e correnti d’aria senza vista.",
-  "spinta_selettiva": "Caccia in buio totale e gallerie fumose.",
+  "mutazione_indotta": "i18n:traits.sistemi_chimio_sonici.mutazione_indotta",
+  "uso_funzione": "i18n:traits.sistemi_chimio_sonici.uso_funzione",
+  "spinta_selettiva": "i18n:traits.sistemi_chimio_sonici.spinta_selettiva",
   "metrics": [
     {
       "name": "banda_uditiva_max",

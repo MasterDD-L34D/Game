@@ -10,9 +10,9 @@
     "flusso_ameboide_controllato"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Struttura citoscheletrica rimodulabile.",
-  "uso_funzione": "Assumere forme e densità diverse.",
-  "spinta_selettiva": "Elusione predatori e passaggio micro-fessure.",
+  "mutazione_indotta": "i18n:traits.membrana_plastica_continua.mutazione_indotta",
+  "uso_funzione": "i18n:traits.membrana_plastica_continua.uso_funzione",
+  "spinta_selettiva": "i18n:traits.membrana_plastica_continua.spinta_selettiva",
   "metrics": [
     {
       "name": "rilevabilita_visiva",

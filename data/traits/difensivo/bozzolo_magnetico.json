@@ -10,9 +10,9 @@
     "integumento_bipolare"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Campo isolante stazionario a bassa frequenza.",
-  "uso_funzione": "Schermarsi da EM esterni.",
-  "spinta_selettiva": "Riposo profondo e protezione da predatori elettrorecettivi.",
+  "mutazione_indotta": "i18n:traits.bozzolo_magnetico.mutazione_indotta",
+  "uso_funzione": "i18n:traits.bozzolo_magnetico.uso_funzione",
+  "spinta_selettiva": "i18n:traits.bozzolo_magnetico.spinta_selettiva",
   "metrics": [
     {
       "name": "campo_magnetico",

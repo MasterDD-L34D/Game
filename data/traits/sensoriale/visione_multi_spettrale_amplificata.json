@@ -10,9 +10,9 @@
     "vello_di_assorbimento_totale"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Bastoncelli potenziati + recettori IR/UV.",
-  "uso_funzione": "Vedere in luminanza estremamente bassa.",
-  "spinta_selettiva": "Predazione su prede a sangue caldo.",
+  "mutazione_indotta": "i18n:traits.visione_multi_spettrale_amplificata.mutazione_indotta",
+  "uso_funzione": "i18n:traits.visione_multi_spettrale_amplificata.uso_funzione",
+  "spinta_selettiva": "i18n:traits.visione_multi_spettrale_amplificata.spinta_selettiva",
   "metrics": [
     {
       "name": "acuita_visiva",

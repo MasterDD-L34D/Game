@@ -10,9 +10,9 @@
     "pelage_idrorepellente_avanzato"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Placca subdermica cheratino-ossea su eminenze glutee.",
-  "uso_funzione": "Assorbire impatti posteriori",
-  "spinta_selettiva": "Predatori d’agguato; lotte in tana stretta",
+  "mutazione_indotta": "i18n:traits.scudo_gluteale_cheratinizzato.mutazione_indotta",
+  "uso_funzione": "i18n:traits.scudo_gluteale_cheratinizzato.uso_funzione",
+  "spinta_selettiva": "i18n:traits.scudo_gluteale_cheratinizzato.spinta_selettiva",
   "metrics": [
     {
       "name": "spessore_corazza",

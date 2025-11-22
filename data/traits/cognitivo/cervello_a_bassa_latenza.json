@@ -10,9 +10,9 @@
     "ali_fono_risonanti"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Circuiti neurali a tempi di integrazione ridotti.",
-  "uso_funzione": "Eseguire manovre ad alta frequenza.",
-  "spinta_selettiva": "Predazione aerea in stormi.",
+  "mutazione_indotta": "i18n:traits.cervello_a_bassa_latenza.mutazione_indotta",
+  "uso_funzione": "i18n:traits.cervello_a_bassa_latenza.uso_funzione",
+  "spinta_selettiva": "i18n:traits.cervello_a_bassa_latenza.spinta_selettiva",
   "metrics": [
     {
       "name": "tempo_apprendimento",

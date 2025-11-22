@@ -11,9 +11,9 @@
     "coda_prensile_muscolare"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Ghiandole olocrine con olio ad alta densità.",
-  "uso_funzione": "Isolare e galleggiare",
-  "spinta_selettiva": "Foraggiamento anfibio e notturno in climi umidi.",
+  "mutazione_indotta": "i18n:traits.pelage_idrorepellente_avanzato.mutazione_indotta",
+  "uso_funzione": "i18n:traits.pelage_idrorepellente_avanzato.uso_funzione",
+  "spinta_selettiva": "i18n:traits.pelage_idrorepellente_avanzato.spinta_selettiva",
   "metrics": [
     {
       "name": "res_termica",

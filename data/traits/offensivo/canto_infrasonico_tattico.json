@@ -10,9 +10,9 @@
     "scheletro_pneumatico_a_maglie"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Corde vocali modificate a bassa frequenza.",
-  "uso_funzione": "Disorientare predatori e comunicare a distanza.",
-  "spinta_selettiva": "Coordinamento di branco e deterrenza.",
+  "mutazione_indotta": "i18n:traits.canto_infrasonico_tattico.mutazione_indotta",
+  "uso_funzione": "i18n:traits.canto_infrasonico_tattico.uso_funzione",
+  "spinta_selettiva": "i18n:traits.canto_infrasonico_tattico.spinta_selettiva",
   "metrics": [
     {
       "name": "dose_acustica",

@@ -10,9 +10,9 @@
     "integumento_bipolare"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Organo elettrico a pacchetti sincro.",
-  "uso_funzione": "Interferire con sistema nervoso preda.",
-  "spinta_selettiva": "Immobilizzare pesci e piccoli rettili.",
+  "mutazione_indotta": "i18n:traits.elettromagnete_biologico.mutazione_indotta",
+  "uso_funzione": "i18n:traits.elettromagnete_biologico.uso_funzione",
+  "spinta_selettiva": "i18n:traits.elettromagnete_biologico.spinta_selettiva",
   "metrics": [
     {
       "name": "corrente_picco",

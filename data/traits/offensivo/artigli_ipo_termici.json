@@ -10,9 +10,9 @@
     "visione_multi_spettrale_amplificata"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Reazioni endo-termiche locali in guaine artigli.",
-  "uso_funzione": "Indurre shock da freddo localizzato.",
-  "spinta_selettiva": "Immobilizzazione rapida senza sangue.",
+  "mutazione_indotta": "i18n:traits.artigli_ipo_termici.mutazione_indotta",
+  "uso_funzione": "i18n:traits.artigli_ipo_termici.uso_funzione",
+  "spinta_selettiva": "i18n:traits.artigli_ipo_termici.spinta_selettiva",
   "metrics": [
     {
       "name": "temperatura_fiato",

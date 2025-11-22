@@ -11,9 +11,9 @@
     "campo_di_interferenza_acustica"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Venature come corde vibranti controllate.",
-  "uso_funzione": "Generare ampia banda sonora in volo.",
-  "spinta_selettiva": "Mappatura ambiente e segnalazione.",
+  "mutazione_indotta": "i18n:traits.ali_fono_risonanti.mutazione_indotta",
+  "uso_funzione": "i18n:traits.ali_fono_risonanti.uso_funzione",
+  "spinta_selettiva": "i18n:traits.ali_fono_risonanti.spinta_selettiva",
   "metrics": [
     {
       "name": "dose_acustica",

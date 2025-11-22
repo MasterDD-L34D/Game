@@ -10,9 +10,9 @@
     "membrana_plastica_continua"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Pseudopodi coordinati a pressione interna.",
-  "uso_funzione": "Scivolare/risalire superfici lisce.",
-  "spinta_selettiva": "Ricerca cibo in interstizi umidi.",
+  "mutazione_indotta": "i18n:traits.flusso_ameboide_controllato.mutazione_indotta",
+  "uso_funzione": "i18n:traits.flusso_ameboide_controllato.uso_funzione",
+  "spinta_selettiva": "i18n:traits.flusso_ameboide_controllato.spinta_selettiva",
   "metrics": [
     {
       "name": "raggio_di_volta",

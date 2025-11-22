@@ -12,9 +12,9 @@
   "conflitti": [
     "sistemi_chimio_sonici"
   ],
-  "mutazione_indotta": "Sacca digestiva everted con enzimi proteolitici.",
-  "uso_funzione": "Liquefare tessuti su contatto e aspirare.",
-  "spinta_selettiva": "Cattura prede più grandi con rischio minimo.",
+  "mutazione_indotta": "i18n:traits.estroflessione_gastrica_acida.mutazione_indotta",
+  "uso_funzione": "i18n:traits.estroflessione_gastrica_acida.uso_funzione",
+  "spinta_selettiva": "i18n:traits.estroflessione_gastrica_acida.spinta_selettiva",
   "metrics": [
     {
       "name": "pressione_getto",

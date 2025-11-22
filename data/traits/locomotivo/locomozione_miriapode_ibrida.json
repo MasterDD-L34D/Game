@@ -10,9 +10,9 @@
     "artiglio_cinetico_a_urto"
   ],
   "conflitti": [],
-  "mutazione_indotta": "50–100 paia di arti segmentati.",
-  "uso_funzione": "Aderire e arrampicare su qualsiasi superficie.",
-  "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
+  "mutazione_indotta": "i18n:traits.locomozione_miriapode_ibrida.mutazione_indotta",
+  "uso_funzione": "i18n:traits.locomozione_miriapode_ibrida.uso_funzione",
+  "spinta_selettiva": "i18n:traits.locomozione_miriapode_ibrida.spinta_selettiva",
   "metrics": [
     {
       "name": "velocita_max",

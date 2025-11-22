@@ -1072,11 +1072,11 @@
   "ectotermia_dinamica": {
     "en": {
       "label": "Dynamic Ectothermy",
-      "description": "Raise body temperature for peak performance."
+      "description": "Isometric micro-shivers that rapidly raise body temperature for performance spikes."
     },
     "it": {
       "label": "Ectotermia Dinamica",
-      "description": "Alzare temperatura per performance."
+      "description": "Microscosse isometriche che innalzano rapidamente la temperatura corporea per picchi prestazionali."
     }
   },
   "elettromagnete_biologico": {
@@ -1532,11 +1532,11 @@
   "ipertrofia_muscolare_massiva": {
     "en": {
       "label": "Massive Muscular Hypertrophy",
-      "description": "Boost power and burst acceleration."
+      "description": "Thickened fibres with dense mitochondria boosting power, burst acceleration, and short-term strain tolerance."
     },
     "it": {
       "label": "Ipertrofia Muscolare Massiva",
-      "description": "Aumentare potenza e scatto."
+      "description": "Fibre ispessite e mitocondri densi che aumentano potenza, scatto e tolleranza allo sforzo breve."
     }
   },
   "lamelle_shear": {
@@ -1862,11 +1862,11 @@
   "organi_sismici_cutanei": {
     "en": {
       "label": "Cutaneous Seismic Organs",
-      "description": "Sense ground vibrations."
+      "description": "Mechano-receptive lamellae in the scales sensing ground vibrations and hidden movements."
     },
     "it": {
       "label": "Organi Sismici Cutanei",
-      "description": "Percepire vibrazioni del suolo."
+      "description": "Lamelle meccano-recettive nelle squame che percepiscono vibrazioni del suolo e movimenti occultati."
     }
   },
   "pathfinder": {
@@ -1961,12 +1961,12 @@
   },
   "rostro_emostatico_litico": {
     "en": {
-      "label": "Hemolytic-Lytic Rostrum",
-      "description": "Inject toxins and enzymes and siphon fluids."
+      "label": "Hemo-Lytic Rostrum",
+      "description": "Rigid tubular rostrum that injects lytic and coagulant enzymes while drawing fluids after impact."
     },
     "it": {
       "label": "Rostro Emostatico-Litico",
-      "description": "Inoculare tossine ed enzimi e aspirare fluidi."
+      "description": "Rostro tubulare rigido che inietta enzimi coagulanti e litici aspirando fluidi dopo l’impatto."
     }
   },
   "rostro_linguale_prensile": {
@@ -2011,12 +2011,12 @@
   },
   "scheletro_idraulico_a_pistoni": {
     "en": {
-      "label": "Hydraulic Piston Skeleton",
-      "description": "Extend the skull rapidly to strike."
+      "label": "Piston Hydraulic Skeleton",
+      "description": "Pressurised hollow bones that fire cranial pistons for ultra-fast projectile blows."
     },
     "it": {
       "label": "Scheletro Idraulico a Pistoni",
-      "description": "Estendere rapidamente il cranio per colpire."
+      "description": "Ossa cave pressurizzate che scattano pistoni cranici per colpi-proiettile rapidissimi."
     }
   },
   "scheletro_idro_regolante": {

@@ -10,9 +10,9 @@
     "scheletro_idraulico_a_pistoni"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Mascellare tubulare rigidizzato.",
-  "uso_funzione": "Inoculare tossine ed enzimi e aspirare fluidi.",
-  "spinta_selettiva": "Predazione d'impatto a distanza ravvicinata.",
+  "mutazione_indotta": "i18n:traits.rostro_emostatico_litico.mutazione_indotta",
+  "uso_funzione": "i18n:traits.rostro_emostatico_litico.uso_funzione",
+  "spinta_selettiva": "i18n:traits.rostro_emostatico_litico.spinta_selettiva",
   "metrics": [
     {
       "name": "velocita_proiettile",

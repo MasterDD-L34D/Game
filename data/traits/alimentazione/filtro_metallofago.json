@@ -10,9 +10,9 @@
     "elettromagnete_biologico"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Assorbimento selettivo di micro-metalli.",
-  "uso_funzione": "Sostenere organi elettrogeni.",
-  "spinta_selettiva": "Metabolismo efficiente in acque povere.",
+  "mutazione_indotta": "i18n:traits.filtro_metallofago.mutazione_indotta",
+  "uso_funzione": "i18n:traits.filtro_metallofago.uso_funzione",
+  "spinta_selettiva": "i18n:traits.filtro_metallofago.spinta_selettiva",
   "metrics": [
     {
       "name": "metabolic_rate",

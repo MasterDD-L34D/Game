@@ -10,9 +10,9 @@
     "corna_psico_conduttive"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Trasferimento di substrati via contatto/derma.",
-  "uso_funzione": "Sostenere feriti/giovani con riserva collettiva.",
-  "spinta_selettiva": "Massimizzare sopravvivenza del branco.",
+  "mutazione_indotta": "i18n:traits.metabolismo_di_condivisione_energetica.mutazione_indotta",
+  "uso_funzione": "i18n:traits.metabolismo_di_condivisione_energetica.uso_funzione",
+  "spinta_selettiva": "i18n:traits.metabolismo_di_condivisione_energetica.spinta_selettiva",
   "metrics": [
     {
       "name": "consumo_O2",

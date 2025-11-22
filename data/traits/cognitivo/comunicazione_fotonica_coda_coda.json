@@ -10,9 +10,9 @@
     "vello_di_assorbimento_totale"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Piume codali con bioluminescenza debole.",
-  "uso_funzione": "Scambiare impulsi luminosi tattili.",
-  "spinta_selettiva": "Coordinamento silente in stormo.",
+  "mutazione_indotta": "i18n:traits.comunicazione_fotonica_coda_coda.mutazione_indotta",
+  "uso_funzione": "i18n:traits.comunicazione_fotonica_coda_coda.uso_funzione",
+  "spinta_selettiva": "i18n:traits.comunicazione_fotonica_coda_coda.spinta_selettiva",
   "metrics": [
     {
       "name": "cohesion_index",

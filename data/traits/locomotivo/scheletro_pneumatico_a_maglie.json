@@ -10,9 +10,9 @@
     "cinghia_iper_ciliare"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Ossa porose con alveoli d’aria.",
-  "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti.",
-  "spinta_selettiva": "Transito terrestre di megafauna fuori dall’acqua.",
+  "mutazione_indotta": "i18n:traits.scheletro_pneumatico_a_maglie.mutazione_indotta",
+  "uso_funzione": "i18n:traits.scheletro_pneumatico_a_maglie.uso_funzione",
+  "spinta_selettiva": "i18n:traits.scheletro_pneumatico_a_maglie.spinta_selettiva",
   "metrics": [
     {
       "name": "metabolic_rate",

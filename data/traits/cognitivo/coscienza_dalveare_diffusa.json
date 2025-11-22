@@ -10,9 +10,9 @@
     "corna_psico_conduttive"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Rete sinaptica inter-individuo temporanea.",
-  "uso_funzione": "Fondere decisioni e memoria a breve termine.",
-  "spinta_selettiva": "Evasione collettiva e pianificazione rapida.",
+  "mutazione_indotta": "i18n:traits.coscienza_dalveare_diffusa.mutazione_indotta",
+  "uso_funzione": "i18n:traits.coscienza_dalveare_diffusa.uso_funzione",
+  "spinta_selettiva": "i18n:traits.coscienza_dalveare_diffusa.spinta_selettiva",
   "metrics": [
     {
       "name": "tempo_apprendimento",

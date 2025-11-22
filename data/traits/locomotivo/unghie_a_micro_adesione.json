@@ -10,9 +10,9 @@
     "corna_psico_conduttive"
   ],
   "conflitti": [],
-  "mutazione_indotta": "Lamelle a micro-setole tipo geco su zoccoli.",
-  "uso_funzione": "Aderire a superfici ripide.",
-  "spinta_selettiva": "Fuga verticale e pascolo in cenge.",
+  "mutazione_indotta": "i18n:traits.unghie_a_micro_adesione.mutazione_indotta",
+  "uso_funzione": "i18n:traits.unghie_a_micro_adesione.uso_funzione",
+  "spinta_selettiva": "i18n:traits.unghie_a_micro_adesione.spinta_selettiva",
   "metrics": [
     {
       "name": "tasso_di_salita",

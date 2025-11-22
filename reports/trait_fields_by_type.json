@@ -1,4 +1,158 @@
 {
+  "Alimentazione/Digestione": {
+    "trait_count": 2,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Cognitivo/Apprendimento": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Cognitivo/Sociale": {
+    "trait_count": 3,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Difensivo/Camuffamento": {
+    "trait_count": 3,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Difensivo/Corazza": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Difensivo/Resistenze": {
+    "trait_count": 2,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Difensivo/Termoregolazione": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
   "Difesa/Strutturale": {
     "trait_count": 1,
     "fields": [
@@ -167,6 +321,94 @@
       "uso_funzione"
     ]
   },
+  "Fisiologico/Idrico": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Fisiologico/Metabolico": {
+    "trait_count": 3,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Fisiologico/Respiratorio": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Fisiologico/Termico": {
+    "trait_count": 2,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
   "Flessibile/Generico": {
     "trait_count": 1,
     "fields": [
@@ -213,6 +455,94 @@
       "spinta_selettiva",
       "tier",
       "usage_tags",
+      "uso_funzione"
+    ]
+  },
+  "Locomotivo/Aereo": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Locomotivo/Arboricolo": {
+    "trait_count": 2,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Locomotivo/Balistico": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Locomotivo/Terrestre": {
+    "trait_count": 7,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
       "uso_funzione"
     ]
   },
@@ -360,6 +690,28 @@
       "uso_funzione"
     ]
   },
+  "Manipolativo/Alimentare": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
   "Metabolico/Difensivo": {
     "trait_count": 1,
     "fields": [
@@ -481,17 +833,20 @@
     ]
   },
   "Offensivo/Chimico": {
-    "trait_count": 1,
+    "trait_count": 3,
     "fields": [
+      "applicability",
       "biome_tags",
       "completion_flags",
       "conflitti",
+      "cost_profile",
       "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
       "id",
       "label",
+      "metrics",
       "mutazione_indotta",
       "requisiti_ambientali",
       "sinergie",
@@ -499,6 +854,7 @@
       "slot",
       "slot_profile",
       "spinta_selettiva",
+      "testability",
       "tier",
       "usage_tags",
       "uso_funzione"
@@ -529,17 +885,20 @@
     ]
   },
   "Offensivo/Controllo": {
-    "trait_count": 1,
+    "trait_count": 4,
     "fields": [
+      "applicability",
       "biome_tags",
       "completion_flags",
       "conflitti",
+      "cost_profile",
       "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
       "id",
       "label",
+      "metrics",
       "mutazione_indotta",
       "requisiti_ambientali",
       "sinergie",
@@ -547,8 +906,97 @@
       "slot",
       "slot_profile",
       "spinta_selettiva",
+      "testability",
       "tier",
       "usage_tags",
+      "uso_funzione"
+    ]
+  },
+  "Offensivo/Contusivo": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Offensivo/Elettrico": {
+    "trait_count": 2,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Offensivo/Perforante": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Offensivo/Termico": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
       "uso_funzione"
     ]
   },
@@ -672,6 +1120,28 @@
       "uso_funzione"
     ]
   },
+  "Riproduttivo/Cicli": {
+    "trait_count": 2,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
   "Riproduttivo/Locomotorio": {
     "trait_count": 1,
     "fields": [
@@ -741,6 +1211,28 @@
       "spinta_selettiva",
       "tier",
       "usage_tags",
+      "uso_funzione"
+    ]
+  },
+  "Sensoriale/Magneto-ricettivo": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
       "uso_funzione"
     ]
   },
@@ -840,18 +1332,65 @@
       "uso_funzione"
     ]
   },
-  "Sensoriale/Visivo": {
-    "trait_count": 2,
+  "Sensoriale/Tatto-Vibro": {
+    "trait_count": 1,
     "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Sensoriale/Uditivo-Olfattivo": {
+    "trait_count": 1,
+    "fields": [
+      "applicability",
+      "conflitti",
+      "cost_profile",
+      "data_origin",
+      "famiglia_tipologia",
+      "fattore_mantenimento_energetico",
+      "id",
+      "label",
+      "metrics",
+      "mutazione_indotta",
+      "requisiti_ambientali",
+      "sinergie",
+      "slot",
+      "spinta_selettiva",
+      "testability",
+      "tier",
+      "uso_funzione"
+    ]
+  },
+  "Sensoriale/Visivo": {
+    "trait_count": 5,
+    "fields": [
+      "applicability",
       "biome_tags",
       "completion_flags",
       "conflitti",
+      "cost_profile",
       "data_origin",
       "debolezza",
       "famiglia_tipologia",
       "fattore_mantenimento_energetico",
       "id",
       "label",
+      "metrics",
       "mutazione_indotta",
       "requisiti_ambientali",
       "sinergie",
@@ -859,6 +1398,7 @@
       "slot",
       "slot_profile",
       "spinta_selettiva",
+      "testability",
       "tier",
       "usage_tags",
       "uso_funzione"
