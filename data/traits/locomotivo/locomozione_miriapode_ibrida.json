@@ -1,0 +1,51 @@
+{
+  "id": "locomozione_miriapode_ibrida",
+  "label": "i18n:traits.locomozione_miriapode_ibrida.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "artiglio_cinetico_a_urto"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "50–100 paia di arti segmentati.",
+  "uso_funzione": "Aderire e arrampicare su qualsiasi superficie.",
+  "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
+  "metrics": [
+    {
+      "name": "velocita_max",
+      "value": 2.5,
+      "unit": "m/s"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Scala parete 3 m in < 10 s",
+    "scene_prompt": "Cronometra arrampicata su pannello 80°"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  }
+}

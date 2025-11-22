@@ -1,0 +1,51 @@
+{
+  "id": "occhi_cinetici",
+  "label": "i18n:traits.occhi_cinetici.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Sensoriale/Visivo",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "cannone_sonico_a_raggio"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "Retina sensibile a distorsioni da vibrazione.",
+  "uso_funzione": "Vedere il suono come pattern d’aria.",
+  "spinta_selettiva": "Allineamento col cannone sonico.",
+  "metrics": [
+    {
+      "name": "acuita_visiva",
+      "value": 0.8,
+      "unit": "1"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Riconosce vortici davanti al raggio",
+    "scene_prompt": "Strobo fumo + valutazione traiettoria"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": ""
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "sistemi_chimio_sonici",
+  "label": "i18n:traits.sistemi_chimio_sonici.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Sensoriale/Uditivo-Olfattivo",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "locomozione_miriapode_ibrida"
+  ],
+  "conflitti": [
+    "estroflessione_gastrica_acida"
+  ],
+  "mutazione_indotta": "Echolocazione + spruzzi feromonali orientativi.",
+  "uso_funzione": "Mappare spazio e correnti d’aria senza vista.",
+  "spinta_selettiva": "Caccia in buio totale e gallerie fumose.",
+  "metrics": [
+    {
+      "name": "banda_uditiva_max",
+      "value": 120000,
+      "unit": "Hz"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Evita ostacoli a 10 m in fumo denso",
+    "scene_prompt": "Tunnel con curve cieche + generatore di fumo"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000228"
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "filtro_metallofago",
+  "label": "i18n:traits.filtro_metallofago.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Alimentazione/Digestione",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T2",
+  "slot": [],
+  "sinergie": [
+    "elettromagnete_biologico"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "Assorbimento selettivo di micro-metalli.",
+  "uso_funzione": "Sostenere organi elettrogeni.",
+  "spinta_selettiva": "Metabolismo efficiente in acque povere.",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 12,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Livelli Fe plasmatico stabili",
+    "scene_prompt": "Profilo ematico su dieta priva di Fe"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T2",
+        "notes": ""
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  }
+}

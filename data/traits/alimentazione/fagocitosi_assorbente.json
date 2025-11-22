@@ -1,0 +1,51 @@
+{
+  "id": "fagocitosi_assorbente",
+  "label": "i18n:traits.fagocitosi_assorbente.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Alimentazione/Digestione",
+  "fattore_mantenimento_energetico": "Medio",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "membrana_plastica_continua"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "Invaginazione membranaria a vacuolo digestivo.",
+  "uso_funzione": "Inglobare e digerire biomassa intera.",
+  "spinta_selettiva": "Dieta onnivora opportunista.",
+  "metrics": [
+    {
+      "name": "volume_ingestione",
+      "value": 5,
+      "unit": "L"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Assorbe 1 L di gel in < 30 s",
+    "scene_prompt": "Misura variazione massa dopo contatto prolungato"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_00000873"
+    ]
+  }
+}

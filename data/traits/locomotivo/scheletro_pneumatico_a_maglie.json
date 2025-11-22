@@ -1,0 +1,51 @@
+{
+  "id": "scheletro_pneumatico_a_maglie",
+  "label": "i18n:traits.scheletro_pneumatico_a_maglie.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Locomotivo/Terrestre",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "cinghia_iper_ciliare"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "Ossa porose con alveoli d’aria.",
+  "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti.",
+  "spinta_selettiva": "Transito terrestre di megafauna fuori dall’acqua.",
+  "metrics": [
+    {
+      "name": "metabolic_rate",
+      "value": 20,
+      "unit": "W/kg"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Spostamento 5 km senza affaticamento eccessivo",
+    "scene_prompt": "Test su piastra di forza per massa apparente"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  }
+}

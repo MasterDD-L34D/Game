@@ -1,0 +1,51 @@
+{
+  "id": "campo_di_interferenza_acustica",
+  "label": "i18n:traits.campo_di_interferenza_acustica.label",
+  "data_origin": "coverage_q4_2025",
+  "famiglia_tipologia": "Difensivo/Camuffamento",
+  "fattore_mantenimento_energetico": "Basso",
+  "tier": "T3",
+  "slot": [],
+  "sinergie": [
+    "ali_fono_risonanti"
+  ],
+  "conflitti": [],
+  "mutazione_indotta": "Rumore bianco caotico a fase variabile.",
+  "uso_funzione": "Mascherare posizione/velocità.",
+  "spinta_selettiva": "Evasione da pipistrelli/rapaci.",
+  "metrics": [
+    {
+      "name": "SPL_riduzione",
+      "value": 18,
+      "unit": "dB"
+    }
+  ],
+  "cost_profile": {
+    "rest": "Basso",
+    "burst": "Medio",
+    "sustained": "Basso"
+  },
+  "testability": {
+    "observable": "Interferisce con ecolocalizzazione",
+    "scene_prompt": "Test radar acustico in galleria del vento"
+  },
+  "requisiti_ambientali": [
+    {
+      "capacita_richieste": [],
+      "condizioni": {
+        "biome_class": "terrestre"
+      },
+      "fonte": "envo_mapping",
+      "meta": {
+        "tier": "T3",
+        "notes": ""
+      }
+    }
+  ],
+  "applicability": {
+    "clades": [],
+    "envo_terms": [
+      "http://purl.obolibrary.org/obo/ENVO_01000178"
+    ]
+  }
+}
