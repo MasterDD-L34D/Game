@@ -37,6 +37,21 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 
 ## Specifiche standard v2
 
+> **Box campi obbligatori (repository ufficiale)**
+>
+> - **id**: snake_case allineato al nome file JSON e derivato dal `trait_code` (es. `TR-0420` → `vortice_termico`).
+> - **label**: puntare sempre a `i18n:traits.<id>.label` (la stringa localizzata sta nei file i18n/glossario, non nel tratto).
+> - **data_origin**: usare solo gli slug ufficiali (vedi tabella in `docs/traits_evo_pack_alignment.md`).
+> - **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
+> - **sinergie**/**conflitti**: liste di `id` (non `trait_code`) per la compatibilità interna.
+> - Altri campi obbligatori: `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `metrics` (UCUM), `cost_profile`, `testability`.
+> - Schema e definizioni canoniche: seguire `docs/traits_evo_pack_alignment.md` e la [scheda operativa dei trait](./traits_scheda_operativa.md).
+>
+> **Esempio mappatura `trait_code` → `id`/`label`**
+>
+> - `trait_code` `TR-0420` "Vortice Termico" → `id` `vortice_termico`; `label` nel file tratto: `i18n:traits.vortice_termico.label`.
+> - Nota: nel repository il file JSON deve usare `id`/`label` i18n; `trait_code` serve solo come alias di riferimento.
+
 Le schede creatura sono strutturate secondo due schemi JSON (schema specie e schema tratto). Ogni Specie (file in `species/`) deve contenere i seguenti campi principali:
 
 - **scientific_name**: nome binomiale (_Genus species_) con radici greco-latine coerenti con la firma funzionale.
