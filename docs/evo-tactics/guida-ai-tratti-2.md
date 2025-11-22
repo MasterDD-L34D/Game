@@ -183,6 +183,16 @@ Seguendo questa pipeline, le schede esistenti possono essere migrate
 senza perdere informazioni e diventando compatibili con gli strumenti
 del pacchetto v2.
 
+### Validazione nel repository Game
+
+Nel repository Game i controlli vanno eseguiti con la toolchain Python, che copre sia struttura dati sia glossari/localizzazioni:
+
+- `python tools/py/trait_template_validator.py ...`
+- `python tools/py/collect_trait_fields.py ...`
+- `python scripts/sync_trait_locales.py ...`
+
+Ricorrere a `scripts/validate.sh`/`ajv` solo per validare pacchetti esterni; per i file che entrano in repository usare i comandi Python sopra.
+
 ## Struttura del pacchetto {#evo-guida-ai-tratti-2-struttura-del-pacchetto}
 
 Il pacchetto completo è organizzato in cartelle:
