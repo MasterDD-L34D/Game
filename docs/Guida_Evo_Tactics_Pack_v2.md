@@ -46,10 +46,10 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 > - **id**: snake_case allineato al nome file JSON e derivato dal `trait_code` (es. `TR-0420` → `vortice_termico`).
 > - **label**: puntare sempre a `i18n:traits.<id>.label` (la stringa localizzata sta nei file i18n/glossario, non nel tratto).
 > - **data_origin**: usare solo gli slug ufficiali (vedi tabella in `docs/traits_evo_pack_alignment.md`).
-> - **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
+> - **famiglia_tipologia**, **fattore_mantenimento_energetico**, **tier**, **slot**: classificazione e livello energetico di base.
 > - **sinergie**/**conflitti**: liste di `id` (non `trait_code`) per la compatibilità interna.
-> - Altri campi obbligatori: `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`/`conflitti`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`.
-> - Schema e definizioni canoniche: seguire `docs/traits_evo_pack_alignment.md` e la [scheda operativa dei trait](./traits_scheda_operativa.md), che rimane la fonte canonica dei requisiti minimi.
+> - **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
+> - Rimandi: [scheda operativa dei trait](./traits_scheda_operativa.md), [guida autore](./README_HOWTO_AUTHOR_TRAIT.md), [template dati](./traits_template.md) e [piano operativo prossimo ciclo](./next_steps_trait_migration.md).
 >
 > **Box campi opzionali/consigliati (Evo Pack v2)**
 >
@@ -114,7 +114,8 @@ Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 
 > **Esempio sinergie/conflitti (pack → repo)**
 >
-> - `sinergie: ["TR-0421" (alias: condotto_laminare)]`, `conflitti: ["TR-0502" (alias: ipertermia_cronica)]` nel pack diventano `sinergie: ["condotto_laminare"]`, `conflitti: ["ipertermia_cronica"]` nei file del repository.
+> - Nel pack: `sinergie: ["condotto_laminare" (trait_code: TR-0421)]`, `conflitti: ["ipertermia_cronica" (trait_code: TR-0502)]`.
+> - Nel repository: usare solo gli `id` snake_case → `sinergie: ["condotto_laminare"]`, `conflitti: ["ipertermia_cronica"]`.
 
 La definizione dei tratti deve evitare ridondanze: ogni tratto deve essere atomico, cioè con una funzione principale chiara e testabile. Per ogni super-abilità occorre indicare almeno un limite o contromisura (raffreddamento, saturazione, schermature, rumore di fondo…).
 
