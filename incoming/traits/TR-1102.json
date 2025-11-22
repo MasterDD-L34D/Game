@@ -1,14 +1,11 @@
 {
   "trait_code": "TR-1102",
-  "label": "Scheletro Idraulico a Pistoni",
+  "label": "i18n:traits.scheletro_idraulico_a_pistoni.label",
   "famiglia_tipologia": "Locomotivo/Balistico",
   "fattore_mantenimento_energetico": "Medio",
   "tier": "T4",
   "slot": [],
-  "sinergie": [
-    "TR-1101",
-    "TR-1103"
-  ],
+  "sinergie": ["rostro_emostatico_litico", "ipertrofia_muscolare_massiva"],
   "conflitti": [],
   "requisiti_ambientali": [
     {
@@ -44,14 +41,14 @@
   },
   "applicability": {
     "clades": [],
-    "envo_terms": [
-      "http://purl.obolibrary.org/obo/ENVO_01000178"
-    ]
+    "envo_terms": ["http://purl.obolibrary.org/obo/ENVO_01000178"]
   },
   "version": "2.0.0",
   "versioning": {
     "created": "2025-11-04",
     "updated": "2025-11-04",
     "author": "Master DD / GPT-5 Pro"
-  }
+  },
+  "id": "scheletro_idraulico_a_pistoni",
+  "data_origin": "incoming_tr1100_pack"
 }

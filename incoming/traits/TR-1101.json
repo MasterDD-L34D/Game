@@ -1,13 +1,11 @@
 {
   "trait_code": "TR-1101",
-  "label": "Rostro Emostatico-Litico",
+  "label": "i18n:traits.rostro_emostatico_litico.label",
   "famiglia_tipologia": "Offensivo/Perforante",
   "fattore_mantenimento_energetico": "Medio",
   "tier": "T4",
   "slot": [],
-  "sinergie": [
-    "TR-1102"
-  ],
+  "sinergie": ["scheletro_idraulico_a_pistoni"],
   "conflitti": [],
   "requisiti_ambientali": [
     {
@@ -53,5 +51,7 @@
     "created": "2025-11-04",
     "updated": "2025-11-04",
     "author": "Master DD / GPT-5 Pro"
-  }
+  },
+  "id": "rostro_emostatico_litico",
+  "data_origin": "incoming_tr1100_pack"
 }

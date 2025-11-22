@@ -1,13 +1,11 @@
 {
   "trait_code": "TR-1104",
-  "label": "Ectotermia Dinamica",
+  "label": "i18n:traits.ectotermia_dinamica.label",
   "famiglia_tipologia": "Fisiologico/Termico",
   "fattore_mantenimento_energetico": "Medio",
   "tier": "T3",
   "slot": [],
-  "sinergie": [
-    "TR-1103"
-  ],
+  "sinergie": ["ipertrofia_muscolare_massiva"],
   "conflitti": [],
   "requisiti_ambientali": [
     {
@@ -43,14 +41,14 @@
   },
   "applicability": {
     "clades": [],
-    "envo_terms": [
-      "http://purl.obolibrary.org/obo/ENVO_01000178"
-    ]
+    "envo_terms": ["http://purl.obolibrary.org/obo/ENVO_01000178"]
   },
   "version": "2.0.0",
   "versioning": {
     "created": "2025-11-04",
     "updated": "2025-11-04",
     "author": "Master DD / GPT-5 Pro"
-  }
+  },
+  "id": "ectotermia_dinamica",
+  "data_origin": "incoming_tr1100_pack"
 }

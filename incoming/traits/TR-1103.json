@@ -1,16 +1,12 @@
 {
   "trait_code": "TR-1103",
-  "label": "Ipertrofia Muscolare Massiva",
+  "label": "i18n:traits.ipertrofia_muscolare_massiva.label",
   "famiglia_tipologia": "Fisiologico/Metabolico",
   "fattore_mantenimento_energetico": "Alto",
   "tier": "T3",
   "slot": [],
-  "sinergie": [
-    "TR-1102"
-  ],
-  "conflitti": [
-    "TR-1105"
-  ],
+  "sinergie": ["scheletro_idraulico_a_pistoni"],
+  "conflitti": ["organi_sismici_cutanei"],
   "requisiti_ambientali": [
     {
       "capacita_richieste": [],
@@ -45,14 +41,14 @@
   },
   "applicability": {
     "clades": [],
-    "envo_terms": [
-      "http://purl.obolibrary.org/obo/ENVO_01000178"
-    ]
+    "envo_terms": ["http://purl.obolibrary.org/obo/ENVO_01000178"]
   },
   "version": "2.0.0",
   "versioning": {
     "created": "2025-11-04",
     "updated": "2025-11-04",
     "author": "Master DD / GPT-5 Pro"
-  }
+  },
+  "id": "ipertrofia_muscolare_massiva",
+  "data_origin": "incoming_tr1100_pack"
 }
