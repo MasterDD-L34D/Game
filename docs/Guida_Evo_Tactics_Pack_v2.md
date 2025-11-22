@@ -83,29 +83,36 @@ Le schede creatura sono strutturate secondo due schemi JSON (schema specie e sch
 
 Ogni Tratto (file in `traits/`) è un elemento atomico e deve includere:
 
-- **trait_code**: codice univoco `TR-0000` (per il catalogo globale) o `SPEC_ABBR-TRxx` (per associare il tratto a una specie). Nel catalogo gli stessi tratti possono essere riutilizzati da più specie.
-- **label**: denominazione criptozoologica, formata da sostantivo + qualificatore (2–3 parole). La scrittura segue il _Title Case_ (iniziali maiuscole per le parole significative, minuscole per preposizioni come “a”, “di”).
+**Campi minimi richiesti dal repository** (fonte canonica: [scheda operativa dei trait](./traits_scheda_operativa.md)):
+
+- **id**: snake_case allineato al nome file JSON, derivato dal `trait_code`.
+- **label**: puntare a `i18n:traits.<id>.label`; le stringhe localizzate vivono nel glossario/i18n, non nel file tratto.
 - **famiglia_tipologia**: categoria generale (es. Difensivo/Termoregolazione, Locomotivo/Balistico, Sensoriale/Tatto-Vibro…).
 - **fattore_mantenimento_energetico**: _Basso, Medio_ o _Alto_, indicativo del costo per mantenere il tratto attivo.
 - **tier**: T1–T5 (con costo/complessità/impatti crescenti). Tier elevati indicano poteri eccezionali con costi metabolici o vincoli severi.
 - **slot**: elenco opzionale per definire ruoli speciali o raggruppamenti (può restare vuoto).
-- **sinergie** e **conflitti**: liste di codici trait. I tratti in sinergia potenziano le funzioni reciproche; quelli in conflitto non possono coesistere. Nel pack puoi indicare `trait_code` con alias `id`, ma nei JSON del repository vanno usati solo gli `id` snake_case (vedi tabella di mapping in [docs/traits_evo_pack_alignment.md](./traits_evo_pack_alignment.md)).
-  - **Esempio sinergie/conflitti (pack → repo)**: `sinergie: ["TR-0421" (alias: condotto_laminare)]`, `conflitti: ["TR-0502" (alias: ipertermia_cronica)]` nel pack diventano `sinergie: ["condotto_laminare"]`, `conflitti: ["ipertermia_cronica"]` nei file del repository.
-- **requisiti_ambientali**: condizioni o biome in cui il tratto è efficace (campo libero accompagnato da eventuali termini ENVO).
-- **mutazione_indotta**: breve frase sull’origine anatomica (es. “Ghiandole olocrine ad alta densità”).
-- **uso_funzione**: verbo + oggetto che definisce la funzione principale (es. “Isolare e galleggiare”).
-- **spinta_selettiva**: descrive la pressione evolutiva che ha favorito il tratto (predazione, climi estremi, competizione…).
+- **sinergie** e **conflitti**: liste di `id` trait (non `trait_code`). Nel pack puoi mostrare entrambi come alias, ma nei JSON del repository vanno usati solo gli `id` snake_case (vedi tabella di mapping in [docs/traits_evo_pack_alignment.md](./traits_evo_pack_alignment.md)).
+- **data_origin**: usare solo gli slug ufficiali.
+- **mutazione_indotta**, **uso_funzione**, **spinta_selettiva**: frasi brevi e misurabili, obbligatorie per ogni tratto.
+
+**Campi extra del pack (non richiesti dal repository, ma utili nel materiale Evo)**:
+
+- **trait_code**: codice univoco `TR-0000` (per il catalogo globale) o `SPEC_ABBR-TRxx` (per associare il tratto a una specie). Nel catalogo gli stessi tratti possono essere riutilizzati da più specie.
 - **metrics**: array di oggetti che misurano la performance del tratto. Ogni metrica ha `name`, `value` e `unit` e deve usare simboli UCUM (es. `m/s`, `J`, `Cel`, `L/min`, `dB·s`). Preferire intervalli o ordini di grandezza e indicare le condizioni (aria, acqua, temperatura).
 - **cost_profile**: costi energetici nelle fasi `rest` (riposo), `burst` (scatto breve) e `sustained` (sforzo prolungato).
-- **testability**: indica cosa si può osservare per verificare il tratto (`observable`) e fornisce uno `scene_prompt` per test narrativi ripetibili.
+- **testability**: cosa si può osservare per verificare il tratto (`observable`) e uno `scene_prompt` per test narrativi ripetibili.
 - **applicability**: facoltativo; può elencare cladi biologici e termini ENVO.
 - **version** e **versioning**: numerazione SemVer (`version`) e dettagli (date di creazione/aggiornamento, autore) in `versioning`.
 
-> **Promemoria alias `trait_code` vs `id` (repo Game)**
+> **Avvertenza (migrazione pack → repository Game)**
 >
-> - Nei file del pacchetto puoi includere `trait_code` come alias (es. `TR-0420`), ma nei JSON del repository ufficiale devi usare `id` snake_case e `label` puntato a `i18n:traits.<id>.label`.
-> - Il campo `trait_code` resta utile per il pack e per i riferimenti cross-doc (inclusi gli alias mostrati negli esempi qui sotto), mentre i validator del repo si aspettano sempre `id`/`label` i18n.
-> - Suggerimento operativo: tieni entrambi i valori nel pack (`trait_code` + alias `id`) ma, quando porti i dati nel repository Game, compila le chiavi con `id` e `label` i18n (non con `trait_code`).
+> - Prima di importare un tratto nel repository, rimuovi `trait_code` e qualunque label testuale inserita nel file, lasciandoli solo come alias nei materiali del pack.
+> - Nel repository devono restare solo `id` snake_case e `label` i18n (`i18n:traits.<id>.label`), con i testi gestiti in glossario/localizzazioni.
+> - Le sinergie/conflitti devono essere convertite definitivamente in `id` snake_case.
+
+> **Esempio sinergie/conflitti (pack → repo)**
+>
+> - `sinergie: ["TR-0421" (alias: condotto_laminare)]`, `conflitti: ["TR-0502" (alias: ipertermia_cronica)]` nel pack diventano `sinergie: ["condotto_laminare"]`, `conflitti: ["ipertermia_cronica"]` nei file del repository.
 
 La definizione dei tratti deve evitare ridondanze: ogni tratto deve essere atomico, cioè con una funzione principale chiara e testabile. Per ogni super-abilità occorre indicare almeno un limite o contromisura (raffreddamento, saturazione, schermature, rumore di fondo…).
 
