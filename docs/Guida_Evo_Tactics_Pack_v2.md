@@ -5,6 +5,7 @@
 - [Scheda operativa dei trait](docs/traits_scheda_operativa.md)
 - [Guida autore tratti](README_HOWTO_AUTHOR_TRAIT.md)
 - [Template dati dei tratti](docs/traits_template.md)
+- [Scala di senzienza (T0–T5)](README_SENTIENCE.md)
 
 ## Introduzione
 
@@ -39,7 +40,7 @@ Le schede creatura sono strutturate secondo due schemi JSON (schema specie e sch
 - **risk_profile**: pericolosità su scala 0–3 e vettori (tossine, patogeni, onde d’urto…).
 - **interactions**: elenco di prede tipiche, predatori, eventuali simbiosi/parassitismi (descrivere il patto biologico quando esiste).
 - **constraints**: almeno due limitazioni o trade-off (costi metabolici elevati, necessità di ambienti specifici, contromisure note).
-- **sentience_index**: indice di senzienza (T0–T5) secondo la scala definita nei documenti di riferimento.
+- **sentience_index**: indice di senzienza (T0–T5) secondo la scala definita nei [documenti di riferimento](README_SENTIENCE.md).
 - **ecotypes**: etichette delle varianti ecologiche (vedi sezione _Ecotipi_). I dettagli delle varianti sono in file separati sotto `ecotypes/`.
 - **trait_refs**: array di codici che puntano ai tratti (file in `traits/`). Ogni specie deve avere 5–9 tratti totali, coprendo tutti gli assi possibili:
   - locomozione/manipolazione

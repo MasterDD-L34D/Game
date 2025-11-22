@@ -17,7 +17,7 @@ La guida è pensata per essere salvata nella cartella `docs/` del progetto e off
 
 Le schede creatura sono strutturate secondo due schemi JSON (schema specie e schema tratto). Ogni **Specie** (file in `species/`) deve contenere i seguenti campi principali:
 
-- **scientific_name**: nome binomiale (*Genus species*) con radici greco‑latine coerenti con la firma funzionale.
+- **scientific_name**: nome binomiale (_Genus species_) con radici greco‑latine coerenti con la firma funzionale.
 - **common_names**: uno o due nomi volgari evocativi (es. “Viverna‑Elastico”).
 - **classification**: classe macro (es. `Mammalia`, `Reptilia`, `Artropode`) e descrizione sintetica dell’habitat/ecotopo primario.
 - **functional_signature**: 1–2 frasi che descrivono ciò che la specie fa “meglio di tutte”, cioè la sua firma operativa (attacco, difesa, mobilità, sensi, riproduzione…).
@@ -25,7 +25,7 @@ Le schede creatura sono strutturate secondo due schemi JSON (schema specie e sch
 - **risk_profile**: pericolosità su scala 0–3 e vettori (tossine, patogeni, onde d’urto…).
 - **interactions**: elenco di prede tipiche, predatori, eventuali simbiosi/parassitismi (descrivere il patto biologico quando esiste).
 - **constraints**: almeno due limitazioni o trade‑off (costi metabolici elevati, necessità di ambienti specifici, contromisure note).
-- **sentience_index**: indice di senzienza (T0–T5) secondo la scala definita nei documenti di riferimento.
+- **sentience_index**: indice di senzienza (T0–T5) secondo la scala definita nei [documenti di riferimento](docs/README_SENTIENCE.md).
 - **ecotypes**: etichette delle varianti ecologiche (vedi sezione Ecotipi). I dettagli delle varianti sono in file separati sotto `ecotypes/`.
 - **trait_refs**: array di codici che puntano ai tratti (file in `traits/`). Ogni specie deve avere **5–9 tratti totali**, coprendo tutti gli assi possibili: **locomozione/manipolazione**, **alimentazione/digestione**, **sensi/percezione**, **attacco/difesa**, **metabolismo/termo‑respiro**, **riproduzione/ciclo vitale**.
 
@@ -54,7 +54,7 @@ La definizione dei tratti deve evitare ridondanze: ogni tratto deve essere **ato
 
 Per rendere il database coerente, si seguono regole precise per nomi e descrizioni:
 
-1. **Specie**: il nome scientifico deve essere in corsivo (quando pubblicato), con Genus maiuscolo e specie minuscola. Dev’essere univoco e coerente con la firma funzionale. L’abbreviazione species (per codici trait) è composta dalle tre lettere del Genus più due lettere della specie (es. *Elastovaranus hydrus* → `EHY`). I nomi volgari devono essere brevi, evocativi e legati alla firma funzionale (es. “Ghiotton‑Scudo”).
+1. **Specie**: il nome scientifico deve essere in corsivo (quando pubblicato), con Genus maiuscolo e specie minuscola. Dev’essere univoco e coerente con la firma funzionale. L’abbreviazione species (per codici trait) è composta dalle tre lettere del Genus più due lettere della specie (es. _Elastovaranus hydrus_ → `EHY`). I nomi volgari devono essere brevi, evocativi e legati alla firma funzionale (es. “Ghiotton‑Scudo”).
 
 2. **Tratti**: la denominazione criptozoologica si compone di un sostantivo e un qualificatore. Se i qualificatori sono co‑primari, si usa il trattino (es. “Emostatico‑Litico”); se indicano un meccanismo, si usa “a” o “di” (es. “Scheletro Idraulico a Pistoni”). Utilizzare sempre termini precisi e coerenti (“prensile” al posto di “presile”, “cheratinizzato” al posto di “cheratinoso”, ecc.). La funzione primaria è scritta come verbo + oggetto e deve essere misurabile.
 
@@ -96,7 +96,7 @@ Gli **ecotipi** permettono di declinare una stessa specie in varianti locali ada
 - un `id` (es. `EHY-ECO1`),
 - un `label` (nome evocativo dell’ecotipo),
 - un `biome_class` e eventuali `envo_terms` per definire l’ambiente,
-- un array di `trait_adjustments` che contiene modifiche (delta) alle metriche dei tratti della specie, specificando il codice tratto, la metrica, il delta numerico, l’unità e le note. Ad esempio, l’ecotipo “Gole Ventose” per *Elastovaranus hydrus* riduce la velocità del proiettile di 10 m/s in aria satura e migliora la tolleranza termica di 5 K.
+- un array di `trait_adjustments` che contiene modifiche (delta) alle metriche dei tratti della specie, specificando il codice tratto, la metrica, il delta numerico, l’unità e le note. Ad esempio, l’ecotipo “Gole Ventose” per _Elastovaranus hydrus_ riduce la velocità del proiettile di 10 m/s in aria satura e migliora la tolleranza termica di 5 K.
 
 Nel file della specie (`species/<genus_species>.json`), il campo `ecotypes` deve contenere solo le etichette (“Gole Ventose”, “Letti Fluviali”); i dettagli dell’ecotipo sono nel file corrispondente in `ecotypes/`. Per aggiungere un nuovo ecotipo occorre:
 
@@ -151,7 +151,7 @@ Questo documento definisce che cos’è un trait (unità atomica riusabile di fu
 
 Questa tabella consultiva raggruppa le metriche più comuni per cluster funzionali e indica le unità UCUM consigliate. Alcuni esempi:
 
-- **Locomotivo**: velocità massima (`m/s`), accelerazione 0–10 (`m/s2`), salto verticale (`m`), autonomia di volo (`km`, convertibile in `m` per calcoli). 
+- **Locomotivo**: velocità massima (`m/s`), accelerazione 0–10 (`m/s2`), salto verticale (`m`), autonomia di volo (`km`, convertibile in `m` per calcoli).
 - **Sensoriale**: soglia uditiva (`dB`), banda uditiva massima (`Hz`), rilevabilità visiva (`1`), sensibilità magnetica (`T`), sensibilità elettrica (`V/m`).
 - **Fisiologico**: temperatura del getto (`Cel`), tolleranza termica (`K`), metabolic rate (`W/kg`), consumo O₂ (`L/min`), pressione del getto (`Pa`).
 - **Offensivo**: energia impattiva (`J`), velocità del proiettile (`m/s`), tensione di picco (`V`), dose acustica (`dB·s`), area del cono (`m2`).
@@ -165,7 +165,7 @@ Il prontuario include anche una mini‑tabella con i codici UCUM più usati e no
 
 In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci creature definite nel progetto, con i loro tratti principali. Per ogni specie vengono indicati il nome scientifico, i nomi volgari, la classificazione macro, una descrizione sintetica, la firma funzionale e un elenco dei tratti con struttura morfologica e funzione primaria.
 
-### 1. *Elastovaranus hydrus* — Viverna‑Elastico
+### 1. _Elastovaranus hydrus_ — Viverna‑Elastico
 
 **Classificazione:** Reptilia; predatore delle savane calde con gole rocciose e letti fluviali stagionali.
 
@@ -184,7 +184,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Setticemia Secolo:** la saliva trasporta ceppi batterici virulenti che, se la preda sopravvive all’attacco, la uccidono nelle ore o giorni successivi; funzione primaria: garantire la morte differita della vittima.
 - **Resistenza Toxinologica Endemica:** l’animale è immunizzato ai propri veleni e mostra elevata resistenza alla maggior parte delle tossine naturali; funzione primaria: proteggersi da auto‑intossicazione e tossine altrui.
 
-### 2. *Gulogluteus scutiger* — Ghiotton‑Scudo
+### 2. _Gulogluteus scutiger_ — Ghiotton‑Scudo
 
 **Classificazione:** Mammalia; onnivoro tassiforme che vive in ambienti umidi, foreste paludose e argini fluviali.
 
@@ -204,7 +204,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Articolazioni Multiassiali:** giunti a sfera nelle spalle e nelle anche che consentono ai quattro arti di ruotare ampiamente, facilitando arrampicata e rotazione; funzione primaria: ruotare arti per manovre strette.
 - **Sensibilità Sismica Profonda:** struttura ossea robusta dotata di recettori capaci di rilevare vibrazioni del terreno e individuare prede sotterranee; funzione primaria: percepire vibrazioni e minacce.
 
-### 3. *Perfusuas pedes* — Zannapiedi
+### 3. _Perfusuas pedes_ — Zannapiedi
 
 **Classificazione:** ibrido artropode‑mammifero; predatore parassita che vive in caverne umide e radure forestali notturne.
 
@@ -224,7 +224,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Appendice da Contatto Super‑Cinetica:** zampa anteriore modificata che si muove a velocità esplosiva producendo un’onda d’urto simile alla canocchia pavone; funzione primaria: colpire con un pugno a cavitazione.
 - **Simbiosi da Ostaggio & Dipendenza Bio‑Cognitiva:** l’animale mantiene un ospite senziente immobilizzato e nutrito che funge da occhi e interprete cognitivo; funzione primaria: ottenere percezioni e guida mentale dall’ospite.
 
-### 4. *Terracetus ambulator* — Megattera Terrestre
+### 4. _Terracetus ambulator_ — Megattera Terrestre
 
 **Classificazione:** Mammalia; erbivoro gigante che vive in pianure aperte e savane ventilate.
 
@@ -240,7 +240,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Canto Infrasonico Tattico:** sistema vocale che emette suoni a bassissima frequenza per disorientare predatori e comunicare a grande distanza; funzione primaria: confondere i predatori e comunicare.
 - **Siero Anti‑Gelo Naturale:** sostanze crioproteiche che impediscono la formazione di cristalli di ghiaccio nei tessuti, consentendo la sopravvivenza in climi estremi; funzione primaria: resistere al gelo.
 
-### 5. *Chemnotela toxica* — Aracnide Alchemico
+### 5. _Chemnotela toxica_ — Aracnide Alchemico
 
 **Classificazione:** Arthropoda; predatore esperto di chimica, vive in radure acide e chiome bagnate.
 
@@ -256,7 +256,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Filtrazione Osmotica:** sistema renale a multi‑stadio che filtra e neutralizza i composti acidi prodotti dall’animale; funzione primaria: eliminare tossine.
 - **Visione Polarizzata:** occhi specializzati che vedono i pattern di polarizzazione della luce, distinguendo la propria seta e rilevando fessure; funzione primaria: rilevare tensioni e navigare nelle tele.
 
-### 6. *Proteus plasma* — Mutaforma Cellulare
+### 6. _Proteus plasma_ — Mutaforma Cellulare
 
 **Classificazione:** organismo primitivo; può essere unicellulare o un piccolo collettivo di cellule pluripotenti; vive in stagni quieti e torrenti lenti.
 
@@ -272,7 +272,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Moltiplicazione per Fusione/Scissione:** riproduzione tramite scissione cellulare o fusione con altre unità, aumentando la massa e la complessità; funzione primaria: riprodursi e ripararsi.
 - **Cisti di Ibernazione Minerale:** in condizioni avverse si racchiude in una cisti protettiva con pareti rigidamente mineralizzate che resistono a calore e pressione; funzione primaria: entrare in stasi e proteggersi.
 
-### 7. *Soniptera resonans* — Libellula Sonica
+### 7. _Soniptera resonans_ — Libellula Sonica
 
 **Classificazione:** Insecta; insetto volante di grandi dimensioni che abita oasi termiche e praterie arbustive.
 
@@ -288,7 +288,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Cervello a Bassa Latenza:** sistema nervoso con sinapsi super‑veloci che permette manovre fulminee e precisione millimetrica nell’attacco sonico; funzione primaria: reazioni rapide e pilotaggio agile.
 - **Occhi Cinetici:** organi visivi ottimizzati per rilevare le distorsioni dell’aria generate dalle onde sonore e dalle vibrazioni; funzione primaria: vedere il suono.
 
-### 8. *Anguis magnetica* — Anguilla Geomagnetica
+### 8. _Anguis magnetica_ — Anguilla Geomagnetica
 
 **Classificazione:** rettile/pesce serpiforme; vive in estuari torbidi e lagune tranquille; sfrutta il magnetismo terrestre.
 
@@ -304,7 +304,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Filtro Metallofago:** organo digerente specializzato nell’assorbire metalli traccia (ferro, rame) dall’acqua e dal terreno, necessari per mantenere la bioelettrogenesi; funzione primaria: nutrirsi di metalli essenziali.
 - **Bozzolo Magnetico:** capacità di creare un campo magnetico isolante che forma un bozzolo protettivo, bloccando tutte le interferenze elettromagnetiche esterne; funzione primaria: ibernarsi e schermarsi dalle minacce.
 
-### 9. *Umbra alaris* — Uccello Ombra
+### 9. _Umbra alaris_ — Uccello Ombra
 
 **Classificazione:** Aves; predatore notturno che vive in foreste dense, canyons ombrosi e ambienti rocciosi.
 
@@ -320,7 +320,7 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 - **Artigli Ipo‑Termici:** artigli che, al contatto, rilasciano rapidamente agenti chimici che provocano un raffreddamento locale e shock termico nella preda; funzione primaria: immobilizzare tramite shock da freddo.
 - **Comunicazione Coda‑Coda Fotonica:** scambio di impulsi luminosi tramite le penne della coda senza emettere suono, permettendo comunicazione stealth con altri individui; funzione primaria: comunicare senza fare rumore.
 
-### 10. *Rupicapra sensoria* — Camoscio Psionico
+### 10. _Rupicapra sensoria_ — Camoscio Psionico
 
 **Classificazione:** Mammalia; erbivoro montano che vive su cenge calcaree e dorsali ventose.
 
@@ -338,20 +338,20 @@ In assenza del pacchetto, questa sezione fornisce una panoramica delle dieci cre
 
 ## Ecotipi e varianti ecologiche
 
-Le creature del **Evo Tactics Pack v2** non sono statiche: ogni specie può sviluppare varianti locali denominate **ecotipi** quando si adatta a un bioma o a condizioni ambientali specifiche. Gli ecotipi modificano alcune metriche dei tratti (ad esempio aumentano la tolleranza al freddo o riducono la velocità d’attacco) senza cambiare la struttura di base della specie. Nel pacchetto questi dettagli sono archiviati in file dedicati all’interno della cartella `ecotypes/`.  Qui sotto trovi una panoramica sintetica delle varianti generate in questa conversazione.
+Le creature del **Evo Tactics Pack v2** non sono statiche: ogni specie può sviluppare varianti locali denominate **ecotipi** quando si adatta a un bioma o a condizioni ambientali specifiche. Gli ecotipi modificano alcune metriche dei tratti (ad esempio aumentano la tolleranza al freddo o riducono la velocità d’attacco) senza cambiare la struttura di base della specie. Nel pacchetto questi dettagli sono archiviati in file dedicati all’interno della cartella `ecotypes/`. Qui sotto trovi una panoramica sintetica delle varianti generate in questa conversazione.
 
-- *Elastovaranus hydrus* dispone di due ecotipi:
+- _Elastovaranus hydrus_ dispone di due ecotipi:
   - **Gole Ventose** (bioma roccioso): lamelle sismiche più sensibili migliorano la rilevazione delle vibrazioni, mentre l’ectotermia dinamica è ottimizzata per correnti d’aria fredde.
   - **Letti Fluviali** (bioma umido): l’impatto del colpo proiettile è smorzato dalla sabbia bagnata e la velocità del rostro è leggermente ridotta, ma la creatura resiste meglio all’umidità.
-- *Gulogluteus scutiger* presenta varianti come **Chioma Umida** e **Forre Umide** che affinano la presa della coda e l’aderenza della pelliccia in ambienti ricchi di muschio. In compenso, la corazza e il pelo più densi riducono la velocità di corsa su lunga distanza.
-- *Perfusuas pedes* evolve ecotipi come **Cavernicolo** (con sacche esterne più spesse e apparato miriapode più aderente alle pareti) e **Radura Notturna** (con sonar più potente ma sistema immunitario meno stabile). Questi aggiustamenti bilanciano la vulnerabilità in ambienti aperti e la capacità di arrampicata.
-- *Terracetus ambulator* sviluppa **Pianure Ventose** (scheletro più leggero per resistere alle raffiche ma ciglia più corte) e **Savanicola Notturno** (maggiore resistenza al freddo grazie a un siero criogeno potenziato, ma velocità di movimento ridotta su superfici sabbiose).
-- *Chemnotela toxica* presenta ecotipi come **Radura Acida** (acido più potente ma reni più lenti) e **Chioma Elettrofilo** (seta altamente conduttiva con un carico elettrico maggiore ma minore quantità prodotta), adattandosi a zone con diversa acidità del suolo.
-- *Proteus plasma* ha varianti **Stagno Quieto** (cisti di ibernazione più rapide e membrane più spesse) e **Torrente Lento** (flusso ameboide accelerato ma minor resistenza alla pressione), bilanciando la necessità di protezione e movimento.
-- *Soniptera resonans* produce ecotipi come **Oasi Termica** (ali più larghe e onda di pressione meno intensa ma più estesa) e **Prateria Arbustiva** (emissione sonora più direzionale ma minor campo di interferenza), ottimizzando attacco e difesa in ambienti differenti.
-- *Anguis magnetica* esibisce varianti **Estuario Torbido** (campo magnetico pulsato più forte ma scivolamento magnetico meno efficiente) e **Laguna Quieta** (bozzolo elettromagnetico più duraturo ma organo elettrico meno potente), adattandosi a diverse salinità dell’acqua.
-- *Umbra alaris* è rappresentata da ecotipi **Canopy Ombrosa** (piumaggio ancora più assorbente e occhi maggiormente sensibili agli infrarossi) e **Canyon Notturno** (artigli ipo‑termici più efficaci ma consumo energetico maggiore), bilanciando invisibilità e shock termico.
-- *Rupicapra sensoria* infine sviluppa ecotipi come **Cenge Calcarenitiche** (corna più lunghe e potente campo mentale, ma zoccoli meno aderenti) e **Dorsali Ventose** (sistema energetico condiviso più efficiente ma aura di dispersione ridotta), per far fronte alla geologia e al clima delle montagne.
+- _Gulogluteus scutiger_ presenta varianti come **Chioma Umida** e **Forre Umide** che affinano la presa della coda e l’aderenza della pelliccia in ambienti ricchi di muschio. In compenso, la corazza e il pelo più densi riducono la velocità di corsa su lunga distanza.
+- _Perfusuas pedes_ evolve ecotipi come **Cavernicolo** (con sacche esterne più spesse e apparato miriapode più aderente alle pareti) e **Radura Notturna** (con sonar più potente ma sistema immunitario meno stabile). Questi aggiustamenti bilanciano la vulnerabilità in ambienti aperti e la capacità di arrampicata.
+- _Terracetus ambulator_ sviluppa **Pianure Ventose** (scheletro più leggero per resistere alle raffiche ma ciglia più corte) e **Savanicola Notturno** (maggiore resistenza al freddo grazie a un siero criogeno potenziato, ma velocità di movimento ridotta su superfici sabbiose).
+- _Chemnotela toxica_ presenta ecotipi come **Radura Acida** (acido più potente ma reni più lenti) e **Chioma Elettrofilo** (seta altamente conduttiva con un carico elettrico maggiore ma minore quantità prodotta), adattandosi a zone con diversa acidità del suolo.
+- _Proteus plasma_ ha varianti **Stagno Quieto** (cisti di ibernazione più rapide e membrane più spesse) e **Torrente Lento** (flusso ameboide accelerato ma minor resistenza alla pressione), bilanciando la necessità di protezione e movimento.
+- _Soniptera resonans_ produce ecotipi come **Oasi Termica** (ali più larghe e onda di pressione meno intensa ma più estesa) e **Prateria Arbustiva** (emissione sonora più direzionale ma minor campo di interferenza), ottimizzando attacco e difesa in ambienti differenti.
+- _Anguis magnetica_ esibisce varianti **Estuario Torbido** (campo magnetico pulsato più forte ma scivolamento magnetico meno efficiente) e **Laguna Quieta** (bozzolo elettromagnetico più duraturo ma organo elettrico meno potente), adattandosi a diverse salinità dell’acqua.
+- _Umbra alaris_ è rappresentata da ecotipi **Canopy Ombrosa** (piumaggio ancora più assorbente e occhi maggiormente sensibili agli infrarossi) e **Canyon Notturno** (artigli ipo‑termici più efficaci ma consumo energetico maggiore), bilanciando invisibilità e shock termico.
+- _Rupicapra sensoria_ infine sviluppa ecotipi come **Cenge Calcarenitiche** (corna più lunghe e potente campo mentale, ma zoccoli meno aderenti) e **Dorsali Ventose** (sistema energetico condiviso più efficiente ma aura di dispersione ridotta), per far fronte alla geologia e al clima delle montagne.
 
 Gli ecotipi arricchiscono la narrazione e la meccanica di gioco, consentendo di personalizzare le creature e adattarle a nuovi contesti. Per ogni specie le etichette degli ecotipi sono elencate nel campo `ecotypes` del file specie, mentre i dettagli e i delta metrici sono nel file dedicato in `ecotypes/<genus_species>_ecotypes.json`.
 
@@ -383,11 +383,11 @@ Seguendo questi passi e facendo riferimento costante alla guida, potrai espander
 
 ## Integrazione con lo schema canonico e la Track di Senzienza (v2.1)
 
-Negli ultimi aggiornamenti del progetto Evo Tactics, oltre allo schema v2 per specie e tratti descritto in questa guida, è stato introdotto un **schema canonico unificato** che rende i tratti completamente *species‑agnostici* e una **Sentience Track** che regola l’accesso ai poteri sociali e cognitivi. Questa sezione riassume i punti chiave dell’integrazione:
+Negli ultimi aggiornamenti del progetto Evo Tactics, oltre allo schema v2 per specie e tratti descritto in questa guida, è stato introdotto un **schema canonico unificato** che rende i tratti completamente _species‑agnostici_ e una **Sentience Track** che regola l’accesso ai poteri sociali e cognitivi. Questa sezione riassume i punti chiave dell’integrazione:
 
 ### Stato target e struttura file (SSoT)
 
-Il *single‑source‑of‑truth* (SSoT) per Evo Tactics prevede una struttura di repository suddivisa in documentazione, pacchetti e strumenti. In particolare:
+Il _single‑source‑of‑truth_ (SSoT) per Evo Tactics prevede una struttura di repository suddivisa in documentazione, pacchetti e strumenti. In particolare:
 
 - `docs/INTEGRAZIONE_GUIDE.md` descrive il punto di convergenza tra la guida operativa v2 e i materiali canonici, offrendo una roadmap per la migrazione (vedi “Roadmap” più avanti).
 - `docs/trait_reference_manual.md` fornirà una versione omnibus della guida ai trait, con dizionario campi, tassonomia e esempi estesi. È un’estensione della presente guida.
@@ -398,7 +398,7 @@ Il *single‑source‑of‑truth* (SSoT) per Evo Tactics prevede una struttura 
 
 ### Mappatura e regole di convergenza
 
-Le regole di convergenza tra il *Crypto Template* usato finora e lo schema canonico sono le seguenti:
+Le regole di convergenza tra il _Crypto Template_ usato finora e lo schema canonico sono le seguenti:
 
 1. **Trait species‑agnostici**: nei file dei tratti non compare più alcun riferimento diretto alla specie (`species_*` viene rimosso). L’associazione specie→trait è gestita solo nel catalogo master (`trait_refs`). Questo facilita il riuso dei tratti da più creature e allinea il design a uno standard modulare.
 2. **UCUM** obbligatorio per tutte le metriche e **ENVO** per habitat e condizioni ambientali. La sezione sulla mappatura campi (vedi più sopra) rimane valida; assicurati di convertire ogni unità in UCUM (m/s, Cel, Pa, etc.) e di usare i termini ENVO con URI PURL.
@@ -408,7 +408,7 @@ Le regole di convergenza tra il *Crypto Template* usato finora e lo schema canon
 
 ### Sentience Track T1–T6
 
-La *Sentience Track* è un sistema parallelo che definisce il livello di coscienza di una creatura su una scala da T1 (reattivo/primordiale) a T6 (pienamente sociale, linguistico e tecnologico). Ogni tratto può specificare una `sentience_applicability` che indica a partire da quale livello di senzienza è disponibile. Inoltre, alcune capacità (es. tratti sociali, tratti di comunicazione complessa) sono gateate e possono essere acquisiti solo se l’indice di senzienza della specie soddisfa il requisito. La versione canonicamente descritta nel file `sentience_track.json` fornisce linee guida su quali categorie funzionali richiedano gating (ad esempio, social/language → T≥4).
+La _Sentience Track_ è un sistema parallelo che definisce il livello di coscienza di una creatura su una scala da T1 (reattivo/primordiale) a T6 (pienamente sociale, linguistico e tecnologico). Ogni tratto può specificare una `sentience_applicability` che indica a partire da quale livello di senzienza è disponibile. Inoltre, alcune capacità (es. tratti sociali, tratti di comunicazione complessa) sono gateate e possono essere acquisiti solo se l’indice di senzienza della specie soddisfa il requisito. La versione canonicamente descritta nel file `sentience_track.json` fornisce linee guida su quali categorie funzionali richiedano gating (ad esempio, social/language → T≥4).
 
 ### Passi operativi per la migrazione
 

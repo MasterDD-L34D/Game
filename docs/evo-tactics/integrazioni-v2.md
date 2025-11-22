@@ -41,7 +41,7 @@ Le schede creatura sono strutturate secondo due schemi JSON (schema
 specie e schema tratto). Ogni **Specie** (file in `species/`) deve
 contenere i seguenti campi principali:
 
-- **scientific_name**: nome binomiale (*Genus species*) con radici
+- **scientific_name**: nome binomiale (_Genus species_) con radici
   greco‑latine coerenti con la firma funzionale.
 - **common_names**: uno o due nomi volgari evocativi (es.
   “Viverna‑Elastico”).
@@ -60,7 +60,7 @@ contenere i seguenti campi principali:
 - **constraints**: almeno due limitazioni o trade‑off (costi metabolici
   elevati, necessità di ambienti specifici, contromisure note).
 - **sentience_index**: indice di senzienza (T0–T5) secondo la scala
-  definita nei documenti di riferimento.
+  definita nei [documenti di riferimento](../README_SENTIENCE.md).
 - **ecotypes**: etichette delle varianti ecologiche (vedi sezione
   Ecotipi). I dettagli delle varianti sono in file separati sotto
   `ecotypes/`.
@@ -131,7 +131,7 @@ descrizioni:
     pubblicato), con Genus maiuscolo e specie minuscola. Dev’essere
     univoco e coerente con la firma funzionale. L’abbreviazione species
     (per codici trait) è composta dalle tre lettere del Genus più due
-    lettere della specie (es. *Elastovaranus hydrus* → `EHY`). I nomi
+    lettere della specie (es. _Elastovaranus hydrus_ → `EHY`). I nomi
     volgari devono essere brevi, evocativi e legati alla firma
     funzionale (es. “Ghiotton‑Scudo”).
 
@@ -231,7 +231,7 @@ per una specie:
 - un array di `trait_adjustments` che contiene modifiche (delta) alle
   metriche dei tratti della specie, specificando il codice tratto, la
   metrica, il delta numerico, l’unità e le note. Ad esempio, l’ecotipo
-  “Gole Ventose” per *Elastovaranus hydrus* riduce la velocità del
+  “Gole Ventose” per _Elastovaranus hydrus_ riduce la velocità del
   proiettile di 10 m/s in aria satura e migliora la tolleranza termica
   di 5 K.
 
@@ -397,7 +397,7 @@ ogni specie vengono indicati il nome scientifico, i nomi volgari, la
 classificazione macro, una descrizione sintetica, la firma funzionale e
 un elenco dei tratti con struttura morfologica e funzione primaria.
 
-### 1. *Elastovaranus hydrus* — Viverna‑Elastico {#evo-integrazioni-v2-1-elastovaranus-hydrus-vivernaelastico}
+### 1. _Elastovaranus hydrus_ — Viverna‑Elastico {#evo-integrazioni-v2-1-elastovaranus-hydrus-vivernaelastico}
 
 **Classificazione:** Reptilia; predatore delle savane calde con gole
 rocciose e letti fluviali stagionali.
@@ -447,7 +447,7 @@ precisi.
   tossine naturali; funzione primaria: proteggersi da
   auto‑intossicazione e tossine altrui.
 
-### 2. *Gulogluteus scutiger* — Ghiotton‑Scudo {#evo-integrazioni-v2-2-gulogluteus-scutiger-ghiottonscudo}
+### 2. _Gulogluteus scutiger_ — Ghiotton‑Scudo {#evo-integrazioni-v2-2-gulogluteus-scutiger-ghiottonscudo}
 
 **Classificazione:** Mammalia; onnivoro tassiforme che vive in ambienti
 umidi, foreste paludose e argini fluviali.
@@ -500,7 +500,7 @@ vivaci.
   recettori capaci di rilevare vibrazioni del terreno e individuare
   prede sotterranee; funzione primaria: percepire vibrazioni e minacce.
 
-### 3. *Perfusuas pedes* — Zannapiedi {#evo-integrazioni-v2-3-perfusuas-pedes-zannapiedi}
+### 3. _Perfusuas pedes_ — Zannapiedi {#evo-integrazioni-v2-3-perfusuas-pedes-zannapiedi}
 
 **Classificazione:** ibrido artropode‑mammifero; predatore parassita che
 vive in caverne umide e radure forestali notturne.
@@ -550,7 +550,7 @@ l’animale spesso trasporta una creatura ospite immobilizzata.
   occhi e interprete cognitivo; funzione primaria: ottenere percezioni e
   guida mentale dall’ospite.
 
-### 4. *Terracetus ambulator* — Megattera Terrestre {#evo-integrazioni-v2-4-terracetus-ambulator-megattera-terrestre}
+### 4. _Terracetus ambulator_ — Megattera Terrestre {#evo-integrazioni-v2-4-terracetus-ambulator-megattera-terrestre}
 
 **Classificazione:** Mammalia; erbivoro gigante che vive in pianure
 aperte e savane ventilate.
@@ -584,7 +584,7 @@ testa massiccia con piccole aperture nasali.
   la formazione di cristalli di ghiaccio nei tessuti, consentendo la
   sopravvivenza in climi estremi; funzione primaria: resistere al gelo.
 
-### 5. *Chemnotela toxica* — Aracnide Alchemico {#evo-integrazioni-v2-5-chemnotela-toxica-aracnide-alchemico}
+### 5. _Chemnotela toxica_ — Aracnide Alchemico {#evo-integrazioni-v2-5-chemnotela-toxica-aracnide-alchemico}
 
 **Classificazione:** Arthropoda; predatore esperto di chimica, vive in
 radure acide e chiome bagnate.
@@ -617,7 +617,7 @@ alcuni specializzati per vedere la tensione nelle tele.
   polarizzazione della luce, distinguendo la propria seta e rilevando
   fessure; funzione primaria: rilevare tensioni e navigare nelle tele.
 
-### 6. *Proteus plasma* — Mutaforma Cellulare {#evo-integrazioni-v2-6-proteus-plasma-mutaforma-cellulare}
+### 6. _Proteus plasma_ — Mutaforma Cellulare {#evo-integrazioni-v2-6-proteus-plasma-mutaforma-cellulare}
 
 **Classificazione:** organismo primitivo; può essere unicellulare o un
 piccolo collettivo di cellule pluripotenti; vive in stagni quieti e
@@ -654,7 +654,7 @@ ibernazione; non possiede organi distinti.
   resistono a calore e pressione; funzione primaria: entrare in stasi e
   proteggersi.
 
-### 7. *Soniptera resonans* — Libellula Sonica {#evo-integrazioni-v2-7-soniptera-resonans-libellula-sonica}
+### 7. _Soniptera resonans_ — Libellula Sonica {#evo-integrazioni-v2-7-soniptera-resonans-libellula-sonica}
 
 **Classificazione:** Insecta; insetto volante di grandi dimensioni che
 abita oasi termiche e praterie arbustive.
@@ -688,7 +688,7 @@ che cangiano alla luce.
   distorsioni dell’aria generate dalle onde sonore e dalle vibrazioni;
   funzione primaria: vedere il suono.
 
-### 8. *Anguis magnetica* — Anguilla Geomagnetica {#evo-integrazioni-v2-8-anguis-magnetica-anguilla-geomagnetica}
+### 8. _Anguis magnetica_ — Anguilla Geomagnetica {#evo-integrazioni-v2-8-anguis-magnetica-anguilla-geomagnetica}
 
 **Classificazione:** rettile/pesce serpiforme; vive in estuari torbidi e
 lagune tranquille; sfrutta il magnetismo terrestre.
@@ -725,7 +725,7 @@ movimento silenzioso; occhi piccoli; comportamenti lenti e furtivi.
   elettromagnetiche esterne; funzione primaria: ibernarsi e schermarsi
   dalle minacce.
 
-### 9. *Umbra alaris* — Uccello Ombra {#evo-integrazioni-v2-9-umbra-alaris-uccello-ombra}
+### 9. _Umbra alaris_ — Uccello Ombra {#evo-integrazioni-v2-9-umbra-alaris-uccello-ombra}
 
 **Classificazione:** Aves; predatore notturno che vive in foreste dense,
 canyons ombrosi e ambienti rocciosi.
@@ -762,7 +762,7 @@ la comunicazione.
   comunicazione stealth con altri individui; funzione primaria:
   comunicare senza fare rumore.
 
-### 10. *Rupicapra sensoria* — Camoscio Psionico {#evo-integrazioni-v2-10-rupicapra-sensoria-camoscio-psionico}
+### 10. _Rupicapra sensoria_ — Camoscio Psionico {#evo-integrazioni-v2-10-rupicapra-sensoria-camoscio-psionico}
 
 **Classificazione:** Mammalia; erbivoro montano che vive su cenge
 calcaree e dorsali ventose.
@@ -807,49 +807,49 @@ della specie. Nel pacchetto questi dettagli sono archiviati in file
 dedicati all’interno della cartella `ecotypes/`. Qui sotto trovi una
 panoramica sintetica delle varianti generate in questa conversazione.
 
-- *Elastovaranus hydrus* dispone di due ecotipi:
+- _Elastovaranus hydrus_ dispone di due ecotipi:
 - **Gole Ventose** (bioma roccioso): lamelle sismiche più sensibili
   migliorano la rilevazione delle vibrazioni, mentre l’ectotermia
   dinamica è ottimizzata per correnti d’aria fredde.
 - **Letti Fluviali** (bioma umido): l’impatto del colpo proiettile è
   smorzato dalla sabbia bagnata e la velocità del rostro è leggermente
   ridotta, ma la creatura resiste meglio all’umidità.
-- *Gulogluteus scutiger* presenta varianti come **Chioma Umida** e
+- _Gulogluteus scutiger_ presenta varianti come **Chioma Umida** e
   **Forre Umide** che affinano la presa della coda e l’aderenza della
   pelliccia in ambienti ricchi di muschio. In compenso, la corazza e il
   pelo più densi riducono la velocità di corsa su lunga distanza.
-- *Perfusuas pedes* evolve ecotipi come **Cavernicolo** (con sacche
+- _Perfusuas pedes_ evolve ecotipi come **Cavernicolo** (con sacche
   esterne più spesse e apparato miriapode più aderente alle pareti) e
   **Radura Notturna** (con sonar più potente ma sistema immunitario meno
   stabile). Questi aggiustamenti bilanciano la vulnerabilità in ambienti
   aperti e la capacità di arrampicata.
-- *Terracetus ambulator* sviluppa **Pianure Ventose** (scheletro più
+- _Terracetus ambulator_ sviluppa **Pianure Ventose** (scheletro più
   leggero per resistere alle raffiche ma ciglia più corte) e
   **Savanicola Notturno** (maggiore resistenza al freddo grazie a un
   siero criogeno potenziato, ma velocità di movimento ridotta su
   superfici sabbiose).
-- *Chemnotela toxica* presenta ecotipi come **Radura Acida** (acido più
+- _Chemnotela toxica_ presenta ecotipi come **Radura Acida** (acido più
   potente ma reni più lenti) e **Chioma Elettrofilo** (seta altamente
   conduttiva con un carico elettrico maggiore ma minore quantità
   prodotta), adattandosi a zone con diversa acidità del suolo.
-- *Proteus plasma* ha varianti **Stagno Quieto** (cisti di ibernazione
+- _Proteus plasma_ ha varianti **Stagno Quieto** (cisti di ibernazione
   più rapide e membrane più spesse) e **Torrente Lento** (flusso
   ameboide accelerato ma minor resistenza alla pressione), bilanciando
   la necessità di protezione e movimento.
-- *Soniptera resonans* produce ecotipi come **Oasi Termica** (ali più
+- _Soniptera resonans_ produce ecotipi come **Oasi Termica** (ali più
   larghe e onda di pressione meno intensa ma più estesa) e **Prateria
   Arbustiva** (emissione sonora più direzionale ma minor campo di
   interferenza), ottimizzando attacco e difesa in ambienti differenti.
-- *Anguis magnetica* esibisce varianti **Estuario Torbido** (campo
+- _Anguis magnetica_ esibisce varianti **Estuario Torbido** (campo
   magnetico pulsato più forte ma scivolamento magnetico meno efficiente)
   e **Laguna Quieta** (bozzolo elettromagnetico più duraturo ma organo
   elettrico meno potente), adattandosi a diverse salinità dell’acqua.
-- *Umbra alaris* è rappresentata da ecotipi **Canopy Ombrosa**
+- _Umbra alaris_ è rappresentata da ecotipi **Canopy Ombrosa**
   (piumaggio ancora più assorbente e occhi maggiormente sensibili agli
   infrarossi) e **Canyon Notturno** (artigli ipo‑termici più efficaci ma
   consumo energetico maggiore), bilanciando invisibilità e shock
   termico.
-- *Rupicapra sensoria* infine sviluppa ecotipi come **Cenge
+- _Rupicapra sensoria_ infine sviluppa ecotipi come **Cenge
   Calcarenitiche** (corna più lunghe e potente campo mentale, ma zoccoli
   meno aderenti) e **Dorsali Ventose** (sistema energetico condiviso più
   efficiente ma aura di dispersione ridotta), per far fronte alla
