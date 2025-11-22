@@ -6,6 +6,8 @@
 - [Guida autore tratti](README_HOWTO_AUTHOR_TRAIT.md)
 - [Template dati dei tratti](./traits_template.md)
 - [Scala di senzienza (T0–T5)](README_SENTIENCE.md)
+- [Aggregato tratti Evo](../data/external/evo/traits/traits_aggregate.json)
+- [Catalogo specie Evo](../data/external/evo/species/species_catalog.json)
 
 ## Introduzione
 
