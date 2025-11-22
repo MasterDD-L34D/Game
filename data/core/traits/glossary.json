@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2025-11-11T13:08:51+00:00",
+  "updated_at": "2025-11-22T13:10:03.882660+00:00",
   "sources": {
     "trait_reference": "data/traits/index.json"
   },
@@ -650,8 +650,8 @@
     "ectotermia_dinamica": {
       "label_it": "Ectotermia Dinamica",
       "label_en": "Dynamic Ectothermy",
-      "description_it": "Alzare temperatura per performance.",
-      "description_en": "Raise body temperature for peak performance."
+      "description_it": "Microscosse isometriche che innalzano rapidamente la temperatura corporea per picchi prestazionali.",
+      "description_en": "Isometric micro-shivers that rapidly raise body temperature for performance spikes."
     },
     "elettromagnete_biologico": {
       "label_it": "Elettromagnete Biologico",
@@ -926,8 +926,8 @@
     "ipertrofia_muscolare_massiva": {
       "label_it": "Ipertrofia Muscolare Massiva",
       "label_en": "Massive Muscular Hypertrophy",
-      "description_it": "Aumentare potenza e scatto.",
-      "description_en": "Boost power and burst acceleration."
+      "description_it": "Fibre ispessite e mitocondri densi che aumentano potenza, scatto e tolleranza allo sforzo breve.",
+      "description_en": "Thickened fibres with dense mitochondria boosting power, burst acceleration, and short-term strain tolerance."
     },
     "lamelle_shear": {
       "label_it": "Lamelle Shear",
@@ -1124,8 +1124,8 @@
     "organi_sismici_cutanei": {
       "label_it": "Organi Sismici Cutanei",
       "label_en": "Cutaneous Seismic Organs",
-      "description_it": "Percepire vibrazioni del suolo.",
-      "description_en": "Sense ground vibrations."
+      "description_it": "Lamelle meccano-recettive nelle squame che percepiscono vibrazioni del suolo e movimenti occultati.",
+      "description_en": "Mechano-receptive lamellae in the scales sensing ground vibrations and hidden movements."
     },
     "pathfinder": {
       "label_en": "Pathfinder",
@@ -1183,9 +1183,9 @@
     },
     "rostro_emostatico_litico": {
       "label_it": "Rostro Emostatico-Litico",
-      "label_en": "Hemolytic-Lytic Rostrum",
-      "description_it": "Inoculare tossine ed enzimi e aspirare fluidi.",
-      "description_en": "Inject toxins and enzymes and siphon fluids."
+      "label_en": "Hemo-Lytic Rostrum",
+      "description_it": "Rostro tubulare rigido che inietta enzimi coagulanti e litici aspirando fluidi dopo l’impatto.",
+      "description_en": "Rigid tubular rostrum that injects lytic and coagulant enzymes while drawing fluids after impact."
     },
     "rostro_linguale_prensile": {
       "label_it": "Rostro Linguale Prensile",
@@ -1213,9 +1213,9 @@
     },
     "scheletro_idraulico_a_pistoni": {
       "label_it": "Scheletro Idraulico a Pistoni",
-      "label_en": "Hydraulic Piston Skeleton",
-      "description_it": "Estendere rapidamente il cranio per colpire.",
-      "description_en": "Extend the skull rapidly to strike."
+      "label_en": "Piston Hydraulic Skeleton",
+      "description_it": "Ossa cave pressurizzate che scattano pistoni cranici per colpi-proiettile rapidissimi.",
+      "description_en": "Pressurised hollow bones that fire cranial pistons for ultra-fast projectile blows."
     },
     "scheletro_idro_regolante": {
       "label_en": "Hydro-Regulating Skeleton",
