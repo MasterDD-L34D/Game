@@ -1,7 +1,7 @@
 'use strict';
 
 const { __internals__: snapshotInternals } = require('../routes/generationSnapshot');
-const { computeGoNoGo } = require('../../tools/deploy/goNoGo');
+const { computeGoNoGo } = require('../../../tools/deploy/goNoGo');
 
 function toNumber(value, fallback = 0) {
   const numeric = Number(value);

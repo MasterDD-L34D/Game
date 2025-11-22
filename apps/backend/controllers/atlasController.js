@@ -1,9 +1,9 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const { atlasDataset } = require('../../data/nebula/atlasDataset.js');
+const { atlasDataset } = require('../../../data/nebula/atlasDataset.js');
 const { SchemaValidationError } = require('../middleware/schemaValidator');
-const featureFlagsConfig = require('../../config/featureFlags.json');
+const featureFlagsConfig = require('../../../config/featureFlags.json');
 
 const NEBULA_ROLLOUT_FLAG_PATH = ['featureFlags', 'rollout', 'nebulaAtlasAggregator'];
 const ROLLOUT_LOG_PREFIX = '[atlas-controller]';
