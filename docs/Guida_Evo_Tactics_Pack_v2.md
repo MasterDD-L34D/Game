@@ -3,12 +3,12 @@
 ## Accesso rapido
 
 - [Scheda operativa dei trait](./traits_scheda_operativa.md)
-- [Guida autore tratti](README_HOWTO_AUTHOR_TRAIT.md)
+- [Guida autore tratti](./README_HOWTO_AUTHOR_TRAIT.md)
 - [Template dati dei tratti](./traits_template.md)
-- [Scala di senzienza (T0–T5)](README_SENTIENCE.md)
+- [Scala di senzienza (T0–T5)](./README_SENTIENCE.md)
 - [Aggregato tratti Evo](../data/external/evo/traits/traits_aggregate.json)
 - [Catalogo specie Evo](../data/external/evo/species/species_catalog.json)
-- [Piano operativo prossimo ciclo](next_steps_trait_migration.md)
+- [Piano operativo prossimo ciclo](./next_steps_trait_migration.md)
 
 ## Introduzione
 
@@ -27,12 +27,13 @@ La guida è pensata per essere salvata nella cartella `docs/` del progetto e off
 
 ## Compatibilità Evo Pack v2
 
-Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale, consulta la mappa di allineamento campi e le regole di naming in `docs/traits_evo_pack_alignment.md`. Il documento spiega come convertire i codici `TR-xxxx` in `id` snake_case, come impostare `label` i18n e come usare il flusso combinato glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`).
+Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale, consulta la mappa di allineamento campi e le regole di naming in `docs/traits_evo_pack_alignment.md`. Il documento spiega come convertire i codici `TR-xxxx` in `id` snake_case, come impostare `label` i18n e come usare il flusso combinato glossario → file trait → validazioni (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`, `validate.sh`/`ajv`). Per il dettaglio dei campi minimi dello schema e delle regex rimanda alla [scheda operativa dei trait](./traits_scheda_operativa.md) e al [template dati](./traits_template.md).
 
-> **Box riepilogo conversione `trait_code` → `id`/`label`**
+> **Box riepilogo conversione `trait_code` → `id`/`label` (campi repo obbligatori)**
 >
 > - Flusso: aggiorna il glossario (`data/core/traits/glossary.json`), crea/aggiorna il file del tratto con `id` snake_case e riferimenti `label` i18n, poi lancia i validator/sync (`trait_template_validator`, `collect_trait_fields`, `sync_trait_locales`).
 > - Naming: `trait_code` Evo diventa `id` snake_case coerente con il label (nome file JSON); il `label` del tratto punta a `i18n:traits.<id>.label` (e viene valorizzato nel glossario).
+> - Obbligatori nel repository: `id`, `label`, `famiglia_tipologia`, `fattore_mantenimento_energetico`, `tier`, `slot`, `sinergie`, `conflitti`, `data_origin`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva` (schema e regex in [scheda operativa](./traits_scheda_operativa.md) e [template](./traits_template.md)).
 > - Esempio minimo: `trait_code` `TR-0420` “Vortice Termico” → `id` `vortice_termico`; `label` nel file tratto: `i18n:traits.vortice_termico.label`; i campi `label_it`/`label_en` sono nel glossario.
 > - Riferimento completo alle regole e agli esempi in [docs/traits_evo_pack_alignment.md](./traits_evo_pack_alignment.md) per evitare ambiguità di naming.
 
@@ -55,6 +56,7 @@ Per integrare i tratti provenienti da pacchetti Evo con il repository ufficiale,
 > - **metrics** (UCUM): consigliate per descrivere prestazioni e range; non sono obbligatorie per l'import in `data/traits/*.json`.
 > - **cost_profile**: suggerito per indicare i costi energetici (`rest`/`burst`/`sustained`).
 > - **testability**: raccomandato per fornire `observable` e `scene_prompt`, utile nei pacchetti ma non richiesto dai validator del repository.
+> - Altri campi estesi (es. `applicability`, `completion_flags`) restano facoltativi per il repository: se usati nel pack, convertili solo se compatibili con lo schema [riassunto nel template](./traits_template.md#schema-base-obbligatorio).
 >
 > **Esempio mappatura `trait_code` → `id`/`label`**
 >
