@@ -52,7 +52,7 @@ Questa cartella aggiunge **docs/ideas/** con un widget (JS) per inserire idee e 
   - `GET /api/ideas` e `GET /api/ideas/:id` — consulta l'archivio e filtra per categoria o slug tassonomici.
   - `GET /api/ideas/:id/report` — rigenera il brief incrementale per GPT mantenendo i riferimenti al Support Hub.
   - `POST /api/ideas/:id/feedback` — aggiunge note contestuali al ciclo di revisione.
-- Per allineare gli slug usa la tassonomia ufficiale in [`config/idea_engine_taxonomy.json`](config/idea_engine_taxonomy.json) o il dump generato in [`docs/public/idea-taxonomy.json`](docs/public/idea-taxonomy.json).
+- Per allineare gli slug usa la tassonomia ufficiale in [`config/idea_engine_taxonomy.json`](../../config/idea_engine_taxonomy.json) o il dump generato in [`docs/public/idea-taxonomy.json`](../public/idea-taxonomy.json).
 
 ## Uso
 
@@ -82,14 +82,14 @@ NOTE: <altro>
 
 ## Tassonomia categorie Idea Engine
 
-- La lista ufficiale delle categorie è definita in [`config/idea_engine_taxonomy.json`](config/idea_engine_taxonomy.json) e viene caricata sia dal backend Node (`server/app.js`) sia dal widget (`docs/public/embed.js`).
+- La lista ufficiale delle categorie è definita in [`config/idea_engine_taxonomy.json`](../../config/idea_engine_taxonomy.json) e viene caricata sia dal backend Node (`server/app.js`) sia dal widget (`docs/public/embed.js`).
 - Quando aggiorni la tassonomia modifica il file JSON (mantieni la struttura `{ "categories": [] }`) e fai commit.
-- Per la versione pubblicata su GitHub Pages imposta `window.IDEA_WIDGET_CONFIG.categoriesUrl` verso l'asset JSON servito (esempio: `https://raw.githubusercontent.com/<org>/<repo>/main/config/idea_engine_taxonomy.json`). In locale puoi lasciare il valore di default `../config/idea_engine_taxonomy.json`.
+- Per la versione pubblicata su GitHub Pages imposta `window.IDEA_WIDGET_CONFIG.categoriesUrl` verso l'asset JSON servito (esempio: `https://raw.githubusercontent.com/<org>/<repo>/main/config/idea_engine_taxonomy.json`). In locale puoi lasciare il valore di default `../../config/idea_engine_taxonomy.json`.
 
 ## Suggerimenti e validazione slug
 
 - Il widget trasforma i campi Biomi/Ecosistemi/Specie/Tratti/Funzioni in multi-select con suggerimenti derivati dai dataset del repository (con walkthrough nel tutorial Idea Engine).
-- Esegui `npm run build:idea-taxonomy` per rigenerare [`docs/public/idea-taxonomy.json`](docs/public/idea-taxonomy.json) a partire da:
+- Esegui `npm run build:idea-taxonomy` per rigenerare [`docs/public/idea-taxonomy.json`](../public/idea-taxonomy.json) a partire da:
   - `data/core/biomes.yaml` + alias in `data/core/biome_aliases.yaml`.
   - Datasets ecosistema/specie del pack (`packs/evo_tactics_pack/data/`).
   - Glossario tratti (`data/core/traits/glossary.json`).

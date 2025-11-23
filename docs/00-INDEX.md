@@ -7,6 +7,8 @@
 - [Sentience Track — guida rapida](README_SENTIENCE.md)
 - [Scheda operativa dei trait](traits_scheda_operativa.md) · [Template dati](traits_template.md) · [Guida autori](README_HOWTO_AUTHOR_TRAIT.md)
 - [Piano operativo prossimo ciclo](next_steps_trait_migration.md)
+- [Trait Editor standalone](trait-editor.md) — setup rapido e comandi di build.
+- [Tutorial Idea Engine](tutorials/idea-engine.md) · [Indice e changelog widget](ideas/IDEAS_INDEX.md)
 - Catalogo e schemi canonici: `packs/evo_tactics_pack/docs/catalog/`
   - `trait_entry.schema.json`, `trait_catalog.schema.json`, `trait_reference.json`
   - **Mancanti (target SSoT):** `sentience_track.schema.json`, `sentience_track.json`
