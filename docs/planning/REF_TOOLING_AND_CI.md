@@ -1,7 +1,7 @@
 # REF_TOOLING_AND_CI – Allineamento tooling e CI
 
-Versione: 0.1 (bozza)
-Data: 2025-11-23
+Versione: 0.2
+Data: 2025-12-09
 Owner: agente **dev-tooling** (supporto: archivist, coordinator)
 Stato: DRAFT – allineare tooling/CI al nuovo assetto
 
@@ -32,6 +32,13 @@ Stato: DRAFT – allineare tooling/CI al nuovo assetto
 - `REF_REPO_MIGRATION_PLAN` per schedulare gli adeguamenti tooling/CI per patchset.
 - Coordinamento con coordinator e archivist per prioritizzare P0/P1 e per evitare rotture del Golden Path.
 
+## Prerequisiti e governance dei branch
+
+- Esecuzione pianificata su branch dedicati `tooling-ci/allineamento-core-pack` e `tooling-ci/pack-regeneration`, con gate incrociati (merge solo se entrambi i branch hanno passato checklist schema + lint + rigenerazione pack).
+- Allineare i gate a quanto previsto dalla milestone **0.2**: niente merge su `main` senza artifact pack rigenerato e validato da `tools/py/validate_datasets.py` + `schema-validate` + smoke CLI.
+- Richiedere approvazione congiunta owner dati (core) + owner pack per modifiche che toccano sia `data/core/**` sia `packs/evo_tactics_pack/**`.
+- Documentare in ogni PR gli artifact pubblicati (pack dist, report lint) e collegarli al branch dedicato.
+
 ## Prossimi passi
 
 1. Elencare i workflow CI e gli script rilevanti con input, output, dipendenze e owner.
@@ -44,24 +51,24 @@ Stato: DRAFT – allineare tooling/CI al nuovo assetto
 
 ## Mappatura workflow CI (`.github/workflows/**`)
 
-- **ci.yml** → orchestration principale con `paths-filter` che abilita job per aree ts/cli/python/data/deploy/styleguide/stack/site_audit.
-- **data-quality.yml** → audit dati: `tools/py/validate_datasets.py`, `scripts/trait_audit.py --check`, `scripts/build_trait_index.js`, `tools/py/report_trait_coverage.py` (usa core e derived attuali).
-- **validate_traits.yml** → validazione trait catalog (`tools/py/trait_template_validator.py --summary`, `scripts/build_trait_index.js`, trait coverage, `scripts/trait_style_check.js`).
-- **schema-validate.yml** → verifica formale degli schemi JSON in `schemas/*.json` con `jsonschema`.
+- **ci.yml** → orchestration principale con `paths-filter` per job ts/cli/python/data/deploy/styleguide/stack/site_audit; tocca `scripts/cli_smoke.sh`, `scripts/build_trait_index.js`, `tools/py/validate_datasets.py`.
+- **data-quality.yml** → audit dati core/pack: `tools/py/validate_datasets.py`, `scripts/trait_audit.py --check`, `scripts/build_trait_index.js`, `tools/py/report_trait_coverage.py`, `tools/audit/data_health.py` (usa `data/core/**`, `packs/evo_tactics_pack/**`).
+- **validate_traits.yml** → validazione trait catalog (`tools/py/trait_template_validator.py --summary`, `scripts/build_trait_index.js`, trait coverage, `scripts/trait_style_check.js`, `tools/py/trait_health.py` se abilitato).
+- **schema-validate.yml** → verifica formale degli schemi JSON/YAML in `schemas/*.json`, `schemas/core/**`, `schemas/evo/**`, `schemas/quality/**`, `config/schemas/*.json`, `schemas/card_schema.yaml`, `schemas/roll_table_schema.yaml` via `jsonschema` / `ajv-wrapper.sh`.
 - **validate-naming.yml** → controllo naming registri (`tools/py/validate_registry_naming.py` + registri pack `packs/evo_tactics_pack/tools/config/registries/**`).
-- Workflow di servizio (`data-quality.yml`, `traits-monthly-maintenance.yml`, `traits-sync.yml`, `qa-*.yml`, `incoming-smoke.yml`, `evo-*.yml`, `daily-*.yml`, `qa-*.yml`, `hud.yml`, `lighthouse.yml`, `gh-pages.yml`, `telemetry-export.yml`, `search-index.yml`, `idea-intake-index.yml`, `qa-reports.yml`, `qa-kpi-monitor.yml`, `qa-export.yml`, `update-evo-tracker.yml`, `evo-rollout-status.yml`): refresh tracker, sync trait, export KPI/report, rollout status, idea intake, search index, HUD/lighthouse, deploy test interface, telemetry export, pubblicazione siti. Da riallineare dove consumano dataset derived o pack.
-- Workflow chatGPT/e2e/deploy (`chatgpt_sync.yml`, `e2e.yml`, `deploy-test-interface.yml`, `incoming-smoke.yml`, `hud.yml`, `lighthouse.yml`): verificare dipendenze su snapshot/pack.
+- Workflow di servizio (`data-quality.yml`, `traits-monthly-maintenance.yml`, `traits-sync.yml`, `qa-*.yml`, `incoming-smoke.yml`, `evo-*.yml`, `daily-*.yml`, `qa-*.yml`, `hud.yml`, `lighthouse.yml`, `gh-pages.yml`, `telemetry-export.yml`, `search-index.yml`, `idea-intake-index.yml`, `qa-reports.yml`, `qa-kpi-monitor.yml`, `qa-export.yml`, `update-evo-tracker.yml`, `evo-rollout-status.yml`): refresh tracker, sync trait, export KPI/report, rollout status, idea intake, search index, HUD/lighthouse, deploy test interface, telemetry export, pubblicazione siti. Da riallineare dove consumano dataset derived o pack (`data/derived/**`, `packs/evo_tactics_pack/docs/catalog/**`).
+- Workflow chatGPT/e2e/deploy (`chatgpt_sync.yml`, `e2e.yml`, `deploy-test-interface.yml`, `incoming-smoke.yml`, `hud.yml`, `lighthouse.yml`): verificare dipendenze su snapshot/pack e smoke contro `data/core/**`.
 
 ## Validator e schema checker (percorsi e comandi)
 
-- `tools/py/validate_datasets.py` (richiamato da data-quality): valida dataset core e pack tramite moduli `evo_tactics_pack.run_all_validators` e path `packs/evo_tactics_pack/**`.
-- `scripts/trait_audit.py --check`: audit trait core (glossario `data/core/traits/glossary.json`, pools, species).
-- `tools/py/trait_template_validator.py --summary`: verifica schema trait rispetto a `config/schemas/trait.schema.json` e `data/traits/**`.
-- `scripts/trait_style_check.js`: lint stile trait (input `data/traits/**`, produce report in `reports/trait_style/**`).
-- `tools/py/report_trait_coverage.py --strict`: coverage trait vs env/species (usa `packs/evo_tactics_pack/docs/catalog/env_traits.json` e specie pack).
+- `tools/py/validate_datasets.py` (richiamato da data-quality): valida dataset core e pack tramite moduli `evo_tactics_pack.run_all_validators` e path `packs/evo_tactics_pack/**`; opzioni `--core-root`, `--pack-root`, `--schemas-only` per isolare i perimetri.
+- `scripts/trait_audit.py --check --core-root data/core`: audit trait core (glossario `data/core/traits/glossary.json`, pools, species) con possibilità di confronto pack `--pack-root packs/evo_tactics_pack/data`.
+- `tools/py/trait_template_validator.py --summary`: verifica schema trait rispetto a `config/schemas/trait.schema.json` e `data/traits/**` (core + eventuali overlay pack).
+- `scripts/trait_style_check.js`: lint stile trait (input `data/traits/**`, produce report in `reports/trait_style/**`), usato da `validate_traits.yml`.
+- `tools/py/report_trait_coverage.py --strict --glossary data/core/traits/glossary.json --pack-root packs/evo_tactics_pack`: coverage trait vs env/species (usa pack cataloghi rigenerati).
 - `tools/py/validate_registry_naming.py`: incrocia registri pack (`packs/evo_tactics_pack/tools/config/registries/*.yaml`) con glossario core/pack.
 - `tools/audit/data_health.py`, `tools/traits/check_biome_feature.py`, `tools/traits.py`: validazioni su `data/core/**` (biomi, species, glossary) e mirror pack.
-- Schemi: `schemas/core/**`, `schemas/evo/**`, `schemas/quality/**`, `config/schemas/*.json`, `schemas/card_schema.yaml`, `schemas/roll_table_schema.yaml` (attualmente validati da `schema-validate.yml`).
+- Schemi: `schemas/core/**`, `schemas/evo/**`, `schemas/quality/**`, `config/schemas/*.json`, `schemas/card_schema.yaml`, `schemas/roll_table_schema.yaml` (validazione Draft2020 + lint YAML via `schema-validate.yml` o `tools/py/yaml_lint.py`).
 
 ## Test e fixture che toccano core/pack
 
@@ -78,16 +85,17 @@ Stato: DRAFT – allineare tooling/CI al nuovo assetto
 - Allineare test pack (`tests/scripts/test_seed_evo_generator.py`, validators runtime) a leggere i core come fonte, rigenerando cataloghi pack via pipeline invece di usare fixture statiche in `packs/evo_tactics_pack/docs/catalog/**`.
 - Agganciare workflow di sync/maintenance (traits-monthly-maintenance.yml, traits-sync.yml, qa-export.yml, qa-kpi-monitor.yml) al prodotto dei core rigenerati, evitando che consumino snapshot manuali.
 
-## Checklist automatica PATCHSET-01
+## Checklist automatica PATCHSET-01 (gate incrociati core ↔ pack)
 
-- **Schema**: eseguire `python -m jsonschema --version` + `python tools/py/trait_template_validator.py --summary` + validazione schemi JSON/YAML (`python tools/py/validate_datasets.py --schemas-only`, `python tools/py/validate_export.py --check-telemetry data/core/telemetry.yaml`).
-- **Lint dati core**: `python scripts/trait_audit.py --check --core-root data/core`, `python tools/py/report_trait_coverage.py --strict --glossary data/core/traits/glossary.json`, `node scripts/trait_style_check.js --output-json /tmp/trait_style.json --fail-on error`.
-- **Rigenerazione pack**: `node scripts/build_evo_tactics_pack_dist.mjs --source data/core --out dist/packs/evo_tactics_pack` seguito da `python tools/py/validate_datasets.py --pack dist/packs/evo_tactics_pack` e update cataloghi (`node scripts/update_evo_pack_catalog.js --pack dist/packs/evo_tactics_pack`).
-- **Smoke/CLI**: `bash scripts/cli_smoke.sh --core-root data/core --pack-root dist/packs/evo_tactics_pack` (verifica path e asset); opzionale `python tools/audit/data_health.py --core-root data/core --pack-root dist/packs/evo_tactics_pack`.
-- **Artefatti/report**: pubblicare `reports/trait_progress.md`, `data/derived/analysis/trait_coverage_report.json`, `dist/packs/evo_tactics_pack/**` come artifact CI per revisione.
+- **Schema**: `python -m jsonschema --version` (pre-flight) + `python tools/py/trait_template_validator.py --summary` + validazione schemi JSON/YAML (`python tools/py/validate_datasets.py --schemas-only`, `python tools/py/validate_export.py --check-telemetry data/core/telemetry.yaml`, `bash tools/ajv-wrapper.sh schemas/**/*.json`). Target proposti: `make schema-validate` / job `schema-validate.yml`.
+- **Lint dati core**: `python scripts/trait_audit.py --check --core-root data/core`, `python tools/py/report_trait_coverage.py --strict --glossary data/core/traits/glossary.json --pack-root dist/packs/evo_tactics_pack`, `node scripts/trait_style_check.js --output-json /tmp/trait_style.json --fail-on error`, `python tools/audit/data_health.py --core-root data/core --pack-root dist/packs/evo_tactics_pack`. Target: `make data-lint` (o step `data-quality` dedicato) vincolato al branch core.
+- **Rigenerazione pack**: `node scripts/build_evo_tactics_pack_dist.mjs --source data/core --out dist/packs/evo_tactics_pack` → `node scripts/update_evo_pack_catalog.js --pack dist/packs/evo_tactics_pack` → `python tools/py/validate_datasets.py --pack dist/packs/evo_tactics_pack` → `python tools/py/validate_registry_naming.py --registries packs/evo_tactics_pack/tools/config/registries --glossary data/core/traits/glossary.json`. Target: `make pack-regenerate` su branch `tooling-ci/pack-regeneration`.
+- **Smoke/CLI**: `bash scripts/cli_smoke.sh --core-root data/core --pack-root dist/packs/evo_tactics_pack` (verifica path e asset); opzionale `python tools/audit/data_health.py --core-root data/core --pack-root dist/packs/evo_tactics_pack`. Target: `make cli-smoke`/job `ci.yml` (gate cross-branch).
+- **Artefatti/report**: pubblicare `reports/trait_progress.md`, `data/derived/analysis/trait_coverage_report.json`, `dist/packs/evo_tactics_pack/**` come artifact CI per revisione; allegare digest a PR di merge incrociato.
 
 ---
 
 ## Changelog
 
 - 2025-11-23: struttura iniziale di inventario tooling/CI (dev-tooling).
+- 2025-12-09: mappatura workflow/validatori estesa, checklist v0.2 con gate incrociati core/pack e prerequisiti branch dedicati.
