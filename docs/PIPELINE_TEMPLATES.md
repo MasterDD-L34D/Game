@@ -128,19 +128,19 @@ Ripulire e normalizzare i trait relativi a:
 [es. "mobilità e difesa delle unità polpo mutaforma"]
 
 Task:
-1. Usa trait-curator per:
-   - scan dei trait coinvolti nel repo
-   - proposta di TRAITS_CATALOG.md
-   - proposta di traits_mapping.json
+1. Usa **Trait Curator** per:
+   - scansionare e validare i dataset trait (`data/traits/index.json|csv`, `data/traits/species_affinity.json`, `data/traits/*/*.json`, `_drafts/`) contro schema/glossario (`config/schemas/trait.schema.json`, `data/core/traits/glossary.json`).
+   - proporre un catalogo consolidato (es. `docs/catalog/trait_reference.md`, `docs/catalog/traits_inventory.json`, eventuali piani in `docs/planning/traits_migration_*.md`).
+   - suggerire mapping/rename per trait duplicati o legacy con note operative per Trait Editor (`Trait Editor/docs/howto-author-trait.md`, `Trait Editor/src/utils/trait-helpers.ts`).
 
-2. Usa coordinator per:
-   - trasformare il lavoro del trait-curator in un piano di migrazione (task + agenti).
+2. Usa **Coordinator** per:
+   - trasformare i report del Trait Curator in un piano di migrazione end-to-end (task + agenti) con impatti su `data/core/traits/biome_pools.json`, `data/core/species.yaml` e documentazione (`docs/trait_reference_manual.md`, `docs/traits-manuale/`).
 
-3. Usa archivist per:
-   - aggiornare/creare eventuali doc di guidelines su naming dei trait.
+3. Usa **Archivist** per:
+   - aggiornare/creare linee guida di naming e inventario (es. `docs/trait_reference_manual.md`, `docs/catalog/traits_quicklook.csv`) e registrare i report in `reports/traits/`.
 
-4. (Opzionale) Usa dev-tooling per:
-   - proporre script che aiutino a cercare e sostituire i vecchi nomi trait.
+4. (Opzionale) Usa **Dev-Tooling** per:
+   - proporre script di supporto (`tools/traits/*.py`) per cercare/sostituire slug, rigenerare index e validare trait.
 
 Output atteso:
 - elenco degli step con:
@@ -164,26 +164,32 @@ Feature:
 Task:
 Progetta una pipeline completa che includa:
 
-- lore-designer:
-  - descrizione bioma
-  - ecosistema
-  - 3 specie/creature
+- **Lore Designer**:
+  - descrizione bioma (`docs/biomes.md`) ed ecosistema con hook narrativi per le 3 specie/creature.
 
-- trait-curator:
-  - definizione/normalizzazione dei trait specifici di bioma e specie
+- **Biome & Ecosystem Curator**:
+  - validazione schema/alias del nuovo bioma (`config/schemas/biome.schema.yaml`, `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`).
+  - allineamento hazard/bande e pool ambientali (`biomes/terraforming_bands.yaml`, `data/core/traits/biome_pools.json`), con report in `docs/planning/biome_*.md`.
 
-- balancer:
-  - effetti numerici del bioma
-  - stats delle 3 specie
+- **Species Curator**:
+  - trait_plan e biome_affinity per le 3 specie in `data/core/species.yaml` (più eventuali alias in `data/core/species/aliases.json`).
+  - integrazione con affinità trait (`data/traits/species_affinity.json`) e note di onboarding in `docs/planning/species_*.md`.
 
-- asset-prep:
-  - immagini/schede .md delle specie e del bioma
+- **Trait Curator**:
+  - definizione/normalizzazione dei trait legati a bioma/specie, con controlli su `data/traits/*/*.json`, `data/core/traits/glossary.json`, `docs/trait_reference_manual.md` e istruzioni del Trait Editor (`Trait Editor/docs/howto-author-trait.md`).
+  - proposte di coverage/pool per il nuovo bioma in `data/core/traits/biome_pools.json` e aggiornamento dei cataloghi `docs/catalog/*.md|json|csv`.
 
-- archivist:
-  - aggiornamento indici e struttura documentazione
+- **Balancer**:
+  - effetti numerici del bioma e stats delle specie, coordinando con i curatori per impatti su slot/tier.
 
-- coordinator:
-  - review finale della pipeline + report.
+- **Asset Prep**:
+  - immagini e schede `.md` in `assets/` o `docs/catalog/` per specie e bioma, seguendo i naming esistenti.
+
+- **Archivist**:
+  - aggiornamento indici e struttura documentazione (`docs/`, `reports/`) per registrare pipeline e decisioni.
+
+- **Coordinator**:
+  - orchestri gli handoff, definisci dipendenze tra cartelle (data/core, data/traits, docs, Trait Editor) e prepara il report finale.
 
 Struttura l’output in step numerati, come pipeline eseguibile.
 ```
