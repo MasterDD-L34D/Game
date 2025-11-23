@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1803",
+  "id": "scivolamento_magnetico",
   "label": "Scivolamento Magnetico",
   "famiglia_tipologia": "Locomotivo/Terrestre",
   "fattore_mantenimento_energetico": "Medio",

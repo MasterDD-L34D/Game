@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1802",
+  "id": "elettromagnete_biologico",
   "label": "Elettromagnete Biologico",
   "famiglia_tipologia": "Offensivo/Elettrico",
   "fattore_mantenimento_energetico": "Medio",

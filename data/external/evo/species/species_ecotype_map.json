@@ -25,7 +25,9 @@
       "biome_class": "acquatico_costiero",
       "matched_ecosystems": [],
       "unresolved_ecosystems": [],
-      "notes": "No direct ecosystem mapping for biome class"
+      "notes": "No direct ecosystem mapping for biome class",
+      "species_id": "anguis_magnetica",
+      "ecotype_slug": "estuario_torbido"
     },
     {
       "species": "Anguis magnetica",
@@ -34,7 +36,9 @@
       "biome_class": "acquatico_costiero",
       "matched_ecosystems": [],
       "unresolved_ecosystems": [],
-      "notes": "No direct ecosystem mapping for biome class"
+      "notes": "No direct ecosystem mapping for biome class",
+      "species_id": "anguis_magnetica",
+      "ecotype_slug": "laguna_quieta"
     },
     {
       "species": "Chemnotela toxica",
@@ -49,7 +53,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "chemnotela_toxica",
+      "ecotype_slug": "radura_acida"
     },
     {
       "species": "Chemnotela toxica",
@@ -64,7 +70,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "chemnotela_toxica",
+      "ecotype_slug": "chioma_elettrofilo"
     },
     {
       "species": "Elastovaranus hydrus",
@@ -79,7 +87,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "elastovaranus_hydrus",
+      "ecotype_slug": "gole_ventose"
     },
     {
       "species": "Elastovaranus hydrus",
@@ -94,7 +104,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "elastovaranus_hydrus",
+      "ecotype_slug": "letti_fluviali"
     },
     {
       "species": "Gulogluteus scutiger",
@@ -109,7 +121,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "gulogluteus_scutiger",
+      "ecotype_slug": "chioma_umida"
     },
     {
       "species": "Gulogluteus scutiger",
@@ -124,7 +138,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "gulogluteus_scutiger",
+      "ecotype_slug": "forre_umide"
     },
     {
       "species": "Perfusuas pedes",
@@ -133,7 +149,9 @@
       "biome_class": "sotterraneo",
       "matched_ecosystems": [],
       "unresolved_ecosystems": [],
-      "notes": "No direct ecosystem mapping for biome class"
+      "notes": "No direct ecosystem mapping for biome class",
+      "species_id": "perfusuas_pedes",
+      "ecotype_slug": "cavernicolo"
     },
     {
       "species": "Perfusuas pedes",
@@ -148,7 +166,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "perfusuas_pedes",
+      "ecotype_slug": "radura_notturna"
     },
     {
       "species": "Proteus plasma",
@@ -157,7 +177,9 @@
       "biome_class": "acquatico_dolce",
       "matched_ecosystems": [],
       "unresolved_ecosystems": [],
-      "notes": "No direct ecosystem mapping for biome class"
+      "notes": "No direct ecosystem mapping for biome class",
+      "species_id": "proteus_plasma",
+      "ecotype_slug": "stagno_quieto"
     },
     {
       "species": "Proteus plasma",
@@ -166,7 +188,9 @@
       "biome_class": "acquatico_dolce",
       "matched_ecosystems": [],
       "unresolved_ecosystems": [],
-      "notes": "No direct ecosystem mapping for biome class"
+      "notes": "No direct ecosystem mapping for biome class",
+      "species_id": "proteus_plasma",
+      "ecotype_slug": "torrente_lento"
     },
     {
       "species": "Rupicapra sensoria",
@@ -181,7 +205,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "rupicapra_sensoria",
+      "ecotype_slug": "cenge_calcarenitiche"
     },
     {
       "species": "Rupicapra sensoria",
@@ -196,7 +222,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "rupicapra_sensoria",
+      "ecotype_slug": "dorsali_ventose"
     },
     {
       "species": "Soniptera resonans",
@@ -211,7 +239,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "soniptera_resonans",
+      "ecotype_slug": "oasi_termica"
     },
     {
       "species": "Soniptera resonans",
@@ -226,7 +256,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "soniptera_resonans",
+      "ecotype_slug": "prateria_arbustiva"
     },
     {
       "species": "Terracetus ambulator",
@@ -241,7 +273,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "terracetus_ambulator",
+      "ecotype_slug": "pianure_ventose"
     },
     {
       "species": "Terracetus ambulator",
@@ -256,7 +290,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "terracetus_ambulator",
+      "ecotype_slug": "savanicola_notturno"
     },
     {
       "species": "Umbra alaris",
@@ -271,7 +307,9 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "umbra_alaris",
+      "ecotype_slug": "canopy_ombrosa"
     },
     {
       "species": "Umbra alaris",
@@ -286,7 +324,15 @@
         }
       ],
       "unresolved_ecosystems": [],
-      "notes": null
+      "notes": null,
+      "species_id": "umbra_alaris",
+      "ecotype_slug": "canyon_notturno"
     }
-  ]
+  ],
+  "version": "2.0.0",
+  "versioning": {
+    "created": "2025-11-23",
+    "updated": "2025-11-23",
+    "author": "GPT-5.1-Codex-Max"
+  }
 }

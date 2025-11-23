@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1204",
+  "id": "coda_prensile_muscolare",
   "label": "Coda Prensile Muscolare",
   "famiglia_tipologia": "Locomotivo/Arboricolo",
   "fattore_mantenimento_energetico": "Medio",

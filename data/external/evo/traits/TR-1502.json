@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1502",
+  "id": "seta_conduttiva_elettrica",
   "label": "Seta Conduttiva Elettrica",
   "famiglia_tipologia": "Offensivo/Elettrico",
   "fattore_mantenimento_energetico": "Medio",

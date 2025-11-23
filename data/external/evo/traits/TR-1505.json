@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1505",
+  "id": "occhi_analizzatori_di_tensione",
   "label": "Occhi Analizzatori di Tensione",
   "famiglia_tipologia": "Sensoriale/Visivo",
   "fattore_mantenimento_energetico": "Basso",

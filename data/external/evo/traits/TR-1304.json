@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1304",
+  "id": "artiglio_cinetico_a_urto",
   "label": "Artiglio Cinetico a Urto",
   "famiglia_tipologia": "Offensivo/Contusivo",
   "fattore_mantenimento_energetico": "Alto",

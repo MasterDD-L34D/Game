@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1801",
+  "id": "integumento_bipolare",
   "label": "Integumento Bipolare",
   "famiglia_tipologia": "Sensoriale/Magneto-ricettivo",
   "fattore_mantenimento_energetico": "Basso",

@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1203",
+  "id": "articolazioni_multiassiali",
   "label": "Articolazioni Multiassiali",
   "famiglia_tipologia": "Locomotivo/Terrestre",
   "fattore_mantenimento_energetico": "Medio",

@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1104",
+  "id": "ectotermia_dinamica",
   "label": "Ectotermia Dinamica",
   "famiglia_tipologia": "Fisiologico/Termico",
   "fattore_mantenimento_energetico": "Medio",

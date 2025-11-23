@@ -10,6 +10,10 @@
       "type": "string",
       "pattern": "^TR-\\d{4}$"
     },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$"
+    },
     "label": {
       "type": "string",
       "minLength": 1

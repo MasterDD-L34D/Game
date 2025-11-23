@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1401",
+  "id": "scheletro_pneumatico_a_maglie",
   "label": "Scheletro Pneumatico a Maglie",
   "famiglia_tipologia": "Locomotivo/Terrestre",
   "fattore_mantenimento_energetico": "Basso",

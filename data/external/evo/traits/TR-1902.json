@@ -1,5 +1,6 @@
 {
   "trait_code": "TR-1902",
+  "id": "visione_multi_spettrale_amplificata",
   "label": "Visione Multi-Spettrale Amplificata",
   "famiglia_tipologia": "Sensoriale/Visivo",
   "fattore_mantenimento_energetico": "Medio",
