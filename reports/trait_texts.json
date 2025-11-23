@@ -282,11 +282,11 @@
   "aura_di_dispersione_mentale": {
     "en": {
       "label": "Mental Dispersion Aura",
-      "description": "Impart anxiety and vertigo to predators."
+      "description": "Aversive odors and weak emissions that instill anxiety and vertigo in predators."
     },
     "it": {
       "label": "Aura di Dispersione Mentale",
-      "description": "Indurre ansia e vertigini nei predatori."
+      "description": "Campo di odori avversivi ed emissioni deboli che induce ansia e vertigini nei predatori."
     }
   },
   "aura_scudo_radianza": {
@@ -922,21 +922,21 @@
   "corna_psico_conduttive": {
     "en": {
       "label": "Psycho-Conductive Horns",
-      "description": "Transmit and receive slow neural signals."
+      "description": "Piezo-neurotonic horns sending and receiving slow neural signals for pack alerts."
     },
     "it": {
       "label": "Corna Psico-Conduttive",
-      "description": "Trasmettere e ricevere segnali neurali lenti."
+      "description": "Corna piezo-neurotoniche che trasmettono e ricevono segnali neurali lenti per allerta di branco."
     }
   },
   "coscienza_dalveare_diffusa": {
     "en": {
       "label": "Diffuse Hive Consciousness",
-      "description": "Merge decisions and short-term memory."
+      "description": "Temporary inter-individual synaptic net merging decisions and short-term memory."
     },
     "it": {
       "label": "Coscienza d’Alveare Diffusa",
-      "description": "Fondere decisioni e memoria a breve termine."
+      "description": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine."
     }
   },
   "criostasi_adattiva": {
@@ -1072,11 +1072,11 @@
   "ectotermia_dinamica": {
     "en": {
       "label": "Dynamic Ectothermy",
-      "description": "Isometric micro-shivers that rapidly raise body temperature for performance spikes."
+      "description": "Isometric micro-shivers that quickly elevate body temperature for performance peaks in cool climates."
     },
     "it": {
       "label": "Ectotermia Dinamica",
-      "description": "Microscosse isometriche che innalzano rapidamente la temperatura corporea per picchi prestazionali."
+      "description": "Microscosse isometriche che innalzano in fretta la temperatura corporea per picchi prestazionali in climi freschi."
     }
   },
   "elettromagnete_biologico": {
@@ -1532,11 +1532,11 @@
   "ipertrofia_muscolare_massiva": {
     "en": {
       "label": "Massive Muscular Hypertrophy",
-      "description": "Thickened fibres with dense mitochondria boosting power, burst acceleration, and short-term strain tolerance."
+      "description": "Broadened fibres with dense mitochondria that unleash power and acceleration while enduring short bursts."
     },
     "it": {
       "label": "Ipertrofia Muscolare Massiva",
-      "description": "Fibre ispessite e mitocondri densi che aumentano potenza, scatto e tolleranza allo sforzo breve."
+      "description": "Fibre a sezione aumentata e mitocondri densi che sprigionano potenza e scatto sostenendo sforzi brevi."
     }
   },
   "lamelle_shear": {
@@ -1722,11 +1722,11 @@
   "metabolismo_di_condivisione_energetica": {
     "en": {
       "label": "Shared Energy Metabolism",
-      "description": "Support wounded or young with collective reserves."
+      "description": "Contact-based substrate transfer to sustain wounded or young with a collective reserve."
     },
     "it": {
       "label": "Metabolismo di Condivisione Energetica",
-      "description": "Sostenere feriti o giovani con riserva collettiva."
+      "description": "Trasferimento di substrati via contatto per sostenere feriti o giovani con una riserva collettiva."
     }
   },
   "midollo_antivibrazione": {
@@ -1962,11 +1962,11 @@
   "rostro_emostatico_litico": {
     "en": {
       "label": "Hemo-Lytic Rostrum",
-      "description": "Rigid tubular rostrum that injects lytic and coagulant enzymes while drawing fluids after impact."
+      "description": "Reinforced tubular rostrum that injects toxins and enzymes, then draws fluids after impact."
     },
     "it": {
       "label": "Rostro Emostatico-Litico",
-      "description": "Rostro tubulare rigido che inietta enzimi coagulanti e litici aspirando fluidi dopo l’impatto."
+      "description": "Rostro tubulare rigidizzato che inocula tossine ed enzimi e aspira fluidi dopo l’impatto."
     }
   },
   "rostro_linguale_prensile": {
@@ -2172,11 +2172,11 @@
   "unghie_a_micro_adesione": {
     "en": {
       "label": "Micro-Adhesion Claws",
-      "description": "Adhere to steep surfaces."
+      "description": "Micro-setae lamellae on hooves gripping steep surfaces for vertical escapes and browsing."
     },
     "it": {
       "label": "Unghie a Micro-Adesione",
-      "description": "Aderire a superfici ripide."
+      "description": "Lamelle a micro-setole su zoccoli che aderiscono a superfici ripide per fughe verticali e pascolo."
     }
   },
   "vello_condensatore_nebbie": {

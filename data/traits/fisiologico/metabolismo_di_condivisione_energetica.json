@@ -3,7 +3,7 @@
   "label": "i18n:traits.metabolismo_di_condivisione_energetica.label",
   "data_origin": "coverage_q4_2025",
   "famiglia_tipologia": "Fisiologico/Metabolico",
-  "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+  "fattore_mantenimento_energetico": "Medio",
   "tier": "T3",
   "slot": [],
   "sinergie": [
@@ -15,7 +15,7 @@
   "spinta_selettiva": "i18n:traits.metabolismo_di_condivisione_energetica.spinta_selettiva",
   "metrics": [
     {
-      "name": "consumo_O2",
+      "name": "consumo_o2",
       "value": 50,
       "unit": "L/min"
     }

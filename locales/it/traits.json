@@ -221,7 +221,7 @@
       "uso_funzione": "Infliggere onda d’urto e frattura."
     },
     "aura_di_dispersione_mentale": {
-      "description": "Indurre ansia e vertigini nei predatori.",
+      "description": "Campo di odori avversivi ed emissioni deboli che induce ansia e vertigini nei predatori.",
       "label": "Aura di Dispersione Mentale",
       "mutazione_indotta": "Emissioni EM deboli e odori avversivi coordinati.",
       "spinta_selettiva": "Deterrenza senza scontro fisico.",
@@ -735,14 +735,14 @@
       "uso_funzione": "Stabilizza reti simbiotiche e trasferimenti enzimo-elettrotonici."
     },
     "corna_psico_conduttive": {
-      "description": "Trasmettere e ricevere segnali neurali lenti.",
+      "description": "Corna piezo-neurotoniche che trasmettono e ricevono segnali neurali lenti per allerta di branco.",
       "label": "Corna Psico-Conduttive",
       "mutazione_indotta": "Tessuti piezo-neurotonici nelle corna.",
       "spinta_selettiva": "Allerta precoce e tattiche di branco.",
       "uso_funzione": "Trasmettere/ricevere segnali neurali lenti."
     },
     "coscienza_dalveare_diffusa": {
-      "description": "Fondere decisioni e memoria a breve termine.",
+      "description": "Rete sinaptica inter-individuo temporanea che fonde decisioni e memoria a breve termine.",
       "label": "Coscienza d’Alveare Diffusa",
       "mutazione_indotta": "Rete sinaptica inter-individuo temporanea.",
       "spinta_selettiva": "Evasione collettiva e pianificazione rapida.",
@@ -1403,7 +1403,7 @@
       "uso_funzione": "Regola densità e flessibilità per sopportare cambi repentini."
     },
     "metabolismo_di_condivisione_energetica": {
-      "description": "Sostenere feriti o giovani con riserva collettiva.",
+      "description": "Trasferimento di substrati via contatto per sostenere feriti o giovani con una riserva collettiva.",
       "label": "Metabolismo di Condivisione Energetica",
       "mutazione_indotta": "Trasferimento di substrati via contatto/derma.",
       "spinta_selettiva": "Massimizzare sopravvivenza del branco.",
@@ -1818,7 +1818,7 @@
       "uso_funzione": "Tier Emergente (T3). Milestone: Senses mid+; AB 02–03 movement/carry."
     },
     "unghie_a_micro_adesione": {
-      "description": "Aderire a superfici ripide.",
+      "description": "Lamelle a micro-setole su zoccoli che aderiscono a superfici ripide per fughe verticali e pascolo.",
       "label": "Unghie a Micro-Adesione",
       "mutazione_indotta": "Lamelle a micro-setole tipo geco su zoccoli.",
       "spinta_selettiva": "Fuga verticale e pascolo in cenge.",
