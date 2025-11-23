@@ -123,32 +123,62 @@ Alla fine:
 ```text
 COMANDO: PIPELINE_TRAIT_REFACTOR
 
-Obiettivo:
-Ripulire e normalizzare i trait relativi a:
-[es. "mobilità e difesa delle unità polpo mutaforma"]
+Pipeline di riferimento: docs/pipelines/PIPELINE_TRAIT_STANDARD.md
 
-Task:
-1. Usa trait-curator per:
-   - scan dei trait coinvolti nel repo
-   - proposta di TRAITS_CATALOG.md
-   - proposta di traits_mapping.json
+Step ufficiali (eseguire in ordine):
+1. Audit e validazione dataset
+   - Agente: Trait Curator
+   - Input: data/traits/<famiglia>/*.json, data/traits/index.json, data/traits/species_affinity.json, config/schemas/trait.schema.json, data/core/traits/glossary.json
+   - Output: Validazione schema; Errori glossario; Duplicati/legacy; Note sinergie/conflitti mancanti
+   - Rischio: Medio
 
-2. Usa coordinator per:
-   - trasformare il lavoro del trait-curator in un piano di migrazione (task + agenti).
+2. Proposta di normalizzazione e mapping slug
+   - Agente: Trait Curator
+   - Input: Report audit (step 1); Trait Editor/docs/howto-author-trait.md; docs/trait_reference_manual.md
+   - Output: Piano mapping per slug e famiglie; Check-list per aggiornamenti glossario e locali
+   - Rischio: Alto
 
-3. Usa archivist per:
-   - aggiornare/creare eventuali doc di guidelines su naming dei trait.
+3. Consolidamento catalogo e draft aggiornamento
+   - Agente: Trait Curator
+   - Input: Mapping (step 2); Dataset; Indice e affinità esistenti
+   - Output: Draft inventario aggiornato; Note per Trait Editor su sinergie/slot; Elenco file da modificare
+   - Rischio: Medio
 
-4. (Opzionale) Usa dev-tooling per:
-   - proporre script che aiutino a cercare e sostituire i vecchi nomi trait.
+4. Allineamento specie collegate
+   - Agente: Species Curator
+   - Input: species_affinity.json; species.yaml; Mapping slug
+   - Output: Piano aggiornamento specie; Note onboarding
+   - Rischio: Medio
 
-Output atteso:
-- elenco degli step con:
-  - agenti coinvolti
-  - file da creare/aggiornare
-  - rischi e dipendenze.
+5. Revisione impatti su biomi e pool
+   - Agente: Biome & Ecosystem Curator
+   - Input: mapping slug e biome_tags; data/core/traits/biome_pools.json
+   - Output: Report copertura biomi; Note pool aggiornati; Draft requisiti ambientali
+   - Rischio: Medio
 
-NON eseguire ancora, definisci solo la pipeline TRAIT.
+6. Piano di migrazione end-to-end
+   - Agente: Coordinator
+   - Input: Output step 3–5; Schema/glossario
+   - Output: Roadmap migrazione; Task per agenti; Impatti cross-dataset
+   - Rischio: Basso
+
+7. Documentazione e archiviazione
+   - Agente: Archivist
+   - Input: Roadmap Coordinator; Report curatori
+   - Output: Aggiornamento trait_reference_manual.md; Aggiornamento traits_quicklook.csv; Archiviazione report
+   - Rischio: Basso
+
+8. Supporto tooling (opzionale)
+   - Agente: Dev-Tooling
+   - Input: Necessità emerse; Script in tools/traits
+   - Output: Script validazione batch; Script sostituzione slug; README operativo
+   - Rischio: Basso
+
+Uso:
+- Specifica la famiglia di trait prima di avviare la pipeline.
+- Comando di avvio:
+  COMANDO: PIPELINE_TRAIT_REFACTOR
+  Famiglia: <nome-famiglia>
 ```
 
 ---
@@ -158,34 +188,150 @@ NON eseguire ancora, definisci solo la pipeline TRAIT.
 ```text
 COMANDO: PIPELINE_SPECIE_BIOMA
 
-Feature:
-[es. "Nuovo bioma 'Foresta di Corallo Ombra' + 3 specie di polpo adattate"]
+Pipeline ufficiale per progettare, modellare, bilanciare e documentare
+un nuovo bioma complesso e le sue specie collegate.
 
-Task:
-Progetta una pipeline completa che includa:
+Questa pipeline gestisce feature biologiche avanzate, in cui:
+- un bioma ha più livelli ambientali o fasi dinamiche,
+- le specie hanno trait ambientali e comportamentali complessi,
+- esiste un ecosistema di pool, alias e interazioni cross-dataset.
 
-- lore-designer:
-  - descrizione bioma
-  - ecosistema
-  - 3 specie/creature
+---
 
-- trait-curator:
-  - definizione/normalizzazione dei trait specifici di bioma e specie
+1. Kickoff e vincoli cross-dataset
+   - Agente: Coordinator
+   - Input:
+     - docs/PIPELINE_TEMPLATES.md
+     - agent_constitution.md
+     - data/core/biomes.yaml
+     - data/core/species.yaml
+     - data/core/traits/biome_pools.json
+     - docs/trait_reference_manual.md
+   - Output:
+     - perimetro della feature
+     - mappa dipendenze specie/bioma/trait
+     - checklist impatti su dataset globali
+   - Rischio: Basso
 
-- balancer:
-  - effetti numerici del bioma
-  - stats delle 3 specie
+2. Bozza lore e identità del nuovo bioma
+   - Agente: Lore Designer
+   - Input:
+     - docs/biomes.md
+     - docs/biomes/manifest.md
+     - docs/hooks
+     - docs/20-SPECIE_E_PARTI.md
+   - Output:
+     - descrizione narrativa del bioma
+     - livelli ambientali/fasi
+     - ganci narrativi per le specie collegate
+   - Rischio: Medio
 
-- asset-prep:
-  - immagini/schede .md delle specie e del bioma
+3. Modellazione tecnica del bioma
+   - Agente: Biome & Ecosystem Curator
+   - Input:
+     - data/core/biomes.yaml
+     - data/core/biome_aliases.yaml
+     - config/schemas/biome.schema.yaml
+     - biomes/terraforming_bands.yaml
+     - data/core/traits/biome_pools.json
+   - Output:
+     - scheda tecnica del bioma
+     - biome_tags + requisiti_ambientali
+     - alias del bioma
+     - draft pool ambientali
+   - Rischio: Alto
 
-- archivist:
-  - aggiornamento indici e struttura documentazione
+4. Definizione trait ambientali e pool dinamici
+   - Agente: Trait Curator
+   - Input:
+     - data/core/traits/biome_pools.json
+     - data/core/traits/glossary.json
+     - data/traits/index.json
+     - data/traits/species_affinity.json
+     - docs/trait_reference_manual.md
+     - Trait Editor/docs/howto-author-trait.md
+   - Output:
+     - trait ambientali del bioma
+     - nuovi trait / mapping slug
+     - aggiornamenti a pool o glossary
+   - Rischio: Alto
 
-- coordinator:
-  - review finale della pipeline + report.
+5. Progettazione delle specie associate
+   - Agente: Species Curator
+   - Input:
+     - data/core/species.yaml
+     - data/core/species/aliases.json
+     - data/traits/species_affinity.json
+     - docs/20-SPECIE_E_PARTI.md
+     - output step 2–4
+   - Output:
+     - trait_plan specie
+     - biome_affinity
+     - sinergie/conflitti
+   - Rischio: Alto
 
-Struttura l’output in step numerati, come pipeline eseguibile.
+6. Bilanciamento numerico e varianti dinamiche
+   - Agente: Balancer
+   - Input:
+     - output step 3–5
+     - data/core/game_functions.yaml
+     - docs/10-SISTEMA_TATTICO.md
+     - docs/11-REGOLE_D20_TV.md
+   - Output:
+     - tuning HP/danni/slot
+     - script eventuali cambi forma/abilità dinamiche
+     - effetti di buff/debuff ambientali
+   - Rischio: Alto
+
+7. Validazione cross-pool e coerenza dataset
+   - Agente: Coordinator
+   - Input:
+     - output step 3–6
+     - data/core/traits/biome_pools.json
+     - data/core/species.yaml
+     - data/core/biomes.yaml
+   - Output:
+     - report coerenza
+     - lista patch dataset globali
+   - Rischio: Medio
+
+8. Asset e schede visual
+   - Agente: Asset Prep
+   - Input:
+     - assets/
+     - docs/catalog/
+     - docs/templates/
+     - output step 2–6
+   - Output:
+     - bozze card/specie/bioma
+     - naming asset coerente
+     - schede `.md` aggiornate
+   - Rischio: Medio
+
+9. Documentazione e archiviazione
+   - Agente: Archivist
+   - Input:
+     - output step 1–8
+     - docs/trait_reference_manual.md
+     - docs/biomes.md
+   - Output:
+     - appendici aggiornate
+     - update trait_reference_manual
+     - update biomes.md
+     - archiviazione report in docs/reports/
+   - Rischio: Basso
+
+10. Piano esecutivo e handoff finale
+    - Agente: Coordinator
+    - Input:
+      - output step 1–9
+      - ops/ci/pipeline.md
+      - Makefile
+    - Output:
+      - roadmap esecuzione
+      - assegnazione task agenti
+      - checklist merge finale
+    - Rischio: Basso
 ```
 
 ---

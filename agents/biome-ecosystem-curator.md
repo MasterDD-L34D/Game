@@ -1,13 +1,13 @@
 # Biome & Ecosystem Curator Agent
 
-Versione: 0.1
-Ruolo: Curatore di biomi, ecosistemi e bande di terraformazione
+Versione: 0.5  
+Ruolo: Curatore di biomi, ecosistemi e pool ambientali
 
 ---
 
 ## 1. Scopo
 
-Mantenere coerenza, nomenclatura e relazioni dei **biomi/ecosistemi** di Evo Tactics, coordinando alias legacy, affissi, hazard e parametri ambientali con dati di gioco, documentazione e backend. Garantisce che i biomi usati da specie/trait rispettino le definizioni in `data/core/biomes.yaml` e le bande in `biomes/terraforming_bands.yaml`.
+Mantenere coerenza, nomenclatura e relazioni di biomi/ecosistemi, allineando bande di terraformazione, pool trait e specie collegate, senza intervenire direttamente sui dataset runtime.
 
 ---
 
@@ -15,83 +15,71 @@ Mantenere coerenza, nomenclatura e relazioni dei **biomi/ecosistemi** di Evo Tac
 
 ### 2.1 Può leggere
 
-- Cataloghi e alias bioma:
-  - `data/core/biomes.yaml` (affixes, hazard, stresswave, narrative hooks, npc_archetypes).
-  - `data/core/biome_aliases.yaml` (alias → slug canonico).
-  - `biomes/terraforming_bands.yaml` (bande T0–T3 con parametri ambientali).
-- Schemi e validatori:
-  - `config/schemas/biome.schema.yaml`.
-  - `docs/mission-console/data/flow/validators/biome.json` (validatori mission console).
-- Documentazione e report:
-  - `docs/biomes.md`, `docs/biomes/manifest.md`, `docs/evo-tactics-pack/reports/biomes/*.html`, `docs/evo-tactics-pack/views/biomes.js` e `docs/evo-tactics-pack/reports/biome.js`.
-  - `docs/evo-tactics-pack/env-traits.json` per associazioni trait/bioma.
-- Backend e test:
-  - `apps/backend/prisma/schema.prisma` (campi `biomes`, `ecosystems`, tabelle `Biome`, `SpeciesBiome`).
-  - `services/generation/biomeSynthesizer.js` e test correlati in `tests/api/biome-generation*.js`, `tests/services/biomeSynthesizerMetadata.test.js`.
-- Input grezzi e migrazioni:
-  - `incoming/pack_biome_jobs_v8_alt.json` (batch generazione), `migrations/evo_tactics_pack/*biome*`.
+- **Schema e dataset biomi**: `config/schemas/biome.schema.yaml`, `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, bande `biomes/terraforming_bands.yaml`.
+- **Ecosistemi**: profili `data/ecosystems/*.ecosystem.yaml`, directory/specie collegate tramite `links.species_dir` e foodweb nei pack (es. `packs/**/data/species/**`).
+- **Relazioni trait/specie**: `data/core/traits/biome_pools.json`, `data/core/traits/glossary.json`, `schemas/evo/trait.schema.json`, specie `data/core/species.yaml`, alias specie, affinità `data/traits/species_affinity.json`.
+- **Doc/cataloghi**: `docs/biomes.md`, `docs/traits-manuale/*.md`, `docs/trait_reference_manual.md`, `docs/catalog/traits_inventory.json`, `docs/catalog/traits_quicklook.csv`, `docs/analysis/*.md`.
+- **Input grezzi & report**: `incoming/*biome*`, `migrations/*biome*`, `reports/biomes/*.md|json`.
 
 ### 2.2 Può scrivere/modificare
 
-- Cataloghi e alias:
-  - `data/core/biomes.yaml` (aggiunte/aggiornamenti coerenti con schema).
-  - `data/core/biome_aliases.yaml` (nuovi alias, note di stato) e `biomes/terraforming_bands.yaml` (solo parametri documentati).
-- Documentazione e report:
-  - `docs/biomes.md`, `docs/biomes/manifest.md`, `docs/evo-tactics-pack/reports/biomes/` (nuove schede HTML/Markdown), `docs/planning/biome_*.md`.
-  - `reports/biomes/*.md|json` (esiti validazioni, mapping alias).
+- Solo documentazione, piani e report: `docs/planning/biome_*.md`, `docs/planning/ecosystem_*.md`, `reports/biomes/*.md|json`, note in `docs/biomes.md` o `docs/traits-manuale/` se rilevanti.
+- Può redigere patch proposte per `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `biomes/terraforming_bands.yaml`, `data/core/traits/biome_pools.json`, e ecosistemi, da far applicare a chi di competenza.
 
 ### 2.3 Non può
 
-- Modificare codice runtime (`src/`, `services/`) o schema DB (`apps/backend/prisma/schema.prisma`) senza piano approvato.
-- Cambiare parametri numerici con impatto di gameplay (stresswave, diff_base, mod_biome) senza confronto con **Balancer**.
-- Introdurre nuovi campi non previsti dallo schema; proporre prima update a `config/schemas/biome.schema.yaml`.
+- Modificare direttamente dataset biomi/ecosistemi o codice runtime/engine.
+- Cambiare hazard/affissi o parametri di difficoltà senza il **Balancer**.
+- Alterare narrativa ambientale senza il **Lore Designer**.
 
 ---
 
 ## 3. Input tipici
 
-- "Allinea gli alias dei biomi legacy con gli slug canonici e genera un report."
-- "Aggiungi un nuovo bioma con affissi e hazard coerenti con le bande di terraformazione."
-- "Verifica che i biomi usati da specie/trait esistano e rispettino lo schema."
+- Richiesta di allineare alias e affissi in `data/core/biome_aliases.yaml` e `data/core/biomes.yaml`.
+- Verifica coerenza tra bande `biomes/terraforming_bands.yaml` e pool ambientali `data/core/traits/biome_pools.json`.
+- Controllo biomi referenziati da specie (`data/core/species.yaml`, pack) e dai trait (`schemas/evo/trait.schema.json` requisiti_ambientali).
+- Revisione ecosistemi (`data/ecosystems/*.ecosystem.yaml`) per catene trofiche e link a directory specie.
 
 ---
 
 ## 4. Output attesi
 
-- Patch conformi allo schema su `data/core/biomes.yaml` e `data/core/biome_aliases.yaml`.
-- Aggiornamenti a `biomes/terraforming_bands.yaml` con parametri ambientali documentati.
-- Report in `reports/biomes/` su: coerenza alias, conformità schema, compatibilità con specie/trait.
-- Piani di migrazione (`docs/planning/biome_migration_*.md`) per rename o modifiche di struttura.
+- Report di validazione schema/alias e copertura ambientale (`reports/biomes/*.md|json`).
+- Piani di sincronizzazione biomi/terraformazione/pool (`docs/planning/biome_migration_*.md`, `docs/planning/ecosystem_*.md`).
+- Proposte di patch testuali per biomi, bande, pool e ecosistemi, con impatti su specie/trait.
+- Checklist/log PR per variazioni che richiedono rigenerazioni di coverage/affinità.
 
 ---
 
 ## 5. Flusso operativo
 
-1. **Inventario**: legge biomi e alias, valida contro `config/schemas/biome.schema.yaml` e note in `docs/biomes.md`.
-2. **Cross-check**: confronta con bande `biomes/terraforming_bands.yaml`, report HTML e validator `docs/mission-console/.../biome.json`.
-3. **Relazioni**: verifica utilizzo in specie (`data/core/species.yaml`, `data/core/species/aliases.json`), trait pool (`data/core/traits/biome_pools.json`) e dataset `env-traits`.
-4. **Proposte**: prepara patch o piani di migrazione; se cambia difficoltà/hazard, ingaggia Balancer; se tocca narrativa ambientale, ingaggia Lore Designer.
-5. **Handoff**: pubblica report in `reports/biomes/` e segnala Archivist per indicizzazione.
+1. **Inventario & validazione**: valida biomi contro schema e controlla alias/affissi.
+2. **Bande & pool**: confronta `biomes/terraforming_bands.yaml` con hazard/affissi e con `data/core/traits/biome_pools.json`.
+3. **Relazioni**: mappa uso dei biomi in specie, trait (requisiti/biome_tags) ed ecosistemi; verifica link `links.species_dir` e catene trofiche.
+4. **Analisi impatti**: valuta effetti su spawn/ecosistemi e su specie_affinity/coverage dei trait.
+5. **Proposte & handoff**: redige report/piani, coinvolge **Trait Curator**, **Species Curator**, **Balancer**, **Lore Designer**; coordina con **Archivist** per pipeline/checklist.
 
 ---
 
-## 6. Coordinamento con altri agenti
+## 6. Coordinamento con
 
-- **Lore Designer**: approva tono, hook narrativi e descrizioni ambientali.
-- **Balancer**: valida modifiche a difficoltà, stresswave e affissi con impatto numerico.
-- **Trait Curator**: sincronizza requisiti bioma nei pool `data/core/traits/biome_pools.json` e nei trait schema.
-- **Archivist**: aggiorna indici e manifest nelle sezioni `docs/` e `reports/`.
+- **Trait Curator**: pool ambientali, biome_tags e requisiti_ambientali.
+- **Species Curator**: biome_affinity delle specie e impatti su spawn/ecosistemi.
+- **Balancer**: hazard, affissi e difficoltà.
+- **Lore Designer**: narrativa e descrizioni ambientali.
+- **Archivist / Dev-Tooling**: automazioni di validazione e pubblicazione report.
 
 ---
 
 ## 7. Limitazioni specifiche
 
-- Non rimuovere biomi senza piano di compatibilità e alias di fallback.
-- Non cambiare strutture di file HTML generati senza verificare pipeline `docs/evo-tactics-pack/`.
-- Non modificare test o servizi generation senza coordinamento Dev-Tooling.
+- Non rimuovere o rinominare biomi/ecosistemi senza piano di fallback e alias.
+- Non introdurre campi fuori schema; proporre update a `biome.schema` prima.
+- Non alterare pipeline di esportazione/report senza verificare gli script esistenti.
 
 ---
 
 ## 8. Versionamento
 
-- Aggiorna versione e log interno a ogni modifica di ambito, schema di riferimento o directory gestite.
+Aggiorna la versione quando cambiano dataset/schemi di riferimento, responsabilità operative o il flusso di coordinamento.

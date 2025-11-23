@@ -11990,8 +11990,7 @@
         "has_species_link": false,
         "has_usage_tags": false
       },
-      "conflitti": [],
-      "data_origin": "incoming_tr1100_pack",
+      "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Balistico",
       "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
       "id": "scheletro_idraulico_a_pistoni",
@@ -12221,21 +12220,40 @@
       }
     },
     "ali_fono_risonanti": {
-      "id": "ali_fono_risonanti",
-      "label": "Ali Fono-Risonanti",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Aereo",
       "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
-      "tier": "T3",
-      "slot": [],
+      "id": "ali_fono_risonanti",
+      "label": "Ali Fono-Risonanti",
+      "mutazione_indotta": "Venature come corde vibranti controllate.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
       "sinergie": [
         "cannone_sonico_a_raggio",
         "campo_di_interferenza_acustica"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Venature come corde vibranti controllate.",
-      "uso_funzione": "Generare ampia banda sonora in volo.",
+      "slot": [],
       "spinta_selettiva": "Mappatura ambiente e segnalazione.",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Generare ampia banda sonora in volo.",
       "metrics": [
         {
           "name": "dose_acustica",
@@ -12252,6 +12270,26 @@
         "observable": "Varia frequenza 1–40 kHz",
         "scene_prompt": "Spettrogramma durante manovre"
       },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      }
+    },
+    "articolazioni_a_leva_idraulica": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "id": "articolazioni_a_leva_idraulica",
+      "label": "Articolazioni a Leva Idraulica",
+      "mutazione_indotta": "Camere pressurizzate nelle giunture.",
       "requisiti_ambientali": [
         {
           "capacita_richieste": [],
@@ -12265,35 +12303,14 @@
           }
         }
       ],
-      "applicability": {
-        "clades": [],
-        "envo_terms": [
-          "http://purl.obolibrary.org/obo/ENVO_01000178"
-        ]
-      },
-      "description": "Generare ampia banda sonora in volo.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
-      }
-    },
-    "articolazioni_a_leva_idraulica": {
-      "id": "articolazioni_a_leva_idraulica",
-      "label": "Articolazioni a Leva Idraulica",
-      "data_origin": "coverage_q4_2025",
-      "famiglia_tipologia": "Locomotivo/Terrestre",
-      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
-      "tier": "T3",
-      "slot": [],
       "sinergie": [
         "zanne_idracida"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Camere pressurizzate nelle giunture.",
-      "uso_funzione": "Amplificare salto e spinta delle zampe.",
+      "slot": [],
       "spinta_selettiva": "Aggancio rapido su prede/rami.",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Amplificare salto e spinta delle zampe.",
       "metrics": [
         {
           "name": "salto_verticale",
@@ -12310,6 +12327,26 @@
         "observable": "Supera ostacolo 3 m",
         "scene_prompt": "Video-analisi del salto"
       },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000228"
+        ]
+      }
+    },
+    "articolazioni_multiassiali": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "id": "articolazioni_multiassiali",
+      "label": "Articolazioni Multiassiali",
+      "mutazione_indotta": "Glenoidi/acetaboli ampliati, cartilagini elastiche.",
       "requisiti_ambientali": [
         {
           "capacita_richieste": [],
@@ -12323,35 +12360,14 @@
           }
         }
       ],
-      "applicability": {
-        "clades": [],
-        "envo_terms": [
-          "http://purl.obolibrary.org/obo/ENVO_01000228"
-        ]
-      },
-      "description": "Amplificare salto e spinta delle zampe.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
-      }
-    },
-    "articolazioni_multiassiali": {
-      "id": "articolazioni_multiassiali",
-      "label": "Articolazioni Multiassiali",
-      "data_origin": "coverage_q4_2025",
-      "famiglia_tipologia": "Locomotivo/Terrestre",
-      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
-      "tier": "T3",
-      "slot": [],
       "sinergie": [
         "coda_prensile_muscolare"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Glenoidi/acetaboli ampliati, cartilagini elastiche.",
-      "uso_funzione": "Ruotare arti per manovre strette",
+      "slot": [],
       "spinta_selettiva": "Arrampicata su tronchi umidi/scogliere",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Ruotare arti per manovre strette",
       "metrics": [
         {
           "name": "accelerazione_0_10",
@@ -12368,31 +12384,11 @@
         "observable": "Pivot a 180° in corridoio 1 m",
         "scene_prompt": "Traccia cono di sterzata su terreno bagnato"
       },
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "terrestre"
-          },
-          "fonte": "envo_mapping",
-          "meta": {
-            "tier": "T3",
-            "notes": ""
-          }
-        }
-      ],
       "applicability": {
         "clades": [],
         "envo_terms": [
           "http://purl.obolibrary.org/obo/ENVO_01000228"
         ]
-      },
-      "description": "Ruotare arti per manovre strette.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
       }
     },
     "artigli_ipo_termici": {
@@ -12860,20 +12856,39 @@
       }
     },
     "cinghia_iper_ciliare": {
-      "id": "cinghia_iper_ciliare",
-      "label": "Cinghia Iper-Ciliare",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
-      "tier": "T3",
-      "slot": [],
+      "id": "cinghia_iper_ciliare",
+      "label": "Cinghia Iper-Ciliare",
+      "mutazione_indotta": "Ciglia muscolari ventrali a tappeto mobile.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
       "sinergie": [
         "scheletro_pneumatico_a_maglie"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Ciglia muscolari ventrali a tappeto mobile.",
-      "uso_funzione": "Traslare il corpo su terreni piani/ruvidi.",
+      "slot": [],
       "spinta_selettiva": "Ridurre necessità di arti portanti tradizionali.",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Traslare il corpo su terreni piani/ruvidi.",
       "metrics": [
         {
           "name": "velocita_max",
@@ -12890,31 +12905,11 @@
         "observable": "Percorre 100 m su ghiaia in < 90 s",
         "scene_prompt": "Rileva tracce ciliate su impronte"
       },
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "terrestre"
-          },
-          "fonte": "envo_mapping",
-          "meta": {
-            "tier": "T3",
-            "notes": ""
-          }
-        }
-      ],
       "applicability": {
         "clades": [],
         "envo_terms": [
           "http://purl.obolibrary.org/obo/ENVO_01000178"
         ]
-      },
-      "description": "Traslare il corpo su terreni piani o ruvidi.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
       }
     },
     "cisti_di_ibernazione_minerale": {
@@ -12976,21 +12971,40 @@
       }
     },
     "coda_prensile_muscolare": {
-      "id": "coda_prensile_muscolare",
-      "label": "Coda Prensile Muscolare",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Arboricolo",
       "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
-      "tier": "T3",
-      "slot": [],
+      "id": "coda_prensile_muscolare",
+      "label": "Coda Prensile Muscolare",
+      "mutazione_indotta": "Fasci caudali spiralizzati, vertebre con verticilli.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
       "sinergie": [
         "articolazioni_multiassiali",
         "rostro_linguale_prensile"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Fasci caudali spiralizzati, vertebre con verticilli.",
-      "uso_funzione": "Appendere e contro-bilanciare",
+      "slot": [],
       "spinta_selettiva": "Foraggiamento in chioma; attraversamento gole",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Appendere e contro-bilanciare",
       "metrics": [
         {
           "name": "salto_verticale",
@@ -13007,31 +13021,11 @@
         "observable": "Sospensione 30 s su ramo standard",
         "scene_prompt": "Cronometrare appensione su trave 6 cm"
       },
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "terrestre"
-          },
-          "fonte": "envo_mapping",
-          "meta": {
-            "tier": "T3",
-            "notes": ""
-          }
-        }
-      ],
       "applicability": {
         "clades": [],
         "envo_terms": [
           "http://purl.obolibrary.org/obo/ENVO_01000228"
         ]
-      },
-      "description": "Appendere e controbilanciarsi.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
       }
     },
     "comunicazione_fotonica_coda_coda": {
@@ -13559,20 +13553,39 @@
       }
     },
     "flusso_ameboide_controllato": {
-      "id": "flusso_ameboide_controllato",
-      "label": "Flusso Ameboide Controllato",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
-      "tier": "T2",
-      "slot": [],
+      "id": "flusso_ameboide_controllato",
+      "label": "Flusso Ameboide Controllato",
+      "mutazione_indotta": "Pseudopodi coordinati a pressione interna.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
       "sinergie": [
         "membrana_plastica_continua"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Pseudopodi coordinati a pressione interna.",
-      "uso_funzione": "Scivolare/risalire superfici lisce.",
+      "slot": [],
       "spinta_selettiva": "Ricerca cibo in interstizi umidi.",
+      "tier": "T2",
+      "usage_tags": [],
+      "uso_funzione": "Scivolare/risalire superfici lisce.",
       "metrics": [
         {
           "name": "raggio_di_volta",
@@ -13589,31 +13602,11 @@
         "observable": "Curva stretta in tubo 20 cm",
         "scene_prompt": "Traccia percorso in labirinto cilindrico"
       },
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "terrestre"
-          },
-          "fonte": "envo_mapping",
-          "meta": {
-            "tier": "T2",
-            "notes": ""
-          }
-        }
-      ],
       "applicability": {
         "clades": [],
         "envo_terms": [
           "http://purl.obolibrary.org/obo/ENVO_00000873"
         ]
-      },
-      "description": "Scivolare o risalire superfici lisce.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
       }
     },
     "integumento_bipolare": {
@@ -13676,20 +13669,39 @@
       }
     },
     "locomozione_miriapode_ibrida": {
-      "id": "locomozione_miriapode_ibrida",
-      "label": "Locomozione Miriapode Ibrida",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
-      "tier": "T3",
-      "slot": [],
+      "id": "locomozione_miriapode_ibrida",
+      "label": "Locomozione Miriapode Ibrida",
+      "mutazione_indotta": "50–100 paia di arti segmentati.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
       "sinergie": [
         "artiglio_cinetico_a_urto"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "50–100 paia di arti segmentati.",
-      "uso_funzione": "Aderire e arrampicare su qualsiasi superficie.",
+      "slot": [],
       "spinta_selettiva": "Predazione in tunnel e pareti rocciose.",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Aderire e arrampicare su qualsiasi superficie.",
       "metrics": [
         {
           "name": "velocita_max",
@@ -13706,31 +13718,11 @@
         "observable": "Scala parete 3 m in < 10 s",
         "scene_prompt": "Cronometra arrampicata su pannello 80°"
       },
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "terrestre"
-          },
-          "fonte": "envo_mapping",
-          "meta": {
-            "tier": "T3",
-            "notes": ""
-          }
-        }
-      ],
       "applicability": {
         "clades": [],
         "envo_terms": [
           "http://purl.obolibrary.org/obo/ENVO_01000228"
         ]
-      },
-      "description": "Aderire e arrampicare su qualsiasi superficie.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
       }
     },
     "membrana_plastica_continua": {
@@ -14258,20 +14250,39 @@
       }
     },
     "scheletro_pneumatico_a_maglie": {
-      "id": "scheletro_pneumatico_a_maglie",
-      "label": "Scheletro Pneumatico a Maglie",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Terrestre",
       "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
-      "tier": "T3",
-      "slot": [],
+      "id": "scheletro_pneumatico_a_maglie",
+      "label": "Scheletro Pneumatico a Maglie",
+      "mutazione_indotta": "Ossa porose con alveoli d’aria.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T3",
+            "notes": ""
+          }
+        }
+      ],
       "sinergie": [
         "cinghia_iper_ciliare"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Ossa porose con alveoli d’aria.",
-      "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti.",
+      "slot": [],
       "spinta_selettiva": "Transito terrestre di megafauna fuori dall’acqua.",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Alleggerire il carico per spostamenti lenti ma costanti.",
       "metrics": [
         {
           "name": "metabolic_rate",
@@ -14288,6 +14299,26 @@
         "observable": "Spostamento 5 km senza affaticamento eccessivo",
         "scene_prompt": "Test su piastra di forza per massa apparente"
       },
+      "applicability": {
+        "clades": [],
+        "envo_terms": [
+          "http://purl.obolibrary.org/obo/ENVO_01000178"
+        ]
+      }
+    },
+    "scivolamento_magnetico": {
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
+      "data_origin": "coverage_q4_2025",
+      "famiglia_tipologia": "Locomotivo/Terrestre",
+      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
+      "id": "scivolamento_magnetico",
+      "label": "Scivolamento Magnetico",
+      "mutazione_indotta": "Rivestimento paramagnetico + micro-vibrazioni.",
       "requisiti_ambientali": [
         {
           "capacita_richieste": [],
@@ -14301,35 +14332,14 @@
           }
         }
       ],
-      "applicability": {
-        "clades": [],
-        "envo_terms": [
-          "http://purl.obolibrary.org/obo/ENVO_01000178"
-        ]
-      },
-      "description": "Alleggerire il carico per spostamenti lenti ma costanti.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
-      }
-    },
-    "scivolamento_magnetico": {
-      "id": "scivolamento_magnetico",
-      "label": "Scivolamento Magnetico",
-      "data_origin": "coverage_q4_2025",
-      "famiglia_tipologia": "Locomotivo/Terrestre",
-      "fattore_mantenimento_energetico": "Medio (manutenzione periodica o situazionale)",
-      "tier": "T3",
-      "slot": [],
       "sinergie": [
         "integumento_bipolare"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Rivestimento paramagnetico + micro-vibrazioni.",
-      "uso_funzione": "Ridurre attrito e scivolare.",
+      "slot": [],
       "spinta_selettiva": "Traslazione silente su superfici variabili.",
+      "tier": "T3",
+      "usage_tags": [],
+      "uso_funzione": "Ridurre attrito e scivolare.",
       "metrics": [
         {
           "name": "velocita_max",
@@ -14346,31 +14356,11 @@
         "observable": "Percorre 50 m su sabbia in 20 s",
         "scene_prompt": "Cronometra su tre substrati diversi"
       },
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "terrestre"
-          },
-          "fonte": "envo_mapping",
-          "meta": {
-            "tier": "T3",
-            "notes": ""
-          }
-        }
-      ],
       "applicability": {
         "clades": [],
         "envo_terms": [
           "http://purl.obolibrary.org/obo/ENVO_00000304"
         ]
-      },
-      "description": "Ridurre attrito e scivolare.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
       }
     },
     "scudo_gluteale_cheratinizzato": {
@@ -14608,20 +14598,39 @@
       }
     },
     "unghie_a_micro_adesione": {
-      "id": "unghie_a_micro_adesione",
-      "label": "Unghie a Micro-Adesione",
+      "completion_flags": {
+        "has_biome": true,
+        "has_data_origin": true,
+        "has_species_link": false,
+        "has_usage_tags": false
+      },
       "data_origin": "coverage_q4_2025",
       "famiglia_tipologia": "Locomotivo/Arboricolo",
       "fattore_mantenimento_energetico": "Basso (mantenimento passivo o trascurabile)",
-      "tier": "T2",
-      "slot": [],
+      "id": "unghie_a_micro_adesione",
+      "label": "Unghie a Micro-Adesione",
+      "mutazione_indotta": "Lamelle a micro-setole tipo geco su zoccoli.",
+      "requisiti_ambientali": [
+        {
+          "capacita_richieste": [],
+          "condizioni": {
+            "biome_class": "terrestre"
+          },
+          "fonte": "envo_mapping",
+          "meta": {
+            "tier": "T2",
+            "notes": ""
+          }
+        }
+      ],
       "sinergie": [
         "corna_psico_conduttive"
       ],
-      "conflitti": [],
-      "mutazione_indotta": "Lamelle a micro-setole tipo geco su zoccoli.",
-      "uso_funzione": "Aderire a superfici ripide.",
+      "slot": [],
       "spinta_selettiva": "Fuga verticale e pascolo in cenge.",
+      "tier": "T2",
+      "usage_tags": [],
+      "uso_funzione": "Aderire a superfici ripide.",
       "metrics": [
         {
           "name": "tasso_di_salita",
@@ -14638,31 +14647,11 @@
         "observable": "Scala parete 10 m inclinata 75°",
         "scene_prompt": "Cronometra salita su lastra liscia"
       },
-      "requisiti_ambientali": [
-        {
-          "capacita_richieste": [],
-          "condizioni": {
-            "biome_class": "terrestre"
-          },
-          "fonte": "envo_mapping",
-          "meta": {
-            "tier": "T2",
-            "notes": ""
-          }
-        }
-      ],
       "applicability": {
         "clades": [],
         "envo_terms": [
           "http://purl.obolibrary.org/obo/ENVO_01000178"
         ]
-      },
-      "description": "Lamelle a micro-setole su zoccoli che aderiscono a superfici ripide per fughe verticali e pascolo.",
-      "completion_flags": {
-        "has_biome": true,
-        "has_data_origin": true,
-        "has_species_link": false,
-        "has_usage_tags": false
       }
     },
     "vello_di_assorbimento_totale": {
@@ -14839,8 +14828,34 @@
         "has_species_link": false,
         "has_usage_tags": false
       }
-    }
-  },
+    },
+    "coralli_sinaptici_fotofase": { "id": "coralli_sinaptici_fotofase", "label": "Coralli Sinaptici Fotofase", "famiglia_tipologia": "Ambiente/Supporto", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "fonte": "env_to_traits", "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1", "notes": "Cresta Fotofase" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "sinergie": ["glare_control", "buff_luminescente"] },
+    "membrane_fotoconvoglianti": { "id": "membrane_fotoconvoglianti", "label": "Membrane Fotoconvoglianti", "famiglia_tipologia": "Difesa/Elettrico", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "conflitti": ["affaticamento_oculare"] },
+    "nodi_sinaptici_superficiali": { "id": "nodi_sinaptici_superficiali", "label": "Nodi Sinaptici Superficiali", "famiglia_tipologia": "Supporto/Sensore", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "sinergie": ["buff_coordinamento"] },
+    "impulsi_bioluminescenti": { "id": "impulsi_bioluminescenti", "label": "Impulsi Bioluminescenti", "famiglia_tipologia": "Offensivo/Illuminazione", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "sinergie": ["dazzle_chain"] },
+    "filamenti_guidalampo": { "id": "filamenti_guidalampo", "label": "Filamenti Guidalampo", "famiglia_tipologia": "Mobilità/Logistica", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true } },
+    "sensori_planctonici": { "id": "sensori_planctonici", "label": "Sensori Planctonici", "famiglia_tipologia": "Analisi", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "sinergie": ["scan_memetico"] },
+    "squame_diffusori_ionici": { "id": "squame_diffusori_ionici", "label": "Squame Diffusori Ionici", "famiglia_tipologia": "Difesa/Elettrico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "conflitti": ["overcharge_cronico"] },
+    "nebbia_mnesica": { "id": "nebbia_mnesica", "label": "Nebbia Mnesica", "famiglia_tipologia": "Controllo", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "conflitti": ["immunoscossa"], "sinergie": ["confusione_psionica"] },
+    "lobi_risonanti_crepuscolo": { "id": "lobi_risonanti_crepuscolo", "label": "Lobi Risonanti Crepuscolo", "famiglia_tipologia": "Supporto/Risonanza", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": ["resonant_chain"] },
+    "placca_diffusione_foschia": { "id": "placca_diffusione_foschia", "label": "Placca di Diffusione Foschia", "famiglia_tipologia": "Difesa/Aura", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": ["copertura_psionica"] },
+    "spicole_canalizzatrici": { "id": "spicole_canalizzatrici", "label": "Spicole Canalizzatrici", "famiglia_tipologia": "Offensivo/Assorbimento", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": ["reindirizzamento_buff"] },
+    "secrezioni_antistatiche": { "id": "secrezioni_antistatiche", "label": "Secrezioni Antistatiche", "famiglia_tipologia": "Difensivo/Elettrico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "conflitti": ["corrosione_instabile"] },
+    "organi_metacronici": { "id": "organi_metacronici", "label": "Organi Metacronici", "famiglia_tipologia": "Supporto/Sequenziamento", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": ["furto_buff_chain"] },
+    "ghiandole_mnemoniche": { "id": "ghiandole_mnemoniche", "label": "Ghiandole Mnemoniche", "famiglia_tipologia": "Supporto/Copia", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": ["buff_replay"] },
+    "camere_risonanza_abyssal": { "id": "camere_risonanza_abyssal", "label": "Camere di Risonanza Abyssal", "famiglia_tipologia": "Supporto/Risonanza", "data_origin": "frattura_abissale_sinaptica", "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "sinergie": ["waveguide_profondo"] },
+    "corazze_ferro_magnetico": { "id": "corazze_ferro_magnetico", "label": "Corazze Ferro-Magnetico", "famiglia_tipologia": "Difesa/Magnetico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": ["riduzione_shear"], "conflitti": ["ossidazione_rapida"] },
+    "bioantenne_gravitiche": { "id": "bioantenne_gravitiche", "label": "Bioantenne Gravitiche", "famiglia_tipologia": "Sensore/Gravitazionale", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": ["lettura_shear"] },
+    "emettitori_voidsong": { "id": "emettitori_voidsong", "label": "Emettitori Voidsong", "famiglia_tipologia": "Supporto/Anomalia", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": ["stabilizzazione_shear"] },
+    "emolinfa_conducente": { "id": "emolinfa_conducente", "label": "Emolinfa Conducente", "famiglia_tipologia": "Supporto/Energetico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": ["drain_energetico"] },
+    "placche_pressioniche": { "id": "placche_pressioniche", "label": "Placche Pressioniche", "famiglia_tipologia": "Difesa/Pressione", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": false, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": ["riduzione_pressione"] },
+    "filamenti_echo": { "id": "filamenti_echo", "label": "Filamenti Echo", "famiglia_tipologia": "Supporto/Risonanza", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": ["relay_team"] },
+    "scintilla_sinaptica": { "id": "scintilla_sinaptica", "label": "Scintilla Sinaptica", "famiglia_tipologia": "Temp/Elettrico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "sinergie": ["reazioni_rapide"], "tipo": "temp" },
+    "riverbero_memetico": { "id": "riverbero_memetico", "label": "Riverbero Memetico", "famiglia_tipologia": "Temp/Psionico", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T2" } }], "sinergie": ["duplica_buff"], "tipo": "temp" },
+    "pelle_piezo_satura": { "id": "pelle_piezo_satura", "label": "Pelle Piezo-Satura", "famiglia_tipologia": "Temp/Difesa", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": ["riflesso_elettrico"], "tipo": "temp" },
+    "canto_risonante": { "id": "canto_risonante", "label": "Canto Risonante", "famiglia_tipologia": "Temp/Risonanza", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T1" } }], "sinergie": ["stabilizzazione_team"], "tipo": "temp" },
+    "vortice_nera_flash": { "id": "vortice_nera_flash", "label": "Vortice Nera Flash", "famiglia_tipologia": "Temp/Movimento", "data_origin": "frattura_abissale_sinaptica", "completion_flags": { "has_biome": true, "has_data_origin": true, "has_species_link": true, "has_usage_tags": true }, "requisiti_ambientali": [{ "condizioni": { "biome_class": "frattura_abissale_sinaptica" }, "meta": { "tier": "T3" } }], "sinergie": ["teletrasporto_breve"], "conflitti": ["stress_spike"], "tipo": "temp" }
+    },
   "types": {
     "difensivo": {
       "query": {

@@ -620,7 +620,53 @@ biomes:
       hooks:
       - Sigillare i portali corrotti prima del collasso dimensionale.
       - Recuperare reliquie pathfinder riadattate ai protocolli Evo Tactics.
-vc_adapt:
+  frattura_abissale_sinaptica:
+    label: Frattura Abissale Sinaptica
+    summary: Bioma abissale stratificato con tre livelli luminosi/pressori e correnti elettroluminescenti che modulano trait temporanei.
+    diff_base: 5
+    mod_biome: 3
+    affixes:
+    - luminescente
+    - elettrico_profondo
+    - sinaptico
+    - gravitazionale
+    - pressione_estrema
+    aliases:
+    - sinaptic_trench
+    - trench_sinaptico_profondo
+    - scarpata_fotofase
+    hazard:
+      description: Impulsi fotici superficiali, nebbie cognitive crepuscolari e shear elettro-gravitazionale nella frattura nera.
+      severity: high
+      stress_modifiers:
+        photic_surge: 0.04
+        synaptic_glare: 0.05
+        memory_fog: 0.06
+        desync_field: 0.05
+        gravitic_shear: 0.08
+        black_current: 0.09
+    npc_archetypes:
+      primary:
+      - araldi_fotofase
+      - sciami_memetici
+      - leviatani_risonanti
+      support:
+      - custodi_coralli
+      - cori_voidsong
+    stresswave:
+      baseline: 0.35
+      escalation_rate: 0.06
+      event_thresholds:
+        sync_window: 0.52
+        overload: 0.74
+        fracture: 0.9
+    narrative:
+      tone: Sinfonia abissale di luce, nebbia e shear gravitazionale governata da correnti elettroluminescenti.
+      hooks:
+      - Stabilizzare i corridoi luminosi della Cresta Fotofase prima delle maree di spore.
+      - Recuperare dati memetici nella Soglia Crepuscolare senza innescare eclissi sinaptiche.
+      - Disinnescare il Canto dello Strappo nella Frattura Nera o accordarsi con il Leviatano Risonante.
+  vc_adapt:
   aggro_high:
     add_control: 1
     add_guardia: 1

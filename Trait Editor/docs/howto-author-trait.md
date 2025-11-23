@@ -27,7 +27,7 @@ Questa guida operativa raccoglie il vademecum aggiornato per ideare, modellare e
 ## 3. Compilare il file trait
 
 1. Duplica lo scheletro minimo dal template e salva in `../data/traits/<tipologia>/<id>.json`.
-2. Popola i campi obbligatori (`id`, `label`, `famiglia_tipologia`, `tier`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `sinergie`, `conflitti`).
+2. Popola i campi obbligatori (`id`, `label`, `famiglia_tipologia`, `tier`, `mutazione_indotta`, `uso_funzione`, `spinta_selettiva`, `sinergie`, `conflitti`). Non cambiare `id` o slug senza l'ok del Trait Curator.
 3. Inserisci i testi come stringhe reali **solo** se stai creando il trait da zero; al termine eseguirai lo script di sincronizzazione che li convertirà in riferimenti `i18n:traits.<id>.<campo>`.
 4. Valida il file con lo schema:
    ```bash
@@ -52,7 +52,7 @@ Questa guida operativa raccoglie il vademecum aggiornato per ideare, modellare e
      --language it \
      --glossary data/core/traits/glossary.json
    ```
-3. Riesegui i generatori di indice/coverage se richiesto dalla checklist del team (`build_trait_index.js`, `report_trait_coverage.py`).
+3. Riesegui i generatori di indice/coverage se richiesto dalla checklist del team (`build_trait_index.js`, `report_trait_coverage.py`). Per `species_affinity` o sinergie con specie coinvolgi lo Species Curator; per `requisiti_ambientali`/`biome_tags` chiedi validazione al Biome & Ecosystem Curator.
 
 ## 5. Checklist PR
 
@@ -62,5 +62,7 @@ Questa guida operativa raccoglie il vademecum aggiornato per ideare, modellare e
 - [ ] `scripts/sync_trait_locales.py` eseguito (eventualmente in `--dry-run`) e diff `locales/<lingua>/traits.json` revisionato.
 - [ ] Copertura e baseline aggiornate se il trait influisce su queste metriche.
 - [ ] Changelog/rollout plan aggiornati con note operative se il trait introduce processi o naming nuovi.
+
+> **Warning:** variazioni a slug/id o al template richiedono l'approvazione del Trait Curator; modifiche a `species_affinity` passano dallo Species Curator; nuovi `biome_tags` o `requisiti_ambientali` devono essere approvati dal Biome & Ecosystem Curator.
 
 Seguendo questi passaggi il team di revisione potrà validare rapidamente i contenuti, mantenendo allineati glossario, localizzazioni e checklist operative. Consulta [Workflow & strumenti](workflow-strumenti.md) per la checklist estesa.

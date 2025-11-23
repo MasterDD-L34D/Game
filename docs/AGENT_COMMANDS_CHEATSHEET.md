@@ -1,4 +1,5 @@
 # AGENT_COMMANDS_CHEATSHEET.md
+
 Guida rapida comandi agenti – Game / Evo Tactics
 
 Questa guida raccoglie i comandi utili per lavorare con gli agenti:
@@ -6,7 +7,9 @@ Questa guida raccoglie i comandi utili per lavorare con gli agenti:
 ---
 
 ## 0. ROUTER LIGHT
+
 (uso rapido)
+
 ```text
 AGENTE: <nome-agente>
 TASK: <descrizione del task>
@@ -20,7 +23,9 @@ TASK: <descrizione del task>
 ---
 
 ## 1. ROUTER_AUTO – scegliere automaticamente l’agente
+
 (COMANDO)
+
 ```text
 - Se la mia richiesta NON contiene “AGENTE: ...”:
   • valuta se il task ha senso per un agente specifico.
@@ -40,7 +45,9 @@ TASK: <descrizione del task>
 ---
 
 ## 2. SCAN REPO PER AGENTI
+
 (COMANDO)
+
 ```text
 Task:
 1. Scansiona queste aree del repo e fammi un report strutturato:
@@ -75,7 +82,9 @@ Task:
 ---
 
 ## 3. REFINE_AGENT
+
 (COMANDO)
+
 ```text
 Agente da aggiornare: <nome>
 
@@ -111,7 +120,9 @@ Task:
 ---
 
 ## 4. REFINE_ALL_AGENTS
+
 (COMANDO)
+
 ```text
 Task:
 Per ogni agente presente in `agents/agents_index.json`:
@@ -145,7 +156,9 @@ Per ogni agente presente in `agents/agents_index.json`:
 ---
 
 ## 5. CONSISTENCY_CHECK_SPECIE
+
 (COMANDO)
+
 ```text
 [Inserire qui il blocco operativo per controllare coerenza/specie.
 Definisci input richiesti, passi di verifica su dataset specie/trait/biomi,
@@ -155,7 +168,9 @@ output attesi e formato di report.]
 ---
 
 ## 6. NOTION_DOC_AGENTS
+
 (COMANDO)
+
 ```text
 [Inserire qui il blocco operativo per generare/aggiornare documentazione
 Notion degli agenti: sorgenti da leggere, struttura della pagina, output
@@ -163,3 +178,30 @@ previsto e limiti (no write su repo se non richiesto).]
 ```
 
 Questo file serve come "manuale" per tutte le sessioni con gli agenti.
+
+---
+
+## COMANDO: CHECK_BIOME_FEATURE
+
+```text
+COMANDO: CHECK_BIOME_FEATURE
+
+Feature:
+[es. "Bioma frattura_abissale_sinaptica"]
+
+Task:
+1. Esegui una analisi di coerenza per la feature Bioma + Specie + Trait usando lo script dedicato.
+
+2. Comandi consigliati da eseguire in locale:
+   - `python tools/traits/check_biome_feature.py --biome frattura_abissale_sinaptica --dry-run --verbose`
+   - eventuali comandi di lint/test del progetto (npm/pnpm/python/etc.).
+
+3. Se ci sono problemi:
+   - elencali per categoria:
+     • schema / sintassi
+     • slug mancanti / duplicati
+     • inconsistenze trait_plan ↔ pool ↔ species_affinity
+   - suggerisci in quale file intervenire.
+
+4. NON modificare il repo nel contesto di questo comando, limitati a report e proposte.
+```

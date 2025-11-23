@@ -31,6 +31,8 @@ Il blocco sottostante riassume i campi obbligatori. Tutti i valori devono
 rispettare le regole indicate e sono validati automaticamente dal comando
 `python tools/py/trait_template_validator.py`.
 
+> **Warning:** non modificare `id`, `famiglia_tipologia`, slug o struttura del template senza approvazione del Trait Curator; variazioni su `sinergie`/`conflitti` con specie collegate vanno condivise con lo Species Curator.
+
 | Campo                             | Tipo          | Vincoli principali                                   | Descrizione                                                              |
 | --------------------------------- | ------------- | ---------------------------------------------------- | ------------------------------------------------------------------------ |
 | `id`                              | string        | `^[a-z0-9_]+$`, deve coincidere con il nome del file | Identificatore canonico.                                                 |
@@ -81,6 +83,8 @@ nelle localizzazioni.
 | `completion_flags`     | Oggetto di flag booleani (es. `has_biome`, `has_species_link`) per tracciare rapidamente lacune editoriali.                                                                          |
 | `debolezza`            | Stringa opzionale per limiti intrinseci o vulnerabilità.                                                                                                                             |
 | `sinergie_pi`          | Oggetto con `co_occorrenze`, `forme`, `tabelle_random`, `combo_totale`. Serve per gli strumenti di pianificazione PI.                                                                |
+
+> **Nota:** campi come `species_affinity` o sinergie specifiche di specie vanno concordati con lo Species Curator; la compilazione di `requisiti_ambientali` e `biome_tags` richiede validazione del Biome & Ecosystem Curator per mantenere i tag ufficiali.
 
 > **Ricorda:** se compili `data_origin`, usa gli slug pubblicati nel glossario editoriale (`docs/editorial/trait_sources.json`). Lo script `python tools/py/normalize_trait_style.py` può aggiornare i file esistenti, ma i trait nuovi dovrebbero riferirsi alla sorgente corretta prima della PR.
 
