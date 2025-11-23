@@ -44,8 +44,8 @@ python tools/py/report_trait_coverage.py \
 python tools/py/styleguide_compliance_report.py \
   [--traits-dir data/traits] \
   [--glossary data/core/traits/glossary.json] \
-  [--out-markdown reports/styleguide_compliance.md] \
-  [--out-json reports/styleguide_compliance.json] \
+  [--out-markdown docs/reports/styleguide_compliance.md] \
+  [--out-json docs/reports/styleguide_compliance.json] \
   [--history-file logs/trait_audit/styleguide_compliance_history.json] \
   [--sla-config config/styleguide_sla.json] \
   [--dashboard-bridge logs/qa/latest-dashboard-metrics.json] \

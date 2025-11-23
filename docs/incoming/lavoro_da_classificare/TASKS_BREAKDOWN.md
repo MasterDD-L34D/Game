@@ -107,7 +107,7 @@ chiudere il batch corrispondente.
 ## Batch `ops_ci`
 
 - [x] **OPS-01 – Confronto workflow**
-      _Output_: tabella comparativa `ops/workflow_diff.md`.
+      _Output_: tabella comparativa `docs/ops/workflow_diff.md`.
       _Passi_: diff con `.github/workflows/`, evidenziare step mancanti.
       _Note_: tabella aggiornata con differenze su `gh-pages`, centralizzazione config Lighthouse e workflow sicurezza mancante.
 - [x] **OPS-02 – Site audit**

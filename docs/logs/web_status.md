@@ -25,7 +25,7 @@ successiva e registrare eventuali task di follow-up in roadmap.
 
 <!-- web_log:start -->
 ## 2025-11-14T10:45:00Z · incoming intake audit
-- **Fonte report**: `reports/incoming/sessione-2025-11-14/report.html`
+- **Fonte report**: `../reports/incoming/sessione-2025-11-14/report.html`
   - `README_IDEAS.md` esportato senza heading/frontmatter → aggiornare layout Idea Intake e aggiungere hero summary entro la review del 18/11.
   - `docs/appendici/migrated/mating.md` e `mating_biome_links.md` marcati senza heading: integrare header standard + ancore per linkare le sezioni roadmap/web.
 - **Azioni**:

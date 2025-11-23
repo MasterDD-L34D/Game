@@ -1,7 +1,7 @@
 # Site Audit Toolkit
 
 Il pacchetto `ops/site-audit/` raccoglie gli script necessari per validare la
-presenza online del portale Evo-Tactics.  Gli script possono essere eseguiti
+presenza online del portale Evo-Tactics. Gli script possono essere eseguiti
 singolarmente, ma sono stati integrati in una suite orchestrata (`run_suite.py`)
 per l'uso locale e in CI.
 
