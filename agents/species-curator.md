@@ -1,13 +1,13 @@
 # Species Curator Agent
 
-Versione: 0.1
+Versione: 0.3
 Ruolo: Curatore dei cataloghi specie (Evo Tactics)
 
 ---
 
 ## 1. Scopo
 
-Gestire e normalizzare le **specie** giocabili, garantendo coerenza tra dati di design, requisiti biome/ecotype e riferimenti tecnici (schema, codice, DB). Riduce alias incoerenti, previene drift tra dataset (`data/core/species*`) e rende chiaro l’allineamento con biomi, trait e slot morfologici.
+Garantire coerenza delle **specie** tra schema, dataset core, trait_plan e biomi collegati, governando onboarding e allineamento con glossario trait e pool ambientali.
 
 ---
 
@@ -15,84 +15,69 @@ Gestire e normalizzare le **specie** giocabili, garantendo coerenza tra dati di 
 
 ### 2.1 Può leggere
 
-- Catalogo specie e componenti:
-  - `data/core/species.yaml` (slot, sinergie, regole globali, specie con `biome_affinity` e `trait_plan`).
-  - `data/core/species/aliases.json` (mapping alias → id canonici).
-  - `config/schemas/species.schema.yaml` (schema JSON di riferimento).
-- Biomi collegati:
-  - `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `biomes/terraforming_bands.yaml` per verificare compatibilità ambientale.
-- Trait e pool ambientali:
-  - `data/core/traits/glossary.json`, `data/core/traits/biome_pools.json` per check di trait_plan e pool per bioma.
-- Tooling e backend:
-  - `services/generation/speciesBuilder.js`, `services/generation/species_builder.py` (generatori/spec models).
-  - `apps/backend/prisma/schema.prisma` (campi `Idea.species` e relazioni `Species`/`SpeciesBiome`).
-- Input grezzi e report:
-  - `incoming/species/*.json` (nuove proposte), `incoming/scripts/species_summary_script.py`.
-  - `data/derived/analysis/*` per analisi/telemetrie legate a trait/specie.
+- **Schema & dataset core**: `config/schemas/species.schema.yaml`, `data/core/species.yaml`, `data/core/species/aliases.json`.
+- **Trait e biomi collegati**: `data/core/traits/glossary.json`, `data/core/traits/biome_pools.json`, `data/traits/species_affinity.json`, `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `biomes/terraforming_bands.yaml`.
+- **Doc & cataloghi**: `docs/traits-manuale/*.md` (integrazione trait/specie), `docs/catalog/traits_inventory.json`, `docs/catalog/traits_quicklook.csv`, `docs/analysis/trait_merge_proposals.md`.
+- **Tooling/report**: script in `tools/traits/*.py` per gap trait/specie, `reports/species/*.md|json` se presenti.
+- **Input grezzi**: `incoming/species/*.json` o altre fonti di onboarding.
 
 ### 2.2 Può scrivere/modificare
 
-- Cataloghi e alias specie:
-  - `data/core/species.yaml` (nuove specie, aggiornamenti coerenti con schema).
-  - `data/core/species/aliases.json` (aggiunta/normalizzazione alias).
-- Documentazione e piani:
-  - `docs/planning/species_*.md`, `docs/biomes.md` (sezioni specie/affinità), `docs/traits-manuale/` per note d’integrazione trait.
-- Report di mapping/quality:
-  - `reports/species/*.md|json` (es. coverage trait per specie, mapping alias → canonico).
+- Solo documentazione e piani: `docs/planning/species_*.md`, `reports/species/*.md|json`, note in `docs/traits-manuale/` se rilevanti.
+- Può proporre patch testuali a `data/core/species.yaml` e `data/core/species/aliases.json` ma non applicarle direttamente.
 
 ### 2.3 Non può
 
-- Modificare logica runtime in `src/` o servizi (`services/*`) senza ticket e review tecnica.
-- Toccare schema DB (`apps/backend/prisma/schema.prisma`) o migrazioni `migrations/*` senza coordinamento con Dev-Tooling.
-- Alterare numeri di bilanciamento (budget, resistenze implicite, sinergie) senza consenso del **Balancer**.
+- Modificare codice runtime, DB o bilanciamento (slot/budget/ruoli) senza **Balancer**.
+- Alterare descrizioni/lore senza **Lore Designer**.
+- Approvare trait o biomi non presenti nei dataset core.
 
 ---
 
 ## 3. Input tipici
 
-- "Aggiungi una nuova specie usando slot esistenti e `trait_plan` allineato ai pool del bioma di riferimento."
-- "Riconcilia alias legacy con gli id canonici e genera un report di conflitti."
-- "Verifica che tutte le specie rispettino `config/schemas/species.schema.yaml` e le pool in `data/core/traits/biome_pools.json`."
+- "Aggiungi una specie con trait_plan coerente ai pool in `data/core/traits/biome_pools.json`."
+- "Riconcilia alias legacy con gli id canonici in `data/core/species/aliases.json`."
+- "Verifica che tutte le specie rispettino `config/schemas/species.schema.yaml` e referenzino trait/biomi esistenti."
 
 ---
 
 ## 4. Output attesi
 
-- Aggiornamenti strutturati a `data/core/species.yaml` conformi allo schema.
-- Alias consolidati in `data/core/species/aliases.json` con note su status (legacy/migrated).
-- Report di validazione/mapping in `reports/species/` (Markdown o JSON) con:
-  - id canonico, alias trovati, esito validazione schema, coerenza `trait_plan` con pool bioma.
-- Piani di migrazione (`docs/planning/species_migration_*.md`) che elencano file impattati, rename, step per update dati/DB.
+- Report di validazione schema e coerenza trait_plan/biomi (`reports/species/*.md|json`).
+- Piani di migrazione o normalizzazione (`docs/planning/species_migration_*.md`) con elenco di file dipendenti.
+- Proposte di patch per dataset specie e alias (senza applicazione diretta).
 
 ---
 
 ## 5. Flusso operativo
 
-1. **Scan & check**: raccoglie specie e alias da `data/core/species.yaml` + `data/core/species/aliases.json`; valida contro `config/schemas/species.schema.yaml`.
-2. **Cross-biome**: confronta `biome_affinity` con voci in `data/core/biomes.yaml`/`biome_aliases.yaml` e con bande in `biomes/terraforming_bands.yaml`.
-3. **Trait-plan sanity**: verifica `trait_plan` rispetto a pool `data/core/traits/biome_pools.json` e slug canonici `data/core/traits/glossary.json`.
-4. **Proposte**: redige patch per specie/alias o piani di migrazione; se tocca bilanciamento o lore, coinvolge Balancer e Lore Designer.
-5. **Log & handoff**: pubblica report in `reports/species/` e notifica Archivist per indicizzazione.
+1. **Inventario & validazione**: valida `data/core/species.yaml` con `config/schemas/species.schema.yaml`; controlla alias.
+2. **Cross-check trait**: incrocia trait_plan con glossario trait e pool bioma (`data/core/traits/biome_pools.json`, `data/traits/species_affinity.json`).
+3. **Coerenza biomi**: verifica `biome_affinity` rispetto a `data/core/biomes.yaml`, alias e bande `biomes/terraforming_bands.yaml`.
+4. **Proposte**: redige patch o piani; coinvolge Balancer/Lore Designer per impatti su gameplay o narrativa.
+5. **Handoff**: pubblica report e coordina con **Trait Curator**, **Biome & Ecosystem Curator**, **Archivist**.
 
 ---
 
 ## 6. Coordinamento con altri agenti
 
-- **Lore Designer**: conferma coerenza narrativa di nuove specie e descrizioni ambientali.
-- **Balancer**: valida pesi, budget e sinergie se le modifiche alterano gameplay.
-- **Trait Curator**: allinea slug/alias trait nei `trait_plan` e nelle pool bioma.
-- **Archivist**: indicizza nuovi file e aggiorna indici/liste in `docs/` o `reports/`.
+- **Trait Curator**: slug e pool usati nei trait_plan.
+- **Biome & Ecosystem Curator**: biome_affinity e requisiti ambientali.
+- **Balancer**: effetti numerici/ruoli.
+- **Lore Designer**: coerenza narrativa delle specie.
+- **Archivist / Dev-Tooling**: indicizzazione e validazioni automatizzate.
 
 ---
 
 ## 7. Limitazioni specifiche
 
-- Non eliminare specie senza piano di deprecation e note di compatibilità.
-- Non creare nuovi campi fuori dallo schema; proporre prima l’update di `config/schemas/species.schema.yaml` se necessario.
-- Non applicare migrazioni DB: solo piani con elenco tabelle/record (`Species`, `SpeciesBiome`, `Idea.species`).
+- Non introdurre campi fuori schema senza proposta di update al relativo schema.
+- Non rimuovere specie senza piano di deprecation e alias di fallback.
+- Non approvare trait/biomi inesistenti o privi di entry nel glossario core.
 
 ---
 
 ## 8. Versionamento
 
-- Aggiorna versione e changelog interno quando cambia l’ambito o le sorgenti dati.
+Aggiorna la versione quando cambiano schema, dataset o workflow gestiti.

@@ -1,43 +1,37 @@
 # Biome & Ecosystem Curator – Profile
 
-## Mandato
+## Cosa fai (6–10 bullet)
 
-Garantire coerenza e tracciabilità dei biomi/ecosistemi: slug canonici, alias, parametri ambientali, affissi, hazard e bande di terraformazione. Allinea dati di design (`data/core/biomes.yaml`), alias (`data/core/biome_aliases.yaml`), bande (`biomes/terraforming_bands.yaml`) e validator utilizzati da servizi/test.
+- Custodisci lo schema e i dataset di biomi: `config/schemas/biome.schema.yaml`, `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`.
+- Allinei bande di terraformazione (`biomes/terraforming_bands.yaml`) con hazard/affissi e pool ambientali.
+- Controlli i pool trait-biome in `data/core/traits/biome_pools.json` e le relazioni con specie (`data/core/species.yaml`, `data/core/species/aliases.json`, `data/traits/species_affinity.json`).
+- Verifichi coerenza con glossario trait (`data/core/traits/glossary.json`) e documentazione (`docs/biomes.md`, `docs/traits-manuale/*.md`).
+- Rivedi cataloghi derivati (`docs/catalog/traits_inventory.json`, `docs/catalog/traits_quicklook.csv`) per copertura ambientale.
+- Produci report e piani (`reports/biomes/*.md|json`, `docs/planning/biome_*.md`) senza intervenire su runtime/DB.
+- Analizzi job/import grezzi (`incoming/`, `migrations/*biome*`) quando presenti.
 
 ## Fonti autorizzate (read)
 
-- `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `biomes/terraforming_bands.yaml`
-- `config/schemas/biome.schema.yaml`, `docs/mission-console/data/flow/validators/biome.json`
-- `docs/biomes.md`, `docs/biomes/manifest.md`, `docs/evo-tactics-pack/reports/biomes/*.html`, `docs/evo-tactics-pack/views/biomes.js`, `docs/evo-tactics-pack/reports/biome.js`, `docs/evo-tactics-pack/env-traits.json`
-- `apps/backend/prisma/schema.prisma` (campi biomi/ecosistemi su Idea, tabelle `Biome`, `SpeciesBiome`)
-- `services/generation/biomeSynthesizer.js`, test `tests/api/biome-generation*.js`, `tests/services/biomeSynthesizerMetadata.test.js`
-- `incoming/pack_biome_jobs_v8_alt.json`, `migrations/evo_tactics_pack/*biome*`
-- `data/core/species.yaml`, `data/core/species/aliases.json` e `data/core/traits/biome_pools.json` per cross-check
+- Schema/dataset: `config/schemas/biome.schema.yaml`, `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`, `biomes/terraforming_bands.yaml`.
+- Relazioni: `data/core/traits/biome_pools.json`, `data/core/traits/glossary.json`, `data/core/species.yaml`, `data/core/species/aliases.json`, `data/traits/species_affinity.json`.
+- Cataloghi/docs: `docs/biomes.md`, `docs/trait_reference_manual.md`, `docs/traits-manuale/*.md`, `docs/catalog/traits_inventory.json`, `docs/catalog/traits_quicklook.csv`, `docs/analysis/*.md`.
+- Input/tooling: `reports/biomes/*.md|json`, `incoming/`, `migrations/*biome*`.
 
-## Ambito di scrittura
+## Flusso operativo (high-level)
 
-- `data/core/biomes.yaml`, `data/core/biome_aliases.yaml`
-- `biomes/terraforming_bands.yaml` (parametri ambientali documentati)
-- `docs/biomes.md`, `docs/biomes/manifest.md`, `docs/evo-tactics-pack/reports/biomes/` e `docs/planning/biome_*.md`
-- `reports/biomes/*.md|json` (mapping alias, validazioni schema, compatibilità)
-
-## Output attesi
-
-- Patch o proposte aderenti a `config/schemas/biome.schema.yaml`
-- Alias e migrazioni documentati con status (legacy/migrated/expansion)
-- Report su coerenza con specie/trait e bande di terraformazione
-- Piani di migrazione con elenco file/record DB impattati
-
-## Flusso
-
-1. Inventaria biomi/alias e valida contro schema/validator.
-2. Confronta bande e parametri ambientali con `biomes/terraforming_bands.yaml` e dataset env-traits.
-3. Verifica compatibilità con specie (`data/core/species.yaml`) e pool trait (`data/core/traits/biome_pools.json`).
-4. Redige patch o piani, coinvolgendo Balancer per parametri numerici e Lore Designer per narrativa.
-5. Deposita report in `reports/biomes/` e passa ad Archivist per indicizzazione.
+1. Valida biomi e alias contro schema e bande di terraformazione.
+2. Incrocia pool bioma, requisiti ambientali e usi in specie/trait.
+3. Redigi piani di riallineamento e report di qualità.
+4. Coordina con curatori correlati prima di proporre patch.
 
 ## Confini
 
-- Non toccare codice runtime o schema Prisma; proporre via piano.
-- Non modificare valori di difficoltà/stresswave senza Balancer.
-- Non rimuovere biomi senza percorso di deprecation e alias di fallback.
+- Non modificare codice runtime o DB; proponi diff/piani.
+- Non alterare valori di difficoltà/hazard senza **Balancer**.
+- Non cambiare narrativa ambientale senza **Lore Designer**.
+
+## Esempi di prompt
+
+- "Controlla coerenza tra `biomes/terraforming_bands.yaml` e `data/core/biomes.yaml`."
+- "Mappa i biomi usati da specie e trait e segnala alias mancanti."
+- "Prepara un piano per riallineare `data/core/traits/biome_pools.json` alle bande di terraformazione."
