@@ -1,9 +1,9 @@
 # REF_TOOLING_AND_CI – Allineamento tooling e CI
 
-Versione: 0.2
-Data: 2025-12-09
+Versione: 0.3
+Data: 2025-12-17
 Owner: agente **dev-tooling** (supporto: archivist, coordinator)
-Stato: DRAFT – allineare tooling/CI al nuovo assetto
+Stato: PATCHSET-00 PROPOSTA – allineare tooling/CI al nuovo assetto
 
 ---
 
@@ -38,6 +38,8 @@ Stato: DRAFT – allineare tooling/CI al nuovo assetto
 - Allineare i gate a quanto previsto dalla milestone **0.2**: niente merge su `main` senza artifact pack rigenerato e validato da `tools/py/validate_datasets.py` + `schema-validate` + smoke CLI.
 - Richiedere approvazione congiunta owner dati (core) + owner pack per modifiche che toccano sia `data/core/**` sia `packs/evo_tactics_pack/**`.
 - Documentare in ogni PR gli artifact pubblicati (pack dist, report lint) e collegarli al branch dedicato.
+- Nomina esplicita di un owner umano per PATCHSET-00 e registrazione delle attività correlate in `logs/agent_activity.md`.
+- Uso di branch sperimentali separati per validare nuove checklist/validator prima di proporli sui branch principali di tooling/CI.
 
 ## Prossimi passi
 
@@ -97,5 +99,6 @@ Stato: DRAFT – allineare tooling/CI al nuovo assetto
 
 ## Changelog
 
+- 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance espansi (owner umano, branch dedicati, logging in `logs/agent_activity.md`).
 - 2025-11-23: struttura iniziale di inventario tooling/CI (dev-tooling).
 - 2025-12-09: mappatura workflow/validatori estesa, checklist v0.2 con gate incrociati core/pack e prerequisiti branch dedicati.

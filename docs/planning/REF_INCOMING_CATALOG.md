@@ -1,9 +1,9 @@
 # REF_INCOMING_CATALOG – Catalogo incoming/backlog
 
 Versione: 0.3
-Data: 2025-11-24
+Data: 2025-12-17
 Owner: agente **archivist** (supporto: coordinator)
-Stato: DRAFT – inventario iniziale
+Stato: PATCHSET-00 PROPOSTA – inventario iniziale
 
 ---
 
@@ -31,6 +31,12 @@ Stato: DRAFT – inventario iniziale
 - `REF_PACKS_AND_DERIVED` per capire l’impatto del materiale incoming sui pack e sui derived.
 - `REF_REPO_MIGRATION_PLAN` per schedulare quando integrare/archiviare ciascuna fonte.
 - Supporto di coordinator per priorità e di dev-tooling per eventuali script di import/validazione.
+
+## Prerequisiti di governance
+
+- Owner umano identificato per la manutenzione del catalogo PATCHSET-00 e registrato in `logs/agent_activity.md`.
+- Branch dedicati per lavorare su triage incoming senza impattare `main` finché le tabelle non sono validate.
+- Log degli aggiornamenti di numerazione 01A–03B e delle approvazioni di triage nel file di audit centrale.
 
 ### Stato prerequisiti PATCHSET-01A
 
@@ -86,6 +92,7 @@ Stato: DRAFT – inventario iniziale
 
 ## Changelog
 
+- 2025-12-17: versione 0.3 – design completato e perimetro documentazione confermato per PATCHSET-00, numerazione 01A–03B bloccata con richiamo alle fasi GOLDEN_PATH e prerequisiti di governance rafforzati (owner umano, branch dedicati, logging su `logs/agent_activity.md`).
 - 2025-11-24: versione 0.3 – inventario arricchito con rischi e prossimi passi e prerequisiti PATCHSET-01A chiusi (archivist).
 - 2025-11-24: primo inventario con proposte di stato e candidati legacy/archive_cold (archivist).
 - 2025-11-23: struttura iniziale del catalogo incoming (archivist).
