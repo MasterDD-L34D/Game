@@ -23,14 +23,13 @@ Note:
 
 ---
 
-## Fase 1 – Trait System & Trait Curator
+## Fase 1 – Trait System & Curatori
 
-- [x] Analisi completa doc trait (README_TRAITS, trait-editor, trait_reference_manual, ecc.)
-- [x] Allineamento agents/trait-curator.md ai file reali
-- [x] Allineamento species-curator e biome-ecosystem-curator
-- [x] Aggiornati doc di riferimento trait con ruoli di curatela
-- [ ] Disegno pipeline TRAIT specifica per Evo Tactics
-- [ ] Esecuzione test pipeline TRAIT su un caso reale
+- [x] Analisi completa trait system
+- [x] Aggiornati doc di riferimento
+- [x] Aggiornati agenti trait-curator / species-curator / biome-ecosystem-curator
+- [x] Allineata pipeline TRAIT in PIPELINE_TEMPLATES
+- [x] Promossa pipeline TRAIT standard ufficiale
 
 ---
 
