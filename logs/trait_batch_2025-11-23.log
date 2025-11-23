@@ -1,0 +1,15 @@
+=== Trait batch validation 2025-11-23T03:03:25+00:00 ===
+Trait codes missing conversion: 1
+- TR-2002 → coscienza_d_alveare_diffusa (categoria: Cognitivo/Sociale)
+[COVERAGE] Disallineamenti:
+ - Trait definiti nei file ma assenti in index.json: artigli_ipo_termici, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, cannone_sonico_a_raggio, canto_infrasonico_tattico, elettromagnete_biologico, estroflessione_gastrica_acida, seta_conduttiva_elettrica, zanne_idracida.
+Il bundle di localizzazione verrebbe aggiornato.
+[COVERAGE] Disallineamenti:
+ - Trait definiti nei file ma assenti in index.json: ali_fono_risonanti, articolazioni_a_leva_idraulica, articolazioni_multiassiali, artigli_ipo_termici, artiglio_cinetico_a_urto, aura_di_dispersione_mentale, bozzolo_magnetico, campo_di_interferenza_acustica, cannone_sonico_a_raggio, canto_infrasonico_tattico, cervello_a_bassa_latenza, cinghia_iper_ciliare, cisti_di_ibernazione_minerale, coda_prensile_muscolare, comunicazione_fotonica_coda_coda, corna_psico_conduttive, coscienza_dalveare_diffusa, elettromagnete_biologico, ermafroditismo_cronologico, estroflessione_gastrica_acida, fagocitosi_assorbente, filtrazione_osmotica, filtro_metallofago, flusso_ameboide_controllato, integumento_bipolare, locomozione_miriapode_ibrida, membrana_plastica_continua, metabolismo_di_condivisione_energetica, moltiplicazione_per_fusione, motore_biologico_silenzioso, occhi_analizzatori_di_tensione, occhi_cinetici, pelage_idrorepellente_avanzato, rete_filtro_polmonare, rostro_linguale_prensile, scheletro_pneumatico_a_maglie, scivolamento_magnetico, scudo_gluteale_cheratinizzato, seta_conduttiva_elettrica, siero_anti_gelo_naturale, sistemi_chimio_sonici, unghie_a_micro_adesione, vello_di_assorbimento_totale, visione_multi_spettrale_amplificata, zanne_idracida.
+Nessun trait aggiornato.
+File locale invariato.
+Report snapshots:
+  1939 reports/trait_fields_by_type.json
+  2251 reports/trait_texts.json
+  4190 total
+Locales diff: none (sync reported no updates)
