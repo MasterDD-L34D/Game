@@ -46,3 +46,15 @@ aliases:
     canonical: mezzanotte_orbitale
     status: expansion
     notes: "Classe T3 apex ambientata nella Mezzanotte Orbitale e nei suoi loop gravitazionali."
+  sinaptic_trench:
+    canonical: frattura_abissale_sinaptica
+    status: expansion
+    notes: "Alias operativo per la Frattura Abissale Sinaptica e le sue dorsali fotofase."
+  trench_sinaptico_profondo:
+    canonical: frattura_abissale_sinaptica
+    status: expansion
+    notes: "Variante deepwater per referenziare la Frattura Nera e i cori voidsong."
+  scarpata_fotofase:
+    canonical: frattura_abissale_sinaptica
+    status: expansion
+    notes: "Alias T1 legato alle creste superficiali luminescenti del nuovo bioma."

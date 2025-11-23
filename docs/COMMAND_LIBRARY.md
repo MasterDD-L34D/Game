@@ -1,0 +1,348 @@
+# COMMAND_LIBRARY.md
+
+Libreria completa dei comandi Codex per Evo Tactics
+Versione: 1.0
+
+Questa libreria raccoglie TUTTI i comandi operativi per:
+
+- routing agenti
+- pipeline generali e specifiche
+- patchset e integrazione dataset
+- validazione schema e coerenza
+- Golden Path globale
+
+È pensata per essere letta da Codex all’inizio di ogni sessione.
+
+---
+
+# SEZIONE 0 — BOOT & MASTER ENV
+
+Questa sezione definisce come avviare rapidamente l’ambiente agenti completo
+(Golden Path + Router + Command Library) all’inizio di una sessione Codex.
+
+## 0.1 — BOOT_PROFILE (avvio consigliato)
+
+**File:** `.ai/BOOT_PROFILE.md`
+
+Quando inizi a lavorare sul repo, puoi dire al modello:
+
+```text
+Per favore, leggi e applica il profilo di avvio:
+
+.ai/BOOT_PROFILE.md
+
+Da questo momento, lavora seguendo quel profilo (strict-mode, router automatico,
+Command Library, Golden Path, ecc.). Conferma quando l’ambiente è pronto.
+Questo attiva in automatico:
+
+lettura di:
+
+agent_constitution.md
+
+agent.md
+
+agents/agents_index.json
+
+router.md
+
+.ai/GLOBAL_PROFILE.md
+
+docs/COMMAND_LIBRARY.md
+
+docs/pipelines/GOLDEN_PATH.md
+
+docs/PIPELINE_TEMPLATES.md
+
+modalità:
+
+STRICT MODE (nessun side-effect implicito, sempre piano + self-critique)
+
+ROUTER AUTOMATICO (se non specifichi AGENTE:, sceglie lui l’agente e lo dichiara)
+
+interpretazione di tutti i COMANDO: ... definiti in questo file come primitive di alto livello.
+```
+
+## 0.2 — MASTER_ENV (avvio “inline” senza BOOT_PROFILE)
+
+Se vuoi fare il bootstrap senza usare direttamente .ai/BOOT_PROFILE.md, puoi usare:
+
+```text
+MASTER_ENV
+
+Task:
+
+1. Leggi i file fondamentali:
+   - agent_constitution.md
+   - agent.md
+   - agents/agents_index.json
+   - router.md
+   - .ai/GLOBAL_PROFILE.md
+
+2. Leggi i file di orchestrazione:
+   - docs/COMMAND_LIBRARY.md
+   - docs/pipelines/GOLDEN_PATH.md
+   - docs/PIPELINE_TEMPLATES.md
+
+3. Attiva STRICT MODE e ROUTER AUTOMATICO:
+   - Se uso AGENTE: <nome> → usa quell'agente
+   - Se non uso AGENTE: <nome> → seleziona tu l'agente migliore in base a router.md e agents_index.json
+     e dichiara quale hai scelto e perché.
+
+4. Interpreta tutti i `COMANDO: ...` secondo le definizioni in docs/COMMAND_LIBRARY.md.
+
+5. Conferma l’avvio con un messaggio breve che include:
+   - conferma di:
+     • strict-mode attivo
+     • router automatico attivo
+     • Command Library & Golden Path caricati
+   - la lista dei nomi degli agenti disponibili (da agents/agents_index.json).
+```
+
+Nota: BOOT_PROFILE è la forma più “pulita” e riutilizzabile;
+MASTER_ENV è il corrispondente in forma di comando inline.
+
+---
+
+# SEZIONE 1 — ROUTER & SETUP
+
+## 1.1 — Attivare il router automatico
+
+ATTIVA ROUTER AUTOMATICO
+
+Leggi router.md e .ai/auto_router/PROFILE.md
+
+Da ora:
+
+se scrivo AGENTE: … → usa quell’agente
+
+se NON lo scrivo → scegli tu l’agente giusto
+
+Rispondi indicando sempre quale agente hai scelto e perché.
+
+## 1.2 — Setup sessione agente (light)
+
+SETUP SESSIONE AGENTI
+Leggi: agent_constitution.md, agent.md, agents/agents_index.json, .ai/GLOBAL_PROFILE.md
+Attiva strict-mode + piano prima dell’esecuzione.
+
+---
+
+# SEZIONE 2 — PIPELINE DISEGNATE (TRAIT, SPECIES+BIOMES, ecc.)
+
+## 2.1 — Disegnare una pipeline standard dal template
+
+COMANDO: PIPELINE_DESIGNER
+
+AGENTE: coordinator
+
+Task:
+
+Genera una pipeline multi-agente per questa feature:
+[descrizione feature]
+
+Usa gli agenti in agents_index.json
+
+Usa lo schema:
+
+Obiettivo
+
+Step numerati (agente, input, output, rischio)
+
+Non eseguire ancora, solo design.
+
+## 2.2 — Ottimizzare una pipeline esistente
+
+COMANDO: PIPELINE_OPTIMIZER
+
+Task:
+
+Prendi questa pipeline:
+[incolla pipeline]
+
+Rimuovi step inutili
+
+Metti step in parallelo dove possibile
+
+Ridistribuisci agenti corretti
+
+Restituisci pipeline ottimizzata + rischi.
+
+## 2.3 — Eseguire un singolo step
+
+COMANDO: PIPELINE_EXECUTOR
+
+Pipeline:
+[incolla pipeline]
+
+Task:
+Esegui lo step N della pipeline:
+
+piano (3–7 punti)
+
+esecuzione sandbox
+
+self-critique
+
+file da leggere/scrivere
+
+## 2.4 — Simulare una pipeline intera (dry-run)
+
+COMANDO: PIPELINE_SIMULATOR
+
+Pipeline:
+[incolla pipeline]
+
+Task:
+Simula TUTTI gli step:
+
+descrivi per ogni step cosa produrrebbe
+
+file coinvolti
+
+dipendenze
+
+output finale
+
+rischi globali
+
+---
+
+# SEZIONE 3 — PIPELINE SPECIFICHE
+
+## 3.1 — Pipeline TRAIT (standard)
+
+COMANDO: PIPELINE_TRAIT_REFACTOR
+
+Famiglia: [nome famiglia trait]
+
+Task:
+
+Usa PIPELINE_TRAIT_STANDARD.md
+
+Istanziarla per questa famiglia
+
+Genera la pipeline completa ready-to-execute
+
+## 3.2 — Pipeline SPECIE+BIOMA (standard)
+
+COMANDO: PIPELINE_SPECIE_BIOMA
+
+Feature:
+[descrizione bioma + specie]
+
+Task:
+
+Usa PIPELINE_SPECIES_BIOMES_STANDARD.md
+
+Istanziarla con file reali del repo
+
+Genera la pipeline SPECIE+BIOMI completa
+
+---
+
+# SEZIONE 4 — PATCHSET / UPDATE REPO
+
+## 4.1 — Applicare TUTTE le patch (patchset sandbox -> repo reale)
+
+COMANDO: APPLICA_PATCHSET_FRATTURA_ABISSALE
+
+Task:
+
+Leggi docs/reports/Frattura_Abissale_Sinaptica_patchset_sandbox.md
+
+Per ogni PATCH N:
+
+apri file target
+
+applica diff in modo corretto
+
+verifica sintassi JSON/YAML
+
+Restituisci lista file modificati
+
+Non toccare file non presenti nel patchset
+
+## 4.2 — Dry-run merge plan
+
+COMANDO: DRY_RUN_PIANO_MERGE_FRATTURA_ABISSALE
+
+---
+
+# SEZIONE 5 — VALIDAZIONI & CONTROLLI
+
+## 5.1 — Validazione schema & slug
+
+COMANDO: CHECK_SCHEMA_E_SLUG_FRATTURA_ABISSALE
+
+## 5.2 — Coerenza trait ↔ pool ↔ specie ↔ bioma
+
+COMANDO: CHECK_COHERENZA_TRAIT_SPECIE_BIOMA_FRATTURA_ABISSALE
+
+## 5.3 — Controlli CI / test logici
+
+COMANDO: CHECK_TEST_E_PIPELINE_FRATTURA_ABISSALE
+
+---
+
+# SEZIONE 6 — GOLDEN PATH (Pipeline globale)
+
+## 6.1 — Disegnare una nuova feature tramite Golden Path
+
+COMANDO: GOLDEN_PATH_FEATURE
+
+Feature:
+[descrizione chiara]
+
+Task:
+
+Leggi GOLDEN_PATH.md
+
+Genera pipeline istanziata secondo:
+Fase 0 → Fase 7 del Golden Path
+
+Non eseguire i singoli step
+
+Restituisci pipeline pronta per l’esecuzione con PIPELINE_EXECUTOR
+
+---
+
+# SEZIONE 7 — STRUMENTI PER AGENZIA (REFINE / SCAN)
+
+## 7.1 — Scansione completo del repo (specie + biomi + trait)
+
+COMANDO: SCAN REPO PER AGENTI
+
+## 7.2 — Refining di un singolo agente
+
+COMANDO: REFINE_AGENT
+
+Agente: [nome_agente]
+
+## 7.3 — Refining completo di tutti gli agenti
+
+COMANDO: REFINE_ALL_AGENTS
+
+---
+
+# SEZIONE 8 — COMANDI UNIVERSALI
+
+## 8.1 — Router Auto
+
+COMANDO: ROUTER_AUTO
+
+## 8.2 — Esecuzione generica con agenti
+
+AGENTE: [nome-agente]
+TASK:
+[descrizione task]
+
+---
+
+# SEZIONE 9 — NOTE FINALI
+
+- Questa libreria va aggiornata ogni volta che nasce una nuova pipeline o un nuovo agente.
+- Tutti i comandi sono compatibili con router.md e GOLDEN_PATH.md.
+- Tutte le pipeline devono essere eseguite in modalità STRICT MODE / SANDBOX.
+- L’applicazione delle patch è l’unico momento che richiede una verifica manuale finale.
+
+[ FINE FILE ]

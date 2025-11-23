@@ -7,3 +7,6 @@ functions:
   - hud_smart_alerts
   - stresswave_monitoring
   - pi_shop
+  - correnti_elettroluminescenti_handler
+  - forma_variabile_leviatano
+  - temp_traits_cooldown_guardrail

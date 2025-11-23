@@ -70,3 +70,11 @@ Seguendo questi step possiamo mantenere aggiornati i Canvas e i dataset di gioco
 - `chatgpt_sync_status.md` — Log operativo delle sincronizzazioni.
 
 Aggiorna queste sezioni quando importi nuovi estratti dai Canvas o modifichi i dataset di gioco.
+
+## Pipeline & Check Biome Feature
+
+Per le procedure standard di validazione e dry-run delle feature Bioma + Specie + Trait
+vedi:
+
+- `docs/dev/BIOME_FEATURE_CHECKS.md`
+- script `tools/traits/check_biome_feature.py`

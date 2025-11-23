@@ -376,6 +376,114 @@
           "tier": 2
         }
       ]
+    },
+    {
+      "id": "fotofase_synaptic_ridge",
+      "label": "Cresta Fotofase Sinaptica",
+      "summary": "Barriere coralline bioelettriche che convogliano luce e impulsi superficiali.",
+      "climate_tags": ["luminescente", "pelagico_superficiale", "elettroattivo"],
+      "size": { "min": 3, "max": 5 },
+      "hazard": {
+        "severity": "medium",
+        "description": "Impulsi fotonici/elettrostatici che disorientano e stordiscono brevemente.",
+        "stress_modifiers": { "photic_surge": 0.04, "synaptic_glare": 0.05 }
+      },
+      "ecology": {
+        "biome_type": "trench_superficiale",
+        "primary_resources": ["coralli_sinaptici", "nebbia_fotofase"],
+        "notes": "Corridoi luminosi guidano messaggeri e supporto lungo le creste."
+      },
+      "traits": {
+        "core": [
+          "coralli_sinaptici_fotofase",
+          "membrane_fotoconvoglianti",
+          "nodi_sinaptici_superficiali",
+          "impulsi_bioluminescenti"
+        ],
+        "support": [
+          "filamenti_guidalampo",
+          "sensori_planctonici",
+          "squame_diffusori_ionici"
+        ]
+      },
+      "role_templates": [
+        { "role": "apex", "label": "Araldo Fotofase", "summary": "Domina le correnti luminose infliggendo dazzled/overload.", "functional_tags": ["controllo_campo", "elettrico"], "preferred_traits": ["impulsi_bioluminescenti", "membrane_fotoconvoglianti"], "tier": 4 },
+        { "role": "keystone", "label": "Custode dei Coralli Sinaptici", "summary": "Stabilizza le barriere e amplifica buff di supporto.", "functional_tags": ["supporto", "rigenerazione"], "preferred_traits": ["coralli_sinaptici_fotofase", "nodi_sinaptici_superficiali"], "tier": 3 },
+        { "role": "bridge", "label": "Messaggero Fosfo", "summary": "Traccia percorsi sicuri con segnali bioelettrici.", "functional_tags": ["ricognizione", "logistica"], "preferred_traits": ["filamenti_guidalampo"], "tier": 2 },
+        { "role": "event", "label": "Marea di Spore Luminescenti", "summary": "Duplica buff luminosi ma aumenta glare per 1 scena (CD 3 turni).", "functional_tags": ["evento", "luminescenza"], "preferred_traits": ["impulsi_bioluminescenti"], "tier": 2 }
+      ]
+    },
+    {
+      "id": "crepuscolo_synapse_bloom",
+      "label": "Soglia Crepuscolare Sinaptica",
+      "summary": "Strato di nebbie psioniche che distorcono orientamento e memoria a breve termine.",
+      "climate_tags": ["crepuscolare", "foschia_sinaptica", "elettrico_irregolare"],
+      "size": { "min": 4, "max": 6 },
+      "hazard": {
+        "severity": "high",
+        "description": "Nebbie elettro-cognitive che impongono test di controllo/volontà.",
+        "stress_modifiers": { "memory_fog": 0.06, "desync_field": 0.05 }
+      },
+      "ecology": {
+        "biome_type": "trench_crepuscolare",
+        "primary_resources": ["plancton_mnesico", "condensa_ionica"],
+        "notes": "Lobi risonanti aprono canali sicuri ma mutevoli nella foschia."
+      },
+      "traits": {
+        "core": [
+          "nebbia_mnesica",
+          "lobi_risonanti_crepuscolo",
+          "placca_diffusione_foschia",
+          "spicole_canalizzatrici"
+        ],
+        "support": [
+          "secrezioni_antistatiche",
+          "organi_metacronici",
+          "ghiandole_mnemoniche"
+        ]
+      },
+      "role_templates": [
+        { "role": "apex", "label": "Predatore Anamnestico", "summary": "Forza confusione e inversione comandi con attacchi psionici.", "functional_tags": ["controllo_mentale", "imboscata"], "preferred_traits": ["nebbia_mnesica", "lobi_risonanti_crepuscolo"], "tier": 4 },
+        { "role": "keystone", "label": "Curatore della Foschia", "summary": "Mantiene la densità della nebbia e concede copertura psioniche.", "functional_tags": ["supporto", "copertura"], "preferred_traits": ["placca_diffusione_foschia", "secrezioni_antistatiche"], "tier": 3 },
+        { "role": "threat", "label": "Sciame Memetico", "summary": "Ruba buff temporanei e li riapplica in forma ridotta.", "functional_tags": ["sabotaggio", "furto_buff"], "preferred_traits": ["ghiandole_mnemoniche", "organi_metacronici"], "tier": 3 },
+        { "role": "event", "label": "Eclisse Sinaptica", "summary": "Blackout sensoriale che resetta i timer delle correnti (CD 3 turni).", "functional_tags": ["evento", "crowd_control"], "preferred_traits": ["nebbia_mnesica"], "tier": 2 }
+      ]
+    },
+    {
+      "id": "frattura_void_choir",
+      "label": "Frattura Nera – Void Choir",
+      "summary": "Abisso risonante dove correnti magnetiche e gravità variabile piegano morfologie e segnali.",
+      "climate_tags": ["abissale", "gravitazionale", "elettrico_profondo", "sinaptico_dissonante"],
+      "size": { "min": 4, "max": 7 },
+      "hazard": {
+        "severity": "critical",
+        "description": "Risonanze elettro-gravitazionali che distorcono struttura e accumulano stress.",
+        "stress_modifiers": { "gravitic_shear": 0.08, "black_current": 0.09 }
+      },
+      "ecology": {
+        "biome_type": "trench_abissale",
+        "primary_resources": ["ferro_memoria_profondo", "risonanze_voidsong"],
+        "notes": "Cori di fondo mantengono ritmi per evitare shear e collasso."
+      },
+      "traits": {
+        "core": [
+          "camere_risonanza_abyssal",
+          "corazze_ferro_magnetico",
+          "bioantenne_gravitiche",
+          "emettitori_voidsong"
+        ],
+        "support": [
+          "emolinfa_conducente",
+          "placche_pressioniche",
+          "filamenti_echo"
+        ]
+      },
+      "role_templates": [
+        { "role": "apex", "label": "Leviatano Modulante", "summary": "Cambia forma per adattarsi a pressione e risonanze.", "functional_tags": ["boss", "forma_variabile"], "preferred_traits": ["camere_risonanza_abyssal", "emettitori_voidsong"], "tier": 5 },
+        { "role": "keystone", "label": "Coro di Fondo", "summary": "Mantiene frequenze di riferimento e riduce danni da shear.", "functional_tags": ["supporto", "riduzione_danno"], "preferred_traits": ["filamenti_echo", "bioantenne_gravitiche"], "tier": 3 },
+        { "role": "threat", "label": "Sferzatore Magnetico", "summary": "Crea campi che spingono/attraggono drenando energia.", "functional_tags": ["controllo_spazio", "drain"], "preferred_traits": ["corazze_ferro_magnetico", "emolinfa_conducente"], "tier": 4 },
+        { "role": "event", "label": "Canto dello Strappo", "summary": "Disallinea temp_traits e può invertirne gli effetti (CD 4 turni).", "functional_tags": ["evento", "anomalia"], "preferred_traits": ["emettitori_voidsong"], "tier": 3 }
+      ]
     }
   ]
 }

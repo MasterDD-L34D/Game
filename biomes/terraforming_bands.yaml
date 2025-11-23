@@ -1,6 +1,6 @@
 version: 1
 system: terraforming_bands
-description: "Bande di vitalità del bioma e sblocco slot."
+description: 'Bande di vitalità del bioma e sblocco slot.'
 bands:
   T0: { slots: 0, stable: false }
   T1: { slots: 1, stable: true }
@@ -9,4 +9,42 @@ bands:
 env_params: [temperature, atmosphere, biomass, humidity]
 telemetry:
   events: [biome_param_changed, band_reached, slot_unlocked]
-TODO: "Definire funzioni di drift e strumenti ambientali."
+TODO: 'Definire funzioni di drift e strumenti ambientali.'
+
+# Profilazione sandbox per Frattura Abissale Sinaptica (T1–T3)
+profiles:
+  frattura_abissale_sinaptica:
+    bands:
+      T1:
+        {
+          level: 'cresta_fotofase',
+          env_window:
+            {
+              temperature: ['temperate', 'warm'],
+              atmosphere: ['oxygenated', 'ionized'],
+              biomass: ['medium', 'high'],
+              humidity: ['high', 'saturated'],
+            },
+        }
+      T2:
+        {
+          level: 'soglia_crepuscolare',
+          env_window:
+            {
+              temperature: ['temperate', 'cool'],
+              atmosphere: ['low_oxygen', 'ionized_sparse'],
+              biomass: ['medium', 'low'],
+              humidity: ['medium', 'high'],
+            },
+        }
+      T3:
+        {
+          level: 'frattura_nera',
+          env_window:
+            {
+              temperature: ['cold', 'frigid'],
+              atmosphere: ['anoxic', 'ionized_deep'],
+              biomass: ['low', 'medium'],
+              humidity: ['saturated', 'saturated'],
+            },
+        }
